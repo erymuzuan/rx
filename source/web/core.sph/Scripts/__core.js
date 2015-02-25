@@ -481,25 +481,8 @@ ko.bindingHandlers.solutiontree = {
         var value = valueAccessor(),
             solution = ko.unwrap(value.solution),
             click = value.click,
-            addEntityDefinition = function () {
-                var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
-                require(["viewmodels/add.entity-definition.dialog", "durandal/app"], function (dialog, app2) {
-                    dialog.ed(ed);
-                    app2.showDialog(dialog)
-                        .done(function (result) {
-                            if (!result) return;
-                            if (result === "OK") {
-                                context.post(ko.toJSON(ed), "/entity-definition")
-                                        .done(function (edr) {
-                                            if (edr.success) {
-                                                router.navigate("entity.details/" + edr.id);
-                                            }
-                                        });
-                            }
-                        });
-
-                });
-            };
+            addEntityDefinition = value.addEntityDefinition,
+            addForm = value.addForm;
 
         var eds = [];
         var treeRoots = [
@@ -610,19 +593,19 @@ ko.bindingHandlers.solutiontree = {
                                 "label": "Add New Form",
                                 "action": function (obj) {
                                     // this.create(obj);
-                                    addBlogForm(node.id);
+                                    addForm(node.id);
                                 }
                             },
                             "Create Views": {
                                 "label": "Add New View",
                                 "action": function (obj) {
-                                    addBlogView(node.id);
+                                    addView(node.id);
                                 }
                             },
                             "Create Operation": {
                                 "label": "Add New Operation",
                                 "action": function (obj) {
-                                    addBlogOperation(node.id);
+                                    addOperation(node.id);
                                 }
                             }
                         };

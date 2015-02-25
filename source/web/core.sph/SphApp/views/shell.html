@@ -2,16 +2,18 @@
     <header>
         <!--ko compose: {view: 'header'} -->
         <!--/ko-->
+
         <!--ko compose: {view: 'nav'} -->
         <!--/ko-->
     </header>
+    <!--ko compose: {view: 'toolbar'} -->
+    <!--/ko-->
     <section id="content" class="container">
 
         <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: router.isNavigating" />
 
 
-        <!--ko compose: {view: 'toolbar'} -->
-        <!--/ko-->
+
         <!--ko compose: {model: router.activeItem,
           attached: router.attached,
           compositionComplete: router.compositionComplete,
