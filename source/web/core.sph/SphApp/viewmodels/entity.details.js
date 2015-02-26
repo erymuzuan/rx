@@ -138,7 +138,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
-                app.showMessage("Are you sure you want to permanently remove this entity definition, this action cannot be undone and will also remove related forms, views, triggers, reports and business rules", "Reactive Developer", ["Yes", "No"])
+                app.showMessage("Are you sure you want to permanently remove this entity definition ? This action cannot be undone and will also remove related forms, views, triggers, reports and business rules", "Reactive Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 

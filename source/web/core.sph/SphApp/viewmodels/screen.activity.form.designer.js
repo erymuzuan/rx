@@ -169,7 +169,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             var tcs = new $.Deferred(),
                 data = ko.mapping.toJSON(form);
-            app.showMessage("Are you sure you want to permanently remove this form?, this action cannot be undone!!", "Reactive Developer", ["Yes", "No"])
+            app.showMessage("Are you sure you want to permanently remove this form ? This action cannot be undone !", "Reactive Developer", ["Yes", "No"])
                 .done(function (dialogResult) {
                     if (dialogResult === "Yes") {
 

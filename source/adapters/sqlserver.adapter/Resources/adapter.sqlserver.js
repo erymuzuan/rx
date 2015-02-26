@@ -276,7 +276,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             },
             removeAdapter = function () {
 
-                return app.showMessage("Are you sure you want to permanently remove this adapter", "Reactive Developer", ["Yes", "No"])
+                return app.showMessage("Are you sure you want to permanently remove this adapter ?", "Reactive Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
                             return context.send(ko.mapping.toJSON(adapter), "adapter", "DELETE");
