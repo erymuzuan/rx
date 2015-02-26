@@ -13,23 +13,73 @@ define(['plugins/dialog', objectbuilders.datacontext],
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             form = ko.observable(new bespoke.sph.domain.EntityForm()),
-            okClick = function (data, ev) {
+            entityOptions = ko.observableArray(),
+            operationsOption = ko.observableArray(),
+            collectionMemberOptions = ko.observableArray(),
+            okClick = function(data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-                                    dialog.close(this, "OK");
+                    dialog.close(this, "OK");
                 }
             },
-            cancelClick = function () {
+            cancelClick = function() {
                 dialog.close(this, "Cancel");
             },
-            activate = function() {
-                //var query = String.format("Id eq '{0}'", entityid);
-                /*
-                context.loadOneAsync("EntityDefinition", query)
-                    .done(function(b) {
-                        entity(b);
+            activate = function (entityid, formid) {
+                entityid = "blog";
+                var query = String.format("Id eq '{0}'", entityid),
+                    tcs = new $.Deferred();
+
+
+                context.getListAsync("EntityDefinition", null, "Name")
+                    .then(function (entities) {
+                        var list = _(entities).map(function (v) {
+                            return {
+                                text: v,
+                                value: v
+                            };
+                        });
+
+                        list.push({ text: "UserProfile*", value: "UserProfile" });
+                        list.push({ text: "Designation*", value: "Designation" });
+                        list.push({ text: "Department*", value: "Department" });
+                        entityOptions(list);
                     });
-                */
-                //form().EntityDefinitionId(entityid);
+
+                context.loadOneAsync("EntityDefinition", query)
+                    .done(function (b) {
+                        entity(b);
+                        if (formid === "0") {
+                            tcs.resolve(true);
+                        }
+                        var operations = (b.EntityOperationCollection()).map(function (v) {
+                            return v.Name();
+                        });
+                        operations.push("save");
+                        operationsOption(operations);
+
+                        var collectionMembers = [],
+                            findCollectionMembers = function (list) {
+                                _(list).each(function (v) { console.log(ko.unwrap(v.Name) + "->" + ko.unwrap(v.TypeName)); });
+                                var temp = _(list).chain()
+                                    .filter(function (v) {
+                                        return ko.unwrap(v.TypeName) === "System.Array, mscorlib";
+                                    })
+                                    .map(function (v) {
+                                        return {
+                                            "text": ko.unwrap(v.Name).replace("Collection", ""),
+                                            "value": "bespoke." + config.applicationName + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
+                                        }
+                                    })
+                                    .value();
+                                _(temp).each(function (v) { collectionMembers.push(v); });
+                                _(list).each(function (v) {
+                                    findCollectionMembers(v.MemberCollection());
+                                });
+                            };
+                        findCollectionMembers(b.MemberCollection());
+                        collectionMemberOptions(collectionMembers);
+                    });
+                form().EntityDefinitionId(entityid);
             };
 
         var vm = {
@@ -37,7 +87,10 @@ define(['plugins/dialog', objectbuilders.datacontext],
             form: form,
             okClick: okClick,
             cancelClick: cancelClick,
-            activate: activate
+            activate: activate,
+            entityOptions: entityOptions,
+            operationsOption: operationsOption,
+            collectionMemberOptions: collectionMemberOptions
         };
 
 

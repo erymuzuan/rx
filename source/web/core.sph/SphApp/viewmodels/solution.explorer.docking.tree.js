@@ -18,24 +18,23 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
             transforms = ko.observableArray(),
             isBusy = ko.observable(true),
             addForm = function (EntityDefinitionName) {
-                console.log("add form");
-                // return router.navigate('/entity.form.designer/' + EntityDefinitionName + '/0');
 
                 var edForm = new bespoke.sph.domain.EntityForm({ WebId: system.guid() });
                 require(["viewmodels/add.entity-definition.form.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.entity(EntityDefinitionName);
+                    dialog.entityid = EntityDefinitionName;
                     dialog.form(edForm);
                     app2.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
-                                /*context.post(ko.toJSON(edForm), "/entity-form")
+                                context.post(ko.toJSON(edForm), "/entity-form")
                                         .done(function (result) {
                                             if (result.success) {
                                                 router.navigate('/entity.form.designer/' + dialog.entity().Id() + '/' + dialog.form().Id());
                                                 logger.info("Your form has been successfully saved.");
                                             }
-                                        });*/
+                                        });
                             }
                         });
 
