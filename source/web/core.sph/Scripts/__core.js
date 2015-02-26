@@ -482,7 +482,8 @@ ko.bindingHandlers.solutiontree = {
             solution = ko.unwrap(value.solution),
             click = value.click,
             addEntityDefinition = value.addEntityDefinition,
-            addForm = value.addForm;
+            addForm = value.addForm,
+            addOperation = value.addOperation;
 
         var eds = [];
         var treeRoots = [

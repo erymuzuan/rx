@@ -2043,6 +2043,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\correlation.set.dialog.js" />
     <EmbeddedResource Include="SphApp\services\form.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\screen.activity.form.designer.js" />
+    <Content Include="SphApp\viewmodels\add.entity-definition.operation.dialog.js" />
     <Content Include="SphApp\viewmodels\add.entity-definition.form.dialog.js" />
     <Content Include="SphApp\viewmodels\add.entity-definition.dialog.js" />
     <Content Include="SphApp\viewmodels\entity.view.designer.js" />

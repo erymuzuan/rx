@@ -41,7 +41,39 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 });
             },
             addOperation = function (name) {
-                return router.navigate('/entity.operation.details/' + name + '/<New Operation>');
+                //return router.navigate('/entity.operation.details/' + name + '/<New Operation>');
+                var entity = ko.observable(new bespoke.sph.domain.EntityDefinition());
+                require(["viewmodels/add.entity-definition.operation.dialog", "durandal/app"], function (dialog, app2) {
+                    dialog.entity(entity);
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                var tcs = new $.Deferred();
+
+                                context.post(ko.toJSON(dialog.entity), "/entity-definition")
+                                    .then(function (result) {
+                                        tcs.resolve(true);
+                                        //isBusy(false);
+                                        if (result.success) {
+                                            logger.info(result.message);
+                                            entity().Id(result.id);
+                                            //errors.removeAll();
+                                            setTimeout(function () {
+                                                router.navigate('/entity.details/' + entity().Id());
+                                            }, 1000);
+                                        } else {
+
+                                            //errors(result.Errors);
+                                            console.log(result.Errors);
+                                            logger.error("There are errors in your entity, !!!");
+                                        }
+                                    });
+
+                            }
+                        });
+
+                });
             },
             addView = function (name) {
                 return router.navigate('/entity.view.designer/' + name + '/0');
