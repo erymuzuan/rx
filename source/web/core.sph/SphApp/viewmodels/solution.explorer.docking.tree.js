@@ -17,7 +17,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
             wds = ko.observableArray(),
             transforms = ko.observableArray(),
             isBusy = ko.observable(true),
-            addBlogForm = function (EntityDefinitionName) {
+            addForm = function (EntityDefinitionName) {
+                console.log("add form");
                 // return router.navigate('/entity.form.designer/' + EntityDefinitionName + '/0');
 
                 var edForm = new bespoke.sph.domain.EntityForm({ WebId: system.guid() });
@@ -28,22 +29,22 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
-                                context.post(ko.toJSON(edForm), "/entity-form")
+                                /*context.post(ko.toJSON(edForm), "/entity-form")
                                         .done(function (result) {
                                             if (result.success) {
                                                 router.navigate('/entity.form.designer/' + dialog.entity().Id() + '/' + dialog.form().Id());
                                                 logger.info("Your form has been successfully saved.");
                                             }
-                                        });
+                                        });*/
                             }
                         });
 
                 });
             },
-            addBlogOperation = function (name) {
+            addOperation = function (name) {
                 return router.navigate('/entity.operation.details/' + name + '/<New Operation>');
             },
-            addBlogView = function (name) {
+            addView = function (name) {
                 return router.navigate('/entity.view.designer/' + name + '/0');
             },
             addWorkflowDefinition = function (name) {
@@ -133,9 +134,9 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
             cancelClick: cancelClick,
             hassanRefresh: hassanRefresh,
             addEntityDefinition: addEntityDefinition,
-            addBlogForm: addBlogForm,
-            addBlogOperation: addBlogOperation,
-            addBlogView: addBlogView,
+            addForm: addForm,
+            addOperation: addOperation,
+            addView: addView,
             addWorkflowDefinition: addWorkflowDefinition,
             addTransformDefinition: addTransformDefinition,
             addReportDefinition: addReportDefinition,

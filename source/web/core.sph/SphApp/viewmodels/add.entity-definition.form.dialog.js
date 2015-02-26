@@ -22,14 +22,14 @@ define(['plugins/dialog', objectbuilders.datacontext],
                 dialog.close(this, "Cancel");
             },
             activate = function() {
-                var query = String.format("Id eq '{0}'", entityid);
+                //var query = String.format("Id eq '{0}'", entityid);
                 /*
                 context.loadOneAsync("EntityDefinition", query)
                     .done(function(b) {
                         entity(b);
                     });
                 */
-                form().EntityDefinitionId(entityid);
+                //form().EntityDefinitionId(entityid);
             };
 
         var vm = {

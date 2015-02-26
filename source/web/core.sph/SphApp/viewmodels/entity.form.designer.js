@@ -204,7 +204,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                 if (result.success) {
                                     logger.info(result.message);
                                     errors.removeAll();
-                                    window.location = "/sph#entity.details/" + entity().Id();
+                                    window.location = "/#entity.details/" + entity().Id();
                                 } else {
                                     logger.error("There are errors in your form, cannot be removed !!");
                                 }
