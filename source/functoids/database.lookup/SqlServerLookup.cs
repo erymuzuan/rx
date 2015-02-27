@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
-    [DesignerMetadata(Name = "SqlServerLookup", FontAwesomeIcon = "database", Category = FunctoidCategory.DATABASE)]
+    [DesignerMetadata(Name = "Sql lookup", FontAwesomeIcon = "database", Category = FunctoidCategory.DATABASE)]
     public class SqlServerLookup : Functoid
     {
         public override bool Initialize()

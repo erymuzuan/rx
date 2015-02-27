@@ -67,6 +67,12 @@
   <ItemGroup>
     <None Include="Resources\view.html" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ConfigView.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ConfigViewModel.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) $(SolutionDir)\source\web\web.sph\bin</PostBuildEvent>
