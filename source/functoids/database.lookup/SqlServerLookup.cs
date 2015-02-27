@@ -15,14 +15,10 @@ namespace Bespoke.Sph.Domain
         public override bool Initialize()
         {
             this.ArgumentCollection.Add(new FunctoidArg { Name = "connection", Type = typeof(string) });
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "schema", Type = typeof(string) });
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "table", Type = typeof(string) });
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "column", Type = typeof(string) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value1", Type = typeof(string) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value2", Type = typeof(string) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value3", Type = typeof(string) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value4", Type = typeof(string) });
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "function", Type = typeof(string) });
             return base.Initialize();
 
         }
@@ -36,14 +32,8 @@ namespace Bespoke.Sph.Domain
             
             if (string.IsNullOrWhiteSpace(this.DefaultValue))
                 errors.Add(new ValidationError { PropertyName = "DefaultValue", Message = "You will need to provide a default value for non nullable destination" });
-            if (string.IsNullOrWhiteSpace(this.Column))
-                errors.Add(new ValidationError { PropertyName = "Column", Message = "You will need to provide a \"Column\" to SELECT from" });
-            if (string.IsNullOrWhiteSpace(this.Schema))
-                errors.Add(new ValidationError { PropertyName = "Schema", Message = "You will need to provide the \"Schema\" for your table" });
-            if (string.IsNullOrWhiteSpace(this.Table))
-                errors.Add(new ValidationError { PropertyName = "Schema", Message = "You will need to provide the \"Table\" to SELECT from" });
-            if (string.IsNullOrWhiteSpace(this.Predicate) && string.IsNullOrWhiteSpace(this.Function))
-                errors.Add(new ValidationError { PropertyName = "Predicate", Message = "For query without a predicate, please provide a scalar function" });
+            if (string.IsNullOrWhiteSpace(this.SqlText))
+                errors.Add(new ValidationError { PropertyName = "SqlText", Message = "You will need to provide a \"SqlText\"" });
             return errors;
         }
 
@@ -67,23 +57,29 @@ namespace Bespoke.Sph.Domain
             var value1 = evalValue("value1");
             var value2 = evalValue("value2");
             var value3 = evalValue("value3");
+            var value4 = evalValue("value4");
 
             var connection = this["connection"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode();
 
             code.AppendLinf("object __result{0} = null;", this.Index);
             code.AppendLinf("var __connectionString{0} =  @{1};", this.Index, connection);
 
-            code.AppendLinf("var __text{0} = string.Format(\"SELECT [{3}] FROM [{4}].[{5}] WHERE {1}\", {2});", this.Index, this.Predicate, "<VALUES>", this.Column, this.Schema, this.Table);
-            if (!string.IsNullOrWhiteSpace(value1) && string.IsNullOrWhiteSpace(value2) && string.IsNullOrWhiteSpace(value3))
-                code.Replace("<VALUES>", value1);
-            if (!string.IsNullOrWhiteSpace(value1) && !string.IsNullOrWhiteSpace(value2) && string.IsNullOrWhiteSpace(value3))
-                code.Replace("<VALUES>", value1 + ", " + value2);
-            if (!string.IsNullOrWhiteSpace(value1) && !string.IsNullOrWhiteSpace(value2) && !string.IsNullOrWhiteSpace(value3))
-                code.Replace("<VALUES>", value1 + ", " + value2 + ", " + value3);
+            code.AppendLinf("const string __text{0} = \"{1}\";", this.Index, this.SqlText);
+          
 
             code.AppendLinf("using(var __conn = new {1}(__connectionString{0}))", this.Index, typeof(SqlConnection).FullName);
             code.AppendLinf("using(var __cmd = new {1}(__text{0},__conn))", this.Index, typeof(SqlCommand).FullName);
             code.AppendLine("{");
+            if (this.SqlText.Contains("@value1"))
+                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value1\"," + value1 + ");");
+            if (this.SqlText.Contains("@value2"))
+                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value2\"," + value2 + ");");
+            if (this.SqlText.Contains("@value3"))
+                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value3\"," + value3 + ");");
+            if (this.SqlText.Contains("@value4"))
+                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value4\"," + value4 + ");");
+
+
             code.AppendLine("       await __conn.OpenAsync();");
             code.AppendLinf("       __result{0} = await __cmd.ExecuteScalarAsync();", this.Index);
 
@@ -105,12 +101,6 @@ namespace Bespoke.Sph.Domain
         {
             return database.lookup.Properties.Resources.vm;
         }
-
-
-        public string Schema { get; set; }
-        public string Table { get; set; }
-        public string Predicate { get; set; }
-        public string Column { get; set; }
-        public string Function { get; set; }
+        public string SqlText { get; set; }
     }
 }
