@@ -64,14 +64,8 @@ namespace domain.test.workflows
             File.Copy(patientPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Patient.dll", true);
             File.Copy(mappingPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".PatientToCustomer.dll", true);
             var options = new CompilerOptions();
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Customer.dll");
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Patient.dll");
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".PatientToCustomer.dll");
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-            var cr = wd.Compile(options);
+            var cr = await wd.CompileAsync(options);
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 

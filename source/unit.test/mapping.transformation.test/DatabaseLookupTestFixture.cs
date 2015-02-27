@@ -176,9 +176,7 @@ namespace mapping.transformation.test
         private static async Task<dynamic> Compile(TransformDefinition td, dynamic patient)
         {
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
 
