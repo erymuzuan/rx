@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
-    [DesignerMetadata(Name = "ConfigurationSettingFunctoid", FontAwesomeIcon = "tasks", Category = FunctoidCategory.DATABASE)]
+    [DesignerMetadata(Name = "Config", FontAwesomeIcon = "tasks", Category = FunctoidCategory.DATABASE)]
     public class ConfigurationSettingFunctoid : Functoid
     {
         public string Section { get; set; }
@@ -22,6 +22,15 @@ namespace Bespoke.Sph.Domain
             if (this.Section == "AppSetting")
                 return string.Format("var __config{1} = ConfigurationManager.AppSettings[\"{0}\"];", this.Key, this.Index);
             throw new InvalidOperationException("Cannot recognized section " + this.Section);
+        }
+        public override string GetEditorView()
+        {
+            return database.lookup.Properties.Resources.ConfigView;
+        }
+
+        public override string GetEditorViewModel()
+        {
+            return database.lookup.Properties.Resources.ConfigViewModel;
         }
     }
 }
