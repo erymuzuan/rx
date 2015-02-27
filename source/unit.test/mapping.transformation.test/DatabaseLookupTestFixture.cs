@@ -33,10 +33,7 @@ namespace mapping.transformation.test
             {
                 WebId = "lookup",
                 Name = "lookup",
-                Table = "Patient",
-                Schema = "dbo",
-                Column = "Income",
-                Predicate = "Mrn = '{0}'",
+                SqlText = "SELECT [Income] FROM [dbo].[Patient] WHERE Mrn = @value1",
                 DefaultValue = "decimal.Zero",
                 OutputTypeName = typeof(decimal).GetShortAssemblyQualifiedName()
             };
@@ -55,7 +52,7 @@ namespace mapping.transformation.test
             {
                 WebId = "conn" ,
                 Type = typeof(string),
-                Value = "server=(localdb)\\Projects;database=his;trusted_connection=yes;"
+                Value = "server=(localdb)\\ProjectsV12;database=his;trusted_connection=yes;"
             };
             td.AddFunctoids(conn);
             lookup["connection"].Functoid = conn.WebId;
@@ -83,10 +80,7 @@ namespace mapping.transformation.test
             {
                 WebId = "lookup",
                 Name = "lookup",
-                Table = "Patient",
-                Schema = "dbo",
-                Column = "Income",
-                Predicate = "Mrn = '{0}'",
+                SqlText= "SELECT [Income] FROM [dbo].[Patient] WHERE Mrn = @value1",
                 DefaultValue = "decimal.Zero",
                 OutputTypeName = typeof(decimal).GetShortAssemblyQualifiedName()
             };
@@ -134,10 +128,7 @@ namespace mapping.transformation.test
             {
                 WebId = "lookup",
                 Name = "lookup",
-                Table = "Patient",
-                Schema = "dbo",
-                Column = "Income",
-                Predicate = "Mrn = '{0}' and Gender = '{1}'",
+                SqlText = "SELECT [Income] FROM [dbo].[Patient] WHERE [Mrn] = @value1 AND [Gender] = @value2",
                 DefaultValue = "decimal.Zero",
                 OutputTypeName = typeof(decimal).GetShortAssemblyQualifiedName()
             };
@@ -164,7 +155,7 @@ namespace mapping.transformation.test
             {
                 WebId = "conn" ,
                 Type = typeof(string),
-                Value = "server=(localdb)\\Projects;database=his;trusted_connection=yes;"
+                Value = "server=(localdb)\\ProjectsV12;database=his;trusted_connection=yes;"
             };
             td.AddFunctoids(conn);
             lookup["connection"].Functoid = conn.WebId;
