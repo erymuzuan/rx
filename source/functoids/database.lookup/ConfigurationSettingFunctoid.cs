@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.Composition;
+using Microsoft.CodeAnalysis;
 
 namespace Bespoke.Sph.Domain
 {
@@ -18,11 +19,20 @@ namespace Bespoke.Sph.Domain
         public override string GenerateStatementCode()
         {
             if (this.Section == "ConnectionString")
-                return string.Format("var __config{1} = ConfigurationManager.ConnectionStrings[\"{0}\"].ConnectionString;", this.Key, this.Index);
+                return string.Format("var __config{1} = Bespoke.Sph.Domain.ConfigurationManager.ConnectionStrings[\"{0}\"].ConnectionString;", this.Key, this.Index);
             if (this.Section == "AppSetting")
-                return string.Format("var __config{1} = ConfigurationManager.AppSettings[\"{0}\"];", this.Key, this.Index);
+                return string.Format("var __config{1} = Bespoke.Sph.Domain.ConfigurationManager.AppSettings[\"{0}\"];", this.Key, this.Index);
             throw new InvalidOperationException("Cannot recognized section " + this.Section);
         }
+
+        public override MetadataReference[] GetMetadataReferences()
+        {
+            return new []
+            {
+                this.CreateMetadataReference<System.Configuration.ConnectionStringSettingsCollection>()
+            };
+        }
+
         public override string GetEditorView()
         {
             return database.lookup.Properties.Resources.ConfigView;

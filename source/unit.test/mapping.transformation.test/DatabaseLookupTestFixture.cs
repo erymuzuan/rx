@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -12,6 +13,7 @@ namespace mapping.transformation.test
     {
         public const string CUSTOMER = "Customer";
         public const string PATIENT = "Patient";
+        public const string CONNECTION_STRING = "server=(localdb)\\Projects;database=his;trusted_connection=yes;";
         public readonly static string PatientAssembly = @".\" + ConfigurationManager.ApplicationName + ".Patient.dll";
         public readonly static string CustomerAssembly = @".\" + ConfigurationManager.ApplicationName + ".Customer.dll";
         public readonly static string CustomerTypeName = "Bespoke." + ConfigurationManager.ApplicationName + "_customer.Domain.Customer";
@@ -50,9 +52,9 @@ namespace mapping.transformation.test
 
             var conn = new ConstantFunctoid
             {
-                WebId = "conn" ,
+                WebId = "conn",
                 Type = typeof(string),
-                Value = "server=(localdb)\\ProjectsV12;database=his;trusted_connection=yes;"
+                Value = CONNECTION_STRING
             };
             td.AddFunctoids(conn);
             lookup["connection"].Functoid = conn.WebId;
@@ -80,7 +82,7 @@ namespace mapping.transformation.test
             {
                 WebId = "lookup",
                 Name = "lookup",
-                SqlText= "SELECT [Income] FROM [dbo].[Patient] WHERE Mrn = @value1",
+                SqlText = "SELECT [Income] FROM [dbo].[Patient] WHERE Mrn = @value1",
                 DefaultValue = "decimal.Zero",
                 OutputTypeName = typeof(decimal).GetShortAssemblyQualifiedName()
             };
@@ -97,7 +99,7 @@ namespace mapping.transformation.test
 
             var conn = new ConfigurationSettingFunctoid
             {
-                WebId = "conn" ,
+                WebId = "conn",
                 Section = "ConnectionString",
                 Key = "His"
             };
@@ -153,9 +155,9 @@ namespace mapping.transformation.test
 
             var conn = new ConstantFunctoid
             {
-                WebId = "conn" ,
+                WebId = "conn",
                 Type = typeof(string),
-                Value = "server=(localdb)\\ProjectsV12;database=his;trusted_connection=yes;"
+                Value = CONNECTION_STRING
             };
             td.AddFunctoids(conn);
             lookup["connection"].Functoid = conn.WebId;
@@ -175,13 +177,20 @@ namespace mapping.transformation.test
 
         private static async Task<dynamic> Compile(TransformDefinition td, dynamic patient)
         {
-            var options = new CompilerOptions();
-            var result = await td.CompileAsync(options);
-            if (!result.Result)
-                result.Errors.ForEach(Console.WriteLine);
+            byte[] buffer;
+            using (var stream = new MemoryStream())
+            {
+                var options = new CompilerOptions(stream);
+                var result = await td.CompileAsync(options);
+                if (!result.Result)
+                    result.Errors.ForEach(Console.WriteLine);
+                Assert.IsTrue(result.Result, "Compiler fails");
 
-            Assert.IsTrue(result.Result, "Compiler fails");
-            var dll = Assembly.LoadFile(result.Output);
+                buffer = stream.GetBuffer();
+            }
+
+
+            var dll = Assembly.Load(buffer);
             var mt = dll.GetType(ConfigurationManager.ApplicationName + ".Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 

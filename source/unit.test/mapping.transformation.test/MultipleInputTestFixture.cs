@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -19,7 +20,9 @@ namespace mapping.transformation.test
 
         private dynamic CreateEntityInstance(string typeName)
         {
-            var type = Assembly.LoadFrom(@".\DevV1." + typeName +".dll").GetType("Bespoke.DevV1_" + typeName.ToLower() +".Domain." + typeName);
+            var name = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, typeName.ToLower(), typeName);
+            var assemblyFile = string.Format(@".\{0}.{1}.dll", ConfigurationManager.ApplicationName, typeName);
+            var type = Assembly.LoadFrom(assemblyFile).GetType(name);
             dynamic instance = Activator.CreateInstance(type);
             return instance;
         }
@@ -31,7 +34,7 @@ namespace mapping.transformation.test
             var patient = this.CreateEntityInstance("Patient");
             patient.FullName = "Erymuzuan Mustapa";
             patient.Mrn = "ABC123";
-            patient.CreatedDate = new DateTime(2000,1,1);
+            patient.CreatedDate = new DateTime(2000, 1, 1);
 
             var district = this.CreateEntityInstance("District");
             district.Name = "Tanah Merah";
@@ -40,7 +43,9 @@ namespace mapping.transformation.test
             state.Name = "Kelantan";
 
 
-            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.DevV1_customer.Domain.Customer");
+            var patientAssembly = @".\" + ConfigurationManager.ApplicationName + ".Customer.dll";
+            var patientTypeName = "Bespoke." + ConfigurationManager.ApplicationName + "_customer.Domain.Customer";
+            var customerType = Assembly.LoadFrom(patientAssembly).GetType(patientTypeName);
 
 
             var td = new TransformDefinition
@@ -49,9 +54,9 @@ namespace mapping.transformation.test
                 Description = "Just a description",
                 OutputType = customerType
             };
-            td.InputCollection.Add(new MethodArg {Name="Patient", Type = patient.GetType()});
-            td.InputCollection.Add(new MethodArg {Name="District", Type = district.GetType()});
-            td.InputCollection.Add(new MethodArg {Name="State", Type = state.GetType()});
+            td.InputCollection.Add(new MethodArg { Name = "Patient", Type = patient.GetType() });
+            td.InputCollection.Add(new MethodArg { Name = "District", Type = district.GetType() });
+            td.InputCollection.Add(new MethodArg { Name = "State", Type = state.GetType() });
 
             td.FunctoidCollection.Add(new ConstantFunctoid
             {
@@ -120,13 +125,18 @@ namespace mapping.transformation.test
                 DestinationType = typeof(string)
             });
 
-            var options = new CompilerOptions();
-            var result = await td.CompileAsync(options);
-            if (!result.Result)
-                result.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(result.Result, "Compiler fails");
-            var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("DevV1.Integrations.Transforms." + td.Name);
+            byte[] buffer;
+            using (var stream = new MemoryStream())
+            {
+                var options = new CompilerOptions(stream);
+                var result = await td.CompileAsync(options);
+                if (!result.Result)
+                    result.Errors.ForEach(Console.WriteLine);
+                Assert.IsTrue(result.Result, "Compiler fails");
+                buffer = stream.GetBuffer();
+            }
+            var dll = Assembly.Load(buffer);
+            var mt = dll.GetType(ConfigurationManager.ApplicationName + ".Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 

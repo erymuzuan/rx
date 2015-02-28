@@ -49,8 +49,6 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateAssignmentCode()
         {
-            if (!string.IsNullOrWhiteSpace(this.Format))
-                return string.Format("string.Format(\"{1}\", value{0})", this.Index, this.Format);
             return string.Format("string.Format( format{0}, value{0})", this.Index);
         }
 

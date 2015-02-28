@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
 
 namespace Bespoke.Sph.Domain
 {
@@ -35,6 +37,15 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(this.SqlText))
                 errors.Add(new ValidationError { PropertyName = "SqlText", Message = "You will need to provide a \"SqlText\"" });
             return errors;
+        }
+
+        public override MetadataReference[] GetMetadataReferences()
+        {
+            return new[]
+            {
+                this.CreateMetadataReference<SqlCommand>(),
+                MetadataReference.CreateFromAssembly(Assembly.Load("System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")),
+            };
         }
 
         public override string GenerateAssignmentCode()

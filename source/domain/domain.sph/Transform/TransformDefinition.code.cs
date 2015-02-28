@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
+using Microsoft.CodeAnalysis;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class TransformDefinition
     {
-
 
         public override string DefaultNamespace
         {
@@ -22,7 +21,7 @@ namespace Bespoke.Sph.Domain
             var @classes = new List<Class>();
 
 
-            var map = new Class { Name = this.Name };
+            var map = new Class { Name = this.Name, Namespace = this.DefaultNamespace };
             map.AddNamespaceImport<Int32>();
             map.AddNamespaceImport<Task>();
             map.AddNamespaceImport<EnumerableQuery>();
@@ -33,20 +32,23 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(@classes.AsEnumerable());
         }
 
-
-        public string[] SaveSources(Dictionary<string, string> sources)
+        public override MetadataReference[] GetMetadataReferences()
         {
-            var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Name);
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-            foreach (var cs in sources.Keys)
-            {
-                var file = Path.Combine(folder, cs);
-                File.WriteAllText(file, sources[cs]);
-            }
-            return sources.Keys.ToArray()
-                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.UserSourceDirectory, this.Name, f))
-                    .ToArray();
+            var list = base.GetMetadataReferences().ToList();
+            list.Add(this.CreateMetadataFromFile(OutputType.Assembly.Location));
+            if (!string.IsNullOrWhiteSpace(this.InputTypeName))
+                list.Add(this.CreateMetadataFromFile(this.InputType.Assembly.Location));
+
+            var inputs = from p in this.InputCollection
+                         let type = Type.GetType(p.TypeName)
+                         select this.CreateMetadataFromFile(type.Assembly.Location);
+            list.AddRange(inputs);
+
+            var functoids = from f in this.FunctoidCollection
+                            select f.GetMetadataReferences();
+            list.AddRange(functoids.SelectMany(x => x));
+
+            return list.ToArray();
         }
 
 
@@ -128,7 +130,7 @@ namespace Bespoke.Sph.Domain
             if (!string.IsNullOrWhiteSpace(this.InputTypeName))
                 code.Replace("{SOURCE_TYPE}", this.InputType.FullName);
             else
-                code.Replace("{SOURCE_TYPE}", this.Name +".Input");
+                code.Replace("{SOURCE_TYPE}", this.Name + ".Input");
 
             code.Replace("{DEST_TYPE}", this.OutputType.FullName);
             return code.ToString();
