@@ -1,5 +1,5 @@
 ﻿
-<section class="view-model-modal" id="add-entity-definition-dialog">
+<section class="view-model-modal" id="add-entity-definition-view-dialog">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -7,9 +7,9 @@
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
                 <h3>Add new View</h3>
             </div>
-            <div class="modal-body" data-bind="with: ed">
+            <div class="modal-body" data-bind="with: view">
 
-                <form class="form-horizontal" id="add-entity-definition-form-dialog-form">
+                <form class="form-horizontal" id="add-entity-definition-view-dialog-form">
                     <div class="form-group">
                         <label>Name</label>
                         <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name" />
@@ -29,7 +29,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <input form="add-entity-definition-form-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <input form="add-entity-definition-view-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
                 <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
             </div>
         </div>

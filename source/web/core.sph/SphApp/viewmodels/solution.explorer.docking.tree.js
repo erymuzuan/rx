@@ -75,8 +75,28 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
 
                 });
             },
-            addView = function (name) {
-                return router.navigate('/entity.view.designer/' + name + '/0');
+            addView = function (EntityDefinitionName) {
+                var edView = new bespoke.sph.domain.EntityForm({ WebId: system.guid() });
+                require(["viewmodels/add.entity-definition.view.dialog", "durandal/app"], function (dialog, app2) {
+                    dialog.entity(EntityDefinitionName);
+                    dialog.view(edView);
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                var tcs = new $.Deferred(),
+                                data = ko.mapping.toJSON(dialog.view);
+
+                                context.post(data, "/Sph/EntityView/Save")
+                                    .then(function (result) {
+                                        dialog.view().Id(result.id);
+                                        tcs.resolve(result);
+                                    });
+                                return tcs.promise();
+                            }
+                        });
+
+                });
             },
             addWorkflowDefinition = function (name) {
                 return router.navigate('/workflow.definition.visual/0');

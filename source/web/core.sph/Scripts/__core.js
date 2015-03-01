@@ -483,7 +483,8 @@ ko.bindingHandlers.solutiontree = {
             click = value.click,
             addEntityDefinition = value.addEntityDefinition,
             addForm = value.addForm,
-            addOperation = value.addOperation;
+            addOperation = value.addOperation,
+            addView = value.addView;
 
         var eds = [];
         var treeRoots = [
@@ -593,7 +594,6 @@ ko.bindingHandlers.solutiontree = {
                             "Create Form": {
                                 "label": "Add New Form",
                                 "action": function (obj) {
-                                    // this.create(obj);
                                     addForm(node.id);
                                 }
                             },
