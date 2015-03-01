@@ -9,7 +9,17 @@ namespace Bespoke.Sph.Domain
         public bool Emit { get; set; }
         public Stream Stream { get; set; }
 
-     
+        public CompilerOptions()
+        {
+            
+        }
+
+        public CompilerOptions(Stream stream)
+        {
+            this.Stream = stream;
+            this.Emit = true;
+
+        }
      
     }
 }

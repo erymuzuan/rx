@@ -64,6 +64,8 @@ bespoke.sph.domain.AssemblyField = function (optionOrWebid) {
 
     v.AsyncTimeout = ko.observable(0);
 
+    v.LoadInCurrentAppDomain = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.AssemblyField, domain.sph";
 
     v.MethodArgCollection = ko.observableArray([]);
@@ -1725,6 +1727,7 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
         IsPublished: ko.observable(false),
         MapCollection: ko.observableArray([]),
         FunctoidCollection: ko.observableArray([]),
+        InputCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

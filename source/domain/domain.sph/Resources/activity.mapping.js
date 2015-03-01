@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.1.3.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -8,7 +8,7 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
+define(["services/datacontext", "services/logger", "plugins/dialog"],
     function (context, logger, dialog) {
 
         var activity = ko.observable(new bespoke.sph.domain.MappingActivity()),
@@ -29,7 +29,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                         var maps = _(lo.itemCollection).map(function (v) {
                             return {
                                 Name: ko.unwrap(v.Name),
-                                FullName: ko.unwrap(v.CodeNamespace) + '.' + ko.unwrap(v.Name),
+                                FullName: ko.unwrap(v.CodeNamespace) + "." + ko.unwrap(v.Name),
                                 Id: v.Id
                             };
                         });
@@ -38,6 +38,27 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                     });
                 return tcs.promise();
 
+            },
+            attached = function () {
+                activity().MappingDefinition.subscribe(function (map) {
+                    var md = _(definitionOptions()).find(function (v) {
+                        return v.FullName === map;
+                    });
+                    if (!md) {
+                        return;
+                    }
+                    context.loadOneAsync("TransformDefinition", "Id eq '" + ko.unwrap(md.Id) + "'")
+                        .done(function (td) {
+                            if (td.InputTypeName()) {
+                                activity().MappingSourceCollection().push(new bespoke.sph.domain.MappingSource());
+                            } else {
+                                var args = _(td.InputCollection()).map(function (v) {
+                                    return bespoke.sph.domain.MappingSource({ WebId: ko.unwrap(v.Name) });
+                                });
+                                activity().MappingSourceCollection(args);
+                            }
+                        });
+                });
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
@@ -51,7 +72,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
 
         var vm = {
             activate: activate,
-            activity:activity,
+            attached: attached,
+            activity: activity,
             okClick: okClick,
             cancelClick: cancelClick,
             definitionOptions: definitionOptions,

@@ -4407,6 +4407,17 @@ namespace Bespoke.Sph.Domain
             get { return m_FunctoidCollection; }
         }
 
+        private readonly ObjectCollection<MethodArg> m_InputCollection = new ObjectCollection<MethodArg>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("MethodArg", IsNullable = false)]
+        public ObjectCollection<MethodArg> InputCollection
+        {
+            get { return m_InputCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -5694,6 +5705,22 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_Version = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsAsync;
+        [XmlAttribute]
+        public bool IsAsync
+        {
+            get
+            {
+                return m_IsAsync;
+            }
+            set
+            {
+                m_IsAsync = value;
                 RaisePropertyChanged();
             }
         }

@@ -1,0 +1,45 @@
+
+<section class="view-model-modal" id="config-functoid-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        data-bind="click : cancelClick">
+                    &times;
+                </button>
+                <h3>Config Value Functoid</h3>
+            </div>
+            <div class="modal-body" data-bind="with:functoid">
+
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="section-select" class="col-lg-2 control-label">Section</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="section-select" data-bind="value:Section" required>
+                                <option value="">[Select config section]</option>
+                                <option value="ConnectionString">Connection String</option>
+                                <option value="AppSetting">AppSetting</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="key-field" class="col-lg-2 control-label">Connection String Key</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: Key"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Key"
+                                   class="form-control" id="key-field">
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <input data-dismiss="modal" type="submit" class="btn btn-default"
+                       value="OK" data-bind="click : okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Bespoke.Sph.Domain
 {
@@ -31,7 +33,10 @@ namespace Bespoke.Sph.Domain
         {
             return string.Format("// NOT IMPLEMENTED => {0}", this.GetType().Name);
         }
-
+        public virtual MetadataReference[] GetMetadataReferences()
+        {
+            return new MetadataReference[]{};
+        }
 
         public new FunctoidArg this[string index]
         {

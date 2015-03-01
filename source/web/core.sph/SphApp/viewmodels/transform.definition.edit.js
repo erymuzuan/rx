@@ -21,35 +21,37 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             sourceSchema = ko.observable(),
             destinationSchema = ko.observable(),
             activate = function (id) {
+                id = id || "0";
+                if (id === "0") {
+                    td(new bespoke.sph.domain.TransformDefinition({ Name: "New Mapping Definition", WebId: system.guid() }));
+                    return true;
+                }
+
+
                 var query = String.format("Id eq '{0}'", id);
-                var tcs = new $.Deferred();
-                context.loadOneAsync("TransformDefinition", query)
-                    .done(function (b) {
-                        if (b) {
-                            _(b.FunctoidCollection()).each(function (v) {
-                                v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
-                            });
-                            td(b);
-                            $.get("/transform-definition/json-schema/" + b.InputTypeName(), function (s) {
-                                sourceSchema(s);
-                            });
-                            $.get("/transform-definition/json-schema/" + b.OutputTypeName(), function (s) {
-                                destinationSchema(s);
-                            });
-                        } else {
-                            td(new bespoke.sph.domain.TransformDefinition({ Name: 'New Mapping Definition', WebId: system.guid() }));
-                        }
-                        tcs.resolve(true);
-                    });
+                return context.loadOneAsync("TransformDefinition", query)
+                     .then(function (b) {
 
+                         _(b.FunctoidCollection()).each(function (v) {
+                             v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
+                         });
+                         td(b);
+                         return context.get("/transform-definition/json-schema/" + b.OutputTypeName());
 
-                return tcs.promise();
+                     }).then(function (s) {
+                         destinationSchema(s);
+                         if (td().InputTypeName()) {
+                             return context.get("/transform-definition/json-schema/" + td().InputTypeName());
+                         }
+                         return context.post(ko.toJSON(td), "/transform-definition/json-schema");
+
+                     }).then(sourceSchema);
 
             },
-            isJsPlumbReady = false,
+            isJsPlumbReady,
             jsPlumbInstance = null,
             initializeFunctoid = function (fnc) {
-                var element = $('#' + fnc.WebId());
+                var element = $("#" + fnc.WebId());
                 jsPlumbInstance.makeSource(element, {
                     filter: ".fep",
                     endPoint: ["Rectangle", { width: 10, height: 10 }],
@@ -131,9 +133,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     if (typeof c.functoidArg === "function") {
                         c.functoidArg(null);
                     }
-                    if (typeof c.sf) {
-                        td().FunctoidCollection.remove(c.sf);
-                    }
+                    td().FunctoidCollection.remove(c.sf);
+
                 });
 
                 var connectionInitialized = false;
@@ -293,7 +294,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 // creates the connection for each argument list
                 _(td().FunctoidCollection()).each(function (f) {
                     if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
-                        _(f.ArgumentCollection()).each(function(a) {
+                        _(f.ArgumentCollection()).each(function (a) {
                             var source = document.getElementById(ko.unwrap(a.Functoid));
                             if (typeof a.Functoid !== "function" || !source) {
                                 return;
@@ -344,7 +345,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 jsPlumb.fire("jsPlumbDemoLoaded", instance);
 
             },
-            attached = function (view) {
+            attached = function () {
 
                 $.get("/transform-definition/functoids", function (list) {
                     functoidToolboxItems(list.$values);
@@ -367,7 +368,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     }, 1500);
 
 
-                if (!td().OutputTypeName() || !td().InputTypeName()) {
+                if (!td().OutputTypeName()) {
                     return;
                 }
                 var icon = function (html, item) {
@@ -427,30 +428,30 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 };
 
                 buildSourceTree(root, "");
-                $('#source-panel').html(shtml);
+                $("#source-panel").html(shtml);
 
                 var dhtml = "",
                     buildDestinationTree = function (branch, parent) {
                         for (var key in branch.properties) {
                             var iconHtml = icon(dhtml, branch.properties[key]);
-                            dhtml += '<li><div><div class="destination-field" id="destination-field-' + parent + key + '">' + iconHtml +
-                                '<span class="ep02">' + key + '</span></div>';
+                            dhtml += "<li><div><div class=\"destination-field\" id=\"destination-field-" + parent + key + "\">" + iconHtml +
+                                "<span class=\"ep02\">" + key + "</span></div>";
 
                             var type = branch.properties[key].type;
                             if (typeof type === "object") {
                                 type = type[0];
                             }
                             if (type === "object") {
-                                dhtml += '<ul style="list-style: none">';
+                                dhtml += "<ul style=\"list-style: none\">";
                                 buildDestinationTree(branch.properties[key], parent + key + "-");
-                                dhtml += '</ul>';
+                                dhtml += "</ul>";
                             }
                             if (type === "array") {
-                                dhtml += '<ul style="list-style: none">';
+                                dhtml += "<ul style=\"list-style: none\">";
                                 buildDestinationTree(branch.properties[key].items, parent + key + "-");
-                                dhtml += '</ul>';
+                                dhtml += "</ul>";
                             }
-                            dhtml += '</div></li>';
+                            dhtml += "</div></li>";
                         }
                     };
 
@@ -527,7 +528,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                                 // try build the tree for new item
                                 if (!td().Id() || td().Id() === "0") {
-                                    var inTask = context.get("/transform-definition/json-schema/" + td().InputTypeName()),
+                                    var inTask = context.post(ko.toJSON(td), "/transform-definition/json-schema"),
                                        outTask = context.get("/transform-definition/json-schema/" + td().OutputTypeName());
                                     $.when(inTask, outTask).done(function (input, output) {
                                         sourceSchema(input[0]);

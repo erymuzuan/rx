@@ -1,4 +1,7 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-    public partial class MappingSource : DomainObject{}
+    public partial class MappingSource : DomainObject
+    {
+
+    }
 }
