@@ -5710,20 +5710,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private bool m_IsAsync;
-        [XmlAttribute]
-        public bool IsAsync
-        {
-            get
-            {
-                return m_IsAsync;
-            }
-            set
-            {
-                m_IsAsync = value;
-                RaisePropertyChanged();
-            }
-        }
 
 
         private readonly ObjectCollection<Variable> m_VariableMapCollection = new ObjectCollection<Variable>();

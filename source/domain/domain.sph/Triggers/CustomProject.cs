@@ -12,7 +12,6 @@ namespace Bespoke.Sph.Domain
     public abstract class CustomProject : Entity, IProjectProvider
     {
         public abstract string DefaultNamespace { get; }
-
         public virtual string Name { get; set; }
 
         public virtual MetadataReference[] GetMetadataReferences()
