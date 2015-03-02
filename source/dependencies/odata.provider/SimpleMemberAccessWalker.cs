@@ -17,7 +17,7 @@ namespace Bespoke.Sph.OdataQueryCompilers
         public override bool Filter(SyntaxNode node)
         {
 
-            if (node.CSharpKind() != SyntaxKind.SimpleMemberAccessExpression)
+            if (node.Kind() != SyntaxKind.SimpleMemberAccessExpression)
                 return false;
 
             var any = this.Walkers.Where(x => x != this)

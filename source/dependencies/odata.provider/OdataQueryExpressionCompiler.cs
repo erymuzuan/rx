@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Bespoke.Sph.OdataQueryCompilers
 {
@@ -39,7 +40,7 @@ namespace Bespoke.Sph.OdataQueryCompilers
 
             if (walkers.Count > 1)
             {
-                Console.WriteLine("!!! " + statement.CSharpKind());
+                Console.WriteLine("!!! " + statement.Kind());
                 foreach (var w in walkers)
                 {
                     Console.WriteLine(statement + " -> " + w.GetType().Name);
@@ -49,7 +50,7 @@ namespace Bespoke.Sph.OdataQueryCompilers
             var wk = walkers.LastOrDefault();
             if (null != wk)
                 return wk.Walk(statement, model);
-            return "!!! Cannot find Walker for : " + statement.CSharpKind() + " -> " + statement.ToFullString();
+            return "!!! Cannot find Walker for : " + statement.Kind() + " -> " + statement.ToFullString();
         }
     }
 }

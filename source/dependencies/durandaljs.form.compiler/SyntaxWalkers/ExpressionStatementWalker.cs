@@ -15,7 +15,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 
         public override bool Filter(SyntaxNode node)
         {
-            return node.CSharpKind() == SyntaxKind.ExpressionStatement;
+            return node.Kind() == SyntaxKind.ExpressionStatement;
         }
 
         public override string Walk(SyntaxNode node, SemanticModel model)

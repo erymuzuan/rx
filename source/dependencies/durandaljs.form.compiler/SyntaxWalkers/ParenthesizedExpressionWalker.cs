@@ -16,7 +16,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 
         public override bool Filter(SyntaxNode node)
         {
-            return node.CSharpKind() == SyntaxKind.ParenthesizedExpression;
+            return node.Kind() == SyntaxKind.ParenthesizedExpression;
         }
 
         public override string Walk(SyntaxNode node, SemanticModel model)

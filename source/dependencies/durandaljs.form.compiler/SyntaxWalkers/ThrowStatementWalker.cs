@@ -16,7 +16,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 
         public override bool Filter(SyntaxNode node)
         {
-            return node.CSharpKind() == SyntaxKind.ThrowStatement;
+            return node.Kind() == SyntaxKind.ThrowStatement;
         }
 
 

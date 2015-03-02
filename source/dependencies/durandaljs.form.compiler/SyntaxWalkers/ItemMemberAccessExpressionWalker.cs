@@ -48,7 +48,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     return "$data";
                 return id.Identifier.Text + "()" + this.GetSymbolExtension(node, model);
             }
-            return "/* item should not get  " + node.CSharpKind() + ":"+ node.ToFullString() + "*/";
+            return "/* item should not get  " + node.Kind() + ":"+ node.ToFullString() + "*/";
         }
 
         private string GetSymbolExtension(SyntaxNode node, SemanticModel model)

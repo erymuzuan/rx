@@ -20,7 +20,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override bool Filter(SyntaxNode node)
         {
-            return (node.CSharpKind() == SyntaxKind.InvocationExpression);
+            return (node.Kind() == SyntaxKind.InvocationExpression);
         }
 
 
@@ -30,7 +30,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var w = this.GetWalker(invocationSyntax.Expression);
             if (null == w)
-                throw new InvalidOperationException(string.Format("Cannot find walker for {0} => {1}", invocationSyntax.CSharpKind(), invocationSyntax.ToFullString()));
+                throw new InvalidOperationException(string.Format("Cannot find walker for {0} => {1}", invocationSyntax.Kind(), invocationSyntax.ToFullString()));
 
             var c = w.Walk(invocationSyntax.Expression, model);
             return c;

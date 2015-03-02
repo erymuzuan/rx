@@ -16,7 +16,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 
         public override bool Filter(SyntaxNode node)
         {
-            return node.CSharpKind() == SyntaxKind.ImplicitArrayCreationExpression;
+            return node.Kind() == SyntaxKind.ImplicitArrayCreationExpression;
         }
 
         public override string Walk(SyntaxNode node, SemanticModel model)

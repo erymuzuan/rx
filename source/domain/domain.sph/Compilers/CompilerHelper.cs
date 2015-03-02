@@ -76,7 +76,7 @@ namespace Bespoke.Sph.Domain
 
         public static string FormatCode(this StringBuilder code)
         {
-            var ws = new CustomWorkspace();
+            var ws = new AdhocWorkspace();
             var info = ProjectInfo.Create(ProjectId.CreateNewId("formatter"),
                 VersionStamp.Default, "formatter", "formatter", LanguageNames.CSharp);
             var project = ws.AddProject(info);

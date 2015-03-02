@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Open Technologies, Inc.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.VisualBasic;
+using CSharpExtensions = Microsoft.CodeAnalysis.CSharp.CSharpExtensions;
 
 namespace Roslyn.SyntaxVisualizer.Control
 {
@@ -11,64 +13,28 @@ namespace Roslyn.SyntaxVisualizer.Control
 
         public static string GetKind(this SyntaxNodeOrToken nodeOrToken)
         {
-            var kind = string.Empty;
-
-            if (nodeOrToken.IsNode)
-            {
-                kind = nodeOrToken.AsNode().GetKind();
-            }
-            else
-            {
-                kind = nodeOrToken.AsToken().GetKind();
-            }
+            var kind = nodeOrToken.IsNode ? nodeOrToken.AsNode().GetKind() : nodeOrToken.AsToken().GetKind();
 
             return kind;
         }
 
         public static string GetKind(this SyntaxNode node)
         {
-            var kind = string.Empty;
-
-            if (node.Language == LanguageNames.CSharp)
-            {
-                kind = node.CSharpKind().ToString();
-            }
-            else 
-            {
-                kind = node.VBKind().ToString();
-            }
+            var kind = node.Language == LanguageNames.CSharp ? node.RawKind.ToString() : node.Kind().ToString();
 
             return kind;
         }
 
         public static string GetKind(this SyntaxToken token)
         {
-            var kind = string.Empty;
-
-            if (token.Language == LanguageNames.CSharp)
-            {
-                kind = token.CSharpKind().ToString();
-            }
-            else 
-            {
-                kind = token.VBKind().ToString();
-            }
+            var kind = token.Language == LanguageNames.CSharp ? CSharpExtensions.Kind(token).ToString() : token.Kind().ToString();
 
             return kind;
         }
 
         public static string GetKind(this SyntaxTrivia trivia)
         {
-            var kind = string.Empty;
-
-            if (trivia.Language == LanguageNames.CSharp)
-            {
-                kind = trivia.CSharpKind().ToString();
-            }
-            else
-            {
-                kind = trivia.VBKind().ToString();
-            }
+            var kind = trivia.Language == LanguageNames.CSharp ? CSharpExtensions.Kind(trivia).ToString() : trivia.Kind().ToString();
 
             return kind;
         }

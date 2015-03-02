@@ -37,7 +37,13 @@ ls -Path .\source\ -Filter obj -Recurse | ? {$_.PSIsContainer} |  Remove-Item -F
 
 & git checkout source/unit.test/mapping.transformation.test/rsc.Driver.dll
 & git checkout source/unit.test/mapping.transformation.test/rsc.RilekWeb.dll
+& git checkout .\source\unit.test\mapping.transformation.test\Dev.Customer.dll
+& git checkout .\source\unit.test\mapping.transformation.test\Dev.District.dll
+& git checkout .\source\unit.test\mapping.transformation.test\Dev.Patient.dll
+& git checkout .\source\unit.test\mapping.transformation.test\Dev.State.dll
 & git checkout source/unit.test/durandaljs.compiler.test/web/bin/System.Runtime.dll
+& git checkout .\source\unit.test\durandaljs.compiler.test\web\bin\System.Web.Http.dll
+& git checkout .\source\unit.test\durandaljs.compiler.test\web\bin\System.Web.Mvc.dll
 
 #clean
 $outputs | %{
@@ -178,7 +184,7 @@ ls -Filter *.err | %{
 Write-Host "Copying some packages files to output"
 $Microsoft_Composition =ls .\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\*.dll
 $RabbitMq_Client = ls .\packages\RabbitMQ.Client.3.4.3\lib\net35\RabbitMQ.Client.dll
-$Microsoft_Owin_Security = ls .\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll
+$Microsoft_Owin_Security = ls .\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll
 $Microsoft_Code_Analysis = ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse
 $odp_net_managed = ls .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll
 #TODO : thes -Filter should get it from the application name

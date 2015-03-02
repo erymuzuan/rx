@@ -35,12 +35,12 @@ namespace Bespoke.Sph.OdataQueryCompilers
 
         public override bool Filter(SyntaxNode node)
         {
-            return Kinds.Contains(node.CSharpKind());
+            return Kinds.Contains(node.Kind());
         }
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var kind = node.CSharpKind();
+            var kind = node.Kind();
             var bes = (BinaryExpressionSyntax)node;
             string op;
             switch (kind)

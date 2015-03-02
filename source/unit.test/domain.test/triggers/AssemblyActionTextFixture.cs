@@ -127,7 +127,7 @@ namespace Dev.SampleTriggers
         [Test]
         public async Task FormatSimpleCode()
         {
-            var ws =new CustomWorkspace();
+            var ws =new AdhocWorkspace();
             var project = ws.AddProject("test",  LanguageNames.CSharp);
             await Task.Delay(500);
 

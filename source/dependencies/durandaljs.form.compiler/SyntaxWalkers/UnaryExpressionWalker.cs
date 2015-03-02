@@ -24,7 +24,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 
         public override bool Filter(SyntaxNode node)
         {
-            return Kinds.Contains(node.CSharpKind());
+            return Kinds.Contains(node.Kind());
         }
 
 

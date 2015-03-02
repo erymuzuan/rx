@@ -79,7 +79,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            if (node.CSharpKind() != SyntaxKind.GenericName)
+            if (node.Kind() != SyntaxKind.GenericName)
                 return base.Walk(node, model);
 
             var genericSyntax = (GenericNameSyntax) node;

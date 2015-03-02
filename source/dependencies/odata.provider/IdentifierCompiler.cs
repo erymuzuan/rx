@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.OdataQueryCompilers
@@ -26,7 +27,7 @@ namespace Bespoke.Sph.OdataQueryCompilers
             var walker = this.GetWalker(expression);
             if (null != walker) return walker.Walk(expression, null);
 
-            throw new Exception("Now walker found for " + expression.CSharpKind());
+            throw new Exception("Now walker found for " + expression.Kind());
         }
 
 
@@ -37,11 +38,11 @@ namespace Bespoke.Sph.OdataQueryCompilers
                 .ToList();
             if (potentialWalkers.Count > 1)
             {
-                Console.WriteLine("!!!!! There are more that 1 walker for : " + node.CSharpKind());
-                potentialWalkers.ForEach(t => Console.WriteLine("{0} -> {1}", node.CSharpKind(), t));
+                Console.WriteLine("!!!!! There are more that 1 walker for : " + node.Kind());
+                potentialWalkers.ForEach(t => Console.WriteLine("{0} -> {1}", node.Kind(), t));
             }
             if (potentialWalkers.Count == 0)
-                Console.WriteLine("!!!!! There is no walker for : " + node.CSharpKind());
+                Console.WriteLine("!!!!! There is no walker for : " + node.Kind());
 
             return potentialWalkers.FirstOrDefault();
         }

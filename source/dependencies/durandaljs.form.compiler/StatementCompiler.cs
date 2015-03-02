@@ -125,7 +125,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 if (!walkers.Any())
                 {
                     Console.WriteLine("!!!!!!");
-                    Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
+                    Console.WriteLine("Cannot find statement walker for " + st1.Kind());
                     Console.WriteLine(st1.ToFullString());
                     Console.WriteLine("-----------------");
                 }
@@ -150,7 +150,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             foreach (var statement in statements)
             {
                 var st1 = statement;
-                var kind = st1.CSharpKind();
+                var kind = st1.Kind();
                 var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any()
                     && (kind == SyntaxKind.LocalDeclarationStatement || kind == SyntaxKind.ExpressionStatement);
                 if (hasAwait && initialize) break;
@@ -169,7 +169,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 if (!walkers.Any())
                 {
                     Console.WriteLine("!!!!!!");
-                    Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
+                    Console.WriteLine("Cannot find statement walker for " + st1.Kind());
                 }
                 if (hasAwait) break;
 
@@ -200,7 +200,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 if (!walkers.Any())
                 {
                     Console.WriteLine("!!!!!!");
-                    Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
+                    Console.WriteLine("Cannot find statement walker for " + st1.Kind());
                 }
 
 

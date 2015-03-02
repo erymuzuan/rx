@@ -60,7 +60,7 @@ namespace Bespoke.Sph.OdataQueryCompilers
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            if (node.CSharpKind() == SyntaxKind.ObjectCreationExpression)
+            if (node.Kind() == SyntaxKind.ObjectCreationExpression)
             {
                 var creation = (ObjectCreationExpressionSyntax)node;
                 var args = creation.ArgumentList.Arguments.Select(x => this.EvaluateExpressionCode(x.Expression)).ToArray();

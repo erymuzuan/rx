@@ -145,7 +145,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             if (walkers.Count > 1)
             {
-                Console.WriteLine("!!! " + statement.CSharpKind());
+                Console.WriteLine("!!! " + statement.Kind());
                 foreach (var w in walkers)
                 {
                     Console.WriteLine(statement + " -> " + w.GetType().Name);

@@ -155,6 +155,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functoids", "functoids", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "database.lookup", "source\functoids\database.lookup\database.lookup.csproj", "{7CDCE5A4-B007-4B88-B7B0-5CD463AE9304}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adapter.csproj.gen", "source\tools\adapter.csproj.gen\adapter.csproj.gen.csproj", "{201D4EED-C13C-4645-8EFF-7310ADAC4911}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "routes.editor", "source\tools\routes.editor\routes.editor.csproj", "{713F54A8-3F06-43C5-9312-E7BBC825A88C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -393,6 +397,14 @@ Global
 		{7CDCE5A4-B007-4B88-B7B0-5CD463AE9304}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CDCE5A4-B007-4B88-B7B0-5CD463AE9304}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CDCE5A4-B007-4B88-B7B0-5CD463AE9304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713F54A8-3F06-43C5-9312-E7BBC825A88C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713F54A8-3F06-43C5-9312-E7BBC825A88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713F54A8-3F06-43C5-9312-E7BBC825A88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713F54A8-3F06-43C5-9312-E7BBC825A88C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -456,5 +468,7 @@ Global
 		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{FF531004-0787-4331-8565-BC930F44BBB7} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{7CDCE5A4-B007-4B88-B7B0-5CD463AE9304} = {AC63E1AA-495D-4BD9-AF56-810DA6CBB5E2}
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911} = {DB65484E-BE1F-4944-B216-4A57026360EB}
+		{713F54A8-3F06-43C5-9312-E7BBC825A88C} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 	EndGlobalSection
 EndGlobal

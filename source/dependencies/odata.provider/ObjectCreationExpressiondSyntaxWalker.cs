@@ -17,8 +17,8 @@ namespace Bespoke.Sph.OdataQueryCompilers
 
         public override bool Filter(SyntaxNode node)
         {
-            Console.WriteLine(node.CSharpKind());
-            return node.CSharpKind() == SyntaxKind.ObjectCreationExpression;
+            Console.WriteLine(node.Kind());
+            return node.Kind() == SyntaxKind.ObjectCreationExpression;
         }
 
         public override string Walk(SyntaxNode node, SemanticModel model)

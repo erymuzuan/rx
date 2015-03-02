@@ -25,7 +25,7 @@ namespace Bespoke.Sph.OdataQueryCompilers
 
         public virtual bool Filter(SyntaxNode node)
         {
-            if (!this.Kinds.Contains(node.CSharpKind()))
+            if (!this.Kinds.Contains(node.Kind()))
                 return false;
             var info = this.SemanticModel.GetSymbolInfo(node);
             return this.Filter(info);
@@ -175,7 +175,7 @@ namespace Bespoke.Sph.OdataQueryCompilers
                 if (null != w)
                     return w.Walk(expression, this.SemanticModel);
 
-                Console.WriteLine("Cannot find symbol walker for " + expression.CSharpKind());
+                Console.WriteLine("Cannot find symbol walker for " + expression.Kind());
                 Console.WriteLine("Name : " + symbol.Symbol.Name);
                 Console.WriteLine("Display : " + symbol.Symbol.ToDisplayString());
 
@@ -183,7 +183,7 @@ namespace Bespoke.Sph.OdataQueryCompilers
             var w2 = this.GetWalker(expression);
             if (null != w2)
                 return w2.Walk(expression, this.SemanticModel);
-            Console.WriteLine("No symbol could be produced for " + expression.CSharpKind());
+            Console.WriteLine("No symbol could be produced for " + expression.Kind());
             Console.WriteLine("expression : " + expression.ToFullString());
             return string.Empty;
         }
@@ -216,11 +216,11 @@ namespace Bespoke.Sph.OdataQueryCompilers
                 .ToList();
             if (potentialWalkers.Count > 1)
             {
-                Console.WriteLine("!!!!! There are more that 1 walker for : " + node.CSharpKind());
-                potentialWalkers.ForEach(t => Console.WriteLine("{0} -> {1}", node.CSharpKind(), t));
+                Console.WriteLine("!!!!! There are more that 1 walker for : " + node.Kind());
+                potentialWalkers.ForEach(t => Console.WriteLine("{0} -> {1}", node.Kind(), t));
             }
             if (potentialWalkers.Count == 0)
-                Console.WriteLine("!!!!! There is no walker for : " + node.CSharpKind());
+                Console.WriteLine("!!!!! There is no walker for : " + node.Kind());
 
             return potentialWalkers.FirstOrDefault();
         }
@@ -267,7 +267,7 @@ namespace Bespoke.Sph.OdataQueryCompilers
             }
             if (!walkers.Any())
             {
-                Console.WriteLine("!!!!!! Cannot find statement walker for " + node.CSharpKind());
+                Console.WriteLine("!!!!!! Cannot find statement walker for " + node.Kind());
             }
             return code.ToString().TrimEnd();
         }
