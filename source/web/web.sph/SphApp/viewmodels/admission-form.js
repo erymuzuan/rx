@@ -5,7 +5,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
     ],
     function(context, logger, router, system, validation, eximp, dialog, watcher, config, app, partial) {
 
-        var entity = ko.observable(new bespoke.dev_2002.domain.Patient({
+        var entity = ko.observable(new bespoke.DevV1_patient.domain.Patient({
                 WebId: system.guid()
             })),
             errors = ko.observableArray(),

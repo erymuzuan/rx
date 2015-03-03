@@ -2,7 +2,7 @@
     define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog],
         function (context, logger, router, system, validation, eximp, dialog) {
 
-            var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId:system.guid()})),
+            var entity = ko.observable(new bespoke.DevV1_customer.domain.Customer({WebId:system.guid()})),
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 activate = function (id) {
 
@@ -21,7 +21,7 @@
                             
                         }
                         else {
-                            entity(new bespoke.dev_1.domain.Customer({WebId:system.guid()}));
+                            entity(new bespoke.DevV1_customer.domain.Customer({WebId:system.guid()}));
                         }
                         form(f);
 

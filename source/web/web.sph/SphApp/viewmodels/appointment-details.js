@@ -2,7 +2,7 @@
     define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config, objectbuilders.app],
         function (context, logger, router, system, validation, eximp, dialog, watcher,config,app) {
 
-            var entity = ko.observable(new bespoke.dev_6003.domain.Appointment({WebId:system.guid()})),
+            var entity = ko.observable(new bespoke.DevV1_appointment.domain.Appointment({WebId:system.guid()})),
                 errors = ko.observableArray(),
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
@@ -22,7 +22,7 @@
                             entity(item);
                         }
                         else {
-                            entity(new bespoke.dev_6003.domain.Appointment({WebId:system.guid()}));
+                            entity(new bespoke.DevV1_appointment.domain.Appointment({WebId:system.guid()}));
                         }
                         form(f);
                         watching(w);

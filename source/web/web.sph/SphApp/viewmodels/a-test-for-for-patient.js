@@ -6,7 +6,7 @@
         function (context, logger, router, system, validation, eximp, dialog, watcher,config,app
             ) {
 
-            var entity = ko.observable(new bespoke.dev_patient.domain.Patient({WebId:system.guid()})),
+            var entity = ko.observable(new bespoke.DevV1_patient.domain.Patient({WebId:system.guid()})),
                 errors = ko.observableArray(),
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
@@ -26,7 +26,7 @@
                             entity(item);
                         }
                         else {
-                            entity(new bespoke.dev_patient.domain.Patient({WebId:system.guid()}));
+                            entity(new bespoke.DevV1_patient.domain.Patient({WebId:system.guid()}));
                         }
                         form(f);
                         watching(w);
