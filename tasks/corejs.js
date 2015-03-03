@@ -4,7 +4,8 @@ var sourcemaps = require('gulp-sourcemaps'),
     concat = require('gulp-concat'),
     useref = require('gulp-useref'),
     gulpif = require('gulp-if'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    notify = require("gulp-notify");
 // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 // core.js
 var sources = [
@@ -39,6 +40,7 @@ gulp.task('core.min.js', function(){
 gulp.task('core.js',['core.min.js'], function(){
     return gulp.src(sources)
         .pipe(concat('__core.js'))
-        .pipe(gulp.dest('./source/web/core.sph/Scripts'));
+        .pipe(gulp.dest('./source/web/core.sph/Scripts'))
+        .pipe(notify("Hello Gulp!"))
 
 });
