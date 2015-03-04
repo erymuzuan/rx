@@ -6,7 +6,8 @@ var sourcemaps = require('gulp-sourcemaps'),
     gulpif = require('gulp-if'),
     uglify = require('gulp-uglify'),
     _ = require("underscore"),
-    mcss = require('gulp-minify-css');
+    mcss = require('gulp-minify-css'),
+    notify = require("gulp-notify");
 // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 // core.js
 var files = [
@@ -52,6 +53,6 @@ gulp.task('css.bundle.min', function(){
 gulp.task('css.bundle',['css.bundle.min'], function(){
     return gulp.src(sources)
         .pipe(concat('__css.css'))
-        .pipe(gulp.dest('./source/web/core.sph/Content'));
-
+        .pipe(gulp.dest('./source/web/core.sph/Content'))
+        .pipe(notify("css.bundle task"));
 });

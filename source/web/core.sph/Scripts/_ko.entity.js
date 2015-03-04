@@ -2,7 +2,11 @@
     init: function (element, valueAccessor) {
         var value = valueAccessor(),
             solution = ko.unwrap(value.solution),
-            click = value.click;
+            click = value.click,
+            addEntityDefinition = value.addEntityDefinition,
+            addForm = value.addForm,
+            addOperation = value.addOperation,
+            addView = value.addView;
 
         var eds = [];
         var treeRoots = [
@@ -112,20 +116,19 @@
                             "Create Form": {
                                 "label": "Add New Form",
                                 "action": function (obj) {
-                                    // this.create(obj);
-                                    addBlogForm(node.id);
+                                    addForm(node.id);
                                 }
                             },
                             "Create Views": {
                                 "label": "Add New View",
                                 "action": function (obj) {
-                                    addBlogView(node.id);
+                                    addView(node.id);
                                 }
                             },
                             "Create Operation": {
                                 "label": "Add New Operation",
                                 "action": function (obj) {
-                                    addBlogOperation(node.id);
+                                    addOperation(node.id);
                                 }
                             }
                         };
