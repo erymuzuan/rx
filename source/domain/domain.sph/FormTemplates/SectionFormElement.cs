@@ -3,7 +3,7 @@
 namespace Bespoke.Sph.Domain
 {
     [Export("FormDesigner", typeof(FormElement))]
-    [DesignerMetadata(Name = "Section divider", Order = 19d, TypeName = "SectionFormElement", FontAwesomeIcon = "bold", Description = "creates a dividier for different section")]
+    [DesignerMetadata(Name = "Section divider", Order = 19d, TypeName = "SectionFormElement", FontAwesomeIcon = "bold", Description = "Creates a divider for different section")]
     public partial class SectionFormElement : FormElement
     {
 

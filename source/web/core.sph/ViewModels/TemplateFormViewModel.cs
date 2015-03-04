@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Web.ViewModels
             this.FormElements.Add(new WebsiteFormElement { Name = "Url", ToolboxIconClass = "fa fa-link" });
             this.FormElements.Add(new EmailFormElement { Name = "Email", ToolboxIconClass = "fa fa-envelope" });
             this.FormElements.Add(new Button { Name = "Button", ToolboxIconClass = "fa fa-square" });
-            this.FormElements.Add(new TextAreaElement{Name = "Paragrapah text", ToolboxIconClass = "fa fa-desktop"});
+            this.FormElements.Add(new TextAreaElement{Name = "Paragraph text", ToolboxIconClass = "fa fa-desktop"});
             this.FormElements.Add(new CheckBox { Name = "Checkboxes", ToolboxIconClass = "fa fa-check" });
             this.FormElements.Add(new DatePicker { Name = "Date", ToolboxIconClass = "fa fa-calendar" });
             this.FormElements.Add(new DateTimePicker { Name = "DateTime", ToolboxIconClass = "fa fa-clock-o" });

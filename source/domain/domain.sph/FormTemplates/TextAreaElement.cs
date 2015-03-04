@@ -3,7 +3,7 @@
 namespace Bespoke.Sph.Domain
 {
     [Export("FormDesigner", typeof(FormElement))]
-    [DesignerMetadata(Name = "Paragrapah text", Order = 8d, TypeName = "TextAreaElement", FontAwesomeIcon = "desktop", Description = "Creates a munltiline text input")]
+    [DesignerMetadata(Name = "Paragraph text", Order = 8d, TypeName = "TextAreaElement", FontAwesomeIcon = "desktop", Description = "Creates a multiline text input")]
     public partial class TextAreaElement : FormElement
     {
        public override string GetKnockoutBindingExpression()
