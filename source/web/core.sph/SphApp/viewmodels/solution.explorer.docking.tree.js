@@ -22,8 +22,9 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 var edForm = new bespoke.sph.domain.EntityForm({ WebId: system.guid() });
                 require(["viewmodels/add.entity-definition.form.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.entity(EntityDefinitionName);
-                    dialog.entityid = EntityDefinitionName;
+                    dialog.entityId(EntityDefinitionName);
                     dialog.form(edForm);
+
                     app2.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;

@@ -16,6 +16,7 @@ define(['plugins/dialog', objectbuilders.datacontext],
             entityOptions = ko.observableArray(),
             operationsOption = ko.observableArray(),
             collectionMemberOptions = ko.observableArray(),
+            entityId = ko.observable(),
             okClick = function(data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
@@ -24,9 +25,9 @@ define(['plugins/dialog', objectbuilders.datacontext],
             cancelClick = function() {
                 dialog.close(this, "Cancel");
             },
-            activate = function (entityid, formid) {
-                entityid = "blog";
-                var query = String.format("Id eq '{0}'", entityid),
+            activate = function (formid) {
+                
+                var query = String.format("Id eq '{0}'", ko.unwrap(entityId)),
                     tcs = new $.Deferred();
 
 
@@ -79,7 +80,7 @@ define(['plugins/dialog', objectbuilders.datacontext],
                         findCollectionMembers(b.MemberCollection());
                         collectionMemberOptions(collectionMembers);
                     });
-                form().EntityDefinitionId(entityid);
+                form().EntityDefinitionId(entityId());
             };
 
         var vm = {
@@ -90,7 +91,8 @@ define(['plugins/dialog', objectbuilders.datacontext],
             activate: activate,
             entityOptions: entityOptions,
             operationsOption: operationsOption,
-            collectionMemberOptions: collectionMemberOptions
+            collectionMemberOptions: collectionMemberOptions,
+            entityId: entityId
         };
 
 
