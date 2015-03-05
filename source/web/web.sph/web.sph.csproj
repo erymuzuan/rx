@@ -1262,8 +1262,6 @@
     <Content Include="SphApp\viewmodels\members.selector.dialog.js" />
     <Content Include="SphApp\viewmodels\not.found.js" />
     <Content Include="SphApp\viewmodels\search.definition.dialog.js" />
-    <Content Include="SphApp\viewmodels\security.token.dialog.js" />
-    <Content Include="SphApp\viewmodels\users.token.js" />
     <Content Include="SphApp\views\advanced-search.html" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
     <Content Include="SphApp\views\deadletter.view.html" />
@@ -1273,8 +1271,6 @@
     <Content Include="SphApp\views\not.found.html" />
     <Content Include="SphApp\views\offline.storage.html" />
     <Content Include="SphApp\views\search.definition.dialog.html" />
-    <Content Include="SphApp\views\security.token.dialog.html" />
-    <Content Include="SphApp\views\users.token.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

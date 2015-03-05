@@ -828,6 +828,7 @@
     <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\EditorPageViewModel.cs" />
     <Compile Include="ViewModels\FormRendererViewModel.cs" />
+    <Compile Include="ViewModels\GetTokenModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Areas\Sph\Controllers\ImageController.cs" />
     <Compile Include="Areas\Sph\Controllers\MapController.cs" />
@@ -853,6 +854,7 @@
     <Compile Include="ViewModels\RoleModel.cs" />
     <Compile Include="ViewModels\RoleSettingViewModel.cs" />
     <Compile Include="ViewModels\Snippet.cs" />
+    <Compile Include="ViewModels\SphSecurityToken.cs" />
     <Compile Include="ViewModels\TemplateFormViewModel.cs" />
     <Compile Include="ViewModels\TriggerPathPickerHtmlViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />

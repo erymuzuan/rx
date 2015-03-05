@@ -7,6 +7,7 @@ using System.Web.Security;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Areas.Sph.Controllers;
 using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
 using Roles = System.Web.Security.Roles;
 
@@ -20,27 +21,27 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> GetTokenAsync([RequestBody]GetTokenModel model)
         {
             if (model.grant_type == "password" && !Membership.ValidateUser(model.username, model.password))
-            {
                 return Json(new { success = false, status = 403, message = "Cannot validate your username or password" });
-            }
+
             if (model.grant_type == "admin" && !User.IsInRole("administrators"))
                 return Json(new { success = false, status = 403, message = "You are not in administrator role" });
 
-            var context = new SphDataContext();
             var expiresIn = TimeSpan.FromDays(14).TotalSeconds;
             if (model.expiry != default(DateTime))
                 expiresIn = (model.expiry - DateTime.Now).TotalSeconds;
 
+            var id = Strings.GenerateId();
             var st = new SphSecurityToken
             {
                 Username = model.username,
                 Issued = DateTime.Now,
                 Expired = DateTime.Now.AddSeconds(expiresIn),
-                Roles = Roles.GetRolesForUser(model.username)
+                Roles = Roles.GetRolesForUser(model.username),
+                Id = id
             };
 
-            var token = (new Encryptor()).Encrypt(st.ToJsonString(true));
-
+            var tokenJson = st.ToJsonString(true);
+            var encryptedToken = (new Encryptor()).Encrypt(tokenJson);
             var json = string.Format(@"{{
     ""success"": true,
     ""access_token"":""{0}"",
@@ -50,7 +51,7 @@ namespace Bespoke.Sph.Web.Controllers
     "".issued"":""{2:R}"",
     "".expires"":""{3:R}""
 }}",
-                                                     token, Convert.ToInt32(expiresIn),
+                                                     encryptedToken, Convert.ToInt32(expiresIn),
                                                      st.Issued,
                                                      st.Expired,
                                                      model.username);
@@ -58,9 +59,10 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 UserName = model.username,
                 Key = "Token",
-                Value = st.ToJsonString(true),
-                Id = Strings.GenerateId()
+                Value = tokenJson,
+                Id = id
             };
+            var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
                 session.Attach(setting);
@@ -77,12 +79,26 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var setting = await context.LoadOneAsync<Setting>(x => x.Id == id);
+
+            return Content((new Encryptor()).Encrypt(setting.Value));
+        }
+
+        [Authorize(Roles = "administrators")]
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<ActionResult> RemoveTokenAsync(string id)
+        {
+            var context = new SphDataContext();
+            var setting = await context.LoadOneAsync<Setting>(x => x.Id == id);
+            if (null == setting)
+                return new HttpNotFoundResult("Cannot find token with id " + id);
+
             using (var session = context.OpenSession())
             {
-                session.Attach(setting);
+                session.Delete(setting);
                 await session.SubmitChanges("token");
             }
-            return Content((new Encryptor()).Encrypt(setting.Value));
+            return Json(new { success = true, status = 200, message = id + " has been successfully deleted" });
         }
 
         [Route("test")]
@@ -117,21 +133,5 @@ namespace Bespoke.Sph.Web.Controllers
         {
             return Json(new { status = 200, message = "secret message", username = User.Identity.Name, roles = Roles.GetRolesForUser() }, JsonRequestBehavior.AllowGet);
         }
-    }
-
-    public class GetTokenModel
-    {
-        public string grant_type { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public DateTime expiry { get; set; }
-    }
-
-    public class SphSecurityToken
-    {
-        public string Username { get; set; }
-        public DateTime Issued { get; set; }
-        public DateTime Expired { get; set; }
-        public string[] Roles { get; set; }
     }
 }

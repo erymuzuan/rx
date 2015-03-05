@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router"],
-    function (context, logger, router) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
+    function (context, logger, router, app) {
 
         var isBusy = ko.observable(false),
             tokens = ko.observableArray(),
@@ -17,7 +17,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
 
             },
-            attached = function (view) {
+            attached = function () {
 
             },
             map = function (v) {
@@ -26,6 +26,19 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     return $.get("custom-token/" + ko.unwrap(v.Id))
                         .done(function (t) {
                             logger.info(t);
+                        });
+                };
+                v.removeToken = function () {
+                    return app.showMessage("Are you sure you want to revoke this token, This action cannot be undone", "Reactive Develeoper", ["Yes", "No"])
+                        .done(function (dialogResult) {
+                            if (dialogResult === "Yes") {
+                                $.ajax({ type: "DELETE", url: "custom-token/" + ko.unwrap(v.Id) })
+                                        .done(function () {
+                                            logger.info("The token has been succesfully revoked");
+                                            tokens.remove(v);
+                                        });
+
+                            }
                         });
                 };
                 return v;
@@ -48,6 +61,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                     });
                                 return tcs.promise();
                             }
+                            return false;
                         });
 
                 });

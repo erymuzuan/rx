@@ -10,8 +10,8 @@ using System.Web.Routing;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web;
 using Bespoke.Sph.Web.App_Start;
-using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
 
 namespace web.sph
@@ -60,6 +60,10 @@ namespace web.sph
                 var json = (new Encryptor()).Decrypt(token.Replace("Bearer ", ""));
                 var st = json.DeserializeFromJson<SphSecurityToken>();
                 if (st.Expired < DateTime.Now) return;
+
+                var context = new SphDataContext();
+                var setting = context.LoadOne<Setting>(x => x.Id == st.Id);
+                if (null == setting) return;
 
                 var roles = st.Roles;
                 IIdentity id = new GenericIdentity(st.Username);
