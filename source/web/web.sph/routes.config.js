@@ -114,6 +114,20 @@
     {
         "role": "administrators",
         "groupName": "Settings",
+        "route": "users.token",
+        "moduleId": "viewmodels/users.token",
+        "title": null,
+        "nav": false,
+        "icon": null,
+        "caption": null,
+        "settings": null,
+        "isAdminPage": false,
+        "showWhenLoggedIn": false,
+        "error": ""
+    },
+    {
+        "role": "administrators",
+        "groupName": "Settings",
         "route": "templates",
         "moduleId": "viewmodels/templates",
         "title": "Templates",

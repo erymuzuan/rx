@@ -19,13 +19,17 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("")]
         public async Task<ActionResult> GetTokenAsync([RequestBody]GetTokenModel model)
         {
-            if (!Membership.ValidateUser(model.username, model.password))
+            if (model.grant_type == "password" && !Membership.ValidateUser(model.username, model.password))
             {
-                return Json(new { status = 403, message = "Cannot validate your username or password" });
+                return Json(new { success = false, status = 403, message = "Cannot validate your username or password" });
             }
+            if (model.grant_type == "admin" && !User.IsInRole("administrators"))
+                return Json(new { success = false, status = 403, message = "You are not in administrator role" });
 
             var context = new SphDataContext();
             var expiresIn = TimeSpan.FromDays(14).TotalSeconds;
+            if (model.expiry != default(DateTime))
+                expiresIn = (model.expiry - DateTime.Now).TotalSeconds;
 
             var st = new SphSecurityToken
             {
@@ -38,6 +42,7 @@ namespace Bespoke.Sph.Web.Controllers
             var token = (new Encryptor()).Encrypt(st.ToJsonString(true));
 
             var json = string.Format(@"{{
+    ""success"": true,
     ""access_token"":""{0}"",
     ""token_type"":""bearer"",
     ""expires_in"":{1},
@@ -45,7 +50,7 @@ namespace Bespoke.Sph.Web.Controllers
     "".issued"":""{2:R}"",
     "".expires"":""{3:R}""
 }}",
-                                                     token, expiresIn,
+                                                     token, Convert.ToInt32(expiresIn),
                                                      st.Issued,
                                                      st.Expired,
                                                      model.username);
@@ -53,7 +58,7 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 UserName = model.username,
                 Key = "Token",
-                Value = token,
+                Value = st.ToJsonString(true),
                 Id = Strings.GenerateId()
             };
             using (var session = context.OpenSession())
@@ -65,7 +70,21 @@ namespace Bespoke.Sph.Web.Controllers
             return Content(json);
         }
 
-        //[Authorize]
+        [Authorize(Roles = "administrators")]
+        [HttpGet]
+        [Route("{id:guid}")]
+        public async Task<ActionResult> GetTokenAsync(string id)
+        {
+            var context = new SphDataContext();
+            var setting = await context.LoadOneAsync<Setting>(x => x.Id == id);
+            using (var session = context.OpenSession())
+            {
+                session.Attach(setting);
+                await session.SubmitChanges("token");
+            }
+            return Content((new Encryptor()).Encrypt(setting.Value));
+        }
+
         [Route("test")]
         public ActionResult ValidateToken()
         {
@@ -105,6 +124,7 @@ namespace Bespoke.Sph.Web.Controllers
         public string grant_type { get; set; }
         public string username { get; set; }
         public string password { get; set; }
+        public DateTime expiry { get; set; }
     }
 
     public class SphSecurityToken
