@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Security.Principal;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web;
 using Bespoke.Sph.Web.App_Start;
+using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Helpers;
+using Newtonsoft.Json;
 
 namespace web.sph
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         private ApplicationHelper m_webApplicationHelper;
 
@@ -42,7 +48,33 @@ namespace web.sph
             WebApplicationHelper.Application_Error();
             Console.WriteLine("ERROR*******************");
         }
+        protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+        {
+            var headers = Request.Headers.GetValues("Authorization");
+            if (headers == null) return;
+            var token = headers.FirstOrDefault();
+            if (null == token) return;
 
+            try
+            {
+                var json = (new Encryptor()).Decrypt(token.Replace("Bearer ", ""));
+                var st = json.DeserializeFromJson<SphSecurityToken>();
+                if (st.Expired < DateTime.Now) return;
+
+                var roles = st.Roles;
+                IIdentity id = new GenericIdentity(st.Username);
+                IPrincipal principal = new GenericPrincipal(id, roles);
+                Context.User = principal;
+            }
+            catch (CryptographicException)
+            {
+            }
+            catch (JsonReaderException)
+            {
+            }
+
+
+        }
 
 
     }

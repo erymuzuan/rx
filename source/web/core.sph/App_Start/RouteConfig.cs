@@ -7,8 +7,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Bespoke.Sph.Web.Models;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Web.App_Start
 {
@@ -205,7 +205,7 @@ namespace Bespoke.Sph.Web.App_Start
                             };
 
             // adapters
-            var adapterDesginer = new Domain.Api.AdapterDesigner();
+            var adapterDesginer = new AdapterDesigner();
             var adapterRoutes = adapterDesginer.GetRoutes();
             routes.AddRange(adapterRoutes);
 
