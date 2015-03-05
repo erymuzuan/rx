@@ -230,7 +230,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AggregateController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\CustomTokenController.cs" />
+    <Compile Include="Controllers\ManagementConsoleController.cs" />
     <Compile Include="Helpers\ControllerHelpers.cs" />
+    <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\IPagingTranslator2.cs" />
     <Compile Include="Controllers\ListController.cs" />
     <Compile Include="Helpers\Sql2008PagingTranslator.cs" />
@@ -244,20 +247,31 @@
     <Compile Include="Hubs\AuditTrailHub.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\GetTokenModel.cs" />
+    <Compile Include="ViewModels\SphSecurityToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-2.1.3-vsdoc.js" />
+    <Content Include="management\viewmodels\security.token.dialog.js" />
+    <Content Include="management\viewmodels\users.token.js" />
+    <Content Include="management\views\security.token.dialog.html" />
+    <Content Include="management\views\users.token.html" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\r.js" />
+    <Content Include="Scripts\require.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <Content Include="Views\ManagementConsole\index.cshtml" />
+    <Content Include="Views\ManagementConsole\_splash.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -270,6 +284,7 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="management\services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

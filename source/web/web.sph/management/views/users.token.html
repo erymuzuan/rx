@@ -1,0 +1,37 @@
+﻿<h1>Security Tokens</h1>
+<div class="row">
+    <table class="table table-striped" data-bind="serverPaging: { entity: 'Setting', list: tokens, query :'Key eq \'Token\'', map: map },filter : {path:'tbody>tr'}">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Issued</th>
+                <th>Expired</th>
+                <th>View</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: tokens">
+            <tr>
+                <td data-bind="text: UserName"></td>
+                <td data-bind="date: token.Issued"></td>
+                <td data-bind="date: token.Expired"></td>
+                <td>
+                    <a data-toggle="modal" href="#" data-bind="command: viewToken">
+                        <i class="fa fa-eye"></i>
+                        View
+                    </a>
+                </td>
+                <td>
+                    <a data-toggle="modal" href="#" data-bind="command: removeToken">
+                        <i class="fa fa-circle-o-notch"></i>
+                        Remove
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="#" data-bind="click : addToken" class="btn btn-link">
+        <i class="fa fa-plus-circle"></i>
+        Add a security token
+    </a>
+</div>

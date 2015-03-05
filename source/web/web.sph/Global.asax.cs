@@ -1,8 +1,17 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.App_Start;
+using Bespoke.Sph.Web.ViewModels;
+using Bespoke.Sph.WebSph.Helpers;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.WebSph
 {
@@ -34,7 +43,50 @@ namespace Bespoke.Sph.WebSph
             WebApplicationHelper.Application_Error();
 
         }
+        protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+        {
+            var headers = Request.Headers.GetValues("Authorization");
+            if (headers == null) return;
+            var token = headers.FirstOrDefault();
+            if (null == token) return;
 
+            try
+            {
+                var json = (new Encryptor()).Decrypt(token.Replace("Bearer ", ""));
+                var st = json.DeserializeFromJson<SphSecurityToken>();
+                if (st.Expired < DateTime.Now) return;
+
+                var found = FindToken(st.Id);
+                if (!found) return;
+
+                var roles = st.Roles;
+                IIdentity id = new GenericIdentity(st.Username);
+                IPrincipal principal = new GenericPrincipal(id, roles);
+                Context.User = principal;
+            }
+            catch (CryptographicException)
+            {
+            }
+            catch (JsonReaderException)
+            {
+            }
+        }
+
+        private bool FindToken(string id)
+        {
+            var url = string.Format("{0}_sys/setting/{1}",
+                ConfigurationManager.ApplicationName.ToLowerInvariant(),
+                id);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+
+                var response = client.GetAsync(url).Result;
+                return response.StatusCode == HttpStatusCode.OK;
+
+            }
+        }
 
 
     }
