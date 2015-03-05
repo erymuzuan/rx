@@ -2106,6 +2106,8 @@
     <EmbeddedResource Include="SphApp\viewmodels\correlation.set.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\catch.scope.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\try.scope.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\security.token.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\users.token.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2583,6 +2585,8 @@
     <EmbeddedResource Include="SphApp\views\correlation.set.dialog.html" />
     <EmbeddedResource Include="SphApp\views\catch.scope.dialog.html" />
     <EmbeddedResource Include="SphApp\views\try.scope.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\security.token.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\users.token.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
@@ -3433,7 +3437,7 @@
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://www.sph.my</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
