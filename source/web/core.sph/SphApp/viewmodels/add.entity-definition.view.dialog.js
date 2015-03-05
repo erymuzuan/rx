@@ -5,12 +5,11 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         var errors = ko.observableArray(),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             view = ko.observable(new bespoke.sph.domain.EntityView({ WebId: system.guid() })),
-            activate = function (entityid, viewid) {
-                console.log("view dialog activate");
-                entityid = "blog";
+            entityId = ko.observable(),
+            activate = function (entityidviewid) {
                 viewid = "0";
 
-                var query = String.format("Id eq '{0}'", entityid),
+                var query = String.format("Id eq '{0}'", ko.unwrap(entityId)),
                     tcs = new $.Deferred();
 
                 context.loadOneAsync("EntityDefinition", query)
@@ -32,7 +31,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 });
          
-                view().EntityDefinitionId(entityid);
+                view().EntityDefinitionId(entityId());
                 return tcs.promise();
 
             },
@@ -54,7 +53,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             view: view,
             entity: entity,
             okClick: okClick,
-            cancelClick: cancelClick
+            cancelClick: cancelClick,
+            entityId: entityId
         };
 
         return vm;

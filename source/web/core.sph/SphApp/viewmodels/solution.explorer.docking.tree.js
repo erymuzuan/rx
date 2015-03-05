@@ -80,6 +80,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 var edView = new bespoke.sph.domain.EntityForm({ WebId: system.guid() });
                 require(["viewmodels/add.entity-definition.view.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.entity(EntityDefinitionName);
+                    dialog.entityId(EntityDefinitionName);
                     dialog.view(edView);
                     app2.showDialog(dialog)
                         .done(function (result) {
@@ -92,6 +93,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                                     .then(function (result) {
                                         dialog.view().Id(result.id);
                                         tcs.resolve(result);
+                                        router.navigate('/entity.view.designer/' + dialog.entity().Id() + '/' + dialog.view().Id());
                                     });
                                 return tcs.promise();
                             }
