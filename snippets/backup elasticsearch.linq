@@ -1,9 +1,11 @@
 <Query Kind="Statements">
   <Connection>
-    <ID>b08d3c88-c2f1-42cb-b0f9-998136af42d9</ID>
+    <ID>70e89200-dc96-4211-84c7-468b218a4dfe</ID>
     <Persist>true</Persist>
     <Server>(localdb)\Projects</Server>
-    <Database>sph</Database>
+    <ExcludeRoutines>true</ExcludeRoutines>
+    <Database>DevV1</Database>
+    <ShowServer>true</ShowServer>
   </Connection>
   <Reference Relative="..\source\web\core.sph\bin\Newtonsoft.Json.dll">C:\project\work\sph\source\web\core.sph\bin\Newtonsoft.Json.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Net.Http.dll</Reference>
@@ -11,16 +13,20 @@
   <Namespace>Newtonsoft.Json.Linq</Namespace>
 </Query>
 
-const string index = "dev";
-
+const string index = "devv1";
+const string backupDirMapping = @"c:\temp\_rx_backup_mapping";
+Directory.CreateDirectory(backupDirMapping);
+const string backupDirMappingdata = @"c:\temp\_rx_backup_mapping_data";
+Directory.CreateDirectory(backupDirMappingdata);
 
 using (var client = new HttpClient{BaseAddress = new Uri("http://localhost:9200")})
 {
 	foreach (var ent in this.EntityDefinitions)
 	{	
+			Console.WriteLine ("ajax - " + index + "/_mapping/" + ent.Name.ToLowerInvariant());
 			var result = await client.GetStringAsync(index + "/_mapping/" + ent.Name.ToLowerInvariant());
 			Console.WriteLine ("getting mapping for {0}", ent.Name);
-			File.WriteAllText(@"c:\temp\dev.mapping." + ent.Name+".json", result);
+			File.WriteAllText(backupDirMapping + "\\dev.mapping." + ent.Name+".json", result);
 				
 			// data
 			var content = new StringContent(@"{
@@ -28,6 +34,7 @@ using (var client = new HttpClient{BaseAddress = new Uri("http://localhost:9200"
     ""size"": 2000
     
 }");
+			Console.WriteLine("ajax - " + index + "/" + ent.Name.ToLowerInvariant() +"/_search", content);
 			var response = await  client.PostAsync(index + "/" + ent.Name.ToLowerInvariant() +"/_search", content);
 			var data = response.Content as StreamContent;
 			var json2 = await data.ReadAsStringAsync();
@@ -38,7 +45,7 @@ using (var client = new HttpClient{BaseAddress = new Uri("http://localhost:9200"
 				o.SelectToken("$.hits.hits").ToString().Dump();
 			}
 				
-			File.WriteAllText(@"c:\temp\" + ent.Name + ".json", json2.ToString());
+			File.WriteAllText(backupDirMappingdata + ent.Name + ".json", json2.ToString());
 		
 	}
 }
