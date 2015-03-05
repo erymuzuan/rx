@@ -663,6 +663,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResetPassword.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
@@ -805,6 +806,7 @@
     <Compile Include="Filters\RazorScriptFilter.cs" />
     <Compile Include="Filters\ScriptResult.cs" />
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
+    <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\HashTableHelper.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Helpers\RawRequestBodyModelBinder.cs" />
