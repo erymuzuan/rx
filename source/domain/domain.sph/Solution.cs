@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Domain
 {
@@ -230,6 +232,12 @@ namespace Bespoke.Sph.Domain
             solution.ProjectMetadataCollection.AddRange(projects);
 
             return solution;
+        }
+
+        public static void SaveNewSolution(string json, JObject obj)
+        {
+            Directory.CreateDirectory(obj["ProjectDirectory"].ToString());
+            File.WriteAllText(obj["ProjectDirectory"].ToString() + "\\" + obj["ApplicationName"].ToString() + ".json", json);
         }
     }
 }
