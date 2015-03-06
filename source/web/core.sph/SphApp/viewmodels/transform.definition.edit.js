@@ -294,7 +294,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 // creates the connection for each argument list
                 _(td().FunctoidCollection()).each(function (f) {
                     if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
-                        _(f.ArgumentCollection()).each(function (a) {
+                        _(f.ArgumentCollection()).each(function(a) {
                             var source = document.getElementById(ko.unwrap(a.Functoid));
                             if (typeof a.Functoid !== "function" || !source) {
                                 return;
