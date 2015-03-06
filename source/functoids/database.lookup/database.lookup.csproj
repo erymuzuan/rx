@@ -122,7 +122,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)\source\web\web.sph\bin</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)\source\web\web.sph\bin
+copy $(TargetPath) $(SolutionDir)\bin\subscribers</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
