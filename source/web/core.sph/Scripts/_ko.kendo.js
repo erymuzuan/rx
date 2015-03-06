@@ -1,7 +1,7 @@
 ﻿/// <reference path="knockout-3.2.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
-/// <reference path="~/Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="~/Scripts/jquery-2.1.3.intellisense.js" />
 /// <reference path="~/Scripts/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
@@ -190,7 +190,7 @@ ko.bindingHandlers.date = {
             $(element).val("");
             return;
         }
-        if (date.year() == 1) { // DateTime.Min
+        if (date.year() === 1) { // DateTime.Min
             $(element).text("");
             $(element).val("");
             return;
@@ -233,7 +233,7 @@ ko.bindingHandlers.date = {
             $(element).val("");
             return;
         }
-        if (date.year() == 1) { // DateTime.Min
+        if (date.year() === 1) { // DateTime.Min
             $(element).text("");
             $(element).val("");
             return;
@@ -290,7 +290,7 @@ ko.bindingHandlers.kendoUpload = {
 
                 var storeId = e.response.storeId,
                     uploaded = e.operation === "upload",
-                    removed = e.operation != "upload",
+                    removed = e.operation !== "upload",
                     oldFile = value();
                 if (uploaded) {
                     value(storeId);
@@ -368,7 +368,7 @@ ko.bindingHandlers.kendoDate = {
     update: function (element, valueAccessor, allBindingsAccessor) {
         var $input = $(element),
             allBindings = allBindingsAccessor();
-        if ($input.data("stop") == "true") return;
+        if ($input.data("stop") === "true") return;
 
         var value = valueAccessor(),
             modelValue = ko.utils.unwrapObservable(value),
@@ -379,7 +379,7 @@ ko.bindingHandlers.kendoDate = {
             picker.value(null);
             return;
         }
-        if (date.year() == 1) { // DateTime.Min
+        if (date.year() === 1) { // DateTime.Min
             picker.value(null);
             return;
         }
@@ -437,7 +437,7 @@ ko.bindingHandlers.kendoDateTime = {
     },
     update: function (element, valueAccessor) {
         var $input = $(element);
-        if ($input.data("stop") == "true") return;
+        if ($input.data("stop") === "true") return;
 
         var value = valueAccessor(),
             modelValue = ko.utils.unwrapObservable(value),
@@ -448,7 +448,7 @@ ko.bindingHandlers.kendoDateTime = {
             picker.value(null);
             return;
         }
-        if (date.year() == 1) { // DateTime.Min
+        if (date.year() === 1) { // DateTime.Min
             picker.value(null);
             return;
         }
@@ -711,7 +711,7 @@ ko.bindingHandlers.commandWithParameter = {
             callback(parameter)
                 .then(function () {
                     button.button("complete");
-                    if (button.get(0).tagName == 'BUTTON' || button.get(0).tagName == 'A') {
+                    if (button.get(0).tagName === 'BUTTON' || button.get(0).tagName === 'A') {
                         button.html(completeText);
                     } else {
                         button.val(completeText);
