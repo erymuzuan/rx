@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Web;
@@ -61,9 +63,8 @@ namespace web.sph
                 var st = json.DeserializeFromJson<SphSecurityToken>();
                 if (st.Expired < DateTime.Now) return;
 
-                var context = new SphDataContext();
-                var setting = context.LoadOne<Setting>(x => x.Id == st.Id);
-                if (null == setting) return;
+                var found = FindToken(st.Id);
+                if (!found) return;
 
                 var roles = st.Roles;
                 IIdentity id = new GenericIdentity(st.Username);
@@ -76,8 +77,22 @@ namespace web.sph
             catch (JsonReaderException)
             {
             }
+        }
 
+        private bool FindToken(string id)
+        {
+            var url = string.Format("{0}_sys/setting/{1}",
+                ConfigurationManager.ApplicationName.ToLowerInvariant(),
+                id);
 
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+
+                var response = client.GetAsync(url).Result;
+                return response.StatusCode == HttpStatusCode.OK;
+
+            }
         }
 
 

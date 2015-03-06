@@ -44,6 +44,7 @@ namespace Bespoke.Sph.Web.Controllers
             var encryptedToken = (new Encryptor()).Encrypt(tokenJson);
             var json = string.Format(@"{{
     ""success"": true,
+    ""id"":""{5}"",
     ""access_token"":""{0}"",
     ""token_type"":""bearer"",
     ""expires_in"":{1},
@@ -54,7 +55,8 @@ namespace Bespoke.Sph.Web.Controllers
                                                      encryptedToken, Convert.ToInt32(expiresIn),
                                                      st.Issued,
                                                      st.Expired,
-                                                     model.username);
+                                                     model.username,
+                                                     id);
             var setting = new Setting
             {
                 UserName = model.username,
@@ -131,7 +133,14 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("auth")]
         public ActionResult AuthorizedResource()
         {
-            return Json(new { status = 200, message = "secret message", username = User.Identity.Name, roles = Roles.GetRolesForUser() }, JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                status = 200,
+                message = "secret message",
+                username = User.Identity.Name,
+                roles = Roles.GetRolesForUser()
+            }, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

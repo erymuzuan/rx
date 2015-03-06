@@ -55,6 +55,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                     .then(function (r) {
                                         if (r.success) {
                                             logger.info("The token has been successfully generated " + r.access_token);
+                                            var query = String.format("Id eq '{0}'", r.id);
+                                            context.loadOneAsync("Setting", query)
+                                                .done(function (b) {
+                                                    tokens.push(map(b));
+                                                });
+
+
                                         } else {
                                             logger.error(r.message);
                                         }

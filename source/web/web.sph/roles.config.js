@@ -33,5 +33,12 @@
     "role": "staff",
     "description": "staffsddsf fsdfsd",
     "isActive": false
+  },
+  {
+    "group": "clerk",
+    "name": "clerk",
+    "role": "clerk",
+    "description": "clerk",
+    "isActive": false
   }
 ]
