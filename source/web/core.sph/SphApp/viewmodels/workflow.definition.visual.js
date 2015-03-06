@@ -427,7 +427,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 var data = ko.mapping.toJSON(wd());
                 isBusy(true);
 
-                context.post(data, "/WorkflowDefinition/Save")
+                context.post(data, "/workflow-designer")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
