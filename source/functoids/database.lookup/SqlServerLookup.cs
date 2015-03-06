@@ -15,10 +15,10 @@ namespace Bespoke.Sph.Domain
         public override bool Initialize()
         {
             this.ArgumentCollection.Add(new FunctoidArg { Name = "connection", Type = typeof(string) });
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "value1", Type = typeof(string) });
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "value2", Type = typeof(string) });
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "value3", Type = typeof(string) });
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "value4", Type = typeof(string) });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "value1", Type = typeof(string), IsOptional = true });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "value2", Type = typeof(string), IsOptional = true });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "value3", Type = typeof(string), IsOptional = true });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "value4", Type = typeof(string), IsOptional = true });
             return base.Initialize();
 
         }
@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Domain
             var conn = this["connection"].GetFunctoid(this.TransformDefinition);
             if (null == conn)
                 errors.Add(new ValidationError { Message = "We need the connection", PropertyName = "Connection" });
-            
+
             if (string.IsNullOrWhiteSpace(this.DefaultValue))
                 errors.Add(new ValidationError { PropertyName = "DefaultValue", Message = "You will need to provide a default value for non nullable destination" });
             if (string.IsNullOrWhiteSpace(this.SqlText))
@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("var __connectionString{0} =  @{1};", this.Index, connection);
 
             code.AppendLinf("const string __text{0} = \"{1}\";", this.Index, this.SqlText);
-          
+
 
             code.AppendLinf("using(var __conn = new {1}(__connectionString{0}))", this.Index, typeof(SqlConnection).FullName);
             code.AppendLinf("using(var __cmd = new {1}(__text{0},__conn))", this.Index, typeof(SqlCommand).FullName);
@@ -83,7 +83,11 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       await __conn.OpenAsync();");
             code.AppendLinf("       __result{0} = await __cmd.ExecuteScalarAsync();", this.Index);
 
-            code.AppendLinf("       if(__result{0} == DBNull.Value || null == __result{0}) __result{0} = {1};", this.Index, this.DefaultValue);
+            var defaultValue = this.DefaultValue;
+            if (this.OutputTypeName == "System.String, mscorlib")
+                defaultValue = string.Format("\"{0}\"", this.DefaultValue);
+
+            code.AppendLinf("       if(__result{0} == DBNull.Value || null == __result{0}) __result{0} = {1};", this.Index, defaultValue);
 
             code.AppendLine("}");
 
@@ -91,6 +95,7 @@ namespace Bespoke.Sph.Domain
         }
 
         public string DefaultValue { get; set; }
+        public string SqlText { get; set; }
 
         public override string GetEditorView()
         {
@@ -101,6 +106,5 @@ namespace Bespoke.Sph.Domain
         {
             return database.lookup.Properties.Resources.vm;
         }
-        public string SqlText { get; set; }
     }
 }
