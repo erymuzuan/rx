@@ -2039,6 +2039,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\correlation.set.dialog.js" />
     <EmbeddedResource Include="SphApp\services\form.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\screen.activity.form.designer.js" />
+    <Content Include="SphApp\viewmodels\add.solution.js" />
     <Content Include="SphApp\viewmodels\add.entity-definition.view.dialog.js" />
     <Content Include="SphApp\viewmodels\add.entity-definition.operation.dialog.js" />
     <Content Include="SphApp\viewmodels\add.entity-definition.form.dialog.js" />
@@ -2048,6 +2049,7 @@
     <Content Include="SphApp\viewmodels\public.index.js" />
     <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.docking.js" />
     <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.docking.tree.js" />
+    <Content Include="SphApp\views\add.solution.html" />
     <Content Include="SphApp\views\add.entity-definition.view.dialog.html" />
     <Content Include="SphApp\views\add.entity-definition.operation.dialog.html" />
     <Content Include="SphApp\views\add.entity-definition.form.dialog.html" />
