@@ -665,6 +665,7 @@
     </Compile>
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
+    <Compile Include="Controllers\InternationalizationController.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
@@ -2110,6 +2111,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\try.scope.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\security.token.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\users.token.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\resource.table.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2589,6 +2591,7 @@
     <EmbeddedResource Include="SphApp\views\try.scope.dialog.html" />
     <EmbeddedResource Include="SphApp\views\security.token.dialog.html" />
     <EmbeddedResource Include="SphApp\views\users.token.html" />
+    <EmbeddedResource Include="SphApp\views\resource.table.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

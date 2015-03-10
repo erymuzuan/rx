@@ -8,13 +8,13 @@
 }
 
 <div data-bind="visible:@Model.Visible">
-    <button class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path.ConvertJavascriptObjectToFunction(), @Model.ChildItemType)">@Model.Label</button>
+    <button data-i18n="@Model.Label" class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path.ConvertJavascriptObjectToFunction(), @Model.ChildItemType)">@Model.Label</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
                 @foreach (var col in Model.ListViewColumnCollection)
                 {
-                    <th>@col.Label</th>
+                    <th data-i18n="@col.Label">@col.Label</th>
                 }
                 <th></th>
             </tr>

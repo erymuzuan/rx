@@ -21,9 +21,9 @@ else
 {
 
     <div class="form-group" data-bind="visible:@Model.Visible">
-        <label for="@Model.ElementId" class=""></label>
+        <label data-i18n="@Model.Label" for="@Model.ElementId" class=""></label>
         <div class="@Model.InputPanelCssClass">
-            <a id="@Model.ElementId" data-bind="attr : {'href':@Html.Raw(path)}, visible:@Model.Visible" download>
+            <a data-i18n="@Model.Label" id="@Model.ElementId" data-bind="attr : {'href':@Html.Raw(path)}, visible:@Model.Visible" download>
                 @Model.Label
             </a>
         </div>

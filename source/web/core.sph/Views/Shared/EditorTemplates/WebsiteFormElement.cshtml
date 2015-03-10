@@ -16,7 +16,7 @@
 else
 {
     <div class="control-group" data-bind="visible:@Model.Visible">
-        <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
+        <label data-i18n="@Model.Label" for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
         <div class="@Model.InputPanelCssClass">
             <input class="@(Model.CssClass + " form-control "+ Model.Size)"
                    title="@Model.Tooltip"

@@ -45,6 +45,7 @@
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
                 id = ko.observable(),
+                i18n = null,
                 activate = function (entityId) {
                     id(entityId);
 
@@ -52,9 +53,10 @@
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("@Model.EntityDefinition.Name", query),
                         formTask = context.loadOneAsync("EntityForm", "Route eq '@Model.Form.Route'"),
-                        watcherTask = watcher.getIsWatchingAsync("@Model.EntityDefinition.Name", entityId);
+                        watcherTask = watcher.getIsWatchingAsync("@Model.EntityDefinition.Name", entityId),
+                        i18nTask = $.getJSON("i18n/" + config.lang + "/@Model.Form.Route");
 
-                    $.when(itemTask, formTask, watcherTask).done(function(b,f,w) {
+                    $.when(itemTask, formTask, watcherTask, i18nTask).done(function(b,f,w,n) {
                         if (b) {
                             var item = context.toObservable(b);
                             entity(item);
@@ -64,6 +66,7 @@
                         }
                         form(f);
                         watching(w);
+                        i18n = n[0];
                         @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
                         {
                             <text>
@@ -124,6 +127,13 @@
                     // validation
                     validation.init($('#@formId'), form());
 
+                    $("[data-i18n]", view).each(function (i, v) {
+                        var $label = $(v),
+                            text = $label.data("i18n");
+                        if (typeof i18n[text] === "string") {
+                            $label.text(i18n[text]);
+                        }
+                    });
 
                     @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
                     {

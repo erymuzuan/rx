@@ -10,13 +10,13 @@
 
 
 <div class="form-group" data-bind="visible:@Model.Visible">
-    <h3>@Model.Label</h3>
+    <h3 data-i18n="@Model.Label">@Model.Label</h3>
     <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: @Html.Raw(Model.Query), entity : '@Model.Entity', list: bespoke.getSingletonObservableArray('@guid')}">
         <thead>
             <tr>
                 @foreach (var col in Model.ViewColumnCollection)
                 {
-                    <th>@col.Header</th>
+                    <th data-i18n="@col.Header">@col.Header</th>
                 }
             </tr>
         </thead>

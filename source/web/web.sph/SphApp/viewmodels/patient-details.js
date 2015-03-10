@@ -11,6 +11,7 @@
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
                 id = ko.observable(),
+                i18n = null,
                 activate = function (entityId) {
                     id(entityId);
 
@@ -18,9 +19,10 @@
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("Patient", query),
                         formTask = context.loadOneAsync("EntityForm", "Route eq 'patient-details'"),
-                        watcherTask = watcher.getIsWatchingAsync("Patient", entityId);
+                        watcherTask = watcher.getIsWatchingAsync("Patient", entityId),
+                        i18nTask = $.getJSON("i18n/" + config.lang + "/patient-details");
 
-                    $.when(itemTask, formTask, watcherTask).done(function(b,f,w) {
+                    $.when(itemTask, formTask, watcherTask, i18nTask).done(function(b,f,w,n) {
                         if (b) {
                             var item = context.toObservable(b);
                             entity(item);
@@ -30,6 +32,7 @@
                         }
                         form(f);
                         watching(w);
+                        i18n = n[0];
                             tcs.resolve(true);
                         
                     });
@@ -55,7 +58,7 @@
                                  errors.removeAll();
 
                                   
-                                    app.showMessage("Ok done", "Reactive Developer platform showcase", ["OK"])
+                                    app.showMessage("Ok done", "SPH Platform Showcase", ["OK"])
 	                                    .done(function () {
                                             window.location='#patient'
 	                                    });
@@ -159,6 +162,13 @@
                     // validation
                     validation.init($('#patient-details-form'), form());
 
+                    $("[data-i18n]", view).each(function (i, v) {
+                        var $label = $(v),
+                            text = $label.data("i18n");
+                        if (typeof i18n[text] === "string") {
+                            $label.text(i18n[text]);
+                        }
+                    });
 
 
                 },
@@ -177,7 +187,7 @@
                         .then(function(result) {
                             tcs.resolve(result);
                             entity().Id(result.id);
-                            app.showMessage("Your Patient has been successfully saved", "Reactive Developer platform showcase", ["ok"]);
+                            app.showMessage("Your Patient has been successfully saved", "SPH Platform Showcase", ["ok"]);
 
                         });
                     
@@ -188,7 +198,7 @@
                     var tcs = new $.Deferred();
                     $.ajax({
                         type: "DELETE",
-                        url: "/Patient/" + entity().Id(),
+                        url: "/Patient/Remove/" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         error: tcs.reject,
