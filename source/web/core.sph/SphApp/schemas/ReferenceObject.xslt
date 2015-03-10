@@ -72,9 +72,9 @@
 		{
 			switch(xsType)
 			{
-				case "xs:string":return "''";
+				case "xs:string":return "\"\"";
 				case "xs:date":
-				case "xs:dateTime": return "moment().format('DD/MM/YYYY')";
+				case "xs:dateTime": return "moment().format(\"DD/MM/YYYY'\")";
 				case "xs:int":
 				case "xs:long":return "0";
 				case "xs:boolean":return "false";
