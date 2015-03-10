@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Web.Helpers
         {
             using (var reader = new StreamReader(controller.Request.InputStream))
             {
-                string text = reader.ReadToEnd();
+                var text = reader.ReadToEnd();
                 return text;
             }
         }
@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Web.Helpers
             if (null == controller.Request.InputStream) return default(T);
             using (var reader = new StreamReader(controller.Request.InputStream))
             {
-                string json = reader.ReadToEnd();
+                var json = reader.ReadToEnd();
                 return json.DeserializeFromJson<T>();
             }
         }

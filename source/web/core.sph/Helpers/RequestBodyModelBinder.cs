@@ -13,6 +13,7 @@ namespace Bespoke.Sph.Web.Helpers
             return new RequestBodyModelBinder();
         }
     }
+  
 
     internal sealed class RequestBodyModelBinder : IModelBinder
     {

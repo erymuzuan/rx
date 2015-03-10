@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Web.Helpers
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var request = controllerContext.HttpContext.Request;
-            var text  =GetRawString(request.InputStream);
+            var text = GetRawString(request.InputStream);
             return text;
         }
 
