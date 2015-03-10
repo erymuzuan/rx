@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
-<xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" 
-elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="LatLng">
 		<xs:complexType>
 			<xs:all>
@@ -96,6 +95,7 @@ elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSch
 			<xs:attribute name="Email" type="xs:string" use="required"/>
 			<xs:attribute name="Department" type="xs:string" use="required"/>
 			<xs:attribute name="HasChangedDefaultPassword" type="xs:boolean" use="required"/>
+			<xs:attribute name="Language" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Setting" bs:entity="true">
@@ -127,7 +127,7 @@ elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSch
 	<xs:element name="Watcher" bs:entity="true">
 		<xs:complexType>
 			<xs:attribute name="EntityName" type="xs:string" use="required"/>
-			<xs:attribute name="EntityId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityId" type="xs:string" use="required"/>
 			<xs:attribute name="User" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 			<xs:attribute name="DateTime" type="xs:dateTime" use="required"/>
