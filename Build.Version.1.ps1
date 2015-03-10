@@ -206,22 +206,29 @@ ls -Filter *.err | %{
 
 
 Write-Host "Copying some packages files to output"
-$Microsoft_Owin_Security = ls .\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll
+$Microsoft_Owin = ls .\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll
+$Microsoft_Owin_Security = ls .\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll
 $RabbitmMq_Client = ls .\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Client.dll
 $Microsoft_Compostition = ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll
 $Microsoft_Code_Analysis = ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse
 $odp_managed_data_provider = ls .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll
 $user_dll = ls -Path .\bin\output -Filter DevV1.*
+$web_bin = .\source\web\web.sph\bin
+$tools_bin = .\bin\tools
+$subscribers_bin = .\bin\subscribers
+$schedulers_bin = .\bin\schedulers
+
 $user_dll
 
-$Microsoft_Owin_Security | Copy-Item -Destination .\source\web\web.sph\bin
-$RabbitmMq_Client | Copy-Item -Destination .\source\web\web.sph\bin
+$Microsoft_Owin_Security | Copy-Item -Destination $web_bin
+$Microsoft_Owin | Copy-Item -Destination $web_bin
+$RabbitmMq_Client | Copy-Item -Destination $web_bin
 
-$Microsoft_Compostition | Copy-Item -Destination .\bin\tools
-$Microsoft_Code_Analysis | Copy-Item -Destination .\bin\tools
+$Microsoft_Compostition | Copy-Item -Destination $tools_bin
+$Microsoft_Code_Analysis | Copy-Item -Destination $tools_bin
 
-$Microsoft_Compostition | Copy-Item -Destination .\bin\subscribers
-$Microsoft_Code_Analysis | Copy-Item -Destination .\bin\subscribers
+$Microsoft_Compostition | Copy-Item -Destination $subscribers
+$Microsoft_Code_Analysis | Copy-Item -Destination $subscribers
 
 
 $Microsoft_Compostition| Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
