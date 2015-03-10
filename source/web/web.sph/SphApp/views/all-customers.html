@@ -5,33 +5,43 @@
             <i class="fa fa-times"></i>
             Clear chart's filter
         </button>
-        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Customer', list:list}">
+        <table class="table table-striped"
+               data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, map : map, entity : 'Customer', list:list}">
             <thead>
-                <tr>
-                    <th>FullName</th>
-                    <th>State</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                </tr>
+            <tr>
+                <th data-i18n="FullName">FullName</th>
+                <th>Street1</th>
+                <th>State</th>
+                <th>Age</th>
+                <th>Gender</th>
+            </tr>
             </thead>
             <tbody data-bind="foreach :list">
-                <tr data-bind="">
+            <tr data-bind="">
 
-                    <td>
-                        <a data-bind="attr : {href:'#add-customer-form' + '/' + Id, title:'FullName' }">
-                            <i class="fa fa-plus-square-o"></i>
-                                                        <span data-bind="text:FullName"></span>
-                        </a>
-                    </td>
-                    <td data-bind="text:Address.State"></td>
-                    <td data-bind="text:Age"></td>
-                    <td data-bind="text:Gender"></td>
+                <td>
+                    <a data-bind="attr : {href:'#add-customer-form' + '/' + Id, title:'FullName' }">
+                        <i class="fa fa-tachometer"></i>
+                        <img src="/sph/image/store/ad40513e-c237-4187-be0a-a879ffcf98e1" alt="FullName"/>
+                        <span data-bind="text:FullName"></span>
+                    </a>
+                </td>
+                <td>
+                    <a data-bind="attr : {href:'#customer-form-2' + '/' + CustomerId, title:'Street1' }">
+                        <i class="fa fa-book"></i>
+                        <img src="/sph/image/store/4f161e7d-cb33-4648-a72b-2244acffb1a3" alt="Street1"/>
+                        <span data-bind="text:Address.Street1"></span>
+                    </a>
+                </td>
+                <td data-bind="text:Address.State"></td>
+                <td data-bind="text:Age"></td>
+                <td data-bind="text:Gender"></td>
 
 
-                </tr>
+            </tr>
             </tbody>
         </table>
-        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy"/>
     </div>
 
     <!-- ko compose : {view : '_chart.panel'}-->

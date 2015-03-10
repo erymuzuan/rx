@@ -1,24 +1,12 @@
 {
   "zh-SG": "Chinese - Singapore",
-  "zh-CHS": "Chinese (Simplified)",
-  "nl-BE": "Dutch - Belgium",
-  "nl-NL": "Dutch - The Netherlands",
   "en-GB": "English - United Kingdom",
   "en-US": "English - United States",
   "fa-IR": "Farsi - Iran",
   "fr-FR": "French - France",
-  "de-DE": "German - Germany",
-  "hi-IN": "Hindi - India",
   "id-ID": "Indonesian - Indonesia",
   "it-IT": "Italian - Italy",
-  "ja-JP": "Japanese - Japan",
   "ms-MY": "Malay - Malaysia",
-  "pa-IN": "Punjabi - India",
-  "ro-RO": "Romanian - Romania",
-  "es-ES": "Spanish - Spain",
   "ta-IN": "Tamil - India",
-  "th-TH": "Thai - Thailand",
-  "tr-TR": "Turkish - Turkey",
-  "ur-PK": "Urdu - Pakistan",
-  "vi-VN": "Vietnamese - Vietnam"
+  "th-TH": "Thai - Thailand"
 }

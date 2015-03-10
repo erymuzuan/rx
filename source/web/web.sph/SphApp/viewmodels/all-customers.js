@@ -9,13 +9,20 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config , "partial/all-customers"],
-    function (context, logger, router, chart,config , partial) {
+define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config ],
+    function (context, logger, router, chart,config ) {
 
         var isBusy = ko.observable(false),
             chartFiltered = ko.observable(false),
             view = ko.observable(),
             list = ko.observableArray([]),
+            i18n = null,
+            map = function(v) {
+                if (typeof partial.map === "function") {
+                    return partial.map(v);
+                }
+                return v;
+            },
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             query = ko.observable(),
             activate = function () {
@@ -47,13 +54,15 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                   viewQuery = String.format("EntityDefinitionId eq 'customer'"),
                   edTask = context.loadOneAsync("EntityDefinition", edQuery),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
-                  viewTask = context.loadOneAsync("EntityView", viewQuery);
+                  viewTask = context.loadOneAsync("EntityView", viewQuery),
+                  i18nTask = $.getJSON("i18n/" + config.lang + "/all-customers");
 
 
-                $.when(edTask, viewTask, formsTask)
-                 .done(function (b, vw,formsLo) {
+                $.when(edTask, viewTask, formsTask, i18nTask)
+                 .done(function (b, vw,formsLo,n) {
                      entity(b);
                      view(vw);
+                     i18n = n[0];
                      var formsCommands = _(formsLo.itemCollection).map(function (v) {
                          return {
                              caption: v.Name(),
@@ -66,16 +75,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                      });
                      vm.toolbar.commands(formsCommands);
 
-                         
-                         if(typeof partial.activate === "function"){
-                             var pt = partial.activate(list());
-                             if(typeof pt.done === "function"){
-                                 pt.done(tcs.resolve);
-                             }else{
-                                 tcs.resolve(true);
-                             }
-                         }
-                         
+                         tcs.resolve(true);
 
                  });
 
@@ -135,11 +135,13 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
             },
             attached = function (view) {
                 chart.init("Customer", query, chartSeriesClick, "all-customers");
-                    
-                    if(typeof partial.attached === "function"){
-                        partial.attached(view);
+                $("[data-i18n]", view).each(function (i, v) {
+                    var $label = $(v),
+                        text = $label.data("i18n");
+                    if (typeof i18n[text] === "string") {
+                        $label.text(i18n[text]);
                     }
-                    
+                });
             },
             clearChartFilter = function(){
                 chartFiltered(false);
@@ -158,6 +160,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
             view: view,
             chart: chart,
             isBusy: isBusy,
+            map: map,
             entity: entity,
             activate: activate,
             attached: attached,
