@@ -13,29 +13,33 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="email" class="col-lg-2">Email</label>
+            <label for="email-field" class="col-lg-2">Email</label>
             <div class="col-lg-9">
-                <input class="form-control" data-bind="value: Email" id="email" type="email" name="email" />
+                <input class="form-control" data-bind="value: Email" id="email-field" type="email" name="email" />
             </div>
         </div>
         <div class="form-group">
-            <label for="email" class="col-lg-2">Department </label>
+            <label for="department-field" class="col-lg-2">Department </label>
             <div class="col-lg-9">
-                <span data-bind="text: Department" />
+                <span id="department-field" data-bind="text: Department"></span>
             </div>
         </div>
         <div class="form-group">
-            <label for="email" class="col-lg-2">Designation </label>
+            <label for="designation-field" class="col-lg-2">Designation </label>
             <div class="col-lg-9">
-                <span data-bind="text: Designation" />
+                <span id="designation-field" data-bind="text: Designation"></span>
             </div>
         </div>
         <div class="form-group">
-            <label for="startModule" class="col-lg-2">Start Module </label>
+            <label for="startModule-field" class="col-lg-2">Start Module </label>
             <div class="col-lg-9">
-                <select class="form-control" id="startModule" data-bind="value: StartModule,options: $root.startModuleOptions, optionText: 'Muka mula'">
-                    
-                </select>
+                <select class="form-control" id="startModule-field" data-bind="value: StartModule,options: $root.startModuleOptions, optionsCaption: '[Select a start page]'"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lang-field" class="col-lg-2">Language </label>
+            <div class="col-lg-9">
+                <select class="form-control" id="lang-field" data-bind="value: Language, options: $root.languageOptions, optionsValue : 'code', optionsText :'display', optionsCaption: '[Select default language]'"></select>
             </div>
         </div>
         <div class="form-group">

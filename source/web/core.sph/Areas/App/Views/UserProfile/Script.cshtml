@@ -8,41 +8,50 @@
     define([objectbuilders.datacontext],
         function (context) {
             var isBusy = ko.observable(false),
-            userName = ko.observable('@Model.User.UserName'),
+            userName = ko.observable("@Model.User.UserName"),
+            userProfile = ko.observable(new bespoke.sph.domain.UserProfile()),
+            startModule = ko.observable("@Model.Profile.StartModule"),
+            startModuleOptions = ko.observableArray(@Html.Raw(JsonConvert.SerializeObject(Model.StartModuleOptions))),
+            languageOptions = ko.observableArray(),
             activate = function () {
-                var query = String.format("UserName eq '{0}'", userName());
-                var tcs = new $.Deferred();
-                context.loadOneAsync("UserProfile", query)
-                    .done(function (b) {
-                        if (b)
-                            vm.userProfile(b);
-                        else
-                            vm.userProfile(new bespoke.sph.domain.UserProfile());
-                        tcs.resolve(true);
-                    });
+                var query = String.format("UserName eq '{0}'", userName()),
+                    tcs = new $.Deferred(),
+                    loadTask = context.loadOneAsync("UserProfile", query),
+                    languageOptionsTask = $.getJSON("/i18n/options");
+                $.when(loadTask, languageOptionsTask).done(function (b, langs) {
+                    if (b)
+                        userProfile(b);
+                    else
+                        userProfile(new bespoke.sph.domain.UserProfile());
+                    var lang = langs[0],
+                        options = [];
+                    for (var code in lang) {
+                        if (lang.hasOwnProperty(code)) {
+                            options.push({ code: code, display: lang[code] });
+                        }
+                    }
+                    languageOptions(options);
+                    tcs.resolve(true);
+                });
 
                 return tcs.promise();
             },
             saveAsync = function () {
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(vm.userProfile());
-                context.post(data, "/Admin/UpdateUser")
-                .done(function (e) {
-                    tcs.resolve(e);
-                });
-                return tcs.promise();
+                var json = ko.toJSON(userProfile);
+                return context.post(json, "/Admin/UpdateUser");
             };
 
             var vm = {
                 activate: activate,
-                userProfile: ko.observable(new bespoke.sph.domain.UserProfile()),
-                startModule: ko.observable('@Model.Profile.StartModule'),
-                startModuleOptions : ko.observableArray(@Html.Raw(JsonConvert.SerializeObject(Model.StartModuleOptions))),
+                userProfile: userProfile,
+                startModule: startModule,
+                startModuleOptions: startModuleOptions,
+                languageOptions: languageOptions,
                 toolbar: {
                     saveCommand: saveAsync
                 },
                 isBusy: isBusy,
-                title: 'User profile Details'
+                title: "User profile Details"
             };
 
             return vm;

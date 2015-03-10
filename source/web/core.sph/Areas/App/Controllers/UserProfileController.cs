@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
-using Bespoke.Sph.Web.Models;
 using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -89,11 +88,13 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             modules.AddRange(entityDefinitions.Select(v => v.Name.ToLowerInvariant()));
 
 
+
             var vm = new UserProfileViewModel
             {
                 Profile = profile,
                 User = user,
-                StartModuleOptions = modules.ToArray()
+                StartModuleOptions = modules.ToArray(),
+                LanguageOptions = new[] { "en", "ms" }
             };
 
             return View("Script", vm);

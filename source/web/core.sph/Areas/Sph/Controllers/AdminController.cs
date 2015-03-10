@@ -142,6 +142,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             userprofile.Telephone = profile.Telephone;
             userprofile.FullName = profile.FullName;
             userprofile.StartModule = profile.StartModule;
+            userprofile.Language = profile.Language;
+
             if (userprofile.IsNewItem) userprofile.Id = userprofile.UserName.ToIdFormat();
 
             using (var session = context.OpenSession())

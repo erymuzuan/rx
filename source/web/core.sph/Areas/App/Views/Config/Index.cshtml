@@ -11,24 +11,25 @@
 }
 
 
-<script src="~/Scripts/knockout-3.1.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.2.0.debug.js"></script>
 <script src="~/Scripts/underscore.min.js"></script>
 <script type="text/javascript" data-script="true">
- 
+
     define(function() {
         toastr.options.timeOut = 4000;
         toastr.options.positionClass = 'toast-bottom-full-width';
         toastr.options.closeButton= true;
         var imageSettings = {
-                imageBasePath: '~/content/images/photos/',
-                unknownPersonImageSource: 'unknown_person.jpg'
-            },
+            imageBasePath: '~/content/images/photos/',
+            unknownPersonImageSource: 'unknown_person.jpg'
+        },
             routes = @Html.Raw(JsonConvert.SerializeObject(Model.Routes,Formatting.Indented,settings)),
             startModule = '@Model.StartModule';
 
 
         return {
             debugEnabled: ko.observable(true),
+            lang : "@(Model.UserProfile.Language ??"en")",
             imageSettings: imageSettings,
             userName: '@User.Identity.Name',
             isAuthenticated : @(User.Identity.IsAuthenticated.ToString().ToLower()),
@@ -41,6 +42,6 @@
             roles :[ @Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("'{0}'", u))))],
             allRoles :[ @Html.Raw(string.Join(",", Roles.GetAllRoles().Select(u => string.Format("'{0}'", u))))],
             profile : @Html.Raw(JsonConvert.SerializeObject(Model.UserProfile))
-        };
+            };
     });
- </script>
+</script>
