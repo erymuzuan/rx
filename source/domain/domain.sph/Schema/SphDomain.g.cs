@@ -4,6 +4,8 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -39,11 +41,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public double Lat
         {
             set
@@ -68,11 +68,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public double Lng
         {
             set
@@ -152,11 +150,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Title
         {
             set
@@ -181,11 +177,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Extension
         {
             set
@@ -247,11 +241,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string StoreId
         {
             set
@@ -276,11 +268,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public DateTime Date
         {
             set
@@ -305,11 +295,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string CommitedBy
         {
             set
@@ -334,11 +322,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string No
         {
             set
@@ -363,7 +349,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Note
@@ -439,11 +424,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -468,11 +451,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string TelephoneNo
         {
             set
@@ -497,11 +478,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string FaxNo
         {
             set
@@ -526,11 +505,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Email
         {
             set
@@ -603,11 +580,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string User
         {
             set
@@ -632,11 +607,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public DateTime DateTime
         {
             set
@@ -661,11 +634,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Operation
         {
             set
@@ -690,11 +661,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Type
         {
             set
@@ -719,16 +688,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string EntityId
         {
             set
             {
-                if (m_entityId == value) return;
+                if (String.Equals(m_entityId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameEntityId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -780,11 +747,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string PropertyName
         {
             set
@@ -809,11 +774,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string OldValue
         {
             set
@@ -838,11 +801,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string NewValue
         {
             set
@@ -867,11 +828,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Action
         {
             set
@@ -950,11 +909,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -979,11 +936,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string RegistrationNo
         {
             set
@@ -1008,11 +963,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Email
         {
             set
@@ -1037,11 +990,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string OfficeNo
         {
             set
@@ -1066,11 +1017,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string FaxNo
         {
             set
@@ -1143,8 +1092,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameEmail = "Email";
 
 
-
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_department;
         public const string PropertyNameDepartment = "Department";
@@ -1155,15 +1102,18 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameHasChangedDefaultPassword = "HasChangedDefaultPassword";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_language;
+        public const string PropertyNameLanguage = "Language";
+
+
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string UserName
         {
             set
@@ -1188,11 +1138,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string FullName
         {
             set
@@ -1217,11 +1165,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Designation
         {
             set
@@ -1246,11 +1192,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Telephone
         {
             set
@@ -1275,11 +1219,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Mobile
         {
             set
@@ -1304,11 +1246,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string RoleTypes
         {
             set
@@ -1333,11 +1273,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string StartModule
         {
             set
@@ -1362,11 +1300,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Email
         {
             set
@@ -1391,11 +1327,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Department
         {
             set
@@ -1420,11 +1354,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool HasChangedDefaultPassword
         {
             set
@@ -1445,6 +1377,33 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Language
+        {
+            set
+            {
+                if (String.Equals(m_language, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLanguage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_language = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_language;
+            }
+        }
+
+
 
     }
 
@@ -1456,11 +1415,6 @@ namespace Bespoke.Sph.Domain
     [XmlType("Setting", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Setting
     {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_settingId;
-        public const string PropertyNameSettingId = "SettingId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_userName;
@@ -1483,40 +1437,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public int SettingId
-        {
-            set
-            {
-                if (m_settingId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameSettingId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_settingId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_settingId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
         [Required]
-
-        [DebuggerHidden]
-
         public string UserName
         {
             set
@@ -1624,16 +1547,13 @@ namespace Bespoke.Sph.Domain
             get { return m_RoleCollection; }
         }
 
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -1658,11 +1578,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Description
         {
             set
@@ -1687,11 +1605,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsActive
         {
             set
@@ -1716,11 +1632,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string StartModule
         {
             set
@@ -1753,7 +1667,6 @@ namespace Bespoke.Sph.Domain
     public partial class Watcher
     {
 
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entityName;
         public const string PropertyNameEntityName = "EntityName";
@@ -1779,16 +1692,13 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameDateTime = "DateTime";
 
 
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string EntityName
         {
             set
@@ -1813,16 +1723,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string EntityId
         {
             set
             {
-                if (m_entityId == value) return;
+                if (String.Equals(m_entityId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameEntityId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -1842,11 +1750,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string User
         {
             set
@@ -1871,11 +1777,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsActive
         {
             set
@@ -1900,11 +1804,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public DateTime DateTime
         {
             set
@@ -1996,11 +1898,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string FullName
         {
             set
@@ -2025,11 +1925,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string UserName
         {
             set
@@ -2054,11 +1952,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Email
         {
             set
@@ -2083,11 +1979,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Password
         {
             set
@@ -2112,11 +2006,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string ConfirmPassword
         {
             set
@@ -2141,11 +2033,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Status
         {
             set
@@ -2170,11 +2060,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Designation
         {
             set
@@ -2199,11 +2087,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Telephone
         {
             set
@@ -2228,7 +2114,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Mobile
@@ -2255,11 +2140,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsNew
         {
             set
@@ -2284,11 +2167,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Department
         {
             set
@@ -2320,7 +2201,7 @@ namespace Bespoke.Sph.Domain
     [XmlType("Message", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Message
     {
-        
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_subject;
         public const string PropertyNameSubject = "Subject";
@@ -2341,14 +2222,13 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameUserName = "UserName";
 
 
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-        [Required]
         [DebuggerHidden]
+
+        [Required]
         public string Subject
         {
             set
@@ -2373,11 +2253,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsRead
         {
             set
@@ -2402,11 +2280,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Body
         {
             set
@@ -2431,11 +2307,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string UserName
         {
             set
@@ -2492,11 +2366,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Title
         {
             set
@@ -2521,11 +2393,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Description
         {
             set
@@ -2550,11 +2420,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string StoreId
         {
             set
@@ -2579,11 +2447,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string ThumbnailStoreId
         {
             set
@@ -2660,11 +2526,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string UnitNo
         {
             set
@@ -2689,7 +2553,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Floor
@@ -2716,7 +2579,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Block
@@ -2743,11 +2605,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Street
         {
             set
@@ -2772,11 +2632,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string City
         {
             set
@@ -2801,11 +2659,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Postcode
         {
             set
@@ -2830,11 +2686,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string State
         {
             set
@@ -2859,7 +2713,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Country
@@ -2894,7 +2747,6 @@ namespace Bespoke.Sph.Domain
     public partial class EmailTemplate
     {
 
-        
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entity;
         public const string PropertyNameEntity = "Entity";
@@ -2925,17 +2777,13 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsPublished = "IsPublished";
 
 
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Entity
         {
             set
@@ -2960,11 +2808,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -2989,11 +2835,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Note
         {
             set
@@ -3018,11 +2862,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string SubjectTemplate
         {
             set
@@ -3047,11 +2889,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string BodyTemplate
         {
             set
@@ -3076,11 +2916,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsPublished
         {
             set
@@ -3113,7 +2951,6 @@ namespace Bespoke.Sph.Domain
     public partial class DocumentTemplate
     {
 
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_name;
         public const string PropertyNameName = "Name";
@@ -3139,18 +2976,13 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameEntity = "Entity";
 
 
-      
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -3175,11 +3007,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Note
         {
             set
@@ -3204,11 +3034,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string WordTemplateStoreId
         {
             set
@@ -3233,11 +3061,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsPublished
         {
             set
@@ -3262,11 +3088,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Entity
         {
             set
