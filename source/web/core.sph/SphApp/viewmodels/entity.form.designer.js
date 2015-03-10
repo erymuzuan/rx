@@ -518,7 +518,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 {
                     command: translateLabels,
                     caption: "Translate",
-                    icon: "fa  fa-file-text-o",
+                    icon: "fa  fa-language",
                     enable: ko.computed(function () {
                         return form().Route();
                     })
