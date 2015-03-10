@@ -11,6 +11,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             entityOptions = ko.observableArray(),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             form = ko.observable(new bespoke.sph.domain.EntityForm({ WebId: system.guid() })),
+            selectedFormElement = ko.observable(),
             activate = function (entityid, formid) {
 
                 var query = String.format("Id eq '{0}'", entityid),
@@ -26,9 +27,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             };
                         });
 
-                        list.push({ text: 'UserProfile*', value: 'UserProfile' });
-                        list.push({ text: 'Designation*', value: 'Designation' });
-                        list.push({ text: 'Department*', value: 'Department' });
+                        list.push({ text: "UserProfile*", value: "UserProfile" });
+                        list.push({ text: "Designation*", value: "Designation" });
+                        list.push({ text: "Department*", value: "Department" });
                         entityOptions(list);
                     });
 
@@ -138,7 +139,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fe.WebId(system.guid());
 
                     fd.FormElementCollection.push(fe);
-                    vm.selectedFormElement(fe);
+                    selectedFormElement(fe);
 
 
                 });
@@ -198,7 +199,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fd.FormElementCollection(elements);
                     initDesigner();
                     $('#template-form-designer>form li.ui-draggable').remove();
-                    vm.selectedFormElement(fe);
+                    selectedFormElement(fe);
                 },
                     initDesigner = function () {
                         $('#template-form-designer>form').sortable({
@@ -214,20 +215,20 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 initDesigner();
 
-                $.get('form-designer/toolbox-items', function (elements) {
+                $.get("form-designer/toolbox-items", function (elements) {
                     formElements(elements);
-                    $('#add-field>ul>li').draggable({
-                        helper: 'clone',
+                    $("#add-field>ul>li").draggable({
+                        helper: "clone",
                         connectToSortable: "#template-form-designer>form"
                     });
                 });
 
 
-                $('div.context-action-panel').on('click', 'buton.close', function () {
+                $("div.context-action-panel").on("click", "buton.close", function () {
                     $(this).parents('div.context-action').hide();
                 });
 
-                vm.selectedFormElement.subscribe(function (model) {
+                selectedFormElement.subscribe(function (model) {
                     model.Path.subscribe(function (p) {
                         if (ko.unwrap(model.Label).indexOf("Label ") > -1) {
                             model.Label(p.replace(".", " ")
@@ -240,7 +241,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             supportsHtml5Storage = function () {
                 try {
-                    return 'localStorage' in window && window['localStorage'] !== null;
+                    return "localStorage" in window && window["localStorage"] !== null;
                 } catch (e) {
                     return false;
                 }
@@ -250,7 +251,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                     var fd = ko.unwrap(form().FormDesign);
                     // get the sorted element
-                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                    var elements = _($("#template-form-designer>form>div")).map(function (div) {
                         return ko.dataFor(div);
                     });
                     fd.FormElementCollection(elements);
@@ -268,7 +269,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             selectFormElement = function (fe) {
 
-                $('.selected-form-element').each(function (e) {
+                $(".selected-form-element").each(function () {
                     var kd = ko.dataFor(this);
                     if (typeof kd.isSelected === "function")
                         kd.isSelected(false);
@@ -278,7 +279,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fe.isSelected = ko.observable(true);
                 }
                 fe.isSelected(true);
-                vm.selectedFormElement(fe);
+                selectedFormElement(fe);
                 if (supportsHtml5Storage()) {
                     localStorage.setItem(form().WebId(), ko.mapping.toJSON(form));
                 }
@@ -298,14 +299,14 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                      form().FormDesign(clone.FormDesign());
 
                  } catch (error) {
-                     logger.logError('Fail template import tidak sah', error, this, true);
+                     logger.logError("Fail template import tidak sah", error, this, true);
                  }
              });
             },
             publish = function () {
                 var fd = ko.unwrap(form().FormDesign);
                 // get the sorted element
-                var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                var elements = _($("#template-form-designer>form>div")).map(function (div) {
                     return ko.dataFor(div);
                 });
                 fd.FormElementCollection(elements);
@@ -332,7 +333,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             save = function () {
                 var fd = ko.unwrap(form().FormDesign);
                 // get the sorted element
-                var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                var elements = _($("#template-form-designer>form>div")).map(function (div) {
                     return ko.dataFor(div);
                 });
                 fd.FormElementCollection(elements);
@@ -345,7 +346,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     .then(function (result) {
                         if (result.success) {
                             form().Id(result.id);
-                            router.navigate('/entity.form.designer/' + entity().Id() + '/' + form().Id());
+                            router.navigate("/entity.form.designer/" + entity().Id() + "/" + form().Id());
                             logger.info("Your form has been successfully saved.");
                         } else {
                             errors(result.Errors);
@@ -410,7 +411,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         editCode = function () {
             if (null == partialEditor || partialEditor.closed) {
                 var partial = "partial/" + form().Route();
-                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
+                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', "height=600px,width=800px,toolbar=0,location=0");
                 form().Partial(partial);
             } else {
                 partialEditor.focus();
@@ -429,7 +430,30 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             }
 
             return Task.fromResult(true);
-        };
+        },
+            translateLabels = function () {
+                var tcs = new $.Deferred(),
+                    fd = ko.unwrap(form().FormDesign),
+                    elements = fd.FormElementCollection();
+                require(["viewmodels/resource.table.dialog", "durandal/app"], function (dg, app2) {
+                    dg.keys(_(elements).map(function (v) {
+                        return ko.unwrap(v.Label);
+                    }));
+                    dg.resource(form().Route());
+
+                    app2.showDialog(dg)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+
+                            }
+                            tcs.resolve(result);
+                        });
+
+                });
+
+                return tcs.promise();
+            };
 
         var vm = {
             errors: errors,
@@ -439,7 +463,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             attached: attached,
             activate: activate,
             formElements: formElements,
-            selectedFormElement: ko.observable(),
+            selectedFormElement: selectedFormElement,
             selectFormElement: selectFormElement,
             removeFormElement: removeFormElement,
             form: form,
@@ -450,18 +474,18 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             importCommand: importCommand,
             toolbar: {
                 commands: ko.observableArray([{
-                    caption: 'Clone',
-                    icon: 'fa fa-copy',
+                    caption: "Clone",
+                    icon: "fa fa-copy",
                     command: function () {
-                        form().Name(form().Name() + ' Copy (1)');
-                        form().Route('');
+                        form().Name(form().Name() + " Copy (1)");
+                        form().Route("");
                         form().Id("0");
                         return Task.fromResult(0);
                     }
                 },
                 {
-                    caption: 'Publish',
-                    icon: 'fa fa-sign-in',
+                    caption: "Publish",
+                    icon: "fa fa-sign-in",
                     command: publish,
                     enable: ko.computed(function () {
                         return form().Id() !== "0";
@@ -469,7 +493,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 },
                 {
                     command: depublishAsync,
-                    caption: 'Depublish',
+                    caption: "Depublish",
                     icon: "fa fa-sign-out",
                     enable: ko.computed(function () {
                         return form().Id() !== "0" && form().IsPublished();
@@ -477,7 +501,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 },
                 {
                     command: editCode,
-                    caption: 'Edit Code',
+                    caption: "Edit Code",
                     icon: "fa fa-code",
                     enable: ko.computed(function () {
                         return form().Route();
@@ -485,7 +509,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 },
                 {
                     command: editLayout,
-                    caption: 'Edit Layout',
+                    caption: "Edit Layout",
+                    icon: "fa  fa-file-text-o",
+                    enable: ko.computed(function () {
+                        return form().Route();
+                    })
+                },
+                {
+                    command: translateLabels,
+                    caption: "Translate",
                     icon: "fa  fa-file-text-o",
                     enable: ko.computed(function () {
                         return form().Route();
