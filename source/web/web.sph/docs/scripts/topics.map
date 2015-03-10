@@ -75,6 +75,7 @@
 
     "email-action-modal" : "EmailAction.html",
     "custom-login-page" : "custom-login-page.html",
+    "resource-table-dialog" : "resource-table-dialog.html",
 
     "default": "Overview.html"
 }

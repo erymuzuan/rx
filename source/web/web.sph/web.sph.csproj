@@ -792,6 +792,7 @@
     <Content Include="docs\HttpAdapter.md" />
     <Content Include="docs\MySqlAdapter.md" />
     <Content Include="docs\mapping-activity-dialog.md" />
+    <Content Include="docs\resource-table-dialog.md" />
     <None Include="docs\scripts\topics.map" />
     <Content Include="docs\scripts\main.js" />
     <Content Include="docs\scripts\types.js" />
