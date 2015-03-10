@@ -87,7 +87,7 @@
                 },
                 save = function () {
                     // get the sorted element
-                    var columns = _($('ul#column-design>li:not(:last)')).map(function (div) {
+                    var columns = _($("ul#column-design>li:not(:last)")).map(function (div) {
                         return ko.dataFor(div);
                     });
                     view().ViewColumnCollection(columns);
@@ -111,7 +111,7 @@
                         .done(function (dialogResult) {
                             if (dialogResult === "Yes") {
                                 context.send(data, "/Sph/EntityView", "DELETE")
-                                    .done(function (result) {
+                                    .done(function () {
                                         window.location = "/sph#dev.home";
                                     })
                                     .fail(function (v) {
@@ -154,6 +154,20 @@
 
                 return Task.fromResult(true);
 
+            },
+            translateLabels = function () {
+                var tcs = new $.Deferred(),
+                    columns = view().ViewColumnCollection();
+                require(["viewmodels/resource.table.dialog", "durandal/app"], function (dg, app2) {
+                    dg.keys(_(columns).map(function (v) {
+                        return ko.unwrap(v.Header);
+                    }));
+                    dg.resource(view().Route());
+                    app2.showDialog(dg).done(tcs.resolve);
+
+                });
+
+                return tcs.promise();
             };
 
             var vm = {
@@ -167,8 +181,8 @@
                 }),
                 toolbar: {
                     commands: ko.observableArray([{
-                        caption: 'Clone',
-                        icon: 'fa fa-copy',
+                        caption: "Clone",
+                        icon: "fa fa-copy",
                         command: function () {
                             view().Name(view().Name() + ' Copy (1)');
                             view().Route('');
@@ -177,16 +191,16 @@
                         }
                     },
                     {
-                        caption: 'Publish',
-                        icon: 'fa fa-sign-in',
+                        caption: "Publish",
+                        icon: "fa fa-sign-in",
                         command: publish,
                         enable: ko.computed(function () {
                             return view().Id() && view().Id() !== "0";
                         })
                     },
                     {
-                        caption: 'Depublish',
-                        icon: 'fa fa-sign-out',
+                        caption: "Depublish",
+                        icon: "fa fa-sign-out",
                         command: depublishAsync,
                         enable: ko.computed(function () {
                             return view().Id() && view().Id() !== "0" && view().IsPublished();
@@ -194,8 +208,16 @@
                     },
                     {
                         command: editCode,
-                        caption: 'Edit Code',
+                        caption: "Edit Code",
                         icon: "fa fa-code",
+                        enable: ko.computed(function () {
+                            return view().Route();
+                        })
+                    },
+                    {
+                        command: translateLabels,
+                        caption: "Translate",
+                        icon: "fa fa-language",
                         enable: ko.computed(function () {
                             return view().Route();
                         })
