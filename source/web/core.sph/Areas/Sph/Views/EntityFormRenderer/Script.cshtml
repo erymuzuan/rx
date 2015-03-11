@@ -127,13 +127,6 @@
                     // validation
                     validation.init($('#@formId'), form());
 
-                    $("[data-i18n]", view).each(function (i, v) {
-                        var $label = $(v),
-                            text = $label.data("i18n");
-                        if (typeof i18n[text] === "string") {
-                            $label.text(i18n[text]);
-                        }
-                    });
 
                     @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
                     {
@@ -145,6 +138,15 @@
                     </text>
                     }
 
+                },
+                compositionComplete = function() {
+                    $("[data-i18n]").each(function (i, v) {
+                        var $label = $(v),
+                            text = $label.data("i18n");
+                        if (typeof i18n[text] === "string") {
+                            $label.text(i18n[text]);
+                        }
+                    });
                 },
 
                 @foreach (var rule in Model.Form.Rules)
@@ -260,6 +262,7 @@
                 activate: activate,
                 config: config,
                 attached: attached,
+                compositionComplete:compositionComplete,
                 entity: entity,
                 errors: errors,
                 save : save,
