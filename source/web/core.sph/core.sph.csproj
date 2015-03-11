@@ -1470,6 +1470,7 @@
     <Content Include="kendo\js\kendo.all.min.js.map">
       <DependentUpon>kendo.all.min.js</DependentUpon>
     </Content>
+    <EmbeddedResource Include="kendo\js\kendo.custom.min.js" />
     <Content Include="kendo\js\kendo.dataviz.chart.min.js">
       <DependentUpon>kendo.dataviz.chart.js</DependentUpon>
     </Content>

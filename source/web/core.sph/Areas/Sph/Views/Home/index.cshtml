@@ -1,7 +1,5 @@
 ﻿@using System.Configuration
-@using System.Web
 @using System.Web.Mvc.Html
-@using System.Web.Optimization
 @{
     Layout = null;
     var theme = ConfigurationManager.AppSettings["theme"];
@@ -41,7 +39,7 @@
         <script src="/SphApp/partial/__partial.js"></script>
         <script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
         <script src="/Content/theme.@theme/theme.js"></script>
-        <script src="/kendo/js/kendo.all.js"></script>
+        <script src="/kendo/js/kendo.custom.min.js"></script>
     }
     else
     {

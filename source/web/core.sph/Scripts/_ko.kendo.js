@@ -36,8 +36,6 @@ ko.bindingHandlers.kendoEditor = {
             });
 
         }, 500);
-
-
     },
     update2: function (element, valueAccessor) {
         var $editor = $(element),
@@ -259,7 +257,7 @@ ko.bindingHandlers.kendoUpload = {
              value = valueAccessor(),
              options = valueAccessor(),
                  extensions = [];
-        if (typeof options === "object") {
+        if (options && typeof options === "object") {
             value = options.value;
             extensions = options.extensions;
         }
@@ -909,6 +907,7 @@ ko.bindingHandlers.searchPaging = {
                 $spinner.hide();
                 $element.fadeTo("fast", 1);
             },
+            pager = null,
             setItemsSource = function (items) {
 
                 if (!pagerHidden) {
@@ -930,7 +929,6 @@ ko.bindingHandlers.searchPaging = {
                     list(items);
                 }
             },
-            pager = null,
             pageChanged = function (page, size) {
                 startLoad();
                 context.searchAsync({
