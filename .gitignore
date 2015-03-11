@@ -126,3 +126,4 @@ source/web/web.sph/Views/*Workflow*/
 *.log
 /source/web/rx.management.studio
 /source/web/rx.studio
+/bower_components
