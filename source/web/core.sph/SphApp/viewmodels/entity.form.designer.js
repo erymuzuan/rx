@@ -436,9 +436,14 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fd = ko.unwrap(form().FormDesign),
                     elements = fd.FormElementCollection();
                 require(["viewmodels/resource.table.dialog", "durandal/app"], function (dg, app2) {
+
                     dg.keys(_(elements).map(function (v) {
                         return ko.unwrap(v.Label);
                     }));
+                    dg.keys.splice(0, 0, form().Name());
+                    if (form().Caption() && form().Caption() !== form().Name()) {
+                        dg.keys.splice(0, 0, form().Caption());
+                    }
                     dg.resource(form().Route());
 
                     app2.showDialog(dg)
