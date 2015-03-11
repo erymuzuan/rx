@@ -154,15 +154,16 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 // validation
                 validation.init($('#add-customer-form-form'), form());
 
-                $("[data-i18n]", view).each(function (i, v) {
+
+            },
+            compositionComplete = function () {
+                $("[data-i18n]").each(function (i, v) {
                     var $label = $(v),
                         text = $label.data("i18n");
                     if (typeof i18n[text] === "string") {
                         $label.text(i18n[text]);
                     }
                 });
-
-
             },
 
             checkTheRevenue = function () {
@@ -269,6 +270,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             verifyTheAge: verifyTheAge,
             mustBeMalaysian: mustBeMalaysian,
             activate: activate,
+            compositionComplete:compositionComplete,
             config: config,
             attached: attached,
             entity: entity,

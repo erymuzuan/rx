@@ -162,15 +162,17 @@
                     // validation
                     validation.init($('#patient-details-form'), form());
 
-                    $("[data-i18n]", view).each(function (i, v) {
+
+
+                },
+                compositionComplete = function() {
+                    $("[data-i18n]").each(function (i, v) {
                         var $label = $(v),
                             text = $label.data("i18n");
                         if (typeof i18n[text] === "string") {
                             $label.text(i18n[text]);
                         }
                     });
-
-
                 },
 
                                 save = function() {
@@ -219,6 +221,7 @@
                                     activate: activate,
                 config: config,
                 attached: attached,
+                compositionComplete:compositionComplete,
                 entity: entity,
                 errors: errors,
                 save : save,
