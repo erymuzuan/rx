@@ -59,21 +59,27 @@ namespace ASP
         ContractResolver = new CamelCasePropertyNamesContractResolver()
     };
 
+    var lang = "en-US";
+    if (User.Identity.IsAuthenticated && null != Model.UserProfile)
+    {
+        lang = Model.UserProfile.Language;
+    }
+
             
             #line default
             #line hidden
 WriteLiteral("\r\n\r\n\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 302), Tuple.Create("\"", 341)
-, Tuple.Create(Tuple.Create("", 308), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.2.0.debug.js")
-, 308), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 456), Tuple.Create("\"", 495)
+, Tuple.Create(Tuple.Create("", 462), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.2.0.debug.js")
+, 462), false)
 );
 
 WriteLiteral("></script>\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 361), Tuple.Create("\"", 394)
-, Tuple.Create(Tuple.Create("", 367), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/underscore.min.js")
-, 367), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 515), Tuple.Create("\"", 548)
+, Tuple.Create(Tuple.Create("", 521), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/underscore.min.js")
+, 521), false)
 );
 
 WriteLiteral("></script>\r\n<script");
@@ -86,53 +92,53 @@ WriteLiteral(@">
 
     define(function() {
         toastr.options.timeOut = 4000;
-        toastr.options.positionClass = 'toast-bottom-full-width';
+        toastr.options.positionClass = ""toast-bottom-full-width"";
         toastr.options.closeButton= true;
         var imageSettings = {
-            imageBasePath: '~/content/images/photos/',
-            unknownPersonImageSource: 'unknown_person.jpg'
+            imageBasePath: ""~/content/images/photos/"",
+            unknownPersonImageSource: ""unknown_person.jpg""
         },
             routes = ");
 
             
-            #line 26 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 32 "..\..\Areas\App\Views\Config\Index.cshtml"
                 Write(Html.Raw(JsonConvert.SerializeObject(Model.Routes,Formatting.Indented,settings)));
 
             
             #line default
             #line hidden
-WriteLiteral(",\r\n            startModule = \'");
+WriteLiteral(",\r\n            startModule = \"");
 
             
-            #line 27 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 33 "..\..\Areas\App\Views\Config\Index.cshtml"
                       Write(Model.StartModule);
 
             
             #line default
             #line hidden
-WriteLiteral("\';\r\n\r\n\r\n        return {\r\n            debugEnabled: ko.observable(true),\r\n       " +
+WriteLiteral("\";\r\n\r\n\r\n        return {\r\n            debugEnabled: ko.observable(true),\r\n       " +
 "     lang : \"");
 
             
-            #line 32 "..\..\Areas\App\Views\Config\Index.cshtml"
-                Write(Model.UserProfile.Language ??"en");
+            #line 38 "..\..\Areas\App\Views\Config\Index.cshtml"
+               Write(lang);
 
             
             #line default
             #line hidden
-WriteLiteral("\",\r\n            imageSettings: imageSettings,\r\n            userName: \'");
+WriteLiteral("\",\r\n            imageSettings: imageSettings,\r\n            userName: \"");
 
             
-            #line 34 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 40 "..\..\Areas\App\Views\Config\Index.cshtml"
                   Write(User.Identity.Name);
 
             
             #line default
             #line hidden
-WriteLiteral("\',\r\n            isAuthenticated : ");
+WriteLiteral("\",\r\n            isAuthenticated : ");
 
             
-            #line 35 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 41 "..\..\Areas\App\Views\Config\Index.cshtml"
                           Write(User.Identity.IsAuthenticated.ToString().ToLower());
 
             
@@ -142,7 +148,7 @@ WriteLiteral(",\r\n            routes: routes,\r\n            startModule: start
 "  stateOptions : ");
 
             
-            #line 38 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 44 "..\..\Areas\App\Views\Config\Index.cshtml"
                       Write(Html.Raw(Model.StateOptions));
 
             
@@ -151,35 +157,35 @@ WriteLiteral(",\r\n            routes: routes,\r\n            startModule: start
 WriteLiteral(",\r\n            departmentOptions : ");
 
             
-            #line 39 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 45 "..\..\Areas\App\Views\Config\Index.cshtml"
                            Write(Html.Raw(Model.DepartmentOptions));
 
             
             #line default
             #line hidden
-WriteLiteral(",\r\n            applicationFullName :\'");
+WriteLiteral(",\r\n            applicationFullName :\"");
 
             
-            #line 40 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 46 "..\..\Areas\App\Views\Config\Index.cshtml"
                              Write(Model.ApplicationFullName);
 
             
             #line default
             #line hidden
-WriteLiteral("\',\r\n            applicationName :\'");
+WriteLiteral("\",\r\n            applicationName :\"");
 
             
-            #line 41 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 47 "..\..\Areas\App\Views\Config\Index.cshtml"
                          Write(Model.ApplicationName);
 
             
             #line default
             #line hidden
-WriteLiteral("\',\r\n            roles :[ ");
+WriteLiteral("\",\r\n            roles :[ ");
 
             
-            #line 42 "..\..\Areas\App\Views\Config\Index.cshtml"
-                Write(Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("'{0}'", u)))));
+            #line 48 "..\..\Areas\App\Views\Config\Index.cshtml"
+                Write(Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("\"{0}\"", u)))));
 
             
             #line default
@@ -187,8 +193,8 @@ WriteLiteral("\',\r\n            roles :[ ");
 WriteLiteral("],\r\n            allRoles :[ ");
 
             
-            #line 43 "..\..\Areas\App\Views\Config\Index.cshtml"
-                   Write(Html.Raw(string.Join(",", Roles.GetAllRoles().Select(u => string.Format("'{0}'", u)))));
+            #line 49 "..\..\Areas\App\Views\Config\Index.cshtml"
+                   Write(Html.Raw(string.Join(",", Roles.GetAllRoles().Select(u => string.Format("\"{0}\"", u)))));
 
             
             #line default
@@ -196,7 +202,7 @@ WriteLiteral("],\r\n            allRoles :[ ");
 WriteLiteral("],\r\n            profile : ");
 
             
-            #line 44 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 50 "..\..\Areas\App\Views\Config\Index.cshtml"
                  Write(Html.Raw(JsonConvert.SerializeObject(Model.UserProfile)));
 
             

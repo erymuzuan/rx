@@ -8,6 +8,12 @@
     {
         ContractResolver = new CamelCasePropertyNamesContractResolver()
     };
+
+    var lang = "en-US";
+    if (User.Identity.IsAuthenticated && null != Model.UserProfile)
+    {
+        lang = Model.UserProfile.Language;
+    }
 }
 
 
@@ -17,30 +23,30 @@
 
     define(function() {
         toastr.options.timeOut = 4000;
-        toastr.options.positionClass = 'toast-bottom-full-width';
+        toastr.options.positionClass = "toast-bottom-full-width";
         toastr.options.closeButton= true;
         var imageSettings = {
-            imageBasePath: '~/content/images/photos/',
-            unknownPersonImageSource: 'unknown_person.jpg'
+            imageBasePath: "~/content/images/photos/",
+            unknownPersonImageSource: "unknown_person.jpg"
         },
             routes = @Html.Raw(JsonConvert.SerializeObject(Model.Routes,Formatting.Indented,settings)),
-            startModule = '@Model.StartModule';
+            startModule = "@Model.StartModule";
 
 
         return {
             debugEnabled: ko.observable(true),
-            lang : "@(Model.UserProfile.Language ??"en")",
+            lang : "@lang",
             imageSettings: imageSettings,
-            userName: '@User.Identity.Name',
+            userName: "@User.Identity.Name",
             isAuthenticated : @(User.Identity.IsAuthenticated.ToString().ToLower()),
             routes: routes,
             startModule: startModule,
             stateOptions : @Html.Raw(Model.StateOptions),
             departmentOptions : @Html.Raw(Model.DepartmentOptions),
-            applicationFullName :'@Model.ApplicationFullName',
-            applicationName :'@Model.ApplicationName',
-            roles :[ @Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("'{0}'", u))))],
-            allRoles :[ @Html.Raw(string.Join(",", Roles.GetAllRoles().Select(u => string.Format("'{0}'", u))))],
+            applicationFullName :"@Model.ApplicationFullName",
+            applicationName :"@Model.ApplicationName",
+            roles :[ @Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("\"{0}\"", u))))],
+            allRoles :[ @Html.Raw(string.Join(",", Roles.GetAllRoles().Select(u => string.Format("\"{0}\"", u))))],
             profile : @Html.Raw(JsonConvert.SerializeObject(Model.UserProfile))
             };
     });
