@@ -10,8 +10,7 @@
         <div class="btn-group">
             <a class="btn btn-default dropdown-toggle" data-toggle="drop-down" href="#">
 
-                <!-- ko text : caption -->
-                <!-- /ko -->
+                <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
                 <span class="caret pull-right"></span>
             </a>
             <ul class="dropdown-menu">
@@ -19,8 +18,8 @@
                 <li>
                     <a class="btn btn-link pull-left" data-bind="command: command" href="#">
                         <i data-bind="attr: { 'class': icon }"></i>
-                        <!-- ko text : caption -->
-                        <!-- /ko -->
+
+                        <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
                     </a>
                 </li>
                 <!-- /ko -->
@@ -42,8 +41,8 @@
         <!-- ko with: addNew-->
         <a id="addbutton" class="btn btn-default" data-bind="attr: { href: location }" data-loading-text="Simpan....">
             <i class="fa fa-plus"></i>
-            <!-- ko text : caption -->
-            <!-- /ko -->
+
+            <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </a>
         <!-- /ko -->
         <!-- /ko -->
@@ -51,13 +50,13 @@
         <!-- ko if: typeof saveCommand === "function" && typeof canExecuteSaveCommand === "undefined"-->
         <button id="save-button" class="btn btn-default" data-bind="command: saveCommand">
             <i class="fa fa-save"></i>
-            Save
+            <span data-i18n="Save">Save</span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof saveCommand === "function" && typeof canExecuteSaveCommand === "function"-->
         <button class="btn btn-default" data-bind="command: saveCommand, enable :canExecuteSaveCommand">
             <i class="fa fa-save"></i>
-            Save
+            <span data-i18n="Save">Save</span>
         </button>
         <!-- /ko -->
         
@@ -65,40 +64,41 @@
         <!-- ko if: typeof removeCommand === "function"&& typeof canExecuteRemoveCommand === "undefined"-->
         <button class="btn btn-default" data-bind="command: removeCommand">
             <i class="fa fa-trash-o"></i>
-            Delete
+            <span data-i18n="Delete">Delete</span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof removeCommand === "function" && typeof canExecuteRemoveCommand === "function"-->
         <button class="btn btn-default" data-bind="command: removeCommand, enable :canExecuteRemoveCommand">
             <i class="fa fa-trash-o"></i>
-            Delete
+            <span data-i18n="Delete">Delete</span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof reloadCommand === "function"-->
         <button class="btn btn-default" data-bind="command: reloadCommand">
             <i class="fa fa-refresh"></i>
-            Reload
+            <span data-i18n="Reload">Reload</span>
+            
         </button>
         <!-- /ko -->
 
         <!-- ko if: typeof emailCommand === "object"-->
         <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.emailCommand, commandParameter: emailCommand }">
             <i class="fa fa-envelope-o"></i>
-            Email
+            <span data-i18n="Email">Email</span>
         </button>
         <!-- /ko -->
 
         <!-- ko if: typeof printCommand === "object"-->
         <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Cetak....">
             <i class="fa fa-print"></i>
-            Print
+            <span data-i18n="Print">Print</span>
         </button>
         <!-- /ko -->
 
         <!-- ko if: typeof pdfCommand === "object"-->
         <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.pdfCommand, commandParameter: pdfCommand }" data-loading-text="Cetak....">
             <i class="fa fa-print"></i>
-            Print
+            <span data-i18n="Print">Print</span>
         </button>
         <!-- /ko -->
 
@@ -106,14 +106,14 @@
         <!-- ko if: typeof exportCommand === "function"-->
         <button class="btn btn-default" data-bind="command: exportCommand">
             <i class="fa fa-download"></i>
-            Export
+            <span data-i18n="Export">Export</span>
         </button>
         <!-- /ko -->
         
         <!-- ko if: typeof importCommand === "function"-->
         <button class="btn btn-default" data-bind="command: importCommand">
             <i class="fa fa-upload"></i>
-            Import
+            <span data-i18n="Import">Import</span>
         </button>
         <!-- /ko -->
 
@@ -121,13 +121,13 @@
         <!-- ko if: typeof watchCommand === "function"-->
         <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false" >
             <i class="glyphicon glyphicon-eye-open"></i>
-            Watch
+            <span data-i18n="Watch">Watch</span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof unwatchCommand === "function"-->
         <button class="btn btn-default" data-bind="command: unwatchCommand, visible: watching">
             <i class="glyphicon glyphicon-eye-close"></i>
-            Unwatch
+            <span data-i18n="Unwatch">Unwatch</span>
         </button>
         <!-- /ko -->
 
@@ -137,22 +137,19 @@
         <!-- ko if: typeof visible === "undefined" && typeof enable === "undefined"-->
         <button class="btn btn-default" data-bind="command: command">
             <i data-bind=" attr: { 'class': icon }"></i>
-            <!-- ko text: caption -->
-            <!-- /ko -->
+            <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof visible === "function"-->
         <button class="btn btn-default" data-bind="command: command, visible: visible">
             <i data-bind=" attr: { 'class': icon }"></i>
-            <!-- ko text: caption -->
-            <!-- /ko -->
+            <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof enable === "function"-->
         <button class="btn btn-default" data-bind="command: command, enable: enable">
             <i data-bind=" attr: { 'class': icon }"></i>
-            <!-- ko text: caption -->
-            <!-- /ko -->
+            <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
 
@@ -165,15 +162,13 @@
         <!-- ko if: typeof visible === "undefined"-->
         <button class="btn btn-default" data-bind="click: command">
             <i data-bind=" attr: { 'class': icon }"></i>
-            <!-- ko text: caption -->
-            <!-- /ko -->
+            <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof visible === "function"-->
         <button class="btn btn-default" data-bind="click: command, visible: visible">
             <i data-bind=" attr: { 'class': icon }"></i>
-            <!-- ko text: caption -->
-            <!-- /ko -->
+            <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
 

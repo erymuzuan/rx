@@ -1,10 +1,10 @@
 ﻿<table class="table table-striped table-hover" id="audit-trail-table">
     <thead>
         <tr>
-            <th>Datetime</th>
-            <th>User</th>
-            <th>Operation</th>
-            <th>Note</th>
+            <th data-i18n="Datetime">Datetime</th>
+            <th data-i18n="User">User</th>
+            <th data-i18n="Operation">Operation</th>
+            <th data-i18n="Note">Note</th>
         </tr>
     </thead>
     <tbody data-bind="foreach: auditTrailCollection">
@@ -31,10 +31,10 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Action</th>
-                            <th>Field</th>
-                            <th>Old</th>
-                            <th>New</th>
+                            <th data-i18n="Action">Action</th>
+                            <th data-i18n="Field">Field</th>
+                            <th data-i18n="Old">Old</th>
+                            <th data-i18n="New">New</th>
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: ChangeCollection">
@@ -49,7 +49,7 @@
             </div>
 
             <div class="modal-footer">
-                <a href="#changes-dialog" class="btn btn-default" data-dismiss="modal">Close</a>
+                <a href="#changes-dialog" class="btn btn-default" data-dismiss="modal" data-i18n="Close">Close</a>
             </div>
 
         </div>
