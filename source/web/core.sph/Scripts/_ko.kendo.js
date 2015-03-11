@@ -406,7 +406,7 @@ ko.bindingHandlers.kendoDateTime = {
         var value = valueAccessor(),
             $input = $(element),
             currentValue = ko.utils.unwrapObservable(value),
-            date = moment(currentValue,"DD/MM/YYYY "),
+            date = moment(currentValue, "DD/MM/YYYY "),
             changed = function (e) {
                 console.log(e);
                 var nv = this.value();
@@ -774,8 +774,13 @@ ko.bindingHandlers.filter = {
             var $rows = $element.find(path),
                 filter = $filterInput.val().toLowerCase();
             $rows.each(function () {
-                var $tr = $(this);
-                if ($tr.text().toLowerCase().indexOf(filter) > -1) {
+                var $tr = $(this),
+                    text = $tr.text().toLowerCase().trim();
+                if (!text) {
+                    $("input", $tr).each(function (i, v) { text += " " + $(v).val() });
+                    text = text.toLowerCase().trim();
+                }
+                if (text.indexOf(filter) > -1) {
                     $tr.show();
                 } else {
                     $tr.hide();

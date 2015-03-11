@@ -979,7 +979,7 @@ ko.bindingHandlers.readonly = {
 /// <reference path="knockout-3.2.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
-/// <reference path="~/Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="~/Scripts/jquery-2.1.3.intellisense.js" />
 /// <reference path="~/Scripts/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
@@ -1168,7 +1168,7 @@ ko.bindingHandlers.date = {
             $(element).val("");
             return;
         }
-        if (date.year() == 1) { // DateTime.Min
+        if (date.year() === 1) { // DateTime.Min
             $(element).text("");
             $(element).val("");
             return;
@@ -1211,7 +1211,7 @@ ko.bindingHandlers.date = {
             $(element).val("");
             return;
         }
-        if (date.year() == 1) { // DateTime.Min
+        if (date.year() === 1) { // DateTime.Min
             $(element).text("");
             $(element).val("");
             return;
@@ -1268,7 +1268,7 @@ ko.bindingHandlers.kendoUpload = {
 
                 var storeId = e.response.storeId,
                     uploaded = e.operation === "upload",
-                    removed = e.operation != "upload",
+                    removed = e.operation !== "upload",
                     oldFile = value();
                 if (uploaded) {
                     value(storeId);
@@ -1346,7 +1346,7 @@ ko.bindingHandlers.kendoDate = {
     update: function (element, valueAccessor, allBindingsAccessor) {
         var $input = $(element),
             allBindings = allBindingsAccessor();
-        if ($input.data("stop") == "true") return;
+        if ($input.data("stop") === "true") return;
 
         var value = valueAccessor(),
             modelValue = ko.utils.unwrapObservable(value),
@@ -1357,7 +1357,7 @@ ko.bindingHandlers.kendoDate = {
             picker.value(null);
             return;
         }
-        if (date.year() == 1) { // DateTime.Min
+        if (date.year() === 1) { // DateTime.Min
             picker.value(null);
             return;
         }
@@ -1384,7 +1384,7 @@ ko.bindingHandlers.kendoDateTime = {
         var value = valueAccessor(),
             $input = $(element),
             currentValue = ko.utils.unwrapObservable(value),
-            date = moment(currentValue,"DD/MM/YYYY "),
+            date = moment(currentValue, "DD/MM/YYYY "),
             changed = function (e) {
                 console.log(e);
                 var nv = this.value();
@@ -1415,7 +1415,7 @@ ko.bindingHandlers.kendoDateTime = {
     },
     update: function (element, valueAccessor) {
         var $input = $(element);
-        if ($input.data("stop") == "true") return;
+        if ($input.data("stop") === "true") return;
 
         var value = valueAccessor(),
             modelValue = ko.utils.unwrapObservable(value),
@@ -1426,7 +1426,7 @@ ko.bindingHandlers.kendoDateTime = {
             picker.value(null);
             return;
         }
-        if (date.year() == 1) { // DateTime.Min
+        if (date.year() === 1) { // DateTime.Min
             picker.value(null);
             return;
         }
@@ -1689,7 +1689,7 @@ ko.bindingHandlers.commandWithParameter = {
             callback(parameter)
                 .then(function () {
                     button.button("complete");
-                    if (button.get(0).tagName == 'BUTTON' || button.get(0).tagName == 'A') {
+                    if (button.get(0).tagName === 'BUTTON' || button.get(0).tagName === 'A') {
                         button.html(completeText);
                     } else {
                         button.val(completeText);
@@ -1710,12 +1710,12 @@ ko.bindingHandlers.filter = {
         var value = valueAccessor(),
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
-            tooltip = value.tooltip || 'Type to filter current page or type and [ENTER] to search the whole view',
+            tooltip = value.tooltip || "Type to filter current page or type and [ENTER] to search the whole view",
             offset = (typeof value.offset === "undefined" ? 8 : parseInt(value.offset)),
             colmd = "col-md-" + (12 - offset),
             coloff = "col-md-offset-" + offset,
             $element = $(element),
-            $filterInput = $("<input data-toggle='tooltip' title='" + tooltip + "' type='search' class='search-query input-medium form-control' placeholder='Filter.. '>"),
+            $filterInput = $("<input data-toggle=\"tooltip\" title=\"" + tooltip + "\" type=\"search\" class=\"search-query input-medium form-control\" placeholder=\"Filter.. \">"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
             $form = $("<form class='form-search " + colmd + " " + coloff + "'>" +
                 " <div class='input-group pull-right'>" +
@@ -1727,9 +1727,9 @@ ko.bindingHandlers.filter = {
             pagedSearch = bindingAccessor.searchPaging;
 
 
-        $form.find('span.input-group-addon').before($filterInput);
+        $form.find("span.input-group-addon").before($filterInput);
         if (pagedSearch) {
-            $form.find('span.glyphicon-remove').after($serverLoadButton);
+            $form.find("span.glyphicon-remove").after($serverLoadButton);
         }
         $element.before($form);
 
@@ -1752,8 +1752,13 @@ ko.bindingHandlers.filter = {
             var $rows = $element.find(path),
                 filter = $filterInput.val().toLowerCase();
             $rows.each(function () {
-                var $tr = $(this);
-                if ($tr.text().toLowerCase().indexOf(filter) > -1) {
+                var $tr = $(this),
+                    text = $tr.text().toLowerCase().trim();
+                if (!text) {
+                    $("input", $tr).each(function (i, v) { text += " " + $(v).val() });
+                    text = text.toLowerCase().trim();
+                }
+                if (text.indexOf(filter) > -1) {
                     $tr.show();
                 } else {
                     $tr.hide();
@@ -1764,9 +1769,9 @@ ko.bindingHandlers.filter = {
         },
         throttled = _.throttle(dofilter, 800);
 
-        $filterInput.on('keyup', throttled).siblings('span.input-group-addon')
+        $filterInput.on("keyup", throttled).siblings("span.input-group-addon")
             .click(function () {
-                $filterInput.val('');
+                $filterInput.val("");
                 dofilter();
             });
 
