@@ -165,7 +165,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     }
                 });
             },
-
             checkTheRevenue = function () {
 
                 var tcs = new $.Deferred(),

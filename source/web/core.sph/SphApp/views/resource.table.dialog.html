@@ -17,42 +17,43 @@
                         </div>
                     </div>
 
-                    <table class="table table-condensed table-striped" id="types-table" data-bind="filter : {path:'tbody>tr'}">
-                        <thead>
-                            <tr>
-                                <th>Key</th>
-                                <th>Value</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach : $root.items" style="height: 400px; overflow-y: auto; overflow-x: hidden; display: block">
-                            <tr>
-                                <td>
-                                    <input class="form-control " title=""
-                                           style="width: 150px"
-                                           required
-                                           data-bind="value: Key, visible :true, enable :true ,uniqueName:true"
-                                           type="text"
-                                           name="Title" />
-                                </td>
-                                <td>
-                                    <input class="form-control " title=""
-                                           required
-                                           style="width: 340px"
-                                           data-bind="value: Value, visible :true, enable :true ,uniqueName:true"
-                                           type="text"
-                                           name="Title" />
-                                </td>
-                                <td>
-                                    <a title="remove" href="#"
-                                       data-bind="click : $root.removeChildItem.call($parent, $data)">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                    <div style="height: 400px; overflow-y: auto; overflow-x: hidden; display: block">
+                        <table class="table table-condensed table-striped" id="types-table" data-bind="filter : {path:'tbody>tr'}">
+                            <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach : $root.items">
+                                <tr>
+                                    <td>
+                                        <input class="form-control " title=""
+                                               style="width: 150px"
+                                               required
+                                               data-bind="value: Key, visible :true, enable :true ,uniqueName:true"
+                                               type="text"
+                                               name="Title" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control " title=""
+                                               required
+                                               style="width: 340px"
+                                               data-bind="value: Value, visible :true, enable :true ,uniqueName:true"
+                                               type="text"
+                                               name="Title" />
+                                    </td>
+                                    <td>
+                                        <a title="remove" href="#"
+                                           data-bind="click : $root.removeChildItem.call($parent, $data)">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <a href="#" data-bind="click : $root.addChildItem" class="btn btn-link">
                         <i class="fa fa-plus-circle"></i>

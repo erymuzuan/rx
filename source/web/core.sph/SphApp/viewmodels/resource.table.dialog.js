@@ -34,19 +34,9 @@ define(["plugins/dialog", objectbuilders.datacontext],
             attached = function () {
                 selectedLanguage("");
                 //scrollable tbody
-                var $table = $("#types-table"),
-                    $bodyCells = $table.find("tbody tr:first").children(),
-                    colWidth;
-
-                $(window).resize(function () {
-                    colWidth = $bodyCells.map(function () {
-                        return $(this).width();
-                    }).get();
-
-                    $table.find("thead tr").children().each(function (i, v) {
-                        $(v).width(colWidth[i]);
-                    });
-                }).resize();
+                $.getScript("Scripts/jquery.floatThead.min.js", function () {
+                    $("#types-table").floatThead();
+                });
             },
             addChildItem = function () {
                 items.push({ "Key": ko.observable(""), "Value": ko.observable("") });
