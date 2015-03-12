@@ -95,7 +95,7 @@ namespace Bespoke.Sph.Domain
                 args = string.Join(", ", list);
             }
 
-            this.FunctoidCollection.Select((x, i) => x.Index = i).ToList().ForEach(Console.WriteLine);
+            this.FunctoidCollection.Select((x, i) => x.Index = i).ToList().ForEach(x => { });
 
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
             this.MapCollection.ForEach(x => x.TransformDefinition = this);
@@ -145,7 +145,7 @@ namespace Bespoke.Sph.Domain
             if (!string.IsNullOrWhiteSpace(this.InputTypeName))
                 code.Replace("{SOURCE_TYPE}", this.InputType.FullName);
             else
-                code.Replace("{SOURCE_TYPE}", this.Name +".Input");
+                code.Replace("{SOURCE_TYPE}", this.Name + ".Input");
 
             code.Replace("{DEST_TYPE}", this.OutputType.FullName);
             return code.ToString();

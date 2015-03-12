@@ -175,7 +175,7 @@ $tools | %{
 
 #build core.sph and web.sph
 Parallel-Build -Name "web" -folder "web" -projects @("core.sph")
-& msbuild .\source\web\web.sph\web.sph.csproj /p:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=web.sph.v1.err"
+& msbuild .\source\web\web.sph\web.sph.csproj /p:SolutionDir=$pwd /p:Configuration="Debug" /p:Platform="x64" /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=web.sph.v1.err"
 
 
 Write-Host "Removing dll.config and xml files from output folders"
@@ -213,10 +213,10 @@ $Microsoft_Compostition = ls .\packages\Microsoft.Composition.1.0.27\lib\portabl
 $Microsoft_Code_Analysis = ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse
 $odp_managed_data_provider = ls .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll
 $user_dll = ls -Path .\bin\output -Filter DevV1.*
-$web_bin = .\source\web\web.sph\bin
-$tools_bin = .\bin\tools
-$subscribers_bin = .\bin\subscribers
-$schedulers_bin = .\bin\schedulers
+$web_bin = ".\source\web\web.sph\bin"
+$tools_bin = ".\bin\tools"
+$subscribers_bin = ".\bin\subscribers"
+$schedulers_bin = ".\bin\schedulers"
 
 $user_dll
 
@@ -227,8 +227,8 @@ $RabbitmMq_Client | Copy-Item -Destination $web_bin
 $Microsoft_Compostition | Copy-Item -Destination $tools_bin
 $Microsoft_Code_Analysis | Copy-Item -Destination $tools_bin
 
-$Microsoft_Compostition | Copy-Item -Destination $subscribers
-$Microsoft_Code_Analysis | Copy-Item -Destination $subscribers
+$Microsoft_Compostition | Copy-Item -Destination $subscribers_bin
+$Microsoft_Code_Analysis | Copy-Item -Destination $subscribers_bin
 
 
 $Microsoft_Compostition| Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
@@ -240,9 +240,9 @@ $Microsoft_Compostition | Copy-Item -Destination .\source\unit.test\mapping.tran
 $Microsoft_Code_Analysis | Copy-Item -Destination .\source\unit.test\mapping.transformation.test\bin\Debug
 
 
-$user_dll | Copy-Item -Destination .\bin\subscribers
-$user_dll | Copy-Item -Destination .\bin\schedulers
-$user_dll | Copy-Item -Destination .\source\web\web.sph\bin
+$user_dll | Copy-Item -Destination $subscribers_bin
+$user_dll | Copy-Item -Destination $schedulers_bin
+$user_dll | Copy-Item -Destination $web_bin
 
 
 gps msbuild* | kill
