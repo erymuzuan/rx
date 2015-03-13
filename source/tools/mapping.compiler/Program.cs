@@ -62,7 +62,7 @@ namespace mapping.compiler
                 }
                 return;
             }
-            Console.WriteLine("Successfully compile t0 {0}", result.Output);
+            Console.WriteLine("Successfully compile to {0}", result.Output);
 
 
         }
