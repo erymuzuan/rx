@@ -32,5 +32,32 @@ namespace mapping.transformation.test
             code.AppendLine();
             StringAssert.Contains(code.ToString(), "hrmis_pdrmk");
         }
+
+        [TestMethod]
+        public void Sort()
+        {
+            var sql = new SqlServerLookup { WebId = "A", SqlText = "SELECT MAX(Id) FROM dbo.Patient" };
+            sql.Initialize();
+            sql["connection"].Functoid = "B";
+
+            var config = new ConfigurationSettingFunctoid { WebId = "B", Section = "ConnectionString", Key = "His"};
+
+            var mapping = new TransformDefinition();
+            mapping.AddFunctoids(sql, config);
+            mapping.FunctoidCollection.Select((x, i) => x.Index = i).ToList().ForEach(x => { });
+            mapping.FunctoidCollection.ForEach(x => x.TransformDefinition = mapping);
+            mapping.MapCollection.ForEach(x => x.TransformDefinition = mapping);
+           
+            Assert.AreEqual(sql, mapping.FunctoidCollection[0]);
+            Assert.AreEqual(config, mapping.FunctoidCollection[1]);
+
+            // functoids statement
+            var sorted = new List<Functoid>(mapping.FunctoidCollection);
+            sorted.Sort(new FunctoidDependencyComparer());
+
+            Assert.AreEqual(config, sorted[0]);
+            Assert.AreEqual(sql, sorted[1]);
+
+        }
     }
 }
