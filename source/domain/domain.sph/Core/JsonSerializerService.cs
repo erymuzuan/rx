@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -67,26 +69,70 @@ namespace Bespoke.Sph.Domain
             var generator = new JsonSchemaGenerator();
             var schema = generator.Generate(type);
 
-            foreach (var prop in schema.Properties)
+            foreach (var jp in schema.Properties)
             {
-                var fieldType = type.GetProperty(prop.Key).PropertyType;
+                var prop = type.GetProperty(jp.Key);
+                if (null == prop) continue;
 
-                if (fieldType.IsGenericType
-                    && fieldType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                if (prop.PropertyType.IsGenericType
+                    && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
-                    var underlyingType = Nullable.GetUnderlyingType(fieldType);
+                    var underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
                     if (underlyingType == typeof(DateTime))
-                        prop.Value.Format = "date-time";
+                        jp.Value.Format = "date-time";
                     else if (underlyingType.BaseType == typeof(Enum))
-                        prop.Value.Enum = new JArray(Enum.GetNames(underlyingType).Cast<object>());
+                        jp.Value.Enum = new JArray(Enum.GetNames(underlyingType).Cast<object>());
                 }
-                else if (fieldType == typeof(DateTime))
+                else if (prop.PropertyType == typeof(DateTime))
                 {
-                    prop.Value.Format = "date-time";
+                    jp.Value.Format = "date-time";
+                }
+
+                if (prop.PropertyType.Namespace == type.Namespace)
+                {
+                    SetJsonSchemaDateTimeFormat(prop, jp);
+                }
+                if (prop.PropertyType.Namespace == typeof(Entity).Namespace)
+                {
+                    SetJsonSchemaDateTimeFormat(prop, jp);
                 }
             }
 
             return schema;
+        }
+
+        private static void SetJsonSchemaDateTimeFormat(PropertyInfo parentProperty, KeyValuePair<string, JsonSchema> parentSchema)
+        {
+            if (null == parentSchema.Value.Properties) return;
+            foreach (var jp in parentSchema.Value.Properties)
+            {
+                var prop = parentProperty.PropertyType.GetProperty(jp.Key);
+                if (null == prop) continue;
+
+                if (prop.PropertyType.IsGenericType
+                    && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    var underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
+                    if (underlyingType == typeof(DateTime))
+                        jp.Value.Format = "date-time";
+                    else if (underlyingType.BaseType == typeof(Enum))
+                        jp.Value.Enum = new JArray(Enum.GetNames(underlyingType).Cast<object>());
+                }
+                else if (prop.PropertyType == typeof(DateTime))
+                {
+                    jp.Value.Format = "date-time";
+                }
+
+                if (prop.PropertyType.Namespace == parentProperty.PropertyType.Namespace)
+                {
+                    SetJsonSchemaDateTimeFormat(prop, jp);
+                }
+                if (prop.PropertyType.Namespace == typeof(Entity).Namespace)
+                {
+                    SetJsonSchemaDateTimeFormat(prop, jp);
+                }
+            }
+
         }
 
         /// <summary>
@@ -182,7 +228,7 @@ namespace Bespoke.Sph.Domain
         {
             var setting = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.All, 
+                TypeNameHandling = TypeNameHandling.All,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
