@@ -168,7 +168,15 @@ namespace Bespoke.Sph.Persistence
 
             try
             {
-                this.WriteMessage(headers.Operation);
+                this.WriteMessage("{0} for {1}", headers.Operation,  "item".ToQuantity(entities.Count));
+                foreach (var item in entities)
+                {
+                    this.WriteMessage("{0} for {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
+                }
+                foreach (var item in deletedItems)
+                {
+                    this.WriteMessage("Deleting({0}) {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
+                }
                 // get changes to items
                 var previous = await GetPreviousItems(entities);
                 var logs = (from r in entities
