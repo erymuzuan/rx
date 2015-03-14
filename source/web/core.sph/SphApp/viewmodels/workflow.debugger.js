@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -9,16 +9,15 @@
 /// <reference path="../partial/WorkflowDefinition.js" />
 /// <reference path="../partial/Activity.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
-
-
-define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels/workflow.jsplumb', 'jquery.contextmenu', 'jquery.ui.position'],
+/// <reference path="~/Scripts/_task.js" />
+define(["services/datacontext", "services/logger", "plugins/router", "viewmodels/workflow.jsplumb", "jquery.contextmenu", "jquery.ui.position"],
     function (context, logger, router, jp) {
         var isBusy = ko.observable(false),
             running = ko.observable(false),
             locals = ko.observableArray(),
             breakpoints = ko.observableArray(),
             id = ko.observable(),
-            host = ko.observable('localhost'),
+            host = ko.observable("localhost"),
             consoleOutput = ko.observable(),
             instance = ko.observable(),
             executingActivity = ko.observable(),
@@ -73,16 +72,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
             },
             attached = function (view) {
                 jp.attached(view);
-                $(view).on('click', 'div.activity', function () {
-                    $('div.activity').removeClass('selected-activity');
-                    $(this).addClass('selected-activity');
+                $(view).on("click", "div.activity", function () {
+                    $("div.activity").removeClass("selected-activity");
+                    $(this).addClass("selected-activity");
                     var act = ko.dataFor(this),
                         list = generateLocals(act);
                     activity(list);
                 });
 
                 $.contextMenu({
-                    selector: 'div.activity',
+                    selector: "div.activity",
                     callback: function (key) {
                         var act = ko.dataFor(this[0]);
                         if (!act) {
@@ -115,6 +114,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
             }, generateLocals = function (loc) {
                 var list = [];
                 for (var n in loc) {
+                    if (!loc.hasOwnProperty(n)) {
+                        continue;
+                    }
                     var val = ko.unwrap(loc[n]),
                         type = typeof val;
                     if (_(val).isArray()) {
@@ -136,6 +138,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                         item.items = generateLocals(val);
                     }
                     list.push(item);
+
                 }
                 return list;
 
@@ -155,7 +158,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
             },
             start = function () {
                 var tcs = new $.Deferred(),
-                    support = "MozWebSocket" in window ? 'MozWebSocket' : ("WebSocket" in window ? 'WebSocket' : null);
+                    support = "MozWebSocket" in window ? "MozWebSocket" : ("WebSocket" in window ? "WebSocket" : null);
 
                 if (support == null) {
                     logger.error("No WebSocket support for debugging");
@@ -163,13 +166,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
 
                 logger.info("* Connecting to server ..<br/>");
                 // create a new websocket and connect
-                ws = new window[support]('ws://' + host() + ':' + port() + '/');
+                ws = new window[support]("ws://" + host() + ":" + port() + "/");
 
                 ws.onmessage = function (evt) {
                     var model = JSON.parse(evt.data),
                         bp = model.Breakpoint || {},
                         wf = model.Data,
-                        act = _(wd().ActivityCollection()).find(function (v) { return ko.unwrap(v.WebId) == bp.ActivityWebId; });
+                        act = _(wd().ActivityCollection()).find(function (v) { return ko.unwrap(v.WebId) === bp.ActivityWebId; });
                     if (act) {
                         _(wd().ActivityCollection()).each(function (v) {
                             v.hit(false);
@@ -180,11 +183,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                         locals.removeAll();
                         var vals = [];
                         for (var name in wf) {
-                            vals.push({
-                                name: name,
-                                type: 'object',
-                                value: ko.unwrap(wf[name])
-                            });
+                            if (wf.hasOwnProperty(name)) {
+                                vals.push({
+                                    name: name,
+                                    type: "object",
+                                    value: ko.unwrap(wf[name])
+                                });
+                            }
                         }
                         locals(vals);
                     }
@@ -233,6 +238,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
 
                 return Task.fromResult(true, 800);
             },
+            watches = ko.observableArray(),
             addToWatch = function (local) {
                 console.log(local);
                 watches.push(local);
@@ -242,7 +248,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
             }, refreshWatch = function (local) {
                 console.log(local);
             },
-            watches = ko.observableArray(),
             activity = ko.observableArray(),
             expandObjects = function (loc) {
                 if (!loc.items) return;

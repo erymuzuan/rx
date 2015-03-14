@@ -65,7 +65,7 @@ namespace workers.console.runner
             return 0;
         }
         
-        private static string ParseArg(string name)
+        public static string ParseArg(string name)
         {
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));

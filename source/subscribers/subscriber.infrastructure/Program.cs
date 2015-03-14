@@ -134,6 +134,15 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             return thread;
         }
 
+        //Assembly appdomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        //{
+        //    var name = new AssemblyName(args.Name);
+        //    var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, name + ".dll");
+        //    if (File.Exists(dll))
+        //        return Assembly.LoadFile(dll);
+        //    return null;
+        //}
+
 
 
         public AppDomain CreateAppDomain(SubscriberMetadata metadata)
