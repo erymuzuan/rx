@@ -58,7 +58,7 @@ namespace sph.builder
             var type = CompileEntityDefinition(ed);
             Console.WriteLine("Compiled : {0}", type);
 
-            var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
+            var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification(null) };
             await sqlSub.ProcessMessageAsync(ed);
 
             using (var client = new HttpClient())
@@ -68,7 +68,7 @@ namespace sph.builder
                 var clone = ed.Clone();
                 clone.MemberCollection.Add(new Member { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
 
-                var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification() };
+                var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification(null) };
                 await subs.PutMappingAsync(clone);
             }
             await InsertIconAsync(ed);

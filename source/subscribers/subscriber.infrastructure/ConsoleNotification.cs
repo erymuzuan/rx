@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.RabbitMqPublisher;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
-using SuperSocket.WebSocket;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -12,9 +11,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     public class ConsoleNotification : INotificationService
     {
         private readonly IBrokerConnection m_connectionInfo;
-        private IConnection m_connection;
-        private IModel m_channel;
+
         public const int PERSISTENT_DELIVERY_MODE = 2;
+        public const int NON_PERSISTENT_DELIVERY_MODE = 1;
 
         public string Exchange { get; set; }
         public bool IsOpened { get; set; }
@@ -24,32 +23,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_connectionInfo = connectionInfo;
             this.Exchange = "sph.topic";
         }
-       
 
-        private void SendMessage(string message, string severity)
+
+        private void SendMessage(string json, Severity severity)
         {
-            var arg = new { message, severity };
-            var json = JsonConvert.SerializeObject(arg);
+            if (null == m_connectionInfo) return;
 
-            if (!this.IsOpened)
-                InitConnection();
-
-
-            var routingKey = "logger." + severity;
-            var body = System.Text.Encoding.Default.GetBytes(json);
-
-            var props = m_channel.CreateBasicProperties();
-            props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
-            props.SetPersistent(false);
-            props.ContentType = "application/json";
-            props.Headers = new Dictionary<string, object> { { "severity", severity } };
-       
-            m_channel.BasicPublish(this.Exchange, routingKey, props, body);
-
-        }
-
-        private void InitConnection()
-        {
 
             var factory = new ConnectionFactory
             {
@@ -59,21 +38,31 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 Port = m_connectionInfo.Port,
                 VirtualHost = m_connectionInfo.VirtualHost
             };
-            m_connection = factory.CreateConnection();
-            m_channel = m_connection.CreateModel();
 
-            m_channel.ExchangeDeclare(this.Exchange, ExchangeType.Topic, true);
-            this.IsOpened = true;
+
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+                var routingKey = "logger." + severity;
+                var body = Encoding.Default.GetBytes(json);
+
+                var props = channel.CreateBasicProperties();
+                props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
+                props.ContentType = "application/json";
+
+                channel.BasicPublish(this.Exchange, routingKey, props, body);
+
+            }
+
+
         }
-
-
-   
 
         public void Write(string format, params object[] args)
         {
             try
             {
-                this.SendMessage(string.Format(format, args), "info");
+                var message = new { message = string.Format(format, args), severity = "info" };
+                this.SendMessage(JsonConvert.SerializeObject(message), Severity.Info);
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("========== {0} : {1,12:hh:mm:ss.ff} ===========", "Infomation ", DateTime.Now);
 
@@ -91,9 +80,50 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             try
             {
-                this.SendMessage(string.Format(format, args), "error");
+                this.SendMessage(string.Format(format, args), Severity.Error);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(format, args);
+                Console.WriteLine();
+            }
+            finally
+            {
+                Console.ResetColor();
+            }
+        }
+
+        public void WriteError(Exception exception, string message2)
+        {
+            var message = new StringBuilder();
+            var exc = exception;
+            var aeg = exc as AggregateException;
+            if (null != aeg)
+            {
+                foreach (var ie in aeg.InnerExceptions)
+                {
+                    this.WriteError(ie, "");
+                }
+
+            }
+            while (null != exc)
+            {
+                message.AppendLine(exc.GetType().FullName);
+                message.AppendLine(exc.Message);
+                message.AppendLine(exc.StackTrace);
+                message.AppendLine();
+                message.AppendLine();
+                exc = exc.InnerException;
+            }
+            try
+            {
+                var error = new
+                {
+                    severity = "error",
+                    stack_trace = exception.StackTrace,
+                    message = exception.Message
+                };
+                this.SendMessage(JsonConvert.SerializeObject(error), Severity.Error);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(message.ToString());
                 Console.WriteLine();
             }
             finally

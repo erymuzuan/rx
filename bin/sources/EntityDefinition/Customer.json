@@ -458,6 +458,28 @@
               "Boost": 0,
               "DefaultValue": null,
               "WebId": "248d0c8f-b1a1-419a-b5c1-0564b6346915"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "MembersDate",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 1,
+              "DefaultValue": null,
+              "WebId": "a9c231eb-75b9-45f8-f732-3b82cb56f536"
             }
           ]
         },
@@ -718,50 +740,7 @@
         },
         "FilterCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
-              "Left": {
-                "$type": "Bespoke.Sph.Domain.AssemblyField, domain.sph",
-                "Location": "component.a",
-                "TypeName": "component.a.CustomComponent",
-                "Method": "CanSayHelloAsync",
-                "IsAsync": true,
-                "AsyncTimeout": 0,
-                "LoadInCurrentAppDomain": false,
-                "MethodArgCollection": {
-                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                  "$values": [
-                    {
-                      "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
-                      "Name": "name",
-                      "TypeName": "System.String, mscorlib",
-                      "ValueProvider": {
-                        "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-                        "TypeName": "System.String, mscorlib",
-                        "Value": "wre",
-                        "Name": "wrerew",
-                        "Note": "",
-                        "WebId": "75053a8b-5083-4acb-fc56-871c986a0377"
-                      },
-                      "WebId": null
-                    }
-                  ]
-                },
-                "Name": "test",
-                "Note": "test",
-                "WebId": "aa60991b-de88-4d21-fa15-eeebf5ed06b3"
-              },
-              "Right": {
-                "$type": "Bespoke.Sph.Domain.Field, domain.sph",
-                "Name": "+ Field",
-                "Note": null,
-                "WebId": null
-              },
-              "Operator": "Eq",
-              "WebId": "17bece01-d9c4-495d-99f2-bb5fdb0489bb"
-            }
-          ]
+          "$values": []
         },
         "Description": "Age",
         "Name": "Verify the age",
@@ -994,7 +973,7 @@
   "Name": "Customer",
   "Plural": "Customers",
   "IconStoreId": "e5a64533-4b4e-4f33-ad30-7fbb73d1ed67",
-  "IconClass": "glyphicon glyphicon-user",
+  "IconClass": "fa fa-ruble",
   "RecordName": "FullName",
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
@@ -1002,6 +981,6 @@
   "Id": "customer",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-02-02T11:15:22.8827627+08:00",
+  "ChangedDate": "2015-03-14T14:01:23.6942477+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

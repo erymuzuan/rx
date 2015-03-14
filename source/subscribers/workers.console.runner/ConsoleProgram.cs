@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.RabbitMqPublisher;
 using Bespoke.Sph.SubscribersInfrastructure;
 using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
@@ -26,7 +28,7 @@ namespace workers.console.runner
 
             var port = ParseArg("port") == null ? 5672 : int.Parse(ParseArg("port"));
 
-            INotificationService log = new ConsoleNotification();
+            INotificationService log = new ConsoleNotification(ObjectBuilder.GetObject<IBrokerConnection>());
             if (ParseArg("log") != "console")
             {
                 log = new EventLogNotification();

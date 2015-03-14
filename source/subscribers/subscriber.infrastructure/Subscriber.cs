@@ -24,37 +24,17 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public abstract void Run();
         protected void WriteError(Exception exception)
         {
-            var message = new StringBuilder();
-            var exc = exception;
-            var aeg = exc as AggregateException;
-            if (null != aeg)
-            {
-                foreach (var ie in aeg.InnerExceptions)
-                {
-                    this.WriteError(ie);
-                }
-
-            }
-            while (null != exc)
-            {
-                message.AppendLine(exc.GetType().FullName);
-                message.AppendLine(exc.Message);
-                message.AppendLine(exc.StackTrace);
-                message.AppendLine();
-                message.AppendLine();
-                exc = exc.InnerException;
-            }
-            this.NotificicationService.WriteError("{0}", new object[] { message.ToString() });
+            this.NotificicationService.WriteError(exception, "Exception is thrown in " + this.QueueName);
         }
 
         protected void WriteMessage(object value)
         {
-            this.NotificicationService.Write("{0}", new[] { value });
+            this.NotificicationService.Write(this.GetType().Name + " : " + "{0}", value);
         }
 
         protected void WriteMessage(string format, params object[] args)
         {
-            this.NotificicationService.Write(format, args);
+            this.NotificicationService.Write(this.GetType().Name + " : " + format, args);
         }
 
         protected virtual void OnStart()

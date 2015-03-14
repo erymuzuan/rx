@@ -1272,6 +1272,7 @@
     <Content Include="SphApp\views\not.found.html" />
     <Content Include="SphApp\views\offline.storage.html" />
     <Content Include="SphApp\views\search.definition.dialog.html" />
+    <Content Include="SphApp\views\_developers.log.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1279,6 +1280,7 @@
     <Content Include="SphApp\viewmodels\offline.storage.js" />
     <Content Include="Views\EntityFormRenderer\TestCustomLayout.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
+    <Content Include="SphApp\viewmodels\_developers.log.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

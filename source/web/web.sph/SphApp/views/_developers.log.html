@@ -1,0 +1,50 @@
+﻿<div class="footer" data-bind="value: visible" style="background-color: whitesmoke">
+    <span>Logs output</span>
+    <div style="margin-left:10px">
+        <button class="btn btn-default" style="border: none" data-bind="command : start" title="Connection to the running workers">
+            <i class="fa fa-plug"></i>
+            Connect
+        </button>
+        <button class="btn btn-default" style="border: none" data-bind="click : stop" title="Break the connection to the workers">
+            <i class="fa fa-chain-broken" style="border: none"></i>
+            Disconnect
+        </button>
+        <button class="btn btn-default" style="border: none" data-bind="click : clear" title="Clear all logs">
+            <i class="fa fa-times" style="color: red"></i>
+            Clear
+        </button>
+
+
+        <div class="btn-group" data-toggle2="buttons">
+            <label class="btn btn-default active" title="Filter infos" style="margin-left:5px">
+                <input type="checkbox" autocomplete="off" data-bind="checked : info">
+                <i class="fa fa-info" style="color: blue"></i>
+                Infos
+            </label>
+            <label class="btn btn-default" title="Filter warnings" style="margin-left:5px">
+                <input type="checkbox" autocomplete="off" data-bind="checked : warning">
+                <i class="fa fa-warning" style="color: orange"></i>
+                Warnings
+            </label>
+            <label class="btn btn-default" title="Filter errors" style="margin-left:5px">
+                <input type="checkbox" autocomplete="off" data-bind="checked : error">
+                <i class="fa fa-exclamation-circle" style="color: red"></i>
+                Errors
+            </label>
+        </div>
+
+        <button class="btn btn-default pull-right" style="border: none" data-bind="click : setting" title="Settings">
+            <i class="fa fa-gear"></i>
+        </button>
+    </div>
+    <div id="developers-log-footer" style="height: 250px; overflow-y: scroll; background-color:#fff">
+        <ul data-bind="foreach :list">
+            <li>
+                <i class="fa fa-info" style="color:blue" data-bind="visible:severity === 'info'"></i>
+                <i class="fa fa-warning" style="color:orange" data-bind="visible:severity === 'warning'"></i>
+                <i class="fa fa-exclamation-circle" style="color:red" data-bind="visible:severity === 'error'"></i>
+                <span data-bind="text:message"></span>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -15,7 +15,8 @@ namespace Bespoke.Sph.Domain
         Info,
         Warning,
         Error,
-        Critical
+        Critical,
+        Log
     }
 
     public enum LogEntry

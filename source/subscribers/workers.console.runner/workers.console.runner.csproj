@@ -61,6 +61,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\dependencies\rabbitmq.changepublisher\rabbitmq.changepublisher.csproj">
+      <Project>{CD3B01AB-CCC4-4324-AC06-9E0EC3DF4C2F}</Project>
+      <Name>rabbitmq.changepublisher</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>

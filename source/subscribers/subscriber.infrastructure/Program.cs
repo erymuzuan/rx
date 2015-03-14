@@ -210,7 +210,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
                 catch (Exception e)
                 {
-                    this.NotificationService.WriteError(e.ToString());
+                    this.NotificationService.WriteError(e,"Fail to unload " + appDomain.FriendlyName);
                 }
             }
             this.SubscriberCollection.Clear();

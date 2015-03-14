@@ -1,7 +1,9 @@
-﻿using Bespoke.Sph.Domain;
+﻿using System;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.RabbitMqPublisher
 {
+    [Serializable]
     public class DefaultBrokerConnection : IBrokerConnection
     {
         private int m_managementPort;
