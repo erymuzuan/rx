@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
@@ -7,7 +8,8 @@ namespace Bespoke.Sph.Domain
     {
         void Log(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application);
         Task LogAsync(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application);
-        Task LogAsync(Exception exception);
+        Task LogAsync(Exception exception, IReadOnlyDictionary<string, object> properties);
+        void Log(Exception exception, IReadOnlyDictionary<string, object> properties);
     }
 
     public enum Severity
@@ -26,6 +28,4 @@ namespace Bespoke.Sph.Domain
         Schedulers,
         Subscribers
     }
-
-
 }

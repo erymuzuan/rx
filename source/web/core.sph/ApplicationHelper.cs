@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security;
-using System.Threading.Tasks;
 using System.Web;
 using Bespoke.Sph.Domain;
 
@@ -11,14 +11,12 @@ namespace Bespoke.Sph.Web
         public HttpApplication Application { get; set; }
 
 
-        private async Task LogOtherException(Exception e, string errorPage = "~/error.aspx?error_id=")
+        private void LogOtherException(Exception e, string errorPage = "~/error.aspx?error_id=")
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
-            await logger.LogAsync(e);
+            logger.Log(e, new Dictionary<string, object> { { "url", this.Application.Request.RawUrl } });
 
             if (null == this.Application) return;
-            if (null == this.Application.Request) return;
-            if (null == this.Application.Response) return;
 
             if (this.Application.Response.StatusCode == 404) return;
             if (e.Message.Contains("The file") && e.Message.Contains("does not exist")) return;
@@ -47,7 +45,7 @@ namespace Bespoke.Sph.Web
         }
 
 
-        public async void Application_Error(string errorPage = "~/error.aspx?error_id=", string unauthorizedPage = "~/unauthorized_request.aspx")
+        public void Application_Error(string errorPage = "~/error.aspx?error_id=", string unauthorizedPage = "~/unauthorized_request.aspx")
         {
 
             var ex = this.Application.Server.GetLastError();
@@ -64,7 +62,7 @@ namespace Bespoke.Sph.Web
 
 
             /* other exceptions */
-            await LogOtherException(ex, errorPage);
+            LogOtherException(ex, errorPage);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace Bespoke.Sph.ElasticSearchLogger
         public Severity Severity { get; set; }
         public LogEntry Entry { get; set; }
         public string UserName { get; set; }
+        public string ExceptionType { get; set; }
     }
 }
