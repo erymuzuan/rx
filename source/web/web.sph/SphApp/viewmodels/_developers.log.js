@@ -14,6 +14,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	    var isBusy = ko.observable(false),
 		logs = ko.observableArray().extend({ rateLimit: 250 }),
 		list = ko.observableArray(),
+		subscribers = ko.observableArray(),
+		connected = ko.observable(true),
 		info = ko.observable(true),
 		warning = ko.observable(true),
 		error = ko.observable(true),
@@ -118,6 +120,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        ws.send("web logger listener is listening");
 		        tcs.resolve(true);
 		        scroll();
+		        connected(true);
 		    };
 
 		    // when the connection is closed, this method is called
@@ -125,6 +128,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        logger.error("* Connection closed");
 		        logs.push({ message: "* Connection closed", severity: "warning" });
 		        scroll();
+		        connected(false);
 		        tcs.resolve(false);
 		    };
 
@@ -167,16 +171,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    }, null, "arrayChange");
 		},
 		stop = function () {
+		    ws.close();
+		},
+		clear = function () {
+		    logs([]);
+		    list([]);
+		},
+		setting = function () {
 
 		},
-		    clear = function () {
-		        logs([]);
-		        list([]);
-		    },
-			setting = function () {
-
-			},
-	        viewStackTrace = function (log) {
+	    viewStackTrace = function (log) {
 	            require(["viewmodels/error.log.detail.dialog", "durandal/app"], function (dialog, app2) {
 	                dialog.log(log);
 
@@ -195,6 +199,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	        isBusy: isBusy,
 	        visible: config.roles.indexOf("developers") > -1,
 	        list: list,
+	        subscribers: subscribers,
+	        connected: connected,
 	        start: start,
 	        stop: stop,
 	        clear: clear,

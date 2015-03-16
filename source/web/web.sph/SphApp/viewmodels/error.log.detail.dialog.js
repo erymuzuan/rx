@@ -25,6 +25,7 @@ define(["plugins/dialog"],
         var vm = {
             log: log,
             okClick: okClick,
+            supportEmail: "support@bespoke.com.my",
             cancelClick: cancelClick
         };
 
