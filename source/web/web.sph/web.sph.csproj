@@ -1264,6 +1264,7 @@
     <Content Include="SphApp\viewmodels\icon.picker.js" />
     <Content Include="SphApp\viewmodels\members.selector.dialog.js" />
     <Content Include="SphApp\viewmodels\not.found.js" />
+    <Content Include="SphApp\viewmodels\output.setting.dialog.js" />
     <Content Include="SphApp\viewmodels\search.definition.dialog.js" />
     <Content Include="SphApp\views\advanced-search.html" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
@@ -1274,6 +1275,7 @@
     <Content Include="SphApp\views\members.selector.dialog.html" />
     <Content Include="SphApp\views\not.found.html" />
     <Content Include="SphApp\views\offline.storage.html" />
+    <Content Include="SphApp\views\output.setting.dialog.html" />
     <Content Include="SphApp\views\search.definition.dialog.html" />
     <Content Include="SphApp\views\_developers.log.html" />
     <Content Include="Web.config">

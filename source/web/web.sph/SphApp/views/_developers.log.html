@@ -1,5 +1,14 @@
 ﻿<div id="developers-log-panel" class="footer" data-bind="value: visible" style="background-color: whitesmoke">
 
+    <div class="pull-right">
+
+        <button class="btn btn-default pull-right" style="border: none" id="developers-log-panel-collapse" title="Collapse">
+            <i class="fa fa-minus"></i>
+        </button>
+        <button class="btn btn-default pull-right" style="border: none" id="developers-log-panel-expand" title="Expand">
+            <i class="fa fa-square-o"></i>
+        </button>
+    </div>
     <div class="tabbable">
         <ul class="nav nav-tabs">
             <li class="active">
@@ -44,26 +53,30 @@
                             Errors
                         </label>
                     </div>
-
-                    <button class="btn btn-default pull-right" style="border: none" data-bind="click : setting" title="Settings">
+                    <button class="btn btn-default pull-right" style="border: none;" data-bind="click : setting" title="Settings">
                         <i class="fa fa-gear"></i>
                     </button>
+                    <input type="text" data-bind="value:filterText, valueUpdate: 'afterkeydown' " placeholder=" filter..." class="pull-right form-control" style="width: 120px; border: none; background-color: #ffffff; margin: 2px" />
                 </div>
                 <div id="developers-log-footer" style="height: 250px; overflow-y: scroll; background-color: #fff">
                     <ul data-bind="foreach :list" class="list-group">
-                        <li>
+                        <li data-bind="css :{'list-group-item-success': message === 'Your workers has been succesfully restarted.'}">
                             <!-- ko if: severity === "warning"-->
                             <i class="fa fa-warning" style="color: orange" data-bind="visible:severity === 'warning'"></i>
-                            <span data-bind="text:message"></span>
+                            <span data-bind="text:time" style="margin-left: 5px"></span>
+                            <span data-bind="text:message" style="margin-left: 5px"></span>
                             <!--/ko-->
                             <!-- ko if: severity === "info"-->
                             <i class="fa fa-info" style="color: blue" data-bind="visible:severity === 'info'">
-                            </i><span data-bind="text:message"></span>
+                            </i>
+                            <span data-bind="text:time" style="margin-left: 5px"></span>
+                            <span data-bind="text:message" style="margin-left: 5px"></span>
                             <!--/ko-->
                             <!-- ko if: severity === "error"-->
                             <a class="" href="#developers-log-panel" title="View Exception stack trace" data-bind="click : $root.viewStackTrace">
                                 <i class="fa fa-exclamation-circle" style="color: red" data-bind="visible:severity === 'error'"></i>
-                                <span data-bind="text:message"></span>
+                                <span data-bind="text:time" style="margin-left: 5px"></span>
+                                <span data-bind="text:message" style="margin-left: 5px"></span>
                             </a>
                             <!--/ko-->
                         </li>

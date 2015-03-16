@@ -16,6 +16,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		list = ko.observableArray(),
 		subscribers = ko.observableArray(),
 		connected = ko.observable(true),
+		filterText = ko.observable("").extend({ throttle: 250 }),
 		info = ko.observable(true),
 		warning = ko.observable(true),
 		error = ko.observable(true),
@@ -43,7 +44,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        logger.error("No WebSocket support for console notification");
 		    }
 
-		    logs.push({ message: "* Connecting to server ...", severity: "info" });
+		    logs.push({ message: "* Connecting to server ...", time: "[" + moment().format("HH:mm:ss") + "]", severity: "info" });
 		    // create a new websocket and connect
 		    ws = new window[support]("ws://" + host() + ":" + port() + "/");
 
@@ -54,6 +55,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        }
 		        var severity = model.severity || "info",
 					message = model.message || "<empty message>";
+
+		        model.time = "[" + moment().format("HH:mm:ss") + "]";
 
 		        logs.push(model);
 		        scroll();
@@ -116,8 +119,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    // when the connection is established, this method is called
 		    ws.onopen = function () {
 		        console.log("* Connection open");
-		        logs.push({ message: "* Connection open", severity: "info" });
-		        logs.push({ message: "* SessionId " + ws.sessionId , severity: "info" });
+		        logs.push({ message: "* Connection open", time: "[" + moment().format("HH:mm:ss") + "]", severity: "info" });
+
 		        ws.send("web logger listener is listening");
 		        tcs.resolve(true);
 		        scroll();
@@ -129,7 +132,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    // when the connection is closed, this method is called
 		    ws.onclose = function () {
 		        logger.error("* Connection closed");
-		        logs.push({ message: "* Connection closed", severity: "warning" });
+		        logs.push({ message: "* Connection closed", time: "[" + moment().format("HH:mm:ss") + "]", severity: "warning" });
 		        scroll();
 		        connected(false);
 		        tcs.resolve(false);
@@ -172,6 +175,19 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        });
 
 		    }, null, "arrayChange");
+
+		    $("#developers-log-panel-collapse", view).on("click", function(e) {
+		        e.preventDefault();
+		        $("#developers-log-panel > div.tabbable").hide();
+
+		    });
+		    $("#developers-log-panel-expand", view).on("click", function(e) {
+		        e.preventDefault();
+		        $("#developers-log-panel > div.tabbable").show();
+
+		    });
+
+
 		},
 		stop = function () {
 		    ws.close();
@@ -181,22 +197,43 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    list([]);
 		},
 		setting = function () {
+		    require(["viewmodels/output.setting.dialog", "durandal/app"], function (dialog, app2) {
+		        dialog.setting({ port: port });
 
+		        app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            port(dialog.setting().port());
+                        }
+                    });
+
+		    });
 		},
 	    viewStackTrace = function (log) {
-	            require(["viewmodels/error.log.detail.dialog", "durandal/app"], function (dialog, app2) {
-	                dialog.log(log);
+	        require(["viewmodels/error.log.detail.dialog", "durandal/app"], function (dialog, app2) {
+	            dialog.log(log);
 
-	                app2.showDialog(dialog)
-                        .done(function (result) {
-                            if (!result) return;
-                            if (result === "OK") {
-                            }
-                        });
+	            app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                        }
+                    });
 
-	            });
-	        };
+	        });
+	    };
 
+	    filterText.subscribe(function (text) {
+	        if (!text) {
+	            list(logs());
+                return;
+            }
+	        var temp = _(logs()).filter(function(v) {
+	            return v.message.indexOf(text) > -1;
+	        });
+	        list(temp);
+	    });
 
 	    var vm = {
 	        isBusy: isBusy,
@@ -210,6 +247,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	        error: error,
 	        warning: warning,
 	        info: info,
+	        filterText: filterText,
 	        setting: setting,
 	        viewStackTrace: viewStackTrace,
 	        activate: activate,

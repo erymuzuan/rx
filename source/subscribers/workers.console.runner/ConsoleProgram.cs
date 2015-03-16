@@ -14,7 +14,6 @@ namespace workers.console.runner
 
         public static int Main(string[] args)
         {
-
             var host = ParseArg("h") ?? "localhost";
             var vhost = ParseArg("v") ?? "DevV1";
             var userName = ParseArg("u") ?? "guest";
@@ -28,11 +27,25 @@ namespace workers.console.runner
 
             var port = ParseArg("port") == null ? 5672 : int.Parse(ParseArg("port"));
 
+
+
             INotificationService log = new ConsoleNotification(ObjectBuilder.GetObject<IBrokerConnection>());
             if (ParseArg("log") != "console")
             {
                 log = new EventLogNotification();
             }
+
+            // start web.console
+            var webConsole = new ConsoleNotificationSubscriber
+            {
+                HostName = host,
+                UserName = userName,
+                Password = password,
+                Port = port,
+                NotificicationService = log,
+                VirtualHost = vhost
+            };
+            webConsole.Run();
 
             var title = string.Format("Connecting to {2}:{3}@{0}:{1}", host, port, userName, password);
             log.Write(Console.Title = title);
