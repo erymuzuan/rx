@@ -37,26 +37,44 @@
 
 
                     <div class="btn-group" data-toggle2="buttons">
-                        <label class="btn btn-default active" title="Filter infos" style="margin-left: 5px">
+                        <label class="btn btn-sm btn-default active" title="Filter infos" style="margin-left: 5px">
                             <input type="checkbox" autocomplete="off" data-bind="checked : info">
                             <i class="fa fa-info" style="color: blue"></i>
                             Infos
                         </label>
-                        <label class="btn btn-default" title="Filter warnings" style="margin-left: 5px">
+                        <label class="btn btn-sm btn-default" title="Filter warnings" style="margin-left: 5px">
                             <input type="checkbox" autocomplete="off" data-bind="checked : warning">
                             <i class="fa fa-warning" style="color: orange"></i>
                             Warnings
                         </label>
-                        <label class="btn btn-default" title="Filter errors" style="margin-left: 5px">
+                        <label class="btn btn-sm btn-default" title="Filter errors" style="margin-left: 5px">
                             <input type="checkbox" autocomplete="off" data-bind="checked : error">
                             <i class="fa fa-exclamation-circle" style="color: red"></i>
                             Errors
                         </label>
                     </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger">Source</button>
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Web Server</a></li>
+                            <li><a href="#">Subscribers</a></li>
+                            <li><a href="#">Elasticsearch</a></li>
+                            <li><a href="#">RabbitMq</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">All</a></li>
+                        </ul>
+                    </div>
+
                     <button class="btn btn-default pull-right" style="border: none;" data-bind="click : setting" title="Settings">
                         <i class="fa fa-gear"></i>
                     </button>
-                    <input type="text" data-bind="value:filterText, valueUpdate: 'afterkeydown' " placeholder=" filter..." class="pull-right form-control" style="width: 120px; border: none; background-color: #ffffff; margin: 2px" />
+                    <input type="text" data-bind="textInput:filterText" placeholder=" filter..."
+                           class="pull-right" style="width: 120px; border: none; background-color: #ffffff; margin: 2px"/>
+
                 </div>
                 <div id="developers-log-footer" style="height: 250px; overflow-y: scroll; background-color: #fff">
                     <ul data-bind="foreach :list" class="list-group">
@@ -64,19 +82,19 @@
                             <!-- ko if: severity === "warning"-->
                             <i class="fa fa-warning" style="color: orange" data-bind="visible:severity === 'warning'"></i>
                             <span data-bind="text:time" style="margin-left: 5px"></span>
-                            <span data-bind="text:message" style="margin-left: 5px"></span>
+                            <span data-bind="html:message" style="margin-left: 5px"></span>
                             <!--/ko-->
                             <!-- ko if: severity === "info"-->
                             <i class="fa fa-info" style="color: blue" data-bind="visible:severity === 'info'">
                             </i>
                             <span data-bind="text:time" style="margin-left: 5px"></span>
-                            <span data-bind="text:message" style="margin-left: 5px"></span>
+                            <span data-bind="html:message" style="margin-left: 5px"></span>
                             <!--/ko-->
                             <!-- ko if: severity === "error"-->
                             <a class="" href="#developers-log-panel" title="View Exception stack trace" data-bind="click : $root.viewStackTrace">
                                 <i class="fa fa-exclamation-circle" style="color: red" data-bind="visible:severity === 'error'"></i>
                                 <span data-bind="text:time" style="margin-left: 5px"></span>
-                                <span data-bind="text:message" style="margin-left: 5px"></span>
+                                <span data-bind="html:message" style="margin-left: 5px"></span>
                             </a>
                             <!--/ko-->
                         </li>

@@ -16,7 +16,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		list = ko.observableArray(),
 		subscribers = ko.observableArray(),
 		connected = ko.observable(true),
-		filterText = ko.observable("").extend({ throttle: 250 }),
+		filterText = ko.observable("").extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 300 } }),
 		info = ko.observable(true),
 		warning = ko.observable(true),
 		error = ko.observable(true),
@@ -30,6 +30,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    list(temp);
 		},
 		port = ko.observable(5030),
+		max = ko.observable(200),
 		host = ko.observable("localhost"),
 		ws = null,
 		scroll = function () {
@@ -55,6 +56,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        }
 		        var severity = model.severity || "info",
 					message = model.message || "<empty message>";
+
+		        model.message = message.replace(/\r\n/g, "<br/>");
 
 		        model.time = "[" + moment().format("HH:mm:ss") + "]";
 
@@ -198,13 +201,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		},
 		setting = function () {
 		    require(["viewmodels/output.setting.dialog", "durandal/app"], function (dialog, app2) {
-		        dialog.setting({ port: port });
+		        dialog.setting({ port: port , max : max});
 
 		        app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
                             port(dialog.setting().port());
+                            max(dialog.setting().max());
                         }
                     });
 
@@ -230,7 +234,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return;
             }
 	        var temp = _(logs()).filter(function(v) {
-	            return v.message.indexOf(text) > -1;
+	            return v.message.toLowerCase().indexOf(text.toLowerCase()) > -1;
 	        });
 	        list(temp);
 	    });

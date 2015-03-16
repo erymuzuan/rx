@@ -9,18 +9,19 @@
 
 
 define(["plugins/dialog"],
-    function(dialog) {
+    function (dialog) {
 
         var setting = ko.observable({
-                port : ko.observable(5030)
-            }),
+            port: ko.observable(5030),
+            max: ko.observable(200)
+        }),
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
 
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
