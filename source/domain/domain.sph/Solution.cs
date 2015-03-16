@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Domain
 {
-    public class Solution : Entity
+    public partial class Solution : Entity
     {
         [JsonIgnore]
         [ImportMany("SolutionCompiler", typeof(SolutionCompiler), AllowRecomposition = true)]
@@ -234,10 +234,15 @@ namespace Bespoke.Sph.Domain
             return solution;
         }
 
-        public static void SaveNewSolution(string json, JObject obj)
+  
+        public Task CreateNewAsync()
         {
-            Directory.CreateDirectory(obj["ProjectDirectory"].ToString());
-            File.WriteAllText(obj["ProjectDirectory"].ToString() + "\\" + obj["ApplicationName"].ToString() + ".json", json);
+            var json = this.ToJsonString(true);
+            File.WriteAllText(this.Path, json);
+            // TODO : create folder
+            // and solution items
+
+            return Task.FromResult(0);
         }
     }
 }

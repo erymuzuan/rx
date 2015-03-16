@@ -11,6 +11,17 @@ elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSch
 			<xs:attribute name="Lng" type="xs:double" use="required"/>
 		</xs:complexType>
 	</xs:element>
+  <xs:element name="Solution">
+		<xs:complexType>
+			<xs:attribute name="ApplicationName" type="xs:string" use="required"/>
+			<xs:attribute name="ApplicationPath" type="xs:string" use="required"/>
+			<xs:attribute name="IISPort" type="xs:string" use="required"/>
+      <xs:attribute name="ElasticsearchHome" type="xs:string" use="required"/>
+      <xs:attribute name="RabbitMQDirectory" type="xs:string" use="required"/>
+      <xs:attribute name="RabbitMQUsername" type="xs:string" use="required"/>
+      <xs:attribute name="RabbitMQPassword" type="xs:string" use="required"/>      
+		</xs:complexType>    
+  </xs:element>
 	<xs:element name="Document">
 		<xs:complexType>
 			<xs:all>
