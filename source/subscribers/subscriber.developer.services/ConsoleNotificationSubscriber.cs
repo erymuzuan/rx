@@ -17,7 +17,7 @@ namespace subscriber.developer.services
 
         public override string[] RoutingKeys
         {
-            get { return new []{"logger.#"}; }
+            get { return new[] { "logger.#" }; }
         }
 
         public override string QueueName
@@ -88,10 +88,12 @@ namespace subscriber.developer.services
 
             this.WriteMessage("!!Stopped : {0}", this.QueueName);
         }
+        
         private void NewMessageReceived(WebSocketSession session, string value)
         {
+            Console.WriteLine("Getting new message from {0} => {1}", session.SessionID, value);
+            // session.Send("[{\"name\" : \"test01\"}]");
 
-            // 
         }
 
         private IConnection m_connection;

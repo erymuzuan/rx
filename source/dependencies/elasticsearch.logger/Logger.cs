@@ -15,7 +15,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
     {
         public void Log(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("");
         }
 
         public async Task LogAsync(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application)

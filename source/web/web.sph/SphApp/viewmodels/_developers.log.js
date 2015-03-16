@@ -117,10 +117,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    ws.onopen = function () {
 		        console.log("* Connection open");
 		        logs.push({ message: "* Connection open", severity: "info" });
+		        logs.push({ message: "* SessionId " + ws.sessionId , severity: "info" });
 		        ws.send("web logger listener is listening");
 		        tcs.resolve(true);
 		        scroll();
 		        connected(true);
+
+		        ws.send("GET subscribers");
 		    };
 
 		    // when the connection is closed, this method is called

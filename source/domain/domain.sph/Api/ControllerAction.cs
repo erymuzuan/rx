@@ -27,5 +27,8 @@ namespace Bespoke.Sph.Domain.Api
         }
 
         public abstract string GenerateCode(TableDefinition table, Adapter adapter);
+
+       
+
     }
 }
