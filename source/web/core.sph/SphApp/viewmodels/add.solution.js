@@ -8,12 +8,13 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['plugins/dialog', objectbuilders.datacontext],
-    function (dialog, context) {
+define(['plugins/dialog', objectbuilders.datacontext, objectbuilders.system],
+    function (dialog, context, system) {
 
-        var okClick = function (data, ev) {
+        var solution = ko.observable(new bespoke.sph.domain.Solution(system.guid())),
+            okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-                                    dialog.close(this, "OK");
+                    dialog.close(this, "OK");
                 }
             },
             cancelClick = function () {
@@ -22,9 +23,9 @@ define(['plugins/dialog', objectbuilders.datacontext],
 
         var vm = {
             okClick: okClick,
-            cancelClick: cancelClick
+            cancelClick: cancelClick,
+            solution: solution
         };
-
 
         return vm;
 

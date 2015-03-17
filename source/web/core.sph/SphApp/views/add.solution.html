@@ -7,7 +7,7 @@
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
                 <h3>Add New Solution</h3>
             </div>
-            <div class="modal-body" data-bind="with: ed">
+            <div class="modal-body" data-bind="with: solution">
 
                 <form class="form-horizontal" id="add-entity-definition-dialog-form">
 
@@ -16,55 +16,55 @@
                         <input type="text" data-bind="value: ApplicationName"
                                required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
                                placeholder="Application Name"
-                               class="form-control" id="name">
+                               class="form-control" id="ApplicationName">
                     </div>
 
                     <div class="form-group">
                         <label>Application Path</label>
-                        <input type="text" data-bind="value: Name"
-                               required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                        <input type="text" data-bind="value: ApplicationPath"
+                               required pattern="^[A-Za-z_][A-Za-z0-9_\]*$"
                                placeholder="Application Path"
-                               class="form-control" id="name">
+                               class="form-control" id="ApplicationPath">
+                    </div>
+
+                    <div class="form-group">
+                        <label>IIS Port</label>
+                        <input type="text" data-bind="value: IISPort"
+                               required pattern="^[0-9_]*$"
+                               placeholder="IIS Port"
+                               class="form-control" id="IISPort">
                     </div>
 
                     <div class="form-group">
                         <label>ElasticSearch</label>
-                        <input type="text" data-bind="value: Name"
-                               required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                        <input type="text" data-bind="value: ElasticsearchHome"
+                               required pattern="^[A-Za-z_][:A-Za-z0-9_\]*$"
                                placeholder="ElasticSearch"
-                               class="form-control" id="name">
+                               class="form-control" id="ElasticsearchHome">
                     </div>
 
                     <div class="form-group">
                         <label>RabbitMQ Host</label>
-                        <input type="text" data-bind="value: Name"
+                        <input type="text" data-bind="value: RabbitMQDirectory"
                                required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
                                placeholder="RabbitMQ Host"
-                               class="form-control" id="name">
+                               class="form-control" id="RabbitMQDirectory">
                     </div>
 
                     <div class="form-group">
                         <label>RabbitMQ Username</label>
-                        <input type="text" data-bind="value: Name"
+                        <input type="text" data-bind="value: RabbitMQUsername"
                                required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
                                placeholder="RabbitMQ Username"
-                               class="form-control" id="name">
+                               class="form-control" id="RabbitMQUsername">
                     </div>
 
                     <div class="form-group">
                         <label>RabbitMQ Password</label>
-                        <input type="text" data-bind="value: Name"
+                        <input type="text" data-bind="value: RabbitMQPassword"
                                required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
                                placeholder="RabbitMQ Password"
-                               class="form-control" id="name">
-                    </div>
-
-                    <div class="form-group">
-                        <label>RabbitMQ Port</label>
-                        <input type="text" data-bind="value: Name"
-                               required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
-                               placeholder="RabbitMQ Port"
-                               class="form-control" id="name">
+                               class="form-control" id="RabbitMQPassword">
                     </div>
                 </form>
             </div>

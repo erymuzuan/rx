@@ -159,6 +159,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adapter.csproj.gen", "sourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "routes.editor", "source\tools\routes.editor\routes.editor.csproj", "{713F54A8-3F06-43C5-9312-E7BBC825A88C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "source\dependencies\ClassLibrary1\ClassLibrary1.csproj", "{39E62F8C-9E6C-4E4A-A725-B98C98B73AFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -405,6 +407,10 @@ Global
 		{713F54A8-3F06-43C5-9312-E7BBC825A88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{713F54A8-3F06-43C5-9312-E7BBC825A88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{713F54A8-3F06-43C5-9312-E7BBC825A88C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39E62F8C-9E6C-4E4A-A725-B98C98B73AFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39E62F8C-9E6C-4E4A-A725-B98C98B73AFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39E62F8C-9E6C-4E4A-A725-B98C98B73AFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39E62F8C-9E6C-4E4A-A725-B98C98B73AFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -470,5 +476,6 @@ Global
 		{7CDCE5A4-B007-4B88-B7B0-5CD463AE9304} = {AC63E1AA-495D-4BD9-AF56-810DA6CBB5E2}
 		{201D4EED-C13C-4645-8EFF-7310ADAC4911} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{713F54A8-3F06-43C5-9312-E7BBC825A88C} = {DB65484E-BE1F-4944-B216-4A57026360EB}
+		{39E62F8C-9E6C-4E4A-A725-B98C98B73AFE} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 	EndGlobalSection
 EndGlobal
