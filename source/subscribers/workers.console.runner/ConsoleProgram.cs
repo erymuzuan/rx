@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Bespoke.Sph.Domain;
@@ -42,7 +43,6 @@ namespace workers.console.runner
                 UserName = userName,
                 Password = password,
                 Port = port,
-                NotificicationService = log,
                 VirtualHost = vhost
             };
             webConsole.Run();
@@ -73,13 +73,25 @@ namespace workers.console.runner
                 program.Stop();
                 stopFlag.Set();
             };
-
+            var fsw = new FileSystemWatcher(AppDomain.CurrentDomain.BaseDirectory) {EnableRaisingEvents = true};
+            fsw.Changed += (o, e) =>
+            {
+                Console.WriteLine(e.Name);
+                if (e.Name != "q.txt") return;
+                program.Stop();
+                fsw.Dispose();
+                stopFlag.Set();
+            };
+           
             program.Start(metadata);
             Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
+            Console.WriteLine("********* Wathching " + AppDomain.CurrentDomain.BaseDirectory);
+
             stopFlag.WaitOne();
             return 0;
         }
-        
+
+
         public static string ParseArg(string name)
         {
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

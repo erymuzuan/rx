@@ -181,11 +181,26 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 m_elasticSearchServiceStarted = value;
                 OnPropertyChanged();
+                this.StopRabbitMqCommand.RaiseCanExecuteChanged();
             }
             get { return m_elasticSearchServiceStarted; }
         }
 
         private bool m_rabbitMqServiceStarted;
+        private bool m_rabbitMqServiceStarting;
+
+        public bool RabbitMqServiceStarting
+        {
+            get { return m_rabbitMqServiceStarting; }
+            set
+            {
+                m_rabbitMqServiceStarting = value;
+                OnPropertyChanged();
+                this.StartElasticSearchCommand.RaiseCanExecuteChanged();
+                this.StartSphWorkerCommand.RaiseCanExecuteChanged();
+                this.StartIisServiceCommand.RaiseCanExecuteChanged();
+            }
+        }
         public bool RabbitMqServiceStarted
         {
             set
@@ -205,6 +220,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 m_iisServiceStarted = value;
                 OnPropertyChanged();
+                this.StopRabbitMqCommand.RaiseCanExecuteChanged();
             }
             get { return m_iisServiceStarted; }
         }
@@ -227,6 +243,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 m_sphWorkerServiceStarted = value;
                 OnPropertyChanged();
+                this.StopRabbitMqCommand.RaiseCanExecuteChanged();
             }
             get { return m_sphWorkerServiceStarted; }
         }

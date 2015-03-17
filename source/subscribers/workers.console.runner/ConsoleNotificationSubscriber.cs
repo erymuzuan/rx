@@ -10,34 +10,31 @@ using SuperSocket.WebSocket;
 
 namespace workers.console.runner
 {
-    public class ConsoleNotificationSubscriber : Subscriber
+    public class ConsoleNotificationSubscriber
     {
-        [NonSerialized]
         private WebSocketServer m_appServer;
 
-        public override string[] RoutingKeys
+        public string[] RoutingKeys
         {
             get { return new[] { "logger.#" }; }
         }
 
-        public override string QueueName
+        public string QueueName
         {
             get { return "console_logger"; }
         }
 
         private TaskCompletionSource<bool> m_stoppingTcs;
-        public override void Run()
+        public void Run()
         {
             try
             {
-                RegisterServices();
-                PrintSubscriberInformation();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
                 this.StartConsume();
             }
             catch (Exception e)
             {
-                this.WriteError(e);
+                Console.WriteLine(e);
             }
 
             int port;
@@ -59,10 +56,8 @@ namespace workers.console.runner
                 //this.WriteError("ConsoleNotification: Failed to start websocket server!");
             }
         }
-        protected override void OnStop()
+        protected void OnStop()
         {
-            this.WriteMessage("!!Stoping : {0}", this.QueueName);
-
             m_consumer.Received -= Received;
             if (null != m_stoppingTcs)
                 m_stoppingTcs.SetResult(true);
@@ -86,7 +81,6 @@ namespace workers.console.runner
                 m_channel = null;
             }
 
-            this.WriteMessage("!!Stopped : {0}", this.QueueName);
         }
         
         private void NewMessageReceived(WebSocketSession session, string value)
@@ -105,8 +99,8 @@ namespace workers.console.runner
         {
             const bool NO_ACK = false;
             const string EXCHANGE_NAME = "sph.topic";
+            const string DEAD_LETTER_EXCHANGE = "sph.ms-dead-letter";
 
-            this.OnStart();
 
             var factory = new ConnectionFactory
             {
@@ -120,6 +114,8 @@ namespace workers.console.runner
             m_channel = m_connection.CreateModel();
 
 
+            m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
+            m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
             m_channel.QueueDeclare(this.QueueName, false, false, false, new Dictionary<string, object>());
 
             foreach (var s in this.RoutingKeys)
@@ -134,6 +130,16 @@ namespace workers.console.runner
 
         }
 
+        public int Port { get; set; }
+
+        public string HostName { get; set; }
+
+        public string Password { get; set; }
+
+        public string VirtualHost { get; set; }
+
+        public string UserName { get; set; }
+
         private void Received(object sender, ReceivedMessageArgs e)
         {
             Interlocked.Increment(ref m_processing);
@@ -144,10 +150,8 @@ namespace workers.console.runner
                 m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
                 m_channel.BasicAck(e.DeliveryTag, false);
             }
-            catch (Exception exc)
+            catch (Exception)
             {
-                this.WriteMessage("Error in {0}", this.GetType().Name);
-                this.WriteError(exc);
                 m_channel.BasicReject(e.DeliveryTag, false);
             }
             finally
