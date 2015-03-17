@@ -48,11 +48,22 @@ bespoke.sph.domain.LogEntry = function (optionOrWebid) {
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.config],
 	function (context, logger, router, config) {
+	    "use strict";
+	    var OUTPUT_LOGS_SETTING = "output.logs.setting";
 	    var isBusy = ko.observable(false),
 		logs = ko.observableArray().extend({ rateLimit: 250 }),
 		list = ko.observableArray(),
 		subscribers = ko.observableArray(),
 		connected = ko.observable(true),
+		setting = ko.observable({
+		    port: ko.observable(5030),
+		    max: ko.observable(200),
+		    host: ko.observable("localhost"),
+		    iis: {
+		        excludeStatusCodes: ko.observableArray(["101"]),
+		        excludeWhenContains: ko.observable("/signalr_")
+		    }
+		}),
 		filterText = ko.observable("").extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 300 } }),
         logFilter = {
             application: ko.observable(true),
@@ -75,7 +86,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		error = ko.observable(true),
 		critical = ko.observable(true),
 		filter = function () {
-		    var self = this;
 		    var temp = _(logs()).filter(function (v) {
 		        var sv = ko.unwrap(v.severity);
 
@@ -89,18 +99,62 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		            case "Critical": return critical();
 
 		            default:
+		                return false;
 		        }
 		    });
 		    list(temp);
 		},
-		port = ko.observable(5030),
-		max = ko.observable(200),
-		host = ko.observable("localhost"),
 		ws = null,
 		scroll = function () {
 		    var elem = document.getElementById("developers-log-footer");
 		    elem.scrollTop = elem.scrollHeight;
 		},
+        cleanup = function () {
+            setInterval(function () {
+                var temp = logs(),
+                    count = temp.length,
+                    max = setting().max();
+                if (count <= max) {
+                    return;
+                }
+                console.log("Running cleaning up..");
+                temp.splice(0, count - max);
+                list(temp);
+                scroll();
+            }, 10000);
+        },
+	    runFilter = function (entry) {
+
+	        var message = ko.unwrap(entry.message);
+	        if (entry.log === "WebServer") {
+	            var any = _(setting().iis.excludeWhenContains().split(";")).any(function (v) {
+	                return (message || "<>").indexOf(v) > -1;
+	            });
+	            if (any) {
+	                return false;
+	            }
+
+	            var codes = /HTTP status ([0-9]{3})/.exec(message);
+	            var code = _(setting().iis.excludeStatusCodes()).any(function (v) {
+	                if (!_.isArray(codes)) {
+	                    return false;
+	                }
+	                if (codes.length < 2) {
+	                    return false;
+	                }
+	                if (codes[1] === v) {
+	                    return true;
+	                }
+
+	                return false;
+	            });
+	            if (code) {
+	                return false;
+	            }
+	        }
+
+	        return true;
+	    },
 		start = function () {
 		    var tcs = new $.Deferred(),
 				support = "MozWebSocket" in window ? "MozWebSocket" : ("WebSocket" in window ? "WebSocket" : null);
@@ -111,7 +165,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		    logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connecting to server ...", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Info" }));
 		    // create a new websocket and connect
-		    ws = new window[support]("ws://" + host() + ":" + port() + "/");
+		    ws = new window[support]("ws://" + setting().host() + ":" + setting().port() + "/");
 
 		    ws.onmessage = function (evt) {
 		        var model = JSON.parse(evt.data),
@@ -123,6 +177,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        if (model.severity === "info") {
 		            model.severity = "Info";
 		            severity = "Info";
+		        }
+
+		        if (!runFilter(model)) {
+		            return;
 		        }
 
 		        logs.push(new bespoke.sph.domain.LogEntry(model));
@@ -174,7 +232,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    return tcs.promise();
 		},
 		activate = function () {
-
+		    var sj = localStorage.getItem(OUTPUT_LOGS_SETTING);
+		    if (sj) {
+		        setting(ko.mapping.fromJSON(sj));
+		    }
 		},
 		attached = function (view) {
 		    if (config.roles.indexOf("developers") < 0) {
@@ -228,16 +289,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    logs([]);
 		    list([]);
 		},
-		setting = function () {
+		showSettingDialog = function () {
 		    require(["viewmodels/output.setting.dialog", "durandal/app"], function (dialog, app2) {
-		        dialog.setting({ port: port, max: max });
+		        dialog.setting(setting());
 
 		        app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
-                            port(dialog.setting().port());
-                            max(dialog.setting().max());
+                            setting(dialog.setting());
+                            localStorage.setItem(OUTPUT_LOGS_SETTING, ko.toJSON(dialog.setting));
                         }
                     });
 
@@ -255,6 +316,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
 
 	        });
+	    },
+	    clearLogsFilter = function () {
+
 	    };
 
 	    filterText.subscribe(function (text) {
@@ -268,6 +332,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	        list(temp);
 	    });
 
+	    setTimeout(cleanup, 500);
 	    var vm = {
 	        isBusy: isBusy,
 	        visible: config.roles.indexOf("developers") > -1,
@@ -285,8 +350,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	        error: error,
 	        critical: critical,
 	        logFilter: logFilter,
+	        clearLogsFilter: clearLogsFilter,
 	        filterText: filterText,
-	        setting: setting,
+	        showSettingDialog: showSettingDialog,
 	        viewStackTrace: viewStackTrace,
 	        activate: activate,
 	        attached: attached

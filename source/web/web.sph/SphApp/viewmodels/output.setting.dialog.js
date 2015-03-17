@@ -11,10 +11,7 @@
 define(["plugins/dialog"],
     function (dialog) {
 
-        var setting = ko.observable({
-            port: ko.observable(5030),
-            max: ko.observable(200)
-        }),
+        var setting = ko.observable(),
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");

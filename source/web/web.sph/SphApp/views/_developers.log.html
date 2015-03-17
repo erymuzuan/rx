@@ -59,7 +59,7 @@
                         </label>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-danger">Source</button>
+                        <button type="button" class="btn btn-danger">Logs source</button>
                         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
@@ -100,12 +100,26 @@
                                     Elasticsearch
                                 </label>
                             </li>
+                            <li>
+                                <label class="btn btn-sm btn-default" title="Filter Sql Persistence" style="margin-left: 5px;border:none">
+                                    <input type="checkbox" autocomplete="off" data-bind="checked : logFilter.elasticsearch">
+                                    <i class="fa fa-database" style="color: rgb(169, 22, 164)"></i>
+                                    SqlPersistence
+                                </label>
+                            </li>
+                            <li>
+                                <label class="btn btn-sm btn-default" title="Filter Sql Repository" style="margin-left: 5px;border:none">
+                                    <input type="checkbox" autocomplete="off" data-bind="checked : logFilter.elasticsearch">
+                                    <i class="fa fa-database" style="color: rgb(22, 81, 169)"></i>
+                                    SqlRepository
+                                </label>
+                            </li>
                             <li class="divider"></li>
-                            <li><a href="#">All</a></li>
+                            <li><a data-bind="clearLogsFilter">All Logs</a></li>
                         </ul>
                     </div>
 
-                    <button class="btn btn-default pull-right" style="border: none;" data-bind="click : setting" title="Settings">
+                    <button class="btn btn-default pull-right" style="border: none;" data-bind="click : showSettingDialog" title="Settings">
                         <i class="fa fa-gear"></i>
                     </button>
                     <input type="text" data-bind="textInput:filterText" placeholder=" filter..."

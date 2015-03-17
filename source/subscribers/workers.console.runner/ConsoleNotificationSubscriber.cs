@@ -141,7 +141,6 @@ namespace workers.console.runner
             var json = Encoding.Default.GetString(body);
             try
             {
-
                 m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
                 m_channel.BasicAck(e.DeliveryTag, false);
             }

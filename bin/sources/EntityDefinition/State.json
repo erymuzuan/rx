@@ -69,28 +69,6 @@
         "Boost": 0,
         "DefaultValue": null,
         "WebId": "51d0a90b-90a0-484d-99a6-3e0af1e57237"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
-        "MemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "FieldPermissionCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "FlagStoreId",
-        "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 0,
-        "DefaultValue": null,
-        "WebId": "94b280d6-fcf8-4e6d-bf90-e0c7cb8ff3b5"
       }
     ]
   },
@@ -115,8 +93,8 @@
   },
   "Name": "State",
   "Plural": "States",
-  "IconStoreId": "f5640687-e31d-413d-8ff0-34cd749b4dad",
-  "IconClass": "fa fa-flag",
+  "IconStoreId": "ef3eda99-38f7-4872-8359-59880fe53007",
+  "IconClass": "fa fa-flag-checkered",
   "RecordName": "Name",
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
@@ -124,6 +102,6 @@
   "Id": "state",
   "CreatedDate": "2014-04-19T10:07:12.2060219+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-03-17T09:51:26.4407527+08:00",
+  "ChangedDate": "2015-03-17T12:35:27.1560613+08:00",
   "WebId": "e5d31c43-852d-4a9d-b3be-1fc94d5cea05"
 }

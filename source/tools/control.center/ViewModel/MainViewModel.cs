@@ -460,8 +460,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 }
                 m_elasticProcess.BeginOutputReadLine();
                 m_elasticProcess.BeginErrorReadLine();
-                m_elasticProcess.OutputDataReceived += OnDataReceived;
-                m_elasticProcess.ErrorDataReceived += OnErrorReceived;
+                m_elasticProcess.OutputDataReceived += OnElasticsearchDataReceived;
+                m_elasticProcess.ErrorDataReceived += OnElasticsearchErroReceived;
 
                 ElasticSearchServiceStarted = true;
                 ElasticSearchStatus = "Running";
@@ -575,6 +575,38 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void Exit()
         {
             Environment.Exit(0);
+        }
+
+        private void OnElasticsearchDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if ((e.Data != null) && (m_writer != null))
+                m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
+
+            var severity = string.Format("{0}", e.Data).Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
+            this.Logger.Log(new LogEntry
+            {
+                Severity = severity,
+                Message = e.Data,
+                Time = DateTime.Now,
+                Log = EventLog.Elasticsearch,
+                Source = "Elasticsearch"
+            });
+        }
+
+        private void OnElasticsearchErroReceived(object sender, DataReceivedEventArgs e)
+        {
+            if ((e.Data != null) && (m_writer != null))
+            {
+                m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
+            }
+            this.Logger.Log(new LogEntry
+            {
+                Severity = Severity.Error,
+                Message = e.Data,
+                Time = DateTime.Now,
+                Log = EventLog.Elasticsearch,
+                Source = "Elasticsearch"
+            });
         }
 
         private void OnIisDataReceived(object sender, DataReceivedEventArgs e)
