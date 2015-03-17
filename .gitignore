@@ -127,3 +127,4 @@ source/web/web.sph/Views/*Workflow*/
 /source/web/rx.management.studio
 /source/web/rx.studio
 /bower_components
+sph.packages/kibana/
