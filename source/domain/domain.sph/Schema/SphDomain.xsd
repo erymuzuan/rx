@@ -138,7 +138,7 @@ elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSch
 	<xs:element name="Watcher" bs:entity="true">
 		<xs:complexType>
 			<xs:attribute name="EntityName" type="xs:string" use="required"/>
-			<xs:attribute name="EntityId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityId" type="xs:string" use="required"/>
 			<xs:attribute name="User" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 			<xs:attribute name="DateTime" type="xs:dateTime" use="required"/>

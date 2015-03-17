@@ -1876,7 +1876,7 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  int  m_entityId;
+                    private  string  m_entityId;
                     public const string PropertyNameEntityId = "EntityId";
 
                   
@@ -1930,11 +1930,11 @@
                 
                   [Required]
                 
-                    public int EntityId
+                    public string EntityId
                     {
                     set
                     {
-                    if( m_entityId == value) return;
+                    if( String.Equals( m_entityId, value, StringComparison.Ordinal)) return;
                     var arg = new PropertyChangingEventArgs(PropertyNameEntityId, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)

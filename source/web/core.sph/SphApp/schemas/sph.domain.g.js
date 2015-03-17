@@ -379,7 +379,7 @@
               
                 Id : ko.observable("0"),
               EntityName : ko.observable(""),
-                EntityId : ko.observable(0),
+                EntityId : ko.observable(""),
                 User : ko.observable(""),
                 IsActive : ko.observable(false),
                 DateTime : ko.observable(moment().format('DD/MM/YYYY')),
