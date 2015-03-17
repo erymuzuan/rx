@@ -24,23 +24,14 @@ namespace Bespoke.Sph.Domain
 
         class DummyLogger : ILogger
         {
-            public void Log(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application)
-            {
-                Console.WriteLine("[{2}] {0} => {1}", operation, message, severity);
-            }
 
-            public Task LogAsync(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application)
-            {
-                Console.WriteLine("[{2}] {0} => {1}",operation, message,severity);
-                return Task.FromResult(0);
-            }
 
-            public Task LogAsync(Exception exception, IReadOnlyDictionary<string, object> properties)
+            public Task LogAsync(LogEntry entry)
             {
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(exception.ToString());
+                    Console.WriteLine(entry.ToString());
                 }
                 finally
                 {
@@ -49,18 +40,20 @@ namespace Bespoke.Sph.Domain
                 return Task.FromResult(0);
             }
 
-            public void Log(Exception exception, IReadOnlyDictionary<string, object> properties)
+            public void Log(LogEntry entry)
             {
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(exception.ToString());
+                    Console.WriteLine(entry.ToString());
                 }
                 finally
                 {
                     Console.ResetColor();
                 }
             }
+
+
         }
 
         public static void ComposeMefCatalog(object part, params Assembly[] assemblies)
@@ -100,7 +93,7 @@ namespace Bespoke.Sph.Domain
                 }
                 catch (BadImageFormatException)
                 {
-                    logger.Log("cannot load {0}", x);
+                    logger.Log(new LogEntry { Message = string.Format("cannot load {0}", x) });
                 }
             };
             foreach (var file in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))
@@ -110,7 +103,7 @@ namespace Bespoke.Sph.Domain
                 if (ignores.Any(name.StartsWith)) continue;
 
                 loadAssemblyCatalog(file);
-                logger.Log("Loaded {0}", name);
+                logger.Log(new LogEntry { Message = string.Format("Loaded {0}", name) });
             }
 
             var bin = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
@@ -122,7 +115,7 @@ namespace Bespoke.Sph.Domain
                     var name = System.IO.Path.GetFileName(file) ?? "";
                     if (ignores.Any(name.StartsWith)) continue;
                     loadAssemblyCatalog(file);
-                    logger.Log("Loaded from bin {0}", name);
+                    logger.Log(new LogEntry { Message = string.Format("Loaded from bin {0}", name) });
                 }
 
             }
@@ -140,12 +133,12 @@ namespace Bespoke.Sph.Domain
             catch (ReflectionTypeLoadException rtle)
             {
                 rtle.LoaderExceptions.ToList()
-                    .ForEach(e => logger.Log(e, null));
+                    .ForEach(e => logger.Log(new LogEntry(e)));
                 //Debugger.Break();
             }
             catch (CompositionException compositionException)
             {
-                logger.Log(compositionException, null);
+                logger.Log(new LogEntry(compositionException));
                 Debugger.Break();
             }
         }

@@ -32,7 +32,29 @@ namespace web.sph
             AuthConfig.RegisterAuth();
 
             ModelBinders.Binders.Add(typeof(IEnumerable<Rule>), new RuleModelBinder());
+            ObjectBuilder.GetObject<ILogger>().Log(new LogEntry
+            {
+                Message = "Web application starts",
+                Severity = Severity.Critical,
+                Log = EventLog.WebServer,
+                Operation = "Starts",
+                Source = "Application"
 
+            });
+
+        }
+
+        protected void Application_Stop()
+        {
+            ObjectBuilder.GetObject<ILogger>().Log(new LogEntry
+            {
+                Message = "Web application stopped",
+                Severity = Severity.Critical,
+                Log = EventLog.WebServer,
+                Operation = "Stop",
+                Source = "Application"
+
+            });
         }
 
         public ApplicationHelper WebApplicationHelper

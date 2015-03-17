@@ -1,31 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
     public interface ILogger
     {
-        void Log(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application);
-        Task LogAsync(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application);
-        Task LogAsync(Exception exception, IReadOnlyDictionary<string, object> properties);
-        void Log(Exception exception, IReadOnlyDictionary<string, object> properties);
+        Task LogAsync(LogEntry entry);
+        void Log(LogEntry entry);
     }
 
     public enum Severity
     {
-        Info,
-        Warning,
-        Error,
-        Critical,
-        Log
+        Verbose = 0,
+        Info = 1,
+        Log = 2,
+        Debug = 3,
+        Warning = 4,
+        Error = 5,
+        Critical = 6
     }
 
-    public enum LogEntry
+    public enum EventLog
     {
         Application,
         Security,
         Schedulers,
-        Subscribers
+        Subscribers,
+        WebServer,
+        Elasticsearch,
+        SqlRepository,
+        SqlPersistence,
+        Logger
     }
 }

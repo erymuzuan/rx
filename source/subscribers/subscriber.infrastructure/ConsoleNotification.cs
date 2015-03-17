@@ -3,6 +3,8 @@ using System.Text;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RabbitMqPublisher;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
@@ -23,13 +25,25 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_connectionInfo = connectionInfo;
             this.Exchange = "sph.topic";
         }
-
-
-        private void SendMessage(string json, Severity severity)
+        private static string GetJsonContent(LogEntry entry)
         {
+            var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            setting.Converters.Add(new StringEnumConverter());
+            setting.Formatting = Formatting.Indented;
+            setting.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            var json = JsonConvert.SerializeObject(entry, setting);
+            return json;
+        }
+
+        private void SendMessage(LogEntry entry)
+        {
+            entry.Log = EventLog.Subscribers;
+            entry.Time = DateTime.Now;
+            entry.Computer = Environment.MachineName;
+            
+            var json = GetJsonContent(entry);
             if (null == m_connectionInfo) return;
-
-
             var factory = new ConnectionFactory
             {
                 UserName = m_connectionInfo.UserName,
@@ -43,7 +57,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                var routingKey = "logger." + severity;
+                var routingKey = "logger." + entry.Severity;
                 var body = Encoding.Default.GetBytes(json);
 
                 var props = channel.CreateBasicProperties();
@@ -61,8 +75,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             try
             {
-                var message = new { message = string.Format(format, args), severity = "info" };
-                this.SendMessage(JsonConvert.SerializeObject(message), Severity.Info);
+                var entry = new LogEntry
+                {
+                    Message = string.Format(format, args),
+                    Severity = Severity.Info,
+                    Time = DateTime.Now,
+                    Log = EventLog.Subscribers
+                };
+                this.SendMessage(entry);
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("========== {0} : {1,12:hh:mm:ss.ff} ===========", "Infomation ", DateTime.Now);
 
@@ -80,7 +100,13 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             try
             {
-                this.SendMessage(string.Format(format, args), Severity.Error);
+                this.SendMessage(new LogEntry
+                {
+                    Message = "Error",
+                    Severity = Severity.Error,
+                    Details = string.Format(format, args),
+                    Time = DateTime.Now
+                });
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(format, args);
                 Console.WriteLine();
@@ -93,37 +119,15 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public void WriteError(Exception exception, string message2)
         {
-            var message = new StringBuilder();
-            var exc = exception;
-            var aeg = exc as AggregateException;
-            if (null != aeg)
-            {
-                foreach (var ie in aeg.InnerExceptions)
-                {
-                    this.WriteError(ie, "");
-                }
 
-            }
-            while (null != exc)
-            {
-                message.AppendLine(exc.GetType().FullName);
-                message.AppendLine(exc.Message);
-                message.AppendLine(exc.StackTrace);
-                message.AppendLine();
-                message.AppendLine();
-                exc = exc.InnerException;
-            }
             try
             {
-                var error = new
-                {
-                    severity = "error",
-                    stack_trace = exception.StackTrace,
-                    message = exception.Message
-                };
-                this.SendMessage(JsonConvert.SerializeObject(error), Severity.Error);
+                var error = new LogEntry(exception);
+                this.SendMessage(error);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(message.ToString());
+                Console.WriteLine(exception.GetType().Name);
+                Console.WriteLine(exception.Message);
+                Console.WriteLine(error.Details);
                 Console.WriteLine();
             }
             finally

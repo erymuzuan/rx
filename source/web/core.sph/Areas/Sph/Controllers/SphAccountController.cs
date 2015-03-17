@@ -14,13 +14,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
         public async Task<ActionResult> Logoff()
         {
-            var user = User.Identity.Name;
             FormsAuthentication.SignOut();
             try
             {
                 var logger = ObjectBuilder.GetObject<ILogger>();
-                await logger.LogAsync("Logoff", "Logoff for " + user
-                    );
+                await logger.LogAsync(new LogEntry { Log = EventLog.Security, Message = "Logoff" });
             }
             catch (Exception e)
             {
@@ -95,7 +93,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     var context = new SphDataContext();
                     var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == model.UserName);
-                    await logger.LogAsync("Login", "Successful login for " + model.UserName);
+                    await logger.LogAsync(new LogEntry { Log = EventLog.Security });
                     if (null != profile)
                     {
                         if (!profile.HasChangedDefaultPassword)
@@ -113,7 +111,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     return RedirectToAction("Index", "Home", new { area = "Sph" });
                 }
                 var user = await directory.GetUserAsync(model.UserName);
-                await logger.LogAsync("Login", "Login failed for " + model.UserName);
+                await logger.LogAsync(new LogEntry { Log = EventLog.Security, Message = "Login Failed" });
                 if (null != user && user.IsLockedOut)
                     ModelState.AddModelError("", "Your acount has beeen locked, Please contact your administrator.");
                 else

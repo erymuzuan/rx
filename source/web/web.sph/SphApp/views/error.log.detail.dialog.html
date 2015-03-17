@@ -18,13 +18,30 @@
                         <input class="form-control" id="message-field" type="text" data-bind="value: message" readonly="readonly" />
                     </div>
                     <div class="form-group">
-                        <label for="stack-trace" class="control-label">Stack Trace</label>
+                        <label for="stack-trace" class="control-label">Details</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="20" class="form-control" id="stack-trace" readonly data-bind="value:details"></textarea>
                     </div>
 
                     <div class="form-group">
+                        <label for="severity-field" class="col-sm-3 control-label">Severity</label>
+                        <div class="col-sm-6">
+                            <input type="text" data-bind="value: severity"
+                                   readonly
+                                   placeholder="Severity"
+                                   class="form-control" id="severity-field">
+                        </div>
+                    </div>
 
-                        <textarea rows="20" class="form-control" id="stack-trace" readonly data-bind="value:stack_trace"></textarea>
-
+                    <div class="form-group">
+                        <label for="time-field" class="col-sm-3 control-label">Time</label>
+                        <div class="col-sm-6">
+                            <input type="text" data-bind="value: time"
+                                   readonly
+                                   placeholder="Severity"
+                                   class="form-control" id="time-field">
+                        </div>
                     </div>
 
                 </form>

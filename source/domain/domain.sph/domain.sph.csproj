@@ -254,6 +254,7 @@
     <Compile Include="ILogger.cs" />
     <Compile Include="JsRoute.cs" />
     <Compile Include="JsRouteSetting.cs" />
+    <Compile Include="LogEntry.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security;
 using System.Web;
 using Bespoke.Sph.Domain;
@@ -14,7 +13,7 @@ namespace Bespoke.Sph.Web
         private void LogOtherException(Exception e, string errorPage = "~/error.aspx?error_id=")
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
-            logger.Log(e, new Dictionary<string, object> { { "url", this.Application.Request.RawUrl } });
+            logger.Log(new LogEntry(e, new[] { "url", this.Application.Request.RawUrl }));
 
             if (null == this.Application) return;
 

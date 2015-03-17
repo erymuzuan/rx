@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,47 +6,30 @@ namespace Bespoke.Sph.Domain
 {
     public class Logger : ILogger
     {
-        public void Log(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application)
+        private readonly ObjectCollection<ILogger> m_loggersCollection = new ObjectCollection<ILogger>();
+
+        public ObjectCollection<ILogger> Loggers
         {
-            if (null == this.Loggers)
-                ObjectBuilder.ComposeMefCatalog(this);
-
-            if (null == this.Loggers) return;
-
-            this.Loggers.ToList().ForEach(logger => logger.Log(operation, message, severity, entry));
+            get { return m_loggersCollection; }
         }
-        public async Task LogAsync(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application)
-        {
-            if (null == this.Loggers)
-                ObjectBuilder.ComposeMefCatalog(this);
 
-            if (null == this.Loggers) return;
+        public async Task LogAsync(LogEntry entry)
+        {
+            entry.Time = DateTime.Now;
+            entry.Computer = Environment.MachineName;
+
             var tasks = from logger in this.Loggers
-                        select logger.LogAsync(operation, message, severity, entry);
+                        select logger.LogAsync(entry);
             await Task.WhenAll(tasks);
+
         }
 
-        public async Task LogAsync(Exception exception, IReadOnlyDictionary<string, object> properties)
+        public void Log(LogEntry entry)
         {
-            if (null == this.Loggers)
-                ObjectBuilder.ComposeMefCatalog(this);
+            entry.Time = DateTime.Now;
+            entry.Computer = Environment.MachineName;
 
-            if (null == this.Loggers) return;
-            var tasks = from logger in this.Loggers
-                        select logger.LogAsync(exception, properties);
-            await Task.WhenAll(tasks);
+            this.Loggers.ToList().ForEach(logger => logger.LogAsync(entry));
         }
-
-        public void Log(Exception exception, IReadOnlyDictionary<string, object> properties)
-        {
-            if (null == this.Loggers)
-                ObjectBuilder.ComposeMefCatalog(this);
-
-            if (null == this.Loggers) return;
-            this.Loggers.ToList().ForEach(logger => logger.LogAsync(exception, properties));
-        }
-
-        [ImportMany(typeof(ILogger))]
-        public ILogger[] Loggers { get; set; }
     }
 }
