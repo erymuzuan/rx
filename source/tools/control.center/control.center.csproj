@@ -107,6 +107,8 @@
     <Compile Include="Helpers\PropertyChangingEventArgs.cs" />
     <Compile Include="Helpers\TextBoxStreamWriter.cs" />
     <Compile Include="JsonSerializerService.cs" />
+    <Compile Include="Model\LogEntry.cs" />
+    <Compile Include="Model\Logger.cs" />
     <Compile Include="Model\SphSettings.cs" />
     <Compile Include="ProjectSettingsUserControl.xaml.cs">
       <DependentUpon>ProjectSettingsUserControl.xaml</DependentUpon>

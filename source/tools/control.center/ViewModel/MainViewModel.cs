@@ -14,6 +14,7 @@ using Bespoke.Sph.Domain;
 using GalaSoft.MvvmLight.Command;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
+using EventLog = Bespoke.Sph.ControlCenter.Model.EventLog;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
 {
@@ -35,6 +36,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public RelayCommand SaveSettingsCommand { get; set; }
         public RelayCommand ExitAppCommand { get; set; }
         public RelayCommand SetupCommand { get; set; }
+        public Logger Logger { get; set; }
 
         public MainViewModel()
         {
@@ -57,6 +59,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             ExitAppCommand = new RelayCommand(Exit);
             SetupCommand = new RelayCommand(Setup, () => !this.IsSetup);
 
+            this.Logger = new Logger
+            {
+                UserName = RabbitmqUserName,
+                Password = RabbitmqPassword,
+                Port = this.Port,
+                VirtualHost = this.ApplicationName,
+                Host = "localhost"
+            };
 
         }
 
@@ -210,8 +220,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
                 m_iisServiceProcess.BeginOutputReadLine();
                 m_iisServiceProcess.BeginErrorReadLine();
-                m_iisServiceProcess.OutputDataReceived += OnDataReceived;
-                m_iisServiceProcess.ErrorDataReceived += OnDataReceived;
+                m_iisServiceProcess.OutputDataReceived += OnIisDataReceived;
+                m_iisServiceProcess.ErrorDataReceived += OnIisErrorReceived;
 
                 this.IisServiceStarted = true;
                 this.IisServiceStatus = "Running";
@@ -222,6 +232,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace);
             }
         }
+
 
         private void StopIisService()
         {
@@ -566,6 +577,38 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             Environment.Exit(0);
         }
 
+        private void OnIisDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if ((e.Data != null) && (m_writer != null))
+                m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
+
+            var severity = string.Format("{0}", e.Data).Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
+            this.Logger.Log(new LogEntry
+            {
+                Severity = severity,
+                Message = e.Data,
+                Time = DateTime.Now,
+                Log = EventLog.WebServer,
+                Source = "IIS Express"
+            });
+        }
+
+        private void OnIisErrorReceived(object sender, DataReceivedEventArgs e)
+        {
+            if ((e.Data != null) && (m_writer != null))
+            {
+                m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
+            }
+            this.Logger.Log(new LogEntry
+            {
+                Severity = Severity.Error,
+                Message = e.Data,
+                Time = DateTime.Now,
+                Log = EventLog.WebServer,
+                Source = "IIS Express"
+            });
+
+        }
         private void OnDataReceived(object sender, DataReceivedEventArgs e)
         {
             if ((e.Data != null) && (m_writer != null))
