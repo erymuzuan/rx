@@ -128,3 +128,7 @@ source/web/web.sph/Views/*Workflow*/
 /source/web/rx.studio
 /bower_components
 sph.packages/kibana/
+/sph.packages/schedulers
+/sph.packages/sources
+/sph.packages/subscribers/CachePath
+/sph.packages/tools
