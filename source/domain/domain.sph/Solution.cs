@@ -238,7 +238,10 @@ namespace Bespoke.Sph.Domain
         public Task CreateNewAsync()
         {
             var json = this.ToJsonString(true);
-            File.WriteAllText(this.Path, json);
+            var path = this.ApplicationPath + "\\" + this.ApplicationName;
+            Directory.CreateDirectory(path);
+            File.WriteAllText(path + "\\project.json", json);
+
             // TODO : create folder
             // and solution items
 
