@@ -1,0 +1,14 @@
+﻿<Window x:Class="Bespoke.Station.Windows.ErrorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterScreen"
+        Title="Error - The application is shuttind down" Height="600" Width="1024">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBox IsReadOnly="True" x:Name="exceptionMessageTextBox" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        <Button Grid.Row="1" HorizontalAlignment="Right" Content="Close" IsCancel="True"/>
+    </Grid>
+</Window>
