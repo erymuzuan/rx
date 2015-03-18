@@ -1,0 +1,105 @@
+{
+  "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "CodeNamespace": "DevV1.Integrations.Transforms",
+  "MapCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "State.Name",
+        "TypeName": "",
+        "Destination": "Address.State",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "7f83b33c-aa29-47e7-f0f0-1fdf4b8c7ad0"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "District.Name",
+        "TypeName": "",
+        "Destination": "Address.District",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "09ca201e-d506-47ab-a21c-e33cfd457e3f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Patient.FullName",
+        "TypeName": "",
+        "Destination": "FullName",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "89750f08-df5c-4df6-c14c-a4cf12e161e3"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Patient.Gender",
+        "TypeName": "",
+        "Destination": "Gender",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "10e53b7a-20b2-4941-eb2e-48675e9b9a01"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Patient.PassportNo",
+        "TypeName": "",
+        "Destination": "Id",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "da9e79ea-7453-4d7e-e7dd-9bea4c5d38c2"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Patient.RegisteredDate",
+        "TypeName": "",
+        "Destination": "RegisteredDate",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "6803a424-a889-4179-baea-827382a8d32d"
+      }
+    ]
+  },
+  "FunctoidCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "InputCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+        "Name": "State",
+        "TypeName": "Bespoke.DevV1_state.Domain.State, DevV1.State",
+        "ValueProvider": null,
+        "WebId": "8e87e566-c820-4759-f38f-7305db28a6c1"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+        "Name": "District",
+        "TypeName": "Bespoke.DevV1_district.Domain.District, DevV1.District",
+        "ValueProvider": null,
+        "WebId": "158bf176-8d72-4780-8538-5542aee4e574"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+        "Name": "Patient",
+        "TypeName": "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient",
+        "ValueProvider": null,
+        "WebId": "477e42f4-4d70-48d2-a46e-a8c1d6fd8b7f"
+      }
+    ]
+  },
+  "TransformDefinitionId": 0,
+  "Name": "MutlipleSourcePatientToCustomer",
+  "Description": "",
+  "InputTypeName": null,
+  "OutputTypeName": "Bespoke.DevV1_customer.Domain.Customer, DevV1.Customer",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "mutliplesourcepatienttocustomer",
+  "CreatedDate": "2015-02-21T11:20:18.7560531+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-02-21T14:35:19.6203529+08:00",
+  "WebId": "b3dbf451-0c8c-48b8-9527-793abe552f1d"
+}

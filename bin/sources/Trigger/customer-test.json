@@ -1,0 +1,36 @@
+{
+  "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+  "RuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ActionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "RequeueFilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "test",
+  "Entity": "Customer",
+  "TypeOf": "Bespoke.DevV1_customer.Domain.Customer, DevV1.Customer",
+  "Note": "",
+  "IsActive": false,
+  "IsFiredOnAdded": true,
+  "IsFiredOnDeleted": false,
+  "IsFiredOnChanged": false,
+  "FiredOnOperations": "PromoteTo",
+  "ClassName": "CustomerTestTriggerSubscriber",
+  "CodeNamespace": "Bespoke.Sph.TriggerSubscribers",
+  "CreatedBy": null,
+  "Id": "customer-test",
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-03-14T17:47:06.1423955+08:00",
+  "WebId": "1c4142a3-6c46-44a8-e981-c1697d6ff72a"
+}

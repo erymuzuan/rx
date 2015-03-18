@@ -1,0 +1,55 @@
+{
+  "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "CodeNamespace": "DevV1.Integrations.Transforms",
+  "MapCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Customer.Address-District",
+        "TypeName": "",
+        "Destination": "Nationality",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "29e16655-6ab2-454a-d5cc-9b5e1a9c85fe"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Customer.Address-WebId",
+        "TypeName": "",
+        "Destination": "PassportNo",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "3b5f372f-c7c1-412c-e40d-a0a7b53b966e"
+      }
+    ]
+  },
+  "FunctoidCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "InputCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+        "Name": "Customer",
+        "TypeName": "Bespoke.DevV1_customer.Domain.Customer, DevV1.Customer",
+        "ValueProvider": null,
+        "WebId": "6a01d257-d244-4904-b3ad-3c0c12933f7b"
+      }
+    ]
+  },
+  "TransformDefinitionId": 0,
+  "Name": "CustomerToPatient",
+  "Description": "",
+  "InputTypeName": "",
+  "OutputTypeName": "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient",
+  "IsPublished": false,
+  "CreatedBy": "admin",
+  "Id": "customertopatient",
+  "CreatedDate": "2015-02-21T08:28:08.4428735+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-02-21T08:38:01.5813639+08:00",
+  "WebId": "f1948b1b-a105-4dfc-8edc-cbb86ca50b70"
+}

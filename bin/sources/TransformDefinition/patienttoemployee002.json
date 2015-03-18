@@ -1,0 +1,173 @@
+{
+  "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "CodeNamespace": "Dev.Integrations.Transforms",
+  "MapCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "fd7ba63c-f297-4f2a-c4ae-9acdb503f6da",
+        "Destination": "first_name",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "bd6f76b7-6833-40f7-8193-dbe078bc0da6"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "575563f1-f674-4a88-8951-2eb28aa46858",
+        "Destination": "last_name",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "8a138fb3-b209-4bc6-e829-953746af9050"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "75e3769c-97e7-4564-854a-3dd6b519cbd7",
+        "Destination": "gender",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "5a0371a4-498c-467e-9ae5-5c195c43f1e0"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Dob",
+        "TypeName": "",
+        "Destination": "birth_date",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "1ee61184-a9b1-4cc4-fbe3-491fe8f83612"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "7b95198b-9e70-4a15-e762-80dd8d2d102d",
+        "Destination": "emp_no",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "d1f7c5fb-9c3b-482b-a310-854276cfaee8"
+      }
+    ]
+  },
+  "FunctoidCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ScriptFunctoid, domain.sph",
+        "Expression": "var name = item.FullName;\nif(name.ToLower().Contains(\"binti\"))\n    return item.FullName.Split(new string[]{\"binti\", \"BINTI\", \"Binti\"},2, StringSplitOptions.RemoveEmptyEntries)[0];\nif(name.ToLower().Contains(\"bin\"))\n    return item.FullName.Split(new string[]{\"bin\", \"Bin\", \"BIN\"},2, StringSplitOptions.RemoveEmptyEntries)[0];\n    \nreturn name;",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "GetFirstName",
+        "OutputTypeName": "System.String, mscorlib",
+        "Label": null,
+        "Comment": null,
+        "X": 272.0,
+        "Y": 61.0,
+        "WebId": "fd7ba63c-f297-4f2a-c4ae-9acdb503f6da"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ScriptFunctoid, domain.sph",
+        "Expression": "var name = item.FullName;\nif(name.ToLower().Contains(\"binti\"))\n    return item.FullName.Split(new string[]{\"binti\", \"BINTI\", \"Binti\"},2, StringSplitOptions.RemoveEmptyEntries)[1];\nif(name.ToLower().Contains(\"bin\"))\n    return item.FullName.Split(new string[]{\"bin\", \"Bin\", \"BIN\"},2, StringSplitOptions.RemoveEmptyEntries)[1];\n    \nreturn name;",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "GetLastName",
+        "OutputTypeName": "System.String, mscorlib",
+        "Label": null,
+        "Comment": null,
+        "X": 283.0,
+        "Y": 167.0,
+        "WebId": "575563f1-f674-4a88-8951-2eb28aa46858"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ScriptFunctoid, domain.sph",
+        "Expression": "if(item.Gender == \"Male\")return \"M\";\nreturn \"F\";",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "GetGender",
+        "OutputTypeName": "System.String, mscorlib",
+        "Label": null,
+        "Comment": null,
+        "X": 245.0,
+        "Y": 246.0,
+        "WebId": "75e3769c-97e7-4564-854a-3dd6b519cbd7"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ParseInt32Functoid, domain.sph",
+        "Styles": null,
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "value",
+              "TypeName": "System.Object, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": false,
+              "Functoid": "23582015-9f8e-451a-94e5-46449a241a7e",
+              "Constant": null,
+              "Default": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "styles",
+              "TypeName": "System.String, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": true,
+              "Functoid": null,
+              "Constant": null,
+              "Default": "None",
+              "WebId": null
+            }
+          ]
+        },
+        "Name": null,
+        "OutputTypeName": null,
+        "Label": null,
+        "Comment": null,
+        "X": 60.0,
+        "Y": 78.0,
+        "WebId": "7b95198b-9e70-4a15-e762-80dd8d2d102d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SourceFunctoid, domain.sph",
+        "Field": "Mrn",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "",
+        "OutputTypeName": "",
+        "Label": "",
+        "Comment": "",
+        "X": 0.0,
+        "Y": 0.0,
+        "WebId": "23582015-9f8e-451a-94e5-46449a241a7e"
+      }
+    ]
+  },
+  "TransformDefinitionId": 0,
+  "Name": "PatientToMySqlEmployee002",
+  "Description": "Test",
+  "InputTypeName": "Bespoke.Dev_patient.Domain.Patient, Dev.Patient",
+  "OutputTypeName": "Dev.Adapters.employees.MySqlSampleTest001.employees, Dev.MySqlSampleTest001",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "patienttoemployee002",
+  "CreatedDate": "2014-12-05T06:36:26.6214938+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-12-23T11:41:15.6636955+08:00",
+  "WebId": "e6145b1e-4c44-4607-9f73-888a4de852e3"
+}

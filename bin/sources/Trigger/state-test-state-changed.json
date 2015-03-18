@@ -1,0 +1,71 @@
+{
+  "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+  "RuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ActionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.StartWorkflowAction, domain.sph",
+        "WorkflowDefinitionId": "test-messaging-2",
+        "Name": "",
+        "Version": 0,
+        "WorkflowTriggerMapCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.WorkflowTriggerMap, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.WorkflowTriggerMap, domain.sph",
+              "VariablePath": "variable1",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                "XPath": "",
+                "NamespacePrefix": "",
+                "TypeName": "",
+                "Path": "Name",
+                "Name": "Name",
+                "Note": "",
+                "WebId": "300d3352-699e-42a5-d4d0-82bc8cc8985b"
+              },
+              "WebId": "0327d5db-3a52-458a-83f9-cc97a3b747e6"
+            }
+          ]
+        },
+        "UseAsync": true,
+        "Title": "test messaging 2",
+        "IsActive": true,
+        "TriggerId": "",
+        "Note": "test",
+        "CustomActionId": 0,
+        "UseCode": false,
+        "WebId": "3aa1aa1a-f918-46d7-b5a7-22db98d3c8b9"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "RequeueFilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Test state changed",
+  "Entity": "State",
+  "TypeOf": "Bespoke.DevV1_state.Domain.State, DevV1.State",
+  "Note": "test",
+  "IsActive": true,
+  "IsFiredOnAdded": true,
+  "IsFiredOnDeleted": false,
+  "IsFiredOnChanged": true,
+  "FiredOnOperations": "",
+  "ClassName": "StateTestStateChangedTriggerSubscriber",
+  "CodeNamespace": "Bespoke.Sph.TriggerSubscribers",
+  "CreatedBy": null,
+  "Id": "state-test-state-changed",
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-03-14T10:55:18.4730375+08:00",
+  "WebId": "24403f00-6272-400c-f96d-30f960334023"
+}
