@@ -272,11 +272,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    $("#developers-log-panel-collapse", view).on("click", function (e) {
 		        e.preventDefault();
 		        $("#developers-log-panel > div.tabbable").hide();
+		        $("#developers-log-panel").css("bottom", "0px");
+		        $("#developers-log-panel").css("left", "0px");
+		        $("#developers-log-panel").css("position", "fixed");
+		        $("#developers-log-panel").css("width", "100%");
+		        $("#developers-log-panel").css("background-color", "transparent");
 
 		    });
 		    $("#developers-log-panel-expand", view).on("click", function (e) {
 		        e.preventDefault();
 		        $("#developers-log-panel > div.tabbable").show();
+		        //$("#developers-log-panel").css("bottom", "0px");
+		        $("#developers-log-panel").css("left", "");
+		        $("#developers-log-panel").css("position", "");
+		        $("#developers-log-panel").css("width", "");
+		        $("#developers-log-panel").css("background-color", "whitesmoke");
+		        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
 
 		    });
 
