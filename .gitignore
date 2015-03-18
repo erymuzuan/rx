@@ -2,6 +2,7 @@ packages/*
 /packages/
 bin/
 !/bin/sources
+!/bin
 obj/
 */bin/Release/
 Debug/
@@ -132,3 +133,14 @@ sph.packages/kibana/
 /sph.packages/sources
 /sph.packages/subscribers/CachePath
 /sph.packages/tools
+bin/IIS Express/
+bin/control.center/
+bin/elasticsearch/
+bin/kibana/
+bin/output/
+bin/rabbitmq_server/
+bin/schedulers/
+bin/web/
+bin/tools/
+bin/subscribers/
+bin/subscribers.host/

@@ -1,0 +1,62 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
+  "FormDesign": {
+    "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+    "FormElementCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Name": null,
+    "Description": null,
+    "ConfirmationText": null,
+    "ImageStoreId": null,
+    "LabelColLg": null,
+    "LabelColMd": null,
+    "LabelColSm": null,
+    "LabelColXs": null,
+    "InputColLg": null,
+    "InputColMd": null,
+    "InputColSm": null,
+    "InputColXs": null,
+    "WebId": null
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "FormLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormLayout, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityDefinitionId": "telephone",
+  "Name": "Telephone details",
+  "Route": "telephone-details",
+  "Note": null,
+  "IsAllowedNewItem": false,
+  "IconClass": null,
+  "IconStoreId": null,
+  "IsPublished": false,
+  "IsDefault": true,
+  "IsWatchAvailable": false,
+  "IsEmailAvailable": false,
+  "IsPrintAvailable": false,
+  "IsAuditTrailAvailable": false,
+  "IsRemoveAvailable": false,
+  "IsImportAvailable": false,
+  "IsExportAvailable": false,
+  "Operation": null,
+  "Entity": "Telephone",
+  "Partial": null,
+  "Caption": null,
+  "Layout": null,
+  "CreatedBy": "admin",
+  "Id": "3ba8af55-6eaa-4eec-8402-9127686314c9",
+  "CreatedDate": "2015-03-16T16:49:42.2109251+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-03-16T16:49:42.2089218+08:00",
+  "WebId": "cfa0db0e-872f-444a-a81d-6902db57719c"
+}

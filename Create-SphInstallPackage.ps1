@@ -45,7 +45,7 @@ copy source\web\web.sph\bin\System.Web.WebPages.Razor.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.WebPages.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.Mvc.dll bin\subscribers
 
-$output = ".\sph.packages\output"
+$output = ".\bin\output"
 #creates directory
 if(Test-Path($output))
 {
@@ -86,7 +86,7 @@ if((Test-Path("$output\tools")) -eq $false)
     mkdir "$output\tools"
 }
 #setup
-copy .\sph.packages\Setup-SphApp.ps1 $output
+copy .\bin\Setup-SphApp.ps1 $output
 
 #schedulers
 Get-ChildItem -Filter *.* -Path ".\bin\schedulers" `
@@ -173,31 +173,31 @@ foreach($ucon in $rubbishConfigs)
 
 #iis express and config
 mkdir $output\config
-Get-ChildItem -Filter *.* -Path ".\sph.packages\config" `
+Get-ChildItem -Filter *.* -Path ".\bin\config" `
 | Copy-Item -Destination "$output\config" -Force -Recurse
 
 mkdir "$output\IIS Express"
-Get-ChildItem -Filter *.* -Path ".\sph.packages\IIS Express" `
+Get-ChildItem -Filter *.* -Path ".\bin\IIS Express" `
 | Copy-Item -Destination "$output\IIS Express" -Force -Recurse
 
 
 #elastic search
 mkdir $output\elasticsearch
-Get-ChildItem -Filter *.* -Path ".\sph.packages\elasticsearch" `
+Get-ChildItem -Filter *.* -Path ".\bin\elasticsearch" `
 | Copy-Item -Destination "$output\elasticsearch" -Force -Recurse
 
 
 
 #rabbitmq_server
 mkdir $output\rabbitmq_server
-Get-ChildItem -Filter *.* -Path ".\sph.packages\rabbitmq_server" `
+Get-ChildItem -Filter *.* -Path ".\bin\rabbitmq_server" `
 | Copy-Item -Destination "$output\rabbitmq_server" -Force -Recurse
 
 
 
 #control.center
 mkdir "$output\control.center"
-Get-ChildItem -Filter *.* -Path ".\sph.packages\control.center" `
+Get-ChildItem -Filter *.* -Path ".\bin\control.center" `
 | Copy-Item -Destination "$output\control.center" -Force -Recurse
 
 
@@ -209,11 +209,11 @@ mkdir $output\database\mapping
 Get-ChildItem -Filter *.* -Path ".\source\elasticsearch\mapping" `
 | Copy-Item -Destination "$output\database\mapping" -Force -Recurse
 
-copy .\sph.packages\ControlCenter.bat $output
-copy .\sph.packages\mru.exe $output
+copy .\bin\ControlCenter.bat $output
+copy .\bin\mru.exe $output
 
 #remove the custom triggers
-Get-Item -Path .\sph.packages\output\subscribers\subscriber.trigger.* `
+Get-Item -Path .\bin\output\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.dll") -eq $false} `
 | ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
 | Remove-Item
@@ -255,4 +255,4 @@ if($compressed -eq 'q')
 
 
 #compress
-& 7za a -t7z ".\sph.package.1.0.$Build.7z" ".\sph.packages\output\*"
+& 7za a -t7z ".\sph.package.1.0.$Build.7z" ".\bin\output\*"

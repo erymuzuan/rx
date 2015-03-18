@@ -1,0 +1,229 @@
+{
+  "$type": "Bespoke.Sph.Domain.ReportDefinition, domain.sph",
+  "ReportLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportLayout, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "header",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.DataGridItem, domain.sph",
+              "ReportRowCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportRow, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "DataGridColumnCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.DataGridColumn, domain.sph]], domain.sph",
+                "$values": [
+                  {
+                    "$type": "Bespoke.Sph.Domain.DataGridColumn, domain.sph",
+                    "Header": "Mrn",
+                    "Width": "",
+                    "Expression": "[Mrn]",
+                    "Format": "",
+                    "Action": "",
+                    "FooterExpression": "",
+                    "WebId": "62ac6eb7-fc7d-4394-d5f8-cbec3948b59a"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.DataGridColumn, domain.sph",
+                    "Header": "nama",
+                    "Width": "",
+                    "Expression": "[FullName]",
+                    "Format": "",
+                    "Action": "",
+                    "FooterExpression": "",
+                    "WebId": "264547f2-f90f-4a93-b950-81d0f084f0ee"
+                  }
+                ]
+              },
+              "DataGridGroupDefinitionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.DataGridGroupDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Table",
+              "CssClass": "",
+              "Visible": "",
+              "Tooltip": "",
+              "Icon": "fa fa-table icon-2x",
+              "WebId": "a342eb9a-24ea-4a51-8794-da3679a6ed19"
+            }
+          ]
+        },
+        "Name": "Content",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "footer",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      }
+    ]
+  },
+  "DataSource": {
+    "$type": "Bespoke.Sph.Domain.DataSource, domain.sph",
+    "ParameterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Parameter, domain.sph]], domain.sph",
+      "$values": [
+        {
+          "$type": "Bespoke.Sph.Domain.Parameter, domain.sph",
+          "Name": "Religion",
+          "TypeName": "System.String, mscorlib",
+          "AvailableValues": "Islam, Chrisitianity, Hiduism, Bhuddism",
+          "Label": "Religion",
+          "IsNullable": false,
+          "Value": "Islam",
+          "DefaultValue": null,
+          "WebId": null
+        }
+      ]
+    },
+    "ReportFilterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportFilter, domain.sph]], domain.sph",
+      "$values": [
+        {
+          "$type": "Bespoke.Sph.Domain.ReportFilter, domain.sph",
+          "FieldName": "Religion",
+          "Operator": "Eq",
+          "Value": "@Religion",
+          "TypeName": "System.String, mscorlib",
+          "WebId": null
+        }
+      ]
+    },
+    "EntityFieldCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityField, domain.sph]], domain.sph",
+      "$values": [
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Mrn",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "a31ee247-bbc3-41b2-a5b2-3566ba14e505"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "FullName",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "71303f6b-7911-4b19-ab87-d85ed0f9dedf"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Dob",
+          "TypeName": "System.DateTime, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "9c8e507f-813c-410f-c824-73af2fb32de9"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Gender",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "fd2bf035-4a18-488d-f16a-052bf6de0dff"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Religion",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "5657315f-82cc-4d1d-8a54-272018fcb47b"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Race",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "391c93f4-2b93-439e-e0e2-bba6428f5b49"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "RegisteredDate",
+          "TypeName": "System.DateTime, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "1870d5cb-348a-4444-f7b5-7d0dcb9f8588"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "IdentificationNo",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "0ae4118d-6d16-41c1-b3ea-dfc43eb89cd1"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "PassportNo",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "a6ad329c-4cad-4621-dc94-fdc96764bf09"
+        }
+      ]
+    },
+    "EntityName": "Patient",
+    "Query": "",
+    "WebId": null
+  },
+  "Title": "All current patients",
+  "Category": "Patients",
+  "IsActive": true,
+  "IsPrivate": false,
+  "IsExportAllowed": false,
+  "Description": "",
+  "CreatedBy": null,
+  "Id": "patient-all-current-patients",
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-03-17T13:32:21.871913+08:00",
+  "WebId": "5e509842-64c1-4e40-e0b1-74f98f51caba"
+}
