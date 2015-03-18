@@ -124,6 +124,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             },
             attached = function () {
                 chart.init("Patient", query, chartSeriesClick, "patient-religion-islam");
+                   $('#toggle-chart-panel').on('click', function(e) {
+                      e.preventDefault();
+                      $('#table-panel').toggleClass('col-md-12 col-md-8');             
+                      $('#chart-table-panel').toggleClass('col-md-4 col-md-0');
+                  });
             },
             clearChartFilter = function(){
                 chartFiltered(false);

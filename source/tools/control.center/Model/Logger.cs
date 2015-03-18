@@ -56,15 +56,19 @@ namespace Bespoke.Sph.ControlCenter.Model
             return Task.FromResult(0);
         }
 
-
-
         public void Log(LogEntry entry)
         {
-            if ((int)entry.Severity < (int)this.TraceSwitch)
-                return;
-
-            var json = GetJsonContent(entry);
-            this.SendMessage(json, entry.Severity);
+            try
+            {
+                if ((int)entry.Severity < (int)this.TraceSwitch)
+                    return;
+                var json = GetJsonContent(entry);
+                this.SendMessage(json, entry.Severity);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         private static string GetJsonContent(LogEntry entry)

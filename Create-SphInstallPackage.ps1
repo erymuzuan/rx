@@ -45,7 +45,7 @@ copy source\web\web.sph\bin\System.Web.WebPages.Razor.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.WebPages.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.Mvc.dll bin\subscribers
 
-$output = ".\bin\output"
+$output = ".\bin\build"
 #creates directory
 if(Test-Path($output))
 {
@@ -60,9 +60,9 @@ if((Test-Path("$output\sources")) -eq $false)
 {
     mkdir "$output\sources"
 }
-if((Test-Path("$output\output")) -eq $false)
+if((Test-Path("$output\build")) -eq $false)
 {
-    mkdir "$output\output"
+    mkdir "$output\build"
 }
 if((Test-Path("$output\schedulers")) -eq $false)
 {
@@ -99,7 +99,8 @@ Get-ChildItem -Filter *.* -Path ".\bin\schedulers" `
 #subscribers
 Get-ChildItem -Filter *.* -Path ".\bin\subscribers" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
-| ? { $_.Name.StartsWith("Dev.") -eq $false} `
+| ? { $_.Name.StartsWith("DevV1.") -eq $false} `
+| ? { $_.Name.StartsWith("ff") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$output\subscribers" -Force
 
@@ -213,7 +214,7 @@ copy .\bin\ControlCenter.bat $output
 copy .\bin\mru.exe $output
 
 #remove the custom triggers
-Get-Item -Path .\bin\output\subscribers\subscriber.trigger.* `
+Get-Item -Path .\bin\build\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.dll") -eq $false} `
 | ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
 | Remove-Item
@@ -255,4 +256,4 @@ if($compressed -eq 'q')
 
 
 #compress
-& 7za a -t7z ".\sph.package.1.0.$Build.7z" ".\bin\output\*"
+& 7za a -t7z ".\sph.package.1.0.$Build.7z" ".\bin\build\*"

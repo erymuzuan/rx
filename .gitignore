@@ -144,3 +144,4 @@ bin/web/
 bin/tools/
 bin/subscribers/
 bin/subscribers.host/
+/bin/build
