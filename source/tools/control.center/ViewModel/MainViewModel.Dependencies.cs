@@ -237,6 +237,18 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         }
 
         private bool m_sphWorkerServiceStarted;
+        private bool m_isBusy;
+
+        public bool IsBusy
+        {
+            get { return m_isBusy; }
+            set
+            {
+                m_isBusy = value;
+                OnPropertyChanged();
+                this.StopSphWorkerCommand.RaiseCanExecuteChanged();
+            }
+        }
         public bool SphWorkerServiceStarted
         {
             set

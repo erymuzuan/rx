@@ -6,8 +6,10 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.Properties;
 using Bespoke.Sph.Domain;
@@ -22,7 +24,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
     {
         private Process m_elasticProcess;
         private Process m_iisServiceProcess;
-
+        public DispatcherObject DispatcherObject { get; set; }
         public RelayCommand StartElasticSearchCommand { get; set; }
         public RelayCommand StopElasticSearchCommand { get; set; }
         public RelayCommand StartRabbitMqCommand { get; set; }
@@ -56,7 +58,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             StopElasticSearchCommand = new RelayCommand(StopElasticSearch, () => ElasticSearchServiceStarted);
 
             StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted && RabbitMqServiceStarted);
-            StopSphWorkerCommand = new RelayCommand(StopSphWorker, () => SphWorkerServiceStarted);
+            StopSphWorkerCommand = new RelayCommand(StopSphWorker, () => SphWorkerServiceStarted && !IsBusy);
 
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ExitAppCommand = new RelayCommand(Exit);
@@ -384,15 +386,30 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 m_rabbitMqServer.BeginOutputReadLine();
                 m_rabbitMqServer.BeginErrorReadLine();
                 m_rabbitMqServer.OutputDataReceived += OnDataReceived;
-                m_rabbitMqServer.ErrorDataReceived += OnDataReceived;
+                m_rabbitMqServer.ErrorDataReceived += OnErrorReceived;
 
 
                 this.IsSetup = await this.FindOutSetupAsync();
-                await Task.Delay(5000);
-                RabbitMqServiceStarted = true;
-                this.RabbitMqServiceStarting = false;
-                RabbitMqStatus = "Started";
-                Log("RabbitMQ... [STARTED]");
+
+                this.QueueUserWorkItem(() =>
+                {
+                    var flag = new ManualResetEvent(false);
+                    DataReceivedEventHandler started = (o, e) =>
+                    {
+                        if (string.Format("{0}", e.Data).Contains("Starting broker"))
+                            flag.Set();
+                    };
+                    m_rabbitMqServer.OutputDataReceived += started;
+                    flag.WaitOne(15000);
+                    Task.Delay(1000).Wait();
+                    this.DispatcherObject.Post(() =>
+                    {
+                        RabbitMqServiceStarted = true;
+                        this.RabbitMqServiceStarting = false;
+                        RabbitMqStatus = "Started";
+                        Log("RabbitMQ... [STARTED]");
+                    });
+                });
             }
             catch (Exception ex)
             {
@@ -539,22 +556,33 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StopSphWorker()
         {
-            File.WriteAllText(@".\subscribers.host\q.txt", @"stop " + DateTime.Now);
-            if (m_sphWorkerProcess.HasExited)
+            this.IsBusy = true;
+            this.QueueUserWorkItem(() =>
             {
-                Log("The SPH Subscribers Worker did start correctly, Please check the console for errors");
-                m_sphWorkerProcess = null;
-            }
-            else
-            {
-                Log("SPH Worker... [STOPPING]");
-            }
+                File.WriteAllText(@".\subscribers.host\q.txt", @"stop " + DateTime.Now);
+                if (m_sphWorkerProcess.HasExited)
+                {
+                    Log("The SPH Subscribers Worker did start correctly, Please check the console for errors");
+                    m_sphWorkerProcess = null;
+                }
+                else
+                {
+                    Log("SPH Worker... [STOPPING]");
+                    Task.Delay(5000).Wait();
+                    m_sphWorkerProcess.Kill();
+                }
+                Log("SPH Worker... [STOPPED]");
+
+                this.DispatcherObject.Post(() =>
+                {
+                    SphWorkerServiceStarted = false;
+                    SphWorkersStatus = "Stopped";
+                    this.IsBusy = false;
+                });
 
 
 
-            Log("SPH Worker... [STOPPED]");
-            SphWorkerServiceStarted = false;
-            SphWorkersStatus = "Stopped";
+            });
         }
 
         private string GetSettingFile()
@@ -659,20 +687,23 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void OnDataReceived(object sender, DataReceivedEventArgs e)
         {
             if ((e.Data != null) && (m_writer != null))
-                m_writer.WriteLine("*[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
+                m_writer.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
         }
 
         private void OnErrorReceived(object sender, DataReceivedEventArgs e)
         {
             if ((e.Data != null) && (m_writer != null))
             {
-                m_writer.WriteLine("![{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
+                m_writer.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
             }
         }
 
         private void Log(string message)
         {
-            Console.WriteLine(@"@[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, message);
+            this.DispatcherObject.Post(m =>
+            {
+                Console.WriteLine(@"@[{0:HH:mm:ss}] {1}", DateTime.Now, m);
+            }, message);
         }
 
         public bool CanExit()

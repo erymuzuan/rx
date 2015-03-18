@@ -73,16 +73,16 @@ namespace workers.console.runner
                 program.Stop();
                 stopFlag.Set();
             };
-            var fsw = new FileSystemWatcher(AppDomain.CurrentDomain.BaseDirectory) {EnableRaisingEvents = true};
+            var fsw = new FileSystemWatcher(AppDomain.CurrentDomain.BaseDirectory) { EnableRaisingEvents = true };
             fsw.Changed += (o, e) =>
             {
-                Console.WriteLine(e.Name);
                 if (e.Name != "q.txt") return;
+                Console.WriteLine("The workers is shutting down...!!!");
                 program.Stop();
-                fsw.Dispose();
                 stopFlag.Set();
+                fsw.Dispose();
             };
-           
+
             program.Start(metadata);
             Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
             Console.WriteLine("********* Wathching " + AppDomain.CurrentDomain.BaseDirectory);

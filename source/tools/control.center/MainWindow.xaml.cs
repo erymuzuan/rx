@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Helpers;
@@ -23,11 +24,11 @@ namespace Bespoke.Sph.ControlCenter
         {
 
             var vm = this.DataContext as MainViewModel;
-            if (null == vm)return;
+            if (null == vm) return;
             if (vm.CanExit())
             {
                 MessageBox.Show("Please stop all the services before exit", Strings.Title,
-                    MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 e.Cancel = true;
             }
         }
@@ -36,6 +37,7 @@ namespace Bespoke.Sph.ControlCenter
         {
             var vm = this.DataContext as MainViewModel;
             if (null == vm) throw new InvalidOperationException("The DataContext is not MainViewModel");
+            vm.DispatcherObject = this;
             await vm.LoadAsync();
             outputTextBox.Clear();
             vm.TextWriter = new TextBoxStreamWriter(outputTextBox);
@@ -52,7 +54,7 @@ namespace Bespoke.Sph.ControlCenter
                 //outputTextBox.Focus();
                 outputTextBox.CaretIndex = outputTextBox.Text.Length;
                 outputTextBox.ScrollToEnd();
-
+                
             });
             this.Dispatcher.BeginInvoke(caret, DispatcherPriority.ApplicationIdle);
         }
