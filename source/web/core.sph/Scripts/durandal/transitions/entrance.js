@@ -84,7 +84,7 @@ define(['durandal/system', 'durandal/composition', 'jquery'], function(system, c
                 var startValues = {
                     display: 'block',
                     opacity: 0,
-                    position: 'absolute',
+                    position: 'inherit',
                     left: fadeOnly || animation ? '0px' : '20px',
                     right: 0,
                     top: 0,
