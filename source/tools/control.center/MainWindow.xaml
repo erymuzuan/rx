@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Icon="Propeller.ico"
         xmlns:uc="clr-namespace:Bespoke.Sph.ControlCenter"
-        xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel" 
+        xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         Height="738" Width="500"
         DataContext="{DynamicResource MainViewModel}"
         WindowStartupLocation="CenterScreen" Title="Rx Developer : Bespoke Technology">
@@ -100,5 +101,6 @@
                 <uc:ProjectSettingsUserControl  />
             </TabItem>
         </TabControl>
+        <telerik:RadBusyIndicator Grid.Row="1" Grid.Column="0" IsBusy="{Binding IsBusy}"/>
     </Grid>
 </Window>

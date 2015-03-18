@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Management;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -20,11 +21,11 @@ using EventLog = Bespoke.Sph.ControlCenter.Model.EventLog;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
 {
-    public partial class MainViewModel
+    public partial class MainViewModel : IView
     {
         private Process m_elasticProcess;
         private Process m_iisServiceProcess;
-        public DispatcherObject DispatcherObject { get; set; }
+        public DispatcherObject View { get; set; }
         public RelayCommand StartElasticSearchCommand { get; set; }
         public RelayCommand StopElasticSearchCommand { get; set; }
         public RelayCommand StartRabbitMqCommand { get; set; }
@@ -42,8 +43,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public MainViewModel()
         {
-            StartIisServiceCommand = new RelayCommand(StartIisService, () => !IisServiceStarted && RabbitMqServiceStarted && !RabbitMqServiceStarting);
-            StopIisServiceCommand = new RelayCommand(StopIisService, () => IisServiceStarted);
+            StartIisServiceCommand = new RelayCommand(StartIisService, () => !IisServiceStarted && RabbitMqServiceStarted && !RabbitMqServiceStarting && !IsBusy);
+            StopIisServiceCommand = new RelayCommand(StopIisService, () => IisServiceStarted && !IsBusy);
 
             StartSqlServiceCommand = new RelayCommand(StartSqlService, () => !SqlServiceStarted);
             StopSqlServiceCommand = new RelayCommand(StopSqlService, () => SqlServiceStarted);
@@ -82,7 +83,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public async Task LoadAsync()
         {
-
+            this.IsBusy = true;
             ApplicationName = Settings.Default.ApplicationName;
             ProjectDirectory = Settings.Default.ProjectDirectory;
             var file = this.GetSettingFile();
@@ -121,7 +122,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
+
+            this.CheckIisExpress();
+            this.CheckElasticSearch();
+
+            this.IsBusy = false;
         }
+
+
 
         private async Task<bool> FindOutSetupAsync()
         {
@@ -189,59 +197,103 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
+        private void CheckIisExpress()
+        {
+            const string PROCESS_NAME = "iisexpress.exe";
+            var web = "/site:web." + ApplicationName;
+
+            var id = FindProcessByCommandLineArgs(PROCESS_NAME, web);
+            if (id == 0) return;
+            m_iisServiceProcess = Process.GetProcessById(id);
+            this.Post(() =>
+            {
+                this.IsBusy = false;
+                this.IisServiceStarted = true;
+            });
+        }
+
+        private static int FindProcessByCommandLineArgs(string process, string arg)
+        {
+            var query = string.Format("select ProcessId, CommandLine from Win32_Process where Name='{0}'", process);
+            var searcher = new ManagementObjectSearcher(query);
+            var retObjectCollection = searcher.Get();
+
+            foreach (var o in retObjectCollection)
+            {
+                var retObject = (ManagementObject)o;
+                var commandLine = string.Format("{0}", retObject["CommandLine"]);
+                var id = Convert.ToInt32(retObject["ProcessId"]);
+                if (commandLine.Contains(arg))
+                {
+                    return id;
+                }
+            }
+            return 0;
+        }
+
         private void StartIisService()
         {
             Log("IIS Service...[INITIATING]");
-
-            try
+            this.IsBusy = true;
+            this.QueueUserWorkItem(() =>
             {
-                var iisConfig = @".\config\applicationhost.config".TranslatePath();
-                if (!File.Exists(iisConfig))
+                try
                 {
-                    Console.WriteLine(Resources.CannotFind + iisConfig);
-                    return;
+                    var iisConfig = @".\config\applicationhost.config".TranslatePath();
+                    if (!File.Exists(iisConfig))
+                    {
+                        Console.WriteLine(Resources.CannotFind + iisConfig);
+                        return;
+
+                    }
+                    if (!File.Exists(IisExpressDirectory.TranslatePath()))
+                    {
+                        Console.WriteLine(Resources.CannotFind + IisExpressDirectory);
+                        return;
+                    }
+
+                    var arg = string.Format("/config:\"{0}\" /site:web.{1} /trace:verbose", iisConfig, ApplicationName);
+                    var info = new ProcessStartInfo
+                    {
+                        FileName = IisExpressDirectory.TranslatePath(),
+                        Arguments = arg,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardInput = true,
+                        CreateNoWindow = true,
+                        RedirectStandardError = true,
+                        WindowStyle = ProcessWindowStyle.Hidden
+                    };
+                    m_iisServiceProcess = Process.Start(info);
+                    if (null == m_iisServiceProcess) throw new InvalidOperationException("Cannot start IIS");
+
+                    m_iisServiceProcess.BeginOutputReadLine();
+                    m_iisServiceProcess.BeginErrorReadLine();
+                    m_iisServiceProcess.OutputDataReceived += OnIisDataReceived;
+                    m_iisServiceProcess.ErrorDataReceived += OnIisErrorReceived;
+                    m_iisServiceProcess.Exited += (o, e) => { StopIisService(); };
+
+
+
 
                 }
-                if (!File.Exists(IisExpressDirectory.TranslatePath()))
+                catch (Exception ex)
                 {
-                    Console.WriteLine(Resources.CannotFind + IisExpressDirectory);
-                    return;
+                    Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace);
                 }
 
-                var arg = string.Format("/config:\"{0}\" /site:web.{1} /trace:verbose", iisConfig, ApplicationName);
-                var info = new ProcessStartInfo
-                {
-                    FileName = IisExpressDirectory.TranslatePath(),
-                    Arguments = arg,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardInput = true,
-                    CreateNoWindow = true,
-                    RedirectStandardError = true,
-                    WindowStyle = ProcessWindowStyle.Hidden
-                };
-                m_iisServiceProcess = Process.Start(info);
-                if (null == m_iisServiceProcess) throw new InvalidOperationException("Cannot start IIS");
 
-                m_iisServiceProcess.BeginOutputReadLine();
-                m_iisServiceProcess.BeginErrorReadLine();
-                m_iisServiceProcess.OutputDataReceived += OnIisDataReceived;
-                m_iisServiceProcess.ErrorDataReceived += OnIisErrorReceived;
 
-                this.IisServiceStarted = true;
-                this.IisServiceStatus = "Running";
-                Log("IIS Service... [STARTED]");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace);
-            }
+
+            });
         }
 
 
         private void StopIisService()
         {
-            m_iisServiceProcess.Kill();
+            if (!m_iisServiceProcess.HasExited)
+                m_iisServiceProcess.Kill();
+
             m_iisServiceProcess = null;
             Log("IIS Service... [STOPPED]");
             IisServiceStarted = false;
@@ -402,7 +454,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     m_rabbitMqServer.OutputDataReceived += started;
                     flag.WaitOne(15000);
                     Task.Delay(1000).Wait();
-                    this.DispatcherObject.Post(() =>
+                    this.Post(() =>
                     {
                         RabbitMqServiceStarted = true;
                         this.RabbitMqServiceStarting = false;
@@ -500,6 +552,24 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         }
 
+        private void CheckElasticSearch()
+        {
+            const string PROCESS_NAME = "java.exe";
+            var web = "elasticsearch-" + this.ElasticSearchVersion;
+            this.QueueUserWorkItem(() =>
+            {
+                var id = FindProcessByCommandLineArgs(PROCESS_NAME, web);
+                if (id == 0) return;
+                this.Post(() =>
+                {
+                    m_elasticSearchId = id;
+                    m_elasticProcess = Process.GetProcessById(id);
+                    this.IsBusy = false;
+                    this.ElasticSearchServiceStarted = true;
+                });
+            });
+
+        }
         private void StopElasticSearch()
         {
             try
@@ -573,7 +643,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 }
                 Log("SPH Worker... [STOPPED]");
 
-                this.DispatcherObject.Post(() =>
+                this.Post(() =>
                 {
                     SphWorkerServiceStarted = false;
                     SphWorkersStatus = "Stopped";
@@ -657,7 +727,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if ((e.Data != null) && (m_writer != null))
                 m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
 
-            var severity = string.Format("{0}", e.Data).Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
+            var message = string.Format("{0}", e.Data);
+            var severity = message.Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
             this.Logger.Log(new LogEntry
             {
                 Severity = severity,
@@ -666,6 +737,20 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 Log = EventLog.WebServer,
                 Source = "IIS Express"
             });
+            if (message.Contains("IIS Express stopped"))
+                this.StopIisService();
+
+            if (message.Contains("IIS Express is running"))
+            {
+                this.Post(() =>
+                {
+                    this.IsBusy = false;
+                    this.IisServiceStarted = true;
+                    this.IisServiceStatus = "Running";
+                    Log("IIS Service... [STARTED]");
+
+                });
+            }
         }
 
         private void OnIisErrorReceived(object sender, DataReceivedEventArgs e)
@@ -700,7 +785,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void Log(string message)
         {
-            this.DispatcherObject.Post(m =>
+            this.Post(m =>
             {
                 Console.WriteLine(@"@[{0:HH:mm:ss}] {1}", DateTime.Now, m);
             }, message);

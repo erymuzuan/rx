@@ -221,6 +221,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 m_iisServiceStarted = value;
                 OnPropertyChanged();
                 this.StopRabbitMqCommand.RaiseCanExecuteChanged();
+                this.StartIisServiceCommand.RaiseCanExecuteChanged();
+                this.StopIisServiceCommand.RaiseCanExecuteChanged();
             }
             get { return m_iisServiceStarted; }
         }
