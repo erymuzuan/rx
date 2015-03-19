@@ -43,14 +43,12 @@ namespace Bespoke.Sph.Persistence
             sw.Start();
             try
             {
-                this.QueueUserWorkItem(RegisterServices);
+                RegisterServices();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.QueueUserWorkItem(() =>
-                {
-                    this.StartConsume();
-                    PrintSubscriberInformation(sw.Elapsed);
-                    sw.Stop();
-                });
+                this.StartConsume();
+                PrintSubscriberInformation(sw.Elapsed);
+                sw.Stop();
+
             }
             catch (Exception e)
             {

@@ -30,5 +30,9 @@ namespace Bespoke.DevV1_state.Domain
         [XmlAttribute]
         public string Country { get; set; }
 
+        //member:FlagStoreId
+        [XmlAttribute]
+        public string FlagStoreId { get; set; }
+
     }
 }

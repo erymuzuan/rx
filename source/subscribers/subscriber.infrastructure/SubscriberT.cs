@@ -31,15 +31,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             try
             {
                 this.WriteMessage("Starting {0}....", this.GetType().Name);
-                this.QueueUserWorkItem(RegisterServices);
+                RegisterServices();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.QueueUserWorkItem(() =>
-                {
-                    this.StartConsume();
-                    PrintSubscriberInformation(sw.Elapsed);
-                    sw.Stop();
-                    
-                });
+                this.StartConsume();
+                PrintSubscriberInformation(sw.Elapsed);
+                sw.Stop();
             }
             catch (Exception e)
             {

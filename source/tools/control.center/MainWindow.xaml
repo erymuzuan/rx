@@ -53,7 +53,7 @@
                 <Button Grid.Row="0" Grid.Column="3" Content="Stop" Command="{Binding StopRabbitMqCommand}"/>
                 <Image Grid.Row="0" Grid.Column="0" Stretch="None" Source="images/run_exc.gif" Visibility="{Binding RabbitMqServiceStarted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <TextBlock x:Name="rabbitLink" Style="{StaticResource LinkStyle}" Grid.Row="0" Grid.Column="4">
-                    <Hyperlink NavigateUri="http://localhost:15672/" RequestNavigate="Navigate"><Run Text="View RabbitMQ Management"/></Hyperlink>
+                    <Hyperlink IsEnabled="{Binding RabbitMqServiceStarted}" NavigateUri="http://localhost:15672/" RequestNavigate="Navigate"><Run Text="View RabbitMQ Management"/></Hyperlink>
                 </TextBlock>
 
                 <Label Grid.Row="1" Grid.Column="1" Content="SQL LocalDB" FontWeight="Bold"/>
@@ -61,11 +61,15 @@
                 <Button Grid.Row="1" Grid.Column="3" Content="Stop" Command="{Binding StopSqlServiceCommand}"/>
                 <Image Grid.Row="1" Grid.Column="0" Stretch="None" Source="images/run_exc.gif" Visibility="{Binding SqlServiceStarted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                <Label Grid.Row="2" Grid.Column="1" Content="ElasticSearch" FontWeight="Bold"/>
+                <Label Grid.Row="2" Grid.Column="1" Content="Elasticsearch" FontWeight="Bold"/>
                 <Button Grid.Row="2" Grid.Column="2" Content="Start" Command="{Binding StartElasticSearchCommand}"/>
                 <Button Grid.Row="2" Grid.Column="3" Content="Stop" Command="{Binding StopElasticSearchCommand}"/>
                 <Image Grid.Row="2" Grid.Column="0" Stretch="None" Source="images/run_exc.gif" Visibility="{Binding ElasticSearchServiceStarted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
+                <TextBlock x:Name="esMarvelLink" Style="{StaticResource LinkStyle}" Grid.Row="2" Grid.Column="4">
+                    <Hyperlink IsEnabled="{Binding ElasticSearchServiceStarted}" NavigateUri="http://localhost:9200/_plugin/marvel" RequestNavigate="Navigate"><Run Text="View Elasticsearch Marvel"/></Hyperlink>
+                </TextBlock>
+                
+                
                 <Label Grid.Row="3" Grid.Column="1" Content="SPH Workers" FontWeight="Bold"/>
                 <Button Grid.Row="3" Grid.Column="2" Content="Start" Command="{Binding StartSphWorkerCommand}"/>
                 <Button Grid.Row="3" Grid.Column="3" Content="Stop" Command="{Binding StopSphWorkerCommand}"/>
