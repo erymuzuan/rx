@@ -132,6 +132,7 @@ foreach($configFile in $allConfigs){
     Write-Host "Processing $configFile"
 
     $xml = (Get-Content $configFile) -as [xml]
+
     $xml.SelectSingleNode('//appSettings/add[@key="sph:BaseUrl"]/@value').'#text' = 'http://localhost:' + $Port
     $xml.SelectSingleNode('//appSettings/add[@key="sph:BaseDirectory"]/@value').'#text' = $WorkingCopy
     $xml.SelectSingleNode('//appSettings/add[@key="sph:ApplicationName"]/@value').'#text' = $ApplicationName
@@ -140,10 +141,15 @@ foreach($configFile in $allConfigs){
     $connectionString = 'Data Source=(localdb)\' + $SqlServer +';Initial Catalog='+ $ApplicationName +';Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False'
 
     $xml.SelectSingleNode('//connectionStrings/add[@name="Sph"]/@connectionString').'#text' = $connectionString
-    $xml.SelectSingleNode('//spring/objects/object[@name="IPersistence"]/constructor-arg[@name="connectionString"]/@value').'#text' = $connectionString
-    $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="VirtualHost"]/@value').'#text' = $ApplicationName
-    $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="UserName"]/@value').'#text' = $RabbitMqUserName
-    $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="Password"]/@value').'#text' = $RabbitMqPassword
+
+    $nsmgr = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
+    $nsmgr.AddNamespace("sp", "http://www.springframework.net")
+    Write-Host $nsmgr
+
+    $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IBrokerConnection"]/sp:property[@name="VirtualHost"]/@value', $nsmgr).'#text' = $ApplicationName
+    $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IBrokerConnection"]/sp:property[@name="UserName"]/@value', $nsmgr).'#text' = $RabbitMqUserName
+    $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IBrokerConnection"]/sp:property[@name="Password"]/@value', $nsmgr).'#text' = $RabbitMqPassword
+    $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IPersistence"]/sp:constructor-arg[@name="connectionString"]/@value', $nsmgr).'#text' = $connectionString
     
     Try{
         $taskscheduler = $WorkingCopy   + "\schedulers\scheduler.delayactivity.exe"  
@@ -166,7 +172,7 @@ $startWebBat.Replace("%USERPROFILE%\Documents\IISExpress", $WorkingCopy) > .\Sta
 #asp.net memberships
 Write-Host "Executing Aspnet membership provider" -ForegroundColor Cyan
 Start-Process -RedirectStandardOutput "v1.log" -Wait -WindowStyle Hidden -FilePath "C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe" `
--ArgumentList  @("-E","-S",'"(localdb)\$SqlServer"',"-d " + $ApplicationName,"-A mr")
+-ArgumentList  @("-E","-S",'"(localdb)\' + $SqlServer+ '"',"-d " + $ApplicationName,"-A mr")
 
 
 Write-Host "Aspnet membership has been added"
