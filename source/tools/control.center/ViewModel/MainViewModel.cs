@@ -123,8 +123,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
 
+            this.CheckWorkers();
             this.CheckIisExpress();
-            this.CheckElasticSearch();
+            this.CheckElasticsearch();
 
             this.IsBusy = false;
         }
@@ -413,6 +414,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private async void StartRabbitMqService()
         {
             this.RabbitMqServiceStarting = true;
+            this.IsBusy = true;
             Log("RabbitMQ...[STARTING]");
             try
             {
@@ -457,6 +459,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     this.Post(() =>
                     {
                         RabbitMqServiceStarted = true;
+                        this.IsBusy = false;
                         this.RabbitMqServiceStarting = false;
                         RabbitMqStatus = "Started";
                         Log("RabbitMQ... [STARTED]");
@@ -552,7 +555,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         }
 
-        private void CheckElasticSearch()
+        private void CheckElasticsearch()
         {
             const string PROCESS_NAME = "java.exe";
             var web = "elasticsearch-" + this.ElasticSearchVersion;
@@ -566,6 +569,23 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     m_elasticProcess = Process.GetProcessById(id);
                     this.IsBusy = false;
                     this.ElasticSearchServiceStarted = true;
+                });
+            });
+
+        }
+        private void CheckWorkers()
+        {
+            const string PROCESS_NAME = "workers.console.runner.exe";
+            var web = "/v:" + this.ApplicationName;
+            this.QueueUserWorkItem(() =>
+            {
+                var id = FindProcessByCommandLineArgs(PROCESS_NAME, web);
+                if (id == 0) return;
+                this.Post(() =>
+                {
+                    m_sphWorkerProcess = Process.GetProcessById(id);
+                    this.IsBusy = false;
+                    this.SphWorkerServiceStarted = true;
                 });
             });
 
@@ -689,10 +709,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void OnElasticsearchDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if ((e.Data != null) && (m_writer != null))
-                m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
-
-            var severity = string.Format("{0}", e.Data).Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
+            var message = string.Format("{0}", e.Data);
+            m_writer?.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, message);
+            var severity = message.Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
             this.Logger.Log(new LogEntry
             {
                 Severity = severity,
@@ -701,13 +720,19 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 Log = EventLog.Elasticsearch,
                 Source = "Elasticsearch"
             });
+
+            if (message.Contains("detected_master"))
+            {
+                MessageBox.Show("Elasticsearch is running in a cluster, Are you sure this what you intended ?", "Rx Developer",
+                    MessageBoxButton.OK, MessageBoxImage.Question);
+            }
         }
 
         private void OnElasticsearchErroReceived(object sender, DataReceivedEventArgs e)
         {
-            if ((e.Data != null) && (m_writer != null))
+            if (e.Data != null)
             {
-                m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
+                m_writer?.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
             }
             this.Logger.Log(new LogEntry
             {
@@ -721,10 +746,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void OnIisDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if ((e.Data != null) && (m_writer != null))
-                m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
-
             var message = string.Format("{0}", e.Data);
+            m_writer?.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, message);
+
             var severity = message.Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
             this.Logger.Log(new LogEntry
             {
@@ -752,9 +776,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void OnIisErrorReceived(object sender, DataReceivedEventArgs e)
         {
-            if ((e.Data != null) && (m_writer != null))
+            if (e.Data != null)
             {
-                m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
+                m_writer?.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
             }
             this.Logger.Log(new LogEntry
             {
@@ -766,38 +790,53 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             });
 
         }
+
         private void OnWorkerDataReceived(object sender, DataReceivedEventArgs e)
         {
             var message = string.Format("{0}", e.Data);
-            if ((e.Data != null) && (m_writer != null))
-                m_writer.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, message);
+            m_writer?.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, message);
+
             if (message.Contains("Welcome to [SPH] Type ctrl + c to quit at any time"))
             {
                 this.IsBusy = false;
                 SphWorkerServiceStarted = true;
                 SphWorkersStatus = "Running";
                 Log("SPH Worker... [STARTED]");
+
             }
         }
 
         private void OnWorkerErrorReceived(object sender, DataReceivedEventArgs e)
         {
-            if ((e.Data != null) && (m_writer != null))
+            var message = string.Format("{0}", e.Data);
+            m_writer.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, message);
+            if (message.Contains("Unhandled Exception"))
             {
-                m_writer.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
+                this.IsBusy = false;
+                SphWorkerServiceStarted = false;
+                SphWorkersStatus = "Error";
+                this.QueueUserWorkItem(() =>
+                {
+                    Task.Delay(500).Wait();
+                    this.Post(() =>
+                    {
+                        MessageBox.Show("There's an error starting your subscriber worker \r\n" + message, "Reactive Developer",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                    });
+                });
             }
         }
         private void OnDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if ((e.Data != null) && (m_writer != null))
-                m_writer.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
+            if (e.Data != null)
+                m_writer?.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
         }
 
         private void OnErrorReceived(object sender, DataReceivedEventArgs e)
         {
-            if ((e.Data != null) && (m_writer != null))
+            if (e.Data != null)
             {
-                m_writer.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
+                m_writer?.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
             }
         }
 

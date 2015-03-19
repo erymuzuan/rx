@@ -1,1 +1,1 @@
-".\sph.packages\elasticsearch\bin\elasticsearch.bat"
+".\bin\elasticsearch\bin\elasticsearch.bat"

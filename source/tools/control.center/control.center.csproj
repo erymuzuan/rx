@@ -203,6 +203,12 @@
   <ItemGroup>
     <Resource Include="Propeller.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\nav_stop.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\run_exc.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
