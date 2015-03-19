@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -29,6 +30,9 @@ namespace workers.console.runner
             var port = ParseArg("port") == null ? 5672 : int.Parse(ParseArg("port"));
 
 
+            var sw = new Stopwatch();
+            sw.Start();
+            Console.WriteLine("Stopwatch started");
 
             INotificationService log = new ConsoleNotification(ObjectBuilder.GetObject<IBrokerConnection>());
             if (ParseArg("log") != "console")
@@ -82,10 +86,15 @@ namespace workers.console.runner
                 stopFlag.Set();
                 fsw.Dispose();
             };
-
+            var discoverElapsed = sw.Elapsed;
             program.Start(metadata);
-            Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
             Console.WriteLine("********* Wathching " + AppDomain.CurrentDomain.BaseDirectory);
+
+            var span = sw.Elapsed;
+            sw.Stop();
+            Console.WriteLine("{0} seconds taken to start discover the subscribers", discoverElapsed.TotalSeconds);
+            Console.WriteLine("{0} seconds taken to start the console", span.TotalSeconds);
+            Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
 
             stopFlag.WaitOne();
             return 0;

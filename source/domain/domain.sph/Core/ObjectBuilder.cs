@@ -169,8 +169,11 @@ namespace Bespoke.Sph.Domain
         public static T GetObject<T>() where T : class
         {
             var key = typeof(T);
-            if (m_cacheList.ContainsKey(key))
-                return m_cacheList[key] as T;
+            lock (m_lock)
+            {
+                if (m_cacheList.ContainsKey(key))
+                    return m_cacheList[key] as T;
+            }
 
             try
             {
@@ -211,8 +214,11 @@ namespace Bespoke.Sph.Domain
 
         public static dynamic GetObject(Type key)
         {
-            if (m_cacheList.ContainsKey(key))
-                return m_cacheList[key];
+            lock (m_lock)
+            {
+                if (m_cacheList.ContainsKey(key))
+                    return m_cacheList[key];
+            }
 
             var name = key.ToString();
             if (key.IsGenericType)

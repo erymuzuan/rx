@@ -27,10 +27,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             try
             {
-                RegisterServices();
+                this.QueueUserWorkItem(RegisterServices);
                 PrintSubscriberInformation();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.StartConsume();
+                this.QueueUserWorkItem(this.StartConsume);
             }
             catch (Exception e)
             {

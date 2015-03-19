@@ -38,35 +38,45 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         private void SendMessage(LogEntry entry)
         {
-            entry.Log = EventLog.Subscribers;
-            entry.Time = DateTime.Now;
-            entry.Computer = Environment.MachineName;
-            
-            var json = GetJsonContent(entry);
-            if (null == m_connectionInfo) return;
-            var factory = new ConnectionFactory
+            this.QueueUserWorkItem(() =>
             {
-                UserName = m_connectionInfo.UserName,
-                Password = m_connectionInfo.Password,
-                HostName = m_connectionInfo.Host,
-                Port = m_connectionInfo.Port,
-                VirtualHost = m_connectionInfo.VirtualHost
-            };
+                entry.Log = EventLog.Subscribers;
+                entry.Time = DateTime.Now;
+                entry.Computer = Environment.MachineName;
+
+                var json = GetJsonContent(entry);
+                if (null == m_connectionInfo) return;
+                var factory = new ConnectionFactory
+                {
+                    UserName = m_connectionInfo.UserName,
+                    Password = m_connectionInfo.Password,
+                    HostName = m_connectionInfo.Host,
+                    Port = m_connectionInfo.Port,
+                    VirtualHost = m_connectionInfo.VirtualHost
+                };
 
 
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                var routingKey = "logger." + entry.Severity;
-                var body = Encoding.Default.GetBytes(json);
+                try
+                {
+                    using (var connection = factory.CreateConnection())
+                    using (var channel = connection.CreateModel())
+                    {
+                        var routingKey = "logger." + entry.Severity;
+                        var body = Encoding.Default.GetBytes(json);
 
-                var props = channel.CreateBasicProperties();
-                props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
-                props.ContentType = "application/json";
+                        var props = channel.CreateBasicProperties();
+                        props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
+                        props.ContentType = "application/json";
 
-                channel.BasicPublish(this.Exchange, routingKey, props, body);
+                        channel.BasicPublish(this.Exchange, routingKey, props, body);
 
-            }
+                    }
+                }
+                catch
+                {
+                    // ignore
+                }
+            });
 
 
         }
