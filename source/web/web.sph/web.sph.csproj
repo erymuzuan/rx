@@ -891,9 +891,6 @@
     <Content Include="docs\WeeklySchedule.html">
       <DependentUpon>WeeklySchedule.md</DependentUpon>
     </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen - Copy.html">
-      <DependentUpon>WorkflowDefinition.HowTo.ExceptionHandling.md</DependentUpon>
-    </Content>
     <Content Include="docs\WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.html">
       <DependentUpon>WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.md</DependentUpon>
     </Content>
