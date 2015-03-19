@@ -40,52 +40,50 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         private void SendMessage(LogEntry entry)
         {
-            this.QueueUserWorkItem(() =>
+
+            entry.Log = EventLog.Subscribers;
+            entry.Time = DateTime.Now;
+            entry.Computer = Environment.MachineName;
+
+            var json = GetJsonContent(entry);
+            if (null == m_connectionInfo) return;
+            var factory = new ConnectionFactory
             {
-                entry.Log = EventLog.Subscribers;
-                entry.Time = DateTime.Now;
-                entry.Computer = Environment.MachineName;
+                UserName = m_connectionInfo.UserName,
+                Password = m_connectionInfo.Password,
+                HostName = m_connectionInfo.Host,
+                Port = m_connectionInfo.Port,
+                VirtualHost = m_connectionInfo.VirtualHost
+            };
 
-                var json = GetJsonContent(entry);
-                if (null == m_connectionInfo) return;
-                var factory = new ConnectionFactory
+
+            try
+            {
+                using (var connection = factory.CreateConnection())
+                using (var channel = connection.CreateModel())
                 {
-                    UserName = m_connectionInfo.UserName,
-                    Password = m_connectionInfo.Password,
-                    HostName = m_connectionInfo.Host,
-                    Port = m_connectionInfo.Port,
-                    VirtualHost = m_connectionInfo.VirtualHost
-                };
+                    var routingKey = "logger." + entry.Severity;
+                    var body = Encoding.Default.GetBytes(json);
 
+                    var props = channel.CreateBasicProperties();
+                    props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
+                    props.ContentType = "application/json";
 
-                try
-                {
-                    using (var connection = factory.CreateConnection())
-                    using (var channel = connection.CreateModel())
-                    {
-                        var routingKey = "logger." + entry.Severity;
-                        var body = Encoding.Default.GetBytes(json);
+                    channel.BasicPublish(this.Exchange, routingKey, props, body);
 
-                        var props = channel.CreateBasicProperties();
-                        props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
-                        props.ContentType = "application/json";
-
-                        channel.BasicPublish(this.Exchange, routingKey, props, body);
-
-                    }
                 }
-                catch
-                {
-                    // ignore
-                }
-            });
+            }
+            catch
+            {
+                // ignore
+            }
+
 
 
         }
 
         public void Write(string format, params object[] args)
         {
-
             try
             {
                 Monitor.Enter(m_lock);
@@ -106,7 +104,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             finally
             {
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ResetColor();
                 Monitor.Exit(m_lock);
             }
         }
@@ -115,13 +113,15 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             try
             {
-                this.SendMessage(new LogEntry
+                var entry = new LogEntry
                 {
                     Message = "Error",
                     Severity = Severity.Error,
                     Details = string.Format(format, args),
                     Time = DateTime.Now
-                });
+                };
+
+                this.QueueUserWorkItem(SendMessage, entry);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(format, args);
                 Console.WriteLine();
@@ -134,20 +134,23 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public void WriteError(Exception exception, string message2)
         {
+            lock (m_lock)
+            {
 
-            try
-            {
-                var error = new LogEntry(exception);
-                this.SendMessage(error);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(exception.GetType().Name);
-                Console.WriteLine(exception.Message);
-                Console.WriteLine(error.Details);
-                Console.WriteLine();
-            }
-            finally
-            {
-                Console.ResetColor();
+                try
+                {
+                    var error = new LogEntry(exception);
+                    this.QueueUserWorkItem(SendMessage, error);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(exception.GetType().Name);
+                    Console.WriteLine(exception.Message);
+                    Console.WriteLine(error.Details);
+                    Console.WriteLine();
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
             }
         }
     }
