@@ -589,6 +589,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StartSphWorker()
         {
+            this.IsBusy = true;
             Log("SPH Worker...[STARTING]");
             var f = string.Join(@"\", ProjectDirectory, "subscribers.host", "workers.console.runner.exe");
 
@@ -610,13 +611,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 if (null == m_sphWorkerProcess) throw new InvalidOperationException("Cannot start subscriber worker");
                 m_sphWorkerProcess.BeginOutputReadLine();
                 m_sphWorkerProcess.BeginErrorReadLine();
-                m_sphWorkerProcess.OutputDataReceived += OnDataReceived;
-                m_sphWorkerProcess.ErrorDataReceived += OnErrorReceived;
+                m_sphWorkerProcess.OutputDataReceived += OnWorkerDataReceived;
+                m_sphWorkerProcess.ErrorDataReceived += OnWorkerErrorReceived;
 
-
-                SphWorkerServiceStarted = true;
-                SphWorkersStatus = "Running";
-                Log("SPH Worker... [STARTED]");
             }
             catch (Exception ex)
             {
@@ -768,6 +765,27 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 Source = "IIS Express"
             });
 
+        }
+        private void OnWorkerDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            var message = string.Format("{0}", e.Data);
+            if ((e.Data != null) && (m_writer != null))
+                m_writer.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, message);
+            if (message.Contains("Welcome to [SPH] Type ctrl + c to quit at any time"))
+            {
+                this.IsBusy = false;
+                SphWorkerServiceStarted = true;
+                SphWorkersStatus = "Running";
+                Log("SPH Worker... [STARTED]");
+            }
+        }
+
+        private void OnWorkerErrorReceived(object sender, DataReceivedEventArgs e)
+        {
+            if ((e.Data != null) && (m_writer != null))
+            {
+                m_writer.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
+            }
         }
         private void OnDataReceived(object sender, DataReceivedEventArgs e)
         {

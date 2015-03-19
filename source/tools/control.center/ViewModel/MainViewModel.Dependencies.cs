@@ -258,6 +258,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 m_sphWorkerServiceStarted = value;
                 OnPropertyChanged();
                 this.StopRabbitMqCommand.RaiseCanExecuteChanged();
+                this.StartSphWorkerCommand.RaiseCanExecuteChanged();
+                this.StopSphWorkerCommand.RaiseCanExecuteChanged();
             }
             get { return m_sphWorkerServiceStarted; }
         }
