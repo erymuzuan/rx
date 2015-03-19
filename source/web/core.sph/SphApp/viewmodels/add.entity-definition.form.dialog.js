@@ -80,6 +80,11 @@ define(['plugins/dialog', objectbuilders.datacontext],
                         findCollectionMembers(b.MemberCollection());
                         collectionMemberOptions(collectionMembers);
                     });
+                form().Name.subscribe(function (v) {
+                    if (!form().Route()) {
+                        form().Route(v.toLowerCase().replace(/\W+/g, "-"));
+                    }
+                });
                 form().EntityDefinitionId(entityId());
             };
 
