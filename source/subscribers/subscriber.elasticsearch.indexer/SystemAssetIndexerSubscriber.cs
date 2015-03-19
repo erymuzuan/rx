@@ -1,46 +1,51 @@
-﻿using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.SubscribersInfrastructure;
 using Humanizer;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.ElasticSearch
 {
-    public abstract class EsEntityIndexer<T> : Subscriber<T> where T : Entity
+    public class SystemAssetIndexerSubscriber : Subscriber<Entity>
     {
 
         public override string QueueName
         {
-            get { return typeof(T).Name.ToLowerInvariant() + "_es"; }
+            get { return "system_asset_es_indexer"; }
         }
+
 
         public override string[] RoutingKeys
         {
-            get { return new[] { typeof(T).Name + ".#.#" }; }
+            get { return new[] { "#.added.#", "#.changed.#", "#.delete.#" }; }
         }
 
-        protected virtual string GetTypeName(T item)
-        {
-            return typeof(T).Name.ToLowerInvariant();
 
-        }
 
-        protected async override Task ProcessMessage(T item, MessageHeaders headers)
+        protected async override Task ProcessMessage(Entity item, MessageHeaders headers)
         {
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(item, setting);
 
             var content = new StringContent(json);
-            var id = item.Id;
+            if (!item.GetType().IsSystemType()) return;// just custom entity
+            if (item.GetType() == typeof(Tracker))
+            {
+                var trackerIndexer = new TrackerIndexer();
+                await trackerIndexer.ProcessMessage((Tracker)item, headers);
+                return;
+            }
 
 
-            var url = string.Format("{0}/{1}/{2}", ConfigurationManager.ElasticSearchIndex, this.GetTypeName(item), id);
+            var url = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost,
+                ConfigurationManager.ElasticSearchIndex,
+                item.GetType().Name.ToLowerInvariant(),
+                item.Id);
+
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
                 HttpResponseMessage response = null;
                 try
                 {
@@ -72,7 +77,7 @@ namespace Bespoke.Sph.ElasticSearch
                         ph.AddOrReplace(MessageHeaders.SPH_TRYCOUNT, count);
 
                         var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-                        publisher.PublishChanges(headers.Operation, new Entity[] { item }, new AuditTrail[] { }, ph)
+                        publisher.PublishChanges(headers.Operation, new[] { item }, new AuditTrail[] { }, ph)
                             .Wait();
 
                     }
@@ -82,15 +87,17 @@ namespace Bespoke.Sph.ElasticSearch
                         this.WriteError(e);
                         throw;
                     }
-
-
                 }
+
 
                 if (null != response)
                 {
                     Debug.Write(".");
                 }
+
             }
+
+
         }
 
     }

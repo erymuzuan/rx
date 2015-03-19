@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
@@ -25,12 +26,20 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public override void Run()
         {
+            var sw = new Stopwatch();
+            sw.Start();
             try
             {
+                this.WriteMessage("Starting {0}....", this.GetType().Name);
                 this.QueueUserWorkItem(RegisterServices);
-                PrintSubscriberInformation();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.QueueUserWorkItem(this.StartConsume);
+                this.QueueUserWorkItem(() =>
+                {
+                    this.StartConsume();
+                    PrintSubscriberInformation(sw.Elapsed);
+                    sw.Stop();
+                    
+                });
             }
             catch (Exception e)
             {

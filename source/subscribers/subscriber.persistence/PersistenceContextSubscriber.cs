@@ -39,12 +39,18 @@ namespace Bespoke.Sph.Persistence
 
         public override void Run()
         {
+            var sw = new Stopwatch();
+            sw.Start();
             try
             {
-                RegisterServices();
-                PrintSubscriberInformation();
+                this.QueueUserWorkItem(RegisterServices);
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.StartConsume();
+                this.QueueUserWorkItem(() =>
+                {
+                    this.StartConsume();
+                    PrintSubscriberInformation(sw.Elapsed);
+                    sw.Stop();
+                });
             }
             catch (Exception e)
             {
@@ -168,7 +174,7 @@ namespace Bespoke.Sph.Persistence
 
             try
             {
-                this.WriteMessage("{0} for {1}", headers.Operation,  "item".ToQuantity(entities.Count));
+                this.WriteMessage("{0} for {1}", headers.Operation, "item".ToQuantity(entities.Count));
                 foreach (var item in entities)
                 {
                     this.WriteMessage("{0} for {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);

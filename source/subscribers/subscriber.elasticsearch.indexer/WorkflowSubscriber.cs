@@ -2,11 +2,11 @@
 
 namespace Bespoke.Sph.ElasticSearch
 {
-    public class WorkflowSubscriber : EsEntityIndexer<Workflow>
+    public class WorkflowIndexer
     {
-        protected override string GetTypeName(Workflow item)
+        protected string GetTypeName(Workflow item)
         {
-            return string.Format("{0}_{1}_{2}", base.GetTypeName(item), item.WorkflowDefinitionId, item.Version);
+            return string.Format("{0}_{1}_{2}", "Workflow", item.WorkflowDefinitionId, item.Version);
         }
     }
 }

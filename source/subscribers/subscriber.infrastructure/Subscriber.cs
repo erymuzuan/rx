@@ -52,13 +52,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
 
-        protected void PrintSubscriberInformation()
+        protected void PrintSubscriberInformation(TimeSpan elapse)
         {
             var message = new StringBuilder();
             message.AppendFormat("{0,-15}: {1}\r\n", "Queue Name", this.QueueName);
             message.AppendFormat("{0,-15}: {1}\r\n", "Routing Keys", string.Join(",", this.RoutingKeys));
             message.AppendFormat("{0,-15}: {1}\r\n", "Config file", Path.GetFileName(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile));
             message.AppendFormat("{0,-15}: {1}\r\n", "App domain", AppDomain.CurrentDomain.FriendlyName);
+            message.AppendFormat("{0,-15}: {1}\r\n", "Startup time", elapse.TotalSeconds);
             this.WriteMessage(message.ToString());
 
         }

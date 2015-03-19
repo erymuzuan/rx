@@ -16,7 +16,7 @@ namespace Bespoke.Sph.ElasticSearch
             get { return "custom_entities_es_indexer"; }
         }
 
-        // subscribe to all , not so efficient
+
         public override string[] RoutingKeys
         {
             get { return new[] { "#.added.#", "#.changed.#", "#.delete.#" }; }

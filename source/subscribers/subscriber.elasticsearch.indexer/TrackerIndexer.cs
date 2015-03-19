@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -9,15 +9,14 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.ElasticSearch
 {
-    // break down the ExecutionActivity
-    public class TrackerSubscriber : EsEntityIndexer<Tracker>
+    public class TrackerIndexer
     {
-        protected async override Task ProcessMessage(Tracker item, MessageHeaders headers)
+        public async Task ProcessMessage(Tracker item, MessageHeaders headers)
         {
             var tasks = from ea in item.ExecutedActivityCollection
-                        let id = string.Format("{0}_{1}_{2}", item.WorkflowDefinitionId, item.WorkflowId, ea.ActivityWebId)
-                        let wfid = item.WorkflowId
-                        select AddExecutedActivityToIndexAsync(id, ea, headers, wfid);
+                let id = string.Format("{0}_{1}_{2}", item.WorkflowDefinitionId, item.WorkflowId, ea.ActivityWebId)
+                let wfid = item.WorkflowId
+                select AddExecutedActivityToIndexAsync(id, ea, headers, wfid);
             await Task.WhenAll(tasks);
             await AddPendingTaskAsync(item);
         }
@@ -30,17 +29,17 @@ namespace Bespoke.Sph.ElasticSearch
             item.WorkflowDefinition = item.Workflow.WorkflowDefinition;
 
             var pendings = (from w in item.WaitingAsyncList.Keys
-                            let act = item.WorkflowDefinition.GetActivity<Activity>(w)
-                            let screen = act as ScreenActivity
-                            // NOTE : only consider the one with correlation
-                            where item.WaitingAsyncList[w].Count > 0
-                            select new PendingTask(item.WorkflowId)
-                            {
-                                Name = act.Name,
-                                Type = act.GetType().Name,
-                                WebId = act.WebId,
-                                Correlations = item.WaitingAsyncList[w].ToArray()
-                            }).ToList();
+                let act = item.WorkflowDefinition.GetActivity<Activity>(w)
+                let screen = act as ScreenActivity
+                // NOTE : only consider the one with correlation
+                where item.WaitingAsyncList[w].Count > 0
+                select new PendingTask(item.WorkflowId)
+                {
+                    Name = act.Name,
+                    Type = act.GetType().Name,
+                    WebId = act.WebId,
+                    Correlations = item.WaitingAsyncList[w].ToArray()
+                }).ToList();
 
             pendings.ForEach(async t =>
             {
@@ -58,8 +57,8 @@ namespace Bespoke.Sph.ElasticSearch
 
             Debug.WriteLine(response1);
             var tasks = from t in pendings
-                        let id = string.Format("{0}_{1}_{2}", item.WorkflowDefinitionId, item.WorkflowId, t.WebId)
-                        select this.AddPendingTaskToIndexAsync(id, t);
+                let id = string.Format("{0}_{1}_{2}", item.WorkflowDefinitionId, item.WorkflowId, t.WebId)
+                select this.AddPendingTaskToIndexAsync(id, t);
             await Task.WhenAll(tasks);
 
         }

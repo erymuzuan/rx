@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RabbitMqPublisher;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     public class ConsoleNotification : INotificationService
     {
         private readonly IBrokerConnection m_connectionInfo;
+        private readonly object m_lock = new object();
 
         public const int PERSISTENT_DELIVERY_MODE = 2;
         public const int NON_PERSISTENT_DELIVERY_MODE = 1;
@@ -83,8 +85,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public void Write(string format, params object[] args)
         {
+
             try
             {
+                Monitor.Enter(m_lock);
                 var entry = new LogEntry
                 {
                     Message = string.Format(format, args),
@@ -92,7 +96,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     Time = DateTime.Now,
                     Log = EventLog.Subscribers
                 };
-                this.SendMessage(entry);
+                this.QueueUserWorkItem(SendMessage, entry);
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("========== {0} : {1,12:hh:mm:ss.ff} ===========", "Infomation ", DateTime.Now);
 
@@ -103,6 +107,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             finally
             {
                 Console.ForegroundColor = ConsoleColor.White;
+                Monitor.Exit(m_lock);
             }
         }
 
