@@ -25,11 +25,11 @@ copy source\web\web.sph\bin\System.Web.Mvc.dll bin\subscribers
 ls -Filter *.config -Path .\bin\subscribers | Remove-Item
 ls -Filter *.xml -Path .\bin\subscribers | Remove-Item
 
-$worker = ".\bin\subscribers.host\workers.console.runner.exe"
-IF(Test-Path $worker){
+$cc = ".\bin\control.center\controlcenter.exe"
+IF(Test-Path $cc){
 
-    Write-Host "Starting worker..."
-    Start-Process -FilePath .\workers.console.runner.exe -ArgumentList "/log:console /debug" -WorkingDirectory .\bin\subscribers.host
+    Write-Host "Starting control center..."
+    Start-Process -FilePath .\controlcenter.exe -ArgumentList "/log:console /debug" -WorkingDirectory .\bin\control.center
     
 }
 ELSE{
