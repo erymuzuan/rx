@@ -212,10 +212,13 @@ $RabbitmMq_Client = ls .\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Clien
 $Microsoft_Compostition = ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll
 $Microsoft_Code_Analysis = ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse
 $odp_managed_data_provider = ls .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll
+$log4net = ls .\packages\log4net.2.0.3\lib\net40-full\log4net.dll
 $user_dll = ls -Path .\bin\output -Filter DevV1.*
+$web_console_logger = ls .\source\dependencies\web.console.logger\bin\Debug\web.console.logger.dll
 $web_bin = ".\source\web\web.sph\bin"
 $tools_bin = ".\bin\tools"
 $subscribers_bin = ".\bin\subscribers"
+$subscribers_host_bin = ".\bin\subscribers.host"
 $schedulers_bin = ".\bin\schedulers"
 
 $user_dll
@@ -239,10 +242,18 @@ $odp_managed_data_provider| Copy-Item -Destination .\source\web\web.sph\bin
 $Microsoft_Compostition | Copy-Item -Destination .\source\unit.test\mapping.transformation.test\bin\Debug
 $Microsoft_Code_Analysis | Copy-Item -Destination .\source\unit.test\mapping.transformation.test\bin\Debug
 
+$log4net | Copy-Item -Destination $subscribers_host_bin
 
 $user_dll | Copy-Item -Destination $subscribers_bin
 $user_dll | Copy-Item -Destination $schedulers_bin
 $user_dll | Copy-Item -Destination $web_bin
+
+
+
+$web_console_logger | Copy-Item -Destination $subscribers_bin
+$web_console_logger | Copy-Item -Destination $subscribers_host_bin
+$web_console_logger | Copy-Item -Destination $schedulers_bin
+$web_console_logger | Copy-Item -Destination $web_bin
 
 
 gps msbuild* | kill

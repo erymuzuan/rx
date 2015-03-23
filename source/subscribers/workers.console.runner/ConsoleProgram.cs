@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RabbitMqPublisher;
 using Bespoke.Sph.SubscribersInfrastructure;
+using NamedPipeWrapper;
 using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
 namespace workers.console.runner
@@ -54,14 +54,14 @@ namespace workers.console.runner
             var title = string.Format("Connecting to {2}:{3}@{0}:{1}", host, port, userName, password);
             log.Write(Console.Title = title);
             var program = new Program
-                {
-                    HostName = host,
-                    UserName = userName,
-                    Password = password,
-                    Port = port,
-                    NotificationService = log,
-                    VirtualHost = vhost
-                };
+            {
+                HostName = host,
+                UserName = userName,
+                Password = password,
+                Port = port,
+                NotificationService = log,
+                VirtualHost = vhost
+            };
 
             SubscriberMetadata[] metadata;
             using (var discoverer = new Isolated<Discoverer>())
@@ -77,15 +77,8 @@ namespace workers.console.runner
                 program.Stop();
                 stopFlag.Set();
             };
-            var fsw = new FileSystemWatcher(AppDomain.CurrentDomain.BaseDirectory) { EnableRaisingEvents = true };
-            fsw.Changed += (o, e) =>
-            {
-                if (e.Name != "q.txt") return;
-                Console.WriteLine("The workers is shutting down...!!!");
-                program.Stop();
-                stopFlag.Set();
-                fsw.Dispose();
-            };
+            StartNamePipeServer(program, stopFlag);
+
             var discoverElapsed = sw.Elapsed;
             program.Start(metadata);
             Console.WriteLine("********* Wathching " + AppDomain.CurrentDomain.BaseDirectory);
@@ -100,13 +93,34 @@ namespace workers.console.runner
             return 0;
         }
 
+        private static void StartNamePipeServer(Program program, EventWaitHandle stopFlag)
+        {
+            var server = new NamedPipeServer<string>(string.Format("RxDevConsole." + ConfigurationManager.ApplicationName));
+            server.ClientConnected += delegate (NamedPipeConnection<string, string> conn)
+            {
+                Console.WriteLine("Client {0} is now connected!", conn.Id);
+                conn.PushMessage("Welcome!");
+            };
+
+            server.ClientMessage += delegate (NamedPipeConnection<string, string> conn, string message)
+            {
+                Console.WriteLine("Client {0} says: {1}", conn.Id, message);
+                if (message == "stop app")
+                {
+                    program.Stop();
+                    stopFlag.Set();
+                }
+            };
+            server.Start();
+
+        }
+
 
         public static string ParseArg(string name)
         {
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
-            if (null == val) return null;
-            return val.Replace("/" + name + ":", string.Empty);
+            return val?.Replace("/" + name + ":", string.Empty);
         }
 
         private static bool ParseArgExist(string name)
@@ -117,4 +131,7 @@ namespace workers.console.runner
         }
 
     }
+
+
+
 }

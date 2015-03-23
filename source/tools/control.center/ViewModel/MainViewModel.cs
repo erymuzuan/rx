@@ -15,6 +15,7 @@ using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.Properties;
 using Bespoke.Sph.Domain;
 using GalaSoft.MvvmLight.Command;
+using NamedPipeWrapper;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using EventLog = Bespoke.Sph.ControlCenter.Model.EventLog;
@@ -410,6 +411,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private Process m_rabbitMqServer;
         private Process m_sphWorkerProcess;
         private int m_elasticSearchId;
+        private NamedPipeClient<string, string> m_namedPipeClient;
 
         private async void StartRabbitMqService()
         {
@@ -489,13 +491,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             };
             using (var stop = Process.Start(startInfo))
             {
-                if (null != stop)
-                    stop.WaitForExit();
+                stop?.WaitForExit();
             }
-            if (null != m_rabbitMqServer)
-            {
-                m_rabbitMqServer.Dispose();
-            }
+            m_rabbitMqServer?.Dispose();
 
             RabbitMqServiceStarted = false;
             RabbitMqStatus = "Stopped";
@@ -646,7 +644,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.IsBusy = true;
             this.QueueUserWorkItem(() =>
             {
-                File.WriteAllText(@".\subscribers.host\q.txt", @"stop " + DateTime.Now);
+                PushMessageToWorker("stop app");
+
                 if (m_sphWorkerProcess.HasExited)
                 {
                     Log("The SPH Subscribers Worker did start correctly, Please check the console for errors");
@@ -666,10 +665,23 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     SphWorkersStatus = "Stopped";
                     this.IsBusy = false;
                 });
-
-
-
             });
+        }
+
+        private void StartWorkerNamePipeClient()
+        {
+            m_namedPipeClient = new NamedPipeClient<string, string>("RxDevConsole." + ApplicationName);
+            m_namedPipeClient.ServerMessage += delegate (NamedPipeConnection<string, string> conn, string message)
+            {
+                Log(string.Format("Server says: {0}", message));
+            };
+            
+            m_namedPipeClient.Start();
+        }
+
+        private void PushMessageToWorker(string msg)
+        {
+            m_namedPipeClient.PushMessage(msg);
         }
 
         private string GetSettingFile()
@@ -802,6 +814,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 SphWorkerServiceStarted = true;
                 SphWorkersStatus = "Running";
                 Log("SPH Worker... [STARTED]");
+
+                StartWorkerNamePipeClient();
 
             }
         }
