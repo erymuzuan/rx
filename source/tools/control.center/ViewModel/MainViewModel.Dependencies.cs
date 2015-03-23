@@ -7,6 +7,50 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
     {
         private string m_applicationName;
         private bool m_isSetup;
+        private int? m_loggerWebSockerPort;
+        private string m_rabbitMqHost;
+        private int? m_rabbitMqPort;
+        private int? m_rabbitMqManagementPort;
+
+        public int? RabbitMqManagementPort
+        {
+            get { return m_rabbitMqManagementPort; }
+            set
+            {
+                m_rabbitMqManagementPort = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int? RabbitMqPort
+        {
+            get { return m_rabbitMqPort; }
+            set
+            {
+                m_rabbitMqPort = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string RabbitMqHost
+        {
+            get { return m_rabbitMqHost; }
+            set
+            {
+                m_rabbitMqHost = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int? LoggerWebSockerPort
+        {
+            get { return m_loggerWebSockerPort; }
+            set
+            {
+                m_loggerWebSockerPort = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool IsSetup
         {

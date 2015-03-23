@@ -40,16 +40,6 @@ namespace workers.console.runner
                 log = new EventLogNotification();
             }
 
-            // start web.console
-            var webConsole = new ConsoleNotificationSubscriber
-            {
-                HostName = host,
-                UserName = userName,
-                Password = password,
-                Port = port,
-                VirtualHost = vhost
-            };
-            webConsole.Run();
 
             var title = string.Format("Connecting to {2}:{3}@{0}:{1}", host, port, userName, password);
             log.Write(Console.Title = title);

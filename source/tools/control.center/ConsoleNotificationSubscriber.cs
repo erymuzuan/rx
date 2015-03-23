@@ -8,25 +8,36 @@ using Bespoke.Sph.SubscribersInfrastructure;
 using RabbitMQ.Client;
 using SuperSocket.WebSocket;
 
-namespace workers.console.runner
+
+namespace Bespoke.Sph.ControlCenter
 {
     public class ConsoleNotificationSubscriber
     {
         private WebSocketServer m_appServer;
-
-        public string[] RoutingKeys
-        {
-            get { return new[] { "logger.#" }; }
-        }
-
-        public string QueueName
-        {
-            get { return "console_logger"; }
-        }
+        public string[] RoutingKeys => new[] { "logger.#" };
+        public string QueueName => "console_logger";
 
         private TaskCompletionSource<bool> m_stoppingTcs;
-        public void Run()
+        public bool Start(int port = 50230)
         {
+            m_appServer = new WebSocketServer();
+            if (!m_appServer.Setup(port))
+            {
+                return false;
+            }
+            m_appServer.NewMessageReceived += NewMessageReceived;
+            return m_appServer.Start();
+        }
+
+        public bool Stop()
+        {
+            m_appServer.Stop();
+            return true;
+        }
+
+        public void Listen()
+        {
+
             try
             {
                 m_stoppingTcs = new TaskCompletionSource<bool>();
@@ -36,31 +47,12 @@ namespace workers.console.runner
             {
                 Console.WriteLine(e);
             }
-
-            int port;
-            if (!int.TryParse(ParseArg("console.port"), out port))
-            {
-                port = 5030;
-            }
-
-            m_appServer = new WebSocketServer();
-            if (!m_appServer.Setup(port))
-            {
-                //this.WriteError("Console Notification: Failed to setup WebSocket Server!");
-                return;
-            }
-            m_appServer.NewMessageReceived += NewMessageReceived;
-
-            if (!m_appServer.Start())
-            {
-                //this.WriteError("ConsoleNotification: Failed to start websocket server!");
-            }
         }
+
         protected void OnStop()
         {
             m_consumer.Received -= Received;
-            if (null != m_stoppingTcs)
-                m_stoppingTcs.SetResult(true);
+            m_stoppingTcs?.SetResult(true);
 
             while (m_processing > 0)
             {
@@ -82,7 +74,7 @@ namespace workers.console.runner
             }
 
         }
-        
+
         private void NewMessageReceived(WebSocketSession session, string value)
         {
             Console.WriteLine("Getting new message from {0} => {1}", session.SessionID, value);
@@ -131,13 +123,9 @@ namespace workers.console.runner
         }
 
         public int Port { get; set; }
-
         public string HostName { get; set; }
-
         public string Password { get; set; }
-
         public string VirtualHost { get; set; }
-
         public string UserName { get; set; }
 
         private void Received(object sender, ReceivedMessageArgs e)
@@ -161,11 +149,7 @@ namespace workers.console.runner
         }
 
 
-        public static string ParseArg(string name)
-        {
-            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
-            return null == val ? null : val.Replace("/" + name + ":", string.Empty);
-        }
+
+
     }
 }

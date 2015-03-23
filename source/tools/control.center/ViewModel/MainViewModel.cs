@@ -27,6 +27,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private Process m_elasticProcess;
         private Process m_iisServiceProcess;
         public DispatcherObject View { get; set; }
+        public ConsoleNotificationSubscriber ConsoleLogger { get; set; }
         public RelayCommand StartElasticSearchCommand { get; set; }
         public RelayCommand StopElasticSearchCommand { get; set; }
         public RelayCommand StartRabbitMqCommand { get; set; }
@@ -123,6 +124,21 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
+
+            this.ConsoleLogger = new ConsoleNotificationSubscriber()
+            {
+                HostName = RabbitMqHost ?? "localhost",
+                UserName = RabbitmqUserName ?? "guest",
+                Password = RabbitmqPassword ?? "guest",
+                Port = RabbitMqPort ?? 5672,
+                VirtualHost = ApplicationName
+            };
+            Log(this.ConsoleLogger.Start(this.LoggerWebSockerPort ?? 50230)
+                ? "Web Console subscriber successfully started"
+                : "Fail to start Web Console Logger");
+
+            if (!string.IsNullOrWhiteSpace(this.ApplicationName) && rabbitStarted)
+                this.ConsoleLogger.Listen();
 
             this.CheckWorkers();
             this.CheckIisExpress();
@@ -460,6 +476,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     Task.Delay(1000).Wait();
                     this.Post(() =>
                     {
+                        this.ConsoleLogger.Listen();
                         RabbitMqServiceStarted = true;
                         this.IsBusy = false;
                         this.RabbitMqServiceStarting = false;
@@ -645,22 +662,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.QueueUserWorkItem(() =>
             {
                 PushMessageToWorker("stop app");
-
-                if (m_sphWorkerProcess.HasExited)
-                {
-                    Log("The SPH Subscribers Worker did start correctly, Please check the console for errors");
-                    m_sphWorkerProcess = null;
-                }
-                else
+                Task.Delay(5000).Wait();
+                if (!m_sphWorkerProcess.HasExited)
                 {
                     Log("SPH Worker... [STOPPING]");
-                    Task.Delay(5000).Wait();
                     m_sphWorkerProcess.Kill();
                 }
                 Log("SPH Worker... [STOPPED]");
 
                 this.Post(() =>
                 {
+                    m_sphWorkerProcess = null;
                     SphWorkerServiceStarted = false;
                     SphWorkersStatus = "Stopped";
                     this.IsBusy = false;
@@ -675,7 +687,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 Log(string.Format("Server says: {0}", message));
             };
-            
+
             m_namedPipeClient.Start();
         }
 
