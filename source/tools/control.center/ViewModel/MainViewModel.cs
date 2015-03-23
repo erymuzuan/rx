@@ -118,9 +118,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
 
             this.ConsoleLogger = new ConsoleNotificationSubscriber(this.Settings);
-            Log(this.ConsoleLogger.Start(this.Settings.LoggerWebSocketPort ?? 50230)
+            var loggerStarted = this.ConsoleLogger.Start(this.Settings.LoggerWebSocketPort ?? 50230);
+            Log(loggerStarted
                 ? "Web Console subscriber successfully started"
                 : "Fail to start Web Console Logger");
+            if (!loggerStarted)
+                MessageBox.Show("Fail to start Web Console Logger on port " + this.Settings.LoggerWebSocketPort,
+                    "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
             if (!string.IsNullOrWhiteSpace(this.Settings.ApplicationName) && rabbitStarted)
                 this.ConsoleLogger.Listen();
@@ -585,6 +589,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 if (id == 0) return;
                 this.Post(() =>
                 {
+                    this.StartWorkerNamePipeClient();
                     m_sphWorkerProcess = Process.GetProcessById(id);
                     this.IsBusy = false;
                     this.SphWorkerServiceStarted = true;
@@ -680,7 +685,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void PushMessageToWorker(string msg)
         {
-            m_namedPipeClient.PushMessage(msg);
+            m_namedPipeClient?.PushMessage(msg);
         }
 
         private string GetSettingFile()
@@ -856,6 +861,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             return !running;
 
+        }
+
+        public void Stop()
+        {
+            m_namedPipeClient?.Stop();
+            this.ConsoleLogger?.Stop();
+            
         }
     }
 }

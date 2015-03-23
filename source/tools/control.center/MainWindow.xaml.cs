@@ -31,7 +31,10 @@ namespace Bespoke.Sph.ControlCenter
                 MessageBox.Show("Please stop all the services before exit", Strings.Title,
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 e.Cancel = true;
+                return;
             }
+
+            vm.Stop();
         }
 
         async void MainWindowLoaded(object sender, RoutedEventArgs e)

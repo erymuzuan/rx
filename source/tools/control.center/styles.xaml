@@ -18,4 +18,5 @@
         <Setter Property="Margin" Value="5" />
     </Style>
     
+    <Image Source="images/help.gif" x:Key="ImageHelp" Stretch="None"></Image>
 </ResourceDictionary>

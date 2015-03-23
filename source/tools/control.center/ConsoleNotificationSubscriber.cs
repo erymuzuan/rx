@@ -39,6 +39,7 @@ namespace Bespoke.Sph.ControlCenter
         public bool Stop()
         {
             m_appServer.Stop();
+            m_appServer.Dispose();
             return true;
         }
 

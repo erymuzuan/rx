@@ -40,7 +40,7 @@
     <ApplicationIcon>Propeller.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Bespoke.Sph.ControlCenter.App</StartupObject>
+    <StartupObject>Bespoke.Sph.ControlCenter.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.1.27.22784, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
@@ -147,6 +147,7 @@
     <Compile Include="Model\LogEntry.cs" />
     <Compile Include="Model\Logger.cs" />
     <Compile Include="Model\SphSettings.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="ProjectSettingsUserControl.xaml.cs">
       <DependentUpon>ProjectSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -239,6 +240,9 @@
       <Project>{40892cea-fd47-4c1f-b821-7939776e9b6b}</Project>
       <Name>subscriber.infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\help.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
