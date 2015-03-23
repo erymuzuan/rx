@@ -25,7 +25,7 @@ namespace Bespoke.Sph.ControlCenter
 
             var vm = this.DataContext as MainViewModel;
             if (null == vm) return;
-            if (vm.CanExit())
+            if (!vm.CanExit())
             {
                 MessageBox.Show("Please stop all the services before exit", Strings.Title,
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -93,6 +93,25 @@ namespace Bespoke.Sph.ControlCenter
             {
                 File.WriteAllText(dlg.FileName, text);
             }
+        }
+
+        private void WindowExit(object sender, RoutedEventArgs e)
+        {
+            var vm = this.DataContext as MainViewModel;
+            if (null == vm) return;
+            if (!vm.CanExit())
+            {
+                MessageBox.Show("Please stop all the services before exit", Strings.Title,
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
+            this.Close();
+        }
+
+        private void AboutClicked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Reactive Developer Controler Center for V1", "Reactive Developer", MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
     }
 }

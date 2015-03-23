@@ -864,10 +864,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public bool CanExit()
         {
-            return this.IisServiceStarted
+            var running = this.IisServiceStarted
+                   || this.IsBusy
+                   || this.RabbitMqServiceStarting
                    || this.RabbitMqServiceStarted
                    || this.ElasticSearchServiceStarted
                    || this.SphWorkerServiceStarted;
+
+            return !running;
 
         }
     }

@@ -6,9 +6,9 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Bespoke.Sph.ControlCenter.MainWindow"
         Icon="Propeller.ico"
-        Height="738" Width="500"
+        Height="1034.02" Width="885.075"
         DataContext="{DynamicResource MainViewModel}"
-        WindowStartupLocation="CenterScreen" Title="Rx Developer : Bespoke Technology">
+        WindowStartupLocation="CenterScreen" Title="Rx Developer">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel" />
         <Style x:Key="LinkStyle" TargetType="{x:Type TextBlock}">
@@ -26,13 +26,25 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Reactive Developer Control Center" FontSize="18" FontWeight="Bold"/>
+        <Menu Grid.Row="0" x:Name="menu">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" Click="WindowExit"/>
+            </MenuItem>
+            <MenuItem Header="Tools">
 
-        <uc:UpdaterView HorizontalAlignment="Right" Grid.Row="0" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" Click="AboutClicked"/>
+            </MenuItem>
+        </Menu>
+        <Label Grid.Row="1" Content="Reactive Developer Control Center" FontSize="18" FontWeight="Bold"  />
 
-        <GroupBox Header="Service Status" Grid.Row="1">
+        <uc:UpdaterView HorizontalAlignment="Right" Grid.Row="1" />
+
+        <GroupBox Header="Service Status" Grid.Row="2" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10*" />
@@ -68,8 +80,8 @@
                 <TextBlock x:Name="esMarvelLink" Style="{StaticResource LinkStyle}" Grid.Row="2" Grid.Column="4">
                     <Hyperlink IsEnabled="{Binding ElasticSearchServiceStarted}" NavigateUri="http://localhost:9200/_plugin/marvel" RequestNavigate="Navigate"><Run Text="View Elasticsearch Marvel"/></Hyperlink>
                 </TextBlock>
-                
-                
+
+
                 <Label Grid.Row="3" Grid.Column="1" Content="SPH Workers" FontWeight="Bold"/>
                 <Button Grid.Row="3" Grid.Column="2" Content="Start" Command="{Binding StartSphWorkerCommand}"/>
                 <Button Grid.Row="3" Grid.Column="3" Content="Stop" Command="{Binding StopSphWorkerCommand}"/>
@@ -83,8 +95,8 @@
                 <TextBlock IsEnabled="true" x:Name="webLink" Style="{StaticResource LinkStyle}" Grid.Row="4" Grid.Column="4"><Hyperlink NavigateUri="http://localhost:15672/" RequestNavigate="NavigateApp"><Run Text="View App"/></Hyperlink></TextBlock>
             </Grid>
         </GroupBox>
-        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="Gray" VerticalAlignment="Bottom" Height="3" />
-        <TabControl Grid.Row="2">
+        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Background="Gray" VerticalAlignment="Bottom" Height="3"/>
+        <TabControl Grid.Row="3"  >
             <TabItem Header="Output Console">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -105,6 +117,7 @@
                 <uc:ProjectSettingsUserControl  />
             </TabItem>
         </TabControl>
-        <telerik:RadBusyIndicator Grid.Row="1" Grid.Column="0" IsBusy="{Binding IsBusy}" BusyContent="Please wait..." d:IsHidden="True"/>
+        <telerik:RadBusyIndicator Grid.Row="2" Grid.Column="0" IsBusy="{Binding IsBusy}" BusyContent="Please wait..." d:IsHidden="True" />
+    
     </Grid>
 </Window>
