@@ -1,10 +1,12 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using Bespoke.Sph.ControlCenter.Helpers;
 
 namespace Bespoke.Sph.ControlCenter.Model
 {
-    [XmlType("SphSettings", Namespace = Strings.DefaultNamespace)]
+    [XmlType("SphSettings", Namespace = Strings.DEFAULT_NAMESPACE)]
     public class SphSettings : DomainObject
     {
         private string m_sqlLocalDbName;
@@ -14,8 +16,23 @@ namespace Bespoke.Sph.ControlCenter.Model
         private string m_javaHome;
         private string m_rabbitMqPassword;
         private string m_rabbitMqUserName;
-        private int m_port;
-        private string m_elasticSearchVersion;
+        private int? m_websitePort;
+        private string m_rabbitMqHost;
+        private int? m_rabbitMqPort;
+        private int? m_rabbitMqManagementPort;
+        private int? m_loggerWebSocketPort;
+        private string m_applicationName;
+        private string m_projectDirectory;
+
+        public string ApplicationName
+        {
+            get { return m_applicationName; }
+            set
+            {
+                m_applicationName = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         public string SqlLocalDbName
@@ -23,7 +40,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             get
             {
                 return string.IsNullOrWhiteSpace(m_sqlLocalDbName) ?
-                            @"(localdb)\Projects" :
+                            @"Projects" :
                             m_sqlLocalDbName;
             }
             set
@@ -33,7 +50,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
         }
 
-        public string IisExpressDirectory
+        public string IisExpressExecutable
         {
             get
             {
@@ -54,7 +71,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             get
             {
                 return string.IsNullOrWhiteSpace(m_rabbitMqDirectory) ?
-                    ".\rabbitmq_server"
+                    ".\\rabbitmq_server"
                     : m_rabbitMqDirectory;
             }
             set
@@ -105,7 +122,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             set { m_javaHome = value; }
         }
 
-        public string ElasticSearchHome
+        public string ElasticSearchJar
         {
             get
             {
@@ -116,24 +133,101 @@ namespace Bespoke.Sph.ControlCenter.Model
             set { m_elasticSearchHome = value; }
         }
 
-        public int Port
+        public int? WebsitePort
         {
-            get { return m_port; }
+            get { return m_websitePort; }
             set
             {
-                m_port = value;
+                m_websitePort = value;
                 OnPropertyChanged();
             }
         }
 
-        public string ElasticSearchVersion
+
+
+        public string RabbitMqHost
         {
-            get { return m_elasticSearchVersion; }
+            get { return m_rabbitMqHost; }
             set
             {
-                m_elasticSearchVersion = value; 
+                m_rabbitMqHost = value;
                 OnPropertyChanged();
             }
+        }
+
+        public int? RabbitMqPort
+        {
+            get { return m_rabbitMqPort; }
+            set
+            {
+                m_rabbitMqPort = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int? RabbitMqManagementPort
+        {
+            get { return m_rabbitMqManagementPort; }
+            set
+            {
+                m_rabbitMqManagementPort = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int? LoggerWebSocketPort
+        {
+            get { return m_loggerWebSocketPort; }
+            set
+            {
+                m_loggerWebSocketPort = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ProjectDirectory
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(m_projectDirectory)
+                    || !Directory.Exists(m_projectDirectory))
+                    m_projectDirectory = Path.Combine(Directory.GetCurrentDirectory(), "..\\");
+                return m_projectDirectory;
+            }
+            set
+            {
+                m_projectDirectory = value;
+
+                OnPropertyChanged();
+            }
+        }
+
+        public void LoadDefault()
+        {
+
+            this.ProjectDirectory = ".".TranslatePath();
+            this.WebsitePort = 4436;
+            this.RabbitMqManagementPort = 15672;
+            this.RabbitMqHost = "localhost";
+            this.RabbitMqPort = 5672;
+            this.RabbitMqDirectory = ".\\rabbitmq_server";
+            this.RabbitMqPassword = "guest";
+            this.RabbitMqUserName = "guest";
+            this.LoggerWebSocketPort = 50230;
+            this.ApplicationName = "";
+            this.IisExpressExecutable = ".\\IIS Express\\iisexpress.exe";
+
+            if (!File.Exists(this.IisExpressExecutable.TranslatePath()))
+                this.IisExpressExecutable = null;
+
+            if (Directory.Exists(".\\elasticsearch".TranslatePath()))
+            {
+                var es = Directory.GetFiles(".\\elasticsearch\\lib\\".TranslatePath(), "elasticsearch-*.jar")
+                    .SingleOrDefault();
+                this.ElasticSearchJar = es;
+            }
+
+
         }
     }
 }

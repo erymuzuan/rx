@@ -1,0 +1,20 @@
+﻿{
+  "$type": "Bespoke.Sph.ControlCenter.Model.SphSettings, controlcenter",
+  "ApplicationName": "DevV1",
+  "SqlLocalDbName": "Projects",
+  "IisExpressExecutable": ".\\IIS Express\\iisexpress.exe",
+  "RabbitMqDirectory": ".\\rabbitmq_server",
+  "RabbitMqUserName": "guest",
+  "RabbitMqPassword": "guest",
+  "JavaHome": "C:\\Program Files\\Java\\jre7",
+  "ElasticSearchJar": "C:\\project\\work\\sph\\bin\\elasticsearch\\lib\\elasticsearch-1.4.4.jar",
+  "WebsitePort": 4436,
+  "RabbitMqHost": "localhost",
+  "RabbitMqPort": 5672,
+  "RabbitMqManagementPort": 15672,
+  "LoggerWebSocketPort": 50230,
+  "ProjectDirectory": "C:\\project\\work\\sph\\bin",
+  "Dirty": true,
+  "Bil": 0,
+  "Error": ""
+}

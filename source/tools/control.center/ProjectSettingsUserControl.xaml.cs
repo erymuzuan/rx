@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
+using Bespoke.Sph.ControlCenter.ViewModel;
 
 namespace Bespoke.Sph.ControlCenter
 {
@@ -50,6 +51,12 @@ namespace Bespoke.Sph.ControlCenter
                 Delegate insert = new Action<string>(s => sqlIntancesCombobox.Items.Add(e.Data));
                 this.Dispatcher.BeginInvoke(insert, DispatcherPriority.Normal, e.Data);
             }
+        }
+
+        private void SaveSetting(object sender, RoutedEventArgs e)
+        {
+            var vm = (MainViewModel) this.DataContext;
+            vm.SaveSettingsCommand.Execute(null);
         }
     }
 }

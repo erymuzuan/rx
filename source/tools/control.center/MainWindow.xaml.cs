@@ -1,8 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Media;
+using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Helpers;
@@ -20,7 +21,7 @@ namespace Bespoke.Sph.ControlCenter
             this.Closing += MainWindowClosing;
         }
 
-        void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        void MainWindowClosing(object sender, CancelEventArgs e)
         {
 
             var vm = this.DataContext as MainViewModel;
@@ -47,7 +48,7 @@ namespace Bespoke.Sph.ControlCenter
 
         }
 
-        void OutputTextBoxTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        void OutputTextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
             Delegate caret = new Action(() =>
             {
@@ -69,7 +70,7 @@ namespace Bespoke.Sph.ControlCenter
             var vm = this.DataContext as MainViewModel;
             if (null == vm) throw new InvalidOperationException("The DataContext is not MainViewModel");
 
-            Process.Start(new ProcessStartInfo(string.Format("http://localhost:{0}/", vm.Port)));
+            Process.Start(new ProcessStartInfo(string.Format("http://localhost:{0}/", vm.Settings.WebsitePort)));
             e.Handled = true;
         }
 

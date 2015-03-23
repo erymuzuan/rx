@@ -6,7 +6,7 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Bespoke.Sph.ControlCenter.MainWindow"
         Icon="Propeller.ico"
-        Height="1034.02" Width="885.075"
+        Height="900" Width="800"
         DataContext="{DynamicResource MainViewModel}"
         WindowStartupLocation="CenterScreen" Title="Rx Developer">
     <Window.Resources>
@@ -118,6 +118,6 @@
             </TabItem>
         </TabControl>
         <telerik:RadBusyIndicator Grid.Row="2" Grid.Column="0" IsBusy="{Binding IsBusy}" BusyContent="Please wait..." d:IsHidden="True" />
-    
+
     </Grid>
 </Window>

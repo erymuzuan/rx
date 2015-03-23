@@ -66,15 +66,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ExitAppCommand = new RelayCommand(Exit);
             SetupCommand = new RelayCommand(Setup, () => !this.IsSetup);
-
-            this.Logger = new Logger
-            {
-                UserName = RabbitmqUserName,
-                Password = RabbitmqPassword,
-                Port = this.Port,
-                VirtualHost = this.ApplicationName,
-                Host = "localhost"
-            };
+          
 
         }
 
@@ -86,58 +78,51 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public async Task LoadAsync()
         {
             this.IsBusy = true;
-            ApplicationName = Settings.Default.ApplicationName;
-            ProjectDirectory = Settings.Default.ProjectDirectory;
             var file = this.GetSettingFile();
             if (File.Exists(file))
             {
                 var settings = File.ReadAllText(file)
                                    .DeserializeFromJson<SphSettings>();
-
-                SqlLocalDbName = settings.SqlLocalDbName;
-                IisExpressDirectory = settings.IisExpressDirectory;
-                RabbitMqDirectory = settings.RabbitMqDirectory;
-                RabbitmqUserName = settings.RabbitMqUserName;
-                RabbitmqPassword = settings.RabbitMqPassword;
-                JavaHome = settings.JavaHome;
-                ElasticSearchHome = settings.ElasticSearchHome;
-                ElasticSearchVersion = settings.ElasticSearchVersion;
-                Port = settings.Port;
+                this.Settings = settings;
                 // TODO : see if the database, elasticsearch index, RabbitMq vhost etc are present
                 this.IsSetup = await this.FindOutSetupAsync();
             }
             else
             {
                 this.IsSetup = false;
+                this.Settings = new SphSettings();
+                this.Settings.LoadDefault();
+
             }
 
+            this.Logger = new Logger
+            {
+                UserName = this.Settings.RabbitMqUserName,
+                Password = this.Settings.RabbitMqPassword,
+                Port = this.Settings.RabbitMqPort ?? 5672,
+                VirtualHost = this.Settings.ApplicationName,
+                Host = this.Settings.RabbitMqHost ?? "localhost"
+            };
 
-            if (string.IsNullOrEmpty(JavaHome))
+            if (string.IsNullOrEmpty(this.Settings.JavaHome))
             {
                 Environment.GetEnvironmentVariable("JAVA_HOME", EnvironmentVariableTarget.Machine);
             }
 
             var rabbitStarted = false;
-            if (!string.IsNullOrEmpty(RabbitmqUserName) && !string.IsNullOrEmpty(RabbitmqPassword))
+            if (!string.IsNullOrEmpty(this.Settings.RabbitMqUserName) && !string.IsNullOrEmpty(this.Settings.RabbitMqPassword))
             {
-                rabbitStarted = CheckRabbitMqHostConnection(RabbitmqUserName, RabbitmqPassword, ApplicationName);
+                rabbitStarted = CheckRabbitMqHostConnection(this.Settings.RabbitMqUserName, this.Settings.RabbitMqPassword, this.Settings.ApplicationName);
             }
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
 
-            this.ConsoleLogger = new ConsoleNotificationSubscriber()
-            {
-                HostName = RabbitMqHost ?? "localhost",
-                UserName = RabbitmqUserName ?? "guest",
-                Password = RabbitmqPassword ?? "guest",
-                Port = RabbitMqPort ?? 5672,
-                VirtualHost = ApplicationName
-            };
-            Log(this.ConsoleLogger.Start(this.LoggerWebSockerPort ?? 50230)
+            this.ConsoleLogger = new ConsoleNotificationSubscriber(this.Settings);
+            Log(this.ConsoleLogger.Start(this.Settings.LoggerWebSocketPort ?? 50230)
                 ? "Web Console subscriber successfully started"
                 : "Fail to start Web Console Logger");
 
-            if (!string.IsNullOrWhiteSpace(this.ApplicationName) && rabbitStarted)
+            if (!string.IsNullOrWhiteSpace(this.Settings.ApplicationName) && rabbitStarted)
                 this.ConsoleLogger.Listen();
 
             this.CheckWorkers();
@@ -151,10 +136,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private async Task<bool> FindOutSetupAsync()
         {
-            if (string.IsNullOrWhiteSpace(this.ApplicationName)) return false;
+            if (string.IsNullOrWhiteSpace(this.Settings.ApplicationName)) return false;
             using (var client = new HttpClient { BaseAddress = new Uri("http://localhost:9200") })
             {
-                var url = this.ApplicationName.ToLowerInvariant() + "_sys/_mapping";
+                var url = this.Settings.ApplicationName.ToLowerInvariant() + "_sys/_mapping";
 
                 try
                 {
@@ -174,11 +159,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             // get the rabbitmq vhost
             var handler = new HttpClientHandler
             {
-                Credentials = new NetworkCredential(this.RabbitmqUserName, this.RabbitmqPassword)
+                Credentials = new NetworkCredential(this.Settings.RabbitMqUserName, this.Settings.RabbitMqPassword)
             };
             using (var client = new HttpClient(handler) { BaseAddress = new Uri("http://localhost:15672") })
             {
-                var url = "api/vhosts/" + this.ApplicationName;
+                var url = "api/vhosts/" + this.Settings.ApplicationName;
                 try
                 {
                     var response = await client.GetAsync(url);
@@ -195,14 +180,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 }
             }
             // get the database $
-            var connectionString = "Data Source=(localdb)\\" + this.SqlLocalDbName + ";Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False";
+            var connectionString = "Data Source=(localdb)\\" + this.Settings.SqlLocalDbName + ";Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False";
 
             using (var conn = new SqlConnection(connectionString))
             {
                 try
                 {
                     await conn.OpenAsync();
-                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM sysdatabases WHERE [name] ='" + this.ApplicationName + "'"))
+                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM sysdatabases WHERE [name] ='" + this.Settings.ApplicationName + "'"))
                     {
                         var count = await cmd.ExecuteScalarAsync();
                         return (int)count == 1;
@@ -218,7 +203,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void CheckIisExpress()
         {
             const string PROCESS_NAME = "iisexpress.exe";
-            var web = "/site:web." + ApplicationName;
+            var web = "/site:web." + this.Settings.ApplicationName;
 
             var id = FindProcessByCommandLineArgs(PROCESS_NAME, web);
             if (id == 0) return;
@@ -264,16 +249,16 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                         return;
 
                     }
-                    if (!File.Exists(IisExpressDirectory.TranslatePath()))
+                    if (!File.Exists(this.Settings.IisExpressExecutable.TranslatePath()))
                     {
-                        Console.WriteLine(Resources.CannotFind + IisExpressDirectory);
+                        Console.WriteLine(Resources.CannotFind + this.Settings.IisExpressExecutable);
                         return;
                     }
 
-                    var arg = string.Format("/config:\"{0}\" /site:web.{1} /trace:verbose", iisConfig, ApplicationName);
+                    var arg = string.Format("/config:\"{0}\" /site:web.{1} /trace:verbose", iisConfig, this.Settings.ApplicationName);
                     var info = new ProcessStartInfo
                     {
-                        FileName = IisExpressDirectory.TranslatePath(),
+                        FileName = this.Settings.IisExpressExecutable.TranslatePath(),
                         Arguments = arg,
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
@@ -320,7 +305,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private async void StartSqlService()
         {
-            if (string.IsNullOrEmpty(SqlLocalDbName))
+            if (string.IsNullOrEmpty(this.Settings.SqlLocalDbName))
             {
                 MessageBox.Show("Instance name cannot be empty", "SPH Control Panel");
                 return;
@@ -333,7 +318,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var workerInfo = new ProcessStartInfo
                 {
                     FileName = "SqlLocalDB.exe",
-                    Arguments = string.Format("start \"{0}\"", SqlLocalDbName),
+                    Arguments = string.Format("start \"{0}\"", this.Settings.SqlLocalDbName),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
@@ -370,7 +355,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var workerInfo = new ProcessStartInfo
                 {
                     FileName = "SqlLocalDB.exe",
-                    Arguments = string.Format("stop \"{0}\"", SqlLocalDbName),
+                    Arguments = string.Format("stop \"{0}\"", this.Settings.SqlLocalDbName),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
@@ -436,10 +421,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             Log("RabbitMQ...[STARTING]");
             try
             {
-                var rabbitMqServerBat = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmq-server.bat").TranslatePath();
+                var rabbitMqServerBat = string.Join(@"\", this.Settings.RabbitMqDirectory, "sbin", "rabbitmq-server.bat").TranslatePath();
                 if (!File.Exists(rabbitMqServerBat))
                 {
                     Console.WriteLine(Resources.CannotFind + rabbitMqServerBat);
+                    this.IsBusy = false;
+                    this.RabbitMqServiceStarting = false;
                     return;
                 }
 
@@ -495,7 +482,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             Log("RabbitMQ...[STOPPING]");
 
-            var rabbitmqctl = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmqctl.bat").TranslatePath();
+            var rabbitmqctl = string.Join(@"\", this.Settings.RabbitMqDirectory, "sbin", "rabbitmqctl.bat").TranslatePath();
             var startInfo = new ProcessStartInfo
             {
                 FileName = rabbitmqctl,
@@ -524,20 +511,20 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             try
             {
-                var elasticSearchBat = string.Join(@"\", ElasticSearchHome, "bin", "elasticsearch.bat").TranslatePath();
-                var es = string.Join(@"\", ElasticSearchHome).TranslatePath();
-                Console.WriteLine(elasticSearchBat);
-                if (!File.Exists(elasticSearchBat))
-                {
-                    MessageBox.Show(Resources.CannotFind + elasticSearchBat);
-                    return;
-                }
-                var arg = string.Format(@" -Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError  -Delasticsearch -Des-foreground=yes -Des.path.home=""{0}""  -cp "";{0}/lib/elasticsearch-{1}.jar;{0}/lib/*;{0}/lib/sigar/*"" ""org.elasticsearch.bootstrap.Elasticsearch""", es, ElasticSearchVersion);
+                var esHome = Path.GetDirectoryName(Path.GetDirectoryName(this.Settings.ElasticSearchJar));
+                var version = this.Settings.ElasticSearchJar.RegexSingleValue(@"elasticsearch-(?<version>\d.\d.\d).jar", "version");
+                var es = string.Join(@"\", esHome).TranslatePath();
+                Log("Elasticsearch Home " + esHome);
+                Log("Version :" + version);
+
+                var arg = string.Format(@" -Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError  -Delasticsearch -Des-foreground=yes -Des.path.home=""{0}""  -cp "";{0}/lib/elasticsearch-{1}.jar;{0}/lib/*;{0}/lib/sigar/*"" ""org.elasticsearch.bootstrap.Elasticsearch""", 
+                    es, 
+                    version);
                 var info = new ProcessStartInfo
                 {
-                    FileName = JavaHome + @"\bin\java.exe",
+                    FileName = this.Settings.JavaHome + @"\bin\java.exe",
                     Arguments = arg,
-                    WorkingDirectory = Path.GetDirectoryName(elasticSearchBat) ?? ".",
+                    WorkingDirectory = this.Settings.ProjectDirectory,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
@@ -573,10 +560,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void CheckElasticsearch()
         {
             const string PROCESS_NAME = "java.exe";
-            var web = "elasticsearch-" + this.ElasticSearchVersion;
+            const string ELASTICSEARCH = "elasticsearch-";
             this.QueueUserWorkItem(() =>
             {
-                var id = FindProcessByCommandLineArgs(PROCESS_NAME, web);
+                var id = FindProcessByCommandLineArgs(PROCESS_NAME, ELASTICSEARCH);
                 if (id == 0) return;
                 this.Post(() =>
                 {
@@ -591,7 +578,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void CheckWorkers()
         {
             const string PROCESS_NAME = "workers.console.runner.exe";
-            var web = "/v:" + this.ApplicationName;
+            var web = "/v:" + this.Settings.ApplicationName;
             this.QueueUserWorkItem(() =>
             {
                 var id = FindProcessByCommandLineArgs(PROCESS_NAME, web);
@@ -626,14 +613,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             this.IsBusy = true;
             Log("SPH Worker...[STARTING]");
-            var f = string.Join(@"\", ProjectDirectory, "subscribers.host", "workers.console.runner.exe");
+            var f = string.Join(@"\", this.Settings.ProjectDirectory, "subscribers.host", "workers.console.runner.exe");
 
             try
             {
                 var workerInfo = new ProcessStartInfo
                 {
                     FileName = f,
-                    Arguments = string.Format("/log:console /v:{0}", ApplicationName),
+                    Arguments = string.Format("/log:console /v:{0}", this.Settings.ApplicationName),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
@@ -682,7 +669,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StartWorkerNamePipeClient()
         {
-            m_namedPipeClient = new NamedPipeClient<string, string>("RxDevConsole." + ApplicationName);
+            m_namedPipeClient = new NamedPipeClient<string, string>("RxDevConsole." + this.Settings.ApplicationName);
             m_namedPipeClient.ServerMessage += delegate (NamedPipeConnection<string, string> conn, string message)
             {
                 Log(string.Format("Server says: {0}", message));
@@ -698,30 +685,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private string GetSettingFile()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sph." + ApplicationName + ".settings.xml");
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../project.json");
 
         }
         private void SaveSettings()
         {
-            var settings = new SphSettings
-            {
-                SqlLocalDbName = SqlLocalDbName,
-                IisExpressDirectory = IisExpressDirectory,
-                RabbitMqDirectory = RabbitMqDirectory,
-                RabbitMqUserName = RabbitmqUserName,
-                RabbitMqPassword = RabbitmqPassword,
-                JavaHome = JavaHome,
-                ElasticSearchHome = ElasticSearchHome,
-                ElasticSearchVersion = ElasticSearchVersion,
-                Port = Port
-            };
 
             var path = this.GetSettingFile();
-            File.WriteAllText(path, settings.ToJsonString(true), Encoding.UTF8);
-
-            Settings.Default.ApplicationName = this.ApplicationName;
-            Settings.Default.ProjectDirectory = this.ProjectDirectory;
-            Settings.Default.Save();
+            File.WriteAllText(path, this.Settings.ToJsonString(true), Encoding.UTF8);
 
             MessageBox.Show("SPH settings has been successfully saved", "SPH Control Panel");
         }

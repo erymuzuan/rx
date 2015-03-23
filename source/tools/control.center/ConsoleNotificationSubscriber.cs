@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.SubscribersInfrastructure;
 using RabbitMQ.Client;
 using SuperSocket.WebSocket;
@@ -13,6 +14,12 @@ namespace Bespoke.Sph.ControlCenter
 {
     public class ConsoleNotificationSubscriber
     {
+        private readonly SphSettings m_settings;
+        public ConsoleNotificationSubscriber(SphSettings settings)
+        {
+            m_settings = settings;
+        }
+
         private WebSocketServer m_appServer;
         public string[] RoutingKeys => new[] { "logger.#" };
         public string QueueName => "console_logger";
@@ -96,11 +103,11 @@ namespace Bespoke.Sph.ControlCenter
 
             var factory = new ConnectionFactory
             {
-                UserName = this.UserName,
-                VirtualHost = this.VirtualHost,
-                Password = this.Password,
-                HostName = this.HostName,
-                Port = this.Port
+                UserName = m_settings.RabbitMqUserName ?? "guest",
+                VirtualHost = m_settings.ApplicationName,
+                Password = m_settings.RabbitMqPassword ?? "guest",
+                HostName = m_settings.RabbitMqHost ?? "localhost",
+                Port = m_settings.RabbitMqPort ?? 5672
             };
             m_connection = factory.CreateConnection();
             m_channel = m_connection.CreateModel();
@@ -121,12 +128,7 @@ namespace Bespoke.Sph.ControlCenter
             m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
 
         }
-
-        public int Port { get; set; }
-        public string HostName { get; set; }
-        public string Password { get; set; }
-        public string VirtualHost { get; set; }
-        public string UserName { get; set; }
+        
 
         private void Received(object sender, ReceivedMessageArgs e)
         {
