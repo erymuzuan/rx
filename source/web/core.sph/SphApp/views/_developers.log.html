@@ -37,12 +37,12 @@
 
 
                     <div class="btn-group" data-toggle2="buttons">
-                        <label class="btn btn-sm btn-default active" title="Filter infos" style="margin-left: 5px">
+                        <label class="btn btn-sm btn-default" title="Filter infos" style="margin-left: 5px">
                             <input type="checkbox" autocomplete="off" data-bind="checked : verbose">
                             <i class="fa fa-info" style="color: #ccc"></i>
                             Verbose
                         </label>
-                        <label class="btn btn-sm btn-default active" title="Filter infos" style="margin-left: 5px">
+                        <label class="btn btn-sm btn-default" title="Filter infos" style="margin-left: 5px">
                             <input type="checkbox" autocomplete="off" data-bind="checked : info">
                             <i class="fa fa-info" style="color: blue"></i>
                             Infos
@@ -57,8 +57,13 @@
                             <i class="fa fa-exclamation-circle" style="color: red"></i>
                             Errors
                         </label>
+                        <label class="btn btn-sm btn-default" title="Filter critical" style="margin-left: 5px">
+                            <input type="checkbox" autocomplete="off" data-bind="checked : critical">
+                            <i class="fa fa-exclamation-triangle" style="color: red"></i>
+                            Critical
+                        </label>
                     </div>
-                    <div class="btn-group">
+                    <div class="btn-group" style="display: none">
                         <button type="button" class="btn btn-danger">Logs source</button>
                         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="caret"></span>
@@ -123,7 +128,7 @@
                         <i class="fa fa-gear"></i>
                     </button>
                     <input type="text" data-bind="textInput:filterText" placeholder=" filter..."
-                           class="pull-right" style="width: 120px; border: none; background-color: #ffffff; margin: 2px" />
+                            style="width: 120px; border: none; background-color: #ffffff; margin: 2px; margin-left: 50px" />
 
                 </div>
                 <div id="developers-log-footer" style="height: 250px; overflow-y: scroll; background-color: #fff">
@@ -153,6 +158,13 @@
                             <!-- ko if: ko.unwrap(severity) === "Error"-->
                             <a class="" href="#developers-log-panel" title="View Exception stack trace" data-bind="click : $root.viewStackTrace">
                                 <i class="fa fa-exclamation-circle" style="color: red"></i>
+                                <span data-bind="text:time" style="margin-left: 5px"></span>
+                                <span data-bind="html:message" style="margin-left: 5px"></span>
+                            </a>
+                            <!--/ko-->
+                            <!-- ko if: ko.unwrap(severity) === "Critical"-->
+                            <a class="" href="#developers-log-panel" title="View Exception stack trace" >
+                                <i class="fa fa-exclamation-triangle" style="color: red"></i>
                                 <span data-bind="text:time" style="margin-left: 5px"></span>
                                 <span data-bind="html:message" style="margin-left: 5px"></span>
                             </a>

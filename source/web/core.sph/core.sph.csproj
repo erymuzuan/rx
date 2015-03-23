@@ -2115,6 +2115,19 @@
     <EmbeddedResource Include="SphApp\viewmodels\security.token.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\users.token.js" />
     <EmbeddedResource Include="SphApp\viewmodels\resource.table.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\deadletter.view.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\entity.lookup.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\error.log.detail.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\functoid-args.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\icon.picker.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\members.selector.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\not.found.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\offline.storage.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\output.setting.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\search.definition.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_developers.log.js" />
+    <EmbeddedResource Include="SphApp\views\advanced-search.html" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2595,6 +2608,18 @@
     <EmbeddedResource Include="SphApp\views\security.token.dialog.html" />
     <EmbeddedResource Include="SphApp\views\users.token.html" />
     <EmbeddedResource Include="SphApp\views\resource.table.dialog.html" />
+    <Content Include="SphApp\views\deadletter.view.html" />
+    <EmbeddedResource Include="SphApp\views\entity.lookup.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\error.log.detail.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\functoid-args.html" />
+    <EmbeddedResource Include="SphApp\views\icon.picker.html" />
+    <EmbeddedResource Include="SphApp\views\members.selector.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\not.found.html" />
+    <EmbeddedResource Include="SphApp\views\offline.storage.html" />
+    <EmbeddedResource Include="SphApp\views\output.setting.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\public.index.html" />
+    <EmbeddedResource Include="SphApp\views\search.definition.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\_developers.log.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

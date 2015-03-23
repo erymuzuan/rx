@@ -12,7 +12,7 @@
   "RabbitMqHost": "localhost",
   "RabbitMqPort": 5672,
   "RabbitMqManagementPort": 15672,
-  "LoggerWebSocketPort": 50230,
+  "LoggerWebSocketPort": 50231,
   "ProjectDirectory": "C:\\project\\work\\sph\\bin",
   "Dirty": true,
   "Bil": 0,
