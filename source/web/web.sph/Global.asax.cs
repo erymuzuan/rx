@@ -75,9 +75,8 @@ namespace web.sph
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
             var headers = Request.Headers.GetValues("Authorization");
-            if (headers == null) return;
-            var token = headers.FirstOrDefault();
-            if (null == token) return;
+            var token = headers?.FirstOrDefault();
+            if (token == null) return;
 
             try
             {

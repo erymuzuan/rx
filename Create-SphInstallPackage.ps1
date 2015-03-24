@@ -139,13 +139,6 @@ Get-ChildItem -Filter *.* -Path ".\source\web\web.sph\bin" `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$output\web\bin" -Force
 
-#set file content for settings and bat
-if((Test-Path("$output\StartWeb.bat")) -eq $false)
-{
-    copy .\StartWeb.bat -Destination $output
-    $c2 = (gc "$output\StartWeb.bat").replace("web.sph","web.$ApplicationName")
-    Set-Content "$output\StartWeb.bat" -Value $c2
-}
 
 if((Test-Path("$output\StartAspnetAdminWeb.bat")) -eq $false)
 {

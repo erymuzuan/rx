@@ -66,7 +66,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ExitAppCommand = new RelayCommand(Exit);
             SetupCommand = new RelayCommand(Setup, () => !this.IsSetup);
-          
+
 
         }
 
@@ -521,8 +521,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 Log("Elasticsearch Home " + esHome);
                 Log("Version :" + version);
 
-                var arg = string.Format(@" -Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError  -Delasticsearch -Des-foreground=yes -Des.path.home=""{0}""  -cp "";{0}/lib/elasticsearch-{1}.jar;{0}/lib/*;{0}/lib/sigar/*"" ""org.elasticsearch.bootstrap.Elasticsearch""", 
-                    es, 
+                var arg = string.Format(@" -Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError  -Delasticsearch -Des-foreground=yes -Des.path.home=""{0}""  -cp "";{0}/lib/elasticsearch-{1}.jar;{0}/lib/*;{0}/lib/sigar/*"" ""org.elasticsearch.bootstrap.Elasticsearch""",
+                    es,
                     version);
                 var info = new ProcessStartInfo
                 {
@@ -603,15 +603,15 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 var es = Process.GetProcessById(m_elasticSearchId);
                 es.Kill();
-                m_elasticProcess = null;
-                Log("ElasticSearch... [STOPPED]");
-                ElasticSearchServiceStarted = false;
-                ElasticSearchStatus = "Stopped";
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+            m_elasticProcess = null;
+            Log("ElasticSearch... [STOPPED]");
+            ElasticSearchServiceStarted = false;
+            ElasticSearchStatus = "Stopped";
         }
 
         private void StartSphWorker()
@@ -867,7 +867,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             m_namedPipeClient?.Stop();
             this.ConsoleLogger?.Stop();
-            
+
         }
     }
 }

@@ -41,6 +41,18 @@ if($KeepPackages -eq $false )
     mkdir .\packages
 }
 
+
+if(Test-Path .\bin\output){
+    rmdir -Recurse -Force -WarningAction Continue .\bin\output
+}
+mkdir .\bin\output
+
+
+if(Test-Path .\bin\subscribers){
+    rmdir -Recurse -Force -WarningAction Continue .\bin\subscribers
+}
+mkdir .\bin\subscribers
+
 if(Test-Path .\source\web\web.durandal){
     rmdir -Recurse -Force .\source\web\web.durandal -WarningAction Continue
 }
@@ -220,6 +232,7 @@ $tools_bin = ".\bin\tools"
 $subscribers_bin = ".\bin\subscribers"
 $subscribers_host_bin = ".\bin\subscribers.host"
 $schedulers_bin = ".\bin\schedulers"
+$control_center_bin = ".\bin\control.center"
 
 $user_dll
 
@@ -243,6 +256,7 @@ $Microsoft_Compostition | Copy-Item -Destination .\source\unit.test\mapping.tran
 $Microsoft_Code_Analysis | Copy-Item -Destination .\source\unit.test\mapping.transformation.test\bin\Debug
 
 $log4net | Copy-Item -Destination $subscribers_host_bin
+$log4net | Copy-Item -Destination $control_center_bin
 
 $user_dll | Copy-Item -Destination $subscribers_bin
 $user_dll | Copy-Item -Destination $schedulers_bin

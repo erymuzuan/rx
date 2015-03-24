@@ -37,7 +37,7 @@
 
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="Help" Icon="{StaticResource ImageHelp}" Click="AboutClicked"/>
+                <MenuItem Header="Help" Icon="{StaticResource ImageHelp}" Click="HelpClicked"/>
                 <MenuItem Header="About" Click="AboutClicked"/>
             </MenuItem>
         </Menu>

@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 case "float": return typeof(double);
                 case "sql_variant": return typeof(object);
             }
-            ConsoleColor color = Console.ForegroundColor;
+            var color = Console.ForegroundColor;
             try
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -60,7 +60,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
 
             return null;
-            return typeof(object);
+
         }
 
 

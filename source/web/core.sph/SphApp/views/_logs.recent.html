@@ -19,17 +19,17 @@
                 <th>Date Time</th>
                 <th>Operation</th>
                 <th>Severity</th>
-                <th>Entry</th>
+                <th>Log Source</th>
             </tr>
         </thead>
         <tbody data-bind="foreach :list">
             <tr>
                 <td >
-                    <a href="#" data-bind="click : $parent.openDetails,date:{value: DateTime, format:'YYYY-MM-DD HH:mm ss'}"></a>
+                    <a href="#" data-bind="click : $parent.openDetails, date: { value: time, format:'YYYY-MM-DD HH:mm ss', inputFormat : moment.ISO_8601}"></a>
                 </td>
-                <td data-bind="text:Operation"></td>
-                <td data-bind="text:Severity"></td>
-                <td data-bind="text:Entry"></td>
+                <td data-bind="text:operation"></td>
+                <td data-bind="text:severity"></td>
+                <td data-bind="text:log"></td>
             </tr>
         </tbody>
     </table>

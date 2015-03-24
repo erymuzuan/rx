@@ -117,5 +117,10 @@ namespace Bespoke.Sph.ControlCenter
             MessageBox.Show("Reactive Developer Controler Center for V1", "Reactive Developer", MessageBoxButton.OK,
                 MessageBoxImage.Information);
         }
+
+        private void HelpClicked(object sender, RoutedEventArgs e)
+        {
+            Process.Start("http://www.reactivedeveloper.com/docs/control-center");
+        }
     }
 }

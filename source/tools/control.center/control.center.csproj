@@ -152,6 +152,9 @@
       <DependentUpon>ProjectSettingsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="SetupWizardWindow.xaml.cs">
+      <DependentUpon>SetupWizardWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Strings.cs" />
     <Compile Include="ThreadingHelper.cs" />
     <Compile Include="UpdaterView.xaml.cs">
@@ -182,6 +185,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProjectSettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetupWizardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

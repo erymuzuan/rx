@@ -1,0 +1,30 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Bespoke.Sph.ControlCenter"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" x:Class="Bespoke.Sph.ControlCenter.SetupWizardWindow"
+        mc:Ignorable="d"
+        Title="Reactive Developer Set up" Height="456.667" Width="841.333">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="197*"/>
+            <ColumnDefinition Width="636*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="39*"/>
+            <RowDefinition Height="55*"/>
+            <RowDefinition Height="34*"/>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="41*"/>
+            <RowDefinition Height="214*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="textBlock" TextWrapping="Wrap" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="16"><Run Text="Welcome to Reactive Developer"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="textBlock1" Grid.Row="1" TextWrapping="Wrap" Text="This wizard will help you to setup your Reactive Developer application" Margin="5,0,542,10" Grid.ColumnSpan="2"/>
+        <Label x:Name="label" Content="Give your application a name" HorizontalAlignment="Left" Margin="10,8,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+
+        <telerik:RadWatermarkTextBox x:Name="radWatermarkTextBox" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="RadWatermarkTextBox"/>
+
+    </Grid>
+</Window>
