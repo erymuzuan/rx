@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -8,7 +8,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', objectbuilders.system, objectbuilders.config],
+define(["services/datacontext", objectbuilders.system, objectbuilders.config],
     function (context, system, config) {
         var entities = ko.observableArray(),
             privateSearches = ko.observableArray(),
@@ -43,7 +43,7 @@ define(['services/datacontext', objectbuilders.system, objectbuilders.config],
                 return tcs.promise();
 
             },
-            attached = function (view) {
+            attached = function () {
 
             },
             addFilter = function () {

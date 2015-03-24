@@ -1750,7 +1750,6 @@
     <EmbeddedResource Include="SphApp\views\ace.goto.line.html" />
     <EmbeddedResource Include="SphApp\views\admin.home.html" />
     <EmbeddedResource Include="SphApp\viewmodels\admin.home.js" />
-    <EmbeddedResource Include="SphApp\views\chats.html" />
     <EmbeddedResource Include="SphApp\views\entities.list.html" />
     <EmbeddedResource Include="SphApp\views\entity.details.html" />
     <EmbeddedResource Include="SphApp\views\error.message.html" />
@@ -2128,6 +2127,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\search.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_developers.log.js" />
     <EmbeddedResource Include="SphApp\views\advanced-search.html" />
+    <EmbeddedResource Include="SphApp\viewmodels\advanced-search.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2817,7 +2817,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SphApp\schemas\ReferenceObject.xslt" />
-    <EmbeddedResource Include="SphApp\viewmodels\admindashboard.js" />
     <EmbeddedResource Include="SphApp\viewmodels\map.js" />
     <EmbeddedResource Include="SphApp\viewmodels\organization.detail.js" />
     <EmbeddedResource Include="SphApp\viewmodels\payment.js" />
@@ -2825,7 +2824,6 @@
     <EmbeddedResource Include="SphApp\viewmodels\shell.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_audittrail.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_users.designation.js" />
-    <EmbeddedResource Include="SphApp\views\admindashboard.html" />
     <EmbeddedResource Include="SphApp\views\nav.html" />
     <EmbeddedResource Include="SphApp\views\organization.detail.html" />
     <EmbeddedResource Include="SphApp\views\templates.html" />
