@@ -56,7 +56,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		subscribers = ko.observableArray(),
 		connected = ko.observable(true),
 		setting = ko.observable({
-		    port: ko.observable(50230),
+		    port: ko.observable(50238),
 		    max: ko.observable(200),
 		    host: ko.observable("localhost"),
 		    iis: {
