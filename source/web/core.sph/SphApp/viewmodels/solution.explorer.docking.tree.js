@@ -135,6 +135,63 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
 
                 });
             },
+            addBusinessRules = function (EntityDefinitionName) {
+                var entity = ko.observable(new bespoke.sph.domain.EntityDefinition());
+                var query = String.format("Id eq '{0}'", ko.unwrap(EntityDefinitionName)),
+                tcs = new $.Deferred();
+
+                context.loadOneAsync("EntityDefinition", query)
+                    .done(function (b) {
+                        entity(b);
+                        window.typeaheadEntity = b.Name();
+                    });
+
+                console.log(entity);
+
+                var br = new bespoke.sph.domain.BusinessRule({ WebId: system.guid() });
+                var self = this;
+
+                require(['viewmodels/business.rule.dialog', 'durandal/app'], function (dialog, app) {
+                    dialog.rule(br);
+                    app.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result == "OK") {
+                                entity().BusinessRuleCollection().push(br);
+
+                                var tcs = new $.Deferred(),
+                                data = ko.mapping.toJSON(entity);
+                                isBusy(true);
+
+                                context.post(data, "/entity-definition")
+                                    .then(function (result) {
+                                        tcs.resolve(true);
+                                        isBusy(false);
+                                        if (result.success) {
+                                            logger.info(result.message);
+                                            if (!entity().Id()) {
+                                                //reload forms and views 
+                                                context.loadAsync("EntityForm", "EntityDefinitionId eq '" + result.id + "'")
+                                                    .done(function (lo) {
+                                                        forms(lo.itemCollection);
+                                                    });
+                                                context.loadAsync("EntityView", "EntityDefinitionId eq '" + result.id + "'")
+                                                    .done(function (lo) {
+                                                        views(lo.itemCollection);
+                                                    });
+
+                                            }
+                                            entity().Id(result.id);
+                                        } else {
+                                            logger.error("There are errors in your entity, !!!");
+                                        }
+                                    });
+                                return tcs.promise();
+                            }
+
+                        });
+                });
+            },
             activate = function () {
                 return $.getJSON("/Solution/open/asdasd").then(function (d) {
                     solution(context.toObservable(d));
@@ -195,7 +252,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
             addTransformDefinition: addTransformDefinition,
             addReportDefinition: addReportDefinition,
             addTrigger: addTrigger,
-            addAdapter: addAdapter
+            addAdapter: addAdapter,
+            addBusinessRules: addBusinessRules
         };
 
 

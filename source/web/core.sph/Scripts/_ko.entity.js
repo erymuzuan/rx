@@ -6,7 +6,8 @@
             addEntityDefinition = value.addEntityDefinition,
             addForm = value.addForm,
             addOperation = value.addOperation,
-            addView = value.addView;
+            addView = value.addView,
+            addBusinessRules = value.addBusinessRules;
 
         var eds = [];
         var treeRoots = [
@@ -113,6 +114,12 @@
                         };
                     } else if (node.parent === "EntityDefinition") {
                         return {
+                            "Create Business Rules": {
+                                "label": "Add New Business Rules",
+                                "action": function (obj) {
+                                    addBusinessRules(node.id);
+                                }
+                            },
                             "Create Form": {
                                 "label": "Add New Form",
                                 "action": function (obj) {
