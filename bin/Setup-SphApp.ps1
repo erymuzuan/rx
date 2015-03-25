@@ -166,6 +166,8 @@ $bindingInformation = "*:" + $Port.ToString() + ":localhost"
 $site.SelectSingleNode("bindings/binding").SetAttribute("bindingInformation","$bindingInformation")
 $apc.Save("$WorkingCopy\config\applicationhost.config")
 
+$startWebBat = Get-Content .\StartWeb.bat
+$startWebBat.Replace("%USERPROFILE%\Documents\IISExpress", $WorkingCopy) > .\StartWeb.bat
 
 #asp.net memberships
 Write-Host "Executing Aspnet membership provider" -ForegroundColor Cyan

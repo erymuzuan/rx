@@ -11,8 +11,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            this.RaisePropertyChanged(propertyName);
+            var handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void RaisePropertyChanged(string propertyName)
+        {
+            
         }
     }
 }

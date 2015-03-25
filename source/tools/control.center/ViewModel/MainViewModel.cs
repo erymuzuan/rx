@@ -6,14 +6,12 @@ using System.IO;
 using System.Management;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.Properties;
-using Bespoke.Sph.Domain;
 using GalaSoft.MvvmLight.Command;
 using NamedPipeWrapper;
 using RabbitMQ.Client;
@@ -303,7 +301,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             IisServiceStatus = "Stopped";
         }
 
-        private async void StartSqlService()
+        public async void StartSqlService()
         {
             if (string.IsNullOrEmpty(this.Settings.SqlLocalDbName))
             {
@@ -414,7 +412,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private int m_elasticSearchId;
         private NamedPipeClient<string, string> m_namedPipeClient;
 
-        private async void StartRabbitMqService()
+        public async void StartRabbitMqService()
         {
             this.RabbitMqServiceStarting = true;
             this.IsBusy = true;
@@ -505,7 +503,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         }
 
-        private async void StartElasticSearch()
+        public async void StartElasticSearch()
         {
             Log("ElasticSearch...[INITIATING]");
 

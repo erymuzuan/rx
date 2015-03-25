@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Reactive Developer Set up" Height="500" Width="800"
         xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel"
-        d:DataContext="{d:DesignInstance d:Type={x:Type vm:SetupViewModel}}">
+        d:DataContext="{d:DesignInstance d:Type={x:Type vm:SetupViewModel}}" ResizeMode="NoResize"
+    >
     <Window.Resources>
         <ResourceDictionary>
             <Style TargetType="TextBlock" x:Key="header1">
@@ -71,12 +72,12 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Visibility="{Binding SetupVisible}">
-            <TextBlock Text="{Binding Message}" Height="380" VerticalAlignment="Top"></TextBlock>
-            <ProgressBar Value="{Binding Progress}" Margin="5" Height="20" VerticalAlignment="Top"></ProgressBar>
+            <TextBox TextChanged="TextBoxBase_OnTextChanged" TextWrapping="Wrap" IsReadOnly="True" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Message}" Height="380" VerticalAlignment="Top" Background="#FF424040" Foreground="#FFDEDEDE" />
+	        <ProgressBar Value="{Binding Progress}" Margin="5" Height="20" VerticalAlignment="Top"></ProgressBar>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="_Previous" Command="{Binding PreviousCommand}" CommandParameter="RabbitMq"></Button>
-                <Button Content="_Next" Command="{Binding FinishCommand}" CommandParameter="Setup" ></Button>
+                <Button Content="_Finish" Command="{Binding FinishCommand}" CommandParameter="Setup" ></Button>
             </StackPanel>
         </StackPanel>
 

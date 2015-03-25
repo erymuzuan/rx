@@ -23,6 +23,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock  TextWrapping="Wrap" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="16"><Run Text="Elasticsearch"/><LineBreak/><Run/></TextBlock>
@@ -45,6 +46,9 @@
 
         <Label Grid.Row="7" Grid.Column="0" Content="http.port"/>
         <telerik:RadWatermarkTextBox Grid.Row="7"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set a custom port to listen for HTTP traffic" Text="{Binding ElasticsearchHttpPort}"/>
+        
+        <Label Grid.Row="8" Grid.Column="0" Content="JAVA_HOME"/>
+        <telerik:RadWatermarkTextBox Grid.Row="8"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set a custom port to listen for HTTP traffic" Text="{Binding JavaHome}"/>
 
     </Grid>
 </UserControl>

@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace Bespoke.Sph.ControlCenter
 {
-    /// <summary>
-    /// Interaction logic for SetupGeneral.xaml
-    /// </summary>
-    public partial class SetupGeneral : UserControl
+
+    public partial class SetupGeneral
     {
         public SetupGeneral()
         {
             InitializeComponent();
+            this.Loaded += SetupGeneral_Loaded;
+        }
+
+        private void SetupGeneral_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Post(() =>
+            {
+                appNameTextbox.Focus();
+
+            });
         }
     }
 }

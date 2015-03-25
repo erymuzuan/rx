@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Management.Automation;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -30,6 +31,35 @@ namespace Bespoke.Sph.ControlCenter.Model
     }
     public class LogEntry
     {
+        public LogEntry(VerboseRecord debug)
+        {
+            this.Message = debug.Message;
+            this.Severity = Severity.Verbose;
+            this.Time = DateTime.Now;
+        }
+
+        public LogEntry(DebugRecord debug)
+        {
+            this.Message = debug.Message;
+            this.Severity = Severity.Debug;
+            this.Time = DateTime.Now;
+        }
+
+        public LogEntry(WarningRecord warning)
+        {
+            this.Message = warning.Message;
+            this.Severity = Severity.Warning;
+            this.Time = DateTime.Now;
+        }
+
+        public LogEntry(ErrorRecord error)
+        {
+            this.Message = error.Exception.Message;
+            this.Details = error.Exception.StackTrace;
+            this.Keywords = new[] {error.Exception.GetType().FullName};
+            this.Severity = Severity.Error;
+            this.Time = DateTime.Now;
+        }
 
         public LogEntry([CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
         {
