@@ -100,10 +100,20 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
+        public void Log(string message, Severity severity = Severity.Verbose)
+        {
+            this.Post((m, s) =>
+            {
+                this.LogCollection.Add(new LogEntry { Severity = s, Message = m, Time = DateTime.Now });
+
+            }, message, severity);
+        }
+
         public void Setup()
         {
             this.IsBusy = true;
-            this.Message = "Please wait.. while we run the setup for you";
+            this.LogCollection.Clear();
+            this.Log("Please wait.. while we run the setup for you");
             this.QueueUserWorkItem(RunSetup, this.Settings);
         }
 
@@ -113,7 +123,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 if (this.Progress < 100)
                     this.Progress += step;
-                this.Message += message;
+                this.Log(message);
             });
         }
         private void RunSetup(SphSettings settings)
@@ -137,11 +147,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 ConsoleLogger = new ConsoleNotificationSubscriber(settings),
                 Logger = new Logger()
             };
-            this.Message += "\r\nStarting RabbitMq\r\n";
+            this.Log("Starting RabbitMq");
             main.StartRabbitMqService();
-            this.Message += "Starting SQL Server\r\n";
+            this.Log("Starting SQL Server\r\n");
             main.StartSqlService();
-            this.Message += "Starting Elasticsearch\r\n";
+            this.Log("Starting Elasticsearch\r\n");
             main.StartElasticSearch();
 
             var flag = new ManualResetEvent(false);
@@ -153,19 +163,19 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     Thread.Sleep(200);
                     UpdateProgress();
                 }
-                this.Message += "\r\nRabbitMq started ...\r\n";
+                this.Log("RabbitMq started ...");
                 while (!main.SqlServiceStarted && starting)
                 {
                     Thread.Sleep(200);
                     UpdateProgress();
                 }
-                this.Message += "\r\nSql Server started ...\r\n";
+                this.Log("Sql Server started ...");
                 while (!main.ElasticSearchServiceStarted && starting)
                 {
                     Thread.Sleep(200);
                     UpdateProgress();
                 }
-                this.Message += "\r\nElasticsearch started ...\r\n";
+                this.Log("Elasticsearch started ...");
                 flag.Set();
             });
 
@@ -197,7 +207,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
 
 
-            this.Message += $"\r\nRunning ps1 in {wc}\r\n";
+            this.Log($"Running ps1 in {wc}");
             using (var ps = PowerShell.Create())
             {
                 var ps1 = File.ReadAllText(path);
@@ -231,24 +241,20 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     Thread.Sleep(100);
                 }
 
-                this.Message += "Error : Execution has stopped. The pipeline state " + ps.InvocationStateInfo.State;
+                this.Log("Execution has stopped. The pipeline state " + ps.InvocationStateInfo.State);
 
                 foreach (var outputItem in outputCollection)
                 {
                     //TODO: handle/process the output items if required
-                    this.Message += outputItem.BaseObject + "\r\n";
+                    this.Log(outputItem.BaseObject.ToString());
                 }
                 var status = ps.HadErrors ? "fail" : "success";
                 this.Post(() =>
                 {
                     this.Progress = 100;
-                    if (status == "success")
-                        MessageBox.Show("Congratulations.. you now can start building your app", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Information);
-                    else
-                        MessageBox.Show("Unfortunately. there are errors", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Error);
-
                     this.Status = status;
                     this.IsBusy = false;
+                    settings.Save();
                 });
             }
         }
@@ -260,11 +266,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (null != errors)
             {
                 var er = errors[e.Index];
-                message = er + "\r\n";
+                message = er.ToString();
             }
             this.Post(a =>
             {
-                this.Message += message;
+                this.Log(message);
             }, e);
         }
 
@@ -279,7 +285,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             this.Post(a =>
             {
-                this.Message += message;
+                this.Log(message);
             }, e);
         }
 
@@ -290,11 +296,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (null != errors)
             {
                 var er = errors[e.Index];
-                message = er + "\r\n";
+                message = er.Message;
             }
             this.Post(a =>
             {
-                this.Message += message;
+                this.Log(message);
             }, e);
         }
 
@@ -305,17 +311,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (null != streams)
             {
                 var vb = streams[e.Index];
-                message = vb.Message + "\r\n";
+                message = vb.Message;
             }
             this.Post(a =>
             {
-                this.Message += message;
+                this.Log(message);
             }, e);
         }
 
         private void Ps_InvocationStateChanged(object sender, PSInvocationStateChangedEventArgs e)
         {
-            this.Message += "\r\nInvocationStateChanged : reason -> " + e.InvocationStateInfo.Reason + ", state -> " + e.InvocationStateInfo.State + "\r\n";
+            this.Log("InvocationStateChanged : reason -> " + e.InvocationStateInfo.Reason + ", state -> " + e.InvocationStateInfo.State);
         }
 
         private void outputCollection_DataAdded(object sender, DataAddedEventArgs e)
@@ -329,7 +335,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             this.Post(a =>
             {
-                this.Message += a + "\r\n";
+                this.Log(a);
             }, message);
         }
 
@@ -340,11 +346,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (null != errors)
             {
                 var er = errors[e.Index];
-                message = er + "\r\n";
+                message = er + "";
             }
             this.Post(a =>
             {
-                this.Message += message;
+                this.Log(message);
             }, e);
         }
 

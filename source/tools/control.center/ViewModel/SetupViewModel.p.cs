@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Model;
 
@@ -14,6 +15,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private string m_currentTab;
         private Visibility m_setupVisible;
         private bool m_isBusy;
+
+        public ObservableCollection<LogEntry> LogCollection { get; } = new ObservableCollection<LogEntry>();
 
         public double Progress
         {
@@ -108,19 +111,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         }
 
    
-        private string m_message;
         private double m_progress;
         private string m_status;
 
-        public string Message
-        {
-            get { return m_message; }
-            set
-            {
-                m_message = value;
-                OnPropertyChanged();
-            }
-        }
+
 
         public DispatcherObject View { get; set; }
 

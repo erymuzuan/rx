@@ -72,9 +72,17 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Visibility="{Binding SetupVisible}">
-            <TextBox TextChanged="TextBoxBase_OnTextChanged" TextWrapping="Wrap" IsReadOnly="True" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Message}" Height="380" VerticalAlignment="Top" Background="#FF424040" Foreground="#FFDEDEDE" />
-	        <ProgressBar Value="{Binding Progress}" Margin="5" Height="20" VerticalAlignment="Top"></ProgressBar>
-            
+            <ListView x:Name="logListView" ItemsSource="{Binding LogCollection}" Height="380" VerticalAlignment="Top" Background="#FF424040" Foreground="#FFDEDEDE" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="100" Header="Severity" DisplayMemberBinding="{Binding Severity}"/>
+                        <GridViewColumn Width="600" Header="Message" DisplayMemberBinding="{Binding Message}" />
+                        <GridViewColumn Width="80" Header="Time" DisplayMemberBinding="{Binding Time, StringFormat={}{0:HH:mm:sss}}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ProgressBar Value="{Binding Progress}" Margin="5" Height="20" VerticalAlignment="Top"></ProgressBar>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="_Previous" Command="{Binding PreviousCommand}" CommandParameter="RabbitMq"></Button>
                 <Button Content="_Finish" Command="{Binding FinishCommand}" CommandParameter="Setup" ></Button>
