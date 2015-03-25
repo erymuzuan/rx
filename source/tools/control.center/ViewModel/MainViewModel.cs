@@ -78,22 +78,18 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public async Task LoadAsync()
         {
             this.IsBusy = true;
-            var file = this.GetSettingFile();
-            if (File.Exists(file))
-            {
-                var settings = File.ReadAllText(file)
-                                   .DeserializeFromJson<SphSettings>();
-                this.Settings = settings;
-                // TODO : see if the database, elasticsearch index, RabbitMq vhost etc are present
-                this.IsSetup = await this.FindOutSetupAsync();
-            }
-            else
-            {
-                this.IsSetup = false;
-                this.Settings = new SphSettings();
-                this.Settings.LoadDefault();
 
+
+            this.Settings = SphSettings.Load();
+            if (null == this.Settings)
+            {
+                MessageBox.Show("Cannot load your project.json", "Reactive Developer", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
             }
+            // TODO : see if the database, elasticsearch index, RabbitMq vhost etc are present
+            this.IsSetup = await this.FindOutSetupAsync();
+
 
             this.Logger = new Logger
             {
@@ -688,17 +684,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             m_namedPipeClient?.PushMessage(msg);
         }
 
-        private string GetSettingFile()
-        {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../project.json");
 
-        }
         private void SaveSettings()
         {
-
-            var path = this.GetSettingFile();
-            File.WriteAllText(path, this.Settings.ToJsonString(true), Encoding.UTF8);
-
+            this.Settings.Save();
             MessageBox.Show("SPH settings has been successfully saved", "SPH Control Panel");
         }
 

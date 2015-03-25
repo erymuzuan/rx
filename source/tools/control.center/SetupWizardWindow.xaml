@@ -6,25 +6,79 @@
         xmlns:local="clr-namespace:Bespoke.Sph.ControlCenter"
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" x:Class="Bespoke.Sph.ControlCenter.SetupWizardWindow"
         mc:Ignorable="d"
-        Title="Reactive Developer Set up" Height="456.667" Width="841.333">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="197*"/>
-            <ColumnDefinition Width="636*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="39*"/>
-            <RowDefinition Height="55*"/>
-            <RowDefinition Height="34*"/>
-            <RowDefinition Height="43*"/>
-            <RowDefinition Height="41*"/>
-            <RowDefinition Height="214*"/>
-        </Grid.RowDefinitions>
-        <TextBlock x:Name="textBlock" TextWrapping="Wrap" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="16"><Run Text="Welcome to Reactive Developer"/><LineBreak/><Run/></TextBlock>
-        <TextBlock x:Name="textBlock1" Grid.Row="1" TextWrapping="Wrap" Text="This wizard will help you to setup your Reactive Developer application" Margin="5,0,542,10" Grid.ColumnSpan="2"/>
-        <Label x:Name="label" Content="Give your application a name" HorizontalAlignment="Left" Margin="10,8,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        Title="Reactive Developer Set up" Height="500" Width="800"
+        xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel"
+        d:DataContext="{d:DesignInstance d:Type={x:Type vm:SetupViewModel}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBlock" x:Key="header1">
+                <Setter  Property="Margin" Value="5,5,5,5"  />
+                <Setter  Property="FontWeight" Value="Bold"  />
+                <Setter  Property="FontSize" Value="14pt"  />
 
-        <telerik:RadWatermarkTextBox x:Name="radWatermarkTextBox" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="RadWatermarkTextBox"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter  Property="Margin" Value="5,5,5,5"  />
+            </Style>
+            <Style TargetType="{x:Type telerik:RadWatermarkTextBox}">
+                <Setter  Property="Margin">
+                    <Setter.Value>
+                        <Thickness>5</Thickness>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type telerik:RadButton}">
+                <Setter  Property="Margin">
+                    <Setter.Value>
+                        <Thickness>5</Thickness>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="5"></Setter>
+                <Setter Property="Width" Value="90"></Setter>
+                <Setter Property="Height" Value="38"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <StackPanel>
+        <StackPanel Visibility="{Binding GeneralVisible }">
+            <local:SetupGeneral Height="400" VerticalAlignment="Top"></local:SetupGeneral>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="_Previous" IsEnabled="False"></Button>
+                <Button Content="_Next" Command="{Binding NextCommand}" CommandParameter="SqlServer"></Button>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Visibility="{Binding SqlServerVisible}">
+            <local:SetupSqlServer Height="400" VerticalAlignment="Top"></local:SetupSqlServer>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="_Previous" Command="{Binding PreviousCommand}" CommandParameter="General"></Button>
+                <Button Content="_Next" Command="{Binding NextCommand}" CommandParameter="Elasticsearch"></Button>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Visibility="{Binding ElasticsearchVisible}">
+            <local:SetupElasticsearch Height="400" VerticalAlignment="Top"></local:SetupElasticsearch>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="_Previous" Command="{Binding PreviousCommand}" CommandParameter="SqlServer"></Button>
+                <Button Content="_Next" Command="{Binding NextCommand}" CommandParameter="RabbitMq"></Button>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Visibility="{Binding RabbitMqVisible}">
+            <local:SetupRabbitMq Height="400" VerticalAlignment="Top"></local:SetupRabbitMq>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="_Previous" Command="{Binding PreviousCommand}" CommandParameter="Elasticsearch"></Button>
+                <Button Content="_Next" Command="{Binding NextCommand}" CommandParameter="Setup" ></Button>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Visibility="{Binding SetupVisible}">
+            <TextBlock Text="{Binding Message}" Height="380" VerticalAlignment="Top"></TextBlock>
+            <ProgressBar Value="{Binding Progress}" Margin="5" Height="20" VerticalAlignment="Top"></ProgressBar>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="_Previous" Command="{Binding PreviousCommand}" CommandParameter="RabbitMq"></Button>
+                <Button Content="_Next" Command="{Binding FinishCommand}" CommandParameter="Setup" ></Button>
+            </StackPanel>
+        </StackPanel>
 
-    </Grid>
+    </StackPanel>
 </Window>

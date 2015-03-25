@@ -1,0 +1,50 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bespoke.Sph.ControlCenter"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" x:Class="Bespoke.Sph.ControlCenter.SetupElasticsearch"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+        xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel"
+        d:DataContext="{d:DesignInstance d:Type={x:Type vm:SetupViewModel}}">
+    <Grid x:Name="panel1" DataContext="{Binding Settings}"  >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock  TextWrapping="Wrap" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="16"><Run Text="Elasticsearch"/><LineBreak/><Run/></TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="This will help you to configure elsticsearch for your development purpose"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Jar Path"/>
+        <telerik:RadWatermarkTextBox Grid.Row="2"   Grid.Column="1" WatermarkContent="Path to the elasticsearch JAR file" Text="{Binding ElasticSearchJar}"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="cluster.name"/>
+        <telerik:RadWatermarkTextBox  Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" WatermarkContent="# Cluster name identifies your cluster for auto-discovery. If you're running" Text="{Binding ElasticsearchClusterName}"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="node.name"/>
+        <telerik:RadWatermarkTextBox Grid.Row="4"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Node names are generated dynamically on startup, so you're relieved" Text="{Binding ElasticsearchNodeName}"/>
+
+        <Label Grid.Row="5" Grid.Column="0" Content="index.number_of_shards"/>
+        <telerik:RadWatermarkTextBox Grid.Row="5"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set the number of shards (splits) of an index (5 by default):" Text="{Binding ElasticsearchindexNumberOfShards}"/>
+
+        <Label Grid.Row="6" Grid.Column="0" Content="index.number_of_replicas"/>
+        <telerik:RadWatermarkTextBox Grid.Row="6"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set the number of replicas (additional copies) of an index (1 by default):" Text="{Binding ElasticsearchindexNumberOfReplicas}"/>
+
+        <Label Grid.Row="7" Grid.Column="0" Content="http.port"/>
+        <telerik:RadWatermarkTextBox Grid.Row="7"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set a custom port to listen for HTTP traffic" Text="{Binding ElasticsearchHttpPort}"/>
+
+    </Grid>
+</UserControl>

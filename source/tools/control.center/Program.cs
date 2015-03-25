@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Windows;
 
@@ -13,15 +14,32 @@ namespace Bespoke.Sph.ControlCenter
 
             if (mutex.WaitOne(TimeSpan.Zero, true))
             {
-                var app = new App();
-                app.InitializeComponent();
-                app.Run();
+
+                var setup = File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/../project.json");
+                if (!setup)
+                {
+                    var wizard = new SetupWizardWindow();
+                    if (wizard.ShowDialog() ?? false)
+                    {
+                        var app = new App();
+                        app.InitializeComponent();
+                        app.Run();
+                    }
+                }
+                else
+                {
+
+                    var app = new App();
+                    app.InitializeComponent();
+                    app.Run();
+                }
+
                 mutex.ReleaseMutex();
             }
             else
             {
-                MessageBox.Show("There's another instance of Reactive Developer control center running","ReactiveDeveloper",
-                    MessageBoxButton.OK, 
+                MessageBox.Show("There's another instance of Reactive Developer control center running", "ReactiveDeveloper",
+                    MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
         }

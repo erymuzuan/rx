@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Serialization;
 using Bespoke.Sph.ControlCenter.Helpers;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.ControlCenter.Model
 {
@@ -23,7 +26,89 @@ namespace Bespoke.Sph.ControlCenter.Model
         private int? m_loggerWebSocketPort;
         private string m_applicationName;
         private string m_projectDirectory;
+        private string m_elasticsearchClusterName;
+        private string m_elasticsearchNodeName;
+        private int m_elasticsearchindexNumberOfShards;
+        private int m_elasticsearchindexNumberOfReplicas;
+        private int m_elasticsearchHttpPort;
 
+        public void Save()
+        {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../project.json");
+            File.WriteAllText(path, this.ToJsonString(true), Encoding.UTF8);
+        }
+
+        public static SphSettings Load()
+        {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../project.json");
+            if (!File.Exists(path))
+                return null;
+
+            try
+            {
+
+                var settings = File.ReadAllText(path).DeserializeFromJson<SphSettings>();
+                return settings;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public int ElasticsearchHttpPort
+        {
+            get { return m_elasticsearchHttpPort; }
+            set
+            {
+                m_elasticsearchHttpPort = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int ElasticsearchindexNumberOfReplicas
+        {
+            get { return m_elasticsearchindexNumberOfReplicas; }
+            set
+            {
+                m_elasticsearchindexNumberOfReplicas = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int ElasticsearchindexNumberOfShards
+        {
+            get { return m_elasticsearchindexNumberOfShards; }
+            set
+            {
+                m_elasticsearchindexNumberOfShards = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ElasticsearchNodeName
+        {
+            get { return m_elasticsearchNodeName; }
+            set
+            {
+                m_elasticsearchNodeName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ElasticsearchClusterName
+        {
+            get { return m_elasticsearchClusterName; }
+            set
+            {
+                m_elasticsearchClusterName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [Required]
+        [MinLength(3, ErrorMessage = "You'll need at least 3 chars")]
+        [RegularExpression("[a-zA-z]{3,9}", ErrorMessage = "must be alpahnumeric only")]
         public string ApplicationName
         {
             get { return m_applicationName; }
@@ -34,7 +119,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
         }
 
-
+        [Required]
         public string SqlLocalDbName
         {
             get

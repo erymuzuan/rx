@@ -30,7 +30,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private async void CheckUpdate()
         {
-            string file = @".\version.json".TranslatePath();
+            var file = @".\version.json".TranslatePath();
             if (!File.Exists(file))
             {
                 MessageBox.Show("Can't find " + file + " in your root", "Rx Developer", MessageBoxButton.OK,

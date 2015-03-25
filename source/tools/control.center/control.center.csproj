@@ -83,6 +83,7 @@
       <HintPath>..\..\..\lib\SuperSocket\SuperSocket.WebSocket.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
@@ -152,6 +153,18 @@
       <DependentUpon>ProjectSettingsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="SetupElasticsearch.xaml.cs">
+      <DependentUpon>SetupElasticsearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SetupGeneral.xaml.cs">
+      <DependentUpon>SetupGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SetupRabbitMq.xaml.cs">
+      <DependentUpon>SetupRabbitMq.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SetupSqlServer.xaml.cs">
+      <DependentUpon>SetupSqlServer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SetupWizardWindow.xaml.cs">
       <DependentUpon>SetupWizardWindow.xaml</DependentUpon>
     </Compile>
@@ -161,6 +174,7 @@
       <DependentUpon>UpdaterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ApplicationSetup.cs" />
+    <Compile Include="ViewModel\SetupViewModel.cs" />
     <Compile Include="ViewModel\UpdaterViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -185,6 +199,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProjectSettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetupElasticsearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetupGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetupRabbitMq.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetupSqlServer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
