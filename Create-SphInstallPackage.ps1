@@ -238,12 +238,25 @@ ls -Path $output -Recurse -Filter Common.Logging.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Common.Logging.Core.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
+ls $output\tools | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\control.center | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\subscribers.host | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\subscribers.host | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\schedulers | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\web\bin | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+Remove-Item $output\elasticsearch\data -Force -Recurse
+ls -Path $output -Recurse -Filter DevV1.*.dll | Remove-Item
+ls -Path $output -Recurse -Filter DevV1.*.pdb | Remove-Item
+ls $output\web\App_Data\i18n | ? {$_.Name.StartsWith("options") -eq $false} | Remove-Item
+ls $output\control.center\controlcenter.vshost.* | Remove-Item
 
 
-Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit" -ForegroundColor Yellow -NoNewline
+
+Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit : " -ForegroundColor Yellow -NoNewline
 $compressed = Read-Host
 if($compressed -eq 'q')
 {
+    Write-Host "bye."
     exit;
 }
 
