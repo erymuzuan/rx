@@ -16,6 +16,7 @@ namespace workers.windowsservice.runner
             if (args.ParseArgExist("install") || args.ParseArgExist("i"))
             {
                 var sm = new WindowsServiceManager();
+
                 var install = sm.InstallService(Environment.CurrentDirectory + "\\workers.windowsservice.runner.exe -service",
                     serviceName, "Reactive Developer Server - " + appName);
                 if (!install)
@@ -44,8 +45,7 @@ namespace workers.windowsservice.runner
         {
             args = args.Any() ? args : Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
-            if (null == val) return null;
-            return val.Replace("/" + name + ":", string.Empty);
+            return val?.Replace("/" + name + ":", string.Empty);
         }
 
         private static bool ParseArgExist(this string[] args, string name)

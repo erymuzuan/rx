@@ -170,7 +170,7 @@ $apc.Save("$WorkingCopy\config\applicationhost.config")
 
 
 #asp.net memberships
-Write-Debug "Executing Aspnet membership provider" -ForegroundColor Cyan
+Write-Debug "Executing Aspnet membership provider"
 Start-Process -RedirectStandardOutput "v1.log" -Wait -WindowStyle Hidden -FilePath "C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe" `
 -ArgumentList  @("-E","-S",'"(localdb)\' + $SqlServer+ '"',"-d " + $ApplicationName,"-A mr")
 

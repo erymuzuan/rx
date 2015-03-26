@@ -34,9 +34,7 @@ namespace Bespoke.Sph.ControlCenter.Helpers
                     m_line = 0;
                 }
             }
-
         }
-
         public override Encoding Encoding => Encoding.UTF8;
     }
 }
