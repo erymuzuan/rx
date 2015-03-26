@@ -15,6 +15,31 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private string m_currentTab;
         private Visibility m_setupVisible;
         private bool m_isBusy;
+        private double m_progress;
+        private string m_status;
+        private MainViewModel m_mainViewModel;
+        private DispatcherObject m_view;
+
+        public MainViewModel MainViewModel
+        {
+            get { return m_mainViewModel; }
+            set
+            {
+                m_mainViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public DispatcherObject View
+        {
+            get { return m_view; }
+            set
+            {
+                m_view = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<LogEntry> LogCollection { get; } = new ObservableCollection<LogEntry>();
 
@@ -111,12 +136,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         }
 
    
-        private double m_progress;
-        private string m_status;
-
-
-
-        public DispatcherObject View { get; set; }
 
         public string Status
         {

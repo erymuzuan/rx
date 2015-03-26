@@ -19,7 +19,8 @@ if(($Help -eq $true) -or ($ApplicationName -eq ""))
 	exit;
 }
 $WorkingCopy = pwd
-Write-Host "Seting up Rx Developer- $ApplicationName project in $WorkingCopy"
+
+Write-Debug "Seting up Rx Developer- $ApplicationName project in $WorkingCopy"
 if(!(Get-Command sqlcmd -ErrorAction SilentlyContinue))
 {
     Write-Warning "Cannot find sqlcmd in your path"
@@ -85,18 +86,18 @@ if((Test-Path("$WorkingCopy\StartAspnetAdminWeb.bat")) -eq $false)
 
 
 #creates databases
-Write-Host "Creating database $ApplicationName"
+Write-Debug "Creating database $ApplicationName"
 & sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "DROP DATABASE [$ApplicationName]"
 & sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
-Write-Host "Created database $ApplicationName"
+Write-Debug "Created database $ApplicationName"
 #Start-Sleep -Seconds 10
 & sqlcmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
 & sqlcmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
-Write-Host "Created schema [SPH]"
+Write-Debug "Created schema [SPH]"
 
 Get-ChildItem -Filter *.sql -Path $WorkingCopy\database\Table `
 | %{
-    Write-Host "Creating table $_"
+    Write-Debug "Creating table $_"
     $sqlFileName = $_.FullName    
     & sqlcmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
 }
@@ -114,7 +115,7 @@ Invoke-WebRequest -Method Put -Body "" -Uri $esindex  -ContentType "application/
 Get-ChildItem -Filter *.json -Path .\database\mapping `
 | %{
     $mappingUri = $esindex + "/" + $_.Name.ToLowerInvariant().Replace(".json", "") + "/_mapping"
-    Write-Host "Creating elastic search mapping for $mappingUri"
+    Write-Debug "Creating elastic search mapping for $mappingUri"
     Invoke-WebRequest -Method PUT -Uri $mappingUri -InFile $_.FullName -ContentType "application/javascript"
 }
 
@@ -129,7 +130,7 @@ $allConfigs = @("$WorkingCopy\web\web.config"
 )
 
 foreach($configFile in $allConfigs){
-    Write-Host "Processing $configFile"
+    Write-Debug "Processing $configFile"
 
     $xml = (Get-Content $configFile) -as [xml]
 
@@ -144,7 +145,7 @@ foreach($configFile in $allConfigs){
 
     $nsmgr = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
     $nsmgr.AddNamespace("sp", "http://www.springframework.net")
-    Write-Host $nsmgr
+    Write-Debug $nsmgr
 
     $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IBrokerConnection"]/sp:property[@name="VirtualHost"]/@value', $nsmgr).'#text' = $ApplicationName
     $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IBrokerConnection"]/sp:property[@name="UserName"]/@value', $nsmgr).'#text' = $RabbitMqUserName
@@ -166,17 +167,16 @@ $bindingInformation = "*:" + $Port.ToString() + ":localhost"
 $site.SelectSingleNode("bindings/binding").SetAttribute("bindingInformation","$bindingInformation")
 $apc.Save("$WorkingCopy\config\applicationhost.config")
 
-$startWebBat = Get-Content .\StartWeb.bat
-$startWebBat.Replace("%USERPROFILE%\Documents\IISExpress", $WorkingCopy) > .\StartWeb.bat
+
 
 #asp.net memberships
-Write-Host "Executing Aspnet membership provider" -ForegroundColor Cyan
+Write-Debug "Executing Aspnet membership provider" -ForegroundColor Cyan
 Start-Process -RedirectStandardOutput "v1.log" -Wait -WindowStyle Hidden -FilePath "C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe" `
 -ArgumentList  @("-E","-S",'"(localdb)\' + $SqlServer+ '"',"-d " + $ApplicationName,"-A mr")
 
 
-Write-Host "Aspnet membership has been added"
-Write-Host "Please wait....."
+Write-Debug "Aspnet membership has been added"
+Write-Debug "Please wait....."
 
 #roles
 & .\mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"

@@ -71,7 +71,7 @@ namespace workers.console.runner
 
             var discoverElapsed = sw.Elapsed;
             program.Start(metadata);
-            Console.WriteLine("********* Wathching " + AppDomain.CurrentDomain.BaseDirectory);
+            Console.WriteLine("********* Watching " + AppDomain.CurrentDomain.BaseDirectory);
 
             var span = sw.Elapsed;
             sw.Stop();

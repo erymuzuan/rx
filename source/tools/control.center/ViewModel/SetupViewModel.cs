@@ -17,6 +17,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public RelayCommand<string> PreviousCommand { get; set; }
         public RelayCommand SetupCommand { get; set; }
 
+
         public SetupViewModel()
         {
             this.NextCommand = new RelayCommand<string>(key =>
@@ -88,6 +89,16 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             var eslib = Path.Combine(root.FullName, "elasticsearch\\lib\\");
             var jar = Directory.GetFiles(eslib, "elasticsearch-*.jar").Single();
             this.Settings.ElasticSearchJar = jar;
+
+
+            var main = new MainViewModel
+            {
+                Settings = this.Settings,
+                View = this.View,
+                ConsoleLogger = new ConsoleNotificationSubscriber(this.Settings),
+                Logger = new Logger()
+            };
+            this.MainViewModel = main;
         }
 
         private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -128,6 +139,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.IsBusy = true;
             this.LogCollection.Clear();
             this.Log("Please wait.. while we run the setup for you");
+            this.Settings.SetElasticsearchConfig();
             this.QueueUserWorkItem(RunSetup, this.Settings);
         }
 
@@ -154,19 +166,25 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 });
                 return;
             }
-            var main = new MainViewModel
+            var main = this.MainViewModel;
+
+            this.Log("Checking connection to RabbitMq");
+            var rabbitRunning = main.CheckRabbitMqHostConnection(settings.RabbitMqUserName, settings.RabbitMqPassword, settings.RabbitMqHost);
+            if (!rabbitRunning)
             {
-                Settings = settings,
-                View = this.View,
-                ConsoleLogger = new ConsoleNotificationSubscriber(settings),
-                Logger = new Logger()
-            };
-            this.Log("Starting RabbitMq");
-            main.StartRabbitMqService();
+                this.Log("Starting RabbitMq");
+                main.StartRabbitMqService();
+            }
+
             this.Log("Starting SQL Server\r\n");
             main.StartSqlService();
-            this.Log("Starting Elasticsearch\r\n");
-            main.StartElasticSearch();
+
+            main.CheckElasticsearch();
+            if (!main.ElasticSearchServiceStarted)
+            {
+                this.Log("Starting Elasticsearch\r\n");
+                main.StartElasticSearch();
+            }
 
             var flag = new ManualResetEvent(false);
             var starting = true;

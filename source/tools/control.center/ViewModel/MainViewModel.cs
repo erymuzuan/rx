@@ -380,7 +380,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
-        private bool CheckRabbitMqHostConnection(string username, string password, string host)
+        public bool CheckRabbitMqHostConnection(string username, string password, string host)
         {
             var isOpen = false;
             try
@@ -555,7 +555,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         }
 
-        private void CheckElasticsearch()
+        public void CheckElasticsearch()
         {
             const string PROCESS_NAME = "java.exe";
             const string ELASTICSEARCH = "elasticsearch-";
@@ -573,7 +573,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             });
 
         }
-        private void CheckWorkers()
+        public void CheckWorkers()
         {
             const string PROCESS_NAME = "workers.console.runner.exe";
             var web = "/v:" + this.Settings.ApplicationName;
@@ -638,7 +638,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                Log(ex.Message + "\r\n" + ex.StackTrace.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -721,14 +721,15 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 m_writer?.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
             }
-            this.Logger.Log(new LogEntry
+            var entry = new LogEntry
             {
                 Severity = Severity.Error,
                 Message = e.Data,
                 Time = DateTime.Now,
                 Log = EventLog.Elasticsearch,
                 Source = "Elasticsearch"
-            });
+            };
+            this.QueueUserWorkItem(this.Logger.Log, entry);
         }
 
         private void OnIisDataReceived(object sender, DataReceivedEventArgs e)
@@ -737,14 +738,16 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             m_writer?.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, message);
 
             var severity = message.Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
-            this.Logger.Log(new LogEntry
+            var entry = new LogEntry
             {
                 Severity = severity,
                 Message = e.Data,
                 Time = DateTime.Now,
                 Log = EventLog.WebServer,
                 Source = "IIS Express"
-            });
+            };
+            this.QueueUserWorkItem(this.Logger.Log, entry);
+
             if (message.Contains("IIS Express stopped"))
                 this.StopIisService();
 

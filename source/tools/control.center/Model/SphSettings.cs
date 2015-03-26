@@ -314,5 +314,24 @@ namespace Bespoke.Sph.ControlCenter.Model
 
 
         }
+
+        public void SetElasticsearchConfig()
+        {
+            if (Directory.Exists(".\\elasticsearch".TranslatePath()))
+            {
+                var es = ".\\elasticsearch\\config\\elasticsearch.yml".TranslatePath();
+                var config = File.ReadAllText(es);
+
+                config = config
+                    .Replace("cluster.name: ElasticsearchClusterName", "cluster.name: " + ElasticsearchClusterName)
+                    .Replace("node.name: \"ElasticsearchNodeName\"", "node.name: \"" + ElasticsearchNodeName + "\"")
+                    .Replace("index.number_of_replicas: ElasticsearchIndexNumberOfReplicas", "index.number_of_replicas: " + ElasticsearchIndexNumberOfReplicas)
+                    .Replace("index.number_of_shards: ElasticsearchIndexNumberOfShards", "index.number_of_shards: " + ElasticsearchIndexNumberOfShards)
+                    .Replace("http.port: ElasticsearchHttpPort", "http.port: " + ElasticsearchHttpPort)
+                    ;
+
+                File.WriteAllText(es, config);
+            }
+        }
     }
 }

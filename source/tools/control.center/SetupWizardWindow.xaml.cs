@@ -1,7 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using Bespoke.Sph.ControlCenter.ViewModel;
 
 namespace Bespoke.Sph.ControlCenter
@@ -57,7 +56,10 @@ namespace Bespoke.Sph.ControlCenter
                     if (status == "success")
                         MessageBox.Show("Congratulations.. you now can start building your app", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Information);
                     else
-                        MessageBox.Show("Unfortunately there are errors, Please verify that your configuration is successful, you can always run this again by deleting the project.json", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Unfortunately there are errors, Please verify that your configuration is successful, you can always run this again by deleting the project.json",
+                            "Reactive Developer",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
                     this.DialogResult = true;
                     this.Close();
                 });
