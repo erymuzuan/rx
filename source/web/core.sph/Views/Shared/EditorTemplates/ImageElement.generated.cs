@@ -129,7 +129,7 @@ WriteLiteral(" ");
 
             
             #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                          Write(width);
+                                          Write(Html.Raw(width));
 
             
             #line default
@@ -138,7 +138,7 @@ WriteLiteral(" ");
 
             
             #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                                 Write(height);
+                                                 Write(Html.Raw(height));
 
             
             #line default

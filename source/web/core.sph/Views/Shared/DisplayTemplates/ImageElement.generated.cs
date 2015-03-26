@@ -118,7 +118,7 @@ WriteLiteral(" ");
 
             
             #line 17 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-                                          Write(width);
+                                          Write(Html.Raw(width));
 
             
             #line default
@@ -127,7 +127,7 @@ WriteLiteral(" ");
 
             
             #line 17 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-                                                 Write(height);
+                                                 Write(Html.Raw(height));
 
             
             #line default

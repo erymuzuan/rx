@@ -14,4 +14,4 @@
 {
     <label class="col-md-@(Model.LabelColMd ?? 4)">@Model.Label</label>
 }
-<img alt="@Model.Label" title="@Model.Tooltip" @width @height data-bind="attr : {'src':@Html.Raw(path)}, visible:@Html.Raw(Model.Visible)" />
+<img data-test="987" alt="@Model.Label" title="@Model.Tooltip" @Html.Raw(width) @Html.Raw(height)  data-bind="attr : {'src':@Html.Raw(path)}, visible:@Html.Raw(Model.Visible)" />
