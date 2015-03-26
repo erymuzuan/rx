@@ -1,0 +1,21 @@
+﻿{
+  "elasticsearchHttpPort": 9200,
+  "elasticsearchIndexNumberOfReplicas": 0,
+  "elasticsearchIndexNumberOfShards": 1,
+  "elasticsearchNodeName": "ery-node",
+  "elasticsearchClusterName": "ery",
+  "applicationName": "DevV1",
+  "sqlLocalDbName": "Projects",
+  "iisExpressExecutable": ".\\IIS Express\\iisexpress.exe",
+  "rabbitMqDirectory": ".\\rabbitmq_server",
+  "rabbitMqUserName": "guest",
+  "rabbitMqPassword": "guest",
+  "javaHome": "d:\\Program Files\\Java\\jdk1.8.0_31",
+  "elasticSearchJar": ".\\elasticsearch\\lib\\elasticsearch-1.3.2.jar",
+  "websitePort": 4436,
+  "rabbitMqHost": "localhost",
+  "rabbitMqPort": 5672,
+  "rabbitMqManagementPort": 15672,
+  "loggerWebSocketPort": 50238,
+  "projectDirectory": "C:\\project\\work\\sph\\bin"
+}

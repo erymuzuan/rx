@@ -1,6 +1,9 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Threading;
 using System.Windows;
+using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.ViewModel;
 
 namespace Bespoke.Sph.ControlCenter
@@ -33,14 +36,31 @@ namespace Bespoke.Sph.ControlCenter
             vm.PropertyChanged += Vm_PropertyChanged;
             vm.Load();
             this.DataContext = vm;
-            ((INotifyCollectionChanged)logListView.Items).CollectionChanged += ListView_CollectionChanged;
+            vm.LogCollection.CollectionChanged += LogCollection_CollectionChanged;
 
         }
 
-        private void ListView_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void LogCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var vm = (SetupViewModel)this.DataContext;
-            logListView.SelectedIndex = vm.LogCollection.Count - 1;
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                var items = e.NewItems.Cast<LogEntry>();
+                foreach (var t in items)
+                {
+                    if (t.Message == ".")
+                    {
+                        logListView.AppendText(t.Message);
+                    }
+                    else
+                    {
+                        var now = DateTime.Now.ToShortTimeString();
+                        var message = $"[{now}][{t.Severity}]  {t.Message}";
+                        logListView.AppendText("\r\n" + message);
+                    }
+                }
+
+            }
+
         }
 
         private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
