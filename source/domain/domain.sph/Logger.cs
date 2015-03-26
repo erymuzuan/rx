@@ -6,12 +6,7 @@ namespace Bespoke.Sph.Domain
 {
     public class Logger : ILogger
     {
-        private readonly ObjectCollection<ILogger> m_loggersCollection = new ObjectCollection<ILogger>();
-
-        public ObjectCollection<ILogger> Loggers
-        {
-            get { return m_loggersCollection; }
-        }
+        public ObjectCollection<ILogger> Loggers { get; } = new ObjectCollection<ILogger>();
 
         public async Task LogAsync(LogEntry entry)
         {

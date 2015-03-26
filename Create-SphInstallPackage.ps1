@@ -181,7 +181,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\elasticsearch" `
 | Copy-Item -Destination "$output\elasticsearch" -Force -Recurse
 #replace elasticsearch config
 del $output\elasticsearch\config\elasticsearch.yml
-copy .\bin\elasticsearch.yml $output\elasticsearch\config\elasticsearch.yml -Force
+copy .\bin\elasticsearch.template.yml $output\elasticsearch\config\elasticsearch.yml -Force
 
 
 

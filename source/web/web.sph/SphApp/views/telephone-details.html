@@ -1,0 +1,29 @@
+
+
+<h1 data-i18n="Telephone details">Telephone details</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+
+    </div>
+    <div class="col-sm-2"></div>
+    <!-- /ko-->
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        
+<form class="form-horizontal" data-bind="with : entity" id="telephone-details-form">
+
+
+
+
+    <label data-i18n="Name" class="col-md-4">Name</label>
+<img alt="Name" width="85788" height="500"  data-bind="attr : {'src':'/sph/image/store/' + Name()}, visible:true" /></form>
+    </div>
+    <div class="col-sm-4">
+        
+    </div>
+</div>
