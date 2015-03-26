@@ -58,7 +58,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             StartElasticSearchCommand = new RelayCommand(StartElasticSearch, () => !ElasticSearchServiceStarted && RabbitMqServiceStarted && !RabbitMqServiceStarting);
             StopElasticSearchCommand = new RelayCommand(StopElasticSearch, () => ElasticSearchServiceStarted);
 
-            StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted && RabbitMqServiceStarted);
+            StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted && RabbitMqServiceStarted && SqlServiceStarted);
             StopSphWorkerCommand = new RelayCommand(StopSphWorker, () => SphWorkerServiceStarted && !IsBusy);
 
             SaveSettingsCommand = new RelayCommand(SaveSettings);
@@ -503,55 +503,102 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         }
 
-        public async void StartElasticSearch()
+        public void StartElasticSearch()
         {
+            this.IsBusy = true;
+            this.QueueUserWorkItem(StartElasticSearchHelper);
+        }
+
+        private async void StartElasticSearchHelper()
+        {
+
             Log("ElasticSearch...[INITIATING]");
 
-            try
+            var esHome = Path.GetDirectoryName(Path.GetDirectoryName(this.Settings.ElasticSearchJar));
+            var version = this.Settings.ElasticSearchJar.RegexSingleValue(@"elasticsearch-(?<version>\d.\d.\d).jar", "version");
+            var es = string.Join(@"\", esHome).TranslatePath();
+            Log("Elasticsearch Home " + esHome);
+            Log("Version :" + version);
+
+            var arg = string.Format(@" -Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError  -Delasticsearch -Des-foreground=yes -Des.path.home=""{0}""  -cp "";{0}/lib/elasticsearch-{1}.jar;{0}/lib/*;{0}/lib/sigar/*"" ""org.elasticsearch.bootstrap.Elasticsearch""",
+                es,
+                version);
+            var info = new ProcessStartInfo
             {
-                var esHome = Path.GetDirectoryName(Path.GetDirectoryName(this.Settings.ElasticSearchJar));
-                var version = this.Settings.ElasticSearchJar.RegexSingleValue(@"elasticsearch-(?<version>\d.\d.\d).jar", "version");
-                var es = string.Join(@"\", esHome).TranslatePath();
-                Log("Elasticsearch Home " + esHome);
-                Log("Version :" + version);
-
-                var arg = string.Format(@" -Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError  -Delasticsearch -Des-foreground=yes -Des.path.home=""{0}""  -cp "";{0}/lib/elasticsearch-{1}.jar;{0}/lib/*;{0}/lib/sigar/*"" ""org.elasticsearch.bootstrap.Elasticsearch""",
-                    es,
-                    version);
-                var info = new ProcessStartInfo
+                FileName = this.Settings.JavaHome + @"\bin\java.exe",
+                Arguments = arg,
+                WorkingDirectory = this.Settings.ProjectDirectory,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+            if (!File.Exists(info.FileName))
+            {
+                this.Post(() =>
                 {
-                    FileName = this.Settings.JavaHome + @"\bin\java.exe",
-                    Arguments = arg,
-                    WorkingDirectory = this.Settings.ProjectDirectory,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true,
-                    RedirectStandardError = true,
-                    WindowStyle = ProcessWindowStyle.Hidden
-                };
+                    this.IsBusy = false;
+                    MessageBox.Show("Cannot find Java in " + this.Settings.JavaHome, "Reactive Developer",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                });
+                return;
+            }
 
-                m_elasticProcess = Process.Start(info);
-                if (null == m_elasticProcess)
+            m_elasticProcess = Process.Start(info);
+            if (null == m_elasticProcess)
+            {
+                Console.Error.WriteLine("Cannot start elastic search");
+                return;
+            }
+            m_elasticProcess.BeginOutputReadLine();
+            m_elasticProcess.BeginErrorReadLine();
+            m_elasticProcess.OutputDataReceived += OnElasticsearchDataReceived;
+            m_elasticProcess.ErrorDataReceived += OnElasticsearchErroReceived;
+
+
+            var connected = false;
+            // verify that elasticsearch started successfully
+            var uri = new Uri(string.Format("http://localhost:{0}", this.Settings.ElasticsearchHttpPort));
+            using (var client = new HttpClient() { BaseAddress = uri })
+            {
+                for (var i = 0; i < 20; i++)
                 {
-                    Console.Error.WriteLine("Cannot start elastic search");
-                    return;
+                    try
+                    {
+                        var ok = client.GetStringAsync("/").Result;
+                        connected = ok.Contains("200");
+                        break;
+                    }
+                    catch
+                    {
+                        // ignored
+                        Thread.Sleep(500);
+                    }
                 }
-                m_elasticProcess.BeginOutputReadLine();
-                m_elasticProcess.BeginErrorReadLine();
-                m_elasticProcess.OutputDataReceived += OnElasticsearchDataReceived;
-                m_elasticProcess.ErrorDataReceived += OnElasticsearchErroReceived;
-
+            }
+            if (connected)
+            {
                 ElasticSearchServiceStarted = true;
                 ElasticSearchStatus = "Running";
                 Log("ElasticSearch... [STARTED]");
                 Log("Started : " + m_elasticProcess.Id);
                 m_elasticSearchId = m_elasticProcess.Id;
                 this.IsSetup = await this.FindOutSetupAsync();
+                IsBusy = false;
+
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                this.Post(() =>
+                {
+                    this.IsBusy = false;
+                    MessageBox.Show("Cannot start your Elasticsearch", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Warning);
+                });
             }
+
+
+
 
         }
 
@@ -571,7 +618,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     this.ElasticSearchServiceStarted = true;
                 });
             });
-
         }
         public void CheckWorkers()
         {

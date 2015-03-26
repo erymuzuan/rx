@@ -115,6 +115,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 m_sqlServiceStarted = value;
                 OnPropertyChanged();
+                this.StartSphWorkerCommand.RaiseCanExecuteChanged();
             }
             get { return m_sqlServiceStarted; }
         }
