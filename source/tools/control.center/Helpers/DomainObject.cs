@@ -6,6 +6,8 @@ using System.Xml.Serialization;
 using System.Reflection;
 using System.Collections;
 using System.Diagnostics;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.ControlCenter.Helpers
 {
@@ -18,15 +20,7 @@ namespace Bespoke.Sph.ControlCenter.Helpers
         [NonSerialized]
         private static TraceSource m_traceSource;
 
-        protected TraceSource TraceSource
-        {
-            get
-            {
-                if (null == m_traceSource)
-                    m_traceSource = new TraceSource("Application");
-                return m_traceSource;
-            }
-        }
+        protected TraceSource TraceSource => m_traceSource ?? (m_traceSource = new TraceSource("Application"));
 
         /// <summary>
         /// Write into trace source
@@ -68,6 +62,7 @@ namespace Bespoke.Sph.ControlCenter.Helpers
         ///<summary>
         ///A flag wether this instance has been modified or not</summary>
         [XmlIgnore]
+        [JsonIgnore]
         public bool Dirty
         {
             get { return m_dirty; }
@@ -76,15 +71,11 @@ namespace Bespoke.Sph.ControlCenter.Helpers
 
         private int m_bil;
         [XmlIgnore]
+        [JsonIgnore]
         public int Bil
         {
             get { return m_bil; }
             set { m_bil = value; }
-        }
-
-        protected bool IsInBlend()
-        {
-            return string.Equals(Process.GetCurrentProcess().ProcessName, "Blend", StringComparison.OrdinalIgnoreCase);
         }
 
         #region Public API
@@ -96,31 +87,10 @@ namespace Bespoke.Sph.ControlCenter.Helpers
 
         #region Private API
 
-        private Dictionary<string, string> Errors
-        {
-            get
-            {
-                if (null == m_errors)
-                {
-                    m_errors = new Dictionary<string, string>();
-                }
+        private Dictionary<string, string> Errors => m_errors ?? (m_errors = new Dictionary<string, string>());
 
-                return m_errors;
-            }
-        }
+        private PropertyDescriptorCollection Shape => m_shape ?? (m_shape = TypeDescriptor.GetProperties(this));
 
-        private PropertyDescriptorCollection Shape
-        {
-            get
-            {
-                if (null == m_shape)
-                {
-                    m_shape = TypeDescriptor.GetProperties(this);
-                }
-
-                return m_shape;
-            }
-        }
         #endregion
 
         #region INotifyPropertyChanged Members
@@ -136,28 +106,20 @@ namespace Bespoke.Sph.ControlCenter.Helpers
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             m_dirty = true;
-            if (null != PropertyChanged)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
         #endregion
 
         #region IDataErrorInfo Members
-        public string Error
-        {
-            get { return ((Errors.Count > 0) ? "Business object is in an invalid state" : string.Empty); }
-        }
+        [JsonIgnore]
+        public string Error => ((Errors.Count > 0) ? "Business object is in an invalid state" : string.Empty);
 
-        public string this[string columnName]
-        {
-            get { return GetColumnError(columnName); }
-        }
+        public string this[string columnName] => GetColumnError(columnName);
 
         private string GetColumn(string column)
         {
             if (string.IsNullOrWhiteSpace(column)) return string.Empty;
-            string col = ((null == column) ? null : column.Trim().ToLower());
+            string col = (column.Trim().ToLower());
 
             if (string.IsNullOrEmpty(col) || (null == Shape.Find(col, true)))
             {
@@ -235,7 +197,7 @@ namespace Bespoke.Sph.ControlCenter.Helpers
         public void BeginEdit()
         {
             if (!m_usingIEditable) return;
-            if (null != BeginEditFired) BeginEditFired(this, EventArgs.Empty);
+            BeginEditFired?.Invoke(this, EventArgs.Empty);
 
             if (null == m_propertyHashtable)
             {
@@ -262,18 +224,15 @@ namespace Bespoke.Sph.ControlCenter.Helpers
             if (m_propertyHashtable == null) return;
 
             PropertyInfo[] props = (this.GetType()).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            for (int i = 0; i < props.Length; i++)
+            foreach (PropertyInfo t in props.Where(t => !t.PropertyType.IsInterface).Where(t => m_propertyHashtable.ContainsKey(t.Name)))
             {
-                if (props[i].PropertyType.IsInterface) continue;
-                if (!m_propertyHashtable.ContainsKey(props[i].Name)) continue;
-
                 //check if there is set accessor
                 try
                 {
-                    if (null != props[i].GetSetMethod())
+                    if (null != t.GetSetMethod())
                     {
                         m_setValueFlag = true;
-                        props[i].SetValue(this, m_propertyHashtable[props[i].Name], null);
+                        t.SetValue(this, m_propertyHashtable[t.Name], null);
                     }
                 }
                 finally

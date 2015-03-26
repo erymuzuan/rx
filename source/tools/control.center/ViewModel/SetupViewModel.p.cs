@@ -35,7 +35,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 m_isBusy = value;
                 OnPropertyChanged();
-                this.FinishCommand.RaiseCanExecuteChanged();
+                this.SetupCommand.RaiseCanExecuteChanged();
                 this.PreviousCommand.RaiseCanExecuteChanged();
                 this.NextCommand.RaiseCanExecuteChanged();
             }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Serialization;
 
 
 namespace Bespoke.Sph.Domain
@@ -165,13 +166,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public static T DeserializeFromJsonWithId<T>(string json, int id) where T : class
-        {
-            var item = DeserializeFromJson<T>(json);
-            var propId = typeof(T).GetProperties().Single(p => p.Name == typeof(T).Name + "Id");
-            propId.SetValue(item, id);
-            return item;
-        }
 
 
         /// <summary>
@@ -189,11 +183,24 @@ namespace Bespoke.Sph.Domain
             setting.Formatting = format;
             return JsonConvert.SerializeObject(value, setting);
         }
+
         public static string ToJsonString<T>(this T value, bool pretty)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             setting.Formatting = pretty ? Formatting.Indented : Formatting.None;
+            return JsonConvert.SerializeObject(value, setting);
+        }
+
+        public static string ToNormalizedJsonString<T>(this T value)
+        {
+            var setting = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            setting.Formatting = Formatting.Indented;
             return JsonConvert.SerializeObject(value, setting);
         }
     }

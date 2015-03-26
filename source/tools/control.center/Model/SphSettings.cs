@@ -28,14 +28,14 @@ namespace Bespoke.Sph.ControlCenter.Model
         private string m_projectDirectory;
         private string m_elasticsearchClusterName;
         private string m_elasticsearchNodeName;
-        private int m_elasticsearchindexNumberOfShards;
-        private int m_elasticsearchindexNumberOfReplicas;
+        private int m_elasticsearchIndexNumberOfShards;
+        private int m_elasticsearchIndexNumberOfReplicas;
         private int m_elasticsearchHttpPort;
 
         public void Save()
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../project.json");
-            File.WriteAllText(path, this.ToJsonString(true), Encoding.UTF8);
+            File.WriteAllText(path, this.ToNormalizedJsonString(), Encoding.UTF8);
         }
 
         public static SphSettings Load()
@@ -66,22 +66,22 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
         }
 
-        public int ElasticsearchindexNumberOfReplicas
+        public int ElasticsearchIndexNumberOfReplicas
         {
-            get { return m_elasticsearchindexNumberOfReplicas; }
+            get { return m_elasticsearchIndexNumberOfReplicas; }
             set
             {
-                m_elasticsearchindexNumberOfReplicas = value;
+                m_elasticsearchIndexNumberOfReplicas = value;
                 OnPropertyChanged();
             }
         }
 
-        public int ElasticsearchindexNumberOfShards
+        public int ElasticsearchIndexNumberOfShards
         {
-            get { return m_elasticsearchindexNumberOfShards; }
+            get { return m_elasticsearchIndexNumberOfShards; }
             set
             {
-                m_elasticsearchindexNumberOfShards = value;
+                m_elasticsearchIndexNumberOfShards = value;
                 OnPropertyChanged();
             }
         }
@@ -276,7 +276,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             {
                 if (string.IsNullOrWhiteSpace(m_projectDirectory)
                     || !Directory.Exists(m_projectDirectory))
-                    m_projectDirectory = Path.Combine(Directory.GetCurrentDirectory(), "..\\");
+                    m_projectDirectory = Directory.GetCurrentDirectory();
                 return m_projectDirectory;
             }
             set

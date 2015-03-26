@@ -85,7 +85,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="_Previous" Command="{Binding PreviousCommand}" CommandParameter="RabbitMq"></Button>
-                <Button Content="_Finish" Command="{Binding FinishCommand}" CommandParameter="Setup" ></Button>
+                <Button Content="_Setup" Command="{Binding SetupCommand}" CommandParameter="Setup" ></Button>
             </StackPanel>
         </StackPanel>
 

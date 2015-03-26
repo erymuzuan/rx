@@ -39,10 +39,10 @@
         <telerik:RadWatermarkTextBox Grid.Row="4"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Node names are generated dynamically on startup, so you're relieved" Text="{Binding ElasticsearchNodeName}"/>
 
         <Label Grid.Row="5" Grid.Column="0" Content="index.number_of_shards"/>
-        <telerik:RadWatermarkTextBox Grid.Row="5"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set the number of shards (splits) of an index (5 by default):" Text="{Binding ElasticsearchindexNumberOfShards}"/>
+        <telerik:RadWatermarkTextBox Grid.Row="5"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set the number of shards (splits) of an index (5 by default):" Text="{Binding ElasticsearchIndexNumberOfShards}"/>
 
         <Label Grid.Row="6" Grid.Column="0" Content="index.number_of_replicas"/>
-        <telerik:RadWatermarkTextBox Grid.Row="6"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set the number of replicas (additional copies) of an index (1 by default):" Text="{Binding ElasticsearchindexNumberOfReplicas}"/>
+        <telerik:RadWatermarkTextBox Grid.Row="6"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set the number of replicas (additional copies) of an index (1 by default):" Text="{Binding ElasticsearchIndexNumberOfReplicas}"/>
 
         <Label Grid.Row="7" Grid.Column="0" Content="http.port"/>
         <telerik:RadWatermarkTextBox Grid.Row="7"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set a custom port to listen for HTTP traffic" Text="{Binding ElasticsearchHttpPort}"/>

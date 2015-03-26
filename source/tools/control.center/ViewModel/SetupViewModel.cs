@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using Bespoke.Sph.ControlCenter.Model;
@@ -14,22 +15,38 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
     {
         public RelayCommand<string> NextCommand { get; set; }
         public RelayCommand<string> PreviousCommand { get; set; }
-        public RelayCommand FinishCommand { get; set; }
+        public RelayCommand SetupCommand { get; set; }
 
         public SetupViewModel()
         {
             this.NextCommand = new RelayCommand<string>(key =>
             {
                 this.CurrentTab = key;
-            }, key => !string.IsNullOrWhiteSpace(this.Settings?.ApplicationName) && !this.IsBusy);
+            }, key =>
+            {
+                var name = this.Settings?.ApplicationName ?? "";
+                if (this.IsBusy) return false;
+                if (string.IsNullOrWhiteSpace(name)) return false;
+                if (name.Length < 2) return false;
+
+                const string PATTERN = "^[A-Za-z][A-Za-z0-9_]*$";
+
+                var validName = new Regex(PATTERN);
+                if (!validName.Match(name).Success)
+                    return false;
+
+                return true;
+            });
             this.PreviousCommand = new RelayCommand<string>(key =>
             {
                 this.CurrentTab = key;
             }, key => !this.IsBusy);
-            this.FinishCommand = new RelayCommand(Setup, () =>
+            this.SetupCommand = new RelayCommand(Setup, () =>
             {
                 if (string.IsNullOrWhiteSpace(this.Settings?.ApplicationName))
                     return false;
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../project.json");
+                if (File.Exists(path)) return false;
                 return !this.IsBusy;
             });
 
@@ -51,8 +68,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 ElasticsearchClusterName = "",
                 ElasticsearchHttpPort = 9200,
                 ElasticsearchNodeName = "",
-                ElasticsearchindexNumberOfReplicas = 0,
-                ElasticsearchindexNumberOfShards = 1,
+                ElasticsearchIndexNumberOfReplicas = 0,
+                ElasticsearchIndexNumberOfShards = 1,
                 LoggerWebSocketPort = 50238,
                 WebsitePort = 50230,
                 ProjectDirectory = "",
@@ -77,15 +94,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             if (e.PropertyName == "ApplicationName")
             {
-                if (string.IsNullOrWhiteSpace(this.Settings.ElasticsearchClusterName))
-                    this.Settings.ElasticsearchClusterName = $"cluster_{Environment.MachineName}_{this.Settings.ApplicationName}";
-
-                if (string.IsNullOrWhiteSpace(this.Settings.ElasticsearchNodeName))
-                    this.Settings.ElasticsearchNodeName = string.Format("node_{0}_{1}", Environment.MachineName,
+                this.Settings.ElasticsearchClusterName = $"cluster_{Environment.MachineName}_{this.Settings.ApplicationName}";
+                this.Settings.ElasticsearchNodeName = string.Format("node_{0}_{1}", Environment.MachineName,
                         this.Settings.ApplicationName);
             }
             this.NextCommand.RaiseCanExecuteChanged();
-            this.FinishCommand.RaiseCanExecuteChanged();
+            this.SetupCommand.RaiseCanExecuteChanged();
         }
 
         protected override void RaisePropertyChanged(string propertyName)

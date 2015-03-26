@@ -20,16 +20,20 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock  TextWrapping="Wrap" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="16"><Run Text="Welcome to Reactive Developer"/><LineBreak/><Run/></TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="This wizard will help you to setup your Reactive Developer application" Margin="5,0,542,10" />
 
         <Label Grid.Row="2" Grid.Column="0" Content="Give your application a name"/>
-        <telerik:RadWatermarkTextBox  Grid.Column="1" Grid.Row="2" x:Name="appNameTextbox"  WatermarkContent="Application name to identitfy" Text="{Binding ApplicationName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+        <telerik:RadWatermarkTextBox  Grid.Column="1" Grid.Row="2" x:Name="appNameTextbox"  WatermarkContent="Application name to identitfy" Text="{Binding ApplicationName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label Grid.Row="3" Grid.Column="0" Content="Port number for your web application"/>
         <telerik:RadWatermarkTextBox  Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" WatermarkContent="Port number used to host your web application" Text="{Binding WebsitePort, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, NotifyOnValidationError=True}"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="Port number for your web logger"/>
+        <telerik:RadWatermarkTextBox  Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" WatermarkContent="Port number used to host web logger websocket server" Text="{Binding LoggerWebSocketPort, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, NotifyOnValidationError=True}"/>
 
     </Grid>
 </UserControl>

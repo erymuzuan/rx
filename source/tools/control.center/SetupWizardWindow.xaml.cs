@@ -46,28 +46,23 @@ namespace Bespoke.Sph.ControlCenter
 
         private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Status")
+            if (e.PropertyName != "Status") return;
+            var vm = (SetupViewModel)this.DataContext;
+            var status = vm.Status;
+            this.QueueUserWorkItem(() =>
             {
-                var vm = (SetupViewModel)this.DataContext;
-                if (vm.Status == "success")
+                Thread.Sleep(2000);
+                this.Post(() =>
                 {
-                    this.QueueUserWorkItem(() =>
-                    {
-                        Thread.Sleep(2000);
-                        this.Post(() =>
-                        {
-                            var status = vm.Status;
-                            if (status == "success")
-                                MessageBox.Show("Congratulations.. you now can start building your app", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Information);
-                            else
-                                MessageBox.Show("Unfortunately. there are errors", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Error);
-                            this.DialogResult = true;
-                            this.Close();
-                        });
-                    });
-                }
-            }
+                    if (status == "success")
+                        MessageBox.Show("Congratulations.. you now can start building your app", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Information);
+                    else
+                        MessageBox.Show("Unfortunately there are errors, Please verify that your configuration is successful, you can always run this again by deleting the project.json", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Error);
+                    this.DialogResult = true;
+                    this.Close();
+                });
+            });
         }
-        
+
     }
 }
