@@ -144,6 +144,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 m_status = value;
                 OnPropertyChanged();
+                this.PreviousCommand.RaiseCanExecuteChanged();
+                this.NextCommand.RaiseCanExecuteChanged();
+                this.SetupCommand.RaiseCanExecuteChanged();
+
             }
         }
     }

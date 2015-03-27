@@ -38,7 +38,7 @@
             <Style TargetType="Button">
                 <Setter Property="Margin" Value="5"></Setter>
                 <Setter Property="Width" Value="90"></Setter>
-                <Setter Property="Height" Value="38"></Setter>
+                <Setter Property="Height" Value="32"></Setter>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
@@ -46,7 +46,6 @@
         <StackPanel Visibility="{Binding GeneralVisible }">
             <local:SetupGeneral Height="400" VerticalAlignment="Top"></local:SetupGeneral>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="_Previous" IsEnabled="False"></Button>
                 <Button Content="_Next" Command="{Binding NextCommand}" CommandParameter="SqlServer"></Button>
             </StackPanel>
         </StackPanel>
@@ -68,26 +67,21 @@
             <local:SetupRabbitMq Height="400" VerticalAlignment="Top"></local:SetupRabbitMq>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="_Previous" Command="{Binding PreviousCommand}" CommandParameter="Elasticsearch"></Button>
-                <Button Content="_Next" Command="{Binding NextCommand}" CommandParameter="Setup" ></Button>
+                <Button Click="ToSetupPanelClick" Content="_Next" Command="{Binding NextCommand}" CommandParameter="Setup" ></Button>
             </StackPanel>
         </StackPanel>
         <StackPanel Visibility="{Binding SetupVisible}">
-            <ListView x:Name="logListView" ItemsSource="{Binding LogCollection}" Height="380" VerticalAlignment="Top" Background="#FF424040" Foreground="#FFDEDEDE" >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="100" Header="Severity" DisplayMemberBinding="{Binding Severity}"/>
-                        <GridViewColumn Width="600" Header="Message" DisplayMemberBinding="{Binding Message}" />
-                        <GridViewColumn Width="80" Header="Time" DisplayMemberBinding="{Binding Time, StringFormat={}{0:HH:mm:sss}}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <TextBlock Style="{DynamicResource header1}"  Text="Your reactive developer is now ready to be setup, review your setting and click the setup button to continue" x:Name="setupTitle"></TextBlock>
             <ProgressBar Value="{Binding Progress}" Margin="5" Height="20" VerticalAlignment="Top"></ProgressBar>
 
+            <TextBox IsReadOnly="True" x:Name="logTextBox"  Height="350" VerticalAlignment="Top" Background="#FF424040" Foreground="#FFDEDEDE" >
+
+            </TextBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="_Previous" Command="{Binding PreviousCommand}" CommandParameter="RabbitMq"></Button>
-                <Button Content="_Setup" Command="{Binding SetupCommand}" CommandParameter="Setup" ></Button>
+                <Button Click="SetupButtonClick" Content="_Setup" Command="{Binding SetupCommand}" CommandParameter="Setup" ></Button>
+                <Button x:Name="closeButton" Content="_Close" Click="CloseButtonClicked" Visibility="Collapsed" ></Button>
             </StackPanel>
         </StackPanel>
-
     </StackPanel>
 </Window>

@@ -684,7 +684,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             catch (Exception ex)
             {
-                Log(ex.Message + "\r\n" + ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                this.IsBusy = false;
+                var message = ex.Message + "\r\n" + ex.StackTrace.ToString(CultureInfo.InvariantCulture);
+                Log(message);
+                this.Post(() => {
+
+                    MessageBox.Show(message, "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Error);
+                });
             }
         }
 

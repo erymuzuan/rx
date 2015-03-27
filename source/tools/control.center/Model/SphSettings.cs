@@ -32,6 +32,12 @@ namespace Bespoke.Sph.ControlCenter.Model
         private int m_elasticsearchIndexNumberOfReplicas;
         private int m_elasticsearchHttpPort;
 
+
+        public override string ToString()
+        {
+            return this.ToNormalizedJsonString();
+        }
+
         public void Save()
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../project.json");

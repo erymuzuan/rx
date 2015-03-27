@@ -87,7 +87,13 @@ if((Test-Path("$WorkingCopy\StartAspnetAdminWeb.bat")) -eq $false)
 
 #creates databases
 Write-Debug "Creating database $ApplicationName"
-& sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "DROP DATABASE [$ApplicationName]"
+& sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "IF  EXISTS (
+	SELECT name 
+		FROM sys.databases 
+		WHERE name = N'$ApplicationName'
+)
+DROP DATABASE [$ApplicationName]"
+
 & sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
 Write-Debug "Created database $ApplicationName"
 #Start-Sleep -Seconds 10

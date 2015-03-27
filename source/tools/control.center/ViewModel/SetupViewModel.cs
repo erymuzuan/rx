@@ -36,12 +36,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 if (!validName.Match(name).Success)
                     return false;
 
+                if (this.Status == "success") return false;
+
                 return true;
             });
             this.PreviousCommand = new RelayCommand<string>(key =>
             {
                 this.CurrentTab = key;
-            }, key => !this.IsBusy);
+            }, key => !this.IsBusy && this.Status != "success");
             this.SetupCommand = new RelayCommand(Setup, () =>
             {
                 if (string.IsNullOrWhiteSpace(this.Settings?.ApplicationName))
@@ -275,11 +277,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
                 this.Log("Execution has stopped. The pipeline state " + ps.InvocationStateInfo.State);
 
-                foreach (var outputItem in outputCollection)
-                {
-                    //TODO: handle/process the output items if required
-                    this.Log(outputItem.BaseObject.ToString());
-                }
+          
                 var status = ps.HadErrors ? "fail" : "success";
                 this.Post(() =>
                 {
