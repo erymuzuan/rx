@@ -10,17 +10,28 @@ namespace workers.windowsservice.runner
         [STAThread]
         static void Main(string[] args)
         {
+            var help = args.ParseArgExist("?");
+            if (help)
+            {
+                Console.WriteLine("To install use /i /v:<app-name>");
+                Console.WriteLine("To uninstall use /u /v:<app-name>");
+                return;
+            }
             var appName = args.ParseArg("v");
             var serviceName = "RxServer-" + appName;
+
 
             if (args.ParseArgExist("install") || args.ParseArgExist("i"))
             {
                 var sm = new WindowsServiceManager();
-
+                if (string.IsNullOrWhiteSpace(appName))
+                {
+                    Console.WriteLine("To install use /i /v:<app-name>");
+                    return;
+                }
                 var install = sm.InstallService(Environment.CurrentDirectory + "\\workers.windowsservice.runner.exe -service",
                     serviceName, "Reactive Developer Server - " + appName);
-                if (!install)
-                    Console.WriteLine("{0} service install fail....", serviceName);
+                Console.WriteLine(install ? "{0} service successfully installed...." : "{0} service install fail....", serviceName);
 
                 return;
             }
@@ -28,14 +39,16 @@ namespace workers.windowsservice.runner
             if (args.ParseArgExist("uninstall") || args.ParseArgExist("u"))
             {
                 var sm = new WindowsServiceManager();
-                if (!sm.UnInstallService(serviceName))
-                    Console.WriteLine("{0} service failed to uninstall. ",serviceName);
+                Console.WriteLine(
+                    !sm.UnInstallService(serviceName)
+                        ? "{0} service successfully uninstalled. "
+                        : "{0} service failed to uninstall. ", serviceName);
 
                 return;
             }
-            var servicesToRun = new ServiceBase[] 
-                { 
-                    new SphWorkerService() 
+            var servicesToRun = new ServiceBase[]
+                {
+                    new SphWorkerService()
                 };
             ServiceBase.Run(servicesToRun);
         }

@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.ServiceName = "StationMsWorkerService";
+            // 
+            // SphWorkerService
+            // 
+            this.ServiceName = "RxDeveloper Worker Service";
+
         }
 
         #endregion
