@@ -35,7 +35,7 @@
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
-
+                <MenuItem Header="Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="Help" Icon="{StaticResource ImageHelp}" Click="HelpClicked"/>

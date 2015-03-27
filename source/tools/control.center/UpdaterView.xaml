@@ -7,6 +7,7 @@
              xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel"
              >
     <StackPanel d:DataContext="{d:DesignData vm:UpdaterViewModel}" Orientation="Horizontal">
+        <Button IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanInvertConverter}}" Content="Load update package" Command="{Binding LoadUpdateCommand}"/>
         <Button IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanInvertConverter}}" Content="Check for updates" Command="{Binding CheckUpdateCommand}"/>
     </StackPanel>
 </UserControl>

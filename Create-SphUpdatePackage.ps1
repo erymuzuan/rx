@@ -1,6 +1,6 @@
 ﻿Param(
        [int]$Build ,
-       [switch]$PreRelease = $false
+       [switch]$Release = $false
      )
 
 function Create-FtpDirectory {
@@ -13,20 +13,21 @@ function Create-FtpDirectory {
     $username,
     [Parameter(Mandatory=$true)]
     [string]
-    $password
+    $password,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $Directory
   )
-  if ($sourceUri -match '\\$|\\\w+$') { throw 'sourceuri should end with a file name' }
-  $ftprequest = [System.Net.FtpWebRequest]::Create($sourceuri);
-  $ftprequest.Method = [System.Net.WebRequestMethods+Ftp]::MakeDirectory
-  $ftprequest.UseBinary = $true
+  
+  $SecureString = ConvertTo-SecureString $password -AsPlainText -Force
+  $PSCredential = New-Object System.Management.Automation.PSCredential ($username, $SecureString)
 
-  $ftprequest.Credentials = New-Object System.Net.NetworkCredential($username,$password)
+  Import-Module PSFTP 
+  Set-FTPConnection -Credentials $PSCredential -Server ftp://www.reactivedeveloper.com -Session ss01 
+  $Session = Get-FTPConnection -Session ss01
 
-  $response = $ftprequest.GetResponse();
-
-  Write-Host Create Folder Complete, status $response.StatusDescription
-
-  $response.Close();
+  New-FTPItem -Session $Session -Path /staging/binaries -Name $Directory
+    
 }
 
 
@@ -34,7 +35,7 @@ function Upload-FtpFile {
   param(
     [Parameter(Mandatory=$true)]
     [string]
-    $sourceuri,
+    $LocalFile,
     [Parameter(Mandatory=$true)]
     [string]
     $username,
@@ -43,32 +44,27 @@ function Upload-FtpFile {
     $password,
     [Parameter(Mandatory=$true)]
     [string]
-    $path
+    $RemoteDirectory
   )
   
   Write-Host "Uploading $path ... please wait...."
-  if ($sourceUri -match '\\$|\\\w+$') { throw 'sourceuri should end with a file name' }
-  $ftprequest = [System.Net.FtpWebRequest]::Create($sourceuri);
-  $ftprequest.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile;
-  $ftprequest.UseBinary = $true
+  if ($LocalFile -match '\\$|\\\w+$') { throw 'sourceuri should end with a file name' }
+  if(Test-Path($LocalFile) -eq $false){
+    Write-Warning "Cannot find $LocalFile"
+    exit;
+  }
+    
 
-  $ftprequest.Credentials = New-Object System.Net.NetworkCredential($username,$password)
+  
+  $SecureString = ConvertTo-SecureString $password -AsPlainText -Force
+  $PSCredential = New-Object System.Management.Automation.PSCredential ($username, $SecureString)
 
-  #$sourceStream = new-object IO.StreamReader $path
-  #$fileContents = [Text.Encoding]::UTF8.GetBytes($sourceStream.ReadToEnd());
-  #$sourceStream.Close();
-  $fileContents = Get-Content $path -encoding byte
-  $ftprequest.ContentLength = $fileContents.Length;
+  Import-Module PSFTP 
+  Set-FTPConnection -Credentials $PSCredential -Server ftp://www.reactivedeveloper.com -Session ss01 
+  $Session = Get-FTPConnection -Session ss01
 
-  $requestStream = $ftprequest.GetRequestStream();
-  $requestStream.Write($fileContents, 0, $fileContents.Length);
-  $requestStream.Close();
+  Add-FTPItem -Session $Session -Overwrite -Path $RemoteDirectory -LocalPath $LocalFile
 
-  $response = $ftprequest.GetResponse();
-
-  Write-Host Upload File Complete, status $response.StatusDescription
-
-  $response.Close();
 }
 
 
@@ -113,7 +109,7 @@ copy source\web\web.sph\bin\System.Web.WebPages.Razor.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.WebPages.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.Mvc.dll bin\subscribers
 
-$output = ".\sph.packages\output"
+$output = ".\bin\build"
 #creates directory
 if(Test-Path($output))
 {
@@ -223,7 +219,7 @@ foreach($ucon in $rubbishConfigs)
 
 #control.center
 mkdir "$output\control.center"
-Get-ChildItem -Filter *.* -Path ".\sph.packages\control.center" `
+Get-ChildItem -Filter *.* -Path ".\bin\control.center" `
 | Copy-Item -Destination "$output\control.center" -Force -Recurse
 
 
@@ -237,7 +233,7 @@ Get-ChildItem -Filter *.* -Path ".\source\elasticsearch\mapping" `
 
 
 #remove the custom triggers
-Get-Item -Path .\sph.packages\output\subscribers\subscriber.trigger.* `
+Get-Item -Path .\bin\build\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.dll") -eq $false} `
 | ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
 | Remove-Item
@@ -262,6 +258,31 @@ if($deleteRoslyn -eq "y")
     ls -Path $output -Recurse -Filter Roslyn.Services.* | Remove-Item
 }
 
+# remove unused and big files
+ls -Path $output\control.center -Filter *.xml | Remove-Item
+
+ls -Path $output -Recurse -Filter GalaSoft.*.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Microsoft.*.pdb | Remove-Item
+ls -Path $output -Recurse -Filter sqlmembership.directoryservices.dll.config | Remove-Item
+ls -Path $output -Recurse -Filter DiffPlex.pdb | Remove-Item
+ls -Path $output -Recurse -Filter SQLSpatialTools.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Common.Logging.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Common.Logging.Core.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
+ls $output\tools | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\control.center | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\subscribers.host | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\subscribers.host | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\schedulers | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\web\bin | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls -Path $output -Recurse -Filter DevV1.*.dll | Remove-Item
+ls -Path $output -Recurse -Filter DevV1.*.pdb | Remove-Item
+ls $output\web\App_Data\i18n | ? {$_.Name.StartsWith("options") -eq $false} | Remove-Item
+ls $output\control.center\controlcenter.vshost.* | Remove-Item
+
+
 Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit : " -ForegroundColor Yellow -NoNewline
 $compressed = Read-Host
 if($compressed -eq 'q')
@@ -270,7 +291,7 @@ if($compressed -eq 'q')
 }
 
 #compress
-& 7za a -t7z ".\$Build.7z" ".\sph.packages\output\*"
+& 7za a -t7z ".\$Build.7z" ".\bin\build\*"
 
 #creates the update manifest
 $previous = $Build -1
@@ -303,17 +324,20 @@ $versionBuildJson > .\deployment\version.$Build.json
 #release note
 "#Release Note for $Build" > .\deployment\$Build.md
 
-$ftpRoot = "ftp://ftp.bespoke.com.my"
-$ftpUserName = "erymuzuan"
-$ftpPassword = "gsxr750wt"
+$ftpRoot = "ftp://www.reactivedeveloper.com/staging/binaries"
+if($Release -eq $true){
+    $ftpRoot = "ftp://www.reactivedeveloper.com/production/binaries"
+}
+$ftpUserName = "rxdeveloper"
+$ftpPassword = "reH2TaXd"
 
 Write-Host -ForegroundColor Yellow "NOW edit the .\deployment\$Build.ps1 and the Release Note($Build.md) to reflect any custom scripts needed to be run"
 Write-Host "Press [ENTER] to continue uploaded  to ftp " -NoNewline -ForegroundColor Yellow
 Read-Host
 
-Create-FtpDirectory -sourceuri "$ftpRoot/$Build" -username $ftpUserName -password $ftpPassword
-Upload-FtpFile -sourceuri "$ftpRoot/$previous.json" -username $ftpUserName -password $ftpPassword -path .\deployment\$previous.json
-Upload-FtpFile -sourceuri "$ftpRoot/$Build/version.$Build.json" -username $ftpUserName -password $ftpPassword -path .\deployment\version.$Build.json
+Create-FtpDirectory -sourceuri "$ftpRoot/" -username $ftpUserName -password $ftpPassword -Directory $Build
+Upload-FtpFile -RemoteDirectory "$ftpRoot/" -username $ftpUserName -password $ftpPassword -LocalFile .\deployment\$previous.json
+Upload-FtpFile -RemoteDirectory "$ftpRoot/$Build/" -username $ftpUserName -password $ftpPassword -LocalFile .\deployment\version.$Build.json
 
 if((Test-Path .\deployment\$Build.html) -eq $false)
 {
@@ -321,9 +345,9 @@ if((Test-Path .\deployment\$Build.html) -eq $false)
     Read-Host
 }
 
-Upload-FtpFile -sourceuri "$ftpRoot/$Build/$Build.html" -username $ftpUserName -password $ftpPassword -path .\deployment\$Build.html
+Upload-FtpFile -RemoteDirectory "$ftpRoot/$Build/" -username $ftpUserName -password $ftpPassword -LocalFile .\deployment\$Build.html
 
-Upload-FtpFile -sourceuri "$ftpRoot/$Build/$Build.7z" -username $ftpUserName -password $ftpPassword -path .\$Build.7z
+Upload-FtpFile -RemoteDirectory "$ftpRoot/$Build/" -username $ftpUserName -password $ftpPassword -LocalFile .\$Build.7z
 #$build.ps1 to root
-Upload-FtpFile -sourceuri "$ftpRoot/$Build.ps1" -username $ftpUserName -password $ftpPassword -path .\deployment\$Build.ps1
-Upload-FtpFile -sourceuri "$ftpRoot/$Build/$Build.ps1" -username $ftpUserName -password $ftpPassword -path .\deployment\$Build.ps1
+Upload-FtpFile -RemoteDirectory "$ftpRoot/" -username $ftpUserName -password $ftpPassword -LocalFile .\deployment\$Build.ps1
+Upload-FtpFile -RemoteDirectory "$ftpRoot/$Build/" -username $ftpUserName -password $ftpPassword -LocalFile .\deployment\$Build.ps1
