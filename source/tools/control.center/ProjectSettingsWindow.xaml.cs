@@ -6,9 +6,9 @@ using Bespoke.Sph.ControlCenter.ViewModel;
 
 namespace Bespoke.Sph.ControlCenter
 {
-    public partial class ProjectSettingsUserControl
+    public partial class ProjectSettingsWindow
     {
-        public ProjectSettingsUserControl()
+        public ProjectSettingsWindow()
         {
             InitializeComponent();
             this.Loaded += ProjectSettingsUserControlLoaded;
@@ -57,6 +57,8 @@ namespace Bespoke.Sph.ControlCenter
         {
             var vm = (MainViewModel) this.DataContext;
             vm.SaveSettingsCommand.Execute(null);
+            this.DialogResult = true;
+            this.Close();
         }
     }
 }

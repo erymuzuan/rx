@@ -122,5 +122,15 @@ namespace Bespoke.Sph.ControlCenter
         {
             Process.Start("http://www.reactivedeveloper.com/docs/control-center");
         }
+
+        private void SettingsClicked(object sender, RoutedEventArgs e)
+        {
+            var setting = new ProjectSettingsWindow { DataContext = this.DataContext };
+            if (setting.ShowDialog() ?? false)
+            {
+
+            }
+
+        }
     }
 }

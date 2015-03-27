@@ -34,6 +34,7 @@
                 <MenuItem Header="Exit" Click="WindowExit"/>
             </MenuItem>
             <MenuItem Header="Tools">
+                <MenuItem Header="Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
 
             </MenuItem>
             <MenuItem Header="Help">
@@ -97,27 +98,23 @@
             </Grid>
         </GroupBox>
         <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Background="Gray" VerticalAlignment="Bottom" Height="3"/>
-        <TabControl Grid.Row="3"  >
-            <TabItem Header="Output Console">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="Clear" Click="CleartOutputText"/>
-                        <Button Content="Save" Click="SaveOutputText"/>
-                    </StackPanel>
-                    <TextBox Grid.Row="1" x:Name="outputTextBox" Margin="0" 
+
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Clear" Click="CleartOutputText"/>
+                <Button Content="Save" Click="SaveOutputText"/>
+            </StackPanel>
+            <TextBox Grid.Row="1" x:Name="outputTextBox" Margin="0" 
 						VerticalScrollBarVisibility="Auto"
 						IsReadOnlyCaretVisible="True"
 						IsReadOnly="True" Background="#FF302F2F" Foreground="#FFE0DCDC" Text="Please wait ... "/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Project Settings">
-                <uc:ProjectSettingsUserControl  />
-            </TabItem>
-        </TabControl>
+        </Grid>
+
+
         <telerik:RadBusyIndicator Grid.Row="2" Grid.Column="0" IsBusy="{Binding IsBusy}" BusyContent="Please wait..." d:IsHidden="True" />
 
     </Grid>

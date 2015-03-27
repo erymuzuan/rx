@@ -1,0 +1,120 @@
+﻿<Window x:Class="Bespoke.Sph.ControlCenter.ProjectSettingsWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignWidth="700" Background="White"
+             xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel"
+             d:DataContext="{d:DesignInstance d:Type={x:Type vm:MainViewModel}}"
+        Title="Your project setting"
+        Width="500" Height="400" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl Margin="5" DataContext="{Binding Settings}">
+
+            <TabItem Header="SPH Application">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Application Name"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ApplicationName}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Project Directory"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ProjectDirectory}"/>
+                    <Label Grid.Row="3" Grid.Column="0" Content="Web console port"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" ToolTip="Port number used by the web console logger, the default is 50230" Text="{Binding LoggerWebSocketPort, Mode=TwoWay}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="IIS Express">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="IIS Express Directory"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding IisExpressExecutable}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="IIS Port"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding WebsitePort, Mode=TwoWay}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="SQL LocalDB">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="LocalDB Instance Name"/>
+                    <ComboBox IsEditable="True" x:Name="sqlIntancesCombobox" Grid.Row="0" Grid.Column="1" Text="{Binding SqlLocalDbName}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="RabbitMQ">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="RabbitMQ Directory"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RabbitMqDirectory}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Host"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RabbitMqHost}"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Username"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding RabbitMqUserName}"/>
+                    <Label Grid.Row="3" Grid.Column="0" Content="Password"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RabbitMqPassword}"/>
+                    <Label Grid.Row="4" Grid.Column="0" Content="Port"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding RabbitMqPort}"/>
+                    <Label Grid.Row="5" Grid.Column="0" Content="Management Port"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding RabbitMqManagementPort}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Elastic Search">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="JAVA Home"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding JavaHome}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="JAR"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElasticSearchJar}"/>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button HorizontalAlignment="Right" Content="Save Settings" IsDefault="True"  Click="SaveSetting"/>
+            <Button HorizontalAlignment="Right" Content="_Cancel" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>

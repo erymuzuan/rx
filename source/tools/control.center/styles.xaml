@@ -19,4 +19,5 @@
     </Style>
     
     <Image Source="images/help.gif" x:Key="ImageHelp" Stretch="None"></Image>
+    <Image Source="images/ruby_gear.png" x:Key="RubyGear" Stretch="None"></Image>
 </ResourceDictionary>
