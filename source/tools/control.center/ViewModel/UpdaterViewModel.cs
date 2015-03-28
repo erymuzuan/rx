@@ -62,7 +62,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var sz = new ProcessStartInfo("7za", $"x \"{d.FileName}\" -o\"{path}\"");
                 var pz = Process.Start(sz);
                 pz?.WaitForExit();
-                this.QueueUserWorkItem(RunUpdatePackage, "", this.Settings);
+                this.QueueUserWorkItem(RunUpdatePackage, "", this.Settings, 4555);
             }
         }
 
@@ -123,28 +123,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     var ps1 = await client.GetByteArrayAsync("binaries/" + updateScript);
                     File.WriteAllBytes(updateScript.TranslatePath(), ps1);
 
-                    var result = MessageBox.Show(updateScript + " has been downloaded to your working directory, Do you want to apply this update? Please make sure you have saved and commit all changes, updating may cause your work to be overwriten", Strings.Title, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    var result = MessageBox.Show(updateScript + " has been downloaded to your working directory, Do you want to apply this update?", Strings.Title, MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
                         this.IsUpdating = true;
                         this.IsBusy = true;
-                        var updatePackage = $"binaries/{vnext}/{vnext}.7z";
-                        Console.WriteLine($"Downloading {updatePackage} ...");
-                        Console.WriteLine("Please wait...");
-                        var package = await client.GetByteArrayAsync(updatePackage);
-
-                        if (Directory.Exists(vnext.ToString()))
-                            Directory.Delete(vnext.ToString(), true);
-
-                        Directory.CreateDirectory(vnext.ToString());
-
-                        File.WriteAllBytes($"{vnext}\\{vnext}.7z", package);
-                        Console.WriteLine($"Update package was succesfully downloaded and saved to {vnext}.7z");
-
-                        this.QueueUserWorkItem(RunUpdatePackage, updateScript.TranslatePath(), this.Settings);
-
+                        this.QueueUserWorkItem(RunUpdatePackage, updateScript.TranslatePath(), this.Settings, vnext);
                     }
-
                 }
                 else
                 {
@@ -154,7 +139,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
-        private void RunUpdatePackage(string path, SphSettings settings)
+        private void RunUpdatePackage(string path, SphSettings settings, int vnext)
         {
 
             if (!File.Exists(path))
@@ -189,8 +174,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
                 while (result.IsCompleted == false)
                 {
-                    Console.WriteLine("Waiting for pipeline to finish...");
-                    UpdateProgress();
                     Thread.Sleep(100);
                 }
 
@@ -204,19 +187,16 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     this.Status = status;
                     this.IsBusy = false;
                     this.IsUpdating = false;
+
+                    if (status == "success")
+                    {
+                        File.WriteAllText("version.json", $"{{\"build\": {vnext}}}");
+                    }
                 });
             }
         }
 
-        void UpdateProgress(double step = 0.2d, string message = ". ")
-        {
-            this.Post(() =>
-            {
-                if (this.Progress < 100)
-                    this.Progress += step;
-                this.Log(message);
-            });
-        }
+
         private void Progress_DataAdded(object sender, DataAddedEventArgs e)
         {
             var message = "";
@@ -224,7 +204,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (null != errors)
             {
                 var er = errors[e.Index];
-                message = er.ToString();
+                this.Progress = er.PercentComplete;
+                message = ". ";
             }
             this.Post(a =>
             {
@@ -317,7 +298,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.Post((m, s) =>
             {
                 this.LogCollection.Add(new LogEntry { Severity = s, Message = m, Time = DateTime.Now });
-                Console.WriteLine(message);
+                if (message.Trim() == ".")
+                    Console.Write(message);
+                else
+                    Console.WriteLine(message);
 
             }, message, severity);
         }

@@ -111,6 +111,7 @@
             <TextBox Grid.Row="1" x:Name="outputTextBox" Margin="0" 
 						VerticalScrollBarVisibility="Auto"
 						IsReadOnlyCaretVisible="True"
+                        TextWrapping="Wrap"
 						IsReadOnly="True" Background="#FF302F2F" Foreground="#FFE0DCDC" Text="Please wait ... "/>
         </Grid>
 

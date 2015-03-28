@@ -20,6 +20,12 @@ namespace Bespoke.Sph.ControlCenter.Helpers
             m_output = output;
         }
 
+        public override void Write(string value)
+        {
+            base.Write(value);
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() => m_output.AppendText(value.ToString(CultureInfo.InvariantCulture))));
+        }
+
         public override void WriteLine(string value)
         {
             base.WriteLine(value);

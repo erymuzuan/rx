@@ -19,40 +19,7 @@ namespace Bespoke.Sph.ControlCenter
         {
             var vm = new UpdaterViewModel {View = this};
             this.DataContext = vm;
-            vm.LogCollection.CollectionChanged += LogCollection_CollectionChanged;
-
         }
-
-        private void LogCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                var items = e.NewItems.Cast<LogEntry>();
-                foreach (var t in items)
-                {
-                    if (t.Message.Trim() == ".")
-                    {
-                        logTextBox.AppendText(t.Message);
-                    }
-                    else
-                    {
-                        var now = DateTime.Now.ToShortTimeString();
-                        var message = $"[{now}][{t.Severity}]  {t.Message}";
-                        logTextBox.AppendText("\r\n" + message);
-
-                        Delegate caret = new Action(() =>
-                        {
-                            //outputTextBox.Focus();
-                            logTextBox.CaretIndex = logTextBox.Text.Length;
-                            logTextBox.ScrollToEnd();
-
-                        });
-                        this.Dispatcher.BeginInvoke(caret, DispatcherPriority.ApplicationIdle);
-                    }
-                }
-
-            }
-
-        }
+        
     }
 }
