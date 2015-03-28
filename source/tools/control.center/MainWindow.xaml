@@ -34,7 +34,7 @@
                 <MenuItem Header="Exit" Click="WindowExit"/>
             </MenuItem>
             <MenuItem Header="Tools">
-                <MenuItem Header="Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
+                <MenuItem Header="Update"/>
                 <MenuItem Header="Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
             </MenuItem>
             <MenuItem Header="Help">

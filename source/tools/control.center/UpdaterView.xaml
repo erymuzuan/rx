@@ -9,5 +9,8 @@
     <StackPanel d:DataContext="{d:DesignData vm:UpdaterViewModel}" Orientation="Horizontal">
         <Button IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanInvertConverter}}" Content="Load update package" Command="{Binding LoadUpdateCommand}"/>
         <Button IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanInvertConverter}}" Content="Check for updates" Command="{Binding CheckUpdateCommand}"/>
+        <Popup IsOpen="{Binding IsUpdating}">
+            <TextBox x:Name="logTextBox" Foreground="Wheat" Background="Gray" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True"></TextBox>
+        </Popup>
     </StackPanel>
 </UserControl>

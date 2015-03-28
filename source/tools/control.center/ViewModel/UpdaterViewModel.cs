@@ -20,6 +20,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public RelayCommand CheckUpdateCommand { get; set; }
         public RelayCommand LoadUpdateCommand { get; set; }
         private bool m_isBusy;
+        private bool m_isUpdating;
+
+        public bool IsUpdating
+        {
+            get { return m_isUpdating; }
+            set
+            {
+                m_isUpdating = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool IsBusy
         {
@@ -48,7 +59,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 }
                 Directory.CreateDirectory(path);
 
-                var sz = new ProcessStartInfo("7za",$"x \"{d.FileName}\" -o\"{path}\"");
+                var sz = new ProcessStartInfo("7za", $"x \"{d.FileName}\" -o\"{path}\"");
                 var pz = Process.Start(sz);
                 pz?.WaitForExit();
                 this.QueueUserWorkItem(RunUpdatePackage, "", this.Settings);
@@ -57,6 +68,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private async void CheckUpdate()
         {
+            this.Settings = SphSettings.Load();
             var file = @".\version.json".TranslatePath();
             if (!File.Exists(file))
             {
@@ -68,164 +80,99 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             var text = File.ReadAllText(file);
             var json = JObject.Parse(text);
             var build = json.SelectToken("$.build").Value<int>();
-            using (var client = new HttpClient { BaseAddress = new Uri("http://www.bespoke.com.my/") })
+            using (var client = new HttpClient { BaseAddress = new Uri(this.Settings.UpdateUri) })
             {
-                var url = "download/" + build + ".json";
-
+                var url = "binaries/" + build + ".json";
+                var responseJson = "";
                 try
                 {
                     var response = await client.GetAsync(url);
                     if (response.StatusCode == HttpStatusCode.NotFound)
                     {
                         MessageBox.Show("Now new update is found, Please check again in the future", "Rx Developer", MessageBoxButton.OK,
-                            MessageBoxImage.Information);
+                                MessageBoxImage.Information);
+
+
                         return;
 
                     }
                     var content = response.Content as StreamContent;
                     if (null == content) return;
-                    var responseJson = await content.ReadAsStringAsync();
+                    responseJson = await content.ReadAsStringAsync();
                     if (string.IsNullOrWhiteSpace(responseJson))
                     {
                         MessageBox.Show("Too bad, not getting any update info", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         return;
-
-                    }
-
-                    var jo = JObject.Parse(responseJson);
-                    var vnext = jo.SelectToken("$.vnext").Value<int>();
-                    if (vnext > build)
-                    {
-                        var updateScript = jo.SelectToken("$.update-script").Value<string>();
-                        var ps1 = await client.GetByteArrayAsync("download/" + updateScript);
-                        File.WriteAllBytes(updateScript.TranslatePath(), ps1);
-
-                        var info = new ProcessStartInfo
-                        {
-                            FileName = "powershell",
-                            Arguments = updateScript.TranslatePath(),
-                            WorkingDirectory = Path.GetDirectoryName(updateScript.TranslatePath())
-                        };
-                        var ps = Process.Start(info);
-                        if (null == ps) throw new InvalidOperationException("Cannot start Powershell");
-                        ps.WaitForExit();
-                        MessageBox.Show(updateScript + " has been downloaded to your working directory, use Powershell to execute the update", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No update is available", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Information);
-
                     }
                 }
                 catch (HttpRequestException e)
                 {
-                    MessageBox.Show(e.ToString());
+                    MessageBox.Show($"Cannot download {client.BaseAddress}/{url} \r\n{e}", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
                 finally
                 {
                     this.IsBusy = false;
                 }
+
+                var jo = JObject.Parse(responseJson);
+                var vnext = jo.SelectToken("$.vnext").Value<int>();
+                if (vnext > build)
+                {
+                    var updateScript = jo.SelectToken("$.update-script").Value<string>();
+                    var ps1 = await client.GetByteArrayAsync("binaries/" + updateScript);
+                    File.WriteAllBytes(updateScript.TranslatePath(), ps1);
+
+                    var result = MessageBox.Show(updateScript + " has been downloaded to your working directory, Do you want to apply this update? Please make sure you have saved and commit all changes, updating may cause your work to be overwriten", Strings.Title, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        this.IsUpdating = true;
+                        this.IsBusy = true;
+                        var updatePackage = $"binaries/{vnext}/{vnext}.7z";
+                        Console.WriteLine($"Downloading {updatePackage} ...");
+                        Console.WriteLine("Please wait...");
+                        var package = await client.GetByteArrayAsync(updatePackage);
+
+                        if (Directory.Exists(vnext.ToString()))
+                            Directory.Delete(vnext.ToString(), true);
+
+                        Directory.CreateDirectory(vnext.ToString());
+
+                        File.WriteAllBytes($"{vnext}\\{vnext}.7z", package);
+                        Console.WriteLine($"Update package was succesfully downloaded and saved to {vnext}.7z");
+
+                        this.QueueUserWorkItem(RunUpdatePackage, updateScript.TranslatePath(), this.Settings);
+
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("No update is available", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
             }
         }
 
         private void RunUpdatePackage(string path, SphSettings settings)
         {
-            var wc = ".".TranslatePath();
+
             if (!File.Exists(path))
             {
                 this.Post(() =>
                 {
                     this.IsBusy = false;
                     this.Status = "fail";
-                    MessageBox.Show($"Cannot find {path}", "Reactive developer", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Cannot find {path}", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Error);
                 });
                 return;
             }
-            var main = this.MainViewModel;
-
-            this.Log("Checking connection to RabbitMq");
-            var rabbitRunning = main.CheckRabbitMqHostConnection(settings.RabbitMqUserName, settings.RabbitMqPassword, settings.RabbitMqHost);
-            if (!rabbitRunning)
-            {
-                this.Log("Starting RabbitMq");
-                main.StartRabbitMqService();
-            }
-
-            this.Log("Starting SQL Server\r\n");
-            main.StartSqlService();
-
-            main.CheckElasticsearch();
-            if (!main.ElasticSearchServiceStarted)
-            {
-                this.Log("Starting Elasticsearch\r\n");
-                main.StartElasticSearch();
-            }
-
-            var flag = new ManualResetEvent(false);
-            var starting = true;
-            this.QueueUserWorkItem(() =>
-            {
-                while (!main.RabbitMqServiceStarted && starting)
-                {
-                    Thread.Sleep(200);
-                    UpdateProgress();
-                }
-                this.Log("RabbitMq started ...");
-                while (!main.SqlServiceStarted && starting)
-                {
-                    Thread.Sleep(200);
-                    UpdateProgress();
-                }
-                this.Log("Sql Server started ...");
-                while (!main.ElasticSearchServiceStarted && starting)
-                {
-                    Thread.Sleep(200);
-                    UpdateProgress();
-                }
-                this.Log("Elasticsearch started ...");
-                flag.Set();
-            });
-
-            flag.WaitOne(TimeSpan.FromSeconds(60));
-            var showStartFailure = new Action<string>(m =>
-            {
-                starting = false;
-                this.Post(() =>
-                {
-                    this.IsBusy = false;
-                    MessageBox.Show(m);
-                });
-
-            });
-            if (!main.RabbitMqServiceStarted)
-            {
-                showStartFailure("Fail to start RabbitMq");
-                return;
-            }
-            if (!main.SqlServiceStarted)
-            {
-                showStartFailure("Fail to start SQL Server");
-                return;
-            }
-            if (!main.ElasticSearchServiceStarted)
-            {
-                showStartFailure("Fail to start Elasticsearch");
-                return;
-            }
 
 
-            this.Log($"Running ps1 in {wc}");
             using (var ps = PowerShell.Create())
             {
                 var ps1 = File.ReadAllText(path);
                 ps.AddScript(ps1);
-                ps.AddParameter("WorkingCopy", wc);
-                ps.AddParameter("ApplicationName", settings.ApplicationName);
-                ps.AddParameter("Port", settings.WebsitePort ?? 50230);
-                ps.AddParameter("SqlServer", settings.SqlLocalDbName);
-                ps.AddParameter("RabbitMqUserName", settings.RabbitMqUserName);
-                ps.AddParameter("RabbitMqPassword", settings.RabbitMqPassword);
-                ps.AddParameter("ElasticSearchHost", "http://localhost:" + settings.ElasticsearchHttpPort);
 
                 var outputCollection = new PSDataCollection<PSObject>();
                 outputCollection.DataAdded += outputCollection_DataAdded;
@@ -244,7 +191,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 {
                     Console.WriteLine("Waiting for pipeline to finish...");
                     UpdateProgress();
-
                     Thread.Sleep(100);
                 }
 
@@ -257,10 +203,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     this.Progress = 100;
                     this.Status = status;
                     this.IsBusy = false;
-                    settings.Save();
+                    this.IsUpdating = false;
                 });
             }
         }
+
         void UpdateProgress(double step = 0.2d, string message = ". ")
         {
             this.Post(() =>
@@ -370,6 +317,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.Post((m, s) =>
             {
                 this.LogCollection.Add(new LogEntry { Severity = s, Message = m, Time = DateTime.Now });
+                Console.WriteLine(message);
 
             }, message, severity);
         }

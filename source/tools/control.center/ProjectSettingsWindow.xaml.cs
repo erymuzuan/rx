@@ -16,31 +16,36 @@ namespace Bespoke.Sph.ControlCenter
 
         void ProjectSettingsUserControlLoaded(object sender, RoutedEventArgs e)
         {
-            if (sqlIntancesCombobox.Items.Count > 0) 
+            if (sqlIntancesCombobox.Items.Count > 0)
                 sqlIntancesCombobox.Items.Clear();
+            this.QueueUserWorkItem(() =>
+            {
 
-            var workerInfo = new ProcessStartInfo
-            {
-                FileName = "SqlLocalDB.exe",
-                Arguments = "i",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true,
-                RedirectStandardError = true,
-                WindowStyle = ProcessWindowStyle.Hidden
-            };
-            using (var p = Process.Start(workerInfo))
-            {
-                if (null == p)
+                var workerInfo = new ProcessStartInfo
                 {
-                    MessageBox.Show("We cannot find SqlLocalDb in your computer");
-                    return;
+                    FileName = "SqlLocalDB.exe",
+                    Arguments = "i",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+                using (var p = Process.Start(workerInfo))
+                {
+                    if (null == p)
+                    {
+                        MessageBox.Show("We cannot find SqlLocalDb in your computer");
+                        return;
+                    }
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    p.OutputDataReceived += OnDataReceived;
+                    p.WaitForExit();
                 }
-                p.BeginOutputReadLine();
-                p.BeginErrorReadLine();
-                p.OutputDataReceived += OnDataReceived;
-                p.WaitForExit();
-            }
+
+            });
+
 
         }
 
@@ -48,14 +53,13 @@ namespace Bespoke.Sph.ControlCenter
         {
             if (!string.IsNullOrWhiteSpace(e.Data))
             {
-                Delegate insert = new Action<string>(s => sqlIntancesCombobox.Items.Add(e.Data));
-                this.Dispatcher.BeginInvoke(insert, DispatcherPriority.Normal, e.Data);
+                this.Post(s => sqlIntancesCombobox.Items.Add(s), e.Data);
             }
         }
 
         private void SaveSetting(object sender, RoutedEventArgs e)
         {
-            var vm = (MainViewModel) this.DataContext;
+            var vm = (MainViewModel)this.DataContext;
             vm.SaveSettingsCommand.Execute(null);
             this.DialogResult = true;
             this.Close();

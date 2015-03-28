@@ -79,7 +79,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 ApplicationName = "",
                 IisExpressExecutable = ".\\IIS Express\\iisexpress.exe",
                 JavaHome = Environment.GetEnvironmentVariable("JAVA_HOME"),
-                SqlLocalDbName = "Projects"
+                SqlLocalDbName = "Projects",
+
+                UpdateUri = "http://www.reactivedeveloper.com/updates"
 
             };
             this.Settings.PropertyChanged += Settings_PropertyChanged;

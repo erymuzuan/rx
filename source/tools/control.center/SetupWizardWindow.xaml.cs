@@ -75,7 +75,7 @@ namespace Bespoke.Sph.ControlCenter
 
         private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "Status") return;
+            if (e.PropertyName != nameof(SetupViewModel.Status)) return;
             var vm = (SetupViewModel)this.DataContext;
             var status = vm.Status;
             this.QueueUserWorkItem(() =>
@@ -88,7 +88,7 @@ namespace Bespoke.Sph.ControlCenter
                         : "Unfortunately there are errors, Please verify that your configuration is successful, you can always run this again by deleting the project.json";
 
                     MessageBox.Show(messageBoxText,
-                        "Reactive Developer",
+                       Strings.Title,
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
                     closeButton.Visibility = Visibility.Visible;

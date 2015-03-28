@@ -22,6 +22,8 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20*"/>
@@ -31,8 +33,12 @@
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ApplicationName}"/>
                     <Label Grid.Row="1" Grid.Column="0" Content="Project Directory"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ProjectDirectory}"/>
+                    
                     <Label Grid.Row="3" Grid.Column="0" Content="Web console port"/>
                     <TextBox Grid.Row="3" Grid.Column="1" ToolTip="Port number used by the web console logger, the default is 50230" Text="{Binding LoggerWebSocketPort, Mode=TwoWay}"/>
+                    
+                    <Label Grid.Row="4" Grid.Column="0" Content="Update Url"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" ToolTip="The url for the webserver to serve the update" Text="{Binding UpdateUri, Mode=TwoWay}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="IIS Express">

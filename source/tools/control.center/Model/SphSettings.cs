@@ -31,6 +31,7 @@ namespace Bespoke.Sph.ControlCenter.Model
         private int m_elasticsearchIndexNumberOfShards;
         private int m_elasticsearchIndexNumberOfReplicas;
         private int m_elasticsearchHttpPort;
+        private string m_updateUri;
 
 
         public override string ToString()
@@ -289,6 +290,16 @@ namespace Bespoke.Sph.ControlCenter.Model
             {
                 m_projectDirectory = value;
 
+                OnPropertyChanged();
+            }
+        }
+
+        public string UpdateUri
+        {
+            get { return m_updateUri; }
+            set
+            {
+                m_updateUri = value;
                 OnPropertyChanged();
             }
         }

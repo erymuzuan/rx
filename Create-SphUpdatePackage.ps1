@@ -49,7 +49,7 @@ function Upload-FtpFile {
   
   Write-Host "Uploading $path ... please wait...."
   if ($LocalFile -match '\\$|\\\w+$') { throw 'sourceuri should end with a file name' }
-  if(Test-Path($LocalFile) -eq $false){
+  if((Test-Path($LocalFile)) -eq $false){
     Write-Warning "Cannot find $LocalFile"
     exit;
   }
