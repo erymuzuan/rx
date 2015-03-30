@@ -32,6 +32,7 @@ namespace Bespoke.Sph.ControlCenter.Model
         private int m_elasticsearchIndexNumberOfReplicas;
         private int m_elasticsearchHttpPort;
         private string m_updateUri;
+        private string m_rabbitMqBase;
 
 
         public override string ToString()
@@ -300,6 +301,16 @@ namespace Bespoke.Sph.ControlCenter.Model
             set
             {
                 m_updateUri = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string RabbitMqBase
+        {
+            get { return m_rabbitMqBase; }
+            set
+            {
+                m_rabbitMqBase = value;
                 OnPropertyChanged();
             }
         }

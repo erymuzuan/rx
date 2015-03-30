@@ -125,7 +125,12 @@ namespace Bespoke.Sph.ControlCenter
 
         private void SettingsClicked(object sender, RoutedEventArgs e)
         {
-            var setting = new ProjectSettingsWindow { DataContext = this.DataContext };
+            var setting = new ProjectSettingsWindow
+            {
+                DataContext = this.DataContext,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = this
+            };
             if (setting.ShowDialog() ?? false)
             {
 

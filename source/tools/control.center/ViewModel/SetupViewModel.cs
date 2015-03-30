@@ -254,6 +254,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 ps.AddParameter("SqlServer", settings.SqlLocalDbName);
                 ps.AddParameter("RabbitMqUserName", settings.RabbitMqUserName);
                 ps.AddParameter("RabbitMqPassword", settings.RabbitMqPassword);
+                ps.AddParameter("RabbitMqBase", settings.RabbitMqBase);
                 ps.AddParameter("ElasticSearchHost", "http://localhost:" + settings.ElasticsearchHttpPort);
 
                 var outputCollection = new PSDataCollection<PSObject>();

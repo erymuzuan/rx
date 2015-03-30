@@ -435,8 +435,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
-                    WindowStyle = ProcessWindowStyle.Normal
+                    WindowStyle = ProcessWindowStyle.Normal,
+
                 };
+                var rabbitMqBase = this.Settings.RabbitMqBase.Trim();
+                if (!string.IsNullOrWhiteSpace(rabbitMqBase))
+                {
+                    if (!Directory.Exists(rabbitMqBase))
+                        Directory.CreateDirectory(rabbitMqBase);
+                    startInfo.EnvironmentVariables.Add("RABBITMQ_BASE", rabbitMqBase);
+                }
+
                 m_rabbitMqServer = Process.Start(startInfo);
 
                 if (null == m_rabbitMqServer) throw new InvalidOperationException("Cannot start RabbitMQ");
@@ -687,7 +696,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 this.IsBusy = false;
                 var message = ex.Message + "\r\n" + ex.StackTrace.ToString(CultureInfo.InvariantCulture);
                 Log(message);
-                this.Post(() => {
+                this.Post(() =>
+                {
 
                     MessageBox.Show(message, "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Error);
                 });

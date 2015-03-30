@@ -5,11 +5,14 @@
        [string]$SqlServer = "Projects",
        [string]$RabbitMqUserName = "guest",
        [string]$RabbitMqPassword = "guest",
+       [string]$RabbitMqBase = "",
        [string]$ElasticSearchHost = "http://localhost:9200",
        [string]$ElasticSearchUserName = "",
        [string]$ElasticSearchPassword = "",
 	   [switch]$Help = $false
      )
+
+
 if(($Help -eq $true) -or ($ApplicationName -eq ""))
 {
 	Write-Output "	A script to help to create new SPH appp in your working copy, `
@@ -19,6 +22,13 @@ if(($Help -eq $true) -or ($ApplicationName -eq ""))
 	exit;
 }
 $WorkingCopy = pwd
+if($RabbitMqBase -ne ""){
+    [Environment]::SetEnvironmentVariable("RABBITMQ_BASE", "$RabbitMqBase", "Process")
+    if((Test-Path("$RabbitMqBase")) -eq $false)
+    {
+        mkdir "$RabbitMqBase"
+    }
+}
 
 Write-Debug "Seting up Rx Developer- $ApplicationName project in $WorkingCopy"
 if(!(Get-Command sqlcmd -ErrorAction SilentlyContinue))
