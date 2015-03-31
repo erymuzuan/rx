@@ -24,7 +24,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                     activity().MappingSourceCollection().push(new bespoke.sph.domain.MappingSource());
                 }
 
-                context.loadAsync("TransformDefinition", query)
+                context.loadAsync({ entity:"TransformDefinition",size:40 }, query)}
                     .then(function (lo) {
                         var maps = _(lo.itemCollection).map(function (v) {
                             return {
