@@ -28,24 +28,30 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 }
 
 
+
                 var query = String.format("Id eq '{0}'", id);
-                return context.loadOneAsync("TransformDefinition", query)
-                     .then(function (b) {
+                return $.get("/transform-definition/functoids")
+                            .then(function(list){
+                                functoidToolboxItems(list.$values);
+                                return context.loadOneAsync("TransformDefinition", query)
+                            })
+                            .then(function (b) {
 
-                         _(b.FunctoidCollection()).each(function (v) {
-                             v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
-                         });
-                         td(b);
-                         return context.get("/transform-definition/json-schema/" + b.OutputTypeName());
+                                 _(b.FunctoidCollection()).each(function (v) {
+                                     v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
+                                 });
+                                 td(b);
+                                 return context.get("/transform-definition/json-schema/" + b.OutputTypeName());
 
-                     }).then(function (s) {
-                         destinationSchema(s);
-                         if (td().InputTypeName()) {
-                             return context.get("/transform-definition/json-schema/" + td().InputTypeName());
-                         }
-                         return context.post(ko.toJSON(td), "/transform-definition/json-schema");
+                            })
+                            .then(function (s) {
+                                 destinationSchema(s);
+                                 if (td().InputTypeName()) {
+                                     return context.get("/transform-definition/json-schema/" + td().InputTypeName());
+                                 }
+                                 return context.post(ko.toJSON(td), "/transform-definition/json-schema");
 
-                     }).then(sourceSchema);
+                            }).then(sourceSchema);
 
             },
             isJsPlumbReady,
@@ -347,15 +353,13 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             },
             attached = function () {
 
-                $.get("/transform-definition/functoids", function (list) {
-                    functoidToolboxItems(list.$values);
-                    $("ul#function-toolbox>li.list-group-item").draggable({
-                        helper: function () {
-                            return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('i').clone());
-                        },
-                        stop: toolboxItemDraggedStop
-                    });
+                $("ul#function-toolbox>li.list-group-item").draggable({
+                    helper: function () {
+                        return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('i').clone());
+                    },
+                    stop: toolboxItemDraggedStop
                 });
+            
 
                 var script = $('<script type="text/javascript" src="/Scripts/jsPlumb/bundle.js"></script>').appendTo('body'),
                     timer = setInterval(function () {
