@@ -8,8 +8,8 @@
 
 
 
-define(["services/datacontext", "services/logger", "plugins/dialog",objectbuilders.config],
-    function (context, logger, dialog, config) {
+define(["services/datacontext", "services/logger", "plugins/dialog"],
+    function (context, logger, dialog) {
 
         var activity = ko.observable(new bespoke.sph.domain.MappingActivity()),
             definitionOptions = ko.observableArray(),
@@ -24,13 +24,13 @@ define(["services/datacontext", "services/logger", "plugins/dialog",objectbuilde
                     activity().MappingSourceCollection().push(new bespoke.sph.domain.MappingSource());
                 }
 
-                context.getTuplesAsync("TransformDefinition", query, "Id", "Name")
+                context.loadAsync("TransformDefinition", query)
                     .then(function (lo) {
-                        var maps = _(lo).map(function (v) {
+                        var maps = _(lo.itemCollection).map(function (v) {
                             return {
-                                Name: ko.unwrap(v.Item2),
-                                FullName: config.applicationName + ".Integrations.Transforms." + ko.unwrap(v.Name),
-                                Id: v.Item1
+                                Name: ko.unwrap(v.Name),
+                                FullName: ko.unwrap(v.CodeNamespace) + "." + ko.unwrap(v.Name),
+                                Id: v.Id
                             };
                         });
                         definitionOptions(maps);

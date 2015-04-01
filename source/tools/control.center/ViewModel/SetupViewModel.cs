@@ -158,7 +158,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         }
         private void RunSetup(SphSettings settings)
         {
-            this.MainViewModel.Settings = settings;
             var path = "Setup-SphApp.ps1".TranslatePath();
             var wc = ".".TranslatePath();
             if (!File.Exists(path))

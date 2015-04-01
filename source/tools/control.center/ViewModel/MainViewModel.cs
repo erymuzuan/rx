@@ -438,7 +438,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     WindowStyle = ProcessWindowStyle.Normal,
 
                 };
-                var rabbitMqBase = this.Settings?.RabbitMqBase?.Trim();
+                var rabbitMqBase = this.Settings.RabbitMqBase.Trim();
                 if (!string.IsNullOrWhiteSpace(rabbitMqBase))
                 {
                     if (!Directory.Exists(rabbitMqBase))
