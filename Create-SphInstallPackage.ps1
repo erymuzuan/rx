@@ -1,6 +1,7 @@
 ﻿Param(
        [int]$Build = 0,
-       [switch]$PreRelease = $false
+       [switch]$PreRelease = $false,
+       [string]$ToolsDirectory = "c:\project\tools"
      )
 
 
@@ -60,10 +61,22 @@ if((Test-Path("$output\sources")) -eq $false)
 {
     mkdir "$output\sources"
 }
-if((Test-Path("$output\build")) -eq $false)
+if((Test-Path("$output\output")) -eq $false)
 {
-    mkdir "$output\build"
+    mkdir "$output\output"
 }
+
+if((Test-Path("$output\web\SphApp\views")) -eq $false)
+{
+    mkdir "$output\web\SphApp\views"
+}
+
+if((Test-Path("$output\web\SphApp\viewmodels")) -eq $false)
+{
+    mkdir "$output\web\SphApp\viewmodels"
+}
+
+
 if((Test-Path("$output\schedulers")) -eq $false)
 {
     mkdir "$output\schedulers"
@@ -85,6 +98,23 @@ if((Test-Path("$output\tools")) -eq $false)
 {
     mkdir "$output\tools"
 }
+
+
+if((Test-Path("$output\rabbitmq_base")) -eq $false)
+{
+    mkdir "$output\rabbitmq_base"
+}
+
+
+if((Test-Path("$output\utils")) -eq $false)
+{
+    mkdir "$output\utils"
+}
+copy "$ToolsDirectory\7za.exe" "$output\utils"
+copy "$ToolsDirectory\mru.exe" "$output\utils"   
+copy "$ToolsDirectory\n.exe" "$output\utils"     
+copy "$ToolsDirectory\LINQPad.exe" "$output\utils"
+
 #setup
 copy .\bin\Setup-SphApp.ps1 $output
 
@@ -92,6 +122,7 @@ copy .\bin\Setup-SphApp.ps1 $output
 Get-ChildItem -Filter *.* -Path ".\bin\schedulers" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
+| ? { $_.Name.StartsWith("DevV1.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$output\schedulers" -Force
 
@@ -99,6 +130,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\schedulers" `
 #subscribers
 Get-ChildItem -Filter *.* -Path ".\bin\subscribers" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
+| ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.StartsWith("DevV1.") -eq $false} `
 | ? { $_.Name.StartsWith("ff") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
@@ -110,6 +142,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\subscribers" `
 Get-ChildItem -Filter *.* -Path ".\bin\subscribers.host" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
+| ? { $_.Name.StartsWith("DevV1.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$output\subscribers.host" -Force
 
@@ -117,6 +150,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\subscribers.host" `
 Get-ChildItem -Filter *.* -Path ".\bin\tools" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
+| ? { $_.Name.StartsWith("DevV1.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$output\tools" -Force -Recurse
 
@@ -124,6 +158,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\tools" `
 Get-ChildItem -Filter *.* -Path ".\bin\web" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
+| ? { $_.Name.StartsWith("DevV1.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | ? { $_.Name.EndsWith(".md") -eq $false} `
 | Copy-Item -Destination "$output\web" -Force -Recurse
@@ -135,6 +170,7 @@ copy .\source\web\web.sph\App_Data -Destination $output\Web -Force -Recurse
 Get-ChildItem -Filter *.* -Path ".\source\web\web.sph\bin" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
+| ? { $_.Name.StartsWith("DevV1.") -eq $false} `
 | ? { $_.Name.EndsWith(".config") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$output\web\bin" -Force
@@ -207,7 +243,6 @@ Get-ChildItem -Filter *.* -Path ".\source\elasticsearch\mapping" `
 | Copy-Item -Destination "$output\database\mapping" -Force -Recurse
 
 copy .\bin\ControlCenter.bat $output
-copy .\bin\mru.exe $output
 
 #remove the custom triggers
 Get-Item -Path .\bin\build\subscribers\subscriber.trigger.* `

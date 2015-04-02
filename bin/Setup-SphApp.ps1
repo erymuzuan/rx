@@ -195,8 +195,8 @@ Write-Debug "Aspnet membership has been added"
 Write-Debug "Please wait....."
 
 #roles
-& .\mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
-& .\mru -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
+& .\utils\mru.exe -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
+& .\utils\mru.exe -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
 
 
 

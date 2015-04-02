@@ -20,6 +20,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -29,7 +30,7 @@
         <TextBlock  TextWrapping="Wrap" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="16">RabbitMq Message Broker Setup</TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="RabbitMq is the default AMQP message broker used in Reactive Developer"/>
 
-        <Label Grid.Row="2" Grid.Column="0" Content="RabbitMQ Directory"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="RabbitMQ Server Directory"/>
         <telerik:RadWatermarkTextBox Grid.Row="2" Grid.Column="1" Text="{Binding RabbitMqDirectory}"/>
         
         <Label Grid.Row="3" Grid.Column="0" Content="Host"/>
@@ -46,5 +47,8 @@
         
         <Label Grid.Row="7" Grid.Column="0" Content="Management Port"/>
         <telerik:RadWatermarkTextBox Grid.Row="7" Grid.Column="1" Text="{Binding RabbitMqManagementPort}"/>
+        
+        <Label Grid.Row="8" Grid.Column="0" Content="Management Port"/>
+        <telerik:RadWatermarkTextBox Grid.Row="8" Grid.Column="1" Text="{Binding RabbitMqBase}"/>
     </Grid>
 </UserControl>

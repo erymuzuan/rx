@@ -66,6 +66,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 RabbitMqHost = "localhost",
                 RabbitMqPassword = "guest",
                 RabbitMqUserName = "guest",
+                RabbitMqBase = Directory.GetCurrentDirectory() + "\\rabbitmq_base",
 
                 ElasticSearchJar = ".jar",
                 ElasticsearchClusterName = "",

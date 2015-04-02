@@ -126,6 +126,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.CheckWorkers();
             this.CheckIisExpress();
             this.CheckElasticsearch();
+            this.CheckSqlServer();
 
             this.IsBusy = false;
         }
@@ -195,6 +196,29 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 {
                     return false;
                 }
+            }
+        }
+
+        private void CheckSqlServer()
+        {
+            try
+            {
+                using(var conn = new SqlConnection($"Data Source=(localdb)\\{this.Settings.SqlLocalDbName};Initial Catalog={this.Settings.ApplicationName};Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False"))
+                using(var cmd = new SqlCommand("SELECT COUNT(*) FROM [Sph].[UserProfile]", conn))
+                {
+                    conn.Open();
+                    var count = (int)cmd.ExecuteScalar();
+                    if(count > 0 )
+                    {
+
+                        SqlServiceStarted = true;
+                        SqlServiceStatus = "Running";
+                    }
+                }
+
+            }catch(SqlException)
+            {
+
             }
         }
 
@@ -813,7 +837,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (message.Contains("IIS Express stopped"))
                 this.StopIisService();
 
-            if (message.Contains("IIS Express is running"))
+            if (message.Contains("IIS Express is running") || message.Contains("Successfully registered URL"))
             {
                 this.Post(() =>
                 {
