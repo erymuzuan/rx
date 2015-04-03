@@ -49,20 +49,36 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void LoadUpdate()
         {
+            this.Settings = SphSettings.Load();
+            var file = @".\version.json".TranslatePath();
+            if (!File.Exists(file))
+            {
+                MessageBox.Show("Can't find " + file + " in your root", "Rx Developer", MessageBoxButton.OK,
+                    MessageBoxImage.Stop);
+                return;
+            }
+            this.IsBusy = true;
+            var text = File.ReadAllText(file);
+            var json = JObject.Parse(text);
+            var build = json.SelectToken("$.build").Value<int>();
+            var vnext = build + 1;
+
+
             var d = new OpenFileDialog { Filter = "7zip archived (.7z)|*.7z", DefaultExt = ".7z" };
             if (d.ShowDialog() ?? false)
             {
-                var path = Directory.GetCurrentDirectory() + "\\temp";
+                var path = Directory.GetCurrentDirectory() + "\\" + vnext;
+                var sevenZa = Directory.GetCurrentDirectory() + "\\utils\\7za.exe";
                 if (Directory.Exists(path))
                 {
                     Directory.Delete(path, true);
                 }
                 Directory.CreateDirectory(path);
 
-                var sz = new ProcessStartInfo("7za", $"x \"{d.FileName}\" -o\"{path}\"");
+                var sz = new ProcessStartInfo(sevenZa, $"x \"{d.FileName}\" -o\"{path}\"");
                 var pz = Process.Start(sz);
                 pz?.WaitForExit();
-                this.QueueUserWorkItem(RunUpdatePackage, "", this.Settings, 4555);
+                this.QueueUserWorkItem(RunUpdatePackage, path, this.Settings, vnext);
             }
         }
 
