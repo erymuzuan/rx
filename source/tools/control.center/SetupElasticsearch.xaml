@@ -48,7 +48,7 @@
         <telerik:RadWatermarkTextBox Grid.Row="7"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set a custom port to listen for HTTP traffic" Text="{Binding ElasticsearchHttpPort}"/>
         
         <Label Grid.Row="8" Grid.Column="0" Content="JAVA_HOME"/>
-        <telerik:RadWatermarkTextBox Grid.Row="8"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set a custom port to listen for HTTP traffic" Text="{Binding JavaHome}"/>
+        <telerik:RadWatermarkTextBox Grid.Row="8"  Grid.Column="1" TextWrapping="Wrap" WatermarkContent="Set JAVA_HOME path in environment variables " Text="{Binding JavaHome}"/>
 
     </Grid>
 </UserControl>

@@ -25,7 +25,7 @@ Development and coding is normally a major drag and the most time consuming in t
 You can't test if you have yet to finish development, with `Rx Developer` once you have done your design, you can publish your work to your testing environment in minutes and let your business users test them immediately
 
 ###Deployment
-All it takes is just one click, no headache about configuration and evironment settings anymore
+All it takes is just one click, no headache about configuration and environment settings anymore
 
 ### Changes
 Enterprise application development is all about how well you deal with changes, as we all heard, the only constant in enterprise application development is the `change` it self. `Rx Developer` helps you carry out your changes easier and lot faster. This will enable your enterprise to evolve and respond to change with ease.
