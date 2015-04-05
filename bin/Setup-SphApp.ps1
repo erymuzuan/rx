@@ -30,6 +30,13 @@ if($RabbitMqBase -ne ""){
     }
 }
 
+if(!(Get-Command sqllocaldb -ErrorAction SilentlyContinue))
+{
+    Write-Warning "Cannot find sqllocaldb  in your path"
+    exit;
+}
+
+
 Write-Debug "Seting up Rx Developer- $ApplicationName project in $WorkingCopy"
 if(!(Get-Command sqlcmd -ErrorAction SilentlyContinue))
 {
@@ -61,6 +68,7 @@ if(!(Test-Path(".\rabbitmq_server\sbin\rabbitmqctl.bat")))
 }
 Try
 {
+   & SqlLocalDB create "$SqlServer"
    & sqlcmd -E -S "(localdb)\$SqlServer" -Q "SELECT COUNT(*) FROM sysdatabases"
 }
 Catch
