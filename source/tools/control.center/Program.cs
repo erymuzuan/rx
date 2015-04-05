@@ -11,24 +11,28 @@ namespace Bespoke.Sph.ControlCenter
         [STAThread]
         public static void Main()
         {
-
+            var projectJson = AppDomain.CurrentDomain.BaseDirectory + "/../project.json";
             if (mutex.WaitOne(TimeSpan.Zero, true))
             {
 
-                var setup = File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/../project.json");
+                var setup = File.Exists(projectJson);
                 if (!setup)
                 {
                     var wizard = new SetupWizardWindow();
-                    if (wizard.ShowDialog() ?? false)
+                    wizard.ShowDialog();
+                    if (!File.Exists(projectJson))
                     {
-                        var app = new App();
-                        app.InitializeComponent();
-                        app.Run();
+                        mutex.ReleaseMutex();
+                        return;
                     }
+
+                    var app = new App();
+                    app.InitializeComponent();
+                    app.Run();
+
                 }
                 else
                 {
-
                     var app = new App();
                     app.InitializeComponent();
                     app.Run();

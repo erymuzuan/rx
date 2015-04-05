@@ -282,14 +282,28 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
                 this.Log("Execution has stopped. The pipeline state " + ps.InvocationStateInfo.State);
 
-          
+
                 var status = ps.HadErrors ? "fail" : "success";
                 this.Post(() =>
                 {
                     this.Progress = 100;
                     this.Status = status;
                     this.IsBusy = false;
-                    settings.Save();
+
+                    var messageBoxText = status == "success"
+                        ? "Congratulations.. you now can start building your app"
+                        : "Unfortunately there are errors, Please verify that your configuration is successful, you can always run this again by deleting the project.json";
+
+                    var prompt = MessageBox.Show(messageBoxText,
+                        Strings.Title,
+                        status == "success" ? MessageBoxButton.OK : MessageBoxButton.YesNo,
+                        status == "success" ? MessageBoxImage.Information : MessageBoxImage.Question);
+
+                    if (prompt == MessageBoxResult.Yes || status == "success")
+                    {
+                        settings.Save();
+                    }
+
                 });
             }
         }

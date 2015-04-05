@@ -83,14 +83,6 @@ namespace Bespoke.Sph.ControlCenter
                 Thread.Sleep(2000);
                 this.Post(() =>
                 {
-                    var messageBoxText = status == "success"
-                        ? "Congratulations.. you now can start building your app"
-                        : "Unfortunately there are errors, Please verify that your configuration is successful, you can always run this again by deleting the project.json";
-
-                    MessageBox.Show(messageBoxText,
-                       Strings.Title,
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
                     closeButton.Visibility = Visibility.Visible;
 
                 });
