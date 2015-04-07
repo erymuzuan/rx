@@ -161,6 +161,9 @@
                 attached = function (view) {
                     // validation
                     validation.init($('#patient-details-form'), form());
+
+
+
                 },
                 compositionComplete = function() {
                     $("[data-i18n]").each(function (i, v) {
@@ -168,17 +171,6 @@
                             text = $label.data("i18n");
                         if (typeof i18n[text] === "string") {
                             $label.text(i18n[text]);
-                        }
-                    });
-
-
-                    $("[data-i18n-attr]").each(function (i, v) {
-                        var $element = $(v),
-                            text = $element.data("i18n-attr").replace(/'/g,"\""),
-                            o = JSON.parse(text),
-                            attr = Object.getOwnPropertyNames(o)[0];
-                        if (typeof i18n[o[attr]] === "string") {
-                           $element.attr(attr,i18n[o[attr]]);
                         }
                     });
                 },

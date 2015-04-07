@@ -38,6 +38,17 @@ namespace Bespoke.Sph.Web.Helpers
             var output = Regex.Replace(input, @"^([\w\-]+)", m => "[" + m + "]");
             output = Regex.Replace(output, @" and ([\w\-]+)", m => " AND [" + m.ToString().Replace(" and ", string.Empty) + "]");
             output = Regex.Replace(output, @" or ([\w\-]+)", m => " OR [" + m.ToString().Replace(" or ", string.Empty) + "]");
+
+
+            if (output.Contains("startswith"))
+                output = Regex.Replace(output, @"\[startswith\]\((?<col>[\w\-]+),\s*'(?<val>[\w\-]+)'\) = true", m => "[" + m.Groups["col"].Value + "] LIKE '" + m.Groups["val"].Value + "%'");
+
+            if (output.Contains("endswith"))
+                output = Regex.Replace(output, @"\[endswith\]\((?<col>[\w\-]+),\s*'(?<val>[\w\-]+)'\) = true", m => "[" + m.Groups["col"].Value + "] LIKE '%" + m.Groups["val"].Value + "'");
+
+            if (output.Contains("substringof"))
+                output = Regex.Replace(output, @"\[substringof\]\('(?<val>[\w\-]+)',\s*(?<col>[\w\-]+)\) = true", m => "[" + m.Groups["col"].Value + "] LIKE '%" + m.Groups["val"].Value + "%'");
+
             output = output.Replace(" = DateTime ", " [DateTime] ");
             return " WHERE " + output;
         }
