@@ -467,7 +467,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 {
                     if (!Directory.Exists(rabbitMqBase))
                         Directory.CreateDirectory(rabbitMqBase);
-                    startInfo.EnvironmentVariables.Add("RABBITMQ_BASE", rabbitMqBase);
+
+	                if (!startInfo.EnvironmentVariables.ContainsKey("RABBITMQ_BASE"))
+						startInfo.EnvironmentVariables.Add("RABBITMQ_BASE", rabbitMqBase);
                 }
 
                 m_rabbitMqServer = Process.Start(startInfo);
