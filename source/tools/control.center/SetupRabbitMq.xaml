@@ -48,7 +48,7 @@
         <Label Grid.Row="7" Grid.Column="0" Content="Management Port"/>
         <telerik:RadWatermarkTextBox Grid.Row="7" Grid.Column="1" Text="{Binding RabbitMqManagementPort}"/>
         
-        <Label Grid.Row="8" Grid.Column="0" Content="Management Port"/>
+        <Label Grid.Row="8" Grid.Column="0" Content="Base"/>
         <telerik:RadWatermarkTextBox Grid.Row="8" Grid.Column="1" Text="{Binding RabbitMqBase}"/>
     </Grid>
 </UserControl>
