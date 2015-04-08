@@ -1,6 +1,6 @@
 ﻿#Overview
 
-Thank you for choosing `Rx Developer` as your platform and tools for your enterprise. To help you get started with `Rx Developer`, this documentation will help you in several are.
+Thank you for choosing `Rx Developer` as your platform and tools for your enterprise. To help you get started with `Rx Developer`, this documentation will help you in several areas.
 
 * The core concepts
 * How to

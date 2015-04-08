@@ -4,7 +4,7 @@ The first core concept of `Rx Developer` is the `Entity`. This plays a very vita
 
 To really understand the power of `Entity` is to forget everthing you know about relational database and it's related technologies such as `object relational mapper(ORM)`.The concepts of foreign key, parent child, and normal forms just simply didn't exist in the first place.
 
-An `Entity` is a type of object that you are interested to track it's life in your problem domains. This could be `Customer` if you are developing a Customer relationship management or `Patient` in case clinical information system. It's also know as `Root` object. Then there are `Value` objects, these are objects that attached to an entity, and would not exist without the `Entity` for example `Address` for your `Customer`, the `Address` alone is not an `Entity` as it is quite useless without the `Customer`. But if you are developing a Geographic information System for postal service than an `Address` could be your `Entity`.
+An `Entity` is a type of object that you are interested to track it's life in your problem domains. This could be `Customer` if you are developing a Customer relationship management or `Patient` in case clinical information system. It's also know as `Root` object. Then there are `Value` objects, these are objects that attached to an entity, and would not exist without the `Entity` for example `Address` for your `Customer`, the `Address` alone is not an `Entity` as it is quite useless without the `Customer`. But if you are developing a Geographic information System for postal service then an `Address` could be your `Entity`.
 
 
 As such, think an `Entity` as the a traditional paper folder where one folder hold one record, that may contains many documents inside. Take a folder for a `Patient` in a hospital environment. It might have these fields writen on it.
@@ -49,7 +49,7 @@ This is very natural way storing your data, in a way that we all understand, the
 Notice that `Address` is just another object that belongs to the `Patient` entity, what makes  `Patient` and `Address` diferrent is very minimal
 *`Patient` is an object that you interested to track it's life time
 * `Address` is just an object that belong to another `Value` object or an `Entity`
-*`Patient` has an identitfier field or what we call RecordName
+*`Patient` has an identifier field or what we call RecordName
 *`Address` doesn't have any identifier field, so without it's parent, it's imposible to tell if an `Address` belong to patient A or patient B. The key point to take home is `Value` object does not live in isolation.
 
 

@@ -15,7 +15,7 @@
 </thead>
 <tbody>
 <tr><td>Rules</td><td> - Set of rules executed before executing the actions </td></tr>
-<tr><td>Permissions</td><td> - Set of roles the use must have to perform this action , There are 2 special permission defined and they are mutually exclusive, anynomous and everybody</td></tr>
+<tr><td>Permissions</td><td> - Set of roles the use must have to perform this action , There are 2 special permission defined and they are mutually exclusive, anonymous and everybody</td></tr>
 <tr><td>SetterActionChildCollection</td><td> - Set of <a href="SetterActionChild.htm">SetterActionChild&gt;</a> that allows you to set member values after the Business Rule succeefully run and before the Operation is executed </td></tr>
 <tr><td>Name</td><td> - The name of the operation</td></tr>
 <tr><td>SuccessMessage</td><td> - If the operation is successfully executed, this will be the notification message</td></tr>
@@ -44,9 +44,9 @@ If you need to modify or do other works from this <code>EntityOperation</code> a
 can call additional <a href="SetterAction.html"><code>SetterAction</code></a>, or <a href="EmailAction.html"><code>EmailAction</code></a> or <a href="StartWorkflowAction.html"><code>StartWorkflowAction</code></a>.</p>
 <p>Operation can be decorated with permissions attribute, this consist set of <code>role</code> they user must have to perform the operation.</p>
 <ul>
-<li><code>Anynomous</code> is for public unathenticated and authenticated users. Selecting this attribute will nullify the rest</li>
+<li><code>Anonymous</code> is for public unathenticated and authenticated users. Selecting this attribute will nullify the rest</li>
 <li><code>Everybody</code> is only for authenticated users. Selecting this attribute will nullify the rest</li>
-<li>Custom roles, you can select 1 or more of these roles but must not be together with either <code>Anynomous</code> or <code>Everybody</code></li>
+<li>Custom roles, you can select 1 or more of these roles but must not be together with either <code>Anonymous</code> or <code>Everybody</code></li>
 </ul>
 <h2 id="see-also">See also</h2>
 <p><a href="FunctionField.html">FunctionField</a>

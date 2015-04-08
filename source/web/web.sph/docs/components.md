@@ -10,10 +10,10 @@ Microsoft SQL Server 2012 is the default persistence database for `Rx Developer`
 
 
 ##Read/Search Repository
-ElasticSearch is the default analytics and search reposity. `Rx Developer` use `aggregations` feature in ElasticSearch thus the minimum required version is V1.0
+ElasticSearch is the default analytics and search repository. `Rx Developer` use `aggregations` feature in ElasticSearch thus the minimum required version is V1.0
 
 ##Web Server
-Microsoft II 8 , with .net 4.5.1
+Microsoft IIS 8 , with .net 4.5.1
 
 ##Workers
 Subscriber workers is the core service running all the job for `Rx Developer` operations. This is configured as Windows Service for production envrironment and Console application for development and debugging purposes.
@@ -23,5 +23,5 @@ You'll need somewhat latest browsers, such as Google Chrome, FireFox or Internet
 
 Please refer to [CanIUse](http://www.caniuse.com), basically IE 9 and below will give you very bad experience.
 
-We use Chrome Canary for development purpose with knockoutjs extension insalled.
+We use Chrome Canary for development purpose with knockoutjs extension installed.
 

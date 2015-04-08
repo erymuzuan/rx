@@ -36,7 +36,7 @@ Property tab lets you configure individual form element , once selected in the d
 <tr><td>EntityFormId</td><td> - The form id</td></tr>
 <tr><td>EntityDefinitionId</td><td> - The id of the <code>EntityDefinition</code> </td></tr>
 <tr><td>Name</td><td> - The forms name - this just an identitifier</td></tr>
-<tr><td>Route</td><td> - Route is where the uri for the form, thus it must be unique to whole system. It must be a valid uri identitfier normally in lowercase seperated by periods or "-"</td></tr>
+<tr><td>Route</td><td> - Route is where the uri for the form, thus it must be unique to whole system. It must be a valid uri identifier normally in lowercase seperated by periods or "-"</td></tr>
 <tr><td>Note</td><td> - Developers note</td></tr>
 <tr><td>IsAllowedNewItem</td><td> - Allow new entity to be added, A toolbar will be shown in the entity landing page, when this property is set to true </td></tr>
 <tr><td>IconClass</td><td> - The font-awesome icons</td></tr>
