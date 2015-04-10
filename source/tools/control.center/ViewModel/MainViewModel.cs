@@ -239,14 +239,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private static int FindProcessByCommandLineArgs(string process, string arg)
         {
-            var query = string.Format("select ProcessId, CommandLine from Win32_Process where Name='{0}'", process);
+            var query = $"select ProcessId, CommandLine from Win32_Process where Name='{process}'";
             var searcher = new ManagementObjectSearcher(query);
             var retObjectCollection = searcher.Get();
 
             foreach (var o in retObjectCollection)
             {
                 var retObject = (ManagementObject)o;
-                var commandLine = string.Format("{0}", retObject["CommandLine"]);
+                var commandLine = $"{retObject["CommandLine"]}";
                 var id = Convert.ToInt32(retObject["ProcessId"]);
                 if (commandLine.Contains(arg))
                 {
@@ -277,7 +277,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                         return;
                     }
 
-                    var arg = string.Format("/config:\"{0}\" /site:web.{1} /trace:verbose", iisConfig, this.Settings.ApplicationName);
+                    var arg = $"/config:\"{iisConfig}\" /site:web.{this.Settings.ApplicationName} /trace:verbose";
                     var info = new ProcessStartInfo
                     {
                         FileName = this.Settings.IisExpressExecutable.TranslatePath(),
@@ -340,7 +340,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var workerInfo = new ProcessStartInfo
                 {
                     FileName = "SqlLocalDB.exe",
-                    Arguments = string.Format("start \"{0}\"", this.Settings.SqlLocalDbName),
+                    Arguments = $"start \"{this.Settings.SqlLocalDbName}\"",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
@@ -377,7 +377,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var workerInfo = new ProcessStartInfo
                 {
                     FileName = "SqlLocalDB.exe",
-                    Arguments = string.Format("stop \"{0}\"", this.Settings.SqlLocalDbName),
+                    Arguments = $"stop \"{this.Settings.SqlLocalDbName}\"",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
@@ -488,7 +488,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     var flag = new ManualResetEvent(false);
                     DataReceivedEventHandler started = (o, e) =>
                     {
-                        if (string.Format("{0}", e.Data).Contains("Starting broker"))
+                        if ($"{e.Data}".Contains("Starting broker"))
                             flag.Set();
                     };
                     m_rabbitMqServer.OutputDataReceived += started;
@@ -594,7 +594,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             var connected = false;
             // verify that elasticsearch started successfully
-            var uri = new Uri(string.Format("http://localhost:{0}", this.Settings.ElasticsearchHttpPort));
+            var uri = new Uri($"http://localhost:{this.Settings.ElasticsearchHttpPort}");
             using (var client = new HttpClient() { BaseAddress = uri })
             {
                 for (var i = 0; i < 20; i++)
@@ -700,7 +700,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var workerInfo = new ProcessStartInfo
                 {
                     FileName = f,
-                    Arguments = string.Format("/log:console /v:{0}", this.Settings.ApplicationName),
+                    Arguments = $"/log:console /v:{this.Settings.ApplicationName}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
@@ -759,7 +759,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             m_namedPipeClient = new NamedPipeClient<string, string>("RxDevConsole." + this.Settings.ApplicationName);
             m_namedPipeClient.ServerMessage += delegate (NamedPipeConnection<string, string> conn, string message)
             {
-                Log(string.Format("Server says: {0}", message));
+                Log($"Server says: {message}");
             };
 
             m_namedPipeClient.Start();
@@ -784,7 +784,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void OnElasticsearchDataReceived(object sender, DataReceivedEventArgs e)
         {
-            var message = string.Format("{0}", e.Data);
+            var message = $"{e.Data}";
             m_writer?.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, message);
             var severity = message.Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
             this.Logger.Log(new LogEntry
@@ -822,7 +822,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void OnIisDataReceived(object sender, DataReceivedEventArgs e)
         {
-            var message = string.Format("{0}", e.Data);
+            var message = $"{e.Data}";
             m_writer?.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, message);
 
             var severity = message.Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
@@ -871,7 +871,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void OnWorkerDataReceived(object sender, DataReceivedEventArgs e)
         {
-            var message = string.Format("{0}", e.Data);
+            var message = $"{e.Data}";
             m_writer?.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, message);
 
             if (message.Contains("Welcome to [SPH] Type ctrl + c to quit at any time"))
@@ -888,7 +888,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void OnWorkerErrorReceived(object sender, DataReceivedEventArgs e)
         {
-            var message = string.Format("{0}", e.Data);
+            var message = $"{e.Data}";
             m_writer.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, message);
             if (message.Contains("Unhandled Exception"))
             {

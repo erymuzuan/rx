@@ -111,8 +111,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (e.PropertyName == "ApplicationName")
             {
                 this.Settings.ElasticsearchClusterName = $"cluster_{Environment.MachineName}_{this.Settings.ApplicationName}";
-                this.Settings.ElasticsearchNodeName = string.Format("node_{0}_{1}", Environment.MachineName,
-                        this.Settings.ApplicationName);
+                this.Settings.ElasticsearchNodeName = $"node_{Environment.MachineName}_{this.Settings.ApplicationName}";
             }
             this.NextCommand.RaiseCanExecuteChanged();
             this.SetupCommand.RaiseCanExecuteChanged();

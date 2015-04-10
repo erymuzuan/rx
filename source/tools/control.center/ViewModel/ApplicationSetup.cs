@@ -20,7 +20,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             // create a pipeline and feed it the script text
 
-            Pipeline pipeline = runspace.CreatePipeline();
+            var pipeline = runspace.CreatePipeline();
             pipeline.Commands.AddScript(scriptText);
 
             // add an extra command to transform the script

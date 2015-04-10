@@ -99,7 +99,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             using (var client = new HttpClient { BaseAddress = new Uri(this.Settings.UpdateUri) })
             {
                 var url = "binaries/" + build + ".json";
-                var responseJson = "";
+                string responseJson;
                 try
                 {
                     var response = await client.GetAsync(url);
