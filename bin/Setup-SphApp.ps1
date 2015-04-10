@@ -38,12 +38,8 @@ if(!(Get-Command sqllocaldb -ErrorAction SilentlyContinue))
 
 
 Write-Debug "Seting up Rx Developer- $ApplicationName project in $WorkingCopy"
-if(!(Get-Command sqlcmd -ErrorAction SilentlyContinue))
-{
-    Write-Warning "Cannot find sqlcmd in your path"
-    exit;
-}
 
+Import-Module .\utils\sqlcmd.dll
 
 if(!(Get-Command Invoke-WebRequest -ErrorAction SilentlyContinue))
 {
@@ -69,7 +65,7 @@ if(!(Test-Path(".\rabbitmq_server\sbin\rabbitmqctl.bat")))
 Try
 {
    & SqlLocalDB create "$SqlServer"
-   & sqlcmd -E -S "(localdb)\$SqlServer" -Q "SELECT COUNT(*) FROM sysdatabases"
+   Invoke-SqlCmd -E -S "(localdb)\$SqlServer" -Q "SELECT COUNT(*) FROM sysdatabases"
 }
 Catch
 {
@@ -105,25 +101,25 @@ if((Test-Path("$WorkingCopy\StartAspnetAdminWeb.bat")) -eq $false)
 
 #creates databases
 Write-Debug "Creating database $ApplicationName"
-& sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "IF  EXISTS (
+Invoke-SqlCmd -S "(localdb)\$SqlServer" -E -d master -Q "IF  EXISTS (
 	SELECT name 
 		FROM sys.databases 
 		WHERE name = N'$ApplicationName'
 )
 DROP DATABASE [$ApplicationName]"
 
-& sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
+Invoke-Sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
 Write-Debug "Created database $ApplicationName"
 #Start-Sleep -Seconds 10
-& sqlcmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
-& sqlcmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
+Invoke-SqlCmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
+Invoke-SqlCmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
 Write-Debug "Created schema [SPH]"
 
 Get-ChildItem -Filter *.sql -Path $WorkingCopy\database\Table `
 | %{
     Write-Debug "Creating table $_"
     $sqlFileName = $_.FullName    
-    & sqlcmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
+    Invoke-SqlCmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
 }
 
 

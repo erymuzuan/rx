@@ -1,47 +1,76 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Management.Automation;
 
 namespace sqlcmd
 {
-    [Cmdlet(VerbsLifecycle.Invoke, "SqlCmd")]
+    [Cmdlet(VerbsLifecycle.Invoke, "SqlCmd", DefaultParameterSetName = "TrustedConnection")]
+    [OutputType(typeof(DataTable))]
     public class SqlCmd : PSCmdlet
     {
-        [Parameter(HelpMessage = "Use trusted connection", ParameterSetName = "A")]
+        [Parameter(HelpMessage = "Use trusted connection", ParameterSetName = "TrustedConnection")]
         [Alias("E")]
         public SwitchParameter TrustedConnection { get; set; }
 
-        [Parameter(HelpMessage = "servername\\instance-name", ParameterSetName = "A", Mandatory = true)]
+        [Parameter(HelpMessage = "servername\\instance-name", ParameterSetName = "TrustedConnection", Mandatory = true)]
+        [Parameter(HelpMessage = "SQL scripts", ParameterSetName = "SqlAuthentication", Position = 0)]
         [ValidateNotNullOrEmpty]
         [Alias("S")]
-        public string Server { get; set; }
+        public string Server { get; set; } = ".";
 
-        [Parameter(HelpMessage = "Default database", ParameterSetName = "A", Mandatory = true)]
+        [Parameter(HelpMessage = "Default database", ParameterSetName = "TrustedConnection", Mandatory = true)]
+        [Parameter(HelpMessage = "SQL scripts", ParameterSetName = "SqlAuthentication", Position = 0)]
         [ValidateNotNullOrEmpty]
         [Alias("d")]
-        public string Database { get; set; }
+        public string Database { get; set; } = "master";
 
-        [Parameter(HelpMessage = "File to read the SQL scripts", ParameterSetName = "A", Position = 0)]
+        [Parameter(HelpMessage = "File to read the SQL scripts", ParameterSetName = "TrustedConnection", Position = 0)]
+        [Parameter(HelpMessage = "SQL scripts", ParameterSetName = "SqlAuthentication", Position = 0)]
         [Alias("i")]
         public string InputFile { get; set; }
 
-        [Parameter(HelpMessage = "SQL scripts", ParameterSetName = "A", Position = 0)]
+        [Parameter(HelpMessage = "SQL scripts", ParameterSetName = "TrustedConnection", Position = 0)]
+        [Parameter(HelpMessage = "SQL scripts", ParameterSetName = "SqlAuthentication", Position = 0)]
         [Alias("q")]
         public string CommandQuery { get; set; }
 
+        [Parameter(HelpMessage = "The userid if using Sql authentication", ParameterSetName = "SqlAuthentication", Position = 0)]
+        [Alias("u")]
+        public string UserId { get; set; } = "sa";
+
+        [Parameter(HelpMessage = "The password if using Sql authentication", ParameterSetName = "SqlAuthentication", Position = 0)]
+        [Alias("p")]
+        public string Password { get; set; }
 
         protected override void ProcessRecord()
         {
             string connectionString = $"server={this.Server};database={this.Database};trusted_connection={this.TrustedConnection.IsPresent.ToString().ToLowerInvariant()}";
             WriteVerbose($"Connecting .. to {connectionString}");
             var sql = this.CommandQuery;
+            if (string.IsNullOrWhiteSpace(sql) && string.IsNullOrWhiteSpace(this.InputFile))
+            {
+                WriteError(new ErrorRecord(new PSArgumentNullException(nameof(SqlCmd.CommandQuery), "CommandQuery or InputFile must be supplied"), "1", ErrorCategory.InvalidArgument, this));
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(sql) && !File.Exists(this.InputFile))
+            {
+                WriteError(new ErrorRecord(new PSArgumentNullException(nameof(SqlCmd.CommandQuery), "InputFile does not exist"), "1", ErrorCategory.InvalidArgument, this));
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(sql))
+            {
+                sql = File.ReadAllText(this.InputFile);
+            }
+            
+
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 WriteVerbose($"Opening database....{this.Database}");
                 conn.Open();
-                if (sql.ToUpper().Contains("SELECT"))
+                if (sql.Trim().ToUpper().StartsWith("SELECT"))
                 {
                     var table = new DataTable();
                     WriteVerbose($"Executing reader {sql}");
@@ -51,18 +80,18 @@ namespace sqlcmd
                         {
                             var name = reader.GetName(i);
                             table.Columns.Add(name);
-                            WriteVerbose("Column name  = " + name.ToString());
+                            WriteVerbose("Column name  = " + name);
                         }
                         while (reader.Read())
                         {
                             var row = table.NewRow();
                             foreach (var column in table.Columns)
                             {
-                                row[column.ToString().ToString()] = reader[column.ToString()];
+                                row[column.ToString()] = reader[column.ToString()];
                             }
                             table.Rows.Add(row);
                         }
-                        WriteObject(table,true);
+                        WriteObject(table, true);
                     }
                 }
                 else
