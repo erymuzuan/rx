@@ -114,6 +114,7 @@ copy "$ToolsDirectory\7za.exe" "$output\utils"
 copy "$ToolsDirectory\mru.exe" "$output\utils"   
 copy "$ToolsDirectory\n.exe" "$output\utils"     
 copy "$ToolsDirectory\LINQPad.exe" "$output\utils"
+copy .\bin\utils\sqlcmd.dll "$output\utils"
 
 #setup
 copy .\bin\Setup-SphApp.ps1 $output

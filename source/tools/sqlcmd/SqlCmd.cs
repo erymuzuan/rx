@@ -43,6 +43,12 @@ namespace sqlcmd
         [Alias("p")]
         public string Password { get; set; }
 
+        [Parameter(HelpMessage = "Result set type", ParameterSetName = "TrustedConnection", Position = 0)]
+        [Parameter(HelpMessage = "Result set type", ParameterSetName = "SqlAuthentication", Position = 0)]
+        [ValidateSet("Reader", "Scalar", "NoQuery")]
+        public string ResultSetType { get; set; } = "Reader";
+
+
         protected override void ProcessRecord()
         {
             string connectionString = $"server={this.Server};database={this.Database};trusted_connection={this.TrustedConnection.IsPresent.ToString().ToLowerInvariant()}";
@@ -70,31 +76,41 @@ namespace sqlcmd
             {
                 WriteVerbose($"Opening database....{this.Database}");
                 conn.Open();
-                if (sql.Trim().ToUpper().StartsWith("SELECT"))
+                if (this.ResultSetType == "Reader")
                 {
-                    var table = new DataTable();
-                    WriteVerbose($"Executing reader {sql}");
-                    using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
-                    {
-                        for (var i = 0; i < reader.FieldCount; i++)
+                   
+                        var table = new DataTable();
+                        WriteVerbose($"Executing reader {sql}");
+                        using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
-                            var name = reader.GetName(i);
-                            table.Columns.Add(name);
-                            WriteVerbose("Column name  = " + name);
-                        }
-                        while (reader.Read())
-                        {
-                            var row = table.NewRow();
-                            foreach (var column in table.Columns)
+                            for (var i = 0; i < reader.FieldCount; i++)
                             {
-                                row[column.ToString()] = reader[column.ToString()];
+                                var name = reader.GetName(i);
+                                table.Columns.Add(name);
+                                WriteVerbose("Column name  = " + name);
                             }
-                            table.Rows.Add(row);
+                            while (reader.Read())
+                            {
+                                var row = table.NewRow();
+                                foreach (var column in table.Columns)
+                                {
+                                    row[column.ToString()] = reader[column.ToString()];
+                                }
+                                table.Rows.Add(row);
+                            }
+                            WriteObject(table, true);
                         }
-                        WriteObject(table, true);
-                    }
+                    return;
+
                 }
-                else
+                if (ResultSetType == "Scalar")
+                {
+                    WriteVerbose("Executing scalar...");
+                    var result = cmd.ExecuteScalar();
+                    WriteObject(result);
+                }
+
+                if (ResultSetType == "NonQuery")
                 {
                     WriteVerbose("Executing non query...");
                     var rows = cmd.ExecuteNonQuery();
