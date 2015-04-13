@@ -29,6 +29,7 @@ debug/
 *.LOCAL.*.cs
 *.g.i.cs
 *.g.cs
+bin/project.json
 !FormDesigner.g.cs
 !TriggersWorkflow.g.cs
 !SphDomain.g.cs
