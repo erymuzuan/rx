@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -134,6 +135,7 @@ namespace Bespoke.Sph.Web.Controllers
             "RazorGenerator","RazorEngine",
             "Antlr3",
             "App_Code",
+            "App_Web",
             "SQLSpatialTools",
             "email.service",
             "elasticsearch.logger",
@@ -178,10 +180,10 @@ namespace Bespoke.Sph.Web.Controllers
                                                 .Where(x => x.IsPublic)
                                                 .Where(x => x.IsClass)
                                                 .Select(x => new
-                                                    {
-                                                        x.Namespace,
-                                                        x.Name
-                                                    }).ToArray()
+                                                {
+                                                    x.Namespace,
+                                                    x.Name
+                                                }).ToArray()
                                 };
 
             return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
@@ -210,7 +212,7 @@ namespace Bespoke.Sph.Web.Controllers
             sb.AppendLine("     \"properties\": {");
             var schemes = from t in map.InputCollection
                           let sc = JsonSerializerService.GetJsonSchemaFromObject(t.Type)
-                          select string.Format(@"""{0}"" : {1}", t.Name, sc);
+                          select $@"""{t.Name}"" : {sc}";
             sb.AppendLine(string.Join(", ", schemes));
             sb.AppendLine("     }");
             sb.AppendLine("}");
@@ -261,9 +263,11 @@ namespace Bespoke.Sph.Web.Controllers
             var clrType = assembly.GetType(type);
             if (null == clrType)
                 return new HttpNotFoundResult("Cannot find " + type + " in " + dll);
-            var methods = clrType.GetMethods()
+            var methods = clrType.GetMethods(BindingFlags.Instance | BindingFlags.Public)
                 .Where(x => !x.Name.StartsWith("get_"))
                 .Where(x => !x.Name.StartsWith("set_"))
+                .Where(x => !x.Name.StartsWith("add_"))
+                .Where(x => !x.Name.StartsWith("remove_"))
                 .Where(x => x.DeclaringType != typeof(object));
 
             return Json(methods.Select(x => new

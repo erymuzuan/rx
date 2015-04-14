@@ -24,15 +24,9 @@ namespace Bespoke.Sph.Domain
         {
             return Resources.Gear;
         }
-        public override bool UseAsync
-        {
-            get { return this.IsAsyncMethod; }
-        }
+        public override bool UseAsync => this.IsAsyncMethod;
 
-        public override bool UseCode
-        {
-            get { return true; }
-        }
+        public override bool UseCode => true;
 
         public override string GeneratorCode()
         {
@@ -45,13 +39,15 @@ namespace Bespoke.Sph.Domain
             var count = 0;
             foreach (var arg in this.MethodArgCollection)
             {
-                code.AppendLinf("   var field{0} = ca.MethodArgCollection.Single(x =>x.Name == \"{0}\");", arg.Name);
-                code.AppendLinf("   var {0}{2} = ({1})field{0}.GetValue(context);", arg.Name, arg.Type.FullName, count++);
+                count++;
+                code.AppendLine($"   var field{arg.Name} = ca.MethodArgCollection.Single(x =>x.Name == \"{arg.Name}\");");
+                code.AppendLine($"   var {arg.Name}{count} = ({arg.Type.FullName})field{arg.Name}.GetValue(context);");
                 code.AppendLine();
             }
-            code.AppendLinf(
-                this.IsAsyncMethod ? "   var response = await k.{0}({1});" : "   var response = k.{0}({1});",
-                this.Method, args);
+            code.AppendLine(
+                this.IsAsyncMethod ? $"   var response = await k.{this.Method}({args});" : $"   var response = k.{this.Method}({args});");
+
+            // TODO : if the async method return Task instead of Task<T> then
 
             code.AppendLine("return response;");
             return code.ToString();

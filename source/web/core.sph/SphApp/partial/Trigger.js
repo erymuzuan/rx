@@ -30,6 +30,21 @@ bespoke.sph.domain.TriggerPartial = function () {
                         return;
                     }
 
+                    // initialize the action properties
+                    var clone = ko.mapping.fromJS(ko.toJS(dialog.action));
+                    if(typeof clone.Title === "function"){
+                        clone.Title("");
+                    }
+                    for (var n in clone) {
+                        if (typeof clone[n] === "function" && n !== "$type") {
+                            var value = clone[n]();
+                            if(typeof  value === "string"){
+                                clone[n]("");
+                            }
+                        }
+                    }
+                    dialog.action(clone);
+
                     if (typeof dialog.trigger === "function") {
                         dialog.trigger(self);
                     }

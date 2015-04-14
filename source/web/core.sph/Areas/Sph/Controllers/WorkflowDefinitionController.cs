@@ -131,7 +131,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
             options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
-            
+
             var result = wd.Compile(options);
             if (!result.Result || !System.IO.File.Exists(result.Output))
             {
@@ -315,7 +315,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                                 {
                                     Version = name.Version.ToString(),
                                     FullName = name.FullName,
-                                    Location = a.Location,
+                                    Location = ConfigurationManager.WebPath + "\\bin\\" + Path.GetFileName(a.Location),
                                     Name = name.Name
                                 };
 

@@ -10,17 +10,9 @@ namespace Bespoke.Sph.Domain
     {
         private SphDataContext m_context;
 
-        private readonly ObjectCollection<Entity> m_attachedCollection = new ObjectCollection<Entity>();
-        private readonly ObjectCollection<Entity> m_deletedCollection = new ObjectCollection<Entity>();
+        internal ObjectCollection<Entity> AttachedCollection { get; } = new ObjectCollection<Entity>();
 
-        internal ObjectCollection<Entity> AttachedCollection
-        {
-            get { return m_attachedCollection; }
-        }
-        internal ObjectCollection<Entity> DeletedCollection
-        {
-            get { return m_deletedCollection; }
-        }
+        internal ObjectCollection<Entity> DeletedCollection { get; } = new ObjectCollection<Entity>();
 
         internal PersistenceSession(SphDataContext context)
         {
@@ -31,7 +23,7 @@ namespace Bespoke.Sph.Domain
         {
             if (null == m_context)
                 throw new ObjectDisposedException("This session has been completed or terminated");
-            m_deletedCollection.AddRange(entities);
+            DeletedCollection.AddRange(entities);
         }
 
 
@@ -44,7 +36,7 @@ namespace Bespoke.Sph.Domain
             {
                 t.WebId = Guid.NewGuid().ToString();
             }
-            m_attachedCollection.AddRange(entities);
+            AttachedCollection.AddRange(entities);
         }
 
 
@@ -52,15 +44,15 @@ namespace Bespoke.Sph.Domain
         public void Dispose()
         {
             m_context = null;
-            m_attachedCollection.Clear();
-            m_deletedCollection.Clear();
+            AttachedCollection.Clear();
+            DeletedCollection.Clear();
         }
 
         public async Task<SubmitOperation> SubmitChanges(string operation = "", Dictionary<string, object> headers = null)
         {
             var so = await m_context.SubmitChangesAsync(operation, this, headers);
-            m_attachedCollection.Clear();
-            m_deletedCollection.Clear();
+            AttachedCollection.Clear();
+            DeletedCollection.Clear();
             m_context = null;
             return so;
         }

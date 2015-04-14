@@ -18,7 +18,6 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             methodOptions = ko.observableArray(),
             activate = function () {
                 var tcs = new $.Deferred();
-
                 $.get("/transform-definition/assemblies")
                     .done(function (assemblies) {
                         assemblyOptions(assemblies);
@@ -43,7 +42,6 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
 
             },
             attached = function (view) {
-
                 action().Assembly.subscribe(function (dll) {
                     $.get("/transform-definition/types/" + dll)
                    .done(function (classes) {

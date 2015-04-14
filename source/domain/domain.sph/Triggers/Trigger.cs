@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
             if (!string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
             {
                 sourceFile = Path.Combine(options.SourceCodeDirectory,
-                    string.Format("{0}.cs", this.Id));
+                    $"{this.Id}.cs");
                 File.WriteAllText(sourceFile, code);
             }
 
@@ -42,19 +42,19 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("subscriber.trigger.{0}.dll", this.Id)),
+                    OutputAssembly = Path.Combine(outputPath, $"subscriber.trigger.{this.Id}.dll"),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
                 };
-                var edDll = string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, this.Entity);
+                var edDll = $"{ConfigurationManager.ApplicationName}.{this.Entity}.dll";
                 options.ReferencedAssembliesLocation.Add(Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, edDll));
 
                 var subscriberInfraDll = Path.Combine(ConfigurationManager.SubscriberPath, "subscriber.infrastructure.dll");
                 options.ReferencedAssembliesLocation.Add(subscriberInfraDll);
 
                 parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(int).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Trigger).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
@@ -82,10 +82,8 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public string ClassName
-        {
-            get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "TriggerSubscriber").Replace("TriggerTrigger", "Trigger"); }
-        }
+        public string ClassName => (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "TriggerSubscriber").Replace("TriggerTrigger", "Trigger");
+
         public async Task<string> GenerateCodeAsync()
         {
             var context = new SphDataContext();
@@ -94,20 +92,19 @@ namespace Bespoke.Sph.Domain
 
             var routingKeys = new List<string>();
             if (this.IsFiredOnAdded)
-                routingKeys.Add(string.Format("{0}.added.#", this.Entity));
+                routingKeys.Add($"{this.Entity}.added.#");
             if (this.IsFiredOnChanged)
-                routingKeys.Add(string.Format("{0}.changed.#", this.Entity));
+                routingKeys.Add($"{this.Entity}.changed.#");
             if (this.IsFiredOnDeleted)
-                routingKeys.Add(string.Format("{0}.deleted.#", this.Entity));
+                routingKeys.Add($"{this.Entity}.deleted.#");
             var ops = this.FiredOnOperations.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => string.Format("{0}.#.{1}", this.Entity, s));
+                .Select(s => $"{this.Entity}.#.{s}");
             routingKeys.AddRange(ops);
 
-            var keys = string.Join(",\r\n", routingKeys.Select(s => string.Format("\"{0}\"", s)).ToArray());
+            var keys = string.Join(",\r\n", routingKeys.Select(s => $"\"{s}\"").ToArray());
 
             var code = new StringBuilder();
-            var edTypeFullName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName,
-                ed.Id, ed.Name);
+            var edTypeFullName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
             code.AppendLine("using " + typeof(Trigger).Namespace + ";");
             code.AppendLine("using " + typeof(Int32).Namespace + ";");
             code.AppendLine("using " + typeof(Task<>).Namespace + ";");
@@ -201,7 +198,7 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        public string CodeNamespace { get { return string.Format("Bespoke.Sph.TriggerSubscribers"); } }
+        public string CodeNamespace => string.Format("Bespoke.Sph.TriggerSubscribers");
 
         private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
         {
