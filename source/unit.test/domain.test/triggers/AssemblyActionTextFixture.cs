@@ -15,6 +15,41 @@ namespace domain.test.triggers
     public class AssemblyActionTextFixture
     {
         [Test]
+        public void ReturnTypeofTask()
+        {
+            var action = new AssemblyAction
+            {
+                IsAsyncMethod = true,
+                ReturnType = typeof(Task).FullName,
+                Assembly = "test",
+                IsActive = true,
+                Method = "TestAsync",
+                TypeName = "Bespoke.Sph.Test.TestObject"
+            };
+            action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string), ValueProvider = new ConstantField { Value = "Erymuzuan", Type = typeof(string) } });
+            action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
+            var code = action.GeneratorCode();
+            StringAssert.DoesNotContain("return response", code);
+            StringAssert.Contains("return 1", code);
+        }
+        [Test]
+        public void ReturnTypeofTaskSomething()
+        {
+            var action = new AssemblyAction
+            {
+                IsAsyncMethod = true,
+                ReturnType = typeof(Task<bool>).FullName,
+                Assembly = "test",
+                IsActive = true,
+                Method = "TestAsync",
+                TypeName = "Bespoke.Sph.Test.TestObject"
+            };
+            action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string) });
+            var code = action.GeneratorCode();
+
+            StringAssert.Contains("return response", code);
+        }
+        [Test]
         public async Task CallPatientControllerValidate()
         {
             await Task.Delay(250);
@@ -120,15 +155,13 @@ namespace Dev.SampleTriggers
             var res = Formatter.Format(root, new TestWorkspace());
             Console.WriteLine(res.ToFullString());
 
-        
-
         }
 
         [Test]
         public async Task FormatSimpleCode()
         {
-            var ws =new CustomWorkspace();
-            var project = ws.AddProject("test",  LanguageNames.CSharp);
+            var ws = new CustomWorkspace();
+            var project = ws.AddProject("test", LanguageNames.CSharp);
             await Task.Delay(500);
 
             const string CODE = @"public class A{

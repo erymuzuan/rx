@@ -1330,6 +1330,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_ReturnType;
+        [XmlAttribute]
+        public string ReturnType
+        {
+            get
+            {
+                return m_ReturnType;
+            }
+            set
+            {
+                m_ReturnType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<MethodArg> m_MethodArgCollection = new ObjectCollection<MethodArg>();
 
         ///<summary>
@@ -5846,7 +5862,22 @@ namespace Bespoke.Sph.Domain
                 RaisePropertyChanged();
             }
         }
-        
+
+
+        private bool m_IsAsync;
+        [XmlAttribute]
+        public bool IsAsync
+        {
+            get
+            {
+                return m_IsAsync;
+            }
+            set
+            {
+                m_IsAsync = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         private readonly ObjectCollection<Variable> m_VariableMapCollection = new ObjectCollection<Variable>();

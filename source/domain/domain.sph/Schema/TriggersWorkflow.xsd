@@ -274,6 +274,7 @@
 					<xs:attribute name="Assembly" type="xs:string" use="required"/>
 					<xs:attribute name="TypeName" type="xs:string" use="required"/>
 					<xs:attribute name="Method" type="xs:string" use="required"/>
+					<xs:attribute name="ReturnType" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

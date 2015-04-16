@@ -170,7 +170,7 @@ namespace Bespoke.Sph.Domain
             // controller
             var @controller = new Class
             {
-                Name = string.Format("{0}Controller", this.WorkflowTypeName),
+                Name = $"{this.WorkflowTypeName}Controller",
                 BaseClass = "Controller",
                 FileName = this.WorkflowTypeName + "Controller.cs",
                 Namespace = this.CodeNamespace,
@@ -181,7 +181,7 @@ namespace Bespoke.Sph.Domain
             @controller.ImportCollection.Add(typeof(Exception).Namespace);
             @controller.ImportCollection.Add(typeof(DomainObject).Namespace);
             @controller.ImportCollection.Add(typeof(Task<>).Namespace);
-            @controller.AttributeCollection.Add(string.Format("     [RoutePrefix(\"wf/{0}/v{1}\")]", this.Id, this.Version));
+            @controller.AttributeCollection.Add($"     [RoutePrefix(\"wf/{this.Id}/v{this.Version}\")]");
 
             @controller.MethodCollection.Add(this.GenerateSearchMethod());
             @controller.MethodCollection.Add(this.GenerateJsSchemasController());
@@ -226,7 +226,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLine("var bespoke = bespoke ||{};");
             script.AppendLine("bespoke.sph = bespoke.sph ||{};");
             script.AppendLine("bespoke.sph.wf = bespoke.sph.wf ||{};");
-            script.AppendLinf("bespoke.sph.wf.{0} = bespoke.sph.wf.{0} ||{{}};", wd.WorkflowTypeName, wd.Version);
+            script.AppendLine($"bespoke.sph.wf.{wd.WorkflowTypeName} = bespoke.sph.wf.{wd.Version} ||{{}};");
 
             var xsd = wd.GetCustomSchema();
 

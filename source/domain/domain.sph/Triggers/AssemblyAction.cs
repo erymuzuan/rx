@@ -31,25 +31,41 @@ namespace Bespoke.Sph.Domain
         public override string GeneratorCode()
         {
             var code = new StringBuilder();
-            code.AppendLinf("   var k = new {0}();", this.TypeName);
             code.AppendLinf("   var ca = @\"{0}\".DeserializeFromJson<AssemblyAction>();", this.ToJsonString(true).Replace("\"", "\"\""));
+            code.AppendLine($"   var k = new {this.TypeName}();");
             code.AppendLine("   var context = new RuleContext(item);");
             code.AppendLine();
-            var args = string.Join(",", this.MethodArgCollection.Select((x,i) => x.Name + i));
+            var args = string.Join(",", this.MethodArgCollection.Select((x, i) => x.Name + i));
             var count = 0;
             foreach (var arg in this.MethodArgCollection)
             {
-                count++;
-                code.AppendLine($"   var field{arg.Name} = ca.MethodArgCollection.Single(x =>x.Name == \"{arg.Name}\");");
-                code.AppendLine($"   var {arg.Name}{count} = ({arg.Type.FullName})field{arg.Name}.GetValue(context);");
+                code.AppendLine($"   var {arg.Name}Arg = ca.MethodArgCollection.Single(x => x.Name == \"{arg.Name}\");");
+                code.AppendLine($"   var {arg.Name}{count} = ({arg.Type.ToCSharp()}){arg.Name}Arg.GetValue(context);");
                 code.AppendLine();
+                count++;
             }
-            code.AppendLine(
-                this.IsAsyncMethod ? $"   var response = await k.{this.Method}({args});" : $"   var response = k.{this.Method}({args});");
 
-            // TODO : if the async method return Task instead of Task<T> then
+            if (this.IsAsyncMethod)
+            {
+                // TODO : if the async method return Task instead of Task<T> then
+                if (this.ReturnType == "System.Threading.Tasks.Task")
+                {
+                    code.AppendLine($"  await k.{this.Method}({args});");
+                    code.AppendLine("   return 0;");
+                    return code.ToString();
+                }
 
-            code.AppendLine("return response;");
+                if (!string.IsNullOrWhiteSpace(this.ReturnType) && this.ReturnType.Contains("System.Threading.Tasks.Task`"))
+                {
+                    code.AppendLine($"  var response = await k.{this.Method}({args});");
+                    code.AppendLine("   return response;");
+                    return code.ToString();
+                }
+            }
+            else
+            {
+                code.AppendLine($"   var response = k.{this.Method}({args});");
+            }
             return code.ToString();
         }
 
