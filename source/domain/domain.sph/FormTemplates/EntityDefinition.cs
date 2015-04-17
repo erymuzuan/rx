@@ -84,7 +84,7 @@ namespace Bespoke.Sph.Domain
                 result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " does not have a type" });
 
             if (member.Type == typeof(Array) && !member.Name.EndsWith("Collection"))
-                result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must be appennd with \"Collection\"" });
+                result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must be append with \"Collection\"" });
             if (member.Type == typeof(object) && member.Name.EndsWith("Collection"))
                 result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must not end with \"Collection\"" });
 
