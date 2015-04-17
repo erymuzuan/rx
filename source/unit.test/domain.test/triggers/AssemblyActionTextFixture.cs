@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.QueryProviders;
+using domain.test.reports;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -15,6 +18,38 @@ namespace domain.test.triggers
     [TestFixture]
     public class AssemblyActionTextFixture
     {
+
+        private MockRepository<EntityDefinition> m_efMock;
+        private readonly MockPersistence m_persistence = new MockPersistence();
+        [SetUp]
+        public void Init()
+        {
+            m_efMock = new MockRepository<EntityDefinition>();
+            ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
+            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
+            ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
+
+           
+        }
+
+
+
+        [Test]
+        public async Task AssemblyActionCompile()
+        {
+            m_efMock.Clear();
+            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", File.ReadAllText(@"C:\project\work\sph\bin\sources\EntityDefinition\Patient.json").DeserializeFromJson<EntityDefinition>());
+            var json =
+                File.ReadAllText(@"C:\project\work\sph\source\unit.test\domain.test\triggers\assembly.action.json");
+            var trigger = json.DeserializeFromJson<Trigger>();
+            var code = await trigger.GenerateCodeAsync();
+            Console.WriteLine(code);
+            var options = new CompilerOptions();
+            var result = await trigger.CompileAsync(options);
+            Assert.IsTrue(result.Result);
+        }
+
+
         [Test]
         public void ReturnTypeofTask()
         {

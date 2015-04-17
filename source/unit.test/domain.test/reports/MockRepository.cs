@@ -16,6 +16,10 @@ namespace domain.test.reports
         {
             m_dictionary.Add(query, data);
         }
+        public void Clear()
+        {
+            m_dictionary.Clear();
+        }
         public Task<LoadOperation<T>> LoadAsync(IQueryable<T> query, int page, int size, bool includeTotalRows)
         {
             throw new NotImplementedException();

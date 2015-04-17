@@ -133,7 +133,7 @@ namespace Bespoke.Sph.Domain
 
         protected override async Task ProcessMessage({edTypeFullName} item, MessageHeaders header)
         {{
-            var trigger = ""{this.ToJsonString().Replace("\"", "\\\"")}""
+            var trigger = @""{this.ToJsonString(true).Replace("\"", "\"\"")}""
                         .DeserializeFromJson<Trigger>();
 
             this.WriteMessage(""Running triggers({{0}}) with {{1}} actions and {{2}} rules"", trigger.Name,
@@ -176,9 +176,11 @@ namespace Bespoke.Sph.Domain
             foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
             {
                 var method = ca.Title.ToCsharpIdentitfier();
-                code.AppendLinf("   var ca{0} = trigger.ActionCollection.Single(x => x.Title == \"{1}\");", count, method);
-                code.AppendLinf("           if(ca{0}.IsActive)", count, method);
-                code.AppendLinf("               await this.{0}(item);", method, edTypeFullName);
+                code.AppendLine($"           var ca{count} = trigger.ActionCollection.Single(x => x.Title == \"{method}\");");
+                code.AppendLine($"           if(ca{count}.IsActive)");
+                code.AppendLine(ca.UseAsync
+                    ? $"               await this.{method}(item);"
+                    : $"               this.{method}(item);");
                 code.AppendLine();
                 count++;
             }
@@ -187,7 +189,9 @@ namespace Bespoke.Sph.Domain
             foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
             {
                 var method = ca.Title.ToCsharpIdentitfier();
-                code.AppendLinf("       public async Task<object> {0}({1} item)", method, edTypeFullName);
+                code.AppendLine(ca.UseAsync
+                    ? $"       public async Task<object> {method}({edTypeFullName} item)"
+                    : $"       public object {method}({edTypeFullName} item)");
                 code.AppendLine("       {");
                 ca.GeneratorCode().Split(new[] { "\r\n" }, StringSplitOptions.None).ToList().ForEach(x => code.AppendLine("            " + x));
                 code.AppendLine("       }");

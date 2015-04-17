@@ -23,14 +23,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 ObjectBuilder.ComposeMefCatalog(this);
 
             var actions = from a in this.ActionOptions
-                          select string.Format(@"
+                          select
+                              $@"
 {{
-    ""designer"" : {0},
-    ""action"" : {1}
-}}", JsonConvert.SerializeObject(a.Metadata), a.Value.ToJsonString());
+    ""designer"" : {JsonConvert.SerializeObject(a.Metadata)},
+    ""action"" : {a.Value.ToJsonString()}
+}}";
 
 
-            return Content("[" + string.Join(",", actions) + "]", "application/json", Encoding.UTF8);
+            return Content($"[{string.Join(",", actions)}]", "application/json", Encoding.UTF8);
         }
 
 

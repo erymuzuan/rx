@@ -69,7 +69,7 @@ namespace Bespoke.Sph.Domain
                 if (this.IsVoid)
                 {
                     code.AppendLine($"   {identifier}.{this.Method}({args});");
-                    code.AppendLine("   return 0;");
+                    code.AppendLine("   return Task.FromResult(new object());");
                     return code.ToString();
 
                 }

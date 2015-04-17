@@ -103,6 +103,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="subscriber.trigger.patient-test-patient">
+      <HintPath>..\..\..\bin\output\subscriber.trigger.patient-test-patient.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable">
       <HintPath>..\..\..\packages\System.Collections.Immutable.1.1.32-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
@@ -228,6 +231,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="triggers\assembly.action.json" />
     <None Include="triggers\trigger.json" />
     <None Include="workflows\PemohonWakaf.xsd">
       <SubType>Designer</SubType>

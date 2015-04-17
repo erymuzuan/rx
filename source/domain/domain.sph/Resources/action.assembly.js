@@ -72,6 +72,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                     action().IsVoid(m.RetVal === "System.Void");
                     action().IsStatic(m.IsStatic);
                     action().MethodArgCollection(args);
+                    action().ReturnType(m.RetVal);
 
                     if(!action().Title()){
                         action().Title(method);
