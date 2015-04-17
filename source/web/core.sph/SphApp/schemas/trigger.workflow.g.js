@@ -1,5 +1,4 @@
-﻿
-/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
+﻿/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -13,15 +12,15 @@ bespoke.sph.domain.Trigger = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
         Id: ko.observable("0"),
-        Name: ko.observable(''),
-        Entity: ko.observable(''),
-        TypeOf: ko.observable(''),
-        Note: ko.observable(''),
+        Name: ko.observable(""),
+        Entity: ko.observable(""),
+        TypeOf: ko.observable(""),
+        Note: ko.observable(""),
         IsActive: ko.observable(false),
         IsFiredOnAdded: ko.observable(false),
         IsFiredOnDeleted: ko.observable(false),
         IsFiredOnChanged: ko.observable(false),
-        FiredOnOperations: ko.observable(''),
+        FiredOnOperations: ko.observable(""),
         RuleCollection: ko.observableArray([]),
         ActionCollection: ko.observableArray([]),
         ReferencedAssemblyCollection: ko.observableArray([]),
@@ -48,16 +47,15 @@ bespoke.sph.domain.Trigger = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.AssemblyField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
-    v.Location = ko.observable('');
+    v.Location = ko.observable("");
 
-    v.TypeName = ko.observable('');
+    v.TypeName = ko.observable("");
 
-    v.Method = ko.observable('');
+    v.Method = ko.observable("");
 
     v.IsAsync = ko.observable(false);
 
@@ -88,12 +86,11 @@ bespoke.sph.domain.AssemblyField = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.JavascriptExpressionField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
-    v.Expression = ko.observable('');
+    v.Expression = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.JavascriptExpressionField, domain.sph";
 
@@ -117,12 +114,11 @@ bespoke.sph.domain.JavascriptExpressionField = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.FunctionField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
-    v.Script = ko.observable('');
+    v.Script = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.FunctionField, domain.sph";
 
@@ -146,12 +142,11 @@ bespoke.sph.domain.FunctionField = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ConstantField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
-    v.TypeName = ko.observable('');
+    v.TypeName = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ConstantField, domain.sph";
 
@@ -175,18 +170,17 @@ bespoke.sph.domain.ConstantField = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.DocumentField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
-    v.XPath = ko.observable('');
+    v.XPath = ko.observable("");
 
-    v.NamespacePrefix = ko.observable('');
+    v.NamespacePrefix = ko.observable("");
 
-    v.TypeName = ko.observable('');
+    v.TypeName = ko.observable("");
 
-    v.Path = ko.observable('');
+    v.Path = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.DocumentField, domain.sph";
 
@@ -210,18 +204,17 @@ bespoke.sph.domain.DocumentField = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.PropertyChangedField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
-    v.Path = ko.observable('');
+    v.Path = ko.observable("");
 
-    v.TypeName = ko.observable('');
+    v.TypeName = ko.observable("");
 
-    v.OldValue = ko.observable('');
+    v.OldValue = ko.observable("");
 
-    v.NewValue = ko.observable('');
+    v.NewValue = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.PropertyChangedField, domain.sph";
 
@@ -243,7 +236,6 @@ bespoke.sph.domain.PropertyChangedField = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.Rule = function (optionOrWebid) {
@@ -275,22 +267,21 @@ bespoke.sph.domain.Rule = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.EmailAction = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
 
-    v.From = ko.observable('');
+    v.From = ko.observable("");
 
-    v.To = ko.observable('');
+    v.To = ko.observable("");
 
-    v.SubjectTemplate = ko.observable('');
+    v.SubjectTemplate = ko.observable("");
 
-    v.BodyTemplate = ko.observable('');
+    v.BodyTemplate = ko.observable("");
 
-    v.Bcc = ko.observable('');
+    v.Bcc = ko.observable("");
 
-    v.Cc = ko.observable('');
+    v.Cc = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.EmailAction, domain.sph";
 
@@ -312,7 +303,6 @@ bespoke.sph.domain.EmailAction = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.SetterAction = function (optionOrWebid) {
@@ -342,12 +332,11 @@ bespoke.sph.domain.SetterAction = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.SetterActionChild = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
-        Path: ko.observable(''),
+        Path: ko.observable(""),
         Field: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -371,13 +360,12 @@ bespoke.sph.domain.SetterActionChild = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.MethodArg = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
-        Name: ko.observable(''),
-        TypeName: ko.observable(''),
+        Name: ko.observable(""),
+        TypeName: ko.observable(""),
         ValueProvider: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -401,14 +389,13 @@ bespoke.sph.domain.MethodArg = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.StartWorkflowAction = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
 
-    v.WorkflowDefinitionId = ko.observable('');
+    v.WorkflowDefinitionId = ko.observable("");
 
-    v.Name = ko.observable('');
+    v.Name = ko.observable("");
 
     v.Version = ko.observable(0);
 
@@ -435,12 +422,11 @@ bespoke.sph.domain.StartWorkflowAction = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.WorkflowTriggerMap = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.WorkflowTriggerMap, domain.sph",
-        VariablePath: ko.observable(''),
+        VariablePath: ko.observable(""),
         Field: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -464,18 +450,23 @@ bespoke.sph.domain.WorkflowTriggerMap = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.AssemblyAction = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
 
     v.IsAsyncMethod = ko.observable(false);
 
-    v.Assembly = ko.observable('');
+    v.Assembly = ko.observable("");
 
-    v.TypeName = ko.observable('');
+    v.TypeName = ko.observable("");
 
-    v.Method = ko.observable('');
+    v.Method = ko.observable("");
+
+    v.ReturnType = ko.observable("");
+
+    v.IsVoid = ko.observable(false);
+
+    v.IsStatic = ko.observable(false);
 
     v["$type"] = "Bespoke.Sph.Domain.AssemblyAction, domain.sph";
 
@@ -500,16 +491,15 @@ bespoke.sph.domain.AssemblyAction = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
         Id: ko.observable("0"),
-        Name: ko.observable(''),
-        Note: ko.observable(''),
+        Name: ko.observable(""),
+        Note: ko.observable(""),
         IsActive: ko.observable(false),
-        SchemaStoreId: ko.observable(''),
+        SchemaStoreId: ko.observable(""),
         Version: ko.observable(0),
         ActivityCollection: ko.observableArray([]),
         VariableDefinitionCollection: ko.observableArray([]),
@@ -539,15 +529,14 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.Workflow = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Workflow, domain.sph",
         Id: ko.observable("0"),
-        WorkflowDefinitionId: ko.observable(''),
-        Name: ko.observable(''),
-        State: ko.observable(''),
+        WorkflowDefinitionId: ko.observable(""),
+        Name: ko.observable(""),
+        State: ko.observable(""),
         IsActive: ko.observable(false),
         Version: ko.observable(0),
         VariableValueCollection: ko.observableArray([]),
@@ -573,24 +562,23 @@ bespoke.sph.domain.Workflow = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ScreenActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.Title = ko.observable('');
+    v.Title = ko.observable("");
 
-    v.ViewVirtualPath = ko.observable('');
+    v.ViewVirtualPath = ko.observable("");
 
     v.WorkflowDefinitionId = ko.observable(0);
 
-    v.CancelMessageSubject = ko.observable('');
+    v.CancelMessageSubject = ko.observable("");
 
-    v.InvitationMessageSubject = ko.observable('');
+    v.InvitationMessageSubject = ko.observable("");
 
-    v.CancelMessageBody = ko.observable('');
+    v.CancelMessageBody = ko.observable("");
 
-    v.InvitationMessageBody = ko.observable('');
+    v.InvitationMessageBody = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ScreenActivity, domain.sph";
 
@@ -615,7 +603,6 @@ bespoke.sph.domain.ScreenActivity = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.DecisionActivity = function (optionOrWebid) {
@@ -643,7 +630,6 @@ bespoke.sph.domain.DecisionActivity = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.DecisionBranch = function (optionOrWebid) {
@@ -675,24 +661,23 @@ bespoke.sph.domain.DecisionBranch = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.NotificationActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.From = ko.observable('');
+    v.From = ko.observable("");
 
-    v.Subject = ko.observable('');
+    v.Subject = ko.observable("");
 
-    v.Body = ko.observable('');
+    v.Body = ko.observable("");
 
-    v.To = ko.observable('');
+    v.To = ko.observable("");
 
-    v.UserName = ko.observable('');
+    v.UserName = ko.observable("");
 
-    v.Cc = ko.observable('');
+    v.Cc = ko.observable("");
 
-    v.Bcc = ko.observable('');
+    v.Bcc = ko.observable("");
 
     v.IsHtmlEmail = ko.observable(false);
 
@@ -716,7 +701,6 @@ bespoke.sph.domain.NotificationActivity = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.SimpleVariable = function (optionOrWebid) {
@@ -743,7 +727,6 @@ bespoke.sph.domain.SimpleVariable = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.ComplexVariable = function (optionOrWebid) {
@@ -778,7 +761,7 @@ bespoke.sph.domain.VariableValue = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.VariableValue, domain.sph",
-        Name: ko.observable(''),
+        Name: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -801,20 +784,19 @@ bespoke.sph.domain.VariableValue = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.Page = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Page, domain.sph",
         Id: ko.observable("0"),
-        Name: ko.observable(''),
+        Name: ko.observable(""),
         IsRazor: ko.observable(false),
         IsPartial: ko.observable(false),
-        VirtualPath: ko.observable(''),
-        Tag: ko.observable(''),
+        VirtualPath: ko.observable(""),
+        Tag: ko.observable(""),
         Version: ko.observable(0),
-        Mode: ko.observable(''),
-        Extension: ko.observable(''),
+        Mode: ko.observable(""),
+        Extension: ko.observable(""),
         Code: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -836,7 +818,6 @@ bespoke.sph.domain.Page = function (optionOrWebid) {
     }
     return model;
 };
-
 
 
 bespoke.sph.domain.EndActivity = function (optionOrWebid) {
@@ -867,13 +848,12 @@ bespoke.sph.domain.EndActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.Performer = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-        UserProperty: ko.observable(''),
-        Value: ko.observable(''),
+        UserProperty: ko.observable(""),
+        Value: ko.observable(""),
         IsPublic: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -895,7 +875,6 @@ bespoke.sph.domain.Performer = function (optionOrWebid) {
     }
     return model;
 };
-
 
 
 bespoke.sph.domain.WorkflowDesigner = function (optionOrWebid) {
@@ -926,7 +905,6 @@ bespoke.sph.domain.WorkflowDesigner = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.SimpleMapping = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.PropertyMapping(optionOrWebid);
@@ -951,7 +929,6 @@ bespoke.sph.domain.SimpleMapping = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.FunctoidMapping = function (optionOrWebid) {
@@ -981,14 +958,13 @@ bespoke.sph.domain.FunctoidMapping = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.CreateEntityActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.EntityType = ko.observable('');
+    v.EntityType = ko.observable("");
 
-    v.ReturnValuePath = ko.observable('');
+    v.ReturnValuePath = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.CreateEntityActivity, domain.sph";
 
@@ -1011,7 +987,6 @@ bespoke.sph.domain.CreateEntityActivity = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.ExpressionActivity = function (optionOrWebid) {
@@ -1041,14 +1016,13 @@ bespoke.sph.domain.ExpressionActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.DeleteEntityActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.EntityType = ko.observable('');
+    v.EntityType = ko.observable("");
 
-    v.EntityIdPath = ko.observable('');
+    v.EntityIdPath = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.DeleteEntityActivity, domain.sph";
 
@@ -1072,16 +1046,15 @@ bespoke.sph.domain.DeleteEntityActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.UpdateEntityActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.EntityType = ko.observable('');
+    v.EntityType = ko.observable("");
 
-    v.EntityIdPath = ko.observable('');
+    v.EntityIdPath = ko.observable("");
 
-    v.UseVariable = ko.observable('');
+    v.UseVariable = ko.observable("");
 
     v.IsUsingVariable = ko.observable(false);
 
@@ -1108,12 +1081,11 @@ bespoke.sph.domain.UpdateEntityActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ScriptFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Expression = ko.observable('');
+    v.Expression = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ScriptFunctoid, domain.sph";
 
@@ -1137,13 +1109,12 @@ bespoke.sph.domain.ScriptFunctoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ConfirmationOptions = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ConfirmationOptions, domain.sph",
-        Type: ko.observable(''),
-        Value: ko.observable(''),
+        Type: ko.observable(""),
+        Value: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1166,16 +1137,15 @@ bespoke.sph.domain.ConfirmationOptions = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.PortType = ko.observable('');
+    v.PortType = ko.observable("");
 
-    v.Operation = ko.observable('');
+    v.Operation = ko.observable("");
 
-    v.MessagePath = ko.observable('');
+    v.MessagePath = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ReceiveActivity, domain.sph";
 
@@ -1202,24 +1172,23 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.SendActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.PortType = ko.observable('');
+    v.PortType = ko.observable("");
 
-    v.Adapter = ko.observable('');
+    v.Adapter = ko.observable("");
 
-    v.Method = ko.observable('');
+    v.Method = ko.observable("");
 
-    v.AdapterAssembly = ko.observable('');
+    v.AdapterAssembly = ko.observable("");
 
     v.IsSynchronous = ko.observable(false);
 
-    v.ArgumentPath = ko.observable('');
+    v.ArgumentPath = ko.observable("");
 
-    v.ReturnValuePath = ko.observable('');
+    v.ReturnValuePath = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.SendActivity, domain.sph";
 
@@ -1244,7 +1213,6 @@ bespoke.sph.domain.SendActivity = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.ListenActivity = function (optionOrWebid) {
@@ -1274,7 +1242,6 @@ bespoke.sph.domain.ListenActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ParallelActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
@@ -1302,12 +1269,11 @@ bespoke.sph.domain.ParallelActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.JoinActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.Placeholder = ko.observable('');
+    v.Placeholder = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.JoinActivity, domain.sph";
 
@@ -1331,12 +1297,11 @@ bespoke.sph.domain.JoinActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.DelayActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.Expression = ko.observable('');
+    v.Expression = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.DelayActivity, domain.sph";
 
@@ -1364,12 +1329,11 @@ bespoke.sph.domain.DelayActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ThrowActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.Message = ko.observable('');
+    v.Message = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ThrowActivity, domain.sph";
 
@@ -1391,7 +1355,6 @@ bespoke.sph.domain.ThrowActivity = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.ParallelBranch = function (optionOrWebid) {
@@ -1419,7 +1382,6 @@ bespoke.sph.domain.ParallelBranch = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.ListenBranch = function (optionOrWebid) {
@@ -1452,12 +1414,11 @@ bespoke.sph.domain.ListenBranch = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ClrTypeVariable = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Variable(optionOrWebid);
 
-    v.Assembly = ko.observable('');
+    v.Assembly = ko.observable("");
 
     v.CanInitiateWithDefaultConstructor = ko.observable(false);
 
@@ -1481,7 +1442,6 @@ bespoke.sph.domain.ClrTypeVariable = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.ScheduledTriggerActivity = function (optionOrWebid) {
@@ -1518,8 +1478,8 @@ bespoke.sph.domain.Tracker = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Tracker, domain.sph",
         Id: ko.observable("0"),
-        WorkflowId: ko.observable(''),
-        WorkflowDefinitionId: ko.observable(''),
+        WorkflowId: ko.observable(""),
+        WorkflowDefinitionId: ko.observable(""),
         ForbiddenActivities: ko.observableArray([]),
         ExecutedActivityCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
@@ -1544,17 +1504,16 @@ bespoke.sph.domain.Tracker = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
-        InstanceId: ko.observable(''),
-        ActivityWebId: ko.observable(''),
-        WorkflowDefinitionId: ko.observable(''),
-        User: ko.observable(''),
-        Name: ko.observable(''),
-        Type: ko.observable(''),
+        InstanceId: ko.observable(""),
+        ActivityWebId: ko.observable(""),
+        WorkflowDefinitionId: ko.observable(""),
+        User: ko.observable(""),
+        Name: ko.observable(""),
+        Type: ko.observable(""),
         Initiated: ko.observable(),
         Run: ko.observable(),
         isBusy: ko.observable(false),
@@ -1579,20 +1538,19 @@ bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Breakpoint, domain.sph",
         IsEnabled: ko.observable(false),
-        ActivityWebId: ko.observable(''),
-        WorkflowDefinitionId: ko.observable(''),
-        ConditionExpression: ko.observable(''),
+        ActivityWebId: ko.observable(""),
+        WorkflowDefinitionId: ko.observable(""),
+        ConditionExpression: ko.observable(""),
         HitCount: ko.observable(0),
-        Label: ko.observable(''),
+        Label: ko.observable(""),
         WhenHitPrintMessage: ko.observable(false),
         WhenHitContinueExecution: ko.observable(false),
-        MessageExpression: ko.observable(''),
+        MessageExpression: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1615,15 +1573,17 @@ bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ReferencedAssembly = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
-        Name: ko.observable(''),
-        FullName: ko.observable(''),
-        Version: ko.observable(''),
-        Location: ko.observable(''),
+        Name: ko.observable(""),
+        FullName: ko.observable(""),
+        Version: ko.observable(""),
+        Location: ko.observable(""),
+        IsGac: ko.observable(false),
+        IsStrongName: ko.observable(false),
+        RuntimeVersion: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1646,16 +1606,15 @@ bespoke.sph.domain.ReferencedAssembly = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.MappingActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.MappingDefinition = ko.observable('');
+    v.MappingDefinition = ko.observable("");
 
-    v.DestinationType = ko.observable('');
+    v.DestinationType = ko.observable("");
 
-    v.OutputPath = ko.observable('');
+    v.OutputPath = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.MappingActivity, domain.sph";
 
@@ -1680,13 +1639,12 @@ bespoke.sph.domain.MappingActivity = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.MappingSource = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.MappingSource, domain.sph",
-        TypeName: ko.observable(''),
-        Variable: ko.observable(''),
+        TypeName: ko.observable(""),
+        Variable: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1709,17 +1667,16 @@ bespoke.sph.domain.MappingSource = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
         Id: ko.observable("0"),
         TransformDefinitionId: ko.observable(0),
-        Name: ko.observable(''),
-        Description: ko.observable(''),
-        InputTypeName: ko.observable(''),
-        OutputTypeName: ko.observable(''),
+        Name: ko.observable(""),
+        Description: ko.observable(""),
+        InputTypeName: ko.observable(""),
+        OutputTypeName: ko.observable(""),
         IsPublished: ko.observable(false),
         MapCollection: ko.observableArray([]),
         FunctoidCollection: ko.observableArray([]),
@@ -1746,14 +1703,13 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.DirectMap = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Map(optionOrWebid);
 
-    v.Source = ko.observable('');
+    v.Source = ko.observable("");
 
-    v.TypeName = ko.observable('');
+    v.TypeName = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.DirectMap, domain.sph";
 
@@ -1777,14 +1733,13 @@ bespoke.sph.domain.DirectMap = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Map(optionOrWebid);
 
-    v.__uuid = ko.observable('');
+    v.__uuid = ko.observable("");
 
-    v.Functoid = ko.observable('');
+    v.Functoid = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.FunctoidMap, domain.sph";
 
@@ -1806,7 +1761,6 @@ bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.StringConcateFunctoid = function (optionOrWebid) {
@@ -1835,14 +1789,13 @@ bespoke.sph.domain.StringConcateFunctoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ParseBooleanFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Format = ko.observable('');
+    v.Format = ko.observable("");
 
-    v.SourceField = ko.observable('');
+    v.SourceField = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ParseBooleanFunctoid, domain.sph";
 
@@ -1866,12 +1819,11 @@ bespoke.sph.domain.ParseBooleanFunctoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ParseDoubleFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Styles = ko.observable('');
+    v.Styles = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ParseDoubleFunctoid, domain.sph";
 
@@ -1895,12 +1847,11 @@ bespoke.sph.domain.ParseDoubleFunctoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ParseDecimalFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Styles = ko.observable('');
+    v.Styles = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ParseDecimalFunctoid, domain.sph";
 
@@ -1924,12 +1875,11 @@ bespoke.sph.domain.ParseDecimalFunctoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ParseInt32Functoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Styles = ko.observable('');
+    v.Styles = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ParseInt32Functoid, domain.sph";
 
@@ -1953,16 +1903,15 @@ bespoke.sph.domain.ParseInt32Functoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ParseDateTimeFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Format = ko.observable('');
+    v.Format = ko.observable("");
 
-    v.Styles = ko.observable('');
+    v.Styles = ko.observable("");
 
-    v.Culture = ko.observable('');
+    v.Culture = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ParseDateTimeFunctoid, domain.sph";
 
@@ -1986,12 +1935,11 @@ bespoke.sph.domain.ParseDateTimeFunctoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.FormattingFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Format = ko.observable('');
+    v.Format = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.FormattingFunctoid, domain.sph";
 
@@ -2015,20 +1963,19 @@ bespoke.sph.domain.FormattingFunctoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
-        Name: ko.observable(''),
-        TypeName: ko.observable(''),
-        Description: ko.observable(''),
-        Label: ko.observable(''),
-        Comment: ko.observable(''),
+        Name: ko.observable(""),
+        TypeName: ko.observable(""),
+        Description: ko.observable(""),
+        Label: ko.observable(""),
+        Comment: ko.observable(""),
         IsOptional: ko.observable(false),
-        Functoid: ko.observable(''),
-        Constant: ko.observable(''),
-        Default: ko.observable(''),
+        Functoid: ko.observable(""),
+        Constant: ko.observable(""),
+        Default: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2051,12 +1998,11 @@ bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ConstantFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.TypeName = ko.observable('');
+    v.TypeName = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ConstantFunctoid, domain.sph";
 
@@ -2081,12 +2027,11 @@ bespoke.sph.domain.ConstantFunctoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.SourceFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Field = ko.observable('');
+    v.Field = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.SourceFunctoid, domain.sph";
 
@@ -2110,13 +2055,12 @@ bespoke.sph.domain.SourceFunctoid = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ExceptionFilter = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ExceptionFilter, domain.sph",
-        TypeName: ko.observable(''),
-        Filter: ko.observable(''),
+        TypeName: ko.observable(""),
+        Filter: ko.observable(""),
         Interval: ko.observable(),
         IntervalPeriod: ko.observable(),
         MaxRequeue: ko.observable(),
@@ -2142,12 +2086,11 @@ bespoke.sph.domain.ExceptionFilter = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.CorrelationType = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.CorrelationType, domain.sph",
-        Name: ko.observable(''),
+        Name: ko.observable(""),
         CorrelationPropertyCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -2171,13 +2114,12 @@ bespoke.sph.domain.CorrelationType = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.CorrelationSet = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.CorrelationSet, domain.sph",
-        Type: ko.observable(''),
-        Name: ko.observable(''),
+        Type: ko.observable(""),
+        Name: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2200,14 +2142,13 @@ bespoke.sph.domain.CorrelationSet = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
-        Path: ko.observable(''),
-        Name: ko.observable(''),
-        Origin: ko.observable(''),
+        Path: ko.observable(""),
+        Name: ko.observable(""),
+        Origin: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2230,12 +2171,11 @@ bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.WorkflowDefinitionId = ko.observable('');
+    v.WorkflowDefinitionId = ko.observable("");
 
     v.Version = ko.observable(0);
 
@@ -2262,7 +2202,6 @@ bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
     }
     return v;
 };
-
 
 
 bespoke.sph.domain.TryScope = function (optionOrWebid) {
@@ -2292,14 +2231,13 @@ bespoke.sph.domain.TryScope = function (optionOrWebid) {
 };
 
 
-
 bespoke.sph.domain.CatchScope = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Scope(optionOrWebid);
 
-    v.ExceptionType = ko.observable('');
+    v.ExceptionType = ko.observable("");
 
-    v.ExceptionVar = ko.observable('');
+    v.ExceptionVar = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.CatchScope, domain.sph";
 
@@ -2327,8 +2265,8 @@ bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Field, domain.sph",
-        Name: ko.observable(''),
-        Note: ko.observable(''),
+        Name: ko.observable(""),
+        Note: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2354,10 +2292,10 @@ bespoke.sph.domain.CustomAction = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.CustomAction, domain.sph",
-        Title: ko.observable(''),
+        Title: ko.observable(""),
         IsActive: ko.observable(false),
-        TriggerId: ko.observable(''),
-        Note: ko.observable(''),
+        TriggerId: ko.observable(""),
+        Note: ko.observable(""),
         CustomActionId: ko.observable(0),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -2385,10 +2323,10 @@ bespoke.sph.domain.Activity = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Activity, domain.sph",
         IsInitiator: ko.observable(false),
-        NextActivityWebId: ko.observable(''),
-        Name: ko.observable(''),
-        TryScope: ko.observable(''),
-        CatchScope: ko.observable(''),
+        NextActivityWebId: ko.observable(""),
+        Name: ko.observable(""),
+        TryScope: ko.observable(""),
+        CatchScope: ko.observable(""),
         WorkflowDesigner: ko.observable(new bespoke.sph.domain.WorkflowDesigner()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -2415,9 +2353,9 @@ bespoke.sph.domain.Variable = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Variable, domain.sph",
-        Name: ko.observable(''),
-        TypeName: ko.observable(''),
-        DefaultValue: ko.observable(''),
+        Name: ko.observable(""),
+        TypeName: ko.observable(""),
+        DefaultValue: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2443,8 +2381,8 @@ bespoke.sph.domain.PropertyMapping = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.PropertyMapping, domain.sph",
-        Source: ko.observable(''),
-        Destination: ko.observable(''),
+        Source: ko.observable(""),
+        Destination: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2470,10 +2408,10 @@ bespoke.sph.domain.Functoid = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Functoid, domain.sph",
-        Name: ko.observable(''),
-        OutputTypeName: ko.observable(''),
-        Label: ko.observable(''),
-        Comment: ko.observable(''),
+        Name: ko.observable(""),
+        OutputTypeName: ko.observable(""),
+        Label: ko.observable(""),
+        Comment: ko.observable(""),
         X: ko.observable(0.00),
         Y: ko.observable(0.00),
         ArgumentCollection: ko.observableArray([]),
@@ -2502,9 +2440,9 @@ bespoke.sph.domain.Map = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Map, domain.sph",
-        Destination: ko.observable(''),
-        SourceTypeName: ko.observable(''),
-        DestinationTypeName: ko.observable(''),
+        Destination: ko.observable(""),
+        SourceTypeName: ko.observable(""),
+        DestinationTypeName: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2530,8 +2468,8 @@ bespoke.sph.domain.Scope = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Scope, domain.sph",
-        Id: ko.observable(''),
-        Name: ko.observable(''),
+        Id: ko.observable(""),
+        Name: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2583,3 +2521,4 @@ bespoke.sph.domain.Operator = function () {
     };
 }();
 
+        

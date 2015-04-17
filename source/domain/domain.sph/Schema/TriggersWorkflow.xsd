@@ -275,6 +275,8 @@
 					<xs:attribute name="TypeName" type="xs:string" use="required"/>
 					<xs:attribute name="Method" type="xs:string" use="required"/>
 					<xs:attribute name="ReturnType" type="xs:string" use="required"/>
+					<xs:attribute name="IsVoid" type="xs:boolean" use="optional"/>
+					<xs:attribute name="IsStatic" type="xs:boolean" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -860,6 +862,9 @@
 			<xs:attribute name="FullName" type="xs:string" use="required"/>
 			<xs:attribute name="Version" type="xs:string" use="required"/>
 			<xs:attribute name="Location" type="xs:string" use="required"/>
+			<xs:attribute name="IsGac" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsStrongName" type="xs:boolean" use="required"/>
+			<xs:attribute name="RuntimeVersion" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="MappingActivity">

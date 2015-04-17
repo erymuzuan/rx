@@ -121,7 +121,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-        readonly string[] m_ignores =
+       public static readonly string[] Ignores =
         {
             "domain.sph",
             "core.sph",
@@ -168,7 +168,7 @@ namespace Bespoke.Sph.Web.Controllers
             var refAssemblies = from a in assemblies
                                 let name = a.GetName()
                                 where a.IsDynamic == false
-                                && !m_ignores.Any(x => name.Name.StartsWith(x))
+                                && !Ignores.Any(x => name.Name.StartsWith(x))
                                 select new
                                 {
                                     Version = name.Version.ToString(),
@@ -228,7 +228,7 @@ namespace Bespoke.Sph.Web.Controllers
             var refAssemblies = from a in assemblies
                                 let name = a.GetName()
                                 where a.IsDynamic == false
-                                && !m_ignores.Any(x => name.Name.StartsWith(x))
+                                && !Ignores.Any(x => name.Name.StartsWith(x))
                                 select a;
             var assembly = refAssemblies.SingleOrDefault(x => x.GetName().Name == dll);
             if (null == assembly) return HttpNotFound("Cannot find assembly " + dll);
@@ -255,7 +255,7 @@ namespace Bespoke.Sph.Web.Controllers
             var refAssemblies = from a in assemblies
                                 let name = a.GetName()
                                 where a.IsDynamic == false
-                                && !m_ignores.Any(x => name.Name.StartsWith(x))
+                                && !Ignores.Any(x => name.Name.StartsWith(x))
                                 select a;
             var assembly = refAssemblies.SingleOrDefault(x => x.GetName().Name == dll);
             if (null == assembly) return HttpNotFound("Cannot find assembly " + dll);
@@ -263,18 +263,23 @@ namespace Bespoke.Sph.Web.Controllers
             var clrType = assembly.GetType(type);
             if (null == clrType)
                 return new HttpNotFoundResult("Cannot find " + type + " in " + dll);
-            var methods = clrType.GetMethods(BindingFlags.Instance | BindingFlags.Public)
+            var methods = clrType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
                 .Where(x => !x.Name.StartsWith("get_"))
                 .Where(x => !x.Name.StartsWith("set_"))
                 .Where(x => !x.Name.StartsWith("add_"))
                 .Where(x => !x.Name.StartsWith("remove_"))
-                .Where(x => x.DeclaringType != typeof(object));
+                .Where(x => x.DeclaringType != typeof(object))
+                .Where(x => x.DeclaringType != typeof(DomainObject))
+                ;
 
             return Json(methods.Select(x => new
             {
                 x.Name,
+                Display = $"",
                 RetVal = x.ReturnType.FullName,
                 IsAsync = x.ReturnType.FullName.StartsWith("System.Threading.Tasks.Task"),
+                x.IsStatic,
+                IsVoid = x.ReturnType == typeof(void),
                 Parameters = x.GetParameters().Select(p => new
                 {
                     p.Name,

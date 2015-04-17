@@ -69,7 +69,13 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                             });
                         });
                     action().IsAsyncMethod(m.RetVal.indexOf("System.Threading.Tasks.Task") > -1);
+                    action().IsVoid(m.RetVal === "System.Void");
+                    action().IsStatic(m.IsStatic);
                     action().MethodArgCollection(args);
+
+                    if(!action().Title()){
+                        action().Title(method);
+                    }
                 });
             },
             okClick = function (data, ev) {

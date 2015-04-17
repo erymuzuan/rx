@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
 
@@ -145,11 +146,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var archived = new BinaryStore
             {
-                Id = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
+                Id = $"wd.{wd.Id}.{wd.Version}",
                 Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)),
                 Extension = ".xml",
-                FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
-
+                FileName = $"wd.{wd.Id}.{wd.Version}.xml"
             };
             await store.DeleteAsync(archived.Id);
             await store.AddAsync(archived);
@@ -240,7 +240,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var act1 = act;
                 var page = await context.LoadOneAsync<Page>(p =>
                                 p.Version == wd.Version &&
-                                p.Tag == string.Format("wf_{0}_{1}", wd.Id, act1.WebId));
+                                p.Tag == $"wf_{wd.Id}_{act1.WebId}");
                 if (null != page)
                     pages.Add(page);
             }
@@ -254,14 +254,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         private async Task<IEnumerable<Page>> GetPublishPagesAsync(WorkflowDefinition wd)
         {
             var context = new SphDataContext();
-            if (null == wd) throw new ArgumentNullException("wd");
+            if (null == wd) throw new ArgumentNullException(nameof(wd));
             var screens = wd.ActivityCollection.OfType<ScreenActivity>();
             var pages = new List<Page>();
             foreach (var scr in screens)
             {
                 // copy the previous version pages if there's any
                 var scr1 = scr;
-                var tag = string.Format("wf_{0}_{1}", wd.Id, scr1.WebId);
+                var tag = $"wf_{wd.Id}_{scr1.WebId}";
                 var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
                 var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
                 var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
@@ -275,7 +275,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Version = wd.Version,
                     WebId = Guid.NewGuid().ToString(),
                     Id = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/{0}/{1}V{2}.cshtml", wd.WorkflowTypeName, scr1.ActionName, wd.Version)
+                    VirtualPath = $"~/Views/{wd.WorkflowTypeName}/{scr1.ActionName}V{wd.Version}.cshtml"
                 };
 
 
@@ -291,7 +291,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         private async Task<string> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
         {
             var context = new SphDataContext();
-            if (null == wd) throw new ArgumentNullException("wd");
+            if (null == wd) throw new ArgumentNullException(nameof(wd));
 
 
             using (var session = context.OpenSession())
@@ -304,6 +304,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return wd.Id;
         }
+        public static readonly string[] Ignores =
+        {
+            "App_global",
+            "App_Code",
+            "App_Web"
+        };
 
         public ActionResult GetLoadedAssemblies()
         {
@@ -311,11 +317,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var refAssemblies = from a in assesmblies
                                 where a.IsDynamic == false
                                 let name = a.GetName()
+                                where !Ignores.Any(x => name.Name.StartsWith(x))
+                                let web = ConfigurationManager.WebPath + "\\bin\\" + Path.GetFileName(a.Location)
+                                let path = System.IO.File.Exists(web) ? web : a.Location
                                 select new ReferencedAssembly
                                 {
                                     Version = name.Version.ToString(),
                                     FullName = name.FullName,
-                                    Location = ConfigurationManager.WebPath + "\\bin\\" + Path.GetFileName(a.Location),
+                                    IsGac = a.GlobalAssemblyCache,
+                                    RuntimeVersion = a.ImageRuntimeVersion,
+                                    Location = path ,
                                     Name = name.Name
                                 };
 

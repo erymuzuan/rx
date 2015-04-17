@@ -119,21 +119,22 @@ namespace Bespoke.Sph.Domain
                 this.ClassName, edTypeFullName);
             code.AppendLine("   {");
 
-            code.AppendFormat(@"  
+            code.AppendLine($@"  
         public override string QueueName
         {{
-            get {{ return ""trigger_subs_{1}""; }}
+            get {{ return ""trigger_subs_{this.Id}""; }}
         }}
 
         public override string[] RoutingKeys
         {{
-            get {{ return new[] {{ {0} }}; }}
+            get {{ return new[] {{ {keys} }}; }}
         }}
 
-        protected override async Task ProcessMessage({2} item, MessageHeaders header)
+
+        protected override async Task ProcessMessage({edTypeFullName} item, MessageHeaders header)
         {{
-            var context = new SphDataContext();
-            var trigger = await context.LoadOneAsync<Trigger>(t => t.Id == ""{1}"");
+            var trigger = ""{this.ToJsonString().Replace("\"", "\\\"")}""
+                        .DeserializeFromJson<Trigger>();
 
             this.WriteMessage(""Running triggers({{0}}) with {{1}} actions and {{2}} rules"", trigger.Name,
                 trigger.ActionCollection.Count(x => x.IsActive),
@@ -168,7 +169,7 @@ namespace Bespoke.Sph.Domain
 
                 this.WriteMessage(""done..."");
             }}
-        ", keys, this.Id, edTypeFullName);
+        ");
 
 
             int count = 1;

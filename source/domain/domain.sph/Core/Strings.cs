@@ -344,7 +344,7 @@ namespace Bespoke.Sph.Domain
 
         public static string GetShortAssemblyQualifiedName(this Type type)
         {
-            return string.Format("{0}, {1}", type.FullName, type.Assembly.GetName().Name);
+            return $"{type.FullName}, {type.Assembly.GetName().Name}";
         }
         public static string ToCSharp(this Type type)
         {

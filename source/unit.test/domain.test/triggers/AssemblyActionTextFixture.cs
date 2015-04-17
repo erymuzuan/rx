@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -30,8 +31,47 @@ namespace domain.test.triggers
             action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
             var code = action.GeneratorCode();
             StringAssert.DoesNotContain("return response", code);
-            StringAssert.Contains("return 1", code);
+            StringAssert.Contains("return 0", code);
         }
+        [Test]
+        public void StaticMethod()
+        {
+            var action = new AssemblyAction
+            {
+                IsAsyncMethod = true,
+                IsStatic = true,
+                ReturnType = typeof(Task).FullName,
+                Assembly = "test",
+                IsActive = true,
+                Method = "Test",
+                TypeName = "Bespoke.Sph.TestObject"
+            };
+            action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string), ValueProvider = new ConstantField { Value = "Erymuzuan", Type = typeof(string) } });
+            action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
+            var code = action.GeneratorCode();
+            StringAssert.DoesNotContain("return response", code);
+            StringAssert.Contains("await Bespoke.Sph.TestObject.Test(", code);
+        }
+
+        [Test]
+        public void VoidMethod()
+        {
+            var action = new AssemblyAction
+            {
+                IsAsyncMethod = false,
+                IsVoid = true,
+                Assembly = "test",
+                IsActive = true,
+                Method = "Test",
+                TypeName = "Bespoke.Sph.TestObject"
+            };
+            action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string), ValueProvider = new ConstantField { Value = "Erymuzuan", Type = typeof(string) } });
+            action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
+            var code = action.GeneratorCode();
+            StringAssert.DoesNotContain("return response", code);
+            StringAssert.Contains("return 0", code);
+        }
+
         [Test]
         public void ReturnTypeofTaskSomething()
         {
@@ -52,12 +92,13 @@ namespace domain.test.triggers
         [Test]
         public async Task CallPatientControllerValidate()
         {
+            var dll = Assembly.LoadFile(@"C:\project\work\sph\bin\output\DevV1.Patient.dll");
             await Task.Delay(250);
             var action = new AssemblyAction
             {
                 Title = "Validate Dob",
-                Assembly = "Dev.Patient",
-                TypeName = "Bespoke.Dev_patient.Domain.PatientController",
+                Assembly = "DevV1.Patient",
+                TypeName = dll.GetType("Bespoke.DevV1_patient.Domain.PatientController").FullName,
                 Method = "Validate",
                 IsAsyncMethod = true
             };
@@ -75,7 +116,7 @@ namespace domain.test.triggers
             action.MethodArgCollection.Add(new MethodArg
             {
                 Name = "item",
-                TypeName = "Bespoke.Dev_patient.Domain.Patient, Dev.Patient",
+                Type = dll.GetType("Bespoke.DevV1_patient.Domain.Patient"),
                 ValueProvider = new FunctionField
                 {
                     Name = "item",
@@ -94,7 +135,7 @@ namespace Dev.SampleTriggers
   {
     public async Task<object> Validate()
     {
-        var item = new Bespoke.Dev_patient.Domain.Patient
+        var item = new Bespoke.DevV1_patient.Domain.Patient
             {
                 FullName = ""Michael Scumacher"", 
                 Dob = new DateTime(1965,4,6)
@@ -111,7 +152,6 @@ namespace Dev.SampleTriggers
             var root = (CompilationUnitSyntax)tree.GetRoot().NormalizeWhitespace(indentation: "  ", elasticTrivia: true);
             StringAssert.Contains("Validate", root.ToString());
 
-            //  root.AddUsings(new UsingDirectiveSyntax(new CSharpSyntaxNode(), root, 0));
 
             var options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
                 .WithOptimizationLevel(OptimizationLevel.Debug)

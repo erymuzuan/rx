@@ -1346,6 +1346,38 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private bool m_IsVoid;
+        [XmlAttribute]
+        public bool IsVoid
+        {
+            get
+            {
+                return m_IsVoid;
+            }
+            set
+            {
+                m_IsVoid = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsStatic;
+        [XmlAttribute]
+        public bool IsStatic
+        {
+            get
+            {
+                return m_IsStatic;
+            }
+            set
+            {
+                m_IsStatic = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<MethodArg> m_MethodArgCollection = new ObjectCollection<MethodArg>();
 
         ///<summary>
@@ -4260,6 +4292,21 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameLocation = "Location";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isGac;
+        public const string PropertyNameIsGac = "IsGac";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isStrongName;
+        public const string PropertyNameIsStrongName = "IsStrongName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_runtimeVersion;
+        public const string PropertyNameRuntimeVersion = "RuntimeVersion";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -4364,6 +4411,87 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_location;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsGac
+        {
+            set
+            {
+                if (m_isGac == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsGac, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isGac = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isGac;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsStrongName
+        {
+            set
+            {
+                if (m_isStrongName == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsStrongName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isStrongName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isStrongName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string RuntimeVersion
+        {
+            set
+            {
+                if (String.Equals(m_runtimeVersion, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRuntimeVersion, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_runtimeVersion = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_runtimeVersion;
             }
         }
 
