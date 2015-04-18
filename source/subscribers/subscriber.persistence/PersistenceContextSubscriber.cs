@@ -17,15 +17,9 @@ namespace Bespoke.Sph.Persistence
 {
     public class PersistenceContextSubscriber : Subscriber
     {
-        public override string QueueName
-        {
-            get { return "persistence"; }
-        }
+        public override string QueueName => "persistence";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "persistence" }; }
-        }
+        public override string[] RoutingKeys => new[] { "persistence" };
 
         private TaskCompletionSource<bool> m_stoppingTcs;
         /// <summary>
@@ -61,8 +55,7 @@ namespace Bespoke.Sph.Persistence
             this.WriteMessage("!!Stoping : {0}", this.QueueName);
 
             m_consumer.Received -= Received;
-            if (null != m_stoppingTcs)
-                m_stoppingTcs.SetResult(true);
+            m_stoppingTcs?.SetResult(true);
 
             while (m_processing > 0)
             {
@@ -143,7 +136,7 @@ namespace Bespoke.Sph.Persistence
             {
                 var o1 = item;
                 var type = item.GetEntityType();
-                var reposType = typeof(IRepository<>).MakeGenericType(new[] { type });
+                var reposType = typeof(IRepository<>).MakeGenericType(type);
                 var repos = ObjectBuilder.GetObject(reposType);
 
                 var p = await repos.LoadOneAsync(o1.Id).ConfigureAwait(false);

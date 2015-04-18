@@ -18,16 +18,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public string HostName { get; set; }
         public int Port { get; set; }
         public string VirtualHost { get; set; }
-        private readonly ObjectCollection<Subscriber> m_subscriberCollection = new ObjectCollection<Subscriber>();
-        private readonly ObjectCollection<AppDomain> m_appDomainCollection = new ObjectCollection<AppDomain>();
-        public ObjectCollection<AppDomain> AppDomainCollection
-        {
-            get { return m_appDomainCollection; }
-        }
-        public ObjectCollection<Subscriber> SubscriberCollection
-        {
-            get { return m_subscriberCollection; }
-        }
+        public ObjectCollection<AppDomain> AppDomainCollection { get; } = new ObjectCollection<AppDomain>();
+
+        public ObjectCollection<Subscriber> SubscriberCollection { get; } = new ObjectCollection<Subscriber>();
 
 
         public INotificationService NotificationService

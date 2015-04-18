@@ -21,6 +21,7 @@ namespace domain.test.triggers
 
         private MockRepository<EntityDefinition> m_efMock;
         private readonly MockPersistence m_persistence = new MockPersistence();
+
         [SetUp]
         public void Init()
         {
@@ -28,7 +29,6 @@ namespace domain.test.triggers
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
             ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
-
            
         }
 

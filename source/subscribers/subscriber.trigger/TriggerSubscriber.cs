@@ -11,15 +11,9 @@ namespace Bespoke.Sph.CustomTriggers
 {
     public class TriggerSubscriber : Subscriber<Trigger>
     {
-        public override string QueueName
-        {
-            get { return "trigger_subs"; }
-        }
+        public override string QueueName => "trigger_subs";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "Trigger.#.Publish", "Trigger.#.Depublish" }; }
-        }
+        public override string[] RoutingKeys => new[] { "Trigger.#.Publish", "Trigger.#.Depublish" };
 
         protected override async Task ProcessMessage(Trigger item, MessageHeaders header)
         {

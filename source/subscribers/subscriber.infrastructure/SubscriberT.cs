@@ -48,8 +48,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             this.WriteMessage("!!Stoping : {0}", this.QueueName);
 
             m_consumer.Received -= Received;
-            if (null != m_stoppingTcs)
-                m_stoppingTcs.SetResult(true);
+            m_stoppingTcs?.SetResult(true);
 
             while (m_processing > 0)
             {
