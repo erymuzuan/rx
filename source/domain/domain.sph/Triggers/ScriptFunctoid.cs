@@ -132,6 +132,10 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                                 <option value=""System.Int32, mscorlib"">Integer</option>
                                 <option value=""System.Decimal, mscorlib"">Decimal</option>
                                 <option value=""System.Boolean, mscorlib"">Boolean</option>
+                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">DateTime Nullable</option>
+                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Integer Nullable</option>
+                                <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Decimal Nullable</option>
+                                <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Boolean Nullable</option>
                             </select>
                         </div>
                     </div>
