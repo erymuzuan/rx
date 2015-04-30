@@ -21,8 +21,8 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": 5,
+            "MaxLength": 50,
             "WebId": null
           },
           "Name": "Single Line Text",
@@ -65,8 +65,8 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": 12,
+            "MaxLength": 14,
             "WebId": null
           },
           "Name": "Single Line Text",
@@ -772,6 +772,46 @@
           "InputColSm": null,
           "InputColXs": null,
           "WebId": null
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+          "IsPathIsRequired": true,
+          "TypeName": "DatePicker",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "Min": null,
+            "Max": null,
+            "MinLength": null,
+            "MaxLength": null,
+            "WebId": null
+          },
+          "Name": null,
+          "Label": "Death Date",
+          "Tooltip": null,
+          "Path": "DeathDate",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "0ca43c3a-a2f7-42ed-91da-d246e1abc790",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "ToolboxIconClass": null,
+          "IsUniqueName": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "8709852d-6830-41df-8584-06f912a92653"
         }
       ]
     },
@@ -826,6 +866,6 @@
   "Id": "patient-details",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-04-07T08:27:14.0442592+08:00",
+  "ChangedDate": "2015-04-22T07:48:21.0309794+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }
