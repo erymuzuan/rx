@@ -274,14 +274,16 @@ gps msbuild* | kill
 
 
 #starts elastic search
-.\bin\elasticsearch\bin\elasticsearch.bat
+Start-Process .\bin\elasticsearch\bin\elasticsearch.bat
+Write-Host "starting 10 seconds to wait for ElasticSearch to completely started"
+sleep -Seconds 10
 
 #compiles test assets
-.\bin\tools\sph.builder.exe .\bin\sources\EntityDefinition\Patient.json
-.\bin\tools\sph.builder.exe .\bin\sources\EntityDefinition\Customer.json
-.\bin\tools\sph.builder.exe .\bin\sources\EntityDefinition\State.json
-.\bin\tools\sph.builder.exe .\bin\sources\EntityDefinition\District.json
-.\bin\tools\sph.builder.exe .\bin\sources\EntityDefinition\Appointment.json
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\Patient.json
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\Customer.json
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\State.json
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\District.json
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\Appointment.json
 
 
 
