@@ -24,10 +24,10 @@
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
                    data-bind="value: FullName, enable :true "
-                   maxlength="0"
+                   maxlength="50"
                    
-                    data-rule-maxlength="0"
- data-rule-minlength="0"
+                    data-rule-maxlength="50"
+ data-rule-minlength="5"
 
                    id="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" type="text" name="FullName" />
         </div>
@@ -40,10 +40,10 @@
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
                    data-bind="value: IdentificationNo, enable :true "
-                   maxlength="0"
+                   maxlength="14"
                    
-                    data-rule-maxlength="0"
- data-rule-minlength="0"
+                    data-rule-maxlength="14"
+ data-rule-minlength="12"
 
                    id="d9f52c01-887a-4ae6-a0fd-c83002987323" type="text" name="IdentificationNo" />
         </div>
@@ -142,7 +142,7 @@
 
 <div class="form-group" data-bind="visible:true">
     <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('0d2298bd-9ea8-4a0f-98ce-603333adefaf')}">
+    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('ead360d6-99ca-4175-af3c-786bc8493be2')}">
         <thead>
             <tr>
                     <th data-i18n="Doctor">Doctor</th>
@@ -151,7 +151,7 @@
                     <th data-i18n="Mrn">Mrn</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('0d2298bd-9ea8-4a0f-98ce-603333adefaf')">
+        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('ead360d6-99ca-4175-af3c-786bc8493be2')">
             <tr>
                         <td data-bind="text:Doctor"></td>
                         <td>
@@ -165,7 +165,15 @@
             </tr>
         </tbody>
     </table>
-</div></form>
+</div>    <div class="form-group" data-bind="visible : true">
+        <label data-i18n="Death Date" for="0ca43c3a-a2f7-42ed-91da-d246e1abc790" class="col-md-4">Death Date</label>
+        <div class="col-md-8">
+            <input class=" form-control input-large"
+                   data-bind="kendoDate: DeathDate, enable :true" id="0ca43c3a-a2f7-42ed-91da-d246e1abc790" type="text"
+                   name="DeathDate" />
+        </div>
+    </div>
+</form>
     </div>
     <div class="col-sm-4">
             <h3 data-i18n="Audit Trail">Audit Trail</h3>

@@ -57,12 +57,38 @@
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "6803a424-a889-4179-baea-827382a8d32d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "756f71b7-0eec-4f02-f402-6657b8e0ba3e",
+        "Destination": "Contact.Name",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "95b5a9de-fea7-41c9-9494-91fda01f6799"
       }
     ]
   },
   "FunctoidCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ConfigurationSettingFunctoid, database.lookup",
+        "Section": "AppSetting",
+        "Key": "ContactName",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": null,
+        "OutputTypeName": null,
+        "Label": null,
+        "Comment": null,
+        "X": 301.0,
+        "Y": 246.0,
+        "WebId": "756f71b7-0eec-4f02-f402-6657b8e0ba3e"
+      }
+    ]
   },
   "InputCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
@@ -100,6 +126,6 @@
   "Id": "mutliplesourcepatienttocustomer",
   "CreatedDate": "2015-02-21T11:20:18.7560531+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-02-21T14:35:19.6203529+08:00",
+  "ChangedDate": "2015-04-18T07:08:30.8969938+08:00",
   "WebId": "b3dbf451-0c8c-48b8-9527-793abe552f1d"
 }

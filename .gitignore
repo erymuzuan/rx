@@ -147,3 +147,5 @@ bin/subscribers/
 bin/subscribers.host/
 /bin/build
 bin/sources/**/*.cs
+/.vs/config
+*.js

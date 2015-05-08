@@ -1140,12 +1140,19 @@ ko.bindingHandlers.money = {
 ///user moment format
 ko.bindingHandlers.date = {
     init: function (element, valueAccessor) {
-        var value = ko.utils.unwrapObservable(valueAccessor()),
-            dv = ko.unwrap(value.value),
-            inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
-            date = moment(dv, inputFormat),
-            invalid = ko.unwrap(value.invalid) || 'invalid date',
-            format = ko.unwrap(value.format) || "DD/MM/YYYY";
+	    var value = ko.utils.unwrapObservable(valueAccessor());			
+
+        if (!value) {
+			$(element).text("");
+			$(element).val("");
+			return;
+		}
+
+        dv = ko.unwrap(value.value),
+        inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
+        date = moment(dv, inputFormat),
+        invalid = ko.unwrap(value.invalid) || 'invalid date',
+        format = ko.unwrap(value.format) || "DD/MM/YYYY";
 
         if (!value.format && typeof ko.unwrap(value) === "string") {
             dv = ko.unwrap(value);
@@ -1183,12 +1190,19 @@ ko.bindingHandlers.date = {
 
     },
     update: function (element, valueAccessor) {
-        var value = ko.utils.unwrapObservable(valueAccessor()),
-            dv = ko.unwrap(value.value),
-            inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
-            date = moment(dv, inputFormat),
-            invalid = ko.unwrap(value.invalid) || 'invalid date',
-            format = ko.unwrap(value.format) || "DD/MM/YYYY";
+        var value = ko.utils.unwrapObservable(valueAccessor());
+
+	    if (!value) {
+	    	$(element).text("");
+	    	$(element).val("");
+	    	return;
+	    }
+
+    	dv = ko.unwrap(value.value),
+        inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
+        date = moment(dv, inputFormat),
+        invalid = ko.unwrap(value.invalid) || 'invalid date',
+        format = ko.unwrap(value.format) || "DD/MM/YYYY";
 
         if (!value.format && typeof ko.unwrap(value) === "string") {
             dv = ko.unwrap(value);

@@ -272,6 +272,21 @@ $web_console_logger | Copy-Item -Destination $web_bin
 
 gps msbuild* | kill
 
+
+#starts elastic search
+Start-Process .\bin\elasticsearch\bin\elasticsearch.bat
+Write-Host "starting 10 seconds to wait for ElasticSearch to completely started"
+sleep -Seconds 10
+
+#compiles test assets
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\Patient.json
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\Customer.json
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\State.json
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\District.json
+.\bin\tools\sph.builder.exe /s .\bin\sources\EntityDefinition\Appointment.json
+
+
+
 if($success){
     Write-Host "Successfully building V1, Now starts web.sph on 4436" -ForegroundColor Cyan
 }
