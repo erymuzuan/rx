@@ -11,7 +11,7 @@
 /// <reference path="../objectbuilders.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, objectbuilders.app],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app],
     function (context, logger, router, system, app) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
@@ -37,7 +37,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
                 ed.Name.subscribe(function (name) {
                     if (!entity().Plural()) {
-                        $.get('/entity-definition/plural/' + name, function (v) {
+                        $.get("/entity-definition/plural/" + name, function (v) {
                             entity().Plural(v);
                         });
                     }
@@ -53,7 +53,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
             },
             save = function () {
-                if (!document.getElementById('entity-form').checkValidity()) {
+                if (!document.getElementById("entity-form").checkValidity()) {
                     logger.error("Please correct all the validations errors");
                     return Task.fromResult(0);
                 }
@@ -183,12 +183,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     return false;
                 },
                 commands: ko.observableArray([{
-                    caption: 'Clone',
-                    icon: 'fa fa-copy',
+                    caption: "Clone",
+                    icon: "fa fa-copy",
                     command: function () {
-                        entity().Name(entity().Name() + ' Copy (1)');
+                        entity().Name(entity().Name() + " Copy (1)");
                         entity().Plural(null);
-                        entity().Id('');
+                        entity().Id("0");
                         forms([]);
                         views([]);
                         return Task.fromResult(0);
