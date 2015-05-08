@@ -1129,7 +1129,7 @@ ko.bindingHandlers.money = {
              textbox = $(element),
              val = parseFloat(ko.unwrap(value) || "0"),
              fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
-                 return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
+                 return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
              });
 
         textbox.val(fm);
@@ -1148,10 +1148,10 @@ ko.bindingHandlers.date = {
 			return;
 		}
 
-        dv = ko.unwrap(value.value),
-        inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
+        var dv = ko.unwrap(value.value),
+        inputFormat = ko.unwrap(value.inputFormat) || "YYYY-MM-DD",
         date = moment(dv, inputFormat),
-        invalid = ko.unwrap(value.invalid) || 'invalid date',
+        invalid = ko.unwrap(value.invalid) || "invalid date",
         format = ko.unwrap(value.format) || "DD/MM/YYYY";
 
         if (!value.format && typeof ko.unwrap(value) === "string") {
@@ -1198,10 +1198,10 @@ ko.bindingHandlers.date = {
 	    	return;
 	    }
 
-    	dv = ko.unwrap(value.value),
-        inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
+    	var dv = ko.unwrap(value.value),
+        inputFormat = ko.unwrap(value.inputFormat) || "YYYY-MM-DD",
         date = moment(dv, inputFormat),
-        invalid = ko.unwrap(value.invalid) || 'invalid date',
+        invalid = ko.unwrap(value.invalid) || "invalid date",
         format = ko.unwrap(value.format) || "DD/MM/YYYY";
 
         if (!value.format && typeof ko.unwrap(value) === "string") {

@@ -15,7 +15,7 @@
     <AssemblyName>core.sph</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
@@ -23,6 +23,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1131,6 +1132,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DatePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\DisplayTemplates\DateTimePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DateTimePicker.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shared\DisplayTemplates\DownloadLink.generated.cs">
       <AutoGen>True</AutoGen>
@@ -2708,6 +2714,10 @@
     <EmbeddedResource Include="Scripts\__core.min.js.map">
       <DependentUpon>__core.js</DependentUpon>
     </EmbeddedResource>
+    <Content Include="Views\Shared\DisplayTemplates\DateTimePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
+    </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
