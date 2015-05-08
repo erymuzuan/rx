@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using RabbitMQ.Client.Exceptions;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -48,7 +49,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public void Stop()
         {
-            this.OnStop();
+            try
+            {
+                this.OnStop();
+            }
+            catch (AlreadyClosedException)
+            {
+                this.NotificicationService.Write(this.GetType().Namespace + " throws AlreadyClosedException on Stop");
+            }
         }
 
 
