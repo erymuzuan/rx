@@ -8,14 +8,14 @@ namespace Bespoke.Sph.Domain
     {
         public ObjectCollection<ILogger> Loggers { get; } = new ObjectCollection<ILogger>();
 
-        public async Task LogAsync(LogEntry entry)
+        public Task LogAsync(LogEntry entry)
         {
             entry.Time = DateTime.Now;
             entry.Computer = Environment.MachineName;
 
             var tasks = from logger in this.Loggers
                         select logger.LogAsync(entry);
-            await Task.WhenAll(tasks);
+            return Task.FromResult(0);
 
         }
 

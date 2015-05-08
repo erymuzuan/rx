@@ -12,9 +12,8 @@ namespace Bespoke.Sph.ElasticSearchLogger
     [Export(typeof(ILogger))]
     public class Logger : ILogger
     {
-        private readonly Func<string> m_url = () => string.Format("{0}/{1}_sys/log/{2}", ConfigurationManager.ElasticSearchHost,
-            ConfigurationManager.ApplicationName.ToLowerInvariant(),
-            Guid.NewGuid());
+        private readonly Func<string> m_url = () =>
+            $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sys/log/{Guid.NewGuid()}";
 
         public Severity TraceSwitch { get; set; }
 
