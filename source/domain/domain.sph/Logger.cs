@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Domain
 
             var tasks = from logger in this.Loggers
                         select logger.LogAsync(entry);
+            Console.WriteLine($"executing {tasks.Count()} loggers");
             return Task.FromResult(0);
 
         }
