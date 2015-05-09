@@ -13,14 +13,14 @@
 
 bespoke.sph.domain.StartWorkflowActionPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         removeMapping = function (map) {
             var self = this;
-            return function() {
+            return function () {
                 self.WorkflowTriggerMapCollection.remove(map);
             };
         },
-        addMapping = function() {
+        addMapping = function () {
             var child = new bespoke.sph.domain.WorkflowTriggerMap(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.WorkflowTriggerMapCollection.push(child);

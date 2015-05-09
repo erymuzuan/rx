@@ -24,7 +24,7 @@ bespoke.sph.domain.TriggerPartial = function () {
             var self = this;
             return function () {
                 var t = type.toLowerCase().replace(", ", ",");
-                require(['viewmodels/action.' + t, 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/action." + t, "durandal/app"], function (dialog, app2) {
                     if (typeof dialog.action !== "function") {
                         console.error("The dialog for " + t + " do not implement action as observable");
                         return;
@@ -72,7 +72,7 @@ bespoke.sph.domain.TriggerPartial = function () {
                 var type = ko.unwrap(action.$type),
                     clone = ko.mapping.fromJS(ko.mapping.toJS(action));
 
-                require(['viewmodels/action.' + type.toLowerCase().replace(", ", ","), 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/action." + type.toLowerCase().replace(", ", ","), "durandal/app"], function (dialog, app2) {
                     dialog.action(clone);
                     if (typeof dialog.trigger === "function") {
                         dialog.trigger(self);
