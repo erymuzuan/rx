@@ -1309,6 +1309,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\async.js" />
     <EmbeddedResource Include="SphApp\goog.js" />
@@ -2051,6 +2052,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\_developers.log.js" />
     <EmbeddedResource Include="SphApp\views\advanced-search.html" />
     <EmbeddedResource Include="SphApp\viewmodels\advanced-search.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\transform.definition.list.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2543,6 +2545,7 @@
     <EmbeddedResource Include="SphApp\views\public.index.html" />
     <EmbeddedResource Include="SphApp\views\search.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\_developers.log.html" />
+    <EmbeddedResource Include="SphApp\views\transform.definition.list.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

@@ -1,0 +1,25 @@
+﻿<h1>Trasnform Definitions</h1>
+<div class="row">
+
+
+    <table class="table table-striped" data-bind="serverPaging :{entity : 'TransformDefinition', list: mappings}">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Input</th>
+                <th>Output</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach : mappings">
+            <tr>
+                <td>
+                    <a href="#" data-bind="attr : {'href':'#transform.definition.edit/' + Id()},text: Name" ></a>
+                </td>
+                <td data-bind="text: InputTypeName"></td>
+                <td data-bind="text: OutputTypeName"></td>
+                <td data-bind="text: Description"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -119,6 +119,7 @@ namespace Bespoke.Sph.Web.Controllers
                     return Content(Properties.Resources.AdapterDefinitionListHtml, "text/html", Encoding.UTF8);
             }
 
+
             if (null == this.Adapters)
                 ObjectBuilder.ComposeMefCatalog(this);
 

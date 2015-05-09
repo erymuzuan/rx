@@ -118,7 +118,7 @@
   },
   "TransformDefinitionId": 0,
   "Name": "MutlipleSourcePatientToCustomer",
-  "Description": "",
+  "Description": "OutputTypeName OutputTypeNameOutputTypeNameOutputTypeName",
   "InputTypeName": null,
   "OutputTypeName": "Bespoke.DevV1_customer.Domain.Customer, DevV1.Customer",
   "IsPublished": true,
@@ -126,6 +126,6 @@
   "Id": "mutliplesourcepatienttocustomer",
   "CreatedDate": "2015-02-21T11:20:18.7560531+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-04-18T07:08:30.8969938+08:00",
+  "ChangedDate": "2015-05-09T10:59:01.9188473+08:00",
   "WebId": "b3dbf451-0c8c-48b8-9527-793abe552f1d"
 }
