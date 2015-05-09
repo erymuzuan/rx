@@ -17,10 +17,8 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
             activate = function () {
                 action().WorkflowTriggerMapCollection([]);
                 var query = "IsActive eq 1";
-                return context.loadAsync("WorkflowDefinition", query)
-                    .then(function (lo) {
-                        wdOptions(lo.itemCollection);
-                    });
+                return context.getTuplesAsync("WorkflowDefinition", query, "Name", "Id")
+                    .then(wdOptions);
 
             },
             okClick = function (data, ev) {
