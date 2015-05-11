@@ -89,16 +89,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 isBusy(true);
                 var q = ko.mapping.toJS(query),
                     cat = {
-                        "term": {
-                        }
+                        "term": {}
                     },
                     histogram = {
-                        "range": {
-                        }
+                        "range": {}
                     },
                     date_histogram = {
-                        "range": {
-                        }
+                        "range": {}
                     };
 
                 if (e.aggregate === "histogram") {

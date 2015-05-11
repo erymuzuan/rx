@@ -9,13 +9,19 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart', objectbuilders.config],
-    function (context, logger, router, chart,config) {
+define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config ],
+    function (context, logger, router, chart,config ) {
 
         var isBusy = ko.observable(false),
             chartFiltered = ko.observable(false),
             view = ko.observable(),
             list = ko.observableArray([]),
+            map = function(v) {
+                if (typeof partial !== "undefined" && typeof partial.map === "function") {
+                    return partial.map(v);
+                }
+                return v;
+            },
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             query = ko.observable(),
             activate = function () {
@@ -65,7 +71,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                          };
                      });
                      vm.toolbar.commands(formsCommands);
-                     tcs.resolve(true);
+
+                         tcs.resolve(true);
+
                  });
 
 
@@ -122,13 +130,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                         setTimeout(function () { isBusy(false); }, 500);
                     });
             },
-            attached = function () {
+            attached = function (view) {
                 chart.init("Patient", query, chartSeriesClick, "patient-religion-islam");
-                   $('#toggle-chart-panel').on('click', function(e) {
-                      e.preventDefault();
-                      $('#table-panel').toggleClass('col-md-12 col-md-8');             
-                      $('#chart-table-panel').toggleClass('col-md-4 col-md-0');
-                  });
             },
             clearChartFilter = function(){
                 chartFiltered(false);
@@ -147,6 +150,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             view: view,
             chart: chart,
             isBusy: isBusy,
+            map: map,
             entity: entity,
             activate: activate,
             attached: attached,
