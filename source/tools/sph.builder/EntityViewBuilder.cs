@@ -23,23 +23,21 @@ namespace sph.builder
 
         }
 
-        private async Task InsertIconAsync(EntityView ed)
+        private async Task InsertIconAsync(EntityView view)
         {
-            var wc = ConfigurationManager.SphSourceDirectory;
-            var folder = Path.Combine(wc, typeof(EntityView).Name);
-            var icon = Path.Combine(folder, ed.Name + ".png");
+            var icon = $"{ConfigurationManager.SphSourceDirectory}\\EntityView\\{view.Id}.png";
             if (!File.Exists(icon)) return;
-            
+
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var schema = new BinaryStore
             {
                 Content = File.ReadAllBytes(icon),
                 Extension = ".png",
-                Id = ed.IconStoreId,
-                FileName = ed.Name + ".png",
-                WebId = ed.IconStoreId
+                Id = view.IconStoreId,
+                FileName = view.Id + ".png",
+                WebId = view.IconStoreId
             };
-            await store.DeleteAsync(ed.IconStoreId);
+            await store.DeleteAsync(view.IconStoreId);
             await store.AddAsync(schema);
         }
 

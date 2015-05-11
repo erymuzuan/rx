@@ -804,6 +804,29 @@
               },
               "Operator": "Eq",
               "WebId": "8c1a203c-a748-420c-bb89-bfb9f2f60bf5"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+              "Left": {
+                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                "XPath": "",
+                "NamespacePrefix": "",
+                "TypeName": "",
+                "Path": "FullName",
+                "Name": "FullName",
+                "Note": "",
+                "WebId": "ca4c396e-8154-42c2-9a0a-979e40302542"
+              },
+              "Right": {
+                "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "CodeNamespace": "ffa92b18bc",
+                "Script": "System.DateTime.Today.ToString()",
+                "Name": "Today string",
+                "Note": "",
+                "WebId": "a92b18bc-6b71-4e39-fe97-01686c0d82d1"
+              },
+              "Operator": "Substringof",
+              "WebId": "8da0db2a-8cf0-474f-ca45-9decd88b5c3e"
             }
           ]
         },
@@ -1049,6 +1072,6 @@
   "Id": "patient",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-04-22T07:57:12.3595975+08:00",
+  "ChangedDate": "2015-05-11T18:33:48.2987499+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

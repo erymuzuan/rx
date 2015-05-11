@@ -324,8 +324,8 @@
   },
   "Name": "Appointment",
   "Plural": "Appointments",
-  "IconStoreId": "161593b6-1a0c-43f0-ab21-6f4804c8acbf",
-  "IconClass": "fa fa-turkish-lira",
+  "IconStoreId": "fe41c06e-2de2-4ddf-9644-256e9f3de7d7",
+  "IconClass": "fa fa-clock-o",
   "RecordName": "ReferenceNo",
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
@@ -333,6 +333,6 @@
   "Id": "appointment",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-03-17T12:40:50.4668252+08:00",
+  "ChangedDate": "2015-05-11T19:02:25.2816348+08:00",
   "WebId": "3a0cd042-a29f-4d00-add4-768eb28db62d"
 }
