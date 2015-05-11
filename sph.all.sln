@@ -1,23 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit.test", "unit.test", "{C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D5FA217-25F5-4EF5-BADA-7691B883E274}"
-	ProjectSection(SolutionItems) = preProject
-		10279.ps1 = 10279.ps1
-		deployment\10282.md = deployment\10282.md
-		version.10279.json = version.10279.json
-		version.json = version.json
-		WE-browsers.xml = WE-browsers.xml
-		..\..\..\Users\bespoke1\AppData\Local\Microsoft\VisualStudio\12.0\Extensions\f4yfe21a.zkq\schemas\WE-Palette.css = ..\..\..\Users\bespoke1\AppData\Local\Microsoft\VisualStudio\12.0\Extensions\f4yfe21a.zkq\schemas\WE-Palette.css
-		WE2013-settings.xml = WE2013-settings.xml
-		WebEssentials-Settings.json = WebEssentials-Settings.json
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domain", "domain", "{FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}"
 EndProject
@@ -150,6 +140,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.console.logger", "source\dependencies\web.console.logger\web.console.logger.csproj", "{BA3B12B1-2758-489E-AEAA-37F3516DB0E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sqlcmd", "source\tools\sqlcmd\sqlcmd.csproj", "{0E76CF28-C1A8-417C-B672-10B6E0AFF102}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gulp-tasks", "gulp-tasks", "{62885FB2-C06E-42F6-8C0C-D9425A9BA774}"
+	ProjectSection(SolutionItems) = preProject
+		tasks\corejs.js = tasks\corejs.js
+		tasks\css.bundle.js = tasks\css.bundle.js
+		tasks\domainjs.js = tasks\domainjs.js
+		tasks\jsplumb.css.bundle.js = tasks\jsplumb.css.bundle.js
+		tasks\less.js = tasks\less.js
+		tasks\md.js = tasks\md.js
+		tasks\partialjs.js = tasks\partialjs.js
+		tasks\vendorjs.js = tasks\vendorjs.js
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -442,5 +444,6 @@ Global
 		{A0FF000A-3E32-48A6-B815-2A99665C1934} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{BA3B12B1-2758-489E-AEAA-37F3516DB0E0} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{0E76CF28-C1A8-417C-B672-10B6E0AFF102} = {DB65484E-BE1F-4944-B216-4A57026360EB}
+		{62885FB2-C06E-42F6-8C0C-D9425A9BA774} = {5D5FA217-25F5-4EF5-BADA-7691B883E274}
 	EndGlobalSection
 EndGlobal

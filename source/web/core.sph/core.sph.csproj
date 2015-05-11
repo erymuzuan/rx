@@ -1614,16 +1614,12 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <EmbeddedResource Include="Scripts\_ko.entity.js" />
-    <EmbeddedResource Include="Scripts\__vendor.js">
-      <DependentUpon>__vendor.js.bundle</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\__vendor.min.js">
-      <DependentUpon>__vendor.js</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\__core.js" />
     <EmbeddedResource Include="Scripts\__core.min.js">
       <DependentUpon>__core.js</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\__vendor.js" />
+    <EmbeddedResource Include="Scripts\__vendor.min.js" />
     <Content Include="SphApp\partial\ChildEntityListView.js" />
     <Content Include="SphApp\partial\CorrelationType.js" />
     <Content Include="SphApp\partial\CreateEntityActivity.js" />
@@ -2695,12 +2691,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Scripts\__vendor.js.bundle">
-      <SubType>Designer</SubType>
-    </Content>
-    <EmbeddedResource Include="Scripts\__vendor.min.js.map">
-      <DependentUpon>__vendor.min.js</DependentUpon>
-    </EmbeddedResource>
     <Content Include="Views\Shared\DisplayTemplates\CurrencyElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
@@ -2721,6 +2711,7 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Scripts\__vendor.min.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
