@@ -17,7 +17,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
             view = ko.observable(),
             list = ko.observableArray([]),
             map = function(v) {
-                if (typeof partial.map === "function") {
+                if (typeof partial !== "undefined" && typeof partial.map === "function") {
                     return partial.map(v);
                 }
                 return v;
