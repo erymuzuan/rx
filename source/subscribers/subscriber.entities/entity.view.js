@@ -61,7 +61,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                      @if (!string.IsNullOrWhiteSpace(Model.PartialArg))
                      {
                          <text>
-                         if(typeof partial.activate === "function"){
+                         if(typeof partial !== "undefined" && typeof partial.activate === "function"){
                              var pt = partial.activate(list);
                              if(typeof pt.done === "function"){
                                  pt.done(tcs.resolve);
@@ -137,7 +137,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                 @if (!string.IsNullOrWhiteSpace(Model.PartialArg))
                 {
                     <text>
-                    if(typeof partial.attached === "function"){
+                    if(typeof partial !== "undefined" && typeof partial.attached === "function"){
                         partial.attached(view);
                     }
                     </text>
