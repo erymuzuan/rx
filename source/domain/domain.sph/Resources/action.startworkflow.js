@@ -24,9 +24,9 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     var wd = _(wdOptions()).find(function(v) {
-                        return ko.unwrap(v.Id) === ko.unwrap(action().WorkflowDefinitionId);
+                        return ko.unwrap(v.Item2) === ko.unwrap(action().WorkflowDefinitionId);
                     });
-                    action().Title(ko.unwrap(wd.Name));
+                    action().Title(wd.Item1);
                     dialog.close(this, "OK");
                 }
 
