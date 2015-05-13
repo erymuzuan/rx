@@ -4,42 +4,34 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace subscriber.version.control
 {
     public class SourceSubscriber : Subscriber<Entity>
     {
-        public override string QueueName
-        {
-            get { return "source_queue"; }
-        }
+        public override string QueueName => "source_queue";
 
-        public override string[] RoutingKeys
+        public override string[] RoutingKeys => new[]
         {
-            get
-            {
-                return new[]
-                {
-                    typeof(Adapter).Name + ".#.#",
-                    typeof(EmailTemplate).Name + ".#.#",
-                    typeof(DocumentTemplate).Name + ".#.#",
-                    typeof(ReportDelivery).Name + ".#.#",
-                    typeof(Page).Name + ".#.#",
-                    typeof(Organization).Name + ".#.#",
-                    typeof(Setting).Name + ".#.#",
-                    typeof(Designation).Name + ".#.#",
-                    typeof(EntityChart).Name + ".#.#",
-                    typeof(EntityView).Name + ".#.#",
-                    typeof(EntityForm).Name + ".#.#",
-                    typeof(EntityDefinition).Name + ".#.#",
-                    typeof(ReportDefinition).Name + ".#.#",
-                    typeof(WorkflowDefinition).Name + ".#.#",
-                    typeof(TransformDefinition).Name + ".#.#",
-                    typeof(Trigger).Name + ".#.#"
-                };
-            }
-        }
+            typeof(Adapter).Name + ".#.#",
+            typeof(EmailTemplate).Name + ".#.#",
+            typeof(DocumentTemplate).Name + ".#.#",
+            typeof(ReportDelivery).Name + ".#.#",
+            typeof(Page).Name + ".#.#",
+            typeof(Organization).Name + ".#.#",
+            typeof(Setting).Name + ".#.#",
+            typeof(Designation).Name + ".#.#",
+            typeof(EntityChart).Name + ".#.#",
+            typeof(EntityView).Name + ".#.#",
+            typeof(EntityForm).Name + ".#.#",
+            typeof(EntityDefinition).Name + ".#.#",
+            typeof(ReportDefinition).Name + ".#.#",
+            typeof(WorkflowDefinition).Name + ".#.#",
+            typeof(TransformDefinition).Name + ".#.#",
+            typeof(Trigger).Name + ".#.#"
+        };
 
         private void RemoveExistingSource(Entity item)
         {
@@ -58,17 +50,25 @@ namespace subscriber.version.control
                     File.Delete(f);
                     continue;
                 }
-                var o = JObject.Parse(text);
-                var idToken = o.SelectToken("$.Id");
-                if (null == idToken)
+                try
                 {
-                    this.WriteMessage("[Id] field cannot be found in in {0}",f);
-                    continue;
+                    var o = JObject.Parse(text);
+                    var idToken = o.SelectToken("$.Id");
+                    if (null == idToken)
+                    {
+                        this.WriteMessage("[Id] field cannot be found in in {0}",f);
+                        continue;
+                    }
+                    var id = idToken.Value<string>();
+                    if (id != item.Id) continue;
+                    File.Delete(f);
+                    return;
                 }
-                var id = idToken.Value<string>();
-                if (id != item.Id) continue;
-                File.Delete(f);
-                return;
+                catch (JsonReaderException e)
+                {
+                    this.NotificicationService.Write($"There is an error in {f}");
+                    this.NotificicationService.WriteError(e, $"there is an error in {f}");
+                }
             }
         }
 
