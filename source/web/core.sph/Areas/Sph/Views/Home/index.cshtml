@@ -3,6 +3,12 @@
 @{
     Layout = null;
     var theme = ConfigurationManager.AppSettings["theme"];
+    var splash = Server.MapPath("~/_splash.html");
+    var splashHtml = "";
+    if (System.IO.File.Exists(splash))
+    {
+        splashHtml = (File.ReadAllText(splash));
+    }
 }
 <!DOCTYPE html>
 <html>
@@ -21,9 +27,16 @@
     <meta name="description" content="The description of my page" />
 </head>
 <body>
-    <div id="applicationHost">
+<div id="applicationHost">
+    @if (!string.IsNullOrWhiteSpace(splashHtml))
+    {
+        @Html.Raw(splashHtml)
+    }
+    else
+    {
         @Html.Partial("_splash")
-    </div>
+    }
+</div>
 
     <script src="~/SphApp/objectbuilders.js"></script>
     @if (HttpContext.Current.IsDebuggingEnabled)

@@ -52,6 +52,12 @@ namespace ASP
   
     Layout = null;
     var theme = ConfigurationManager.AppSettings["theme"];
+    var splash = Server.MapPath("~/_splash.html");
+    var splashHtml = "";
+    if (System.IO.File.Exists(splash))
+    {
+        splashHtml = (File.ReadAllText(splash));
+    }
 
             
             #line default
@@ -59,7 +65,7 @@ namespace ASP
 WriteLiteral("\r\n<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>");
 
             
-            #line 10 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 16 "..\..\Areas\Sph\Views\Home\index.cshtml"
       Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationName);
 
             
@@ -107,18 +113,6 @@ WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/Content/nprogress.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/Content/daterangepicker-bs3.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" />\r\n    <link");
-
 WriteLiteral(" href=\"/Content/site.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -133,29 +127,11 @@ WriteLiteral(" name=\"description\"");
 
 WriteLiteral(" content=\"The description of my page\"");
 
-WriteLiteral(" />\r\n</head>\r\n<body>\r\n    <div");
+WriteLiteral(" />\r\n</head>\r\n<body>\r\n<div");
 
 WriteLiteral(" id=\"applicationHost\"");
 
 WriteLiteral(">\r\n");
-
-WriteLiteral("        ");
-
-            
-            #line 27 "..\..\Areas\Sph\Views\Home\index.cshtml"
-   Write(Html.Partial("_splash"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n    </div>\r\n\r\n    <script");
-
-WriteAttribute("src", Tuple.Create(" src=\"", 1115), Tuple.Create("\"", 1147)
-, Tuple.Create(Tuple.Create("", 1121), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 1121), false)
-);
-
-WriteLiteral("></script>\r\n");
 
             
             #line 31 "..\..\Areas\Sph\Views\Home\index.cshtml"
@@ -165,6 +141,61 @@ WriteLiteral("></script>\r\n");
             #line hidden
             
             #line 31 "..\..\Areas\Sph\Views\Home\index.cshtml"
+     if (!string.IsNullOrWhiteSpace(splashHtml))
+    {
+        
+            
+            #line default
+            #line hidden
+            
+            #line 33 "..\..\Areas\Sph\Views\Home\index.cshtml"
+   Write(Html.Raw(splashHtml));
+
+            
+            #line default
+            #line hidden
+            
+            #line 33 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                             
+    }
+    else
+    {
+        
+            
+            #line default
+            #line hidden
+            
+            #line 37 "..\..\Areas\Sph\Views\Home\index.cshtml"
+   Write(Html.Partial("_splash"));
+
+            
+            #line default
+            #line hidden
+            
+            #line 37 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                                
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</div>\r\n\r\n    <script");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 1276), Tuple.Create("\"", 1308)
+, Tuple.Create(Tuple.Create("", 1282), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 1282), false)
+);
+
+WriteLiteral("></script>\r\n");
+
+            
+            #line 42 "..\..\Areas\Sph\Views\Home\index.cshtml"
+    
+            
+            #line default
+            #line hidden
+            
+            #line 42 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -174,18 +205,6 @@ WriteLiteral("></script>\r\n");
 WriteLiteral("        <script");
 
 WriteLiteral(" src=\"/Scripts/__vendor.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/nprogress.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/jstree.min.js\"");
 
 WriteLiteral("></script>\r\n");
 
@@ -213,38 +232,8 @@ WriteLiteral(" src=\"/SphApp/partial/__partial.js\"");
 
 WriteLiteral("></script>\r\n");
 
-WriteLiteral("        <script");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral(" src=\"/sph/entitydefinition/schemas\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteAttribute("src", Tuple.Create(" src=\"", 1724), Tuple.Create("\"", 1760)
-, Tuple.Create(Tuple.Create("", 1730), Tuple.Create("/Content/theme.", 1730), true)
             
-            #line 41 "..\..\Areas\Sph\Views\Home\index.cshtml"
-, Tuple.Create(Tuple.Create("", 1745), Tuple.Create<System.Object, System.Int32>(theme
-            
-            #line default
-            #line hidden
-, 1745), false)
-, Tuple.Create(Tuple.Create("", 1751), Tuple.Create("/theme.js", 1751), true)
-);
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
-
-WriteLiteral("></script>\r\n");
-
-            
-            #line 43 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 49 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -260,25 +249,7 @@ WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteLiteral(" src=\"/Scripts/nprogress.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/jstree.min.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
 WriteLiteral(" src=\"/Scripts/__core.min.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/_ko.entity.js\"");
 
 WriteLiteral("></script>\r\n");
 
@@ -300,37 +271,6 @@ WriteLiteral(" src=\"/SphApp/partial/__partial.min.js\"");
 
 WriteLiteral("></script>\r\n");
 
-WriteLiteral("        <script");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral(" src=\"/sph/entitydefinition/schemas\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteAttribute("src", Tuple.Create(" src=\"", 2443), Tuple.Create("\"", 2480)
-, Tuple.Create(Tuple.Create("", 2449), Tuple.Create<System.Object, System.Int32>(Href("~/Content/theme.")
-, 2449), false)
-            
-            #line 55 "..\..\Areas\Sph\Views\Home\index.cshtml"
-, Tuple.Create(Tuple.Create("", 2465), Tuple.Create<System.Object, System.Int32>(theme
-            
-            #line default
-            #line hidden
-, 2465), false)
-, Tuple.Create(Tuple.Create("", 2471), Tuple.Create("/theme.js", 2471), true)
-);
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
-
-WriteLiteral("></script>\r\n");
-
             
             #line 57 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
@@ -338,7 +278,32 @@ WriteLiteral("></script>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n    <script");
+WriteLiteral("\r\n    <script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral(" src=\"/sph/entitydefinition/schemas\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 2114), Tuple.Create("\"", 2151)
+, Tuple.Create(Tuple.Create("", 2120), Tuple.Create<System.Object, System.Int32>(Href("~/Content/theme.")
+, 2120), false)
+            
+            #line 60 "..\..\Areas\Sph\Views\Home\index.cshtml"
+, Tuple.Create(Tuple.Create("", 2136), Tuple.Create<System.Object, System.Int32>(theme
+            
+            #line default
+            #line hidden
+, 2136), false)
+, Tuple.Create(Tuple.Create("", 2142), Tuple.Create("/theme.js", 2142), true)
+);
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
+
+WriteLiteral("></script>\r\n\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -346,9 +311,7 @@ WriteLiteral(" src=\"/Scripts/require.js\"");
 
 WriteLiteral(" data-main=\"SphApp/main\"");
 
-WriteLiteral("></script>\r\n\r\n\r\n\r\n    ");
-
-WriteLiteral("\r\n</body>\r\n</html>\r\n");
+WriteLiteral("></script>\r\n\r\n</body>\r\n</html>\r\n");
 
         }
     }
