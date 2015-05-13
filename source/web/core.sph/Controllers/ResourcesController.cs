@@ -8,12 +8,14 @@ namespace Bespoke.Sph.Web.Controllers
 {
     public class ResourcesController : Controller
     {
+        [OutputCache(VaryByParam = "id;folder", Duration = 300)]
         private ActionResult GetResource(string id, string folder)
         {
+
             var contentType = MimeMapping.GetMimeMapping(Path.GetExtension(id) ?? ".txt");
 
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = string.Format("Bespoke.Sph.Web.{0}.{1}", folder, id);
+            var resourceName = $"Bespoke.Sph.Web.{folder}.{id}";
 
             var raw = this.Request.RawUrl;
             if (raw.StartsWith("/~"))
@@ -35,6 +37,9 @@ namespace Bespoke.Sph.Web.Controllers
                 return File(stream, contentType);
             }
 
+
+            // processed, do not cache
+            this.HttpContext.Response.Cache.SetCacheability(HttpCacheability.NoCache);
             if (id.StartsWith("viewmodels") && id.EndsWith(".js"))
             {
                 var controller = id.Replace("viewmodels.", "")
