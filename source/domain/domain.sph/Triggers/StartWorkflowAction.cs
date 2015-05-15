@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
     [Export(typeof(CustomAction))]
-    [DesignerMetadata(Name = "Workflow", TypeName = "Bespoke.Sph.Domain.StartWorkflowAction, domain.sph", Description = "Starts a new workflow when this action is executed", FontAwesomeIcon = "gears")]
+    [DesignerMetadata(Name = "Workflow", TypeName = "Bespoke.Sph.Domain.StartWorkflowAction, domain.sph", Description = "Starts a new workflow when this action is executed", FontAwesomeIcon = "code-fork")]
     public partial class StartWorkflowAction : CustomAction
     {
         public override string GetEditorView()
@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Domain
 
         public override Bitmap GetPngIcon()
         {
-            return Properties.Resources.Gear;
+            return Properties.Resources.Flow_Cart;
         }
 
         public async override Task ExecuteAsync(RuleContext ruleContext)
@@ -39,9 +39,6 @@ namespace Bespoke.Sph.Domain
             await wf.StartAsync().ConfigureAwait(false);
         }
 
-        public override bool UseAsync
-        {
-            get { return true; }
-        }
+        public override bool UseAsync => true;
     }
 }

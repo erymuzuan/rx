@@ -506,6 +506,7 @@
     <None Include="Resources\action.assembly.html" />
     <None Include="Resources\activity.childworkflow.html" />
     <None Include="Resources\activity.childworkflow.js" />
+    <None Include="Resources\Flow-Cart.png" />
     <Content Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />

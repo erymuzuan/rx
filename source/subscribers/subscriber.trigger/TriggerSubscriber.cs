@@ -32,8 +32,13 @@ namespace Bespoke.Sph.CustomTriggers
             this.WriteMessage("Restarting the subscriber, changed detected to {0}", item);
             var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = ConfigurationManager.UserSourceDirectory };
             var result = await item.CompileAsync(options);
-            this.WriteMessage("Compile result {0}", result.Result);
-            result.Errors.ForEach(e => this.WriteError(new Exception(e.Message)));
+            if (!result.Result)
+            {
+
+                this.WriteMessage("Fail to build your Trigger ");
+                result.Errors.ForEach(e => this.WriteError(new Exception(e.Message)));
+                return;
+            }
 
             // NOTE : copy dlls, this will cause the appdomain to unload and we want it happend
             // after the Ack to the broker
@@ -43,10 +48,10 @@ namespace Bespoke.Sph.CustomTriggers
         private async void DeleteTrigger(Trigger trigger)
         {
             Thread.Sleep(1000);
-            var dll = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.dll", trigger.Id));
+            var dll = Path.Combine(ConfigurationManager.SubscriberPath, $"subscriber.trigger.{trigger.Id}.dll");
             if (File.Exists(dll))
                 File.Delete(dll);
-            var pdb = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.pdb", trigger.Id));
+            var pdb = Path.Combine(ConfigurationManager.SubscriberPath, $"subscriber.trigger.{trigger.Id}.pdb");
             if (File.Exists(pdb))
                 File.Delete(pdb);
 
