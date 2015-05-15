@@ -3,9 +3,9 @@
     
     <Style TargetType="Button">
         <Setter Property="Margin" Value="3" />
-        <Setter Property="Padding" Value="3" />
+        <Setter Property="Padding" Value="2" />
         <Setter Property="MinWidth" Value="45" />
-        <Setter Property="Height" Value="30" />
+        <Setter Property="Height" Value="32" />
         <Setter Property="FontSize" Value="10" />
     </Style>
     <Style TargetType="TextBox">
