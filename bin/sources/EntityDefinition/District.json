@@ -94,7 +94,7 @@
   "Name": "District",
   "Plural": "Districts",
   "IconStoreId": "b241cd11-9126-4344-b478-150e7ca9e248",
-  "IconClass": "fa fa-map-marker",
+  "IconClass": "fa fa-rss-square",
   "RecordName": "Name",
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
@@ -102,6 +102,6 @@
   "Id": "district",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-03-23T17:09:39.6126963+08:00",
+  "ChangedDate": "2015-05-18T08:12:59.02311+08:00",
   "WebId": "a9b46951-3540-45fd-af99-69e1128dc718"
 }
