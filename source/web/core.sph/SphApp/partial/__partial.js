@@ -611,7 +611,7 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
 
     var editDisplayTemplate = function () {
         var self = this,
-            w = window.open("/sph/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
             wdw = w.window || w,
             init = function () {
                 wdw.code = ko.unwrap(self.Command);
@@ -626,15 +626,16 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
                 };
             };
         if (wdw.attachEvent) { // for ie
-            wdw.attachEvent('onload', init);
+            wdw.attachEvent("onload", init);
         } else {
             init();
         }
     },
         editColumns = function () {
             var self = this;
-            require(['viewmodels/members.selector.dialog', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/members.selector.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.entity(self.Entity());
+                dialog.selectedMembers(self.LookupColumnCollection());
                 app2.showDialog(dialog,self.Entity())
                     .done(function (result) {
                         if (!result) return;
@@ -1594,14 +1595,14 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
 
 bespoke.sph.domain.StartWorkflowActionPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         removeMapping = function (map) {
             var self = this;
-            return function() {
+            return function () {
                 self.WorkflowTriggerMapCollection.remove(map);
             };
         },
-        addMapping = function() {
+        addMapping = function () {
             var child = new bespoke.sph.domain.WorkflowTriggerMap(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.WorkflowTriggerMapCollection.push(child);
@@ -1646,7 +1647,7 @@ bespoke.sph.domain.TriggerPartial = function () {
             var self = this;
             return function () {
                 var t = type.toLowerCase().replace(", ", ",");
-                require(['viewmodels/action.' + t, 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/action." + t, "durandal/app"], function (dialog, app2) {
                     if (typeof dialog.action !== "function") {
                         console.error("The dialog for " + t + " do not implement action as observable");
                         return;
@@ -1694,7 +1695,7 @@ bespoke.sph.domain.TriggerPartial = function () {
                 var type = ko.unwrap(action.$type),
                     clone = ko.mapping.fromJS(ko.mapping.toJS(action));
 
-                require(['viewmodels/action.' + type.toLowerCase().replace(", ", ","), 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/action." + type.toLowerCase().replace(", ", ","), "durandal/app"], function (dialog, app2) {
                     dialog.action(clone);
                     if (typeof dialog.trigger === "function") {
                         dialog.trigger(self);

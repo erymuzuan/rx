@@ -7,6 +7,7 @@
       "$values": [
         {
           "$type": "Bespoke.Sph.Domain.Button, domain.sph",
+          "IsPathIsRequired": false,
           "Command": null,
           "UseClick": false,
           "CommandName": null,
@@ -15,6 +16,7 @@
           "IconClass": "glyphicon glyphicon-time",
           "IsToolbarItem": true,
           "Operation": "Register",
+          "TypeName": "Button",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -57,6 +59,8 @@
           "AutoCompletionEntity": "Patient",
           "AutoCompletionField": "Mrn",
           "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
+          "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -94,6 +98,58 @@
           "WebId": null
         },
         {
+          "$type": "Bespoke.Sph.Domain.EntityLookupElement, domain.sph",
+          "Entity": "Patient",
+          "DisplayMemberPath": "Mrn",
+          "ValueMemberPath": "Mrn",
+          "DisplayTemplate": null,
+          "LookupColumnCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+            "$values": [
+              "Gender",
+              "Mrn",
+              "FullName"
+            ]
+          },
+          "IsPathIsRequired": true,
+          "TypeName": "EntityLookupElement",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "Min": null,
+            "Max": null,
+            "MinLength": null,
+            "MaxLength": null,
+            "WebId": null
+          },
+          "Name": null,
+          "Label": "Mrn",
+          "Tooltip": null,
+          "Path": "Mrn",
+          "IsRequired": false,
+          "Size": null,
+          "CssClass": null,
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "00ceb949-9dca-4427-ce4c-054056a55bef",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "ToolboxIconClass": null,
+          "IsUniqueName": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "7454e928-3738-431b-873a-1c9958d7e32f"
+        },
+        {
           "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
           "ComboBoxItemCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
@@ -121,6 +177,8 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "IsPathIsRequired": true,
+          "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -191,6 +249,8 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "IsPathIsRequired": true,
+          "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -229,6 +289,8 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.DateTimePicker, domain.sph",
+          "IsPathIsRequired": true,
+          "TypeName": "DateTimePicker",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -289,7 +351,10 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
-  "Id": "create-new-appointment",
+  "FormLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormLayout, domain.sph]], domain.sph",
+    "$values": []
+  },
   "EntityDefinitionId": "appointment",
   "Name": "Create new appointment",
   "Route": "create-new-appointment",
@@ -308,9 +373,13 @@
   "IsExportAvailable": false,
   "Operation": null,
   "Entity": "",
+  "Partial": null,
+  "Caption": null,
+  "Layout": null,
   "CreatedBy": null,
+  "Id": "create-new-appointment",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-23T06:42:17.425663+08:00",
+  "ChangedDate": "2015-05-19T09:27:02.0140919+08:00",
   "WebId": "e8332a55-0d0a-4c35-8ba5-1efd5556dc32"
 }

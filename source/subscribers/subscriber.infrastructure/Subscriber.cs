@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -94,7 +95,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 entityDefinitions.AddRange(lo.ItemCollection);
             }
 
-            foreach (var ed in entityDefinitions)
+            var bags = new ConcurrentDictionary<Type, object>();
+
+            Parallel.ForEach(entityDefinitions, (ed, count) =>
             {
                 var ed1 = ed;
                 try
@@ -109,13 +112,16 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     var repository = Activator.CreateInstance(reposType);
 
                     var ff = typeof(IRepository<>).MakeGenericType(edType);
-
-                    ObjectBuilder.AddCacheList(ff, repository);
+                    bags.AddOrReplace(ff, repository);
                 }
                 catch (FileNotFoundException e)
                 {
                     Debug.WriteLine(e);
                 }
+            });
+            foreach (var type in bags.Keys)
+            {
+                ObjectBuilder.AddCacheList(type, bags[type]);
             }
 
         }
