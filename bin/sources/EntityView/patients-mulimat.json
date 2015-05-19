@@ -198,7 +198,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "2f310f23-c24d-41f0-aa26-2a403d1a24ad",
+  "IconStoreId": "76318269-8163-44f1-beb5-c48519e4aaa7",
   "EntityDefinitionId": "patient",
   "Name": "Muslimat patients",
   "Route": "patients-mulimat",
@@ -214,6 +214,6 @@
   "Id": "patients-mulimat",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-05-11T18:54:00.150169+08:00",
+  "ChangedDate": "2015-05-13T12:48:48.3022768+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }

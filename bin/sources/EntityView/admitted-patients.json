@@ -180,7 +180,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "7424b8f4-32c6-4b3b-a575-96bb07589bd0",
+  "IconStoreId": "6081aac0-5e7c-433f-92e0-207dbdd09698",
   "EntityDefinitionId": "patient",
   "Name": "Admitted Patients",
   "Route": "admitted-patients",
@@ -196,6 +196,6 @@
   "Id": "admitted-patients",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-05-13T11:48:21.3591647+08:00",
+  "ChangedDate": "2015-05-13T12:47:47.5624227+08:00",
   "WebId": "de22c2e4-722b-41ad-b327-33ffa94280fe"
 }

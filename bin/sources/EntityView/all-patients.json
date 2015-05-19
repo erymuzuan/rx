@@ -230,7 +230,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "bdbb22ef-924c-4c81-87c8-cf4caf5826a0",
+  "IconStoreId": "c43802b6-2444-4e78-9ed4-801eeb52ca4d",
   "EntityDefinitionId": "patient",
   "Name": "All patients",
   "Route": "all-patients",
@@ -246,6 +246,6 @@
   "Id": "all-patients",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-05-13T11:48:44.9606517+08:00",
+  "ChangedDate": "2015-05-13T12:48:18.038456+08:00",
   "WebId": "5ae449e7-1260-411e-9a36-74631d5fa46f"
 }
