@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -12,7 +12,7 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
 
     var editDisplayTemplate = function () {
         var self = this,
-            w = window.open("/sph/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
             wdw = w.window || w,
             init = function () {
                 wdw.code = ko.unwrap(self.Command);
@@ -27,15 +27,16 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
                 };
             };
         if (wdw.attachEvent) { // for ie
-            wdw.attachEvent('onload', init);
+            wdw.attachEvent("onload", init);
         } else {
             init();
         }
     },
         editColumns = function () {
             var self = this;
-            require(['viewmodels/members.selector.dialog', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/members.selector.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.entity(self.Entity());
+                dialog.selectedMembers(self.LookupColumnCollection());
                 app2.showDialog(dialog,self.Entity())
                     .done(function (result) {
                         if (!result) return;
