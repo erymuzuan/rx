@@ -27,6 +27,12 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     
+    #line 1 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/NumberTextBox.cshtml")]
     public partial class _Views_Shared_EditorTemplates_NumberTextBox_cshtml_ : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.NumberTextBox>
@@ -37,17 +43,21 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
- if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
-}
+            #line 3 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+  
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 
             
             #line default
             #line hidden
+WriteLiteral("\r\n");
+
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 10 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
  if (Model.IsCompact)
 {
 
@@ -56,40 +66,40 @@ namespace ASP
             #line hidden
 WriteLiteral("    <input");
 
-WriteAttribute("step", Tuple.Create(" step=\"", 158), Tuple.Create("\"", 176)
+WriteAttribute("step", Tuple.Create(" step=\"", 279), Tuple.Create("\"", 297)
             
-            #line 8 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 165), Tuple.Create<System.Object, System.Int32>(Model.Step
+            #line 12 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 286), Tuple.Create<System.Object, System.Int32>(Model.Step
             
             #line default
             #line hidden
-, 165), false)
+, 286), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 177), Tuple.Create("\"", 233)
+WriteAttribute("class", Tuple.Create(" class=\"", 298), Tuple.Create("\"", 354)
             
-            #line 8 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 185), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 12 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 306), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 185), false)
+, 306), false)
 );
 
-WriteAttribute("title", Tuple.Create("\r\n           title=\"", 234), Tuple.Create("\"", 268)
+WriteAttribute("title", Tuple.Create("\r\n           title=\"", 355), Tuple.Create("\"", 389)
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 254), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 13 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 375), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 254), false)
+, 375), false)
 );
 
 WriteLiteral(" data-bind=\"");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 13 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
                                          Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -97,32 +107,32 @@ WriteLiteral(" data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create("\r\n           id=\"", 331), Tuple.Create("\"", 364)
+WriteAttribute("id", Tuple.Create("\r\n           id=\"", 452), Tuple.Create("\"", 485)
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 348), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 14 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 469), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 348), false)
+, 469), false)
 );
 
 WriteLiteral(" type=\"number\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 379), Tuple.Create("\"", 397)
+WriteAttribute("name", Tuple.Create(" name=\"", 500), Tuple.Create("\"", 520)
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 386), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 14 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 507), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 386), false)
+, 507), false)
 );
 
 WriteLiteral(" />\r\n");
 
             
-            #line 11 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 15 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
 }
 else
 {
@@ -138,7 +148,7 @@ WriteLiteral(" class=\"form-group\"");
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 15 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 19 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
                                           Write(Model.Visible);
 
             
@@ -151,7 +161,7 @@ WriteLiteral(">\r\n        <label");
 WriteLiteral(" data-i18n=\"");
 
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 20 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
                      Write(Model.Label);
 
             
@@ -159,94 +169,83 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral("data-i18n=\"");
-
+WriteAttribute("for", Tuple.Create(" for=\"", 644), Tuple.Create("\"", 666)
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-                                             Write(Model.Label);
-
+            #line 20 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 650), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-WriteLiteral("\"");
-
-WriteAttribute("for", Tuple.Create(" for=\"", 545), Tuple.Create("\"", 567)
-            
-            #line 16 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 551), Tuple.Create<System.Object, System.Int32>(Model.ElementId
-            
-            #line default
-            #line hidden
-, 551), false)
+, 650), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 568), Tuple.Create("\"", 596)
+WriteAttribute("class", Tuple.Create(" class=\"", 667), Tuple.Create("\"", 695)
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-               , Tuple.Create(Tuple.Create("", 576), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+            #line 20 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 675), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 576), false)
+, 675), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-                                                                                                               Write(Model.Label);
+            #line 20 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+                                                                                       Write(Model.Label);
 
             
             #line default
             #line hidden
 WriteLiteral("</label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 632), Tuple.Create("\"", 665)
+WriteAttribute("class", Tuple.Create(" class=\"", 731), Tuple.Create("\"", 764)
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 640), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            #line 21 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 739), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 640), false)
+, 739), false)
 );
 
 WriteLiteral(">\r\n            <input");
 
-WriteAttribute("step", Tuple.Create(" step=\"", 687), Tuple.Create("\"", 705)
+WriteAttribute("step", Tuple.Create(" step=\"", 786), Tuple.Create("\"", 804)
             
-            #line 18 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 694), Tuple.Create<System.Object, System.Int32>(Model.Step
+            #line 22 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 793), Tuple.Create<System.Object, System.Int32>(Model.Step
             
             #line default
             #line hidden
-, 694), false)
+, 793), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 706), Tuple.Create("\"", 762)
+WriteAttribute("class", Tuple.Create(" class=\"", 805), Tuple.Create("\"", 861)
             
-            #line 18 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 714), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 22 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 813), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 714), false)
+, 813), false)
 );
 
-WriteAttribute("title", Tuple.Create("\r\n                   title=\"", 763), Tuple.Create("\"", 805)
+WriteAttribute("title", Tuple.Create("\r\n                   title=\"", 862), Tuple.Create("\"", 904)
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 791), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 23 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 890), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 791), false)
+, 890), false)
 );
 
 WriteLiteral(" data-bind=\"");
 
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 23 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
                                                  Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -254,38 +253,38 @@ WriteLiteral(" data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create("\r\n                   id=\"", 868), Tuple.Create("\"", 909)
+WriteAttribute("id", Tuple.Create("\r\n                   id=\"", 967), Tuple.Create("\"", 1008)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 893), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 24 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 992), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 893), false)
+, 992), false)
 );
 
 WriteLiteral(" type=\"number\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 924), Tuple.Create("\"", 942)
+WriteAttribute("name", Tuple.Create(" name=\"", 1023), Tuple.Create("\"", 1043)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 931), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 24 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+, Tuple.Create(Tuple.Create("", 1030), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 931), false)
+, 1030), false)
 );
 
 WriteLiteral(" />\r\n        </div>\r\n");
 
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 26 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 26 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
          if (!string.IsNullOrWhiteSpace(Model.HelpText))
         {
 
@@ -299,7 +298,7 @@ WriteLiteral(" class=\"help-block\"");
 WriteLiteral(">");
 
             
-            #line 24 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 28 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
                                 Write(Model.HelpText);
 
             
@@ -308,7 +307,7 @@ WriteLiteral(">");
 WriteLiteral("</span>\r\n");
 
             
-            #line 25 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 29 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
         }
 
             
@@ -317,7 +316,7 @@ WriteLiteral("</span>\r\n");
 WriteLiteral("    </div>\r\n");
 
             
-            #line 27 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
+            #line 31 "..\..\Views\Shared\EditorTemplates\NumberTextBox.cshtml"
 }
             
             #line default

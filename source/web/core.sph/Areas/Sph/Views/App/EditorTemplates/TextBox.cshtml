@@ -7,7 +7,7 @@
     <div class="col-lg-6">
         <input @required class="@(Model.CssClass + " form-control " + Model.Size)" title="@Model.Tooltip"
                data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-               id="@Model.ElementId" type="text" name="@Model.Path" />
+               id="@Model.ElementId" type="text" name="@Model.Path.Replace("().",".")" />
     </div>
     @if (!string.IsNullOrWhiteSpace(Model.HelpText))
     {

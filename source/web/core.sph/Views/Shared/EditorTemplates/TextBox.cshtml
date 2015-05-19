@@ -1,8 +1,10 @@
+@using Bespoke.Sph.Domain
 @model Bespoke.Sph.Domain.TextBox
 @{
     var required = (Model.IsRequired || Model.FieldValidation.IsRequired) ? "required" : null;
     var maxLength = Model.FieldValidation.MaxLength;
     var pattern = (string.IsNullOrWhiteSpace(Model.FieldValidation.Pattern) ? null : Model.FieldValidation.Pattern);
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
 }
 @if (string.IsNullOrWhiteSpace(Model.Enable))
 {
@@ -16,14 +18,14 @@
     {
         if (string.IsNullOrWhiteSpace(value))
             return new HtmlString("");
-        return new HtmlString(string.Format("{0}=\"{1}\"", attr, value));
+        return new HtmlString($"{attr}=\"{value}\"");
     }
 
     public static IHtmlString @Attribute(int? value, string attr)
     {
         if (null == value)
             return new HtmlString("");
-        return new HtmlString(string.Format("{0}=\"{1}\"", attr, value));
+        return new HtmlString($"{attr}=\"{value}\"");
     }
 
 }
@@ -36,7 +38,7 @@
             @Html.Raw(Model.FieldValidation.GetHtmlAttributes())
             @Attribute(Model.ElementId, "id") 
             type="text" 
-            name="@Model.Path" 
+            name="@originalPath" 
             @Attribute(maxLength, "maxlength")
             @Attribute(pattern, "pattern") />
 }
@@ -50,7 +52,7 @@ else
                    @Attribute(maxLength, "maxlength")
                    @Attribute(pattern, "pattern")
                    @Html.Raw(Model.FieldValidation.GetHtmlAttributes())
-                   @Attribute(Model.ElementId,"id") type="text" name="@Model.Path" />
+                   @Attribute(Model.ElementId,"id") type="text" name="@originalPath" />
         </div>
         @if (!string.IsNullOrWhiteSpace(Model.HelpText))
         {

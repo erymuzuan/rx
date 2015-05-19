@@ -11,6 +11,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -54,6 +55,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -93,6 +95,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+          "IsPathIsRequired": true,
           "TypeName": "DatePicker",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -164,6 +167,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "IsPathIsRequired": true,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -241,6 +245,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "IsPathIsRequired": true,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -318,6 +323,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "IsPathIsRequired": true,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -358,6 +364,7 @@
         {
           "$type": "Bespoke.Sph.Domain.NumberTextBox, domain.sph",
           "Step": 0,
+          "IsPathIsRequired": true,
           "TypeName": "NumberTextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -398,6 +405,7 @@
         {
           "$type": "Bespoke.Sph.Domain.NumberTextBox, domain.sph",
           "Step": 0,
+          "IsPathIsRequired": true,
           "TypeName": "NumberTextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -475,6 +483,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "IsPathIsRequired": true,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -513,7 +522,52 @@
           "WebId": null
         },
         {
+          "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+          "DefaultValue": null,
+          "AutoCompletionEntity": "State",
+          "AutoCompletionField": "Name",
+          "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
+          "TypeName": "TextBox",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": true,
+            "Pattern": null,
+            "Mode": "",
+            "Message": "Negeri kena isi",
+            "Min": null,
+            "Max": null,
+            "MinLength": 3,
+            "MaxLength": 15,
+            "WebId": null
+          },
+          "Name": null,
+          "Label": "Home Address State",
+          "Tooltip": null,
+          "Path": "HomeAddress.State",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "1f936341-e3e8-4975-8845-ac30116711fb",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "ToolboxIconClass": null,
+          "IsUniqueName": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "4a85a80a-5f26-4db6-9f55-67d83d71015c"
+        },
+        {
           "$type": "Bespoke.Sph.Domain.Button, domain.sph",
+          "IsPathIsRequired": false,
           "Command": "var tcs = new $.Deferred();\ncontext.post( ko.mapping.toJSON(entity),'/patient/validate/Dob,ChildMarriage')\n.done(function(result){\n    if (result.success) {\n        logger.info(result.message);\n        errors.removeAll();\n        app.showMessage(\"OK done\", \"SPH Platform showcase\", [\"OK\"]);;\n    \n    } else {\n        errors.removeAll();\n        _(result.rules).each(function (v) {\n            errors(v.ValidationErrors);\n        });\n        logger.error(\"There are errors in your entity, !!!\");\n    }\n    tcs.resolve(true);\n});\n\nreturn tcs.promise();",
           "UseClick": false,
           "CommandName": "validate",
@@ -611,7 +665,7 @@
   "CreatedBy": "admin",
   "Id": "patient-registration",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
-  "ChangedBy": "BESPOKE1-PC",
-  "ChangedDate": "2014-11-03T07:29:12.2378574+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-05-19T16:24:15.2561678+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

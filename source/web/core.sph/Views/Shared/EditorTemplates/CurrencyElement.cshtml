@@ -1,13 +1,17 @@
-﻿@model Bespoke.Sph.Domain.CurrencyElement
-@if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
+﻿@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Domain.CurrencyElement
+@{
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 }
 @if (Model.IsCompact)
 {
     <input class="@(Model.CssClass + " form-control "+ Model.Size)"
            title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-           id="@Model.ElementId" type="text" name="@Model.Path" />
+           id="@Model.ElementId" type="text" name="@originalPath" />
 }
 else
 {
@@ -17,7 +21,7 @@ else
         <div class="@Model.InputPanelCssClass">
             <input  class="@(Model.CssClass + " form-control "+ Model.Size)"
                    title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-                   id="@Model.ElementId" type="text" name="@Model.Path" />
+                   id="@Model.ElementId" type="text" name="@originalPath" />
         </div>
         @if (!string.IsNullOrWhiteSpace(Model.HelpText))
         {

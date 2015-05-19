@@ -27,6 +27,12 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     
+    #line 1 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/DateTimePicker.cshtml")]
     public partial class _Views_Shared_EditorTemplates_DateTimePicker_cshtml_ : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.DateTimePicker>
@@ -37,19 +43,21 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
- if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
-}
+            #line 3 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+  
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n");
+WriteLiteral("\r\n\r\n");
 
             
-            #line 7 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+            #line 11 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
  if (Model.IsCompact)
 {
 
@@ -58,20 +66,20 @@ WriteLiteral("\r\n");
             #line hidden
 WriteLiteral("    <input");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 161), Tuple.Create("\"", 217)
+WriteAttribute("class", Tuple.Create(" class=\"", 282), Tuple.Create("\"", 338)
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 169), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 13 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+, Tuple.Create(Tuple.Create("", 290), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 169), false)
+, 290), false)
 );
 
 WriteLiteral("\r\n           data-bind=\"");
 
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+            #line 14 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
                   Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -79,32 +87,32 @@ WriteLiteral("\r\n           data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 292), Tuple.Create("\"", 313)
+WriteAttribute("id", Tuple.Create(" id=\"", 413), Tuple.Create("\"", 434)
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 297), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 14 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+, Tuple.Create(Tuple.Create("", 418), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 297), false)
+, 418), false)
 );
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("name", Tuple.Create("\r\n           name=\"", 326), Tuple.Create("\"", 356)
+WriteAttribute("name", Tuple.Create("\r\n           name=\"", 447), Tuple.Create("\"", 479)
             
-            #line 11 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 345), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 15 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+, Tuple.Create(Tuple.Create("", 466), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 345), false)
+, 466), false)
 );
 
 WriteLiteral(" />\r\n");
 
             
-            #line 12 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+            #line 16 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
 }
 else
 {
@@ -120,7 +128,7 @@ WriteLiteral(" class=\"form-group\"");
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+            #line 20 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
                                           Write(Model.Visible);
 
             
@@ -133,7 +141,7 @@ WriteLiteral(">\r\n        <label");
 WriteLiteral(" data-i18n=\"");
 
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+            #line 21 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
                      Write(Model.Label);
 
             
@@ -141,30 +149,30 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 480), Tuple.Create("\"", 502)
+WriteAttribute("for", Tuple.Create(" for=\"", 603), Tuple.Create("\"", 625)
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 486), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 21 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+, Tuple.Create(Tuple.Create("", 609), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 486), false)
+, 609), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 503), Tuple.Create("\"", 531)
+WriteAttribute("class", Tuple.Create(" class=\"", 626), Tuple.Create("\"", 654)
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 511), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+            #line 21 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+, Tuple.Create(Tuple.Create("", 634), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 511), false)
+, 634), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+            #line 21 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
                                                                                        Write(Model.Label);
 
             
@@ -172,32 +180,32 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 567), Tuple.Create("\"", 600)
+WriteAttribute("class", Tuple.Create(" class=\"", 690), Tuple.Create("\"", 723)
             
-            #line 18 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 575), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            #line 22 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+, Tuple.Create(Tuple.Create("", 698), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 575), false)
+, 698), false)
 );
 
 WriteLiteral(">\r\n            <input");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 622), Tuple.Create("\"", 678)
+WriteAttribute("class", Tuple.Create(" class=\"", 745), Tuple.Create("\"", 801)
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 630), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 23 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+, Tuple.Create(Tuple.Create("", 753), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 630), false)
+, 753), false)
 );
 
 WriteLiteral("\r\n                   data-bind=\"");
 
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+            #line 24 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
                           Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -205,32 +213,32 @@ WriteLiteral("\r\n                   data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 761), Tuple.Create("\"", 782)
+WriteAttribute("id", Tuple.Create(" id=\"", 884), Tuple.Create("\"", 905)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
-      , Tuple.Create(Tuple.Create("", 766), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 24 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+      , Tuple.Create(Tuple.Create("", 889), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 766), false)
+, 889), false)
 );
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("name", Tuple.Create("\r\n                   name=\"", 795), Tuple.Create("\"", 833)
+WriteAttribute("name", Tuple.Create("\r\n                   name=\"", 918), Tuple.Create("\"", 958)
             
-            #line 21 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 822), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 25 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+, Tuple.Create(Tuple.Create("", 945), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 822), false)
+, 945), false)
 );
 
 WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n");
 
             
-            #line 24 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
+            #line 28 "..\..\Views\Shared\EditorTemplates\DateTimePicker.cshtml"
 }
             
             #line default

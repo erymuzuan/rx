@@ -1,23 +1,27 @@
-﻿@model Bespoke.Sph.Domain.NumberTextBox
-@if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
+﻿@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Domain.NumberTextBox
+@{
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 }
 @if (Model.IsCompact)
 {
     <input step="@Model.Step" class="@(Model.CssClass + " form-control "+ Model.Size)"
            title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-           id="@Model.ElementId" type="number" name="@Model.Path" />
+           id="@Model.ElementId" type="number" name="@originalPath" />
 }
 else
 {
 
     <div class="form-group" data-bind="visible:@Model.Visible">
-        <label data-i18n="@Model.Label"data-i18n="@Model.Label" for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
+        <label data-i18n="@Model.Label" for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
         <div class="@Model.InputPanelCssClass">
             <input step="@Model.Step" class="@(Model.CssClass + " form-control "+ Model.Size)"
                    title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-                   id="@Model.ElementId" type="number" name="@Model.Path" />
+                   id="@Model.ElementId" type="number" name="@originalPath" />
         </div>
         @if (!string.IsNullOrWhiteSpace(Model.HelpText))
         {

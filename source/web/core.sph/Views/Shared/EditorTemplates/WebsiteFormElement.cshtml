@@ -1,7 +1,11 @@
-﻿@model Bespoke.Sph.Domain.WebsiteFormElement
-@if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
+﻿@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Domain.WebsiteFormElement
+@{
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 }
 
 
@@ -20,7 +24,7 @@ else
         <div class="@Model.InputPanelCssClass">
             <input class="@(Model.CssClass + " form-control "+ Model.Size)"
                    title="@Model.Tooltip"
-                   data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="url" name="@Model.Path" />
+                   data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="url" name="@originalPath" />
         </div>
     </div>
 }
