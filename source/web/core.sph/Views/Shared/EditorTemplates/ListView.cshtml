@@ -2,9 +2,12 @@
 @using Bespoke.Sph.Domain
 @model Bespoke.Sph.Domain.ListView
 
-@if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
+@{
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 }
 
 <div data-bind="visible:@Model.Visible">

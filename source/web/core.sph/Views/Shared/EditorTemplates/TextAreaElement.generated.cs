@@ -27,6 +27,12 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     
+    #line 1 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/TextAreaElement.cshtml")]
     public partial class _Views_Shared_EditorTemplates_TextAreaElement_cshtml_ : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.TextAreaElement>
@@ -37,17 +43,21 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
- if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
-}
+            #line 3 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+  
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 
             
             #line default
             #line hidden
+WriteLiteral("\r\n");
+
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+            #line 10 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
  if (Model.IsCompact)
 {
 
@@ -57,30 +67,30 @@ namespace ASP
             #line hidden
 WriteLiteral("    <textarea");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 165), Tuple.Create("\"", 221)
+WriteAttribute("class", Tuple.Create(" class=\"", 286), Tuple.Create("\"", 342)
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 173), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 13 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 294), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 173), false)
+, 294), false)
 );
 
-WriteAttribute("title", Tuple.Create("\r\n              title=\"", 222), Tuple.Create("\"", 259)
+WriteAttribute("title", Tuple.Create("\r\n              title=\"", 343), Tuple.Create("\"", 380)
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 245), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 14 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 366), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 245), false)
+, 366), false)
 );
 
 WriteLiteral(" data-bind=\"");
 
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+            #line 14 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
                                             Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -88,30 +98,30 @@ WriteLiteral(" data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create("\r\n              id=\"", 322), Tuple.Create("\"", 358)
+WriteAttribute("id", Tuple.Create("\r\n              id=\"", 443), Tuple.Create("\"", 479)
             
-            #line 11 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 342), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 15 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 463), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 342), false)
+, 463), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 359), Tuple.Create("\"", 377)
+WriteAttribute("name", Tuple.Create(" name=\"", 480), Tuple.Create("\"", 500)
             
-            #line 11 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 366), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 15 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 487), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 366), false)
+, 487), false)
 );
 
 WriteLiteral("></textarea>\r\n");
 
             
-            #line 12 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+            #line 16 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
 }
 else
 {
@@ -127,7 +137,7 @@ WriteLiteral(" class=\"form-group\"");
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+            #line 20 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
                                           Write(Model.Visible);
 
             
@@ -140,7 +150,7 @@ WriteLiteral(">\r\n        <label");
 WriteLiteral(" data-i18n=\"");
 
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+            #line 21 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
                      Write(Model.Label);
 
             
@@ -148,30 +158,30 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 510), Tuple.Create("\"", 532)
+WriteAttribute("for", Tuple.Create(" for=\"", 633), Tuple.Create("\"", 655)
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 516), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 21 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 639), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 516), false)
+, 639), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 533), Tuple.Create("\"", 561)
+WriteAttribute("class", Tuple.Create(" class=\"", 656), Tuple.Create("\"", 684)
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 541), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+            #line 21 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 664), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 541), false)
+, 664), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+            #line 21 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
                                                                                        Write(Model.Label);
 
             
@@ -179,42 +189,42 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 597), Tuple.Create("\"", 630)
+WriteAttribute("class", Tuple.Create(" class=\"", 720), Tuple.Create("\"", 753)
             
-            #line 18 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 605), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            #line 22 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 728), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 605), false)
+, 728), false)
 );
 
 WriteLiteral(">\r\n            <textarea");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 655), Tuple.Create("\"", 711)
+WriteAttribute("class", Tuple.Create(" class=\"", 778), Tuple.Create("\"", 834)
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 663), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 23 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 786), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 663), false)
+, 786), false)
 );
 
-WriteAttribute("title", Tuple.Create("\r\n                      title=\"", 712), Tuple.Create("\"", 757)
+WriteAttribute("title", Tuple.Create("\r\n                      title=\"", 835), Tuple.Create("\"", 880)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 743), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 24 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 866), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 743), false)
+, 866), false)
 );
 
 WriteLiteral(" data-bind=\"");
 
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+            #line 24 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
                                                     Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -222,30 +232,30 @@ WriteLiteral(" data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create("\r\n                      id=\"", 820), Tuple.Create("\"", 864)
+WriteAttribute("id", Tuple.Create("\r\n                      id=\"", 943), Tuple.Create("\"", 987)
             
-            #line 21 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 848), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 25 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 971), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 848), false)
+, 971), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 865), Tuple.Create("\"", 883)
+WriteAttribute("name", Tuple.Create(" name=\"", 988), Tuple.Create("\"", 1008)
             
-            #line 21 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
-, Tuple.Create(Tuple.Create("", 872), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 25 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+, Tuple.Create(Tuple.Create("", 995), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 872), false)
+, 995), false)
 );
 
 WriteLiteral("></textarea>\r\n        </div>\r\n    </div>\r\n");
 
             
-            #line 24 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
+            #line 28 "..\..\Views\Shared\EditorTemplates\TextAreaElement.cshtml"
 
 }
             

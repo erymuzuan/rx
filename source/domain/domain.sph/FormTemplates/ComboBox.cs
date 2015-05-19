@@ -39,9 +39,9 @@ namespace Bespoke.Sph.Domain
             }
 
 
-            return this.IsCompact ? 
-                string.Format("value: {0}, visible :{1}, enable :{2}", path, this.Visible, this.Enable) :
-                string.Format("value: {0}, enable :{1}", path, this.Enable);
+            return this.IsCompact ?
+                $"value: {path}, visible :{this.Visible}, enable :{this.Enable}"
+                : $"value: {path}, enable :{this.Enable}";
         }
 
     }

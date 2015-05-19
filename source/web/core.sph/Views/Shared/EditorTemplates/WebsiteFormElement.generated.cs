@@ -27,6 +27,12 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     
+    #line 1 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/WebsiteFormElement.cshtml")]
     public partial class _Views_Shared_EditorTemplates_WebsiteFormElement_cshtml_ : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.WebsiteFormElement>
@@ -37,19 +43,21 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
- if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
-}
+            #line 3 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+  
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n");
+WriteLiteral("\r\n\r\n\r\n");
 
             
-            #line 8 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+            #line 12 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
  if (Model.IsCompact)
 {
 
@@ -58,30 +66,30 @@ WriteLiteral("\r\n\r\n");
             #line hidden
 WriteLiteral("    <input");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 167), Tuple.Create("\"", 223)
+WriteAttribute("class", Tuple.Create(" class=\"", 288), Tuple.Create("\"", 344)
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 175), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 14 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 296), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 175), false)
+, 296), false)
 );
 
-WriteAttribute("title", Tuple.Create("\r\n           title=\"", 224), Tuple.Create("\"", 258)
+WriteAttribute("title", Tuple.Create("\r\n           title=\"", 345), Tuple.Create("\"", 379)
             
-            #line 11 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 244), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 15 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 365), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 244), false)
+, 365), false)
 );
 
 WriteLiteral("\r\n           data-bind=\"");
 
             
-            #line 12 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+            #line 16 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
                   Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -89,32 +97,32 @@ WriteLiteral("\r\n           data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create("\r\n           id=\"", 333), Tuple.Create("\"", 366)
+WriteAttribute("id", Tuple.Create("\r\n           id=\"", 454), Tuple.Create("\"", 487)
             
-            #line 13 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 350), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 17 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 471), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 350), false)
+, 471), false)
 );
 
 WriteLiteral(" type=\"url\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 378), Tuple.Create("\"", 396)
+WriteAttribute("name", Tuple.Create(" name=\"", 499), Tuple.Create("\"", 517)
             
-            #line 13 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 385), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 17 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 506), Tuple.Create<System.Object, System.Int32>(Model.Path
             
             #line default
             #line hidden
-, 385), false)
+, 506), false)
 );
 
 WriteLiteral(" />\r\n");
 
             
-            #line 14 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+            #line 18 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
 
 }
 else
@@ -130,7 +138,7 @@ WriteLiteral(" class=\"control-group\"");
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 18 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+            #line 22 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
                                              Write(Model.Visible);
 
             
@@ -143,7 +151,7 @@ WriteLiteral(">\r\n        <label");
 WriteLiteral(" data-i18n=\"");
 
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+            #line 23 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
                      Write(Model.Label);
 
             
@@ -151,30 +159,30 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 523), Tuple.Create("\"", 545)
+WriteAttribute("for", Tuple.Create(" for=\"", 644), Tuple.Create("\"", 666)
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 529), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 23 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 650), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 529), false)
+, 650), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 546), Tuple.Create("\"", 574)
+WriteAttribute("class", Tuple.Create(" class=\"", 667), Tuple.Create("\"", 695)
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 554), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+            #line 23 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 675), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 554), false)
+, 675), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+            #line 23 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
                                                                                        Write(Model.Label);
 
             
@@ -182,42 +190,42 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 610), Tuple.Create("\"", 643)
+WriteAttribute("class", Tuple.Create(" class=\"", 731), Tuple.Create("\"", 764)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 618), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            #line 24 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 739), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 618), false)
+, 739), false)
 );
 
 WriteLiteral(">\r\n            <input");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 665), Tuple.Create("\"", 721)
+WriteAttribute("class", Tuple.Create(" class=\"", 786), Tuple.Create("\"", 842)
             
-            #line 21 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 673), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 25 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 794), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 673), false)
+, 794), false)
 );
 
-WriteAttribute("title", Tuple.Create("\r\n                   title=\"", 722), Tuple.Create("\"", 764)
+WriteAttribute("title", Tuple.Create("\r\n                   title=\"", 843), Tuple.Create("\"", 885)
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 750), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 26 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 871), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 750), false)
+, 871), false)
 );
 
 WriteLiteral("\r\n                   data-bind=\"");
 
             
-            #line 23 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+            #line 27 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
                           Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -225,32 +233,32 @@ WriteLiteral("\r\n                   data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 847), Tuple.Create("\"", 868)
+WriteAttribute("id", Tuple.Create(" id=\"", 968), Tuple.Create("\"", 989)
             
-            #line 23 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-      , Tuple.Create(Tuple.Create("", 852), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 27 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+      , Tuple.Create(Tuple.Create("", 973), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 852), false)
+, 973), false)
 );
 
 WriteLiteral(" type=\"url\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 880), Tuple.Create("\"", 898)
+WriteAttribute("name", Tuple.Create(" name=\"", 1001), Tuple.Create("\"", 1021)
             
-            #line 23 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
-                                         , Tuple.Create(Tuple.Create("", 887), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 27 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+                                        , Tuple.Create(Tuple.Create("", 1008), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 887), false)
+, 1008), false)
 );
 
 WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n");
 
             
-            #line 26 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
+            #line 30 "..\..\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml"
 }
             
             #line default

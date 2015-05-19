@@ -49,10 +49,10 @@ namespace ASP
             
             #line 6 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
   
-    var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
+    var path = $"'/sph/binarystore/get/' + {Model.Path}()";
     if (Model.IsTransformTemplate)
     {
-        path = string.Format("'/sph/documenttemplate/transform?entity={0}&templateId={1}&id=' + {2}()", Model.Entity, Model.TemplateId, Model.Path);
+        path = $"'/sph/documenttemplate/transform?entity={Model.Entity}&templateId={Model.TemplateId}&id=' + {Model.Path}()";
     }
 
             
@@ -141,28 +141,28 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 670), Tuple.Create("\"", 692)
+WriteAttribute("for", Tuple.Create(" for=\"", 630), Tuple.Create("\"", 652)
             
             #line 24 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-, Tuple.Create(Tuple.Create("", 676), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+, Tuple.Create(Tuple.Create("", 636), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 676), false)
+, 636), false)
 );
 
 WriteLiteral(" class=\"\"");
 
 WriteLiteral("></label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 725), Tuple.Create("\"", 758)
+WriteAttribute("class", Tuple.Create(" class=\"", 685), Tuple.Create("\"", 718)
             
             #line 25 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-, Tuple.Create(Tuple.Create("", 733), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+, Tuple.Create(Tuple.Create("", 693), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 733), false)
+, 693), false)
 );
 
 WriteLiteral(">\r\n            <a");
@@ -178,14 +178,14 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 801), Tuple.Create("\"", 822)
+WriteAttribute("id", Tuple.Create(" id=\"", 761), Tuple.Create("\"", 782)
             
             #line 26 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-, Tuple.Create(Tuple.Create("", 806), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+, Tuple.Create(Tuple.Create("", 766), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 806), false)
+, 766), false)
 );
 
 WriteLiteral(" data-bind=\"attr : {\'href\':");

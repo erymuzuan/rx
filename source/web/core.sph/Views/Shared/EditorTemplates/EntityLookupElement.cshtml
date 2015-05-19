@@ -6,7 +6,7 @@
         Model.Enable = "true";
     }
     
-    var columns = string.Join(",", Model.LookupColumnCollection.Select(c => string.Format("'{0}'", c)));
+    var columns = string.Join(",", Model.LookupColumnCollection.Select(c => $"'{c}'"));
     Console.WriteLine(columns);
 }
 

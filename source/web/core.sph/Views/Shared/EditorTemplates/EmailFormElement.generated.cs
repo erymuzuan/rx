@@ -27,6 +27,12 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     
+    #line 1 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/EmailFormElement.cshtml")]
     public partial class _Views_Shared_EditorTemplates_EmailFormElement_cshtml_ : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.EmailFormElement>
@@ -37,9 +43,10 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 3 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
   
     var required = (Model.IsRequired || Model.FieldValidation.IsRequired) ? "required" : null;
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
 
     if (string.IsNullOrWhiteSpace(Model.Enable))
     {
@@ -49,10 +56,10 @@ namespace ASP
             
             #line default
             #line hidden
-WriteLiteral("\r\n");
+WriteLiteral("\r\n\r\n");
 
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 13 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
  if (Model.IsCompact)
 {
 
@@ -62,7 +69,7 @@ WriteLiteral("\r\n");
 WriteLiteral("    <input ");
 
             
-            #line 12 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 15 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
       Write(required);
 
             
@@ -71,7 +78,7 @@ WriteLiteral("    <input ");
 WriteLiteral(" class=\"");
 
             
-            #line 12 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 15 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                         Write(Model.CssClass + " form-control "+ Model.Size);
 
             
@@ -80,7 +87,7 @@ WriteLiteral(" class=\"");
 WriteLiteral("\" title=\"");
 
             
-            #line 12 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 15 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                                                                                 Write(Model.Tooltip);
 
             
@@ -89,7 +96,7 @@ WriteLiteral("\" title=\"");
 WriteLiteral("\"\r\n           data-bind=\"");
 
             
-            #line 13 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 16 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                   Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -98,7 +105,7 @@ WriteLiteral("\"\r\n           data-bind=\"");
 WriteLiteral("\" id=\"");
 
             
-            #line 13 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 16 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                                                                         Write(Model.ElementId);
 
             
@@ -107,8 +114,8 @@ WriteLiteral("\" id=\"");
 WriteLiteral("\" type=\"email\" name=\"");
 
             
-            #line 13 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
-                                                                                                             Write(Model.Path);
+            #line 16 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+                                                                                                             Write(originalPath);
 
             
             #line default
@@ -116,7 +123,7 @@ WriteLiteral("\" type=\"email\" name=\"");
 WriteLiteral("\" />\r\n");
 
             
-            #line 14 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 17 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
 
 }
 else
@@ -132,7 +139,7 @@ WriteLiteral(" class=\"form-group\"");
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 18 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 21 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                                           Write(Model.Visible);
 
             
@@ -145,7 +152,7 @@ WriteLiteral(">\r\n        <label");
 WriteLiteral(" data-i18n=\"");
 
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 22 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                      Write(Model.Label);
 
             
@@ -153,30 +160,30 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 622), Tuple.Create("\"", 644)
+WriteAttribute("for", Tuple.Create(" for=\"", 725), Tuple.Create("\"", 747)
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 628), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 22 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 731), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 628), false)
+, 731), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 645), Tuple.Create("\"", 673)
+WriteAttribute("class", Tuple.Create(" class=\"", 748), Tuple.Create("\"", 776)
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 653), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+            #line 22 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 756), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 653), false)
+, 756), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 22 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                                                                                        Write(Model.Label);
 
             
@@ -184,20 +191,20 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 709), Tuple.Create("\"", 742)
+WriteAttribute("class", Tuple.Create(" class=\"", 812), Tuple.Create("\"", 845)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
-, Tuple.Create(Tuple.Create("", 717), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            #line 23 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+, Tuple.Create(Tuple.Create("", 820), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 717), false)
+, 820), false)
 );
 
 WriteLiteral(">\r\n            <input ");
 
             
-            #line 21 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 24 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
               Write(required);
 
             
@@ -206,7 +213,7 @@ WriteLiteral(">\r\n            <input ");
 WriteLiteral(" class=\"");
 
             
-            #line 21 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 24 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                                 Write(Model.CssClass + " form-control "+ Model.Size);
 
             
@@ -215,7 +222,7 @@ WriteLiteral(" class=\"");
 WriteLiteral("\" title=\"");
 
             
-            #line 21 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 24 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                                                                                         Write(Model.Tooltip);
 
             
@@ -224,7 +231,7 @@ WriteLiteral("\" title=\"");
 WriteLiteral("\"\r\n                   data-bind=\"");
 
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 25 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                           Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -233,7 +240,7 @@ WriteLiteral("\"\r\n                   data-bind=\"");
 WriteLiteral("\" id=\"");
 
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 25 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
                                                                                 Write(Model.ElementId);
 
             
@@ -242,8 +249,8 @@ WriteLiteral("\" id=\"");
 WriteLiteral("\" type=\"email\" name=\"");
 
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
-                                                                                                                     Write(Model.Path);
+            #line 25 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+                                                                                                                     Write(originalPath);
 
             
             #line default
@@ -251,7 +258,7 @@ WriteLiteral("\" type=\"email\" name=\"");
 WriteLiteral("\" />\r\n        </div>\r\n    </div>\r\n");
 
             
-            #line 25 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
+            #line 28 "..\..\Views\Shared\EditorTemplates\EmailFormElement.cshtml"
 }
             
             #line default

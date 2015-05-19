@@ -27,6 +27,12 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     
+    #line 1 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/CurrencyElement.cshtml")]
     public partial class _Views_Shared_EditorTemplates_CurrencyElement_cshtml_ : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.CurrencyElement>
@@ -37,17 +43,21 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
- if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
-}
+            #line 3 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+  
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 
             
             #line default
             #line hidden
+WriteLiteral("\r\n");
+
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 10 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
  if (Model.IsCompact)
 {
 
@@ -56,30 +66,30 @@ namespace ASP
             #line hidden
 WriteLiteral("    <input");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 160), Tuple.Create("\"", 216)
+WriteAttribute("class", Tuple.Create(" class=\"", 281), Tuple.Create("\"", 337)
             
-            #line 8 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 168), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 12 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 289), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 168), false)
+, 289), false)
 );
 
-WriteAttribute("title", Tuple.Create("\r\n           title=\"", 217), Tuple.Create("\"", 251)
+WriteAttribute("title", Tuple.Create("\r\n           title=\"", 338), Tuple.Create("\"", 372)
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 237), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 13 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 358), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 237), false)
+, 358), false)
 );
 
 WriteLiteral(" data-bind=\"");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 13 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
                                          Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -87,32 +97,32 @@ WriteLiteral(" data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create("\r\n           id=\"", 314), Tuple.Create("\"", 347)
+WriteAttribute("id", Tuple.Create("\r\n           id=\"", 435), Tuple.Create("\"", 468)
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 331), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 14 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 452), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 331), false)
+, 452), false)
 );
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 360), Tuple.Create("\"", 378)
+WriteAttribute("name", Tuple.Create(" name=\"", 481), Tuple.Create("\"", 501)
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 367), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 14 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 488), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 367), false)
+, 488), false)
 );
 
 WriteLiteral(" />\r\n");
 
             
-            #line 11 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 15 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
 }
 else
 {
@@ -128,7 +138,7 @@ WriteLiteral(" class=\"form-group\"");
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 15 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 19 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
                                           Write(Model.Visible);
 
             
@@ -141,7 +151,7 @@ WriteLiteral(">\r\n        <label");
 WriteLiteral(" data-i18n=\"");
 
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 20 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
                      Write(Model.Label);
 
             
@@ -149,30 +159,30 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 502), Tuple.Create("\"", 524)
+WriteAttribute("for", Tuple.Create(" for=\"", 625), Tuple.Create("\"", 647)
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 508), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 20 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 631), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 508), false)
+, 631), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 525), Tuple.Create("\"", 553)
+WriteAttribute("class", Tuple.Create(" class=\"", 648), Tuple.Create("\"", 676)
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 533), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+            #line 20 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 656), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 533), false)
+, 656), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 20 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
                                                                                        Write(Model.Label);
 
             
@@ -180,42 +190,42 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 589), Tuple.Create("\"", 622)
+WriteAttribute("class", Tuple.Create(" class=\"", 712), Tuple.Create("\"", 745)
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 597), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            #line 21 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 720), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 597), false)
+, 720), false)
 );
 
 WriteLiteral(">\r\n            <input");
 
-WriteAttribute("class", Tuple.Create("  class=\"", 644), Tuple.Create("\"", 701)
+WriteAttribute("class", Tuple.Create("  class=\"", 767), Tuple.Create("\"", 824)
             
-            #line 18 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 653), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
+            #line 22 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 776), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control "+ Model.Size
             
             #line default
             #line hidden
-, 653), false)
+, 776), false)
 );
 
-WriteAttribute("title", Tuple.Create("\r\n                   title=\"", 702), Tuple.Create("\"", 744)
+WriteAttribute("title", Tuple.Create("\r\n                   title=\"", 825), Tuple.Create("\"", 867)
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 730), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 23 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 853), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 730), false)
+, 853), false)
 );
 
 WriteLiteral(" data-bind=\"");
 
             
-            #line 19 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 23 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
                                                  Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -223,38 +233,38 @@ WriteLiteral(" data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create("\r\n                   id=\"", 807), Tuple.Create("\"", 848)
+WriteAttribute("id", Tuple.Create("\r\n                   id=\"", 930), Tuple.Create("\"", 971)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 832), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 24 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 955), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 832), false)
+, 955), false)
 );
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 861), Tuple.Create("\"", 879)
+WriteAttribute("name", Tuple.Create(" name=\"", 984), Tuple.Create("\"", 1004)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
-, Tuple.Create(Tuple.Create("", 868), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 24 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+, Tuple.Create(Tuple.Create("", 991), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 868), false)
+, 991), false)
 );
 
 WriteLiteral(" />\r\n        </div>\r\n");
 
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 26 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 26 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
          if (!string.IsNullOrWhiteSpace(Model.HelpText))
         {
 
@@ -268,7 +278,7 @@ WriteLiteral(" class=\"help-block\"");
 WriteLiteral(">");
 
             
-            #line 24 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 28 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
                                 Write(Model.HelpText);
 
             
@@ -277,7 +287,7 @@ WriteLiteral(">");
 WriteLiteral("</span>\r\n");
 
             
-            #line 25 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 29 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
         }
 
             
@@ -286,7 +296,7 @@ WriteLiteral("</span>\r\n");
 WriteLiteral("    </div>\r\n");
 
             
-            #line 27 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
+            #line 31 "..\..\Views\Shared\EditorTemplates\CurrencyElement.cshtml"
 }
             
             #line default

@@ -1,6 +1,6 @@
 ﻿@model Bespoke.Sph.Domain.ImageElement
 @{
-    var path = string.Format("'/sph/image/store/' + {0}()", this.Model.Path);
+    var path = $"'/sph/image/store/' + {this.Model.Path}()";
     var width = Model.Width.HasValue ? "width=\"" + Model.Width.Value + "\"": string.Empty;
     var height = Model.Height.HasValue ? "height=\"" + Model.Height.Value + "\"" : string.Empty;
     
