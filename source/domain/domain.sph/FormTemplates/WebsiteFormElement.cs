@@ -8,10 +8,7 @@ namespace Bespoke.Sph.Domain
     {
         public override string GetKnockoutBindingExpression()
         {
-            return string.Format("value: {0}, visible :{1}, enable: {2}",
-                this.Path,
-                this.Visible,
-                this.Enable);
+            return $"value: {this.Path}, visible :{this.Visible}, enable: {this.Enable}";
         }
     }
 }

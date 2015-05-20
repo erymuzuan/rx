@@ -261,44 +261,6 @@
                 "WebId": "1a0dfa8a-cc8d-48e0-b857-2ff757887754"
               },
               "WebId": "51201976-4ff9-4c66-a7d6-9d266b5aa2b0"
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
-              "Path": "Note",
-              "Field": {
-                "$type": "Bespoke.Sph.Domain.AssemblyField, domain.sph",
-                "Location": "h:\\temp\\Msic.dll",
-                "TypeName": "Bespoke.Util",
-                "Method": "TranslateMsicCode",
-                "IsAsync": false,
-                "AsyncTimeout": 0,
-                "LoadInCurrentAppDomain": false,
-                "MethodArgCollection": {
-                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                  "$values": [
-                    {
-                      "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
-                      "Name": "oldCode",
-                      "TypeName": "System.String, mscorlib",
-                      "ValueProvider": {
-                        "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
-                        "XPath": "",
-                        "NamespacePrefix": "",
-                        "TypeName": "",
-                        "Path": "Mrn",
-                        "Name": "Mrn",
-                        "Note": "",
-                        "WebId": "d27327b0-79c7-4f7a-a1d9-08d8d74bcf8e"
-                      },
-                      "WebId": "cfa4cbdd-54a0-4fa2-8828-695f19c28390"
-                    }
-                  ]
-                },
-                "Name": "Msic",
-                "Note": "",
-                "WebId": "25597c8e-c3d1-4d94-9a11-bf2abbad1bf2"
-              },
-              "WebId": "d583d4bf-6eb0-4cd9-8b5f-561782909fd9"
             }
           ]
         },
@@ -319,7 +281,7 @@
     "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
     "UserProperty": "",
     "Value": null,
-    "IsPublic": false,
+    "IsPublic": true,
     "WebId": null
   },
   "Name": "Appointment",
@@ -328,11 +290,11 @@
   "IconClass": "fa fa-clock-o",
   "RecordName": "ReferenceNo",
   "IsPublished": true,
-  "IsShowOnNavigationBar": true,
+  "IsShowOnNavigationBar": false,
   "CreatedBy": null,
   "Id": "appointment",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-05-11T19:02:25.2816348+08:00",
+  "ChangedDate": "2015-05-21T06:35:18.0961035+08:00",
   "WebId": "3a0cd042-a29f-4d00-add4-768eb28db62d"
 }

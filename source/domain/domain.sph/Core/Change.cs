@@ -12,8 +12,8 @@ namespace Bespoke.Sph.Domain
 
         public override string ToString()
         {
-            return string.Format("Action : {0}\r\nField : {1}\r\nOldValue : {2}\r\nNewValue: {3}"
-                , this.Action, this.PropertyName, this.OldValue, this.NewValue);
+            return
+                $"Action : {this.Action}\r\nField : {this.PropertyName}\r\nOldValue : {this.OldValue}\r\nNewValue: {this.NewValue}";
         }
     }
 }
