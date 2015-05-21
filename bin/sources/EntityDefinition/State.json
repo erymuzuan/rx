@@ -115,7 +115,7 @@
   },
   "Name": "State",
   "Plural": "States",
-  "IconStoreId": "f5640687-e31d-413d-8ff0-34cd749b4dad",
+  "IconStoreId": "e87b0555-3db7-4445-8826-9812ae129b31",
   "IconClass": "fa fa-flag",
   "RecordName": "Name",
   "IsPublished": true,
@@ -124,6 +124,6 @@
   "Id": "state",
   "CreatedDate": "2014-04-19T10:07:12.2060219+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-03-17T18:26:04.4844777+08:00",
+  "ChangedDate": "2015-05-21T13:55:38.5762058+08:00",
   "WebId": "e5d31c43-852d-4a9d-b3be-1fc94d5cea05"
 }

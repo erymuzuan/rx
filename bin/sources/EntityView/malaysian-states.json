@@ -95,7 +95,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "62b11fd7-8f4e-4f3e-9b81-04541d5a3125",
+  "IconStoreId": "88a4e7a6-208b-4773-b41c-a40a7a340abe",
   "EntityDefinitionId": "state",
   "Name": "Malaysian states",
   "Route": "malaysian-states",
@@ -106,11 +106,11 @@
   "TileColour": "bblue",
   "CountMessage": "",
   "Entity": "",
-  "Partial": "",
+  "Partial": "partial/malaysian-states",
   "CreatedBy": "admin",
   "Id": "malaysian-states",
   "CreatedDate": "2015-01-20T10:00:58.2117429+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-05-11T18:57:11.6292688+08:00",
+  "ChangedDate": "2015-05-21T13:58:19.4380767+08:00",
   "WebId": "e94639cb-28c2-48a9-f4a8-1101ae4a9e86"
 }

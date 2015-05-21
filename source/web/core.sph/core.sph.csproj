@@ -668,6 +668,7 @@
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
     <Compile Include="Controllers\InternationalizationController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\RequireJsBundleController.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
@@ -2733,6 +2734,7 @@
     <Folder Include="Areas\Sph\Views\EntityForm\" />
     <Folder Include="Areas\Sph\Views\TransformDefinition\" />
     <Folder Include="Views\Main\" />
+    <Folder Include="Views\RequireJsBundle\" />
     <Folder Include="Views\WorkflowDesigner\" />
   </ItemGroup>
   <ItemGroup>
