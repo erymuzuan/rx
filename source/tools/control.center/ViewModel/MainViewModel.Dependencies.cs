@@ -83,6 +83,20 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 this.StartIisServiceCommand.RaiseCanExecuteChanged();
             }
         }
+
+        private bool m_webConsoleStarted;
+
+        public bool WebConsoleStarted
+        {
+            get { return m_webConsoleStarted; }
+            set
+            {
+                m_webConsoleStarted = value;
+                RaisePropertyChanged("WebConsoleStarted");
+                this.StartWebConsoleCommand.RaiseCanExecuteChanged();
+                this.StopWebConsoleCommand.RaiseCanExecuteChanged();
+            }
+        }
         public bool RabbitMqServiceStarted
         {
             set
