@@ -669,6 +669,7 @@
     <Compile Include="Controllers\InternationalizationController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\RequireJsBundleController.cs" />
+    <Compile Include="Controllers\ResourceBundleController.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />

@@ -105,19 +105,83 @@ WriteLiteral(" name=\"viewport\"");
 
 WriteLiteral(" content=\"width=device-width, initial-scale=1.0\"");
 
-WriteLiteral(" />\r\n\r\n    <link");
+WriteLiteral(" />\r\n");
+
+            
+            #line 23 "..\..\Areas\Sph\Views\Home\index.cshtml"
+    
+            
+            #line default
+            #line hidden
+            
+            #line 23 "..\..\Areas\Sph\Views\Home\index.cshtml"
+     if (HttpContext.Current.IsDebuggingEnabled)
+    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <link");
 
 WriteLiteral(" href=\"/Content/__css.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" />\r\n    <link");
+WriteLiteral(" />\r\n");
 
-WriteLiteral(" href=\"/Content/site.css\"");
+            
+            #line 26 "..\..\Areas\Sph\Views\Home\index.cshtml"
+        foreach (var css in System.IO.Directory.GetFiles(Server.MapPath("~/Content"), "*.css"))
+        {
+
+
+            
+            #line default
+            #line hidden
+WriteLiteral("            <link");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 1060), Tuple.Create("\"", 1108)
+, Tuple.Create(Tuple.Create("", 1067), Tuple.Create("/content/", 1067), true)
+            
+            #line 29 "..\..\Areas\Sph\Views\Home\index.cshtml"
+, Tuple.Create(Tuple.Create("", 1076), Tuple.Create<System.Object, System.Int32>(System.IO.Path.GetFileName(css)
+            
+            #line default
+            #line hidden
+, 1076), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" />\r\n    <script");
+WriteLiteral(" />\r\n");
+
+            
+            #line 30 "..\..\Areas\Sph\Views\Home\index.cshtml"
+        }
+    }
+    else
+    {
+
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <link");
+
+WriteLiteral(" href=\"/resource-bundle/css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" />\r\n");
+
+            
+            #line 36 "..\..\Areas\Sph\Views\Home\index.cshtml"
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    <script");
 
 WriteLiteral(" src=\"/Scripts/modernizr-2.8.3.js\"");
 
@@ -127,68 +191,68 @@ WriteLiteral(" name=\"description\"");
 
 WriteLiteral(" content=\"The description of my page\"");
 
-WriteLiteral(" />\r\n</head>\r\n<body>\r\n<div");
+WriteLiteral(" />\r\n</head>\r\n<body>\r\n    <div");
 
 WriteLiteral(" id=\"applicationHost\"");
 
 WriteLiteral(">\r\n");
 
             
-            #line 31 "..\..\Areas\Sph\Views\Home\index.cshtml"
-    
-            
-            #line default
-            #line hidden
-            
-            #line 31 "..\..\Areas\Sph\Views\Home\index.cshtml"
-     if (!string.IsNullOrWhiteSpace(splashHtml))
-    {
+            #line 42 "..\..\Areas\Sph\Views\Home\index.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 33 "..\..\Areas\Sph\Views\Home\index.cshtml"
-   Write(Html.Raw(splashHtml));
+            #line 42 "..\..\Areas\Sph\Views\Home\index.cshtml"
+         if (!string.IsNullOrWhiteSpace(splashHtml))
+        {
+            
+            
+            #line default
+            #line hidden
+            
+            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
+       Write(Html.Raw(splashHtml));
 
             
             #line default
             #line hidden
             
-            #line 33 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                             
-    }
-    else
-    {
-        
+            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                                 
+        }
+        else
+        {
+            
             
             #line default
             #line hidden
             
-            #line 37 "..\..\Areas\Sph\Views\Home\index.cshtml"
-   Write(Html.Partial("_splash"));
+            #line 48 "..\..\Areas\Sph\Views\Home\index.cshtml"
+       Write(Html.Partial("_splash"));
 
             
             #line default
             #line hidden
             
-            #line 37 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                                
-    }
+            #line 48 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                                    
+        }
 
             
             #line default
             #line hidden
-WriteLiteral("</div>\r\n\r\n");
+WriteLiteral("    </div>\r\n\r\n");
 
             
-            #line 41 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 52 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 41 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 52 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -197,9 +261,9 @@ WriteLiteral("</div>\r\n\r\n");
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1337), Tuple.Create("\"", 1369)
-, Tuple.Create(Tuple.Create("", 1343), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 1343), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1685), Tuple.Create("\"", 1717)
+, Tuple.Create(Tuple.Create("", 1691), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 1691), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -241,7 +305,7 @@ WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 50 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 61 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -256,7 +320,7 @@ WriteLiteral(" src=\"/Scripts/__rx.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 54 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 65 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             
@@ -267,21 +331,6 @@ WriteLiteral("\r\n    <script");
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral(" src=\"/sph/entitydefinition/schemas\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteAttribute("src", Tuple.Create(" src=\"", 1920), Tuple.Create("\"", 1957)
-, Tuple.Create(Tuple.Create("", 1926), Tuple.Create<System.Object, System.Int32>(Href("~/Content/theme.")
-, 1926), false)
-            
-            #line 57 "..\..\Areas\Sph\Views\Home\index.cshtml"
-, Tuple.Create(Tuple.Create("", 1942), Tuple.Create<System.Object, System.Int32>(theme
-            
-            #line default
-            #line hidden
-, 1942), false)
-, Tuple.Create(Tuple.Create("", 1948), Tuple.Create("/theme.js", 1948), true)
-);
 
 WriteLiteral("></script>\r\n    <script");
 

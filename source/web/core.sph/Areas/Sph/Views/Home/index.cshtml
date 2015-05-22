@@ -20,23 +20,34 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @if (HttpContext.Current.IsDebuggingEnabled)
+    {
+        <link href="/Content/__css.css" rel="stylesheet" />
+        foreach (var css in System.IO.Directory.GetFiles(Server.MapPath("~/Content"), "*.css"))
+        {
 
-    <link href="/Content/__css.css" rel="stylesheet" />
-    <link href="/Content/site.css" rel="stylesheet" />
+            <link href="/content/@System.IO.Path.GetFileName(css)" rel="stylesheet" />
+        }
+    }
+    else
+    {
+
+        <link href="/resource-bundle/css" rel="stylesheet" />
+    }
     <script src="/Scripts/modernizr-2.8.3.js"></script>
     <meta name="description" content="The description of my page" />
 </head>
 <body>
-<div id="applicationHost">
-    @if (!string.IsNullOrWhiteSpace(splashHtml))
-    {
-        @Html.Raw(splashHtml)
-    }
-    else
-    {
-        @Html.Partial("_splash")
-    }
-</div>
+    <div id="applicationHost">
+        @if (!string.IsNullOrWhiteSpace(splashHtml))
+        {
+            @Html.Raw(splashHtml)
+        }
+        else
+        {
+            @Html.Partial("_splash")
+        }
+    </div>
 
     @if (HttpContext.Current.IsDebuggingEnabled)
     {
@@ -54,7 +65,6 @@
     }
 
     <script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
-    <script src="~/Content/theme.@theme/theme.js"></script>
     <script type="text/javascript" src="/Scripts/require.js" data-main="SphApp/main"></script>
 
 </body>
