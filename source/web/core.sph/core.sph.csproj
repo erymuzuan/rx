@@ -1622,6 +1622,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\__vendor.js" />
     <EmbeddedResource Include="Scripts\__vendor.min.js" />
+    <EmbeddedResource Include="Scripts\__rx.min.js" />
     <Content Include="SphApp\partial\ChildEntityListView.js" />
     <Content Include="SphApp\partial\CorrelationType.js" />
     <Content Include="SphApp\partial\CreateEntityActivity.js" />
@@ -2714,6 +2715,7 @@
       <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Scripts\__vendor.min.js.map" />
+    <EmbeddedResource Include="Scripts\__rx.min.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

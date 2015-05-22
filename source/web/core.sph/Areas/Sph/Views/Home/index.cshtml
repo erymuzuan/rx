@@ -38,28 +38,23 @@
     }
 </div>
 
-    <script src="~/SphApp/objectbuilders.js"></script>
     @if (HttpContext.Current.IsDebuggingEnabled)
     {
+        <script src="~/SphApp/objectbuilders.js"></script>
         <script src="/Scripts/__vendor.js"></script>
         <script src="/Scripts/__core.js"></script>
         <script src="/SphApp/schemas/__domain.js"></script>
         <script src="/SphApp/prototypes/prototypes.js"></script>
         <script src="/SphApp/partial/__partial.js"></script>
+        <script src="/kendo/js/kendo.custom.min.js"></script>
     }
     else
     {
-        <script src="/Scripts/__vendor.min.js"></script>
-        <script src="/Scripts/__core.min.js"></script>
-        <script src="/SphApp/schemas/__domain.min.js"></script>
-        <script src="/SphApp/prototypes/prototypes.min.js"></script>
-        <script src="/SphApp/partial/__partial.min.js"></script>
+        <script src="/Scripts/__rx.min.js"></script>
     }
 
     <script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
     <script src="~/Content/theme.@theme/theme.js"></script>
-    <script src="/kendo/js/kendo.custom.min.js"></script>
-
     <script type="text/javascript" src="/Scripts/require.js" data-main="SphApp/main"></script>
 
 </body>
