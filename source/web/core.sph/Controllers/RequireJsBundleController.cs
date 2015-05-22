@@ -10,6 +10,7 @@ namespace Bespoke.Sph.Web.Controllers
     {
 
         [Route("main")]
+        [OutputCache(Duration = 600)]
         public ActionResult Index()
         {
             var js = new StringBuilder();
@@ -21,6 +22,7 @@ namespace Bespoke.Sph.Web.Controllers
             RxShell(js);
             RxServices(js);
 
+            this.Response.ContentType = "application/javascript";
             return Content(js.ToString());
         }
 
@@ -36,8 +38,15 @@ namespace Bespoke.Sph.Web.Controllers
                 .Replace("define([", "define('viewmodels/shell', ["));
         }
 
-        private static void RxServices(StringBuilder js)
+        private void RxServices(StringBuilder js)
         {
+            foreach (var file in System.IO.Directory.GetFiles(Server.MapPath("~/SphApp/services"), "cultures.*"))
+            {
+                js.AppendLine(System.IO.File.ReadAllText(file)
+                .Replace("define([",$"define('services/{System.IO.Path.GetFileNameWithoutExtension(file)}', ["));
+            }
+            
+
             js.AppendLine(GetScript("SphApp.services.logger.js")
                 .Replace("define([", "define('services/logger', ["));
 
@@ -96,7 +105,6 @@ namespace Bespoke.Sph.Web.Controllers
             var durandalComposition = GetScript("Scripts.durandal.composition.js")
                 .Replace("define([", "define('durandal/composition', [");
             js.AppendLine(durandalComposition);
-
 
             var durandalEvents = GetScript("Scripts.durandal.events.js")
                 .Replace("define([", "define('durandal/events', [");
