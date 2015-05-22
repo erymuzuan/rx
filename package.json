@@ -7,6 +7,7 @@
     "gulp": "^3.8.11",
     "gulp-cli": "^0.1.5",
     "gulp-sourcemaps": "^1.5.2",
-    "require-dir": "^0.3.0"
+    "require-dir": "^0.3.0",
+    "requirejs": "^2.1.17"
   }
 }

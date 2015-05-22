@@ -13,12 +13,54 @@ namespace Bespoke.Sph.Web.Controllers
         public ActionResult Index()
         {
             var js = new StringBuilder();
-            this.Response.ContentType = "application/javascript";
-            var main = GetScript("SphApp.main.js")
-                .Replace("define([", "define('main', [");
-            js.AppendLine(main);
+            TextJs(js);
+            DurandalCore(js);
+            MainJs(js);
+            DurandalPlugings(js);
+            DurandalTransitions(js);
+            RxShell(js);
+            RxServices(js);
 
-           
+            return Content(js.ToString());
+        }
+
+        private static void RxShell(StringBuilder js)
+        {
+            js.AppendLine(GetScript("SphApp.viewmodels.messages.js")
+                .Replace("define([", "define('viewmodels/messages', ["));
+
+            js.AppendLine(GetScript("SphApp.viewmodels.search.js")
+                .Replace("define([", "define('viewmodels/search', ["));
+
+            js.AppendLine(GetScript("SphApp.viewmodels.shell.js")
+                .Replace("define([", "define('viewmodels/shell', ["));
+        }
+
+        private static void RxServices(StringBuilder js)
+        {
+            js.AppendLine(GetScript("SphApp.services.logger.js")
+                .Replace("define([", "define('services/logger', ["));
+
+            js.AppendLine(GetScript("SphApp.services.datacontext.js")
+                .Replace("define([", "define('services/datacontext', ["));
+
+            js.AppendLine(GetScript("SphApp.services.system.js")
+                .Replace("define([", "define('services/system', ["));
+        }
+
+        private static void DurandalTransitions(StringBuilder js)
+        {
+            js.AppendLine(GetScript("Scripts.durandal.transitions.entrance.js")
+                .Replace("define([", "define('transitions/entrance', ["));
+        }
+
+        private static void TextJs(StringBuilder js)
+        {
+            js.AppendLine(GetScript("Scripts.text.js")
+                .Replace("define([", "define('text', ["));
+        }
+        private static void DurandalPlugings(StringBuilder js)
+        {
             js.AppendLine(GetScript("Scripts.durandal.plugins.router.js")
                 .Replace("define([", "define('plugins/router', ["));
 
@@ -39,37 +81,18 @@ namespace Bespoke.Sph.Web.Controllers
 
             js.AppendLine(GetScript("Scripts.durandal.plugins.http.js")
                 .Replace("define([", "define('plugins/http', ["));
-
-            js.AppendLine(GetScript("Scripts.durandal.transitions.entrance.js")
-                .Replace("define([", "define('transitions/entrance', ["));
-
-            js.AppendLine(GetScript("SphApp.viewmodels.messages.js")
-                .Replace("define([", "define('viewmodels/messages', ["));
-
-            js.AppendLine(GetScript("SphApp.viewmodels.search.js")
-                .Replace("define([", "define('viewmodels/search', ["));
-
-            js.AppendLine(GetScript("SphApp.viewmodels.shell.js")
-                .Replace("define([", "define('viewmodels/shell', ["));
-
-
-            js.AppendLine(GetScript("SphApp.services.logger.js")
-                .Replace("define([", "define('services/logger', ["));
-
-            js.AppendLine(GetScript("SphApp.services.datacontext.js")
-                .Replace("define([", "define('services/datacontext', ["));
-
-            js.AppendLine(GetScript("SphApp.services.system.js")
-                .Replace("define([", "define('services/system', ["));
-
-            AppendDurandal(js);
-
-            return Content(js.ToString());
         }
 
-        private void AppendDurandal(StringBuilder js)
+        private void MainJs(StringBuilder js)
         {
+            this.Response.ContentType = "application/javascript";
+            var main = GetScript("SphApp.main.js")
+                .Replace("define([", "define('main', [");
+            js.AppendLine(main);
+        }
 
+        private void DurandalCore(StringBuilder js)
+        {
             var durandalComposition = GetScript("Scripts.durandal.composition.js")
                 .Replace("define([", "define('durandal/composition', [");
             js.AppendLine(durandalComposition);
@@ -78,7 +101,6 @@ namespace Bespoke.Sph.Web.Controllers
             var durandalEvents = GetScript("Scripts.durandal.events.js")
                 .Replace("define([", "define('durandal/events', [");
             js.AppendLine(durandalEvents);
-
 
             var durandalviewEngine = GetScript("Scripts.durandal.viewEngine.js")
                 .Replace("define([", "define('durandal/viewEngine', [");
@@ -104,6 +126,9 @@ namespace Bespoke.Sph.Web.Controllers
             js.AppendLine(durandalSystem);
 
 
+            var ko = GetScript("Scripts.knockout-3.2.0.js")
+                .Replace("define([", "define('durandal/knockout', [");
+            js.AppendLine(ko);
 
         }
 
