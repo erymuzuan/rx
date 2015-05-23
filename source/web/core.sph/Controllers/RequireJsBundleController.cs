@@ -53,6 +53,15 @@ namespace Bespoke.Sph.Web.Controllers
             js.AppendLine(GetScript("SphApp.services.datacontext.js")
                 .Replace("define([", "define('services/datacontext', ["));
 
+            js.AppendLine(GetScript("SphApp.services.jsonimportexport.js")
+                .Replace("define([", "define('services/jsonimportexport', ["));
+
+            js.AppendLine(GetScript("SphApp.services.validation.js")
+                .Replace("define([", "define('services/validation', ["));
+
+            js.AppendLine(GetScript("SphApp.services.watcher.js")
+                .Replace("define([", "define('services/watcher', ["));
+
             js.AppendLine(GetScript("SphApp.services.system.js")
                 .Replace("define([", "define('services/system', ["));
         }
