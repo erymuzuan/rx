@@ -57,7 +57,7 @@
                                  entity().Id(result.id);
                                  errors.removeAll();
 
-                                 window.location='#appointment-confirmation/' + entity().Id();
+                                 window.location='#appointment-confirmation/' + entity().AppointmentId();
                              } else {
                                  errors.removeAll();
                                  _(result.rules).each(function(v){
