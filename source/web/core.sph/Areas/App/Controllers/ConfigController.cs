@@ -25,11 +25,13 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             var statesOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "State", x => x.Value);
             var departmentOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Departments", x => x.Value);
             var spaceUsageOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Categories", x => x.Value);
+            var jsRoutesTask = RouteConfig.GetJsRoutes();
 
-            await Task.WhenAll(profileTask, statesOptionTask, departmentOptionTask, spaceUsageOptionTask);
+            await Task.WhenAll(profileTask, statesOptionTask, departmentOptionTask, spaceUsageOptionTask, jsRoutesTask);
             var profile = await profileTask;
             var departmentOptions = await departmentOptionTask;
             var stateOptions = await statesOptionTask;
+            var jsRoutes = await jsRoutesTask;
 
             var vm = new ApplicationConfigurationViewModel
             {
@@ -60,7 +62,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
             vm.Routes.AddRange(routes);
 
-            vm.Routes.AddRange(await RouteConfig.GetJsRoutes());
+            vm.Routes.AddRange(jsRoutes);
 
             return Script("Index", vm);
         }

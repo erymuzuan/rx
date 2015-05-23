@@ -22,7 +22,9 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("installed-adapters")]
         public ActionResult InstalledAdapters()
         {
-            ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.Adapters)
+                ObjectBuilder.ComposeMefCatalog(this);
+
             var actions = from a in this.Adapters
                           select string.Format(@"
 {{
