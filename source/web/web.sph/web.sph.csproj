@@ -500,6 +500,7 @@
     <Content Include="docs\adapter.mysql.sproc.md" />
     <Content Include="docs\ExceptionFilter.md" />
     <Content Include="docs\custom-login-page.md" />
+    <Content Include="docs\EntityLookupElement.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>
