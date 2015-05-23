@@ -428,6 +428,9 @@
       <DependentUpon>EntityForm.md</DependentUpon>
     </Content>
     <Content Include="docs\EntityForm.md" />
+    <Content Include="docs\EntityLookupElement.html">
+      <DependentUpon>EntityLookupElement.md</DependentUpon>
+    </Content>
     <Content Include="docs\EntityOperation.html">
       <DependentUpon>EntityOperation.md</DependentUpon>
     </Content>
