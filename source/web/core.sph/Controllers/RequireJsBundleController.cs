@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -10,7 +11,7 @@ namespace Bespoke.Sph.Web.Controllers
     {
 
         [Route("main")]
-        [OutputCache(Duration = 600)]
+        [OutputCache(Duration = 604800, Location = OutputCacheLocation.Any)]
         public ActionResult Index()
         {
             var js = new StringBuilder();

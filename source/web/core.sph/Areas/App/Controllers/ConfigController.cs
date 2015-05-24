@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.App_Start;
@@ -17,8 +16,6 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         [NoCache]
         public async Task<ActionResult> Js()
         {
-            this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
-
             var userName = User.Identity.Name;
             var context = new SphDataContext();
             var profileTask = context.LoadOneAsync<UserProfile>(u => u.UserName == userName);
@@ -53,11 +50,14 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 });
             }
 
+
+
             var routeConfig = Server.MapPath("~/routes.config.js");
             var json = System.IO.File.ReadAllText(routeConfig);
 
             var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var routes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings).AsQueryable()
+            var configJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
+            var routes = configJsRoutes.AsQueryable()
                 .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role) || r.Role == "everybody", User.Identity.IsAuthenticated)
                 .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
             vm.Routes.AddRange(routes);
