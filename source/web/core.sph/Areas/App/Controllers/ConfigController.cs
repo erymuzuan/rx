@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.App_Start;
@@ -51,12 +52,17 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             }
 
 
+            var configJsRoutes = HttpRuntime.Cache.Get("config-js-routes") as JsRoute[];
+            if (null == configJsRoutes)
+            {
+                var routeConfig = Server.MapPath("~/routes.config.js");
+                var json = System.IO.File.ReadAllText(routeConfig);
 
-            var routeConfig = Server.MapPath("~/routes.config.js");
-            var json = System.IO.File.ReadAllText(routeConfig);
+                var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+                configJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
+                HttpRuntime.Cache.Insert("config-js-routes", configJsRoutes);
+            }
 
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var configJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
             var routes = configJsRoutes.AsQueryable()
                 .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role) || r.Role == "everybody", User.Identity.IsAuthenticated)
                 .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
