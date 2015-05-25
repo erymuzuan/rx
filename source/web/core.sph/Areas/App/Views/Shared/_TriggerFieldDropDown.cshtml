@@ -25,7 +25,7 @@
         {
             <li>
                 <a class="btn btn-link" data-bind="unwrapClick: addField, field : '@type', accessor : $data.@Model.Path, entity: $root.typeaheadEntity" href="#">
-                    <img src="@string.Format("/images/{0}Field.png",type)" class="pull-left" />
+                    <img src="@($"/images/{type}Field.png")" class="pull-left" alt="@type"/>
                     + @type
                 </a>
             </li>

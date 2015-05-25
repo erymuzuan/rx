@@ -92,7 +92,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var json = (@" {
                 ""query"": {
                     ""filtered"": {
-                        ""filter"":" + view.GenerateElasticSearchFilterDsl() + @"
+                        ""filter"":" + Domain.Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection) + @"
                     }
                 }
             }").Replace("config.userName", "\"" + User.Identity.Name + "\"");

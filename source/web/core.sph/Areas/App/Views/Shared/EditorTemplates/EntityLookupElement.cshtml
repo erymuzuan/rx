@@ -7,8 +7,11 @@
                 options : $root.entityOptions,
                 optionsValue : 'value',
                 optionsText : 'text',
-                optionsCaption: '[Select Entity]'" id="fe-ele-entity" name="entity"></select>
+                optionsCaption: '[Select Entity]'" id="fe-ele-entity" name="entity">
+    </select>
+    <a href="#" title="Define additional filter for the lookup search" data-bind="click:editFilter"><i class="fa fa-filter"></i></a>
 </div>
+
 <div class="form-group">
     <label for="fe-ele-vmp">Value Member Path</label>
     <input class="form-control" data-bind="value: ValueMemberPath,entityTypeaheadPath : Entity" id="fe-ele-vmp" type="text" name="ValueMemberPath" />

@@ -46,8 +46,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                 dialog.close(this, "Cancel");
             },
             searchAsync = function () {
-                var tcs = new $.Deferred(),
-                    query = {};
+                var query = {};
 
                 if (ko.unwrap(searchText)) {
                     query.query = {
@@ -58,7 +57,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                     };
                 }
 
-                context.searchAsync({ entity: ko.unwrap(options().entity) }, query)
+                return context.searchAsync({ entity: ko.unwrap(options().entity) }, query)
                     .done(function (lo) {
                         results(lo.itemCollection);
 
@@ -72,11 +71,8 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                             tbody += "</tr>\r";
                         });
                         $("#tbody").html(tbody);
-                        tcs.resolve(true);
                     });
 
-
-                return tcs.promise();
             };
 
         var vm = {

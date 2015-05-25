@@ -17,7 +17,7 @@
     <a class="btn btn-link"
        data-bind="tooltip :'@Model.Tooltip',lookup : {entity: '@Model.Entity', member : '@Model.ValueMemberPath', value : @Model.Path.ConvertJavascriptObjectToFunction(), columns : [@Html.Raw(columns)]}"
        id="@Model.ElementId">
-        <!-- ko lookupText: { entity : '@Model.Entity', value : @Model.Path.ConvertJavascriptObjectToFunction(), valuePath :'@Model.ValueMemberPath', displayPath : '@Model.DisplayMemberPath'} -->
+        <!-- ko text :@Model.DisplayMemberPath -->
         <!-- /ko -->
         <i class="fa fa-search"></i>
     </a>
@@ -26,8 +26,11 @@ else
 {
     <div data-bind="visible:@Model.Visible" class="form-group">
         <label data-i18n="@Model.Label" for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
-    
-        
+
+        <script type="text/json" id="@($"filter-{Model.ElementId}")">
+            
+        </script>
+
 
         <div class="@Model.InputPanelCssClass">
             <a class="btn btn-link" 
@@ -39,8 +42,8 @@ else
                 }
                 else
                 {
-                         <!-- ko text: @Model.DisplayMemberPath -->
-                            <!-- /ko -->
+                     <!-- ko text: @Model.DisplayMemberPath -->
+                     <!-- /ko -->
                 }
                 <i class="fa fa-search"></i>
             </a>
