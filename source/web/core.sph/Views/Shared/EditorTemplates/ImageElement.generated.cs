@@ -39,9 +39,9 @@ namespace ASP
             
             #line 2 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
   
-    var path = string.Format("'/sph/image/store/' + {0}()", this.Model.Path);
-    var width = Model.Width.HasValue ? "width=\"" + Model.Width.Value + "\"": "";
-    var height = Model.Height.HasValue ? "height=\"" + Model.Height.Value + "\"" : "";
+    var path = $"'/sph/image/store/' + {this.Model.Path}()";
+    var width = Model.Width.HasValue ? "width=\"" + Model.Width.Value + "\"": string.Empty;
+    var height = Model.Height.HasValue ? "height=\"" + Model.Height.Value + "\"" : string.Empty;
     
     if (string.IsNullOrWhiteSpace(Model.Enable))
     {
@@ -74,15 +74,15 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 467), Tuple.Create("\"", 506)
-, Tuple.Create(Tuple.Create("", 475), Tuple.Create("col-md-", 475), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 470), Tuple.Create("\"", 509)
+, Tuple.Create(Tuple.Create("", 478), Tuple.Create("col-md-", 478), true)
             
             #line 17 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 482), Tuple.Create<System.Object, System.Int32>(Model.LabelColMd ?? 4
+, Tuple.Create(Tuple.Create("", 485), Tuple.Create<System.Object, System.Int32>(Model.LabelColMd ?? 4
             
             #line default
             #line hidden
-, 482), false)
+, 485), false)
 );
 
 WriteLiteral(">");
@@ -105,40 +105,42 @@ WriteLiteral("</label>\r\n");
             #line hidden
 WriteLiteral("<img");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 537), Tuple.Create("\"", 555)
+WriteLiteral(" data-test=\"xxx\"");
+
+WriteAttribute("alt", Tuple.Create(" alt=\"", 556), Tuple.Create("\"", 574)
             
             #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 543), Tuple.Create<System.Object, System.Int32>(Model.Label
+, Tuple.Create(Tuple.Create("", 562), Tuple.Create<System.Object, System.Int32>(Model.Label
             
             #line default
             #line hidden
-, 543), false)
+, 562), false)
 );
 
-WriteAttribute("title", Tuple.Create(" title=\"", 556), Tuple.Create("\"", 578)
+WriteAttribute("title", Tuple.Create(" title=\"", 575), Tuple.Create("\"", 597)
             
             #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 564), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+, Tuple.Create(Tuple.Create("", 583), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 564), false)
+, 583), false)
 );
 
 WriteLiteral(" ");
 
             
             #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                          Write(Html.Raw(width));
+                                                          Write(Html.Raw(width));
 
             
             #line default
             #line hidden
-WriteLiteral(" ");
+WriteLiteral("   ");
 
             
             #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                                 Write(Html.Raw(height));
+                                                                             Write(Html.Raw(height));
 
             
             #line default
@@ -147,7 +149,7 @@ WriteLiteral("  data-bind=\"attr : {\'src\':");
 
             
             #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                                                                   Write(Html.Raw(path));
+                                                                                                                         Write(Html.Raw(path));
 
             
             #line default
@@ -156,7 +158,7 @@ WriteLiteral("}, visible:");
 
             
             #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                                                                                             Write(Html.Raw(Model.Visible));
+                                                                                                                                                   Write(Html.Raw(Model.Visible));
 
             
             #line default

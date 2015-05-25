@@ -16,8 +16,8 @@
             <ul data-bind="foreach :recentItems" class="metro-tile">
                 <li class="blightblue">
 
-                    <a data-bind="attr:{'href' : '#appointment-details/' + AppointmentId}">
-                        <i class="fa fa-calendar"></i>
+                    <a data-bind="attr:{'href' : '#appointment-details/' + Id}">
+                        <i class="fa fa-clock-o"></i>
                         <span data-bind="text:ReferenceNo"></span>
                     </a>
                 </li>
@@ -76,7 +76,7 @@
     </h3>
     <ul data-bind="foreach: reports">
         <li>
-            <a data-bind="attr:{href:String.format('#/reportdefinition.execute-id.{0}/{0}', ReportDefinitionId()) }, text:Title"></a>
+            <a data-bind="attr:{href:String.format('#/reportdefinition.execute-id.{0}/{0}', Id()) }, text:Title"></a>
         </li>
     </ul>
 </div>

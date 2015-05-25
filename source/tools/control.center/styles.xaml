@@ -20,4 +20,6 @@
     
     <Image Source="images/help.gif" x:Key="ImageHelp" Stretch="None"></Image>
     <Image Source="images/ruby_gear.png" x:Key="RubyGear" Stretch="None"></Image>
+    <Image Source="images/control_start.png" x:Key="ControlStart" Stretch="None"></Image>
+    <Image Source="images/control_stop.png" x:Key="ControlStop" Stretch="None"></Image>
 </ResourceDictionary>

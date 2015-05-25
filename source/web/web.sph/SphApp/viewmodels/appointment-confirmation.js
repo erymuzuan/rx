@@ -10,7 +10,7 @@
                 activate = function (entityId) {
                     id(parseInt(entityId));
 
-                    var query = String.format("AppointmentId eq {0}", entityId),
+                    var query = String.format("Id eq '{0}'", entityId),
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("Appointment", query),
                         formTask = context.loadOneAsync("EntityForm", "Route eq 'appointment-confirmation'"),

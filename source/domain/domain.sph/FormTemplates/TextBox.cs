@@ -4,7 +4,7 @@ using System.Text;
 namespace Bespoke.Sph.Domain
 {
     [Export("FormDesigner", typeof(FormElement))]
-    [DesignerMetadata(Name = "Single Line Text", TypeName = "TextBox", FontAwesomeIcon = "text-width",Order = 1d, Description = "Creates an input for single line text")]
+    [DesignerMetadata(Name = "Single Line Text", TypeName = "TextBox", FontAwesomeIcon = "text-width", Order = 1d, Description = "Creates an input for single line text")]
     public partial class TextBox : FormElement
     {
 
@@ -38,14 +38,10 @@ namespace Bespoke.Sph.Domain
                 )
             {
                 var query = string.IsNullOrWhiteSpace(this.AutoCompletionQuery)
-                    ? this.AutoCompletionEntity + "Id gt 0"
+                    ? "Id ne \\'0\\'"
                     : this.AutoCompletionQuery.Replace("'", "\\'");
-                return string.Format("value: {0}, visible :{1}, autocomplete :{{ entity:'{2}', field :'{3}', query:'{4}' }}",
-                    path,
-                    this.Visible,
-                    this.AutoCompletionEntity,
-                    this.AutoCompletionField,
-                    query);
+                return
+                    $"value: {path}, visible :{this.Visible}, autocomplete :{{ entity:'{this.AutoCompletionEntity}', field :'{this.AutoCompletionField}', query:'{query}' }}";
             }
 
             var unique = this.IsUniqueName ? ",uniqueName:true" : "";

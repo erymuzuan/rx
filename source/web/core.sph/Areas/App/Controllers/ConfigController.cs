@@ -17,19 +17,19 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         [NoCache]
         public async Task<ActionResult> Js()
         {
-            this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
-
             var userName = User.Identity.Name;
             var context = new SphDataContext();
             var profileTask = context.LoadOneAsync<UserProfile>(u => u.UserName == userName);
             var statesOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "State", x => x.Value);
             var departmentOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Departments", x => x.Value);
             var spaceUsageOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Categories", x => x.Value);
+            var jsRoutesTask = RouteConfig.GetJsRoutes();
 
-            await Task.WhenAll(profileTask, statesOptionTask, departmentOptionTask, spaceUsageOptionTask);
+            await Task.WhenAll(profileTask, statesOptionTask, departmentOptionTask, spaceUsageOptionTask, jsRoutesTask);
             var profile = await profileTask;
             var departmentOptions = await departmentOptionTask;
             var stateOptions = await statesOptionTask;
+            var jsRoutes = await jsRoutesTask;
 
             var vm = new ApplicationConfigurationViewModel
             {
@@ -51,16 +51,24 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 });
             }
 
-            var routeConfig = Server.MapPath("~/routes.config.js");
-            var json = System.IO.File.ReadAllText(routeConfig);
 
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var routes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings).AsQueryable()
+            var configJsRoutes = HttpRuntime.Cache.Get("config-js-routes") as JsRoute[];
+            if (null == configJsRoutes)
+            {
+                var routeConfig = Server.MapPath("~/routes.config.js");
+                var json = System.IO.File.ReadAllText(routeConfig);
+
+                var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+                configJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
+                HttpRuntime.Cache.Insert("config-js-routes", configJsRoutes);
+            }
+
+            var routes = configJsRoutes.AsQueryable()
                 .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role) || r.Role == "everybody", User.Identity.IsAuthenticated)
                 .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
             vm.Routes.AddRange(routes);
 
-            vm.Routes.AddRange(await RouteConfig.GetJsRoutes());
+            vm.Routes.AddRange(jsRoutes);
 
             return Script("Index", vm);
         }

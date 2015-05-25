@@ -10,14 +10,11 @@ namespace Bespoke.Sph.Domain
         public override string GetKnockoutBindingExpression()
         {
             if (!string.IsNullOrWhiteSpace(this.Visible))
-                return string.Format("visible : {0}", this.Visible);
+                return $"visible : {this.Visible}";
 
             return null;
         }
 
-        public override bool IsPathIsRequired
-        {
-            get { return false; }
-        }
+        public override bool IsPathIsRequired => false;
     }
 }

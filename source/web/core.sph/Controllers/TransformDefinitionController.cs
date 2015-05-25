@@ -88,7 +88,8 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("functoids")]
         public ActionResult GetFunctoids()
         {
-            ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.Functoids)
+                ObjectBuilder.ComposeMefCatalog(this);
             var list = from f in Functoids
                        let v = f.Value
                        let g = v.Initialize()
@@ -121,8 +122,8 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-       public static readonly string[] Ignores =
-        {
+        public static readonly string[] Ignores =
+         {
             "domain.sph",
             "core.sph",
             "Microsoft",

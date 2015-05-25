@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,46 +14,11 @@ namespace Bespoke.Sph.Domain
 {
     public static class ObjectBuilder
     {
-        private static readonly object m_lock = new object();
-        private static readonly Dictionary<Type, object> m_cacheList = new Dictionary<Type, object>();
+        private static readonly ConcurrentDictionary<Type, object> m_cacheList = new ConcurrentDictionary<Type, object>();
         private static CompositionContainer m_container;
 
         public static void RegisterSpring(params string[] uri)
         {
-
-        }
-
-        class DummyLogger : ILogger
-        {
-
-
-            public Task LogAsync(LogEntry entry)
-            {
-                try
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(entry.ToString());
-                }
-                finally
-                {
-                    Console.ResetColor();
-                }
-                return Task.FromResult(0);
-            }
-
-            public void Log(LogEntry entry)
-            {
-                try
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(entry.ToString());
-                }
-                finally
-                {
-                    Console.ResetColor();
-                }
-            }
-
 
         }
 
@@ -93,29 +59,29 @@ namespace Bespoke.Sph.Domain
                 }
                 catch (BadImageFormatException)
                 {
-                    logger.Log(new LogEntry { Message = string.Format("cannot load {0}", x) });
+                    logger.Log(new LogEntry { Message = $"cannot load {x}" });
                 }
             };
-            foreach (var file in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))
+            foreach (var file in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))
             {
 
-                var name = System.IO.Path.GetFileName(file) ?? "";
+                var name = Path.GetFileName(file) ?? "";
                 if (ignores.Any(name.StartsWith)) continue;
 
                 loadAssemblyCatalog(file);
-                logger.Log(new LogEntry { Message = string.Format("Loaded {0}", name) });
+                logger.Log(new LogEntry { Message = $"Loaded {name}" });
             }
 
-            var bin = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
-            if (System.IO.Directory.Exists(bin))
+            var bin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+            if (Directory.Exists(bin))
             {
                 // for web
-                foreach (var file in System.IO.Directory.GetFiles(bin, "*.dll"))
+                foreach (var file in Directory.GetFiles(bin, "*.dll"))
                 {
-                    var name = System.IO.Path.GetFileName(file) ?? "";
+                    var name = Path.GetFileName(file) ?? "";
                     if (ignores.Any(name.StartsWith)) continue;
                     loadAssemblyCatalog(file);
-                    logger.Log(new LogEntry { Message = string.Format("Loaded from bin {0}", name) });
+                    logger.Log(new LogEntry { Message = $"Loaded from bin {name}" });
                 }
 
             }
@@ -145,67 +111,43 @@ namespace Bespoke.Sph.Domain
 
         public static void AddCacheList(Type type, object dependency)
         {
-            var key = type;
-            lock (m_lock)
-            {
-                if (m_cacheList.ContainsKey(key))
-                    m_cacheList[key] = dependency;
-                else
-                    m_cacheList.Add(key, dependency);
-            }
+            m_cacheList.AddOrUpdate(type, dependency, (k, o) => dependency);
         }
+
         public static void AddCacheList<T>(T dependency)
         {
             var key = typeof(T);
-            lock (m_lock)
-            {
-                if (m_cacheList.ContainsKey(key))
-                    m_cacheList[key] = dependency;
-                else
-                    m_cacheList.Add(key, dependency);
-            }
+            m_cacheList.AddOrUpdate(key, dependency, (k, o) => dependency);
         }
 
         public static T GetObject<T>() where T : class
         {
             var key = typeof(T);
-            lock (m_lock)
-            {
-                if (m_cacheList.ContainsKey(key))
-                    return m_cacheList[key] as T;
-            }
+
+            object item;
+            if (m_cacheList.TryGetValue(key, out item))
+                return item as T;
 
             try
             {
                 var springObject = ContextRegistry.GetContext().GetObject<T>();
                 if (null != springObject)
                 {
-                    lock (m_lock)
-                    {
-                        if (!m_cacheList.ContainsKey(typeof(T)))
-                            m_cacheList.Add(typeof(T), springObject);
-                    }
+                    m_cacheList.AddOrUpdate(typeof(T), springObject, (t, o) => springObject);
                     return springObject;
                 }
-
             }
-            catch (NoSuchObjectDefinitionException)
-            {
+            catch (NoSuchObjectDefinitionException) { }
 
-            }
             if (null == m_container)
             {
                 throw new Exception("MEF has not been composed");
             }
-            var k = m_container.GetExportedValue<T>();
-            if (null != k)
+            var mefObject = m_container.GetExportedValue<T>();
+            if (null != mefObject)
             {
-                lock (m_lock)
-                {
-                    if (!m_cacheList.ContainsKey(typeof(T)))
-                        m_cacheList.Add(typeof(T), k);
-                }
-                return k;
+                m_cacheList.AddOrUpdate(typeof(T), mefObject, (t, o) => mefObject);
+                return mefObject;
             }
 
 
@@ -214,11 +156,10 @@ namespace Bespoke.Sph.Domain
 
         public static dynamic GetObject(Type key)
         {
-            lock (m_lock)
-            {
-                if (m_cacheList.ContainsKey(key))
-                    return m_cacheList[key];
-            }
+            object item;
+            if (m_cacheList.TryGetValue(key, out item))
+                return item;
+
 
             var name = key.ToString();
             if (key.IsGenericType)
@@ -233,10 +174,7 @@ namespace Bespoke.Sph.Domain
             var springObject = ContextRegistry.GetContext().GetObject(name);
             if (null != springObject)
             {
-                lock (m_lock)
-                {
-                    m_cacheList.Add(key, springObject);
-                }
+                m_cacheList.GetOrAdd(key, springObject);
                 return springObject;
             }
 
@@ -248,5 +186,42 @@ namespace Bespoke.Sph.Domain
             return springObject;
         }
 
+        #region "DUMMY LOGGER"
+
+        private class DummyLogger : ILogger
+        {
+
+
+            public Task LogAsync(LogEntry entry)
+            {
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(entry.ToString());
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
+                return Task.FromResult(0);
+            }
+
+            public void Log(LogEntry entry)
+            {
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(entry.ToString());
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
+            }
+
+
+        }
+
+        #endregion
     }
 }

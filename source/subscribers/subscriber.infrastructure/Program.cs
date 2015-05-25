@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Humanizer;
 
@@ -40,25 +42,30 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
             this.NotificationService.Write("Starts...");
-            var threads = new List<Thread>();
-            foreach (var metadata in subscribersMetadata)
+            var threads = new ConcurrentBag<Thread>();
+
+            Parallel.ForEach(subscribersMetadata, (mt, c) =>
             {
-                this.NotificationService.Write("Starts..." + metadata.FullName);
+                this.NotificationService.Write("Starts..." + mt.FullName);
                 try
                 {
-                    var worker = StartAppDomain(metadata);
-                    if (null == worker)
+                    var worker = StartAppDomain(mt);
+                    if (null != worker)
                     {
-                        this.NotificationService.WriteError("Cannot start {0}", metadata.FullName);
-                        continue;
+                        threads.Add(worker);
                     }
-                    threads.Add(worker);
+                    else
+                    {
+                        this.NotificationService.WriteError("Cannot start {0}", mt.FullName);
+                    }
                 }
                 catch (Exception e)
                 {
                     this.NotificationService.Write(e.ToString());
                 }
-            }
+
+            });
+
             if (null != m_fsw)
             {
                 m_fsw.Changed -= FswChanged;
@@ -77,7 +84,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             m_stopping = false;
 
-            threads.ForEach(t => t.Join());
+            threads.ToList().ForEach(t => t.Join());
 
         }
 
@@ -109,16 +116,16 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             appdomain.UnhandledException += AppdomainUnhandledException;
             var subscriber = appdomain.CreateInstanceAndUnwrap(dll, metadata.FullName) as Subscriber;
             var thread = new Thread(o =>
-                {
-                    var o1 = (Subscriber)o;
-                    o1.HostName = this.HostName;
-                    o1.VirtualHost = this.VirtualHost;
-                    o1.UserName = this.UserName;
-                    o1.Password = this.Password;
-                    o1.Port = this.Port;
-                    o1.NotificicationService = this.NotificationService;
-                    o1.Run();
-                });
+            {
+                var o1 = (Subscriber) o;
+                o1.HostName = this.HostName;
+                o1.VirtualHost = this.VirtualHost;
+                o1.UserName = this.UserName;
+                o1.Password = this.Password;
+                o1.Port = this.Port;
+                o1.NotificicationService = this.NotificationService;
+                o1.Run();
+            }) {Name = metadata.Name};
             thread.Start(subscriber);
 
             this.AppDomainCollection.Add(appdomain);
@@ -203,7 +210,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
                 catch (Exception e)
                 {
-                    this.NotificationService.WriteError(e,"Fail to unload " + appDomain.FriendlyName);
+                    this.NotificationService.WriteError(e, "Fail to unload " + appDomain.FriendlyName);
                 }
             }
             this.SubscriberCollection.Clear();

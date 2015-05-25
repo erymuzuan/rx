@@ -40,8 +40,8 @@ namespace Bespoke.Sph.Domain
 
             foreach (var p in properties.Concat(nullableProperties))
             {
-                var v1 = string.Format("{0}", p.GetValue(item1));
-                var v2 = string.Format("{0}", p.GetValue(item2));
+                var v1 = $"{p.GetValue(item1)}";
+                var v2 = $"{p.GetValue(item2)}";
                 if (p.PropertyType == typeof(decimal))
                 {
                     var d1 = Convert.ToDecimal(v1);

@@ -50,7 +50,7 @@ namespace ASP
         Model.Enable = "true";
     }
     
-    var columns = string.Join(",", Model.LookupColumnCollection.Select(c => string.Format("'{0}'", c)));
+    var columns = string.Join(",", Model.LookupColumnCollection.Select(c => $"'{c}'"));
     Console.WriteLine(columns);
 
             
@@ -118,14 +118,14 @@ WriteLiteral(", columns : [");
             #line hidden
 WriteLiteral("]}\"");
 
-WriteAttribute("id", Tuple.Create("\r\n       id=\"", 586), Tuple.Create("\"", 615)
+WriteAttribute("id", Tuple.Create("\r\n       id=\"", 569), Tuple.Create("\"", 598)
             
             #line 19 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-, Tuple.Create(Tuple.Create("", 599), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+, Tuple.Create(Tuple.Create("", 582), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 599), false)
+, 582), false)
 );
 
 WriteLiteral(">\r\n        <!-- ko lookupText: { entity : \'");
@@ -207,24 +207,24 @@ WriteLiteral(" data-i18n=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 1002), Tuple.Create("\"", 1024)
+WriteAttribute("for", Tuple.Create(" for=\"", 985), Tuple.Create("\"", 1007)
             
             #line 28 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-, Tuple.Create(Tuple.Create("", 1008), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+, Tuple.Create(Tuple.Create("", 991), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 1008), false)
+, 991), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1025), Tuple.Create("\"", 1053)
+WriteAttribute("class", Tuple.Create(" class=\"", 1008), Tuple.Create("\"", 1036)
             
             #line 28 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-, Tuple.Create(Tuple.Create("", 1033), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+, Tuple.Create(Tuple.Create("", 1016), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 1033), false)
+, 1016), false)
 );
 
 WriteLiteral(">");
@@ -238,14 +238,14 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n    \r\n        \r\n\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1107), Tuple.Create("\"", 1140)
+WriteAttribute("class", Tuple.Create(" class=\"", 1090), Tuple.Create("\"", 1123)
             
             #line 32 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-, Tuple.Create(Tuple.Create("", 1115), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+, Tuple.Create(Tuple.Create("", 1098), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 1115), false)
+, 1098), false)
 );
 
 WriteLiteral(">\r\n            <a");
@@ -299,14 +299,14 @@ WriteLiteral(", columns : [");
             #line hidden
 WriteLiteral("]}\"");
 
-WriteAttribute("id", Tuple.Create("\r\n               id=\"", 1393), Tuple.Create("\"", 1430)
+WriteAttribute("id", Tuple.Create("\r\n               id=\"", 1376), Tuple.Create("\"", 1413)
             
             #line 35 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-, Tuple.Create(Tuple.Create("", 1414), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+, Tuple.Create(Tuple.Create("", 1397), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 1414), false)
+, 1397), false)
 );
 
 WriteLiteral(">\r\n");
@@ -342,43 +342,16 @@ WriteLiteral(">\r\n");
             
             #line default
             #line hidden
-WriteLiteral("                         <!-- ko lookupText: { entity : \'");
+WriteLiteral("                         <!-- ko text: ");
 
             
             #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-                                                    Write(Model.Entity);
+                                  Write(Model.DisplayMemberPath);
 
             
             #line default
             #line hidden
-WriteLiteral("\', value : ");
-
-            
-            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-                                                                            Write(Model.Path.ConvertJavascriptObjectToFunction());
-
-            
-            #line default
-            #line hidden
-WriteLiteral(", valuePath :\'");
-
-            
-            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-                                                                                                                                         Write(Model.ValueMemberPath);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\', displayPath : \'");
-
-            
-            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-                                                                                                                                                                                 Write(Model.DisplayMemberPath);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\'} -->\r\n");
+WriteLiteral(" -->\r\n");
 
 WriteLiteral("                            <!-- /ko -->\r\n");
 

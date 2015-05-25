@@ -13,17 +13,19 @@ define([],
     function () {
 
         var m_form, m_template,
+            validationOptions = ko.observable,
             init = function (form, template) {
                 m_form = form;
                 m_template = template;
 
                 var validation = { debug: true, rules: {}, messages: {} };
                 _(template.FormDesign().FormElementCollection()).each(function (f) {
-                    var path = f.Path(), v = f.FieldValidation();
-                    if (!f.FieldValidation()) {
+                    var path = f.Path(),
+                        v = ko.unwrap(f.FieldValidation);
+                    if (!v) {
                         return;
                     }
-                    if (v.Mode() == "digit") {
+                    if (v.Mode() === "digit") {
                         v.Mode("digits");
                     }
 
@@ -59,7 +61,7 @@ define([],
 
 
                 });
-                vm.validationOptions(validation);
+                validationOptions(validation);
                 m_form.validate(validation);
             };
 
@@ -73,7 +75,7 @@ define([],
 
                 return m_form.valid();
             },
-            validationOptions: ko.observable()
+            validationOptions: validationOptions
         };
 
         return vm;

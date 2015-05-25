@@ -30,6 +30,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public RelayCommand StopElasticSearchCommand { get; set; }
         public RelayCommand StartRabbitMqCommand { get; set; }
         public RelayCommand StopRabbitMqCommand { get; set; }
+        public RelayCommand StartWebConsoleCommand { get; set; }
+        public RelayCommand StopWebConsoleCommand { get; set; }
         public RelayCommand StartSqlServiceCommand { get; set; }
         public RelayCommand StopSqlServiceCommand { get; set; }
         public RelayCommand StartIisServiceCommand { get; set; }
@@ -55,6 +57,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 && !SphWorkerServiceStarted
                 && !IisServiceStarted));
 
+            StartWebConsoleCommand = new RelayCommand(StartWebConsole, () => !WebConsoleStarted );
+            StopWebConsoleCommand = new RelayCommand(StopWebConsole, () => WebConsoleStarted);
+
             StartElasticSearchCommand = new RelayCommand(StartElasticSearch, () => !ElasticSearchServiceStarted && RabbitMqServiceStarted && !RabbitMqServiceStarting);
             StopElasticSearchCommand = new RelayCommand(StopElasticSearch, () => ElasticSearchServiceStarted);
 
@@ -66,6 +71,18 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             SetupCommand = new RelayCommand(Setup, () => !this.IsSetup);
 
 
+        }
+
+        private void StopWebConsole()
+        {
+            this.ConsoleLogger.Stop();
+            this.WebConsoleStarted = false;
+        }
+
+        private void StartWebConsole()
+        {
+            this.ConsoleLogger.Start(this.Settings.LoggerWebSocketPort ?? 50230);
+            this.WebConsoleStarted = true;
         }
 
         private void Setup()
@@ -113,6 +130,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             this.ConsoleLogger = new ConsoleNotificationSubscriber(this.Settings);
             var loggerStarted = this.ConsoleLogger.Start(this.Settings.LoggerWebSocketPort ?? 50230);
+            this.WebConsoleStarted = true;
             Log(loggerStarted
                 ? "Web Console subscriber successfully started"
                 : "Fail to start Web Console Logger");

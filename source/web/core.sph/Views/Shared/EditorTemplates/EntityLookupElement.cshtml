@@ -6,7 +6,7 @@
         Model.Enable = "true";
     }
     
-    var columns = string.Join(",", Model.LookupColumnCollection.Select(c => string.Format("'{0}'", c)));
+    var columns = string.Join(",", Model.LookupColumnCollection.Select(c => $"'{c}'"));
     Console.WriteLine(columns);
 }
 
@@ -39,7 +39,7 @@ else
                 }
                 else
                 {
-                         <!-- ko lookupText: { entity : '@Model.Entity', value : @Model.Path.ConvertJavascriptObjectToFunction(), valuePath :'@Model.ValueMemberPath', displayPath : '@Model.DisplayMemberPath'} -->
+                         <!-- ko text: @Model.DisplayMemberPath -->
                             <!-- /ko -->
                 }
                 <i class="fa fa-search"></i>

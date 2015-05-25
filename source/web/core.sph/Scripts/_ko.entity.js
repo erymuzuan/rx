@@ -533,7 +533,7 @@ bespoke.lookupText = function (element, valueAccessor) {
             if ((value === null) || (value === undefined))
                 value = "";
             var innerTextNode = ko.virtualElements.firstChild(ele);
-            if (!innerTextNode || innerTextNode.nodeType != 3 || ko.virtualElements.nextSibling(innerTextNode)) {
+            if (!innerTextNode || innerTextNode.nodeType !== 3 || ko.virtualElements.nextSibling(innerTextNode)) {
                 ko.virtualElements.setDomNodeChildren(ele, [ele.ownerDocument.createTextNode(value)]);
             } else {
                 innerTextNode.data = value;

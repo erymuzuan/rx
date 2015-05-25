@@ -177,7 +177,7 @@ namespace Bespoke.Sph.Domain
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
-                throw new ArgumentException(Resources.NoSourceSupplied, "files");
+                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, nameof(files));
             foreach (var cs in files)
             {
                 Debug.WriteLineIf(options.IsVerbose, cs);
@@ -188,7 +188,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, this.Name)),
+                    OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{this.Name}.dll"),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 

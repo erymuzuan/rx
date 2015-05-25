@@ -4,10 +4,10 @@
     Model.Enable = "true";
 }
 @{
-    var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
+    var path = $"'/sph/binarystore/get/' + {Model.Path}()";
     if (Model.IsTransformTemplate)
     {
-        path = string.Format("'/sph/documenttemplate/transform?entity={0}&templateId={1}&id=' + {2}()", Model.Entity, Model.TemplateId, Model.Path);
+        path = $"'/sph/documenttemplate/transform?entity={Model.Entity}&templateId={Model.TemplateId}&id=' + {Model.Path}()";
     }
 }
 

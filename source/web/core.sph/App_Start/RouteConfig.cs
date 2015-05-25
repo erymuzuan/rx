@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace Bespoke.Sph.Web.App_Start
 {
     public class RouteConfig
     {
+        public static AdapterDesigner AdapterDesigner { get; set; }
+
         public async static Task RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -45,7 +48,7 @@ namespace Bespoke.Sph.Web.App_Start
             {
                 routes.MapRoute(
                     name: form.Route,
-                    url: string.Format("App/viewmodels/{0}.js", form.Route),
+                    url: $"App/viewmodels/{form.Route}.js",
                     defaults: new { controller = "EntityForm", action = "Form", Area = "Sph", id = form.Route }
                     );
             }
@@ -62,7 +65,7 @@ namespace Bespoke.Sph.Web.App_Start
                 try
                 {
                     var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
-                    var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.Id, ed1.Name);
+                    var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed1.Id}.Domain.{ed1.Name}";
                     var edType = edAssembly.GetType(edTypeName);
                     if (null == edType)
                         Console.WriteLine("Cannot create type " + edTypeName);
@@ -156,10 +159,10 @@ namespace Bespoke.Sph.Web.App_Start
                              select new JsRoute
                              {
                                  Title = t.Name,
-                                 Route = string.Format("{0}/:id", t.Route.ToLowerInvariant()),
+                                 Route = $"{t.Route.ToLowerInvariant()}/:id",
                                  Caption = t.Name,
                                  Icon = t.IconClass,
-                                 ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
+                                 ModuleId = $"viewmodels/{t.Route.ToLowerInvariant()}",
                                  Nav = false
                              };
             var viewRoutes = from t in views
@@ -169,7 +172,7 @@ namespace Bespoke.Sph.Web.App_Start
                                  Route = t.GenerateRoute(),
                                  Caption = t.Name,
                                  Icon = t.IconClass,
-                                 ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
+                                 ModuleId = $"viewmodels/{t.Route.ToLowerInvariant()}",
                                  Nav = false
                              };
 
@@ -187,10 +190,10 @@ namespace Bespoke.Sph.Web.App_Start
                 .Select(t => new JsRoute
                            {
                                Title = t.Plural,
-                               Route = string.Format("{0}", t.Name.ToLowerInvariant()),
+                               Route = $"{t.Name.ToLowerInvariant()}",
                                Caption = t.Plural,
                                Icon = t.IconClass,
-                               ModuleId = string.Format("viewmodels/{0}", t.Name.ToLowerInvariant()),
+                               ModuleId = $"viewmodels/{t.Name.ToLowerInvariant()}",
                                Nav = t.IsShowOnNavigationBar
                            });
 
@@ -198,15 +201,18 @@ namespace Bespoke.Sph.Web.App_Start
                             select new JsRoute
                             {
                                 Title = t.Title,
-                                Route = string.Format("reportdefinition.execute-id.{0}/:id", t.Id),
+                                Route = $"reportdefinition.execute-id.{t.Id}/:id",
                                 Caption = t.Title,
                                 Icon = "icon-bar-chart",
-                                ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.Id)
+                                ModuleId = $"viewmodels/reportdefinition.execute-id.{t.Id}"
                             };
 
             // adapters
-            var adapterDesginer = new AdapterDesigner();
-            var adapterRoutes = adapterDesginer.GetRoutes();
+            if (null == RouteConfig.AdapterDesigner)
+            {
+                RouteConfig.AdapterDesigner = new AdapterDesigner();
+            }
+            var adapterRoutes = RouteConfig.AdapterDesigner.GetRoutes();
             routes.AddRange(adapterRoutes);
 
             routes.AddRange(viewRoutes);

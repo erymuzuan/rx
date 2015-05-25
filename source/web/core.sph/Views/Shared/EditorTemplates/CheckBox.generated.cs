@@ -27,6 +27,12 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     
+    #line 1 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/CheckBox.cshtml")]
     public partial class _Views_Shared_EditorTemplates_CheckBox_cshtml_ : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.CheckBox>
@@ -37,17 +43,21 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
- if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
-}
+            #line 3 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+  
+    var originalPath = Model.Path.ToEmptyString().Replace("().", ".");
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 
             
             #line default
             #line hidden
+WriteLiteral("\r\n");
+
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 10 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
  if (Model.IsCompact)
 {
 
@@ -61,7 +71,7 @@ WriteLiteral(" class=\"checkbox\"");
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 8 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 12 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
                                           Write(Model.Visible);
 
             
@@ -74,7 +84,7 @@ WriteLiteral(">\r\n        <input");
 WriteLiteral(" data-i18n=\"");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 13 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
                      Write(Model.Label);
 
             
@@ -85,7 +95,7 @@ WriteLiteral("\"");
 WriteLiteral(" data-bind=\"");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 13 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
                                                Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -93,36 +103,36 @@ WriteLiteral(" data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 309), Tuple.Create("\"", 325)
+WriteAttribute("id", Tuple.Create(" id=\"", 430), Tuple.Create("\"", 446)
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
-                           , Tuple.Create(Tuple.Create("", 314), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 13 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+                           , Tuple.Create(Tuple.Create("", 435), Tuple.Create<System.Object, System.Int32>(Model.Path
             
             #line default
             #line hidden
-, 314), false)
+, 435), false)
 );
 
-WriteAttribute("title", Tuple.Create(" title=\"", 326), Tuple.Create("\"", 348)
+WriteAttribute("title", Tuple.Create(" title=\"", 447), Tuple.Create("\"", 469)
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
-                                               , Tuple.Create(Tuple.Create("", 334), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 13 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+                                               , Tuple.Create(Tuple.Create("", 455), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 334), false)
+, 455), false)
 );
 
 WriteLiteral(" type=\"checkbox\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 365), Tuple.Create("\"", 383)
+WriteAttribute("name", Tuple.Create(" name=\"", 486), Tuple.Create("\"", 506)
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
-                                                                                     , Tuple.Create(Tuple.Create("", 372), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 13 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+                                                                                     , Tuple.Create(Tuple.Create("", 493), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 372), false)
+, 493), false)
 );
 
 WriteLiteral(" />\r\n");
@@ -130,7 +140,7 @@ WriteLiteral(" />\r\n");
 WriteLiteral("        ");
 
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 14 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
    Write(Model.Label);
 
             
@@ -139,7 +149,7 @@ WriteLiteral("        ");
 WriteLiteral("\r\n    </label>\r\n");
 
             
-            #line 12 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 16 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
 }
 else
 {
@@ -155,7 +165,7 @@ WriteLiteral(" class=\"form-group\"");
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 20 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
                                           Write(Model.Visible);
 
             
@@ -165,22 +175,22 @@ WriteLiteral("\"");
 
 WriteLiteral(">\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 516), Tuple.Create("\"", 589)
-, Tuple.Create(Tuple.Create("", 524), Tuple.Create("col-md-offset-", 524), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 639), Tuple.Create("\"", 712)
+, Tuple.Create(Tuple.Create("", 647), Tuple.Create("col-md-offset-", 647), true)
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
-, Tuple.Create(Tuple.Create("", 538), Tuple.Create<System.Object, System.Int32>(@Model.LabelColMd ?? 4
-            
-            #line default
-            #line hidden
-, 538), false)
-            
-            #line 17 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
-, Tuple.Create(Tuple.Create(" ", 563), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            #line 21 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+, Tuple.Create(Tuple.Create("", 661), Tuple.Create<System.Object, System.Int32>(@Model.LabelColMd ?? 4
             
             #line default
             #line hidden
-, 564), false)
+, 661), false)
+            
+            #line 21 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+, Tuple.Create(Tuple.Create(" ", 686), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            
+            #line default
+            #line hidden
+, 687), false)
 );
 
 WriteLiteral(">\r\n            <div");
@@ -196,7 +206,7 @@ WriteLiteral(">\r\n                    <input");
 WriteLiteral(" data-bind=\"");
 
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 24 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
                                   Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -204,36 +214,36 @@ WriteLiteral(" data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 759), Tuple.Create("\"", 775)
+WriteAttribute("id", Tuple.Create(" id=\"", 882), Tuple.Create("\"", 898)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
-              , Tuple.Create(Tuple.Create("", 764), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 24 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+              , Tuple.Create(Tuple.Create("", 887), Tuple.Create<System.Object, System.Int32>(Model.Path
             
             #line default
             #line hidden
-, 764), false)
+, 887), false)
 );
 
-WriteAttribute("title", Tuple.Create(" title=\"", 776), Tuple.Create("\"", 798)
+WriteAttribute("title", Tuple.Create(" title=\"", 899), Tuple.Create("\"", 921)
             
-            #line 20 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
-                                  , Tuple.Create(Tuple.Create("", 784), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 24 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+                                  , Tuple.Create(Tuple.Create("", 907), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 784), false)
+, 907), false)
 );
 
 WriteLiteral(" type=\"checkbox\"");
 
-WriteAttribute("name", Tuple.Create("\r\n                           name=\"", 815), Tuple.Create("\"", 861)
+WriteAttribute("name", Tuple.Create("\r\n                           name=\"", 938), Tuple.Create("\"", 986)
             
-            #line 21 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
-, Tuple.Create(Tuple.Create("", 850), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 25 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+, Tuple.Create(Tuple.Create("", 973), Tuple.Create<System.Object, System.Int32>(originalPath
             
             #line default
             #line hidden
-, 850), false)
+, 973), false)
 );
 
 WriteLiteral("/>\r\n                    <span");
@@ -241,7 +251,7 @@ WriteLiteral("/>\r\n                    <span");
 WriteLiteral(" data-i18n=\"");
 
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 26 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
                                 Write(Model.Label);
 
             
@@ -252,7 +262,7 @@ WriteLiteral("\"");
 WriteLiteral(">");
 
             
-            #line 22 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 26 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
                                               Write(Model.Label);
 
             
@@ -262,7 +272,7 @@ WriteLiteral("</span>\r\n                    \r\n                </label>\r\n   
 "    </div>\r\n    </div>\r\n");
 
             
-            #line 28 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
+            #line 32 "..\..\Views\Shared\EditorTemplates\CheckBox.cshtml"
 }
 
             
