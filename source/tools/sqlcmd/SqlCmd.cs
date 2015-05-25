@@ -5,7 +5,7 @@ using System.Management.Automation;
 
 namespace sqlcmd
 {
-    [Cmdlet(VerbsLifecycle.Invoke, "SqlCmd", DefaultParameterSetName = "TrustedConnection")]
+    [Cmdlet(VerbsLifecycle.Invoke, "SqlCmdRx", DefaultParameterSetName = "TrustedConnection")]
     [OutputType(typeof(DataTable))]
     public class SqlCmd : PSCmdlet
     {
@@ -13,13 +13,13 @@ namespace sqlcmd
         [Alias("E")]
         public SwitchParameter TrustedConnection { get; set; }
 
-        [Parameter(HelpMessage = "servername\\instance-name", ParameterSetName = "TrustedConnection", Mandatory = true)]
+        [Parameter(HelpMessage = "servername\\instance-name", ParameterSetName = "TrustedConnection", Mandatory = false)]
         [Parameter(HelpMessage = "SQL scripts", ParameterSetName = "SqlAuthentication", Position = 0)]
         [ValidateNotNullOrEmpty]
         [Alias("S")]
         public string Server { get; set; } = ".";
 
-        [Parameter(HelpMessage = "Default database", ParameterSetName = "TrustedConnection", Mandatory = true)]
+        [Parameter(HelpMessage = "Default database", ParameterSetName = "TrustedConnection", Mandatory = false)]
         [Parameter(HelpMessage = "SQL scripts", ParameterSetName = "SqlAuthentication", Position = 0)]
         [ValidateNotNullOrEmpty]
         [Alias("d")]

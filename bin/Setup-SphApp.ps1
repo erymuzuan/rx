@@ -65,7 +65,7 @@ if(!(Test-Path(".\rabbitmq_server\sbin\rabbitmqctl.bat")))
 Try
 {
    & SqlLocalDB create "$SqlServer"
-   Invoke-SqlCmd -E -S "(localdb)\$SqlServer" -Q "SELECT COUNT(*) FROM sysdatabases"
+   Invoke-SqlCmdRx -E -S "(localdb)\$SqlServer" -Q "SELECT * FROM sysdatabases"
 }
 Catch
 {
@@ -101,25 +101,25 @@ if((Test-Path("$WorkingCopy\StartAspnetAdminWeb.bat")) -eq $false)
 
 #creates databases
 Write-Debug "Creating database $ApplicationName"
-Invoke-SqlCmd -S "(localdb)\$SqlServer" -E -d master -Q "IF  EXISTS (
+Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d master -Q "IF  EXISTS (
 	SELECT name 
 		FROM sys.databases 
 		WHERE name = N'$ApplicationName'
 )
 DROP DATABASE [$ApplicationName]"
 
-Invoke-Sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
+Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
 Write-Debug "Created database $ApplicationName"
 #Start-Sleep -Seconds 10
-Invoke-SqlCmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
-Invoke-SqlCmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
+Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
+Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
 Write-Debug "Created schema [SPH]"
 
 Get-ChildItem -Filter *.sql -Path $WorkingCopy\database\Table `
 | %{
     Write-Debug "Creating table $_"
     $sqlFileName = $_.FullName    
-    Invoke-SqlCmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
+    Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
 }
 
 
