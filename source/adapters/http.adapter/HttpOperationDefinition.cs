@@ -29,13 +29,15 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public HttpOperationDefinition(JToken jt)
         {
-            ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.HarProcessors)
+                ObjectBuilder.ComposeMefCatalog(this);
+
             var mt = jt.SelectToken("response.content.mimeType");
             if (null != mt)
                 this.ResponseMimeType = mt.Value<string>();
             foreach (var harProcessor in this.HarProcessors)
             {
-                if(harProcessor.CanProcess(this, jt))
+                if (harProcessor.CanProcess(this, jt))
                     harProcessor.Process(this, jt);
             }
         }
@@ -171,7 +173,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var fileName = member.Name + ".cs";
                 if (sources.ContainsKey(fileName))
                 {
-                    Console.WriteLine("There is already file {0} with the {1} content", fileName, mc == sources[fileName] ? "same" : "different" );
+                    Console.WriteLine("There is already file {0} with the {1} content", fileName, mc == sources[fileName] ? "same" : "different");
                     continue;
                 }
                 sources.Add(member.Name + ".cs", mc);

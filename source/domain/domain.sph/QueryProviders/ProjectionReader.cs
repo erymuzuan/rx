@@ -87,7 +87,7 @@ namespace Bespoke.Sph.Domain.QueryProviders {
 
         class Enumerator : ProjectionRow, IEnumerator<T> {
             //DbDataReader reader;
-            T current;
+            readonly T m_current;
             Func<ProjectionRow, T> m_projector;
             readonly IQueryProvider m_provider;
 
@@ -95,6 +95,12 @@ namespace Bespoke.Sph.Domain.QueryProviders {
                 //this.reader = reader;
                 this.m_projector = projector;
                 this.m_provider = provider;
+                m_current = default(T);
+            }
+
+            public Enumerator(T current1)
+            {
+                m_current = current1;
             }
 
             public override object GetValue(int index) {
@@ -128,15 +134,9 @@ namespace Bespoke.Sph.Domain.QueryProviders {
                 return true;
             }
 
-            public T Current
-            {
-                get { return this.current; }
-            }
+            public T Current => this.m_current;
 
-            object IEnumerator.Current
-            {
-                get { return this.current; }
-            }
+            object IEnumerator.Current => this.m_current;
 
             public bool MoveNext() {
                 //if (this.reader.Read())

@@ -28,7 +28,7 @@
                     if (col.IsLinkColumn)
                     {
                         <td>
-                            <a data-bind="attr : {href:'#@col.FormRoute' + '/' + @(Model.Entity)Id(), title:'@col.Header' }">
+                            <a data-bind="attr : {href:'#@col.FormRoute' + '/' + Id(), title:'@col.Header' }">
                                 @if (!string.IsNullOrWhiteSpace(col.IconCssClass))
                                 {
                                     <i class="@col.IconCssClass"></i>

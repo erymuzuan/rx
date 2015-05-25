@@ -208,20 +208,11 @@ WriteLiteral(" data-bind=\"attr : {href:\'#");
             
             #line default
             #line hidden
-WriteLiteral("\' + \'/\' + ");
+WriteLiteral("\' + \'/\' + Id(), title:\'");
 
             
             #line 31 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-                                                                             Write(Model.Entity);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("Id(), title:\'");
-
-            
-            #line 31 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-                                                                                                        Write(col.Header);
+                                                                                         Write(col.Header);
 
             
             #line default
@@ -246,14 +237,14 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("                                    <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1386), Tuple.Create("\"", 1411)
+WriteAttribute("class", Tuple.Create(" class=\"", 1371), Tuple.Create("\"", 1396)
             
             #line 34 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-, Tuple.Create(Tuple.Create("", 1394), Tuple.Create<System.Object, System.Int32>(col.IconCssClass
+, Tuple.Create(Tuple.Create("", 1379), Tuple.Create<System.Object, System.Int32>(col.IconCssClass
             
             #line default
             #line hidden
-, 1394), false)
+, 1379), false)
 );
 
 WriteLiteral("></i>\r\n");
@@ -277,25 +268,25 @@ WriteLiteral("                                ");
             #line hidden
 WriteLiteral("                                    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1612), Tuple.Create("\"", 1650)
-, Tuple.Create(Tuple.Create("", 1618), Tuple.Create("/sph/images/get/", 1618), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 1597), Tuple.Create("\"", 1635)
+, Tuple.Create(Tuple.Create("", 1603), Tuple.Create("/sph/images/get/", 1603), true)
             
             #line 38 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-, Tuple.Create(Tuple.Create("", 1634), Tuple.Create<System.Object, System.Int32>(col.IconStoreId
+, Tuple.Create(Tuple.Create("", 1619), Tuple.Create<System.Object, System.Int32>(col.IconStoreId
             
             #line default
             #line hidden
-, 1634), false)
+, 1619), false)
 );
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 1651), Tuple.Create("\"", 1668)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 1636), Tuple.Create("\"", 1653)
             
             #line 38 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-     , Tuple.Create(Tuple.Create("", 1657), Tuple.Create<System.Object, System.Int32>(col.Header
+     , Tuple.Create(Tuple.Create("", 1642), Tuple.Create<System.Object, System.Int32>(col.Header
             
             #line default
             #line hidden
-, 1657), false)
+, 1642), false)
 );
 
 WriteLiteral(" />\r\n");

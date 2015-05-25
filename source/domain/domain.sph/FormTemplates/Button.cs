@@ -6,14 +6,11 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Button", Order = 7d, FontAwesomeIcon = "square",TypeName = "Button", Description = "Creates a command button")]
     public partial class Button : FormElement
     {
-        public override bool IsPathIsRequired
-        {
-            get { return false; }
-        }
+        public override bool IsPathIsRequired => false;
 
         public override BuildError[] ValidateBuild(EntityDefinition ed)
         {
-            var message =string.Format("[Button] -> '{0}' ",this.Label);
+            var message = $"[Button] -> '{this.Label}' ";
             if(!string.IsNullOrWhiteSpace(this.Operation) && !string.IsNullOrWhiteSpace(this.CommandName))
                 return new[] { new BuildError(this.WebId, message + "You cannot have both Operation and Command set at the same time") };
 

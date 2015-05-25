@@ -18,7 +18,7 @@
 define("jquery", function () { return jQuery; });
 define("knockout", ko);
 
-define(["durandal/app", "durandal/viewLocator", "durandal/system",  objectbuilders.config],
+define(["durandal/app", "durandal/viewLocator", "durandal/system", objectbuilders.config],
     function (app, viewLocator, system, config) {
         system.debug(true);
         app.title = config.applicationFullName ;

@@ -68,8 +68,6 @@ namespace Bespoke.DevV1_appointment.Domain
             var rc = new RuleContext(item);
             var setter1 = operation.SetterActionChildCollection.Single(a => a.WebId == "51201976-4ff9-4c66-a7d6-9d266b5aa2b0");
             item.ReferenceNo = (System.String)setter1.Field.GetValue(rc);
-            var setter2 = operation.SetterActionChildCollection.Single(a => a.WebId == "d583d4bf-6eb0-4cd9-8b5f-561782909fd9");
-            item.Note = (System.String)setter2.Field.GetValue(rc);
 
             if (item.IsNewItem) item.Id = Guid.NewGuid().ToString();
 

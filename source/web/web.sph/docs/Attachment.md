@@ -5,7 +5,7 @@
 
 ##Properties
 <table class="table table-condensed table-bordered">
-    <thead>
+<thead>
 <tr>
 <th>Property</th>
 <th>Description</th>

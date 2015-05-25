@@ -342,43 +342,16 @@ WriteLiteral(">\r\n");
             
             #line default
             #line hidden
-WriteLiteral("                         <!-- ko lookupText: { entity : \'");
+WriteLiteral("                         <!-- ko text: ");
 
             
             #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-                                                    Write(Model.Entity);
+                                  Write(Model.DisplayMemberPath);
 
             
             #line default
             #line hidden
-WriteLiteral("\', value : ");
-
-            
-            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-                                                                            Write(Model.Path.ConvertJavascriptObjectToFunction());
-
-            
-            #line default
-            #line hidden
-WriteLiteral(", valuePath :\'");
-
-            
-            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-                                                                                                                                         Write(Model.ValueMemberPath);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\', displayPath : \'");
-
-            
-            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-                                                                                                                                                                                 Write(Model.DisplayMemberPath);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\'} -->\r\n");
+WriteLiteral(" -->\r\n");
 
 WriteLiteral("                            <!-- /ko -->\r\n");
 

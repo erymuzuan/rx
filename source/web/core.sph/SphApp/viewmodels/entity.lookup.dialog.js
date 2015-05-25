@@ -15,51 +15,58 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
             results = ko.observableArray(),
             options = ko.observable(),
             selected = ko.observable(),
-            attached = function(view){
-                var thead  = "<tr><th></th>";
-                _(ko.unwrap(options().columns)).each(function(v){
-                    thead += "<th>" + v + "<th>";
+            attached = function (view) {
+                var thead = "<tr><th></th>";
+                _(ko.unwrap(options().columns)).each(function (v) {
+                    thead += "<th>" + v + "</th>";
                 });
                 thead += "</tr>";
                 $("#thead").html(thead);
 
-                $(view).on("click", "tr", function(e){
+                $(view).on("click", "tr", function (e) {
                     e.preventDefault();
-                    $("i.fa-check").css("color","#dfdfdf");
-                    $(this).find("i.fa-check").css("color","#4B4B4B");
+                    $("i.fa-check").css("color", "#dfdfdf");
+                    $(this).find("i.fa-check").css("color", "#4B4B4B");
                     var id = $(this).data("id"),
                         item = _(results()).find(function (v) {
-                        return id === v["Id"];
-                    });
+                            return id === v["Id"];
+                        });
                     selected(item);
                 });
                 selected(null);
-                setTimeout(function(){
+                setTimeout(function () {
                     $("#search-text").focus();
 
-                },500);
+                }, 500);
             },
             okClick = function () {
-                    dialog.close(this, "OK");
+                dialog.close(this, "OK");
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
             searchAsync = function () {
                 var tcs = new $.Deferred(),
-                    query = {"query": {"query_string": {"default_field": "_all",
-                        "query": ko.unwrap(searchText)
-                    }}};
+                    query = {};
 
-                context.searchAsync({entity: ko.unwrap(options().entity)}, query)
+                if (ko.unwrap(searchText)) {
+                    query.query = {
+                        "query_string": {
+                            "default_field": "_all",
+                            "query": ko.unwrap(searchText)
+                        }
+                    };
+                }
+
+                context.searchAsync({ entity: ko.unwrap(options().entity) }, query)
                     .done(function (lo) {
                         results(lo.itemCollection);
 
-                        var tbody  = "";
-                        _(lo.itemCollection).each(function(m){
-                            tbody += "<tr style=\"cursor: pointer\" data-id=\""+ m.Id +"\">";
+                        var tbody = "";
+                        _(lo.itemCollection).each(function (m) {
+                            tbody += "<tr style=\"cursor: pointer\" data-id=\"" + m.Id + "\">";
                             tbody += "<td><i class=\"fa fa-check\" style=\"color:#dfdfdf\"></i></td>";
-                            _(ko.unwrap(options().columns)).each(function(v){
+                            _(ko.unwrap(options().columns)).each(function (v) {
                                 tbody += "  <td>" + m[v] + "</td>\r";
                             });
                             tbody += "</tr>\r";

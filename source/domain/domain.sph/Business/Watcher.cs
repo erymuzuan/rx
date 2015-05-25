@@ -4,7 +4,7 @@
     {
         public override string ToString()
         {
-            return string.Format("Watcher : {0}({1}) by {2}", this.EntityName, this.EntityId, this.User);
+            return $"Watcher : {this.EntityName}({this.EntityId}) by {this.User}";
         }
     }
 }

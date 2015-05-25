@@ -668,6 +668,8 @@
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
     <Compile Include="Controllers\InternationalizationController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\RequireJsBundleController.cs" />
+    <Compile Include="Controllers\ResourceBundleController.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
@@ -1621,6 +1623,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\__vendor.js" />
     <EmbeddedResource Include="Scripts\__vendor.min.js" />
+    <EmbeddedResource Include="Scripts\__rx.min.js" />
     <Content Include="SphApp\partial\ChildEntityListView.js" />
     <Content Include="SphApp\partial\CorrelationType.js" />
     <Content Include="SphApp\partial\CreateEntityActivity.js" />
@@ -2713,6 +2716,7 @@
       <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Scripts\__vendor.min.js.map" />
+    <EmbeddedResource Include="Scripts\__rx.min.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -2733,6 +2737,7 @@
     <Folder Include="Areas\Sph\Views\EntityForm\" />
     <Folder Include="Areas\Sph\Views\TransformDefinition\" />
     <Folder Include="Views\Main\" />
+    <Folder Include="Views\RequireJsBundle\" />
     <Folder Include="Views\WorkflowDesigner\" />
   </ItemGroup>
   <ItemGroup>

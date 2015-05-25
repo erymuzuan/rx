@@ -24,6 +24,7 @@
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -219,18 +220,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="code.snippets.json" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\daterangepicker-bs3.css" />
-    <Content Include="Content\prism.css" />
-    <Content Include="Content\transformation-mapping.css">
-      <DependentUpon>transformation-mapping.less</DependentUpon>
-    </Content>
-    <Content Include="Content\transformation-mapping.min.css">
-      <DependentUpon>transformation-mapping.css</DependentUpon>
-    </Content>
     <Content Include="docs\Action.html">
       <DependentUpon>Action.md</DependentUpon>
     </Content>
@@ -439,6 +428,9 @@
       <DependentUpon>EntityForm.md</DependentUpon>
     </Content>
     <Content Include="docs\EntityForm.md" />
+    <Content Include="docs\EntityLookupElement.html">
+      <DependentUpon>EntityLookupElement.md</DependentUpon>
+    </Content>
     <Content Include="docs\EntityOperation.html">
       <DependentUpon>EntityOperation.md</DependentUpon>
     </Content>
@@ -508,15 +500,10 @@
     <Content Include="docs\EntityDefinition.HowTo.AddChartToDashboard.md" />
     <Content Include="docs\EntityForm.HowTo.CreateCascadingCombobox.md" />
     <Content Include="docs\ChildEntityListView.md" />
-    <Content Include="Content\transformation-mapping.less" />
-    <Content Include="Content\transformation-mapping.css.map">
-      <DependentUpon>transformation-mapping.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="docs\adapter.mysql.sproc.md" />
     <Content Include="docs\ExceptionFilter.md" />
     <Content Include="docs\custom-login-page.md" />
+    <Content Include="docs\EntityLookupElement.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>

@@ -74,7 +74,7 @@
             "WebId": null
           },
           "Name": "Single Line Text",
-          "Label": "Patient Mrn",
+          "Label": "Patient Mrn 1",
           "Tooltip": null,
           "Path": "Mrn",
           "IsRequired": false,
@@ -106,9 +106,10 @@
           "LookupColumnCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
             "$values": [
-              "Gender",
               "Mrn",
-              "FullName"
+              "FullName",
+              "Dob",
+              "Gender"
             ]
           },
           "IsPathIsRequired": true,
@@ -134,7 +135,7 @@
           "CssClass": null,
           "Visible": "true",
           "Enable": "true",
-          "ElementId": "00ceb949-9dca-4427-ce4c-054056a55bef",
+          "ElementId": "d1ed94b8-cd2c-47b2-d907-1165db870426",
           "HelpText": null,
           "UseDisplayTemplate": false,
           "ToolboxIconClass": null,
@@ -147,7 +148,7 @@
           "InputColMd": null,
           "InputColSm": null,
           "InputColXs": null,
-          "WebId": "7454e928-3738-431b-873a-1c9958d7e32f"
+          "WebId": "9af294ff-6434-4217-93cf-afa83b183480"
         },
         {
           "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
@@ -380,6 +381,6 @@
   "Id": "create-new-appointment",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-05-19T09:27:02.0140919+08:00",
+  "ChangedDate": "2015-05-25T14:30:36.5827649+08:00",
   "WebId": "e8332a55-0d0a-4c35-8ba5-1efd5556dc32"
 }

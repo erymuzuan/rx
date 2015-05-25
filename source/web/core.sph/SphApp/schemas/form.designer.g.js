@@ -12,10 +12,10 @@ bespoke.sph.domain.FormDesign = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
-        Name: ko.observable(''),
-        Description: ko.observable(''),
-        ConfirmationText: ko.observable(''),
-        ImageStoreId: ko.observable(''),
+        Name: ko.observable(""),
+        Description: ko.observable(""),
+        ConfirmationText: ko.observable(""),
+        ImageStoreId: ko.observable(""),
         FormElementCollection: ko.observableArray([]),
         LabelColLg: ko.observable(),
         LabelColMd: ko.observable(),
@@ -52,13 +52,13 @@ bespoke.sph.domain.TextBox = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.DefaultValue = ko.observable('');
+    v.DefaultValue = ko.observable("");
 
-    v.AutoCompletionEntity = ko.observable('');
+    v.AutoCompletionEntity = ko.observable("");
 
-    v.AutoCompletionField = ko.observable('');
+    v.AutoCompletionField = ko.observable("");
 
-    v.AutoCompletionQuery = ko.observable('');
+    v.AutoCompletionQuery = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.TextBox, domain.sph";
 
@@ -197,7 +197,7 @@ bespoke.sph.domain.TextAreaElement = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.Rows = ko.observable('');
+    v.Rows = ko.observable("");
 
     v.IsHtml = ko.observable(false);
 
@@ -311,7 +311,7 @@ bespoke.sph.domain.MapElement = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.Icon = ko.observable('');
+    v.Icon = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.MapElement, domain.sph";
 
@@ -367,8 +367,8 @@ bespoke.sph.domain.ComboBoxItem = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
-        Caption: ko.observable(''),
-        Value: ko.observable(''),
+        Caption: ko.observable(""),
+        Value: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -402,9 +402,9 @@ bespoke.sph.domain.AddressElement = function (optionOrWebid) {
 
     v.IsBlockVisible = ko.observable(false);
 
-    v.BlockOptionsPath = ko.observable('');
+    v.BlockOptionsPath = ko.observable("");
 
-    v.FloorOptionsPath = ko.observable('');
+    v.FloorOptionsPath = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.AddressElement, domain.sph";
 
@@ -461,8 +461,8 @@ bespoke.sph.domain.DefaultValue = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.DefaultValue, domain.sph",
-        PropertyName: ko.observable(''),
-        TypeName: ko.observable(''),
+        PropertyName: ko.observable(""),
+        TypeName: ko.observable(""),
         IsNullable: ko.observable(false),
         Value: ko.observable(),
         isBusy: ko.observable(false),
@@ -493,9 +493,9 @@ bespoke.sph.domain.FieldValidation = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
         IsRequired: ko.observable(false),
-        Pattern: ko.observable(''),
-        Mode: ko.observable(''),
-        Message: ko.observable(''),
+        Pattern: ko.observable(""),
+        Mode: ko.observable(""),
+        Message: ko.observable(""),
         Min: ko.observable(),
         Max: ko.observable(),
         MinLength: ko.observable(),
@@ -528,10 +528,10 @@ bespoke.sph.domain.BusinessRule = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.BusinessRule, domain.sph",
-        Description: ko.observable(''),
-        Name: ko.observable(''),
-        ErrorLocation: ko.observable(''),
-        ErrorMessage: ko.observable(''),
+        Description: ko.observable(""),
+        Name: ko.observable(""),
+        ErrorLocation: ko.observable(""),
+        ErrorMessage: ko.observable(""),
         RuleCollection: ko.observableArray([]),
         FilterCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
@@ -562,7 +562,7 @@ bespoke.sph.domain.FileUploadElement = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.AllowedExtensions = ko.observable('');
+    v.AllowedExtensions = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.FileUploadElement, domain.sph";
 
@@ -591,10 +591,10 @@ bespoke.sph.domain.ComboBoxLookup = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
-        Entity: ko.observable(''),
-        ValuePath: ko.observable(''),
-        DisplayPath: ko.observable(''),
-        Query: ko.observable(''),
+        Entity: ko.observable(""),
+        ValuePath: ko.observable(""),
+        DisplayPath: ko.observable(""),
+        Query: ko.observable(""),
         IsComputedQuery: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -623,17 +623,17 @@ bespoke.sph.domain.ChildEntityListView = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.Entity = ko.observable('');
+    v.Entity = ko.observable("");
 
-    v.Query = ko.observable('');
+    v.Query = ko.observable("");
 
     v.IsAllowAddItem = ko.observable(false);
 
-    v.NewItemFormRoute = ko.observable('');
+    v.NewItemFormRoute = ko.observable("");
 
-    v.NewItemMappingSource = ko.observable('');
+    v.NewItemMappingSource = ko.observable("");
 
-    v.NewItemMappingDestination = ko.observable('');
+    v.NewItemMappingDestination = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.ChildEntityListView, domain.sph";
 
@@ -665,7 +665,7 @@ bespoke.sph.domain.ListView = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.ChildItemType = ko.observable('');
+    v.ChildItemType = ko.observable("");
 
     v.IsChildItemFunction = ko.observable(false);
 
@@ -697,8 +697,8 @@ bespoke.sph.domain.ListViewColumn = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
-        Label: ko.observable(''),
-        Path: ko.observable(''),
+        Label: ko.observable(""),
+        Path: ko.observable(""),
         Input: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -727,21 +727,21 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.Command = ko.observable('');
+    v.Command = ko.observable("");
 
     v.UseClick = ko.observable(false);
 
-    v.CommandName = ko.observable('');
+    v.CommandName = ko.observable("");
 
-    v.LoadingText = ko.observable('');
+    v.LoadingText = ko.observable("");
 
-    v.CompleteText = ko.observable('');
+    v.CompleteText = ko.observable("");
 
-    v.IconClass = ko.observable('');
+    v.IconClass = ko.observable("");
 
     v.IsToolbarItem = ko.observable(false);
 
-    v.Operation = ko.observable('');
+    v.Operation = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.Button, domain.sph";
 
@@ -771,11 +771,11 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
         Id: ko.observable("0"),
-        Name: ko.observable(''),
-        Plural: ko.observable(''),
-        IconStoreId: ko.observable(''),
-        IconClass: ko.observable(''),
-        RecordName: ko.observable(''),
+        Name: ko.observable(""),
+        Plural: ko.observable(""),
+        IconStoreId: ko.observable(""),
+        IconClass: ko.observable(""),
+        RecordName: ko.observable(""),
         IsPublished: ko.observable(false),
         IsShowOnNavigationBar: ko.observable(false),
         MemberCollection: ko.observableArray([]),
@@ -810,8 +810,8 @@ bespoke.sph.domain.Member = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        Name: ko.observable(''),
-        TypeName: ko.observable(''),
+        Name: ko.observable(""),
+        TypeName: ko.observable(""),
         IsNullable: ko.observable(false),
         IsNotIndexed: ko.observable(false),
         IsAnalyzed: ko.observable(false),
@@ -849,13 +849,13 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
         Id: ko.observable("0"),
-        EntityDefinitionId: ko.observable(''),
-        Name: ko.observable(''),
-        Route: ko.observable(''),
-        Note: ko.observable(''),
+        EntityDefinitionId: ko.observable(""),
+        Name: ko.observable(""),
+        Route: ko.observable(""),
+        Note: ko.observable(""),
         IsAllowedNewItem: ko.observable(false),
-        IconClass: ko.observable(''),
-        IconStoreId: ko.observable(''),
+        IconClass: ko.observable(""),
+        IconStoreId: ko.observable(""),
         IsPublished: ko.observable(false),
         IsDefault: ko.observable(false),
         IsWatchAvailable: ko.observable(false),
@@ -865,11 +865,11 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         IsRemoveAvailable: ko.observable(false),
         IsImportAvailable: ko.observable(false),
         IsExportAvailable: ko.observable(false),
-        Operation: ko.observable(''),
-        Entity: ko.observable(''),
-        Partial: ko.observable(''),
-        Caption: ko.observable(''),
-        Layout: ko.observable(''),
+        Operation: ko.observable(""),
+        Entity: ko.observable(""),
+        Partial: ko.observable(""),
+        Caption: ko.observable(""),
+        Layout: ko.observable(""),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
         RouteParameterCollection: ko.observableArray([]),
@@ -901,8 +901,8 @@ bespoke.sph.domain.FormLayout = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.FormLayout, domain.sph",
-        Name: ko.observable(''),
-        Position: ko.observable(''),
+        Name: ko.observable(""),
+        Position: ko.observable(""),
         IsForm: ko.observable(false),
         IsAuditTrail: ko.observable(false),
         Content: ko.observable(),
@@ -938,19 +938,19 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
         Id: ko.observable("0"),
-        IconClass: ko.observable(''),
-        IconStoreId: ko.observable(''),
-        EntityDefinitionId: ko.observable(''),
-        Name: ko.observable(''),
-        Route: ko.observable(''),
-        Note: ko.observable(''),
-        Query: ko.observable(''),
+        IconClass: ko.observable(""),
+        IconStoreId: ko.observable(""),
+        EntityDefinitionId: ko.observable(""),
+        Name: ko.observable(""),
+        Route: ko.observable(""),
+        Note: ko.observable(""),
+        Query: ko.observable(""),
         IsPublished: ko.observable(false),
-        Visibilty: ko.observable(''),
-        TileColour: ko.observable(''),
-        CountMessage: ko.observable(''),
-        Entity: ko.observable(''),
-        Partial: ko.observable(''),
+        Visibilty: ko.observable(""),
+        TileColour: ko.observable(""),
+        CountMessage: ko.observable(""),
+        Entity: ko.observable(""),
+        Partial: ko.observable(""),
         FilterCollection: ko.observableArray([]),
         ViewColumnCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
@@ -984,7 +984,7 @@ bespoke.sph.domain.Filter = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        Term: ko.observable(''),
+        Term: ko.observable(""),
         Operator: ko.observable('Operator'),
         Field: ko.observable(),
         isBusy: ko.observable(false),
@@ -1014,15 +1014,15 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        Path: ko.observable(''),
-        Header: ko.observable(''),
-        Sort: ko.observable(''),
+        Path: ko.observable(""),
+        Header: ko.observable(""),
+        Sort: ko.observable(""),
         IsLinkColumn: ko.observable(false),
-        FormRoute: ko.observable(''),
-        IconCssClass: ko.observable(''),
-        IconStoreId: ko.observable(''),
-        Format: ko.observable(''),
-        RouteValueField: ko.observable(''),
+        FormRoute: ko.observable(""),
+        IconCssClass: ko.observable(""),
+        IconStoreId: ko.observable(""),
+        Format: ko.observable(""),
+        RouteValueField: ko.observable(""),
         ConditionalFormattingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -1051,7 +1051,7 @@ bespoke.sph.domain.Sort = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
-        Path: ko.observable(''),
+        Path: ko.observable(""),
         Direction: ko.observable('SortDirection'),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -1115,9 +1115,9 @@ bespoke.sph.domain.DownloadLink = function (optionOrWebid) {
 
     v.TemplateId = ko.observable(0);
 
-    v.Entity = ko.observable('');
+    v.Entity = ko.observable("");
 
-    v.IconClass = ko.observable('');
+    v.IconClass = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.DownloadLink, domain.sph";
 
@@ -1146,7 +1146,7 @@ bespoke.sph.domain.FieldPermission = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.FieldPermission, domain.sph",
-        Role: ko.observable(''),
+        Role: ko.observable(""),
         IsHidden: ko.observable(false),
         IsReadOnly: ko.observable(false),
         isBusy: ko.observable(false),
@@ -1176,7 +1176,7 @@ bespoke.sph.domain.EntityPermission = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityPermission, domain.sph",
-        Role: ko.observable(''),
+        Role: ko.observable(""),
         IsHidden: ko.observable(false),
         IsReadOnly: ko.observable(false),
         isBusy: ko.observable(false),
@@ -1206,11 +1206,11 @@ bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityOperation, domain.sph",
-        Name: ko.observable(''),
-        SuccessMessage: ko.observable(''),
+        Name: ko.observable(""),
+        SuccessMessage: ko.observable(""),
         ShowSuccessMessage: ko.observable(false),
-        NavigateSuccessUrl: ko.observable(''),
-        SuccessCommand: ko.observable(''),
+        NavigateSuccessUrl: ko.observable(""),
+        SuccessCommand: ko.observable(""),
         EntityPermissionCollection: ko.observableArray([]),
         Rules: ko.observableArray([]),
         Permissions: ko.observableArray([]),
@@ -1244,15 +1244,15 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
         Id: ko.observable("0"),
-        EntityDefinitionId: ko.observable(''),
-        Entity: ko.observable(''),
-        Name: ko.observable(''),
-        Type: ko.observable(''),
-        EntityViewId: ko.observable(''),
-        Query: ko.observable(''),
-        Aggregate: ko.observable(''),
-        Field: ko.observable(''),
-        DateInterval: ko.observable(''),
+        EntityDefinitionId: ko.observable(""),
+        Entity: ko.observable(""),
+        Name: ko.observable(""),
+        Type: ko.observable(""),
+        EntityViewId: ko.observable(""),
+        Query: ko.observable(""),
+        Aggregate: ko.observable(""),
+        Field: ko.observable(""),
+        DateInterval: ko.observable(""),
         IsDashboardItem: ko.observable(false),
         DasboardItemPosition: ko.observable(0),
         HistogramInterval: ko.observable(),
@@ -1284,13 +1284,13 @@ bespoke.sph.domain.Series = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Series, domain.sph",
-        Name: ko.observable(''),
-        Entity: ko.observable(''),
-        Color: ko.observable(''),
-        Query: ko.observable(''),
-        Aggregate: ko.observable(''),
-        Field: ko.observable(''),
-        DateInterval: ko.observable(''),
+        Name: ko.observable(""),
+        Entity: ko.observable(""),
+        Color: ko.observable(""),
+        Query: ko.observable(""),
+        Aggregate: ko.observable(""),
+        Field: ko.observable(""),
+        DateInterval: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1319,12 +1319,12 @@ bespoke.sph.domain.SearchDefinition = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.SearchDefinition, domain.sph",
         Id: ko.observable("0"),
-        Entity: ko.observable(''),
-        Name: ko.observable(''),
+        Entity: ko.observable(""),
+        Name: ko.observable(""),
         IsPublished: ko.observable(false),
-        Route: ko.observable(''),
+        Route: ko.observable(""),
         OwnerType: ko.observable('OwnerType'),
-        Owner: ko.observable(''),
+        Owner: ko.observable(""),
         FilterCollection: ko.observableArray([]),
         ViewColumnCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
@@ -1355,8 +1355,8 @@ bespoke.sph.domain.ConditionalFormatting = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ConditionalFormatting, domain.sph",
-        CssClass: ko.observable(''),
-        Condition: ko.observable(''),
+        CssClass: ko.observable(""),
+        Condition: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1384,17 +1384,18 @@ bespoke.sph.domain.EntityLookupElement = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.Entity = ko.observable('');
+    v.Entity = ko.observable("");
 
-    v.DisplayMemberPath = ko.observable('');
+    v.DisplayMemberPath = ko.observable("");
 
-    v.ValueMemberPath = ko.observable('');
+    v.ValueMemberPath = ko.observable("");
 
-    v.DisplayTemplate = ko.observable('');
+    v.DisplayTemplate = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.EntityLookupElement, domain.sph";
 
     v.LookupColumnCollection = ko.observableArray([]);
+    v.FilterCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -1420,7 +1421,7 @@ bespoke.sph.domain.CurrencyElement = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.Currency = ko.observable('');
+    v.Currency = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.CurrencyElement, domain.sph";
 
@@ -1449,8 +1450,8 @@ bespoke.sph.domain.RouteParameter = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.RouteParameter, domain.sph",
-        Name: ko.observable(''),
-        Type: ko.observable(''),
+        Name: ko.observable(""),
+        Type: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1478,7 +1479,7 @@ bespoke.sph.domain.PartialJs = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.PartialJs, domain.sph",
-        Path: ko.observable(''),
+        Path: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1505,19 +1506,19 @@ bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.FormElement, domain.sph",
-        Name: ko.observable(''),
-        Label: ko.observable(''),
-        Tooltip: ko.observable(''),
-        Path: ko.observable(''),
+        Name: ko.observable(""),
+        Label: ko.observable(""),
+        Tooltip: ko.observable(""),
+        Path: ko.observable(""),
         IsRequired: ko.observable(false),
-        Size: ko.observable(''),
-        CssClass: ko.observable(''),
-        Visible: ko.observable(''),
-        Enable: ko.observable(''),
-        ElementId: ko.observable(''),
-        HelpText: ko.observable(''),
+        Size: ko.observable(""),
+        CssClass: ko.observable(""),
+        Visible: ko.observable(""),
+        Enable: ko.observable(""),
+        ElementId: ko.observable(""),
+        HelpText: ko.observable(""),
         UseDisplayTemplate: ko.observable(false),
-        ToolboxIconClass: ko.observable(''),
+        ToolboxIconClass: ko.observable(""),
         IsUniqueName: ko.observable(false),
         FieldValidation: ko.observable(new bespoke.sph.domain.FieldValidation()),
         LabelColLg: ko.observable(),

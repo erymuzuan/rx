@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.UI;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
@@ -97,7 +98,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }").Replace("config.userName", "\"" + User.Identity.Name + "\"");
             Console.WriteLine(json);
             var request = new StringContent(json);
-            var url = string.Format("{0}/{1}/_search", ConfigurationManager.ApplicationName.ToLowerInvariant(), type);
+            var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{type}/_search";
 
             using (var client = new HttpClient())
             {
@@ -112,7 +113,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
         }
 
-        [NoCache]
+        [OutputCache(Duration = 604800, Location = OutputCacheLocation.Client)]
+        [AllowAnonymous]
         public async Task<ActionResult> Dashboard(string id)
         {
             var user = User.Identity.Name;

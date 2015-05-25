@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.UI;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
 
@@ -19,21 +20,26 @@ namespace Bespoke.Sph.Web.Controllers
         public Lazy<Activity, IDesignerMetadata>[] ToolboxItems { get; set; }
 
         [Route("toolbox-items")]
+        [OutputCache(Duration = 300)]
         public ActionResult GetToolboxItems()
         {
             if (null == this.ToolboxItems)
                 ObjectBuilder.ComposeMefCatalog(this);
             var actions = from a in this.ToolboxItems
-                          select string.Format(@"
+                          select
+                              $@"
 {{
-    ""designer"" : {0},
-    ""activity"" : {1}
-}}", JsonConvert.SerializeObject(a.Metadata), a.Value.ToJsonString());
+    ""designer"" : {JsonConvert.SerializeObject(a.Metadata)
+                                  },
+    ""activity"" : {a.Value.ToJsonString()}
+}}";
 
 
             return Content("[" + string.Join(",", actions) + "]", "application/json", Encoding.UTF8);
         }
+
         [Route("icon/{name}.png")]
+        [OutputCache(Duration = 31600, Location = OutputCacheLocation.Any)]
         public ActionResult GetPngIcon(string name)
         {
             if (null == this.ToolboxItems)
@@ -118,10 +124,10 @@ namespace Bespoke.Sph.Web.Controllers
                 return HttpNotFound("Cannot find assembly with the name " + dll);
 
             var @class = assembly.GetTypes().SingleOrDefault(t => t.FullName == type);
-            if(null == @class)
-                return HttpNotFound("Cannot find type with the name " + type +" in " + dll);
+            if (null == @class)
+                return HttpNotFound("Cannot find type with the name " + type + " in " + dll);
 
-            return Json(@class.GetMethods(BindingFlags.Instance| BindingFlags.Public)
+            return Json(@class.GetMethods(BindingFlags.Instance | BindingFlags.Public)
                 .Where(m => !m.IsAbstract)
                 .Where(m => !m.Name.StartsWith("get_"))
                 .Where(m => !m.Name.StartsWith("set_"))

@@ -149,3 +149,5 @@ bin/subscribers.host/
 bin/sources/**/*.cs
 /.vs/config
 /source/web/web.sph/__splash.html
+*.psess
+*.vspx

@@ -151,7 +151,7 @@
 
 <div class="form-group" data-bind="visible:true">
     <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('17f5ec04-7070-43e3-8c3c-3f4f8e5f935b')}">
+    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('70c887af-b9e6-4834-9beb-9a6a9d3d9c3f')}">
         <thead>
             <tr>
                     <th data-i18n="Doctor">Doctor</th>
@@ -160,11 +160,11 @@
                     <th data-i18n="Mrn">Mrn</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('17f5ec04-7070-43e3-8c3c-3f4f8e5f935b')">
+        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('70c887af-b9e6-4834-9beb-9a6a9d3d9c3f')">
             <tr>
                         <td data-bind="text:Doctor"></td>
                         <td>
-                            <a data-bind="attr : {href:'#appointment-details' + '/' + AppointmentId(), title:'DateTime' }">
+                            <a data-bind="attr : {href:'#appointment-details' + '/' + Id(), title:'DateTime' }">
                                     <i class="fa fa-calendar-o"></i>
                                                                 <span data-bind="date:DateTime"></span>
                             </a>
