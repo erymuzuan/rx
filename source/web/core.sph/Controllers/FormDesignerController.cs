@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.UI;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
@@ -19,24 +20,27 @@ namespace Bespoke.Sph.Web.Controllers
         public Lazy<FormElement, IDesignerMetadata>[] ToolboxItems { get; set; }
 
         [Route("toolbox-items")]
-        [OutputCache(Duration = 64800)]
+        [OutputCache(Duration = 64800, Location = OutputCacheLocation.Any)]
         public ActionResult GetToolboxItems()
         {
             if (null == this.ToolboxItems)
                 ObjectBuilder.ComposeMefCatalog(this);
             var actions = from a in this.ToolboxItems
                           orderby a.Metadata.Order
-                          select string.Format(@"
+                          select
+                              $@"
 {{
-    ""designer"" : {0},
-    ""element"" : {1}
-}}", JsonConvert.SerializeObject(a.Metadata), a.Value.ToJsonString());
+    ""designer"" : {JsonConvert.SerializeObject(a.Metadata)
+                                  },
+    ""element"" : {a.Value.ToJsonString()}
+}}";
 
 
             return Content("[" + string.Join(",", actions) + "]", "application/json", Encoding.UTF8);
         }
 
         [Route("icon/{name}.png")]
+        [OutputCache(Duration = 2592200, Location = OutputCacheLocation.Any)]
         public ActionResult GetPngIcon(string name)
         {
             if (null == this.ToolboxItems)
@@ -80,7 +84,7 @@ namespace Bespoke.Sph.Web.Controllers
                 return Content(info.Value.GetEditorView(), "text/html", Encoding.UTF8);
             }
 
-            return HttpNotFound("Cannot find any activity named " + name);
+            return HttpNotFound("Cannot find any form element dialog  for" + name);
         }
 
         public static byte[] ImageToByte2(Bitmap img)
