@@ -124,7 +124,7 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(this.Name))
                 result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
             if (m_reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
-                result.Errors.Add(new BuildError(this.WebId, string.Format("The name [{0}] is reserved for the system", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId, $"The name [{this.Name}] is reserved for the system"));
 
 
             result.Result = !result.Errors.Any();
