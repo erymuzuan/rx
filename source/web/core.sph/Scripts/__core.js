@@ -244,7 +244,7 @@ bespoke.utils.ServerPager = function (options) {
 /// <reference path="../App/services/datacontext.js" />
 /// <reference path="../SphApp/objectbuilders.js" />
 /// <reference path="../App/durandal/amd/text.js" />
-/// <reference path="jquery-2.1.1.intellisense.js" />
+/// <reference path="jquery-2.1.3.intellisense.js" />
 /// <reference path="underscore.js" />
 /// <reference path="require.js" />
 
@@ -284,16 +284,16 @@ ko.bindingHandlers.typeahead = {
             members = new Bloodhound({
                 datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.Path); },
                 queryTokenizer: Bloodhound.tokenizers.nonword,
-                prefetch: '/WorkflowDefinition/GetVariablePath/' + id
+                prefetch: "/WorkflowDefinition/GetVariablePath/" + id
 
             });
         members.initialize();
         $(element).typeahead({ highlight: true }, {
-            name: 'schema_paths' + id,
+            name: "schema_paths" + id,
             displayKey: "Path",
             source: members.ttAdapter()
         })
-            .on('typeahead:closed', function () {
+            .on("typeahead:closed", function () {
                 allBindings.value($(this).val());
             });
     }
@@ -312,7 +312,7 @@ ko.bindingHandlers.activityPopover = {
                 title: name + ' : ' + act.Name(),
                 html: true,
                 content: function () {
-                    $('a.edit-activity').popover('hide');
+                    $("a.edit-activity").popover("hide");
                     div.find("a.edit-activity").addClass(act.WebId());
                     div.find("a.delete-activity").addClass(act.WebId());
                     div.find("a.start-activity").addClass(act.WebId());
@@ -321,7 +321,7 @@ ko.bindingHandlers.activityPopover = {
             });
 
         // just display it for 5 seconds
-        pop.on('shown.bs.popover', function () {
+        pop.on("shown.bs.popover", function () {
             setTimeout(function () { pop.popover('hide'); }, 5000);
         });
 
@@ -932,7 +932,7 @@ bespoke.lookupText = function (element, valueAccessor) {
             if ((value === null) || (value === undefined))
                 value = "";
             var innerTextNode = ko.virtualElements.firstChild(ele);
-            if (!innerTextNode || innerTextNode.nodeType != 3 || ko.virtualElements.nextSibling(innerTextNode)) {
+            if (!innerTextNode || innerTextNode.nodeType !== 3 || ko.virtualElements.nextSibling(innerTextNode)) {
                 ko.virtualElements.setDomNodeChildren(ele, [ele.ownerDocument.createTextNode(value)]);
             } else {
                 innerTextNode.data = value;
