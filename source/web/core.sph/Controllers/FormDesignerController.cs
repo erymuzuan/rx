@@ -19,6 +19,7 @@ namespace Bespoke.Sph.Web.Controllers
         public Lazy<FormElement, IDesignerMetadata>[] ToolboxItems { get; set; }
 
         [Route("toolbox-items")]
+        [OutputCache(Duration = 64800)]
         public ActionResult GetToolboxItems()
         {
             if (null == this.ToolboxItems)
