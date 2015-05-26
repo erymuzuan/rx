@@ -42,7 +42,7 @@ namespace domain.test.entities
             view.AddFilter("Floors", Operator.Neq, new ConstantField { Type = typeof(int), Value = 0 });
             view.AddFilter("CreatedBy", Operator.Eq, new JavascriptExpressionField { Expression = "config.userName" });
 
-            var filter = view.GenerateElasticSearchFilterDsl();
+            var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
             Console.WriteLine(filter);
             StringAssert.Contains("\"CreatedBy\":config.userName", filter);
         }
@@ -64,7 +64,7 @@ namespace domain.test.entities
             view.AddFilter("Floors", Operator.Neq, new ConstantField { Type = typeof(int), Value = 0 });
             view.AddFilter("Created", Operator.Eq, new ConstantField { Type = typeof(DateTime), Value = DateTime.Today });
 
-            var filter = view.GenerateElasticSearchFilterDsl();
+            var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
             Console.WriteLine(filter);
             StringAssert.Contains("\"Floors\":0", filter);
         }
@@ -86,7 +86,7 @@ namespace domain.test.entities
             view.AddFilter("Age", Operator.Le, new ConstantField { Type = typeof(int), Value = 50 });
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
 
-            var filter = view.GenerateElasticSearchFilterDsl();
+            var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
             StringAssert.Contains("\"Name\":\"KLCC\"", filter);
         }
 
@@ -107,7 +107,7 @@ namespace domain.test.entities
             view.AddFilter("Age", Operator.Le, new ConstantField { Type = typeof(int), Value = 50 });
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
 
-            var filter = view.GenerateElasticSearchFilterDsl();
+            var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
             StringAssert.Contains("\"to\":\"2000-01-01", filter);
         }
     }
