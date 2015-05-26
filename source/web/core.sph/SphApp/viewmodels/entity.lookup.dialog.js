@@ -56,8 +56,13 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                         }
                     };
                 }
+                var filterElementId = ko.unwrap(options().filterElementId),
+                    filter = $(filterElementId).text() || ko.unwrap(options.filter);
+                if (filter) {
+                    query.filter = JSON.parse(filter);
+                }
 
-                return context.searchAsync({ entity: ko.unwrap(options().entity) }, query)
+                return context.searchAsync({ entity : ko.unwrap(options().entity) }, query)
                     .done(function (lo) {
                         results(lo.itemCollection);
 
