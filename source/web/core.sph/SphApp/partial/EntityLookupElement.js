@@ -32,7 +32,7 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
             init();
         }
     },
-        editColumns = function () {
+    editColumns = function () {
             var self = this;
             require(["viewmodels/members.selector.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.entity(self.Entity());
@@ -46,9 +46,27 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
                     });
 
             });
+        },
+        editFilter = function() {
+
+            var self = this;
+            require(["viewmodels/entity.lookup.filter.dialog", "durandal/app"], function (dialog, app2) {
+                dialog.entity(self.Entity());
+                dialog.selectedFilters(self.FilterCollection());
+                app2.showDialog(dialog, self.Entity())
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.FilterCollection(dialog.selectedFilters());
+                        }
+                    });
+
+            });
         };
+
     return {
         editDisplayTemplate: editDisplayTemplate,
-        editColumns: editColumns
+        editColumns: editColumns,
+        editFilter: editFilter
     };
 };

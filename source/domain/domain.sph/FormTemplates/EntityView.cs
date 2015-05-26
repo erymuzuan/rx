@@ -16,8 +16,8 @@ namespace Bespoke.Sph.Domain
                                select new BuildError
                                (
                                    this.WebId,
-                                   string.Format("[Filter] : {0} => '{1}' does not have term or field", f.Term, f.Field)
-                               );
+                                   $"[Filter] : {f.Term} => '{f.Field}' does not have term or field"
+                                   );
             var conditionalFormattingErrors = from f in this.ConditionalFormattingCollection
                                               where string.IsNullOrWhiteSpace(f.Condition) || f.Condition.Contains("\"")
                                               select new BuildError
@@ -30,8 +30,8 @@ namespace Bespoke.Sph.Domain
                              select new BuildError
                              (
                                  this.WebId,
-                                 string.Format("[Sort] : {0} does not have path", f.Path)
-                             );
+                                 $"[Sort] : {f.Path} does not have path"
+                                 );
             var columnErrors = from f in this.ViewColumnCollection
                                where string.IsNullOrWhiteSpace(f.Path)
                                select new BuildError
@@ -99,14 +99,14 @@ namespace Bespoke.Sph.Domain
             if (!this.ConditionalFormattingCollection.Any())
                 return string.Empty;
             var f = from s in this.ConditionalFormattingCollection
-                    select string.Format("'{0}':{1}", s.CssClass, s.Condition);
+                    select $"'{s.CssClass}':{s.Condition}";
             return "css : {" + string.Join(",\r\n", f.ToArray()) + "}";
         }
 
         public string GenerateEsSortDsl()
         {
             var f = from s in this.SortCollection
-                    select string.Format("{{\"{0}\":{{\"order\":\"{1}\"}}}}", s.Path, s.Direction.ToString().ToLowerInvariant());
+                    select $"{{\"{s.Path}\":{{\"order\":\"{s.Direction.ToString().ToLowerInvariant()}\"}}}}";
             return "[" + string.Join(",\r\n", f.ToArray()) + "]";
         }
 
@@ -115,94 +115,12 @@ namespace Bespoke.Sph.Domain
             this.FilterCollection.Add(new Filter { Field = field, Operator = @operator, Term = term });
         }
 
-        public string GenerateElasticSearchFilterDsl()
-        {
-            var list = new ObjectCollection<Filter>(this.FilterCollection);
-            var fields = this.FilterCollection.Select(f => f.Term).Distinct().ToArray();
+ 
 
-            var query = new StringBuilder();
-
-            var mustFilters = fields.Select(f => this.GetFilterDsl(list.Where(x => x.Term == f && x.Operator != Operator.Neq).ToArray())).ToList();
-            var musts = string.Join(",\r\n", mustFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray());
-
-            var mustNotFilters = fields.Select(f => this.GetFilterDsl(list.Where(x => x.Term == f && x.Operator == Operator.Neq).ToArray())).ToList();
-            var mustnots = string.Join(",\r\n", mustNotFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray());
-            query.AppendFormat(@"{{
-               ""bool"": {{
-                  ""must"": [
-                    {0}
-                  ],
-                  ""must_not"": [
-                    {1}
-                  ]
-               }}
-           }}", musts, mustnots);
-
-            return query.ToString();
-        }
-
-
-        public string GetFilterDsl(Filter[] filters)
-        {
-            var context = new RuleContext(this);
-            var ft = filters.FirstOrDefault();
-            if (null == ft) return null;
-            var query = new StringBuilder();
-            query.AppendLine("                 {");
-
-            switch (ft.Operator)
-            {
-                case Operator.Eq:
-                case Operator.Neq:
-                    query.AppendLine("                     \"term\":{");
-                    var val = ft.Field.GetValue(context);
-                    var valJson = string.Format("{0}", val);
-                    if (val is string)
-                        valJson = string.Format("\"{0}\"", val);
-                    if (val is DateTime)
-                        valJson = string.Format("\"{0:s}\"", val);
-                    query.AppendLinf("                         \"{0}\":{1}", ft.Term, valJson);
-                    query.AppendLine("                     }");
-                    break;
-                case Operator.Ge:
-                case Operator.Gt:
-                case Operator.Le:
-                case Operator.Lt:
-                    query.AppendLine("                     \"range\":{");
-                    query.AppendFormat("                         \"{0}\":{{", ft.Term);
-                    var count = 0;
-                    foreach (var t in filters)
-                    {
-                        count++;
-                        var ov = string.Format("{0}", t.Field.GetValue(context));
-                        DateTime dv;
-                        if (DateTime.TryParse(ov, out dv))
-                            ov = string.Format("\"{0:O}\"", dv);
-
-                        if (t.Operator == Operator.Ge)
-                            query.AppendFormat("\"from\":{0}", ov);
-                        if (t.Operator == Operator.Le)
-                            query.AppendFormat("\"to\":{0}", ov);
-
-                        if (count < filters.Length)
-                            query.Append(",");
-
-                    }
-                    query.AppendLine("}");
-                    query.AppendLine("                     }");
-                    break;
-                default: throw new Exception(ft.Operator + " is not supported for filter DSL yet");
-            }
-
-
-            query.AppendLine("                 }");
-
-            return query.ToString();
-        }
 
         public override string ToString()
         {
-            return string.Format("[{0}] {1}", this.Id, this.Name);
+            return $"[{this.Id}] {this.Name}";
         }
 
     
@@ -210,9 +128,9 @@ namespace Bespoke.Sph.Domain
         public string GenerateRoute()
         {
             if (!this.RouteParameterCollection.Any())
-                return string.Format("{0}", this.Route.ToLowerInvariant());
-            return string.Format("{0}", this.Route.ToLowerInvariant())
-                + "/:" + string.Join("/:", this.RouteParameterCollection.Select(r => r.Name));
+                return $"{this.Route.ToLowerInvariant()}";
+            return $"{this.Route.ToLowerInvariant()}"
+                   + "/:" + string.Join("/:", this.RouteParameterCollection.Select(r => r.Name));
         }
     }
 }

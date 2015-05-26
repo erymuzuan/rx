@@ -597,8 +597,8 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
         editMemberMap: editMemberMap
     };
 };
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -631,7 +631,7 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
             init();
         }
     },
-        editColumns = function () {
+    editColumns = function () {
             var self = this;
             require(["viewmodels/members.selector.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.entity(self.Entity());
@@ -645,10 +645,28 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
                     });
 
             });
+        },
+        editFilter = function() {
+
+            var self = this;
+            require(["viewmodels/entity.lookup.filter.dialog", "durandal/app"], function (dialog, app2) {
+                dialog.entity(self.Entity());
+                dialog.selectedFilters(self.FilterCollection());
+                app2.showDialog(dialog, self.Entity())
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.FilterCollection(dialog.selectedFilters());
+                        }
+                    });
+
+            });
         };
+
     return {
         editDisplayTemplate: editDisplayTemplate,
-        editColumns: editColumns
+        editColumns: editColumns,
+        editFilter: editFilter
     };
 };
 /// <reference path="../objectbuilders.js" />
