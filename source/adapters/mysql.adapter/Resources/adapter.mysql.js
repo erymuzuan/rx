@@ -95,7 +95,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     loadingSchemas(true);
                     context.post(ko.mapping.toJSON(adapter), "mysql-adapter/objects").done(function (result) {
 
-                        var tables = _(result.tables).map(function (v) {
+                        var tables = _(result.tables.$values).map(function (v) {
                             return {
                                 name: v,
                                 children: ko.observableArray(),
@@ -103,8 +103,14 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                                 busy: ko.observable(false)
                             };
                         });
+
                         tableOptions(tables);
-                        sprocOptions(result.sprocs);
+
+                        if (result.sprocs.length > 1) {
+                            sprocOptions(result.sprocs);
+                        }
+                        
+
                         loadingSchemas(false);
                         logger.info("You are now connected, please select your schema");
                     });
