@@ -1,0 +1,23 @@
+﻿
+<section class="view-model-modal" id="entity-import-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Import</h3>
+            </div>
+            <div class="modal-body" data-bind="with: entity">
+
+                <form class="form-horizontal" id="entity-import-dialog-form">
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="entity-import-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick"/>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>
