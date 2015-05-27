@@ -12,15 +12,9 @@ namespace Bespoke.Sph.WathersSubscribers
 {
     public class WatcherSubscriber : Subscriber<Watcher>
     {
-        public override string QueueName
-        {
-            get { return "watcher_queue"; }
-        }
+        public override string QueueName => "watcher_queue";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "Watcher.#.#" }; }
-        }
+        public override string[] RoutingKeys => new[] { "Watcher.#.#" };
 
         protected override Task ProcessMessage(Watcher item, MessageHeaders header)
         {
@@ -88,7 +82,7 @@ namespace Bespoke.Sph.WathersSubscribers
             try
             {
                 var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
-                var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.Id, ed1.Name);
+                var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed1.Id}.Domain.{ed1.Name}";
                 var edType = edAssembly.GetType(edTypeName);
                 if (null == edType)
                     this.WriteError(new Exception("Cannot create type " + edTypeName));
@@ -140,7 +134,7 @@ namespace Bespoke.Sph.WathersSubscribers
   .Replace("<EntityId>", id);
 
             var request = new StringContent(query);
-            var url = string.Format("{0}_sys/watcher/_search", ConfigurationManager.ApplicationName.ToLowerInvariant());
+            var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sys/watcher/_search";
 
             var watchers = new ObjectCollection<string>();
             using (var client = new HttpClient())
@@ -183,7 +177,7 @@ namespace Bespoke.Sph.WathersSubscribers
             {
                 Subject = "There are changes in your watched item: " + item.GetType().Name,
                 UserName = user,
-                Body = string.Format("<p>{0}</p><div>{1}</div>", item, log),
+                Body = $"<p>{item}</p><div>{log}</div>",
                 Id = Guid.NewGuid().ToString()
             };
 
@@ -195,12 +189,7 @@ namespace Bespoke.Sph.WathersSubscribers
             }
         }
 
-        private readonly ObjectCollection<dynamic> m_listenerCollection = new ObjectCollection<dynamic>();
-
-        public ObjectCollection<dynamic> ListenerCollection
-        {
-            get { return m_listenerCollection; }
-        }
+        public ObjectCollection<dynamic> ListenerCollection { get; } = new ObjectCollection<dynamic>();
 
         protected override void OnStop()
         {

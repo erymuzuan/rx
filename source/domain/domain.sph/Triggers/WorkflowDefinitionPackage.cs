@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var id = Strings.RegexSingleValue(Path.GetFileName(zipFile), "wd_(?<id>.*?)_.*?", "id");
 
-            var wdFile = Path.Combine(folder, string.Format("wd_{0}.json", id));
+            var wdFile = Path.Combine(folder, $"wd_{id}.json");
             var wdJson = File.ReadAllText(wdFile);
             var wd = JsonConvert.DeserializeObject<WorkflowDefinition>(wdJson, setting);
 
@@ -85,7 +85,7 @@ namespace Bespoke.Sph.Domain
                 var page =
                     await
                         context.LoadOneAsync<Page>(
-                            p => p.Version == wd.Version && p.Tag == string.Format("wf_{0}_{1}", wd.Id, screen1.WebId));
+                            p => p.Version == wd.Version && p.Tag == $"wf_{wd.Id}_{screen1.WebId}");
                 if (null != page)
                 {
                     File.WriteAllBytes(Path.Combine(path, "page." + page.Id + ".json"), Encoding.UTF8.GetBytes(page.ToJsonString()));
@@ -100,7 +100,7 @@ namespace Bespoke.Sph.Domain
                 Id = Guid.NewGuid().ToString(),
                 Content = File.ReadAllBytes(zip),
                 Extension = ".zip",
-                FileName = string.Format("wd_{0}_{1}.zip", wd.Id, wd.Version),
+                FileName = $"wd_{wd.Id}_{wd.Version}.zip",
                 WebId = Guid.NewGuid().ToString()
             };
             await store.AddAsync(zd);

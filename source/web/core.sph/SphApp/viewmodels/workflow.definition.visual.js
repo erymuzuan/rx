@@ -12,7 +12,7 @@
 /// <reference path="../../Scripts/_task.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, objectbuilders.app],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app],
     function (context, logger, router, system, app) {
 
         var isBusy = ko.observable(false),
@@ -20,7 +20,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             publishingMessage = ko.observable(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             populateToolbox = function () {
-                return $.get('/wf-designer/toolbox-items', function (result) {
+                return $.get("/wf-designer/toolbox-items", function (result) {
                     vm.toolboxElements(result);
                 });
             },
@@ -194,7 +194,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                                 cssClass: "l1 component conn-label",
                                 label: label,
                                 location: 0.2,
-                                id: target + '-label'
+                                id: target + "-label"
                             }
                         ]
                     ];
@@ -275,13 +275,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                 act.Name(act.TypeName() + "_" + wd().ActivityCollection().length);
                 act.WorkflowDesigner().X(x - 60);
-                act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top + $(window).scrollTop() - 30);
+                act.WorkflowDesigner().Y(y - $("#container-canvas").offset().top + $(window).scrollTop() - 30);
                 act.WebId(system.guid());
                 wd().ActivityCollection.push(act);
                 initializeActivity(act);
             },
             attached = function (view) {
-                var script = $('<script type="text/javascript" src="/Scripts/jsPlumb/bundle.js"></script>').appendTo('body'),
+                var script = $("<script type=\"text/javascript\" src=\"/Scripts/jsPlumb/bundle.js\"></script>").appendTo("body"),
                     timer = setInterval(function () {
                         if (window.jsPlumb !== undefined) {
                             clearInterval(timer);
@@ -293,9 +293,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
 
                 populateToolbox().done(function () {
-                    $('div.toolbox-item').draggable({
+                    $("div.toolbox-item").draggable({
                         helper: function () {
-                            return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('.activity32').clone());
+                            return $("<div></div>").addClass("dragHoverToolbox").append($(this).find(".activity32").clone());
                         },
                         stop: toolboxItemDraggedStop
                     });
@@ -306,7 +306,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 var paintedConnectors = [],
                     hoveredActivity = null;
 
-                $(view).on('mouseenter', 'div.activity', function () {
+                $(view).on("mouseenter", "div.activity", function () {
                     var act = ko.dataFor(this),
                         cps = _.clone(connectorPaintStyle),
                         cps2 = _.clone(connectorPaintStyle),
@@ -331,7 +331,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     }
 
 
-                    $('div.activity').each(function () {
+                    $("div.activity").each(function () {
                         var div2 = $(this),
                             act2 = ko.dataFor(this);
                         if (act.WebId() === act2.NextActivityWebId()) {
@@ -348,10 +348,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                 });
 
-                $(view).on('mouseleave', 'div.activity', function () {
+                $(view).on("mouseleave", "div.activity", function () {
 
                     hoveredActivity = null;
-                    $('div.activity').each(function () {
+                    $("div.activity").each(function () {
                         var div2 = $(this);
                         div2.removeClass("source-activity")
                             .removeClass("target-activity");
@@ -363,24 +363,24 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     });
 
                 });
-                $('#open-close-toolbox-button').on('click', function (e) {
+                $("#open-close-toolbox-button").on("click", function (e) {
                     e.preventDefault();
-                    $('#toolbox-panel').hide();
+                    $("#toolbox-panel").hide();
                     return false;
                 });
-                $(document).on('keyup', function (e) {
+                $(document).on("keyup", function (e) {
                     if (e.ctrlKey && e.altKey && e.keyCode === 88) {
-                        $('#toolbox-panel').show();
+                        $("#toolbox-panel").show();
                     }
                 });
 
                 var clipboardItem = null;
-                $(view).on('copy', 'div.activity', function (e) {
+                $(view).on("copy", "div.activity", function (e) {
                     e.preventDefault();
                     clipboardItem = hoveredActivity;
                     console.log("Copied " + clipboardItem.Name());
                 });
-                $(view).on('paste', 'div#container-canvas', function (e) {
+                $(view).on("paste", "div#container-canvas", function (e) {
                     e.preventDefault();
                     if (clipboardItem) {
 
@@ -391,7 +391,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                         act.Name(act.Name() + wd().ActivityCollection().length);
                         act.WorkflowDesigner().X(x);
-                        act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top);
+                        act.WorkflowDesigner().Y(y - $("#container-canvas").offset().top);
                         act.WebId(system.guid());
                         wd().ActivityCollection.push(act);
                         initializeActivity(act);
@@ -401,7 +401,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
             },
             saveAsync = function () {
-                $('div#container-canvas>div.activity').each(function () {
+                $("div#container-canvas>div.activity").each(function () {
                     var p = $(this),
                         act = ko.dataFor(this),
                         x = parseInt(p.css("left")),
@@ -424,7 +424,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         if (result.success) {
                             logger.info("Data have been succesfully save");
                             wd().Id(result.id);
-                            router.navigate('/workflow.definition.visual/' + wd().Id());
+                            router.navigate("/workflow.definition.visual/" + wd().Id());
                         } else {
                             logger.error(result.message);
                         }
@@ -499,14 +499,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
             },
             exportWd = function () {
-                var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(wd);
-                context.post(data, "/WorkflowDefinition/Export")
+                return context.post(data, "/WorkflowDefinition/Export")
                     .then(function (result) {
-                        tcs.resolve(result);
                         window.location = result.url;
                     });
-                return tcs.promise();
+
 
             },
             itemAdded = function (element) {
@@ -519,9 +517,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             remove = function () {
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(wd);
-                app.showMessage('Are you sure you want delete this workflow definition ', 'SPH - Workflow', ['Yes', 'No'])
+                app.showMessage("Are you sure you want delete this workflow definition ", "SPH - Workflow", ["Yes", "No"])
                    .done(function (dr) {
-                       if (dr === 'Yes') {
+                       if (dr === "Yes") {
                            context.post(data, "/Sph/WorkflowDefinition/Remove").then(tcs.resolve);
                        } else {
                            tcs.resolve(false);
@@ -534,14 +532,14 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                 if (!wd().Id()) {
                     var tcs = new $.Deferred();
-                    app.showMessage('You have yet to save your work ', 'SPH - Workflow', ['OK'])
+                    app.showMessage("You have yet to save your work ", "SPH - Workflow", ["OK"])
                        .done(tcs.resolve);
 
                     return tcs.promise();
                 }
                 return activate(wd().Id())
                 .done(function () {
-                    $('div.modalHost, div.modalBlockout').remove();
+                    $("div.modalHost, div.modalBlockout").remove();
                 });
             },
             viewPages = function () {
@@ -573,17 +571,17 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 commands: ko.observableArray([
                     {
                         command: viewPages,
-                        caption: 'Pages',
+                        caption: "Pages",
                         icon: "fa fa-code"
                     },
                     {
                         command: compileAsync,
-                        caption: 'Build',
+                        caption: "Build",
                         icon: "fa fa-gear"
                     },
                     {
                         command: publishAsync,
-                        caption: 'Publish',
+                        caption: "Publish",
                         icon: "fa fa-sign-out"
                     }])
             }
