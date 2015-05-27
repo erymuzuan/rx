@@ -10,38 +10,29 @@
 
 
 define(["services/datacontext", "services/logger"],
-    function(context, logger) {
+    function (context, logger) {
 
         var
             entities = ko.observableArray(),
             isBusy = ko.observable(false),
-            activate = function() {
+            activate = function () {
 
             },
-            attached = function(view) {
-                
-                $("#import").kendoUpload({
-                    async: {
-                        saveUrl: "/entity-definition/import",
-                        autoUpload: true
-                    },
-                    multiple: false,
-                    error: function (e) {
-                        logger.logError(e, e, this, true);
-                    },
-                    success: function (e) {
-                        if (!e.response.success) {
-                            logger.error(e.response.message);
-                            return;
-                        }
-                        var uploaded = e.operation === "upload";
-                        if (uploaded) {
-                            var ed = e.response.ed,
-                                o = context.toObservable(ed);
-                            entities.push(o);
-                        }
-                    }
+            attached = function (view) {
+
+            
+            },
+            uploadPackage = function () {
+                var tcs = new $.Deferred();
+                require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
+                    //dialog.entity(entity());
+
+                    app2.showDialog(dialog)
+                        .done(tcs.resolve);
                 });
+
+                return tcs.promise();
+
             };
 
         var vm = {
@@ -49,7 +40,8 @@ define(["services/datacontext", "services/logger"],
             activate: activate,
             attached: attached,
             entities: entities,
-            toolbar : {
+            toolbar: {
+                importCommand : uploadPackage,
                 addNew: {
                     location: "#/entity.details/0",
                     caption: "Add New Custom Entity"

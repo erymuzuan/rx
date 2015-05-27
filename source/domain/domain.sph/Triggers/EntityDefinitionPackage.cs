@@ -15,7 +15,6 @@ namespace Bespoke.Sph.Domain
 
         public async Task<EntityDefinition> UnpackAsync(string zipFile)
         {
-            var context = new SphDataContext();
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             setting.Converters.Add(new StringEnumConverter());
 
@@ -31,36 +30,32 @@ namespace Bespoke.Sph.Domain
             var views = Directory.GetFiles(folder, "EntityView_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityView>());
             var forms = Directory.GetFiles(folder, "EntityForm_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityForm>());
             var triggers = Directory.GetFiles(folder, "Trigger_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<Trigger>());
-            views.Select(x => new LogEntry { Message = $"EntityView:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
-            forms.Select(x => new LogEntry { Message = $"EntityForm:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
-            triggers.Select(x => new LogEntry { Message = $"Trigger:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            views.Select(x => new LogEntry { Message = $"Deserializing EntityView:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            forms.Select(x => new LogEntry { Message = $"Deserializing EntityForm:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            triggers.Select(x => new LogEntry { Message = $"Deserializing Trigger:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
             await Task.Delay(500);
+            return ed;
+
+        }
+        public async Task<EntityDefinition> ImportAsync(string folder)
+        {
+            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            setting.Converters.Add(new StringEnumConverter());
 
 
-            // var store = ObjectBuilder.GetObject<IBinaryStore>();
-            //if (!string.IsNullOrWhiteSpace(ed.IconStoreId))
-            //{
-            //    var xsdFile = Path.Combine(folder, ed.IconStoreId + ".xsd");
-            //    var xsd = new BinaryStore
-            //    {
-            //        Content = File.ReadAllBytes(xsdFile),
-            //        Extension = ".xsd",
-            //        Id = ed.SchemaStoreId,
-            //        WebId = ed.SchemaStoreId,
-            //        FileName = "schema.xsd"
-            //    };
-            //    await store.AddAsync(xsd);
-            //}
+            var edFile = Directory.GetFiles(folder, "EntityDefinition_*.json").Single();
 
-            // get the pages
-            //using (var session = context.OpenSession())
-            //{
-            //    ed.Id = string.Empty;
-            //    session.Attach(ed);
-            //    await session.SubmitChanges("Import");
-            //}
+            var wdJson = File.ReadAllText(edFile);
+            var ed = JsonConvert.DeserializeObject<EntityDefinition>(wdJson, setting);
 
-
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            var views = Directory.GetFiles(folder, "EntityView_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityView>());
+            var forms = Directory.GetFiles(folder, "EntityForm_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityForm>());
+            var triggers = Directory.GetFiles(folder, "Trigger_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<Trigger>());
+            views.Select(x => new LogEntry { Message = $"Deserializing EntityView:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            forms.Select(x => new LogEntry { Message = $"Deserializing EntityForm:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            triggers.Select(x => new LogEntry { Message = $"Deserializing Trigger:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            await Task.Delay(500);
             return ed;
 
         }

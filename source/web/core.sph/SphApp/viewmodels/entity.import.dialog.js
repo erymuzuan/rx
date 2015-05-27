@@ -8,23 +8,49 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['plugins/dialog'],
-    function(dialog) {
+define(["plugins/dialog", objectbuilders.datacontext],
+    function (dialog, context) {
 
-        var okClick = function(data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
-                    dialog.close(this, "OK");
-                }
+        var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+        okClick = function (data, ev) {
+            if (bespoke.utils.form.checkValidity(ev.target)) {
+                dialog.close(this, "OK");
+            }
 
-            },
-            cancelClick = function() {
+        },
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
+            },
+            attached = function (view) {
+                $("#import").kendoUpload({
+                    async: {
+                        saveUrl: "/entity-definition/upload",
+                        autoUpload: true
+                    },
+                    multiple: false,
+                    error: function (e) {
+                        logger.logError(e, e, this, true);
+                    },
+                    success: function (e) {
+                        if (!e.response.success) {
+                            logger.error(e.response.message);
+                            return;
+                        }
+                        var uploaded = e.operation === "upload";
+                        if (uploaded) {
+                            var ed = e.response.ed,
+                                o = context.toObservable(ed);
+                            entity(o);
+                        }
+                    }
+                });
             };
 
         var vm = {
-            entity: ko.observable(new bespoke.sph.domain.EntityDefinition()),
+            entity: entity,
             okClick: okClick,
-            cancelClick: cancelClick
+            cancelClick: cancelClick,
+            attached: attached
         };
 
 

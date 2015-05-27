@@ -147,8 +147,8 @@ namespace Bespoke.Sph.Web.Controllers
             return File(System.IO.File.ReadAllBytes(zip), MimeMapping.GetMimeMapping(zip), System.IO.Path.GetFileName(zip));
         }
 
-        [Route("import")]
-        public async Task<ActionResult> Import(IEnumerable<HttpPostedFileBase> files)
+        [Route("upload")]
+        public async Task<ActionResult> Upload(IEnumerable<HttpPostedFileBase> files)
         {
             try
             {
@@ -161,10 +161,10 @@ namespace Bespoke.Sph.Web.Controllers
                     postedFile.SaveAs(zip);
 
                     var packager = new EntityDefinitionPackage();
-                    var wd = await packager.UnpackAsync(zip);
+                    var ed = await packager.UnpackAsync(zip);
 
-                    this.Response.ContentType = "application/javascriot";
-                    var result = new { success = true, wd };
+                    this.Response.ContentType = "application/javascript";
+                    var result = new { success = true, zip, ed };
                     return Content(result.ToJsonString());
 
                 }
@@ -176,6 +176,23 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(new { success = false });
 
 
+        }
+        [Route("import")]
+        public async Task<ActionResult> Import(string zip)
+        {
+            try
+            {
+                var packager = new EntityDefinitionPackage();
+                var wd = await packager.UnpackAsync(zip);
+
+                this.Response.ContentType = "application/javascript";
+                var result = new { success = true, wd };
+                return Content(result.ToJsonString());
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, exception = e.GetType().FullName, message = e.Message, stack = e.StackTrace });
+            }
         }
 
 
