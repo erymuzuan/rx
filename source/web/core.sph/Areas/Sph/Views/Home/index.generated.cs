@@ -168,7 +168,7 @@ WriteLiteral(" />\r\n");
             #line hidden
 WriteLiteral("        <link");
 
-WriteLiteral(" href=\"/resource-bundle/css\"");
+WriteLiteral(" href=\"/content/release.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
