@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function(context, logger, router) {
+define(["services/datacontext", "services/logger"],
+    function(context, logger) {
 
         var
             entities = ko.observableArray(),
@@ -19,7 +19,29 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             },
             attached = function(view) {
-
+                
+                $("#import").kendoUpload({
+                    async: {
+                        saveUrl: "/entity-definition/import",
+                        autoUpload: true
+                    },
+                    multiple: false,
+                    error: function (e) {
+                        logger.logError(e, e, this, true);
+                    },
+                    success: function (e) {
+                        if (!e.response.success) {
+                            logger.error(e.response.message);
+                            return;
+                        }
+                        var uploaded = e.operation === "upload";
+                        if (uploaded) {
+                            var ed = e.response.ed,
+                                o = context.toObservable(ed);
+                            entities.push(o);
+                        }
+                    }
+                });
             };
 
         var vm = {
@@ -29,8 +51,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             entities: entities,
             toolbar : {
                 addNew: {
-                    location: '#/entity.details/0',
-                    caption: 'Add New Custom Entity'
+                    location: "#/entity.details/0",
+                    caption: "Add New Custom Entity"
                 }
             }
         };

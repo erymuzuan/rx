@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -146,6 +147,36 @@ namespace Bespoke.Sph.Web.Controllers
             return File(System.IO.File.ReadAllBytes(zip), MimeMapping.GetMimeMapping(zip), System.IO.Path.GetFileName(zip));
         }
 
+        [Route("import")]
+        public async Task<ActionResult> Import(IEnumerable<HttpPostedFileBase> files)
+        {
+            try
+            {
+                foreach (var postedFile in files)
+                {
+                    var fileName = Path.GetFileName(postedFile.FileName);
+                    if (string.IsNullOrWhiteSpace(fileName)) throw new Exception("Filename is empty or null");
+
+                    var zip = Path.Combine(Path.GetTempPath(), fileName);
+                    postedFile.SaveAs(zip);
+
+                    var packager = new EntityDefinitionPackage();
+                    var wd = await packager.UnpackAsync(zip);
+
+                    this.Response.ContentType = "application/javascriot";
+                    var result = new { success = true, wd };
+                    return Content(result.ToJsonString());
+
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, exception = e.GetType().FullName, message = e.Message, stack = e.StackTrace });
+            }
+            return Json(new { success = false });
+
+
+        }
 
 
         [HttpPost]

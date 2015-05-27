@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Domain
     public class EntityDefinitionPackage
     {
 
-        public async Task<WorkflowDefinition> UnpackAsync(string zipFile)
+        public async Task<EntityDefinition> UnpackAsync(string zipFile)
         {
             var context = new SphDataContext();
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
@@ -22,48 +22,46 @@ namespace Bespoke.Sph.Domain
             var folder = Directory.CreateDirectory(Path.GetTempFileName() + "extract").FullName;
             ZipFile.ExtractToDirectory(zipFile, folder);
 
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var id = Strings.RegexSingleValue(Path.GetFileName(zipFile), "wd_(?<id>.*?)_.*?", "id");
+            var edFile = Directory.GetFiles(folder, "EntityDefinition_*.json").Single();
 
-            var wdFile = Path.Combine(folder, $"wd_{id}.json");
-            var wdJson = File.ReadAllText(wdFile);
-            var wd = JsonConvert.DeserializeObject<WorkflowDefinition>(wdJson, setting);
+            var wdJson = File.ReadAllText(edFile);
+            var ed = JsonConvert.DeserializeObject<EntityDefinition>(wdJson, setting);
 
-            if (!string.IsNullOrWhiteSpace(wd.SchemaStoreId))
-            {
-                var xsdFile = Path.Combine(folder, wd.SchemaStoreId + ".xsd");
-                var xsd = new BinaryStore
-                {
-                    Content = File.ReadAllBytes(xsdFile),
-                    Extension = ".xsd",
-                    Id = wd.SchemaStoreId,
-                    WebId = wd.SchemaStoreId,
-                    FileName = "schema.xsd"
-                };
-                await store.AddAsync(xsd);
-            }
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            var views = Directory.GetFiles(folder, "EntityView_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityView>());
+            var forms = Directory.GetFiles(folder, "EntityForm_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityForm>());
+            var triggers = Directory.GetFiles(folder, "Trigger_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<Trigger>());
+            views.Select(x => new LogEntry { Message = $"EntityView:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            forms.Select(x => new LogEntry { Message = $"EntityForm:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            triggers.Select(x => new LogEntry { Message = $"Trigger:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            await Task.Delay(500);
+
+
+            // var store = ObjectBuilder.GetObject<IBinaryStore>();
+            //if (!string.IsNullOrWhiteSpace(ed.IconStoreId))
+            //{
+            //    var xsdFile = Path.Combine(folder, ed.IconStoreId + ".xsd");
+            //    var xsd = new BinaryStore
+            //    {
+            //        Content = File.ReadAllBytes(xsdFile),
+            //        Extension = ".xsd",
+            //        Id = ed.SchemaStoreId,
+            //        WebId = ed.SchemaStoreId,
+            //        FileName = "schema.xsd"
+            //    };
+            //    await store.AddAsync(xsd);
+            //}
 
             // get the pages
-            using (var session = context.OpenSession())
-            {
-                wd.Id = string.Empty;
-                session.Attach(wd);
-                await session.SubmitChanges("Import");
-            }
-            using (var session = context.OpenSession())
-            {
-                foreach (var pf in Directory.GetFiles(folder, "page.*.json"))
-                {
-                    var pageJson = File.ReadAllText(pf);
-                    var page = JsonConvert.DeserializeObject<Page>(pageJson, setting);
-                    page.ChangeWorkflowDefinitionVersion(id, wd.Id);
+            //using (var session = context.OpenSession())
+            //{
+            //    ed.Id = string.Empty;
+            //    session.Attach(ed);
+            //    await session.SubmitChanges("Import");
+            //}
 
-                    session.Attach(page);
-                }
-                await session.SubmitChanges("Import");
-            }
 
-            return wd;
+            return ed;
 
         }
 
@@ -76,9 +74,9 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
 
             // forms
-            var formQuery = context.EntityForms.Where(f => f.Entity == ed.Name);
-            var viewQuery = context.EntityForms.Where(f => f.Entity == ed.Name);
-            var triggerQuery = context.EntityForms.Where(f => f.Entity == ed.Name);
+            var formQuery = context.EntityForms.Where(f => f.EntityDefinitionId == ed.Id);
+            var viewQuery = context.EntityViews.Where(f => f.EntityDefinitionId == ed.Id);
+            var triggerQuery = context.Triggers.Where(f => f.Entity == ed.Name);
 
             var forms = (await context.LoadAsync(formQuery, 1, 50, true)).ItemCollection;
             var views = (await context.LoadAsync(viewQuery, 1, 50, true)).ItemCollection;
@@ -90,7 +88,7 @@ namespace Bespoke.Sph.Domain
             if (null != icon)
                 File.WriteAllBytes(Path.Combine(path, "BinaryStore_" + ed.IconStoreId), icon.Content);
 
-            File.WriteAllBytes(Path.Combine(path, "EntityDefinition" + ed.Id + ".json"), Encoding.UTF8.GetBytes(ed.ToJsonString()));
+            File.WriteAllBytes(Path.Combine(path, "EntityDefinition_" + ed.Id + ".json"), Encoding.UTF8.GetBytes(ed.ToJsonString()));
 
 
             foreach (var form in forms)
