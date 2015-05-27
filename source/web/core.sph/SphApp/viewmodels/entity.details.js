@@ -177,6 +177,17 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 return tcs.promise();
 
+            },
+            importData = function() {
+                var tcs = new $.Deferred();
+                require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
+                    //dialog.entity(entity());
+
+                    app2.showDialog(dialog)
+                        .done(tcs.resolve);
+                });
+
+                return tcs.promise();
             };
 
 
@@ -193,6 +204,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 saveCommand: save,
                 removeCommand: removeAsync,
                 exportCommand: exportPackage,
+                importCommand: importData,
                 canExecuteRemoveCommand: function () {
                     return false;
                 },
