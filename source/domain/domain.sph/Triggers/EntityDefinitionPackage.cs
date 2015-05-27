@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -13,12 +12,11 @@ namespace Bespoke.Sph.Domain
     public class EntityDefinitionPackage
     {
 
-        public async Task<EntityDefinition> UnpackAsync(string zipFile)
+        public async Task<EntityDefinition> UnpackAsync(string zipFile, string folder)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             setting.Converters.Add(new StringEnumConverter());
 
-            var folder = Directory.CreateDirectory(Path.GetTempFileName() + "extract").FullName;
             ZipFile.ExtractToDirectory(zipFile, folder);
 
             var edFile = Directory.GetFiles(folder, "EntityDefinition_*.json").Single();
@@ -42,20 +40,54 @@ namespace Bespoke.Sph.Domain
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             setting.Converters.Add(new StringEnumConverter());
 
-
             var edFile = Directory.GetFiles(folder, "EntityDefinition_*.json").Single();
 
             var wdJson = File.ReadAllText(edFile);
             var ed = JsonConvert.DeserializeObject<EntityDefinition>(wdJson, setting);
 
             var logger = ObjectBuilder.GetObject<ILogger>();
-            var views = Directory.GetFiles(folder, "EntityView_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityView>());
-            var forms = Directory.GetFiles(folder, "EntityForm_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityForm>());
-            var triggers = Directory.GetFiles(folder, "Trigger_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<Trigger>());
+            var views = Directory.GetFiles(folder, "EntityView_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityView>()).ToList();
+            var forms = Directory.GetFiles(folder, "EntityForm_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityForm>()).ToList();
+            var triggers = Directory.GetFiles(folder, "Trigger_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<Trigger>()).ToList();
             views.Select(x => new LogEntry { Message = $"Deserializing EntityView:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
             forms.Select(x => new LogEntry { Message = $"Deserializing EntityForm:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
             triggers.Select(x => new LogEntry { Message = $"Deserializing Trigger:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
-            await Task.Delay(500);
+
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(ed);
+                session.Attach(forms.Cast<Entity>().ToArray());
+                session.Attach(views.Cast<Entity>().ToArray());
+                session.Attach(triggers.Cast<Entity>().ToArray());
+
+                await session.SubmitChanges("Save").ConfigureAwait(false);
+            }
+
+            // copy files
+            foreach (var vm in Directory.GetFiles(folder, "SphApp_viewmodels_*.js"))
+            {
+                File.Copy(vm, $"{ConfigurationManager.WebPath}\\SphApp\\viewmodels\\{(Path.GetFileName(vm) ?? "").Replace("SphApp_viewmodels_", "")}", true);
+            }
+            foreach (var vm in Directory.GetFiles(folder, "SphApp_partial_*.js"))
+            {
+                File.Copy(vm, $"{ConfigurationManager.WebPath}\\SphApp\\partial\\{(Path.GetFileName(vm) ?? "").Replace("SphApp_partial_", "")}", true);
+            }
+            foreach (var html in Directory.GetFiles(folder, "SphApp_views*.html"))
+            {
+                File.Copy(html, $"{ConfigurationManager.WebPath}\\SphApp\\views\\{(Path.GetFileName(html) ?? "").Replace("SphApp_views_", "")}", true);
+            }
+
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            foreach (var file in Directory.GetFiles(folder, "BinaryStore_*.json"))
+            {
+                var doc = File.ReadAllText(file).DeserializeFromJson<BinaryStore>();
+                doc.Content = File.ReadAllBytes($"{folder}\\doc_{doc.Id}{doc.Extension}");
+                await store.DeleteAsync(doc.Id);
+                await store.AddAsync(doc);
+            }
+
+
             return ed;
 
         }
@@ -81,7 +113,9 @@ namespace Bespoke.Sph.Domain
 
             var icon = await store.GetContentAsync(ed.IconStoreId);
             if (null != icon)
-                File.WriteAllBytes(Path.Combine(path, "BinaryStore_" + ed.IconStoreId), icon.Content);
+            {
+                WriteBinaryDocument(path, icon.Id, icon);
+            }
 
             File.WriteAllBytes(Path.Combine(path, "EntityDefinition_" + ed.Id + ".json"), Encoding.UTF8.GetBytes(ed.ToJsonString()));
 
@@ -99,7 +133,9 @@ namespace Bespoke.Sph.Domain
                 if (string.IsNullOrEmpty(form.IconStoreId)) continue;
                 var formIcon = await store.GetContentAsync(form.IconStoreId);
                 if (null != formIcon)
-                    File.WriteAllBytes(Path.Combine(path, "BinaryStore_" + ed.IconStoreId), formIcon.Content);
+                {
+                    WriteBinaryDocument(path, form.IconStoreId, formIcon);
+                }
             }
 
             foreach (var v in views)
@@ -114,12 +150,24 @@ namespace Bespoke.Sph.Domain
                 if (string.IsNullOrEmpty(v.IconStoreId)) continue;
                 var formIcon = await store.GetContentAsync(v.IconStoreId);
                 if (null != formIcon)
-                    File.WriteAllBytes(Path.Combine(path, "BinaryStore_" + ed.IconStoreId), formIcon.Content);
+                {
+                    WriteBinaryDocument(path, v.IconStoreId, formIcon);
+                }
             }
             foreach (var t in triggers)
             {
                 File.WriteAllBytes(Path.Combine(path, $"Trigger_{t.Id}.json"), Encoding.UTF8.GetBytes(t.ToJsonString(true)));
+                var trigglerDll = $"{ConfigurationManager.WorkflowCompilerOutputPath}\\subscriber.trigger.{t.Id}.dll";
+                var triggerPdb = $"{ConfigurationManager.WorkflowCompilerOutputPath}\\subscriber.trigger.{t.Id}.pdb";
+                if (File.Exists(trigglerDll))
+                {
+                    File.Copy(trigglerDll, $"{path}\\{Path.GetFileName(trigglerDll)}");
+                }
 
+                if (File.Exists(triggerPdb))
+                {
+                    File.Copy(triggerPdb, $"{path}\\{Path.GetFileName(triggerPdb)}");
+                }
             }
 
             if (includeData)
@@ -140,12 +188,30 @@ namespace Bespoke.Sph.Domain
                 }
             }
 
+            var output = $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
+            var pdb = $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.pdb";
+            if (File.Exists(output))
+            {
+                File.Copy(output, $"{path}\\{Path.GetFileName(output)}");
+            }
+
+            if (File.Exists(pdb))
+            {
+                File.Copy(pdb, $"{path}\\{Path.GetFileName(pdb)}");
+            }
+
             if (File.Exists(zip))
                 File.Delete(zip);
             ZipFile.CreateFromDirectory(path, zip);
 
 
             return zip;
+        }
+
+        private static void WriteBinaryDocument(string path, string storeId, BinaryStore document)
+        {
+            File.WriteAllBytes(Path.Combine(path, "doc_" + storeId + document.Extension), document.Content);
+            File.WriteAllText(Path.Combine(path, "BinaryStore_" + storeId + ".json"), document.ToJsonString());
         }
 
         private static void Copy(string fileName, string folder, string path)

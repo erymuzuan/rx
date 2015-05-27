@@ -157,14 +157,16 @@ namespace Bespoke.Sph.Web.Controllers
                     var fileName = Path.GetFileName(postedFile.FileName);
                     if (string.IsNullOrWhiteSpace(fileName)) throw new Exception("Filename is empty or null");
 
+
                     var zip = Path.Combine(Path.GetTempPath(), fileName);
                     postedFile.SaveAs(zip);
 
+                    var folder = Directory.CreateDirectory(Path.GetTempFileName() + "extract").FullName;
                     var packager = new EntityDefinitionPackage();
-                    var ed = await packager.UnpackAsync(zip);
+                    var ed = await packager.UnpackAsync(zip, folder);
 
                     this.Response.ContentType = "application/javascript";
-                    var result = new { success = true, zip, ed };
+                    var result = new { success = true, zip, ed, folder };
                     return Content(result.ToJsonString());
 
                 }
@@ -177,16 +179,18 @@ namespace Bespoke.Sph.Web.Controllers
 
 
         }
+
+        [HttpPost]
         [Route("import")]
-        public async Task<ActionResult> Import(string zip)
+        public async Task<ActionResult> Import(string folder)
         {
             try
             {
                 var packager = new EntityDefinitionPackage();
-                var wd = await packager.UnpackAsync(zip);
+                var ed = await packager.ImportAsync(folder);
 
                 this.Response.ContentType = "application/javascript";
-                var result = new { success = true, wd };
+                var result = new { success = true, ed };
                 return Content(result.ToJsonString());
             }
             catch (Exception e)

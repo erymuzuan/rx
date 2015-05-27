@@ -12,12 +12,23 @@ define(["plugins/dialog", objectbuilders.datacontext],
     function (dialog, context) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-        okClick = function (data, ev) {
-            if (bespoke.utils.form.checkValidity(ev.target)) {
-                dialog.close(this, "OK");
-            }
+            zip = ko.observable(),
+            folder = ko.observable(),
+            okClick = function (data, ev) {
+                if (bespoke.utils.form.checkValidity(ev.target)) {
+                    dialog.close(this, "OK");
+                }
 
-        },
+            },
+            importPackage = function () {
+                var data = JSON.stringify({"zip": ko.unwrap(zip), "folder": ko.unwrap(folder)});
+
+                return context.post(data, "/entity-definition/import")
+                    .then(function (result) {
+
+
+                    });
+            },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
@@ -41,6 +52,8 @@ define(["plugins/dialog", objectbuilders.datacontext],
                             var ed = e.response.ed,
                                 o = context.toObservable(ed);
                             entity(o);
+                            zip(e.response.zip);
+                            folder(e.response.folder);
                         }
                     }
                 });
@@ -50,6 +63,9 @@ define(["plugins/dialog", objectbuilders.datacontext],
             entity: entity,
             okClick: okClick,
             cancelClick: cancelClick,
+            importPackage: importPackage,
+            zip: zip,
+            folder: folder,
             attached: attached
         };
 
