@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.ModelBinding;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -129,6 +131,19 @@ namespace Bespoke.Sph.Web.Controllers
 
             System.Web.HttpContext.Current.Cache.Insert(ED_SCHEMA, script.ToString());
             return Content(script.ToString());
+        }
+
+        [HttpGet]
+        [Route("export/{id}")]
+        public async Task<ActionResult> Export(string id, [QueryString] bool includeData = false)
+        {
+
+            var context = new SphDataContext();
+            var entity = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
+            var package = new EntityDefinitionPackage();
+            var zip = await package.PackAsync(entity, includeData);
+
+            return File(System.IO.File.ReadAllBytes(zip), MimeMapping.GetMimeMapping(zip), System.IO.Path.GetFileName(zip));
         }
 
 

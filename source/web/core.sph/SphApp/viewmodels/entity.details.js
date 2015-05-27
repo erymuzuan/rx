@@ -164,6 +164,19 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
 
                 return tcs.promise();
+            },
+            exportPackage = function() {
+                //window.open("/entity-definition/export/" + entity().Id(), "_blank", "height=600px,width=800px,toolbar=0,location=0");
+                var tcs = new $.Deferred();
+                require(["viewmodels/entity.export.dialog", "durandal/app"], function (dialog, app2) {
+                    dialog.entity(entity());
+
+                    app2.showDialog(dialog)
+                        .done(tcs.resolve);
+                });
+
+                return tcs.promise();
+
             };
 
 
@@ -179,6 +192,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAsync,
+                exportCommand: exportPackage,
                 canExecuteRemoveCommand: function () {
                     return false;
                 },
@@ -196,7 +210,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 },
                     {
                         command: publishAsync,
-                        caption: 'Publish',
+                        caption: "Publish",
                         icon: "fa fa-sign-in",
                         enable: ko.computed(function () {
                             return entity().Id();
@@ -204,7 +218,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     },
                     {
                         command: depublishAsync,
-                        caption: 'Depublish',
+                        caption: "Depublish",
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
                             return entity().Id() && entity().IsPublished();
