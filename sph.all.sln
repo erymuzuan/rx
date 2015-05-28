@@ -153,6 +153,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gulp-tasks", "gulp-tasks", 
 		tasks\vendorjs.js = tasks\vendorjs.js
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "database_mysql.lookup", "source\functoids\database_mysql.lookup\database_mysql.lookup.csproj", "{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -383,6 +385,10 @@ Global
 		{0E76CF28-C1A8-417C-B672-10B6E0AFF102}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E76CF28-C1A8-417C-B672-10B6E0AFF102}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E76CF28-C1A8-417C-B672-10B6E0AFF102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -445,5 +451,6 @@ Global
 		{BA3B12B1-2758-489E-AEAA-37F3516DB0E0} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{0E76CF28-C1A8-417C-B672-10B6E0AFF102} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{62885FB2-C06E-42F6-8C0C-D9425A9BA774} = {5D5FA217-25F5-4EF5-BADA-7691B883E274}
+		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D} = {AC63E1AA-495D-4BD9-AF56-810DA6CBB5E2}
 	EndGlobalSection
 EndGlobal

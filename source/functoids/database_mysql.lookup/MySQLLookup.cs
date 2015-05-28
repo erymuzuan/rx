@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
     [DesignerMetadata(Name = "MySQL lookup", FontAwesomeIcon = "database", Category = FunctoidCategory.DATABASE)]
-    public class MySQLLookup : Functoid
+    public class MySqlLookup : Functoid
     {
         public override bool Initialize()
         {
@@ -85,7 +85,7 @@ namespace Bespoke.Sph.Domain
 
             var defaultValue = this.DefaultValue;
             if (this.OutputTypeName == "System.String, mscorlib")
-                defaultValue = string.Format("\"{0}\"", this.DefaultValue);
+                defaultValue = $"\"{this.DefaultValue}\"";
 
             code.AppendLinf("       if(__result{0} == DBNull.Value || null == __result{0}) __result{0} = {1};", this.Index, defaultValue);
 
