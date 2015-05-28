@@ -14,15 +14,9 @@ namespace subscriber.entities
 {
     public class SqlTableSubscriber : Subscriber<EntityDefinition>
     {
-        public override string QueueName
-        {
-            get { return "ed_sql_table"; }
-        }
+        public override string QueueName => "ed_sql_table";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { typeof(EntityDefinition).Name + ".changed.Publish" }; }
-        }
+        public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
 
         private static string GetSqlType(string typeName)
         {
@@ -66,11 +60,9 @@ namespace subscriber.entities
             var connectionString = ConfigurationManager.ConnectionStrings["sph"].ConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
             var tableExistSql =
-                string.Format(
-                    "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{0}'  AND  TABLE_NAME = '{1}'",
-                    applicationName, item.Name);
+                $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{applicationName}'  AND  TABLE_NAME = '{item.Name}'";
             var createTable = this.CreateTableSql(item, applicationName);
-            var oldTable = string.Format("{0}_{1:yyyyMMdd_HHmmss}", item.Name, DateTime.Now);
+            var oldTable = $"{item.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
             using (var conn = new SqlConnection(connectionString))
             {
                 await conn.OpenAsync();
@@ -89,7 +81,7 @@ namespace subscriber.entities
                     // rename table for migration
                     using (var renameTableCommand = new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
                     {
-                        renameTableCommand.Parameters.AddWithValue("@objname", string.Format("[{0}].[{1}]", applicationName, item.Name));
+                        renameTableCommand.Parameters.AddWithValue("@objname", $"[{applicationName}].[{item.Name}]");
                         renameTableCommand.Parameters.AddWithValue("@newname", oldTable);
                         //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
 
@@ -107,7 +99,7 @@ namespace subscriber.entities
                 this.WriteMessage("Migrating data for {0}", item.Name);
 
                 //migrate
-                var readSql = string.Format("SELECT [Id],[Json] FROM [{0}].[{1}]", applicationName, oldTable);
+                var readSql = $"SELECT [Id],[Json] FROM [{applicationName}].[{oldTable}]";
                 this.WriteMessage(readSql);
 
                 var builder = new Builder { EntityDefinition = item, Name = item.Name };

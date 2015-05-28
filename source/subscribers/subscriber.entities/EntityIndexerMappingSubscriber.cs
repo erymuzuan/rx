@@ -17,15 +17,9 @@ namespace subscriber.entities
     public class EntityIndexerMappingSubscriber : Subscriber<EntityDefinition>
     {
 
-        public override string QueueName
-        {
-            get { return "ed_es_mapping_gen"; }
-        }
+        public override string QueueName => "ed_es_mapping_gen";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { typeof(EntityDefinition).Name + ".changed.Publish" }; }
-        }
+        public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
 
         public string GetMapping(EntityDefinition item)
         {

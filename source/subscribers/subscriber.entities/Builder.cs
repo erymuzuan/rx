@@ -23,8 +23,8 @@ namespace subscriber.entities
             var meta = metadataProvider.GetTable(name);
             m_columns = meta.Columns
                         .Where(x => null != x)
-                       .Where(p => p.CanRead && p.CanWrite)
-                       .ToArray();
+                        .Where(p => p.CanRead && p.CanWrite)
+                        .ToArray();
 
 
         }
@@ -43,7 +43,7 @@ namespace subscriber.entities
                          select new SqlParameter("@" + c.Name.Replace(".", "_"), GetParameterValue(c, item))
                         ).ToList();
             var paramsValue = string.Join("\r\n",
-                parms.Select(p => string.Format("{0}\t=> {1}", p.ParameterName, p.Value)));
+                parms.Select(p => $"{p.ParameterName}\t=> {p.Value}"));
             Debug.WriteLine(sql + "\r\n" + paramsValue);
             await SPH_CONNECTION.ExecuteNonQueryAsync(sql, parms.ToArray());
 
