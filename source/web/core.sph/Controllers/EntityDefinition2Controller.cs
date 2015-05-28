@@ -199,6 +199,25 @@ namespace Bespoke.Sph.Web.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("import-data")]
+        public async Task<ActionResult> ImportData(string folder)
+        {
+            try
+            {
+                var packager = new EntityDefinitionPackage();
+                await packager.ImportDataAsync(folder);
+
+                this.Response.ContentType = "application/javascript";
+                var result = new { success = true };
+                return Content(result.ToJsonString());
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, exception = e.GetType().FullName, message = e.Message, stack = e.StackTrace });
+            }
+        }
+
 
         [HttpPost]
         [Route("depublish")]

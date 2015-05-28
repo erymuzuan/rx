@@ -180,8 +180,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             importData = function() {
                 var tcs = new $.Deferred();
-                require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
-                    //dialog.entity(entity());
+                require(["viewmodels/entity.import.data.dialog", "durandal/app"], function (dialog, app2) {
 
                     app2.showDialog(dialog)
                         .done(tcs.resolve);

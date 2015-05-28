@@ -86,11 +86,43 @@ namespace Bespoke.Sph.Domain
                 await store.DeleteAsync(doc.Id);
                 await store.AddAsync(doc);
             }
+            var dll = $"{folder}\\{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
+            var pdb = $"{folder}\\{ConfigurationManager.ApplicationName}.{ed.Name}.pdb";
+            if (File.Exists(dll) && File.Exists(pdb))
+            {
+                File.Copy(dll, $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.dll", true);
+                File.Copy(pdb, $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.pdb", true);
+            }
 
+            //foreach (var sub in Directory.GetFiles(folder, "subscriber.trigger.*"))
+            //{
+            //    File.Copy(sub, $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{Path.GetFileName(sub)}", true);
+            //    File.Copy(sub, $"{ConfigurationManager.SubscriberPath}\\{Path.GetFileName(sub)}", true);
+            //}
+
+            // TODO : drop existing table and elasticsearch mapping
 
             return ed;
 
         }
+
+
+
+        public async Task ImportDataAsync(string folder)
+        {
+            var context = new SphDataContext();
+            foreach (var js in Directory.GetFiles(folder, "data_*.json"))
+            {
+                dynamic item = File.ReadAllText(js).DeserializeFromJson<Entity>();
+                using (var session = context.OpenSession())
+                {
+                    session.Attach(item);
+                    await session.SubmitChanges("save", null);
+                }
+            }
+        }
+
+
 
         public async Task<string> PackAsync(EntityDefinition ed, bool includeData = false)
         {
@@ -220,5 +252,6 @@ namespace Bespoke.Sph.Domain
             if (File.Exists(view))
                 File.Copy(view, $"{path}\\SphApp_{folder}_{fileName}", true);
         }
+
     }
 }

@@ -5,7 +5,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
+/// <reference path="../schemas/__domain.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
@@ -25,8 +25,6 @@ define(["services/datacontext", "services/logger"],
             uploadPackage = function () {
                 var tcs = new $.Deferred();
                 require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
-                    //dialog.entity(entity());
-
                     app2.showDialog(dialog)
                         .done(tcs.resolve);
                 });
