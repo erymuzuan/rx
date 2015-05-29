@@ -28,6 +28,12 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (dbl.StartsWith("text")) return typeof(string);
             if (dbl.StartsWith("varbinary")) return typeof(string);
             if (dbl.StartsWith("varchar")) return typeof(string);
+            if (dbl.StartsWith("longtext")) return typeof(string);
+            if (dbl.StartsWith("mediumtext")) return typeof(string);
+            if (dbl.StartsWith("tinytext")) return typeof(string);
+            if (dbl.StartsWith("longblob")) return typeof(string);
+            if (dbl.StartsWith("mediumblob")) return typeof(string);
+            if (dbl.StartsWith("tinyblob")) return typeof(string);
 
             if (dbl.StartsWith("date")) return typeof(DateTime);
             if (dbl.StartsWith("time")) return typeof(DateTime);
@@ -59,6 +65,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                 case "enum" :return typeof (string);
                 case "char" :return typeof (string);
                 case "varchar" :return typeof (string);
+                case "tinytext" :return typeof (string);
+                case "mediumtext" :return typeof (string);
+                case "longtext" :return typeof (string);
+                case "tinyblob" :return typeof (string);
+                case "mediumblob" :return typeof (string);
+                case "longblob" :return typeof (string);
 
                 case "date" :return typeof (DateTime);
                 case "time" :return typeof (DateTime);
@@ -88,6 +100,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                 case "enum": return "string";
                 case "char": return "string";
                 case "varchar": return "string";
+                case "tinytext": return "string";
+                case "mediumtext": return "string";
+                case "longtext": return "string";
+                case "tinyblob": return "string";
+                case "mediumblob": return "string";
+                case "longblob": return "string";
 
                 case "date": return "DateTime";
                 case "time": return "DateTime";

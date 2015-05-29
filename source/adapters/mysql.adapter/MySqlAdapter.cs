@@ -331,15 +331,17 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public string GetSelectCommand(TableDefinition table)
         {
-            return string.Format("SELECT * FROM `{0}`.`{1}` ", this.Schema, table);
+            return $"SELECT * FROM `{this.Schema}`.`{table}` ";
         }
 
         private string PopulateItemFromReader(string name)
         {
             var columns = m_tableColumns[name];
             var code = new StringBuilder();
+            var count = 0;
             foreach (var column in columns)
             {
+                count++;
                 if (column.IsNullable && column.GetClrType() != typeof(string))
                 {
                     code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullable<{1}>();", column.Name,
@@ -351,7 +353,22 @@ namespace Bespoke.Sph.Integrations.Adapters
                     code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableString();", column.Name);
                     continue;
                 }
-
+                if (column.GetClrType() == typeof (DateTime) && column.IsNullable)
+                {
+                    code.AppendLine($"                       var __temp{count} = reader[\"{column.Name}\"];");
+                    code.AppendLine($"                       if( __temp{count} != DBNull.Value)");
+                    code.AppendLine( "                       {");
+                    code.AppendLine($"                          var __val{count} = (MySql.Data.Types.MySqlDateTime)__temp{count};");
+                    code.AppendLine($"                          if(__val{count}.IsValidDateTime ) item.{column.Name} = __val{count}.GetDateTime();");
+                    code.AppendLine( "                       }");
+                    continue;
+                }
+                if (column.GetClrType() == typeof (DateTime))
+                {
+                    code.AppendLine($"                       var __temp{count} = (MySql.Data.Types.MySqlDateTime)reader[\"{column.Name}\"];");
+                    code.AppendLine($"                       if(__temp{count}.IsValidDateTime ) item.{column.Name} = __temp{count}.GetDateTime();");
+                    continue;
+                }
                 code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
             }
 
@@ -420,7 +437,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         private string GenerateDeleteMethod(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguements = pks.Select(k => string.Format("{0} {1}", k.Type.ToCSharp(), k.Name.ToCamelCase()));
+            var arguements = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name.ToCamelCase()}");
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");
@@ -594,10 +611,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        public override string OdataTranslator
-        {
-            get { return "OdataSqlTranslator"; }
-        }
+        public override string OdataTranslator => "OdataSqlTranslator";
 
         public string ConnectionString
         {
@@ -605,7 +619,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
 
                 if (string.IsNullOrWhiteSpace(m_connectionString))
-                    m_connectionString = string.Format("Server={0};Database={1};Uid={2};Pwd={3};Allow User Variables=true;", this.Server, this.Database, this.UserId, this.Password);
+                    m_connectionString = $"Server={this.Server};Database={this.Database};Uid={this.UserId};Pwd={this.Password};Allow User Variables=true;Allow Zero Datetime=true;";
                 return m_connectionString;
             }
             set { m_connectionString = value; }
@@ -617,14 +631,6 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public string Database { get; set; }
 
-        private readonly ObjectCollection<OperationDefinition> m_operationDefinitionCollection = new ObjectCollection<OperationDefinition>();
-
-        public new ObjectCollection<OperationDefinition> OperationDefinitionCollection
-        {
-            get
-            {
-                return m_operationDefinitionCollection;
-            }
-        }
+        public new ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
     }
 }

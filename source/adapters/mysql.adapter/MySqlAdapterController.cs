@@ -130,7 +130,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         [Route("objects")]
         public async Task<object> GetObjectsAsync([FromBody]MySqlAdapter adapter)
         {
-            var connectionString = string.Format("Server={0};Database={1};Uid={2};Pwd={3};", adapter.Server, "information_schema", adapter.UserId, adapter.Password);
+            var connectionString = $"Server={adapter.Server};Database={"information_schema"};Uid={adapter.UserId};Pwd={adapter.Password};";
 
             using (var conn = new MySqlConnection(connectionString))
             using (var pcmd = new MySqlCommand("SELECT SPECIFIC_NAME, ROUTINE_DEFINITION FROM ROUTINES" +
@@ -174,7 +174,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         private async Task GetSprocParametersAsync(SprocOperationDefinition proc, MySqlAdapter adapter)
         {
             using (var conn = new MySqlConnection(adapter.ConnectionString))
-            using (var cmd = new MySqlCommand(string.Format("show create procedure `{0}`.`{1}`;", adapter.Schema, proc.Name), conn))
+            using (var cmd = new MySqlCommand($"show create procedure `{adapter.Schema}`.`{proc.Name}`;", conn))
             {
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())
