@@ -75,13 +75,13 @@ WriteLiteral(" content=\"IE=edge,chrome=1\"");
 
 WriteLiteral(">\r\n    <title>Editor</title>\r\n    <link");
 
-WriteLiteral(" href=\"/Content/bootstrap.min.css\"");
+WriteLiteral(" href=\"/Content/external/bootstrap.min.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/Content/font-awesome.min.css\"");
+WriteLiteral(" href=\"/Content/external/font-awesome.min.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 

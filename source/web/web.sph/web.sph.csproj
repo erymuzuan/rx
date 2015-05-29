@@ -220,6 +220,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="code.snippets.json" />
+    <Content Include="Content\external\bootstrap-theme.css" />
+    <Content Include="Content\external\bootstrap-theme.min.css" />
+    <Content Include="Content\external\bootstrap.css" />
+    <Content Include="Content\external\bootstrap.min.css" />
+    <Content Include="Content\external\daterangepicker-bs3.css" />
+    <Content Include="Content\external\font-awesome.min.css" />
+    <Content Include="Content\external\prism.css" />
+    <Content Include="Content\external\transformation-mapping.css" />
+    <Content Include="Content\external\transformation-mapping.min.css" />
     <Content Include="docs\Action.html">
       <DependentUpon>Action.md</DependentUpon>
     </Content>
@@ -504,6 +513,10 @@
     <Content Include="docs\ExceptionFilter.md" />
     <Content Include="docs\custom-login-page.md" />
     <Content Include="docs\EntityLookupElement.md" />
+    <Content Include="Content\external\bootstrap-theme.css.map" />
+    <Content Include="Content\external\bootstrap.css.map" />
+    <Content Include="Content\external\transformation-mapping.css.map" />
+    <Content Include="Content\external\transformation-mapping.less" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>
