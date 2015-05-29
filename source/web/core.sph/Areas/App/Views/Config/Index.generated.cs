@@ -60,7 +60,7 @@ namespace ASP
     };
 
     var lang = "en-US";
-    if (User.Identity.IsAuthenticated && null != Model.UserProfile)
+    if (User.Identity.IsAuthenticated && !string.IsNullOrWhiteSpace(Model.UserProfile?.Language))
     {
         lang = Model.UserProfile.Language;
     }
@@ -70,16 +70,16 @@ namespace ASP
             #line hidden
 WriteLiteral("\r\n\r\n\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 456), Tuple.Create("\"", 495)
-, Tuple.Create(Tuple.Create("", 462), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.2.0.debug.js")
-, 462), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 486), Tuple.Create("\"", 525)
+, Tuple.Create(Tuple.Create("", 492), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.2.0.debug.js")
+, 492), false)
 );
 
 WriteLiteral("></script>\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 515), Tuple.Create("\"", 548)
-, Tuple.Create(Tuple.Create("", 521), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/underscore.min.js")
-, 521), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 545), Tuple.Create("\"", 578)
+, Tuple.Create(Tuple.Create("", 551), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/underscore.min.js")
+, 551), false)
 );
 
 WriteLiteral("></script>\r\n<script");

@@ -10,7 +10,7 @@
     };
 
     var lang = "en-US";
-    if (User.Identity.IsAuthenticated && null != Model.UserProfile)
+    if (User.Identity.IsAuthenticated && !string.IsNullOrWhiteSpace(Model.UserProfile?.Language))
     {
         lang = Model.UserProfile.Language;
     }
