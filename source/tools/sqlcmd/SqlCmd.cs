@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Management.Automation;
@@ -69,8 +70,27 @@ namespace sqlcmd
             {
                 sql = File.ReadAllText(this.InputFile);
             }
-            
+            string[] commands = sql.Split(new[] { "GO\r\n", "GO ", "GO\t" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var c in commands)
+            {
+                try
+                {
+                    ExecuteSqlCommand(connectionString, c);
+                }
+                catch (Exception e)
+                {
+                    WriteError(new ErrorRecord(e,"99", ErrorCategory.ConnectionError, null));
+                }
+            }
 
+
+
+
+            base.ProcessRecord();
+        }
+
+        private bool ExecuteSqlCommand(string connectionString, string sql)
+        {
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -78,30 +98,28 @@ namespace sqlcmd
                 conn.Open();
                 if (this.ResultSetType == "Reader")
                 {
-                   
-                        var table = new DataTable();
-                        WriteVerbose($"Executing reader {sql}");
-                        using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                    var table = new DataTable();
+                    WriteVerbose($"Executing reader {sql}");
+                    using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                    {
+                        for (var i = 0; i < reader.FieldCount; i++)
                         {
-                            for (var i = 0; i < reader.FieldCount; i++)
-                            {
-                                var name = reader.GetName(i);
-                                table.Columns.Add(name);
-                                WriteVerbose("Column name  = " + name);
-                            }
-                            while (reader.Read())
-                            {
-                                var row = table.NewRow();
-                                foreach (var column in table.Columns)
-                                {
-                                    row[column.ToString()] = reader[column.ToString()];
-                                }
-                                table.Rows.Add(row);
-                            }
-                            WriteObject(table, true);
+                            var name = reader.GetName(i);
+                            table.Columns.Add(name);
+                            WriteVerbose("Column name  = " + name);
                         }
-                    return;
-
+                        while (reader.Read())
+                        {
+                            var row = table.NewRow();
+                            foreach (var column in table.Columns)
+                            {
+                                row[column.ToString()] = reader[column.ToString()];
+                            }
+                            table.Rows.Add(row);
+                        }
+                        WriteObject(table, true);
+                    }
+                    return true;
                 }
                 if (ResultSetType == "Scalar")
                 {
@@ -116,11 +134,8 @@ namespace sqlcmd
                     var rows = cmd.ExecuteNonQuery();
                     WriteObject($"Execute nonquery {rows}");
                 }
-
-
             }
-
-            base.ProcessRecord();
+            return false;
         }
     }
 }
