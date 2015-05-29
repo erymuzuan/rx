@@ -153,7 +153,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gulp-tasks", "gulp-tasks", 
 		tasks\vendorjs.js = tasks\vendorjs.js
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "database_mysql.lookup", "source\functoids\database_mysql.lookup\database_mysql.lookup.csproj", "{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "database.lookup.mysql", "source\functoids\database_mysql.lookup\database.lookup.mysql.csproj", "{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,8 +7,8 @@
     <ProjectGuid>{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>database.lookup</RootNamespace>
-    <AssemblyName>database.lookup</AssemblyName>
+    <RootNamespace>Bespoke.Sph.Domain.Functoids</RootNamespace>
+    <AssemblyName>database.lookup.mysql</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

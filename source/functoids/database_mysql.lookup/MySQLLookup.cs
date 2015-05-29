@@ -99,12 +99,12 @@ namespace Bespoke.Sph.Domain
 
         public override string GetEditorView()
         {
-            return database.lookup.Properties.Resources.view;
+            return Functoids.Properties.Resources.view;
         }
 
         public override string GetEditorViewModel()
         {
-            return database.lookup.Properties.Resources.vm;
+            return Functoids.Properties.Resources.vm;
         }
     }
 }
