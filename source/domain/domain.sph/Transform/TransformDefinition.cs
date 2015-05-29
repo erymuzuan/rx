@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Domain
             this.MapCollection.ForEach(x => x.TransformDefinition = this);
 
             if (files.Length == 0)
-                throw new ArgumentException("No source files supplied for compilation", "files");
+                throw new ArgumentException("No source files supplied for compilation", nameof(files));
             foreach (var cs in files)
             {
                 Debug.WriteLineIf(options.IsVerbose, cs);
@@ -46,9 +46,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly =
-                        Path.Combine(outputPath,
-                            string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, this.Name)),
+                    OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{this.Name}.dll"),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
@@ -66,6 +64,11 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Data.SqlClient.SqlConnection).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Configuration.ConfigurationManager).Assembly.Location);
+                foreach (var ra in this.ReferencedAssemblyCollection)
+                {
+                    parameters.ReferencedAssemblies.Add(ra.Location);
+                }
+
                 if (!string.IsNullOrWhiteSpace(this.InputTypeName))
                     parameters.ReferencedAssemblies.Add(this.InputType.Assembly.Location);
                 else

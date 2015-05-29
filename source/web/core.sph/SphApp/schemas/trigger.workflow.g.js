@@ -1,4 +1,5 @@
-﻿/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
+﻿
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -47,6 +48,7 @@ bespoke.sph.domain.Trigger = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.AssemblyField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
@@ -86,6 +88,7 @@ bespoke.sph.domain.AssemblyField = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.JavascriptExpressionField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
@@ -112,6 +115,7 @@ bespoke.sph.domain.JavascriptExpressionField = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.FunctionField = function (optionOrWebid) {
@@ -142,6 +146,7 @@ bespoke.sph.domain.FunctionField = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ConstantField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
@@ -168,6 +173,7 @@ bespoke.sph.domain.ConstantField = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.DocumentField = function (optionOrWebid) {
@@ -204,6 +210,7 @@ bespoke.sph.domain.DocumentField = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.PropertyChangedField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
@@ -238,6 +245,7 @@ bespoke.sph.domain.PropertyChangedField = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.Rule = function (optionOrWebid) {
 
     var model = {
@@ -265,6 +273,7 @@ bespoke.sph.domain.Rule = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.EmailAction = function (optionOrWebid) {
@@ -305,6 +314,7 @@ bespoke.sph.domain.EmailAction = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.SetterAction = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
@@ -330,6 +340,7 @@ bespoke.sph.domain.SetterAction = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.SetterActionChild = function (optionOrWebid) {
@@ -360,6 +371,7 @@ bespoke.sph.domain.SetterActionChild = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.MethodArg = function (optionOrWebid) {
 
     var model = {
@@ -387,6 +399,7 @@ bespoke.sph.domain.MethodArg = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.StartWorkflowAction = function (optionOrWebid) {
@@ -422,6 +435,7 @@ bespoke.sph.domain.StartWorkflowAction = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.WorkflowTriggerMap = function (optionOrWebid) {
 
     var model = {
@@ -448,6 +462,7 @@ bespoke.sph.domain.WorkflowTriggerMap = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.AssemblyAction = function (optionOrWebid) {
@@ -491,6 +506,7 @@ bespoke.sph.domain.AssemblyAction = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
 
     var model = {
@@ -529,6 +545,7 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.Workflow = function (optionOrWebid) {
 
     var model = {
@@ -560,6 +577,7 @@ bespoke.sph.domain.Workflow = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.ScreenActivity = function (optionOrWebid) {
@@ -605,6 +623,7 @@ bespoke.sph.domain.ScreenActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.DecisionActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
@@ -630,6 +649,7 @@ bespoke.sph.domain.DecisionActivity = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.DecisionBranch = function (optionOrWebid) {
@@ -659,6 +679,7 @@ bespoke.sph.domain.DecisionBranch = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.NotificationActivity = function (optionOrWebid) {
@@ -703,6 +724,7 @@ bespoke.sph.domain.NotificationActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.SimpleVariable = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Variable(optionOrWebid);
@@ -727,6 +749,7 @@ bespoke.sph.domain.SimpleVariable = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.ComplexVariable = function (optionOrWebid) {
@@ -784,6 +807,7 @@ bespoke.sph.domain.VariableValue = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.Page = function (optionOrWebid) {
 
     var model = {
@@ -820,6 +844,7 @@ bespoke.sph.domain.Page = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.EndActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
@@ -846,6 +871,7 @@ bespoke.sph.domain.EndActivity = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.Performer = function (optionOrWebid) {
@@ -877,6 +903,7 @@ bespoke.sph.domain.Performer = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.WorkflowDesigner = function (optionOrWebid) {
 
     var model = {
@@ -905,6 +932,7 @@ bespoke.sph.domain.WorkflowDesigner = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.SimpleMapping = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.PropertyMapping(optionOrWebid);
@@ -929,6 +957,7 @@ bespoke.sph.domain.SimpleMapping = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.FunctoidMapping = function (optionOrWebid) {
@@ -956,6 +985,7 @@ bespoke.sph.domain.FunctoidMapping = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.CreateEntityActivity = function (optionOrWebid) {
@@ -989,6 +1019,7 @@ bespoke.sph.domain.CreateEntityActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ExpressionActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
@@ -1014,6 +1045,7 @@ bespoke.sph.domain.ExpressionActivity = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.DeleteEntityActivity = function (optionOrWebid) {
@@ -1044,6 +1076,7 @@ bespoke.sph.domain.DeleteEntityActivity = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.UpdateEntityActivity = function (optionOrWebid) {
@@ -1081,6 +1114,7 @@ bespoke.sph.domain.UpdateEntityActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ScriptFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
@@ -1109,6 +1143,7 @@ bespoke.sph.domain.ScriptFunctoid = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ConfirmationOptions = function (optionOrWebid) {
 
     var model = {
@@ -1135,6 +1170,7 @@ bespoke.sph.domain.ConfirmationOptions = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
@@ -1170,6 +1206,7 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.SendActivity = function (optionOrWebid) {
@@ -1215,6 +1252,7 @@ bespoke.sph.domain.SendActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ListenActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
@@ -1240,6 +1278,7 @@ bespoke.sph.domain.ListenActivity = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.ParallelActivity = function (optionOrWebid) {
@@ -1269,6 +1308,7 @@ bespoke.sph.domain.ParallelActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.JoinActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
@@ -1295,6 +1335,7 @@ bespoke.sph.domain.JoinActivity = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.DelayActivity = function (optionOrWebid) {
@@ -1329,6 +1370,7 @@ bespoke.sph.domain.DelayActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ThrowActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
@@ -1357,6 +1399,7 @@ bespoke.sph.domain.ThrowActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ParallelBranch = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
@@ -1382,6 +1425,7 @@ bespoke.sph.domain.ParallelBranch = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.ListenBranch = function (optionOrWebid) {
@@ -1414,6 +1458,7 @@ bespoke.sph.domain.ListenBranch = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ClrTypeVariable = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Variable(optionOrWebid);
@@ -1442,6 +1487,7 @@ bespoke.sph.domain.ClrTypeVariable = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.ScheduledTriggerActivity = function (optionOrWebid) {
@@ -1504,6 +1550,7 @@ bespoke.sph.domain.Tracker = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
 
     var model = {
@@ -1536,6 +1583,7 @@ bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
@@ -1573,6 +1621,7 @@ bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ReferencedAssembly = function (optionOrWebid) {
 
     var model = {
@@ -1604,6 +1653,7 @@ bespoke.sph.domain.ReferencedAssembly = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.MappingActivity = function (optionOrWebid) {
@@ -1639,6 +1689,7 @@ bespoke.sph.domain.MappingActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.MappingSource = function (optionOrWebid) {
 
     var model = {
@@ -1667,6 +1718,7 @@ bespoke.sph.domain.MappingSource = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
 
     var model = {
@@ -1681,6 +1733,7 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
         MapCollection: ko.observableArray([]),
         FunctoidCollection: ko.observableArray([]),
         InputCollection: ko.observableArray([]),
+        ReferencedAssemblyCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1701,6 +1754,7 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.DirectMap = function (optionOrWebid) {
@@ -1733,6 +1787,7 @@ bespoke.sph.domain.DirectMap = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Map(optionOrWebid);
@@ -1763,6 +1818,7 @@ bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.StringConcateFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
@@ -1787,6 +1843,7 @@ bespoke.sph.domain.StringConcateFunctoid = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.ParseBooleanFunctoid = function (optionOrWebid) {
@@ -1819,6 +1876,7 @@ bespoke.sph.domain.ParseBooleanFunctoid = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ParseDoubleFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
@@ -1845,6 +1903,7 @@ bespoke.sph.domain.ParseDoubleFunctoid = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.ParseDecimalFunctoid = function (optionOrWebid) {
@@ -1875,6 +1934,7 @@ bespoke.sph.domain.ParseDecimalFunctoid = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ParseInt32Functoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
@@ -1901,6 +1961,7 @@ bespoke.sph.domain.ParseInt32Functoid = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.ParseDateTimeFunctoid = function (optionOrWebid) {
@@ -1935,6 +1996,7 @@ bespoke.sph.domain.ParseDateTimeFunctoid = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.FormattingFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
@@ -1961,6 +2023,7 @@ bespoke.sph.domain.FormattingFunctoid = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
@@ -1998,6 +2061,7 @@ bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.ConstantFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
@@ -2027,6 +2091,7 @@ bespoke.sph.domain.ConstantFunctoid = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.SourceFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
@@ -2053,6 +2118,7 @@ bespoke.sph.domain.SourceFunctoid = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.ExceptionFilter = function (optionOrWebid) {
@@ -2086,6 +2152,7 @@ bespoke.sph.domain.ExceptionFilter = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.CorrelationType = function (optionOrWebid) {
 
     var model = {
@@ -2112,6 +2179,7 @@ bespoke.sph.domain.CorrelationType = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.CorrelationSet = function (optionOrWebid) {
@@ -2142,6 +2210,7 @@ bespoke.sph.domain.CorrelationSet = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
 
     var model = {
@@ -2169,6 +2238,7 @@ bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
     }
     return model;
 };
+
 
 
 bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
@@ -2204,6 +2274,7 @@ bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
 };
 
 
+
 bespoke.sph.domain.TryScope = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Scope(optionOrWebid);
@@ -2229,6 +2300,7 @@ bespoke.sph.domain.TryScope = function (optionOrWebid) {
     }
     return v;
 };
+
 
 
 bespoke.sph.domain.CatchScope = function (optionOrWebid) {
@@ -2521,4 +2593,3 @@ bespoke.sph.domain.Operator = function () {
     };
 }();
 
-        

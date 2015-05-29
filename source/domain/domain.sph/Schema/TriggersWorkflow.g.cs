@@ -4718,6 +4718,17 @@ namespace Bespoke.Sph.Domain
             get { return m_InputCollection; }
         }
 
+        private readonly ObjectCollection<ReferencedAssembly> m_ReferencedAssemblyCollection = new ObjectCollection<ReferencedAssembly>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection
+        {
+            get { return m_ReferencedAssemblyCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -5992,8 +6003,20 @@ namespace Bespoke.Sph.Domain
         }
 
 
-    
-
+        private bool m_IsAsync;
+        [XmlAttribute]
+        public bool IsAsync
+        {
+            get
+            {
+                return m_IsAsync;
+            }
+            set
+            {
+                m_IsAsync = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         private readonly ObjectCollection<Variable> m_VariableMapCollection = new ObjectCollection<Variable>();

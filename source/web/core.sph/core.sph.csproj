@@ -1656,6 +1656,7 @@
     <Content Include="SphApp\partial\SetterAction.js" />
     <Content Include="SphApp\partial\SetterActionChild.js" />
     <Content Include="SphApp\partial\StartWorkflowAction.js" />
+    <Content Include="SphApp\partial\TransformDefinition.js" />
     <Content Include="SphApp\partial\Trigger.js" />
     <Content Include="SphApp\partial\CatchScope.js" />
     <Content Include="SphApp\partial\TryScope.js" />
@@ -2056,6 +2057,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\entity.lookup.filter.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\entity.export.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\entity.import.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\entity.import.data.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2552,6 +2554,7 @@
     <EmbeddedResource Include="SphApp\views\entity.lookup.filter.dialog.html" />
     <EmbeddedResource Include="SphApp\views\entity.export.dialog.html" />
     <EmbeddedResource Include="SphApp\views\entity.import.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\entity.import.data.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
