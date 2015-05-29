@@ -1,0 +1,41 @@
+<h1>All Questions</h1>
+<div class="row">
+    <div class="col-md-8">
+        <button class="btn btn-link pull-right" data-bind="visible: chartFiltered, click: clearChartFilter">
+            <i class="fa fa-times"></i>
+            Clear chart's filter
+        </button>
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, map : map, entity : 'Soalan', list:list}">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Text</th>
+                    <th>Ujian</th>
+                    <th>Section</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :list">
+                <tr data-bind="">
+
+                    <td data-bind="text:No"></td>
+                    <td>
+                        <a data-bind="attr : {href:'#soalan-details' + '/' + Id, title:'Text' }">
+                            <i class="fa fa-adjust"></i>
+                                                        <span data-bind="text:Text"></span>
+                        </a>
+                    </td>
+                    <td data-bind="text:Ujian"></td>
+                    <td data-bind="text:Section"></td>
+                    <td data-bind="text:Status"></td>
+
+
+                </tr>
+            </tbody>
+        </table>
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
+    </div>
+
+    <!-- ko compose : {view : '_chart.panel'}-->
+    <!-- /ko -->
+</div>
