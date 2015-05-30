@@ -22466,7 +22466,7 @@ ko.bindingHandlers.kendoDropDownListValue = {
     init: function (element, valueAccessor) {
         var value = valueAccessor();
         var currentModelValue = ko.utils.unwrapObservable(value);
-        var dd = $(element).data('kendoDropDownList');
+        var dd = $(element).data("kendoDropDownList");
         dd.value(currentModelValue);
 
         dd.bind("change", function () {
@@ -22481,7 +22481,7 @@ ko.bindingHandlers.kendoDropDownListValue = {
         var modelValue = ko.utils.unwrapObservable(value);
 
         if (modelValue) {
-            $(element).data('kendoDropDownList').value(modelValue);
+            $(element).data("kendoDropDownList").value(modelValue);
         }
     }
 };
@@ -22493,10 +22493,10 @@ ko.bindingHandlers.kendoComboBox = {
         var value = valueAccessor(),
             allBindings = allBindingsAccessor(),
             currentModelValue = ko.utils.unwrapObservable(value),
-            dd = $(element).data('kendoComboBox') ||
+            dd = $(element).data("kendoComboBox") ||
                 $(element).kendoComboBox({
                     dataSource: allBindings.source()
-                }).data('kendoComboBox');
+                }).data("kendoComboBox");
 
         dd.value(currentModelValue);
         allBindings.source.subscribe(function (options) {
@@ -22515,7 +22515,7 @@ ko.bindingHandlers.kendoComboBox = {
         var modelValue = ko.utils.unwrapObservable(value);
 
         if (modelValue) {
-            $(element).data('kendoComboBox').value(modelValue);
+            $(element).data("kendoComboBox").value(modelValue);
         }
     }
 };
@@ -22536,7 +22536,7 @@ ko.bindingHandlers.money = {
             textbox = $(element),
             val = parseFloat(ko.unwrap(value) || "0"),
             fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
-                return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
+                return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
             });
 
 
@@ -22547,7 +22547,7 @@ ko.bindingHandlers.money = {
 
         textbox.val(fm);
 
-        textbox.on('blur', function () {
+        textbox.on("blur", function () {
             var tv = $(this).val().replace(/,/g, "");
             console.log(tv);
             value(parseFloat(tv));
@@ -22713,7 +22713,7 @@ ko.bindingHandlers.kendoUpload = {
                 });
             },
             success: function (e) {
-                logger.info('Your file has been ' + e.operation);
+                logger.info("Your file has been " + e.operation);
 
                 var storeId = e.response.storeId,
                     uploaded = e.operation === "upload",
@@ -22902,20 +22902,20 @@ ko.bindingHandlers.kendoEnable = {
         var value = valueAccessor();
         var enable = ko.utils.unwrapObservable(value);
         if (enable) {
-            $(element).removeClass('k-state-disabled');
+            $(element).removeClass("k-state-disabled");
         } else {
-            $(element).addClass('k-state-disabled');
+            $(element).addClass("k-state-disabled");
         }
     },
     update: function (element, valueAccessor) {
         var value = valueAccessor();
         var enable = ko.utils.unwrapObservable(value);
         if (enable) {
-            $(element).removeClass('k-state-disabled');
-            $(element).removeAttr('disabled');
+            $(element).removeClass("k-state-disabled");
+            $(element).removeAttr("disabled");
         } else {
-            $(element).addClass('k-state-disabled');
-            $(element).attr('disabled', 'disabled');
+            $(element).addClass("k-state-disabled");
+            $(element).attr("disabled", "disabled");
         }
     }
 };
@@ -22959,16 +22959,16 @@ ko.bindingHandlers.command = {
                 .then(function () {
                     $button
                         .button("complete")
-                        .prop('disabled', false)
+                        .prop("disabled", false)
                         .val(inputValue)
-                        .removeClass('btn-disabled');
+                        .removeClass("btn-disabled");
                     $spinner.hide();
 
                 });
             if ($button.data("loading-text")) {
                 $button.button("loading");
             }
-            $button.addClass('btn-disabled').prop('disabled', true);
+            $button.addClass("btn-disabled").prop("disabled", true);
 
         });
     }
@@ -23138,7 +23138,7 @@ ko.bindingHandlers.commandWithParameter = {
             callback(parameter)
                 .then(function () {
                     button.button("complete");
-                    if (button.get(0).tagName === 'BUTTON' || button.get(0).tagName === 'A') {
+                    if (button.get(0).tagName === "BUTTON" || button.get(0).tagName === "A") {
                         button.html(completeText);
                     } else {
                         button.val(completeText);
@@ -23241,9 +23241,9 @@ ko.bindingHandlers.serverPaging = {
             map = value.map,
             pagerHidden = value.pagerHidden || false,
             $element = $(element),
-            context = require('services/datacontext'),
-            $pagerPanel = $('<div></div>'),
-            $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
+            context = require("services/datacontext"),
+            $pagerPanel = $("<div></div>"),
+            $spinner = $("<img src=\"/Images/spinner-md.gif\" alt=\"loading\" class=\"absolute-center\" />"),
             startLoad = function () {
                 $spinner.show();
                 $element.fadeTo("fast", 0.33);
@@ -23323,11 +23323,11 @@ ko.bindingHandlers.searchPaging = {
             pagerHidden = value.pagerHidden || false,
             searchButton = value.searchButton,
             $element = $(element),
-            context = require('services/datacontext'),
-            logger = require('services/logger'),
+            context = require("services/datacontext"),
+            logger = require("services/logger"),
             cultures = require(objectbuilders.cultures),
-            $pagerPanel = $('<div></div>'),
-            $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
+            $pagerPanel = $("<div></div>"),
+            $spinner = $("<img src=\"/Images/spinner-md.gif\" alt=\"loading\" class=\"absolute-center\" />"),
             startLoad = function () {
                 $spinner.show();
                 $element.fadeTo("fast", 0.33);
@@ -23409,6 +23409,9 @@ ko.bindingHandlers.searchPaging = {
                         "size": 20,
                         "query": {}
                     };
+                q.query = q.query || {};
+                q.query.filtered = q.query.filtered || {};
+
                 q2.query.filtered = q.query.filtered;
                 q2.query.filtered.query = {
                     "query_string": {
@@ -23430,7 +23433,7 @@ ko.bindingHandlers.searchPaging = {
             .fadeTo("slow", 0.33);
 
         if (searchButton) {
-            $(document).on('click', searchButton, function (e) {
+            $(document).on("click", searchButton, function (e) {
                 e.preventDefault();
                 if (!$(this).parents("form")[0].checkValidity()) {
                     logger.error(cultures.messages.FORM_IS_NOT_VALID);

@@ -27,7 +27,7 @@
                 <td >
                     <a href="#" data-bind="click : $parent.openDetails, date: { value: time, format:'YYYY-MM-DD HH:mm ss', inputFormat : moment.ISO_8601}"></a>
                 </td>
-                <td data-bind="text:operation"></td>
+                <td data-bind="text:operation + ': ' + message"></td>
                 <td data-bind="text:severity"></td>
                 <td data-bind="text:log"></td>
             </tr>
