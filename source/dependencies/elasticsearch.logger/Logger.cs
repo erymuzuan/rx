@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -19,7 +20,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
 
         public async Task LogAsync(LogEntry entry)
         {
-            if ((int) entry.Severity < (int) this.TraceSwitch) return;
+            if ((int)entry.Severity < (int)this.TraceSwitch) return;
 
             var content = GetJsonContent(entry);
             var url = m_url();
@@ -27,7 +28,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
             using (var client = new HttpClient())
             {
                 var response = await client.PutAsync(url, content);
-                Console.WriteLine(response.StatusCode);
+                Debug.WriteLine("{0}=>{1}",m_url, response.StatusCode);
             }
         }
 
@@ -42,7 +43,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
             using (var client = new HttpClient())
             {
                 var response = client.PutAsync(url, content).Result;
-                Console.WriteLine(response.StatusCode);
+                Debug.WriteLine("{0}=>{1}", m_url, response.StatusCode);
             }
         }
         private static StringContent GetJsonContent(LogEntry entry)
