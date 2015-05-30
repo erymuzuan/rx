@@ -73,7 +73,7 @@ namespace Bespoke.Sph.ControlCenter
             var vm = this.DataContext as MainViewModel;
             if (null == vm) throw new InvalidOperationException("The DataContext is not MainViewModel");
 
-            Process.Start(new ProcessStartInfo(string.Format("http://localhost:{0}/", vm.Settings.WebsitePort)));
+            Process.Start(new ProcessStartInfo($"http://localhost:{vm.Settings.WebsitePort}/"));
             e.Handled = true;
         }
 

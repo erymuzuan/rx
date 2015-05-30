@@ -86,7 +86,6 @@ namespace Bespoke.Sph.ControlCenter
         private void NewMessageReceived(WebSocketSession session, string value)
         {
             Console.WriteLine("Getting new message from {0} => {1}", session.SessionID, value);
-            // session.Send("[{\"name\" : \"test01\"}]");
 
         }
 
@@ -138,8 +137,12 @@ namespace Bespoke.Sph.ControlCenter
             var json = Encoding.Default.GetString(body);
             try
             {
-                m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
                 m_channel.BasicAck(e.DeliveryTag, false);
+                if (json.Contains("\"message\": \"Created\","))
+                {
+                    return;
+                };
+                m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
             }
             catch (Exception)
             {

@@ -8,16 +8,9 @@ namespace subscriber.entities
 {
     public class EntityFormSubscriber : Subscriber<EntityForm>
     {
-        public override string QueueName
-        {
-            get { return "ed_form_gen"; }
-        }
+        public override string QueueName => "ed_form_gen";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { typeof(EntityForm).Name + ".changed.Publish" }; }
-
-        }
+        public override string[] RoutingKeys => new[] { typeof(EntityForm).Name + ".changed.Publish" };
 
         protected async override Task ProcessMessage(EntityForm item, MessageHeaders header)
         {

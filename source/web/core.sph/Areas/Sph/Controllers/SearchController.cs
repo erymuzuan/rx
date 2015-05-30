@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Es(string type, string json)
         {
             var request = new StringContent(json);
-            var url = string.Format("{0}/{1}/_search", ConfigurationManager.ElasticSearchIndex, type);
+            var url = $"{ConfigurationManager.ElasticSearchIndex}/{type}/_search";
 
             using (var client = new HttpClient())
             {
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("workflow/{id}/v{version}")]
         public async Task<ActionResult> Workflow(string id, int version, [RawRequestBody]string json)
         {
-            var wfes = string.Format("workflow_{0}_{1}", id, version);
+            var wfes = $"workflow_{id}_{version}";
             return await Es(wfes, json);
         }
 
