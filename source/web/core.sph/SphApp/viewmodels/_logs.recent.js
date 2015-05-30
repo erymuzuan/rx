@@ -9,7 +9,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
+define(["services/datacontext", "services/logger", "plugins/router"],
     function(context, logger, router) {
 
         var list = ko.observableArray(),
@@ -21,7 +21,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             },
             openDetails = function (log) {
-                require(['viewmodels/log.details.dialog', 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/log.details.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.log(log);
                   
                     app2.showDialog(dialog)
@@ -32,7 +32,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             query = {
                 "sort": [
                  {
-                     "DateTime": {
+                     "time": {
                          "order": "desc"
                      }
                  }
