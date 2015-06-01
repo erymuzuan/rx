@@ -6,14 +6,14 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
-
-
+/// <reference path="~/Scripts/_task.js" />
 define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
 
         var model = {
             adapter: ko.observable(),
             table: ko.observable(),
+            batchSize: ko.observable(40),
             entity: ko.observable(),
             sql: ko.observable(),
             map: ko.observable()
@@ -24,6 +24,15 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             mapOptions = ko.observableArray(),
             previewResult = ko.observableArray(),
             isBusy = ko.observable(false),
+            canPreview = ko.computed(function() {
+                return model.adapter()
+                    && model.table()
+                    && model.sql()
+                    && model.batchSize();
+            }),
+            canImport = ko.computed(function() {
+                return canPreview() && model.map() && model.entity();
+            }),
             activate = function () {
                 context.getTuplesAsync("EntityDefinition", "Id ne '0'", "Id", "Name")
                     .done(entityOptions);
@@ -41,7 +50,17 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
                 model.table.subscribe(function (a) {
                     model.sql(String.format("select * from {0} ", a));
-                    return context.getTuplesAsync("TransformDefinition", String.format("substringof('{0}', InputTypeName)", a), "Id", "Name")
+                    if (!(a && model.entity())) {
+                        return Task.fromResult(0);
+                    }
+                    return context.getTuplesAsync("TransformDefinition", String.format("substringof('{0}', InputTypeName) and substringof('{1}', OutputTypeName)", a, model.entity()), "Id", "Name")
+                    .done(mapOptions);
+                });
+                model.entity.subscribe(function (a) {
+                    if (!(a && model.entity())) {
+                        return Task.fromResult(0);
+                    }
+                    return context.getTuplesAsync("TransformDefinition", String.format("substringof('{0}', InputTypeName) and substringof('{1}', OutputTypeName)", model.table(), a), "Id", "Name")
                     .done(mapOptions);
                 });
             },
@@ -67,16 +86,26 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                          $("#tbody").html(tbody);
 
                          console.log(lo);
-                     });
+                        $("#preview-panel").modal("show");
+                    });
+            },
+            importData = function () {
+                return context.post(ko.mapping.toJSON(model), "data-import")
+                     .done(function (result) {
+                        logger.info(result.message);
+                    });
             };
 
         var vm = {
+            canPreview: canPreview,
+            canImport: canImport,
             entityOptions: entityOptions,
             previewResult: previewResult,
             tableOptions: tableOptions,
             adapterOptions: adapterOptions,
             mapOptions: mapOptions,
             preview: preview,
+            importData: importData,
             model: model,
             isBusy: isBusy,
             activate: activate,

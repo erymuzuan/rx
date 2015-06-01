@@ -7,5 +7,6 @@ namespace Bespoke.Sph.Web.ViewModels
         public string Sql { get; set; }
         public string Table { get; set; }
         public string Entity { get; set; }
+        public int BatchSize { get; set; } = 40;
     }
 }
