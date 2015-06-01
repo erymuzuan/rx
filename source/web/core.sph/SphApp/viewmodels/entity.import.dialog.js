@@ -11,7 +11,7 @@
 define(["plugins/dialog", objectbuilders.datacontext],
     function (dialog, context) {
 
-        var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+        var entity = ko.observable(),
             zip = ko.observable(),
             folder = ko.observable(),
             okClick = function (data, ev) {
@@ -41,6 +41,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
                     multiple: false,
                     error: function (e) {
                         logger.logError(e, e, this, true);
+                        entity(null);
                     },
                     success: function (e) {
                         if (!e.response.success) {

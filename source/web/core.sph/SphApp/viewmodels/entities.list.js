@@ -12,24 +12,26 @@
 define(["services/datacontext", "services/logger"],
     function (context, logger) {
 
-        var
-            entities = ko.observableArray(),
+        var entities = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function () {
 
             },
             attached = function (view) {
 
-            
+
             },
             uploadPackage = function () {
-                var tcs = new $.Deferred();
-                require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
+                return require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
                     app2.showDialog(dialog)
-                        .done(tcs.resolve);
+                        .done(function () {
+                            var ent = dialog.entity();
+                            if (ent) {
+                                entities.push(ent);
+                            }
+                        });
                 });
 
-                return tcs.promise();
 
             };
 
@@ -39,7 +41,7 @@ define(["services/datacontext", "services/logger"],
             attached: attached,
             entities: entities,
             toolbar: {
-                importCommand : uploadPackage,
+                importCommand: uploadPackage,
                 addNew: {
                     location: "#/entity.details/0",
                     caption: "Add New Custom Entity"

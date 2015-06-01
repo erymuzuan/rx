@@ -143,8 +143,8 @@ namespace Bespoke.Sph.Web.Controllers
             var entity = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
             var package = new EntityDefinitionPackage();
             var zip = await package.PackAsync(entity, includeData);
-
-            return File(System.IO.File.ReadAllBytes(zip), MimeMapping.GetMimeMapping(zip), System.IO.Path.GetFileName(zip));
+            var file = $"{Path.GetFileNameWithoutExtension(zip)}_{Environment.MachineName}_{DateTime.Now:s}{(includeData ? "_data": "")}.zip";
+            return File(System.IO.File.ReadAllBytes(zip), MimeMapping.GetMimeMapping(zip), file);
         }
 
         [Route("upload")]
@@ -219,7 +219,7 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-      
+
 
         [HttpPost]
         [Route("depublish")]

@@ -10,12 +10,27 @@
             <div class="modal-body" data-bind="with: entity">
 
                 <form class="form-horizontal" id="entity-export-dialog-form">
-                    <a class="btn btn-default" download data-bind="attr:{href: '/entity-definition/export/' + ko.unwrap(Id) + '?includeData=true'}">Export with data</a>
-                    <a class="btn btn-default" download data-bind="attr:{href: '/entity-definition/export/' + ko.unwrap(Id)}">Export without data</a>
+                    <div class="alert alert-info">
+                        <a download class="alert-link" data-bind="attr:{href: '/entity-definition/export/' + ko.unwrap(Id) + '?includeData=true'}">
+                            <i class="fa fa-database"></i>
+                            <span> Export with data</span>
+                        </a>
+                        <p>
+                            <span>Export the EntityDefinition and all its related assets such as Forms,Views and Triggers</span>
+                            <span>Including the all the data.</span></p>
+                    </div>
+                    <div class="alert alert-success">
+                        <a class="alert-link" download data-bind="attr:{href: '/entity-definition/export/' + ko.unwrap(Id)}">
+                            <i class="fa fa-download"></i>
+                            <span>Export without data</span>
+                        </a>
+                        <p><span>Export the EntityDefinition and all its related assets such as Forms,Views and Triggers</span></p>
+                      
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Close</a>
             </div>
         </div>
     </div>
