@@ -42,36 +42,33 @@ namespace Bespoke.Sph.Web.Helpers
             {
                 output = Regex.Replace(output,
                     @"\[?startswith\]?\((?<col>[\w\-]+),\s*'(?<val>[\w\-]+)'\) = (?<negate>true|false)",
-                    m => string.Format("[{0}] {1}LIKE '{2}%'",
-                      m.Groups["col"].Value,
-                      m.Groups["negate"].Value == "true" ? "" : "NOT ",
-                      m.Groups["val"].Value));
+                    m =>$"[{m.Groups["col"].Value}] {(m.Groups["negate"].Value == "true" ? "" : "NOT ")}LIKE '{m.Groups["val"].Value}%'");
 
                 output = Regex.Replace(output,
                     @"\[?startswith\]?\((?<col>[\w\-]+),\s*'(?<val>[\w\-]+)'\)",
-                    m => string.Format("[{0}] LIKE '{1}%'", m.Groups["col"].Value, m.Groups["val"].Value));
+                    m => $"[{m.Groups["col"].Value}] LIKE '{m.Groups["val"].Value}%'");
             }
 
             if (output.Contains("endswith"))
             {
                 output = Regex.Replace(output,
                    @"\[?endswith\]?\((?<col>[\w\-]+),\s*'(?<val>[\w\-]+)'\) = (?<negate>true|false)",
-                   m => string.Format("[{0}] {1}LIKE '%{2}'", m.Groups["col"].Value, m.Groups["negate"].Value == "true" ? "" : "NOT ", m.Groups["val"].Value));
+                   m =>$"[{m.Groups["col"].Value}] {(m.Groups["negate"].Value == "true" ? "" : "NOT ")}LIKE '%{m.Groups["val"].Value}'");
 
                 output = Regex.Replace(output,
                    @"\[?endswith\]?\((?<col>[\w\-]+),\s*'(?<val>[\w\-]+)'\)",
-                   m => string.Format("[{0}] LIKE '%{1}'", m.Groups["col"].Value, m.Groups["val"].Value));
+                   m => $"[{m.Groups["col"].Value}] LIKE '%{m.Groups["val"].Value}'");
             }
 
             if (output.Contains("substringof"))
             {
                 output = Regex.Replace(output,
                     @"\[?substringof\]?\('(?<val>[\w\-]+)',\s*(?<col>[\w\-]+)\) = (?<negate>true|false)",
-                    m => string.Format("[{0}] {1}LIKE '%{2}%'", m.Groups["col"].Value, m.Groups["negate"].Value == "true" ? "" : "NOT ", m.Groups["val"].Value));
+                    m =>$"[{m.Groups["col"].Value}] {(m.Groups["negate"].Value == "true" ? "" : "NOT ")}LIKE '%{m.Groups["val"].Value}%'");
 
                 output = Regex.Replace(output,
                     @"\[?substringof\]?\('(?<val>[\w\-]+)',\s*(?<col>[\w\-]+)\)",
-                    m => string.Format("[{0}] LIKE '%{1}%'", m.Groups["col"].Value, m.Groups["val"].Value));
+                    m => $"[{m.Groups["col"].Value}] LIKE '%{m.Groups["val"].Value}%'");
 
             }
 

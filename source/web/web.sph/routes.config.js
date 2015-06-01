@@ -142,6 +142,22 @@
         "error": ""
     },
     {
+        "role": "administrators",
+        "groupName": "Settings",
+        "route": "data.import",
+        "moduleId": "viewmodels/data.import",
+        "title": "Data import",
+        "nav": false,
+        "icon": "fa fa-database",
+        "caption": "Data Import",
+        "settings": {
+            "caption": "Data Import"
+        },
+        "isAdminPage": true,
+        "showWhenLoggedIn": false,
+        "error": ""
+    },
+    {
         "role": "developers",
         "groupName": null,
         "route": "entity.operation.details/:id/:name",

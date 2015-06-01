@@ -1,0 +1,59 @@
+﻿<div class="row">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="adapter" class="col-lg-2 control-label">Adapter</label>
+            <div class="col-lg-6">
+                <select class="form-control" id="adapter" data-bind="value:model.adapter, options: adapterOptions, optionsValue:'Item1', optionsText:'Item2', optionsCaption:'[Select your adapter]'"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="table" class="col-lg-2 control-label">Table</label>
+            <div class="col-lg-6">
+                <select class="form-control" id="table" data-bind="value:model.table, options: tableOptions, optionsCaption:'[Select your table adapter]', optionsText:'Name', optionsValue:'Name'"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="entity" class="col-lg-2 control-label">Entity</label>
+            <div class="col-lg-6">
+                <select class="form-control" id="entity" data-bind="value:model.entity, options: entityOptions, optionsCaption:'[Select your destination entity]', optionsText:'Item2', optionsValue:'Item2'"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="sql" class="col-lg-2 control-label">SQL Statement</label>
+            <div class="col-lg-6">
+                <textarea type="text" data-bind="value: model.sql"
+                          required
+                          placeholder="SQl statement for loadAsync"
+                          class="form-control" id="sql"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="preview" class="col-lg-2 control-label">Preview</label>
+            <div class="col-lg-6">
+                <button data-bind="command : preview"
+                        class="btn btn-default" id="preview">
+                    Preview
+                    <i class="fa fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        <table class="table table-condensed table-striped">
+            <thead id="thead"></thead>
+            <tbody id="tbody"></tbody>
+        </table>
+
+        <div class="form-group">
+            <label for="map" class="col-lg-2 control-label">Map</label>
+            <div class="col-lg-6">
+                <select class="form-control" id="map" data-bind="value: model.map, options: mapOptions, optionsValue:'Item1', optionsText:'Item2', optionsCaption:'[Select your map]'"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="submit" class="col-lg-2 control-label">Submit</label>
+            <div class="col-lg-6">
+                <input type="button" value="submit"
+                       class="btn btn-default" id="submit">
+            </div>
+        </div>
+    </form>
+</div>
