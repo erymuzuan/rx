@@ -41,10 +41,13 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             },
             attached = function (view) {
                 model.adapter.subscribe(function (a) {
+                    if (!a) {
+                        return;
+                    }
                     isBusy(true);
                     context.loadOneAsync("Adapter", String.format("Id eq '{0}'", a))
                     .done(function (adp) {
-                        tableOptions(ko.mapping.toJS(adp).TableDefinitionCollection);
+                        tableOptions(adp.TableDefinitionCollection().map(ko.mapping.toJS));
                         isBusy(false);
                     });
                 });
@@ -67,7 +70,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             preview = function () {
                 return context.post(ko.mapping.toJSON(model), "data-import/preview")
                      .done(function (lo) {
-                         var table = _(tableOptions()).find(function (v) { return v.Name = model.table(); });
+                         var table = _(tableOptions()).find(function (v) { return v.Name === model.table(); });
                          var thead = "<tr>";
                          _(ko.unwrap(table.MemberCollection)).each(function (v) {
                              thead += "<th>" + v.Name + "</th>";
