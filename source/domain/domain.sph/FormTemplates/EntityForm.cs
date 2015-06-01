@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain
     {
         public async Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)
         {
-
+            
             var result = new BuildValidationResult();
             var errors = from f in this.FormDesign.FormElementCollection
                          where f.IsPathIsRequired
@@ -20,8 +20,8 @@ namespace Bespoke.Sph.Domain
                          select new BuildError
                          (
                              this.WebId,
-                             string.Format("[Input] : {0} => '{1}' does not have path", this.Name, f.Label)
-                         );
+                             $"[Input] : {this.Name} => '{f.Label}' does not have path"
+                             );
             var elements = from f in this.FormDesign.FormElementCollection
                            let err = f.ValidateBuild(ed)
                            where null != err
