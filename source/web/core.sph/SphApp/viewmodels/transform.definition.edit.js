@@ -31,25 +31,25 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                 var query = String.format("Id eq '{0}'", id);
                 return $.get("/transform-definition/functoids")
-                            .then(function(list){
+                            .then(function (list) {
                                 functoidToolboxItems(list.$values);
-                                return context.loadOneAsync("TransformDefinition", query)
+                                return context.loadOneAsync("TransformDefinition", query);
                             })
                             .then(function (b) {
 
-                                 _(b.FunctoidCollection()).each(function (v) {
-                                     v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
-                                 });
-                                 td(b);
-                                 return context.get("/transform-definition/json-schema/" + b.OutputTypeName());
+                                _(b.FunctoidCollection()).each(function (v) {
+                                    v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
+                                });
+                                td(b);
+                                return context.get("/transform-definition/json-schema/" + b.OutputTypeName());
 
                             })
                             .then(function (s) {
-                                 destinationSchema(s);
-                                 if (td().InputTypeName()) {
-                                     return context.get("/transform-definition/json-schema/" + td().InputTypeName());
-                                 }
-                                 return context.post(ko.toJSON(td), "/transform-definition/json-schema");
+                                destinationSchema(s);
+                                if (td().InputTypeName()) {
+                                    return context.get("/transform-definition/json-schema/" + td().InputTypeName());
+                                }
+                                return context.post(ko.toJSON(td), "/transform-definition/json-schema");
 
                             }).then(sourceSchema);
 
@@ -88,7 +88,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 var functoid = context.toObservable(ko.mapping.toJS(ko.dataFor(this).functoid)),
                     x = arg.clientX,
                     y = arg.clientY,
-                    canvas = $('#container-canvas'),
+                    canvas = $("#container-canvas"),
                     offset = canvas.offset(),
                     canvasWidth = parseFloat(canvas.css("width").replace("px", ""));
 
@@ -173,7 +173,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                         var tcs = new $.Deferred();
                         // for those with more than 1 arg, if array or 1 arg, just auto add or select
-                        require(['viewmodels/functoid-args', 'durandal/app'], function (dialog, app2) {
+                        require(["viewmodels/functoid-args", "durandal/app"], function (dialog, app2) {
 
                             dialog.functoid(targetFunctoid);
                             app2.showDialog(dialog)
@@ -340,7 +340,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 // functoid maps
                 _(td().MapCollection()).each(function (m) {
                     if (typeof m.Source === "undefined") {
-                        var conn = instance.connect({ source: ko.unwrap(m.Functoid), target: 'destination-field-' + ko.unwrap(m.Destination).replace(".", "-") });
+                        var conn = instance.connect({ source: ko.unwrap(m.Functoid), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-") });
                         conn.map = m;
                     }
                 });
@@ -355,13 +355,13 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                 $("ul#function-toolbox>li.list-group-item").draggable({
                     helper: function () {
-                        return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('i').clone());
+                        return $("<div></div>").addClass("dragHoverToolbox").append($(this).find("i").clone());
                     },
                     stop: toolboxItemDraggedStop
                 });
-            
 
-                var script = $('<script type="text/javascript" src="/Scripts/jsPlumb/bundle.js"></script>').appendTo('body'),
+
+                var script = $("<script type=\"text/javascript\" src=\"/Scripts/jsPlumb/bundle.js\"></script>").appendTo("body"),
                     timer = setInterval(function () {
                         if (window.jsPlumb !== undefined) {
                             clearInterval(timer);
@@ -382,25 +382,25 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         type = type[0];
                     }
                     if (format === "date-time") {
-                        return '<i class="glyphicon glyphicon-calendar" style="font-size:12px;color:orange;margin-right:5px"></i>';
+                        return "<i class=\"glyphicon glyphicon-calendar\" style=\"font-size:12px;color:orange;margin-right:5px\"></i>";
                     }
                     if (type === "string") {
-                        return '<i class="glyphicon glyphicon-bold" style="font-size:12px;color:brown;margin-right:5px"></i>';
+                        return "<i class=\"glyphicon glyphicon-bold\" style=\"font-size:12px;color:brown;margin-right:5px\"></i>";
                     }
                     if (type === "integer") {
-                        return '<i class="fa fa-sort-numeric-asc" style="font-size:12px;color:blue;margin-right:5px"></i>';
+                        return "<i class=\"fa fa-sort-numeric-asc\" style=\"font-size:12px;color:blue;margin-right:5px\"></i>";
                     }
                     if (type === "object") {
-                        return '<i class="fa fa-building-o" style="font-size:12px;color:grey;margin-right:5px"></i>';
+                        return "<i class=\"fa fa-building-o\" style=\"font-size:12px;color:grey;margin-right:5px\"></i>";
                     }
                     if (type === "number") {
-                        return '<i class="glyphicon glyphicon-usd" style="font-size:12px;color:green;margin-right:5px"></i>';
+                        return "<i class=\"glyphicon glyphicon-usd\" style=\"font-size:12px;color:green;margin-right:5px\"></i>";
                     }
                     if (type === "boolean") {
-                        return '<i class="glyphicon glyphicon-ok" style="font-size:12px;color:red;margin-right:5px"></i>';
+                        return "<i class=\"glyphicon glyphicon-ok\" style=\"font-size:12px;color:red;margin-right:5px\"></i>";
                     }
                     if (type === "array") {
-                        return '<i class="fa fa-list" style="font-size:12px;color:gray;margin-right:5px"></i>';
+                        return "<i class=\"fa fa-list\" style=\"font-size:12px;color:gray;margin-right:5px\"></i>";
                     }
                     return "";
                 },
@@ -410,24 +410,24 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 var buildSourceTree = function (branch, parent) {
                     for (var key in branch.properties) {
                         var iconHtml = icon(shtml, branch.properties[key]);
-                        shtml += '<li><div style="display: inline-block" class="source-field" id="source-field-' + parent + key + '">' + iconHtml
-                            + '<span class="ep01">' + key + '</span>';
+                        shtml += "<li><div style=\"display: inline-block\" class=\"source-field\" id=\"source-field-" + parent + key + "\">" + iconHtml
+                            + "<span class=\"ep01\">" + key + "</span>";
 
                         var type = branch.properties[key].type;
                         if (typeof type === "object") {
                             type = type[0];
                         }
                         if (type === "object") {
-                            shtml += '<ul style="list-style: none">';
+                            shtml += "<ul style=\"list-style: none\">";
                             buildSourceTree(branch.properties[key], parent + key + "-");
-                            shtml += '</ul>';
+                            shtml += "</ul>";
                         }
                         if (type === "array") {
-                            shtml += '<ul style="list-style: none">';
+                            shtml += "<ul style=\"list-style: none\">";
                             buildSourceTree(branch.properties[key].items, parent + key + "-");
-                            shtml += '</ul>';
+                            shtml += "</ul>";
                         }
-                        shtml += '</div></li>';
+                        shtml += "</div></li>";
                     }
                 };
 
@@ -460,11 +460,11 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     };
 
                 buildDestinationTree(destinationSchema(), "");
-                $('#destination-panel').html(dhtml);
+                $("#destination-panel").html(dhtml);
 
-                $('#search-box-tree').on('keyup', function () {
+                $("#search-box-tree").on("keyup", function () {
                     var text = $(this).val().toLowerCase();
-                    $('#source-panel li>span.source-field').each(function () {
+                    $("#source-panel li>span.source-field").each(function () {
                         var span = $(this),
                             li = span.parent(),
                             content = span.text().toLowerCase();
@@ -481,7 +481,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             },
             save = function () {
 
-                $('div.functoid').each(function () {
+                $("div.functoid").each(function () {
                     var fnt = ko.dataFor(this),
                         p = $(this),
                         x = parseInt(p.css("left")),
@@ -493,33 +493,30 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         fnt.Y(y);
                     }
                 });
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(td);
+                var data = ko.mapping.toJSON(td);
                 isBusy(true);
 
 
-                context.post(data, "/transform-definition")
-                    .then(function (result) {
-                        isBusy(false);
-                        if (!td().Id() || td().Id() === "0") {
-                            td().Id(result.id);
-                            window.location = "/sph#transform.definition.edit/" + result.id;
-                        }
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
+                return context.post(data, "/transform-definition")
+                     .done(function (result) {
+                         isBusy(false);
+                         if (!td().Id() || td().Id() === "0") {
+                             td().Id(result.id);
+                             window.location = "/sph#transform.definition.edit/" + result.id;
+                         }
+                     });
             },
             editProp = function () {
 
                 var tcs = new $.Deferred(),
                     clone = context.toObservable(ko.mapping.toJS(td));
-                require(['viewmodels/transform.definition.prop.dialog', 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/transform.definition.prop.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.td(clone);
 
                     app2.showDialog(dialog)
                         .done(function (result) {
                             tcs.resolve(true);
-                            $('div.modalBlockout,div.modalHost').remove();
+                            $("div.modalBlockout,div.modalHost").remove();
                             if (!result) return;
                             if (result === "OK") {
                                 for (var g in td()) {
@@ -549,9 +546,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             },
             validateAsync = function () {
                 var tcs = new $.Deferred();
-                context.post(ko.mapping.toJSON(td), '/transform-definition/validate-fix')
+                context.post(ko.mapping.toJSON(td), "/transform-definition/validate-fix")
                     .done(function (result) {
-                        $('i.fa.fa-exclamation-circle.error').remove();
+                        $("i.fa.fa-exclamation-circle.error").remove();
                         if (result.success) {
                             logger.info(result.message);
                             errors.removeAll();
@@ -562,7 +559,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             });
                             errors(uniqueList);
                             _(uniqueList).each(function (v) {
-                                $('#' + v.ItemWebId + ' div.toolbox-item').append('<i class="fa fa-exclamation-circle error"></i>');
+                                $("#" + v.ItemWebId + " div.toolbox-item").append("<i class=\"fa fa-exclamation-circle error\"></i>");
                             });
                         }
                         tcs.resolve(true);
@@ -572,8 +569,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 return tcs.promise();
             },
             publishAsync = function () {
-                var tcs = new $.Deferred();
-                context.post(ko.mapping.toJSON(td), '/transform-definition/publish')
+                return context.post(ko.mapping.toJSON(td), "/transform-definition/publish")
                     .done(function (result) {
                         if (result.success) {
                             logger.info(result.message);
@@ -582,11 +578,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             errors(result.Errors);
                             logger.error("There are errors in your map, !!!");
                         }
-                        tcs.resolve(true);
-
                     });
 
-                return tcs.promise();
             };
 
         var vm = {
@@ -605,18 +598,18 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 commands: ko.observableArray([
                     {
                         command: editProp,
-                        caption: 'Edit Properties',
-                        icon: 'fa fa-table'
+                        caption: "Edit Properties",
+                        icon: "fa fa-table"
                     },
                     {
                         command: validateAsync,
-                        caption: 'Validate',
-                        icon: 'fa fa-check'
+                        caption: "Validate",
+                        icon: "fa fa-check"
                     },
                     {
                         command: publishAsync,
-                        caption: 'Publish',
-                        icon: 'fa fa-sign-out'
+                        caption: "Publish",
+                        icon: "fa fa-sign-out"
                     }
                 ])
             }

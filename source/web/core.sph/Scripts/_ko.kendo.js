@@ -162,13 +162,13 @@ ko.bindingHandlers.money = {
 ///user moment format
 ko.bindingHandlers.date = {
     init: function (element, valueAccessor) {
-	    var value = ko.utils.unwrapObservable(valueAccessor());			
+        var value = ko.utils.unwrapObservable(valueAccessor());
 
         if (!value) {
-			$(element).text("");
-			$(element).val("");
-			return;
-		}
+            $(element).text("");
+            $(element).val("");
+            return;
+        }
 
         var dv = ko.unwrap(value.value),
         inputFormat = ko.unwrap(value.inputFormat) || "YYYY-MM-DD",
@@ -214,13 +214,13 @@ ko.bindingHandlers.date = {
     update: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor());
 
-	    if (!value) {
-	    	$(element).text("");
-	    	$(element).val("");
-	    	return;
-	    }
+        if (!value) {
+            $(element).text("");
+            $(element).val("");
+            return;
+        }
 
-    	var dv = ko.unwrap(value.value),
+        var dv = ko.unwrap(value.value),
         inputFormat = ko.unwrap(value.inputFormat) || "YYYY-MM-DD",
         date = moment(dv, inputFormat),
         invalid = ko.unwrap(value.invalid) || "invalid date",
@@ -510,7 +510,8 @@ ko.bindingHandlers.command = {
         var action = valueAccessor(),
             $button = $(element),
             allBindings = allBindingsAccessor(),
-            inputValue = $button.val();
+            inputValue = $button.val(),
+            logger = require("services/logger");
 
         if (allBindings.isvisible) {
             var visible = typeof allBindings.isvisible === "function" ? allBindings.isvisible() : allBindings.isvisible;
@@ -530,8 +531,10 @@ ko.bindingHandlers.command = {
             }
         }
 
-        var $spinner = $("<i class='fa fa-spin fa-spinner'></i>").hide();
+        var $spinner = $("<i class='fa fa-spin fa-spinner'></i>").hide(),
+            $warning = $("<i class='fa fa-warning' style='color:red'></i>").hide();
         $button.append($spinner);
+        $button.append($warning);
 
         $button.click(function (e) {
             e.preventDefault();
@@ -539,16 +542,38 @@ ko.bindingHandlers.command = {
                 if (!this.form.checkValidity()) return;
             }
             $spinner.show();
+            $warning.hide();
 
             action()
-                .then(function () {
+                .fail(function (err, o, message) {
+                    $button
+                       .button("complete")
+                       .prop("disabled", false)
+                       .val(inputValue)
+                       .removeClass("btn-disabled");
+                    $spinner.hide();
+                    $warning.show();
+                    if (err.status === 404) {
+                        logger.error(message);
+                        logger.error(err.statusText);
+                        return;
+                    }
+                    if (err.responseText) {
+                        logger.error(err.responseText);
+                        console.error(err.responseText);
+                    }
+                    if (err.responseJSON) {
+                        logger.error(JSON.stringify(err.responseJSON));
+                        console.error(err.responseJson);
+                    }
+                })
+                .done(function () {
                     $button
                         .button("complete")
                         .prop("disabled", false)
                         .val(inputValue)
                         .removeClass("btn-disabled");
                     $spinner.hide();
-
                 });
             if ($button.data("loading-text")) {
                 $button.button("loading");

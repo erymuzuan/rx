@@ -8,7 +8,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.app],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
     function (context, logger, router, app) {
 
         var adapter = ko.observable(),
@@ -29,7 +29,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         Id: ko.observable("0"),
                         Name: ko.observable(),
                         Description: ko.observable(),
-                        Server: ko.observable('(localdb)\\ProjectsV12'),
+                        Server: ko.observable("(localdb)\\ProjectsV12"),
                         TrustedConnection: ko.observable(true),
                         UserId: ko.observable(),
                         Password: ko.observable(),
@@ -111,18 +111,18 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 });
 
 
-                $('#table-options-panel').on('click', 'input[type=checkbox]', function () {
+                $("#table-options-panel").on("click", "input[type=checkbox]", function () {
                     var table = ko.dataFor(this),
                         checkbox = $(this);
 
                     // when children is selected
                     if (typeof table.busy !== "function") {
-                        table = ko.dataFor(checkbox.parents('ul')[0]);
+                        table = ko.dataFor(checkbox.parents("ul")[0]);
                         var at0 = _(selectedTables()).find(function (v) {
                             return v.Name == table.name;
                         }),
                             child = ko.dataFor(this);
-                        if (checkbox.is(':checked')) {
+                        if (checkbox.is(":checked")) {
                             at0.ChildRelationCollection.push(child);
                         } else {
                             var ct = _(at0.ChildRelationCollection()).find(function (v) { return v.Name === child.Name; });
@@ -132,7 +132,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     }
 
 
-                    if (!checkbox.is(':checked')) {
+                    if (!checkbox.is(":checked")) {
                         table.children.removeAll();
 
                         var at = _(selectedTables()).find(function (v) {
@@ -165,11 +165,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
 
 
-                $('#sproc-option-panel').on('click', 'input[type=checkbox]', function () {
+                $("#sproc-option-panel").on("click", "input[type=checkbox]", function () {
                     var sproc = ko.dataFor(this),
                         checkbox = $(this);
 
-                    if (checkbox.is(':checked')) {
+                    if (checkbox.is(":checked")) {
                         adapter().OperationDefinitionCollection.push(sproc);
                     } else {
 
@@ -188,21 +188,21 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 if (ko.unwrap(adapter().Id) && ko.unwrap(adapter().Id) !== "0") {
                     // check the sproc
                     _(adapter().OperationDefinitionCollection()).each(function (v) {
-                        var chb = $('input[name=sproc-' + ko.unwrap(v.Name) + ']');
-                        chb.prop('checked', true);
+                        var chb = $("input[name=sproc-" + ko.unwrap(v.Name) + "]");
+                        chb.prop("checked", true);
                     });
 
                     // trigger the checks for each selected table
                     _(adapter().Tables()).each(function (v) {
-                        var chb = $('input[name=table-' + ko.unwrap(v.Name) + ']'),
+                        var chb = $("input[name=table-" + ko.unwrap(v.Name) + "]"),
                             table = ko.dataFor(chb[0]);
-                        chb.trigger('click');
+                        chb.trigger("click");
                         // do it for the child
                         var it = setInterval(function () {
                             if (!table.busy()) {
                                 _(v.ChildRelationCollection()).each(function (ct) {
                                     console.log("child ", ko.unwrap(ct.Table));
-                                    $('input[name=child-' + ko.unwrap(v.Name) + '-' + ko.unwrap(ct.Table) + ']').trigger('click');
+                                    $("input[name=child-" + ko.unwrap(v.Name) + "-" + ko.unwrap(ct.Table) + "]").trigger("click");
                                 });
                                 clearInterval(it);
                             }
@@ -242,25 +242,22 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             },
             generate = function () {
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(adapter);
+                var data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
-                context.post(data, "/sqlserver-adapter/generate")
-                    .then(function (result) {
+                return context.post(data, "/sqlserver-adapter/generate")
+                    .then(function () {
                         isBusy(false);
-                        tcs.resolve(result);
                     });
-                return tcs.promise();
+
 
             },
             save = function () {
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(adapter);
+                var data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
-                context.post(data, "/adapter")
+                return context.post(data, "/adapter")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -270,9 +267,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         } else {
                             errors(result.errors);
                         }
-                        tcs.resolve(result);
+
                     });
-                return tcs.promise();
+
             },
             removeAdapter = function () {
 
@@ -281,6 +278,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         if (dialogResult === "Yes") {
                             return context.send(ko.mapping.toJSON(adapter), "adapter", "DELETE");
                         }
+                        return Task.fromResult(0);
                     });
             }
         ;
@@ -300,13 +298,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 removeCommand: removeAdapter,
                 commands: ko.observableArray([
                     {
-                        caption: 'Connect',
-                        icon: 'fa fa-exchange',
+                        caption: "Connect",
+                        icon: "fa fa-exchange",
                         command: connect
                     },
                     {
-                        caption: 'Publish',
-                        icon: 'fa fa-sign-in',
+                        caption: "Publish",
+                        icon: "fa fa-sign-in",
                         command: generate,
                         enable: connected
                     }
