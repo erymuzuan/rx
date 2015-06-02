@@ -32,6 +32,9 @@
             <div class="col-lg-6">
                 <input type="number" data-bind="value: model.batchSize"
                        required pattern="^[0-9_ ]$"
+                       max="100"
+                       step="5"
+                       min="5"
                        placeholder="Batch size"
                        class="form-control" id="BatchSize">
             </div>
