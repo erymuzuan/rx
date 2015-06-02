@@ -2061,6 +2061,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\entity.import.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\entity.import.data.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\data.import.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\entity.schema.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2559,6 +2560,7 @@
     <EmbeddedResource Include="SphApp\views\entity.export.dialog.html" />
     <EmbeddedResource Include="SphApp\views\entity.import.dialog.html" />
     <EmbeddedResource Include="SphApp\views\entity.import.data.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\entity.schema.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

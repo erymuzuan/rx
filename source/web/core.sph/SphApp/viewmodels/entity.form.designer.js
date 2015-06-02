@@ -431,6 +431,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             return Task.fromResult(true);
         },
+            viewSchema = function () {
+                var tcs = new $.Deferred();
+                require(["viewmodels/entity.schema.dialog", "durandal/app"], function (dg, app2) {
+                    dg.entity(entity());
+                    app2.showDialog(dg).done(tcs.resolve);
+                });
+
+                return tcs.promise();
+            },
             translateLabels = function () {
                 var tcs = new $.Deferred(),
                     fd = ko.unwrap(form().FormDesign),
@@ -527,6 +536,11 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     enable: ko.computed(function () {
                         return form().Route();
                     })
+                },
+                {
+                    command: viewSchema,
+                    caption: "View Schema",
+                    icon: "fa  fa-clipboard"
                 }
                 ]),
                 saveCommand: save,

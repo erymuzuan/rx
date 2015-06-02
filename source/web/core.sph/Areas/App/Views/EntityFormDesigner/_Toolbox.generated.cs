@@ -579,7 +579,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Path\"");
 
-WriteLiteral(" />\r\n                </div>\r\n                <div");
+WriteLiteral("/>\r\n                </div>\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
