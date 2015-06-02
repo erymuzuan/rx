@@ -103,7 +103,7 @@ WriteLiteral(">Display Member Path</label>\r\n    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: DisplayMemberPath,entityTypeaheadPath:Entity\"");
+WriteLiteral(" data-bind=\"value: DisplayMemberPath,entityTypeaheadPath: $root.entity().Id()\"");
 
 WriteLiteral(" id=\"fe-ele-dmp\"");
 

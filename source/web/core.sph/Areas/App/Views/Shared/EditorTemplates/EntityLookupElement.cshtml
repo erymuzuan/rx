@@ -18,7 +18,7 @@
 </div>
 <div class="form-group">
     <label for="fe-ele-dmp">Display Member Path</label>
-    <input class="form-control" data-bind="value: DisplayMemberPath,entityTypeaheadPath:Entity" id="fe-ele-dmp" type="text" name="DisplayMemberPath" />
+    <input class="form-control" data-bind="value: DisplayMemberPath,entityTypeaheadPath: $root.entity().Id()" id="fe-ele-dmp" type="text" name="DisplayMemberPath" />
 </div>
 <div class="form-group">
     <label for="fe-ele-dt">Display Template</label>
