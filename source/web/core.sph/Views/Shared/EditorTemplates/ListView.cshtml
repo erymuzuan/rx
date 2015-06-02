@@ -11,7 +11,6 @@
 }
 
 <div data-bind="visible:@Model.Visible">
-    <button data-i18n="@Model.Label" class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path.ConvertJavascriptObjectToFunction(), @Model.ChildItemType)">@Model.Label</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
@@ -42,7 +41,7 @@
 
                     <td>
                         @(col1.Input.UseDisplayTemplate ? Html.DisplayFor(f => col1.Input) : Html.EditorFor(f => col1.Input))
-                        
+
                     </td>
                 }
                 <td>
@@ -53,4 +52,9 @@
             </tr>
         </tbody>
     </table>
+    <a data-i18n="@Model.Label" class="btn btn-link" data-bind="click : addChildItem(@Model.Path.ConvertJavascriptObjectToFunction(), @Model.ChildItemType)">
+        <i class="fa fa-plus-circle"></i>
+        @Model.Label
+    </a>
+
 </div>

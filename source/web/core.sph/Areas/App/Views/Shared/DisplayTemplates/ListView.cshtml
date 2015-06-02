@@ -7,7 +7,6 @@
     @Html.Partial("_DesignerContextAction")
 
     <input data-bind="click: $root.selectFormElement" type="button" class="btn btn-default" value="Click to select" />
-    <input data-bind="click: $root.selectFormElement,value: Label" type="button" class="btn btn-default pull-right" />
     <table class="table table-condensed table-striped">
         <thead>
             <tr data-bind="foreach: ListViewColumnCollection">
@@ -81,5 +80,10 @@
             }
         </tbody>
     </table>
+    <a data-bind="click: $root.selectFormElement" class="btn btn-link">
+        <i class="fa fa-plus-circle"></i>
+        <!-- ko text: Label-->
+        <!-- /ko-->
+    </a>
 </div>
 <!--/ko-->
