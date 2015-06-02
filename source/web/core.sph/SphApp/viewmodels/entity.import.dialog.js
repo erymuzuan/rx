@@ -60,7 +60,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 });
             };
 
-        var vm = {
+        return  {
             entity: entity,
             okClick: okClick,
             cancelClick: cancelClick,
@@ -70,7 +70,5 @@ define(["plugins/dialog", objectbuilders.datacontext],
             attached: attached
         };
 
-
-        return vm;
 
     });

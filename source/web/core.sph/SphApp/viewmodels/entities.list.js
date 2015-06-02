@@ -22,15 +22,20 @@ define(["services/datacontext", "services/logger"],
 
             },
             uploadPackage = function () {
-                return require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
+
+                var tcs = new $.Deferred();
+                 require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
                     app2.showDialog(dialog)
                         .done(function () {
                             var ent = dialog.entity();
                             if (ent) {
                                 entities.push(ent);
                             }
+                            tcs.resolve();
                         });
-                });
+                 });
+
+                return tcs.promise();
 
 
             };
