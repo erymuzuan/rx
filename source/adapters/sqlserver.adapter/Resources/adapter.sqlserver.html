@@ -81,7 +81,7 @@
         <div class="form-group">
             <label class="col-sm-3">Tables</label>
             <div class="col-sm-9">
-                <ul data-bind="foreach :$root.tableOptions" id="table-options-panel" class="nav nav-stacked">
+                <ul data-bind="filter : {path:'li'},foreach :$root.tableOptions" id="table-options-panel" class="nav nav-stacked">
                     <li>
                         <label>
                             <input type="checkbox" data-bind="attr : {'name':'table-' + name}" />
@@ -105,7 +105,7 @@
         <div class="form-group">
             <label class="col-sm-3">Stored Procedures</label>
             <div class="col-sm-9">
-                <ul data-bind="foreach :$root.sprocOptions" id="sproc-option-panel" class="nav nav-stacked">
+                <ul data-bind="filter : {path:'li'},foreach :$root.sprocOptions" id="sproc-option-panel" class="nav nav-stacked">
                     <li>
                         <label>
                             <input type="checkbox" data-bind="attr : {'name':'sproc-' + ko.unwrap(Name)}" />
