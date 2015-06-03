@@ -9,13 +9,19 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart', objectbuilders.config],
-    function (context, logger, router, chart,config) {
+define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config , "partial/all-patients"],
+    function (context, logger, router, chart,config , partial) {
 
         var isBusy = ko.observable(false),
             chartFiltered = ko.observable(false),
             view = ko.observable(),
             list = ko.observableArray([]),
+            map = function(v) {
+                if (typeof partial !== "undefined" && typeof partial.map === "function") {
+                    return partial.map(v);
+                }
+                return v;
+            },
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             query = ko.observable(),
             activate = function () {
@@ -60,7 +66,18 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                          };
                      });
                      vm.toolbar.commands(formsCommands);
-                     tcs.resolve(true);
+
+                         
+                         if(typeof partial !== "undefined" && typeof partial.activate === "function"){
+                             var pt = partial.activate(list);
+                             if(typeof pt.done === "function"){
+                                 pt.done(tcs.resolve);
+                             }else{
+                                 tcs.resolve(true);
+                             }
+                         }
+                         
+
                  });
 
 
@@ -117,8 +134,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                         setTimeout(function () { isBusy(false); }, 500);
                     });
             },
-            attached = function () {
+            attached = function (view) {
                 chart.init("Patient", query, chartSeriesClick, "all-patients");
+                    
+                    if(typeof partial !== "undefined" && typeof partial.attached === "function"){
+                        partial.attached(view);
+                    }
+                    
             },
             clearChartFilter = function(){
                 chartFiltered(false);
@@ -137,6 +159,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             view: view,
             chart: chart,
             isBusy: isBusy,
+            map: map,
             entity: entity,
             activate: activate,
             attached: attached,

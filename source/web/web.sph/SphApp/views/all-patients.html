@@ -5,9 +5,10 @@
             <i class="fa fa-times"></i>
             Clear chart's filter
         </button>
-        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, map : map, entity : 'Patient', list:list}">
             <thead>
                 <tr>
+                    <th>Bil</th>
                     <th>Name</th>
                     <th>Appointment</th>
                     <th>Age</th>
@@ -23,10 +24,16 @@
             <tbody data-bind="foreach :list">
                 <tr data-bind="css : {'success':Religion === 'Islam'}">
 
-                    <td data-bind="text:FullName"></td>
+                    <td data-bind="text:$index() + 1"></td>
+                    <td>
+                        <a data-bind="attr : {href:'#patient-details' + '/' + Id, title:'Name' }">
+                            <i class="fa fa-external-link"></i>
+                                                        <span data-bind="text:FullName"></span>
+                        </a>
+                    </td>
                     <td>
                         <a data-bind="attr : {href:'#appointment-for-patients' + '/' + Mrn, title:'Appointment' }">
-                            <i class="fa fa-calendar-o"></i>
+                            <i class="fa fa-clock-o"></i>
                                                         <span data-bind="text:Mrn"></span>
                         </a>
                     </td>
