@@ -86,7 +86,7 @@ namespace Bespoke.Sph.SqlRepository
 
                     foreach (var c in columns)
                     {
-                        var parameterName = string.Format("@{0}{1}", c.Name.Replace(".", "_"), count1);
+                        var parameterName = $"@{c.Name.Replace(".", "_")}{count1}";
                         var parameterValue = this.GetParameterValue(c, item, user);
 
                         cmd.Parameters.AddWithValue(parameterName, parameterValue);
@@ -113,20 +113,27 @@ namespace Bespoke.Sph.SqlRepository
 
                 if (conn.State == ConnectionState.Closed)
                     await conn.OpenAsync();
-
-                var rows = await cmd.ExecuteNonQueryAsync();
-
-                var so = new SubmitOperation { RowsAffected = rows };
-                // get the @@IDENTITY
-                foreach (var t in addedItemsIdentityParameters)
+                try
                 {
-                    var item = t.Item1;
-                    var id = (string)t.Item2.Value;
-                    item.Id = id;
-                    so.Add(item.WebId, id);
-                }
+                    var rows = await cmd.ExecuteNonQueryAsync();
 
-                return so;
+                    var so = new SubmitOperation { RowsAffected = rows };
+                    // get the @@IDENTITY
+                    foreach (var t in addedItemsIdentityParameters)
+                    {
+                        var item = t.Item1;
+                        var id = (string)t.Item2.Value;
+                        item.Id = id;
+                        so.Add(item.WebId, id);
+                    }
+
+                    return so;
+                }
+                catch (Exception e)
+                {
+                    ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(e));
+                    throw;
+                }
 
             }
 
@@ -142,25 +149,25 @@ namespace Bespoke.Sph.SqlRepository
                 .Where(p => p.Name != "Id")
                 .Where(p => p.Name != "CreatedDate")
                 .Where(p => p.Name != "CreatedBy")
-                .Select(p => string.Format("[{0}]=@{1}{2}", p.Name, p.Name.Replace(".", "_"), count1));
+                .Select(p => $"[{p.Name}]=@{p.Name.Replace(".", "_")}{count1}");
             sql.AppendLine();
             sql.AppendFormat("SET {0}", string.Join(",\r\n", updates));
 
             sql.AppendLine();
             sql.AppendFormat("WHERE [Id] = @{0}Id{1}", entityType.Name, count1);
             sql.AppendLine();
-            cmd.Parameters.AddWithValue(string.Format("@{0}Id{1}", entityType.Name, count1), id);
+            cmd.Parameters.AddWithValue($"@{entityType.Name}Id{count1}", id);
         }
 
         private void AppendInsertStatement(StringBuilder sql, Type entityType, Column[] columns, int count1)
         {
             var schema = this.GetSchema(entityType);
             sql.AppendFormat("INSERT INTO [{1}].[{0}]", entityType.Name, schema);
-            sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("[{0}]", p.Name))));
+            sql.AppendFormat("({0})", string.Join(",", columns.Select(p => $"[{p.Name}]")));
 
             sql.AppendLine();
             sql.AppendFormat("VALUES");
-            sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("@{0}{1}", p.Name.Replace(".", "_"), count1))));
+            sql.AppendFormat("({0})", string.Join(",", columns.Select(p => $"@{p.Name.Replace(".", "_")}{count1}")));
             sql.AppendLine();
 
         }
