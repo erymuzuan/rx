@@ -8,16 +8,15 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
+define(["services/datacontext", "services/logger", "plugins/dialog"],
     function (context, logger, dialog) {
         var items = ko.observableArray(),
             triggers= ko.observableArray(),
             wds= ko.observableArray(),
             transforms = ko.observableArray(),
             isBusy = ko.observable(true),
-            activate = function () {
-                var tcs = new $.Deferred(),
-                    entitiesTask = context.loadAsync("EntityDefinition"),
+            loadAsync = function () {
+                var entitiesTask = context.loadAsync("EntityDefinition"),
                     formsTask = context.loadAsync({ entity:"EntityForm", size:200 }),
                     viewsTask = context.loadAsync({ entity: "EntityView", size: 200 }),
                     triggersTask = context.loadAsync({ entity:"Trigger", size:200 }),
@@ -26,14 +25,14 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                     wdTask = context.loadAsync({ entity:"WorkflowDefinition", size:200 });
 
 
-                $.when(entitiesTask, formsTask, viewsTask, triggersTask, wdTask, rdlTask, transformTask)
+                return $.when(entitiesTask, formsTask, viewsTask, triggersTask, wdTask, rdlTask, transformTask)
                     .then(function (entitiesLo, formsLo, viewsLo, triggersLo, wdsLo, rdlLo, transformLo) {
                         isBusy(false);
                         var entities = _(entitiesLo.itemCollection).map(function (v) {
                             return {
                                 name: v.Name,
                                 id: v.Id,
-                                route: '#entity.details/' + v.Id(),
+                                route: "#entity.details/" + v.Id(),
                                 operations : v.EntityOperationCollection(),
                                 rdl: _(rdlLo.itemCollection).filter(function (f) { return f.DataSource().EntityName() === v.Name(); }),
                                 triggers: _(triggersLo.itemCollection).filter(function (f) { return f.Entity() === v.Name(); }),
@@ -46,25 +45,29 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                         transforms(transformLo.itemCollection);
                         triggers(triggersLo.itemCollection);
 
-                        tcs.resolve(true);
                     });
-                return tcs.promise();
 
+            },
+            activate = function() {
+                if (items().length === 0) {
+                    return loadAsync();
+                }
+                return true;
             },
             attached = function (view) {
                 var self = this;
-                $('#solution-explorer-dialog').on('click', 'a', function (e) {
+                $("#solution-explorer-dialog").on("click", "a", function (e) {
                     e.preventDefault();
                 });
-                $('#solution-explorer-dialog').on('dblclick', 'a', function (e) {
+                $("#solution-explorer-dialog").on("dblclick", "a", function (e) {
                     e.preventDefault();
                     window.location = this.href;
                     dialog.close(self, "OK");
                 });
 
-                var $filterInput = $('#quick-nav-filter'),
+                var $filterInput = $("#quick-nav-filter"),
                     dofilter = function () {
-                        var $rows = $(view).find('li'),
+                        var $rows = $(view).find("li"),
                             filter = $filterInput.val().toLowerCase();
                         $rows.each(function () {
                             var $tr = $(this);
@@ -77,9 +80,9 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                     },
                 throttled = _.throttle(dofilter, 800);
 
-                $filterInput.on('keyup', throttled).siblings('span.input-group-addon')
+                $filterInput.on("keyup", throttled).siblings("span.input-group-addon")
                     .click(function () {
-                        $filterInput.val('');
+                        $filterInput.val("");
                         dofilter();
                     })
                 .end()
@@ -101,6 +104,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             };
 
         var vm = {
+            loadAsync: loadAsync,
             attached: attached,
             isBusy: isBusy,
             transforms: transforms,
