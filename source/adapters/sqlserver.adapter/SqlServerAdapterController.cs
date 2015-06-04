@@ -111,9 +111,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                             var sp = await this.GetStoreProcedureAsync(adapter, reader.GetString(0));
                             sprocs.Add(sp);
                         }
-                        var json = string.Format("{{ \"sprocs\" :[{0}], \"tables\" :[{1}], \"success\" :true, \"status\" : \"OK\" }}",
-                            string.Join(",\r\n", sprocs.Select(x => x.ToJsonString())),
-                            string.Join(",", tables.Select(x => "\"" + x + "\"")));
+                        var json =$"{{ \"sprocs\" :[{string.Join(",\r\n", sprocs.Select(x => x.ToJsonString()))}], \"tables\" :[{string.Join(",", tables.Select(x => "\"" + x + "\""))}], \"success\" :true, \"status\" : \"OK\" }}";
                         var response = new JsonResponseMessage(json);
                         return response;
                     }
