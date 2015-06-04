@@ -1,18 +1,18 @@
-define(['services/datacontext', objectbuilders.system], function (context, system) {
+define(["services/datacontext", objectbuilders.system], function (context, system) {
 
     // ReSharper disable InconsistentNaming
     var _field = ko.observable(),
         _format = function () {
             switch (_dateInterval()) {
-                case 'year': return 'yyyy';
-                case 'month': return 'MMM yyyy';
-                case 'week': return 'w yyyy';
-                case 'day': return 'yyyy-MM-dd';
-                case 'hour': return 'yyyy-MM-dd HH';
-                case 'minute': return 'yyyy-MM-dd HH:mm';
-                case 'second': return 'yyyy-MM-dd HH:mm:ss';
+                case "year": return "yyyy";
+                case "month": return "MMM yyyy";
+                case "week": return "w yyyy";
+                case "day": return "yyyy-MM-dd";
+                case "hour": return "yyyy-MM-dd HH";
+                case "minute": return "yyyy-MM-dd HH:mm";
+                case "second": return "yyyy-MM-dd HH:mm:ss";
 
-                default: return 'yyyy-MM-dd';
+                default: return "yyyy-MM-dd";
             }
         },
         _aggregate = ko.observable(),
@@ -22,7 +22,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
         _entity = ko.observable(),
         _entityDefinitionId = ko.observable(),
         _query = null,
-        _type = ko.observable('pie'),
+        _type = ko.observable("pie"),
         _click = null,
         _charts = ko.observableArray(),
         _viewId = ko.observable(),
@@ -69,18 +69,18 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                 return Task.fromResult(false);
             }
             var tcs = new $.Deferred();
-            if (_aggregate() === 'term') {
+            if (_aggregate() === "term") {
                 _query.aggs = {
                     "category": {
                         "terms": {
                             "field": fd,
-                            "size": 10
+                            "size": 0
                         }
                     }
                 };
             }
 
-            if (_aggregate() === 'histogram') {
+            if (_aggregate() === "histogram") {
                 _query.aggs = {
                     "category": {
                         "histogram": {
@@ -93,7 +93,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             }
 
 
-            if (_aggregate() === 'date_histogram') {
+            if (_aggregate() === "date_histogram") {
                 _query.aggs = {
                     "category": {
                         "date_histogram": {
@@ -180,7 +180,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             var tcs = new $.Deferred(),
                 editedChart = new bespoke.sph.domain.EntityChart({
                     WebId: system.guid(),
-                    Name: '',
+                    Name: "",
                     Query: ko.mapping.toJSON(_query),
                     Entity: _entity(),
                     EntityDefinitionId: _entityDefinitionId(),
@@ -193,14 +193,14 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
 
                 });
 
-            require(['viewmodels/entity.chart.dialog', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/entity.chart.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.chart(editedChart);
 
                 app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
-                            context.post(ko.mapping.toJSON(editedChart), '/sph/entitychart/save')
+                            context.post(ko.mapping.toJSON(editedChart), "/sph/entitychart/save")
                                 .done(function (r1) {
                                     tcs.resolve(true);
                                     editedChart.Id(r1.id);
@@ -223,14 +223,14 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             _selectedChart().DateInterval(_dateInterval());
             _selectedChart().HistogramInterval(_histogramInterval());
 
-            require(['viewmodels/entity.chart.dialog', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/entity.chart.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.chart(_selectedChart());
 
                 app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
-                            context.post(ko.mapping.toJSON(_selectedChart), '/sph/entitychart/save')
+                            context.post(ko.mapping.toJSON(_selectedChart), "/sph/entitychart/save")
                                 .done(tcs.resolve);
                         } else {
                             tcs.resolve(false);
@@ -244,7 +244,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
         remove = function () {
             var tcs = new $.Deferred();
 
-            context.post(ko.mapping.toJSON(_selectedChart), '/sph/entitychart/remove')
+            context.post(ko.mapping.toJSON(_selectedChart), "/sph/entitychart/remove")
                 .done(function () {
                     tcs.resolve(true);
                     var rt = _(_charts()).find(function (v) { return v.Id() === _selectedChartId(); });
@@ -263,7 +263,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
 
             var tcs = new $.Deferred();
 
-            context.post(ko.mapping.toJSON(_selectedChart), '/sph/entitychart/save')
+            context.post(ko.mapping.toJSON(_selectedChart), "/sph/entitychart/save")
                 .done(tcs.resolve);
 
             return tcs.promise();
@@ -277,7 +277,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
 
             var tcs = new $.Deferred();
 
-            context.post(ko.mapping.toJSON(_selectedChart), '/sph/entitychart/save')
+            context.post(ko.mapping.toJSON(_selectedChart), "/sph/entitychart/save")
                 .done(tcs.resolve);
 
             return tcs.promise();
@@ -285,23 +285,23 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
 
 
     _field.subscribe(function (f) {
-        if (_aggregate() === 'term') {
+        if (_aggregate() === "term") {
             draw(f);
         }
-        if (_aggregate() === 'date_histogram' && _dateInterval()) {
+        if (_aggregate() === "date_histogram" && _dateInterval()) {
             draw(f);
         }
-        if (_aggregate() === 'histogram' && _histogramInterval()) {
+        if (_aggregate() === "histogram" && _histogramInterval()) {
             draw(f);
         }
     });
     _histogramInterval.subscribe(function (hi) {
-        if (_aggregate() === 'histogram' && hi) {
+        if (_aggregate() === "histogram" && hi) {
             draw(_field());
         }
     });
     _dateInterval.subscribe(function (di) {
-        if (_aggregate() === 'date_histogram' && di) {
+        if (_aggregate() === "date_histogram" && di) {
             draw(_field());
         }
     });
@@ -316,7 +316,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                     return;
                 }
                 _selectedChart(ec);
-                _field('');// stop draw
+                _field("");// stop draw
                 _type(ec.Type());
                 _aggregate(ec.Aggregate());
                 _dateInterval(ec.DateInterval());
@@ -333,13 +333,13 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
         if (!type) {
             return;
         }
-        if (_aggregate() === 'term') {
+        if (_aggregate() === "term") {
             draw(_field());
         }
-        if (_aggregate() === 'date_histogram' && _dateInterval()) {
+        if (_aggregate() === "date_histogram" && _dateInterval()) {
             draw(_field());
         }
-        if (_aggregate() === 'histogram' && _histogramInterval()) {
+        if (_aggregate() === "histogram" && _histogramInterval()) {
             draw(_field());
         }
     });

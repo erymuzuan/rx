@@ -4,7 +4,7 @@ namespace Bespoke.Sph.Domain
     {
         public override string ToString()
         {
-            return string.Format("[{0}]{1}", this.Id, this.Name);
+            return $"[{this.Id}]{this.Name}";
         }
 
     
