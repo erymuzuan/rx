@@ -59,6 +59,12 @@
             <span data-i18n="Save">Save</span>
         </button>
         <!-- /ko -->
+        <!-- ko if: typeof openCommand === "function" -->
+        <button class="btn btn-default" data-bind="command: openCommand">
+            <i class="fa fa-folder-open"></i>
+            <span data-i18n="Open">Open</span>
+        </button>
+        <!-- /ko -->
         
 
         <!-- ko if: typeof removeCommand === "function"&& typeof canExecuteRemoveCommand === "undefined"-->

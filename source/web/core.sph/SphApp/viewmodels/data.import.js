@@ -10,28 +10,29 @@
 define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
 
-        var model = {
+        var model = ko.observable({
+            name: ko.observable(),
             adapter: ko.observable(),
             table: ko.observable(),
             batchSize: ko.observable(40),
             entity: ko.observable(),
             sql: ko.observable(),
             map: ko.observable()
-        },
+        }),
             adapterOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
             entityOptions = ko.observableArray(),
             mapOptions = ko.observableArray(),
             previewResult = ko.observableArray(),
             isBusy = ko.observable(false),
-            canPreview = ko.computed(function() {
-                return model.adapter()
-                    && model.table()
-                    && model.sql()
-                    && model.batchSize();
+            canPreview = ko.computed(function () {
+                return model().adapter()
+                    && model().table()
+                    && model().sql()
+                    && model().batchSize();
             }),
-            canImport = ko.computed(function() {
-                return canPreview() && model.map() && model.entity();
+            canImport = ko.computed(function () {
+                return canPreview() && model().map() && model().entity();
             }),
             activate = function () {
                 context.getTuplesAsync("EntityDefinition", "Id ne '0'", "Id", "Name")
@@ -39,8 +40,10 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 return context.getTuplesAsync("Adapter", "Id ne '0'", "Id", "Name")
                     .done(adapterOptions);
             },
-            attached = function (view) {
-                model.adapter.subscribe(function (a) {
+            modelChanged = function () {
+                var cloned = ko.toJS(model);
+
+                model().adapter.subscribe(function (a) {
                     if (!a) {
                         return;
                     }
@@ -49,28 +52,47 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     .done(function (adp) {
                         tableOptions(adp.TableDefinitionCollection().map(ko.mapping.toJS));
                         isBusy(false);
+
+                        model().table(cloned.table);
                     });
                 });
-                model.table.subscribe(function (a) {
-                    model.sql(String.format("select * from {0} ", a));
-                    if (!(a && model.entity())) {
+                model().table.subscribe(function (a) {
+                    model().sql(String.format("select * from {0} ", a));
+                    if (!(a && model().entity())) {
                         return Task.fromResult(0);
                     }
-                    return context.getTuplesAsync("TransformDefinition", String.format("substringof('{0}', InputTypeName) and substringof('{1}', OutputTypeName)", a, model.entity()), "Id", "Name")
+                    return context.getTuplesAsync("TransformDefinition", String.format("substringof('{0}', InputTypeName) and substringof('{1}', OutputTypeName)", a, model().entity()), "Id", "Name")
                     .done(mapOptions);
                 });
-                model.entity.subscribe(function (a) {
-                    if (!(a && model.entity())) {
+                model().entity.subscribe(function (a) {
+                    if (!(a && model().entity())) {
                         return Task.fromResult(0);
                     }
-                    return context.getTuplesAsync("TransformDefinition", String.format("substringof('{0}', InputTypeName) and substringof('{1}', OutputTypeName)", model.table(), a), "Id", "Name")
-                    .done(mapOptions);
+                    return context.getTuplesAsync("TransformDefinition", String.format("substringof('{0}', InputTypeName) and substringof('{1}', OutputTypeName)", model().table(), a), "Id", "Name")
+                    .done(mapOptions)
+                    .done(function () {
+                        model().map(cloned.map);
+                    });
                 });
+
+                if (cloned.table) {
+                    model().adapter("");
+                    model().adapter(cloned.adapter);
+                    model().table(cloned.table);
+                }
+                if (cloned.map) {
+                    model().entity("");
+                    model().entity(cloned.entity);
+                    model().map(cloned.map);
+                }
+            },
+            attached = function (view) {
+                modelChanged(view);
             },
             preview = function () {
                 return context.post(ko.mapping.toJSON(model), "data-import/preview")
                      .done(function (lo) {
-                         var table = _(tableOptions()).find(function (v) { return v.Name === model.table(); });
+                         var table = _(tableOptions()).find(function (v) { return v.Name === model().table(); });
                          var thead = "<tr>";
                          _(ko.unwrap(table.MemberCollection)).each(function (v) {
                              thead += "<th>" + v.Name + "</th>";
@@ -89,14 +111,41 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                          $("#tbody").html(tbody);
 
                          console.log(lo);
-                        $("#preview-panel").modal("show");
-                    });
+                         $("#preview-panel").modal("show");
+                     });
             },
             importData = function () {
                 return context.post(ko.mapping.toJSON(model), "data-import")
                      .done(function (result) {
-                        logger.info(result.message);
-                    });
+                         logger.info(result.message);
+                     });
+            },
+            save = function () {
+                var data = ko.toJSON(model);
+                return context.post(data, "/data-import/save");
+            },
+            removeAsync = function () {
+                var data = ko.toJSON(model);
+                return context.send("DELETE", data, "/data-import");
+            },
+            openSnippet = function () {
+                var tcs = new $.Deferred();
+
+                require(["viewmodels/data.import.list", "durandal/app"], function (dialog, app2) {
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (result === "OK") {
+                                model(ko.mapping.fromJS(dialog.model()));
+                                modelChanged();
+                            }
+                            tcs.resolve(true);
+                        });
+
+                });
+
+
+                return tcs.promise();
+
             };
 
         var vm = {
@@ -112,7 +161,12 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             model: model,
             isBusy: isBusy,
             activate: activate,
-            attached: attached
+            attached: attached,
+            toolbar: {
+                saveCommand: save,
+                removeCommand: removeAsync,
+                openCommand: openSnippet
+            }
         };
 
         return vm;

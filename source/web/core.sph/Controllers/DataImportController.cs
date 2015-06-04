@@ -8,12 +8,52 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Controllers
 {
+    [Authorize(Roles = "administrators,developers")]
     [RoutePrefix("data-import")]
     public class DataImportController : Controller
     {
+        [HttpPost]
+        [Route("save")]
+        public ActionResult Save(ImportDataViewModel model)
+        {
+            var folder = Server.MapPath("~/App_Data/data-imports/");
+            if (!System.IO.Directory.Exists(folder))
+                System.IO.Directory.CreateDirectory(folder);
+
+
+            var setting = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            var json = JsonConvert.SerializeObject(model, Formatting.Indented, setting);
+            System.IO.File.WriteAllText(Server.MapPath($"~/App_Data/data-imports/{model.Name}.json"), json);
+            return Json(new { });
+        }
+        [HttpDelete]
+        [Route("{name}")]
+        public ActionResult Remove(string name)
+        {
+            var file = Server.MapPath($"~/App_Data/data-imports/{name}.json");
+            if (System.IO.File.Exists(file))
+                System.IO.File.Delete(file);
+
+            return Json(new { });
+        }
+        [HttpGet]
+        [Route("")]
+        public ActionResult List()
+        {
+            var folder = Server.MapPath("~/App_Data/data-imports/");
+            if (!System.IO.Directory.Exists(folder))
+                System.IO.Directory.CreateDirectory(folder);
+            
+            var files = from f in System.IO.Directory.GetFiles(folder, "*.json")
+                        select System.IO.File.ReadAllText(f);
+
+            return Content("[" +string.Join(",", files.ToArray()) + "]", "application/json", Encoding.UTF8);
+        }
+
         [HttpPost]
         [Route("preview")]
         public async Task<ActionResult> Preview(ImportDataViewModel model)
@@ -66,7 +106,7 @@ namespace Bespoke.Sph.Web.Controllers
             return Content(JsonConvert.SerializeObject(new { success = true, rows, message = $"successfully imported {rows}", status = "OK" }), "application/json", Encoding.UTF8);
         }
 
-        private object  GetTableAdapterInstance(ImportDataViewModel model, Adapter adapter)
+        private object GetTableAdapterInstance(ImportDataViewModel model, Adapter adapter)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var dllName = $"{ConfigurationManager.ApplicationName}.{adapter.Name}";
