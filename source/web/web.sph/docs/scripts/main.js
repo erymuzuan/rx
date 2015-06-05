@@ -34,6 +34,8 @@ define(['types'], function (types) {
         e.preventDefault();
         e.stopPropagation();
         nav(this.href);
+        var appHostTop = $("#applicationHost").position().top;
+        $('html, body').animate({ scrollTop: appHostTop - 60 }, 800);
     });
     $('#applicationHost').on('click', 'a', function (e) {
         var $anchor = $(this),

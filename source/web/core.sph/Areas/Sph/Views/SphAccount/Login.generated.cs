@@ -304,13 +304,13 @@ WriteLiteral(">\r\n                    <hr");
 
 WriteLiteral(" class=\"col-lg-12\"");
 
-WriteLiteral("/>\r\n                    <h3>Learn to create your own Login page!!!</h3>\r\n        " +
+WriteLiteral("/>\r\n                    <h3>Learn to create your own Login page</h3>\r\n        " +
 "            <p>Reactive Developer allows you to create your own branded Login</p" +
 ">\r\n                    <a");
 
 WriteLiteral(" href=\"/docs/#custom-login-page\"");
 
-WriteLiteral(">Got to help</a>\r\n                </div>\r\n");
+WriteLiteral(">Go to help</a>\r\n                </div>\r\n");
 
             
             #line 71 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
