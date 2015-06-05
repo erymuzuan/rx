@@ -6,6 +6,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
     public class BaseAppController : Controller
     {
         public const string APPLICATION_JAVASCRIPT = "application/javascript";
+        public const string APPLICATION_JSON= "application/json";
         public const string TEXT_HTML = "text/html";
         
         protected internal virtual ViewResult Script(string viewName = null, object model = null, string masterName = null)

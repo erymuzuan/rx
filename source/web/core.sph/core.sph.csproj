@@ -1712,7 +1712,6 @@
     <Compile Include="Helpers\GoogleMapHelper.cs" />
     <Compile Include="Helpers\MobileCapableWebFormViewEngine.cs" />
     <Compile Include="Helpers\OdataSqlTranslator.cs" />
-    <Compile Include="Helpers\QueryHelper.cs" />
     <Compile Include="Helpers\Roles.cs" />
     <Compile Include="Mocks\TemplateEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2064,6 +2063,8 @@
     <EmbeddedResource Include="SphApp\viewmodels\data.import.js" />
     <EmbeddedResource Include="SphApp\viewmodels\entity.schema.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\data.import.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\custom.form.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\custom.form.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2546,6 +2547,8 @@
     <EmbeddedResource Include="SphApp\views\resource.table.dialog.html" />
     <EmbeddedResource Include="SphApp\views\data.import.html" />
     <EmbeddedResource Include="SphApp\views\data.import.list.html" />
+    <EmbeddedResource Include="SphApp\views\custom.form.list.html" />
+    <EmbeddedResource Include="SphApp\views\custom.form.dialog.html" />
     <Content Include="SphApp\views\deadletter.view.html" />
     <EmbeddedResource Include="SphApp\views\entity.lookup.dialog.html" />
     <EmbeddedResource Include="SphApp\views\error.log.detail.dialog.html" />

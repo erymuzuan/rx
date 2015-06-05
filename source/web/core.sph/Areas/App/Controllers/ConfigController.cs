@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
@@ -9,12 +10,15 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.App_Start;
 using Bespoke.Sph.Web.Filters;
+using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
+
 namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
+    [RoutePrefix("config")]
     public class ConfigController : BaseAppController
     {
         [RazorScriptFilter]
@@ -61,22 +65,22 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             {
                 var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
                 var assembly = Assembly.GetExecutingAssembly();
-                var resourceName = $"Bespoke.Sph.Web.routes.config.json";
+                const string RESOURCE_NAME = "Bespoke.Sph.Web.routes.config.json";
                 JsRoute[] systemRoutes;
-                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
                 {
                     if (null == stream) throw new InvalidOperationException("Missing routes.config.json resource in core.sph.dll");
                     using (var reader = new StreamReader(stream))
                     {
-                        var json01 = reader.ReadToEnd();
-                        systemRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json01, settings);
+                        var json = reader.ReadToEnd();
+                        systemRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
                     }
                 }
 
-                var routeConfig = Server.MapPath("~/App_Data/routes.config.json");
-                if (System.IO.File.Exists(routeConfig))
+                var customRouteConfig = Server.MapPath(CustomRouteConfig);
+                if (System.IO.File.Exists(customRouteConfig))
                 {
-                    var json = System.IO.File.ReadAllText(routeConfig);
+                    var json = System.IO.File.ReadAllText(customRouteConfig);
                     var customJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
                     configJsRoutes = customJsRoutes.Concat(systemRoutes).ToArray();
                 }
@@ -84,19 +88,94 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 {
                     configJsRoutes = systemRoutes;
                 }
-                HttpRuntime.Cache.Insert("config-js-routes", configJsRoutes, new CacheDependency(routeConfig));
+                HttpRuntime.Cache.Insert("config-js-routes", configJsRoutes, new CacheDependency(customRouteConfig));
             }
 
             var routes = configJsRoutes.AsQueryable()
-                .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role) || r.Role == "everybody", User.Identity.IsAuthenticated)
-                .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
+                .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role) || r.Role == "everybody", User.Identity.IsAuthenticated).WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
             vm.Routes.AddRange(routes);
 
             vm.Routes.AddRange(jsRoutes);
 
             return Script("Index", vm);
         }
+        const string CustomRouteConfig = "~/App_Data/routes.config.json";
+
+        [HttpGet]
+        [Route("custom-routes")]
+        [Authorize(Roles = "developers")]
+        public ActionResult GetCustomRoutes()
+        {
+            var customRouteConfig = Server.MapPath(CustomRouteConfig);
+            if (System.IO.File.Exists(customRouteConfig))
+            {
+                return File(customRouteConfig, APPLICATION_JSON);
+            }
+            return Content("[]", APPLICATION_JSON);
+
+        }
+        [HttpPost]
+        [Route("custom-route")]
+        [Authorize(Roles = "developers")]
+        public ActionResult SaveCustomRoutes()
+        {
+
+            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            var request = this.GetRequestBody();
+            var route = JsonConvert.DeserializeObject<JsRoute>(request);
+            var customRouteConfig = Server.MapPath(CustomRouteConfig);
+            var customJsRoutes = new JsRoute[] { };
+            if (System.IO.File.Exists(customRouteConfig))
+            {
+                var json = System.IO.File.ReadAllText(customRouteConfig);
+                customJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
+            }
+
+            var ex = customJsRoutes.SingleOrDefault(x => x.Route == route.Route);
+            if (null != ex)
+            {
+
+            }
+            else
+            {
+                customJsRoutes = customJsRoutes.Concat(new[] { route }).ToArray();
+            }
+            var text = JsonConvert.SerializeObject(customJsRoutes, Formatting.Indented, settings);
+            System.IO.File.WriteAllText(customRouteConfig, text);
 
 
+            return Content(text, APPLICATION_JSON, Encoding.UTF8);
+
+        }
+        [HttpDelete]
+        [Route("custom-route/{route}")]
+        [Authorize(Roles = "developers")]
+        public ActionResult RemoveCustomRoutes(string route)
+        {
+
+            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            var customRouteConfig = Server.MapPath(CustomRouteConfig);
+            var customJsRoutes = new JsRoute[] { };
+            if (System.IO.File.Exists(customRouteConfig))
+            {
+                var json = System.IO.File.ReadAllText(customRouteConfig);
+                customJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
+            }
+
+            var ex = customJsRoutes.SingleOrDefault(x => x.Route == route);
+            if (null != ex)
+            {
+                var list = customJsRoutes.ToList();
+                list.Remove(ex);
+                customJsRoutes = list.ToArray();
+            }
+
+            var text = JsonConvert.SerializeObject(customJsRoutes, Formatting.Indented, settings);
+            System.IO.File.WriteAllText(customRouteConfig, text);
+
+
+            return Content(text, APPLICATION_JSON, Encoding.UTF8);
+
+        }
     }
 }

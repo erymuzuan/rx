@@ -1,0 +1,61 @@
+﻿
+<h1><i class="fa fa-edit"></i> Custom Forms</h1>
+
+<div class="row">
+    <table class="table table-striped table-condensed">
+        <thead>
+            <tr>
+                <th>Route</th>
+                <th>Module Id</th>
+                <th>Show on nav</th>
+                <th>title</th>
+                <th>Caption</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :list">
+            <tr>
+                <td>
+                    <div class="btn-group">
+                        <a title="Click to specify your value" class="btn btn-link dropdown dropdown-toggle" href="#custom.form.list" data-toggle="dropdown" >
+                            <!-- ko text : route -->
+                            <!-- /ko -->
+
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li data-bind="command : $root.edit">
+                                <a class="btn btn-link">
+                                    <i class="fa fa-edit"></i>
+                                    Edit Route
+                                </a>
+                            </li>
+
+                            <li data-bind="click : $root.editViewModel">
+                                <a class="btn btn-link">
+                                    <i class="fa fa-jsfiddle"></i>
+                                    Edit <!-- ko text : moduleId + '.js' -->
+                                    <!-- /ko -->
+
+                                </a>
+                            </li>
+
+                            <li data-bind="click : $root.editView">
+                                <a class="btn btn-link">
+                                    <i class="fa fa-html5"></i>
+                                    Edit <!-- ko text : moduleId.replace('viewmodels/', 'views/') + '.html' -->
+<!-- /ko -->
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </td>
+                <td data-bind="text:moduleId"></td>
+                <td data-bind="text:nav"></td>
+                <td data-bind="text:title"></td>
+                <td data-bind="text:caption"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

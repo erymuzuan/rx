@@ -259,6 +259,21 @@
         "startPageRoute": "transform.definition.list"
     },
     {
+        "role": "developers",
+        "groupName": "Designer",
+        "route": "custom.form.list",
+        "moduleId": "viewmodels/custom.form.list",
+        "title": "Custom forms",
+        "nav": false,
+        "icon": "fa fa-edit",
+        "caption": "Custom forms",
+        "settings": null,
+        "isAdminPage": true,
+        "showWhenLoggedIn": false,
+        "error": "",
+        "startPageRoute": "custom.form.list"
+    },
+    {
         "role": "everybody",
         "groupName": null,
         "route": "message.detail/:id",
