@@ -1509,6 +1509,7 @@
     </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
+    <EmbeddedResource Include="routes.config.json" />
     <Content Include="Scripts\almond-custom.js" />
     <Content Include="Scripts\bloodhound.js" />
     <Content Include="Scripts\bloodhound.min.js" />

@@ -1,6 +1,10 @@
+using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.App_Start;
@@ -55,12 +59,32 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             var configJsRoutes = HttpRuntime.Cache.Get("config-js-routes") as JsRoute[];
             if (null == configJsRoutes)
             {
-                var routeConfig = Server.MapPath("~/routes.config.js");
-                var json = System.IO.File.ReadAllText(routeConfig);
-
                 var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-                configJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
-                HttpRuntime.Cache.Insert("config-js-routes", configJsRoutes);
+                var assembly = Assembly.GetExecutingAssembly();
+                var resourceName = $"Bespoke.Sph.Web.routes.config.json";
+                JsRoute[] systemRoutes;
+                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                {
+                    if (null == stream) throw new InvalidOperationException("Missing routes.config.json resource in core.sph.dll");
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var json01 = reader.ReadToEnd();
+                        systemRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json01, settings);
+                    }
+                }
+
+                var routeConfig = Server.MapPath("~/App_Data/routes.config.json");
+                if (System.IO.File.Exists(routeConfig))
+                {
+                    var json = System.IO.File.ReadAllText(routeConfig);
+                    var customJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
+                    configJsRoutes = customJsRoutes.Concat(systemRoutes).ToArray();
+                }
+                else
+                {
+                    configJsRoutes = systemRoutes;
+                }
+                HttpRuntime.Cache.Insert("config-js-routes", configJsRoutes, new CacheDependency(routeConfig));
             }
 
             var routes = configJsRoutes.AsQueryable()

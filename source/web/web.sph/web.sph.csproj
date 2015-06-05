@@ -1177,7 +1177,6 @@
     <Content Include="offline\offline.js" />
     <Content Include="regex.picker.html" />
     <Content Include="roles.config.js" />
-    <Content Include="routes.config.js" />
     <Content Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-chromevox.js" />
     <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
