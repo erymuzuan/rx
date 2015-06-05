@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            
+
             var folder = Directory.CreateDirectory(Path.GetTempFileName() + "extract").FullName;
             ZipFile.ExtractToDirectory(zipFile, folder);
 
@@ -38,18 +38,13 @@ namespace Bespoke.Sph.Domain
                     WebId = wd.SchemaStoreId,
                     FileName = "schema.xsd"
                 };
+                await store.DeleteAsync(wd.SchemaStoreId);
                 await store.AddAsync(xsd);
             }
 
-            // get the pages
             using (var session = context.OpenSession())
             {
-                wd.Id = string.Empty;
                 session.Attach(wd);
-                await session.SubmitChanges("Import");
-            }
-            using (var session = context.OpenSession())
-            {
                 foreach (var pf in Directory.GetFiles(folder, "page.*.json"))
                 {
                     var pageJson = File.ReadAllText(pf);
