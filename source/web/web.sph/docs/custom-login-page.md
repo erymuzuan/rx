@@ -1,6 +1,6 @@
 ﻿#Creates your own brand login page
 
-Since Reactive Developer doesnot dictate on how your security is handled, it's all up to the developers responsibility to create their own security mecanishm that follows ASP.Net security pipe line.
+Since Reactive Developer does not dictate on how your security is handled, it's all up to the developers responsibility to create their own security mechanism that follows ASP.Net security pipe line.
 
 
 ## Custom Login Page with ASP.Net MVC
@@ -29,7 +29,7 @@ namespace web.sph.App_Code
 
 
 
-Now create the corresponsing Razor View in Views\Login\Index.cshtml, your view need to contains at least a form with UserName and password field and set to POST to `Sph/SphAccount/Login` to use Reactive Developer internal ASP.Net membership providers. Or you can post it to your own custom membership provider.
+Now create the corresponding Razor View in Views\Login\Index.cshtml, your view need to contains at least a form with UserName and password field and set to POST to `Sph/SphAccount/Login` to use Reactive Developer internal ASP.Net membership providers. Or you can post it to your own custom membership provider.
 
 ```html
   <form method="POST" action="/Sph/SphAccount/Login" accept-charset="UTF-8">
@@ -49,7 +49,7 @@ Now create the corresponsing Razor View in Views\Login\Index.cshtml, your view n
 
 ```
 
-The final things you need to do it to let the runtime knwo that about your new Login page, go to `web.config` file now locate this section ins `system.web`
+The final things you need to do is to let the runtime know about your new Login page, go to `web.config` file and locate this section in `system.web`
 ```xml
 <authentication mode="Forms">
     <forms loginUrl="~/Sph/SphAccount/Login" timeout="2880" name=".rx-developer.dev" />
