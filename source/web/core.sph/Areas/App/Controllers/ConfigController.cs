@@ -134,7 +134,15 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             var ex = customJsRoutes.SingleOrDefault(x => x.Route == route.Route);
             if (null != ex)
             {
-
+                ex.Caption = route.Caption;
+                ex.GroupName = route.GroupName;
+                ex.Icon = route.Icon;
+                ex.IsAdminPage = route.IsAdminPage;
+                ex.Nav = route.Nav;
+                ex.Role = route.Role;
+                ex.ShowWhenLoggedIn = route.ShowWhenLoggedIn;
+                ex.StartPageRoute = route.StartPageRoute;
+                ex.Title = route.Title;
             }
             else
             {
@@ -163,18 +171,18 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             }
 
             var ex = customJsRoutes.SingleOrDefault(x => x.Route == route);
-            if (null != ex)
-            {
-                var list = customJsRoutes.ToList();
-                list.Remove(ex);
-                customJsRoutes = list.ToArray();
-            }
+            if (null == ex)
+                return HttpNotFound("Cannot find custom form with route : " + route);
+            
 
+            var list = customJsRoutes.ToList();
+            list.Remove(ex);
+            customJsRoutes = list.ToArray();
             var text = JsonConvert.SerializeObject(customJsRoutes, Formatting.Indented, settings);
             System.IO.File.WriteAllText(customRouteConfig, text);
 
 
-            return Content(text, APPLICATION_JSON, Encoding.UTF8);
+            return Json(new { success = true, status = "OK" });
 
         }
     }

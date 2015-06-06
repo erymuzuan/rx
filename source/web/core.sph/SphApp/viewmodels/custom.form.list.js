@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router"],
-    function (context, logger, router) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
+    function (context, logger, router, app) {
 
         var list = ko.observableArray(),
             isBusy = ko.observable(false),
@@ -38,7 +38,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     app2.showDialog(dialog)
                         .done(function (result) {
                             if (result === "OK") {
-                                context.post( ko.toJSON(dialog.route),"/config/custom-route")
+                                context.post(ko.toJSON(dialog.route), "/config/custom-route")
                                 .done(function () {
                                     list.push(dialog.route());
                                 });
@@ -56,6 +56,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                             if (result === "OK") {
                                 context.post(ko.toJSON(dialog.route), "/config/custom-route")
                                 .done(function () {
+                                    list.remove(route);
                                     list.push(dialog.route());
                                 });
                             }
@@ -65,15 +66,32 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 return Task.fromResult(0);
             },
             editViewModel = function (route) {
-                window.open("/sph/editor/file?id=/sphapp/" + route.moduleId + ".js", "_blank", "height=600px,width=800px,toolbar=0,location=0");
+                window.open("/sph/editor/file?id=/sphapp/" + ko.unwrap(route.moduleId) + ".js", "_blank", "height=600px,width=800px,toolbar=0,location=0");
             },
             editView = function (route) {
 
-                window.open("/sph/editor/file?id=/sphapp/" + route.moduleId.replace("viewmodels/", "views/") + ".html", "_blank", "height=600px,width=800px,toolbar=0,location=0");
+                window.open("/sph/editor/file?id=/sphapp/" + ko.unwrap(route.moduleId).replace("viewmodels/", "views/") + ".html", "_blank", "height=600px,width=800px,toolbar=0,location=0");
+            },
+            deleteRoute = function (route) {
+                app.showMessage("Are you sure you want to remove this custom route permanently", "Remove Route", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+                            context.send(null, "/config/custom-route/" + ko.unwrap(route.route), "DELETE")
+                                .fail(function(er,msg) {
+                                    logger.error(er);
+                                    logger.error(msg);
+                                })
+                                .done(function() {
+                                    list.remove(route);
+                                });
+
+                        }
+                    });
             };
 
         var vm = {
             list: list,
+            deleteRoute: deleteRoute,
             edit: edit,
             editViewModel: editViewModel,
             editView: editView,

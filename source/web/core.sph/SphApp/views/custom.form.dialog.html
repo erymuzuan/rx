@@ -45,6 +45,33 @@
                                    class="form-control" id="caption">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="caption" class="col-sm-2 control-label">Roles</label>
+                        <div class="col-sm-9">
+                            <input type="text" data-bind="value: role"
+                                   required
+                                   placeholder="Role for the route, 'everybody' and 'anynomouse' can be accepted"
+                                   class="form-control" id="role">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: nav" id="nav" type="checkbox" name="nav"/>
+                                    Show on Navigation Menu
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-design-icon-class" class="col-sm-2 control-label">Icon</label>
+                        <div class="col-sm-9">
+                            <i data-bind="iconPicker: icon, attr:{'class':icon() + ' fa-2x' }" id="form-design-icon-class"></i>
+                        </div>
+
+                    </div>
 
                 </form>
             </div>
