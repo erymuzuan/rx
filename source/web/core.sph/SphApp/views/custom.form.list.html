@@ -2,13 +2,13 @@
 <h1><i class="fa fa-edit"></i> Custom Forms</h1>
 
 <div class="row">
-    <table class="table table-striped table-condensed">
+    <table class="table table-striped table-condensed" data-bind="filter : {path:'tbody>tr'}">
         <thead>
             <tr>
                 <th>Route</th>
                 <th>Module Id</th>
                 <th>Show on nav</th>
-                <th>title</th>
+                <th>Title</th>
                 <th>Caption</th>
             </tr>
         </thead>
@@ -16,36 +16,44 @@
             <tr>
                 <td>
                     <div class="btn-group">
-                        <a title="Click to specify your value" class="btn btn-link dropdown dropdown-toggle" href="#custom.form.list" data-toggle="dropdown" >
+                        <a title="Click to specify your value" class="btn btn-link dropdown dropdown-toggle" href="#custom.form.list" data-toggle="dropdown">
                             <!-- ko text : route -->
                             <!-- /ko -->
 
                             <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li data-bind="command : $root.edit">
+                            <li data-bind="click : $root.edit">
                                 <a class="btn btn-link">
-                                    <i class="fa fa-edit"></i>
+                                    <i class="fa fa-edit pull-left"></i>
                                     Edit Route
                                 </a>
                             </li>
 
                             <li data-bind="click : $root.editViewModel">
-                                <a class="btn btn-link">
-                                    <i class="fa fa-jsfiddle"></i>
-                                    Edit <!-- ko text : moduleId + '.js' -->
+                                <a class="btn btn-link pull-left">
+                                    <i class="fa fa-file-text"></i>
+                                    Edit <!-- ko text : ko.unwrap(moduleId) + '.js' -->
                                     <!-- /ko -->
 
                                 </a>
                             </li>
 
                             <li data-bind="click : $root.editView">
-                                <a class="btn btn-link">
-                                    <i class="fa fa-html5"></i>
-                                    Edit <!-- ko text : moduleId.replace('viewmodels/', 'views/') + '.html' -->
-<!-- /ko -->
+                                <a class="btn btn-link pull-left">
+                                    <i class="fa fa-code"></i>
+                                    Edit <!-- ko text : ko.unwrap(moduleId).replace('viewmodels/', 'views/') + '.html' -->
+                                    <!-- /ko -->
                                 </a>
                             </li>
+                            <li data-bind="click : $root.deleteRoute">
+                                <a class="btn btn-link pull-left">
+                                    <i class="fa fa-times"></i>
+                                    Delete Route
+                                </a>
+                            </li>
+
+
 
 
                         </ul>
