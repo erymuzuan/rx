@@ -19,9 +19,9 @@
 
                     @foreach(var col in Model.View.ViewColumnCollection)
                     {
-                    if(string.IsNullOrWhiteSpace(col.RouteValueField)){
-                    col.RouteValueField = Model.Definition.Name + "Id";
-                    }
+                        if(string.IsNullOrWhiteSpace(col.RouteValueField)){
+                            col.RouteValueField = "Id";
+                        }
                     var format = string.IsNullOrWhiteSpace(col.Format) ? "text:{0}": col.Format;
                     var binding = string.Format(col.Format, col.Path);
                     if(col.IsLinkColumn){
