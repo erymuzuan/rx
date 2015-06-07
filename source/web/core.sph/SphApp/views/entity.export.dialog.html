@@ -5,7 +5,11 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
-                <h3>Export</h3>
+                <h3>
+                    Export
+                    <!-- ko text: entity().Name -->
+                    <!--/ko-->
+                </h3>
             </div>
             <div class="modal-body" data-bind="with: entity">
 
@@ -17,7 +21,8 @@
                         </a>
                         <p>
                             <span>Export the EntityDefinition and all its related assets such as Forms,Views and Triggers</span>
-                            <span>Including the all the data.</span></p>
+                            <span>Including the all the data.</span>
+                        </p>
                     </div>
                     <div class="alert alert-success">
                         <a class="alert-link" download data-bind="attr:{href: '/entity-definition/export/' + ko.unwrap(Id)}">
@@ -25,7 +30,7 @@
                             <span>Export without data</span>
                         </a>
                         <p><span>Export the EntityDefinition and all its related assets such as Forms,Views and Triggers</span></p>
-                      
+
                     </div>
                 </form>
             </div>

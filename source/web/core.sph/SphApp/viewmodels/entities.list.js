@@ -38,6 +38,18 @@ define(["services/datacontext", "services/logger"],
                 return tcs.promise();
 
 
+            },
+            exportPackage = function (entity) {
+                var tcs = new $.Deferred();
+                require(["viewmodels/entity.export.dialog", "durandal/app"], function (dialog, app2) {
+                    dialog.entity(entity);
+
+                    app2.showDialog(dialog)
+                        .done(tcs.resolve);
+                });
+
+                return tcs.promise();
+
             };
 
         var vm = {
@@ -45,6 +57,7 @@ define(["services/datacontext", "services/logger"],
             activate: activate,
             attached: attached,
             entities: entities,
+            exportPackage: exportPackage,
             toolbar: {
                 importCommand: uploadPackage,
                 addNew: {

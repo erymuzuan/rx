@@ -166,7 +166,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             },
             exportPackage = function() {
-                //window.open("/entity-definition/export/" + entity().Id(), "_blank", "height=600px,width=800px,toolbar=0,location=0");
                 var tcs = new $.Deferred();
                 require(["viewmodels/entity.export.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.entity(entity());
