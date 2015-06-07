@@ -338,7 +338,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var columns = m_tableColumns[name];
             var code = new StringBuilder();
-            var count = 0;
+            var count = -1;
             foreach (var column in columns)
             {
                 count++;
@@ -365,8 +365,16 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
                 if (column.GetClrType() == typeof (DateTime))
                 {
-                    code.AppendLine($"                       var __temp{count} = (MySql.Data.Types.MySqlDateTime)reader[\"{column.Name}\"];");
-                    code.AppendLine($"                       if(__temp{count}.IsValidDateTime ) item.{column.Name} = __temp{count}.GetDateTime();");
+                    code.AppendLine($"                       var __type{count} = reader.GetFieldType({count});");
+                    code.AppendLine($"                       if(__type{count} == typeof(DateTime))");
+                    code.AppendLine( "                       {");
+                    code.AppendLine($"                          item.{column.Name} = reader.GetDateTime({count});");
+                    code.AppendLine( "                       }");
+                    code.AppendLine( "                       else");
+                    code.AppendLine( "                       {");
+                    code.AppendLine($"                          var __temp{count} = (MySql.Data.Types.MySqlDateTime)reader[\"{column.Name}\"];");
+                    code.AppendLine($"                          if(__temp{count}.IsValidDateTime ) item.{column.Name} = __temp{count}.GetDateTime();");
+                    code.AppendLine( "                       }");
                     continue;
                 }
                 code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
