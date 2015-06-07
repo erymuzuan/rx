@@ -717,7 +717,7 @@ bespoke.sph.domain.EntityOperationPartial = function () {
 bespoke.sph.domain.EntityViewPartial = function () {
 
     // Filter
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         addConditionalFormatting = function () {
             this.ConditionalFormattingCollection.push(new bespoke.sph.domain.ConditionalFormatting(system.guid()));
         },
@@ -1977,10 +1977,17 @@ bespoke.sph.domain.VariablePartial = function () {
 /// <reference path="../../App/durandal/system.js" />
 
 
-bespoke.sph.domain.ViewColumnPartial = function () {
+bespoke.sph.domain.ViewColumnPartial = function (model) {
 
+
+    model.Path.subscribe(function (p) {
+        if (!ko.unwrap(model.Header)) {
+            model.Header(p.replace(".", " ")
+                .replace(/([A-Z])/g, " $1").trim());
+        }
+    });
     // Filter
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         addConditionalFormatting = function () {
             this.ConditionalFormattingCollection.push(new bespoke.sph.domain.ConditionalFormatting(system.guid()));
         },
@@ -1992,10 +1999,10 @@ bespoke.sph.domain.ViewColumnPartial = function () {
 
         },
         removeIconCssClass = function () {
-            this.IconCssClass('');
+            this.IconCssClass("");
         },
         removeIconStoreId = function () {
-            this.IconStoreId('');
+            this.IconStoreId("");
         };
     return {
         addConditionalFormatting: addConditionalFormatting,

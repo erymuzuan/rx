@@ -9,7 +9,7 @@
 bespoke.sph.domain.EntityViewPartial = function () {
 
     // Filter
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         addConditionalFormatting = function () {
             this.ConditionalFormattingCollection.push(new bespoke.sph.domain.ConditionalFormatting(system.guid()));
         },
