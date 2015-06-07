@@ -13,15 +13,9 @@ namespace Bespoke.Sph.WorkflowsExecution
 {
     public class WorkflowSubscriber : Subscriber<Workflow>
     {
-        public override string QueueName
-        {
-            get { return "workflow_execution"; }
-        }
+        public override string QueueName => "workflow_execution";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "Workflow.*.Execute" }; }
-        }
+        public override string[] RoutingKeys => new[] { "Workflow.*.Execute" };
 
 
         protected async override Task ProcessMessage(Workflow item, MessageHeaders header)

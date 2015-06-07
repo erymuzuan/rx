@@ -270,7 +270,7 @@ namespace Bespoke.Sph.Domain
         public static string ToEmptyString(this object value)
         {
             if (null == value) return string.Empty;
-            return string.Format("{0}", value);
+            return $"{value}";
         }
 
         public static DateTime? RegexDateTimeValue(string input, string pattern, string group, params  string[] formats)

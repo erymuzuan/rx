@@ -6,7 +6,7 @@ namespace Bespoke.Sph.ElasticSearch
     {
         protected string GetTypeName(Workflow item)
         {
-            return string.Format("{0}_{1}_{2}", "Workflow", item.WorkflowDefinitionId, item.Version);
+            return $"{"Workflow"}_{item.WorkflowDefinitionId}_{item.Version}";
         }
     }
 }
