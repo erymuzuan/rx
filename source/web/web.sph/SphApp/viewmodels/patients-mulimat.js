@@ -9,13 +9,19 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart', objectbuilders.config],
-    function (context, logger, router, chart, config) {
+define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config ],
+    function (context, logger, router, chart,config ) {
 
         var isBusy = ko.observable(false),
             chartFiltered = ko.observable(false),
             view = ko.observable(),
             list = ko.observableArray([]),
+            map = function(v) {
+                if (typeof partial !== "undefined" && typeof partial.map === "function") {
+                    return partial.map(v);
+                }
+                return v;
+            },
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             query = ko.observable(),
             activate = function () {
@@ -23,79 +29,83 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                     "query": {
                         "filtered": {
                             "filter": {
-                                "bool": {
-                                    "must": [
-                                        {
-                                            "term": {
-                                                "Religion": "Islam"
-                                            }
-                                        }
-                                        ,
-                                        {
-                                            "term": {
-                                                "Gender": "Female"
-                                            }
-                                        }
+               "bool": {
+                  "must": [
+                                     {
+                     "term":{
+                         "Religion":"Islam"
+                     }
+                 }
+,
+                 {
+                     "term":{
+                         "Gender":"Female"
+                     }
+                 }
 
-                                    ],
-                                    "must_not": [
-                                        {
-                                            "term": {
-                                                "Status": "Discharged"
-                                            }
-                                        }
+                  ],
+                  "must_not": [
+                                     {
+                     "term":{
+                         "Status":"Discharged"
+                     }
+                 }
 
-                                    ]
-                                }
-                            }
+                  ]
+               }
+           }
                         }
                     },
-                    "sort": [
-                        {"FullName": {"order": "asc"}}
-                    ]
+                    "sort" : [{"FullName":{"order":"asc"}}]
                 });
                 var edQuery = String.format("Name eq '{0}'", 'Patient'),
-                    tcs = new $.Deferred(),
-                    formsQuery = String.format("EntityDefinitionId eq 'patient' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
-                    viewQuery = String.format("EntityDefinitionId eq 'patient'"),
-                    edTask = context.loadOneAsync("EntityDefinition", edQuery),
-                    formsTask = context.loadAsync("EntityForm", formsQuery),
-                    viewTask = context.loadOneAsync("EntityView", viewQuery);
+                  tcs = new $.Deferred(),
+                  formsQuery = String.format("EntityDefinitionId eq 'patient' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  viewQuery = String.format("EntityDefinitionId eq 'patient'"),
+                  edTask = context.loadOneAsync("EntityDefinition", edQuery),
+                  formsTask = context.loadAsync("EntityForm", formsQuery),
+                  viewTask = context.loadOneAsync("EntityView", viewQuery);
 
 
                 $.when(edTask, viewTask, formsTask)
-                    .done(function (b, vw, formsLo) {
-                        entity(b);
-                        view(vw);
-                        var formsCommands = _(formsLo.itemCollection).map(function (v) {
-                            return {
-                                caption: v.Name(),
-                                command: function () {
-                                    window.location = '#' + v.Route() + '/0';
-                                    return Task.fromResult(0);
-                                },
-                                icon: v.IconClass()
-                            };
-                        });
-                        vm.toolbar.commands(formsCommands);
-                        tcs.resolve(true);
-                    });
+                 .done(function (b, vw,formsLo) {
+                     entity(b);
+                     view(vw);
+                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
+                         return {
+                             caption: v.Name(),
+                             command: function () {
+                                 window.location = '#' + v.Route() + '/0';
+                                 return Task.fromResult(0);
+                             },
+                             icon: v.IconClass()
+                         };
+                     });
+                     vm.toolbar.commands(formsCommands);
+
+                         tcs.resolve(true);
+
+                 });
+
 
 
                 return tcs.promise();
             },
-            chartSeriesClick = function (e) {
-
+            chartSeriesClick = function(e) {
+               
                 isBusy(true);
                 var q = ko.mapping.toJS(query),
                     cat = {
-                        "term": {}
+                        "term": {
+                        }
                     },
                     histogram = {
-                        "range": {}
+                        "range": {
+                        }
                     },
                     date_histogram = {
-                        "range": {}
+                        "range": {
+                        }
                     };
 
                 if (e.aggregate === "histogram") {
@@ -117,30 +127,30 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
 
                     q.query.filtered.filter.bool.must.push(date_histogram);
                 }
-                if (e.aggregate === "term") {
+                if(e.aggregate === "term"){
                     cat.term[e.field] = e.category;
                     q.query.filtered.filter.bool.must.push(cat);
                 }
+
 
 
                 context.searchAsync("Patient", q)
                     .done(function (lo) {
                         list(lo.itemCollection);
                         chartFiltered(true);
-                        setTimeout(function () {
-                            isBusy(false);
-                        }, 500);
+                        setTimeout(function () { isBusy(false); }, 500);
                     });
             },
-            attached = function () {
+            attached = function (view) {
                 chart.init("Patient", query, chartSeriesClick, "patients-mulimat");
             },
-            clearChartFilter = function () {
+            clearChartFilter = function(){
                 chartFiltered(false);
                 var link = $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first();
                 link.trigger('click');
-                if (link.text() === "2") {
-                    setTimeout(function () {
+                if(link.text() === "2")
+                {
+                    setTimeout(function(){
                         $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first().trigger('click');
                     }, 500);
                 }
@@ -151,12 +161,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             view: view,
             chart: chart,
             isBusy: isBusy,
+            map: map,
             entity: entity,
             activate: activate,
             attached: attached,
             list: list,
-            clearChartFilter: clearChartFilter,
-            chartFiltered: chartFiltered,
+            clearChartFilter:clearChartFilter,
+            chartFiltered:chartFiltered,
             query: query,
             toolbar: {
                 commands: ko.observableArray([])
