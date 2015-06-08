@@ -168,6 +168,40 @@
         "Format": "text:{0}",
         "RouteValueField": null,
         "WebId": "76e9b490-fe52-4854-bb2c-0f0140d2f1b3"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "FullName",
+        "Header": "Full Name",
+        "Sort": "",
+        "IsLinkColumn": true,
+        "FormRoute": "patient-details",
+        "IconCssClass": "fa fa-cloud",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "e9b30ace-9793-466b-ccea-6e3fa826ae35"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "IdentificationNo",
+        "Header": "Identification No",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "7db7abbd-f802-4764-e224-d8b188550635"
       }
     ]
   },
@@ -198,7 +232,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "3585465d-5c42-466d-a563-93ed3432bb85",
+  "IconStoreId": "2f310f23-c24d-41f0-aa26-2a403d1a24ad",
   "EntityDefinitionId": "patient",
   "Name": "Muslimat patients",
   "Route": "patients-mulimat",
@@ -210,10 +244,10 @@
   "CountMessage": "",
   "Entity": null,
   "Partial": null,
-  "CreatedBy": null,
+  "CreatedBy": "admin",
   "Id": "patients-mulimat",
-  "CreatedDate": "0001-01-01T00:00:00",
+  "CreatedDate": "2015-05-28T07:43:35.8707152+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-05-18T14:31:20.8161666+08:00",
+  "ChangedDate": "2015-06-08T07:52:48.8549226+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }
