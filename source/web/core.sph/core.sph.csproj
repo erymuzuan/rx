@@ -664,6 +664,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResetPassword.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\CustomFormController.cs" />
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\DataImportController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
@@ -2065,6 +2066,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\data.import.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\custom.forms.import.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2549,6 +2551,7 @@
     <EmbeddedResource Include="SphApp\views\data.import.list.html" />
     <EmbeddedResource Include="SphApp\views\custom.form.list.html" />
     <EmbeddedResource Include="SphApp\views\custom.form.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\custom.forms.import.html" />
     <Content Include="SphApp\views\deadletter.view.html" />
     <EmbeddedResource Include="SphApp\views\entity.lookup.dialog.html" />
     <EmbeddedResource Include="SphApp\views\error.log.detail.dialog.html" />
@@ -2757,6 +2760,7 @@
     <Folder Include="Areas\Sph\Views\EntityChart\" />
     <Folder Include="Areas\Sph\Views\EntityForm\" />
     <Folder Include="Areas\Sph\Views\TransformDefinition\" />
+    <Folder Include="Views\CustomForm\" />
     <Folder Include="Views\Main\" />
     <Folder Include="Views\RequireJsBundle\" />
     <Folder Include="Views\WorkflowDesigner\" />
