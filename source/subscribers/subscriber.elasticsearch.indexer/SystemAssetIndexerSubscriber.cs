@@ -11,17 +11,10 @@ namespace Bespoke.Sph.ElasticSearch
     public class SystemAssetIndexerSubscriber : Subscriber<Entity>
     {
 
-        public override string QueueName
-        {
-            get { return "system_asset_es_indexer"; }
-        }
+        public override string QueueName => "system_asset_es_indexer";
 
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "#.added.#", "#.changed.#", "#.delete.#" }; }
-        }
-
+        public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.delete.#" };
 
 
         protected async override Task ProcessMessage(Entity item, MessageHeaders headers)
@@ -38,11 +31,7 @@ namespace Bespoke.Sph.ElasticSearch
                 return;
             }
 
-
-            var url = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost,
-                ConfigurationManager.ElasticSearchIndex,
-                item.GetType().Name.ToLowerInvariant(),
-                item.Id);
+            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{item.GetType().Name.ToLowerInvariant()}/{item.Id}";
 
             using (var client = new HttpClient())
             {

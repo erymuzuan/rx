@@ -59,22 +59,8 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public static string BaseUrl
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
-
-            }
-        }
-        public static string BaseDirectory
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:BaseDirectory"] ?? @"c:\project\work\sph";
-
-            }
-        }
+        public static string BaseUrl => System.Configuration.ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
+        public static string BaseDirectory => System.Configuration.ConfigurationManager.AppSettings["sph:BaseDirectory"] ?? @"c:\project\work\sph";
 
         public static string WorkflowCompilerOutputPath
         {
@@ -111,32 +97,12 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public static string ElasticSearchHost
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchHost"] ?? "http://localhost:9200";
-            }
-        }
+        public static string ElasticSearchHost => System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchHost"] ?? "http://localhost:9200";
 
-        public static string ElasticSearchIndex
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchIndex"]
-                    ?? ApplicationName.ToLowerInvariant() + "_sys";
-            }
-        }
+        public static string ElasticSearchIndex => System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchIndex"]
+                                                   ?? ApplicationName.ToLowerInvariant();
 
-        public static string BinPath
-        {
-            get
-            {
-                if (ApplicationName == DefaultApplicationName)
-                    return @"\bin";
-                return string.Empty;
-            }
-        }
+        public static string BinPath => ApplicationName == DefaultApplicationName ? @"\bin" : string.Empty;
 
         public static string ReportDeliveryExecutable
         {
@@ -168,21 +134,9 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public static System.Configuration.ConnectionStringSettingsCollection ConnectionStrings
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.ConnectionStrings;
-            }
-        }
+        public static System.Configuration.ConnectionStringSettingsCollection ConnectionStrings => System.Configuration.ConfigurationManager.ConnectionStrings;
 
-        public static System.Collections.Specialized.NameValueCollection AppSettings
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings;
-            }
-        }
+        public static System.Collections.Specialized.NameValueCollection AppSettings => System.Configuration.ConfigurationManager.AppSettings;
 
         public static int JpegMaxWitdh
         {

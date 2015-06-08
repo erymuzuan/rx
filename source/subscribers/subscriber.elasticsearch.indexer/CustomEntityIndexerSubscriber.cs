@@ -11,17 +11,10 @@ namespace Bespoke.Sph.ElasticSearch
     public class CustomEntityIndexerSubscriber : Subscriber<Entity>
     {
 
-        public override string QueueName
-        {
-            get { return "custom_entities_es_indexer"; }
-        }
+        public override string QueueName => "custom_entities_es_indexer";
 
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "#.added.#", "#.changed.#", "#.delete.#" }; }
-        }
-
+        public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.delete.#" };
 
 
         protected async override Task ProcessMessage(Entity item, MessageHeaders headers)
@@ -33,10 +26,7 @@ namespace Bespoke.Sph.ElasticSearch
             if (item.GetType().IsSystemType()) return;// just custom entity
 
 
-            var url = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost,
-                ConfigurationManager.ApplicationName.ToLowerInvariant(),
-                item.GetType().Name.ToLowerInvariant(),
-                item.Id);
+            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{item.GetType().Name.ToLowerInvariant()}/{item.Id}";
 
             using (var client = new HttpClient())
             {

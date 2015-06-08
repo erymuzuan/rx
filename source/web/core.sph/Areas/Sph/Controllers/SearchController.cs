@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var en = (await context.GetListAsync<EntityDefinition, string>(e => e.IsPublished == true, e => e.RecordName))
-                .Select(a => string.Format("\"{0}\":{{}}", a));
+                .Select(a => $"\"{a}\":{{}}");
             var entNames = (await context.GetListAsync<EntityDefinition, string>(e => e.IsPublished == true, e => e.Name))
                 .Select(a => a.ToLowerInvariant())
                 .ToArray();
@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Web.Controllers
             ";
 
             var request = new StringContent(json);
-            var url = string.Format("{0}/{1}/_search", ConfigurationManager.ApplicationName.ToLowerInvariant(), types);
+            var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{types}/_search";
 
             using (var client = new HttpClient())
             {
@@ -106,6 +106,8 @@ namespace Bespoke.Sph.Web.Controllers
         {
             return await Es(typeof(EntityDefinition).Name.ToLowerInvariant(), this.GetRequestBody());
         }
+        [HttpPost]
+        [Route("entityview")]
         public async Task<ActionResult> EntityView()
         {
             return await Es(typeof(EntityView).Name.ToLowerInvariant(), this.GetRequestBody());
