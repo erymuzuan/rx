@@ -98,7 +98,6 @@
                     });
                     isBusy(true);
 
-
                     return $.ajax({
                         type: "POST",
                         data: data,
@@ -121,12 +120,14 @@
                     });
 
                 },
+                copiedText = "",
                 copy = function () {
-
+                  copiedText =  editor.getCopyText();
                 },
                 paste = function () {
-
-                }, search = function () {
+                    editor.getSession().insert(copiedText);
+                },
+                search = function () {
 
                 },
                 open = function () {

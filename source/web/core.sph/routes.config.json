@@ -260,7 +260,22 @@
     },
     {
         "role": "developers",
-        "groupName": "Designer",
+        "groupName": "Code",
+        "route": "snippets.dialog",
+        "moduleId": "viewmodels/snippets.dialog",
+        "title": "Code snippets",
+        "nav": false,
+        "icon": "fa fa-code",
+        "caption": "Code Snippets definitions",
+        "settings": null,
+        "isAdminPage": true,
+        "showWhenLoggedIn": false,
+        "error": "",
+        "startPageRoute": "snippets.dialog"
+    },
+    {
+        "role": "developers",
+        "groupName": "Code",
         "route": "custom.form.list",
         "moduleId": "viewmodels/custom.form.list",
         "title": "Custom forms",

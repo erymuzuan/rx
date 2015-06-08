@@ -35,6 +35,9 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
             },
             attached = function (view) {
 
+            },
+            openSnippetsDialog = function () {
+                
             };
 
         var vm = {
@@ -43,6 +46,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
             isBusy: isBusy,
             activate: activate,
             attached: attached,
+            openSnippetsDialog: openSnippetsDialog,
             groups: groups
         };
 

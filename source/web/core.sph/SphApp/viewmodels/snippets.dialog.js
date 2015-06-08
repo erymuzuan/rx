@@ -9,70 +9,76 @@
 
 
 
-define(['services/datacontext', 'plugins/dialog'],
+define(["services/datacontext", "plugins/dialog"],
     function (context, dialog) {
 
-        var lang = ko.observable(''),
+        var lang = ko.observable(""),
+            snippets = ko.observableArray(),
+            snippet = ko.observable({ title: ko.observable(), code: ko.observable(), note: ko.observable(), lang: ko.observable() }),
             activate = function () {
-
                 var tcs = new $.Deferred();
                 lang.subscribe(function (lg) {
-                    $.getJSON('/sph/editor/snippets/' + lg)
-                        .done(function (snippets) {
-                            var list = _(snippets).map(function (v) {
+                    $.getJSON("/sph/editor/snippets/" + lg)
+                        .done(function (result) {
+                            var list = _(result).map(function (v) {
                                 var t = {};
                                 for (var name in v) {
-                                    t[name] = ko.observable(v[name]);
+                                    if (v.hasOwnProperty(name)) {
+                                        t[name] = ko.observable(v[name]);
+                                    }
                                 }
                                 return t;
                             });
-                            vm.snippets(list);
+                            snippets(list);
                         });
                 });
                 setTimeout(tcs.resolve, 500);
                 return tcs.promise();
             },
             saveItem = function () {
-
-                var tcs = new $.Deferred(),
-                    json = ko.mapping.toJSON(vm.snippet);
-                context.post(json, "/sph/editor/SaveSnippet")
-                    .then(tcs.resolve);
-                return tcs.promise();
+                var json = ko.mapping.toJSON(snippet);
+                return context.post(json, "/sph/editor/SaveSnippet");
 
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
-            attached = function () {
+            attached = function (view) {
 
-                $('#snippets-list-ul').on('click', 'li>a', function () {
-                    vm.snippet(ko.dataFor(this));
+                $("#snippets-list-ul").on("click", "li>a", function (e) {
+                    e.preventDefault();
+                    snippet(ko.dataFor(this));
                 });
+
+
             },
             add = function () {
-                var snippet = { title: ko.observable(), code: ko.observable(), note: ko.observable(), lang: lang(), };
-                vm.snippets.push(snippet);
-                vm.snippet(snippet);
+                var item = { title: ko.observable(), code: ko.observable(), note: ko.observable(), lang: lang(), };
+                snippets.push(item);
+                snippet(item);
             },
             deleteItem = function (item) {
-                vm.snippets.remove(item);
+                snippets.remove(item);
             };
 
 
         var vm = {
-            snippet: ko.observable({ title: ko.observable(), code: ko.observable(), note: ko.observable(), lang: ko.observable() }),
-            snippets: ko.observableArray(),
+            snippet: snippet,
+            snippets: snippets,
             lang: lang,
             attached: attached,
             activate: activate,
             add: add,
             saveItem: saveItem,
             deleteItem: deleteItem,
-            cancelClick: cancelClick
+            cancelClick: cancelClick,
+            toolbar : {
+                saveCommand : saveItem
+            }
         };
 
 
         return vm;
 
     });
+
