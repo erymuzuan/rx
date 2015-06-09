@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Areas.Sph.Controllers;
-using Bespoke.Sph.Web.Models;
 using Bespoke.Sph.Web.ViewModels;
-using Humanizer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -16,9 +17,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         public async Task<ActionResult> Html()
         {
             var rolesConfig = Server.MapPath("~/roles.config.js");
-            var routeConfig = Server.MapPath("~/routes.config.js");
             var json = System.IO.File.ReadAllText(rolesConfig);
-            var routeJson = System.IO.File.ReadAllText(routeConfig);
             var context = new SphDataContext();
 
             var edQuery = context.EntityDefinitions.Where(e => e.IsPublished == true);
@@ -35,23 +34,54 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                            select new JsRoute
                            {
                                Title = t.Plural,
-                               Route = string.Format("{0}", t.Name.ToLowerInvariant()),
+                               Route = $"{t.Name.ToLowerInvariant()}",
                                Caption = t.Plural,
                                Icon = t.IconClass,
-                               ModuleId = string.Format("viewmodels/{0}", t.Name.ToLowerInvariant()),
+                               ModuleId = $"viewmodels/{t.Name.ToLowerInvariant()}",
                                Nav = t.IsShowOnNavigationBar
                            };
 
             var vm = new RoleSettingViewModel();
             var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
             var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings);
-            var routes = JsonConvert.DeserializeObject<JsRoute[]>(routeJson, settings);
+            var routes = this.GetJsRoutes();
 
 
             vm.Roles.ClearAndAddRange(roles);
             vm.Routes.ClearAndAddRange(routes);
             vm.Routes.AddRange(edRoutes);
             return View(vm);
+        }
+
+        private JsRoute[] GetJsRoutes()
+        {
+            JsRoute[] configJsRoutes;
+            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            var assembly = Assembly.GetExecutingAssembly();
+            const string RESOURCE_NAME = "Bespoke.Sph.Web.routes.config.json";
+            JsRoute[] systemRoutes;
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
+            {
+                if (null == stream) throw new InvalidOperationException("Missing routes.config.json resource in core.sph.dll");
+                using (var reader = new StreamReader(stream))
+                {
+                    var json = reader.ReadToEnd();
+                    systemRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
+                }
+            }
+
+            var customRouteConfig = Server.MapPath(ConfigController.CustomRouteConfig);
+            if (System.IO.File.Exists(customRouteConfig))
+            {
+                var json = System.IO.File.ReadAllText(customRouteConfig);
+                var customJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
+                configJsRoutes = customJsRoutes.Concat(systemRoutes).ToArray();
+            }
+            else
+            {
+                configJsRoutes = systemRoutes;
+            }
+            return configJsRoutes;
         }
         public ActionResult Js()
         {

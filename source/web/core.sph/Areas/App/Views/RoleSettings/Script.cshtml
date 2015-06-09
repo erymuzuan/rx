@@ -5,57 +5,47 @@
 
 <h2>RoleSettingsJs</h2>
 <script type="text/javascript" data-script="true">
-    define(['services/datacontext', objectbuilders.logger],
-        function (context, logger) {
+    define(['services/datacontext', objectbuilders.logger, objectbuilders.app],
+        function (context, logger,app) {
 
-            var activate = function (id) {
-                if (id && id !== "0") {
-                    var query = String.format("Id eq '{0}'", id);
-                    var tcs = new $.Deferred();
-                    context.loadOneAsync("Designation", query)
-                        .done(function (b) {
-                            vm.designation(b);
-                            tcs.resolve(true);
-                        });
+            var designation = ko.observable(),
+                activate = function (id) {
+                    if (id && id !== "0") {
+                        var query = String.format("Id eq '{0}'", id);
+                        return context.loadOneAsync("Designation", query)
+                            .done(designation);
 
-                    return tcs.promise();
+                    } else {
+                        designation(new bespoke.sph.domain.Designation());
+                    }
 
-                } else {
-                    vm.designation(new bespoke.sph.domain.Designation());
-                }
+                    return true;
 
-                return true;
-
-            },
+                },
 
             save = function () {
-                var tcs = new $.Deferred();
-                var data = ko.toJSON(vm.designation);
+                var data = ko.toJSON(designation);
 
-                context.post(data, "/sph-designation")
-                    .then(function (result) {
-                        tcs.resolve(result);
+                return context.post(data, "/sph-designation")
+                    .done(function () {
                         logger.info("Designation is successfully saved");
                     });
-                return tcs.promise();
             },
             deleteRole = function (role) {
-                var tcs = new $.Deferred();
-                var self = this;
+                app.showMessage("Are you sure you want to delete this role", "Delete role", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+                            return $.post("/Sph/Admin/DeleteRole/", { role: role }).done(function () {
+                                logger.info("Role deleted. Refresh your browser to reflect the changes");
+                                window.location.reload();
+                            });
+                        }
+                        return true;
+                    });
 
-                var r = confirm("Do you want to delete this role ?");
-                if (r == true) {
-                    $.post("/Sph/Admin/DeleteRole/", { role: role })
-                  .then(function (fw) {
-                      tcs.resolve(fw);
-                      logger.info("Role deleted. Refresh your browser to reflect the changes");
-                      window.location.reload();
-                  });
-                } else {
 
-                }
+                return Task.fromResult(0);
 
-                return tcs.promise();
             },
             addRole = function () {
 
@@ -88,7 +78,7 @@
                 activate: activate,
                 addRole: addRole,
                 deleteRole: deleteRole,
-                designation: ko.observable(),
+                designation: designation,
                 toolbar: { saveCommand: save }
             };
 

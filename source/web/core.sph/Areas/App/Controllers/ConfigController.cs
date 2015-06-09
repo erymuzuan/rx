@@ -15,12 +15,12 @@ using Bespoke.Sph.Web.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-
 namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
     [RoutePrefix("config")]
     public class ConfigController : BaseAppController
     {
+        public const string CustomRouteConfig = "~/App_Data/routes.config.json";
         [RazorScriptFilter]
         [NoCache]
         public async Task<ActionResult> Js()
@@ -99,7 +99,6 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
 
             return Script("Index", vm);
         }
-        const string CustomRouteConfig = "~/App_Data/routes.config.json";
 
         [HttpGet]
         [Route("custom-routes")]
