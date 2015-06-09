@@ -10,14 +10,13 @@
 define([],
     function () {
 
-        var
-            exportJson = function (filename, text) {
+        var exportJson = function (filename, text) {
 
                 var tcs = new $.Deferred();
                 function download() {
-                    var pom = document.createElement('a');
-                    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-                    pom.setAttribute('download', filename);
+                    var pom = document.createElement("a");
+                    pom.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+                    pom.setAttribute("download", filename);
                     pom.click();
                     tcs.resolve(true);
                 }
@@ -47,11 +46,11 @@ define([],
              }
 
              var upload = function () {
-                 var pom = document.createElement('input');
-                 pom.setAttribute('type', 'file');
-                 pom.setAttribute('id', 'files');
-                 pom.setAttribute('name', 'files[]');
-                 pom.addEventListener('change', handleFileSelect, false);
+                 var pom = document.createElement("input");
+                 pom.setAttribute("type", "file");
+                 pom.setAttribute("id", "files");
+                 pom.setAttribute("name", "files[]");
+                 pom.addEventListener("change", handleFileSelect, false);
                  pom.click();
              };
 

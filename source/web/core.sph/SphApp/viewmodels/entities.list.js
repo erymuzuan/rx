@@ -18,7 +18,7 @@ define(["services/datacontext", "services/logger"],
 
             },
             attached = function (view) {
-
+          
 
             },
             uploadPackage = function () {
