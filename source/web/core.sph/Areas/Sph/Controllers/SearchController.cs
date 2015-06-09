@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Web.Controllers
             }
         }
 
-        public async Task<ActionResult> Es(string type, string json, bool sys = false)
+        public async Task<ActionResult> Es(string type, string json, bool sys = true)
         {
             var request = new StringContent(json);
             var url = $"{ConfigurationManager.ElasticSearchIndex}{(sys ? "_sys" : "")}/{type}/_search";
@@ -81,7 +81,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("workflow/{id}/v{version}")]
-        public async Task<ActionResult> Workflow(string id, int version, [RawRequestBody]string json)
+        public async Task<ActionResult> Workflow(string id, string version, [RawRequestBody]string json)
         {
             var wfes = $"workflow_{id}_{version}";
             return await Es(wfes, json);
@@ -95,7 +95,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("log")]
         public async Task<ActionResult> Log()
         {
-            return await Es("log", this.GetRequestBody(), true);
+            return await Es("log", this.GetRequestBody());
         }
 
         public async Task<ActionResult> WorkflowDefinition()

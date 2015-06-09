@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -23,15 +24,16 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(item, setting);
 
             var content = new StringContent(json);
-            if (!item.GetType().IsSystemType()) return;// just custom entity
-            if (item.GetType() == typeof(Tracker))
+            var type = item.GetType();
+            if (!item.IsSystemType()) return;// just custom entity
+            if (type == typeof(Tracker))
             {
                 var trackerIndexer = new TrackerIndexer();
                 await trackerIndexer.ProcessMessage((Tracker)item, headers);
                 return;
             }
 
-            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{item.GetType().Name.ToLowerInvariant()}/{item.Id}";
+            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}_sys/{type.Name.ToLowerInvariant()}/{item.Id}";
 
             using (var client = new HttpClient())
             {

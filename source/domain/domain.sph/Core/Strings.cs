@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Domain
         /// <returns></returns>
         public static bool IsSystemType(this object obj)
         {
-            if (null == obj) throw new ArgumentNullException("obj");
+            if (null == obj) throw new ArgumentNullException(nameof(obj));
             var elementType = obj.GetType();
             if (string.IsNullOrWhiteSpace(elementType.Namespace)) return false;
             if (elementType.Namespace.StartsWith(typeof(Entity).Namespace))// custom entity
