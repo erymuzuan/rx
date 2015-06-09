@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -27,8 +28,8 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         public ActionResult LayoutOptions()
         {
             var folder = Server.MapPath("~/Views/EntityFormRenderer");
-            var layouts = System.IO.Directory.GetFiles(folder, "*.cshtml")
-                .Select(System.IO.Path.GetFileNameWithoutExtension)
+            var layouts = Directory.GetFiles(folder, "*.cshtml")
+                .Select(Path.GetFileNameWithoutExtension)
                 .ToList();
 
             layouts.Insert(0, "Html2ColsCustomLeft");
