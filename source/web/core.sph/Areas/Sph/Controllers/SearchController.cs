@@ -61,10 +61,10 @@ namespace Bespoke.Sph.Web.Controllers
             }
         }
 
-        public async Task<ActionResult> Es(string type, string json)
+        public async Task<ActionResult> Es(string type, string json, bool sys = false)
         {
             var request = new StringContent(json);
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/{type}/_search";
+            var url = $"{ConfigurationManager.ElasticSearchIndex}{(sys ? "_sys" : "")}/{type}/_search";
 
             using (var client = new HttpClient())
             {
@@ -95,7 +95,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("log")]
         public async Task<ActionResult> Log()
         {
-            return await Es("log", this.GetRequestBody());
+            return await Es("log", this.GetRequestBody(), true);
         }
 
         public async Task<ActionResult> WorkflowDefinition()
