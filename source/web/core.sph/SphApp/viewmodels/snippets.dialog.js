@@ -9,8 +9,8 @@
 
 
 
-define(["services/datacontext", "plugins/dialog"],
-    function (context, dialog) {
+define(["services/datacontext", "plugins/dialog", "services/logger"],
+    function (context, dialog, logger) {
 
         var lang = ko.observable(""),
             snippets = ko.observableArray(),
@@ -44,13 +44,33 @@ define(["services/datacontext", "plugins/dialog"],
                 dialog.close(this, "Cancel");
             },
             attached = function (view) {
-
                 $("#snippets-list-ul").on("click", "li>a", function (e) {
                     e.preventDefault();
                     snippet(ko.dataFor(this));
                 });
+                $("#import-snippets").kendoUpload({
+                    async: {
+                        saveUrl: "/sph/editor/upload",
+                        autoUpload: true
+                    },
+                    localization: {
+                        select: "Import"
+                    },
+                    multiple: false,
+                    error: function (e) {
+                        logger.logError(e, e, this, true);
+                    },
+                    success: function (e) {
+                        if (!e.response.success) {
+                            logger.error(e.response.message);
+                            return;
+                        }
+                        var uploaded = e.operation === "upload";
+                        if (uploaded) {
 
-
+                        }
+                    }
+                });
             },
             add = function () {
                 var item = { title: ko.observable(), code: ko.observable(), note: ko.observable(), lang: lang(), };
@@ -59,6 +79,15 @@ define(["services/datacontext", "plugins/dialog"],
             },
             deleteItem = function (item) {
                 snippets.remove(item);
+            },
+            exportSnippets = function () {
+                window.open("/sph/editor/download", "_blank");
+                return Task.fromResult(0);
+
+            },
+            importCommand = function () {
+
+                return Task.fromResult(0);
             };
 
 
@@ -72,8 +101,10 @@ define(["services/datacontext", "plugins/dialog"],
             saveItem: saveItem,
             deleteItem: deleteItem,
             cancelClick: cancelClick,
-            toolbar : {
-                saveCommand : saveItem
+            toolbar: {
+                saveCommand: saveItem,
+                exportCommand: exportSnippets,
+                importCommand: importCommand
             }
         };
 

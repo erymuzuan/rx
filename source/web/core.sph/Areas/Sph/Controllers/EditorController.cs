@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
@@ -23,7 +27,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var filed = Server.MapPath(file);
             System.IO.File.WriteAllText(filed, code);
-            return Json(new {success = true, status = "OK"});
+            return Json(new { success = true, status = "OK" });
         }
         public ActionResult Code(string id)
         {
@@ -66,6 +70,57 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return View(vm);
         }
 
+
+        public ActionResult Download()
+        {
+            var path = Server.MapPath("~/App_Data/snippets");
+            var zip = Path.GetTempPath() + $"\\rx.package.snippets{DateTime.Now.Ticks}.zip";
+
+            ZipFile.CreateFromDirectory(path, zip);
+            return File(zip, MimeMapping.GetMimeMapping(zip), $"rx.package.snippets.{DateTime.Now:yyyyMMdd}.zip");
+        }
+
+
+        public ActionResult Upload(IEnumerable<HttpPostedFileBase> files)
+        {
+            try
+            {
+                foreach (var postedFile in files)
+                {
+                    var fileName = Path.GetFileName(postedFile.FileName);
+                    if (string.IsNullOrWhiteSpace(fileName)) throw new Exception("Filename is empty or null");
+
+
+                    var zip = Path.Combine(Path.GetTempPath(), fileName);
+                    postedFile.SaveAs(zip);
+
+                    var folder = Directory.CreateDirectory(Path.GetTempFileName() + "extract").FullName;
+                    ZipFile.ExtractToDirectory(zip, folder);
+                    foreach (var json in Directory.GetFiles(folder, "*.json", SearchOption.AllDirectories))
+                    {
+                        var lang = "javascript";
+                        if (json.Contains("html"))
+                            lang = "html";
+                        if (json.Contains("csharp"))
+                            lang = "csharp";
+                        if (json.Contains("css"))
+                            lang = "css";
+                        var path = Server.MapPath($"~/App_Data/snippets/{lang}/{Path.GetFileName(json)}");
+                        System.IO.File.Copy(json, path, true);
+                    }
+
+                    return Json(new { success = true, status = "OK" });
+
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, exception = e.GetType().FullName, message = e.Message, stack = e.StackTrace });
+            }
+            return Json(new { success = false });
+
+
+        }
 
         public ActionResult Ace(string file = null)
         {
