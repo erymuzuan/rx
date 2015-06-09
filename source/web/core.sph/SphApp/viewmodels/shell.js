@@ -71,17 +71,17 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                 });
                 var $menu = $('#slider-menu'),
                     hideSlider = function () {
-                        $('section#content').animate({ "margin-left": 0 });
+                        $('section#content').animate({ "margin-left": "0px" });
                         $menu.hide().css({ "width": 0 });
                     },
                     showSlider = function () {
                         var tcs = new $.Deferred();
 
-                        $('section#content').animate({ "margin-left": 280 }, function () {
+                        $('section#content').animate({ "margin-left": "280px" }, function () {
                             tcs.resolve(true);
                             $menu.show();
                         });
-                        $menu.css("height", $(document).height()).animate({ "width": 280 }, tcs.resolve)
+                        $menu.css("height", $(document).height()).animate({ "width": "280px" }, tcs.resolve);
 
                         return tcs.promise();
 
