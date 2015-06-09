@@ -66,29 +66,44 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return Task.fromResult(0);
             },
             editViewModel = function (route) {
-                window.open("/sph/editor/file?id=/sphapp/" + ko.unwrap(route.moduleId) + ".js", "_blank", "height=600px,width=800px,toolbar=0,location=0");
+                var params = [
+                        "height=" + screen.height,
+                        "width=" + screen.width,
+                        "toolbar=0",
+                        "location=0",
+                        "fullscreen=yes"
+                ].join(",");
+                var editor = window.open("/sph/editor/file?id=/sphapp/" + ko.unwrap(route.moduleId) + ".js", "_blank", params);
+                editor.moveTo(0, 0);
             },
             editView = function (route) {
-
-                window.open("/sph/editor/file?id=/sphapp/" + ko.unwrap(route.moduleId).replace("viewmodels/", "views/") + ".html", "_blank", "height=600px,width=800px,toolbar=0,location=0");
+                var params = [
+                    "height=" + screen.height,
+                    "width=" + screen.width,
+                    "toolbar=0",
+                    "location=0",
+                    "fullscreen=yes"
+                ].join(",");
+                var editor = window.open("/sph/editor/file?id=/sphapp/" + ko.unwrap(route.moduleId).replace("viewmodels/", "views/") + ".html", "_blank", params);
+                editor.moveTo(0, 0);
             },
             deleteRoute = function (route) {
                 app.showMessage("Are you sure you want to remove this custom route permanently", "Remove Route", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
                             context.send(null, "/config/custom-route/" + ko.unwrap(route.route), "DELETE")
-                                .fail(function(er,msg) {
+                                .fail(function (er, msg) {
                                     logger.error(er);
                                     logger.error(msg);
                                 })
-                                .done(function() {
+                                .done(function () {
                                     list.remove(route);
                                 });
 
                         }
                     });
             },
-            importPackage = function() {
+            importPackage = function () {
                 var tcs = new $.Deferred();
                 require(["viewmodels/custom.forms.import", "durandal/app"], function (dialog, app2) {
                     app2.showDialog(dialog)
@@ -114,7 +129,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attached: attached,
             toolbar: {
                 addNewCommand: addNew,
-                importCommand : importPackage
+                importCommand: importPackage
             }
         };
 
