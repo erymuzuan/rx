@@ -139,13 +139,13 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.Id, this.Version)),
+                    OutputAssembly = Path.Combine(outputPath, $"workflows.{this.Id}.{this.Version}.dll"),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
                 };
 
                 parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(int).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
@@ -158,12 +158,14 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(ApiController).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(RoutePrefixAttribute).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
-                foreach (var ra in this.ReferencedAssemblyCollection)
-                {
-                    parameters.ReferencedAssemblies.Add(ra.Location);
-                }
-                // custom entities
 
+                this.ReferencedAssemblyCollection
+                    .Select(u => $"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}")
+                    .ToList()
+                    .ForEach(u => parameters.ReferencedAssemblies.Add(u));
+            
+
+                // custom entities
                 foreach (var ass in options.ReferencedAssembliesLocation)
                 {
                     if (!parameters.ReferencedAssemblies.Contains(ass))
