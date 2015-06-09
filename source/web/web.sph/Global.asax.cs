@@ -27,8 +27,7 @@ namespace web.sph
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            RouteConfig.RegisterRoutes(RouteTable.Routes).Wait();
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
             AuthConfig.RegisterAuth();
 
             ModelBinders.Binders.Add(typeof(IEnumerable<Rule>), new RuleModelBinder());

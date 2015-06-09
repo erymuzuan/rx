@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Web.App_Start
     {
         public static AdapterDesigner AdapterDesigner { get; set; }
 
-        public async static Task RegisterRoutes(RouteCollection routes)
+        public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("glimpse.axd");
@@ -28,31 +28,10 @@ namespace Bespoke.Sph.Web.App_Start
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-            await RegisterFormRoutesAsync(routes).ConfigureAwait(false);
-            //await RegisterEntitySearchAndApiRoutesAsync(routes).ConfigureAwait(false);
+
         }
 
-        private static async Task RegisterFormRoutesAsync(RouteCollection routes)
-        {
-            var context = new SphDataContext();
-
-            var query = context.EntityForms.Where(e => e.IsPublished == true);
-            var lo = await context.LoadAsync(query, includeTotalRows: true).ConfigureAwait(false);
-            var forms = new ObjectCollection<EntityForm>(lo.ItemCollection);
-            while (lo.HasNextPage)
-            {
-                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true).ConfigureAwait(false);
-                forms.AddRange(lo.ItemCollection);
-            }
-            foreach (var form in forms)
-            {
-                routes.MapRoute(
-                    name: form.Route,
-                    url: $"App/viewmodels/{form.Route}.js",
-                    defaults: new { controller = "EntityForm", action = "Form", Area = "Sph", id = form.Route }
-                    );
-            }
-        }
+ 
 
         public static void RegisterCustomEntityDependencies(IEnumerable<EntityDefinition> entityDefinitions)
         {
