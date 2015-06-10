@@ -111,6 +111,14 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         .select();
                 };
 
+                // delete selected form
+                $('html').keyup(function (e) {
+                    
+                    if (e.keyCode == 46 && typeof selectedFormElement() != "undefined") {
+                            removeFormElement(selectedFormElement());
+                    }
+                })
+
                 // Fix input element click problem
                 $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
                     function (e) {
