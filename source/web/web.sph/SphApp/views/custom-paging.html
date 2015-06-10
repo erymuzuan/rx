@@ -1,0 +1,26 @@
+<div class="row">
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+                <th>Column 3</th>
+                <th>Column 4</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:pageList">
+            <tr>
+                <td data-bind="text: Column1"></td>
+                <td data-bind="text: Column1"></td>
+                <td data-bind="text: Column4"></td>
+                <td data-bind="text: Column4"></td>
+            </tr>
+        </tbody>
+    </table>
+    <ul data-bind="foreach:pageList">
+        <li data-bind="text: Column1"></li>
+    </ul>
+    <div id="ima-pager"></div>
+    
+</div>
