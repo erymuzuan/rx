@@ -45,19 +45,19 @@ Write-Host ""
 Write-Host "Checking RabbitMQ" -ForegroundColor Cyan
 $erl = Get-Process "erl*" | measure
 if($erl.Count -eq 0){
-    Start-Process .\sph.packages\rabbitmq_server\sbin\rabbitmq-server.bat
+    Start-Process .\bin\rabbitmq_server\sbin\rabbitmq-server.bat
     Write-Host "Starting rabbit mq server, waiting for 15 seconds"
     Start-Sleep -Seconds 15
 }
 
-& .\sph.packages\rabbitmq_server\sbin\rabbitmqctl.bat list_vhosts > $outputLog
+& .\bin\rabbitmq_server\sbin\rabbitmqctl.bat list_vhosts > $outputLog
 if(Test-Path $outputLog){
     $vhosts =  (Get-Content $outputLog) | Out-String
 
     if($vhosts.Contains($applicationName) -eq $false){        
-        & .\sph.packages\rabbitmq_server\sbin\rabbitmqctl.bat add_vhost $applicationName
+        & .\bin\rabbitmq_server\sbin\rabbitmqctl.bat add_vhost $applicationName
         Write-Host "setting permission for guest"
-        & Start-Process -FilePath ".\sph.packages\rabbitmq_server\sbin\rabbitmqctl.bat" -ArgumentList @("set_permissions", "-p", $applicationName,"guest", "`".*`" `".*`" `".*`"") -NoNewWindow
+        & Start-Process -FilePath ".\bin\rabbitmq_server\sbin\rabbitmqctl.bat" -ArgumentList @("set_permissions", "-p", $applicationName,"guest", "`".*`" `".*`" `".*`"") -NoNewWindow
     }
    
     Remove-Item $outputLog
