@@ -291,6 +291,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 if (supportsHtml5Storage()) {
                     localStorage.setItem(form().WebId(), ko.mapping.toJSON(form));
                 }
+                $("#form-designer-toolbox .nav-tabs a[href='#fields-settings']").tab('show');
             },
             removeFormElement = function (fe) {
                 var fd = ko.unwrap(form().FormDesign);
