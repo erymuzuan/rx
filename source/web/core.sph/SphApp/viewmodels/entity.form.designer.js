@@ -292,6 +292,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     localStorage.setItem(form().WebId(), ko.mapping.toJSON(form));
                 }
                 $("#form-designer-toolbox .nav-tabs a[href='#fields-settings']").tab('show');
+
+                var element_selected_position = $('.selected-form-element').position();
+                var properties_padding_top = (element_selected_position.top < 95) ? 0 : element_selected_position.top - 95;
+                $("#fields-settings").css('padding-top', properties_padding_top);
             },
             removeFormElement = function (fe) {
                 var fd = ko.unwrap(form().FormDesign);
