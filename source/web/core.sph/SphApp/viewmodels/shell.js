@@ -69,24 +69,24 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                         $(this).trigger('click');
                     }
                 });
-                var $menu = $('#slider-menu'),
+                var $menu = $("#slider-menu"),
                     hideSlider = function () {
-                        $('section#content').animate({ "margin-left": "0px" });
+                        $("section#content").animate({ "margin-left": 0 });
                         $menu.hide().css({ "width": 0 });
                     },
                     showSlider = function () {
-                        var tcs = new $.Deferred();
 
-                        $('section#content').animate({ "margin-left": "280px" }, function () {
-                            tcs.resolve(true);
+                        $("section#content").animate({ "margin-left": 280 }, function () {
                             $menu.show();
                         });
-                        $menu.css("height", $(document).height()).animate({ "width": "280px" }, tcs.resolve);
+                        return $menu.css("height", $(document).height())
+                            .animate({ "width": 280 },function() {
+                                $menu.width("280px");
+                            });
 
-                        return tcs.promise();
 
                     },
-                    sliderVisible = $menu.is(':visible');
+                    sliderVisible = $menu.is(":visible");
 
 
                 $(view).on('click', '#drawer-menu', function (e) {
