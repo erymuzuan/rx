@@ -822,6 +822,7 @@
     <Compile Include="Hubs\AuditTrailHub.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
+    <Compile Include="Models\CustomPartialView.cs" />
     <Compile Include="Models\XDeathHeader.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -2067,6 +2068,8 @@
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\custom.forms.import.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\custom.form.dialog.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\custom.form.partial.view.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2552,6 +2555,8 @@
     <EmbeddedResource Include="SphApp\views\custom.form.list.html" />
     <EmbeddedResource Include="SphApp\views\custom.form.dialog.html" />
     <EmbeddedResource Include="SphApp\views\custom.forms.import.html" />
+    <EmbeddedResource Include="SphApp\views\custom.form.dialog.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\custom.form.partial.view.dialog.html" />
     <Content Include="SphApp\views\deadletter.view.html" />
     <EmbeddedResource Include="SphApp\views\entity.lookup.dialog.html" />
     <EmbeddedResource Include="SphApp\views\error.log.detail.dialog.html" />

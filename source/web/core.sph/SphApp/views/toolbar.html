@@ -4,14 +4,14 @@
     <div data-bind="with: router.activeItem().toolbar">
 
 
-        <!-- ko if: typeof groupCommands === "function"-->
+        <!-- ko if: typeof groupCommands !== "undefined"-->
         <!-- ko foreach: groupCommands-->
 
         <div class="btn-group">
             <a class="btn btn-default dropdown-toggle" data-toggle="drop-down" href="#">
 
                 <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
-                <span class="caret pull-right"></span>
+                <span class="caret pull-right" style="margin-left: 5px;margin-top: 7px;"></span>
             </a>
             <ul class="dropdown-menu">
                 <!-- ko foreach: commands-->

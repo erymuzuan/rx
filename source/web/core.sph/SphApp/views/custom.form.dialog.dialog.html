@@ -1,0 +1,31 @@
+﻿
+<section class="view-model-modal" id="custom-dialog-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Custom Dialog</h3>
+            </div>
+            <div class="modal-body" data-bind="with: dlg">
+
+                <form class="form-horizontal" id="custom-dialog-dialog-form">
+                    <div class="form-group">
+                        <label for="dialog-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: name"
+                                   required="" pattern="^[a-z_][A-Za-z0-9_.-]*$"
+                                   placeholder="Dialog name"
+                                   class="form-control" id="dialog-name">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="custom-dialog-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick"/>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>
