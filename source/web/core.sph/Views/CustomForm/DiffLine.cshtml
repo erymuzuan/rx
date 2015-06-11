@@ -1,0 +1,30 @@
+﻿@using DiffPlex.DiffBuilder.Model
+@model DiffPiece
+@if (!string.IsNullOrEmpty(Model.Text))
+{
+    const string spaceValue = "\u00B7";
+    const string tabValue = "\u00B7\u00B7";
+    if (Model.Type == ChangeType.Deleted || Model.Type == ChangeType.Inserted)
+    {
+        @Html.Encode(Model.Text).Replace(" ", spaceValue).Replace("\t", tabValue)
+    }
+    else if (Model.Type == ChangeType.Modified)
+    {
+        foreach (var character in Model.SubPieces)
+        {
+            if (character.Type == ChangeType.Imaginary)
+            {
+                continue;
+            }
+            <span class="@string.Format("{0}Character",character.Type)">
+                @Html.Raw(character.Text.Replace(" ", spaceValue))
+        </span>
+        }
+    }
+    else
+    {
+        
+        @Model.Text.Replace(" ", spaceValue).Replace("\t", tabValue)
+    }
+
+}

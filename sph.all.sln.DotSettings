@@ -2521,6 +2521,27 @@ public class $newException$Exception : System.Exception&#xD;
   System.Runtime.Serialization.SerializationInfo info, &#xD;
   System.Runtime.Serialization.StreamingContext context ) : base( info, context ) { }&#xD;
 }</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Field/=dialog/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Field/=dialog/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/Type/@EntryValue">InJavaScriptStatement</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Scope/=82F6FA20DDF804468BB3BD2973FF7AE3/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Scope/=82F6FA20DDF804468BB3BD2973FF7AE3/Type/@EntryValue">InAspFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Shortcut/@EntryValue">dialog-durandal</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BA6D9D192061E542A274A8E2451B4FCC/Text/@EntryValue">require(["viewmodels/$dialog$" , "durandal/app"], function (dialog, app2) {&#xD;
+    app2.showDialog(dialog)&#xD;
+	    .done(function (result) {&#xD;
+			if (!result) return;&#xD;
+			if (result === "OK") {&#xD;
+				$END$&#xD;
+			&#xD;
+			}&#xD;
+	});&#xD;
+});</s:String>
 	
 	
 	

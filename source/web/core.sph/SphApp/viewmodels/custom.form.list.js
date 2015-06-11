@@ -13,17 +13,33 @@ define([],
     function () {
 
         var isBusy = ko.observable(false),
-            activate = function() {
+            activate = function () {
                 return true;
             },
-            attached = function(view) {
+            attached = function (view) {
+            },
+            importCommand = function () {
+                require(["viewmodels/custom.form.import.dialog", "durandal/app"], function (dialog, app2) {
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
 
+
+                            }
+                        });
+                });
+
+                return Task.fromResult(true);
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            attached: attached
+            attached: attached,
+            toolbar: {
+                importCommand: importCommand
+            }
         };
 
         return vm;

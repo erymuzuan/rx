@@ -1,0 +1,24 @@
+﻿@using System.Web.Mvc.Html
+@model DiffPlex.DiffBuilder.Model.DiffPaneModel
+
+
+<div class="diffPane">
+    <table class="diffTable">
+        @foreach (var diffLine in Model.Lines)
+           { 
+        
+        <tr>
+            <td class="lineNumber">
+                @diffLine.Position
+            </td>
+            <td class="line @string.Format("{0}Line",diffLine.Type )">
+                <span class="lineText">
+                    @{
+                        Html.RenderPartial("DiffLine", diffLine);
+                    }
+                </span>
+            </td>
+        </tr>
+            }
+    </table>
+</div>

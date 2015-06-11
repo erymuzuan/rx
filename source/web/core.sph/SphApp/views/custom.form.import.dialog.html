@@ -1,0 +1,121 @@
+﻿
+<section class="view-model-modal" id="import-custom-forms-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Import custom forms/scripts</h3>
+            </div>
+            <div class="form-group" id="file-upload-panel">
+                <label for="import-files" class="col-lg-2 control-label">Archive</label>
+                <div class="col-lg-6">
+                    <input type="file" id="import-files" name="files">
+                </div>
+            </div>
+            <div class="modal-body" style="max-height: 600px; overflow-y: scroll">
+                <form class="form-horizontal" id="import-custom-forms-dialog-form" data-bind="filter:{path :'li'}">
+                    <div class="form-group">
+                        <strong>Custom Form</strong>
+                        <ul data-bind="foreach :routes" class="list-group">
+                            <li class="list-group-item">
+                                <span data-bind="text:  $data.moduleId.replace('viewmodels/','') + '.js'"></span>
+                                <a href="#" data-bind="click : $parent.importCommand($data.moduleId + '.js')" class="btn btn-link">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="#" target="_blank" data-bind="attr :{href : '/custom-forms/compare?folder=' + ko.unwrap($parent.folder) + '&amp;file=' + 'SphApp\\viewmodels\\' + $data.moduleId.replace('viewmodels/','') + '.js'}" class="btn btn-link">
+                                    <i class="fa fa-file-code-o"></i>
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <span data-bind="text: $data.moduleId.replace('viewmodels/','') + '.html'"></span>
+                                <a href="#" data-bind="click : $parent.importCommand('views/' + $data.moduleId + '.html')" class="btn btn-link">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="#" target="_blank" data-bind="attr :{href : '/custom-forms/compare?folder=' + ko.unwrap($parent.folder) + '&amp;file=' + 'SphApp\\views\\' + $data.moduleId.replace('viewmodels/','') + '.html'}" class="btn btn-link">
+                                    <i class="fa fa-file-code-o"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <span>Partial Views</span>
+                        <ul data-bind="foreach :views" class="list-group">
+                            <li class="list-group-item">
+                                <span data-bind="text:name + '.js'"></span>
+                                <a href="#" data-bind="click : $parent.importCommand('viewmodels/' + $data.name + '.js')" class="btn btn-link">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="#" target="_blank" data-bind="attr :{href : '/custom-forms/compare?folder=' + ko.unwrap($parent.folder) + '&amp;file=' + 'SphApp\\viewmodels\\' + $data.name + '.js'}" class="btn btn-link">
+                                    <i class="fa fa-file-code-o"></i>
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <span data-bind="text:name + '.html'"></span>
+                                <a href="#" data-bind="click : $parent.importCommand('views/' + $data.name + '.html')" class="btn btn-link">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="#" target="_blank" data-bind="attr :{href : '/custom-forms/compare?folder=' + ko.unwrap($parent.folder) + '&amp;file=' + 'SphApp\\views\\' + $data.name + '.html'}" class="btn btn-link">
+                                    <i class="fa fa-file-code-o"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <strong>Scripts</strong>
+                        <ul data-bind="foreach :scripts" class="list-group">
+                            <li class="list-group-item">
+                                <span data-bind="text:name + '.js'"></span>
+                                <a href="#" data-bind="click : $parent.importCommand('services/' + $data.name + '.js')" class="btn btn-link">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="#" target="_blank" data-bind="attr :{href : '/custom-forms/compare?folder=' + ko.unwrap($parent.folder) + '&amp;file=' + 'SphApp\\services\\' + $data.name + '.js'}" class="btn btn-link">
+                                    <i class="fa fa-file-code-o"></i>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <span>Dialogs</span>
+                        <ul data-bind="foreach :dialogs" class="list-group">
+                            <li class="list-group-item">
+                                <span data-bind="text:name + '.js'"></span>
+                                <a href="#" data-bind="click : $parent.importCommand('viewmodels/' + $data.name + '.js')" class="btn btn-link">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="#" target="_blank" data-bind="attr :{href : '/custom-forms/compare?folder=' + ko.unwrap($parent.folder) + '&amp;file=' + 'SphApp\\viewmodels\\' + $data.name + '.js'}" class="btn btn-link">
+                                    <i class="fa fa-file-code-o"></i>
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <span data-bind="text:name + '.html'"></span>
+                                <a href="#" data-bind="click : $parent.importCommand('views/' + $data.name + '.html')" class="btn btn-link">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="#" target="_blank" data-bind="attr :{href : '/custom-forms/compare?folder=' + ko.unwrap($parent.folder) + '&amp;file=' + 'SphApp\\views\\' + $data.name + '.html'}" class="btn btn-link">
+                                    <i class="fa fa-file-code-o"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Import All</label>
+                        <div class="col-lg-6">
+                            <button class="btn btn-default" data-bind="command : importAllCommand">
+                                <i class="fa fa-download"></i>
+                                Import All
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <input form="import-custom-forms-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

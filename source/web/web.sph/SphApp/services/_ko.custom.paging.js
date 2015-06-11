@@ -11,7 +11,6 @@ define([], function(){
     
                 // If unwrappedValue is the array, pass in the wrapped value on its own
                 // The value will be unwrapped and tracked within the template binding
-                // (See https://github.com/SteveSanderson/knockout/issues/523)
                 if ((!unwrappedValue) || typeof unwrappedValue.length == "number")
                     return { 'foreach': modelValue, 'templateEngine': ko.nativeTemplateEngine.instance };
     
@@ -33,8 +32,9 @@ define([], function(){
         'displayItems' : function(element, template, list){
             var html = "";
             _(ko.unwrap(list)).each(function(v){
-                // TODO -  still looking how to produce the HTML from the template
+                // TODO -  still looking how to produce the HTML from the template, how?
                 html += template;
+                
             });
             $(element).html(html);
 
