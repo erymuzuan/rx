@@ -122,6 +122,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             };
 
         var vm = {
+            load: load,
             addNewPartialView: addNewPartialView,
             renamePartialView: renamePartialView,
             deletePartialView: deletePartialView,

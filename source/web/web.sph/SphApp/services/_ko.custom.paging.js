@@ -1,9 +1,6 @@
 
 define([], function(){
-    
-    
-    
-    ko.bindingHandlers['customPaging'] = {
+      ko.bindingHandlers['customPaging'] = {
         makeTemplateValueAccessor: function(valueAccessor) {
             return function() {
                 var modelValue = valueAccessor(),

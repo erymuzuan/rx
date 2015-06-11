@@ -41,6 +41,7 @@ define(["plugins/dialog", "services/logger", "services/datacontext"],
                             folder(e.response.folder);
                         }
                         $("#file-upload-panel").hide();
+                        $("#import-custom-forms-dialog-form").show();
                     }
                 });
             },
@@ -53,10 +54,10 @@ define(["plugins/dialog", "services/logger", "services/datacontext"],
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
-            importCommand = function (file) {
+            importCommand = function (diff, type, file) {
                 return function () {
                     console.log("import " + file);
-                    return context.post(ko.toJSON({ folder: folder, file: file }), "custom-forms/import")
+                    return context.post(ko.toJSON({ folder: folder, file: file, type : type, diff: diff }), "custom-forms/import")
                     .done(function () {
 
                     });

@@ -149,7 +149,7 @@ namespace Bespoke.Sph.Web.Controllers
                     var folder = Directory.CreateDirectory(Path.GetTempFileName() + "extract").FullName;
                     var result = UnpackAsync(zip, folder);
 
-                    return Content(JsonConvert.SerializeObject(result,Formatting.Indented,m_settings), "application/json");
+                    return Content(JsonConvert.SerializeObject(result, Formatting.Indented, m_settings), "application/json");
 
                 }
             }
@@ -169,9 +169,9 @@ namespace Bespoke.Sph.Web.Controllers
             ZipFile.ExtractToDirectory(zipFile, folder);
 
             var routesConfig = $"{folder}\\routes.config.json";
-            var routes = new List<JsRoute>();
+            var forms = new List<JsRoute>();
             if (Exists(routesConfig))
-                routes.AddRange(JsonConvert.DeserializeObject<JsRoute[]>(ReadAllText(routesConfig)));
+                forms.AddRange(JsonConvert.DeserializeObject<JsRoute[]>(ReadAllText(routesConfig)));
 
             var dialogsConfig = $"{folder}\\custom-dialog.json";
             var dialogs = new List<CustomDialog>();
@@ -190,6 +190,51 @@ namespace Bespoke.Sph.Web.Controllers
                 views.AddRange(JsonConvert.DeserializeObject<CustomPartialView[]>(ReadAllText(viewsConfig)));
 
             // TODO : return files that changed, added or removed only
+            foreach (var sc in scripts)
+            {
+                sc.JsDiff = sc.GetDiff(folder);
+            }
+            foreach (var dlg in dialogs)
+            {
+                dlg.JsDiff = dlg.GetJsDiff(folder);
+                dlg.HtmlDiff = dlg.GetHtmlDiff(folder);
+            }
+
+            var myViewConfig = Server.MapPath(AppDataCustomPartialViewJson);
+            var myViews = new CustomPartialView[] { };
+            if (Exists(myViewConfig))
+                myViews = JsonConvert.DeserializeObject<CustomPartialView[]>(ReadAllText(myViewConfig));
+
+            foreach (var vw in myViews)
+            {
+                if (views.All(x => x.Name != vw.Name))
+                {
+                    vw.HtmlDiff = "deleted";
+                    vw.JsDiff = "deleted";
+                    views.Add(vw);
+                }
+            }
+            foreach (var vw in views)
+            {
+                vw.JsDiff = vw.GetJsDiff(folder);
+                vw.HtmlDiff = vw.GetHtmlDiff(folder);
+            }
+
+            var routes = from r in forms
+                         let jsDiff = r.GetJsDiff(folder)
+                         let htmlDiff = r.GetHtmlDiff(folder)
+                         select new
+                         {
+                             r.Route,
+                             r.ModuleId,
+                             r.Role,
+                             r.Caption,
+                             r.Title,
+                             r.Icon,
+                             r.Nav,
+                             JsDiff = jsDiff,
+                             HtmlDiff = htmlDiff
+                         };
 
             return new
             {
@@ -203,9 +248,82 @@ namespace Bespoke.Sph.Web.Controllers
             };
 
 
-          
+
         }
 
+        [HttpPost]
+        [Route("import")]
+        public ActionResult Import(string file, string folder, string diff = "changed", string type = "")
+        {
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            var fullName = $"{folder}\\{file}";
+            var destination = $"{ConfigurationManager.WebPath}\\{file}";
+
+            if (!Exists(fullName))
+                return HttpNotFound("Cannot find " + fullName);
+
+            if (Exists(destination))
+                logger.Log(new LogEntry { Message = "Apply Patch : " + destination, Details = ReadAllText(destination), Operation = "Apply Patch", Severity = Severity.Log });
+
+            Copy(fullName, destination, true);
+
+
+            if (diff == "changed")
+                return Json(new { success = true, status = "OK" });
+
+            // entry into the config for added
+            if (diff == "added")
+            {
+                switch (type)
+                {
+                    case "partial-view":
+                        var vw = new CustomPartialView { Name = Path.GetFileNameWithoutExtension(fullName), UseViewModel = true };
+                        var viewConfig = Server.MapPath(AppDataCustomPartialViewJson);
+                        var views = JsonConvert.DeserializeObject<CustomPartialView[]>(ReadAllText(viewConfig), m_settings)
+                            .ToList();
+                        if (views.Any(x => x.Name == vw.Name)) break;
+                        views.Add(vw);
+                        WriteAllText(viewConfig, JsonConvert.SerializeObject(views, Formatting.Indented, m_settings));
+                        break;
+                    case "route":
+                        var moduleId = "viewmodels/" + Path.GetFileNameWithoutExtension(fullName);
+                        var importedRoutes = JsonConvert.DeserializeObject<JsRoute[]>(ReadAllText($"{folder}\\routes.config.json"), m_settings);
+                        var form = importedRoutes.FirstOrDefault(x => x.ModuleId == moduleId);
+                        if (null == form) break;
+
+                        var routeConfig = Server.MapPath(CustomRouteConfig);
+                        var routes = JsonConvert.DeserializeObject<JsRoute[]>(ReadAllText(routeConfig), m_settings)
+                            .ToList();
+                        if (routes.Any(x => x.ModuleId == form.ModuleId)) break;
+                        routes.Add(form);
+                        WriteAllText(routeConfig, JsonConvert.SerializeObject(routes, Formatting.Indented, m_settings));
+                        break;
+                    case "dialog":
+                        var dlg = new CustomDialog { Name = Path.GetFileNameWithoutExtension(fullName) };
+                        var dlgConfig = Server.MapPath(AppDataCustomDialogJson);
+                        var dialogs = JsonConvert.DeserializeObject<CustomDialog[]>(ReadAllText(dlgConfig), m_settings)
+                            .ToList();
+                        if (dialogs.Any(x => x.Name == dlg.Name)) break;
+                        dialogs.Add(dlg);
+                        WriteAllText(dlgConfig, JsonConvert.SerializeObject(dialogs, Formatting.Indented, m_settings));
+                        break;
+                    case "script":
+                        var sc = new CustomScript { Name = Path.GetFileNameWithoutExtension(fullName) };
+                        var scConfig = Server.MapPath(AppDataCustomScriptJson);
+                        var scripts = JsonConvert.DeserializeObject<CustomScript[]>(ReadAllText(scConfig), m_settings)
+                            .ToList();
+                        if (scripts.Any(x => x.Name == sc.Name)) break;
+                        scripts.Add(sc);
+                        WriteAllText(scConfig, JsonConvert.SerializeObject(scripts, Formatting.Indented, m_settings));
+                        break;
+                    default:
+                        throw new ArgumentException("Cannot find " + type, nameof(type));
+                }
+            }
+
+            return Json(new { success = true, status = "OK" });
+
+        }
         [HttpPost]
         [Route("import-all")]
         public ActionResult ImportAll(string folder)
@@ -230,7 +348,7 @@ namespace Bespoke.Sph.Web.Controllers
             ImportAllScripts(folder);
 
 
-            return Json(new {success = true, status = "OK"});
+            return Json(new { success = true, status = "OK" });
 
         }
 

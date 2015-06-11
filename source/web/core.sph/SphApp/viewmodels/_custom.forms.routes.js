@@ -14,8 +14,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var list = ko.observableArray(),
             isBusy = ko.observable(false),
-            activate = function () {
+            load = function() {
+                
                 return $.getJSON("/custom-forms/routes").done(list);
+            },
+            activate = function () {
+                return load();
             },
             attached = function (view) {
 
@@ -124,6 +128,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             };
 
         var vm = {
+            load: load,
             list: list,
             addNew: addNew,
             deleteRoute: deleteRoute,

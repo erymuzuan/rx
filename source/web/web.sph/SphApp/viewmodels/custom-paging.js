@@ -10,6 +10,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                          "Column1" : (1 +i).toString(),
                          "Column2" : (1 +i).toString(),
                          "Column3" : (1 +i).toString(),
+                         "ColumnA" : (1 +i).toString(),
                          "Column4" : (1 +i).toString()
                      });
                 }
