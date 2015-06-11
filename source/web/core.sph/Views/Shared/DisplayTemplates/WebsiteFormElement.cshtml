@@ -1,5 +1,5 @@
 ﻿@model Bespoke.Sph.Domain.WebsiteFormElement
-<div class="form-group">
+<div class="form-group" data-bind="visible:@Html.Raw(Model.Visible)">
     <label class="col-md-4">@Model.Label</label>
     <a class="col-md-8" data-bind="attr : {'href':@Model.Path},text: @Model.Path"></a>
 </div>

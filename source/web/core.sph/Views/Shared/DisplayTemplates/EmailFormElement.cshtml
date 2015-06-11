@@ -1,5 +1,5 @@
 ﻿@model Bespoke.Sph.Domain.EmailFormElement
-<div class="form-group">
+<div class="form-group" data-bind="visible:@Html.Raw(Model.Visible)">
     <label class="col-md-4">@Model.Label</label>
     <span class="col-md-8" data-bind="text: @Model.Path"></span>
 </div>

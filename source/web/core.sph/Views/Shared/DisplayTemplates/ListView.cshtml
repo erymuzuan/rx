@@ -2,7 +2,7 @@
 @model Bespoke.Sph.Domain.ListView
 
 
-<div data-bind="visible:@Model.Visible">
+<div data-bind="visible:@Html.Raw(Model.Visible)">
     <span> @Model.Label</span>
     <table class="table table-condensed table-striped">
         <thead>

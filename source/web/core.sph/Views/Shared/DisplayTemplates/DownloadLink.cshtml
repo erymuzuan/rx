@@ -20,7 +20,7 @@
 else
 {
 
-    <div class="form-group" data-bind="visible:@Model.Visible">
+    <div class="form-group" data-bind="visible:@Html.Raw(Model.Visible)">
         <label for="@Model.ElementId" class=""></label>
         <div class="@Model.InputPanelCssClass">
             <a id="@Model.ElementId" data-bind="attr : {'href':@Html.Raw(path)}, visible:@Model.Visible" download>

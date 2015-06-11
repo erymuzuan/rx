@@ -7,7 +7,7 @@
     Model.Enable = "true";
 }
 
-<div data-bind="visible:@Model.Visible">
+<div data-bind="visible:@Html.Raw(Model.Visible)">
     <a class="btn btn-default pull-right">@Model.Label</a>
     <table class="table table-condensed table-striped">
         <thead>
@@ -22,8 +22,7 @@
             <tr>
                 @foreach (var col in Model.ViewColumnCollection)
                 {
-                    <td data-bind="text:@col.Path">
-                    </td>
+                    <td data-bind="text:@col.Path"></td>
                 }
             </tr>
         </tbody>

@@ -40,6 +40,17 @@ WriteLiteral("<div");
 
 WriteLiteral(" class=\"form-group\"");
 
+WriteLiteral(" data-bind=\"visible:");
+
+            
+            #line 2 "..\..\Views\Shared\DisplayTemplates\DateTimePicker.cshtml"
+                                      Write(Html.Raw(Model.Visible));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
 WriteLiteral(">\r\n    <label");
 
 WriteLiteral(" class=\"col-md-4\"");
