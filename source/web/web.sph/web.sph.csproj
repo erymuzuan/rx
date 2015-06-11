@@ -1247,10 +1247,7 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="SphApp\ko\_ko.mapping.js" />
     <Content Include="SphApp\ko\_ko.adapter.http.js" />
-    <Content Include="SphApp\partial\admission-form.js" />
     <Content Include="SphApp\gulpfile.js" />
-    <Content Include="SphApp\partial\patient-discharge-form.js" />
-    <Content Include="SphApp\partial\patient-registration.js" />
     <Content Include="SphApp\services\cultures.my.js" />
     <Content Include="SphApp\services\jsonimportexport.js" />
     <Content Include="Web.config">
@@ -1276,6 +1273,7 @@
     <Folder Include="App_Start\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+    <Folder Include="SphApp\partial\" />
     <Folder Include="SphApp\viewmodels\" />
     <Folder Include="SphApp\views\" />
     <Folder Include="Views\TestError\" />
