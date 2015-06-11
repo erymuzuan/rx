@@ -1,0 +1,17 @@
+[
+  {
+    "name": "_doing.my-job5",
+    "originalName": "_doing.my-job4",
+    "useViewModel": true
+  },
+  {
+    "name": "some-test-partial-view",
+    "originalName": null,
+    "useViewModel": true
+  },
+  {
+    "name": "another-test-partial-view",
+    "originalName": null,
+    "useViewModel": true
+  }
+]

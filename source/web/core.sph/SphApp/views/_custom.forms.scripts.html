@@ -1,0 +1,58 @@
+﻿
+<div class="panel panel-default">
+    <div class="panel-heading">Custom Scripts</div>
+    <div class="panel-body">
+
+        <table class="table table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :scripts">
+                <tr>
+                    <td>
+                        <div class="btn-group">
+                            <a title="Click to specify your value" class="btn btn-link dropdown dropdown-toggle" href="#custom.form.list" data-toggle="dropdown">
+                                <!-- ko text : name -->
+                                <!-- /ko -->
+
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li data-bind="click : $parent.renameScript">
+                                    <a class="btn btn-link">
+                                        <i class="fa fa-edit pull-left"></i>
+                                        Rename Script
+                                    </a>
+                                </li>
+
+                                <li data-bind="click : $parent.editScript">
+                                    <a class="btn btn-link pull-left">
+                                        <i class="fa fa-file-text"></i>
+                                        Edit <!-- ko text : 'services/' + ko.unwrap(name) + '.js' -->
+                                        <!-- /ko -->
+
+                                    </a>
+                                </li>
+
+
+                                <li data-bind="click : $parent.deleteScript">
+                                    <a class="btn btn-link pull-left">
+                                        <i class="fa fa-times"></i>
+                                        Delete Script
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="#" data-bind="click : addNew" class="btn btn-link">
+            <i class="fa fa-plus-circle"></i>
+            Add a new script
+        </a>
+    </div>
+</div>

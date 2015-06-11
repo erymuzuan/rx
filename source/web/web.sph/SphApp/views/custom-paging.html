@@ -9,7 +9,7 @@
                 <th>Column 4</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach:pageList">
+        <tbody data-bind="customPaging:{list: list, pager : '#ima-pager'}">
             <tr>
                 <td data-bind="text: Column1"></td>
                 <td data-bind="text: Column1"></td>
@@ -18,9 +18,8 @@
             </tr>
         </tbody>
     </table>
-    <ul data-bind="foreach:pageList">
-        <li data-bind="text: Column1"></li>
-    </ul>
+  
+  
     <div id="ima-pager"></div>
     
 </div>

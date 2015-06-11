@@ -2,20 +2,6 @@
   {
     "role": "everybody",
     "groupName": null,
-    "route": "patient-with-picture",
-    "moduleId": "viewmodels/patient-with-picture",
-    "title": "Patient with Picture",
-    "nav": false,
-    "icon": null,
-    "caption": "Patient with Picture",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "isAdminPage": false,
-    "startPageRoute": null
-  },
-  {
-    "role": "everybody",
-    "groupName": null,
     "route": "custom-paging",
     "moduleId": "viewmodels/custom-paging",
     "title": "Custom Paging for Ima",

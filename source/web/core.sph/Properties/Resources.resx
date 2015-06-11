@@ -127,4 +127,56 @@
   <data name="ApiControllerYouAreNotAllowedToDoMoreThan200" xml:space="preserve">
     <value>You are not allowed to do more than 200</value>
   </data>
+  <data name="CustomFormDialogHtmlTemplate" xml:space="preserve">
+    <value>&lt;!-- use dialog-form code snippet  to create a template for your --&gt;</value>
+  </data>
+  <data name="CustomFormDialogJsTemplate" xml:space="preserve">
+    <value>define(["plugins/dialog"],
+    function(dialog)
+        {
+            var item = ko.observable(),
+                okClick = function(data, ev) {
+                if (bespoke.utils.form.checkValidity(ev.target))
+                {
+                    dialog.close(this, "OK");
+                }
+            },
+            cancelClick = function() {
+                dialog.close(this, "Cancel");
+            };
+
+            var vm = {
+            item : item,
+            okClick : okClick,
+            cancelClick : cancelClick
+        };
+
+
+        return vm;
+
+    });</value>
+  </data>
+  <data name="CustomFormJs" xml:space="preserve">
+    <value>define(["services/datacontext"],
+    function(context)
+        {
+
+            var activate = function() {
+                    return true;
+
+                },
+                attached = function(view) {
+
+                };
+
+            var vm = {
+            activate : activate,
+            attached: attached
+        };
+
+
+        return vm;
+
+    });</value>
+  </data>
 </root>

@@ -1,11 +1,11 @@
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app], 
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/_ko.custom.paging"], 
     function(context, logger, router, system, app){
         var list = ko.observableArray(),
             pageList = ko.observableArray(),
             size = 20,
             activate = function(id){
             
-                for (var i = 0; i < 10; i++) {
+                for (var i = 0; i < 150; i++) {
                      list.push({
                          "Column1" : (1 +i).toString(),
                          "Column2" : (1 +i).toString(),

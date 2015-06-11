@@ -17,90 +17,114 @@ namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("custom-forms")]
     [Authorize(Roles = "developers")]
-    public class CustomFormController : BaseAppController
+    public partial class CustomFormController : BaseAppController
     {
-        private const string ViewModel = @"
-define([""services/datacontext""],
-    function(context)
-        {
 
-            var activate = function() {
-                    return true;
-
-                },
-                attached = function(view) {
-
-                };
-
-            var vm = {
-            activate : activate,
-            attached: attached
-        };
-
-
-        return vm;
-
-    });";
-        private const string DialogViewModel = @"
-define([""plugins/dialog""],
-    function(dialog)
-        {
-
-            var dlg = ko.observable(),
-                okClick = function(data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target))
-                {
-                    dialog.close(this, ""OK"");
-                }
-
-            },
-            cancelClick = function() {
-                dialog.close(this, ""Cancel"");
-            };
-
-            var vm = {
-            dlg:dlg,
-            okClick: okClick,
-            cancelClick:
-            cancelClick
-        };
-
-
-        return vm;
-
-    });";
         readonly JsonSerializerSettings m_settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-
         const string CustomRouteConfig = "~/App_Data/routes.config.json";
+        private const string AppDataCustomPartialViewJson = "~/App_Data/custom-partial-view.json";
+        private const string AppDataCustomDialogJson = "~/App_Data/custom-dialog.json";
+        private const string AppDataCustomScriptJson = "~/App_Data/custom-script.json";
+
         [HttpGet]
         [Route("download")]
         public ActionResult Index()
         {
-            var path = Path.Combine(Path.GetTempPath(), "rx.package.-custom-forms");
-            if (Directory.Exists(path)) Directory.Delete(path, true);
-            Directory.CreateDirectory(path);
-            var zip = path + ".zip";
+            var tempFolder = Path.Combine(Path.GetTempPath(), "rx.package.-custom-forms");
+            if (Directory.Exists(tempFolder)) Directory.Delete(tempFolder, true);
+            Directory.CreateDirectory(tempFolder);
+            var zip = tempFolder + ".zip";
+
+            var viewFolder = $"{tempFolder}\\SphApp\\views";
+            if (!Directory.Exists(viewFolder))
+                Directory.CreateDirectory(viewFolder);
+
+            var viewModelsFolder = $"{tempFolder}\\SphApp\\viewmodels";
+            if (!Directory.Exists(viewModelsFolder))
+                Directory.CreateDirectory(viewModelsFolder);
+
+            var serviceFolder = $"{tempFolder}\\SphApp\\services";
+            if (!Directory.Exists(serviceFolder))
+                Directory.CreateDirectory(serviceFolder);
 
             var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
             var customRouteConfig = Server.MapPath(CustomRouteConfig);
-            var customJsRoutes = new JsRoute[] { };
             if (Exists(customRouteConfig))
             {
                 var json = ReadAllText(customRouteConfig);
-                customJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
-                Copy(customRouteConfig, $"{path}\\routes.config.json", true);
+                var customJsRoutes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
+                Copy(customRouteConfig, $"{tempFolder}\\routes.config.json", true);
+
+
+                foreach (var form in customJsRoutes)
+                {
+                    var name = form.ModuleId.Replace("viewmodels/", "");
+
+                    var js = $"{ConfigurationManager.WebPath}\\SphApp\\viewmodels\\{name}.js";
+                    if (Exists(js))
+                        Copy(js, $"{tempFolder}\\SphApp\\viewmodels\\{name}.js", true);
+
+                    var html = $"{ConfigurationManager.WebPath}\\SphApp\\views\\{name}.html";
+                    if (Exists(html))
+                        Copy(html, $"{tempFolder}\\SphApp\\views\\{name}.html", true);
+
+                }
+
             }
 
-            foreach (var form in customJsRoutes)
+            var scriptConfig = Server.MapPath(AppDataCustomScriptJson);
+            if (Exists(scriptConfig))
             {
-                CopyFile(form.ModuleId.Replace("viewmodels/", "") + ".html", "views", path);
-                CopyFile(form.ModuleId.Replace("viewmodels/", "") + ".js", "viewmodels", path);
+                var scripts = JsonConvert.DeserializeObject<CustomScript[]>(ReadAllText(scriptConfig));
+                Copy(scriptConfig, $"{tempFolder}\\{Path.GetFileName(scriptConfig)}", true);
+
+                foreach (var sc in scripts)
+                {
+                    var file = $"{ConfigurationManager.WebPath}\\SphApp\\services\\{sc.Name}.js";
+                    if (Exists(file))
+                        Copy(file, $"{tempFolder}\\SphApp\\services\\{sc.Name}.js");
+                }
+            }
+
+            var dialogConfig = Server.MapPath(AppDataCustomDialogJson);
+            if (Exists(dialogConfig))
+            {
+                var dialogs = JsonConvert.DeserializeObject<CustomDialog[]>(ReadAllText(dialogConfig));
+                Copy(dialogConfig, $"{tempFolder}\\{Path.GetFileName(dialogConfig)}", true);
+
+                foreach (var d in dialogs)
+                {
+                    var js = $"{ConfigurationManager.WebPath}\\SphApp\\viewmodels\\{d.Name}.js";
+                    if (Exists(js))
+                        Copy(js, $"{tempFolder}\\SphApp\\viewmodels\\{d.Name}.js", true);
+
+                    var html = $"{ConfigurationManager.WebPath}\\SphApp\\views\\{d.Name}.html";
+                    if (Exists(html))
+                        Copy(html, $"{tempFolder}\\SphApp\\views\\{d.Name}.html", true);
+                }
+            }
+
+            var viewConfig = Server.MapPath(AppDataCustomPartialViewJson);
+            if (Exists(viewConfig))
+            {
+                var views = JsonConvert.DeserializeObject<CustomPartialView[]>(ReadAllText(viewConfig));
+                Copy(viewConfig, $"{tempFolder}\\{Path.GetFileName(viewConfig)}", true);
+                foreach (var v in views)
+                {
+                    var js = $"{ConfigurationManager.WebPath}\\SphApp\\viewmodels\\{v.Name}.js";
+                    if (Exists(js))
+                        Copy(js, $"{tempFolder}\\SphApp\\viewmodels\\{v.Name}.js", true);
+
+                    var html = $"{ConfigurationManager.WebPath}\\SphApp\\views\\{v.Name}.html";
+                    if (Exists(html))
+                        Copy(html, $"{tempFolder}\\SphApp\\views\\{v.Name}.html", true);
+                }
             }
 
 
             if (Exists(zip))
                 Delete(zip);
-            ZipFile.CreateFromDirectory(path, zip);
+            ZipFile.CreateFromDirectory(tempFolder, zip);
 
 
             return File(zip, MimeMapping.GetMimeMapping(zip), $"rx.package-custom-forms-{Environment.MachineName}-{DateTime.Now:yyyyMMdd-HHmm}.zip");
@@ -180,207 +204,6 @@ define([""plugins/dialog""],
             var view = Path.Combine(ConfigurationManager.WebPath, $"SphApp\\{folder}\\{fileName}");
             if (Exists(view))
                 Copy(view, $"{path}\\{fileName}", true);
-        }
-
-        [HttpPost]
-        [Route("partial-view")]
-        public ActionResult SaveCustomPartialView(CustomPartialView view)
-        {
-            var config = Server.MapPath("~/App_Data/custom-partial-view.json");
-            var views = new List<CustomPartialView>();
-            if (Exists(config))
-                views = JsonConvert.DeserializeObject<List<CustomPartialView>>(ReadAllText(config), m_settings);
-
-            if (views.All(x => x.Name != view.Name))
-                views.Add(view);
-
-            WriteAllText(config, JsonConvert.SerializeObject(views, Formatting.Indented, m_settings));
-            var js = Server.MapPath($"~/SphApp/viewmodels/{view.Name}.js");
-            if (Exists(js) && view.UseViewModel)
-                WriteAllText(js, ViewModel);
-
-            var html = Server.MapPath($"~/SphApp/views/{view.Name}.html");
-            if (!Exists(html))
-                WriteAllText(html, "<div></div>");
-
-            return Json(true);
-        }
-
-        [HttpDelete]
-        [Route("partial-view/{name}")]
-        public ActionResult DeletePartialView(string name)
-        {
-            var logger = ObjectBuilder.GetObject<ILogger>();
-            var config = Server.MapPath("~/App_Data/custom-partial-view.json");
-            var views = new List<CustomPartialView>();
-            if (Exists(config))
-                views = JsonConvert.DeserializeObject<List<CustomPartialView>>(ReadAllText(config), m_settings);
-
-            var deleted = views.SingleOrDefault(x => x.Name == name);
-            if (null == deleted) return HttpNotFound("Cannot find view with original name " + name);
-
-            views.Remove(deleted);
-
-            logger.Log(new LogEntry { Message = "Deleting Partial View " + name, Details = JsonConvert.SerializeObject(deleted, Formatting.Indented, m_settings), Operation = "Delete", Severity = Severity.Log });
-            WriteAllText(config, JsonConvert.SerializeObject(views, Formatting.Indented, m_settings));
-
-            var js = Server.MapPath($"~/SphApp/viewmodels/{name}.js");
-            if (Exists(js))
-            {
-                logger.Log(new LogEntry { Message = "Deleting file " + js, Details = ReadAllText(js), Operation = "Delete", Severity = Severity.Log });
-                Delete(js);
-            }
-
-            var html = Server.MapPath($"~/SphApp/views/{name}.html");
-            if (Exists(html))
-            {
-                logger.Log(new LogEntry { Message = "Deleting file " + html, Details = ReadAllText(html), Operation = "Delete", Severity = Severity.Log });
-                Delete(html);
-            }
-            return Json(true);
-        }
-
-        [HttpDelete]
-        [Route("dialog/{name}")]
-        public ActionResult DeleteDialog(string name)
-        {
-            var logger = ObjectBuilder.GetObject<ILogger>();
-            var config = Server.MapPath("~/App_Data/custom-dialog.json");
-            var dialogs = new List<CustomDialog>();
-            if (Exists(config))
-                dialogs = JsonConvert.DeserializeObject<List<CustomDialog>>(ReadAllText(config), m_settings);
-
-            var deleted = dialogs.SingleOrDefault(x => x.Name == name);
-            if (null == deleted) return HttpNotFound("Cannot find dialog name " + name);
-
-            dialogs.Remove(deleted);
-            logger.Log(new LogEntry { Message = "Deleting Dialog " + name, Details = JsonConvert.SerializeObject(deleted, Formatting.Indented, m_settings), Operation = "Delete", Severity = Severity.Log });
-            WriteAllText(config, JsonConvert.SerializeObject(dialogs, Formatting.Indented, m_settings));
-
-            var js = Server.MapPath($"~/SphApp/viewmodels/{name}.js");
-            if (Exists(js))
-            {
-                logger.Log(new LogEntry { Message = "Deleting file " + js, Details = ReadAllText(js), Operation = "Delete", Severity = Severity.Log });
-                Delete(js);
-            }
-
-            var html = Server.MapPath($"~/SphApp/views/{name}.html");
-            if (Exists(html))
-            {
-                logger.Log(new LogEntry { Message = "Deleting file " + html, Details = ReadAllText(html), Operation = "Delete", Severity = Severity.Log });
-                Delete(html);
-            }
-            return Json(true);
-        }
-
-
-        [HttpPost]
-        [Route("rename/partial-view")]
-        public ActionResult RenamePartialView(CustomPartialView view)
-        {
-            var config = Server.MapPath("~/App_Data/custom-partial-view.json");
-            var views = new List<CustomPartialView>();
-            if (Exists(config))
-                views = JsonConvert.DeserializeObject<List<CustomPartialView>>(ReadAllText(config), m_settings);
-
-            var editedView = views.SingleOrDefault(x => x.Name == view.OriginalName);
-            if (null == editedView) return HttpNotFound("Cannot find view with original name " + view.OriginalName);
-
-            editedView.Name = view.Name;
-            editedView.UseViewModel = view.UseViewModel;
-            editedView.OriginalName = view.OriginalName;
-
-            WriteAllText(config, JsonConvert.SerializeObject(views, Formatting.Indented, m_settings));
-
-            var js = Server.MapPath($"~/SphApp/viewmodels/{view.OriginalName}.js");
-            var js2 = Server.MapPath($"~/SphApp/viewmodels/{view.Name}.js");
-            if (Exists(js) && view.UseViewModel)
-                Move(js, js2);
-            if (!Exists(js) && view.UseViewModel)
-                WriteAllText(js2, ViewModel);
-
-            var html = Server.MapPath($"~/SphApp/views/{view.OriginalName}.html");
-            var html2 = Server.MapPath($"~/SphApp/views/{view.Name}.html");
-            if (Exists(html))
-                Move(html, html2);
-
-            return Json(true);
-        }
-
-        [HttpPost]
-        [Route("rename/dialog")]
-        public ActionResult RenameDialog(CustomDialog dlg)
-        {
-            var config = Server.MapPath("~/App_Data/custom-dialog.json");
-            var dialogs = new List<CustomDialog>();
-            if (Exists(config))
-                dialogs = JsonConvert.DeserializeObject<List<CustomDialog>>(ReadAllText(config), m_settings);
-
-            var editedDialog = dialogs.SingleOrDefault(x => x.Name == dlg.OriginalName);
-            if (null == editedDialog) return HttpNotFound("Cannot find view with original name " + dlg.OriginalName);
-
-            editedDialog.Name = dlg.Name;
-            editedDialog.OriginalName = dlg.OriginalName;
-
-            WriteAllText(config, JsonConvert.SerializeObject(dialogs, Formatting.Indented, m_settings));
-
-            var js = Server.MapPath($"~/SphApp/viewmodels/{dlg.OriginalName}.js");
-            var js2 = Server.MapPath($"~/SphApp/viewmodels/{dlg.Name}.js");
-            if (Exists(js))
-                Move(js, js2);
-            else
-                WriteAllText(js2, DialogViewModel);
-
-            var html = Server.MapPath($"~/SphApp/views/{dlg.OriginalName}.html");
-            var html2 = Server.MapPath($"~/SphApp/views/{dlg.Name}.html");
-            if (Exists(html))
-                Move(html, html2);
-
-            return Json(true);
-        }
-
-        [HttpGet]
-        [Route("dialogs")]
-        public ActionResult Dialogs()
-        {
-            var config = Server.MapPath("~/App_Data/custom-dialog.json");
-            return Content(!Exists(config) ? "[]" : ReadAllText(config), APPLICATION_JSON);
-        }
-        [HttpGet]
-        [Route("partial-views")]
-        public ActionResult PartialViews()
-        {
-            var config = Server.MapPath("~/App_Data/custom-partial-view.json");
-            return Content(!Exists(config) ? "[]" : ReadAllText(config), APPLICATION_JSON);
-        }
-
-        [HttpPost]
-        [Route("dialog")]
-        public ActionResult SaveCustomDialog(CustomDialog dialog)
-        {
-            var config = Server.MapPath("~/App_Data/custom-dialog.json");
-            var dialogs = new List<CustomDialog>();
-            if (Exists(config))
-            {
-                dialogs = JsonConvert.DeserializeObject<List<CustomDialog>>(ReadAllText(config), m_settings);
-            }
-            if (dialogs.All(x => x.Name != dialog.Name))
-            {
-                dialogs.Add(dialog);
-            }
-            WriteAllText(config, JsonConvert.SerializeObject(dialogs, Formatting.Indented, m_settings));
-
-            var js = Server.MapPath($"~/SphApp/viewmodels/{dialog.Name}.js");
-            if (!Exists(js))
-                WriteAllText(js, DialogViewModel);
-
-            var html = Server.MapPath($"~/SphApp/views/{dialog.Name}.html");
-            if (!Exists(html))
-            {
-                WriteAllText(html, "<div></div>");
-            }
-
-            return Json(true);
         }
 
     }

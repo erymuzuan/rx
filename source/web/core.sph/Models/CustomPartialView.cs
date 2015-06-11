@@ -6,6 +6,12 @@
         public string OriginalName { get; set; }
 
     }
+    public class CustomScript
+    {
+        public string Name { get; set; }
+        public string OriginalName { get; set; }
+
+    }
     public class CustomPartialView
     {
         public string Name { get; set; }
