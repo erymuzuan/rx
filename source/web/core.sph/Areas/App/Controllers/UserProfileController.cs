@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
@@ -24,14 +26,13 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             var user = Membership.GetUser();
             var profile = await context.LoadOneAsync<UserProfile>(p => p.UserName == User.Identity.Name)
                           ?? new UserProfile { UserName = User.Identity.Name };
+            var routes = HttpRuntime.Cache.Get("config-js-routes") as JsRoute[];
+            if(null == routes)throw new InvalidOperationException("The cache for route is empty");
 
-            var routeConfig = Server.MapPath("~/routes.config.js");
-            var json = System.IO.File.ReadAllText(routeConfig);
-
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var modules = JsonConvert.DeserializeObject<JsRoute[]>(json, settings).AsQueryable()
-                .Where(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role))
+            var modules = routes.AsQueryable()
+                .Where(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role) || r.Role == "everybody" || r.Role == "anynomous")
                 .Where(r => r.Nav)
+                .Where(r => !r.Route.Contains("/:"))
                 .Select(r => r.Route)
                 .ToList();
 
