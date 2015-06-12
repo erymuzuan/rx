@@ -31,6 +31,34 @@ function Create-FtpDirectory {
 }
 
 
+function Remove-FtpDirectory {
+  param(
+    [Parameter(Mandatory=$true)]
+    [string]
+    $sourceuri,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $username,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $password,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $Directory
+  )
+  
+  $SecureString = ConvertTo-SecureString $password -AsPlainText -Force
+  $PSCredential = New-Object System.Management.Automation.PSCredential ($username, $SecureString)
+
+  Import-Module PSFTP 
+  Set-FTPConnection -Credentials $PSCredential -Server ftp://www.reactivedeveloper.com -Session ss01 
+  $Session = Get-FTPConnection -Session ss01
+
+  Remove-FTPItem -Session $Session -Path $Directory -Recurse
+    
+}
+
+
 function Upload-FtpFile {
   param(
     [Parameter(Mandatory=$true)]
@@ -339,8 +367,8 @@ $versionBuildJson = @"
 "@
 $versionBuildJson > .\deployment\version.$Build.json
 
-#release note
-"#Release Note for $Build" > .\deployment\$Build.md
+#release note - copy from existing file, should maintains the UTF8 encoding
+copy .\deployment\release-note-template.md .\deployment\$Build.md
 
 $ftpRoot = "ftp://www.reactivedeveloper.com/staging/binaries"
 if($Release -eq $true){
@@ -352,6 +380,12 @@ $ftpPassword = "reH2TaXd"
 Write-Host -ForegroundColor Yellow "NOW edit the .\deployment\$Build.ps1 and the Release Note($Build.md) to reflect any custom scripts needed to be run"
 Write-Host "Press [ENTER] to continue uploaded  to ftp " -NoNewline -ForegroundColor Yellow
 Read-Host
+
+if($Release -eq $false)
+{
+    Remove-FtpDirectory -username $ftpUserName -password $ftpPassword -Directory "/staging/binaries/$Build" -sourceuri $ftpRoot
+    Remove-FtpDirectory -username $ftpUserName -password $ftpPassword -Directory "/staging/binaries/$Build.ps1" -sourceuri $ftpRoot
+}
 
 Create-FtpDirectory -sourceuri "$ftpRoot/" -username $ftpUserName -password $ftpPassword -Directory $Build
 Upload-FtpFile -RemoteDirectory "$ftpRoot/" -username $ftpUserName -password $ftpPassword -LocalFile .\deployment\$previous.json
