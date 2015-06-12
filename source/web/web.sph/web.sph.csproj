@@ -336,6 +336,14 @@
     <Content Include="docs\CredentialProvider.html">
       <DependentUpon>CredentialProvider.md</DependentUpon>
     </Content>
+    <Content Include="docs\custom-form-dialog.html">
+      <DependentUpon>custom-form-dialog.md</DependentUpon>
+    </Content>
+    <Content Include="docs\custom-form-dialog.md" />
+    <None Include="docs\custom.form.list.md" />
+    <Content Include="docs\custom.form.list.html">
+      <DependentUpon>custom.form.list.md</DependentUpon>
+    </Content>
     <Content Include="docs\CustomAction.html">
       <DependentUpon>CustomAction.md</DependentUpon>
     </Content>
@@ -830,6 +838,9 @@
     <Content Include="docs\SimpleVariable.html">
       <DependentUpon>SimpleVariable.md</DependentUpon>
     </Content>
+    <Content Include="docs\snippets-dialog.html">
+      <DependentUpon>snippets-dialog.md</DependentUpon>
+    </Content>
     <Content Include="docs\solution.explorer.html">
       <DependentUpon>solution.explorer.md</DependentUpon>
     </Content>
@@ -1149,6 +1160,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="docs\WorkflowDefinition.HowTo.ExceptionHandling.md" />
+    <Content Include="docs\snippets-dialog.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />
