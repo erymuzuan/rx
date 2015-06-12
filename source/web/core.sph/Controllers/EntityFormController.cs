@@ -35,9 +35,9 @@ namespace Bespoke.Sph.Web.Controllers
             var form = this.GetRequestJson<EntityForm>();
 
             // look for column which points to the form
-// ReSharper disable RedundantBoolCompare
+            // ReSharper disable RedundantBoolCompare
             var viewQuery = context.EntityViews.Where(e => e.IsPublished == true && e.EntityDefinitionId == form.EntityDefinitionId);
-// ReSharper restore RedundantBoolCompare
+            // ReSharper restore RedundantBoolCompare
             var viewLo = await context.LoadAsync(viewQuery, includeTotalRows: true);
             var views = new ObjectCollection<EntityView>(viewLo.ItemCollection);
             while (viewLo.HasNextPage)
@@ -47,10 +47,10 @@ namespace Bespoke.Sph.Web.Controllers
             }
 
             var violations = (from vw in views
-                             where vw.ViewColumnCollection.Any(c => c.IsLinkColumn 
-                                 && c.FormRoute == form.Route)
-                             select vw.Name).ToArray();
-            if (violations.Any()) 
+                              where vw.ViewColumnCollection.Any(c => c.IsLinkColumn
+                                  && c.FormRoute == form.Route)
+                              select vw.Name).ToArray();
+            if (violations.Any())
                 return Json(new { success = false, status = "NO", message = "These views has a link to your form ", views = violations, id = form.Id });
 
 
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(form);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = form.Id });
+            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = form.Id, warnings = buildValidation.Warnings });
 
         }
 

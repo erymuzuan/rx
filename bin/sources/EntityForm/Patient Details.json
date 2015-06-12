@@ -72,7 +72,7 @@
           "Name": "Single Line Text",
           "Label": "ID",
           "Tooltip": null,
-          "Path": "IdentificationNo",
+          "Path": "",
           "IsRequired": false,
           "Size": "input-large",
           "CssClass": "",
@@ -228,7 +228,7 @@
           "Name": null,
           "Label": "Full Name",
           "Tooltip": null,
-          "Path": "FullName",
+          "Path": "Full_Name",
           "IsRequired": false,
           "Size": null,
           "CssClass": null,
@@ -950,6 +950,6 @@
   "Id": "patient-details",
   "CreatedDate": "2015-05-28T07:43:35.8227123+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-06-12T05:59:44.9445058+08:00",
+  "ChangedDate": "2015-06-12T08:35:17.1915819+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

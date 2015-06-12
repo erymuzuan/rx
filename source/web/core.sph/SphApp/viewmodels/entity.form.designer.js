@@ -4,6 +4,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
     function (context, logger, router, system, app, eximp, dialog, config) {
 
         var errors = ko.observableArray(),
+            warnings = ko.observableArray(),
             operationsOption = ko.observableArray(),
             layoutOptions = ko.observableArray(),
             collectionMemberOptions = ko.observableArray(),
@@ -112,12 +113,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 };
 
                 // delete selected form
-                $('html').keyup(function (e) {
-                    
-                    if (e.keyCode == 46 && typeof selectedFormElement() != "undefined") {
-                            removeFormElement(selectedFormElement());
+                $("html").keyup(function(e) {
+
+                    if (e.keyCode === 46 && typeof selectedFormElement() != "undefined") {
+                        removeFormElement(selectedFormElement());
                     }
-                })
+                });
 
                 // Fix input element click problem
                 $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
@@ -325,22 +326,21 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 fd.FormElementCollection(elements);
 
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(form);
+                var data = ko.mapping.toJSON(form);
 
-                context.post(data, "/entity-form/publish")
+                return context.post(data, "/entity-form/publish")
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
                             form().Id(result.id);
                             errors.removeAll();
+                            warnings(result.warnings);
                         } else {
                             errors(result.Errors);
+                            warnings(result.Warnings);
                             logger.error("There are errors in your entity, !!!");
                         }
-                        tcs.resolve(result);
                     });
-                return tcs.promise();
 
             },
             save = function () {
@@ -484,6 +484,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         var vm = {
             errors: errors,
+            warnings: warnings,
             collectionMemberOptions: collectionMemberOptions,
             layoutOptions: layoutOptions,
             operationsOption: operationsOption,

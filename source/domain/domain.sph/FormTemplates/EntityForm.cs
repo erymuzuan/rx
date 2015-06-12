@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain
     {
         public async Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)
         {
-            
+
             var result = new BuildValidationResult();
             var errors = from f in this.FormDesign.FormElementCollection
                          where f.IsPathIsRequired
@@ -26,6 +26,13 @@ namespace Bespoke.Sph.Domain
                            let err = f.ValidateBuild(ed)
                            where null != err
                            select err;
+
+            var paths = ed.GetMembersPath();
+            var invalidPathWarnings = from f in this.FormDesign.FormElementCollection
+                                      where f.IsPathIsRequired
+                                            && !paths.Contains(f.Path)
+                                      select new BuildError(f.WebId, $"[{f.Label}] : Specified path is \"{f.Path}\" may not be valid, ignore this warning if this is intentional");
+            result.Warnings.AddRange(invalidPathWarnings);
 
             var context = new SphDataContext();
 

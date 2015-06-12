@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Domain
         public virtual string GetKnockoutDisplayBindingExpression()
         {
             var path = this.Path;
-            return string.Format("text: {0}", path);
+            return $"text: {path}";
         }
 
         public string GetNormalizedName()
@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var css = string.Format("col-md-{0}", this.LabelColMd ?? 4);
+                var css = $"col-md-{this.LabelColMd ?? 4}";
                 if (this.LabelColMd.HasValue) css += " col-lg-" + this.LabelColLg;
                 if (this.LabelColSm.HasValue) css += " col-sm-" + this.LabelColSm;
                 if (this.LabelColXs.HasValue) css += " col-xs-" + this.LabelColXs;
@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var css = string.Format("col-md-{0}", this.InputColMd ?? 8);
+                var css = $"col-md-{this.InputColMd ?? 8}";
                 if (this.InputColMd.HasValue) css += " col-lg-" + this.InputColLg;
                 if (this.InputColSm.HasValue) css += " col-sm-" + this.InputColSm;
                 if (this.InputColXs.HasValue) css += " col-xs-" + this.InputColXs;
@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Domain
         }
 
         [XmlIgnore]
-        public virtual bool IsPathIsRequired { get { return true; } }
+        public virtual bool IsPathIsRequired => true;
 
         [JsonIgnore]
         [XmlIgnore]
@@ -106,9 +106,6 @@ namespace Bespoke.Sph.Domain
         /// <summary>
         /// The unique typename for each activity, should be overriden if you wish to have different name to avoid conflict
         /// </summary>
-        public virtual string TypeName
-        {
-            get { return this.GetType().Name; }
-        }
+        public virtual string TypeName => this.GetType().Name;
     }
 }

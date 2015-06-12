@@ -71,7 +71,7 @@
     </div>
     <div class="form-group" data-bind="visible:Gender() === 'Male'">
         <label class="col-md-4">Full Name</label>
-        <span class="col-md-8" data-bind="text: FullName"></span>
+        <span class="col-md-8" data-bind="text: Full_Name"></span>
     </div>
 
 
@@ -155,7 +155,7 @@
 
 <div class="form-group" data-bind="visible:true">
     <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('fd79681e-e7b0-4057-a413-950b728032de')}">
+    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('1a598a48-4930-4c45-af0f-d8e1e6dd147a')}">
         <thead>
             <tr>
                     <th data-i18n="Doctor">Doctor</th>
@@ -164,7 +164,7 @@
                     <th data-i18n="Mrn">Mrn</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('fd79681e-e7b0-4057-a413-950b728032de')">
+        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('1a598a48-4930-4c45-af0f-d8e1e6dd147a')">
             <tr>
                         <td data-bind="text:Doctor"></td>
                         <td>
