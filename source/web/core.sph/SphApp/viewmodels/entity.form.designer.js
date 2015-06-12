@@ -98,6 +98,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 return tcs.promise();
 
             },
+            removeFormElement = function (fe) {
+                var fd = ko.unwrap(form().FormDesign);
+                fd.FormElementCollection.remove(fe);
+            },
             attached = function (view) {
 
                 var fd = ko.unwrap(form().FormDesign);
@@ -112,24 +116,23 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         .select();
                 };
 
-                // delete selected form
-                $("html").keyup(function(e) {
-
+                // delete selected element when [delete] key is pressed
+                $(view).on("keyup", "div.selected-form-element", function (e) {
                     if (e.keyCode === 46 && typeof selectedFormElement() != "undefined") {
                         removeFormElement(selectedFormElement());
                     }
                 });
 
                 // Fix input element click problem
-                $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
+                $(view).on("click mouseup mousedown", ".dropdown-menu input, .dropdown-menu label",
                     function (e) {
                         e.stopPropagation();
                     });
-                $('#template-form-designer').on('click', 'button.dropdown-toggle', dropDown);
+                $("#template-form-designer").on("click", "button.dropdown-toggle", dropDown);
 
 
                 //toolbox item clicked
-                $('#add-field').on("click", 'a', function (e) {
+                $("#add-field").on("click", "a", function (e) {
                     e.preventDefault();
                     _(fd.FormElementCollection()).each(function (f) {
                         f.isSelected(false);
@@ -154,7 +157,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 });
 
                 // kendoEditor
-                $('#template-form-designer').on('click', 'textarea', function () {
+                $("#template-form-designer").on("click", "textarea", function () {
                     var $editor = $(this),
                         kendoEditor = $editor.data("kendoEditor");
                     if (!kendoEditor) {
@@ -175,13 +178,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
 
                 var receive = function (evt, ui) {
-                    $('.selected-form-element').each(function () {
+                    $(".selected-form-element").each(function () {
                         var kd = ko.dataFor(this);
                         if (typeof kd.isSelected === "function")
                             kd.isSelected(false);
                     });
 
-                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                    var elements = _($("#template-form-designer>form>div")).map(function (div) {
                         return ko.dataFor(div);
                     }),
                     fe = context.clone(ko.dataFor(ui.item[0]).element),
@@ -203,18 +206,18 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         }
                     }
                     elements.splice(position, 0, fe);
-                    $('#template-form-designer>form').sortable("destroy");
+                    $("#template-form-designer>form").sortable("destroy");
                     //rebuild
                     fd.FormElementCollection(elements);
                     initDesigner();
-                    $('#template-form-designer>form li.ui-draggable').remove();
+                    $("#template-form-designer>form li.ui-draggable").remove();
                     selectedFormElement(fe);
                 },
                     initDesigner = function () {
-                        $('#template-form-designer>form').sortable({
-                            items: '>div',
-                            placeholder: 'ph',
-                            helper: 'original',
+                        $("#template-form-designer>form").sortable({
+                            items: ">div",
+                            placeholder: "ph",
+                            helper: "original",
                             dropOnEmpty: true,
                             forcePlaceholderSize: true,
                             forceHelperSize: false,
@@ -234,7 +237,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
 
                 $("div.context-action-panel").on("click", "buton.close", function () {
-                    $(this).parents('div.context-action').hide();
+                    $(this).parents("div.context-action").hide();
                 });
 
                 selectedFormElement.subscribe(function (model) {
@@ -276,8 +279,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 }
                 dialog.close(this, "Cancel");
             },
-            selectFormElement = function (fe) {
-
+            selectFormElement = function (fe, e) {
+                $(e.currentTarget).prop("tabindex", 0);
+                $(e.currentTarget).focus();
                 $(".selected-form-element").each(function () {
                     var kd = ko.dataFor(this);
                     if (typeof kd.isSelected === "function")
@@ -292,15 +296,11 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 if (supportsHtml5Storage()) {
                     localStorage.setItem(form().WebId(), ko.mapping.toJSON(form));
                 }
-                $("#form-designer-toolbox .nav-tabs a[href='#fields-settings']").tab('show');
+                $("#form-designer-toolbox .nav-tabs a[href='#fields-settings']").tab("show");
 
-                var element_selected_position = $('.selected-form-element').position();
-                var properties_padding_top = (element_selected_position.top < 95) ? 0 : element_selected_position.top - 95;
-                $("#fields-settings").css('padding-top', properties_padding_top);
-            },
-            removeFormElement = function (fe) {
-                var fd = ko.unwrap(form().FormDesign);
-                fd.FormElementCollection.remove(fe);
+                var elementSelectedPosition = $(".selected-form-element").position();
+                var propertiesPaddingTop = (elementSelectedPosition.top < 95) ? 0 : elementSelectedPosition.top - 95;
+                $("#fields-settings").css("padding-top", propertiesPaddingTop);
             },
             importCommand = function () {
                 return eximp.importJson()
@@ -424,7 +424,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         editCode = function () {
             if (null == partialEditor || partialEditor.closed) {
                 var partial = "partial/" + form().Route();
-                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', "height=600px,width=800px,toolbar=0,location=0");
+                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", "_blank", "height=600px,width=800px,toolbar=0,location=0");
                 form().Partial(partial);
             } else {
                 partialEditor.focus();
@@ -436,7 +436,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         layoutEditor = null,
         editLayout = function () {
             if (null == layoutEditor || layoutEditor.closed) {
-                layoutEditor = window.open("/sph/editor/file?id=/views/entityformrenderer/" + form().Layout() + ".cshtml", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
+                layoutEditor = window.open("/sph/editor/file?id=/views/entityformrenderer/" + form().Layout() + ".cshtml", "_blank", "height=600px,width=800px,toolbar=0,location=0");
 
             } else {
                 layoutEditor.focus();
