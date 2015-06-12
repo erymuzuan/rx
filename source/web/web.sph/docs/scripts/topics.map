@@ -75,7 +75,11 @@
 
     "email-action-modal" : "EmailAction.html",
     "custom-login-page" : "custom-login-page.html",
-    "resource-table-dialog" : "resource-table-dialog.html",
+    "resource-table-dialog": "resource-table-dialog.html",
+
+    "custom-form-dialog" : "custom-form-dialog.html",
+    "custom.form.list" : "custom.form.list.html",
+    "snippets.dialog" : "snippets-dialog.html",
 
     "default": "Overview.html"
 }
