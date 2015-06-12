@@ -219,7 +219,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="code.snippets.json" />
     <Content Include="Content\external\bootstrap-theme.css" />
     <Content Include="Content\external\bootstrap-theme.min.css" />
     <Content Include="Content\external\bootstrap.css" />
@@ -1188,7 +1187,6 @@
     <Content Include="offline\IndexedDB.js" />
     <Content Include="offline\offline.js" />
     <Content Include="regex.picker.html" />
-    <Content Include="roles.config.js" />
     <Content Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-chromevox.js" />
     <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />

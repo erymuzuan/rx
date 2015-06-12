@@ -197,6 +197,9 @@ Get-ChildItem -Filter *.* -Path ".\source\web\web.sph\bin" `
 | Copy-Item -Destination "$output\web\bin" -Force
 
 
+#web.fonts
+Get-ChildItem -Filter *.* -Path ".\source\web\core.sph\fonts" | Copy-Item -Destination "$output\web\fonts" -Force
+
 
 
 
@@ -208,6 +211,20 @@ $rubbishConfigs = @("$output\subscribers\subscriber.workflow.dll.config"
 ,"$output\schedulers\sql.repository.dll.config"
 ,"$output\subscribers\razor.template.dll.config"
 ,"$output\subscribers\sql.repository.dll.config"
+,"$output\web\App_Data\custom-dialog.json"
+,"$output\web\App_Data\custom-partial-view.json"
+,"$output\web\App_Data\custom-script.json"
+,"$output\web\App_Data\routes.config.json"
+,"$output\web\App_Data\data-imports\*.json"
+,"$output\control.center\metadata.cache"
+,"$output\control.center\*.json"
+,"$output\schedulers\*.dll.config"
+,"$output\subscribers.host\*.vshost.exe"
+,"$output\subscribers.host\*.vshost.exe.config"
+,"$output\subscribers.host\*.vshost.exe.manifest"
+,"$output\tools\*.dll.config"
+,"$output\tools\*.js"
+,"$output\tools\*.html"
 )
 foreach($ucon in $rubbishConfigs)
 {
@@ -215,7 +232,8 @@ foreach($ucon in $rubbishConfigs)
         Remove-Item $ucon
     }
 }
-
+ls -Filter *.7z -Path $output  -Recurse | Remove-Item
+ls
 
 #control.center
 mkdir "$output\control.center"
