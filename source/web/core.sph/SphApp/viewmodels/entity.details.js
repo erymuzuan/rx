@@ -23,16 +23,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             activate = function (entityid) {
                 var id = parseInt(entityid);
                 if (isNaN(id)) {
-                    var query = String.format("Id eq '{0}'", entityid),
-                        tcs = new $.Deferred();
-                    context.loadOneAsync("EntityDefinition", query)
+                    var query = String.format("Id eq '{0}'", entityid);
+                    return context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
                             entity(b);
                             window.typeaheadEntity = b.Name();
-                            tcs.resolve(true);
                         });
 
-                    return tcs.promise();
                 }
                 var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
                 ed.Name.subscribe(function (name) {
@@ -50,20 +47,20 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
             },
             attached = function () {
-
+                if (entity().Id() === "0") {
+                   //TODO : should do the modal
+                }
             },
             save = function () {
                 if (!document.getElementById("entity-form").checkValidity()) {
                     logger.error("Please correct all the validations errors");
                     return Task.fromResult(0);
                 }
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(entity);
+                var data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/entity-definition")
+                return context.post(data, "/entity-definition")
                     .then(function (result) {
-                        tcs.resolve(true);
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
@@ -86,7 +83,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             logger.error("There are errors in your entity, !!!");
                         }
                     });
-                return tcs.promise();
             },
             publishAsync = function () {
 

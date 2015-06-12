@@ -19,398 +19,385 @@
     <div class="col-md-2"></div>
     <!-- /ko-->
 </div>
-
 <div class="row">
-    <a data-toggle="collapse" href="#general-ed-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            General options
-        </h3>
-    </a>
-    <div class="collapse in" id="general-ed-panel">
-        <form name="entity-form" id="entity-form" class="form-horizontal" role="form" data-bind="with : entity">
-            <div class="form-group">
-                <label for="ent-name" class="col-md-2">Name</label>
-                <div class="col-md-6">
-                    <input type="text" data-bind="value: Name, readonly : ko.unwrap(Id) !== '0'"
-                           required="" pattern="^[A-Za-z][A-Za-z0-9]*$"
-                           placeholder="Custom Entity Name"
-                           class="form-control" id="ent-name">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="record-name" class="col-md-2">Record Name</label>
-                <div class="col-md-6">
-                    <input type="text" data-bind="value: RecordName"
-                           required="required" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-                           placeholder="Identifying member"
-                           class="form-control" id="record-name">
-                    <span class="help-block">
-                        <i class="fa fa-question-circle"></i>
-                        The Record Name appears in page layouts, key lists, related lists, lookups, and search results.
-                        For example, the Record Name for Account is "AccountName" and for Case it is "CaseNumber".
-                        Note that the Record Name field is always called "Name" when referenced via the API.
-                        The field must exist as a first level member in your schema
-                    </span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="plural" class="col-md-2">Plural</label>
-                <div class="col-md-6">
-                    <input type="text" data-bind="value: Plural"
-                           required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-                           placeholder="Plurals"
-                           class="form-control" id="plural">
-                </div>
-            </div>
+    <div class="col-sm-9">
 
-            <div class="form-group">
-                <label for="icon-storeid" class="col-md-2 control-label">Icon/Logo</label>
-                <div class="col-md-6">
-                    <label for="icon-storeid">
-                        <img data-bind="attr : {src:'/sph/image/Store/' + IconStoreId()}" alt="Logo" />
-                    </label>
-                    <input type="file" data-bind="kendoUpload: {value:IconStoreId, extensions:['.png']}" name="files" class="form-control" id="icon-storeid" />
+        <div class="row" id="members-panel" data-bind="visible: entity().Id()">
+            <h3>Schema Designer</h3>
+            <div class="col-sm-8">
+                <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree" value="" />
+                <div data-bind="tree : {entity: entity, selected: member, searchbox: '#search-box-tree'}">
                 </div>
             </div>
+            <div class="col-sm-4" data-bind="with: member">
+                <h3>Member properties</h3>
 
-            <div class="form-group">
-                <label for="icon-class" class="col-md-2 control-label">Icon class</label>
-                <div class="col-md-6">
-                    <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="icon-class"></i>
-                </div>
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="member_name">Name</label>
+                        <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member-type">Type</label>
+
+                        <select class="form-control" id="member-type" data-bind="value:TypeName">
+                            <option value="">[Please Select]</option>
+                            <option value="System.String, mscorlib">String</option>
+                            <option value="System.Int32, mscorlib">Integer</option>
+                            <option value="System.Decimal, mscorlib">Decimal</option>
+                            <option value="System.DateTime, mscorlib">DateTime</option>
+                            <option value="System.Boolean, mscorlib">Boolean</option>
+                            <option value="System.Object, mscorlib">Complex</option>
+                            <option value="System.Array, mscorlib">Collection</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: IsNullable" id="member-nullable" type="checkbox" name="IsNullable" />
+                            Nullable
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox" data-placement="left" data-bind="tooltip:'Creates database column, to allow API filter and Report filter, Views and search do not use this property'">
+                            <input data-bind="checked: IsFilterable" id="member-analyzed" type="checkbox" name="IsFilterable" />
+                            Can be filtered
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox" data-placement="left" data-bind="tooltip:'If checked, this member will not be indexed in elastic search, thus it will be searchable'">
+                            <input data-bind="checked: IsNotIndexed" id="member-not-indexed" type="checkbox" name="IsNotIndexed" />
+                            Do not indexed
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox" data-bind="tooltip:'To use full text index, terms will be broken and analyzed. Do not check for items you want to use in aggregates(i.e. term search)'">
+                            <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed() || TypeName() !== 'System.String, mscorlib'" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
+                            Should analyzed(only for string)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox" data-bind="tooltip:'Check if you do not wish this member to be included in the search terms'">
+                            <input data-bind="checked: IsExcludeInAll, disable: IsNotIndexed" id="member-exclude-all" type="checkbox" name="IsExcludeInAll" />
+                            Do not include in all
+                        </label>
+                    </div>
+                    <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
+                        <label for="member-boost" class="control-label">Boost</label>
+
+                        <input type="number" data-bind="value: Boost, disable: IsNotIndexed"
+                               required value="1" min="1" max="10"
+                               placeholder="Boost"
+                               class="form-control" id="member-boost">
+
+                    </div>
+
+                    <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
+                        <label for="member-default-value" class="control-label">Default Value</label>
+                        <div class="btn-group" id="member-default-value">
+                            <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                <!-- ko text : Name -->
+                                <!-- /ko -->
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li data-bind="with : DefaultValue">
+                                    <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
+                                        <i class="fa fa-edit"></i>
+                                        Edit Default Value
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.DefaultValue" href="#">
+                                        <img src="/images/ConstantField.png" alt=" constantfield" class="pull-left" />
+                                        + Constant Field
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.DefaultValue" href="#">
+                                        <img src="/images/FunctionField.png" alt=" FunctionField" class="pull-left" />
+                                        + Function Field
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!--<a href="#" data-bind="click : editPermission">
+                        <i class="fa fa-lock"></i>
+                        Permission
+                    </a>-->
+
+                </form>
             </div>
-
-        </form>
-    </div>
-</div>
-
-<div class="row" id="members-panel" data-bind="visible: entity().Id()">
-    <h3>Schema Designer</h3>
-    <div class="col-sm-8">
-        <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree" value="" />
-        <div data-bind="tree : {entity: entity, selected: member, searchbox: '#search-box-tree'}">
         </div>
+
+
     </div>
-    <div class="col-sm-4" data-bind="with: member">
-        <h3>Member properties</h3>
+    <div class="col-sm-3">
 
-        <form class="form" role="form" data-bind="visible:Name()">
-            <div class="form-group">
-                <label for="member_name">Name</label>
-                <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name" />
-            </div>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#general-properties" data-toggle="tab">General Properties</a>
+                </li>
+                <li>
+                    <a href="#business-rules-tab" data-toggle="tab">Business Rule</a>
+                </li>
+                <li>
+                    <a href="#forms-tab" data-toggle="tab">Forms</a>
+                </li>
+                <li>
+                    <a href="#views-tab" data-toggle="tab">Views</a>
+                </li>
+                <li>
+                    <a href="#operations-tab" data-toggle="tab">Operations</a>
+                </li>
+                <li>
+                    <a href="#premission-tab" data-toggle="tab">Security</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="general-properties" class="tab-pane active">
+                    <form name="entity-form" id="entity-form" class="form-horizontal" role="form" data-bind="with : entity">
+                        <div class="form-group">
+                            <label for="ent-name" class="col-md-2">Name</label>
+                            <div class="col-md-6">
+                                <input type="text" data-bind="value: Name, readonly : ko.unwrap(Id) !== '0'"
+                                       required="" pattern="^[A-Za-z][A-Za-z0-9]*$"
+                                       placeholder="Custom Entity Name"
+                                       class="form-control" id="ent-name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="record-name" class="col-md-2">Record Name</label>
+                            <div class="col-md-6">
+                                <input type="text" data-bind="value: RecordName"
+                                       required="required" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                       placeholder="Identifying member"
+                                       class="form-control" id="record-name">
+                                <span class="help-block">
+                                    <i class="fa fa-question-circle"></i>
+                                    The Record Name appears in page layouts, key lists, related lists, lookups, and search results.
+                                    For example, the Record Name for Account is "AccountName" and for Case it is "CaseNumber".
+                                    Note that the Record Name field is always called "Name" when referenced via the API.
+                                    The field must exist as a first level member in your schema
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="plural" class="col-md-2">Plural</label>
+                            <div class="col-md-6">
+                                <input type="text" data-bind="value: Plural"
+                                       required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                       placeholder="Plurals"
+                                       class="form-control" id="plural">
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <label for="member-type">Type</label>
+                        <div class="form-group">
+                            <label for="icon-storeid" class="col-md-2 control-label">Icon/Logo</label>
+                            <div class="col-md-6">
+                                <label for="icon-storeid">
+                                    <img data-bind="attr : {src:'/sph/image/Store/' + IconStoreId()}" alt="Logo" />
+                                </label>
+                                <input type="file" data-bind="kendoUpload: {value:IconStoreId, extensions:['.png']}" name="files" class="form-control" id="icon-storeid" />
+                            </div>
+                        </div>
 
-                <select class="form-control" id="member-type" data-bind="value:TypeName">
-                    <option value="">[Please Select]</option>
-                    <option value="System.String, mscorlib">String</option>
-                    <option value="System.Int32, mscorlib">Integer</option>
-                    <option value="System.Decimal, mscorlib">Decimal</option>
-                    <option value="System.DateTime, mscorlib">DateTime</option>
-                    <option value="System.Boolean, mscorlib">Boolean</option>
-                    <option value="System.Object, mscorlib">Complex</option>
-                    <option value="System.Array, mscorlib">Collection</option>
-                </select>
+                        <div class="form-group">
+                            <label for="icon-class" class="col-md-2 control-label">Icon class</label>
+                            <div class="col-md-6">
+                                <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="icon-class"></i>
+                            </div>
+                        </div>
 
-            </div>
-            <div class="form-group">
-                <label class="checkbox">
-                    <input data-bind="checked: IsNullable" id="member-nullable" type="checkbox" name="IsNullable" />
-                    Nullable
-                </label>
-            </div>
-            <div class="form-group">
-                <label class="checkbox" data-placement="left" data-bind="tooltip:'Creates database column, to allow API filter and Report filter, Views and search do not use this property'">
-                    <input data-bind="checked: IsFilterable" id="member-analyzed" type="checkbox" name="IsFilterable" />
-                    Can be filtered
-                </label>
-            </div>
-            <div class="form-group">
-                <label class="checkbox" data-placement="left" data-bind="tooltip:'If checked, this member will not be indexed in elastic search, thus it will be searchable'">
-                    <input data-bind="checked: IsNotIndexed" id="member-not-indexed" type="checkbox" name="IsNotIndexed" />
-                    Do not indexed
-                </label>
-            </div>
-            <div class="form-group">
-                <label class="checkbox" data-bind="tooltip:'To use full text index, terms will be broken and analyzed. Do not check for items you want to use in aggregates(i.e. term search)'">
-                    <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed() || TypeName() !== 'System.String, mscorlib'" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
-                    Should analyzed(only for string)
-                </label>
-            </div>
-            <div class="form-group">
-                <label class="checkbox" data-bind="tooltip:'Check if you do not wish this member to be included in the search terms'">
-                    <input data-bind="checked: IsExcludeInAll, disable: IsNotIndexed" id="member-exclude-all" type="checkbox" name="IsExcludeInAll" />
-                    Do not include in all
-                </label>
-            </div>
-            <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
-                <label for="member-boost" class="control-label">Boost</label>
-
-                <input type="number" data-bind="value: Boost, disable: IsNotIndexed"
-                       required value="1" min="1" max="10"
-                       placeholder="Boost"
-                       class="form-control" id="member-boost">
-
-            </div>
-
-            <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
-                <label for="member-default-value" class="control-label">Default Value</label>
-                <div class="btn-group" id="member-default-value">
-                    <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
-                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
-                        <!-- ko text : Name -->
-                        <!-- /ko -->
-                        <i class="fa fa-caret-down"></i>
+                    </form>
+                </div>
+                <div id="business-rules-tab" class="tab-pane" data-bind="with : entity">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :BusinessRuleCollection">
+                            <tr>
+                                <td>
+                                    <a href="#business-rules-tab" data-bind="click :$parent.editBusinessRule.call($parent,$data) ,text: Name"></a>
+                                </td>
+                                <td data-bind="text:Description"></td>
+                                <td>
+                                    <a href="#business-rules-tab" data-bind="click : $parent.removeBusinessRule.call($parent,$data)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-link" data-bind="click : addBusinessRule">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a business rule
                     </a>
 
-                    <ul class="dropdown-menu">
-                        <li data-bind="with : DefaultValue">
-                            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
-                                <i class="fa fa-edit"></i>
-                                Edit Default Value
-                            </a>
-                        </li>
+                </div>
+                <div id="forms-tab" class="tab-pane">
+                    <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityForm', query :'EntityDefinitionId eq \'' + $root.entity().Id() + '\'', list: forms}">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Route</th>
+                                <th>Default</th>
+                                <th>Published</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :forms">
+                            <tr>
+                                <td>
+                                    <a data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().Id() + '/' + Id()},text: Name"></a>
+                                </td>
+                                <td data-bind="text:Route"></td>
+                                <td>
+                                    <i class="fa fa-check" data-bind="visible:IsDefault"></i>
+                                </td>
+                                <td>
+                                    <i class="fa fa-check" data-bind="visible:IsPublished"></i>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-link" data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().Id() + '/0'}">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a form
+                    </a>
 
-                        <li>
-                            <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.DefaultValue" href="#">
-                                <img src="/images/ConstantField.png" alt=" constantfield" class="pull-left" />
-                                + Constant Field
-                            </a>
-                        </li>
-                        <li>
-                            <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.DefaultValue" href="#">
-                                <img src="/images/FunctionField.png" alt=" FunctionField" class="pull-left" />
-                                + Function Field
-                            </a>
-                        </li>
-                    </ul>
+
+                </div>
+                <div id="views-tab" class="tab-pane">
+
+                    <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityView', query :'EntityDefinitionId eq \'' + $root.entity().Id() + '\'', list: views}">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Route</th>
+                                <th>Published</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :views">
+                            <tr>
+                                <td>
+                                    <a data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().Id() + '/' + Id()},text: Name"></a>
+                                </td>
+                                <td data-bind="text:Route"></td>
+                                <td>
+                                    <i class="fa fa-check" data-bind="visible:IsPublished"></i>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-link" data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().Id() + '/0'}">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a view
+                    </a>
+                </div>
+                <div id="operations-tab" class="tab-pane" data-bind="with : entity">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Rules</th>
+                                <th>Permissions</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :EntityOperationCollection">
+                            <tr>
+                                <td>
+                                    <a data-bind="attr : {'href':'#/entity.operation.details/' + $root.entity().Id() + '/' + Name()},text: Name"></a>
+
+                                </td>
+                                <td data-bind="text:Rules"></td>
+                                <td data-bind="text:Permissions"></td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removeEntityOperation.call($parent,$data)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-link" data-bind="attr : {'href':'#/entity.operation.details/' + $root.entity().Id() + '/<New Operation>'}">
+                        <i class="fa fa-plus-circle"></i>
+                        Add an operation
+                    </a>
+                </div>
+                <div id="premission-tab" class="tab-pane" data-bind="with : entity">
+                    <form class="form-horizontal" data-bind="with : Performer">
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-bind="checked: $root.entity().IsShowOnNavigationBar" id="show-on-nav-bar" type="checkbox" name="IsShowOnNavigationBar" />
+                                        Show on navigation bar menu
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+                                        Is Public
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="performer-property" class="col-sm-2 control-label">User Property</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
+                                    <option value="">[Please Select]</option>
+                                    <option value="Roles">Roles</option>
+                                    <option value="UserName">UserName</option>
+                                    <option value="Department">Department</option>
+                                    <option value="Designation">Designation</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="performer-value" class="col-sm-2 control-label">Value</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:IsPublic" />
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
             </div>
-            <!--<a href="#" data-bind="click : editPermission">
-                <i class="fa fa-lock"></i>
-                Permission
-            </a>-->
-
-        </form>
-    </div>
-</div>
-
-<div class="row" data-bind="visible: entity().Id()">
-    <a data-toggle="collapse" href="#business-rules-table">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Business Rules
-        </h3>
-    </a>
-    <div class="collapse collapsed" id="business-rules-table" data-bind="with : entity">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach :BusinessRuleCollection">
-                <tr>
-                    <td>
-                        <a href="#business-rules-table" data-bind="click :$parent.editBusinessRule.call($parent,$data) ,text: Name"></a>
-                    </td>
-                    <td data-bind="text:Description"></td>
-                    <td>
-                        <a href="#business-rules-table" data-bind="click : $parent.removeBusinessRule.call($parent,$data)">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <a class="btn btn-link" data-bind="click : addBusinessRule">
-            <i class="fa fa-plus-circle"></i>
-            Add a business rule
-        </a>
-    </div>
-</div>
-
-<div class="row" data-bind="visible: entity().Id()">
-    <a data-toggle="collapse" href="#forms-table">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Forms
-        </h3>
-    </a>
-    <div class="collapse collapsed" id="forms-table">
-        <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityForm', query :'EntityDefinitionId eq \'' + $root.entity().Id() + '\'', list: forms}">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Route</th>
-                    <th>Default</th>
-                    <th>Published</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach :forms">
-                <tr>
-                    <td>
-                        <a data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().Id() + '/' + Id()},text: Name"></a>
-                    </td>
-                    <td data-bind="text:Route"></td>
-                    <td>
-                        <i class="fa fa-check" data-bind="visible:IsDefault"></i>
-                    </td>
-                    <td>
-                        <i class="fa fa-check" data-bind="visible:IsPublished"></i>
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().Id() + '/0'}">
-            <i class="fa fa-plus-circle"></i>
-            Add a form
-        </a>
-
-    </div>
-</div>
-
-<div class="row" data-bind="visible:entity().Id()">
-    <a data-toggle="collapse" href="#view-table">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Views
-        </h3>
-    </a>
-    <div class="collapse collapsed" id="view-table">
-        <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityView', query :'EntityDefinitionId eq \'' + $root.entity().Id() + '\'', list: views}">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Route</th>
-                    <th>Published</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach :views">
-                <tr>
-                    <td>
-                        <a data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().Id() + '/' + Id()},text: Name"></a>
-                    </td>
-                    <td data-bind="text:Route"></td>
-                    <td>
-                        <i class="fa fa-check" data-bind="visible:IsPublished"></i>
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().Id() + '/0'}">
-            <i class="fa fa-plus-circle"></i>
-            Add a view
-        </a>
-    </div>
-</div>
-
-<div class="row" data-bind="visible:entity().Id()">
-    <a data-toggle="collapse" href="#operations-table">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Operations
-        </h3>
-    </a>
-    <div class="collapse collapsed" id="operations-table" data-bind="with : entity">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Rules</th>
-                    <th>Permissions</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach :EntityOperationCollection">
-                <tr>
-                    <td>
-                        <a data-bind="attr : {'href':'#/entity.operation.details/' + $root.entity().Id() + '/' + Name()},text: Name"></a>
-
-                    </td>
-                    <td data-bind="text:Rules"></td>
-                    <td data-bind="text:Permissions"></td>
-                    <td>
-                        <a href="#" data-bind="click : $parent.removeEntityOperation.call($parent,$data)">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.operation.details/' + $root.entity().Id() + '/<New Operation>'}">
-            <i class="fa fa-plus-circle"></i>
-            Add an operation
-        </a>
-
+        </div>
     </div>
 </div>
 
 
 
-<div class="row" data-bind="with : entity">
-
-    <a data-toggle="collapse" href="#performer-ev-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Permission
-        </h3>
-    </a>
-    <div id="performer-ev-panel" class="collapse collapsed" data-bind="with: Performer">
-        <form class="form-horizontal">
-
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <div class="checkbox">
-                        <label>
-                            <input data-bind="checked: $root.entity().IsShowOnNavigationBar" id="show-on-nav-bar" type="checkbox" name="IsShowOnNavigationBar" />
-                            Show on navigation bar menu
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
 
 
-                <div class="col-sm-offset-2 col-sm-10">
-                    <div class="checkbox">
-                        <label>
-                            <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
-                            Is Public
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="performer-property" class="col-sm-2 control-label">User Property</label>
-                <div class="col-sm-6">
-                    <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
-                        <option value="">[Please Select]</option>
-                        <option value="Roles">Roles</option>
-                        <option value="UserName">UserName</option>
-                        <option value="Department">Department</option>
-                        <option value="Designation">Designation</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="performer-value" class="col-sm-2 control-label">Value</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:IsPublic" />
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+
+
+
