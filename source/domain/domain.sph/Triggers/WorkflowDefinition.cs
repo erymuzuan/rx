@@ -161,8 +161,13 @@ namespace Bespoke.Sph.Domain
 
                 this.ReferencedAssemblyCollection
                     .Select(u => $"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}")
+                    .Where(File.Exists)
                     .ToList()
                     .ForEach(u => parameters.ReferencedAssemblies.Add(u));
+                this.ReferencedAssemblyCollection
+                    .Where(u => !File.Exists($"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}"))
+                    .ToList()
+                    .ForEach(u => parameters.ReferencedAssemblies.Add(u.Location));
             
 
                 // custom entities
