@@ -12,6 +12,7 @@ using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using static  System.IO.File;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -26,21 +27,23 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult Save(string file, string code)
         {
             var filed = Server.MapPath(file);
-            System.IO.File.WriteAllText(filed, code);
+            WriteAllText(filed, code);
             return Json(new { success = true, status = "OK" });
         }
+
+        [NoCache]
         public ActionResult Code(string id)
         {
             var file = Server.MapPath(id);
-            if (!System.IO.File.Exists(file))
-                System.IO.File.WriteAllText(file, "");
-            var js = System.IO.File.ReadAllText(file);
+            if (!Exists(file))
+                WriteAllText(file, "");
+            var js = ReadAllText(file);
             return Content(js);
         }
 
         public ActionResult File(string id)
         {
-            var ext = System.IO.Path.GetExtension(id);
+            var ext = Path.GetExtension(id);
             string mode;
 
             switch (ext)
@@ -106,7 +109,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                         if (json.Contains("css"))
                             lang = "css";
                         var path = Server.MapPath($"~/App_Data/snippets/{lang}/{Path.GetFileName(json)}");
-                        System.IO.File.Copy(json, path, true);
+                        Copy(json, path, true);
                     }
 
                     return Json(new { success = true, status = "OK" });
@@ -142,8 +145,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult Snippets(string id)
         {
             var folder = Server.MapPath("~/App_Data/snippets/" + id);
-            var snippets = from f in System.IO.Directory.GetFiles(folder, "*.json")
-                           let json = System.IO.File.ReadAllText(f)
+            var snippets = from f in Directory.GetFiles(folder, "*.json")
+                           let json = ReadAllText(f)
                            select json;
 
             this.Response.ContentType = "application/json";
@@ -153,12 +156,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult SaveSnippet()
         {
             var snippet = this.GetRequestJson<Snippet>();
-            var file = Server.MapPath(string.Format("~/App_Data/snippets/{0}/{1}.json", snippet.Lang, snippet.Title));
+            var file = Server.MapPath($"~/App_Data/snippets/{snippet.Lang}/{snippet.Title}.json");
             var settings = new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-            System.IO.File.WriteAllText(file, JsonConvert.SerializeObject(snippet, Formatting.Indented, settings));
+            WriteAllText(file, JsonConvert.SerializeObject(snippet, Formatting.Indented, settings));
             return Json(new { status = "OK", success = true });
         }
     }

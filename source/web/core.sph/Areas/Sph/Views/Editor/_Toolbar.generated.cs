@@ -153,8 +153,18 @@ WriteLiteral(">\r\n                        <!-- ko foreach : snippets -->\r\n   
 WriteLiteral(" data-bind=\"text:title, attr :{title : note}\"");
 
 WriteLiteral("></span></li>\r\n                        <!-- /ko -->\r\n                    </ul>\r\n " +
-"               </li>\r\n            </ul>\r\n\r\n\r\n\r\n        </nav>\r\n\r\n    </div>\r\n</h" +
-"eader>");
+"               </li>\r\n\r\n                <li>\r\n                    <a");
+
+WriteLiteral(" data-bind=\"click : function(){ window.close();}\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-times\"");
+
+WriteLiteral(" style=\"margin-right: 5px\"");
+
+WriteLiteral("></i>Discard &amp; Close</a>\r\n                </li>\r\n            </ul>\r\n\r\n\r\n\r\n   " +
+"     </nav>\r\n\r\n    </div>\r\n</header>");
 
         }
     }
