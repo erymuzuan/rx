@@ -13,6 +13,8 @@ bespoke.utils.ServerPager = function (options) {
     options = options || {};
     var element = options.element,
         count = options.count || 0,
+        sizes = options.sizes || [10, 20, 50],
+        defaultSize = options.defaultSize || 20,
         changed = options.changed || function () {
             console.log("no change event");
         },
@@ -20,7 +22,7 @@ bespoke.utils.ServerPager = function (options) {
         rows = _.range(count),
         pagerDataSource = new kendo.data.DataSource({
             data: rows,
-            pageSize: 20
+            pageSize: defaultSize
         });
     if (options.hidden) {
         return self2;
@@ -28,22 +30,10 @@ bespoke.utils.ServerPager = function (options) {
 
     var pager = element.kendoPager({
         dataSource: pagerDataSource,
-        /*messages: {
-            display: "{0} - {1} of {2} rekod",
-            empty: "Tiada rekod",
-            page: "Muka",
-            of: "dari {0}",
-            itemsPerPage: "rekod setiap mukasurat",
-            first: "Pergi mukasurat pertama",
-            previous: "Pergi ke mukasurat belakang",
-            next: "Sergi mukasurat depan",
-            last: "Pergi mukasurat terakhir",
-            refresh: "Muat"
-        },*/
-        pageSizes: [10, 20, 50]
+        pageSizes: sizes
     }).data("kendoPager");
     pager.page(1);
-    pager.bind('change', function () {
+    pager.bind("change", function () {
         if (changed) {
             changed(pager.page(), pager.pageSize());
         }
@@ -76,7 +66,7 @@ bespoke.utils.ServerPager = function (options) {
         return pager.page();
     };
 
-    var dropdownlist = $(element).find('select').data("kendoDropDownList");
+    var dropdownlist = $(element).find("select").data("kendoDropDownList");
     dropdownlist.bind("change", function () {
         try {
             changed(1, parseInt(this.value()));
