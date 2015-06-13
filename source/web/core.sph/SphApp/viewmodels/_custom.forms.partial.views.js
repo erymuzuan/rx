@@ -105,20 +105,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                        }
                    });
-            },
-            importPackage = function () {
-                var tcs = new $.Deferred();
-                require(["viewmodels/custom.forms.import", "durandal/app"], function (dialog, app2) {
-                    app2.showDialog(dialog)
-                        .done(function () {
-                            $.get("/config/custom-routes")
-                                .done(list)
-                                .fail(tcs.reject)
-                                .done(tcs.resolve);
-                        });
-                });
-
-                return tcs.promise();
             };
 
         var vm = {

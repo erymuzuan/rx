@@ -27,7 +27,7 @@ define([objectbuilders.datacontext], function (context) {
                 entityTask = context.loadOneAsync("EntityDefinition", query),
                 viewsTask = context.searchAsync({ entity: "EntityView", size: 50 }, viewFilter),
                 formsTask = context.getTuplesAsync("EntityForm", fquery, "Name", "Route"),
-                customFormTask = $.get("/config/custom-routes");
+                customFormTask = $.get("/custom-forms/routes");
 
             $.when(entityTask, formsTask, viewsTask, customFormTask).done(function (b, flo, vlo, customForms) {
                 _entity(b);
