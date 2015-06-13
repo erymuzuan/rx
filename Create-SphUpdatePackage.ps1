@@ -383,8 +383,8 @@ Read-Host
 
 if($Release -eq $false)
 {
-    Remove-FtpDirectory -username $ftpUserName -password $ftpPassword -Directory "/staging/binaries/$Build" -sourceuri $ftpRoot
-    Remove-FtpDirectory -username $ftpUserName -password $ftpPassword -Directory "/staging/binaries/$Build.ps1" -sourceuri $ftpRoot
+   ## Remove-FtpDirectory -username $ftpUserName -password $ftpPassword -Directory "/staging/binaries/$Build" -sourceuri $ftpRoot
+   ## Remove-FtpDirectory -username $ftpUserName -password $ftpPassword -Directory "/staging/binaries/$Build.ps1" -sourceuri $ftpRoot
 }
 
 Create-FtpDirectory -sourceuri "$ftpRoot/" -username $ftpUserName -password $ftpPassword -Directory $Build
