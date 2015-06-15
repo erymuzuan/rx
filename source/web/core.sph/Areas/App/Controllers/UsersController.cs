@@ -7,9 +7,9 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
     public class UsersController : BaseAppController
     {
         [RazorScriptFilter]
+        [NoCache]
         public ActionResult Js()
         {
-            this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
             return View("Script");
         }
 

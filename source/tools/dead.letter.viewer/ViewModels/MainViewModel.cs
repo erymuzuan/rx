@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.IO.Compression;
@@ -9,6 +10,8 @@ using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Linq;
+using System.Text;
+using System.Windows;
 
 namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 {
@@ -159,7 +162,21 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         private async void Decompress(BasicGetResult result)
         {
-            this.Message = await DecompressAsync(result.Body);
+            try
+            {
+                this.Message = await DecompressAsync(result.Body);
+            }
+            catch (Exception e)
+            {
+                var text = new StringBuilder();
+                while (null != e)
+                {
+                    text.AppendLine(e.ToString());
+                    e = e.InnerException;
+                }
+                MessageBox.Show(text.ToString(), "There's an exception trying to decompress the result",
+                    MessageBoxButton.OK);
+            }
         }
 
         private void FormatJson(string message)

@@ -22,33 +22,33 @@
             <div>
                 <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', list: profiles, map: map },filter : {path:'tbody>tr'}">
                     <thead>
-                        <tr>
-                            <th>UserName</th>
-                            <th>Full name</th>
-                            <th>Department</th>
-                            <th>Designation</th>
-                            <th>Email</th>
-                            <th>Password</th>
-                        </tr>
+                    <tr>
+                        <th>UserName</th>
+                        <th>Full name</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                    </tr>
                     </thead>
                     <tbody data-bind="foreach: profiles">
-                        <tr>
-                            <td>
-                                <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand">
-                                    <i class="fa fa-user"></i>
-                                    <!-- ko text: UserName-->
-                                    <!-- /ko-->
-                                </a>
+                    <tr>
+                        <td>
+                            <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand">
+                                <i class="fa fa-user"></i>
+                                <!-- ko text: UserName-->
+                                <!-- /ko-->
+                            </a>
 
-                            </td>
-                            <td data-bind="text: FullName"></td>
-                            <td data-bind="text: Department"></td>
-                            <td data-bind="text: Designation"></td>
-                            <td data-bind="text: Email"></td>
-                            <td>
-                                <a data-toggle="modal" href="#user-change-password" data-bind="click: $root.resetPasswordCommand">Reset</a>
-                            </td>
-                        </tr>
+                        </td>
+                        <td data-bind="text: FullName"></td>
+                        <td data-bind="text: Department"></td>
+                        <td data-bind="text: Designation"></td>
+                        <td data-bind="text: Email"></td>
+                        <td>
+                            <a data-toggle="modal" href="#user-change-password" data-bind="click: $root.resetPasswordCommand">Reset</a>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
                 <a href="#" class="btn btn-link" data-bind="click : add">
@@ -67,6 +67,13 @@
             <!--ko compose:'viewmodels/_users.department' -->
             <!--/ko-->
         </div>
+    </div>
+</div>
+
+<div class="row">
+    <label class="col-lg-3">Import Security Settings</label>
+    <div class="col-lg-9">
+        <input type="file" name="files" id="import-security-setting-file-input" data-bind="kendoUpload : importedSecuritySettingStoreId" />
     </div>
 </div>
 <!--ko compose:'_user.add.html' -->

@@ -8,7 +8,7 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
+define(["services/datacontext", "services/logger", "plugins/dialog"],
     function (context, logger, dialog) {
 
         var okClick = function (data, ev) {
