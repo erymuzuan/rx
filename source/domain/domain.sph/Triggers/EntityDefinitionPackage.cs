@@ -28,9 +28,11 @@ namespace Bespoke.Sph.Domain
             var views = Directory.GetFiles(folder, "EntityView_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityView>());
             var forms = Directory.GetFiles(folder, "EntityForm_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityForm>());
             var triggers = Directory.GetFiles(folder, "Trigger_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<Trigger>());
+            var charts = Directory.GetFiles(folder, "EntityChart_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityChart>());
             views.Select(x => new LogEntry { Message = $"Deserializing EntityView:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
             forms.Select(x => new LogEntry { Message = $"Deserializing EntityForm:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
             triggers.Select(x => new LogEntry { Message = $"Deserializing Trigger:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            charts.Select(x => new LogEntry { Message = $"Deserializing Chart:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
             await Task.Delay(500);
             return ed;
 
@@ -48,10 +50,12 @@ namespace Bespoke.Sph.Domain
             var logger = ObjectBuilder.GetObject<ILogger>();
             var views = Directory.GetFiles(folder, "EntityView_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityView>()).ToList();
             var forms = Directory.GetFiles(folder, "EntityForm_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityForm>()).ToList();
+            var charts = Directory.GetFiles(folder, "EntityChart_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityChart>()).ToList();
             var triggers = Directory.GetFiles(folder, "Trigger_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<Trigger>()).ToList();
             views.Select(x => new LogEntry { Message = $"Deserializing EntityView:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
             forms.Select(x => new LogEntry { Message = $"Deserializing EntityForm:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
             triggers.Select(x => new LogEntry { Message = $"Deserializing Trigger:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            charts.Select(x => new LogEntry { Message = $"Deserializing Chart:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -60,6 +64,7 @@ namespace Bespoke.Sph.Domain
                 session.Attach(forms.Cast<Entity>().ToArray());
                 session.Attach(views.Cast<Entity>().ToArray());
                 session.Attach(triggers.Cast<Entity>().ToArray());
+                session.Attach(charts.Cast<Entity>().ToArray());
 
                 await session.SubmitChanges("Save").ConfigureAwait(false);
             }
@@ -136,10 +141,12 @@ namespace Bespoke.Sph.Domain
             var formQuery = context.EntityForms.Where(f => f.EntityDefinitionId == ed.Id);
             var viewQuery = context.EntityViews.Where(f => f.EntityDefinitionId == ed.Id);
             var triggerQuery = context.Triggers.Where(f => f.Entity == ed.Name);
+            var chartsQuery = context.EntityCharts.Where(f => f.Entity == ed.Name);
 
             var forms = (await context.LoadAsync(formQuery, 1, 50, true)).ItemCollection;
             var views = (await context.LoadAsync(viewQuery, 1, 50, true)).ItemCollection;
             var triggers = (await context.LoadAsync(triggerQuery, 1, 50, true)).ItemCollection;
+            var charts = (await context.LoadAsync(chartsQuery, 1, 50, true)).ItemCollection;
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
 
@@ -200,6 +207,10 @@ namespace Bespoke.Sph.Domain
                 {
                     File.Copy(triggerPdb, $"{path}\\{Path.GetFileName(triggerPdb)}");
                 }
+            }
+            foreach (var t in charts)
+            {
+                File.WriteAllBytes(Path.Combine(path, $"EntityChart_{t.Id}.json"), Encoding.UTF8.GetBytes(t.ToJsonString(true)));
             }
 
             if (includeData)
