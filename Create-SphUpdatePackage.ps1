@@ -319,7 +319,7 @@ ls -Path $output -Recurse -Filter Common.Logging.Core.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
 ls $output\tools | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
 ls $output\control.center | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\subscribers.host | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\subscribers | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
 ls $output\subscribers.host | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
 ls $output\schedulers | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
 ls $output\web\bin | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
