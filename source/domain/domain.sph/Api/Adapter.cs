@@ -122,7 +122,7 @@ namespace Bespoke.Sph.Domain.Api
             {
                 var td = await this.GetSchemaDefinitionAsync(table.Name);
                 td.CodeNamespace = this.CodeNamespace;
-                var es = string.Format("{0}.{1}.schema.json", this.Name.ToLowerInvariant(), table);
+                var es = $"{ConfigurationManager.UserSourceDirectory}\\{this.Name}\\{table}.schema.json";
 
                 if (!options.EmbeddedResourceCollection.Contains(es))
                 {
