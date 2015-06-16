@@ -241,6 +241,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             {
                 session.Attach(departments);
                 session.Attach(designations.Cast<Entity>().ToArray());
+
+                await session.SubmitChanges("import");
             }
 
             var roles = ReadAllText(Path.Combine(folder, "roles.txt")).Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
