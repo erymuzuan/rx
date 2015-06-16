@@ -40,5 +40,33 @@
     "role": "clerk",
     "description": "clerk",
     "isActive": false
+  },
+  {
+    "group": "PengurusanPengguna",
+    "name": "PengurusanPengguna",
+    "role": "PengurusanPengguna",
+    "description": "",
+    "isActive": false
+  },
+  {
+    "group": "Penyelaras",
+    "name": "Penyelaras",
+    "role": "Penyelaras",
+    "description": "",
+    "isActive": false
+  },
+  {
+    "group": "Responden",
+    "name": "Responden",
+    "role": "Responden",
+    "description": "",
+    "isActive": false
+  },
+  {
+    "group": "Urusetia",
+    "name": "Urusetia",
+    "role": "Urusetia",
+    "description": "",
+    "isActive": false
   }
 ]

@@ -20,7 +20,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
         public ActionResult AddRole(string role, string description)
         {
-            Roles.CreateRole(role);
+            if (!Roles.RoleExists(role))
+                Roles.CreateRole(role);
 
             var rolesConfig = Server.MapPath("~/roles.config.js");
             var json = ReadAllText(rolesConfig);
@@ -30,10 +31,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 Formatting = Formatting.Indented
             };
             var roles = (JsonConvert.DeserializeObject<RoleModel[]>(json, settings)).ToList();
+            var exist = roles.SingleOrDefault(r => r.Role == role);
+            if (null != role)
+                roles.Remove(exist);
 
             roles.Add(new RoleModel { Role = role, Name = role, Group = role, Description = description });
             json = JsonConvert.SerializeObject(roles.ToArray(), settings);
             WriteAllText(rolesConfig, json);
+
 
 
             return Json(true);
@@ -81,6 +86,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> AddUser(Profile profile)
         {
             var context = new SphDataContext();
+            if (string.IsNullOrWhiteSpace(profile.Designation)) throw new ArgumentNullException("Designation for  " + profile.UserName + " cannot be set to null or empty");
             var designation = await context.LoadOneAsync<Designation>(d => d.Name == profile.Designation);
             if (null == designation) throw new InvalidOperationException("Cannot find designation " + profile.Designation);
             var roles = designation.RoleCollection.ToArray();
@@ -90,8 +96,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (null != em)
             {
                 var userroles = Roles.GetRolesForUser(profile.UserName);
-                if (userroles.Any())
-                    Roles.RemoveUserFromRoles(profile.UserName, roles);
+                foreach (var r in userroles.Where(Roles.IsUserInRole))
+                {
+                    Roles.RemoveUserFromRole(em.UserName, r);
+                }
 
                 profile.Roles = roles;
                 em.Email = profile.Email;
@@ -224,14 +232,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (Exists(zipFile))
                 Delete(zipFile);
             if (Directory.Exists(folder))
-                Directory.Delete(folder,true);
+                Directory.Delete(folder, true);
             Directory.CreateDirectory(folder);
             WriteAllBytes(zipFile, doc.Content);
 
             ZipFile.ExtractToDirectory(zipFile, folder);
             var context = new SphDataContext();
-            var designations =
-                Directory.GetFiles(folder, "designation.*.json")
+            var existingDesignations = (await context.LoadAsync(context.Designations, 1, 400)).ItemCollection;
+
+            var designations = Directory.GetFiles(folder, "designation.*.json")
                     .Select(f => ReadAllText(f).DeserializeFromJson<Designation>())
                     .ToList();
 
@@ -242,6 +251,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(departments);
                 session.Attach(designations.Cast<Entity>().ToArray());
 
+                foreach (var d in designations)
+                {
+                    var exist = existingDesignations.SingleOrDefault(x => x.Name == d.Name);
+                    if (null != exist)
+                    {
+                        session.Delete(exist);
+                    }
+                }
+
+
                 await session.SubmitChanges("import");
             }
 
@@ -250,7 +269,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 .Select(r => AddRole(r, ""));
 
             Delete(zipFile);
-            Directory.Delete(folder,true);
+            Directory.Delete(folder, true);
 
 
             this.Response.StatusCode = (int)HttpStatusCode.Created;
