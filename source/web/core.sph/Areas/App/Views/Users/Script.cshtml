@@ -68,7 +68,7 @@
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({userName : userName});
                 isBusy(true);
-                context.post(data, "/Admin/ValidateUserName")
+                context.post(data, "/sph/Admin/ValidateUserName")
                     .then(function(result) {
                         isBusy(false);
                         isBusyValidatingUserName(false);
@@ -85,7 +85,7 @@
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({email : email});
                 isBusy(true);
-                context.post(data, "/Admin/ValidateEmail")
+                context.post(data, "/Sph/Admin/ValidateEmail")
                     .then(function(result) {
                         isBusy(false);
                         isBusyValidatingEmail(false);
@@ -118,7 +118,7 @@
                 var data = ko.mapping.toJSON({profile : profile}) ;
                 isBusy(true);
 
-                context.post(data, "/Admin/AddUser")
+                context.post(data, "/sph/Admin/AddUser")
                     .then(function(result) {
                         isBusy(false);
                         profiles.push(result);
@@ -145,7 +145,7 @@
                 var data = ko.mapping.toJSON({userName: profile().UserName(), password: password1}) ;
                 isBusy(true);
 
-                return context.post(data, "/Admin/ResetPassword")
+                return context.post(data, "/sph/Admin/ResetPassword")
                     .then(function(result) {
                         isBusy(false);
                         if (result.OK) {

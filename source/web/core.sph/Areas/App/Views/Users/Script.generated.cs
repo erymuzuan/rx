@@ -107,75 +107,75 @@ WriteLiteral(",\r\n            printprofile = ko.observable(new bespoke.sph.doma
 "\n            userNameChaged = function(userName) {\r\n                isBusyValida" +
 "tingUserName(true);\r\n                var tcs = new $.Deferred();\r\n              " +
 "  var data = JSON.stringify({userName : userName});\r\n                isBusy(true" +
-");\r\n                context.post(data, \"/Admin/ValidateUserName\")\r\n             " +
-"       .then(function(result) {\r\n                        isBusy(false);\r\n       " +
-"                 isBusyValidatingUserName(false);\r\n                        if (r" +
-"esult.status !== \"OK\") {\r\n                            userNameValidationStatus(r" +
-"esult.message);\r\n                        }\r\n\r\n                        tcs.resolv" +
-"e(result);\r\n                    });\r\n                return tcs.promise();\r\n    " +
-"        },\r\n            emailChanged = function(email) {\r\n                isBusy" +
-"ValidatingEmail(true);\r\n                var tcs = new $.Deferred();\r\n           " +
-"     var data = JSON.stringify({email : email});\r\n                isBusy(true);\r" +
-"\n                context.post(data, \"/Admin/ValidateEmail\")\r\n                   " +
+");\r\n                context.post(data, \"/sph/Admin/ValidateUserName\")\r\n         " +
+"           .then(function(result) {\r\n                        isBusy(false);\r\n   " +
+"                     isBusyValidatingUserName(false);\r\n                        i" +
+"f (result.status !== \"OK\") {\r\n                            userNameValidationStat" +
+"us(result.message);\r\n                        }\r\n\r\n                        tcs.re" +
+"solve(result);\r\n                    });\r\n                return tcs.promise();\r\n" +
+"            },\r\n            emailChanged = function(email) {\r\n                is" +
+"BusyValidatingEmail(true);\r\n                var tcs = new $.Deferred();\r\n       " +
+"         var data = JSON.stringify({email : email});\r\n                isBusy(tru" +
+"e);\r\n                context.post(data, \"/Sph/Admin/ValidateEmail\")\r\n           " +
+"         .then(function(result) {\r\n                        isBusy(false);\r\n     " +
+"                   isBusyValidatingEmail(false);\r\n                        if (re" +
+"sult.status !== \"OK\") {\r\n                            emailValidationStatus(resul" +
+"t.message);\r\n                        }\r\n\r\n                        tcs.resolve(re" +
+"sult);\r\n                    });\r\n                return tcs.promise();\r\n        " +
+"    },\r\n            add = function() {\r\n                profile(new bespoke.sph." +
+"domain.Profile());\r\n                profile().IsNew(true);\r\n                prof" +
+"ile().UserName(\'\');\r\n                profile().Email.subscribe(emailChanged);\r\n " +
+"               profile().UserName.subscribe(userNameChaged);\r\n\r\n                " +
+"$(\'#user-details-modal\').modal();\r\n            },\r\n            editedProfile = k" +
+"o.observable(),\r\n            edit = function(user) {\r\n                editedProf" +
+"ile(user);\r\n                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(user)" +
+");\r\n                var clone = c1;\r\n                profile(clone);\r\n          " +
+"  },\r\n            save = function() {\r\n                var tcs = new $.Deferred(" +
+");\r\n                var data = ko.mapping.toJSON({profile : profile}) ;\r\n       " +
+"         isBusy(true);\r\n\r\n                context.post(data, \"/sph/Admin/AddUser" +
+"\")\r\n                    .then(function(result) {\r\n                        isBusy" +
+"(false);\r\n                        profiles.push(result);\r\n                      " +
+"  tcs.resolve(true);\r\n                    });\r\n                return tcs.promis" +
+"e();\r\n            },\r\n            resetPassword = function(user) {\r\n            " +
+"    password1(\'\');\r\n                password2(\'\');\r\n                var c1 = ko." +
+"mapping.fromJSON(ko.mapping.toJSON(user));\r\n                var clone = c1;\r\n   " +
+"             profile(clone);\r\n            },\r\n            savePassword = functio" +
+"n() {\r\n                if (!password1() && !password2()) {\r\n                    " +
+"return Task.fromResult(false);\r\n                };\r\n                if (password" +
+"1() !== password2()) {\r\n                    logger.logError(\'Password mismatch\'," +
+" this, this, true);\r\n                    return Task.fromResult(false);\r\n       " +
+"         }\r\n\r\n                var data = ko.mapping.toJSON({userName: profile()." +
+"UserName(), password: password1}) ;\r\n                isBusy(true);\r\n\r\n          " +
+"      return context.post(data, \"/sph/Admin/ResetPassword\")\r\n                   " +
 " .then(function(result) {\r\n                        isBusy(false);\r\n             " +
-"           isBusyValidatingEmail(false);\r\n                        if (result.sta" +
-"tus !== \"OK\") {\r\n                            emailValidationStatus(result.messag" +
-"e);\r\n                        }\r\n\r\n                        tcs.resolve(result);\r\n" +
-"                    });\r\n                return tcs.promise();\r\n            },\r\n" +
-"            add = function() {\r\n                profile(new bespoke.sph.domain.P" +
-"rofile());\r\n                profile().IsNew(true);\r\n                profile().Us" +
-"erName(\'\');\r\n                profile().Email.subscribe(emailChanged);\r\n         " +
-"       profile().UserName.subscribe(userNameChaged);\r\n\r\n                $(\'#user" +
-"-details-modal\').modal();\r\n            },\r\n            editedProfile = ko.observ" +
-"able(),\r\n            edit = function(user) {\r\n                editedProfile(user" +
-");\r\n                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(user));\r\n    " +
-"            var clone = c1;\r\n                profile(clone);\r\n            },\r\n  " +
-"          save = function() {\r\n                var tcs = new $.Deferred();\r\n    " +
-"            var data = ko.mapping.toJSON({profile : profile}) ;\r\n               " +
-" isBusy(true);\r\n\r\n                context.post(data, \"/Admin/AddUser\")\r\n        " +
-"            .then(function(result) {\r\n                        isBusy(false);\r\n  " +
-"                      profiles.push(result);\r\n                        tcs.resolv" +
-"e(true);\r\n                    });\r\n                return tcs.promise();\r\n      " +
-"      },\r\n            resetPassword = function(user) {\r\n                password" +
-"1(\'\');\r\n                password2(\'\');\r\n                var c1 = ko.mapping.from" +
-"JSON(ko.mapping.toJSON(user));\r\n                var clone = c1;\r\n               " +
-" profile(clone);\r\n            },\r\n            savePassword = function() {\r\n     " +
-"           if (!password1() && !password2()) {\r\n                    return Task." +
-"fromResult(false);\r\n                };\r\n                if (password1() !== pass" +
-"word2()) {\r\n                    logger.logError(\'Password mismatch\', this, this," +
-" true);\r\n                    return Task.fromResult(false);\r\n                }\r\n" +
-"\r\n                var data = ko.mapping.toJSON({userName: profile().UserName(), " +
-"password: password1}) ;\r\n                isBusy(true);\r\n\r\n                return" +
-" context.post(data, \"/Admin/ResetPassword\")\r\n                    .then(function(" +
-"result) {\r\n                        isBusy(false);\r\n                        if (r" +
-"esult.OK) {\r\n                            logger.info(result.messages);\r\n        " +
-"                } else {\r\n                            logger.logError(result.mes" +
-"sages, this, this, true);\r\n                        }\r\n                    });\r\n\r" +
-"\n\r\n            },\r\n            exportCommand = function() {\r\n                win" +
-"dow.open(\"/sph/admin/ExportSecuritySettings\");\r\n                return Task.from" +
-"Result(true);\r\n\r\n            };\r\n\r\n        importedSecuritySettingStoreId.subscr" +
-"ibe(function(id) {\r\n            context.post(JSON.stringify({\"id\": id}), \"/sph/a" +
-"dmin/import/\" + id)\r\n            .done(function() {\r\n                logger.info" +
-"(\"All the settings has been imported\");\r\n                activate();\r\n          " +
-"  });\r\n        });\r\n\r\n        var vm = {\r\n            importedSecuritySettingSto" +
-"reId: importedSecuritySettingStoreId,\r\n            activate: activate,\r\n        " +
-"    isBusyValidatingUserName : isBusyValidatingUserName,\r\n            isBusyVali" +
-"datingEmail : isBusyValidatingEmail,\r\n            profiles: profiles,\r\n         " +
-"   profile: profile,\r\n            printprofile : printprofile,\r\n            desi" +
-"gnationOptions : designationOptions,\r\n            departmentOptions : department" +
-"Options,\r\n            userNameValidationStatus : userNameValidationStatus,\r\n    " +
-"        emailValidationStatus : emailValidationStatus,\r\n            editCommand:" +
-" edit,\r\n            saveCommand: save,\r\n            add: add,\r\n            passw" +
-"ord1: password1,\r\n            password2: password2,\r\n            resetPasswordCo" +
-"mmand: resetPassword,\r\n            savePasswordCommand: savePassword,\r\n         " +
-"   map: map,\r\n            searchTerm: {\r\n                department:ko.observabl" +
-"e(),\r\n                keyword: ko.observable()\r\n            },\r\n            tool" +
-"bar : ko.observable({\r\n                exportCommand : exportCommand,\r\n         " +
-"       reloadCommand: function () {\r\n                    return activate();\r\n   " +
-"             },\r\n                printCommand: ko.observable({\r\n                " +
-"    entity: ko.observable(\"UserProfile\"),\r\n                    id: ko.observable" +
-"(0),\r\n                    item: printprofile,\r\n                })\r\n            }" +
-")\r\n        };\r\n\r\n\r\n        return vm;\r\n\r\n\r\n    });\r\n</script>\r\n");
+"           if (result.OK) {\r\n                            logger.info(result.mess" +
+"ages);\r\n                        } else {\r\n                            logger.log" +
+"Error(result.messages, this, this, true);\r\n                        }\r\n          " +
+"          });\r\n\r\n\r\n            },\r\n            exportCommand = function() {\r\n   " +
+"             window.open(\"/sph/admin/ExportSecuritySettings\");\r\n                " +
+"return Task.fromResult(true);\r\n\r\n            };\r\n\r\n        importedSecuritySetti" +
+"ngStoreId.subscribe(function(id) {\r\n            context.post(JSON.stringify({\"id" +
+"\": id}), \"/sph/admin/import/\" + id)\r\n            .done(function() {\r\n           " +
+"     logger.info(\"All the settings has been imported\");\r\n                activat" +
+"e();\r\n            });\r\n        });\r\n\r\n        var vm = {\r\n            importedSe" +
+"curitySettingStoreId: importedSecuritySettingStoreId,\r\n            activate: act" +
+"ivate,\r\n            isBusyValidatingUserName : isBusyValidatingUserName,\r\n      " +
+"      isBusyValidatingEmail : isBusyValidatingEmail,\r\n            profiles: prof" +
+"iles,\r\n            profile: profile,\r\n            printprofile : printprofile,\r\n" +
+"            designationOptions : designationOptions,\r\n            departmentOpti" +
+"ons : departmentOptions,\r\n            userNameValidationStatus : userNameValidat" +
+"ionStatus,\r\n            emailValidationStatus : emailValidationStatus,\r\n        " +
+"    editCommand: edit,\r\n            saveCommand: save,\r\n            add: add,\r\n " +
+"           password1: password1,\r\n            password2: password2,\r\n           " +
+" resetPasswordCommand: resetPassword,\r\n            savePasswordCommand: savePass" +
+"word,\r\n            map: map,\r\n            searchTerm: {\r\n                departm" +
+"ent:ko.observable(),\r\n                keyword: ko.observable()\r\n            },\r\n" +
+"            toolbar : ko.observable({\r\n                exportCommand : exportCom" +
+"mand,\r\n                reloadCommand: function () {\r\n                    return " +
+"activate();\r\n                },\r\n                printCommand: ko.observable({\r\n" +
+"                    entity: ko.observable(\"UserProfile\"),\r\n                    i" +
+"d: ko.observable(0),\r\n                    item: printprofile,\r\n                }" +
+")\r\n            })\r\n        };\r\n\r\n\r\n        return vm;\r\n\r\n\r\n    });\r\n</script>\r\n");
 
         }
     }

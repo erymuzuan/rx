@@ -67,7 +67,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Content(JsonConvert.SerializeObject(true));
 
         }
-        [HttpGet]
+
         public ActionResult ValidateEmail(string email)
         {
             var emailExist = Membership.GetUserNameByEmail(email);
