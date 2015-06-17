@@ -24,7 +24,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         {
             m_brokerConnection = connection;
             var guid = Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
-            this.QueueName = string.Format("_{0}_{1}_{2}", Environment.MachineName, guid, typeof(T).Name);
+            this.QueueName = $"_{Environment.MachineName}_{guid}_{typeof (T).Name}";
             this.RoutingKeys = new[] { typeof(T).Name + ".#.#" };
             m_currentContext = SynchronizationContext.Current;
         }
@@ -36,8 +36,8 @@ namespace Bespoke.Sph.RabbitMqPublisher
             m_isRun = true;
 
 
-            const bool noAck = true;
-            const string exchangeName = "sph.topic";
+            const bool NO_ACK = true;
+            const string EXCHANGE_NAME = "sph.topic";
 
             var factory = new ConnectionFactory
             {
@@ -50,17 +50,17 @@ namespace Bespoke.Sph.RabbitMqPublisher
             m_connection = factory.CreateConnection();
             m_channel = m_connection.CreateModel();
 
-            m_channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
+            m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
             m_channel.QueueDeclare(this.QueueName, false, true, true, null);
             foreach (var s in this.RoutingKeys)
             {
-                m_channel.QueueBind(this.QueueName, exchangeName, s, null);
+                m_channel.QueueBind(this.QueueName, EXCHANGE_NAME, s, null);
             }
 
             var consumer = new TaskBasicConsumer(m_channel);
             consumer.Received += MessageReceived;
 
-            m_channel.BasicConsume(this.QueueName, noAck, consumer);
+            m_channel.BasicConsume(this.QueueName, NO_ACK, consumer);
 
         }
 

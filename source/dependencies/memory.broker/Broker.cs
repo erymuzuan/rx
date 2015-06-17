@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -7,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Humanizer;
 using RabbitMQ.Client.Framing;
 
 namespace Bespoke.Sph.Messaging
@@ -106,7 +109,8 @@ namespace Bespoke.Sph.Messaging
             m_keys = "";
             foreach (var item in attachedCollection)
             {
-                SendMessage(operation, headers, item, "added");
+                var log = new AuditTrail { Type = item.GetType().Name, EntityId = item.Id, Id = Guid.NewGuid().ToString(), Operation = operation, Note = "Added" };
+                SendMessage(operation, headers, item, "added",log);
             }
             return Task.FromResult(0);
         }
@@ -116,14 +120,16 @@ namespace Bespoke.Sph.Messaging
         public Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs, IDictionary<string, object> headers)
         {
             m_keys = "";
+            var allLogs = logs.ToList();
             foreach (var item in attachedCollection)
             {
-                SendMessage(operation, headers, item, "changed");
+                var audit = allLogs.SingleOrDefault(x => x.EntityId == item.Id && x.Type == item.GetType().Name);
+                SendMessage(operation, headers, item, "changed", audit);
             }
             return Task.FromResult(0);
         }
 
-        private void SendMessage(string operation, IDictionary<string, object> headers, Entity item, string crud)
+        private void SendMessage(string operation, IDictionary<string, object> headers, Entity item, string crud, AuditTrail log)
         {
             var type = item.GetType().Name;
             var topic = $"{type}.{crud}.{operation}";
@@ -142,6 +148,23 @@ namespace Bespoke.Sph.Messaging
                 }
             }
             m_keys = string.Join(";", subsribers);
+
+            object listener;
+            if (m_listeners.TryGetValue(item.GetType(), out listener))
+            {
+                dynamic broadcast = listener;
+                broadcast.SendMessage(item, log);
+            }
+        }
+        private readonly ConcurrentDictionary<Type, object> m_listeners = new ConcurrentDictionary<Type, object>();
+        internal void RegisterListener<T>(ChangeListener<T> listener) where T : Entity
+        {
+            m_listeners.TryAdd(typeof(T), listener);
+        }
+        internal void RemoveListener<T>(ChangeListener<T> listener) where T : Entity
+        {
+            object list;
+            m_listeners.TryRemove(typeof(T), out list);
         }
 
         private void Invoke(object sub, Entity item, IDictionary<string, object> headers, string crud, string operation)
@@ -179,7 +202,8 @@ namespace Bespoke.Sph.Messaging
             m_keys = "";
             foreach (var item in deletedCollection)
             {
-                SendMessage(operation, headers, item, "deleted");
+                var log = new AuditTrail { Type = item.GetType().Name, EntityId = item.Id, Id = Guid.NewGuid().ToString(), Operation = operation, Note = "Delete" };
+                SendMessage(operation, headers, item, "deleted", log);
             }
             return Task.FromResult(0);
         }
@@ -205,16 +229,16 @@ namespace Bespoke.Sph.Messaging
         public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedEntities, IDictionary<string, object> headers)
         {
             var userName = ObjectBuilder.GetObject<IDirectoryService>().CurrentUserName;
-            // Console.WriteLine("{0} for {1}", headers.Operation, "item".ToQuantity(entities.Count));
             var entities = attachedEntities.ToList();
             var deletedItems = deletedEntities.ToArray();
+            Console.WriteLine($"{operation} for {"item".ToQuantity(entities.Count)}");
             foreach (var item in entities)
             {
-                //this.WriteMessage("{0} for {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
+                Console.WriteLine($"{operation} for {item.GetType().Name}{{ Id : \"{item.Id}\"}}");
             }
             foreach (var item in deletedItems)
             {
-                Console.WriteLine(@"Deleting({0}) {1}{{ Id : ""{2}""}}", operation, item.GetType().Name, item.Id);
+                Console.WriteLine($@"Deleting({operation}) {item.GetType().Name}{{ Id : ""{item.Id}""}}");
             }
             // get changes to items
             var previous = await GetPreviousItems(entities);
@@ -247,6 +271,7 @@ namespace Bespoke.Sph.Messaging
             var persistence = ObjectBuilder.GetObject<IPersistence>();
             var so = await persistence.SubmitChanges(entities, deletedItems, null, userName)
             .ConfigureAwait(false);
+            Debug.WriteLine(so);
 
 
             var logsAddedTask = this.PublishAdded(operation, logs, headers);
