@@ -69,6 +69,28 @@
         "Boost": 0,
         "DefaultValue": null,
         "WebId": "534e0582-54c7-4cbb-9390-6da7409d776d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Nick",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": true,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "DefaultValue": null,
+        "WebId": "c60b90bb-90c2-4ad9-e1df-f005ea92d6d2"
       }
     ]
   },
@@ -101,7 +123,7 @@
   "CreatedBy": null,
   "Id": "district",
   "CreatedDate": "0001-01-01T00:00:00",
-  "ChangedBy": "admin",
-  "ChangedDate": "2015-05-18T08:12:59.02311+08:00",
+  "ChangedBy": "erymuzuan",
+  "ChangedDate": "2015-06-18T06:05:03.6518118+08:00",
   "WebId": "a9b46951-3540-45fd-af99-69e1128dc718"
 }

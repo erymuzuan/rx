@@ -155,6 +155,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gulp-tasks", "gulp-tasks", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "database.lookup.mysql", "source\functoids\database_mysql.lookup\database.lookup.mysql.csproj", "{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "memory.broker", "source\dependencies\memory.broker\memory.broker.csproj", "{2A472945-6847-41C6-8722-1F5EEEB1A46D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "broker.test", "source\unit.test\broker.test\broker.test.csproj", "{B0BA38FC-6151-4E91-9467-B4308D2003C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -389,6 +393,14 @@ Global
 		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A472945-6847-41C6-8722-1F5EEEB1A46D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A472945-6847-41C6-8722-1F5EEEB1A46D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A472945-6847-41C6-8722-1F5EEEB1A46D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A472945-6847-41C6-8722-1F5EEEB1A46D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0BA38FC-6151-4E91-9467-B4308D2003C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0BA38FC-6151-4E91-9467-B4308D2003C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0BA38FC-6151-4E91-9467-B4308D2003C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0BA38FC-6151-4E91-9467-B4308D2003C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -452,5 +464,7 @@ Global
 		{0E76CF28-C1A8-417C-B672-10B6E0AFF102} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{62885FB2-C06E-42F6-8C0C-D9425A9BA774} = {5D5FA217-25F5-4EF5-BADA-7691B883E274}
 		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D} = {AC63E1AA-495D-4BD9-AF56-810DA6CBB5E2}
+		{2A472945-6847-41C6-8722-1F5EEEB1A46D} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{B0BA38FC-6151-4E91-9467-B4308D2003C0} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 EndGlobal
