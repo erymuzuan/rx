@@ -14,9 +14,24 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var list = ko.observableArray(),
             isBusy = ko.observable(false),
-            load = function() {
-                
-                return $.getJSON("/custom-forms/routes").done(list);
+            load = function () {
+                return $.getJSON("/custom-forms/routes").done(list)
+                .done(function () {
+                    list.push({
+                        "role": null,
+                        "groupName": "Main",
+                        "route": "",
+                        "moduleId": "viewmodels/public.index",
+                        "title": "Home",
+                        "nav": true,
+                        "icon": "fa fa-home",
+                        "caption": "Home",
+                        "settings": null,
+                        "isAdminPage": false,
+                        "showWhenLoggedIn": false,
+                        "error": ""
+                    });
+                });
             },
             activate = function () {
                 return load();

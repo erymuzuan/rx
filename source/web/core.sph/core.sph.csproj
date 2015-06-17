@@ -2071,7 +2071,6 @@
     <EmbeddedResource Include="SphApp\viewmodels\not.found.js" />
     <EmbeddedResource Include="SphApp\viewmodels\offline.storage.js" />
     <EmbeddedResource Include="SphApp\viewmodels\output.setting.dialog.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
     <EmbeddedResource Include="SphApp\viewmodels\search.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_developers.log.js" />
     <EmbeddedResource Include="SphApp\views\advanced-search.html" />
@@ -2593,7 +2592,6 @@
     <EmbeddedResource Include="SphApp\views\not.found.html" />
     <EmbeddedResource Include="SphApp\views\offline.storage.html" />
     <EmbeddedResource Include="SphApp\views\output.setting.dialog.html" />
-    <EmbeddedResource Include="SphApp\views\public.index.html" />
     <EmbeddedResource Include="SphApp\views\search.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\_developers.log.html" />
     <EmbeddedResource Include="SphApp\views\transform.definition.list.html" />

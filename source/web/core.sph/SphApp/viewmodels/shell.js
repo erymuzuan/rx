@@ -4,22 +4,22 @@
 /// <reference path="../../Scripts/require.js" />
 
 
-define(['durandal/system','services/system', 'plugins/router', 'services/logger', 'services/datacontext', objectbuilders.config, objectbuilders.cultures],
+define(["durandal/system","services/system", "plugins/router", "services/logger", "services/datacontext", objectbuilders.config, objectbuilders.cultures],
     function (system,system2, router, logger, context, config) {
 
         var activate = function () {
             return router.map(config.routes)
                 .buildNavigationModel()
-                .mapUnknownRoutes('viewmodels/not.found', 'not.found')
+                .mapUnknownRoutes("viewmodels/not.found", "not.found")
                 .activate();
         },
             attached = function (view) {
-                $(view).on('click', 'a#help', function (e) {
+                $(view).on("click", "a#help", function (e) {
                     e.preventDefault();
                     var topic = window.location.hash;
                     window.open("/docs/" + topic);
                 });
-                $(document).on('click', 'a#help-dialog', function (e) {
+                $(document).on("click", "a#help-dialog", function (e) {
                     e.preventDefault();
                     var topic = $(this).data("dialog");
                     window.open("/docs/#" + topic);
@@ -36,37 +36,37 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                     var button = $(this);
                     button.parent().addClass("open");
 
-                    $(document).one('click', function () {
+                    $(document).one("click", function () {
                         button.parent().removeClass("open");
                     });
                 };
 
-                $(document).on('mouseenter', '.view-model-modal .modal-header', function (e) {
+                $(document).on("mouseenter", ".view-model-modal .modal-header", function (e) {
                     e.preventDefault();
-                    var elem = $(this).parents('.view-model-modal'),
-                        draggable = elem.data('draggable') || elem.data('ui-draggable') || elem.data('uiDraggable');
+                    var elem = $(this).parents(".view-model-modal"),
+                        draggable = elem.data("draggable") || elem.data("ui-draggable") || elem.data("uiDraggable");
 
                     if (!draggable) {
                         elem.draggable({
-                            handle: '.modal-header'
+                            handle: ".modal-header"
                         });
-                        $('.modal-header').css("cursor", "move");
-                        console.log('draggagle modal');
-                        elem.find('div.modal-header>button').
-                            after('<a class="pull-right" id="help-dialog" data-dialog="' + elem.attr('id') + '" href="#" title="see help on this topic" style="margin-right:10px; color:gray"><i class="fa fa-question-circle"></i></a>');
+                        $(".modal-header").css("cursor", "move");
+                        console.log("draggagle modal");
+                        elem.find("div.modal-header>button").
+                            after("<a class=\"pull-right\" id=\"help-dialog\" data-dialog=\"" + elem.attr("id") + "\" href=\"#\" title=\"see help on this topic\" style=\"margin-right:10px; color:gray\"><i class=\"fa fa-question-circle\"></i></a>");
                     }
                 });
 
-                $(document).on('click', 'a.dropdown-toggle', dropDown);
+                $(document).on("click", "a.dropdown-toggle", dropDown);
 
-                $(document).on('click', 'table.table-striped th', function (e) {
+                $(document).on("click", "table.table-striped th", function (e) {
                     e.preventDefault();
                     var table = $(this).parents("table.table-striped");
                     if (table && !table.prop("sorted")) {
                         console.dir(e);
                         table.tablesorter();
                         table.prop("sorted", "1");
-                        $(this).trigger('click');
+                        $(this).trigger("click");
                     }
                 });
                 var $menu = $("#slider-menu"),
@@ -89,7 +89,7 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                     sliderVisible = $menu.is(":visible");
 
 
-                $(view).on('click', '#drawer-menu', function (e) {
+                $(view).on("click", "#drawer-menu", function (e) {
                     e.preventDefault();
                     if (sliderVisible) {
                         hideSlider();
@@ -99,12 +99,12 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                     sliderVisible = !sliderVisible;
 
                 });
-                $('#slider-menu').on('click', 'li>a', function () {
+                $("#slider-menu").on("click", "li>a", function () {
                     hideSlider();
                     sliderVisible = false;
                 });
 
-                $(document).on('keyup', function (e) {
+                $(document).on("keyup", function (e) {
                     //console.log(e.keyCode);
                     if (e.ctrlKey && e.keyCode === 81) {
                         if (sliderVisible) {
@@ -122,7 +122,7 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                         if (_(config.roles).indexOf("developers") < 0) {
                             return;
                         }
-                        require(['viewmodels/solution.explorer', 'durandal/app'], function (dialog, app2) {
+                        require(["viewmodels/solution.explorer", "durandal/app"], function (dialog, app2) {
 
                             app2.showDialog(dialog)
                                 .done(function (result) {
@@ -133,8 +133,8 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                     }
                 });
 
-                var $links = $('div#slider-menu li'),
-                    filterInput = $('#filter-text'),
+                var $links = $("div#slider-menu li"),
+                    filterInput = $("#filter-text"),
                     selectedRouteItemIndex = 0,
                     dofilter = function (e) {
                         if (e && e.keyCode) {
@@ -160,7 +160,7 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                     navigateSelectedItem = function (e) {
                         var selectRouteItem = function (step) {
                             selectedRouteItemIndex += step;
-                            var $list = $('div#slider-menu li:visible');
+                            var $list = $("div#slider-menu li:visible");
 
                             if (selectedRouteItemIndex <= 0) {
                                 selectedRouteItemIndex = 1;
@@ -172,8 +172,8 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                                 return;
                             }
 
-                            $list.removeClass('active');
-                            $($list[selectedRouteItemIndex]).addClass('active');
+                            $list.removeClass("active");
+                            $($list[selectedRouteItemIndex]).addClass("active");
 
                         };
                         // select items
@@ -187,7 +187,7 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                                 return;
                             }
                             if (e.keyCode === 13) {
-                                $('div#slider-menu li:visible.active').find('a').trigger('click');
+                                $("div#slider-menu li:visible.active").find("a").trigger("click");
                                 return;
                             }
                         }
@@ -197,11 +197,11 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
 
 
                 filterInput
-                    .on('keyup', throttled)
-                    .on('keyup', navigateSelectedItem)
-                    .siblings('span')
+                    .on("keyup", throttled)
+                    .on("keyup", navigateSelectedItem)
+                    .siblings("span")
                     .click(function () {
-                        filterInput.val('');
+                        filterInput.val("");
                         dofilter();
                     });
 
@@ -224,7 +224,7 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
 
 
 
-                require(['viewmodels/email.entity.dialog', 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/email.entity.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.entity(parameter.entity);
                     dialog.id(parameter.id());
                     if (typeof dialog.wd === "function") {

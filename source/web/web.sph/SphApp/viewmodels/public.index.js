@@ -18,7 +18,7 @@ define([],
             return true;
         },
 	        attached = function (view) {
-	            $(view).find('.carousel').carousel({
+	            $(view).find(".carousel").carousel({
 	                interval: 2000
 	            });
 	        };

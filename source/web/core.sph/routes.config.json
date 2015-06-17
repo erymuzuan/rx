@@ -16,7 +16,7 @@
     {
         "role": null,
         "groupName": "Main",
-        "route": "public.index",
+        "route": "",
         "moduleId": "viewmodels/public.index",
         "title": "Home",
         "nav": true,

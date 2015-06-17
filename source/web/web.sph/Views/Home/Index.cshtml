@@ -15,7 +15,6 @@
 
 
     <link href="/Content/__css.css" rel="stylesheet" />
-    <link href="/Content/daterangepicker-bs3.css" rel="stylesheet" />
     <meta name="description" content="The description of my page" />
 
     <meta name="viewport" content="width=device-width" />
@@ -36,12 +35,12 @@
     <script type="text/javascript">
 
         var span = document.getElementById("seconds"),
-            seconds = 3;
+            seconds = 2;
         var sc = setInterval(function () {
             span.innerText = seconds--;
             if (seconds === 0) {
                 clearInterval(sc);
-                window.location = "/sph#dev.home";
+                window.location = "/sph";
             }
         }, 1000);
     </script>

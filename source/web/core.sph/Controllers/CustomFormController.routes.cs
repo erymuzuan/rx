@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -9,7 +10,7 @@ using static System.IO.File;
 
 namespace Bespoke.Sph.Web.Controllers
 {
-    public partial class CustomFormController 
+    public partial class CustomFormController
     {
         [HttpGet]
         [Route("routes")]
@@ -29,10 +30,14 @@ namespace Bespoke.Sph.Web.Controllers
         [Authorize(Roles = "developers")]
         public ActionResult SaveCustomRoutes()
         {
-
             var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
             var request = this.GetRequestBody();
             var route = JsonConvert.DeserializeObject<JsRoute>(request);
+            if (string.IsNullOrWhiteSpace(route.Route) || route.ModuleId.EndsWith("public.index"))
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return Json(new { success = false, status = "Not Alllowed", message = "You cannot edit default route" });
+            }
             var customRouteConfig = Server.MapPath(CustomRouteConfig);
             var customJsRoutes = new JsRoute[] { };
             if (Exists(customRouteConfig))
