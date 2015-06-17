@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -11,12 +11,10 @@
 
 define([],
 	function () {
-
-	    var
-        isBusy = ko.observable(false),
-        activate = function () {
-            return true;
-        },
+	    var isBusy = ko.observable(false),
+            activate = function () {
+                return true;
+            },
 	        attached = function (view) {
 	            $(view).find(".carousel").carousel({
 	                interval: 2000

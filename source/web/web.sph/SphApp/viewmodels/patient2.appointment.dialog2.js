@@ -2,7 +2,6 @@ define([], function(){
     var activate = function(list){
             return true;
 
-
         },
         attached  = function(view){
         

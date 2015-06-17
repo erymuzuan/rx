@@ -12,13 +12,26 @@ using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using static  System.IO.File;
+using static System.IO.File;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     [Authorize(Roles = "developers")]
     public class EditorController : Controller
     {
+        public EditorController()
+        {
+            this.Logger = ObjectBuilder.GetObject<ILogger>();
+        }
+
+        public ILogger Logger { get; set; }
+
+        private void LogFileContent(string file)
+        {
+            if (!Exists(file)) return;
+            Logger.Log(new LogEntry { Details = ReadAllText(file), Operation = "Code", Message = "Change to " + Path.GetFileName(file), CallerFilePath = file, Keywords = new[] { file } });
+        }
+
         public ActionResult Help()
         {
             return View();
@@ -27,6 +40,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult Save(string file, string code)
         {
             var filed = Server.MapPath(file);
+            this.LogFileContent(filed);
+
             WriteAllText(filed, code);
             return Json(new { success = true, status = "OK" });
         }
@@ -35,6 +50,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult Code(string id)
         {
             var file = Server.MapPath(id);
+            this.LogFileContent(file);
+
             if (!Exists(file))
                 WriteAllText(file, "");
             var js = ReadAllText(file);
