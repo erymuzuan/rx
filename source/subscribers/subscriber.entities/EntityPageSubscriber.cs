@@ -8,16 +8,8 @@ namespace subscriber.entities
 {
     public class EntityPageSubscriber : Subscriber<EntityDefinition>
     {
-        public override string QueueName
-        {
-            get { return "ed_page_gen"; }
-        }
-
-        public override string[] RoutingKeys
-        {
-            get { return new[] { typeof(EntityDefinition).Name + ".changed.Publish" }; }
-
-        }
+        public override string QueueName => "ed_page_gen";
+        public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
 
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {

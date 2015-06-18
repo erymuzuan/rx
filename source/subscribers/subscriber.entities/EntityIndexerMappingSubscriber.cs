@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
+using static System.IO.File;
 
 namespace subscriber.entities
 {
@@ -18,7 +19,6 @@ namespace subscriber.entities
     {
 
         public override string QueueName => "ed_es_mapping_gen";
-
         public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
 
         public string GetMapping(EntityDefinition item)
@@ -55,7 +55,7 @@ namespace subscriber.entities
             foreach (var marker in Directory.GetFiles(folder, "*.marker"))
             {
                 this.QueueUserWorkItem(MigrateData, Path.GetFileNameWithoutExtension(marker));
-                File.Delete(marker);
+                Delete(marker);
 
             }
             base.OnStart();
@@ -207,8 +207,8 @@ namespace subscriber.entities
                 Directory.CreateDirectory(folder);
 
             var file = Path.Combine(folder, item.Name + ".mapping");
-            if (!File.Exists(file)) return false;
-            return File.ReadAllText(file) == map;
+            if (!Exists(file)) return false;
+            return ReadAllText(file) == map;
 
         }
 
@@ -224,7 +224,7 @@ namespace subscriber.entities
                 Directory.CreateDirectory(folder);
 
             var file = Path.Combine(folder, item.Name + ".mapping");
-            File.WriteAllText(file, map);
+            WriteAllText(file, map);
 
 
         }
@@ -236,9 +236,7 @@ namespace subscriber.entities
             var folder = Path.Combine(wc, type.Name);
 
             var marker = Path.Combine(folder, item.Name + ".marker");
-            File.WriteAllText(marker, DateTime.Now.ToString(CultureInfo.InvariantCulture));
-
-
+            WriteAllText(marker, DateTime.Now.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

@@ -12,15 +12,9 @@ namespace subscriber.entities
 {
     public class EntityDefinitionDeletedSubscriber : Subscriber<EntityDefinition>
     {
-        public override string QueueName
-        {
-            get { return "ed_deleted"; }
-        }
+        public override string QueueName => "ed_deleted";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "EntityDefinition.deleted.#" }; }
-        }
+        public override string[] RoutingKeys => new[] { "EntityDefinition.deleted.#" };
 
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {

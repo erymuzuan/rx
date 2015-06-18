@@ -10,16 +10,9 @@ namespace subscriber.entities
 {
     public class EntityViewSubscriber : Subscriber<EntityView>
     {
-        public override string QueueName
-        {
-            get { return "ed_view_gen"; }
-        }
+        public override string QueueName => "ed_view_gen";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { typeof(EntityView).Name + ".changed.Publish" }; }
-
-        }
+        public override string[] RoutingKeys => new[] { typeof(EntityView).Name + ".changed.Publish" };
 
         protected async override Task ProcessMessage(EntityView view, MessageHeaders header)
         {
