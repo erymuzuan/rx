@@ -8,17 +8,11 @@ namespace subscriber.entities
 {
     public class IisRewriteRuleSubscriber : Subscriber<EntityDefinition>
     {
-        public override string QueueName
-        {
-            get { return "ed_iis_rewrite"; }
-        }
+        public override string QueueName => "ed_iis_rewrite";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { typeof(EntityDefinition).Name + ".changed.Publish" }; }
-        }
+        public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
 
-     
+
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             var context = new SphDataContext();
@@ -27,18 +21,27 @@ namespace subscriber.entities
             var entities = string.Join("|", list.ToArray());
 
             var path = ConfigurationManager.WebPath + @"\Web.config";
-            this.WriteMessage("IIS rewrite into {0}",path);
-            var config = XDocument.Load( path);
-            var api = config.Descendants("rule").Where(c => c.Attribute("name").Value == "entity.api");
-            api.Descendants("match").Single().Attribute("url").Value = string.Format("api/({0})/", entities);
+            this.WriteMessage("IIS rewrite into {0}", path);
+            var config = XDocument.Load(path);
+            var api = config.Descendants("rule").Where(c => c.Attribute("name").Value == "entity.api").ToArray();
+            var apiUrl = api.Descendants("match").Single().Attribute("url").Value;
+            if (apiUrl != $"api/({entities})/")
+            {
+                api.Descendants("match").Single().Attribute("url").Value = $"api/({entities})/";
+                config.Save(path);
+            }
 
-            var search = config.Descendants("rule").Where(c => c.Attribute("name").Value == "entity.search");
-            search.Descendants("match").Single().Attribute("url").Value = string.Format("search/({0})/", entities);
-            
-            config.Save(path);
+            var search = config.Descendants("rule").Where(c => c.Attribute("name").Value == "entity.search").ToArray();
+
+            var searchUrl = search.Descendants("match").Single().Attribute("url").Value;
+            if (searchUrl != $"search/({entities})/")
+            {
+                search.Descendants("match").Single().Attribute("url").Value = $"search/({entities})/";
+                config.Save(path);
+            }
 
         }
-        
+
         public Task ProcessMessageAsync(EntityDefinition ed)
         {
             return this.ProcessMessage(ed, null);
