@@ -159,11 +159,12 @@ namespace subscriber.entities
                 if (col.Name == "CreatedBy") continue;
                 if (col.Name == "ChangedDate") continue;
                 if (col.Name == "ChangedBy") continue;
+                if (col.Name == "Json") continue;
 
                 var col1 = col;
                 var member = members.SingleOrDefault(m =>
                             m.Name.Equals(col1.Name, StringComparison.InvariantCultureIgnoreCase)
-                            && String.Equals(GetSqlType(m.TypeName).Replace("(255)", string.Empty), col1.SqlType, StringComparison.InvariantCultureIgnoreCase)
+                            && string.Equals(GetSqlType(m.TypeName).Replace("(255)", string.Empty), col1.SqlType, StringComparison.InvariantCultureIgnoreCase)
                             && col.IsNullable == m.IsNullable);
                 if (null == member)
                 {
@@ -171,6 +172,7 @@ namespace subscriber.entities
                     return false;
                 }
             }
+            this.WriteMessage($"No schema changes detected in [{ConfigurationManager.ApplicationName}].[{item.Name}]");
             return true;
         }
 
