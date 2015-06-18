@@ -37,6 +37,7 @@ namespace Bespoke.Sph.Messaging
         }
         private static string GetJsonContent(LogEntry entry)
         {
+            entry.Time =  DateTime.Now;
             var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             setting.Converters.Add(new StringEnumConverter());
             setting.Formatting = Formatting.Indented;
@@ -47,26 +48,26 @@ namespace Bespoke.Sph.Messaging
         }
         public void WriteInfo(string message)
         {
-            var log = new LogEntry { Message = message, Severity = Severity.Info };
+            var log = new LogEntry { Message = message, Severity = Severity.Info, Time = DateTime.Now };
             var json = GetJsonContent(log);
             m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
         }
         public void WriteVerbose(string message)
         {
-            var log = new LogEntry { Message = message, Severity = Severity.Verbose };
+            var log = new LogEntry { Message = message, Severity = Severity.Verbose, Time = DateTime.Now };
             var json = GetJsonContent(log);
             m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
         }
         public void WriteWarning(string message)
         {
-            var log = new LogEntry { Message = message, Severity = Severity.Warning };
+            var log = new LogEntry { Message = message, Severity = Severity.Warning, Time = DateTime.Now };
             var json = GetJsonContent(log);
             m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
         }
         public void Write(string format, params object[] args)
         {
             var message = string.Format(format, args);
-            var log = new LogEntry { Message = message, Severity = Severity.Info };
+            var log = new LogEntry { Message = message, Severity = Severity.Info, Time = DateTime.Now };
             var json = GetJsonContent(log);
             m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
         }
@@ -74,7 +75,7 @@ namespace Bespoke.Sph.Messaging
         public void WriteError(string format, params object[] args)
         {
             var message = string.Format(format, args);
-            var log = new LogEntry { Message = message, Severity = Severity.Error };
+            var log = new LogEntry { Message = message, Severity = Severity.Error, Time = DateTime.Now };
             var json = GetJsonContent(log);
             m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
         }

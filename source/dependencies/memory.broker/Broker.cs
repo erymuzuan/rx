@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -40,7 +39,7 @@ namespace Bespoke.Sph.Messaging
             }
             catch (ReflectionTypeLoadException e)
             {
-                m_notificationService.WriteError(e,"Load Types Exception for " + f);
+                m_notificationService.WriteError(e, "Load Types Exception for " + f);
                 return new Type[] { };
             }
         }
@@ -100,12 +99,6 @@ namespace Bespoke.Sph.Messaging
             return list.Distinct().OrderBy(l => l).ToArray();
         }
 
-        private string m_keys = "";
-        public override string ToString()
-        {
-            return m_keys;
-        }
-
         public void Dispose()
         {
             m_notificationService.Stop();
@@ -113,7 +106,6 @@ namespace Bespoke.Sph.Messaging
 
         public Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection, IDictionary<string, object> headers)
         {
-            m_keys = "";
             foreach (var item in attachedCollection)
             {
                 var log = new AuditTrail { Type = item.GetType().Name, EntityId = item.Id, Id = Guid.NewGuid().ToString(), Operation = operation, Note = "Added" };
@@ -126,7 +118,6 @@ namespace Bespoke.Sph.Messaging
 
         public Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs, IDictionary<string, object> headers)
         {
-            m_keys = "";
             var allLogs = logs.ToList();
             foreach (var item in attachedCollection)
             {
@@ -142,14 +133,11 @@ namespace Bespoke.Sph.Messaging
             var topic = $"{type}.{crud}.{operation}";
             var possibleTopics = GetPossibleTopics(topic);
 
-            var subsribers = new List<string>();
 
             foreach (var g in m_subsriptions)
             {
                 if (g.Value.Any(s => possibleTopics.Contains(s)))
                 {
-                    dynamic k = m_subsribers[g.Key];
-                    subsribers.Add(k.QueueName);
                     var instance = (Subscriber)m_subsribers[g.Key];
                     if (null == instance.NotificicationService)
                         instance.NotificicationService = m_notificationService;
@@ -158,7 +146,6 @@ namespace Bespoke.Sph.Messaging
 
                 }
             }
-            m_keys = string.Join(";", subsribers);
 
             object listener;
             if (m_listeners.TryGetValue(item.GetType(), out listener))
@@ -209,7 +196,7 @@ namespace Bespoke.Sph.Messaging
                         logger.Log(new LogEntry(e, otherInfo));
                     }
                 })
-                .Wait(15000);
+                .Wait(TimeSpan.FromSeconds(this.WaitTimeForProcessMessage));
 
             }
             else
@@ -218,9 +205,10 @@ namespace Bespoke.Sph.Messaging
             }
         }
 
+        public double WaitTimeForProcessMessage { get; set; } = 5;
+
         public Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection, IDictionary<string, object> headers)
         {
-            m_keys = "";
             foreach (var item in deletedCollection)
             {
                 var log = new AuditTrail { Type = item.GetType().Name, EntityId = item.Id, Id = Guid.NewGuid().ToString(), Operation = operation, Note = "Delete" };
@@ -303,7 +291,11 @@ namespace Bespoke.Sph.Messaging
             var persistence = ObjectBuilder.GetObject<IPersistence>();
             var so = await persistence.SubmitChanges(entities, deletedItems, null, userName)
             .ConfigureAwait(false);
-            Debug.WriteLine(so);
+            WriteInfo($"SubmitChanges => {"row".ToQuantity(so.RowsAffected)} affected, faulted: {so.IsFaulted}");
+            if(so.IsFaulted || null != so.Exeption)
+            {
+                m_notificationService.WriteError(so.Exeption, "Exception in call persistence.SubmitChanges");
+            }
 
 
             var logsAddedTask = this.PublishAdded(operation, logs, headers);
