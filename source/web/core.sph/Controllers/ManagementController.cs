@@ -7,6 +7,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Models;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using Spring.Objects.Factory;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -26,16 +27,22 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> InvokeRabbitMqManagementApi(string resource)
         {
             var url = "api/" + resource;
-            dynamic broker = ObjectBuilder.GetObject("IBrokerConnection");
-            using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(broker.UserName, broker.Password) })
-            using (var client = new HttpClient(handler))
+            try
             {
-                client.BaseAddress = new Uri(broker.ManagementScheme + "://" + broker.Host + ":" + broker.ManagementPort + "/");
+                dynamic broker = ObjectBuilder.GetObject("IBrokerConnection");
+                using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(broker.UserName, broker.Password) })
+                using (var client = new HttpClient(handler))
+                {
+                    client.BaseAddress = new Uri(broker.ManagementScheme + "://" + broker.Host + ":" + broker.ManagementPort + "/");
 
-                var response = await client.GetStringAsync(url);
-                this.Response.ContentType = "application/json; charset=utf-8";
-                return Content(response);
-
+                    var response = await client.GetStringAsync(url);
+                    this.Response.ContentType = "application/json; charset=utf-8";
+                    return Content(response);
+                }
+            }
+            catch (NoSuchObjectDefinitionException ex)
+            {
+                return Json(new { success = false, message = ex.Message, status = "No Broker" },JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -45,13 +52,13 @@ namespace Bespoke.Sph.Web.Controllers
         {
             dynamic broker = ObjectBuilder.GetObject("IBrokerConnection");
             var factory = new ConnectionFactory
-          {
-              VirtualHost = broker.VirtualHost,
-              HostName = broker.Host,
-              UserName = broker.UserName,
-              Password = broker.Password,
-              Port = broker.Port,
-          };
+            {
+                VirtualHost = broker.VirtualHost,
+                HostName = broker.Host,
+                UserName = broker.UserName,
+                Password = broker.Password,
+                Port = broker.Port,
+            };
             var conn = factory.CreateConnection();
             var model = conn.CreateModel();
 
@@ -67,7 +74,7 @@ namespace Bespoke.Sph.Web.Controllers
             var routingKey = deathHeader.RoutingValuesKeys;
             var message = System.Text.Encoding.UTF8.GetString(result.Body);
 
-            return Json(new {message, routingKey, deathHeader, note="broken!!!! this will keep the connection until basicReject or ack is called"}, JsonRequestBehavior.AllowGet);
+            return Json(new { message, routingKey, deathHeader, note = "broken!!!! this will keep the connection until basicReject or ack is called" }, JsonRequestBehavior.AllowGet);
 
         }
 

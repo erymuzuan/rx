@@ -14,8 +14,9 @@ using RabbitMQ.Client.Framing;
 
 namespace Bespoke.Sph.Messaging
 {
-    public class Broker : IEntityChangePublisher
+    public class Broker : IEntityChangePublisher, IDisposable
     {
+        private readonly WebSocketNotificationService m_notificationService = new WebSocketNotificationService();
         private readonly Dictionary<string, string[]> m_subsriptions = new Dictionary<string, string[]>();
         private readonly Dictionary<string, object> m_subsribers = new Dictionary<string, object>();
         public Broker(IDictionary<object, string[]> subsriptions)
@@ -30,7 +31,7 @@ namespace Bespoke.Sph.Messaging
             }
         }
 
-        private static Type[] LoadTypes(string f)
+        private Type[] LoadTypes(string f)
         {
             try
             {
@@ -39,7 +40,7 @@ namespace Bespoke.Sph.Messaging
             }
             catch (ReflectionTypeLoadException e)
             {
-                Console.WriteLine(e);
+                m_notificationService.WriteError(e,"Load Types Exception for " + f);
                 return new Type[] { };
             }
         }
@@ -67,6 +68,7 @@ namespace Bespoke.Sph.Messaging
                     m_subsribers.Add(type, sb);
 
             }
+            m_notificationService.Start();
         }
 
 
@@ -104,13 +106,18 @@ namespace Bespoke.Sph.Messaging
             return m_keys;
         }
 
+        public void Dispose()
+        {
+            m_notificationService.Stop();
+        }
+
         public Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection, IDictionary<string, object> headers)
         {
             m_keys = "";
             foreach (var item in attachedCollection)
             {
                 var log = new AuditTrail { Type = item.GetType().Name, EntityId = item.Id, Id = Guid.NewGuid().ToString(), Operation = operation, Note = "Added" };
-                SendMessage(operation, headers, item, "added",log);
+                SendMessage(operation, item, "added", log);
             }
             return Task.FromResult(0);
         }
@@ -124,12 +131,12 @@ namespace Bespoke.Sph.Messaging
             foreach (var item in attachedCollection)
             {
                 var audit = allLogs.SingleOrDefault(x => x.EntityId == item.Id && x.Type == item.GetType().Name);
-                SendMessage(operation, headers, item, "changed", audit);
+                SendMessage(operation, item, "changed", audit);
             }
             return Task.FromResult(0);
         }
 
-        private void SendMessage(string operation, IDictionary<string, object> headers, Entity item, string crud, AuditTrail log)
+        private void SendMessage(string operation, Entity item, string crud, AuditTrail log)
         {
             var type = item.GetType().Name;
             var topic = $"{type}.{crud}.{operation}";
@@ -143,8 +150,12 @@ namespace Bespoke.Sph.Messaging
                 {
                     dynamic k = m_subsribers[g.Key];
                     subsribers.Add(k.QueueName);
-                    var instance = m_subsribers[g.Key];
-                    Invoke(instance, item, headers, crud, operation);
+                    var instance = (Subscriber)m_subsribers[g.Key];
+                    if (null == instance.NotificicationService)
+                        instance.NotificicationService = m_notificationService;
+
+                    Invoke(instance, item, crud, operation);
+
                 }
             }
             m_keys = string.Join(";", subsribers);
@@ -167,7 +178,7 @@ namespace Bespoke.Sph.Messaging
             m_listeners.TryRemove(typeof(T), out list);
         }
 
-        private void Invoke(object sub, Entity item, IDictionary<string, object> headers, string crud, string operation)
+        private void Invoke(object sub, Entity item, string crud, string operation)
         {
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
             var logger = ObjectBuilder.GetObject<ILogger>();
@@ -181,19 +192,29 @@ namespace Bespoke.Sph.Messaging
             var pm = sub.GetType().GetMethod("ProcessMessage", BindingFlags.NonPublic | BindingFlags.Instance);
             if (null != pm)
             {
-                try
+
+                WriteVerbose($"\tProcessMessage {item.GetType().Name}({operation}) in {sub.GetType().Name}");
+                var task = pm.Invoke(sub, new object[] { item, headers2 }) as Task;
+                task?.ContinueWith(_ =>
                 {
-                    pm.Invoke(sub, new object[] { item, headers2 });
-                }
-                catch (Exception e)
-                {
-                    logger.Log(new LogEntry(e, new[] { $"Fail to execute ProcessMessage on {sub.GetType().GetShortAssemblyQualifiedName()}", operation, crud, item.ToJsonString(true) }));
-                    Console.WriteLine(e);
-                }
+                    var e = _.Exception;
+                    if (null != _.Exception)
+                    {
+                        var otherInfo = new[] {
+                            $"Fail to execute ProcessMessage on {sub.GetType().GetShortAssemblyQualifiedName()}",
+                            "Operation :" + operation,
+                            "CRUD : " + crud,
+                            "ItemType : " + item.GetType().GetShortAssemblyQualifiedName(),
+                            "ItemId : " + item.Id };
+                        logger.Log(new LogEntry(e, otherInfo));
+                    }
+                })
+                .Wait(15000);
+
             }
             else
             {
-                Console.WriteLine($"Cannot find ProcessMessage in type {sub.GetType().GetShortAssemblyQualifiedName()}");
+                m_notificationService.WriteError($"Cannot find ProcessMessage in type {sub.GetType().GetShortAssemblyQualifiedName()}");
             }
         }
 
@@ -203,7 +224,7 @@ namespace Bespoke.Sph.Messaging
             foreach (var item in deletedCollection)
             {
                 var log = new AuditTrail { Type = item.GetType().Name, EntityId = item.Id, Id = Guid.NewGuid().ToString(), Operation = operation, Note = "Delete" };
-                SendMessage(operation, headers, item, "deleted", log);
+                SendMessage(operation, item, "deleted", log);
             }
             return Task.FromResult(0);
         }
@@ -226,19 +247,30 @@ namespace Bespoke.Sph.Messaging
             }
             return list;
         }
+
+        private void WriteInfo(string message)
+        {
+            m_notificationService.WriteInfo(message);
+        }
+
+        private void WriteVerbose(string message)
+        {
+            m_notificationService.WriteVerbose(message);
+        }
+
         public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedEntities, IDictionary<string, object> headers)
         {
             var userName = ObjectBuilder.GetObject<IDirectoryService>().CurrentUserName;
             var entities = attachedEntities.ToList();
             var deletedItems = deletedEntities.ToArray();
-            Console.WriteLine($"{operation} for {"item".ToQuantity(entities.Count)}");
+            WriteInfo($"{operation} for {"item".ToQuantity(entities.Count)}");
             foreach (var item in entities)
             {
-                Console.WriteLine($"{operation} for {item.GetType().Name}{{ Id : \"{item.Id}\"}}");
+                WriteInfo($"{operation} for {item.GetType().Name}{{ Id : \"{item.Id}\"}}");
             }
             foreach (var item in deletedItems)
             {
-                Console.WriteLine($@"Deleting({operation}) {item.GetType().Name}{{ Id : ""{item.Id}""}}");
+                WriteInfo($@"Deleting({operation}) {item.GetType().Name}{{ Id : ""{item.Id}""}}");
             }
             // get changes to items
             var previous = await GetPreviousItems(entities);
