@@ -30,5 +30,9 @@ namespace Bespoke.DevV1_district.Domain
         [XmlAttribute]
         public string State { get; set; }
 
+        //member:Nick
+        [XmlAttribute]
+        public string Nick { get; set; }
+
     }
 }
