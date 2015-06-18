@@ -67,8 +67,23 @@ namespace Bespoke.Sph.Messaging
                     m_subsribers.Add(type, sb);
 
             }
-            m_notificationService.Start();
+            m_notificationService.Start(this.WebSockertPort);
+            this.QueueUserWorkItem(CallOnStart, instances.Cast<Subscriber>().ToList());
         }
+
+        private void CallOnStart(List<Subscriber> instances)
+        {
+            var onStart = typeof(Subscriber).GetMethod("OnStart", BindingFlags.NonPublic | BindingFlags.Instance);
+            foreach (var sub in instances)
+            {
+                WriteInfo($"Starting {sub.QueueName} on {sub.GetType().Name}");
+                WriteVerbose(string.Join(",", sub.RoutingKeys));
+                sub.NotificicationService = m_notificationService;
+                onStart.Invoke(sub, new object[] { });
+            }
+        }
+
+        public int WebSockertPort { get; set; } = 50230;
 
 
         // NOTE : this is good up to 4 level topic, i.e a.b.c.d
@@ -292,7 +307,7 @@ namespace Bespoke.Sph.Messaging
             var so = await persistence.SubmitChanges(entities, deletedItems, null, userName)
             .ConfigureAwait(false);
             WriteInfo($"SubmitChanges => {"row".ToQuantity(so.RowsAffected)} affected, faulted: {so.IsFaulted}");
-            if(so.IsFaulted || null != so.Exeption)
+            if (so.IsFaulted || null != so.Exeption)
             {
                 m_notificationService.WriteError(so.Exeption, "Exception in call persistence.SubmitChanges");
             }

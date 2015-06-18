@@ -54,6 +54,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		logs = ko.observableArray().extend({ rateLimit: 250 }),
 		list = ko.observableArray(),
 		subscribers = ko.observableArray(),
+		outputFiles = ko.observableArray(),
 		connected = ko.observable(true),
 		setting = ko.observable({
 		    port: ko.observable(50238),
@@ -172,11 +173,23 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		            severity = model.severity,
 		            message = model.message;
 
+
 		        model.message = model.message.replace(/\r\n/g, "<br/>");
 		        model.time = "[" + moment(model.time).format("HH:mm:ss") + "]";
 		        if (model.severity === "info") {
 		            model.severity = "Info";
 		            severity = "Info";
+		        }
+		        if (typeof model.outputFile === "string") {
+
+		            var existing = _(outputFiles()).find(function (v) { return v.outputFile === model.outputFile; });
+                    if (existing) {
+                        outputFiles.remove(existing);
+                    }
+
+		            model.deployed = ko.observable(false);
+		            outputFiles.push(model);
+		            return;
 		        }
 
 		        if (!runFilter(model)) {
@@ -330,7 +343,37 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	    },
 	    clearLogsFilter = function () {
 
-	    };
+	    },
+	        deployOutputFiles = function () {
+	            var files = _(ko.unwrap(outputFiles)).map(function (v) { return v.outputFile; });
+	            ws.send("POST /deploy:" + files.join(";"));
+	            outputFiles([]);
+
+	            // once deployed, wait few seconds and issue a web request to restart the server
+	            var query = "Key eq 'Departments'",
+                    tcs = new $.Deferred();
+	            var refresh = setInterval(function () {
+	                context.loadAsync("Setting", query)
+                        .fail(function () {
+
+                        })
+                        .done(function () {
+                            clearInterval(refresh);
+                            if (tcs.state() !== "resolved") {
+                                start().done(tcs.resolve);
+                            }
+                        });
+
+	            }, 2000);
+	            return tcs.promise();
+
+	        },
+	        selectAllOutputFiles = function () {
+
+	        },
+	        clearOutputFiles = function () {
+	            outputFiles([]);
+	        };
 
 	    filterText.subscribe(function (text) {
 	        if (!text) {
@@ -349,6 +392,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	        visible: config.roles.indexOf("developers") > -1,
 	        list: list,
 	        subscribers: subscribers,
+	        outputFiles: outputFiles,
 	        connected: connected,
 	        start: start,
 	        stop: stop,
@@ -366,7 +410,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	        showSettingDialog: showSettingDialog,
 	        viewStackTrace: viewStackTrace,
 	        activate: activate,
-	        attached: attached
+	        attached: attached,
+	        selectAllOutputFiles: selectAllOutputFiles,
+	        deployOutputFiles: deployOutputFiles,
+	        clearOutputFiles: clearOutputFiles
 	    };
 
 	    return vm;

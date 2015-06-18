@@ -15,7 +15,9 @@
                 <a href="#server-logs-panel" data-toggle="tab">Logs Output</a>
             </li>
             <li>
-                <a href="#subsribers-workers-panel" data-toggle="tab">Subscribers</a>
+                <a href="#compiler-output-panel" data-toggle="tab">Compiler Outputs
+                <i class="fa fa-warning" data-bind="visible: outputFiles().length > 0" style="color: red;margin-left: 5px"></i>
+                </a>
             </li>
 
         </ul>
@@ -174,11 +176,31 @@
                 </div>
 
             </div>
-            <div id="subsribers-workers-panel" class="tab-pane">
+            <div id="compiler-output-panel" class="tab-pane">
+                <div style="margin-left: 10px">
 
-                <ul class="list-group" data-bind="foreach :subscribers">
-                    <li></li>
-                </ul>
+
+                    <button class="btn btn-default" style="border: none" data-bind="command : deployOutputFiles" title="Break the connection to the workers">
+                        <i class="fa fa-copy" style="border: none"></i>
+                        Deploy
+                    </button>
+                    <button class="btn btn-default" style="border: none" data-bind="click : clearOutputFiles" title="Clear all logs">
+                        <i class="fa fa-remove" style="color: red"></i>
+                        Clear
+                    </button>
+                </div>
+                <div>
+                    <ul class="list-group" data-bind="foreach :outputFiles">
+                        <li class="list-group-item list-group-item-info">
+                            <input type="checkbox" />
+                            <i class="fa fa-file-archive-o" style="color: green">
+                            </i>
+                            <span data-bind="text:time" style="margin-left: 5px"></span>
+                            <span data-bind="html:message" style="margin-left: 5px"></span>
+                        </li>
+                    </ul>
+                    
+                </div>
             </div>
 
 
