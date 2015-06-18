@@ -9,15 +9,9 @@ namespace subscriber.adapter.compiler
 {
     public class AdapterCompilerSubscriber : Subscriber<Adapter>
     {
-        public override string QueueName
-        {
-            get { return "adapter_compiler"; }
-        }
+        public override string QueueName => "adapter_compiler";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "SqlServerAdapter.#.Publish","Adapter.#.Publish" }; }
-        }
+        public override string[] RoutingKeys => new[] { "SqlServerAdapter.#.Publish","Adapter.#.Publish" };
 
         protected  async override Task ProcessMessage(Adapter adapter, MessageHeaders header)
         {
@@ -45,7 +39,7 @@ namespace subscriber.adapter.compiler
                 File.Copy(result.Output, ConfigurationManager.SchedulerPath + "\\" + output + ".dll", true);
                 File.Copy(result.Output.Replace(".dll", ".pdb"), ConfigurationManager.SchedulerPath + "\\" + output + ".pdb", true);
 
-                File.Copy(result.Output, string.Format("{0}\\{1}.dll", ConfigurationManager.SubscriberPath, output), true);
+                File.Copy(result.Output, $"{ConfigurationManager.SubscriberPath}\\{output}.dll", true);
                 File.Copy(result.Output.Replace(".dll", ".pdb"), ConfigurationManager.SubscriberPath + "\\" + output + ".pdb", true);
 
                 File.Copy(result.Output, ConfigurationManager.WebPath + @"\bin\" + output + ".dll", true);

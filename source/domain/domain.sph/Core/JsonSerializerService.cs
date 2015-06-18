@@ -156,7 +156,7 @@ namespace Bespoke.Sph.Domain
         public async static Task<T> DeserializeJsonAsync<T>(this Stream stream)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            if (null == stream) throw new ArgumentNullException("stream");
+            if (null == stream) throw new ArgumentNullException(nameof(stream));
             using (var sr = new StreamReader(stream))
             {
                 string result = await sr.ReadToEndAsync();
@@ -169,9 +169,9 @@ namespace Bespoke.Sph.Domain
         public static T DeserializeJson<T>(this Stream stream)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            if (null == stream) throw new ArgumentNullException("stream");
+            if (null == stream) throw new ArgumentNullException(nameof(stream));
 
-            if (null == stream) throw new ArgumentNullException("stream");
+            if (null == stream) throw new ArgumentNullException(nameof(stream));
             using (var sr = new StreamReader(stream))
             {
                 string result = sr.ReadToEnd();
@@ -186,9 +186,23 @@ namespace Bespoke.Sph.Domain
         /// <returns></returns>
         public static T DeserializeFromJson<T>(this string json)
         {
-            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            return JsonConvert.DeserializeObject<T>(json, setting);
+            try
+            {
+                var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                return JsonConvert.DeserializeObject<T>(json, setting);
+            }
+            catch (OutOfMemoryException)
+            {
+                var temp = Path.GetTempFileName();
+                File.WriteAllText(temp, json);
+                using (var stream = File.Open(temp, FileMode.Open))
+                {
+                    return stream.DeserializeFromJson<T>();
+                }
+            }
         }
+
+
         public static T DeserializeFromJson<T>(this Stream stream)
         {
             var json = StreamToString(stream);
