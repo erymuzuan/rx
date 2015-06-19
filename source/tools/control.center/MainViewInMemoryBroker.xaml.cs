@@ -1,7 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows.Navigation;
-using Bespoke.Sph.ControlCenter.ViewModel;
 
 namespace Bespoke.Sph.ControlCenter
 {
@@ -19,8 +17,7 @@ namespace Bespoke.Sph.ControlCenter
         }
         private void NavigateApp(object sender, RequestNavigateEventArgs e)
         {
-            var vm = this.DataContext as MainViewModel;
-            if (null == vm) throw new InvalidOperationException("The DataContext is not MainViewModel");
+            dynamic vm = this.DataContext;
 
             Process.Start(new ProcessStartInfo($"http://localhost:{vm.Settings.WebsitePort}/"));
             e.Handled = true;
