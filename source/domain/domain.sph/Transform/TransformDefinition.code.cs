@@ -59,13 +59,10 @@ namespace Bespoke.Sph.Domain
                 File.WriteAllText(file, sources[cs]);
             }
             return sources.Keys.ToArray()
-                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.UserSourceDirectory, this.Name, f))
+                    .Select(f => $"{ConfigurationManager.UserSourceDirectory}\\{this.Name}\\{f}")
                     .ToArray();
         }
-        public string CodeNamespace
-        {
-            get { return string.Format("{0}.Integrations.Transforms", ConfigurationManager.ApplicationName); }
-        }
+        public string CodeNamespace => $"{ConfigurationManager.ApplicationName}.Integrations.Transforms";
 
         public string GenerateTransformCode()
         {
@@ -74,7 +71,7 @@ namespace Bespoke.Sph.Domain
 
             var args = "";
             if (!string.IsNullOrWhiteSpace(this.InputTypeName))
-                args = string.Format("{0} item", this.InputType.FullName);
+                args = $"{this.InputType.FullName} item";
             if (this.InputCollection.Count > 0)
             {
                 code.AppendLine(" class Input");
@@ -91,7 +88,7 @@ namespace Bespoke.Sph.Domain
                            let type = Type.GetType(p.TypeName)
                            where null != type
                            let name = p.Name.ToCamelCase()
-                           select string.Format("{0} {1}", type.FullName, name);
+                           select $"{type.FullName} {name}";
                 args = string.Join(", ", list);
             }
 

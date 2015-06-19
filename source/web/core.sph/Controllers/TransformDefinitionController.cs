@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -33,7 +34,6 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("validate-fix")]
         public async Task<ActionResult> ValidateFix([RequestBody] TransformDefinition map)
         {
-            //map.MapCollection.OfType<FunctoidMap>().Where(x => x.).ForEach(x => x.Functoid.RemoveInvalidArgument());
             if (string.IsNullOrWhiteSpace(map.Id))
                 return await Validate(map);
 
@@ -125,6 +125,7 @@ namespace Bespoke.Sph.Web.Controllers
         public static readonly string[] Ignores =
          {
             "domain.sph",
+            "ff",
             "core.sph",
             "Microsoft",
             "Spring","WebGrease","WebActivator","WebMatrix",
@@ -141,11 +142,13 @@ namespace Bespoke.Sph.Web.Controllers
             "email.service",
             "elasticsearch.logger",
             "MySql.Data",
+            "log4net",
             "Oracle.ManagedDataAccess",
             "rabbitmq",
             "razor.template",
             "report.sqldatasource",
             "sqlmembership",
+            "subscriber",
             "trigger.action",
             "word.document.generator",
             "SMDiagnostics",
@@ -155,6 +158,9 @@ namespace Bespoke.Sph.Web.Controllers
             "oracle.adapter",
             "sqlserver.adapter",
             "sql.repository",
+            "SuperSocket",
+            "memory.broker",
+            "web.console.logger",
             "roslyn.scriptengine",
             "Org.Mentalis.Security.Cryptography",
             "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn"
@@ -166,28 +172,57 @@ namespace Bespoke.Sph.Web.Controllers
         public ActionResult Assemblies()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var refAssemblies = from a in assemblies
-                                let name = a.GetName()
-                                where a.IsDynamic == false
-                                && !Ignores.Any(x => name.Name.StartsWith(x))
-                                select new
-                                {
-                                    Version = name.Version.ToString(),
-                                    name.FullName,
-                                    name.Name,
-                                    Types = a.GetTypes()
-                                                .Where(x => !x.IsAbstract)
-                                                .Where(x => !x.IsInterface)
-                                                .Where(x => x.IsPublic)
-                                                .Where(x => x.IsClass)
-                                                .Select(x => new
-                                                {
-                                                    x.Namespace,
-                                                    x.Name
-                                                }).ToArray()
-                                };
+            var refAssemblies = (from a in assemblies
+                                 let name = a.GetName()
+                                 where a.IsDynamic == false
+                                 && !Ignores.Any(x => name.Name.StartsWith(x))
+                                 select new
+                                 {
+                                     Version = name.Version.ToString(),
+                                     name.FullName,
+                                     name.Name,
+                                     Types = a.GetTypes()
+                                                 .Where(x => !x.IsAbstract)
+                                                 .Where(x => !x.IsInterface)
+                                                 .Where(x => x.IsPublic)
+                                                 .Where(x => x.IsClass)
+                                                 .Select(x => new
+                                                 {
+                                                     x.Namespace,
+                                                     x.Name
+                                                 }).ToArray()
+                                 }).ToArray();
 
-            return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
+            var assemblies2 = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath, "*.dll")
+                .Select(Path.GetFileNameWithoutExtension)
+                .Where(d => !refAssemblies.Select(x => x.Name).Contains(d))
+                .Where(d => !Ignores.Any(d.StartsWith))
+                .Where(d => !d.StartsWith("subscriber"))
+                .Where(d => !d.StartsWith("workflow"))
+                .Select(d => Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, d + ".dll"))
+                .Select(Assembly.LoadFile);
+            var refAssemblies2 = from a in assemblies2
+                                 let name = a.GetName()
+                                 where a.IsDynamic == false
+                                 && !Ignores.Any(x => name.Name.StartsWith(x))
+                                 select new
+                                 {
+                                     Version = name.Version.ToString(),
+                                     name.FullName,
+                                     name.Name,
+                                     Types = a.GetTypes()
+                                                 .Where(x => !x.IsAbstract)
+                                                 .Where(x => !x.IsInterface)
+                                                 .Where(x => x.IsPublic)
+                                                 .Where(x => x.IsClass)
+                                                 .Select(x => new
+                                                 {
+                                                     x.Namespace,
+                                                     x.Name
+                                                 }).ToArray()
+                                 };
+
+            return Json(refAssemblies.Concat(refAssemblies2).OrderBy(x => x.Name).ToArray(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -195,6 +230,12 @@ namespace Bespoke.Sph.Web.Controllers
         public ActionResult Schema(string type)
         {
             var t = Type.GetType(type);
+            if (null == t)
+            {
+                var splits = type.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
+                var dll = Assembly.LoadFile($"{ConfigurationManager.WorkflowCompilerOutputPath}\\{splits.Last().Trim()}.dll");
+                t = dll.GetType(splits.First().Trim());
+            }
             var schema = JsonSerializerService.GetJsonSchemaFromObject(t);
 
             return Content(schema.ToString(), "application/json", Encoding.UTF8);
