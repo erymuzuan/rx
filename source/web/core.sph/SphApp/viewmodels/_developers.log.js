@@ -220,7 +220,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		    };
 
-		    // when the connection is established, this method is called
 		    ws.onopen = function () {
 		        console.log("* Connection open");
 		        logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connection open", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Info" }));
@@ -239,7 +238,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connection closed", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Warning" }));
 		        scroll();
 		        connected(false);
-		        tcs.resolve(false);
+
+                // restart
+		        var refresh = setInterval(function () {
+		            context.loadAsync("Setting", "")
+                        .fail(function () {
+
+                        })
+                        .done(function () {
+                            clearInterval(refresh);
+                            if (tcs.state() !== "resolved") {
+                                start().done(tcs.resolve);
+                            }
+                        });
+
+		        }, 2000);
+
 		    };
 
 		    return tcs.promise();

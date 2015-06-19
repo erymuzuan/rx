@@ -13,6 +13,23 @@ namespace Bespoke.Sph.Messaging
 {
     class WebSocketNotificationService : INotificationService
     {
+        private static WebSocketNotificationService m_instance;
+        private static readonly object m_lock = new object();
+
+        WebSocketNotificationService()
+        {
+        }
+
+        public static WebSocketNotificationService Instance
+        {
+            get
+            {
+                lock (m_lock)
+                {
+                    return m_instance ?? (m_instance = new WebSocketNotificationService());
+                }
+            }
+        }
         private WebSocketServer m_appServer;
         private FileSystemWatcher m_fsw;
 
@@ -37,10 +54,11 @@ namespace Bespoke.Sph.Messaging
         }
         void FswChanged(object sender, FileSystemEventArgs e)
         {
-            this.WriteInfo($"Detected changes in FileSystem initiating stop\r\n{e.Name} has {e.ChangeType}");
+            this.WriteInfo($"Detected changes in FileSystem \r\n{e.Name} has {e.ChangeType}");
             var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message = $"{e.ChangeType} in output {e.FullPath}", severity = "Info", outputFile = e.FullPath });
-            m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
+            SendMessage(json);
         }
+
         private void NewMessageReceived(WebSocketSession session, string value)
         {
             Console.WriteLine(value);
@@ -50,6 +68,8 @@ namespace Bespoke.Sph.Messaging
                     .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
                 Parallel.ForEach(outputs, f =>
                 {
+                    if (!File.Exists(f)) return;
+
                     var fileName = Path.GetFileName(f) ?? "";
                     if (fileName.StartsWith("ff")) return;
 
@@ -91,12 +111,16 @@ namespace Bespoke.Sph.Messaging
             var json = JsonConvert.SerializeObject(entry, setting);
             return json;
         }
+
+        public void WriteRaw(string message)
+        {
+            SendMessage(message);
+        }
         public void WriteInfo(string message)
         {
             ConsoleOut(message, ConsoleColor.Cyan, Severity.Info);
             var log = new LogEntry { Message = message, Severity = Severity.Info, Time = DateTime.Now };
-            var json = GetJsonContent(log);
-            m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
+            SendMessage(log);
         }
 
         private static void ConsoleOut(string message, ConsoleColor color = ConsoleColor.Gray, Severity severity = Severity.Verbose)
@@ -117,16 +141,27 @@ namespace Bespoke.Sph.Messaging
             ConsoleOut(message);
 
             var log = new LogEntry { Message = message, Severity = Severity.Verbose, Time = DateTime.Now };
-            var json = GetJsonContent(log);
-            m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
+            SendMessage(log);
         }
         public void WriteWarning(string message)
         {
             ConsoleOut(message, ConsoleColor.Yellow, Severity.Warning);
             var log = new LogEntry { Message = message, Severity = Severity.Warning, Time = DateTime.Now };
             var json = GetJsonContent(log);
-            m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
+            SendMessage(json);
         }
+
+        private void SendMessage(LogEntry log)
+        {
+            var json = GetJsonContent(log);
+            SendMessage(json);
+        }
+
+        private void SendMessage(string json)
+        {
+            m_appServer?.GetAllSessions().ToList().ForEach(x => x.Send(json));
+        }
+
         public void Write(string format, params object[] args)
         {
             ConsoleOut($"{string.Format(format, args)}", ConsoleColor.Cyan, Severity.Info);
@@ -134,7 +169,7 @@ namespace Bespoke.Sph.Messaging
             var message = string.Format(format, args);
             var log = new LogEntry { Message = message, Severity = Severity.Info, Time = DateTime.Now };
             var json = GetJsonContent(log);
-            m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
+            SendMessage(json);
         }
 
         public void WriteError(string format, params object[] args)
@@ -143,8 +178,7 @@ namespace Bespoke.Sph.Messaging
 
             var message = string.Format(format, args);
             var log = new LogEntry { Message = message, Severity = Severity.Error, Time = DateTime.Now };
-            var json = GetJsonContent(log);
-            m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
+            SendMessage(log);
         }
 
         public void WriteError(Exception e, string message)
@@ -152,9 +186,7 @@ namespace Bespoke.Sph.Messaging
             WriteError(message);
             var log = new LogEntry(e);
             ConsoleOut(log.Details, ConsoleColor.Red, Severity.Error);
-
-            var json = GetJsonContent(log);
-            m_appServer.GetAllSessions().ToList().ForEach(x => x.Send(json));
+            SendMessage(log);
 
         }
     }

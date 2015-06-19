@@ -15,7 +15,6 @@ namespace Bespoke.Sph.Messaging
 {
     public class Broker : IEntityChangePublisher, IDisposable
     {
-        private readonly WebSocketNotificationService m_notificationService = new WebSocketNotificationService();
         private readonly Dictionary<string, string[]> m_subsriptions = new Dictionary<string, string[]>();
         private readonly Dictionary<string, object> m_subsribers = new Dictionary<string, object>();
         public Broker(IDictionary<object, string[]> subsriptions)
@@ -39,7 +38,7 @@ namespace Bespoke.Sph.Messaging
             }
             catch (ReflectionTypeLoadException e)
             {
-                m_notificationService.WriteError(e, "Load Types Exception for " + f);
+                WebSocketNotificationService.Instance.WriteError(e, "Load Types Exception for " + f);
                 return new Type[] { };
             }
         }
@@ -67,7 +66,7 @@ namespace Bespoke.Sph.Messaging
                     m_subsribers.Add(type, sb);
 
             }
-            m_notificationService.Start(this.WebSockertPort);
+            WebSocketNotificationService.Instance.Start(this.WebSockertPort);
             this.QueueUserWorkItem(CallOnStart, instances.Cast<Subscriber>().ToList());
         }
 
@@ -78,7 +77,7 @@ namespace Bespoke.Sph.Messaging
             {
                 WriteInfo($"Starting {sub.QueueName} on {sub.GetType().Name}");
                 WriteVerbose(string.Join(",", sub.RoutingKeys));
-                sub.NotificicationService = m_notificationService;
+                sub.NotificicationService = WebSocketNotificationService.Instance;
                 onStart.Invoke(sub, new object[] { });
             }
         }
@@ -116,7 +115,7 @@ namespace Bespoke.Sph.Messaging
 
         public void Dispose()
         {
-            m_notificationService.Stop();
+            WebSocketNotificationService.Instance.Stop();
         }
 
         public Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection, IDictionary<string, object> headers)
@@ -154,9 +153,6 @@ namespace Bespoke.Sph.Messaging
                 if (g.Value.Any(s => possibleTopics.Contains(s)))
                 {
                     var instance = (Subscriber)m_subsribers[g.Key];
-                    if (null == instance.NotificicationService)
-                        instance.NotificicationService = m_notificationService;
-
                     Invoke(instance, item, crud, operation);
 
                 }
@@ -216,7 +212,7 @@ namespace Bespoke.Sph.Messaging
             }
             else
             {
-                m_notificationService.WriteError($"Cannot find ProcessMessage in type {sub.GetType().GetShortAssemblyQualifiedName()}");
+                WebSocketNotificationService.Instance.WriteError($"Cannot find ProcessMessage in type {sub.GetType().GetShortAssemblyQualifiedName()}");
             }
         }
 
@@ -253,12 +249,12 @@ namespace Bespoke.Sph.Messaging
 
         private void WriteInfo(string message)
         {
-            m_notificationService.WriteInfo(message);
+            WebSocketNotificationService.Instance.WriteInfo(message);
         }
 
         private void WriteVerbose(string message)
         {
-            m_notificationService.WriteVerbose(message);
+            WebSocketNotificationService.Instance.WriteVerbose(message);
         }
 
         public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedEntities, IDictionary<string, object> headers)
@@ -309,7 +305,7 @@ namespace Bespoke.Sph.Messaging
             WriteInfo($"SubmitChanges => {"row".ToQuantity(so.RowsAffected)} affected, faulted: {so.IsFaulted}");
             if (so.IsFaulted || null != so.Exeption)
             {
-                m_notificationService.WriteError(so.Exeption, "Exception in call persistence.SubmitChanges");
+                WebSocketNotificationService.Instance.WriteError(so.Exeption, "Exception in call persistence.SubmitChanges");
             }
 
 
