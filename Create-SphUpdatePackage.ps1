@@ -343,7 +343,7 @@ if($compressed -eq 'q')
 $previous = $Build -1
 if(Test-Path .\deployment\update-script-template.ps1)
 {
-    (Get-Content .\deployment\$updateJson).Replace("%build_number%", $Build.ToString()) > .\deployment\$Build.ps1
+    (Get-Content .\deployment\update-script-template.ps1).Replace("%build_number%", $Build.ToString()) > .\deployment\$Build.ps1
 }
 
 #create the update files
