@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -51,6 +52,24 @@ namespace Bespoke.Sph.Domain
                 }
 
             }
+
+            var rlex = exc as ReflectionTypeLoadException;
+            if (null != rlex)
+            {
+                foreach (var lex in rlex.LoaderExceptions)
+                {
+                    keywords.Add(lex.GetType().FullName);
+                    keywords.Add(lex.Message);
+                    details.AppendLine(" ========================== ");
+                    details.AppendLine(lex.GetType().FullName);
+                    details.AppendLine(lex.Message);
+                    details.AppendLine();
+                    details.AppendLine();
+
+
+                }
+            }
+
             while (null != exc)
             {
 
