@@ -9,9 +9,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -100,7 +100,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
-            options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
+            options.AddReference(typeof(JsonConvert));
 
 
 
@@ -131,7 +131,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
-            options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
+            options.AddReference(typeof(JsonConvert));
 
             var result = wd.Compile(options);
             if (!result.Result || !System.IO.File.Exists(result.Output))
@@ -314,7 +314,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult GetLoadedAssemblies()
         {
             var assesmblies = AppDomain.CurrentDomain.GetAssemblies();
-            var refAssemblies = from a in assesmblies
+            var refAssemblies =( from a in assesmblies
                                 where a.IsDynamic == false
                                 let name = a.GetName()
                                 where !Ignores.Any(x => name.Name.StartsWith(x))
@@ -328,7 +328,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                                     RuntimeVersion = a.ImageRuntimeVersion,
                                     Location = path ,
                                     Name = name.Name
-                                };
+                                }).ToList();
+            var outputs = from f in Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath, "*.dll")
+                let fn = Path.GetFileNameWithoutExtension(f)
+                where !fn.StartsWith("ff") && !fn.StartsWith("subscriber")
+                && refAssemblies.All(x => x.Name != fn)
+                let dll = Assembly.ReflectionOnlyLoadFrom(f)
+                let name = dll.GetName()
+                select new ReferencedAssembly
+                {
+                    Version = name.Version.ToString(),
+                    FullName = name.FullName,
+                    IsGac = false,
+                    RuntimeVersion = dll.ImageRuntimeVersion,
+                    Location = f,
+                    Name = fn
+                };
+
+            refAssemblies.AddRange(outputs);
 
             return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
         }

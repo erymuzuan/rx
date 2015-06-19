@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -45,7 +46,14 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return Type.GetType(this.TypeName);
+                var t = Type.GetType(this.TypeName);
+                if (null == t)
+                {
+                    var splits = this.TypeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    var dll = System.Reflection.Assembly.LoadFile($"{ConfigurationManager.WorkflowCompilerOutputPath}\\{splits.Last().Trim()}.dll");
+                    t = dll.GetType(splits.First().Trim());
+                }
+                return t;
             }
             set
             {
