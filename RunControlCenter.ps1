@@ -1,4 +1,8 @@
-﻿#copy some dependencies
+﻿Param(
+       [switch]$InMemory = $false
+     )
+
+#copy some dependencies
 copy .\source\web\web.sph\bin\Common.Logging.dll .\bin\subscribers
 copy .\source\web\web.sph\bin\System.Web.Mvc.dll .\bin\subscribers
 copy .\source\web\web.sph\bin\System.Web.Razor.dll .\bin\subscribers
@@ -29,7 +33,11 @@ $cc = ".\bin\control.center\controlcenter.exe"
 IF(Test-Path $cc){
 
     Write-Host "Starting control center..."
-    Start-Process -FilePath .\controlcenter.exe -ArgumentList "/log:console /debug" -WorkingDirectory .\bin\control.center
+    $args = "/log:console /debug"
+    if($InMemory){
+        $args = "/log:console /debug /in-memory-broker"
+    }
+    Start-Process -FilePath .\controlcenter.exe -ArgumentList $args -WorkingDirectory .\bin\control.center
     
 }
 ELSE{

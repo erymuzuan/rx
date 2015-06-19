@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Helpers;
 using Bespoke.Sph.ControlCenter.ViewModel;
@@ -14,17 +14,45 @@ namespace Bespoke.Sph.ControlCenter
 {
     public partial class MainWindow
     {
+        public static string ParseArg(string name)
+        {
+            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
+            return val?.Replace("/" + name + ":", string.Empty);
+        }
+
+        private static bool ParseArgExist(string name)
+        {
+            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var val = args.SingleOrDefault(a => a.StartsWith("/" + name));
+            return null != val;
+        }
         public MainWindow()
         {
             InitializeComponent();
             Loaded += MainWindowLoaded;
             this.Closing += MainWindowClosing;
+
+            if (ParseArgExist("in-memory-broker"))
+            {
+                this.DataContext = new InMemoryBrokerViewModel();
+                var mc = new MainViewInMemoryBroker();
+                this.controlPanelBox.Content = mc;
+                mc.InitializeComponent();
+            }
+            else
+            {
+                this.DataContext = new MainViewModel();
+                var vr = new MainViewWithRabbitMq();
+                this.controlPanelBox.Content = vr;
+                vr.InitializeComponent();
+            }
         }
 
         void MainWindowClosing(object sender, CancelEventArgs e)
         {
 
-            var vm = this.DataContext as MainViewModel;
+            dynamic vm = this.DataContext ;
             if (null == vm) return;
             if (!vm.CanExit())
             {
@@ -39,8 +67,7 @@ namespace Bespoke.Sph.ControlCenter
 
         async void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
-            var vm = this.DataContext as MainViewModel;
-            if (null == vm) throw new InvalidOperationException("The DataContext is not MainViewModel");
+            dynamic vm = this.DataContext;
             vm.View = this;
             await vm.LoadAsync();
             outputTextBox.Clear();
@@ -63,19 +90,7 @@ namespace Bespoke.Sph.ControlCenter
             this.Dispatcher.BeginInvoke(caret, DispatcherPriority.ApplicationIdle);
         }
 
-        private void Navigate(object sender, RequestNavigateEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
-            e.Handled = true;
-        }
-        private void NavigateApp(object sender, RequestNavigateEventArgs e)
-        {
-            var vm = this.DataContext as MainViewModel;
-            if (null == vm) throw new InvalidOperationException("The DataContext is not MainViewModel");
-
-            Process.Start(new ProcessStartInfo($"http://localhost:{vm.Settings.WebsitePort}/"));
-            e.Handled = true;
-        }
+     
 
         private void CleartOutputText(object sender, RoutedEventArgs e)
         {
@@ -101,7 +116,7 @@ namespace Bespoke.Sph.ControlCenter
 
         private void WindowExit(object sender, RoutedEventArgs e)
         {
-            var vm = this.DataContext as MainViewModel;
+            dynamic vm = this.DataContext;
             if (null == vm) return;
             if (!vm.CanExit())
             {

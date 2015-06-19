@@ -146,6 +146,12 @@
     <Compile Include="Helpers\PropertyChangingEventArgs.cs" />
     <Compile Include="Helpers\TextBoxStreamWriter.cs" />
     <Compile Include="JsonSerializerService.cs" />
+    <Compile Include="MainViewInMemoryBroker.xaml.cs">
+      <DependentUpon>MainViewInMemoryBroker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainViewWithRabbitMq.xaml.cs">
+      <DependentUpon>MainViewWithRabbitMq.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\LogEntry.cs" />
     <Compile Include="Model\Logger.cs" />
     <Compile Include="Model\SphSettings.cs" />
@@ -175,6 +181,10 @@
       <DependentUpon>UpdaterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ApplicationSetup.cs" />
+    <Compile Include="ViewModel\InMemoryBrokerViewModel.cs" />
+    <Compile Include="ViewModel\InMemoryBrokerViewModel.Dependencies.cs">
+      <DependentUpon>InMemoryBrokerViewModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\SetupViewModel.p.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
     <Compile Include="ViewModel\UpdaterViewModel.cs" />
@@ -187,6 +197,14 @@
     <Page Include="ErrorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainViewInMemoryBroker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainViewWithRabbitMq.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
