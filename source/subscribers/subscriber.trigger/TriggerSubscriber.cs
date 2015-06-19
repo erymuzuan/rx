@@ -34,15 +34,10 @@ namespace Bespoke.Sph.CustomTriggers
             var result = await item.CompileAsync(options);
             if (!result.Result)
             {
-
                 this.WriteMessage("Fail to build your Trigger ");
                 result.Errors.ForEach(e => this.WriteError(new Exception(e.Message)));
-                return;
             }
-
-            // NOTE : copy dlls, this will cause the appdomain to unload and we want it happend
-            // after the Ack to the broker
-            this.QueueUserWorkItem(DeployTriggerAssembly, item);
+            
         }
 
         private async void DeleteTrigger(Trigger trigger)
@@ -75,21 +70,7 @@ namespace Bespoke.Sph.CustomTriggers
                 }
             }
         }
-
-
-        private static void DeployTriggerAssembly(object obj)
-        {
-            Thread.Sleep(1000);
-            var item = (Trigger)obj;
-            var dll = string.Format("subscriber.trigger.{0}.dll", item.Id);
-            var pdb = string.Format("subscriber.trigger.{0}.pdb", item.Id);
-            var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
-            var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
-
-            File.Copy(dllFullPath, ConfigurationManager.SubscriberPath + @"\" + dll, true);
-            File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);
-
-        }
+        
 
     }
 }
