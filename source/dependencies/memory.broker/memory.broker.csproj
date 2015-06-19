@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Broker.properties.cs" />
     <Compile Include="Broker.cs" />
     <Compile Include="ChangeListener.cs" />
     <Compile Include="Logger.cs" />

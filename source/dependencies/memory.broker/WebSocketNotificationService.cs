@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Messaging
         private WebSocketServer m_appServer;
         private FileSystemWatcher m_fsw;
 
-        public bool Start(int port = 50230)
+        public bool Start(int port)
         {
             m_fsw = new FileSystemWatcher(ConfigurationManager.WorkflowCompilerOutputPath)
             {

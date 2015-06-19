@@ -248,9 +248,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         .done(function () {
                             clearInterval(refresh);
                             if (tcs.state() !== "resolved") {
-                                start().done(tcs.resolve);
+                                start().done(function() {
+                                    logger.info("Web socket re-connect!");
+                                });
                             }
-                        });
+		                    tcs.resolve(true);
+		                });
 
 		        }, 2000);
 
