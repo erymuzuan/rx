@@ -1068,10 +1068,10 @@
   "RecordName": "Mrn",
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
-  "CreatedBy": null,
+  "CreatedBy": "admin",
   "Id": "patient",
-  "CreatedDate": "0001-01-01T00:00:00",
-  "ChangedBy": "admin",
-  "ChangedDate": "2015-05-11T18:33:48.2987499+08:00",
+  "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
+  "ChangedBy": "erymuzuan",
+  "ChangedDate": "2015-06-19T07:09:55.7069461+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

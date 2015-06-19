@@ -23,6 +23,10 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
     "$values": []
   },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
   "TransformDefinitionId": 0,
   "Name": "CustomerDate",
   "Description": "",
@@ -32,7 +36,7 @@
   "CreatedBy": "admin",
   "Id": "customerdate",
   "CreatedDate": "2015-03-14T17:02:53.4950596+08:00",
-  "ChangedBy": "admin",
-  "ChangedDate": "2015-03-14T17:44:40.3312046+08:00",
+  "ChangedBy": "erymuzuan",
+  "ChangedDate": "2015-06-18T16:27:18.7495152+08:00",
   "WebId": "64e30765-c198-40eb-ffe2-2247664b7437"
 }
