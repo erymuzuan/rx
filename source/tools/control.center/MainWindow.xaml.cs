@@ -76,6 +76,8 @@ namespace Bespoke.Sph.ControlCenter
             Console.WriteLine(Properties.Resources.ControlPanelIsReady);
             outputTextBox.TextChanged += OutputTextBoxTextChanged;
 
+            this.Title += " : " + vm.Settings.ApplicationName;
+
         }
 
         void OutputTextBoxTextChanged(object sender, TextChangedEventArgs e)

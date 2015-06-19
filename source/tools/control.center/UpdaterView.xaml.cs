@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Windows.Threading;
-using Bespoke.Sph.ControlCenter.Model;
+﻿using System.Threading;
+using System.Windows;
 using Bespoke.Sph.ControlCenter.ViewModel;
 
 namespace Bespoke.Sph.ControlCenter
@@ -15,11 +12,20 @@ namespace Bespoke.Sph.ControlCenter
             this.Loaded += UpdaterViewLoaded;
         }
 
-        void UpdaterViewLoaded(object sender, System.Windows.RoutedEventArgs e)
+        void UpdaterViewLoaded(object sender, RoutedEventArgs e)
         {
-            var vm = new UpdaterViewModel {View = this};
+            var vm = new UpdaterViewModel { View = this };
             this.DataContext = vm;
+            this.QueueUserWorkItem(() =>
+            {
+                Thread.Sleep(3000);
+                this.Post(() =>
+                {
+                    vm.CheckUpdateCommand.Execute(true);
+
+                });
+            });
         }
-        
+
     }
 }

@@ -17,7 +17,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 {
     public class UpdaterViewModel : ViewModelBase, IView
     {
-        public RelayCommand CheckUpdateCommand { get; set; }
+        public RelayCommand<bool> CheckUpdateCommand { get; set; }
         public RelayCommand LoadUpdateCommand { get; set; }
         private bool m_isBusy;
         private bool m_isUpdating;
@@ -43,7 +43,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         }
         public UpdaterViewModel()
         {
-            this.CheckUpdateCommand = new RelayCommand(CheckUpdate);
+            this.CheckUpdateCommand = new RelayCommand<bool>(CheckUpdate);
             this.LoadUpdateCommand = new RelayCommand(LoadUpdate);
         }
 
@@ -82,14 +82,15 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
-        private async void CheckUpdate()
+        private async void CheckUpdate(bool silent)
         {
             this.Settings = SphSettings.Load();
             var file = @".\version.json".TranslatePath();
             if (!File.Exists(file))
             {
-                MessageBox.Show("Can't find " + file + " in your root", "Rx Developer", MessageBoxButton.OK,
-                    MessageBoxImage.Stop);
+                if (!silent)
+                    MessageBox.Show("Can't find " + file + " in your root", "Rx Developer", MessageBoxButton.OK,
+                        MessageBoxImage.Stop);
                 return;
             }
             this.IsBusy = true;
@@ -105,8 +106,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     var response = await client.GetAsync(url);
                     if (response.StatusCode == HttpStatusCode.NotFound)
                     {
-                        MessageBox.Show("Now new update is found, Please check again in the future", "Rx Developer", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
+                        if (!silent)
+                            MessageBox.Show("Now new update is found, Please check again in the future", "Rx Developer", MessageBoxButton.OK,
+                                    MessageBoxImage.Information);
 
 
                         return;
