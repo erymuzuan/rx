@@ -341,9 +341,9 @@ if($compressed -eq 'q')
 
 #creates the update manifest
 $previous = $Build -1
-if(Test-Path .\deployment\$previous.ps1)
+if(Test-Path .\deployment\update-script-template.ps1)
 {
-    (Get-Content .\deployment\$previous.ps1).Replace($previous, $Build) > .\deployment\$Build.ps1
+    (Get-Content .\deployment\$updateJson).Replace("%build_number%", $Build.ToString()) > .\deployment\$Build.ps1
 }
 
 #create the update files
