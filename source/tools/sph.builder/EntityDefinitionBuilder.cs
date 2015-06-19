@@ -117,7 +117,7 @@ namespace sph.builder
             result.Errors.ForEach(Console.WriteLine);
 
             var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType(string.Format("Bespoke.Dev_{0}.Domain.{1}", ed.Id, ed.Name));
+            var type = assembly.GetType($"Bespoke.Dev_{ed.Id}.Domain.{ed.Name}");
             return type;
         }
 
@@ -125,8 +125,8 @@ namespace sph.builder
 
         private static void DeployCustomEntity(EntityDefinition ed)
         {
-            var dll = string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, ed.Name);
-            var pdb = string.Format("{0}.{1}.pdb", ConfigurationManager.ApplicationName, ed.Name);
+            var dll = $"{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
+            var pdb = $"{ConfigurationManager.ApplicationName}.{ed.Name}.pdb";
             var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
             var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
 
