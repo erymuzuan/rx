@@ -27,11 +27,12 @@
             <form role="form">
                 <div class="form-group">
                     <label>Name</label>
-                    <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name" />
+                    <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name"/>
                 </div>
+
                 <div class="form-group">
                     <label>Route</label>
-                    <input required class="form-control" data-bind="value: Route" id="form-design-Route" type="text" name="FormDesign.Route" />
+                    <input required pattern="^[a-z][a-z0-9-.]*$" class="form-control" data-bind="value: Route, tooltip:'Route is a way the system identify your form via its URL, must be lower case with - or .'" id="form-design-Route" type="text" name="FormDesign.Route" />
                 </div>
                 <div class="form-group">
                     <label for="form-design-caption">Caption</label>
