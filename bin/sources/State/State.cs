@@ -34,8 +34,5 @@ namespace Bespoke.DevV1_state.Domain
         [XmlAttribute]
         public string FlagStoreId { get; set; }
 
-        //member:Area
-        public decimal? Area { get; set; }
-
     }
 }
