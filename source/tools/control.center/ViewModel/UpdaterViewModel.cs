@@ -125,7 +125,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 }
                 catch (HttpRequestException e)
                 {
-                    MessageBox.Show($"Cannot download {client.BaseAddress}/{url} \r\n{e}", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (!silent)
+                        MessageBox.Show($"Cannot download {client.BaseAddress}/{url} \r\n{e}", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 finally
