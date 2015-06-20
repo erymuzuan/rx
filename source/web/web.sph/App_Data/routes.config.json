@@ -12,5 +12,19 @@
     "showWhenLoggedIn": false,
     "isAdminPage": false,
     "startPageRoute": null
+  },
+  {
+    "role": "Developer",
+    "groupName": null,
+    "route": "solution-diagnostics",
+    "moduleId": "viewmodels/solution-diagnostics",
+    "title": "Solution Diagnostics",
+    "nav": true,
+    "icon": "fa fa-check-square",
+    "caption": "Solution Diagnostics",
+    "settings": null,
+    "showWhenLoggedIn": true,
+    "isAdminPage": false,
+    "startPageRoute": null
   }
 ]
