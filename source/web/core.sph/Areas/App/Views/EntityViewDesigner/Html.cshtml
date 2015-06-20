@@ -37,10 +37,9 @@
             <div class="form-group">
                 <label for="view-route" class="col-sm-2 control-label">Route</label>
                 <div class="col-sm-6">
-                    <input type="text" data-bind="value: Route"
-                           required pattern="^[A-Za-z_][A-Za-z0-9_-]*$"
-                           placeholder="route url"
-                           class="form-control" id="view-route">
+                    <input type="text" 
+                           required pattern="^[a-z][a-z0-9-.]*$" class="form-control" data-bind="value: Route, tooltip:'Route is a way the system identify your view via its URL, must be lower case with - or .'"
+                           placeholder="route url" id="view-route">
                 </div>
             </div>
             <div class="form-group">
