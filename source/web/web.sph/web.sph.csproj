@@ -1262,6 +1262,8 @@
     <Content Include="SphApp\services\jsonimportexport.js" />
     <Content Include="SphApp\viewmodels\public.index.js" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
+    <Content Include="SphApp\viewmodels\solution-diagnostics.js" />
+    <Content Include="SphApp\views\solution-diagnostics.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

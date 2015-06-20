@@ -676,6 +676,7 @@
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\RequireJsBundleController.cs" />
     <Compile Include="Controllers\ResourceBundleController.cs" />
+    <Compile Include="Controllers\SolutionController.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
@@ -2808,6 +2809,7 @@
     <Folder Include="Areas\Sph\Views\TransformDefinition\" />
     <Folder Include="Views\Main\" />
     <Folder Include="Views\RequireJsBundle\" />
+    <Folder Include="Views\Solution\" />
     <Folder Include="Views\WorkflowDesigner\" />
   </ItemGroup>
   <ItemGroup>
