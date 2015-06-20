@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -47,6 +45,29 @@ namespace Bespoke.Sph.Domain
                                  this.WebId,
                                  string.Format("[Column] : {1}({0})  does not have for route", f.Path, f.Header)
                              );
+
+            var paths = ed.GetMembersPath();
+            var invalidPathWarnings = from f in this.ViewColumnCollection
+                                      where !paths.Contains(f.Path)
+                                      select new BuildError(f.WebId, $"[{f.Header}] : Specified path is \"{f.Path}\" may not be valid, ignore this warning if this is intentional");
+            result.Warnings.AddRange(invalidPathWarnings);
+
+            var invalidFilters = from f in this.FilterCollection
+                                      where !paths.Contains(f.Term)
+                                      select new BuildError(f.WebId, $"[{f.Term}] : Specified filter term is \"{f.Term}\" may not be valid");
+            result.Errors.AddRange(invalidFilters);
+
+            var routes = (await JsRoute.GetCustomRoutes()).Select(x => x.Route).ToArray();
+            var invalidLinks = from f in this.ViewColumnCollection
+                               where f.IsLinkColumn
+                               && !routes.Contains(f.FormRoute)
+                               select new BuildError(f.WebId, $"[{f.Header}] : Specified link route in column \"{f.Header}\" point to \"{f.FormRoute}\" is invalid");
+            result.Errors.AddRange(invalidLinks);
+
+            // TODO  validate for route parameters
+
+
+
             if (string.IsNullOrWhiteSpace(this.Route))
                 result.Errors.Add(new BuildError(this.WebId, "Route is missing"));
             if (!this.Performer.Validate())
@@ -92,6 +113,8 @@ namespace Bespoke.Sph.Domain
 
             return result;
         }
+
+
 
 
         public string GenerateConditionalFormattingBinding()
