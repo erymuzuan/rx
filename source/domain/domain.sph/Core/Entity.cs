@@ -34,10 +34,7 @@ namespace Bespoke.Sph.Domain
 
         [JsonIgnore]
         [XmlIgnore]
-        public bool IsNewItem
-        {
-            get { return String.IsNullOrWhiteSpace(this.Id) || this.Id == "0"; }
-        }
+        public bool IsNewItem => String.IsNullOrWhiteSpace(this.Id) || this.Id == "0";
 
         public virtual Task<IEnumerable<ValidationError>> ValidateAsync()
         {

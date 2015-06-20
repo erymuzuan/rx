@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -187,11 +186,11 @@ namespace Bespoke.Sph.Web.App_Start
                             };
 
             // adapters
-            if (null == RouteConfig.AdapterDesigner)
+            if (null == AdapterDesigner)
             {
-                RouteConfig.AdapterDesigner = new AdapterDesigner();
+                AdapterDesigner = new AdapterDesigner();
             }
-            var adapterRoutes = RouteConfig.AdapterDesigner.GetRoutes();
+            var adapterRoutes = AdapterDesigner.GetRoutes();
             routes.AddRange(adapterRoutes);
 
             routes.AddRange(viewRoutes);
