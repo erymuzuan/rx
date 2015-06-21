@@ -107,7 +107,7 @@
 
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(view);
-                    app.showMessage("Are you sure you want to delete this view> This action cannot be undone", "Reactive Developer", ["Yes", "No"])
+                    app.showMessage("Are you sure you want to delete this view? This action cannot be undone.", "Reactive Developer", ["Yes", "No"])
                         .done(function (dialogResult) {
                             if (dialogResult === "Yes") {
                                 context.send(data, "/Sph/EntityView", "DELETE")

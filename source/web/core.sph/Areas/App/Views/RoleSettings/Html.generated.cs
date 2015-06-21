@@ -186,7 +186,7 @@ WriteLiteral(">\r\n            <span>Please (<i");
 
 WriteLiteral(" class=\"fa fa-check\"");
 
-WriteLiteral("></i>)check the option to set the designation roles hassan</span>\r\n        </div>" +
+WriteLiteral("></i>)check the option to set the designation roles</span>\r\n        </div>" +
 "\r\n\r\n        <div>\r\n            <table");
 
 WriteLiteral(" class=\"table table-striped\"");

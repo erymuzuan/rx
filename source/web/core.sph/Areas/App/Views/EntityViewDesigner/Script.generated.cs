@@ -130,7 +130,7 @@ WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext, objectbuilders.lo
 "                    });\r\n                    return tcs.promise();\r\n            " +
 "    },\r\n                remove = function () {\r\n\r\n                    var tcs = " +
 "new $.Deferred(),\r\n                        data = ko.mapping.toJSON(view);\r\n    " +
-"                app.showMessage(\"Are you sure you want to delete this view> This" +
+"                app.showMessage(\"Are you sure you want to delete this view? This" +
 " action cannot be undone\", \"Reactive Developer\", [\"Yes\", \"No\"])\r\n               " +
 "         .done(function (dialogResult) {\r\n                            if (dialog" +
 "Result === \"Yes\") {\r\n                                context.send(data, \"/Sph/En" +
