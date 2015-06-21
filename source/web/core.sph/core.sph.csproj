@@ -2095,6 +2095,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\_custom.forms.scripts.js" />
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.script.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.import.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\solution.diagnostics.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2605,6 +2606,7 @@
     <EmbeddedResource Include="SphApp\views\_custom.forms.partial.views.html" />
     <EmbeddedResource Include="SphApp\views\_custom.forms.routes.html" />
     <EmbeddedResource Include="SphApp\views\_custom.forms.scripts.html" />
+    <EmbeddedResource Include="SphApp\views\solution.diagnostics.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

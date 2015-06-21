@@ -1,0 +1,19 @@
+﻿
+<link href="/Content/jstree/style.min.css" rel="stylesheet" />
+
+<h1>Solution Diagnostics</h1>
+
+<div class="row">
+    <div class="alert alert-warning" data-bind="visible:warnings().length">
+        <i class="fa fa-warning fa-2x"></i>
+        There are <!-- ko text : warnings().length --> <!--/ko--> warnings in your solution
+    </div>
+    <div class="alert alert-danger" data-bind="visible:errors().length">
+        <i class="fa fa-exclamation-circle fa-2x"></i>        There are <!-- ko text : errors().length --><!--/ko--> errors in your solution
+    </div>
+    <div class="alert alert-success">
+        <i class="fa fa-check-circle fa-2x"></i>
+        Click start diagnostics to begin
+    </div>
+    <div id="diagnostics-tree"></div>
+</div>
