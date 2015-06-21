@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Domain
             var paths = ed.GetMembersPath();
             var invalidPathWarnings = from f in this.ViewColumnCollection
                                       where !paths.Contains(f.Path)
-                                      select new BuildError(f.WebId, $"[{f.Header}] : Specified path is \"{f.Path}\" may not be valid, ignore this warning if this is intentional");
+                                      select new BuildError(f.WebId, $"[{f.Header}] : Specified path \"{f.Path}\" may not be valid, ignore this warning if this is intentional");
             result.Warnings.AddRange(invalidPathWarnings);
 
             var invalidFilters = from f in this.FilterCollection
