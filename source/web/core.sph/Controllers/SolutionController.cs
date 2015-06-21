@@ -36,6 +36,7 @@ namespace Bespoke.Sph.Web.Controllers
             Func<EntityDefinition, Task> er = async (f) =>
             {
                 var br = await f.ValidateBuildAsync();
+                br.Uri = $"entity.details/{f.Id}";
                 entitiesDiagnostics.TryAdd(f.Name, br);
             };
             var tasks0 = entities.Select(x => er(x));
@@ -60,6 +61,7 @@ namespace Bespoke.Sph.Web.Controllers
              {
                  var t = entities.SingleOrDefault(x => x.Id == f.EntityDefinitionId);
                  var result = await f.ValidateBuildAsync(t);
+                 result.Uri = $"entity.form.designer/{f.EntityDefinitionId}/{f.Id}";
                  formsDiagnostics.TryAdd(f.Name, result);
 
              };
@@ -89,6 +91,7 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 var t = entities.SingleOrDefault(x => x.Id == f.EntityDefinitionId);
                 var result = await f.ValidateBuildAsync(t);
+                result.Uri = $"entity.view.designer/{f.EntityDefinitionId}/{f.Id}";
                 viewsDiagnostics.TryAdd(f.Name, result);
 
             };
