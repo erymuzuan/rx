@@ -17,6 +17,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             isBusy = ko.observable(false),
             errors = ko.observableArray(),
+            triggers = ko.observableArray(),
             forms = ko.observableArray(),
             views = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
@@ -186,6 +187,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 
         var vm = {
+            triggers: triggers,
             forms: forms,
             views: views,
             errors: errors,

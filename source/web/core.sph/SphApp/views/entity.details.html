@@ -66,7 +66,7 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <label class="checkbox" data-placement="left" data-bind="tooltip:'If checked, this member will not be indexed in elastic search, thus it will be searchable'">
+                        <label class="checkbox" data-placement="left" data-bind="tooltip:'If checked, this member will not be indexed in Elasticsearch, thus it will not be searchable'">
                             <input data-bind="checked: IsNotIndexed" id="member-not-indexed" type="checkbox" name="IsNotIndexed" />
                             Do not indexed
                         </label>
@@ -149,6 +149,9 @@
                     <a href="#business-rules-tab" data-toggle="tab">Business Rule</a>
                 </li>
                 <li>
+                    <a href="#triggers-tab" data-toggle="tab">Triggers</a>
+                </li>
+                <li>
                     <a href="#forms-tab" data-toggle="tab">Forms</a>
                 </li>
                 <li>
@@ -165,8 +168,8 @@
                 <div id="general-properties" class="tab-pane active">
                     <form name="entity-form" id="entity-form" class="form-horizontal" role="form" data-bind="with : entity">
                         <div class="form-group">
-                            <label for="ent-name" class="col-md-2">Name</label>
-                            <div class="col-md-6">
+                            <label for="ent-name" class="col-md-3">Name</label>
+                            <div class="col-md-9">
                                 <input type="text" data-bind="value: Name, readonly : ko.unwrap(Id) !== '0'"
                                        required="" pattern="^[A-Za-z][A-Za-z0-9]*$"
                                        placeholder="Custom Entity Name"
@@ -174,24 +177,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="record-name" class="col-md-2">Record Name</label>
-                            <div class="col-md-6">
-                                <input type="text" data-bind="value: RecordName"
+                            <label for="record-name" class="col-md-3">Record Name</label>
+                            <div class="col-md-9">
+                                <input type="text" data-bind="value: RecordName, tooltip:'The Record Name appears in page layouts, key lists, related lists, lookups, and search results.For example, the Record Name for Account is &quot;AccountName&quot; and for Case it is &quot;CaseNumber&quot;.Note that the Record Name field is always called &quot;Name&quot; when referenced via the API.The field must exist as a first level member in your schema'"
                                        required="required" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
                                        placeholder="Identifying member"
                                        class="form-control" id="record-name">
-                                <span class="help-block">
-                                    <i class="fa fa-question-circle"></i>
-                                    The Record Name appears in page layouts, key lists, related lists, lookups, and search results.
-                                    For example, the Record Name for Account is "AccountName" and for Case it is "CaseNumber".
-                                    Note that the Record Name field is always called "Name" when referenced via the API.
-                                    The field must exist as a first level member in your schema
-                                </span>
+
+
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="plural" class="col-md-2">Plural</label>
-                            <div class="col-md-6">
+                            <label for="plural" class="col-md-3">Plural</label>
+                            <div class="col-md-9">
                                 <input type="text" data-bind="value: Plural"
                                        required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
                                        placeholder="Plurals"
@@ -200,7 +198,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="icon-storeid" class="col-md-2 control-label">Icon/Logo</label>
+                            <label for="icon-storeid" class="col-md-3 control-label">Icon/Logo</label>
                             <div class="col-md-6">
                                 <label for="icon-storeid">
                                     <img data-bind="attr : {src:'/sph/image/Store/' + IconStoreId()}" alt="Logo" />
@@ -210,7 +208,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="icon-class" class="col-md-2 control-label">Icon class</label>
+                            <label for="icon-class" class="col-md-3 control-label">Icon class</label>
                             <div class="col-md-6">
                                 <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="icon-class"></i>
                             </div>
@@ -247,6 +245,40 @@
                     </a>
 
                 </div>
+                <div id="triggers-tab" class="tab-pane">
+                    <table class="table table-striped" data-bind="serverPaging :{entity: 'Trigger', query :'Entity eq \'' + $root.entity().Id() + '\'', list: triggers}">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Operations</th>
+                                <th>Added</th>
+                                <th>Changed</th>
+                                <th>Deleted</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :triggers">
+                            <tr>
+                                <td>
+                                    <a data-bind="attr : {'href':'#/trigger.setup/' + Id()},text: Name"></a>
+                                </td>
+                                <td data-bind="text:FiredOnOperations"></td>
+                                <td>
+                                    <i class="fa fa-check" data-bind="visible:IsFiredOnAdded"></i>
+                                </td>
+                                <td>
+                                    <i class="fa fa-check" data-bind="visible:IsFiredOnChanged"></i>
+                                </td>
+                                <td>
+                                    <i class="fa fa-check" data-bind="visible:IsFiredOnDeleted"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-link" data-bind="attr : {'href':'#/trigger.setup/0'}">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a trigger
+                    </a>
+                </div>
                 <div id="forms-tab" class="tab-pane">
                     <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityForm', query :'EntityDefinitionId eq \'' + $root.entity().Id() + '\'', list: forms}">
                         <thead>
@@ -278,8 +310,6 @@
                         <i class="fa fa-plus-circle"></i>
                         Add a form
                     </a>
-
-
                 </div>
                 <div id="views-tab" class="tab-pane">
 
@@ -357,8 +387,6 @@
                         </div>
 
                         <div class="form-group">
-
-
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="checkbox">
                                     <label>
@@ -369,8 +397,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="performer-property" class="col-sm-2 control-label">User Property</label>
-                            <div class="col-sm-6">
+                            <label for="performer-property" class="col-sm-3 control-label">User Property</label>
+                            <div class="col-sm-9">
                                 <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
                                     <option value="">[Please Select]</option>
                                     <option value="Roles">Roles</option>
@@ -381,8 +409,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="performer-value" class="col-sm-2 control-label">Value</label>
-                            <div class="col-sm-6">
+                            <label for="performer-value" class="col-sm-3 control-label">Value</label>
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:IsPublic" />
                             </div>
                         </div>
