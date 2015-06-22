@@ -160,13 +160,14 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
 
                 this.ReferencedAssemblyCollection
-                    .Select(u => $"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}")
+                    .Select(u => $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{Path.GetFileName(u.Location)}")
                     .Where(File.Exists)
                     .ToList()
                     .ForEach(u => parameters.ReferencedAssemblies.Add(u));
+
                 this.ReferencedAssemblyCollection
-                    .Where(u => !File.Exists($"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}"))
-                    .Select(u => $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{Path.GetFileName(u.Location)}")
+                    .Where(u => !File.Exists($"{ConfigurationManager.WorkflowCompilerOutputPath}\\{Path.GetFileName(u.Location)}"))
+                    .Select(u => $"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}")
                     .Where(File.Exists)
                     .ToList()
                     .ForEach(u => parameters.ReferencedAssemblies.Add(u));
