@@ -5,9 +5,10 @@
             <i class="fa fa-times"></i>
             Clear chart's filter
         </button>
-        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, map : map, entity : 'Patient', list:list}">
             <thead>
                 <tr>
+                    <th>Bil</th>
                     <th>Created date</th>
                     <th>Religion</th>
                     <th>Name</th>
@@ -20,6 +21,7 @@
             <tbody data-bind="foreach :list">
                 <tr data-bind="">
 
+                    <td data-bind="text:$Index"></td>
                     <td data-bind="date:CreatedDate"></td>
                     <td data-bind="text:Religion"></td>
                     <td data-bind="text:FullName"></td>

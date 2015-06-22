@@ -28,6 +28,23 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
+        "Path": "$Index",
+        "Header": "Bil",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "cf360c31-a62a-4167-8c02-381cfbfc1b7d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "CreatedDate",
         "Header": "Created date",
         "Sort": "",
@@ -163,7 +180,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "fb17aa76-93bc-4c3a-b73f-5ccd0c3cff4a",
+  "IconStoreId": "7424b8f4-32c6-4b3b-a575-96bb07589bd0",
   "EntityDefinitionId": "patient",
   "Name": "Admitted Patients",
   "Route": "admitted-patients",
@@ -175,10 +192,10 @@
   "CountMessage": null,
   "Entity": null,
   "Partial": null,
-  "CreatedBy": null,
+  "CreatedBy": "admin",
   "Id": "admitted-patients",
-  "CreatedDate": "0001-01-01T00:00:00",
-  "ChangedBy": "admin",
-  "ChangedDate": "2015-05-18T14:30:53.5313398+08:00",
+  "CreatedDate": "2015-05-28T07:43:35.8617153+08:00",
+  "ChangedBy": "erymuzuan",
+  "ChangedDate": "2015-06-23T07:19:04.1647498+08:00",
   "WebId": "de22c2e4-722b-41ad-b327-33ffa94280fe"
 }

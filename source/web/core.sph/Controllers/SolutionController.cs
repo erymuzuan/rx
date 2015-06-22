@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             var entitiesDiagnostics = new ConcurrentDictionary<string, BuildValidationResult>();
 
-            Func<EntityDefinition, Task> er = async (f) =>
+            Func<EntityDefinition, Task> er = async f =>
             {
                 var br = await f.ValidateBuildAsync();
                 br.Uri = $"entity.details/{f.Id}";
@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             var formsDiagnostics = new ConcurrentDictionary<string, BuildValidationResult>();
 
-            Func<EntityForm, Task> fr = async (f) =>
+            Func<EntityForm, Task> fr = async f =>
             {
                 f.BuildDiagnostics = this.BuildDiagnostics;
                 var t = entities.SingleOrDefault(x => x.Id == f.EntityDefinitionId);
@@ -99,12 +99,13 @@ namespace Bespoke.Sph.Web.Controllers
 
             var viewsDiagnostics = new ConcurrentDictionary<string, BuildValidationResult>();
 
-            Func<EntityView, Task> vr = async (f) =>
+            Func<EntityView, Task> vr = async v =>
             {
-                var t = entities.SingleOrDefault(x => x.Id == f.EntityDefinitionId);
-                var result = await f.ValidateBuildAsync(t);
-                result.Uri = $"entity.view.designer/{f.EntityDefinitionId}/{f.Id}";
-                viewsDiagnostics.TryAdd(f.Name, result);
+                v.BuildDiagnostics = this.BuildDiagnostics;
+                var t = entities.SingleOrDefault(x => x.Id == v.EntityDefinitionId);
+                var result = await v.ValidateBuildAsync(t);
+                result.Uri = $"entity.view.designer/{v.EntityDefinitionId}/{v.Id}";
+                viewsDiagnostics.TryAdd(v.Name, result);
 
             };
             var tasks2 = views.Select(vr);

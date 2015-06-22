@@ -183,6 +183,12 @@
     <Compile Include="diagnostics\FormElementDiagnostics.cs" />
     <Compile Include="diagnostics\NameDiagnostics.cs" />
     <Compile Include="diagnostics\RouteDiagnostics.cs" />
+    <Compile Include="diagnostics\ViewColumnDiagnostics.cs" />
+    <Compile Include="diagnostics\ViewConditionalFormattingDiagnostics.cs" />
+    <Compile Include="diagnostics\ViewFilterDiagnostics.cs" />
+    <Compile Include="diagnostics\ViewLinkColumnDiagnostics.cs" />
+    <Compile Include="diagnostics\ViewPerformerDiagnostics.cs" />
+    <Compile Include="diagnostics\ViewSortDiagnostics.cs" />
     <Compile Include="FormTemplates\Button.cs" />
     <Compile Include="FormTemplates\ChildEntityListView.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
