@@ -1,6 +1,6 @@
 
 
-<h1>State details</h1>
+<h1 data-i18n="State details">State details</h1>
 <div id="error-list" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
     <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
@@ -20,7 +20,7 @@
 
 
     <div data-bind="visible:true" class="form-group">
-        <label for="939ea4e6-d48b-4a22-97a8-b5a2aa3bc589" class="col-md-4">Name</label>
+        <label data-i18n="Name" for="939ea4e6-d48b-4a22-97a8-b5a2aa3bc589" class="col-md-4">Name</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
                    data-bind="value: Name, enable :true "
@@ -36,7 +36,7 @@
 
 
     <div data-bind="visible:true" class="form-group">
-        <label for="cc439f9d-f1c5-48d5-9294-71af012c0814" class="col-md-4">Abbrv.</label>
+        <label data-i18n="Abbrv." for="cc439f9d-f1c5-48d5-9294-71af012c0814" class="col-md-4">Abbrv.</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
                    data-bind="value: Abbreviation, enable :true "
@@ -52,7 +52,7 @@
 
 
     <div data-bind="visible:true" class="form-group">
-        <label for="2debfb95-e6cd-4281-9d6d-27c5e97e77a1" class="col-md-4">Country</label>
+        <label data-i18n="Country" for="2debfb95-e6cd-4281-9d6d-27c5e97e77a1" class="col-md-4">Country</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
                    data-bind="value: Country, enable :true "
@@ -68,10 +68,10 @@
 
 
 
-    <label class="col-md-4">Flag</label>
-<img alt="Flag"    data-bind="attr : {'src':'/sph/image/store/' + FlagStoreId()}, visible:true" />
+    <label data-i18n="Flag" class="col-md-4">Flag</label>
+<img data-test="xxx" alt="Flag"      data-bind="attr : {'src':'/sph/image/store/' + FlagStoreId()}, visible:true" />
     <div data-bind="visible:true" class="form-group">
-        <label for="60e150e6-047d-4dfc-c25c-cc0da8c625ea" class="col-md-4">Flag</label>
+        <label data-i18n="Flag" for="60e150e6-047d-4dfc-c25c-cc0da8c625ea" class="col-md-4">Flag</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
                    data-bind="kendoUpload : FlagStoreId, visible :true"

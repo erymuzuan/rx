@@ -29,9 +29,12 @@ namespace Bespoke.Sph.Domain
                 logger = GetObject<ILogger>();
 
             var catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetCallingAssembly()));
+            var callingAssembly = Assembly.GetCallingAssembly();
+            catalog.Catalogs.Add(new AssemblyCatalog(callingAssembly));
+
             var executing = Assembly.GetExecutingAssembly();
-            catalog.Catalogs.Add(new AssemblyCatalog(executing));
+            if (executing.FullName != callingAssembly.FullName)
+                catalog.Catalogs.Add(new AssemblyCatalog(executing));
 
             foreach (var dll in assemblies)
             {

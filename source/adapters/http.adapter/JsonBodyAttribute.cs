@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             if (parameter == null)
             {
-                throw new ArgumentNullException("parameter");
+                throw new ArgumentNullException(nameof(parameter));
             }
             parameter.Configuration.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings
             {

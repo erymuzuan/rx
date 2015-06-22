@@ -6,7 +6,7 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": "Name",
+        "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -28,7 +28,7 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": "Postcode",
+        "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -50,7 +50,7 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": "State",
+        "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -124,6 +124,6 @@
   "Id": "district",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "erymuzuan",
-  "ChangedDate": "2015-06-18T15:46:18.4777964+08:00",
+  "ChangedDate": "2015-06-22T17:05:59.7421879+08:00",
   "WebId": "a9b46951-3540-45fd-af99-69e1128dc718"
 }

@@ -304,6 +304,21 @@ if($deleteRoslyn -eq "y")
     ls -Path $output -Recurse -Filter Roslyn.Services.* | Remove-Item
 }
 
+
+Write-Host "Delete Microsoft.CodeAnalysis dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteMicrosoftCodeAnalysis = Read-Host
+if($deleteMicrosoftCodeAnalysis -eq "y")
+{
+    ls -Path $output -Recurse -Filter Microsoft.CodeAnalysis.* | Remove-Item
+}
+
+Write-Host "Delete Telerik dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteTelerik = Read-Host
+if($deleteTelerik -eq "y")
+{
+    ls -Path $output -Recurse -Filter Telerik.* | Remove-Item
+}
+
 # remove unused and big files
 ls -Path $output\control.center -Filter *.xml | Remove-Item
 
@@ -327,6 +342,10 @@ ls -Path $output -Recurse -Filter DevV1.*.dll | Remove-Item
 ls -Path $output -Recurse -Filter DevV1.*.pdb | Remove-Item
 ls $output\web\App_Data\i18n | ? {$_.Name.StartsWith("options") -eq $false} | Remove-Item
 ls $output\control.center\controlcenter.vshost.* | Remove-Item
+ls $output\control.center -Filter *.json | Remove-Item
+ls $output\control.center -Filter *.manifest | Remove-Item
+
+
 
 
 Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit : " -ForegroundColor Yellow -NoNewline

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using SuperSocket.WebSocket;
 
@@ -27,6 +29,14 @@ namespace Bespoke.Sph.ControlCenter
         private TaskCompletionSource<bool> m_stoppingTcs;
         public bool Start(int port = 50230)
         {
+            var output = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + "..\\output\\");
+            m_fsw = new FileSystemWatcher(output)
+            {
+                EnableRaisingEvents = true
+            };
+            m_fsw.Changed += FswChanged;
+            m_fsw.Deleted += FswChanged;
+            m_fsw.Created += FswChanged;
             m_appServer = new WebSocketServer();
             if (!m_appServer.Setup(port))
             {
@@ -38,6 +48,11 @@ namespace Bespoke.Sph.ControlCenter
 
         public bool Stop()
         {
+            if (null != m_fsw)
+            {
+                m_fsw.Changed -= FswChanged;
+                m_fsw.Dispose();
+            }
             m_appServer.Stop();
             m_appServer.Dispose();
             return true;
@@ -82,17 +97,56 @@ namespace Bespoke.Sph.ControlCenter
             }
 
         }
-
+        void FswChanged(object sender, FileSystemEventArgs e)
+        {
+            //this.WriteInfo($"Detected changes in FileSystem \r\n{e.Name} has {e.ChangeType}");
+            var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message = $"{e.ChangeType} in output {e.FullPath}", severity = "Info", outputFile = e.FullPath });
+            SendMessage(json);
+        }
+        private void SendMessage(string json)
+        {
+            m_appServer?.GetAllSessions().ToList().ForEach(x => x.Send(json));
+        }
         private void NewMessageReceived(WebSocketSession session, string value)
         {
             Console.WriteLine("Getting new message from {0} => {1}", session.SessionID, value);
+            if (value.StartsWith("POST /deploy:"))
+            {
+                var outputs = value.Replace("POST /deploy:", "")
+                    .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+                var parent = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\");
+                var projectPath = Path.GetFullPath(parent);
+
+                Parallel.ForEach(outputs, f =>
+                {
+                    if (!File.Exists(f)) return;
+
+                    var fileName = Path.GetFileName(f) ?? "";
+                    if (fileName.StartsWith("ff")) return;
+
+                    Console.WriteLine($"Copying {fileName} to subsribers");
+                    File.Copy(f, $"{projectPath}\\subscribers\\{fileName}", true);
+
+                    if (fileName.StartsWith("subscriber.trigger")) return;
+
+                    Console.WriteLine($"Copying {fileName} to schedulers");
+                    File.Copy(f, $"{projectPath}\\schedulers\\{fileName}", true);
+                    Console.WriteLine($"Copying {fileName} to web\\bin");
+                    File.Copy(f, $"{projectPath}\\web\\bin\\{fileName}", true);
+                    Console.WriteLine($"Done copying {fileName}");
+                });
+
+            }
 
         }
+     
 
         private IConnection m_connection;
         private IModel m_channel;
         private TaskBasicConsumer m_consumer;
         private int m_processing;
+        private FileSystemWatcher m_fsw;
 
         public void StartConsume()
         {

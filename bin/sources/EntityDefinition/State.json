@@ -6,7 +6,7 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": "Name",
+        "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -28,7 +28,7 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": "Abbreviation",
+        "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -50,7 +50,7 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": "Country",
+        "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -83,7 +83,7 @@
         },
         "Name": "FlagStoreId",
         "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
+        "IsNullable": true,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
         "IsFilterable": false,
@@ -91,6 +91,28 @@
         "Boost": 0,
         "DefaultValue": null,
         "WebId": "94b280d6-fcf8-4e6d-bf90-e0c7cb8ff3b5"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Area",
+        "TypeName": "System.Decimal, mscorlib",
+        "IsNullable": true,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "DefaultValue": null,
+        "WebId": "789d98dc-efc0-4067-b7cc-6ce852f83bb6"
       }
     ]
   },
@@ -115,7 +137,7 @@
   },
   "Name": "State",
   "Plural": "States",
-  "IconStoreId": "e87b0555-3db7-4445-8826-9812ae129b31",
+  "IconStoreId": "eded294e-92da-4cc8-9d7c-3bb2f8e8e2fe",
   "IconClass": "fa fa-flag",
   "RecordName": "Name",
   "IsPublished": true,
@@ -123,7 +145,7 @@
   "CreatedBy": "admin",
   "Id": "state",
   "CreatedDate": "2014-04-19T10:07:12.2060219+08:00",
-  "ChangedBy": "admin",
-  "ChangedDate": "2015-06-20T10:18:18.0816719+08:00",
+  "ChangedBy": "erymuzuan",
+  "ChangedDate": "2015-06-22T17:10:30.9877689+08:00",
   "WebId": "e5d31c43-852d-4a9d-b3be-1fc94d5cea05"
 }

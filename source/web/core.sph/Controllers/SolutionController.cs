@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -11,9 +14,17 @@ namespace Bespoke.Sph.Web.Controllers
     [Authorize(Roles = "developers")]
     public class SolutionController : Controller
     {
+        [ImportMany(typeof(IBuildDiagnostics))]
+        [JsonIgnore]
+        [XmlIgnore]
+        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
+
         [Route("diagnostics")]
         public async Task<ActionResult> StartDiagnostics()
         {
+            if (null == this.BuildDiagnostics)
+                ObjectBuilder.ComposeMefCatalog(this);
+
             var context = new SphDataContext();
 
             // validate all entities
@@ -32,7 +43,7 @@ namespace Bespoke.Sph.Web.Controllers
             }
 
             var entitiesDiagnostics = new ConcurrentDictionary<string, BuildValidationResult>();
- 
+
             Func<EntityDefinition, Task> er = async (f) =>
             {
                 var br = await f.ValidateBuildAsync();
@@ -58,13 +69,14 @@ namespace Bespoke.Sph.Web.Controllers
             var formsDiagnostics = new ConcurrentDictionary<string, BuildValidationResult>();
 
             Func<EntityForm, Task> fr = async (f) =>
-             {
-                 var t = entities.SingleOrDefault(x => x.Id == f.EntityDefinitionId);
-                 var result = await f.ValidateBuildAsync(t);
-                 result.Uri = $"entity.form.designer/{f.EntityDefinitionId}/{f.Id}";
-                 formsDiagnostics.TryAdd(f.Name, result);
+            {
+                f.BuildDiagnostics = this.BuildDiagnostics;
+                var t = entities.SingleOrDefault(x => x.Id == f.EntityDefinitionId);
+                var result = await f.ValidateBuildAsync(t);
+                result.Uri = $"entity.form.designer/{f.EntityDefinitionId}/{f.Id}";
+                formsDiagnostics.TryAdd(f.Name, result);
 
-             };
+            };
             var tasks = forms.Select(x => fr(x));
             await Task.WhenAll(tasks);
 
@@ -110,7 +122,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             // 
 
-            return Json(new { formsDiagnostics,  entitiesDiagnostics, viewsDiagnostics });
+            return Json(new { formsDiagnostics, entitiesDiagnostics, viewsDiagnostics });
         }
     }
 }

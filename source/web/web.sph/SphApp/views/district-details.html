@@ -1,6 +1,6 @@
 
 
-<h1>District details</h1>
+<h1 data-i18n="District details">District details</h1>
 <div id="error-list" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
     <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
@@ -20,39 +20,40 @@
 
 
     <div data-bind="visible:true" class="form-group">
-        <label for="192b1c71-491e-4142-b6b9-22f2b74947fa" class="col-md-4">Name</label>
+        <label data-i18n="Name" for="192b1c71-491e-4142-b6b9-22f2b74947fa" class="col-md-4">Name</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
-                   data-bind="value: Name, enable :true "
-                   maxlength="50"
+                   data-bind="value: Name2, enable :true "
+                   maxlength="0"
                    
-                    data-rule-maxlength="50"
- data-rule-minlength="3"
+                    data-rule-maxlength="0"
+ data-rule-minlength="0"
 
-                   id="192b1c71-491e-4142-b6b9-22f2b74947fa" type="text" name="Name" />
+                   id="192b1c71-491e-4142-b6b9-22f2b74947fa" type="text" name="Name2" />
         </div>
     </div>
 
 
 
     <div data-bind="visible:true" class="form-group">
-        <label for="eb5fe018-9530-4e5e-bf45-eb1683823971" class="col-md-4">Postcode</label>
+        <label data-i18n="Postcode" for="eb5fe018-9530-4e5e-bf45-eb1683823971" class="col-md-4">Postcode</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
-                   data-bind="value: Postcode, enable :true "
-                   maxlength="5"
+                   data-bind="value: Postcode2, enable :true "
+                   maxlength="0"
                    
-                    data-rule-maxlength="5"
- data-rule-minlength="5"
+                    data-rule-maxlength="0"
+ data-rule-minlength="0"
 
-                   id="eb5fe018-9530-4e5e-bf45-eb1683823971" type="text" name="Postcode" />
+                   id="eb5fe018-9530-4e5e-bf45-eb1683823971" type="text" name="Postcode2" />
         </div>
     </div>
 
+
     <div class="form-group" data-bind="visible:true">
-        <label for="b5f141d1-5847-4ca9-a605-656531c4c1ee" class="col-md-4">State</label>
+        <label data-i18n="State" for="b5f141d1-5847-4ca9-a605-656531c4c1ee" class="col-md-4">State</label>
         <div class="col-md-8">
-            <select data-bind=" visible :true, comboBoxLookupOptions : { value: State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'Id ne \'0\''}" id="b5f141d1-5847-4ca9-a605-656531c4c1ee" name="State" class=" input-large form-control">
+            <select  data-bind=" visible :true, comboBoxLookupOptions : { value: State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'Id ne \'0\''}" id="b5f141d1-5847-4ca9-a605-656531c4c1ee" name="State" class=" input-large form-control">
             </select>
         </div>
     </div>
