@@ -12,14 +12,14 @@ define([], function () {
         return true;
     },
      exportList = function () {
-
+         return $.get("/trigger");
      };
 
     var vm = {
         activate: activate,
         triggerCollection: ko.observableArray([]),
         toolbar: {
-            addNew : { location: '#/trigger.setup/0', caption: 'Add new trigger' },
+            addNew : { location: "#/trigger.setup/0", caption: "Add new trigger" },
             exportCommand: exportList
         }
     };

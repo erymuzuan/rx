@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -12,18 +11,18 @@ namespace Bespoke.Sph.Domain
             if (this.IsPublic) return true;
             if (string.IsNullOrWhiteSpace(this.UserProperty)) return false;
             if (string.IsNullOrWhiteSpace(this.Value)) return false;
-           
+
             return true;
         }
 
         public async Task<string[]> GetUsersAsync<T>(T item)
         {
-            if(!this.Validate())
+            if (!this.Validate())
                 throw new InvalidOperationException("This performer is not validated");
 
             if (this.IsPublic)
-                return new[] {"*"};
-            
+                return new[] { "*" };
+
             var script = ObjectBuilder.GetObject<IScriptEngine>();
             var context = new SphDataContext();
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
@@ -51,11 +50,18 @@ namespace Bespoke.Sph.Domain
                     users.AddRange(list2);
                     break;
                 case "Roles":
-                    var list3 = await ad.GetUserInRolesAsync(unwrapValue);
-                    users.AddRange(list3);
+                    try
+                    {
+                        var list3 = await ad.GetUserInRolesAsync(unwrapValue);
+                        users.AddRange(list3);
+                    }
+                    catch (InvalidOperationException e)
+                    {
+                        ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(e));
+                    }
                     break;
                 default:
-                    throw new Exception("Whoaaa we cannot user for " + this.UserProperty +" : " + this.Value);
+                    throw new Exception("Whoaaa we cannot user for " + this.UserProperty + " : " + this.Value);
             }
             return users.ToArray();
         }

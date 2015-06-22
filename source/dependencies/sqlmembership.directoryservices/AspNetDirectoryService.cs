@@ -33,6 +33,8 @@ namespace Bespoke.Sph.DirectoryServices
 
         public Task<string[]> GetUserInRolesAsync(string role)
         {
+            if (!Roles.RoleExists(role))
+                throw new InvalidOperationException($"The role '{role}' was not found, you can use .\\utils\\mru.exe -r {role} -c .\\web\\web.config to add the role manually, or you should have configured Designation and roles correctly ");
             return Task.FromResult(Roles.GetUsersInRole(role));
         }
 
@@ -54,7 +56,7 @@ namespace Bespoke.Sph.DirectoryServices
                 {
                     UserName = userName,
                     IsLockedOut = user.IsLockedOut
-                   
+
                 });
             return Task.FromResult<UserProfile>(null);
         }
