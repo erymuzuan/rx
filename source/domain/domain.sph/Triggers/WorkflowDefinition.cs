@@ -165,6 +165,7 @@ namespace Bespoke.Sph.Domain
                     .ToList()
                     .ForEach(u => parameters.ReferencedAssemblies.Add(u));
                 this.ReferencedAssemblyCollection
+                    .Where(u => !File.Exists($"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}"))
                     .Select(u => $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{Path.GetFileName(u.Location)}")
                     .Where(File.Exists)
                     .ToList()
