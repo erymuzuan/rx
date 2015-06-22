@@ -9,7 +9,7 @@
         <li><a href="#" data-bind="click : older">Older</a></li>
     </ul>
     <label class="checkbox pull-right">
-        <input type="checkbox" />
+        <input type="checkbox" data-bind="checked : includeRead" />
         Include read items
     </label>
     <table data-bind="filter: { path: 'tbody>tr' }" class="table table-striped">

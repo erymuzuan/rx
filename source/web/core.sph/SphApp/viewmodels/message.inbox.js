@@ -14,28 +14,27 @@ define([objectbuilders.datacontext, objectbuilders.config],
     function (context, config) {
 
         var isBusy = ko.observable(false),
+            includeRead = ko.observable(true),
+            messages = ko.observableArray(),
             activate = function () {
                 var query = String.format("UserName eq '{0}'", config.userName);
-                var tcs = new $.Deferred();
 
-                context.loadAsync({
+                return context.loadAsync({
                     entity: "Message",
                     orderby: "CreatedDate desc"
                 }, query)
-                    .then(function (lo) {
-                        isBusy(false);
-                        var sorted = lo.itemCollection.sort(function(x, y) { return x.CreatedDate() > y.CreatedDate(); });
-                        vm.messages(sorted);
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
+                .done(function (lo) {
+                    isBusy(false);
+                    var sorted = lo.itemCollection.sort(function (x, y) { return x.CreatedDate() > y.CreatedDate(); });
+                    messages(sorted);
+                });
 
 
             },
             resetFilter = function (ev) {
-                $('ul#filter-messages>li').removeClass('active');
+                $("ul#filter-messages>li").removeClass("active");
                 if (ev.target) {
-                    $(ev.target.parentNode).addClass('active');
+                    $(ev.target.parentNode).addClass("active");
                 }
             },
             filter = function (options) {
@@ -52,36 +51,36 @@ define([objectbuilders.datacontext, objectbuilders.config],
                 if (!options.read) {
                     query += " and IsRead eq 0";
                 }
-                var tcs = new $.Deferred();
 
-                context.loadAsync({
+                return context.loadAsync({
                     entity: "Message",
                     orderby: "CreatedDate desc"
                 }, query)
-                    .then(function (lo) {
-                        isBusy(false);
+                     .then(function (lo) {
+                         isBusy(false);
 
-                        vm.messages(lo.itemCollection);
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
+                         messages(lo.itemCollection);
+                     });
 
             },
             attached = function (view) {
             },
             thisWeek = function (d, ev) {
                 resetFilter(ev);
-                filter({ start: moment().day("Sunday").format('YYYY-MM-DD') });
+                filter({ start: moment().day("Sunday").format("YYYY-MM-DD") });
             },
             thisMonth = function (d, ev) {
                 resetFilter(ev);
-                filter({ start: moment().startOf('month').format('YYYY-MM-DD') });
+                filter({ start: moment().startOf("month").format("YYYY-MM-DD") });
             },
             older = function (d, ev) {
                 resetFilter(ev);
-                filter({ end: moment().startOf('month').format('YYYY-MM-DD') });
-            },
-            includeRead = ko.observable(false);
+                filter({ end: moment().startOf("month").format("YYYY-MM-DD") });
+            };
+
+        includeRead.subscribe(function() {
+            return filter();
+        });
 
         var vm = {
             isBusy: isBusy,
@@ -91,7 +90,7 @@ define([objectbuilders.datacontext, objectbuilders.config],
             thisMonth: thisMonth,
             older: older,
             attached: attached,
-            messages: ko.observableArray()
+            messages: messages
         };
 
         return vm;
