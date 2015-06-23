@@ -13,13 +13,13 @@ namespace Bespoke.Sph.Domain
             var anonymous = this.Permissions.Contains("Anonymous");
             var roles = this.Permissions.Any(s => s != "Everybody" && s != "Anonymous");
             if (everybody && anonymous)
-                errors.Add(new BuildError(this.WebId, string.Format("[Operation] \"{0}\" cannot have anonymous and everybody at the same time", this.Name)));
+                errors.Add(new BuildError(this.WebId,$"[Operation] \"{this.Name}\" cannot have anonymous and everybody at the same time"));
 
             if (everybody && roles)
-                errors.Add(new BuildError(this.WebId, string.Format("[Operation] \"{0}\" cannot have everybody and other roles at the same time", this.Name)));
+                errors.Add(new BuildError(this.WebId,$"[Operation] \"{this.Name}\" cannot have everybody and other roles at the same time"));
 
             if (anonymous && roles)
-                errors.Add(new BuildError(this.WebId, string.Format("[Operation] \"{0}\" cannot have anonymous and other role set at the same time", this.Name)));
+                errors.Add(new BuildError(this.WebId, $"[Operation] \"{this.Name}\" cannot have anonymous and other role set at the same time"));
 
             return Task.FromResult(errors.AsEnumerable());
         }

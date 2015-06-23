@@ -31,15 +31,6 @@ namespace Bespoke.Sph.Domain.diagnostics
             return Task.FromResult(errors.ToArray());
 
         }
-        public override Task<BuildError[]> ValidateErrorsAsync(EntityDefinition entity)
-        {
-            var errors = new List<BuildError>();
-            var validName = new Regex(NamePattern);
-            if (!validName.Match(entity.Name).Success)
-                errors.Add(new BuildError(entity.WebId) { Message = ErrorMessage });
 
-            return Task.FromResult(errors.ToArray());
-
-        }
     }
 }

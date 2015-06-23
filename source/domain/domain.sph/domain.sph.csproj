@@ -180,6 +180,11 @@
     <Compile Include="Core\ValidationResult.cs" />
     <Compile Include="diagnostics\BuilDiagnostic.cs" />
     <Compile Include="diagnostics\ElementPathDiagnostics.cs" />
+    <Compile Include="diagnostics\EntityDefaultFormDiagnostics.cs" />
+    <Compile Include="diagnostics\EntityDefinitionDiagnostics.cs" />
+    <Compile Include="diagnostics\EntityDuplicateFieldDiagnostics.cs" />
+    <Compile Include="diagnostics\EntityMembersDiagnostics.cs" />
+    <Compile Include="diagnostics\EntityOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormElementDiagnostics.cs" />
     <Compile Include="diagnostics\NameDiagnostics.cs" />
     <Compile Include="diagnostics\RouteDiagnostics.cs" />

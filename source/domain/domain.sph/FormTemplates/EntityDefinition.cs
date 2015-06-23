@@ -2,17 +2,21 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
+using System.Net.Http;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Properties;
 using Microsoft.CSharp;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -20,7 +24,7 @@ namespace Bespoke.Sph.Domain
     public partial class EntityDefinition : Entity
     {
         // reserved names
-        private readonly string[] m_reservedNames = new[] {"JavascriptTest", 
+        private readonly string[] m_reservedNames = {"JavascriptTest",
                 "Management",
                 "Image",
                 "Home",
@@ -36,64 +40,36 @@ namespace Bespoke.Sph.Domain
                 "TriggerSetup",
                 "Users",
                 "WorkflowDraft",
-                typeof(ScreenActivity).Name, 
-                typeof(EntityDefinition).Name, 
-                typeof(AuditTrail).Name, 
-                typeof(BusinessRule).Name, 
-                typeof(BinaryStore).Name, 
-                typeof(SpatialEntity).Name, 
-                typeof(Entity).Name, 
-                typeof(Designation).Name, 
-                typeof(DocumentTemplate).Name, 
-                typeof(EmailAction).Name, 
-                typeof(EntityChart).Name, 
-                typeof(EntityDefinition).Name, 
-                typeof(EntityForm).Name, 
-                typeof(EntityView).Name, 
-                typeof(Message).Name, 
-                typeof(Organization).Name, 
-                typeof(Page).Name, 
-                typeof(ReportDefinition).Name, 
-                typeof(ReportDelivery).Name, 
-                typeof(SpatialStore).Name, 
-                typeof(Tracker).Name, 
-                typeof(Trigger).Name, 
-                typeof(UserProfile).Name, 
-                typeof(Watcher).Name, 
-                typeof(Workflow).Name, 
-                typeof(WorkflowDefinition).Name, 
+                typeof(ScreenActivity).Name,
+                typeof(EntityDefinition).Name,
+                typeof(AuditTrail).Name,
+                typeof(BusinessRule).Name,
+                typeof(BinaryStore).Name,
+                typeof(SpatialEntity).Name,
+                typeof(Entity).Name,
+                typeof(Designation).Name,
+                typeof(DocumentTemplate).Name,
+                typeof(EmailAction).Name,
+                typeof(EntityChart).Name,
+                typeof(EntityDefinition).Name,
+                typeof(EntityForm).Name,
+                typeof(EntityView).Name,
+                typeof(Message).Name,
+                typeof(Organization).Name,
+                typeof(Page).Name,
+                typeof(ReportDefinition).Name,
+                typeof(ReportDelivery).Name,
+                typeof(SpatialStore).Name,
+                typeof(Tracker).Name,
+                typeof(Trigger).Name,
+                typeof(UserProfile).Name,
+                typeof(Watcher).Name,
+                typeof(Workflow).Name,
+                typeof(WorkflowDefinition).Name,
                 typeof(EntityForm).Name, typeof(Message).Name};
 
 
-        private void ValidateMember(Member member, BuildValidationResult result)
-        {
-            var forbiddenNames =
-                typeof(Entity).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Select(p => p.Name)
-                    .ToList();
-            forbiddenNames.AddRange(new[] { this.Name + "Id", "WebId", "CreatedDate", "CreatedBy", "ChangedBy", "ChangedDate" });
-
-            const string PATTERN = "^[A-Za-z][A-Za-z0-9_]*$";
-            var message = string.Format("[Member] \"{0}\" is not valid identifier", member.Name);
-            var validName = new Regex(PATTERN);
-            if (!validName.Match(member.Name).Success)
-                result.Errors.Add(new BuildError(member.WebId) { Message = message });
-            if (forbiddenNames.Contains(member.Name))
-                result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " is a reserved name" });
-            if (null == member.TypeName)
-                result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " does not have a type" });
-
-            if (member.Type == typeof(Array) && !member.Name.EndsWith("Collection"))
-                result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must be append with \"Collection\"" });
-            if (member.Type == typeof(object) && member.Name.EndsWith("Collection"))
-                result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must not end with \"Collection\"" });
-
-
-            foreach (var m in member.MemberCollection)
-            {
-                this.ValidateMember(m, result);
-            }
-        }
+ 
 
         public override string ToString()
         {
@@ -131,46 +107,31 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
+        [ImportMany(typeof(IBuildDiagnostics))]
+        [JsonIgnore]
+        [XmlIgnore]
+        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
+
         public async Task<BuildValidationResult> ValidateBuildAsync()
         {
+            if (null == this.BuildDiagnostics)
+                ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.BuildDiagnostics)
+                throw new InvalidOperationException($"Fail to initialize MEF for {nameof(EntityDefinition)}.{nameof(BuildDiagnostics)}");
+
             var result = this.CanSave();
-            var context = new SphDataContext();
+            var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this));
+            var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x);
 
-            foreach (var member in this.MemberCollection)
-            {
-                this.ValidateMember(member, result);
-            }
+            var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this));
+            var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
 
-            var names = this.MemberCollection.Select(a => a.Name);
-            var duplicates = names.GroupBy(a => a).Any(a => a.Count() > 1);
-            if (duplicates)
-                result.Errors.Add(new BuildError(this.WebId, "There are duplicates field names"));
+            result.Errors.AddRange(errors);
+            result.Warnings.AddRange(warnings);
 
-            if (string.IsNullOrWhiteSpace(this.RecordName))
-                result.Errors.Add(new BuildError(this.WebId, "Record name is missing"));
-            if (string.IsNullOrWhiteSpace(this.Plural))
-                result.Errors.Add(new BuildError(this.WebId, "Plural is missing"));
 
-            if (this.MemberCollection.All(m => m.Name != this.RecordName))
-                result.Errors.Add(new BuildError(this.WebId, "Record name is not registered in your schema as a first level member"));
-
-            if (!this.Performer.Validate())
-                result.Errors.Add(new BuildError(this.WebId, "You have not set the permission correctly"));
-
-            // ReSharper disable RedundantBoolCompare
-            var defaultForm = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true && f.EntityDefinitionId == this.Id);
-            // ReSharper restore RedundantBoolCompare
-            if (null == defaultForm)
-                result.Errors.Add(new BuildError(this.WebId, "Please set a default form"));
-
-            foreach (var operation in this.EntityOperationCollection)
-            {
-                var errors = (await operation.ValidateBuildAsync(this)).ToList();
-                if (errors.Any())
-                    result.Errors.AddRange(errors);
-            }
-            
             result.Result = result.Errors.Count == 0;
+
             return result;
         }
 
@@ -199,10 +160,10 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(SmtpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(HttpClient).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
 
                 foreach (var es in options.EmbeddedResourceCollection)

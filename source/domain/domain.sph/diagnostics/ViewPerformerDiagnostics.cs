@@ -10,30 +10,45 @@ namespace Bespoke.Sph.Domain.diagnostics
     {
         public override async Task<BuildError[]> ValidateErrorsAsync(EntityView view, EntityDefinition entity)
         {
-            var context = new SphDataContext();
-            if (!view.Performer.Validate())
-                return new[] { new BuildError(view.WebId, "You have not set the permission correctly") };
+            var performer = view.Performer;
+            return await ValidateAsync(view, performer);
+        }
+        public override async Task<BuildError[]> ValidateErrorsAsync(EntityDefinition entity)
+        {
+            var performer = entity.Performer;
+            return await ValidateAsync(entity, performer);
+        }
 
-            if (view.Performer.IsPublic)
+        private static async Task<BuildError[]> ValidateAsync(Entity item, Performer performer)
+        {
+            var context = new SphDataContext();
+            if (!performer.Validate())
+                return new[] { new BuildError(item.WebId, "You have not set the permission correctly") };
+
+            if (performer.IsPublic)
                 return new BuildError[] { };
 
-            var userProperty = view.Performer.UserProperty;
-            var value = view.Performer.Value;
+            var userProperty = performer.UserProperty;
+            var value = performer.Value;
             if (userProperty == "Roles" && !Roles.RoleExists(value))
             {
-                return (new[] { new BuildError(view.WebId, $"Role '{value}' does not exists") });
+                return (new[] { new BuildError(item.WebId, $"Role '{value}' does not exists") });
             }
             if (userProperty == "Designation")
             {
                 var designation = await context.GetCountAsync<Designation>(d => d.Name == value);
                 if (designation != 1)
-                    return (new[] { new BuildError(view.WebId, $"There are {"desgination".ToQuantity(designation)} found with the name '{value}'") });
+                    return
+                        (new[]
+                        {
+                            new BuildError(item.WebId,
+                                $"There are {"desgination".ToQuantity(designation)} found with the name '{value}'")
+                        });
             }
-
             //TODO : department
 
             return new BuildError[] { };
-
         }
+
     }
 }
