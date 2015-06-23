@@ -173,8 +173,8 @@ namespace Bespoke.Sph.SqlRepository
                 sql.AppendLine("ORDER BY [Id]");
             }
 
-            if (!elementType.Namespace.StartsWith(typeof(Entity).Namespace))
-                sql.Replace("FROM [Sph].", string.Format("FROM [{0}].", ConfigurationManager.ApplicationName));
+            if (!elementType.Namespace?.StartsWith(typeof(Entity).Namespace ?? "") ?? false)
+                sql.Replace("FROM [Sph].", $"FROM [{ConfigurationManager.ApplicationName}].");
 
             var translator = ObjectBuilder.GetObject<IPagingTranslator>();
             sql = new StringBuilder(translator.Tranlate(sql.ToString(), page, size));
