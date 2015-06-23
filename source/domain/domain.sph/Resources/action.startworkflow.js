@@ -18,6 +18,10 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                 var maps = _(action().WorkflowTriggerMapCollection()).filter(function (v) {
                     if (typeof v === "undefined") { return false; }
                     if (!v) { return false; }
+
+                    if (typeof v.Field === "object") {
+                        v.Field = ko.observable(v.Field);
+                    }
                     if (typeof v.$type === "function") { return true; }
                     return typeof v.$type === "string";
                 });
