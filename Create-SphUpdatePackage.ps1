@@ -318,6 +318,63 @@ if($deleteTelerik -eq "y")
 {
     ls -Path $output -Recurse -Filter Telerik.* | Remove-Item
 }
+#Oracle.ManagedDataAccess
+Write-Host "Delete Oracle.ManagedDataAccess dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteOracleManagedDataAccess= Read-Host
+if($deleteOracleManagedDataAccess-eq "y")
+{
+    ls -Path $output -Recurse -Filter Oracle.ManagedDataAccess.* | Remove-Item
+}
+
+#SuperSocket
+Write-Host "Delete SuperSocket dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteSuperSocket = Read-Host
+if($deleteSuperSocket -eq "y")
+{
+    ls -Path $output -Recurse -Filter SuperSocket.* | Remove-Item
+}
+
+#RabbitMQ.Client
+Write-Host "Delete RabbitMQ.Client dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteRabbitMQClient= Read-Host
+if($deleteRabbitMQClient -eq "y")
+{
+    ls -Path $output -Recurse -Filter RabbitMQ.Client.* | Remove-Item
+}
+
+#RazorEngine
+Write-Host "Delete RazorEngine dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteRazorEngine = Read-Host
+if($deleteRazorEngine -eq "y")
+{
+    ls -Path $output -Recurse -Filter RazorEngine.* | Remove-Item
+}
+
+
+#Spring
+Write-Host "Delete Spring dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteSpring = Read-Host
+if($deleteSpring -eq "y")
+{
+    ls -Path $output -Recurse -Filter Spring.* | Remove-Item
+}
+
+#System
+Write-Host "Delete System dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteSystem = Read-Host
+if($deleteSystem -eq "y")
+{
+    ls -Path $output -Recurse -Filter System.* | Remove-Item
+}
+
+#WebGrease
+Write-Host "Delete WebGrease dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteWebGrease = Read-Host
+if($deleteWebGrease -eq "y")
+{
+    ls -Path $output -Recurse -Filter WebGrease.* | Remove-Item
+}
+
 
 # remove unused and big files
 ls -Path $output\control.center -Filter *.xml | Remove-Item
@@ -332,6 +389,8 @@ ls -Path $output -Recurse -Filter Common.Logging.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Common.Logging.Core.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Invoke.Docx.* | Remove-Item
+ls -Path $output -Recurse -Filter SQLSpatialTools.* | Remove-Item
 ls $output\tools | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
 ls $output\control.center | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
 ls $output\subscribers | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
