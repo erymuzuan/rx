@@ -213,6 +213,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     }
                 });
             }
+
+
+            MessageBox.Show("Update was succesfuly applied, Please stop all the services and restart your Rx Developer control center", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
 
