@@ -149,11 +149,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                             "icon": "fa fa-check alert-success"
                         },
                         "errors": {
-                            "icon": "fa fa-exclamation-circle fa-2x alert-danger",
+                            "icon": "fa fa-exclamation-circle alert-danger",
                             "valid_children": []
                         },
                         "warnings": {
-                            "icon": "fa fa-warning fa-2x alert-warning",
+                            "icon": "fa fa-warning alert-warning",
                             "valid_children": []
                         },
                         "errors-warnings": {
@@ -163,6 +163,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     },
                     "plugins": ["contextmenu", "dnd", "types", "search"]
                 });
+
             },
             startDiagnostics = function () {
                 return context.post(ko.toJSON({}), "/solution/diagnostics").done(draw);
