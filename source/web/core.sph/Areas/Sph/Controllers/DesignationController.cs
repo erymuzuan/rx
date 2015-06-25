@@ -7,9 +7,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
-using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Roles = System.Web.Security.Roles;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -21,10 +19,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("")]
         public async Task<ActionResult> Save()
         {
-            var rolesConfig = Server.MapPath("~/roles.config.js");
-            var json = System.IO.File.ReadAllText(rolesConfig);
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings).Select(r => r.Role).ToArray();
+            var roles = Roles.GetAllRoles();
 
             var designation = this.GetRequestJson<Designation>();
             var newItem = designation.IsNewItem;
@@ -93,7 +88,8 @@ namespace Bespoke.Sph.Web.Controllers
             foreach (var user in userNames.Where(s => !string.IsNullOrWhiteSpace(s)))
             {
                 var userRoles = Roles.GetRolesForUser(user);
-                Roles.RemoveUserFromRoles(user,userRoles);
+                if (userRoles.Length > 0)
+                    Roles.RemoveUserFromRoles(user, userRoles);
                 Roles.AddUserToRoles(user, designation.RoleCollection.ToArray());
             }
 

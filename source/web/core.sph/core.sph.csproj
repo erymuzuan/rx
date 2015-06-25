@@ -1734,7 +1734,6 @@
     <Compile Include="Helpers\GoogleMapHelper.cs" />
     <Compile Include="Helpers\MobileCapableWebFormViewEngine.cs" />
     <Compile Include="Helpers\OdataSqlTranslator.cs" />
-    <Compile Include="Helpers\Roles.cs" />
     <Compile Include="Mocks\TemplateEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="SphApp\prototypes\BusinessRuleBase.js" />

@@ -61,7 +61,7 @@
                                     @r.Name
                                 </label>
 
-                                @if ((!@r.Name.Equals("Administrators")) && (!@r.Name.Equals("Developers")))
+                                @if ((!@r.Role.Equals("Administrators")) && (!@r.Role.Equals("Developers")))
                                 {
                                     <a href="#" class="btn btn-link" data-bind="click : $root.deleteRole.bind($data, '@r.Role')">
                                         Delete

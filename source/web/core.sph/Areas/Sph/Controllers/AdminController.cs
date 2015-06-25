@@ -8,9 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using static System.IO.File;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
@@ -23,43 +21,17 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (!Roles.RoleExists(role))
                 Roles.CreateRole(role);
 
-            var rolesConfig = Server.MapPath("~/roles.config.js");
-            var json = ReadAllText(rolesConfig);
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Formatting = Formatting.Indented
-            };
-            var roles = (JsonConvert.DeserializeObject<RoleModel[]>(json, settings)).ToList();
-            var exist = roles.SingleOrDefault(r => r.Role == role);
-            if (null != role)
-                roles.Remove(exist);
-
-            roles.Add(new RoleModel { Role = role, Name = role, Group = role, Description = description });
-            json = JsonConvert.SerializeObject(roles.ToArray(), settings);
-            WriteAllText(rolesConfig, json);
-
-
 
             return Json(true);
         }
         public ActionResult DeleteRole(string role)
         {
-            Roles.DeleteRole(role);
-
-            var rolesConfig = Server.MapPath("~/roles.config.js");
-            var json = ReadAllText(rolesConfig);
-            var settings = new JsonSerializerSettings
+            if (Roles.RoleExists(role))
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Formatting = Formatting.Indented
-            };
-            var roles = (JsonConvert.DeserializeObject<RoleModel[]>(json, settings)).ToList();
-
-            roles.RemoveAll(x => x.Name == role);
-            json = JsonConvert.SerializeObject(roles.ToArray(), settings);
-            WriteAllText(rolesConfig, json);
-
+                var users = Roles.GetUsersInRole(role);
+                Roles.RemoveUsersFromRole(users, role);
+                Roles.DeleteRole(role);
+            }
 
             return Json(true);
         }
@@ -103,6 +75,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
                 profile.Roles = roles;
                 em.Email = profile.Email;
+
+
+                var userRoles = Roles.GetRolesForUser(profile.UserName);
+                if (userRoles.Length > 0)
+                    Roles.RemoveUserFromRoles(profile.UserName, userRoles);
 
                 Roles.AddUserToRoles(profile.UserName, profile.Roles);
                 Membership.UpdateUser(em);
