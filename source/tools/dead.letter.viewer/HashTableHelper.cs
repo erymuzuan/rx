@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RabbitMQ.Client;
@@ -9,7 +10,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter
     public static class HashTableHelper
     {
 
-        public static string GetStringValue(this Hashtable hash, string key)
+        public static string GetStringValue(this IDictionary<string, object> hash, string key)
         {
             var vals = hash[key];
             if (null != vals)
@@ -17,7 +18,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter
             return null;
 
         }
-        public static DateTime? GetDateTimeValue(this Hashtable hash, string key)
+        public static DateTime? GetDateTimeValue(this IDictionary<string, object> hash, string key)
         {
             var vals = hash[key];
             var time = (AmqpTimestamp)vals;
@@ -29,7 +30,8 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }
-        public static string[] GetStringValues(this ArrayList list)
+
+        public static string[] GetStringValues(this IList<object> list)
         {
             var ret = from object v in list
                       select Encoding.UTF8.GetString((byte[])v);

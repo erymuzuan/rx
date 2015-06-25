@@ -34,10 +34,10 @@ namespace Bespoke.Sph.Web.Models
         {
             if (null == entries) return;
             if (!entries.ContainsKey("x-death")) return;
-            var vals = entries["x-death"] as ArrayList;
+            var vals = entries["x-death"] as IList<object>;
             if (null == vals) return;
             if (vals.Count == 0) return;
-            var hash = vals[0] as Hashtable;
+            var hash = vals[0] as IDictionary<string, object>;
             if (null == hash) return;
 
             this.Reason = hash.GetStringValue("reason");
@@ -57,14 +57,8 @@ namespace Bespoke.Sph.Web.Models
         public string[] RoutingKeys { get; set; }
 
         [Description("Roting keys comma seperated")]
-        public string RoutingValuesKeys
-        {
-            get
-            {
-                return null == this.RoutingKeys ? string.Empty :
-                    string.Join(",", this.RoutingKeys);
-            }
-        }
+        public string RoutingValuesKeys => null == this.RoutingKeys ? string.Empty :
+            string.Join(",", this.RoutingKeys);
 
         public string Exchange { get; set; }
         public DateTime? Time { get; set; }
