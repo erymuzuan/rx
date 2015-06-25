@@ -770,14 +770,11 @@ ko.bindingHandlers.filter = {
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
             tooltip = value.tooltip || "Type to filter current page or type and [ENTER] to search the whole view",
-            offset = (typeof value.offset === "undefined" ? 8 : parseInt(value.offset)),
-            colmd = "col-md-" + (12 - offset),
-            coloff = "col-md-offset-" + offset,
             $element = $(element),
             $filterInput = $("<input data-toggle=\"tooltip\" title=\"" + tooltip + "\" type=\"search\" class=\"search-query input-medium form-control\" placeholder=\"Filter.. \">"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
-            $form = $("<form class='form-search " + colmd + " " + coloff + "'>" +
-                " <div class='input-group pull-right'>" +
+            $form = $("<form class='form-search row'>" +
+                " <div class='input-group pull-right' style='width:300px'>" +
                 "<span class='input-group-addon'>" +
                 " <span class='glyphicon glyphicon-remove'></span>" +
                 "</span> " +
