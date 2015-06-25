@@ -1536,6 +1536,36 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameStartModule = "StartModule";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isSearchVisible;
+        public const string PropertyNameIsSearchVisible = "IsSearchVisible";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isMessageVisible;
+        public const string PropertyNameIsMessageVisible = "IsMessageVisible";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isHelpVisible;
+        public const string PropertyNameIsHelpVisible = "IsHelpVisible";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_helpUri;
+        public const string PropertyNameHelpUri = "HelpUri";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_title;
+        public const string PropertyNameTitle = "Title";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_option;
+        public const string PropertyNameOption = "Option";
+
+
         private readonly ObjectCollection<string> m_RoleCollection = new ObjectCollection<string>();
 
         ///<summary>
@@ -1546,6 +1576,31 @@ namespace Bespoke.Sph.Domain
         {
             get { return m_RoleCollection; }
         }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Owner m_owner
+                = new Owner();
+
+        public const string PropertyNameOwner = "Owner";
+        [DebuggerHidden]
+
+        public Owner Owner
+        {
+            get { return m_owner; }
+            set
+            {
+                m_owner = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private readonly ObjectCollection<string> m_SearchableEntityCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> SearchableEntityCollection => m_SearchableEntityCollection;
 
         ///<summary>
         /// 
@@ -1651,6 +1706,165 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_startModule;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsSearchVisible
+        {
+            set
+            {
+                if (m_isSearchVisible == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsSearchVisible, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isSearchVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isSearchVisible;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsMessageVisible
+        {
+            set
+            {
+                if (m_isMessageVisible == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsMessageVisible, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isMessageVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isMessageVisible;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsHelpVisible
+        {
+            set
+            {
+                if (m_isHelpVisible == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsHelpVisible, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isHelpVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isHelpVisible;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string HelpUri
+        {
+            set
+            {
+                if (String.Equals(m_helpUri, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHelpUri, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_helpUri = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_helpUri;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Title
+        {
+            set
+            {
+                if (String.Equals(m_title, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_title = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_title;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public int Option
+        {
+            set
+            {
+                if (m_option == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOption, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_option = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_option;
             }
         }
 

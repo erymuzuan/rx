@@ -44,7 +44,8 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             var vm = new RoleSettingViewModel();
             var roles = Roles.GetAllRoles().Select(x => new RoleModel { Role = x, Description = x, Name = x});
             var routes = this.GetJsRoutes();
-
+            var entities = await context.GetListAsync<EntityDefinition, string>(e => e.Id != "0", e => e.Name);
+            vm.SearchableEntityOptions.AddRange(entities);
 
             vm.Roles.ClearAndAddRange(roles);
             vm.Routes.ClearAndAddRange(routes);

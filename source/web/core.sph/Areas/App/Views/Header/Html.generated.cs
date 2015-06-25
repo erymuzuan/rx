@@ -31,7 +31,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Header/Html.cshtml")]
-    public partial class _Areas_App_Views_Header_Html_cshtml : System.Web.Mvc.WebViewPage<dynamic>
+    public partial class _Areas_App_Views_Header_Html_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Areas.App.Controllers.HtmlHeaderModel>
     {
         public _Areas_App_Views_Header_Html_cshtml()
         {
@@ -39,7 +39,7 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 1 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 2 "..\..\Areas\App\Views\Header\Html.cshtml"
   
     Layout = null;
 
@@ -67,13 +67,13 @@ WriteLiteral(" alt=\"Logo\"");
 WriteLiteral(" />\r\n");
 
             
-            #line 8 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 9 "..\..\Areas\App\Views\Header\Html.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 8 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 9 "..\..\Areas\App\Views\Header\Html.cshtml"
          if (User.Identity.IsAuthenticated)
         {
 
@@ -95,7 +95,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-align-justify\"");
 WriteLiteral("></span>\r\n            </button>\r\n");
 
             
-            #line 13 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 14 "..\..\Areas\App\Views\Header\Html.cshtml"
         }
 
             
@@ -110,7 +110,7 @@ WriteLiteral(" class=\"logo\"");
 WriteLiteral(">");
 
             
-            #line 15 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 16 "..\..\Areas\App\Views\Header\Html.cshtml"
                                                                         Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationFullName);
 
             
@@ -123,13 +123,13 @@ WriteLiteral(" class=\"nav-header\"");
 WriteLiteral(">\r\n\r\n");
 
             
-            #line 20 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 21 "..\..\Areas\App\Views\Header\Html.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 20 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 21 "..\..\Areas\App\Views\Header\Html.cshtml"
              if (User.Identity.IsAuthenticated)
             {
 
@@ -163,7 +163,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                        ");
 
             
-            #line 26 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 27 "..\..\Areas\App\Views\Header\Html.cshtml"
                    Write(User.Identity.Name);
 
             
@@ -189,25 +189,49 @@ WriteLiteral(" class=\"fa fa-user\"");
 
 WriteLiteral("></i>Profile</a></li>\r\n                        <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1340), Tuple.Create("\"", 1402)
+WriteAttribute("href", Tuple.Create(" href=\"", 1402), Tuple.Create("\"", 1464)
             
-            #line 31 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1347), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "SphAccount", new {area = "Sph"})
+            #line 32 "..\..\Areas\App\Views\Header\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 1409), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "SphAccount", new {area = "Sph"})
             
             #line default
             #line hidden
-, 1347), false)
+, 1409), false)
 );
 
 WriteLiteral("><i");
 
 WriteLiteral(" class=\"fa fa-power-off\"");
 
-WriteLiteral("></i>Logout</a></li>\r\n                        <li><a");
+WriteLiteral("></i>Logout</a></li>\r\n");
+
+            
+            #line 33 "..\..\Areas\App\Views\Header\Html.cshtml"
+                        
+            
+            #line default
+            #line hidden
+            
+            #line 33 "..\..\Areas\App\Views\Header\Html.cshtml"
+                         if (Model.Designation.IsHelpVisible)
+                        {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                            <li><a");
 
 WriteLiteral(" id=\"help\"");
 
-WriteLiteral(" href=\"/docs/\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 1648), Tuple.Create("\"", 1683)
+            
+            #line 35 "..\..\Areas\App\Views\Header\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 1655), Tuple.Create<System.Object, System.Int32>(Model.Designation.HelpUri
+            
+            #line default
+            #line hidden
+, 1655), false)
+);
 
 WriteLiteral(" target=\"_blank\"");
 
@@ -215,7 +239,16 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"fa fa-question-circle\"");
 
-WriteLiteral("></i>  Help</a></li>\r\n                    </ul>\r\n                </div>\r\n");
+WriteLiteral("></i> Help</a></li>\r\n");
+
+            
+            #line 36 "..\..\Areas\App\Views\Header\Html.cshtml"
+                        }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    </ul>\r\n                </div>\r\n");
 
 WriteLiteral("                <!-- Notifications -->\r\n");
 
@@ -223,12 +256,60 @@ WriteLiteral("                <ul");
 
 WriteLiteral(" class=\"nav navbar-nav\"");
 
-WriteLiteral(">\r\n                    <!-- ko compose : \'viewmodels/messages\' -->\r\n             " +
-"       <!-- /ko -->\r\n                    <!-- ko compose : \'viewmodels/search\' -" +
-"->\r\n                    <!-- /ko -->\r\n                </ul>\r\n");
+WriteLiteral(">\r\n");
 
             
-            #line 42 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 41 "..\..\Areas\App\Views\Header\Html.cshtml"
+                    
+            
+            #line default
+            #line hidden
+            
+            #line 41 "..\..\Areas\App\Views\Header\Html.cshtml"
+                     if (Model.Designation.IsMessageVisible)
+                    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    <!-- ko compose : \'viewmodels/messages\' -->\r\n");
+
+WriteLiteral("                    <!-- /ko -->\r\n");
+
+            
+            #line 45 "..\..\Areas\App\Views\Header\Html.cshtml"
+
+                    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    ");
+
+            
+            #line 47 "..\..\Areas\App\Views\Header\Html.cshtml"
+                     if (Model.Designation.IsSearchVisible)
+                    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    <!-- ko compose : \'viewmodels/search\' -->\r\n");
+
+WriteLiteral("                    <!-- /ko -->\r\n");
+
+            
+            #line 51 "..\..\Areas\App\Views\Header\Html.cshtml"
+
+                    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                </ul>\r\n");
+
+            
+            #line 54 "..\..\Areas\App\Views\Header\Html.cshtml"
             }
 
             
@@ -237,7 +318,7 @@ WriteLiteral(">\r\n                    <!-- ko compose : \'viewmodels/messages\'
 WriteLiteral("            ");
 
             
-            #line 43 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 55 "..\..\Areas\App\Views\Header\Html.cshtml"
              if (!User.Identity.IsAuthenticated)
             {
 
@@ -252,14 +333,14 @@ WriteLiteral(">\r\n                    <li><a");
 
 WriteLiteral(" id=\"log-in\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2095), Tuple.Create("\"", 2131)
+WriteAttribute("href", Tuple.Create(" href=\"", 2518), Tuple.Create("\"", 2554)
             
-            #line 46 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 2102), Tuple.Create<System.Object, System.Int32>(FormsAuthentication.LoginUrl
+            #line 58 "..\..\Areas\App\Views\Header\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 2525), Tuple.Create<System.Object, System.Int32>(FormsAuthentication.LoginUrl
             
             #line default
             #line hidden
-, 2102), false)
+, 2525), false)
 );
 
 WriteLiteral(" class=\"login-label\"");
@@ -271,7 +352,7 @@ WriteLiteral(" class=\"fa fa-sign-in\"");
 WriteLiteral("></i>  Sign In </a></li>\r\n                </ul>\r\n");
 
             
-            #line 48 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 60 "..\..\Areas\App\Views\Header\Html.cshtml"
 
             }
 

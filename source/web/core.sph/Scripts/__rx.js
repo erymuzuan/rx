@@ -26495,7 +26495,15 @@ bespoke.sph.domain.Designation = function (optionOrWebid) {
         Description: ko.observable(""),
         IsActive: ko.observable(false),
         StartModule: ko.observable(""),
+        IsSearchVisible: ko.observable(false),
+        IsMessageVisible: ko.observable(false),
+        IsHelpVisible: ko.observable(false),
+        HelpUri: ko.observable(""),
+        Title: ko.observable(""),
+        Option: ko.observable(0),
         RoleCollection: ko.observableArray([]),
+        Owner: ko.observable(new bespoke.sph.domain.Owner()),
+        SearchableEntityCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

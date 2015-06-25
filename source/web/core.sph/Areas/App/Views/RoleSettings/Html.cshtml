@@ -4,7 +4,7 @@
     Layout = null;
     var row = 1;
 }
-    <h1>Designation</h1>
+<h1>Designation</h1>
 <div class="row">
     <form class="form-horizontal" data-bind="with: designation">
 
@@ -35,6 +35,60 @@
                 </select>
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsSearchVisible" id="show-search-toolbar" type="checkbox" name="IsSearchVisible" />
+                        Show search toolbar
+                    </label>
+                </div>
+            </div>
+        </div>
+        @foreach (var e in Model.SearchableEntityOptions)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-5">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: SearchableEntityCollection,enable : IsSearchVisible" id="@(e)-show-search-toolbar" type="checkbox" name="IsSearchVisible@(e)" value="@e" />
+                            @e
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsMessageVisible" id="show-message-notification" type="checkbox" name="IsMessageVisible" />
+                        Show message notification
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsHelpVisible" id="show-help" type="checkbox" name="IsHelpVisible" />
+                        Show help link
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="show-help-uri" class="col-lg-2 control-label">Help Url</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: HelpUri, enable: IsHelpVisible"
+                       placeholder="Help Uri, empty URL will default to Rx Help"
+                       class="form-control" id="show-help-uri">
+            </div>
+        </div>
 
         <div class="form-group">
             <span>Please (<i class="fa fa-check"></i>)check the option to set the designation roles</span>
@@ -57,7 +111,7 @@
                             <td>
                                 <label class="checkbox" title="@r.Role">
                                     <input data-bind="checked: RoleCollection" value="@r.Role"
-                                           type="checkbox" name="role"/>
+                                           type="checkbox" name="role" />
                                     @r.Name
                                 </label>
 
