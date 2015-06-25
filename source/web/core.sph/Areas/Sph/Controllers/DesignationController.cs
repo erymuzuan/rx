@@ -92,6 +92,8 @@ namespace Bespoke.Sph.Web.Controllers
             }
             foreach (var user in userNames.Where(s => !string.IsNullOrWhiteSpace(s)))
             {
+                var userRoles = Roles.GetRolesForUser(user);
+                Roles.RemoveUserFromRoles(user,userRoles);
                 Roles.AddUserToRoles(user, designation.RoleCollection.ToArray());
             }
 
@@ -104,7 +106,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             this.Response.ContentType = "application/json; charset=utf-8";
             this.Response.StatusCode = newItem ? 201 : 202;
-            var location = string.Format("{0}/sph-designation/{1}", ConfigurationManager.BaseUrl, id);
+            var location = $"{ConfigurationManager.BaseUrl}/sph-designation/{id}";
             this.Response.AddHeader("Location", location);
             return Content(JsonConvert.SerializeObject(new
             {
@@ -147,7 +149,7 @@ namespace Bespoke.Sph.Web.Controllers
                     new
                     {
                         rel = "lock",
-                        href = string.Format("/sph-designation/{0}/lock", id)
+                        href = $"/sph-designation/{id}/lock"
                     }
                 }
             };
