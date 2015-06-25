@@ -42,7 +42,7 @@ namespace ASP
             #line 3 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
   
     Layout = null;
-    var row = 1;
+    
 
             
             #line default
@@ -149,14 +149,14 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("                        <option");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 1187), Tuple.Create("\"", 1203)
+WriteAttribute("value", Tuple.Create(" value=\"", 1175), Tuple.Create("\"", 1191)
             
             #line 32 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1195), Tuple.Create<System.Object, System.Int32>(r.Route
+, Tuple.Create(Tuple.Create("", 1183), Tuple.Create<System.Object, System.Int32>(r.Route
             
             #line default
             #line hidden
-, 1195), false)
+, 1183), false)
 );
 
 WriteLiteral(">");
@@ -233,38 +233,38 @@ WriteLiteral(">\r\n                        <label>\r\n                          
 
 WriteLiteral(" data-bind=\"checked: SearchableEntityCollection,enable : IsSearchVisible\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 2086), Tuple.Create("\"", 2115)
+WriteAttribute("id", Tuple.Create(" id=\"", 2074), Tuple.Create("\"", 2103)
             
             #line 54 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                                 , Tuple.Create(Tuple.Create("", 2091), Tuple.Create<System.Object, System.Int32>(e
+                                 , Tuple.Create(Tuple.Create("", 2079), Tuple.Create<System.Object, System.Int32>(e
             
             #line default
             #line hidden
-, 2091), false)
-, Tuple.Create(Tuple.Create("", 2095), Tuple.Create("-show-search-toolbar", 2095), true)
+, 2079), false)
+, Tuple.Create(Tuple.Create("", 2083), Tuple.Create("-show-search-toolbar", 2083), true)
 );
 
 WriteLiteral(" type=\"checkbox\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 2132), Tuple.Create("\"", 2158)
-, Tuple.Create(Tuple.Create("", 2139), Tuple.Create("IsSearchVisible", 2139), true)
+WriteAttribute("name", Tuple.Create(" name=\"", 2120), Tuple.Create("\"", 2146)
+, Tuple.Create(Tuple.Create("", 2127), Tuple.Create("IsSearchVisible", 2127), true)
             
             #line 54 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                                                                                                , Tuple.Create(Tuple.Create("", 2154), Tuple.Create<System.Object, System.Int32>(e
+                                                                                                , Tuple.Create(Tuple.Create("", 2142), Tuple.Create<System.Object, System.Int32>(e
             
             #line default
             #line hidden
-, 2154), false)
+, 2142), false)
 );
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2159), Tuple.Create("\"", 2169)
+WriteAttribute("value", Tuple.Create(" value=\"", 2147), Tuple.Create("\"", 2157)
             
             #line 54 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                                                                                                            , Tuple.Create(Tuple.Create("", 2167), Tuple.Create<System.Object, System.Int32>(e
+                                                                                                            , Tuple.Create(Tuple.Create("", 2155), Tuple.Create<System.Object, System.Int32>(e
             
             #line default
             #line hidden
-, 2167), false)
+, 2155), false)
 );
 
 WriteLiteral(" />\r\n");
@@ -372,147 +372,48 @@ WriteLiteral(" class=\"fa fa-check\"");
 WriteLiteral("></i>)check the option to set the designation roles</span>\r\n        </div>\r\n\r\n   " +
 "     <div>\r\n            <table");
 
-WriteLiteral(" class=\"table table-striped\"");
+WriteLiteral(" class=\"table table-striped table-condensed\"");
 
 WriteLiteral(" data-bind=\"filter: { path: \'tbody>tr\' }\"");
 
 WriteLiteral(">\r\n                <thead>\r\n                    <tr>\r\n                        <th" +
-">#</th>\r\n                        <th>Role</th>\r\n                        <th>Desc" +
-"ription</th>\r\n                    </tr>\r\n                </thead>\r\n             " +
-"   <tbody>\r\n");
+">#</th>\r\n                        <th>Role</th>\r\n                    </tr>\r\n     " +
+"           </thead>\r\n                <tbody");
 
-            
-            #line 107 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 107 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                     foreach (var r in Model.Roles.OrderBy(e => e.Name))
-                    {
+WriteLiteral(" data-bind=\"foreach :$root.roleOptions\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("                        <tr>\r\n                            <td>");
+WriteLiteral(">\r\n\r\n                    <tr>\r\n                        <td");
 
-            
-            #line 110 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                            Write(row++);
+WriteLiteral(" data-bind=\"text:$index() + 1\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("</td>\r\n                            <td>\r\n                                <label");
+WriteLiteral("></td>\r\n                        <td>\r\n                            <label");
 
 WriteLiteral(" class=\"checkbox\"");
 
-WriteAttribute("title", Tuple.Create(" title=\"", 4384), Tuple.Create("\"", 4399)
-            
-            #line 112 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 4392), Tuple.Create<System.Object, System.Int32>(r.Role
-            
-            #line default
-            #line hidden
-, 4392), false)
-);
+WriteLiteral(" data-bind=\"value:$data, attr :{\'title\' : $data}\"");
 
-WriteLiteral(">\r\n                                    <input");
+WriteLiteral(">\r\n                                <input");
 
-WriteLiteral(" data-bind=\"checked: RoleCollection\"");
+WriteLiteral(" data-bind=\"checked: $parent.RoleCollection, value : $data\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 4481), Tuple.Create("\"", 4496)
-            
-            #line 113 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-      , Tuple.Create(Tuple.Create("", 4489), Tuple.Create<System.Object, System.Int32>(r.Role
-            
-            #line default
-            #line hidden
-, 4489), false)
-);
-
-WriteLiteral("\r\n                                           type=\"checkbox\"");
+WriteLiteral("\r\n                                       type=\"checkbox\"");
 
 WriteLiteral(" name=\"role\"");
 
-WriteLiteral(" />\r\n");
-
-WriteLiteral("                                    ");
-
-            
-            #line 115 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                               Write(r.Name);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                                </label>\r\n\r\n");
-
-            
-            #line 118 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                                
-            
-            #line default
-            #line hidden
-            
-            #line 118 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                                 if ((!@r.Role.Equals("Administrators")) && (!@r.Role.Equals("Developers")))
-                                {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                                    <a");
+WriteLiteral(" />\r\n                                <!-- ko text: $data -->\r\n                   " +
+"             <!-- /ko-->\r\n                            </label>\r\n                " +
+"            \r\n                            <a");
 
 WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" class=\"btn btn-link\"");
 
-WriteLiteral(" data-bind=\"click : $root.deleteRole.bind($data, \'");
+WriteLiteral(" data-bind=\"click : $root.deleteRole.bind($parent, $data), visible: $data !== \'De" +
+"velopers\' || $data !== \'Administrators\'\"");
 
-            
-            #line 120 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                                                                                                                 Write(r.Role);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\')\"");
-
-WriteLiteral(">\r\n                                        Delete\r\n                              " +
-"      </a>\r\n");
-
-            
-            #line 123 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                                }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                            </td>\r\n                            <td><span");
-
-WriteLiteral(" class=\"help-block\"");
-
-WriteLiteral(">");
-
-            
-            #line 126 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                                                    Write(r.Description);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</span></td>\r\n                        </tr>\r\n");
-
-            
-            #line 128 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
-                    }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                </tbody>\r\n            </table>\r\n            <a");
+WriteLiteral(">\r\n                                Delete\r\n                            </a>\r\n\r\n\r\n" +
+"                        </td>\r\n                    </tr>\r\n\r\n                </tb" +
+"ody>\r\n            </table>\r\n            <a");
 
 WriteLiteral(" href=\"#\"");
 

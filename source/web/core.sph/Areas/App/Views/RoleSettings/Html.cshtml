@@ -2,7 +2,7 @@
 
 @{
     Layout = null;
-    var row = 1;
+    
 }
 <h1>Designation</h1>
 <div class="row">
@@ -95,37 +95,33 @@
         </div>
 
         <div>
-            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+            <table class="table table-striped table-condensed" data-bind="filter: { path: 'tbody>tr' }">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Role</th>
-                        <th>Description</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var r in Model.Roles.OrderBy(e => e.Name))
-                    {
-                        <tr>
-                            <td>@(row++)</td>
-                            <td>
-                                <label class="checkbox" title="@r.Role">
-                                    <input data-bind="checked: RoleCollection" value="@r.Role"
-                                           type="checkbox" name="role" />
-                                    @r.Name
-                                </label>
+                <tbody data-bind="foreach :$root.roleOptions">
 
-                                @if ((!@r.Role.Equals("Administrators")) && (!@r.Role.Equals("Developers")))
-                                {
-                                    <a href="#" class="btn btn-link" data-bind="click : $root.deleteRole.bind($data, '@r.Role')">
-                                        Delete
-                                    </a>
-                                }
+                    <tr>
+                        <td data-bind="text:$index() + 1"></td>
+                        <td>
+                            <label class="checkbox" data-bind="value:$data, attr :{'title' : $data}">
+                                <input data-bind="checked: $parent.RoleCollection, value : $data"
+                                       type="checkbox" name="role" />
+                                <!-- ko text: $data -->
+                                <!-- /ko-->
+                            </label>
+                            
+                            <a href="#" class="btn btn-link" data-bind="click : $root.deleteRole.bind($parent, $data), visible: $data !== 'Developers' || $data !== 'Administrators'">
+                                Delete
+                            </a>
 
-                            </td>
-                            <td><span class="help-block">@r.Description</span></td>
-                        </tr>
-                    }
+
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
             <a href="#" class="btn btn-link" data-bind="command : $root.addRole">

@@ -1,6 +1,8 @@
-﻿@model IEnumerable<Bespoke.Sph.Web.ViewModels.RoleModel>
+﻿@using Newtonsoft.Json
+@model IEnumerable<string>
 @{
     Layout = null;
+    var rolesJson = JsonConvert.SerializeObject(Model);
 }
 
 <h2>RoleSettingsJs</h2>
@@ -9,6 +11,7 @@
         function (context, logger,app) {
 
             var designation = ko.observable(),
+                roleOptions = ko.observableArray(@Html.Raw(rolesJson)),
                 activate = function (id) {
                     if (id && id !== "0") {
                         var query = String.format("Id eq '{0}'", id);
@@ -35,9 +38,9 @@
                 app.showMessage("Are you sure you want to delete this role", "Delete role", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
+                            designation().RoleCollection.remove(ko.unwrap(role));
                             return $.post("/Sph/Admin/DeleteRole/", { role: role }).done(function () {
-                                logger.info("Role deleted. Refresh your browser to reflect the changes");
-                                window.location.reload();
+                                roleOptions.remove(ko.unwrap(role));
                             });
                         }
                         return true;
@@ -59,13 +62,14 @@
                             };
 
                             if (result === "OK") {
-                                var data = ko.mapping.toJSON(dialog.role);
+                                var data = ko.toJSON({"role":dialog.role});
                                 context.post(data, "/Sph/Admin/AddRole")
-                                    .then(function (fw) {
-                                        tcs.resolve(fw);
-                                        logger.info("Refresh your browser to reflect the changes");
-                                        window.location.reload();
-                                    });
+                                    .done(function() {
+                                        roleOptions.push(ko.unwrap(dialog.role));
+                                    })
+                                    .then(tcs.resolve);
+                            } else {
+                                tcs.resolve(false);
                             }
                         });
 
@@ -76,6 +80,7 @@
 
             var vm = {
                 activate: activate,
+                roleOptions: roleOptions,
                 addRole: addRole,
                 deleteRole: deleteRole,
                 designation: designation,

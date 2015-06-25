@@ -17,7 +17,6 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
     {
         public async Task<ActionResult> Html()
         {
-
             var context = new SphDataContext();
 
             var edQuery = context.EntityDefinitions.Where(e => e.IsPublished == true);
@@ -42,7 +41,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                            };
 
             var vm = new RoleSettingViewModel();
-            var roles = Roles.GetAllRoles().Select(x => new RoleModel { Role = x, Description = x, Name = x});
+            var roles = Roles.GetAllRoles();
             var routes = this.GetJsRoutes();
             var entities = await context.GetListAsync<EntityDefinition, string>(e => e.Id != "0", e => e.Name);
             vm.SearchableEntityOptions.AddRange(entities);
@@ -85,7 +84,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         }
         public ActionResult Js()
         {
-            var roles = Roles.GetAllRoles().Select(x => new RoleModel { Role = x, Description = x });
+            var roles = Roles.GetAllRoles();
 
             this.Response.ContentType = APPLICATION_JAVASCRIPT;
             var script = this.RenderRazorViewToJs("Script", roles);
@@ -95,8 +94,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         }
         public ActionResult Script()
         {
-            var roles = Roles.GetAllRoles().Select(x => new RoleModel { Role = x, Description = x });
-
+            var roles = Roles.GetAllRoles();
             return View(roles.AsEnumerable());
         }
     }

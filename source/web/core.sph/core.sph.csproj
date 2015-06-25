@@ -866,7 +866,6 @@
     <Compile Include="ViewModels\PrintViewModel.cs" />
     <Compile Include="ViewModels\RdlExecutionViewModel.cs" />
     <Compile Include="ViewModels\ReportBuilderViewModel.cs" />
-    <Compile Include="ViewModels\RoleModel.cs" />
     <Compile Include="ViewModels\RoleSettingViewModel.cs" />
     <Compile Include="ViewModels\Snippet.cs" />
     <Compile Include="ViewModels\SphSecurityToken.cs" />

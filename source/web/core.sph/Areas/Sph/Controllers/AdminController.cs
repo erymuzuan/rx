@@ -16,14 +16,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     [Authorize(Roles = "administrators")]
     public class AdminController : Controller
     {
-        public ActionResult AddRole(string role, string description)
+        public ActionResult AddRole(string role)
         {
-            if (!Roles.RoleExists(role))
+            var result = Roles.RoleExists(role);
+            if (!result)
                 Roles.CreateRole(role);
 
-
-            return Json(true);
+            return Json(!result);
         }
+
         public ActionResult DeleteRole(string role)
         {
             if (Roles.RoleExists(role))
@@ -58,38 +59,32 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> AddUser(Profile profile)
         {
             var context = new SphDataContext();
-            if (string.IsNullOrWhiteSpace(profile.Designation)) throw new ArgumentNullException("Designation for  " + profile.UserName + " cannot be set to null or empty");
+            var userName = profile.UserName;
+            if (string.IsNullOrWhiteSpace(profile.Designation)) throw new ArgumentNullException("Designation for  " + userName + " cannot be set to null or empty");
             var designation = await context.LoadOneAsync<Designation>(d => d.Name == profile.Designation);
             if (null == designation) throw new InvalidOperationException("Cannot find designation " + profile.Designation);
             var roles = designation.RoleCollection.ToArray();
 
-            var em = Membership.GetUser(profile.UserName);
+            var em = Membership.GetUser(userName);
 
             if (null != em)
             {
-                var userroles = Roles.GetRolesForUser(profile.UserName);
-                foreach (var r in userroles.Where(Roles.IsUserInRole))
-                {
-                    Roles.RemoveUserFromRole(em.UserName, r);
-                }
-
                 profile.Roles = roles;
                 em.Email = profile.Email;
 
+                var originalRoles = Roles.GetRolesForUser(userName);
+                if (originalRoles.Length > 0)
+                    Roles.RemoveUserFromRoles(userName, originalRoles);
 
-                var userRoles = Roles.GetRolesForUser(profile.UserName);
-                if (userRoles.Length > 0)
-                    Roles.RemoveUserFromRoles(profile.UserName, userRoles);
-
-                Roles.AddUserToRoles(profile.UserName, profile.Roles);
+                Roles.AddUserToRoles(userName, profile.Roles);
                 Membership.UpdateUser(em);
                 await CreateProfile(profile, designation);
                 return Json(profile);
             }
 
 
-            Membership.CreateUser(profile.UserName, profile.Password, profile.Email);
-            Roles.AddUserToRoles(profile.UserName, roles);
+            Membership.CreateUser(userName, profile.Password, profile.Email);
+            Roles.AddUserToRoles(userName, roles);
             profile.Roles = roles;
 
             await CreateProfile(profile, designation);
@@ -100,6 +95,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         private static async Task<UserProfile> CreateProfile(Profile profile, Designation designation)
         {
+            if (null == profile) throw new ArgumentNullException(nameof(profile));
+            if (null == designation) throw new ArgumentNullException(nameof(designation));
+            if (string.IsNullOrWhiteSpace(designation.Name)) throw new ArgumentNullException(nameof(designation), "Designation Name cannot be null, empty or whitespace");
+            if (string.IsNullOrWhiteSpace(profile.UserName)) throw new ArgumentNullException(nameof(profile), "Profile UserName cannot be null, empty or whitespace");
+
             var context = new SphDataContext();
             var usp = await context.LoadOneAsync<UserProfile>(p => p.UserName == profile.UserName) ?? new UserProfile();
             usp.UserName = profile.UserName;
@@ -243,7 +243,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var roles = ReadAllText(Path.Combine(folder, "roles.txt")).Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Where(r => !Roles.RoleExists(r))
-                .Select(r => AddRole(r, ""));
+                .Select(AddRole);
 
             Delete(zipFile);
             Directory.Delete(folder, true);

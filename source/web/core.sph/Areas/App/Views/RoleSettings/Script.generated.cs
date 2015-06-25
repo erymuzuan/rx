@@ -29,9 +29,15 @@ namespace ASP
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
     
+    #line 1 "..\..\Areas\App\Views\RoleSettings\Script.cshtml"
+    using Newtonsoft.Json;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/RoleSettings/Script.cshtml")]
-    public partial class _Areas_App_Views_RoleSettings_Script_cshtml : System.Web.Mvc.WebViewPage<IEnumerable<Bespoke.Sph.Web.ViewModels.RoleModel>>
+    public partial class _Areas_App_Views_RoleSettings_Script_cshtml : System.Web.Mvc.WebViewPage<IEnumerable<string>>
     {
         public _Areas_App_Views_RoleSettings_Script_cshtml()
         {
@@ -39,9 +45,10 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Areas\App\Views\RoleSettings\Script.cshtml"
+            #line 3 "..\..\Areas\App\Views\RoleSettings\Script.cshtml"
   
     Layout = null;
+    var rolesJson = JsonConvert.SerializeObject(Model);
 
             
             #line default
@@ -54,43 +61,52 @@ WriteLiteral(" data-script=\"true\"");
 
 WriteLiteral(">\r\n    define([\'services/datacontext\', objectbuilders.logger, objectbuilders.app]" +
 ",\r\n        function (context, logger,app) {\r\n\r\n            var designation = ko." +
-"observable(),\r\n                activate = function (id) {\r\n                    i" +
-"f (id && id !== \"0\") {\r\n                        var query = String.format(\"Id eq" +
-" \'{0}\'\", id);\r\n                        return context.loadOneAsync(\"Designation\"" +
-", query)\r\n                            .done(designation);\r\n\r\n                   " +
-" } else {\r\n                        designation(new bespoke.sph.domain.Designatio" +
-"n());\r\n                    }\r\n\r\n                    return true;\r\n\r\n            " +
-"    },\r\n\r\n            save = function () {\r\n                var data = ko.toJSON" +
-"(designation);\r\n\r\n                return context.post(data, \"/sph-designation\")\r" +
-"\n                    .done(function () {\r\n                        logger.info(\"D" +
-"esignation is successfully saved\");\r\n                    });\r\n            },\r\n  " +
-"          deleteRole = function (role) {\r\n                app.showMessage(\"Are y" +
-"ou sure you want to delete this role\", \"Delete role\", [\"Yes\", \"No\"])\r\n          " +
-"          .done(function (dialogResult) {\r\n                        if (dialogRes" +
-"ult === \"Yes\") {\r\n                            return $.post(\"/Sph/Admin/DeleteRo" +
-"le/\", { role: role }).done(function () {\r\n                                logger" +
-".info(\"Role deleted. Refresh your browser to reflect the changes\");\r\n           " +
-"                     window.location.reload();\r\n                            });\r" +
-"\n                        }\r\n                        return true;\r\n              " +
-"      });\r\n\r\n\r\n                return Task.fromResult(0);\r\n\r\n            },\r\n   " +
-"         addRole = function () {\r\n\r\n                var tcs = new $.Deferred();\r" +
-"\n                require([\'viewmodels/role.dialog\', \'durandal/app\'], function (d" +
-"ialog, app2) {\r\n                    app2.showDialog(dialog)\r\n                   " +
-"     .done(function (result) {\r\n                            if (!result) {\r\n    " +
-"                            tcs.resolve(false);\r\n                               " +
-" return;\r\n                            };\r\n\r\n                            if (resu" +
-"lt === \"OK\") {\r\n                                var data = ko.mapping.toJSON(dia" +
-"log.role);\r\n                                context.post(data, \"/Sph/Admin/AddRo" +
-"le\")\r\n                                    .then(function (fw) {\r\n               " +
-"                         tcs.resolve(fw);\r\n                                     " +
-"   logger.info(\"Refresh your browser to reflect the changes\");\r\n                " +
-"                        window.location.reload();\r\n                             " +
-"       });\r\n                            }\r\n                        });\r\n\r\n      " +
-"          });\r\n                return tcs.promise();\r\n            };\r\n\r\n\r\n      " +
-"      var vm = {\r\n                activate: activate,\r\n                addRole: " +
-"addRole,\r\n                deleteRole: deleteRole,\r\n                designation: " +
-"designation,\r\n                toolbar: { saveCommand: save }\r\n            };\r\n\r\n" +
-"            return vm;\r\n\r\n\r\n        });\r\n</script>\r\n");
+"observable(),\r\n                roleOptions = ko.observableArray(");
+
+            
+            #line 14 "..\..\Areas\App\Views\RoleSettings\Script.cshtml"
+                                            Write(Html.Raw(rolesJson));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("),\r\n                activate = function (id) {\r\n                    if (id && id " +
+"!== \"0\") {\r\n                        var query = String.format(\"Id eq \'{0}\'\", id)" +
+";\r\n                        return context.loadOneAsync(\"Designation\", query)\r\n  " +
+"                          .done(designation);\r\n\r\n                    } else {\r\n " +
+"                       designation(new bespoke.sph.domain.Designation());\r\n     " +
+"               }\r\n\r\n                    return true;\r\n\r\n                },\r\n\r\n  " +
+"          save = function () {\r\n                var data = ko.toJSON(designation" +
+");\r\n\r\n                return context.post(data, \"/sph-designation\")\r\n           " +
+"         .done(function () {\r\n                        logger.info(\"Designation i" +
+"s successfully saved\");\r\n                    });\r\n            },\r\n            de" +
+"leteRole = function (role) {\r\n                app.showMessage(\"Are you sure you " +
+"want to delete this role\", \"Delete role\", [\"Yes\", \"No\"])\r\n                    .d" +
+"one(function (dialogResult) {\r\n                        if (dialogResult === \"Yes" +
+"\") {\r\n                            designation().RoleCollection.remove(ko.unwrap(" +
+"role));\r\n                            return $.post(\"/Sph/Admin/DeleteRole/\", { r" +
+"ole: role }).done(function () {\r\n                                roleOptions.rem" +
+"ove(ko.unwrap(role));\r\n                            });\r\n                        " +
+"}\r\n                        return true;\r\n                    });\r\n\r\n\r\n          " +
+"      return Task.fromResult(0);\r\n\r\n            },\r\n            addRole = functi" +
+"on () {\r\n\r\n                var tcs = new $.Deferred();\r\n                require(" +
+"[\'viewmodels/role.dialog\', \'durandal/app\'], function (dialog, app2) {\r\n         " +
+"           app2.showDialog(dialog)\r\n                        .done(function (resu" +
+"lt) {\r\n                            if (!result) {\r\n                             " +
+"   tcs.resolve(false);\r\n                                return;\r\n               " +
+"             };\r\n\r\n                            if (result === \"OK\") {\r\n         " +
+"                       var data = ko.toJSON({\"role\":dialog.role});\r\n            " +
+"                    context.post(data, \"/Sph/Admin/AddRole\")\r\n                  " +
+"                  .done(function() {\r\n                                        ro" +
+"leOptions.push(ko.unwrap(dialog.role));\r\n                                    })\r" +
+"\n                                    .then(tcs.resolve);\r\n                      " +
+"      } else {\r\n                                tcs.resolve(false);\r\n           " +
+"                 }\r\n                        });\r\n\r\n                });\r\n        " +
+"        return tcs.promise();\r\n            };\r\n\r\n\r\n            var vm = {\r\n     " +
+"           activate: activate,\r\n                roleOptions: roleOptions,\r\n     " +
+"           addRole: addRole,\r\n                deleteRole: deleteRole,\r\n         " +
+"       designation: designation,\r\n                toolbar: { saveCommand: save }" +
+"\r\n            };\r\n\r\n            return vm;\r\n\r\n\r\n        });\r\n</script>\r\n");
 
         }
     }
