@@ -103,14 +103,14 @@ WriteLiteral("),\r\n            languageOptions = ko.observableArray(),\r\n     
 "ptions(options);\r\n                    tcs.resolve(true);\r\n                });\r\n\r" +
 "\n                return tcs.promise();\r\n            },\r\n            saveAsync = " +
 "function () {\r\n                var json = ko.toJSON(userProfile);\r\n             " +
-"   return context.post(json, \"/Admin/UpdateUser\");\r\n            };\r\n\r\n          " +
-"  var vm = {\r\n                activate: activate,\r\n                userProfile: " +
-"userProfile,\r\n                startModule: startModule,\r\n                startMo" +
-"duleOptions: startModuleOptions,\r\n                languageOptions: languageOptio" +
-"ns,\r\n                toolbar: {\r\n                    saveCommand: saveAsync\r\n   " +
-"             },\r\n                isBusy: isBusy,\r\n                title: \"User p" +
-"rofile Details\"\r\n            };\r\n\r\n            return vm;\r\n        });\r\n</script" +
-">\r\n");
+"   return context.post(json, \"/App/UserProfile/UpdateUser\");\r\n            };\r\n\r\n" +
+"            var vm = {\r\n                activate: activate,\r\n                use" +
+"rProfile: userProfile,\r\n                startModule: startModule,\r\n             " +
+"   startModuleOptions: startModuleOptions,\r\n                languageOptions: lan" +
+"guageOptions,\r\n                toolbar: {\r\n                    saveCommand: save" +
+"Async\r\n                },\r\n                isBusy: isBusy,\r\n                titl" +
+"e: \"User profile Details\"\r\n            };\r\n\r\n            return vm;\r\n        });" +
+"\r\n</script>\r\n");
 
         }
     }
