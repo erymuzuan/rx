@@ -8,7 +8,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
@@ -99,6 +98,32 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             };
 
             return View("Script", vm);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> UpdateUser(UserProfile profile)
+        {
+            var context = new SphDataContext();
+            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.UserName == User.Identity.Name)
+                ?? new UserProfile();
+            userprofile.UserName = User.Identity.Name;
+            userprofile.Email = profile.Email;
+            userprofile.Telephone = profile.Telephone;
+            userprofile.FullName = profile.FullName;
+            userprofile.StartModule = profile.StartModule;
+            userprofile.Language = profile.Language;
+
+            if (userprofile.IsNewItem) userprofile.Id = userprofile.UserName.ToIdFormat();
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(userprofile);
+                await session.SubmitChanges();
+            }
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(JsonConvert.SerializeObject(userprofile));
+
+
         }
     }
 }
