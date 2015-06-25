@@ -84,6 +84,8 @@ namespace Bespoke.Sph.Domain
             {
                 list.AddRange(member.GetMembersPath(""));
             }
+            list.Add("Id");
+            list.Add("WebId");
             list.Add("CreatedBy");
             list.Add("ChangedBy");
             list.Add("CreatedDate");
