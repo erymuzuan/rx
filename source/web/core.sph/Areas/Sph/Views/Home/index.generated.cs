@@ -13,12 +13,6 @@ namespace ASP
 {
     using System;
     using System.Collections.Generic;
-    
-    #line 1 "..\..\Areas\Sph\Views\Home\index.cshtml"
-    using System.Configuration;
-    
-    #line default
-    #line hidden
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -28,7 +22,7 @@ namespace ASP
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     
-    #line 2 "..\..\Areas\Sph\Views\Home\index.cshtml"
+    #line 1 "..\..\Areas\Sph\Views\Home\index.cshtml"
     using System.Web.Mvc.Html;
     
     #line default
@@ -48,13 +42,12 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 2 "..\..\Areas\Sph\Views\Home\index.cshtml"
   
     Layout = null;
-    var theme = ConfigurationManager.AppSettings["theme"];
     var splash = Server.MapPath("~/_splash.html");
     var splashHtml = "";
-    if (System.IO.File.Exists(splash))
+    if (File.Exists(splash))
     {
         splashHtml = (File.ReadAllText(splash));
     }
@@ -65,7 +58,7 @@ namespace ASP
 WriteLiteral("\r\n<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>");
 
             
-            #line 16 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 14 "..\..\Areas\Sph\Views\Home\index.cshtml"
       Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationName);
 
             
@@ -108,13 +101,13 @@ WriteLiteral(" content=\"width=device-width, initial-scale=1.0\"");
 WriteLiteral(" />\r\n");
 
             
-            #line 23 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 21 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 23 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 21 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -130,38 +123,10 @@ WriteLiteral(" rel=\"stylesheet\"");
 WriteLiteral(" />\r\n");
 
             
-            #line 26 "..\..\Areas\Sph\Views\Home\index.cshtml"
-        foreach (var css in System.IO.Directory.GetFiles(Server.MapPath("~/Content"), "*.css"))
-        {
-
-
-            
-            #line default
-            #line hidden
-WriteLiteral("            <link");
-
-WriteAttribute("href", Tuple.Create(" href=\"", 1060), Tuple.Create("\"", 1108)
-, Tuple.Create(Tuple.Create("", 1067), Tuple.Create("/content/", 1067), true)
-            
-            #line 29 "..\..\Areas\Sph\Views\Home\index.cshtml"
-, Tuple.Create(Tuple.Create("", 1076), Tuple.Create<System.Object, System.Int32>(System.IO.Path.GetFileName(css)
-            
-            #line default
-            #line hidden
-, 1076), false)
-);
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" />\r\n");
-
-            
-            #line 30 "..\..\Areas\Sph\Views\Home\index.cshtml"
-        }
+            #line 24 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
-
 
             
             #line default
@@ -175,7 +140,7 @@ WriteLiteral(" rel=\"stylesheet\"");
 WriteLiteral(" />\r\n");
 
             
-            #line 36 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 28 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             
@@ -198,13 +163,13 @@ WriteLiteral(" id=\"applicationHost\"");
 WriteLiteral(">\r\n");
 
             
-            #line 42 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 34 "..\..\Areas\Sph\Views\Home\index.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 42 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 34 "..\..\Areas\Sph\Views\Home\index.cshtml"
          if (!string.IsNullOrWhiteSpace(splashHtml))
         {
             
@@ -212,14 +177,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 36 "..\..\Areas\Sph\Views\Home\index.cshtml"
        Write(Html.Raw(splashHtml));
 
             
             #line default
             #line hidden
             
-            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 36 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                  
         }
         else
@@ -229,14 +194,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 48 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 40 "..\..\Areas\Sph\Views\Home\index.cshtml"
        Write(Html.Partial("_splash"));
 
             
             #line default
             #line hidden
             
-            #line 48 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 40 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                     
         }
 
@@ -246,13 +211,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("    </div>\r\n\r\n");
 
             
-            #line 52 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 52 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -261,9 +226,9 @@ WriteLiteral("    </div>\r\n\r\n");
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1685), Tuple.Create("\"", 1717)
-, Tuple.Create(Tuple.Create("", 1691), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 1691), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1375), Tuple.Create("\"", 1407)
+, Tuple.Create(Tuple.Create("", 1381), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 1381), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -305,7 +270,7 @@ WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 61 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 53 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -320,7 +285,7 @@ WriteLiteral(" src=\"/Scripts/__rx.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 65 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 57 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             
