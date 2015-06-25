@@ -92,6 +92,8 @@ namespace Bespoke.Sph.Web.Controllers
             }
             foreach (var user in userNames.Where(s => !string.IsNullOrWhiteSpace(s)))
             {
+                var userRoles = Roles.GetRolesForUser(user);
+                Roles.RemoveUserFromRoles(user,userRoles);
                 Roles.AddUserToRoles(user, designation.RoleCollection.ToArray());
             }
 
