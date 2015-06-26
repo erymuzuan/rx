@@ -10,10 +10,15 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         [NoCache]
         public async Task<ActionResult> Html()
         {
+            if (!User.Identity.IsAuthenticated)
+                return View(new HtmlHeaderModel {Designation = new Designation {IsHelpVisible = false}});
+            
             var context = new SphDataContext();
             var profile = await context.LoadOneAsync<UserProfile>(ua => ua.UserName == User.Identity.Name);
-            if (null != profile)
-                ViewBag.StartModule = "#" + profile.StartModule;
+            if (null == profile)
+                return View(new HtmlHeaderModel { Designation = new Designation { IsHelpVisible = false } });
+
+            ViewBag.StartModule = "#" + profile.StartModule;
 
             var designation = (await context.LoadOneAsync<Designation>(d => d.Name == profile.Designation)) ?? new Designation { IsHelpVisible = true, HelpUri = "/docs/" };
             designation.HelpUri = string.IsNullOrWhiteSpace(designation.HelpUri) ? "/docs/" : designation.HelpUri;
