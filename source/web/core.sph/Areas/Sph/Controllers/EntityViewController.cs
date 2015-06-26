@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var context = new SphDataContext();
 
             if (string.IsNullOrWhiteSpace(view.Id) || view.Id == "0")
-                view.Id = view.Route.ToIdFormat();
+                view.Id = $"{view.EntityDefinitionId}-{view.Route.ToIdFormat()}";
 
             using (var session = context.OpenSession())
             {
