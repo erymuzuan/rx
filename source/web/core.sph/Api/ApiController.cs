@@ -53,23 +53,31 @@ namespace Bespoke.Sph.Web.Api
         [Route("EntityDefinition")]
         public async Task<ActionResult> EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<EntityDefinition>(filter, true);
+            if (null != source) return source;
             return await ExecuteAsync<EntityDefinition>(filter, page, size, includeTotal);
         }
 
         [Route("EntityChart")]
         public async Task<ActionResult> EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<EntityChart>(filter);
+            if (null != source) return source;
             return await ExecuteAsync<EntityChart>(filter, page, size, includeTotal);
         }
         [Route("EntityForm")]
         public async Task<ActionResult> EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<EntityForm>(filter, true);
+            if (null != source) return source;
             return await ExecuteAsync<EntityForm>(filter, page, size, includeTotal);
         }
 
         [Route("EntityView")]
         public async Task<ActionResult> EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<EntityView>(filter);
+            if (null != source) return source;
             return await ExecuteAsync<EntityView>(filter, page, size, includeTotal);
         }
 
@@ -130,6 +138,8 @@ namespace Bespoke.Sph.Web.Api
         [Route("Trigger")]
         public async Task<ActionResult> Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<Trigger>(filter);
+            if (null != source) return source;
             return await ExecuteAsync<Trigger>(filter, page, size, includeTotal);
         }
 
@@ -148,6 +158,8 @@ namespace Bespoke.Sph.Web.Api
         [Route("TransformDefinition")]
         public async Task<ActionResult> TransformDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<TransformDefinition>(filter);
+            if (null != source) return source;
             return await ExecuteAsync<TransformDefinition>(filter, page, size, includeTotal);
         }
 
@@ -155,6 +167,8 @@ namespace Bespoke.Sph.Web.Api
         [Route("WorkflowDefinition")]
         public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<WorkflowDefinition>(filter, true);
+            if (null != source) return source;
             return await ExecuteAsync<WorkflowDefinition>(filter, page, size, includeTotal);
         }
 
@@ -169,7 +183,7 @@ namespace Bespoke.Sph.Web.Api
         public async Task<ActionResult> Index(string typeName, string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             if (size > 200)
-                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, "size");
+                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, nameof(size));
 
 
             var orderby = this.Request.QueryString["$orderby"];
@@ -209,18 +223,17 @@ namespace Bespoke.Sph.Web.Api
         private async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false, Action<IEnumerable<T>> processAction = null) where T : Entity
         {
             if (size > 200)
-                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, "size");
+                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, nameof(size));
 
             var typeName = typeof(T).Name;
 
             var orderby = this.Request.QueryString["$orderby"];
             var translator = new OdataSqlTranslator(null, typeName);
-            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ?  "Id ne ''" : filter, orderby);
+            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? "Id ne ''" : filter, orderby);
             var rows = 0;
             var nextPageToken = "";
             var list = await this.ExecuteListTupleAsync<T>(sql, page, size);
-            if (null != processAction)
-                processAction(list);
+            processAction?.Invoke(list);
 
             if (includeTotal || page > 1)
             {
@@ -244,9 +257,9 @@ namespace Bespoke.Sph.Web.Api
                 size
             };
             var setting = new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.Objects
-                };
+            {
+                TypeNameHandling = TypeNameHandling.Objects
+            };
 
             this.Response.ContentType = "application/json";
             return Content(JsonConvert.SerializeObject(json, Formatting.None, setting));
@@ -287,7 +300,7 @@ namespace Bespoke.Sph.Web.Api
                     {
                         var id = reader.GetString(0);
                         var json = reader.GetString(1)
-                            .Replace( "Id\":0", type + "Id\":\"" + id + "\"");
+                            .Replace("Id\":0", type + "Id\":\"" + id + "\"");
                         result.Add(json);
                     }
                 }
@@ -326,6 +339,61 @@ namespace Bespoke.Sph.Web.Api
 
                 return result;
             }
+        }
+
+        private ActionResult ReadFromSource<T>(string filter, bool loop) where T : Entity
+        {
+            if (!loop) return ReadFromSource<T>(filter);
+            var id = Strings.RegexSingleValue(filter, "Id eq '(?<id>.*?)'$", "id");
+            if (string.IsNullOrWhiteSpace(id)) return null;
+
+            var item = System.IO.Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\", "*.json")
+                .Select(f => System.IO.File.ReadAllText(f).DeserializeFromJson<T>())
+                .FirstOrDefault(x => x.Id == id);
+            if (null == item) return null;
+            var json = new
+            {
+                results = new List<T> { item },
+                rows = 1,
+                page = 1,
+                nextPageToken = "",
+                previousPageToken = "",
+                size = 20
+            };
+            var setting = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects
+            };
+
+            this.Response.ContentType = "application/json";
+            return Content(JsonConvert.SerializeObject(json, Formatting.None, setting), "application/json", Encoding.UTF8);
+        }
+        private ActionResult ReadFromSource<T>(string filter) where T : Entity
+        {
+            var id = Strings.RegexSingleValue(filter, "Id eq '(?<id>.*?)'$", "id");
+            if (string.IsNullOrWhiteSpace(id)) return null;
+
+            var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{id}.json";
+            if (!System.IO.File.Exists(file)) return null;
+
+            var source = System.IO.File.ReadAllText(file);
+            var sourceItem = source.DeserializeFromJson<T>();
+            var json = new
+            {
+                results = new List<T> { sourceItem },
+                rows = 1,
+                page = 1,
+                nextPageToken = "",
+                previousPageToken = "",
+                size = 20
+            };
+            var setting = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects
+            };
+
+            this.Response.ContentType = "application/json";
+            return Content(JsonConvert.SerializeObject(json, Formatting.None, setting), "application/json", Encoding.UTF8);
         }
     }
 }
