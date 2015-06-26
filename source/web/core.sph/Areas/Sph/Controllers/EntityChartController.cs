@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var chart = this.GetRequestJson<EntityChart>();
             var context = new SphDataContext();
             if (chart.IsNewItem)
-                chart.Id = Guid.NewGuid().ToString();
+                chart.Id = $"{chart.EntityViewId}-{chart.Name.ToIdFormat()}";
 
             using (var session = context.OpenSession())
             {
@@ -36,5 +36,5 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return Json(new { success = true, status = "OK", id = chart.Id });
         }
-	}
+    }
 }
