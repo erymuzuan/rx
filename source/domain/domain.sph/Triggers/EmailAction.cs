@@ -41,10 +41,7 @@ namespace Bespoke.Sph.Domain
             await smtp.SendMailAsync(message).ConfigureAwait(false);
         }
 
-        public override bool UseAsync
-        {
-            get { return true; }
-        }
+        public override bool UseAsync => true;
 
         public override Bitmap GetPngIcon()
         {
