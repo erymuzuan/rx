@@ -25,13 +25,32 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(!result);
         }
 
-        public ActionResult DeleteRole(string role)
+        public async Task<ActionResult> DeleteRole(string role)
         {
             if (Roles.RoleExists(role))
             {
                 var users = Roles.GetUsersInRole(role);
                 Roles.RemoveUsersFromRole(users, role);
                 Roles.DeleteRole(role);
+            }
+            // remove the roles from all the designation
+            var context = new SphDataContext();
+
+            var lo = await context.LoadAsync(context.Designations, 1, 200);
+            using (var session = context.OpenSession())
+            {
+                var changes = false;
+                foreach (var d in lo.ItemCollection)
+                {
+                    if (d.RoleCollection.Contains(role))
+                    {
+                        d.RoleCollection.Remove(role);
+                        session.Attach(d);
+                        changes = true;
+                    }
+                }
+                if (changes)
+                    await session.SubmitChanges("Deleting role " + role);
             }
 
             return Json(true);
@@ -215,7 +234,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             ZipFile.ExtractToDirectory(zipFile, folder);
             var context = new SphDataContext();
-            var existingDesignations = (await context.LoadAsync(context.Designations, 1, 400)).ItemCollection;
+            var existingDesignations = (await context.LoadAsync(context.Designations, 1, 200)).ItemCollection;
 
             var designations = Directory.GetFiles(folder, "designation.*.json")
                     .Select(f => ReadAllText(f).DeserializeFromJson<Designation>())
@@ -225,9 +244,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             using (var session = context.OpenSession())
             {
-                session.Attach(departments);
-                session.Attach(designations.Cast<Entity>().ToArray());
-
                 foreach (var d in designations)
                 {
                     var exist = existingDesignations.SingleOrDefault(x => x.Name == d.Name);
@@ -236,7 +252,20 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                         session.Delete(exist);
                     }
                 }
-
+                await session.SubmitChanges("remove existing designations");
+            }
+            using (var session = context.OpenSession())
+            {
+                foreach (var d in designations)
+                {
+                    var exist = existingDesignations.SingleOrDefault(x => x.Name == d.Name);
+                    if (null != exist)
+                    {
+                        session.Delete(exist);
+                    }
+                }
+                session.Attach(departments);
+                designations.ForEach(c => session.Attach(c));
 
                 await session.SubmitChanges("import");
             }
