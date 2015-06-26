@@ -114,17 +114,19 @@
                 profile(clone);
             },
             save = function() {
-                var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON({profile : profile}) ;
                 isBusy(true);
 
-                context.post(data, "/sph/Admin/AddUser")
+                return context.post(data, "/sph/Admin/AddUser")
                     .then(function(result) {
                         isBusy(false);
-                        profiles.push(result);
-                        tcs.resolve(true);
+                        var existing = _(profiles()).find(function(v) { return ko.unwrap(v.UserName) === ko.unwrap(result.UserName); });
+                        if (existing) {
+                            profiles.replace(existing, result);
+                        } else {
+                            profiles.push(result);
+                        }
                     });
-                return tcs.promise();
             },
             resetPassword = function(user) {
                 password1('');
