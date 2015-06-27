@@ -152,3 +152,4 @@ bin/sources/**/*.cs
 *.psess
 *.vspx
 /source/web/web.sph/App_Data/data-imports
+bin/sources/_generated/

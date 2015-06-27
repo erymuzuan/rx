@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "CodeNamespace": "Bespoke.Dev_4003.Domain",
+  "CodeNamespace": "Bespoke.DevV1_company.Domain",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -23,7 +23,52 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "3b3cb648-b398-40ac-b84f-1cc2d0085836"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Name",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "DefaultValue": null,
+        "WebId": "f51b2b5f-2c9b-4bf8-8d19-920dd6603927"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Revenue",
+        "TypeName": "System.Decimal, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "DefaultValue": null,
+        "WebId": "02e219d9-a730-4b7d-cd02-01270c6d50d7"
       }
     ]
   },
@@ -39,17 +84,24 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
-  "Id": "company",
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": false,
+    "WebId": null
+  },
   "Name": "Company",
   "Plural": "Companies",
-  "IconStoreId": "ad359501-3a0c-4418-bb3c-1626b3fc33a7",
+  "IconStoreId": "6b637563-7fde-46e7-8b97-25492aef456c",
   "IconClass": "fa fa-twitter",
   "RecordName": "No",
   "IsPublished": true,
   "IsShowOnNavigationBar": false,
   "CreatedBy": "admin",
+  "Id": "company",
   "CreatedDate": "2014-04-18T08:52:18.8165263+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-18T08:55:30.997437+08:00",
+  "ChangedDate": "2015-06-27T16:03:39.6971007+08:00",
   "WebId": "5fd416c1-46be-483f-a0f9-0d113a4bf3f2"
 }
