@@ -19,7 +19,7 @@ namespace adapter.csproj.gen
             var file = args[0];
             if (!File.Exists(file))
             {
-                Console.WriteLine("Cannot find {0}", file);
+                Console.WriteLine(@"Cannot find {0}", file);
                 return;
             }
             try
@@ -31,17 +31,17 @@ namespace adapter.csproj.gen
                 var o = JObject.Parse(json);
                 var an = o.SelectToken("$.Name").Value<string>();
 
-                Console.WriteLine("Application name : {0}", an);
+                Console.WriteLine(@"Application name : {0}", an);
 
                 var xml = proj.Generate(item, an);
                 var nuget = proj.GetNugetPackagesConfig();
-                var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, item.Name);
+                var folder = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, item.Name);
 
                 var output = Path.Combine(folder, item.Name + ".csproj");
                 var packageOutput = Path.Combine(folder, "packages.config");
                 File.WriteAllText(output, xml);
                 File.WriteAllText(packageOutput, nuget);
-                Console.WriteLine("Successfully write the project file to " + output);
+                Console.WriteLine(@"Successfully write the project file to " + output);
             }
             catch (Exception e)
             {

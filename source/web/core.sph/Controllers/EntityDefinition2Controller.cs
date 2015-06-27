@@ -283,7 +283,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.UserSourceDirectory
+                SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory
             };
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));

@@ -96,7 +96,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = Path.Combine(ConfigurationManager.UserSourceDirectory, wd.Id)
+                SourceCodeDirectory = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, wd.Id)
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
@@ -127,7 +127,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             // compile , then save
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.SphSourceDirectory
+                SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));

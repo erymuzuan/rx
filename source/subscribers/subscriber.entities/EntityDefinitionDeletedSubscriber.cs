@@ -27,7 +27,7 @@ namespace subscriber.entities
 
         private Task RemoveSourceAsync(EntityDefinition item)
         {
-            var sourceDirectory = ConfigurationManager.UserSourceDirectory;
+            var sourceDirectory = ConfigurationManager.SphSourceDirectory;
             var web = ConfigurationManager.WebPath;
 
             Action<string> delete = file =>

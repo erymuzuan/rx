@@ -87,13 +87,13 @@ namespace Bespoke.Sph.Domain
         /// <summary>
         /// A directory where all the users source codes are
         /// </summary>
-        public static string UserSourceDirectory
+        public static string GeneratedSourceDirectory
         {
             get
             {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:UserSourceDirectory"];
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:GeneratedSourceDirectory"];
                 if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\sources\";
+                return BaseDirectory + BinPath + @"\sources\_generated\";
             }
         }
 

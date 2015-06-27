@@ -118,11 +118,11 @@ namespace Bespoke.Sph.Domain
                 {
                     Console.WriteLine(error);
                     var guid = Guid.NewGuid();
-                    var log = Path.Combine(ConfigurationManager.UserSourceDirectory, @"\logs");
+                    var log = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, @"\logs");
                     if (!Directory.Exists(log)) Directory.CreateDirectory(log);
 
-                    var logFile = string.Format("{0}\\{1}.log", log, guid);
-                    var cs = string.Format("{0}\\{1}.cs", log, guid);
+                    var logFile = $"{log}\\{guid}.log";
+                    var cs = $"{log}\\{guid}.cs";
 
                     File.WriteAllText(logFile, error.ToString());
                     File.WriteAllText(cs, code);
