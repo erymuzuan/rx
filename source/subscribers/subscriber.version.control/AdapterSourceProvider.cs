@@ -1,8 +1,5 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Bespoke.Sph.Domain;
+﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Api;
-using Newtonsoft.Json;
 
 namespace subscriber.version.control
 {
@@ -10,20 +7,9 @@ namespace subscriber.version.control
     {
         public override Task ProcessItem(Adapter item)
         {
-            var wc = ConfigurationManager.SphSourceDirectory;
-            var type = item.GetType();
-            var folder = Path.Combine(wc, type.Name);
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-
-            dynamic wi = item;
-            var file = Path.Combine(folder, wi.Name + ".json");
-            File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
-
-          // other assets, these are specific to each adapters
+            SaveJsonSource(item);
+            // other assets, these are specific to each adapters
             item.SaveAssets();
-
-
             return Task.FromResult(0);
 
         }

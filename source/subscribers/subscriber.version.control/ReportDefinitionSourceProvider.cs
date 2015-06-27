@@ -9,15 +9,7 @@ namespace subscriber.version.control
     {
         public override Task ProcessItem(ReportDefinition item)
         {
-            var wc = ConfigurationManager.SphSourceDirectory;
-            var type = item.GetType();
-            var folder = Path.Combine(wc, type.Name);
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-
-            var file = Path.Combine(folder, item.Title + ".json");
-            File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
-
+            SaveJsonSource(item);
             return Task.FromResult(0);
         }
     }
