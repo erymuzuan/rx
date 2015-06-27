@@ -15,13 +15,12 @@ namespace subscriber.version.control
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            dynamic wi = item;
-            var file = Path.Combine(folder, wi.Name + ".json");
+            var file = Path.Combine(folder, item.Id + ".json");
             File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var schema = await store.GetContentAsync(item.SchemaStoreId);
-            var xsd = Path.Combine(folder, wi.Name + ".xsd");
+            var xsd = Path.Combine(folder, item.Id + ".xsd");
             File.WriteAllBytes(xsd, schema.Content);
 
         }

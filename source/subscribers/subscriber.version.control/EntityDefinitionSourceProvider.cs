@@ -16,7 +16,7 @@ namespace subscriber.version.control
                 Directory.CreateDirectory(folder);
 
             var ed = item;
-            var file = Path.Combine(folder, ed.Name + ".json");
+            var file = Path.Combine(folder, ed.Id + ".json");
             File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
@@ -24,7 +24,7 @@ namespace subscriber.version.control
 
             var icon = await store.GetContentAsync(item.IconStoreId);
             if (null == icon) return;
-            var png = Path.Combine(folder, item.Name + icon.Extension);
+            var png = Path.Combine(folder, item.Id + icon.Extension);
             File.WriteAllBytes(png, icon.Content);
 
         }
