@@ -58,7 +58,7 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                     app.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 self.BlockCollection.replace(member, clone);
                             }
                         });
@@ -74,7 +74,7 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                 app.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
-                        if (result == "OK") {
+                        if (result === "OK") {
                             self.BusinessRuleCollection.push(br);
                         }
                     });
