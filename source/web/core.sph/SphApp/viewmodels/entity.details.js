@@ -87,11 +87,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             publishAsync = function () {
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(entity);
+                var data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/entity-definition/publish")
+                return context.post(data, "/entity-definition/publish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -103,18 +102,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             errors(result.Errors);
                             logger.error("There are errors in your schema, !!!");
                         }
-                        tcs.resolve(result);
                         entity().IsPublished(true);
                     });
-                return tcs.promise();
             },
             depublishAsync = function () {
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(entity);
+                var data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/entity-definition/depublish")
+                return context.post(data, "/entity-definition/depublish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -126,9 +122,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             errors(result.Errors);
                             logger.error("There are errors in your schema, !!!");
                         }
-                        tcs.resolve(result);
                     });
-                return tcs.promise();
             },
             removeAsync = function () {
 
