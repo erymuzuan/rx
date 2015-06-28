@@ -246,7 +246,7 @@
 
                 </div>
                 <div id="triggers-tab" class="tab-pane">
-                    <table class="table table-striped" data-bind="serverPaging :{entity: 'Trigger', query :'Entity eq \'' + $root.entity().Id() + '\'', list: triggers}">
+                    <table class="table table-striped" data-bind="serverPaging :{entity: 'Trigger', query :'Entity eq \'' + $root.entity().Name() + '\'', list: triggers}">
                         <thead>
                             <tr>
                                 <th>Name</th>
