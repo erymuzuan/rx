@@ -28,7 +28,6 @@ namespace Bespoke.Sph.SqlRepository
 
         private BinaryStore ReadFromSource(string id)
         {
-
             var folder = $"{ConfigurationManager.SphSourceDirectory}\\BinaryStores";
             string json = $"{folder}\\{id}.json";
             if (!File.Exists(json)) return null;
@@ -37,7 +36,7 @@ namespace Bespoke.Sph.SqlRepository
 
 
             var doc = File.ReadAllText(json).DeserializeFromJson<BinaryStore>();
-            doc.Content = File.ReadAllBytes(path);
+            doc.Content = File.ReadAllBytes($"{path}\\{doc.FileName}");
             return doc;
         }
 
