@@ -94,6 +94,9 @@ namespace Bespoke.Sph.Messaging
         {
             var type = item.GetType().Name;
             var topic = $"{type}.{crud}.{operation}";
+            if (string.IsNullOrWhiteSpace(operation))
+                topic = $"{type}.{crud}.#";
+
             var possibleTopics = GetPossibleTopics(topic);
 
 
