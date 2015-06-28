@@ -9,7 +9,7 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/jsonimportexport', 'plugins/router', objectbuilders.app, objectbuilders.system, objectbuilders.logger],
+define(["services/datacontext", "services/jsonimportexport", "plugins/router", objectbuilders.app, objectbuilders.system, objectbuilders.logger],
     function (context, eximp, router, app, system, logger) {
 
         var trigger = ko.observable(new bespoke.sph.domain.Trigger()),
@@ -24,7 +24,6 @@ define(['services/datacontext', 'services/jsonimportexport', 'plugins/router', o
                 id(id2);
 
                 var query = String.format("Id eq '{0}' ", id()),
-                    tcs = new $.Deferred(),
                     triggerTask = context.loadOneAsync("Trigger", query),
                     actionOptionsTask = $.get("/sph/trigger/actions"),
                     entitiesTask = context.getListAsync("EntityDefinition", "Id ne ''", "Name"),
@@ -41,14 +40,14 @@ define(['services/datacontext', 'services/jsonimportexport', 'plugins/router', o
                             });
                     };
 
-                $.when(triggerTask, entitiesTask, actionOptionsTask).done(function (t, list, actions) {
+                return $.when(triggerTask, entitiesTask, actionOptionsTask).done(function (t, list, actions) {
                     entities(list);
                     actionOptions(actions[0]);
                     if (t) {
                         trigger(t);
                         typeaheadEntity(t.Entity());
                         window.typeaheadEntity = t.Entity();
-                        operations(t.FiredOnOperations().split(','));
+                        operations(t.FiredOnOperations().split(","));
                         loadOperationOptions(t.Entity());
                     } else {
                         trigger(new bespoke.sph.domain.Trigger(system.guid()));
@@ -59,73 +58,64 @@ define(['services/datacontext', 'services/jsonimportexport', 'plugins/router', o
                         window.typeaheadEntity = ent;
                         loadOperationOptions(ent);
                     });
-                    tcs.resolve(true);
                 });
 
-                return tcs.promise();
             },
             attached = function () {
 
             },
             save = function () {
-                vm.trigger().FiredOnOperations(operations().join());
+                trigger().FiredOnOperations(operations().join());
                 var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(vm.trigger);
+                    data = ko.mapping.toJSON(trigger);
                 isBusy(true);
 
-                context.post(data, "/Trigger/Save")
+                return context.post(data, "/Trigger/Save")
                     .then(function (result) {
                         isBusy(false);
-                        vm.trigger().Id(result);
-                        router.navigate('/trigger.setup/' + vm.trigger().Id());
-                        tcs.resolve(result);
+                        trigger().Id(result);
+                        router.navigate("/trigger.setup/" + trigger().Id());
                     });
-                return tcs.promise();
             },
             publishAsync = function () {
-                vm.trigger().FiredOnOperations(operations().join());
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(vm.trigger);
+                trigger().FiredOnOperations(operations().join());
+                var data = ko.mapping.toJSON(trigger);
                 isBusy(true);
 
-                context.post(data, "/Trigger/Publish")
+                return context.post(data, "/Trigger/Publish")
                     .then(function (result) {
                         isBusy(false);
-                        vm.trigger().Id(result);
-                        vm.trigger().IsActive(true);
-                        tcs.resolve(result);
+                        trigger().Id(result);
+                        trigger().IsActive(true);
                         logger.info("Your trigger has been succesfully published, and will be added to the exchange shortly");
                     });
-                return tcs.promise();
             },
             depublishAsync = function () {
-                vm.trigger().FiredOnOperations(operations().join());
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(vm.trigger);
+                trigger().FiredOnOperations(operations().join());
+                var data = ko.mapping.toJSON(trigger);
                 isBusy(true);
 
-                context.post(data, "/Trigger/Depublish")
+                return context.post(data, "/Trigger/Depublish")
                     .then(function (result) {
                         isBusy(false);
-                        vm.trigger().IsActive(false);
-                        vm.trigger().Id(result);
-                        tcs.resolve(result);
+                        trigger().IsActive(false);
+                        trigger().Id(result);
                         logger.info("Your trigger has been succesfully depublished, and will be removed from the exchange shortly");
                     });
-                return tcs.promise();
             },
             remove = function () {
                 var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(vm.trigger);
+                    data = ko.mapping.toJSON(trigger);
 
                 app.showMessage("Are you sure you want to remove this trigger, this action cannot be undone", "Rx Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 
                             context.post(data, "/Trigger/Remove")
-                                .then(function (result) {
+                                .fail(tcs.reject)
+                                .done(function (result) {
                                     isBusy(false);
-                                    vm.trigger().IsActive(false);
+                                    trigger().IsActive(false);
                                     tcs.resolve(result);
                                     logger.info("Your trigger has been succesfully removed");
                                     window.location = "#trigger.list";
@@ -141,7 +131,7 @@ define(['services/datacontext', 'services/jsonimportexport', 'plugins/router', o
             },
 
             exportJson = function () {
-                return eximp.exportJson("trigger." + vm.trigger().Id() + ".json", ko.mapping.toJSON(vm.trigger));
+                return eximp.exportJson("trigger." + trigger().Id() + ".json", ko.mapping.toJSON(trigger));
 
             },
 
@@ -149,8 +139,8 @@ define(['services/datacontext', 'services/jsonimportexport', 'plugins/router', o
                 return eximp.importJson()
                     .done(function (json) {
                         var clone = context.toObservable(JSON.parse(json));
-                        vm.trigger(clone);
-                        vm.trigger().Id(0);
+                        trigger(clone);
+                        trigger().Id(0);
 
                     });
             },
@@ -185,13 +175,13 @@ define(['services/datacontext', 'services/jsonimportexport', 'plugins/router', o
                 exportCommand: exportJson,
                 commands: ko.observableArray([
                     {
-                        icon: 'fa fa-upload',
-                        caption: 'import',
+                        icon: "fa fa-upload",
+                        caption: "import",
                         command: importJson
                     },
                     {
                         command: publishAsync,
-                        caption: 'Publish',
+                        caption: "Publish",
                         icon: "fa fa-sign-in",
                         enable: ko.computed(function () {
                             return trigger().Id();
@@ -199,7 +189,7 @@ define(['services/datacontext', 'services/jsonimportexport', 'plugins/router', o
                     },
                     {
                         command: depublishAsync,
-                        caption: 'Depublish',
+                        caption: "Depublish",
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
                             return trigger().Id();
