@@ -19,23 +19,13 @@ namespace Bespoke.Sph.Integrations.Adapters
             get
             {
                 if(this.TrustedConnection)
-                return string.Format(@"Data Source={0};Initial Catalog={1};Integrated Security=True;MultipleActiveResultSets=True",
-                    this.Server, this.Database);
-                return string.Format("Server={0};Database={1};User Id={2};Password={3};",
-                    this.Server, this.Database, this.UserId, this.Password);
+                return
+                    $@"Data Source={this.Server};Initial Catalog={this.Database
+                        };Integrated Security=True;MultipleActiveResultSets=True";
+                return $"Server={this.Server};Database={this.Database};User Id={this.UserId};Password={this.Password};";
             }
         }
 
-        private readonly ObjectCollection<OperationDefinition> m_operationDefinitionCollection = new ObjectCollection<OperationDefinition>();
-
-        public new ObjectCollection<OperationDefinition> OperationDefinitionCollection
-        {
-            get
-            {
-                return m_operationDefinitionCollection;
-            }
-        }
-
-        
+        public new ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
     }
 }
