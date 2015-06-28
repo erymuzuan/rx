@@ -392,6 +392,7 @@ namespace Bespoke.Sph.Web.Api
                         .Replace("IsActive eq 0", "IsActive eq false")
                         .Replace("IsPrivate eq 1", "IsPrivate eq true")
                         .Replace("IsPrivate eq 0", "IsPrivate eq false")
+                        .Replace(" OR ", " or ")
                         ;
                     var filtered = files.Select(f => System.IO.File.ReadAllText(f).DeserializeFromJson<T>())
                         .AsQueryable()
