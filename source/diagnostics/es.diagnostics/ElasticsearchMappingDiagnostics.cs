@@ -57,7 +57,7 @@ namespace es.diagnostics
                 var element = field.First;
                 var member = field.Path.Replace(entity + ".properties.", "");
                 var es = esMap.SelectToken($"{ConfigurationManager.ElasticSearchIndex}.mappings.{field.Path}");
-
+                if (null == es) continue;
 
                 if (element["type"].Value<string>() != "boolean")
                 {
@@ -78,7 +78,7 @@ namespace es.diagnostics
         public override async Task<BuildError[]> ValidateErrorsAsync(EntityDefinition ed)
         {
             var errors = new List<BuildError>();
-            string entity = ed.Name.ToLower();
+            var entity = ed.Name.ToLower();
             var text1 = GetMapping(ed);
             var currentMap = JObject.Parse(text1);
 
@@ -90,7 +90,7 @@ namespace es.diagnostics
                 esMap = JObject.Parse(text2);
             }
 
-            JToken fields = currentMap[entity]["properties"];
+            var fields = currentMap[entity]["properties"];
             foreach (var field in fields)
             {
                 var map = field.First;
@@ -98,6 +98,7 @@ namespace es.diagnostics
 
                 var member = field.Path.Replace(entity + ".properties.", "");
                 var es = esMap.SelectToken($"{ConfigurationManager.ElasticSearchIndex}.mappings.{field.Path}");
+                if (es == null) continue;// new field
 
                 var type = map["type"].MapEquals<string>(es["type"]);
                 if (map["type"].Value<string>() == "object")
@@ -107,9 +108,10 @@ namespace es.diagnostics
                 }
                 if (!type) errors.Add(new BuildError(ed.WebId, $"{member} have type different from mapping and Elasticsearch"));
 
-                if (map["type"].Value<string>() != "boolean")
+                if (map["type"].Value<string>() != "boolean" && null != map["index"])
                 {
-                    var index = map["index"].MapEquals<string>(es["index"]);
+                    var anylyzed = (map["index"].Value<string>() == "analyzed" && es["index"] == null);
+                    var index = map["index"].MapEquals<string>(es["index"]) || anylyzed;
                     if (!index)
                         errors.Add(new BuildError(ed.WebId, $"{member} has different index from mapping and Elasticsearch"));
 
