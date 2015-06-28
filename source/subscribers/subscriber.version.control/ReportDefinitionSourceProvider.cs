@@ -12,5 +12,12 @@ namespace subscriber.version.control
             SaveJsonSource(item);
             return Task.FromResult(0);
         }
+
+        public override Task RemoveItem(ReportDefinition item)
+        {
+            this.RemoveJsonSource(item);
+            return Task.FromResult(0);
+        }
+
     }
 }

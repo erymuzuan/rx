@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace subscriber.version.control
 {
@@ -12,6 +13,12 @@ namespace subscriber.version.control
             item.SaveAssets();
             return Task.FromResult(0);
 
+        }
+
+        public override Task RemoveItem(Adapter item)
+        {
+            this.RemoveJsonSource(item);
+            return Task.FromResult(0);
         }
     }
 }

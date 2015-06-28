@@ -13,5 +13,13 @@ namespace subscriber.version.control
 
         }
 
+
+        public override async Task RemoveItem(EntityForm item)
+        {
+            this.RemoveJsonSource(item);
+            await this.RemoveDocumentAsync(item.IconStoreId);
+        }
+
+
     }
 }

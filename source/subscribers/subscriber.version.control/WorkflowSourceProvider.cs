@@ -11,5 +11,12 @@ namespace subscriber.version.control
             await PersistDocumentAsync(item.SchemaStoreId);
 
         }
+
+        public override async Task RemoveItem(WorkflowDefinition item)
+        {
+            this.RemoveJsonSource(item);
+            await this.RemoveDocumentAsync(item.SchemaStoreId);
+        }
+
     }
 }

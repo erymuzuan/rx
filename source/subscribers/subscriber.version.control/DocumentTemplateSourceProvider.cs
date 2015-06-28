@@ -12,5 +12,12 @@ namespace subscriber.version.control
 
         }
 
+
+        public override async Task RemoveItem(DocumentTemplate item)
+        {
+            this.RemoveJsonSource(item);
+            await this.RemoveDocumentAsync(item.WordTemplateStoreId);
+        }
+
     }
 }
