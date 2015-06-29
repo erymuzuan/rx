@@ -105,7 +105,7 @@ namespace Bespoke.Sph.Messaging
                 if (g.Value.Any(s => possibleTopics.Contains(s)))
                 {
                     var instance = (Subscriber)m_subscribers[g.Key];
-                    Invoke(instance, item, crud, operation);
+                    Invoke(instance, item, crud, operation, log);
 
                 }
             }
@@ -127,7 +127,7 @@ namespace Bespoke.Sph.Messaging
             m_listeners.TryRemove(typeof(T), out list);
         }
 
-        private void Invoke(object sub, Entity item, string crud, string operation)
+        private void Invoke(object sub, Entity item, string crud, string operation, AuditTrail log = null)
         {
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
             var logger = ObjectBuilder.GetObject<ILogger>();
@@ -136,6 +136,9 @@ namespace Bespoke.Sph.Messaging
             args.Properties.Headers.Add("crud", Encoding.UTF8.GetBytes(crud));
             args.Properties.Headers.Add("username", Encoding.UTF8.GetBytes(ds.CurrentUserName));
             args.Properties.Headers.Add("operation", Encoding.UTF8.GetBytes(operation));
+            if (null != log)
+                args.Properties.Headers.Add("log", log.ToJsonString(false));
+
             var headers2 = new MessageHeaders(args);
 
             var pm = sub.GetType().GetMethod("ProcessMessage", BindingFlags.NonPublic | BindingFlags.Instance);
