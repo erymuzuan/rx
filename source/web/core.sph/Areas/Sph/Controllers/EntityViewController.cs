@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -118,18 +119,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Dashboard(string id)
         {
             var user = User.Identity.Name;
-            var context = new SphDataContext();
-            var entity = await context.LoadOneAsync<EntityDefinition>(e => e.Name == id);
-            var query = context.EntityViews.Where(v => v.EntityDefinitionId == entity.Id
-                && v.IsPublished == true);
-            var lo = await context.LoadAsync(query, includeTotalRows: true);
-            var views = new ObjectCollection<EntityView>();
-            views.AddRange(lo.ItemCollection);
-            while (lo.HasNextPage)
-            {
-                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true);
-                views.AddRange(lo.ItemCollection);
-            }
+            var views =
+                from f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityView\\", "*.json")
+                let v = System.IO.File.ReadAllText(f).DeserializeFromJson<EntityView>()
+                where v.IsPublished && string.Equals(v.EntityDefinitionId, id, StringComparison.InvariantCultureIgnoreCase)
+                select v;
 
             var list = new ObjectCollection<EntityView>();
             foreach (var v in views)
