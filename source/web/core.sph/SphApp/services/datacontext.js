@@ -235,8 +235,8 @@ function (logger, system, ko2) {
             orderby = entityOrOptions.orderby || entityOrOptions.sort;
         }
 
-        var url = "/api/" + entity;
-        url += "/?filter=" + (query || "");
+        var url = "/api/" + encodeURIComponent(entity);
+        url += "/?filter=" + encodeURIComponent(query || "");
         url += "&page=" + page;
         url += "&includeTotal=" + includeTotal;
         url += "&size=" + size;
@@ -327,6 +327,97 @@ function (logger, system, ko2) {
         return tcs.promise();
     }
 
+    function getTuplesAsync(entityOrOptions, query, field, field2) {
+
+        var entity = entityOrOptions;
+        if (entityOrOptions && typeof entityOrOptions === "object") {
+            entity = entityOrOptions.entity;
+            query = entityOrOptions.query;
+            field = entityOrOptions.field;
+            field2 = entityOrOptions.field2;
+        }
+
+        var url = "/List/Tuple?";
+        if (query) {
+            url += "filter=" + encodeURIComponent(query) + "&";
+        }
+        url += "column=";
+        url += encodeURIComponent(field);
+        url += "&column2=";
+        url += encodeURIComponent(field2);
+        url += "&table=" + encodeURIComponent(entity);
+
+
+        return $.ajax({
+            type: "GET",
+            cache: false,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+
+    }
+
+    function getListAsync(entity, query, field) {
+        var url = "/List/?";
+        if (query) {
+            url += "filter=" + encodeURIComponent(query) + "&";
+        }
+        url += "column=";
+        url += encodeURIComponent(field);
+        url += "&table=" + encodeURIComponent(entity);
+
+
+        return $.ajax({
+            type: "GET",
+            cache: false,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+
+
+    }
+    function getDistinctAsync(entity, query, field) {
+        var url = "/List/Distinct";
+        url += "?filter=";
+        url += encodeURIComponent(query);
+        url += "&column=";
+        url += encodeURIComponent(field);
+        url += "&table=" + encodeURIComponent(entity);
+
+
+        return $.ajax({
+            type: "GET",
+            cache: false,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+
+
+    }
+
+    function getAggregateAsync(aggregate, entity, query, field) {
+        var url = "/aggregate/" + aggregate;
+        url += "/?filter=";
+        url += encodeURIComponent(query);
+        url += "&column=";
+        url += encodeURIComponent(field);
+        url += "&table=" + encodeURIComponent(entity);
+
+
+        return $.ajax({
+            type: "GET",
+            cache: false,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+
+    }
+
+
     function getScalarAsync(entity, query, field) {
         return getAggregateAsync("scalar", entity, query, field);
     }
@@ -343,125 +434,6 @@ function (logger, system, ko2) {
         return getAggregateAsync("count", entity, query, field);
     }
 
-    function getTuplesAsync(entityOrOptions, query, field, field2) {
-
-        var entity = entityOrOptions;
-        if (entityOrOptions && typeof entityOrOptions === "object") {
-            entity = entityOrOptions.entity;
-            query = entityOrOptions.query;
-            field = entityOrOptions.field;
-            field2 = entityOrOptions.field2;
-        }
-
-        var url = "/List/Tuple?";
-        if (query) {
-            url += "filter=" + query + "&";
-        }
-        url += "column=";
-        url += field;
-        url += "&column2=";
-        url += field2;
-        url += "&table=" + entity;
-
-
-        var tcs = new $.Deferred();
-        $.ajax({
-            type: "GET",
-            cache: false,
-            url: url,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            error: tcs.reject,
-            success: function (msg) {
-                tcs.resolve(msg);
-            }
-        });
-
-
-        return tcs.promise();
-    }
-
-    function getListAsync(entity, query, field) {
-        var url = "/List/?";
-        if (query) {
-            url += "filter=" + query + "&";
-        }
-        url += "column=";
-        url += field;
-        url += "&table=" + entity;
-
-
-        var tcs = new $.Deferred();
-        $.ajax({
-            type: "GET",
-            cache: false,
-            url: url,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            error: tcs.reject,
-            success: function (msg) {
-                tcs.resolve(msg);
-            }
-        });
-
-
-        return tcs.promise();
-    }
-    function getDistinctAsync(entity, query, field) {
-        var url = "/List/Distinct";
-        url += "?filter=";
-        url += query;
-        url += "&column=";
-        url += field;
-        url += "&table=" + entity;
-
-
-        var tcs = new $.Deferred();
-        $.ajax({
-            type: "GET",
-            cache: false,
-            url: url,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            error: tcs.reject,
-            success: function (msg) {
-                tcs.resolve(msg);
-            }
-        });
-
-
-        return tcs.promise();
-    }
-
-    function getAggregateAsync(aggregate, entity, query, field) {
-        var url = "/aggregate/" + aggregate;
-        url += "/?filter=";
-        url += query;
-        url += "&column=";
-        url += field;
-        url += "&table=" + entity;
-
-
-        var tcs = new $.Deferred();
-        $.ajax({
-            type: "GET",
-            cache: false,
-            url: url,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            error: tcs.reject,
-            success: function (msg) {
-                if (aggregate === "scalar") {
-                    tcs.resolve(msg);
-                } else {
-                    tcs.resolve(parseFloat(msg));
-                }
-            }
-        });
-
-
-        return tcs.promise();
-    }
 
     // ReSharper disable InconsistentNaming
     function LoadOperation() {
