@@ -1,6 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.IO;
 using System.Linq.Expressions;
@@ -32,28 +32,22 @@ namespace Bespoke.Sph.Domain
             set { m_scriptEngine = value; }
         }
 
-        public string CodeNamespace
-        {
-            get
-            {
-                return "ff" + this.WebId.Replace("-", string.Empty)
-                    .Substring(0, 8);
-            }
+        public string CodeNamespace => "ff" + this.WebId.Replace("-", string.Empty)
+            .Substring(0, 8);
 
-        }
-
-        private static readonly Dictionary<string, dynamic> m_ff = new Dictionary<string, dynamic>();
+        private static readonly ConcurrentDictionary<string, dynamic> m_ff = new ConcurrentDictionary<string, dynamic>();
         public override object GetValue(RuleContext context)
         {
-            if (m_ff.ContainsKey(this.WebId))
-                return m_ff[this.WebId].Evaluate(context.Item);
+            dynamic obj = new object();
+            if (m_ff.TryGetValue(this.WebId, out obj))
+                return obj.Evaluate(context.Item);
 
-            var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, string.Format("{0}.dll", this.CodeNamespace));
+            var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, $"{this.CodeNamespace}.dll");
             if (!File.Exists(dll)) this.Compile(context);
 
             var assembly = Assembly.LoadFile(dll);
             dynamic ff = Activator.CreateInstance(assembly.GetType(this.CodeNamespace + ".FunctionFieldHost"));
-            m_ff.Add(this.WebId, ff);
+            m_ff.TryAdd(this.WebId, ff);
 
             return ff.Evaluate(context.Item);
 
@@ -62,7 +56,7 @@ namespace Bespoke.Sph.Domain
         private string GenerateCode(RuleContext context)
         {
             var block = this.Script;
-            if (!block.EndsWith(";")) block = string.Format("return {0};", this.Script);
+            if (!block.EndsWith(";")) block = $"return {this.Script};";
 
             var code = new StringBuilder();
             code.AppendLine("using System;");
