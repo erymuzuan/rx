@@ -36,7 +36,10 @@ namespace Bespoke.Sph.SqlRepository
 
 
             var doc = File.ReadAllText(json).DeserializeFromJson<BinaryStore>();
-            doc.Content = File.ReadAllBytes($"{path}\\{doc.FileName}");
+
+            string file = $"{path}\\{doc.FileName}";
+            if (!File.Exists(file)) return null;
+            doc.Content = File.ReadAllBytes(file);
             return doc;
         }
 
