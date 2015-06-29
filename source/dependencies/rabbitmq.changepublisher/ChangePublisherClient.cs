@@ -180,7 +180,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
                     if (null != audit)
                         log = audit.ToJsonString();
                 }
-                var routingKey = string.Format("{0}.{1}.{2}", entityType.Name, action, operation);
+                var routingKey = $"{entityType.Name}.{action}.{operation}";
                 var item1 = item;
                 var json = item1.ToJsonString();
                 var body = await CompressAsync(json);
