@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
 
             var initiator = this.GetInitiatorActivity();
 
-            dynamic wf = Activator.CreateInstance(type);
+            var wf =(Workflow) Activator.CreateInstance(type);
             wf.Name = this.Name;
             wf.WorkflowDefinitionId = this.Id;
             wf.State = "Active";
@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Domain
                 wf.VariableValueCollection.ClearAndAddRange(values);
             }
             await wf.ExecuteAsync(initiator.WebId);
-            return wf as Workflow;
+            return wf;
         }
 
         private void SetVariableValue(VariableValue vv, Workflow wf, Type type)
