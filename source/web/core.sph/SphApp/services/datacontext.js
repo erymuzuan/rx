@@ -347,14 +347,21 @@ function (logger, system, ko2) {
         url += encodeURIComponent(field2);
         url += "&table=" + encodeURIComponent(entity);
 
-
-        return $.ajax({
+        var tcs = new $.Deferred();
+        $.ajax({
             type: "GET",
             cache: false,
             url: url,
             contentType: "application/json; charset=utf-8",
-            dataType: "json"
+            dataType: "json",
+            error: tcs.reject,
+            success: function (msg) {
+                tcs.resolve(msg);
+            }
         });
+
+
+        return tcs.promise();
 
     }
 
@@ -367,14 +374,21 @@ function (logger, system, ko2) {
         url += encodeURIComponent(field);
         url += "&table=" + encodeURIComponent(entity);
 
-
-        return $.ajax({
+        var tcs = new $.Deferred();
+        $.ajax({
             type: "GET",
             cache: false,
             url: url,
             contentType: "application/json; charset=utf-8",
-            dataType: "json"
+            dataType: "json",
+            error: tcs.reject,
+            success: function (msg) {
+                tcs.resolve(msg);
+            }
         });
+
+
+        return tcs.promise();
 
 
     }
@@ -386,15 +400,21 @@ function (logger, system, ko2) {
         url += encodeURIComponent(field);
         url += "&table=" + encodeURIComponent(entity);
 
-
-        return $.ajax({
+        var tcs = new $.Deferred();
+        $.ajax({
             type: "GET",
             cache: false,
             url: url,
             contentType: "application/json; charset=utf-8",
-            dataType: "json"
+            dataType: "json",
+            error: tcs.reject,
+            success: function (msg) {
+                tcs.resolve(msg);
+            }
         });
 
+
+        return tcs.promise();
 
     }
 
@@ -406,14 +426,25 @@ function (logger, system, ko2) {
         url += encodeURIComponent(field);
         url += "&table=" + encodeURIComponent(entity);
 
-
-        return $.ajax({
+        var tcs = new $.Deferred();
+        $.ajax({
             type: "GET",
             cache: false,
             url: url,
             contentType: "application/json; charset=utf-8",
-            dataType: "json"
+            dataType: "json",
+            error: tcs.reject,
+            success: function (msg) {
+                if (aggregate === "scalar") {
+                    tcs.resolve(msg);
+                } else {
+                    tcs.resolve(parseFloat(msg));
+                }
+            }
         });
+
+
+        return tcs.promise();
 
     }
 
