@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -105,7 +106,17 @@ namespace Bespoke.Sph.ControlCenter
         }
         private void SendMessage(string json)
         {
-            m_appServer?.GetAllSessions().ToList().ForEach(x => x.Send(json));
+            m_appServer?.GetAllSessions().ToList().ForEach(x =>
+            {
+                try
+                {
+                    x.Send(json);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            });
         }
         private void NewMessageReceived(WebSocketSession session, string value)
         {
