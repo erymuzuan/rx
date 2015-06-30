@@ -19,6 +19,7 @@ namespace Bespoke.Sph.Domain
 
         public LogEntry(Exception exception, string[] otherInfo = null, [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
         {
+            this.Exception = exception;
             this.CallerFilePath = filePath;
             this.CallerMemberName = memberName;
             this.CallerLineNumber = lineNumber;
@@ -106,9 +107,10 @@ namespace Bespoke.Sph.Domain
 
         public override string ToString()
         {
-            return string.Format("{0}\r\n{1}", this.Message, this.Details);
+            return $"{this.Message}\r\n{this.Details}";
         }
 
+        public Exception Exception { get; }
         public Severity Severity { get; set; }
         public EventLog Log { get; set; }
         public string Source { get; set; }
@@ -123,11 +125,7 @@ namespace Bespoke.Sph.Domain
         public string CallerFilePath { get; set; }
         public string CallerMemberName { get; set; }
         public int CallerLineNumber { get; set; }
-        private readonly Dictionary<string, object> m_collection = new Dictionary<string, object>();
 
-        public Dictionary<string, object> OtherInfo
-        {
-            get { return m_collection; }
-        }
+        public Dictionary<string, object> OtherInfo { get; } = new Dictionary<string, object>();
     }
 }
