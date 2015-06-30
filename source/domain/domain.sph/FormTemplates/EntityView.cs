@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -10,6 +12,8 @@ namespace Bespoke.Sph.Domain
 {
     public partial class EntityView : Entity
     {
+        
+
         [ImportMany(typeof(IBuildDiagnostics))]
         [JsonIgnore]
         [XmlIgnore]
@@ -36,7 +40,7 @@ namespace Bespoke.Sph.Domain
             result.Result = result.Errors.Count == 0;
 
             return result;
-            
+
         }
 
 
@@ -63,7 +67,7 @@ namespace Bespoke.Sph.Domain
             this.FilterCollection.Add(new Filter { Field = field, Operator = @operator, Term = term });
         }
 
- 
+
 
 
         public override string ToString()
@@ -71,7 +75,7 @@ namespace Bespoke.Sph.Domain
             return $"[{this.Id}] {this.Name}";
         }
 
-    
+
 
         public string GenerateRoute()
         {

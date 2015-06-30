@@ -12,17 +12,9 @@ namespace offline.generator
         private readonly string m_entityName;
         public EntityDefinition Entity { get; set; }
 
-        private readonly ObjectCollection<EntityForm> m_formCollection = new ObjectCollection<EntityForm>();
-        private readonly ObjectCollection<EntityView> m_viewCollection = new ObjectCollection<EntityView>();
+        public ObjectCollection<EntityView> ViewCollection { get; } = new ObjectCollection<EntityView>();
 
-        public ObjectCollection<EntityView> ViewCollection
-        {
-            get { return m_viewCollection; }
-        }
-        public ObjectCollection<EntityForm> FormCollection
-        {
-            get { return m_formCollection; }
-        }
+        public ObjectCollection<EntityForm> FormCollection { get; } = new ObjectCollection<EntityForm>();
 
         public PageBuilder(string entityName)
         {
@@ -31,21 +23,19 @@ namespace offline.generator
 
         public async Task LoadAsync()
         {
-            Console.WriteLine("Loading {0}...", this.Entity);
+            Console.WriteLine(@"Loading {0}...", this.Entity);
             var context = new SphDataContext();
             this.Entity = await context.LoadOneAsync<EntityDefinition>(e => e.Name == m_entityName);
 
-            Console.WriteLine("Loading forms...");
+            Console.WriteLine(@"Loading forms...");
             // forms
-            var formQuery = context.EntityForms.Where(f => f.EntityDefinitionId == this.Entity.Id);
-            var formLo = await context.LoadAsync(formQuery);
-            this.FormCollection.AddRange(formLo.ItemCollection);
+            var forms = context.LoadFromSources<EntityForm>(f => f.EntityDefinitionId == this.Entity.Id);
+            this.FormCollection.AddRange(forms);
 
-            Console.WriteLine("Loading views...");
+            Console.WriteLine(@"Loading views...");
             // views
-            var viewQuery = context.EntityViews.Where(f => f.EntityDefinitionId == this.Entity.Id);
-            var viewLo = await context.LoadAsync(viewQuery);
-            this.ViewCollection.AddRange(viewLo.ItemCollection);
+            var views = context.LoadFromSources<EntityView>(f => f.EntityDefinitionId == this.Entity.Id);
+            this.ViewCollection.AddRange(views);
 
         }
 
@@ -56,7 +46,7 @@ namespace offline.generator
                 outputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, output);
             var item = this.Entity;
             var context = new SphDataContext();
-            var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true
+            var form = context.LoadOneFromSources<EntityForm>(f => f.IsDefault
                 && f.EntityDefinitionId == item.Id);
             var vm = new
             {
@@ -75,7 +65,7 @@ namespace offline.generator
             using (var stream = new FileStream("entity.html", FileMode.Open))
             using (var reader = new StreamReader(stream))
             {
-                Console.WriteLine("Building dashboard html...");
+                Console.WriteLine(@"Building dashboard html...");
                 var raw = reader.ReadToEnd();
                 var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 File.WriteAllText(html, markup);
@@ -87,7 +77,7 @@ namespace offline.generator
             using (var stream = new FileStream("entity.js", FileMode.Open))
             using (var reader = new StreamReader(stream))
             {
-                Console.WriteLine("Building dashboard script...");
+                Console.WriteLine(@"Building dashboard script...");
                 var raw = reader.ReadToEnd();
                 var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 File.WriteAllText(js, script);
@@ -97,7 +87,7 @@ namespace offline.generator
             using (var stream = new FileStream("entity.appcache", FileMode.Open))
             using (var reader = new StreamReader(stream))
             {
-                Console.WriteLine("Building appcache...");
+                Console.WriteLine(@"Building appcache...");
                 var raw = reader.ReadToEnd();
                 var manifest = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 File.WriteAllText(appcache, manifest);
@@ -116,7 +106,7 @@ namespace offline.generator
                 var formMarkup = "";
                 using (var client = new HttpClient())
                 {
-                    Console.WriteLine("Rendering {0}...", form.Route);
+                    Console.WriteLine(@"Rendering {0}...", form.Route);
                     var uri = ConfigurationManager.BaseUrl + "/Sph/EntityFormRenderer/Html/" + form.Route;
                     formMarkup = await client.GetStringAsync(uri);
 
@@ -135,7 +125,7 @@ namespace offline.generator
                 using (var stream = new FileStream("form.html", FileMode.Open))
                 using (var reader = new StreamReader(stream))
                 {
-                    Console.WriteLine("Building {0} form html...", form.Route);
+                    Console.WriteLine(@"Building {0} form html...", form.Route);
                     var raw = reader.ReadToEnd();
                     var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                     File.WriteAllText(html, markup);
@@ -146,7 +136,7 @@ namespace offline.generator
                 using (var stream = new FileStream("form.js", FileMode.Open))
                 using (var reader = new StreamReader(stream))
                 {
-                    Console.WriteLine("Building {0} form script...", form.Route);
+                    Console.WriteLine(@"Building {0} form script...", form.Route);
                     var raw = reader.ReadToEnd();
                     var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                     File.WriteAllText(js, script);

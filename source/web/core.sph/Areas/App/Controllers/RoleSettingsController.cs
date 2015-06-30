@@ -18,17 +18,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         public async Task<ActionResult> Html()
         {
             var context = new SphDataContext();
-
-            var edQuery = context.EntityDefinitions.Where(e => e.IsPublished == true);
-            var edLo = await context.LoadAsync(edQuery, includeTotalRows: true);
-            var entityDefinitions = new ObjectCollection<EntityDefinition>(edLo.ItemCollection);
-
-
-            while (edLo.HasNextPage)
-            {
-                edLo = await context.LoadAsync(edQuery, edLo.CurrentPage + 1, includeTotalRows: true);
-                entityDefinitions.AddRange(edLo.ItemCollection);
-            }
+            var entityDefinitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
             var edRoutes = from t in entityDefinitions
                            select new JsRoute
                            {

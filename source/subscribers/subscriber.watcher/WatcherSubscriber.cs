@@ -48,16 +48,8 @@ namespace Bespoke.Sph.WathersSubscribers
                 lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true);
                 m_watchers.AddRange(lo.ItemCollection);
             }
-
-            var edQuery = context.EntityDefinitions.Where(d => d.IsPublished == true);
-            var edLo = await context.LoadAsync(edQuery, includeTotalRows: true);
-            var definitions = new ObjectCollection<EntityDefinition>(edLo.ItemCollection);
-
-            while (edLo.HasNextPage)
-            {
-                edLo = await context.LoadAsync(edQuery, edLo.CurrentPage + 1, includeTotalRows: true);
-                definitions.AddRange(edLo.ItemCollection);
-            }
+            
+            var definitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
 
             this.ListenerCollection.Clear();
 

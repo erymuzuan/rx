@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Web.App_Start
 
         }
 
- 
+
 
         public static void RegisterCustomEntityDependencies(IEnumerable<EntityDefinition> entityDefinitions)
         {
@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Web.App_Start
                     var reposType = sqlRepositoryType.MakeGenericType(edType);
                     var repository = Activator.CreateInstance(reposType);
 
-                    var ff = typeof(IRepository<>).MakeGenericType(new[] { edType });
+                    var ff = typeof(IRepository<>).MakeGenericType(edType);
 
                     ObjectBuilder.AddCacheList(ff, repository);
                 }
@@ -71,56 +71,17 @@ namespace Bespoke.Sph.Web.App_Start
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
             var user = ad.CurrentUserName;
-
-            var context = new SphDataContext();
-            // ReSharper disable RedundantBoolCompare
-            var formQuery = context.EntityForms.Where(e => e.IsPublished == true);
-            var viewQuery = context.EntityViews.Where(e => e.IsPublished == true);
-            var edQuery = context.EntityDefinitions.Where(e => e.IsPublished == true);
-            var rdlQuery = context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user));
-
-            var rdlTask = context.LoadAsync(rdlQuery, includeTotalRows: true);
-            var edTasks = context.LoadAsync(edQuery, includeTotalRows: true);
-            var formTask = context.LoadAsync(formQuery, includeTotalRows: true);
-            var viewTask = context.LoadAsync(viewQuery, includeTotalRows: true);
-            // ReSharper restore RedundantBoolCompare
-            await Task.WhenAll(rdlTask, edTasks, formTask, viewTask);
-
-
-            var rdlLo = await rdlTask;
-            var edLo = await edTasks;
-            var viewLo = await viewTask;
-            var formsLo = await formTask;
             var routes = new List<JsRoute>();
 
-            var reportDefinitions = new ObjectCollection<ReportDefinition>(rdlLo.ItemCollection);
-            var entityDefinitions = new ObjectCollection<EntityDefinition>(edLo.ItemCollection);
-            var views = new ObjectCollection<EntityView>(viewLo.ItemCollection);
-            var forms = new ObjectCollection<EntityForm>(formsLo.ItemCollection);
+
+            var context = new SphDataContext();
+            var reportDefinitions = context.LoadFromSources<ReportDefinition>(rdl => rdl.IsActive || (rdl.IsPrivate && rdl.CreatedBy == user));
+            var entityDefinitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished).ToList();
+            var views = context.LoadFromSources<EntityView>(x => x.IsPublished);
+            var forms = context.LoadFromSources<EntityForm>(x => x.IsPublished) ;
 
 
-            while (edLo.HasNextPage)
-            {
-                edLo = await context.LoadAsync(edQuery, edLo.CurrentPage + 1, includeTotalRows: true);
-                entityDefinitions.AddRange(edLo.ItemCollection);
-            }
 
-            while (formsLo.HasNextPage)
-            {
-                formsLo = await context.LoadAsync(formQuery, formsLo.CurrentPage + 1, includeTotalRows: true);
-                forms.AddRange(formsLo.ItemCollection);
-            }
-            while (viewLo.HasNextPage)
-            {
-                viewLo = await context.LoadAsync(viewQuery, viewLo.CurrentPage + 1, includeTotalRows: true);
-                views.AddRange(viewLo.ItemCollection);
-            }
-
-            while (rdlLo.HasNextPage)
-            {
-                rdlLo = await context.LoadAsync(rdlQuery, rdlLo.CurrentPage + 1, includeTotalRows: true);
-                reportDefinitions.AddRange(rdlLo.ItemCollection);
-            }
 
             RegisterCustomEntityDependencies(entityDefinitions);
 
@@ -166,14 +127,14 @@ namespace Bespoke.Sph.Web.App_Start
                 .Where(t => t.Permission.IsPublic || t.Users.Contains(user))
                 .Select(t => t.Entity)
                 .Select(t => new JsRoute
-                           {
-                               Title = t.Plural,
-                               Route = $"{t.Name.ToLowerInvariant()}",
-                               Caption = t.Plural,
-                               Icon = t.IconClass,
-                               ModuleId = $"viewmodels/{t.Name.ToLowerInvariant()}",
-                               Nav = t.IsShowOnNavigationBar
-                           });
+                {
+                    Title = t.Plural,
+                    Route = $"{t.Name.ToLowerInvariant()}",
+                    Caption = t.Plural,
+                    Icon = t.IconClass,
+                    ModuleId = $"viewmodels/{t.Name.ToLowerInvariant()}",
+                    Nav = t.IsShowOnNavigationBar
+                });
 
             var rdlRoutes = from t in reportDefinitions
                             select new JsRoute

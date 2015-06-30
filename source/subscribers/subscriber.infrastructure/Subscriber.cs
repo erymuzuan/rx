@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,23 +79,16 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
 
-        public async Task RegisterCustomEntityDependencies()
+        public  Task RegisterCustomEntityDependencies()
         {
             var sqlAssembly = Assembly.Load("sql.repository");
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
             var context = new SphDataContext();
-            var query = context.EntityDefinitions.Where(e => e.IsPublished == true);
-            var lo = await context.LoadAsync(query, includeTotalRows: true);
-            var entityDefinitions = new ObjectCollection<EntityDefinition>(lo.ItemCollection);
-            while (lo.HasNextPage)
-            {
-                lo = await context.LoadAsync(query, includeTotalRows: true, page: lo.CurrentPage + 1);
-                entityDefinitions.AddRange(lo.ItemCollection);
-            }
+            var entityDefinitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
+         
 
             var bags = new ConcurrentDictionary<Type, object>();
-
             Parallel.ForEach(entityDefinitions, (ed, count) =>
             {
                 var ed1 = ed;
@@ -123,6 +115,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 ObjectBuilder.AddCacheList(type, bags[type]);
             }
+
+            return Task.FromResult(0);
 
         }
 

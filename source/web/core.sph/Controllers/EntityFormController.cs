@@ -35,16 +35,8 @@ namespace Bespoke.Sph.Web.Controllers
             var form = this.GetRequestJson<EntityForm>();
 
             // look for column which points to the form
-            // ReSharper disable RedundantBoolCompare
-            var viewQuery = context.EntityViews.Where(e => e.IsPublished == true && e.EntityDefinitionId == form.EntityDefinitionId);
-            // ReSharper restore RedundantBoolCompare
-            var viewLo = await context.LoadAsync(viewQuery, includeTotalRows: true);
-            var views = new ObjectCollection<EntityView>(viewLo.ItemCollection);
-            while (viewLo.HasNextPage)
-            {
-                viewLo = await context.LoadAsync(viewQuery, viewLo.CurrentPage + 1, includeTotalRows: true);
-                views.AddRange(viewLo.ItemCollection);
-            }
+            var views = context.LoadFromSources<EntityView>(e => e.IsPublished && e.EntityDefinitionId == form.EntityDefinitionId);
+        
 
             var violations = (from vw in views
                               where vw.ViewColumnCollection.Any(c => c.IsLinkColumn

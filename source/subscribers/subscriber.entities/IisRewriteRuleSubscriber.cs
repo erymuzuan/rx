@@ -13,11 +13,10 @@ namespace subscriber.entities
         public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
 
 
-        protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected  override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             var context = new SphDataContext();
-            var query = context.EntityDefinitions.Where(a => a.IsPublished == true);
-            var list = await context.GetListAsync(query, a => a.Name);
+            var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished).Select( a => a.Name);
             var entities = string.Join("|", list.ToArray());
 
             var path = ConfigurationManager.WebPath + @"\Web.config";
@@ -39,6 +38,8 @@ namespace subscriber.entities
                 search.Descendants("match").Single().Attribute("url").Value = $"search/({entities})/";
                 config.Save(path);
             }
+
+            return Task.FromResult(0);
 
         }
 

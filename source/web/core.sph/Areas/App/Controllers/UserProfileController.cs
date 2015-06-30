@@ -34,54 +34,11 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 .Where(r => !r.Route.Contains("/:"))
                 .Select(r => r.Route)
                 .ToList();
+            
 
-            // ReSharper disable RedundantBoolCompare
-            var rdlTask = context.LoadAsync(context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user.UserName)), includeTotalRows: true);
-            var edTasks = context.LoadAsync(context.EntityDefinitions.Where(e => e.IsPublished == true), includeTotalRows: true);
-            var formTask = context.LoadAsync(context.EntityForms.Where(e => e.IsPublished == true), includeTotalRows: true);
-            var viewTask = context.LoadAsync(context.EntityViews.Where(e => e.IsPublished == true), includeTotalRows: true);
-            // ReSharper restore RedundantBoolCompare
-            await Task.WhenAll(rdlTask, edTasks);
-
-
-            var reportDefinitionLoadOperation = await rdlTask;
-            var entityDefinitionLoadOperation = await edTasks;
-            var viewsLoadOperation = await viewTask;
-            var formLoadOperation = await formTask;
-
-            var reportDefinitions = new ObjectCollection<ReportDefinition>(reportDefinitionLoadOperation.ItemCollection);
-            var entityDefinitions = new ObjectCollection<EntityDefinition>(entityDefinitionLoadOperation.ItemCollection);
-            var views = new ObjectCollection<EntityView>(viewsLoadOperation.ItemCollection);
-            var forms = new ObjectCollection<EntityForm>(formLoadOperation.ItemCollection);
-
-
-            while (entityDefinitionLoadOperation.HasNextPage)
-            {
-                entityDefinitionLoadOperation = await context.LoadAsync(
-                        context.EntityDefinitions, entityDefinitionLoadOperation.CurrentPage + 1, includeTotalRows: true);
-                entityDefinitions.AddRange(entityDefinitionLoadOperation.ItemCollection);
-            }
-
-            while (formLoadOperation.HasNextPage)
-            {
-                formLoadOperation = await context.LoadAsync(
-                        context.EntityForms, formLoadOperation.CurrentPage + 1, includeTotalRows: true);
-                forms.AddRange(formLoadOperation.ItemCollection);
-            }
-            while (viewsLoadOperation.HasNextPage)
-            {
-                viewsLoadOperation = await context.LoadAsync(
-                        context.EntityViews, viewsLoadOperation.CurrentPage + 1, includeTotalRows: true);
-                views.AddRange(viewsLoadOperation.ItemCollection);
-            }
-
-            while (reportDefinitionLoadOperation.HasNextPage)
-            {
-                reportDefinitionLoadOperation = await context.LoadAsync(
-                        context.ReportDefinitions, reportDefinitionLoadOperation.CurrentPage + 1, includeTotalRows: true);
-                reportDefinitions.AddRange(reportDefinitionLoadOperation.ItemCollection);
-            }
-
+            var reportDefinitions = context.LoadFromSources<ReportDefinition>(t => t.IsActive || (t.IsPrivate && t.CreatedBy == user.UserName));
+            var entityDefinitions = context.LoadFromSources<EntityDefinition>(e => e.IsPublished);
+            var views = context.LoadFromSources<EntityView>(e => e.IsPublished);
 
             modules.AddRange(reportDefinitions.Select(a => string.Format("reportdefinition.execute-id.{0}/{0}", a.Id)));
 

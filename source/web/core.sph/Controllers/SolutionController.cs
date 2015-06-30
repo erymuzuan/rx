@@ -32,16 +32,7 @@ namespace Bespoke.Sph.Web.Controllers
             // - security
             // - icon/image
             // - Operation, name, security, Setter Path
-            var entitiesLo = await context.LoadAsync(context.EntityDefinitions, includeTotalRows: true);
-            var entities = entitiesLo.ItemCollection;
-            while (entitiesLo.HasNextPage)
-            {
-                entitiesLo =
-                    await
-                        context.LoadAsync(context.EntityDefinitions, entitiesLo.CurrentPage + 1, includeTotalRows: true);
-                entities.AddRange(entitiesLo.ItemCollection);
-            }
-
+            var entities = context.LoadFromSources<EntityDefinition>().ToList();
             var entitiesDiagnostics = new ConcurrentDictionary<string, BuildValidationResult>();
 
             Func<EntityDefinition, Task> er = async f =>
@@ -57,15 +48,7 @@ namespace Bespoke.Sph.Web.Controllers
             // validate all forms
             // - path
             // - route
-            var formsLo = await context.LoadAsync(context.EntityForms, includeTotalRows: true);
-            var forms = formsLo.ItemCollection;
-            while (formsLo.HasNextPage)
-            {
-                formsLo = await context.LoadAsync(context.EntityForms, formsLo.CurrentPage + 1, includeTotalRows: true);
-                forms.AddRange(formsLo.ItemCollection);
-            }
-
-
+            var forms = context.LoadFromSources<EntityForm>().ToList();
             var formsDiagnostics = new ConcurrentDictionary<string, BuildValidationResult>();
 
             Func<EntityForm, Task> fr = async f =>
@@ -87,16 +70,7 @@ namespace Bespoke.Sph.Web.Controllers
             // - icon
             // - some suggestion to spelling
             // - route
-
-            var viewsLo = await context.LoadAsync(context.EntityViews, includeTotalRows: true);
-            var views = viewsLo.ItemCollection;
-            while (viewsLo.HasNextPage)
-            {
-                viewsLo = await context.LoadAsync(context.EntityViews, viewsLo.CurrentPage + 1, includeTotalRows: true);
-                views.AddRange(viewsLo.ItemCollection);
-            }
-
-
+            var views = context.LoadFromSources<EntityView>().ToList();
             var viewsDiagnostics = new ConcurrentDictionary<string, BuildValidationResult>();
 
             Func<EntityView, Task> vr = async v =>

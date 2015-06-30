@@ -138,15 +138,10 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
 
             // forms
-            var formQuery = context.EntityForms.Where(f => f.EntityDefinitionId == ed.Id);
-            var viewQuery = context.EntityViews.Where(f => f.EntityDefinitionId == ed.Id);
-            var triggerQuery = context.Triggers.Where(f => f.Entity == ed.Name);
-            var chartsQuery = context.EntityCharts.Where(f => f.Entity == ed.Name);
-
-            var forms = (await context.LoadAsync(formQuery, 1, 50, true)).ItemCollection;
-            var views = (await context.LoadAsync(viewQuery, 1, 50, true)).ItemCollection;
-            var triggers = (await context.LoadAsync(triggerQuery, 1, 50, true)).ItemCollection;
-            var charts = (await context.LoadAsync(chartsQuery, 1, 50, true)).ItemCollection;
+            var forms = context.LoadFromSources<EntityForm>(f => f.EntityDefinitionId == ed.Id);
+            var views = context.LoadFromSources<EntityView>(f => f.EntityDefinitionId == ed.Id);
+            var triggers = context.LoadFromSources<Trigger>(f => f.Entity == ed.Name); ;
+            var charts = context.LoadFromSources<EntityChart>(f => f.Entity == ed.Name);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
 

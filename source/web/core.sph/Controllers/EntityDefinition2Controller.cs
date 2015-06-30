@@ -113,15 +113,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (null != cached) return Content(cached);
 
             var context = new SphDataContext();
-            var query = context.EntityDefinitions;
-            var lo = await context.LoadAsync(query, includeTotalRows: true);
-            var list = new ObjectCollection<EntityDefinition>(lo.ItemCollection);
-
-            while (lo.HasNextPage)
-            {
-                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true);
-                list.AddRange(lo.ItemCollection);
-            }
+            var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
 
             var script = new StringBuilder();
             foreach (var ef in list)
@@ -140,7 +132,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
 
             var context = new SphDataContext();
-            var entity = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
+            var entity =  context.LoadOneFromSources<EntityDefinition>(e => e.Id == id);
             var package = new EntityDefinitionPackage();
             var zip = await package.PackAsync(entity, includeData);
             var file = $"{Path.GetFileNameWithoutExtension(zip)}_{Environment.MachineName}_{DateTime.Now:s}{(includeData ? "_data": "")}.zip";
@@ -249,17 +241,16 @@ namespace Bespoke.Sph.Web.Controllers
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
             if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
 
-            var formsTask = context.LoadAsync(context.EntityForms.Where(f => f.EntityDefinitionId == id));
-            var viewsTask = context.LoadAsync(context.EntityViews.Where(f => f.EntityDefinitionId == id));
-            var triggersTask = context.LoadAsync(context.Triggers.Where(f => f.Entity == id));
-            await Task.WhenAll(formsTask, viewsTask, triggersTask);
+            var forms  = context.LoadFromSources<EntityForm>(f => f.EntityDefinitionId == id) ;
+            var views = context.LoadFromSources<EntityView>(f => f.EntityDefinitionId == id);
+            var triggers = context.LoadFromSources<Trigger>(f => f.Entity == id);
 
             using (var session = context.OpenSession())
             {
                 session.Delete(ed);
-                session.Delete((await formsTask).ItemCollection.Cast<Entity>().ToArray());
-                session.Delete((await viewsTask).ItemCollection.Cast<Entity>().ToArray());
-                session.Delete((await triggersTask).ItemCollection.Cast<Entity>().ToArray());
+                session.Delete(forms.Cast<Entity>().ToArray());
+                session.Delete(views.Cast<Entity>().ToArray());
+                session.Delete(triggers.Cast<Entity>().ToArray());
                 // TODO : drop the tables and elastic search mappings
                 await session.SubmitChanges("delete");
             }

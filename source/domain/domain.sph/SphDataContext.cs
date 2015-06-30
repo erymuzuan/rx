@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -13,21 +14,11 @@ namespace Bespoke.Sph.Domain
     public class SphDataContext
     {
         public IQueryable<AuditTrail> AuditTrails { get; set; }
-        public IQueryable<Designation> Designations { get; set; }
-        public IQueryable<DocumentTemplate> DocumentTemplates { get; set; }
-        public IQueryable<EmailTemplate> EmailTemplates { get; set; }
-        public IQueryable<EntityChart> EntityCharts { get; set; }
-        public IQueryable<EntityDefinition> EntityDefinitions { get; set; }
-        public IQueryable<EntityForm> EntityForms { get; set; }
-        public IQueryable<EntityView> EntityViews { get; set; }
         public IQueryable<Organization> Organizations { get; set; }
-        public IQueryable<ReportDefinition> ReportDefinitions { get; set; }
         public IQueryable<Role> Roles { get; set; }
         public IQueryable<Setting> Settings { get; set; }
         public IQueryable<UserProfile> UserProfiles { get; set; }
-        public IQueryable<Trigger> Triggers { get; set; }
         public IQueryable<Watcher> Watchers { get; set; }
-        public IQueryable<WorkflowDefinition> WorkflowDefinitions { get; set; }
         public IQueryable<Workflow> Workflows { get; set; }
         public IQueryable<Page> Pages { get; set; }
 
@@ -36,29 +27,39 @@ namespace Bespoke.Sph.Domain
         {
             m_provider = ObjectBuilder.GetObject<QueryProvider>();
 
-            this.DocumentTemplates = new Query<DocumentTemplate>(m_provider);
-            this.Designations = new Query<Designation>(m_provider);
-            this.EmailTemplates = new Query<EmailTemplate>(m_provider);
-            this.EntityCharts = new Query<EntityChart>(m_provider);
-            this.EntityDefinitions = new Query<EntityDefinition>(m_provider);
-            this.EntityForms = new Query<EntityForm>(m_provider);
-            this.EntityViews = new Query<EntityView>(m_provider);
             this.AuditTrails = new Query<AuditTrail>(m_provider);
             this.Organizations = new Query<Organization>(m_provider);
-            this.ReportDefinitions = new Query<ReportDefinition>(m_provider);
             this.Roles = new Query<Role>(m_provider);
             this.Settings = new Query<Setting>(m_provider);
             this.UserProfiles = new Query<UserProfile>(m_provider);
-            this.Triggers = new Query<Trigger>(m_provider);
             this.Watchers = new Query<Watcher>(m_provider);
             this.Workflows = new Query<Workflow>(m_provider);
-            this.WorkflowDefinitions = new Query<WorkflowDefinition>(m_provider);
             this.Pages = new Query<Page>(m_provider);
         }
 
         public IQueryable<T> CreateQueryable<T>()
         {
             return new Query<T>(m_provider);
+        }
+
+
+        public IEnumerable<T> LoadFromSources<T>() where T : Entity
+        {
+            return Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\", "*.json")
+                .Select(f => File.ReadAllText(f).DeserializeFromJson<T>());
+        }
+
+        public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
+        {
+            return Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\", "*.json")
+                .Select(f => File.ReadAllText(f).DeserializeFromJson<T>())
+                .Where(predicate.Compile());
+        }
+        public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
+        {
+            return Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\", "*.json")
+                .Select(f => File.ReadAllText(f).DeserializeFromJson<T>())
+                .FirstOrDefault(predicate.Compile());
         }
 
 

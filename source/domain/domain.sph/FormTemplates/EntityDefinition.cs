@@ -193,8 +193,7 @@ namespace Bespoke.Sph.Domain
                 return cr;
             }
         }
-
-
+        
 
         private Member GetMember(string path)
         {

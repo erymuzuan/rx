@@ -36,11 +36,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             // remove the roles from all the designation
             var context = new SphDataContext();
 
-            var lo = await context.LoadAsync(context.Designations, 1, 200);
+            var designations = context.LoadFromSources<Designation>();
             using (var session = context.OpenSession())
             {
                 var changes = false;
-                foreach (var d in lo.ItemCollection)
+                foreach (var d in designations)
                 {
                     if (d.RoleCollection.Contains(role))
                     {
@@ -189,14 +189,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> ExportSecuritySettings()
         {
             var context = new SphDataContext();
-            var lo = await context.LoadAsync(context.Designations, includeTotalRows: true);
-            var designations = lo.ItemCollection;
-            while (lo.HasNextPage)
-            {
-                lo = await context.LoadAsync(context.Designations, page: lo.CurrentPage + 1, includeTotalRows: true);
-                designations.AddRange(lo.ItemCollection);
-            }
-
+            var designations = context.LoadFromSources<Designation>().ToList();
+         
             var departments = await context.LoadOneAsync<Setting>(s => s.Key == "Departments");
 
             var path = Path.Combine(Path.GetTempPath(), "rx.package");
@@ -234,7 +228,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             ZipFile.ExtractToDirectory(zipFile, folder);
             var context = new SphDataContext();
-            var existingDesignations = (await context.LoadAsync(context.Designations, 1, 200)).ItemCollection;
+            var existingDesignations = context.LoadFromSources<Designation>().ToList();
 
             var designations = Directory.GetFiles(folder, "designation.*.json")
                     .Select(f => ReadAllText(f).DeserializeFromJson<Designation>())
