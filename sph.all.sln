@@ -157,6 +157,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "memory.broker", "source\dep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "broker.test", "source\unit.test\broker.test\broker.test.csproj", "{B0BA38FC-6151-4E91-9467-B4308D2003C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "raygun.logger", "source\dependencies\raygun.logger\raygun.logger.csproj", "{A530B972-73AD-4C5B-A8A0-E0059FA3E103}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -395,6 +397,10 @@ Global
 		{B0BA38FC-6151-4E91-9467-B4308D2003C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0BA38FC-6151-4E91-9467-B4308D2003C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0BA38FC-6151-4E91-9467-B4308D2003C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A530B972-73AD-4C5B-A8A0-E0059FA3E103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A530B972-73AD-4C5B-A8A0-E0059FA3E103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A530B972-73AD-4C5B-A8A0-E0059FA3E103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A530B972-73AD-4C5B-A8A0-E0059FA3E103}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -459,5 +465,6 @@ Global
 		{404C2FFA-F10F-44D6-9B83-49A0D291BD3D} = {AC63E1AA-495D-4BD9-AF56-810DA6CBB5E2}
 		{2A472945-6847-41C6-8722-1F5EEEB1A46D} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{B0BA38FC-6151-4E91-9467-B4308D2003C0} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{A530B972-73AD-4C5B-A8A0-E0059FA3E103} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 	EndGlobalSection
 EndGlobal
