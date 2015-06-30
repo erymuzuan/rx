@@ -327,7 +327,7 @@ function (logger, system, ko2) {
         return tcs.promise();
     }
 
-    function getTuplesAsync(entityOrOptions, query, field, field2) {
+    function getTuplesAsync(entityOrOptions, query, field, field2, field3, field4) {
 
         var entity = entityOrOptions;
         if (entityOrOptions && typeof entityOrOptions === "object") {
@@ -345,6 +345,12 @@ function (logger, system, ko2) {
         url += encodeURIComponent(field);
         url += "&column2=";
         url += encodeURIComponent(field2);
+        if (field3) {
+            url += "&column3=" + encodeURIComponent(field3);
+        }
+        if (field4) {
+            url += "&column4=" + encodeURIComponent(field4);
+        }
         url += "&table=" + encodeURIComponent(entity);
 
         var tcs = new $.Deferred();
