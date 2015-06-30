@@ -85,10 +85,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         [NoCache]
         public async Task<ActionResult> Count(string id)
         {
-            var context = new SphDataContext();
-            var view = await context.LoadOneAsync<EntityView>(e => e.Id == id);
-            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == view.EntityDefinitionId);
-            var type = ed.Name.ToLowerInvariant();
+            string path = $"{ConfigurationManager.SphSourceDirectory}\\EntityView\\{id}.json";
+            if (!System.IO.File.Exists(path))
+            {
+                return Json(new {hits = new {total = 0}}, JsonRequestBehavior.AllowGet);
+            }
+            var view = System.IO.File.ReadAllText(path).DeserializeFromJson<EntityView>();
+            var type = view.Entity.ToLowerInvariant();
 
             var json = (@" {
                 ""query"": {
