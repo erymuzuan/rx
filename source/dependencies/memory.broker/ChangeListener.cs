@@ -18,11 +18,11 @@ namespace Bespoke.Sph.Messaging
             publisher?.RemoveListener(this);
         }
 
-        internal void SendMessage(T t, AuditTrail log)
+        internal void SendMessage(Entity t, AuditTrail log)
         {
             var arg = new EntityChangedEventArgs<T>
             {
-                Item = t,
+                Item = t as T,
                 AuditTrail = log
             };
 

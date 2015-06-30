@@ -70,10 +70,14 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.Models
 
 
             if (!entries.ContainsKey("x-death")) return;
-            var vals = entries["x-death"] as ArrayList;
+            //entries["x-death"].GetType().FullName
+          //  "System.Collections.Generic.List`1[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"//
+            var vals = entries["x-death"] as IList<object>;
             if (null == vals) return;
             if (vals.Count == 0) return;
-            var hash = vals[0] as Hashtable;
+            //vals[0].GetType().FullName
+            // "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
+            var hash = vals[0] as IDictionary<string,object>;
             if (null == hash) return;
 
             this.Reason = hash.GetStringValue("reason");
@@ -81,7 +85,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.Models
             this.Exchange = hash.GetStringValue("exchange");
             this.Time = hash.GetDateTimeValue("time");
 
-            var rks = hash["routing-keys"] as ArrayList;
+            var rks = hash["routing-keys"] as IList<object>;
             if (null == rks) return;
             Debug.WriteLine(rks);
 

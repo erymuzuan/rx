@@ -1,7 +1,5 @@
-using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Newtonsoft.Json;
 
 namespace subscriber.version.control
 {
@@ -9,24 +7,15 @@ namespace subscriber.version.control
     {
         public override async Task ProcessItem(EntityDefinition item)
         {
-            var wc = ConfigurationManager.SphSourceDirectory;
-            var type = item.GetType();
-            var folder = Path.Combine(wc, type.Name);
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
+            this.SaveJsonSource(item);
+            await PersistDocumentAsync(item.IconStoreId);
 
-            var ed = item;
-            var file = Path.Combine(folder, ed.Name + ".json");
-            File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
+        }
 
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            if (string.IsNullOrWhiteSpace(ed.IconStoreId)) return;
-
-            var icon = await store.GetContentAsync(item.IconStoreId);
-            if (null == icon) return;
-            var png = Path.Combine(folder, item.Name + icon.Extension);
-            File.WriteAllBytes(png, icon.Content);
-
+        public override async Task RemoveItem(EntityDefinition item)
+        {
+            this.RemoveJsonSource(item);
+            await this.RemoveDocumentAsync(item.IconStoreId);
         }
 
     }

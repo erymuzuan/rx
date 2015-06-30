@@ -100,7 +100,7 @@ namespace Bespoke.Sph.Domain
 
         public string[] SaveSources(Dictionary<string, string> sources)
         {
-            var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Name);
+            var folder = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, this.Name);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             foreach (var cs in sources.Keys)
@@ -109,13 +109,10 @@ namespace Bespoke.Sph.Domain
                 File.WriteAllText(file, sources[cs]);
             }
             return sources.Keys.ToArray()
-                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.UserSourceDirectory, this.Name, f))
+                    .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f}")
                     .ToArray();
         }
-        public string CodeNamespace
-        {
-            get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
-        }
+        public string CodeNamespace => $"Bespoke.{ConfigurationManager.ApplicationName}_{this.Id}.Domain";
 
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()

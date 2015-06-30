@@ -1,3 +1,4 @@
+@model Bespoke.Sph.Web.Areas.App.Controllers.HtmlHeaderModel
 @{
     Layout = null;
 }
@@ -29,15 +30,26 @@
                     <ul class="dropdown-menu" style="z-index: 9999">
                         <li><a href="#user.profile"><i class="fa fa-user"></i>Profile</a></li>
                         <li><a href="@Url.Action("Logoff", "SphAccount", new {area = "Sph"})"><i class="fa fa-power-off"></i>Logout</a></li>
-                        <li><a id="help" href="/docs/" target="_blank"><i class="fa fa-question-circle"></i>  Help</a></li>
+                        @if (Model.Designation.IsHelpVisible)
+                        {
+                            <li><a id="help" href="@(Model.Designation.HelpUri)" target="_blank"><i class="fa fa-question-circle"></i> Help</a></li>
+                        }
                     </ul>
                 </div>
                 <!-- Notifications -->
                 <ul class="nav navbar-nav">
+                    @if (Model.Designation.IsMessageVisible)
+                    {
                     <!-- ko compose : 'viewmodels/messages' -->
                     <!-- /ko -->
+
+                    }
+                    @if (Model.Designation.IsSearchVisible)
+                    {
                     <!-- ko compose : 'viewmodels/search' -->
                     <!-- /ko -->
+
+                    }
                 </ul>
             }
             @if (!User.Identity.IsAuthenticated)

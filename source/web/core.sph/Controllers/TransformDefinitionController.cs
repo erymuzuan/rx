@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.UserSourceDirectory
+                SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory
             };
             options.AddReference<Controller>();
             options.AddReference<TransformDefinitionController>();

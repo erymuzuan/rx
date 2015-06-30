@@ -22,20 +22,14 @@ namespace Bespoke.Sph.Domain
                 if (lookup.IsComputedQuery)
                     query = "ko.computed(function(){ return " + lookup.Query + ";})";
 
-                return string.Format(" visible :{1}, " +
-                                     "comboBoxLookupOptions : {{ " +
-                                     "value: {0}, " +
-                                     "entity : '{2}', " +
-                                     "valuePath : '{3}', " +
-                                     "displayPath: '{4}', " +
-                                     "query :{5}" +
-                                     "}}",
-                                     path,
-                                     this.Visible,
-                                     lookup.Entity,
-                                     lookup.ValuePath,
-                                     lookup.DisplayPath,
-                                     query);
+                return $" visible :{this.Visible},  enable :{this.Enable}, " +
+                                       "comboBoxLookupOptions : { " +
+                                       $"value: {path}, " +
+                                       $"entity : '{lookup.Entity}', " +
+                                       $"valuePath : '{lookup.ValuePath}', " +
+                                       $"displayPath: '{lookup.DisplayPath}', " +
+                                       $"query :{query}" +
+                                       "}";
             }
 
 

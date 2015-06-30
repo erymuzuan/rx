@@ -1,6 +1,6 @@
 [
   {
-    "role": "Developer",
+    "role": "developers",
     "groupName": "Code",
     "route": "solution.diagnostics",
     "moduleId": "viewmodels/solution.diagnostics",
@@ -9,8 +9,8 @@
     "icon": "fa fa-check-square",
     "caption": "Solution Diagnostics",
     "settings": null,
-    "showWhenLoggedIn": true,
-    "isAdminPage": true,
+    "showWhenLoggedIn": false,
+    "isAdminPage": false,
     "startPageRoute": "solution.diagnostics"
   },
   {

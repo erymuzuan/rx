@@ -1,11 +1,9 @@
-﻿@using System.Configuration
-@using System.Web.Mvc.Html
+﻿@using System.Web.Mvc.Html
 @{
     Layout = null;
-    var theme = ConfigurationManager.AppSettings["theme"];
     var splash = Server.MapPath("~/_splash.html");
     var splashHtml = "";
-    if (System.IO.File.Exists(splash))
+    if (File.Exists(splash))
     {
         splashHtml = (File.ReadAllText(splash));
     }
@@ -23,15 +21,9 @@
     @if (HttpContext.Current.IsDebuggingEnabled)
     {
         <link href="/Content/__css.css" rel="stylesheet" />
-        foreach (var css in System.IO.Directory.GetFiles(Server.MapPath("~/Content"), "*.css"))
-        {
-
-            <link href="/content/@System.IO.Path.GetFileName(css)" rel="stylesheet" />
-        }
     }
     else
     {
-
         <link href="/content/release.css" rel="stylesheet" />
     }
     <script src="/Scripts/modernizr-2.8.3.js"></script>

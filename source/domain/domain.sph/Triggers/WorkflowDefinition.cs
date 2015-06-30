@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
 
             var initiator = this.GetInitiatorActivity();
 
-            dynamic wf = Activator.CreateInstance(type);
+            var wf =(Workflow) Activator.CreateInstance(type);
             wf.Name = this.Name;
             wf.WorkflowDefinitionId = this.Id;
             wf.State = "Active";
@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Domain
                 wf.VariableValueCollection.ClearAndAddRange(values);
             }
             await wf.ExecuteAsync(initiator.WebId);
-            return wf as Workflow;
+            return wf;
         }
 
         private void SetVariableValue(VariableValue vv, Workflow wf, Type type)
@@ -123,7 +123,7 @@ namespace Bespoke.Sph.Domain
             var sourceFiles = new List<string>();
             if (string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
             {
-                options.SourceCodeDirectory = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Id);
+                options.SourceCodeDirectory = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, this.Id);
             }
             if (!Directory.Exists(options.SourceCodeDirectory))
                 Directory.CreateDirectory(options.SourceCodeDirectory);
@@ -231,7 +231,7 @@ namespace Bespoke.Sph.Domain
             var act = this.GetActivity<Activity>(member);
             var message = er.ErrorText;
             if (null != act)
-                message = string.Format("[{0}] -< {1} : {2}", act.GetType().Name, act.Name, er.ErrorText);
+                message = $"[{act.GetType().Name}] -< {act.Name} : {er.ErrorText}";
             return new BuildError(member, message)
             {
                 Code = sources[er.Line - 1],
@@ -242,11 +242,8 @@ namespace Bespoke.Sph.Domain
 
         [XmlIgnore]
         [JsonIgnore]
-        public string WorkflowTypeName
-        {
+        public string WorkflowTypeName => (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "Workflow").Replace("WorkflowWorkflow", "Workflow");
 
-            get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "Workflow").Replace("WorkflowWorkflow", "Workflow"); }
-        }
         [XmlIgnore]
         [JsonIgnore]
         public string CodeNamespace
@@ -254,7 +251,7 @@ namespace Bespoke.Sph.Domain
             get
             {
                 var id = (this.Id.Humanize(LetterCasing.Title).Dehumanize());
-                return string.Format("Bespoke.Sph.Workflows_{0}_{1}", id, this.Version);
+                return $"Bespoke.Sph.Workflows_{id}_{this.Version}";
             }
         }
 

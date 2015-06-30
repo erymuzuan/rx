@@ -22,4 +22,5 @@
     <Image Source="images/ruby_gear.png" x:Key="RubyGear" Stretch="None"></Image>
     <Image Source="images/control_start.png" x:Key="ControlStart" Stretch="None"></Image>
     <Image Source="images/control_stop.png" x:Key="ControlStop" Stretch="None"></Image>
+    <Image Source="images/date_error.png" x:Key="date_error" Stretch="None"></Image>
 </ResourceDictionary>

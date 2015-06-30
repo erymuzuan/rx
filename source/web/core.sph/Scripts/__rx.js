@@ -23175,14 +23175,11 @@ ko.bindingHandlers.filter = {
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
             tooltip = value.tooltip || "Type to filter current page or type and [ENTER] to search the whole view",
-            offset = (typeof value.offset === "undefined" ? 8 : parseInt(value.offset)),
-            colmd = "col-md-" + (12 - offset),
-            coloff = "col-md-offset-" + offset,
             $element = $(element),
             $filterInput = $("<input data-toggle=\"tooltip\" title=\"" + tooltip + "\" type=\"search\" class=\"search-query input-medium form-control\" placeholder=\"Filter.. \">"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
-            $form = $("<form class='form-search " + colmd + " " + coloff + "'>" +
-                " <div class='input-group pull-right'>" +
+            $form = $("<form class='form-search row'>" +
+                " <div class='input-group pull-right' style='width:300px'>" +
                 "<span class='input-group-addon'>" +
                 " <span class='glyphicon glyphicon-remove'></span>" +
                 "</span> " +
@@ -26498,7 +26495,15 @@ bespoke.sph.domain.Designation = function (optionOrWebid) {
         Description: ko.observable(""),
         IsActive: ko.observable(false),
         StartModule: ko.observable(""),
+        IsSearchVisible: ko.observable(false),
+        IsMessageVisible: ko.observable(false),
+        IsHelpVisible: ko.observable(false),
+        HelpUri: ko.observable(""),
+        Title: ko.observable(""),
+        Option: ko.observable(0),
         RoleCollection: ko.observableArray([]),
+        Owner: ko.observable(new bespoke.sph.domain.Owner()),
+        SearchableEntityCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

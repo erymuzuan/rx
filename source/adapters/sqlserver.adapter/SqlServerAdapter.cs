@@ -18,10 +18,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
 
 
-        public override string OdataTranslator
-        {
-            get { return "OdataSqlTranslator"; }
-        }
+        public override string OdataTranslator => "OdataSqlTranslator";
 
 
         public override async Task<IEnumerable<ValidationError>> ValidateAsync()
@@ -610,7 +607,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             return Task.FromResult(td);
         }
 
-        
+
     }
 
 }

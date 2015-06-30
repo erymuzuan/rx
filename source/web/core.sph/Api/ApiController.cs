@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Properties;
+using LinqToQuerystring;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Api
@@ -31,45 +33,61 @@ namespace Bespoke.Sph.Web.Api
         [Route("adapter")]
         public async Task<ActionResult> Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<Adapter>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<Adapter>(filter, page, size, includeTotal);
         }
 
         [Route("Designation")]
         public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<Designation>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<Designation>(filter, page, size, includeTotal);
         }
 
         [Route("DocumentTemplate")]
         public async Task<ActionResult> DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<DocumentTemplate>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<DocumentTemplate>(filter, page, size, includeTotal);
         }
         [Route("EmailTemplate")]
         public async Task<ActionResult> EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<EmailTemplate>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<EmailTemplate>(filter, page, size, includeTotal);
         }
         [Route("EntityDefinition")]
         public async Task<ActionResult> EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<EntityDefinition>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<EntityDefinition>(filter, page, size, includeTotal);
         }
 
         [Route("EntityChart")]
         public async Task<ActionResult> EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<EntityChart>(filter);
+            if (null != source) return source;
             return await ExecuteAsync<EntityChart>(filter, page, size, includeTotal);
         }
         [Route("EntityForm")]
         public async Task<ActionResult> EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<EntityForm>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<EntityForm>(filter, page, size, includeTotal);
         }
 
         [Route("EntityView")]
         public async Task<ActionResult> EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<EntityView>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<EntityView>(filter, page, size, includeTotal);
         }
 
@@ -94,6 +112,8 @@ namespace Bespoke.Sph.Web.Api
         [Route("ReportDefinition")]
         public async Task<ActionResult> ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<ReportDefinition>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<ReportDefinition>(filter, page, size, includeTotal);
         }
 
@@ -101,12 +121,16 @@ namespace Bespoke.Sph.Web.Api
         [Route("SearchDefinition")]
         public async Task<ActionResult> SearchDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<SearchDefinition>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<SearchDefinition>(filter, page, size, includeTotal);
         }
 
         [Route("Setting")]
         public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<Setting>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<Setting>(filter, page, size, includeTotal);
         }
 
@@ -130,6 +154,8 @@ namespace Bespoke.Sph.Web.Api
         [Route("Trigger")]
         public async Task<ActionResult> Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<Trigger>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<Trigger>(filter, page, size, includeTotal);
         }
 
@@ -146,8 +172,10 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("TransformDefinition")]
-        public async Task<ActionResult> TransformDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<ActionResult> TransformDefinition(string filter = null, int page = 1, int size = 20, bool includeTotal = false)
         {
+            var source = ReadFromSource<TransformDefinition>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<TransformDefinition>(filter, page, size, includeTotal);
         }
 
@@ -155,6 +183,8 @@ namespace Bespoke.Sph.Web.Api
         [Route("WorkflowDefinition")]
         public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
+            var source = ReadFromSource<WorkflowDefinition>(filter, page, size);
+            if (null != source) return source;
             return await ExecuteAsync<WorkflowDefinition>(filter, page, size, includeTotal);
         }
 
@@ -169,7 +199,7 @@ namespace Bespoke.Sph.Web.Api
         public async Task<ActionResult> Index(string typeName, string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             if (size > 200)
-                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, "size");
+                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, nameof(size));
 
 
             var orderby = this.Request.QueryString["$orderby"];
@@ -209,18 +239,17 @@ namespace Bespoke.Sph.Web.Api
         private async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false, Action<IEnumerable<T>> processAction = null) where T : Entity
         {
             if (size > 200)
-                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, "size");
+                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, nameof(size));
 
             var typeName = typeof(T).Name;
 
             var orderby = this.Request.QueryString["$orderby"];
             var translator = new OdataSqlTranslator(null, typeName);
-            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ?  "Id ne ''" : filter, orderby);
+            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? "Id ne ''" : filter, orderby);
             var rows = 0;
             var nextPageToken = "";
             var list = await this.ExecuteListTupleAsync<T>(sql, page, size);
-            if (null != processAction)
-                processAction(list);
+            processAction?.Invoke(list);
 
             if (includeTotal || page > 1)
             {
@@ -244,9 +273,9 @@ namespace Bespoke.Sph.Web.Api
                 size
             };
             var setting = new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.Objects
-                };
+            {
+                TypeNameHandling = TypeNameHandling.Objects
+            };
 
             this.Response.ContentType = "application/json";
             return Content(JsonConvert.SerializeObject(json, Formatting.None, setting));
@@ -287,7 +316,7 @@ namespace Bespoke.Sph.Web.Api
                     {
                         var id = reader.GetString(0);
                         var json = reader.GetString(1)
-                            .Replace( "Id\":0", type + "Id\":\"" + id + "\"");
+                            .Replace("Id\":0", type + "Id\":\"" + id + "\"");
                         result.Add(json);
                     }
                 }
@@ -326,6 +355,95 @@ namespace Bespoke.Sph.Web.Api
 
                 return result;
             }
+        }
+
+        private ActionResult ReadFromSource<T>(string filter, int page = 1, int size = 20) where T : Entity
+        {
+            var list = new List<T>();
+            var rows = 0;
+            var id = Strings.RegexSingleValue(filter, "^Id eq '(?<id>[0-9A-Za-z-_ ]{1,50})'", "id");
+            string folder = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                if (!Directory.Exists(folder)) return null;
+                var files = System.IO.Directory.GetFiles(folder, "*.json");
+                if (string.IsNullOrWhiteSpace(filter) || filter == "Id ne '0'")
+                {
+
+                    list = files
+                       .Skip((page - 1) * size)
+                       .Take(size)
+                       .Select(f => System.IO.File.ReadAllText(f).DeserializeFromJson<T>())
+                       .ToList();
+                    rows = files.Length;
+                }
+                else
+                {
+                    filter = filter
+                        .Replace("IsPublished eq 1", "IsPublished eq true")
+                        .Replace("IsPublished eq 0", "IsPublished eq false")
+                        .Replace("IsAllowedNewItem eq 1", "IsAllowedNewItem eq true")
+                        .Replace("IsAllowedNewItem eq 0", "IsAllowedNewItem eq false")
+                        .Replace("IsDashboardItem eq 1", "IsDashboardItem eq true")
+                        .Replace("IsDashboardItem eq 0", "IsDashboardItem eq false")
+                        .Replace("IsDefault eq 1", "IsDefault eq true")
+                        .Replace("IsDefault eq 0", "IsDefault eq false")
+                        .Replace("IsActive eq 1", "IsActive eq true")
+                        .Replace("IsActive eq 0", "IsActive eq false")
+                        .Replace("IsPrivate eq 1", "IsPrivate eq true")
+                        .Replace("IsPrivate eq 0", "IsPrivate eq false")
+                        .Replace(" OR ", " or ")
+                        ;
+                    var filtered = files.Select(f => System.IO.File.ReadAllText(f).DeserializeFromJson<T>())
+                        .AsQueryable()
+                        .LinqToQuerystring("?$filter=" + filter)
+                        .ToList();
+                    list = filtered.Skip((page - 1) * size)
+                        .Take(size)
+                        .ToList();
+                    rows = filtered.Count;
+
+                }
+
+            }
+            else
+            {
+                var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{id}.json";
+                if (System.IO.File.Exists(file))
+                {
+                    using (var stream = System.IO.File.Open(file, FileMode.Open, FileAccess.Read))
+                    {
+                        var item = stream.DeserializeJson<T>();
+                        list.Add(item);
+                    }
+                    rows = 1;
+                }
+                else
+                {
+                    var files = System.IO.Directory.GetFiles(folder, "*.json");
+                    var item = files
+                        .Select(f => System.IO.File.ReadAllText(f).DeserializeFromJson<T>())
+                        .FirstOrDefault(x => x.Id == id);
+                    if (null != item)
+                        list.Add(item);
+                }
+            }
+            var json = new
+            {
+                results = list,
+                rows,
+                page = 1,
+                nextPageToken = "",
+                previousPageToken = "",
+                size = 20
+            };
+            var setting = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects
+            };
+
+            this.Response.ContentType = "application/json";
+            return Content(JsonConvert.SerializeObject(json, Formatting.None, setting), "application/json", Encoding.UTF8);
         }
     }
 }

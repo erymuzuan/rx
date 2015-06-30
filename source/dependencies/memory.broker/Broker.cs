@@ -71,7 +71,7 @@ namespace Bespoke.Sph.Messaging
             foreach (var item in attachedCollection)
             {
                 var log = new AuditTrail { Type = item.GetType().Name, EntityId = item.Id, Id = Guid.NewGuid().ToString(), Operation = operation, Note = "Added" };
-                SendMessage(operation, item, "added", log);
+                SendMessage(operation, item, "added", log, headers);
             }
             return Task.FromResult(0);
         }
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Messaging
             foreach (var item in attachedCollection)
             {
                 var audit = allLogs.SingleOrDefault(x => x.EntityId == item.Id && x.Type == item.GetType().Name);
-                SendMessage(operation, item, "changed", audit);
+                SendMessage(operation, item, "changed", audit, headers);
             }
             return Task.FromResult(0);
         }
@@ -94,7 +94,7 @@ namespace Bespoke.Sph.Messaging
             foreach (var item in deletedCollection)
             {
                 var log = new AuditTrail { Type = item.GetType().Name, EntityId = item.Id, Id = Guid.NewGuid().ToString(), Operation = operation, Note = "Delete" };
-                SendMessage(operation, item, "deleted", log);
+                SendMessage(operation, item, "deleted", log, headers);
             }
             return Task.FromResult(0);
         }

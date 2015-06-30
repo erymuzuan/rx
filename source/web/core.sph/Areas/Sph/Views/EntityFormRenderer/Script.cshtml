@@ -87,8 +87,6 @@
                         
                     });
 
-
-
                     return tcs.promise();
                 },
                  @foreach (var operation in Model.EntityDefinition.EntityOperationCollection)
@@ -100,10 +98,9 @@
                          return Task.fromResult(false);
                      }
 
-                     var tcs = new $.Deferred(),
-                         data = ko.mapping.toJSON(entity);
+                     var data = ko.mapping.toJSON(entity);
 
-                     context.post(data, "/@Model.EntityDefinition.Name/@operation.Name" )
+                    return  context.post(data, "/@Model.EntityDefinition.Name/@operation.Name" )
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
@@ -118,9 +115,7 @@
                                  });
                                  logger.error("There are errors in your entity, !!!");
                              }
-                             tcs.resolve(result);
                          });
-                     return tcs.promise();
                  },</text>
             }
                 attached = function (view) {
@@ -154,14 +149,9 @@
                     var function = rule.Dehumanize().ToCamelCase();
                   <text>@function = function(){
 
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
+                    var data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate?@function" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
+                   return context.post(data, "/Sph/BusinessRule/Validate?@function" );
                 },</text>
                 }
                 @foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>())
@@ -180,15 +170,14 @@
                         return Task.fromResult(false);
                     }
 
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
+                    var data = ko.mapping.toJSON(entity);
 
                     @if (Model.Form.Rules.Any())
                     {
 
                         <text>
 
-                    context.post(data, "@validateUrl")
+                    return context.post(data, "@validateUrl")
                         .then(function(result) {
                             if(result.success){
                                 context.post(data, "@saveUrl")
@@ -205,7 +194,6 @@
                                 });
                                 errors(ve);
                                 logger.error("There are errors in your entity, !!!");
-                                tcs.resolve(result);
                             }
                         });
                     </text>
@@ -214,9 +202,8 @@
                     {
                         <text>
 
-                    context.post(data, "@saveUrl")
+                    return context.post(data, "@saveUrl")
                         .then(function(result) {
-                            tcs.resolve(result);
                             entity().Id(result.id);
                             app.showMessage("Your @Model.EntityDefinition.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["ok"]);
 
@@ -224,18 +211,14 @@
                     </text>
                     }
 
-                    return tcs.promise();
                 },
                 remove = function() {
-                    var tcs = new $.Deferred();
-                    $.ajax({
+                    return $.ajax({
                         type: "DELETE",
                         url: "/@(Model.EntityDefinition.Name)/Remove/" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        error: tcs.reject,
                         success: function() {
-                            tcs.resolve(true);
                             app.showMessage("Your item has been successfully removed", "Removed", ["OK"])
                               .done(function () {
                                   window.location = "#@(Model.EntityDefinition.Name.ToLowerInvariant())";
@@ -244,7 +227,6 @@
                     });
 
 
-                    return tcs.promise();
                 };
 
             var vm = {

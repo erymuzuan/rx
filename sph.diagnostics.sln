@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "diagnostics", "diagnostics"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "es.diagnostics", "source\diagnostics\es.diagnostics\es.diagnostics.csproj", "{C706946B-3F7D-4E57-B35D-15D5CC7762D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "view.diagnostics", "source\diagnostics\view.dignostics\view.diagnostics.csproj", "{B3965397-2184-4BBE-8FA2-A121C2472DA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{C706946B-3F7D-4E57-B35D-15D5CC7762D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C706946B-3F7D-4E57-B35D-15D5CC7762D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C706946B-3F7D-4E57-B35D-15D5CC7762D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3965397-2184-4BBE-8FA2-A121C2472DA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3965397-2184-4BBE-8FA2-A121C2472DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3965397-2184-4BBE-8FA2-A121C2472DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3965397-2184-4BBE-8FA2-A121C2472DA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,5 +50,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7BF1DE5A-3756-4A31-8B82-491C71D263D7} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
 		{C706946B-3F7D-4E57-B35D-15D5CC7762D7} = {6DA534FE-D4E9-4650-B02D-FF7B490A8DE6}
+		{B3965397-2184-4BBE-8FA2-A121C2472DA2} = {6DA534FE-D4E9-4650-B02D-FF7B490A8DE6}
 	EndGlobalSection
 EndGlobal

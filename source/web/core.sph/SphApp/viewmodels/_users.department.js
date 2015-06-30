@@ -9,41 +9,10 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
+define(["services/datacontext", "services/logger", "plugins/router"],
 	function (context, logger) {
-	    var isBusy = ko.observable(false),
-            activate = function () {
-                var query = String.format("Key eq 'Departments'");
-                var tcs = new $.Deferred();
-                context.loadOneAsync("Setting", query)
-                    .done(function (s) {
-                        if (s) {
-                            var departments = _(JSON.parse(ko.mapping.toJS(s.Value)))
-                            .filter(function (v) {
-                                return v.Name;
-                            });
-                            vm.departments(departments);
-                        }
-                        tcs.resolve(true);
-                    });
-
-                return tcs.promise();
-            },
-	        attached = function (view) {
-	            $(view).on('blur', 'input.department-field', function (e) {
-	                if ($(this).val()) {
-	                    saveDepartment();
-	                }
-	            });
-	        },
-            addDepartment = function () {
-                var department = { Name: ko.observable() };
-                vm.departments.push(department);
-            },
-            removeDepartment = function (department) {
-                vm.departments.remove(department);
-                saveDepartment();
-            },
+	    var departments = ko.observableArray([]),
+            isBusy = ko.observable(false),
             saveDepartment = function () {
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({
@@ -56,17 +25,46 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 context.post(data, "/Setting/Save")
                     .then(function (result) {
                         isBusy(false);
-                        logger.log('All the setting has been saved', result, this, true);
+                        logger.log("All the setting has been saved", result, this, true);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
+            },
+            activate = function () {
+                var query = String.format("Key eq 'Departments'");
+                return context.loadOneAsync("Setting", query)
+                    .done(function (s) {
+                        if (s) {
+                            var list = _(JSON.parse(ko.mapping.toJS(s.Value)))
+                            .filter(function (v) {
+                                return v.Name;
+                            });
+                            departments(list);
+                        }
+                    });
+
+            },
+	        attached = function (view) {
+	            $(view).on("blur", "input.department-field", function (e) {
+	                if ($(this).val()) {
+	                    saveDepartment();
+	                }
+	            });
+	        },
+            addDepartment = function () {
+                var d = { Name: ko.observable() };
+                departments.push(d);
+            },
+            removeDepartment = function (department) {
+                departments.remove(department);
+                saveDepartment();
             };
 
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,
 	        attached: attached,
-	        departments: ko.observableArray([]),
+	        departments:departments,
 	        addCommand: addDepartment,
 	        removeCommand: removeDepartment,
 	        saveCommand: saveDepartment

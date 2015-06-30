@@ -66,6 +66,9 @@ namespace Bespoke.Sph.Messaging
             list.Add(topic);
             list.Add(string.Join(".", Enumerable.Range(1, topics.Length).Select(x => "#")));// #.#.#
 
+            var starDot = list.Select(x => x.Replace("#", "*")).ToArray();
+            list.AddRange(starDot);
+
             return list.Distinct().OrderBy(l => l).ToArray();
         }
 
@@ -90,10 +93,13 @@ namespace Bespoke.Sph.Messaging
 
 
 
-        private void SendMessage(string operation, Entity item, string crud, AuditTrail log)
+        private void SendMessage(string operation, Entity item, string crud, AuditTrail log, IDictionary<string, object> headers)
         {
-            var type = item.GetType().Name;
+            var type = item.GetEntityType().Name;
             var topic = $"{type}.{crud}.{operation}";
+            if (string.IsNullOrWhiteSpace(operation))
+                topic = $"{type}.{crud}.#";
+
             var possibleTopics = GetPossibleTopics(topic);
 
 
@@ -102,16 +108,23 @@ namespace Bespoke.Sph.Messaging
                 if (g.Value.Any(s => possibleTopics.Contains(s)))
                 {
                     var instance = (Subscriber)m_subscribers[g.Key];
-                    Invoke(instance, item, crud, operation);
+                    Invoke(instance, item, crud, operation, log, headers);
 
                 }
             }
 
             object listener;
-            if (m_listeners.TryGetValue(item.GetType(), out listener))
+            if (m_listeners.TryGetValue(item.GetEntityType(), out listener))
             {
                 dynamic broadcast = listener;
-                broadcast.SendMessage(item, log);
+                try
+                {
+                    broadcast.SendMessage(item, log);
+                }
+                catch (Exception e)
+                {
+                    ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(e));
+                }
             }
         }
         internal void RegisterListener<T>(ChangeListener<T> listener) where T : Entity
@@ -124,7 +137,7 @@ namespace Bespoke.Sph.Messaging
             m_listeners.TryRemove(typeof(T), out list);
         }
 
-        private void Invoke(object sub, Entity item, string crud, string operation)
+        private void Invoke(object sub, Entity item, string crud, string operation, AuditTrail log = null, IDictionary<string, object> headers = null)
         {
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
             var logger = ObjectBuilder.GetObject<ILogger>();
@@ -133,6 +146,16 @@ namespace Bespoke.Sph.Messaging
             args.Properties.Headers.Add("crud", Encoding.UTF8.GetBytes(crud));
             args.Properties.Headers.Add("username", Encoding.UTF8.GetBytes(ds.CurrentUserName));
             args.Properties.Headers.Add("operation", Encoding.UTF8.GetBytes(operation));
+            if (null != log)
+                args.Properties.Headers.Add("log", log.ToJsonString(false));
+            if (null != headers)
+            {
+                foreach (var h in headers)
+                {
+                    args.Properties.Headers.Add(h.Key, h.Value);
+                }
+            }
+
             var headers2 = new MessageHeaders(args);
 
             var pm = sub.GetType().GetMethod("ProcessMessage", BindingFlags.NonPublic | BindingFlags.Instance);

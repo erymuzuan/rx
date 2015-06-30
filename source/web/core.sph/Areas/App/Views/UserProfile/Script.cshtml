@@ -38,7 +38,7 @@
             },
             saveAsync = function () {
                 var json = ko.toJSON(userProfile);
-                return context.post(json, "/Admin/UpdateUser");
+                return context.post(json, "/App/UserProfile/UpdateUser");
             };
 
             var vm = {

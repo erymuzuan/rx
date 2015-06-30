@@ -19,5 +19,12 @@ namespace subscriber.version.control
             File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
             return Task.FromResult(0);
         }
+
+        public override Task RemoveItem(Entity item)
+        {
+            this.RemoveJsonSource(item);
+            return Task.FromResult(0);
+        }
+
     }
 }

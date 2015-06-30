@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RabbitMQ.Client;
@@ -9,7 +10,7 @@ namespace Bespoke.Sph.Web.Helpers
     public static class HashTableHelper
     {
 
-        public static string GetStringValue(this Hashtable hash, string key)
+        public static string GetStringValue(this IDictionary<string, object> hash, string key)
         {
             var vals = hash[key];
             if (null != vals)
@@ -17,7 +18,7 @@ namespace Bespoke.Sph.Web.Helpers
             return null;
 
         }
-        public static DateTime? GetDateTimeValue(this Hashtable hash, string key)
+        public static DateTime? GetDateTimeValue(this IDictionary<string, object> hash, string key)
         {
             var vals = hash[key];
             var time = (AmqpTimestamp)vals;

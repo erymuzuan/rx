@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-
-using ConfigurationManager = System.Configuration.ConfigurationManager;
 namespace Bespoke.Sph.SqlRepository
 {
     public class SqlBinaryStore : IBinaryStore
@@ -26,10 +25,29 @@ namespace Bespoke.Sph.SqlRepository
             this.AddAsync(document).Wait(TimeSpan.FromSeconds(5));
         }
 
-       
+
+        private BinaryStore ReadFromSource(string id)
+        {
+            var folder = $"{ConfigurationManager.SphSourceDirectory}\\BinaryStores";
+            string json = $"{folder}\\{id}.json";
+            if (!File.Exists(json)) return null;
+            string path = $"{folder}\\{id}";
+            if (!File.Exists(json)) return null;
+
+
+            var doc = File.ReadAllText(json).DeserializeFromJson<BinaryStore>();
+
+            string file = $"{path}\\{doc.FileName}";
+            if (!File.Exists(file)) return null;
+            doc.Content = File.ReadAllBytes(file);
+            return doc;
+        }
 
         public BinaryStore GetContent(string id)
         {
+            var source = this.ReadFromSource(id);
+            if (null != source) return source;
+
             const string sql = "SELECT [Id],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +
                                " WHERE [Id] =  @Id";
             using (var conn = new SqlConnection(m_connectionString))
@@ -44,12 +62,12 @@ namespace Bespoke.Sph.SqlRepository
                 while (reader.Read())
                 {
                     var document = new BinaryStore
-                        {
-                            Extension = reader.GetString(2),
-                            Id = reader.GetString(0),
-                            Content = (byte[])reader[1],
-                            FileName = reader.GetString(3)
-                        };
+                    {
+                        Extension = reader.GetString(2),
+                        Id = reader.GetString(0),
+                        Content = (byte[])reader[1],
+                        FileName = reader.GetString(3)
+                    };
                     return document;
                 }
 
@@ -60,6 +78,9 @@ namespace Bespoke.Sph.SqlRepository
         }
         public async Task<BinaryStore> GetContentAsync(string id)
         {
+            var source = this.ReadFromSource(id);
+            if (null != source) return source;
+
             const string sql = "SELECT [Id],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +
                                " WHERE [Id] =  @Id";
             using (var conn = new SqlConnection(m_connectionString))
@@ -74,12 +95,12 @@ namespace Bespoke.Sph.SqlRepository
                 while (await reader.ReadAsync())
                 {
                     var document = new BinaryStore
-                        {
-                            Extension = reader.GetString(2),
-                            Id = reader.GetString(0),
-                            Content = (byte[])reader[1],
-                            FileName = reader.GetString(3)
-                        };
+                    {
+                        Extension = reader.GetString(2),
+                        Id = reader.GetString(0),
+                        Content = (byte[])reader[1],
+                        FileName = reader.GetString(3)
+                    };
                     return document;
                 }
 

@@ -36,6 +36,7 @@
                 <!--<MenuItem Header="Starts web console logger" Icon="{StaticResource ControlStart}" Command="{Binding StartWebConsoleCommand}"/>
                 <MenuItem Header="Stop web console logger" Icon="{StaticResource ControlStop}" Command="{Binding StopWebConsoleCommand}"/>-->
                 <MenuItem Header="Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
+                <MenuItem Header="Dead Letter Viewer" ToolTip="Starts Dead Letter Viewere to manage all the rejected messages" Icon="{StaticResource date_error}" Click="RunDeadLetterViewerClicked"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="Help" Icon="{StaticResource ImageHelp}" Click="HelpClicked"/>

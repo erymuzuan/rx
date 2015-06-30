@@ -140,6 +140,18 @@ namespace Bespoke.Sph.ControlCenter
             Process.Start("http://www.reactivedeveloper.com/docs/control-center");
         }
 
+        private void RunDeadLetterViewerClicked(object sender, RoutedEventArgs e)
+        {
+            var dlv = AppDomain.CurrentDomain.BaseDirectory + "..\\tools\\dead.letter.viewer.exe";
+            try
+            {
+                Process.Start(dlv);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Cannot start dlv in " + dlv, ex);
+            }
+        }
         private void SettingsClicked(object sender, RoutedEventArgs e)
         {
             var setting = new ProjectSettingsWindow

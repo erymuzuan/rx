@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Security;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Areas.Sph.Controllers;
 using Bespoke.Sph.Web.ViewModels;
@@ -16,8 +17,6 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
     {
         public async Task<ActionResult> Html()
         {
-            var rolesConfig = Server.MapPath("~/roles.config.js");
-            var json = System.IO.File.ReadAllText(rolesConfig);
             var context = new SphDataContext();
 
             var edQuery = context.EntityDefinitions.Where(e => e.IsPublished == true);
@@ -42,10 +41,10 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                            };
 
             var vm = new RoleSettingViewModel();
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings);
+            var roles = Roles.GetAllRoles();
             var routes = this.GetJsRoutes();
-
+            var entities = await context.GetListAsync<EntityDefinition, string>(e => e.Id != "0", e => e.Name);
+            vm.SearchableEntityOptions.AddRange(entities);
 
             vm.Roles.ClearAndAddRange(roles);
             vm.Routes.ClearAndAddRange(routes);
@@ -85,11 +84,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         }
         public ActionResult Js()
         {
-            var rolesConfig = Server.MapPath("~/roles.config.js");
-            var json = System.IO.File.ReadAllText(rolesConfig);
-
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings);
+            var roles = Roles.GetAllRoles();
 
             this.Response.ContentType = APPLICATION_JAVASCRIPT;
             var script = this.RenderRazorViewToJs("Script", roles);
@@ -99,12 +94,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         }
         public ActionResult Script()
         {
-            var rolesConfig = Server.MapPath("~/roles.config.js");
-            var json = System.IO.File.ReadAllText(rolesConfig);
-
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings);
-
+            var roles = Roles.GetAllRoles();
             return View(roles.AsEnumerable());
         }
     }

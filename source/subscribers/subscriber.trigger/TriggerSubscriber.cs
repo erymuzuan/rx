@@ -30,7 +30,7 @@ namespace Bespoke.Sph.CustomTriggers
             }
 
             this.WriteMessage("Restarting the subscriber, changed detected to {0}", item);
-            var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = ConfigurationManager.UserSourceDirectory };
+            var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory };
             var result = await item.CompileAsync(options);
             if (!result.Result)
             {

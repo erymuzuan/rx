@@ -15,24 +15,56 @@ namespace Bespoke.Sph.Domain
     {
         public override string GenerateAssignmentCode()
         {
-            if (typeof (string) == this.Type)
-                return "\"" + Value + "\"";
+            if (typeof(string) == this.Type)
+                return $"\"{Value}\"";
             if (typeof(double) == this.Type)
-                return string.Format("{0}d", Value);
+                return $"{Value}d";
             if (typeof(decimal) == this.Type)
-                return string.Format("{0}m", Value);
+                return $"{Value}m";
+            if (typeof(DateTime) == this.Type)
+                return $"DateTime.Parse(\"{Value}\")";
 
-            return string.Format("{0}", Value) ;
+            return $"{Value}";
         }
 
         public override async Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             var errors = (await base.ValidateAsync()).ToList();
-            if(string.IsNullOrWhiteSpace(this.TypeName))
+            if (string.IsNullOrWhiteSpace(this.TypeName))
                 errors.Add(this.GetType().Name, "TypeName is not specified", this.WebId);
-            if(!string.IsNullOrWhiteSpace(this.TypeName) && null == this.Type)
+            if (!string.IsNullOrWhiteSpace(this.TypeName) && null == this.Type)
                 errors.Add(this.GetType().Name, "TypeName is not recognized : " + this.TypeName, this.WebId);
 
+            if (typeof(bool) == this.Type)
+            {
+                var bools = new[] { "true", "false" };
+                if (!bools.Contains(this.Value))
+                    errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid boolean (true/false)", this.WebId);
+            }
+            if (typeof(DateTime) == this.Type)
+            {
+                DateTime date;
+                if (!DateTime.TryParse($"{this.Value}", out date))
+                    errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid date time", this.WebId);
+            }
+            if (typeof(decimal) == this.Type)
+            {
+                decimal val;
+                if (!decimal.TryParse($"{this.Value}", out val))
+                    errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid decimal", this.WebId);
+            }
+            if (typeof(double) == this.Type)
+            {
+                double val;
+                if (!double.TryParse($"{this.Value}", out val))
+                    errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid double", this.WebId);
+            }
+            if (typeof(int) == this.Type)
+            {
+                int val;
+                if (!int.TryParse($"{this.Value}", out val))
+                    errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid int", this.WebId);
+            }
             return errors;
         }
 
@@ -50,7 +82,7 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        
+
         public override string GetEditorViewModel()
         {
 
@@ -74,7 +106,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
 });";
         }
 
-        public override  string GetEditorView()
+        public override string GetEditorView()
         {
             return @"
 <section class=""view-model-modal"" id=""constant-functoid-editor-dialog"">
@@ -123,8 +155,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
 </section>
 ";
         }
-    
 
-    
+
+
     }
 }

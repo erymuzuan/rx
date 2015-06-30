@@ -8,9 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using static System.IO.File;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
@@ -18,48 +16,42 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     [Authorize(Roles = "administrators")]
     public class AdminController : Controller
     {
-        public ActionResult AddRole(string role, string description)
+        public ActionResult AddRole(string role)
         {
-            if (!Roles.RoleExists(role))
+            var result = Roles.RoleExists(role);
+            if (!result)
                 Roles.CreateRole(role);
 
-            var rolesConfig = Server.MapPath("~/roles.config.js");
-            var json = ReadAllText(rolesConfig);
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Formatting = Formatting.Indented
-            };
-            var roles = (JsonConvert.DeserializeObject<RoleModel[]>(json, settings)).ToList();
-            var exist = roles.SingleOrDefault(r => r.Role == role);
-            if (null != role)
-                roles.Remove(exist);
-
-            roles.Add(new RoleModel { Role = role, Name = role, Group = role, Description = description });
-            json = JsonConvert.SerializeObject(roles.ToArray(), settings);
-            WriteAllText(rolesConfig, json);
-
-
-
-            return Json(true);
+            return Json(!result);
         }
-        public ActionResult DeleteRole(string role)
+
+        public async Task<ActionResult> DeleteRole(string role)
         {
-            Roles.DeleteRole(role);
-
-            var rolesConfig = Server.MapPath("~/roles.config.js");
-            var json = ReadAllText(rolesConfig);
-            var settings = new JsonSerializerSettings
+            if (Roles.RoleExists(role))
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Formatting = Formatting.Indented
-            };
-            var roles = (JsonConvert.DeserializeObject<RoleModel[]>(json, settings)).ToList();
+                var users = Roles.GetUsersInRole(role);
+                Roles.RemoveUsersFromRole(users, role);
+                Roles.DeleteRole(role);
+            }
+            // remove the roles from all the designation
+            var context = new SphDataContext();
 
-            roles.RemoveAll(x => x.Name == role);
-            json = JsonConvert.SerializeObject(roles.ToArray(), settings);
-            WriteAllText(rolesConfig, json);
-
+            var lo = await context.LoadAsync(context.Designations, 1, 200);
+            using (var session = context.OpenSession())
+            {
+                var changes = false;
+                foreach (var d in lo.ItemCollection)
+                {
+                    if (d.RoleCollection.Contains(role))
+                    {
+                        d.RoleCollection.Remove(role);
+                        session.Attach(d);
+                        changes = true;
+                    }
+                }
+                if (changes)
+                    await session.SubmitChanges("Deleting role " + role);
+            }
 
             return Json(true);
         }
@@ -86,33 +78,32 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> AddUser(Profile profile)
         {
             var context = new SphDataContext();
-            if (string.IsNullOrWhiteSpace(profile.Designation)) throw new ArgumentNullException("Designation for  " + profile.UserName + " cannot be set to null or empty");
+            var userName = profile.UserName;
+            if (string.IsNullOrWhiteSpace(profile.Designation)) throw new ArgumentNullException("Designation for  " + userName + " cannot be set to null or empty");
             var designation = await context.LoadOneAsync<Designation>(d => d.Name == profile.Designation);
             if (null == designation) throw new InvalidOperationException("Cannot find designation " + profile.Designation);
             var roles = designation.RoleCollection.ToArray();
 
-            var em = Membership.GetUser(profile.UserName);
+            var em = Membership.GetUser(userName);
 
             if (null != em)
             {
-                var userroles = Roles.GetRolesForUser(profile.UserName);
-                foreach (var r in userroles.Where(Roles.IsUserInRole))
-                {
-                    Roles.RemoveUserFromRole(em.UserName, r);
-                }
-
                 profile.Roles = roles;
                 em.Email = profile.Email;
 
-                Roles.AddUserToRoles(profile.UserName, profile.Roles);
+                var originalRoles = Roles.GetRolesForUser(userName);
+                if (originalRoles.Length > 0)
+                    Roles.RemoveUserFromRoles(userName, originalRoles);
+
+                Roles.AddUserToRoles(userName, profile.Roles);
                 Membership.UpdateUser(em);
                 await CreateProfile(profile, designation);
                 return Json(profile);
             }
 
 
-            Membership.CreateUser(profile.UserName, profile.Password, profile.Email);
-            Roles.AddUserToRoles(profile.UserName, roles);
+            Membership.CreateUser(userName, profile.Password, profile.Email);
+            Roles.AddUserToRoles(userName, roles);
             profile.Roles = roles;
 
             await CreateProfile(profile, designation);
@@ -123,6 +114,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         private static async Task<UserProfile> CreateProfile(Profile profile, Designation designation)
         {
+            if (null == profile) throw new ArgumentNullException(nameof(profile));
+            if (null == designation) throw new ArgumentNullException(nameof(designation));
+            if (string.IsNullOrWhiteSpace(designation.Name)) throw new ArgumentNullException(nameof(designation), "Designation Name cannot be null, empty or whitespace");
+            if (string.IsNullOrWhiteSpace(profile.UserName)) throw new ArgumentNullException(nameof(profile), "Profile UserName cannot be null, empty or whitespace");
+
             var context = new SphDataContext();
             var usp = await context.LoadOneAsync<UserProfile>(p => p.UserName == profile.UserName) ?? new UserProfile();
             usp.UserName = profile.UserName;
@@ -238,7 +234,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             ZipFile.ExtractToDirectory(zipFile, folder);
             var context = new SphDataContext();
-            var existingDesignations = (await context.LoadAsync(context.Designations, 1, 400)).ItemCollection;
+            var existingDesignations = (await context.LoadAsync(context.Designations, 1, 200)).ItemCollection;
 
             var designations = Directory.GetFiles(folder, "designation.*.json")
                     .Select(f => ReadAllText(f).DeserializeFromJson<Designation>())
@@ -248,9 +244,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             using (var session = context.OpenSession())
             {
-                session.Attach(departments);
-                session.Attach(designations.Cast<Entity>().ToArray());
-
                 foreach (var d in designations)
                 {
                     var exist = existingDesignations.SingleOrDefault(x => x.Name == d.Name);
@@ -259,14 +252,27 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                         session.Delete(exist);
                     }
                 }
-
+                await session.SubmitChanges("remove existing designations");
+            }
+            using (var session = context.OpenSession())
+            {
+                foreach (var d in designations)
+                {
+                    var exist = existingDesignations.SingleOrDefault(x => x.Name == d.Name);
+                    if (null != exist)
+                    {
+                        session.Delete(exist);
+                    }
+                }
+                session.Attach(departments);
+                designations.ForEach(c => session.Attach(c));
 
                 await session.SubmitChanges("import");
             }
 
             var roles = ReadAllText(Path.Combine(folder, "roles.txt")).Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Where(r => !Roles.RoleExists(r))
-                .Select(r => AddRole(r, ""));
+                .Select(AddRole);
 
             Delete(zipFile);
             Directory.Delete(folder, true);

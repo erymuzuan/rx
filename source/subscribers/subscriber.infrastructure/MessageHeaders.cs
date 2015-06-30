@@ -140,7 +140,36 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            var operationBytes = m_args.Properties.Headers[binder.Name] as byte[];
+            result = null;
+            if (!m_args.Properties.Headers.ContainsKey(binder.Name))
+                return false;
+            var value = m_args.Properties.Headers[binder.Name];
+            if (null == value) return true;
+
+            if (value is string)
+            {
+                result = value as string;
+                return true;
+            }
+            if (value is DateTime)
+            {
+                result = (DateTime)value;
+                return true;
+            }
+
+            if (value is int)
+            {
+                result = (int)value;
+                return true;
+            }
+
+            if (value is decimal)
+            {
+                result = (decimal)value;
+                return true;
+            }
+
+            var operationBytes = value as byte[];
 
             if (null != operationBytes)
             {
@@ -200,7 +229,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 result = r;
                 return true;
             }
-            result = null;
             return false;
         }
 

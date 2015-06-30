@@ -25,15 +25,15 @@ namespace adapter.csproj.gen
         }
         public string Generate(Adapter item, string appName)
         {
-            var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, item.Name);
+            var folder = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, item.Name);
             var files = Directory.GetFiles(folder, "*.cs").Select(Path.GetFileName);
 
             var vm = new
             {
                 Adapter = item,
-                RootNamespace = string.Format("{0}.Adapter.{1}", ConfigurationManager.ApplicationName, item.Schema),
+                RootNamespace = $"{ConfigurationManager.ApplicationName}.Adapter.{item.Schema}",
                 CsFiles = files,
-                AssemblyName = string.Format("{0}.{1}", ConfigurationManager.ApplicationName, item.Name)
+                AssemblyName = $"{ConfigurationManager.ApplicationName}.{item.Name}"
             };
 
 

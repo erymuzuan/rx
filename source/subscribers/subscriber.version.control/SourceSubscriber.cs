@@ -36,9 +36,9 @@ namespace subscriber.version.control
         private void RemoveExistingSource(Entity item)
         {
             var wc = ConfigurationManager.SphSourceDirectory;
-            var type = item.GetType();
+            var type = item.GetEntityType();
             var folder = Path.Combine(wc, type.Name);
-            if(!Directory.Exists(folder))
+            if (!Directory.Exists(folder))
                 return;
 
             var files = Directory.GetFiles(folder, "*.json");
@@ -56,7 +56,7 @@ namespace subscriber.version.control
                     var idToken = o.SelectToken("$.Id");
                     if (null == idToken)
                     {
-                        this.WriteMessage("[Id] field cannot be found in in {0}",f);
+                        this.WriteMessage("[Id] field cannot be found in in {0}", f);
                         continue;
                     }
                     var id = idToken.Value<string>();
@@ -75,53 +75,76 @@ namespace subscriber.version.control
         protected override async Task ProcessMessage(Entity item, MessageHeaders header)
         {
             RemoveExistingSource(item);
-            var type = item.GetType();
+
+            var type = item.GetEntityType();
 
             if (type == typeof(ReportDefinition))
             {
                 var rd = new ReportDefinitionSourceProvider();
-                await rd.ProcessItem(item as ReportDefinition);
+                if (header.Crud == CrudOperation.Deleted)
+                    await rd.RemoveItem(item as ReportDefinition);
+                else
+                    await rd.ProcessItem(item as ReportDefinition);
                 return;
             }
 
             if (type == typeof(DocumentTemplate))
             {
                 var dt = new DocumentTemplateSourceProvider();
-                await dt.ProcessItem(item as DocumentTemplate);
+                if (header.Crud == CrudOperation.Deleted)
+                    await dt.RemoveItem(item as DocumentTemplate);
+                else
+                    await dt.ProcessItem(item as DocumentTemplate);
                 return;
             }
 
             if (type == typeof(WorkflowDefinition))
             {
                 var wd = new WorkflowSourceProvider();
-                await wd.ProcessItem(item as WorkflowDefinition);
+                if (header.Crud == CrudOperation.Deleted)
+                    await wd.RemoveItem(item as WorkflowDefinition);
+                else
+                    await wd.ProcessItem(item as WorkflowDefinition);
                 return;
             }
 
             if (type == typeof(EntityDefinition))
             {
                 var ed = new EntityDefinitionSourceProvider();
-                await ed.ProcessItem(item as EntityDefinition);
+                if (header.Crud == CrudOperation.Deleted)
+                    await ed.RemoveItem(item as EntityDefinition);
+                else
+                    await ed.ProcessItem(item as EntityDefinition);
                 return;
             }
 
             if (type == typeof(EntityView))
             {
                 var ev = new EntityViewSourceProvider();
-                await ev.ProcessItem(item as EntityView);
+                if (header.Crud == CrudOperation.Deleted)
+                    await ev.RemoveItem(item as EntityView);
+                else
+                    await ev.ProcessItem(item as EntityView);
                 return;
             }
 
             if (type == typeof(EntityForm))
             {
                 var ef = new EntityFormSourceProvider();
-                await ef.ProcessItem(item as EntityForm);
+                if (header.Crud == CrudOperation.Deleted)
+                    await ef.RemoveItem(item as EntityForm);
+                else
+                    await ef.ProcessItem(item as EntityForm);
                 return;
             }
 
 
             var provider = new EntitySourceProvider();
-            await provider.ProcessItem(item);
+
+            if (header.Crud == CrudOperation.Deleted)
+                await provider.RemoveItem(item);
+            else
+                await provider.ProcessItem(item);
 
         }
     }

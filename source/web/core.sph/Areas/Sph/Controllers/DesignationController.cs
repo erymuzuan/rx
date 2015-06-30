@@ -7,9 +7,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
-using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Roles = System.Web.Security.Roles;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -21,10 +19,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("")]
         public async Task<ActionResult> Save()
         {
-            var rolesConfig = Server.MapPath("~/roles.config.js");
-            var json = System.IO.File.ReadAllText(rolesConfig);
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings).Select(r => r.Role).ToArray();
+            var roles = Roles.GetAllRoles();
 
             var designation = this.GetRequestJson<Designation>();
             var newItem = designation.IsNewItem;
@@ -92,6 +87,9 @@ namespace Bespoke.Sph.Web.Controllers
             }
             foreach (var user in userNames.Where(s => !string.IsNullOrWhiteSpace(s)))
             {
+                var userRoles = Roles.GetRolesForUser(user);
+                if (userRoles.Length > 0)
+                    Roles.RemoveUserFromRoles(user, userRoles);
                 Roles.AddUserToRoles(user, designation.RoleCollection.ToArray());
             }
 
@@ -104,7 +102,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             this.Response.ContentType = "application/json; charset=utf-8";
             this.Response.StatusCode = newItem ? 201 : 202;
-            var location = string.Format("{0}/sph-designation/{1}", ConfigurationManager.BaseUrl, id);
+            var location = $"{ConfigurationManager.BaseUrl}/sph-designation/{id}";
             this.Response.AddHeader("Location", location);
             return Content(JsonConvert.SerializeObject(new
             {
@@ -147,7 +145,7 @@ namespace Bespoke.Sph.Web.Controllers
                     new
                     {
                         rel = "lock",
-                        href = string.Format("/sph-designation/{0}/lock", id)
+                        href = $"/sph-designation/{id}/lock"
                     }
                 }
             };

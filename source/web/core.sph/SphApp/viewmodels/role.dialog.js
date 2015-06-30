@@ -11,21 +11,25 @@
 define(["services/datacontext", "services/logger", "plugins/dialog"],
     function (context, logger, dialog) {
 
-        var okClick = function (data, ev) {
-            if (bespoke.utils.form.checkValidity(ev.target)) {
-                dialog.close(this, "OK");
-            }
+        var role = ko.observable(),
+            attached = function () {
+                setTimeout(function () {
+                    $("#rd-role").focus();
+                }, 1000);
+            },
+            okClick = function (data, ev) {
+                if (bespoke.utils.form.checkValidity(ev.target)) {
+                    dialog.close(this, "OK");
+                }
 
-        },
+            },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
         var vm = {
-            role: ko.observable({
-                Role: ko.observable(),
-                Description: ko.observable()
-            }),
+            role: role,
+            attached: attached,
             okClick: okClick,
             cancelClick: cancelClick
         };

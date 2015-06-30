@@ -158,7 +158,7 @@ namespace Bespoke.Sph.Domain
         public async Task LoadWorkflowDefinitionAsync()
         {
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var file = string.Format("wd.{0}.{1}", this.WorkflowDefinitionId, this.Version);
+            var file = $"wd.{this.WorkflowDefinitionId}.{this.Version}";
             var doc = await store.GetContentAsync(file).ConfigureAwait(false);
             using (var stream = new MemoryStream(doc.Content))
             {
