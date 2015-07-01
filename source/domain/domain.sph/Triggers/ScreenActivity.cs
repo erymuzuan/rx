@@ -25,8 +25,8 @@ namespace Bespoke.Sph.Domain
                          select new BuildError
                          (
                              this.WebId,
-                             string.Format("[ScreenActivity] : {0} => '{1}' does not have path", this.Name, f.Label)
-                         );
+                             $"[ScreenActivity] : {this.Name} => '{f.Label}' does not have path"
+                             );
             var elements = from f in this.FormDesign.FormElementCollection
                            let err = f.ValidateBuild(wd, this)
                            where null != err
@@ -38,10 +38,10 @@ namespace Bespoke.Sph.Domain
 
             if (!this.Performer.IsPublic && string.IsNullOrWhiteSpace(this.Performer.UserProperty))
                 result.Errors.Add(new BuildError(this.WebId,
-                             string.Format("[ScreenActivity] : {0} => does not have performer", this.Name)));
+                    $"[ScreenActivity] : {this.Name} => does not have performer"));
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 result.Errors.Add(new BuildError(this.WebId,
-                             string.Format("[ScreenActivity] : {0} => does not the next activity defined", this.Name)));
+                    $"[ScreenActivity] : {this.Name} => does not the next activity defined"));
 
             return result;
         }
@@ -49,7 +49,8 @@ namespace Bespoke.Sph.Domain
         public async override Task CancelAsync(Workflow wf)
         {
             var baseUrl = ConfigurationManager.BaseUrl;
-            var url = string.Format("{0}/wf/{1}/v{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId.ToIdFormat(), wf.Version, this.Name.ToIdFormat(), wf.Id);
+            var url =
+                $"{baseUrl}/wf/{wf.WorkflowDefinitionId.ToIdFormat()}/v{wf.Version}/{this.Name.ToIdFormat()}/{wf.Id}";
             var cmb = this.CancelMessageBody ?? "@Model.Screen.Name task assigned to has been cancelled";
             var cms = this.CancelMessageSubject ?? "[Sph] @Model.Screen.Name  task is cancelled";
 
@@ -146,10 +147,7 @@ namespace Bespoke.Sph.Domain
             return users.ToArray();
         }
 
-        public override bool IsAsync
-        {
-            get { return true; }
-        }
+        public override bool IsAsync => true;
 
         public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
@@ -178,7 +176,7 @@ namespace Bespoke.Sph.Domain
             string name = this.Name.Dehumanize().Replace(" ", string.Empty);
             var controller = new Class
             {
-                Name = string.Format("{0}Controller", wd.WorkflowTypeName),
+                Name = $"{wd.WorkflowTypeName}Controller",
                 FileName = wd.WorkflowTypeName + "Controller." + name + ".cs",
                 Namespace = wd.CodeNamespace,
                 IsPartial = true
@@ -308,19 +306,20 @@ namespace Bespoke.Sph.Domain
             // buttons
             var buttonCommands = this.FormDesign.FormElementCollection.OfType<Button>()
                 .Where(b => b.CommandName != "save")
-                .Select(b => string.Format("{0} : function(){{" +
-                                           "{1}" +
-                                           "}}", b.CommandName, b.Command))
+                .Select(b => $"{b.CommandName} : function(){{" + $"{b.Command}" + "}")
                                            .ToArray();
             var buttonCommandJs = string.Join(",\r\n", buttonCommands);
-            var saveCommand = string.Format(@",
+            var saveCommand =
+                $@",
                 save : function(){{
                       var tcs = new $.Deferred(),
                             data = ko.mapping.toJSON(vm.instance),
                             button = $(this);
 
                         button.prop('disabled', true);
-                        context.post(data, ""/wf/{0}/v{1}/{2}"")
+                        context.post(data, ""/wf/{
+                    wd.Id}/v{wd.Version}/{this.Name.ToIdFormat()
+                    }"")
                             .then(function(result) {{
                                 tcs.resolve(result);
                                 @if(Model.Screen.ConfirmationOptions.Type == ""Message"")
@@ -342,7 +341,7 @@ namespace Bespoke.Sph.Domain
 
                             }});
                         return tcs.promise();
-                }}", wd.Id, wd.Version, this.Name.ToIdFormat());
+                }}";
             if (buttonCommandJs.Length > 0)
                 buttonCommandJs = saveCommand + "," + buttonCommandJs;
             else
@@ -426,13 +425,7 @@ namespace Bespoke.Sph.Domain
 
         [JsonIgnore]
         [XmlIgnore]
-        public string ActionName
-        {
-            get
-            {
-                return this.Name.Replace(" ", string.Empty);
-            }
-        }
+        public string ActionName => this.Name.Replace(" ", string.Empty);
 
         public override Task<ActivityExecutionResult> ExecuteAsync()
         {

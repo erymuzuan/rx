@@ -137,7 +137,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         //Assembly appdomain_AssemblyResolve(object sender, ResolveEventArgs args)
         //{
         //    var name = new AssemblyName(args.Name);
-        //    var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, name + ".dll");
+        //    var dll = Path.Combine(ConfigurationManager.CompilerOutputPath, name + ".dll");
         //    if (File.Exists(dll))
         //        return Assembly.LoadFile(dll);
         //    return null;

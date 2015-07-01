@@ -8,14 +8,11 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [XmlInclude(typeof(Setting))]
-    [XmlInclude(typeof(UserProfile))]
-    [XmlInclude(typeof(BinaryStore))]
-    [XmlInclude(typeof(SpatialEntity))]
-    [XmlInclude(typeof(Message))]
-    [XmlInclude(typeof(ReportDefinition))]
-    [XmlInclude(typeof(ReportDelivery))]
-    [XmlInclude(typeof(ReportContent))]
+    public class StoreAsSourceAttribute : Attribute
+    {
+        public bool IsElasticsearch { get; set; }
+        public bool IsSqlDatabase { get; set; }
+    }
     public abstract class Entity : DomainObject
     {
         [XmlAttribute]
@@ -34,14 +31,12 @@ namespace Bespoke.Sph.Domain
 
         [JsonIgnore]
         [XmlIgnore]
-        public bool IsNewItem => String.IsNullOrWhiteSpace(this.Id) || this.Id == "0";
+        public bool IsNewItem => string.IsNullOrWhiteSpace(this.Id) || this.Id == "0";
 
         public virtual Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             return Task.FromResult(new List<ValidationError>().AsEnumerable());
         }
-
-
 
         public Type GetEntityType()
         {

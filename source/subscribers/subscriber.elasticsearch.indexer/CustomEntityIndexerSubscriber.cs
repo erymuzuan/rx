@@ -26,7 +26,9 @@ namespace Bespoke.Sph.ElasticSearch
             if (item.IsSystemType()) return;// just custom entity
 
 
-            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{item.GetType().Name.ToLowerInvariant()}/{item.Id}";
+            var type = item.GetType().Name.ToLowerInvariant();
+            var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
+            var url = $"{ConfigurationManager.ElasticSearchHost}/{index}/{type}/{item.Id}";
 
             using (var client = new HttpClient())
             {

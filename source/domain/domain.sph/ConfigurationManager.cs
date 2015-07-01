@@ -62,11 +62,11 @@ namespace Bespoke.Sph.Domain
         public static string BaseUrl => System.Configuration.ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
         public static string BaseDirectory => System.Configuration.ConfigurationManager.AppSettings["sph:BaseDirectory"] ?? @"c:\project\work\sph";
 
-        public static string WorkflowCompilerOutputPath
+        public static string CompilerOutputPath
         {
             get
             {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowCompilerOutputPath"];
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:CompilerOutputPath"];
                 if (Path.IsPathRooted(val)) return val;
                 return BaseDirectory + BinPath + @"\output";
             }

@@ -44,11 +44,10 @@ namespace sph.builder
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName.ToLowerInvariant() + "/" + ed.Name.ToLowerInvariant() );
+                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName.ToLowerInvariant() + "/_mapping/" + ed.Name.ToLowerInvariant() );
                 Console.WriteLine("DELETE {1} type : {0}", response.StatusCode, ed.Name.ToLowerInvariant());
             }
         }
-
 
         public async override Task RestoreAsync(EntityDefinition ed)
         {
@@ -77,7 +76,6 @@ namespace sph.builder
             DeployCustomEntity(ed);
 
         }
-
 
         private async Task InsertIconAsync(EntityDefinition ed)
         {
@@ -117,18 +115,16 @@ namespace sph.builder
             result.Errors.ForEach(Console.WriteLine);
 
             var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType($"Bespoke.Dev_{ed.Id}.Domain.{ed.Name}");
+            var type = assembly.GetType($"{ed.CodeNamespace}.{ed.Name}");
             return type;
         }
-
-
-
+        
         private static void DeployCustomEntity(EntityDefinition ed)
         {
             var dll = $"{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
             var pdb = $"{ConfigurationManager.ApplicationName}.{ed.Name}.pdb";
-            var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
-            var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
+            var dllFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, dll);
+            var pdbFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, pdb);
 
             File.Copy(dllFullPath, ConfigurationManager.WebPath + @"\bin\" + dll, true);
             File.Copy(pdbFullPath, ConfigurationManager.WebPath + @"\bin\" + pdb, true);

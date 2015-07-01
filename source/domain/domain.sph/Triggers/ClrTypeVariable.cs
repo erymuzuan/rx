@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Domain
                 if (null == t)
                 {
                     var splits = this.TypeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    var dll = System.Reflection.Assembly.LoadFile($"{ConfigurationManager.WorkflowCompilerOutputPath}\\{splits.Last().Trim()}.dll");
+                    var dll = System.Reflection.Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
                     t = dll.GetType(splits.First().Trim());
                 }
                 return t;

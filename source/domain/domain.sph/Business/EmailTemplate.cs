@@ -2,6 +2,7 @@
 
 namespace Bespoke.Sph.Domain
 {
+    [StoreAsSource]
     public partial class EmailTemplate : Entity
     {
         public Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)

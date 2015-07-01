@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.QueryProviders;
 
@@ -100,21 +101,8 @@ namespace Bespoke.Sph.Domain
 
         public async Task<T> LoadOneAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            var sources = new[]
-            {
-                typeof(EntityDefinition),
-                typeof(EntityForm),
-                typeof(EntityView),
-                typeof(Designation),
-                typeof(Trigger),
-                typeof(WorkflowDefinition),
-                typeof(ReportDefinition),
-                typeof(EntityChart),
-                typeof(EmailTemplate),
-                typeof(DocumentTemplate),
-                typeof(TransformDefinition)
-            };
-            if (sources.Contains(typeof (T)))
+            var storeAsSource = typeof (T).GetCustomAttribute(typeof (StoreAsSourceAttribute)) as StoreAsSourceAttribute;
+            if(null != storeAsSource)
             {
                 return this.LoadOneFromSources(predicate);
             }

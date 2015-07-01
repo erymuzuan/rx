@@ -89,16 +89,12 @@ namespace Bespoke.Sph.Domain
 
 
 
-        private readonly ObjectCollection<FormElement> m_FormElementCollection = new ObjectCollection<FormElement>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<FormElement> FormElementCollection
-        {
-            get { return m_FormElementCollection; }
-        }
+        public ObjectCollection<FormElement> FormElementCollection { get; } = new ObjectCollection<FormElement>();
+
 
         ///<summary>
         /// 
@@ -111,7 +107,7 @@ namespace Bespoke.Sph.Domain
         {
             set
             {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                if (string.Equals(m_name, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -508,16 +504,12 @@ namespace Bespoke.Sph.Domain
     public partial class ComboBox
     {
 
-        private readonly ObjectCollection<ComboBoxItem> m_ComboBoxItemCollection = new ObjectCollection<ComboBoxItem>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ComboBoxItem", IsNullable = false)]
-        public ObjectCollection<ComboBoxItem> ComboBoxItemCollection
-        {
-            get { return m_ComboBoxItemCollection; }
-        }
+        public ObjectCollection<ComboBoxItem> ComboBoxItemCollection { get; } = new ObjectCollection<ComboBoxItem>();
+
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ComboBoxLookup m_comboBoxLookup
@@ -1275,27 +1267,19 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameErrorMessage = "ErrorMessage";
 
 
-        private readonly ObjectCollection<Rule> m_RuleCollection = new ObjectCollection<Rule>();
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Rule", IsNullable = false)]
+        public ObjectCollection<Rule> RuleCollection { get; } = new ObjectCollection<Rule>();
+
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Rule", IsNullable = false)]
-        public ObjectCollection<Rule> RuleCollection
-        {
-            get { return m_RuleCollection; }
-        }
+        public ObjectCollection<Rule> FilterCollection { get; } = new ObjectCollection<Rule>();
 
-        private readonly ObjectCollection<Rule> m_FilterCollection = new ObjectCollection<Rule>();
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlArrayItem("Rule", IsNullable = false)]
-        public ObjectCollection<Rule> FilterCollection
-        {
-            get { return m_FilterCollection; }
-        }
 
         ///<summary>
         /// 
@@ -1714,38 +1698,26 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<ViewColumn> m_ViewColumnCollection = new ObjectCollection<ViewColumn>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ViewColumn", IsNullable = false)]
-        public ObjectCollection<ViewColumn> ViewColumnCollection
-        {
-            get { return m_ViewColumnCollection; }
-        }
+        public ObjectCollection<ViewColumn> ViewColumnCollection { get; } = new ObjectCollection<ViewColumn>();
 
-        private readonly ObjectCollection<Sort> m_SortCollection = new ObjectCollection<Sort>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Sort", IsNullable = false)]
-        public ObjectCollection<Sort> SortCollection
-        {
-            get { return m_SortCollection; }
-        }
+        public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
 
-        private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
-        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection
-        {
-            get { return m_ConditionalFormattingCollection; }
-        }
+        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection { get; } = new ObjectCollection<ConditionalFormatting>();
+
 
 
     }
@@ -1791,16 +1763,12 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<ListViewColumn> m_ListViewColumnCollection = new ObjectCollection<ListViewColumn>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ListViewColumn", IsNullable = false)]
-        public ObjectCollection<ListViewColumn> ListViewColumnCollection
-        {
-            get { return m_ListViewColumnCollection; }
-        }
+        public ObjectCollection<ListViewColumn> ListViewColumnCollection { get; } = new ObjectCollection<ListViewColumn>();
+
 
 
     }
@@ -2093,49 +2061,38 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsShowOnNavigationBar = "IsShowOnNavigationBar";
 
 
-        private readonly ObjectCollection<Member> m_MemberCollection = new ObjectCollection<Member>();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_treatDataAsSource;
+        public const string PropertyNameTreatDataAsSource = "TreatDataAsSource";
+
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Member", IsNullable = false)]
-        public ObjectCollection<Member> MemberCollection
-        {
-            get { return m_MemberCollection; }
-        }
+        public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
 
-        private readonly ObjectCollection<BusinessRule> m_BusinessRuleCollection = new ObjectCollection<BusinessRule>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("BusinessRule", IsNullable = false)]
-        public ObjectCollection<BusinessRule> BusinessRuleCollection
-        {
-            get { return m_BusinessRuleCollection; }
-        }
+        public ObjectCollection<BusinessRule> BusinessRuleCollection { get; } = new ObjectCollection<BusinessRule>();
 
-        private readonly ObjectCollection<EntityOperation> m_EntityOperationCollection = new ObjectCollection<EntityOperation>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("EntityOperation", IsNullable = false)]
-        public ObjectCollection<EntityOperation> EntityOperationCollection
-        {
-            get { return m_EntityOperationCollection; }
-        }
+        public ObjectCollection<EntityOperation> EntityOperationCollection { get; } = new ObjectCollection<EntityOperation>();
 
-        private readonly ObjectCollection<string> m_AuthorizedRoleCollection = new ObjectCollection<string>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> AuthorizedRoleCollection
-        {
-            get { return m_AuthorizedRoleCollection; }
-        }
+        public ObjectCollection<string> AuthorizedRoleCollection { get; } = new ObjectCollection<string>();
+
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Performer m_performer
@@ -2343,6 +2300,32 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public bool TreatDataAsSource
+        {
+            set
+            {
+                if (m_treatDataAsSource == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTreatDataAsSource, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_treatDataAsSource = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_treatDataAsSource;
+            }
+        }
+
+
 
     }
 
@@ -2401,27 +2384,19 @@ namespace Bespoke.Sph.Domain
 
 
 
-        private readonly ObjectCollection<Member> m_MemberCollection = new ObjectCollection<Member>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Member", IsNullable = false)]
-        public ObjectCollection<Member> MemberCollection
-        {
-            get { return m_MemberCollection; }
-        }
+        public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
 
-        private readonly ObjectCollection<FieldPermission> m_FieldPermissionCollection = new ObjectCollection<FieldPermission>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("FieldPermission", IsNullable = false)]
-        public ObjectCollection<FieldPermission> FieldPermissionCollection
-        {
-            get { return m_FieldPermissionCollection; }
-        }
+        public ObjectCollection<FieldPermission> FieldPermissionCollection { get; } = new ObjectCollection<FieldPermission>();
+
 
         ///<summary>
         /// 
@@ -2795,38 +2770,26 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        private readonly ObjectCollection<string> m_Rules = new ObjectCollection<string>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> Rules
-        {
-            get { return m_Rules; }
-        }
+        public ObjectCollection<string> Rules { get; } = new ObjectCollection<string>();
 
-        private readonly ObjectCollection<RouteParameter> m_RouteParameterCollection = new ObjectCollection<RouteParameter>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("RouteParameter", IsNullable = false)]
-        public ObjectCollection<RouteParameter> RouteParameterCollection
-        {
-            get { return m_RouteParameterCollection; }
-        }
+        public ObjectCollection<RouteParameter> RouteParameterCollection { get; } = new ObjectCollection<RouteParameter>();
 
-        private readonly ObjectCollection<FormLayout> m_FormLayoutCollection = new ObjectCollection<FormLayout>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("FormLayout", IsNullable = false)]
-        public ObjectCollection<FormLayout> FormLayoutCollection
-        {
-            get { return m_FormLayoutCollection; }
-        }
+        public ObjectCollection<FormLayout> FormLayoutCollection { get; } = new ObjectCollection<FormLayout>();
+
 
         ///<summary>
         /// 
@@ -3749,49 +3712,33 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNamePartial = "Partial";
 
 
-        private readonly ObjectCollection<Filter> m_FilterCollection = new ObjectCollection<Filter>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Filter", IsNullable = false)]
-        public ObjectCollection<Filter> FilterCollection
-        {
-            get { return m_FilterCollection; }
-        }
+        public ObjectCollection<Filter> FilterCollection { get; } = new ObjectCollection<Filter>();
 
-        private readonly ObjectCollection<ViewColumn> m_ViewColumnCollection = new ObjectCollection<ViewColumn>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ViewColumn", IsNullable = false)]
-        public ObjectCollection<ViewColumn> ViewColumnCollection
-        {
-            get { return m_ViewColumnCollection; }
-        }
+        public ObjectCollection<ViewColumn> ViewColumnCollection { get; } = new ObjectCollection<ViewColumn>();
 
-        private readonly ObjectCollection<Sort> m_SortCollection = new ObjectCollection<Sort>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Sort", IsNullable = false)]
-        public ObjectCollection<Sort> SortCollection
-        {
-            get { return m_SortCollection; }
-        }
+        public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
 
-        private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
-        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection
-        {
-            get { return m_ConditionalFormattingCollection; }
-        }
+        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection { get; } = new ObjectCollection<ConditionalFormatting>();
+
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Performer m_performer
@@ -3810,16 +3757,12 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        private readonly ObjectCollection<RouteParameter> m_RouteParameterCollection = new ObjectCollection<RouteParameter>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("RouteParameter", IsNullable = false)]
-        public ObjectCollection<RouteParameter> RouteParameterCollection
-        {
-            get { return m_RouteParameterCollection; }
-        }
+        public ObjectCollection<RouteParameter> RouteParameterCollection { get; } = new ObjectCollection<RouteParameter>();
+
 
         ///<summary>
         /// 
@@ -4332,16 +4275,12 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameRouteValueField = "RouteValueField";
 
 
-        private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
-        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection
-        {
-            get { return m_ConditionalFormattingCollection; }
-        }
+        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection { get; } = new ObjectCollection<ConditionalFormatting>();
+
 
         ///<summary>
         /// 
@@ -5022,49 +4961,33 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameSuccessCommand = "SuccessCommand";
 
 
-        private readonly ObjectCollection<EntityPermission> m_EntityPermissionCollection = new ObjectCollection<EntityPermission>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("EntityPermission", IsNullable = false)]
-        public ObjectCollection<EntityPermission> EntityPermissionCollection
-        {
-            get { return m_EntityPermissionCollection; }
-        }
+        public ObjectCollection<EntityPermission> EntityPermissionCollection { get; } = new ObjectCollection<EntityPermission>();
 
-        private readonly ObjectCollection<string> m_Rules = new ObjectCollection<string>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> Rules
-        {
-            get { return m_Rules; }
-        }
+        public ObjectCollection<string> Rules { get; } = new ObjectCollection<string>();
 
-        private readonly ObjectCollection<string> m_Permissions = new ObjectCollection<string>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> Permissions
-        {
-            get { return m_Permissions; }
-        }
+        public ObjectCollection<string> Permissions { get; } = new ObjectCollection<string>();
 
-        private readonly ObjectCollection<SetterActionChild> m_SetterActionChildCollection = new ObjectCollection<SetterActionChild>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("SetterActionChild", IsNullable = false)]
-        public ObjectCollection<SetterActionChild> SetterActionChildCollection
-        {
-            get { return m_SetterActionChildCollection; }
-        }
+        public ObjectCollection<SetterActionChild> SetterActionChildCollection { get; } = new ObjectCollection<SetterActionChild>();
+
 
         ///<summary>
         /// 
@@ -5275,16 +5198,12 @@ namespace Bespoke.Sph.Domain
 
 
 
-        private readonly ObjectCollection<Series> m_SeriesCollection = new ObjectCollection<Series>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Series", IsNullable = false)]
-        public ObjectCollection<Series> SeriesCollection
-        {
-            get { return m_SeriesCollection; }
-        }
+        public ObjectCollection<Series> SeriesCollection { get; } = new ObjectCollection<Series>();
+
 
         ///<summary>
         /// 
@@ -5883,38 +5802,26 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameOwner = "Owner";
 
 
-        private readonly ObjectCollection<Filter> m_FilterCollection = new ObjectCollection<Filter>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Filter", IsNullable = false)]
-        public ObjectCollection<Filter> FilterCollection
-        {
-            get { return m_FilterCollection; }
-        }
+        public ObjectCollection<Filter> FilterCollection { get; } = new ObjectCollection<Filter>();
 
-        private readonly ObjectCollection<ViewColumn> m_ViewColumnCollection = new ObjectCollection<ViewColumn>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ViewColumn", IsNullable = false)]
-        public ObjectCollection<ViewColumn> ViewColumnCollection
-        {
-            get { return m_ViewColumnCollection; }
-        }
+        public ObjectCollection<ViewColumn> ViewColumnCollection { get; } = new ObjectCollection<ViewColumn>();
 
-        private readonly ObjectCollection<Sort> m_SortCollection = new ObjectCollection<Sort>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Sort", IsNullable = false)]
-        public ObjectCollection<Sort> SortCollection
-        {
-            get { return m_SortCollection; }
-        }
+        public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
+
 
         ///<summary>
         /// 
@@ -6230,27 +6137,19 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<string> m_LookupColumnCollection = new ObjectCollection<string>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> LookupColumnCollection
-        {
-            get { return m_LookupColumnCollection; }
-        }
+        public ObjectCollection<string> LookupColumnCollection { get; } = new ObjectCollection<string>();
 
-        private readonly ObjectCollection<Filter> m_FilterCollection = new ObjectCollection<Filter>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Filter", IsNullable = false)]
-        public ObjectCollection<Filter> FilterCollection
-        {
-            get { return m_FilterCollection; }
-        }
+        public ObjectCollection<Filter> FilterCollection { get; } = new ObjectCollection<Filter>();
+
 
 
     }

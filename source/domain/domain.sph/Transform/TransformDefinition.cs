@@ -13,9 +13,10 @@ using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain
 {
+    [StoreAsSource]
     public partial class TransformDefinition : Entity
     {
-
+        
         public async Task<object> TransformAsync(object source)
         {
             var sb = new StringBuilder("{");
@@ -43,7 +44,7 @@ namespace Bespoke.Sph.Domain
 
             using (var provider = new CSharpCodeProvider())
             {
-                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
+                var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
                     OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{this.Name}.dll"),

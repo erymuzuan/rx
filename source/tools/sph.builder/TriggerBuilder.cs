@@ -40,8 +40,8 @@ namespace sph.builder
 
             var dll = string.Format("subscriber.trigger.{0}.dll", item.Id);
             var pdb = string.Format("subscriber.trigger.{0}.pdb", item.Id);
-            var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
-            var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
+            var dllFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, dll);
+            var pdbFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, pdb);
 
             File.Copy(dllFullPath, ConfigurationManager.SubscriberPath + @"\" + dll, true);
             File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);

@@ -69,7 +69,7 @@ namespace mapping.compiler
 
         static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            var dlld = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, args.Name + ".dll");
+            var dlld = Path.Combine(ConfigurationManager.CompilerOutputPath, args.Name + ".dll");
             
             Console.WriteLine("Loading {0}", dlld);
             if (File.Exists(dlld))

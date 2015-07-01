@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Domain
             if (m_ff.TryGetValue(this.WebId, out obj))
                 return obj.Evaluate(context.Item);
 
-            var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, $"{this.CodeNamespace}.dll");
+            var dll = Path.Combine(ConfigurationManager.CompilerOutputPath, $"{this.CodeNamespace}.dll");
             if (!File.Exists(dll)) this.Compile(context);
 
             var assembly = Assembly.LoadFile(dll);
@@ -87,7 +87,7 @@ namespace Bespoke.Sph.Domain
 
             using (var provider = new CSharpCodeProvider())
             {
-                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
+                var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
                     OutputAssembly = Path.Combine(outputPath, string.Format("{0}.dll", this.CodeNamespace)),

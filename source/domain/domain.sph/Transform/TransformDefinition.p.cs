@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Domain
                 if (null == t)
                 {
                     var splits = this.OutputTypeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    var dll = Assembly.LoadFile($"{ConfigurationManager.WorkflowCompilerOutputPath}\\{splits.Last().Trim()}.dll");
+                    var dll = Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
                     t = dll.GetType(splits.First().Trim());
                 }
                 return t;
@@ -41,7 +41,7 @@ namespace Bespoke.Sph.Domain
                 if (null == t)
                 {
                     var splits = this.InputTypeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    var dll = Assembly.LoadFile($"{ConfigurationManager.WorkflowCompilerOutputPath}\\{splits.Last().Trim()}.dll");
+                    var dll = Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
                     t = dll.GetType(splits.First().Trim());
                 }
                 return t;

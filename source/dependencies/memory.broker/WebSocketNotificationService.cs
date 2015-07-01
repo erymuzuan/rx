@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Messaging
 
         public bool Start(int port)
         {
-            m_fsw = new FileSystemWatcher(ConfigurationManager.WorkflowCompilerOutputPath)
+            m_fsw = new FileSystemWatcher(ConfigurationManager.CompilerOutputPath)
             {
                 EnableRaisingEvents = true
             };

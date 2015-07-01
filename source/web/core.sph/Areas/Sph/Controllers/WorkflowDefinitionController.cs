@@ -329,7 +329,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                                     Location = path ,
                                     Name = name.Name
                                 }).ToList();
-            var outputs = from f in Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath, "*.dll")
+            var outputs = from f in Directory.GetFiles(ConfigurationManager.CompilerOutputPath, "*.dll")
                 let fn = Path.GetFileNameWithoutExtension(f)
                 where !fn.StartsWith("ff") && !fn.StartsWith("subscriber")
                 && refAssemblies.All(x => x.Name != fn)

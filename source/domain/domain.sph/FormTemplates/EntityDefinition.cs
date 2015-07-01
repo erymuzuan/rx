@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("Name = {Name}")]
+    [StoreAsSource]
     public partial class EntityDefinition : Entity
     {
         // reserved names
@@ -66,10 +67,10 @@ namespace Bespoke.Sph.Domain
                 typeof(Watcher).Name,
                 typeof(Workflow).Name,
                 typeof(WorkflowDefinition).Name,
-                typeof(EntityForm).Name, typeof(Message).Name};
+                typeof(EntityForm).Name,
+                typeof(Message).Name};
 
-
- 
+        
 
         public override string ToString()
         {
@@ -148,7 +149,7 @@ namespace Bespoke.Sph.Domain
 
             using (var provider = new CSharpCodeProvider())
             {
-                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
+                var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
                     OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{this.Name}.dll"),
@@ -193,7 +194,7 @@ namespace Bespoke.Sph.Domain
                 return cr;
             }
         }
-        
+
 
         private Member GetMember(string path)
         {

@@ -193,13 +193,13 @@ namespace Bespoke.Sph.Web.Controllers
                                                  }).ToArray()
                                  }).ToArray();
 
-            var assemblies2 = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath, "*.dll")
+            var assemblies2 = Directory.GetFiles(ConfigurationManager.CompilerOutputPath, "*.dll")
                 .Select(Path.GetFileNameWithoutExtension)
                 .Where(d => !refAssemblies.Select(x => x.Name).Contains(d))
                 .Where(d => !Ignores.Any(d.StartsWith))
                 .Where(d => !d.StartsWith("subscriber"))
                 .Where(d => !d.StartsWith("workflow"))
-                .Select(d => Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, d + ".dll"))
+                .Select(d => Path.Combine(ConfigurationManager.CompilerOutputPath, d + ".dll"))
                 .Select(Assembly.LoadFile);
             var refAssemblies2 = from a in assemblies2
                                  let name = a.GetName()
@@ -233,7 +233,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (null == t)
             {
                 var splits = type.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
-                var dll = Assembly.LoadFile($"{ConfigurationManager.WorkflowCompilerOutputPath}\\{splits.Last().Trim()}.dll");
+                var dll = Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
                 t = dll.GetType(splits.First().Trim());
             }
             var schema = JsonSerializerService.GetJsonSchemaFromObject(t);

@@ -95,13 +95,13 @@ namespace Bespoke.Sph.Domain
             var pdb = $"{folder}\\{ConfigurationManager.ApplicationName}.{ed.Name}.pdb";
             if (File.Exists(dll) && File.Exists(pdb))
             {
-                File.Copy(dll, $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.dll", true);
-                File.Copy(pdb, $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.pdb", true);
+                File.Copy(dll, $"{ConfigurationManager.CompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.dll", true);
+                File.Copy(pdb, $"{ConfigurationManager.CompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.pdb", true);
             }
 
             //foreach (var sub in Directory.GetFiles(folder, "subscriber.trigger.*"))
             //{
-            //    File.Copy(sub, $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{Path.GetFileName(sub)}", true);
+            //    File.Copy(sub, $"{ConfigurationManager.CompilerOutputPath}\\{Path.GetFileName(sub)}", true);
             //    File.Copy(sub, $"{ConfigurationManager.SubscriberPath}\\{Path.GetFileName(sub)}", true);
             //}
 
@@ -191,8 +191,8 @@ namespace Bespoke.Sph.Domain
             foreach (var t in triggers)
             {
                 File.WriteAllBytes(Path.Combine(path, $"Trigger_{t.Id}.json"), Encoding.UTF8.GetBytes(t.ToJsonString(true)));
-                var trigglerDll = $"{ConfigurationManager.WorkflowCompilerOutputPath}\\subscriber.trigger.{t.Id}.dll";
-                var triggerPdb = $"{ConfigurationManager.WorkflowCompilerOutputPath}\\subscriber.trigger.{t.Id}.pdb";
+                var trigglerDll = $"{ConfigurationManager.CompilerOutputPath}\\subscriber.trigger.{t.Id}.dll";
+                var triggerPdb = $"{ConfigurationManager.CompilerOutputPath}\\subscriber.trigger.{t.Id}.pdb";
                 if (File.Exists(trigglerDll))
                 {
                     File.Copy(trigglerDll, $"{path}\\{Path.GetFileName(trigglerDll)}");
@@ -226,8 +226,8 @@ namespace Bespoke.Sph.Domain
                 }
             }
 
-            var output = $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
-            var pdb = $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.pdb";
+            var output = $"{ConfigurationManager.CompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
+            var pdb = $"{ConfigurationManager.CompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{ed.Name}.pdb";
             if (File.Exists(output))
             {
                 File.Copy(output, $"{path}\\{Path.GetFileName(output)}");

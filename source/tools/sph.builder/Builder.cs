@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
@@ -58,18 +59,23 @@ namespace sph.builder
         public void Clean()
         {
             var name = typeof(T).Name;
-            SPH_CONNECTION.ExecuteNonQuery(string.Format("TRUNCATE TABLE [Sph].[{0}]", name));
-
-            // TODO : clear the ElasticSearch too
+            SPH_CONNECTION.ExecuteNonQuery($"TRUNCATE TABLE [Sph].[{name}]");
+            
+            using (var client = new HttpClient())
+            {
+                client.DeleteAsync(
+                    $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/_mapping/{name.ToLowerInvariant()}")
+                    .Wait(5000);
+            }
         }
 
         public async Task InsertAsync(T item)
         {
             var name = typeof(T).Name;
-            await SPH_CONNECTION.ExecuteNonQueryAsync(string.Format("DELETE FROM [Sph].[{0}] WHERE [Id] = '{1}'", name, item.Id));
+            await SPH_CONNECTION.ExecuteNonQueryAsync($"DELETE FROM [Sph].[{name}] WHERE [Id] = '{item.Id}'");
 
             var sql =
-                string.Format(@"INSERT INTO [Sph].[{0}](", name) +
+                $@"INSERT INTO [Sph].[{name}](" +
                 string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "[" + x.Name + "]"))
                 + " ) VALUES(" +
                 string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "@" + x.Name.Replace(".", "_")))

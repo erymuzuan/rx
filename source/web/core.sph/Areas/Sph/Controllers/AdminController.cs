@@ -27,6 +27,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public async Task<ActionResult> DeleteRole(string role)
         {
+            if (string.IsNullOrWhiteSpace(role))
+                return HttpNotFound("Role name cannot be empty");
+
             if (Roles.RoleExists(role))
             {
                 var users = Roles.GetUsersInRole(role);

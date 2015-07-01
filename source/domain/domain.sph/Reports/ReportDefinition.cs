@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [StoreAsSource]
     public partial class ReportDefinition : Entity, ICustomScript
     {
         public Task<BuildValidationResult> ValidateBuildAsync()

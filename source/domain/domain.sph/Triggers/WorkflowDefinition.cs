@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [StoreAsSource]
     public partial class WorkflowDefinition : Entity
     {
         public T GetActivity<T>(string webId) where T : Activity
@@ -136,7 +137,7 @@ namespace Bespoke.Sph.Domain
 
             using (var provider = new CSharpCodeProvider())
             {
-                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
+                var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
                     OutputAssembly = Path.Combine(outputPath, $"workflows.{this.Id}.{this.Version}.dll"),
@@ -160,20 +161,20 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
 
                 this.ReferencedAssemblyCollection
-                    .Select(u => $"{ConfigurationManager.WorkflowCompilerOutputPath}\\{Path.GetFileName(u.Location)}")
+                    .Select(u => $"{ConfigurationManager.CompilerOutputPath}\\{Path.GetFileName(u.Location)}")
                     .Where(File.Exists)
                     .ToList()
                     .ForEach(u => parameters.ReferencedAssemblies.Add(u));
 
                 this.ReferencedAssemblyCollection
-                    .Where(u => !File.Exists($"{ConfigurationManager.WorkflowCompilerOutputPath}\\{Path.GetFileName(u.Location)}"))
+                    .Where(u => !File.Exists($"{ConfigurationManager.CompilerOutputPath}\\{Path.GetFileName(u.Location)}"))
                     .Select(u => $"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}")
                     .Where(File.Exists)
                     .ToList()
                     .ForEach(u => parameters.ReferencedAssemblies.Add(u));
                 this.ReferencedAssemblyCollection
                     .Where(u => !File.Exists($"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}"))
-                    .Where(u => !File.Exists($"{ConfigurationManager.WorkflowCompilerOutputPath}\\{Path.GetFileName(u.Location)}"))
+                    .Where(u => !File.Exists($"{ConfigurationManager.CompilerOutputPath}\\{Path.GetFileName(u.Location)}"))
                     .ToList()
                     .ForEach(u => parameters.ReferencedAssemblies.Add(u.Location));
             

@@ -63,8 +63,8 @@ namespace domain.test
         {
             var dll = string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, ed.Name);
             var pdb = string.Format("{0}.{1}.pdb", ConfigurationManager.ApplicationName, ed.Name);
-            var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
-            var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
+            var dllFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, dll);
+            var pdbFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, pdb);
 
             File.Copy(dllFullPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + dll, true);
             File.Copy(pdbFullPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + pdb, true);

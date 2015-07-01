@@ -126,17 +126,16 @@ namespace subscriber.entities
             if (item.GetType().Namespace == typeof(Entity).Namespace) return;// just custom entity
 
 
-            var url = string.Format("{0}/{1}/{2}",
-                ConfigurationManager.ApplicationName.ToLowerInvariant(),
-                item.GetType().Name.ToLowerInvariant(),
-                id);
+            var name = item.GetType().Name.ToLowerInvariant();
+            var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
+            var url = $"{index}/{name}/{id}";
 
             using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
             {
                 var response = await client.PostAsync(url, content);
                 if (null != response)
                 {
-                    Console.Write(".");
+                    Console.Write(@".");
                 }
             }
             Console.ResetColor();
@@ -161,7 +160,9 @@ namespace subscriber.entities
 
         public async Task<bool> PutMappingAsync(EntityDefinition item)
         {
-            var url = string.Format("{0}/_mapping/{1}", ConfigurationManager.ApplicationName.ToLowerInvariant(), item.Name.ToLowerInvariant());
+            var type = item.Name.ToLowerInvariant();
+            var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
+            var url = $"{index}/_mapping/{type}";
 
             var map = this.GetMapping(item);
             var content = new StringContent(map);
@@ -173,7 +174,7 @@ namespace subscriber.entities
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
                     this.WriteMessage("creates the index for the 1st time for {0}", item.Name);
-                    await client.PutAsync(ConfigurationManager.ApplicationName.ToLowerInvariant(), new StringContent(""));
+                    await client.PutAsync(index, new StringContent(""));
                     return await this.PutMappingAsync(item);
                 }
 
@@ -191,7 +192,7 @@ namespace subscriber.entities
                         return await PutMappingAsync(item);
 
                     }
-                    this.WriteError(new Exception(string.Format(" Error creating Elastic search map for [{0}]\r\n{1}", item.Name, text)));
+                    this.WriteError(new Exception($" Error creating Elastic search map for [{item.Name}]\r\n{text}"));
                 }
 
                 return response.StatusCode == HttpStatusCode.OK;

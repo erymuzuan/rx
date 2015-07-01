@@ -196,9 +196,6 @@ namespace sph.builder
             etBuilder.Initialize();
             await etBuilder.RestoreAllAsync();
 
-            var dtBuilder = new DocumentTemplateBuilder();
-            dtBuilder.Initialize();
-            await dtBuilder.RestoreAllAsync();
         }
 
         public static void WriteMessage(this string message)

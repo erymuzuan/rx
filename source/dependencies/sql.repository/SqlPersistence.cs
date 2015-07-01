@@ -52,11 +52,17 @@ namespace Bespoke.Sph.SqlRepository
                 sql.AppendLine();
                 foreach (var item in addedList)
                 {
-                    if (string.IsNullOrWhiteSpace(item.WebId)) item.WebId = Guid.NewGuid().ToString();
+                    var source = item.GetType().GetCustomAttribute<StoreAsSourceAttribute>();
+                    if (null != source && source.IsSqlDatabase == false)
+                        continue;
+
+                    if (string.IsNullOrWhiteSpace(item.WebId)) item.WebId = Strings.GenerateId();
+                    if (string.IsNullOrWhiteSpace(item.Id)) item.Id = Strings.GenerateId();
 
                     count++;
                     int count1 = count;
-                    var entityType = this.GetEntityType(item);
+                    var entityType = item.GetEntityType();
+                    
                     var metadataType = metadataProvider.GetTable(entityType.Name);
                     if (null == metadataType) throw new InvalidOperationException("Cannot find the Metadata type in SQL Server :" + entityType.Name);
 

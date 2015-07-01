@@ -51,7 +51,7 @@ namespace sph.builder
             options.ReferencedAssembliesLocation.Add(typeof(Controller).Assembly.Location);
             options.ReferencedAssembliesLocation.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
             options.ReferencedAssembliesLocation.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly.Location);
-            var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
+            var outputPath = ConfigurationManager.CompilerOutputPath;
             var customDllPattern = ConfigurationManager.ApplicationName + ".*.dll";
             var entityAssembiles = Directory.GetFiles(outputPath, customDllPattern);
             foreach (var dll in entityAssembiles)
@@ -70,8 +70,8 @@ namespace sph.builder
         {
             var dll = string.Format("workflows.{0}.{1}.dll", item.Id, item.Version);
             var pdb = string.Format("workflows.{0}.{1}.pdb", item.Id, item.Version);
-            var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
-            var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
+            var dllFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, dll);
+            var pdbFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, pdb);
 
             File.Copy(dllFullPath, ConfigurationManager.SubscriberPath + @"\" + dll, true);
             File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);

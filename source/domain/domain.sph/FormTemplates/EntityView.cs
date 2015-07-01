@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [StoreAsSource]
     public partial class EntityView : Entity
     {
         

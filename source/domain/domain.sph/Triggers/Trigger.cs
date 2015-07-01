@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [StoreAsSource]
     public partial class Trigger : Entity
     {
         public static Trigger ParseJson(string json)
@@ -39,7 +40,7 @@ namespace Bespoke.Sph.Domain
 
             using (var provider = new CSharpCodeProvider())
             {
-                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
+                var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
                     OutputAssembly = Path.Combine(outputPath, $"subscriber.trigger.{this.Id}.dll"),
@@ -48,7 +49,7 @@ namespace Bespoke.Sph.Domain
 
                 };
                 var edDll = $"{ConfigurationManager.ApplicationName}.{this.Entity}.dll";
-                options.ReferencedAssembliesLocation.Add(Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, edDll));
+                options.ReferencedAssembliesLocation.Add(Path.Combine(ConfigurationManager.CompilerOutputPath, edDll));
 
                 var subscriberInfraDll = Path.Combine(ConfigurationManager.SubscriberPath, "subscriber.infrastructure.dll");
                 options.ReferencedAssembliesLocation.Add(subscriberInfraDll);

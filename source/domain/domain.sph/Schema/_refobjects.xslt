@@ -9,16 +9,12 @@
 	<xsl:template match="xs:element">
 		<!-- Collection -->
 		<xsl:for-each select="xs:complexType/xs:sequence/xs:element">
-			private readonly <xsl:value-of select="bspk:RemovePrefixDataType(@ref, @maxOccurs, @type)"/> m_<xsl:value-of select="../../../@name"/> = new <xsl:value-of select="bspk:RemovePrefixDataType(@ref, @maxOccurs, @type)"/>();
-
 			///&lt;summary&gt;
 			/// <xsl:value-of select="../../../xs:annotation/xs:documentation"/>
 			///&lt;/summary&gt;
 			[XmlArrayItem("<xsl:value-of select="@ref"/>", IsNullable = false)]
-			public <xsl:value-of select="bspk:RemovePrefixDataType(@ref, @maxOccurs, @type)"/> <xsl:value-of select="../../../@name"/>
-			{
-			get{ return m_<xsl:value-of select="../../../@name"/>;}
-			}
+			public <xsl:value-of select="bspk:RemovePrefixDataType(@ref, @maxOccurs, @type)"/> <xsl:value-of select="../../../@name"/> {get;} = new <xsl:value-of select="bspk:RemovePrefixDataType(@ref, @maxOccurs, @type)"/>();
+     
 		</xsl:for-each>
 
 		<!-- 

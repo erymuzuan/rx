@@ -63,7 +63,7 @@ namespace subscriber.entities
         }
         private Task RemoveOutputAsync(EntityDefinition item)
         {
-            var output = ConfigurationManager.WorkflowCompilerOutputPath;
+            var output = ConfigurationManager.CompilerOutputPath;
             var web = ConfigurationManager.WebPath + "\\bin";
             var subs = ConfigurationManager.SubscriberPath;
             var app = ConfigurationManager.ApplicationName;
