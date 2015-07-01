@@ -31,16 +31,28 @@ namespace Bespoke.Sph.SqlRepository
             var folder = $"{ConfigurationManager.SphSourceDirectory}\\BinaryStores";
             string json = $"{folder}\\{id}.json";
             if (!File.Exists(json)) return null;
+
             string path = $"{folder}\\{id}";
-            if (!File.Exists(json)) return null;
-
-
             var doc = File.ReadAllText(json).DeserializeFromJson<BinaryStore>();
 
             string file = $"{path}\\{doc.FileName}";
             if (!File.Exists(file)) return null;
+
             doc.Content = File.ReadAllBytes(file);
             return doc;
+        }
+
+        private void DeleteSource(string id)
+        {
+            var folder = $"{ConfigurationManager.SphSourceDirectory}\\BinaryStores";
+            string json = $"{folder}\\{id}.json";
+            if (File.Exists(json)) 
+                File.Delete(json);
+
+            string path = $"{folder}\\{id}";
+            if (Directory.Exists(path)) 
+                Directory.Delete(path, true);
+            
         }
 
         public BinaryStore GetContent(string id)
@@ -134,6 +146,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public async Task DeleteAsync(string storeId)
         {
+            DeleteSource(storeId);
             const string sql = "DELETE FROM [Sph].[BinaryStore]" +
                                " WHERE [Id] =  @Id";
             using (var conn = new SqlConnection(m_connectionString))
