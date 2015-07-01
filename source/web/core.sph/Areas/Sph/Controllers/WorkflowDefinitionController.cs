@@ -148,8 +148,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             {
                 Id = $"wd.{wd.Id}.{wd.Version}",
                 Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)),
-                Extension = ".xml",
-                FileName = $"wd.{wd.Id}.{wd.Version}.xml"
+                Extension = ".json",
+                FileName = $"wd.{wd.Id}.{wd.Version}.json"
             };
             await store.DeleteAsync(archived.Id);
             await store.AddAsync(archived);
