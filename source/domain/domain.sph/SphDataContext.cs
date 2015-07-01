@@ -45,19 +45,32 @@ namespace Bespoke.Sph.Domain
 
         public IEnumerable<T> LoadFromSources<T>() where T : Entity
         {
-            return Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\", "*.json")
+            string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
+            if (!Directory.Exists(path))
+                return new T[] {};
+
+            return Directory.GetFiles(path, "*.json")
                 .Select(f => File.ReadAllText(f).DeserializeFromJson<T>());
         }
 
         public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            return Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\", "*.json")
+            string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
+            if (!Directory.Exists(path))
+                return new T[] { };
+
+            return Directory.GetFiles(path, "*.json")
                 .Select(f => File.ReadAllText(f).DeserializeFromJson<T>())
                 .Where(predicate.Compile());
         }
         public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            return Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\", "*.json")
+            string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
+            if (!Directory.Exists(path))
+                return default(T);
+           
+
+            return Directory.GetFiles(path, "*.json")
                 .Select(f => File.ReadAllText(f).DeserializeFromJson<T>())
                 .FirstOrDefault(predicate.Compile());
         }
@@ -87,6 +100,25 @@ namespace Bespoke.Sph.Domain
 
         public async Task<T> LoadOneAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
+            var sources = new[]
+            {
+                typeof(EntityDefinition),
+                typeof(EntityForm),
+                typeof(EntityView),
+                typeof(Designation),
+                typeof(Trigger),
+                typeof(WorkflowDefinition),
+                typeof(ReportDefinition),
+                typeof(EntityChart),
+                typeof(EmailTemplate),
+                typeof(DocumentTemplate),
+                typeof(TransformDefinition)
+            };
+            if (sources.Contains(typeof (T)))
+            {
+                return this.LoadOneFromSources(predicate);
+            }
+
             var provider = ObjectBuilder.GetObject<QueryProvider>();
             var query = new Query<T>(provider).Where(predicate);
             var repos = ObjectBuilder.GetObject<IRepository<T>>();

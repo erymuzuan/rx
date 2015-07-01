@@ -84,7 +84,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Remove(string id)
         {
             var context = new SphDataContext();
-            var form = await context.LoadOneAsync<EntityForm>(e => e.Id == id);
+            var form =  context.LoadOneFromSources<EntityForm>(e => e.Id == id);
             if (null == form)
                 return new HttpNotFoundResult("Cannot find form to delete , Id : " + id);
 

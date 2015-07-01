@@ -34,10 +34,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Index(string id)
         {
             var context = new SphDataContext();
-            var view = await context.LoadOneAsync<EntityView>(x => x.Id == id);
+            var view =  context.LoadOneFromSources<EntityView>(x => x.Id == id);
             if (null == view) return new HttpNotFoundResult("Cannot find EntityView with id " + id);
-
-
+           
 
             using (var session = context.OpenSession())
             {
