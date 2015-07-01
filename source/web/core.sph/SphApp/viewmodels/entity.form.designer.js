@@ -378,6 +378,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     if (dialogResult === "Yes") {
 
                         context.send(data, "/entity-form/" + form().Id(), "DELETE")
+                            .fail(tcs.reject)
                             .then(function (result) {
                                 if (result.success) {
                                     logger.info(result.message);
