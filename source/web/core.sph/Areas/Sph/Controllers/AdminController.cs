@@ -30,7 +30,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (Roles.RoleExists(role))
             {
                 var users = Roles.GetUsersInRole(role);
-                Roles.RemoveUsersFromRole(users, role);
+                if (users.Length > 0)
+                    Roles.RemoveUsersFromRole(users, role);
+
                 Roles.DeleteRole(role);
             }
             // remove the roles from all the designation
@@ -190,7 +192,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var designations = context.LoadFromSources<Designation>().ToList();
-         
+
             var departments = await context.LoadOneAsync<Setting>(s => s.Key == "Departments");
 
             var path = Path.Combine(Path.GetTempPath(), "rx.package");
