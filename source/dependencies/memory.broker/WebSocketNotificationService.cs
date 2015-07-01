@@ -159,7 +159,17 @@ namespace Bespoke.Sph.Messaging
 
         private void SendMessage(string json)
         {
-            m_appServer?.GetAllSessions().ToList().ForEach(x => x.Send(json));
+            m_appServer?.GetAllSessions().ToList().ForEach(x =>
+            {
+                try
+                {
+                    x.Send(json);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            });
         }
 
         public void Write(string format, params object[] args)
