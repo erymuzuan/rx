@@ -179,6 +179,28 @@
         "Boost": 0,
         "DefaultValue": null,
         "WebId": "0a2d4daf-9137-44f5-aefc-03bff7005461"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "MyKad",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "DefaultValue": null,
+        "WebId": "f55659fb-c718-4e6c-b191-2bd46c9ece75"
       }
     ]
   },
@@ -291,6 +313,7 @@
   "RecordName": "ReferenceNo",
   "IsPublished": true,
   "IsShowOnNavigationBar": false,
+  "TreatDataAsSource": false,
   "CreatedBy": null,
   "Id": "appointment",
   "CreatedDate": "0001-01-01T00:00:00",

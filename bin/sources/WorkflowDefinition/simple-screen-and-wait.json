@@ -23,6 +23,8 @@
                 "AutoCompletionEntity": null,
                 "AutoCompletionField": null,
                 "AutoCompletionQuery": null,
+                "IsPathIsRequired": true,
+                "TypeName": "TextBox",
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
@@ -48,6 +50,7 @@
                 "HelpText": null,
                 "UseDisplayTemplate": false,
                 "ToolboxIconClass": null,
+                "IsUniqueName": false,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -64,6 +67,8 @@
                 "AutoCompletionEntity": null,
                 "AutoCompletionField": null,
                 "AutoCompletionQuery": null,
+                "IsPathIsRequired": true,
+                "TypeName": "TextBox",
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
@@ -89,6 +94,7 @@
                 "HelpText": null,
                 "UseDisplayTemplate": false,
                 "ToolboxIconClass": null,
+                "IsUniqueName": false,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -101,6 +107,8 @@
               },
               {
                 "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+                "IsPathIsRequired": true,
+                "TypeName": "DatePicker",
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
@@ -126,6 +134,7 @@
                 "HelpText": null,
                 "UseDisplayTemplate": false,
                 "ToolboxIconClass": null,
+                "IsUniqueName": false,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -138,6 +147,7 @@
               },
               {
                 "$type": "Bespoke.Sph.Domain.Button, domain.sph",
+                "IsPathIsRequired": false,
                 "Command": null,
                 "UseClick": false,
                 "CommandName": "save",
@@ -146,6 +156,7 @@
                 "IconClass": "fa fa-envelope",
                 "IsToolbarItem": false,
                 "Operation": null,
+                "TypeName": "Button",
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
@@ -171,6 +182,7 @@
                 "HelpText": null,
                 "UseDisplayTemplate": false,
                 "ToolboxIconClass": null,
+                "IsUniqueName": false,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -211,10 +223,13 @@
           "WebId": "d765b0cc-b2df-452e-80a8-03fd0b06c2d2"
         },
         "IsAsync": true,
-        "ViewModelType": "VerificationViewModel",
-        "MethodName": "ExecScreenActivityVerification_77d5Async",
         "ExecutedCode": "     await this.FireListenTriggerExecListenActivityStartsVerification_e56fAsync(\"77d593ea-0bc9-443c-80d6-0b6f069912d7\");",
         "ExecutingCode": null,
+        "TypeName": "Screen",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 119,
@@ -224,6 +239,8 @@
         "IsInitiator": false,
         "NextActivityWebId": "5f7b4900-798c-43f4-8d8e-20d92c07c28a",
         "Name": "Verification",
+        "TryScope": null,
+        "CatchScope": null,
         "WebId": "77d593ea-0bc9-443c-80d6-0b6f069912d7"
       },
       {
@@ -250,10 +267,14 @@
             }
           ]
         },
-        "MethodName": "ExecScheduledTriggerActivityEveryFiveMinutes_edb2Async",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
+        "TypeName": "ScheduledTrigger",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 136,
@@ -263,15 +284,21 @@
         "IsInitiator": true,
         "NextActivityWebId": "68db1ac2-9b0a-4859-8dbf-92a67930bdf1",
         "Name": "Every Five minutes",
+        "TryScope": null,
+        "CatchScope": null,
         "WebId": "edb22af4-9fc2-4f01-b0f1-8c949aea76fc"
       },
       {
         "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
         "IsTerminating": false,
-        "MethodName": "ExecEndActivityEnd2_5f7bAsync",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
+        "TypeName": "End",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 423,
@@ -281,6 +308,8 @@
         "IsInitiator": false,
         "NextActivityWebId": "",
         "Name": "End2",
+        "TryScope": null,
+        "CatchScope": null,
         "WebId": "5f7b4900-798c-43f4-8d8e-20d92c07c28a"
       },
       {
@@ -292,10 +321,14 @@
               "$type": "Bespoke.Sph.Domain.ListenBranch, domain.sph",
               "IsWaitingAsync": false,
               "IsDestroyed": false,
-              "MethodName": "ExecListenBranchVerify_2ea4Async",
               "IsAsync": false,
               "ExecutedCode": null,
               "ExecutingCode": null,
+              "TypeName": "ListenBranch",
+              "OtherMethodCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+                "$values": []
+              },
               "WorkflowDesigner": {
                 "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
                 "X": 0,
@@ -305,16 +338,22 @@
               "IsInitiator": false,
               "NextActivityWebId": "77d593ea-0bc9-443c-80d6-0b6f069912d7",
               "Name": "Verify",
+              "TryScope": null,
+              "CatchScope": null,
               "WebId": "2ea43c93-1e6e-4f64-b495-cfeb4d3cfe41"
             },
             {
               "$type": "Bespoke.Sph.Domain.ListenBranch, domain.sph",
               "IsWaitingAsync": false,
               "IsDestroyed": false,
-              "MethodName": "ExecListenBranchDelay_f16bAsync",
               "IsAsync": false,
               "ExecutedCode": null,
               "ExecutingCode": null,
+              "TypeName": "ListenBranch",
+              "OtherMethodCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+                "$values": []
+              },
               "WorkflowDesigner": {
                 "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
                 "X": 0,
@@ -324,14 +363,20 @@
               "IsInitiator": false,
               "NextActivityWebId": "5d76fa1a-521e-432f-8d2a-ec36abf1d057",
               "Name": "Delay",
+              "TryScope": null,
+              "CatchScope": null,
               "WebId": "f16bfc5f-e3b7-4e01-9c5d-f0224192871d"
             }
           ]
         },
         "IsAsync": true,
-        "MethodName": "ExecListenActivityStartsVerification_e56fAsync",
         "ExecutedCode": null,
         "ExecutingCode": null,
+        "TypeName": "Listen",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 415,
@@ -341,6 +386,8 @@
         "IsInitiator": false,
         "NextActivityWebId": "",
         "Name": "Starts Verification",
+        "TryScope": null,
+        "CatchScope": null,
         "WebId": "e56fda2b-5677-42e7-8da9-1e7fe0687d21"
       },
       {
@@ -351,9 +398,13 @@
         "Seconds": 0,
         "Hour": 0,
         "Days": 0,
-        "MethodName": "ExecDelayActivityDelayVerification_5d76Async",
         "ExecutedCode": "     await this.FireListenTriggerExecListenActivityStartsVerification_e56fAsync(\"5d76fa1a-521e-432f-8d2a-ec36abf1d057\");",
         "ExecutingCode": null,
+        "TypeName": "Delay",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 746,
@@ -363,6 +414,8 @@
         "IsInitiator": false,
         "NextActivityWebId": "da9fdcd3-a029-4174-9167-eaf6c4c6363f",
         "Name": "Delay Verification",
+        "TryScope": null,
+        "CatchScope": null,
         "WebId": "5d76fa1a-521e-432f-8d2a-ec36abf1d057"
       },
       {
@@ -375,10 +428,14 @@
         "Cc": "",
         "Bcc": "",
         "IsHtmlEmail": false,
-        "MethodName": "ExecNotificationActivityEmailLambatBuat_da9fAsync",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 738,
@@ -388,6 +445,8 @@
         "IsInitiator": false,
         "NextActivityWebId": "5f7b4900-798c-43f4-8d8e-20d92c07c28a",
         "Name": "Email lambat buat",
+        "TryScope": null,
+        "CatchScope": null,
         "WebId": "da9fdcd3-a029-4174-9167-eaf6c4c6363f"
       },
       {
@@ -400,10 +459,14 @@
         "Cc": "",
         "Bcc": "",
         "IsHtmlEmail": false,
-        "MethodName": "ExecNotificationActivityEmailTestMessage_46c9Async",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 627,
@@ -413,6 +476,8 @@
         "IsInitiator": false,
         "NextActivityWebId": "e56fda2b-5677-42e7-8da9-1e7fe0687d21",
         "Name": "Email test message",
+        "TryScope": null,
+        "CatchScope": null,
         "WebId": "46c9ff17-fab0-4e37-8fd5-8523285e41a3"
       },
       {
@@ -425,10 +490,14 @@
         "Cc": "",
         "Bcc": "",
         "IsHtmlEmail": false,
-        "MethodName": "ExecNotificationActivityEmailTestMessage_68dbAsync",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 385,
@@ -438,6 +507,8 @@
         "IsInitiator": false,
         "NextActivityWebId": "46c9ff17-fab0-4e37-8fd5-8523285e41a3",
         "Name": "Email test message",
+        "TryScope": null,
+        "CatchScope": null,
         "WebId": "68db1ac2-9b0a-4859-8dbf-92a67930bdf1"
       }
     ]
@@ -465,13 +536,25 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
     "$values": []
   },
-  "Id": "simple-screen-and-wait",
+  "CorrelationSetCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationTypeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "TryScopeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TryScope, domain.sph]], domain.sph",
+    "$values": []
+  },
   "Name": "Simple Screen and wait",
   "Note": "",
   "IsActive": true,
   "SchemaStoreId": "680e393e-3176-4db9-9832-f39463c7e061",
   "Version": 0,
   "CreatedBy": "admin",
+  "Id": "simple-screen-and-wait",
   "CreatedDate": "2014-02-08T07:27:17.0040446+08:00",
   "ChangedBy": "admin",
   "ChangedDate": "2014-04-25T06:46:58.779552+08:00",

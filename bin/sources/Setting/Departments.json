@@ -1,0 +1,12 @@
+{
+  "$type": "Bespoke.Sph.Domain.Setting, domain.sph",
+  "UserName": null,
+  "Key": "Departments",
+  "Value": "[{\"Name\":\"Finance\"},{\"Name\":\"Human Resource\"},{\"Name\":\"Information Technology\"},{\"Name\":\"Sales and Marketing\"}]",
+  "CreatedBy": "admin",
+  "Id": "Departments",
+  "CreatedDate": "2015-06-08T15:40:52.5426516+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-06-29T17:04:22.0465692+08:00",
+  "WebId": "39580cde-863c-4e69-8a6a-9b41eb22f7d0"
+}
