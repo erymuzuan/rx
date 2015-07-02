@@ -295,90 +295,60 @@ Write-Host ""
 ls -Path "$output\control.center" -Filter *.xml | Remove-Item
 ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
 
+$commonLibraries = @("Telerik", "Roslyn.Services", "Microsoft", "Oracle.ManagedDataAccess",
+"SuperSocket",
+"RabbitMQ.Client",
+"RazorEngine",
+"GalaSoft",
+"Spring",
+"System",
+"WebGrease",
+"NamedPipeWrapper",
+"Newtonsoft.Json",
+"websocket-sharp",
+"Humanizer",
+"log4net",
+"Roslyn.Utilities",
+"Roslyn.Compilers",
+"Raygun.Diagnostics",
+"Monads.NET",
+"Mindscape.",
+"MySql.Data",
+"SQLSpatialTools",
+"LinqToQuerystring",
+"WebActivatorEx",
+"ImageResizer",
+"DiffPlex",
+"WebActivator",
+"Owin",
+"Antlr3",
+"Common.Logging",
+"RazorGenerator.Mvc",
+"ICSharpCode.AvalonEdit"
+)
 
-Write-Host "Delete Roslyn dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteRoslyn = Read-Host
-if($deleteRoslyn -eq "y")
+foreach($lib in $commonLibraries)
 {
-    ls -Path $output -Recurse -Filter Roslyn.Compilers.* | Remove-Item
-    ls -Path $output -Recurse -Filter Roslyn.Services.* | Remove-Item
+    
+    Write-Host "Delete $lib dll ? [ENTER] or n [NO] : " -ForegroundColor Yellow -NoNewline
+    $deleteLib = Read-Host
+    if($deleteLib-eq "")
+    {
+        Write-Host "Deleting $lib.*"
+        ls -Path $output -Recurse -Filter "$lib*.dll" | Remove-Item
+        ls -Path $output -Recurse -Filter "$lib*.pdb" | Remove-Item
+        ls -Path $output -Recurse -Filter "$lib*.xml" | Remove-Item
+    }
+
 }
 
 
-Write-Host "Delete Microsoft.CodeAnalysis dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteMicrosoftCodeAnalysis = Read-Host
-if($deleteMicrosoftCodeAnalysis -eq "y")
-{
-    ls -Path $output -Recurse -Filter Microsoft.CodeAnalysis.* | Remove-Item
-}
-
-Write-Host "Delete Telerik dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteTelerik = Read-Host
-if($deleteTelerik -eq "y")
-{
-    ls -Path $output -Recurse -Filter Telerik.* | Remove-Item
-}
-#Oracle.ManagedDataAccess
-Write-Host "Delete Oracle.ManagedDataAccess dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteOracleManagedDataAccess= Read-Host
-if($deleteOracleManagedDataAccess-eq "y")
-{
-    ls -Path $output -Recurse -Filter Oracle.ManagedDataAccess.* | Remove-Item
-}
-
-#SuperSocket
-Write-Host "Delete SuperSocket dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteSuperSocket = Read-Host
-if($deleteSuperSocket -eq "y")
-{
-    ls -Path $output -Recurse -Filter SuperSocket.* | Remove-Item
-}
-
-#RabbitMQ.Client
-Write-Host "Delete RabbitMQ.Client dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteRabbitMQClient= Read-Host
-if($deleteRabbitMQClient -eq "y")
-{
-    ls -Path $output -Recurse -Filter RabbitMQ.Client.* | Remove-Item
-}
-
-#RazorEngine
-Write-Host "Delete RazorEngine dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteRazorEngine = Read-Host
-if($deleteRazorEngine -eq "y")
-{
-    ls -Path $output -Recurse -Filter RazorEngine.* | Remove-Item
-}
-
-
-#Spring
-Write-Host "Delete Spring dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteSpring = Read-Host
-if($deleteSpring -eq "y")
-{
-    ls -Path $output -Recurse -Filter Spring.* | Remove-Item
-}
-
-#System
-Write-Host "Delete System dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteSystem = Read-Host
-if($deleteSystem -eq "y")
-{
-    ls -Path $output -Recurse -Filter System.* | Remove-Item
-}
-
-#WebGrease
-Write-Host "Delete WebGrease dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
-$deleteWebGrease = Read-Host
-if($deleteWebGrease -eq "y")
-{
-    ls -Path $output -Recurse -Filter WebGrease.* | Remove-Item
-}
 
 
 # remove unused and big files
 ls -Path $output\control.center -Filter *.xml | Remove-Item
 
+ls -Path $output -Recurse -Filter assembly.test.* | Remove-Item
 ls -Path $output -Recurse -Filter GalaSoft.*.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Microsoft.*.pdb | Remove-Item
 ls -Path $output -Recurse -Filter sqlmembership.directoryservices.dll.config | Remove-Item
