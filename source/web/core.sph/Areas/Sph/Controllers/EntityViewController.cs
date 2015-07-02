@@ -89,8 +89,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             {
                 return Json(new {hits = new {total = 0}}, JsonRequestBehavior.AllowGet);
             }
-            var view = System.IO.File.ReadAllText(path).DeserializeFromJson<EntityView>();
-            var type = view.Entity.ToLowerInvariant();
+            var view = path.DeserializeFromJsonFile<EntityView>();
+            var type = view.EntityDefinitionId.ToLowerInvariant();
 
             var json = (@" {
                 ""query"": {
