@@ -21,6 +21,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         /// <returns></returns>
         protected virtual uint GetParallelProcessing()
         {
+            var config = ConfigurationManager.AppSettings["sph:prefetchCount:" + this.QueueName];
+            var count = 1;
+            if (int.TryParse(config, out count))
+                return Convert.ToUInt16(count);
             return 1;
         }
 

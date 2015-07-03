@@ -230,7 +230,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "bdbb22ef-924c-4c81-87c8-cf4caf5826a0",
+  "IconStoreId": "81fb30cd-1e4f-49cf-a252-c8f6d4768c62",
   "EntityDefinitionId": "patient",
   "Name": "All patients",
   "Route": "all-patients",
