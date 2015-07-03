@@ -366,14 +366,14 @@ namespace Bespoke.Sph.Web.Api
             if (string.IsNullOrWhiteSpace(id))
             {
                 if (!Directory.Exists(folder)) return null;
-                var files = System.IO.Directory.GetFiles(folder, "*.json");
+                var files = Directory.GetFiles(folder, "*.json");
                 if (string.IsNullOrWhiteSpace(filter) || filter == "Id ne '0'")
                 {
 
                     list = files
                        .Skip((page - 1) * size)
                        .Take(size)
-                       .Select(f => System.IO.File.ReadAllText(f).DeserializeFromJson<T>())
+                       .Select(f => f.DeserializeFromJsonFile<T>())
                        .ToList();
                     rows = files.Length;
                 }
@@ -393,8 +393,9 @@ namespace Bespoke.Sph.Web.Api
                         .Replace("IsPrivate eq 1", "IsPrivate eq true")
                         .Replace("IsPrivate eq 0", "IsPrivate eq false")
                         .Replace(" OR ", " or ")
+                        .Replace("[DataSource.EntityName]", "DataSource/EntityName")
                         ;
-                    var filtered = files.Select(f => System.IO.File.ReadAllText(f).DeserializeFromJson<T>())
+                    var filtered = files.Select(f => f.DeserializeFromJsonFile<T>())
                         .AsQueryable()
                         .LinqToQuerystring("?$filter=" + filter)
                         .ToList();
@@ -411,18 +412,16 @@ namespace Bespoke.Sph.Web.Api
                 var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{id}.json";
                 if (System.IO.File.Exists(file))
                 {
-                    using (var stream = System.IO.File.Open(file, FileMode.Open, FileAccess.Read))
-                    {
-                        var item = stream.DeserializeJson<T>();
-                        list.Add(item);
-                    }
+                    var item = file.DeserializeFromJsonFile<T>();
+                    list.Add(item);
+
                     rows = 1;
                 }
                 else
                 {
-                    var files = System.IO.Directory.GetFiles(folder, "*.json");
+                    var files = Directory.GetFiles(folder, "*.json");
                     var item = files
-                        .Select(f => System.IO.File.ReadAllText(f).DeserializeFromJson<T>())
+                        .Select(f => f.DeserializeFromJsonFile<T>())
                         .FirstOrDefault(x => x.Id == id);
                     if (null != item)
                         list.Add(item);

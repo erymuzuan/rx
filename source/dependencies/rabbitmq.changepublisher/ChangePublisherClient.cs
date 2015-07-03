@@ -61,15 +61,19 @@ namespace Bespoke.Sph.RabbitMqPublisher
             const string ROUTING_KEY = "persistence";
             var attachedJson = attachedEntities.Select(x => x.ToJsonString(true));
             var deletedJson = deletedCollection.Select(x => x.ToJsonString(true));
-            var json = string.Format(@"
+            var attached = string.Join(",\r\n", attachedJson);
+            var deleted = string.Join(",\r\n", deletedJson);
+            var json =
+                $@"
 {{
     ""attached"":[
-                    {0}
+                    {attached
+                    }
                 ],
     ""deleted"":[
-                    {1}
+                    {deleted}
                 ]
-}}", string.Join(",\r\n", attachedJson), string.Join(",\r\n", deletedJson));
+}}";
 
             var body = await CompressAsync(json);
 
@@ -96,7 +100,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
             var count = 91;
             if (props.Headers.ContainsKey("sph.trycount"))
                 count = (int) props.Headers["sph.trycount"];
-            Console.WriteLine("Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"],count.Ordinalize());
+            Console.WriteLine(@"Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"],count.Ordinalize());
             const string RETRY_EXCHANGE = "sph.retry.exchange";
             const string RETRY_QUEUE = "sph.retry.queue";
             var delay = (long)props.Headers["sph.delay"]; // in ms

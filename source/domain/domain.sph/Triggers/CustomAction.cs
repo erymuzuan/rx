@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -15,6 +16,7 @@ namespace Bespoke.Sph.Domain
         {
             throw new Exception("NotImplemented");
         }
+        [JsonIgnore]
         public virtual bool UseAsync
         {
             get
@@ -22,6 +24,7 @@ namespace Bespoke.Sph.Domain
                 throw new Exception("NotImplemented");
             }
         }
+        [JsonIgnore]
         public virtual bool UseCode => false;
 
         public virtual string GetEditorViewModel()

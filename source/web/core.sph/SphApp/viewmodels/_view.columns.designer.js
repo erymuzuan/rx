@@ -31,10 +31,7 @@ define([objectbuilders.datacontext], function (context) {
 
             $.when(entityTask, formsTask, viewsTask, customFormTask).done(function (b, flo, vlo, customForms) {
                 _entity(b);
-                var forms = _(flo).map(function (v) {
-                    return { Name: v.Item1, Route: v.Item2 };
-                });
-                formsOptions(forms);
+                formsOptions(flo);
 
                 formsOptions.push({ Name: " -- ", Route: "invalid" });
                 formsOptions.push({ Name: "[Or select a view]", Route: "invalid" });

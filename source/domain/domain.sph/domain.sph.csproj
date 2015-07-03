@@ -171,6 +171,7 @@
     <Compile Include="Compilers\CompilerHelper.cs" />
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="Core\DictionaryHelper.cs" />
+    <Compile Include="Core\StoreAsSourceAttribute.cs" />
     <Compile Include="Core\ValidationError.cs" />
     <Compile Include="Business\Attachment.cs" />
     <Compile Include="Business\AuditTrail.cs" />

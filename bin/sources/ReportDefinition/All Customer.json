@@ -176,7 +176,7 @@
     "Query": "",
     "WebId": null
   },
-  "ReportDefinitionId": 1006,
+  "Id": "all-customers",
   "Title": "All Customer",
   "Category": "",
   "IsActive": true,

@@ -53,7 +53,7 @@ namespace Bespoke.Sph.SqlRepository
                 foreach (var item in addedList)
                 {
                     var source = item.GetType().GetCustomAttribute<StoreAsSourceAttribute>();
-                    if (null != source && source.IsSqlDatabase == false)
+                    if (null != source && !source.IsSqlDatabase)
                         continue;
 
                     if (string.IsNullOrWhiteSpace(item.WebId)) item.WebId = Strings.GenerateId();
@@ -62,7 +62,7 @@ namespace Bespoke.Sph.SqlRepository
                     count++;
                     int count1 = count;
                     var entityType = item.GetEntityType();
-                    
+
                     var metadataType = metadataProvider.GetTable(entityType.Name);
                     if (null == metadataType) throw new InvalidOperationException("Cannot find the Metadata type in SQL Server :" + entityType.Name);
 

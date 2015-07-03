@@ -12,7 +12,7 @@ namespace subscriber.entities
     {
         public override string QueueName => "ed_view_gen";
 
-        public override string[] RoutingKeys => new[] { typeof(EntityView).Name + ".changed.Publish" };
+        public override string[] RoutingKeys => new[] { typeof(EntityView).Name + ".#.Publish" };
 
         protected async override Task ProcessMessage(EntityView view, MessageHeaders header)
         {

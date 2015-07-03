@@ -107,6 +107,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             get
             {
+                var user = m_args.Properties.Headers["username"] as string;
+                if (!string.IsNullOrWhiteSpace(user))
+                    return user;
+
                 var operationBytes = m_args.Properties.Headers["username"] as byte[];
                 if (null != operationBytes)
                     return ByteToString(operationBytes);

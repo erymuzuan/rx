@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -128,7 +130,6 @@ namespace Bespoke.Sph.Persistence
 
 
         }
-
         private async Task<IEnumerable<Entity>> GetPreviousItems(IEnumerable<Entity> items)
         {
             var list = new ObjectCollection<Entity>();
@@ -136,6 +137,21 @@ namespace Bespoke.Sph.Persistence
             {
                 var o1 = item;
                 var type = item.GetEntityType();
+
+                var source = StoreAsSourceAttribute.GetAttribute(type);
+                if (null != source)
+                {
+                    var file = $"{ConfigurationManager.SphSourceDirectory}\\{type.Name}\\{item.Id}.json";
+                    if (!File.Exists(file))
+                        continue;
+
+                    var old = File.ReadAllText(file).DeserializeFromJson<Entity>();
+                    list.Add(old);
+
+                    continue;
+                }
+
+
                 var reposType = typeof(IRepository<>).MakeGenericType(type);
                 var repos = ObjectBuilder.GetObject(reposType);
 
