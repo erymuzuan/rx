@@ -108,14 +108,8 @@ define(["durandal/system","services/system", "plugins/router", "services/logger"
                     if (_(config.roles).indexOf("developers") < 0) {
                         return;
                     }
-                    require(["viewmodels/solution.explorer.2", "durandal/app"], function (dialog, app2) {
 
-                        app2.showDialog(dialog)
-                            .done(function (result) {
-                                console.log(result);
-                            });
-
-                    });
+                    router.navigate("solution.explorer.2");
                 });
 
                
