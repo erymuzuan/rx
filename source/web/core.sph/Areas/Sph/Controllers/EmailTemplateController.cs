@@ -86,9 +86,9 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(true);
         }
 
-        [HttpPost]
-        [Route("generate")]
-        public async Task<ActionResult> Generate(string entity, int id, string templateId)
+        [HttpGet]
+        [Route("generate/{entity}/{id}/{templateId}")]
+        public async Task<ActionResult> Generate(string entity, string id, string templateId)
         {
             var context = new SphDataContext();
             var template = await context.LoadOneAsync<EmailTemplate>(e => e.Id == templateId);
@@ -102,7 +102,7 @@ namespace Bespoke.Sph.Web.Controllers
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
             var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed.Name);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
+            var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
             var edType = edAssembly.GetType(edTypeName);
             if (null == edType)
                 Console.WriteLine("Cannot create type " + edTypeName);
@@ -116,7 +116,7 @@ namespace Bespoke.Sph.Web.Controllers
             var subject = await razor.GenerateAsync(template.SubjectTemplate, item);
             var body = await razor.GenerateAsync(template.BodyTemplate, item);
 
-            return Json(new { success = true, status = "OK", message = "Your template has been successfully generated", subject, body });
+            return Json(new { success = true, status = "OK", message = "Your template has been successfully generated", subject, body }, JsonRequestBehavior.AllowGet);
 
         }
     }

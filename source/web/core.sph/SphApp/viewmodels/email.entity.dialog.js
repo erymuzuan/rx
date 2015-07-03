@@ -8,7 +8,7 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
+define(["services/datacontext", "services/logger", "plugins/dialog"],
     function (context, logger, dialog) {
 
         var entity = ko.observable(),
@@ -21,10 +21,10 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             body = ko.observable(),
             message = ko.observable(),
             activate = function () {
-                to('');
-                subject('');
-                body('');
-                message('');
+                to("");
+                subject("");
+                body("");
+                message("");
                 template(0);
 
                 var query = String.format("IsPublished eq 1 and Entity eq '{0}'", entity()),
@@ -47,7 +47,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                     }),
                     self = this;
 
-                context.post(data, "/Sph/EmailTemplate/Send")
+                context.post(data, "/email-template/send")
                     .then(function (result) {
                         tcs.resolve(result);
                         dialog.close(self, "OK");
@@ -66,18 +66,14 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             if (!emailTemplateId) {
                 return false;
             }
-            var tcs = new $.Deferred(),
-                data = JSON.stringify({ entity: entity(), id: id(), templateId: emailTemplateId });
-            isBusy(true);
+             isBusy(true);
 
-            context.post(data, "/Sph/EmailTemplate/Generate")
+           return $.get( "/email-template/generate/" + ko.unwrap(entity) + "/" + ko.unwrap(id) + "/" + emailTemplateId)
                 .then(function (result) {
                     isBusy(false);
                     subject(result.subject);
                     body(result.body);
-                    tcs.resolve(result);
                 });
-            return tcs.promise();
         });
         var vm = {
             message: message,
