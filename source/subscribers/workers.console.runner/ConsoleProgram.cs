@@ -16,10 +16,19 @@ namespace workers.console.runner
 
         public static int Main(string[] args)
         {
+            if (ParseArgExist("?"))
+            {
+                PrintHelp();
+                return 0;
+            }
+            Console.WriteLine("Use /? for help");
+            Console.WriteLine("(c) 2014 Bespoke Technology Sdn. Bhd.");
+            Console.WriteLine();
             var host = ParseArg("h") ?? "localhost";
             var vhost = ParseArg("v") ?? "DevV1";
             var userName = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
+            var instanceName = ParseArg("i") ?? "instance";
             var debug = ParseArgExist("debug");
             if (debug)
             {
@@ -28,7 +37,6 @@ namespace workers.console.runner
             }
 
             var port = ParseArg("port") == null ? 5672 : int.Parse(ParseArg("port"));
-
 
             var sw = new Stopwatch();
             sw.Start();
@@ -67,7 +75,7 @@ namespace workers.console.runner
                 program.Stop();
                 stopFlag.Set();
             };
-            StartNamePipeServer(program, stopFlag);
+            StartNamePipeServer(program, instanceName, stopFlag);
 
             var discoverElapsed = sw.Elapsed;
             program.Start(metadata);
@@ -83,9 +91,9 @@ namespace workers.console.runner
             return 0;
         }
 
-        private static void StartNamePipeServer(Program program, EventWaitHandle stopFlag)
+        private static void StartNamePipeServer(Program program, string instanceName, EventWaitHandle stopFlag)
         {
-            var server = new NamedPipeServer<string>(string.Format("RxDevConsole." + ConfigurationManager.ApplicationName));
+            var server = new NamedPipeServer<string>($"RxDevConsole.{ConfigurationManager.ApplicationName}.{instanceName}");
             server.ClientConnected += delegate (NamedPipeConnection<string, string> conn)
             {
                 Console.WriteLine("Client {0} is now connected!", conn.Id);
@@ -118,6 +126,20 @@ namespace workers.console.runner
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var val = args.SingleOrDefault(a => a.StartsWith("/" + name));
             return null != val;
+        }
+
+        private static void PrintHelp()
+        {
+            Console.WriteLine("Starts a RabbitMQ subscribers");
+            Console.WriteLine("Use these command line parameter to specify your options");
+            Console.WriteLine("     /h:<host name> the name of the RabbitMq host, or the IP address, the default is locahost");
+            Console.WriteLine("     /v:<virtual host> the name of the virtual host on your RabbitMq Server, the default DevV1");
+            Console.WriteLine("     /u:<user name> username used to connect to RabbitMq server, the default is guest");
+            Console.WriteLine("     /p:<password> password used to connect to RabbitMq server, the default is guest");
+            Console.WriteLine("     /port:<port number> the port number for connection to RabbitMq, the default is 5672");
+            Console.WriteLine("     /i:<instance name> if you need to run multiple instance of console.worker then you need to give them diferrent instance name");
+            Console.WriteLine("     /debug a switch to halt the loading so that you can attach a debugger ");
+            Console.WriteLine("     /log:<log name> to output the log to console use /log:console, else it will use Windows event logs");
         }
 
     }
