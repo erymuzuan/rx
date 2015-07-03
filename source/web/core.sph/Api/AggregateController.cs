@@ -1,24 +1,61 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
+using LinqToQuerystring;
 
 namespace Bespoke.Sph.Web.Api
 {
     [NoCache]
+    [RoutePrefix("aggregate")]
     public class AggregateController : Controller
     {
         public static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
+        [Route("scalar/{table}/{column}")]
         public async Task<ActionResult> Scalar(string column, string table, string filter)
         {
+
+
+            // TODO : should get all the one with SaveAsSourceAttribute instead
+            var type = table.ToLowerInvariant();
+            switch (type)
+            {
+                case "entitydefinition": return GetSystemObjectScalar<EntityDefinition>(column, filter);
+                case "transformdefinition": return GetSystemObjectScalar<TransformDefinition>(column, filter);
+                case "entityview": return GetSystemObjectScalar<EntityView>(column, filter);
+                case "entityform": return GetSystemObjectScalar<EntityForm>(column, filter);
+                case "entitychart": return GetSystemObjectScalar<EntityChart>(column, filter);
+                case "trigger": return GetSystemObjectScalar<Trigger>(column, filter);
+                case "adapter": return GetSystemObjectScalar<Adapter>(column, filter);
+            }
             var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Scalar(filter);
             return await ExecuteScalarAsync(sql);
+        }
+
+        private ActionResult GetSystemObjectScalar<T>(string column, string filter) where T : Entity
+        {
+            var context = new SphDataContext();
+            var val = context.LoadFromSources<T>()
+                .AsQueryable()
+                .LinqToQuerystring($"?$filter={filter}")
+                .AsQueryable()
+                .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
+                .FirstOrDefault();
+            if (null == val)
+                return Json("", JsonRequestBehavior.AllowGet);
+            if (!val.ContainsKey(column))
+                return Json("", JsonRequestBehavior.AllowGet);
+
+            return Json(val[column].ToString(), JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> Sum(string column, string table, string filter)

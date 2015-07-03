@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
+using LinqToQuerystring;
 
 namespace Bespoke.Sph.Web.Api
 {
@@ -31,6 +33,17 @@ namespace Bespoke.Sph.Web.Api
 
         public async Task<ActionResult> Tuple(string table, string filter, string column, string column2, string column3 = "", string column5 = "", string column4 = "")
         {
+            if (string.Equals(table, nameof(EntityForm), StringComparison.InvariantCultureIgnoreCase))
+            {
+                var context = new SphDataContext();
+                var forms = context.LoadFromSources<EntityForm>()
+                    .AsQueryable()
+                    .LinqToQuerystring($"?$filter={filter}")
+                    .AsQueryable()
+                    .LinqToQuerystring<EntityForm, IQueryable<Dictionary<string, object>>>($"?$select={column},{column2}")
+                    .ToList();
+                return Json(forms, JsonRequestBehavior.AllowGet);
+            }
             var translator = new OdataSqlTranslator("", table);
             if (!string.IsNullOrWhiteSpace(column5))
             {
