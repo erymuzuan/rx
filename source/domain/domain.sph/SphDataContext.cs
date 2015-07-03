@@ -4,10 +4,8 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.QueryProviders;
-
 
 namespace Bespoke.Sph.Domain
 {
@@ -48,10 +46,10 @@ namespace Bespoke.Sph.Domain
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
-                return new T[] {};
+                return new T[] { };
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => File.ReadAllText(f).DeserializeFromJson<T>());
+                .Select(f => f.DeserializeFromJsonFile<T>());
         }
 
         public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
@@ -61,7 +59,7 @@ namespace Bespoke.Sph.Domain
                 return new T[] { };
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => File.ReadAllText(f).DeserializeFromJson<T>())
+                .Select(f => f.DeserializeFromJsonFile<T>())
                 .Where(predicate.Compile());
         }
         public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
@@ -69,10 +67,9 @@ namespace Bespoke.Sph.Domain
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return default(T);
-           
-
+            
             return Directory.GetFiles(path, "*.json")
-                .Select(f => File.ReadAllText(f).DeserializeFromJson<T>())
+                .Select(f => f.DeserializeFromJsonFile<T>())
                 .FirstOrDefault(predicate.Compile());
         }
 
@@ -85,13 +82,14 @@ namespace Bespoke.Sph.Domain
 
         internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session, IDictionary<string, object> headers)
         {
-            if(null == headers)
+            if (null == headers)
                 headers = new Dictionary<string, object>();
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
             var so = new SubmitOperation { Token = Guid.NewGuid().ToString() };
             headers.AddOrReplace("sph.token", so.Token);
             headers.AddOrReplace("sph.timestamp", DateTime.Now.ToString("s"));
+            headers.AddOrReplace("username", ObjectBuilder.GetObject<IDirectoryService>().CurrentUserName);
 
             await publisher.SubmitChangesAsync(operation, session.AttachedCollection, session.DeletedCollection, headers)
                 .ConfigureAwait(false);
@@ -101,11 +99,10 @@ namespace Bespoke.Sph.Domain
 
         public async Task<T> LoadOneAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            var storeAsSource = typeof (T).GetCustomAttribute(typeof (StoreAsSourceAttribute)) as StoreAsSourceAttribute;
-            if(null != storeAsSource)
-            {
+            var storeAsSource = StoreAsSourceAttribute.GetAttribute<T>();
+            if (null != storeAsSource)
                 return this.LoadOneFromSources(predicate);
-            }
+
 
             var provider = ObjectBuilder.GetObject<QueryProvider>();
             var query = new Query<T>(provider).Where(predicate);
@@ -114,6 +111,10 @@ namespace Bespoke.Sph.Domain
         }
         public T LoadOne<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
+            var storeAsSource = StoreAsSourceAttribute.GetAttribute<T>();
+            if (null != storeAsSource)
+                return this.LoadOneFromSources(predicate);
+
             var provider = ObjectBuilder.GetObject<QueryProvider>();
             var query = new Query<T>(provider).Where(predicate);
             var repos = ObjectBuilder.GetObject<IRepository<T>>();
