@@ -27,6 +27,9 @@
                         @User.Identity.Name
                         <span class="caret"></span>
                     </button>
+                    <button class="btn" id="solution-explorer-menu" title="Solution Explorer">
+                        <span class="glyphicon glyphicon-star"></span>
+                    </button>
                     <ul class="dropdown-menu" style="z-index: 9999">
                         <li><a href="#user.profile"><i class="fa fa-user"></i>Profile</a></li>
                         <li><a href="@Url.Action("Logoff", "SphAccount", new {area = "Sph"})"><i class="fa fa-power-off"></i>Logout</a></li>
