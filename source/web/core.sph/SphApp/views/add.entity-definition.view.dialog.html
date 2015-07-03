@@ -1,0 +1,37 @@
+﻿
+<section class="view-model-modal" id="add-entity-definition-view-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Add new View</h3>
+            </div>
+            <div class="modal-body" data-bind="with: view">
+
+                <form class="form-horizontal" id="add-entity-definition-view-dialog-form">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Route</label>
+                        <input required class="form-control" data-bind="value: Route" id="form-design-Route" type="text" name="FormDesign.Route"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="view-note" class="col-sm-2 control-label">Note</label>
+                        <div class="col-sm-6">
+                            <textarea data-bind="value: Note, valueUpdate: 'keyup'"
+                                      placeholder="Note about the view"
+                                      class="form-control" id="view-note"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="add-entity-definition-view-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>
