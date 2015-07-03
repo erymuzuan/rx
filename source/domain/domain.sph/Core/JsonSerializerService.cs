@@ -201,6 +201,35 @@ namespace Bespoke.Sph.Domain
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file">The path to the json file</param>
+        /// <returns></returns>
+        public static T DeserializeFromJsonFile<T>(this string file)
+        {
+            if (!File.Exists(file))
+                throw new ArgumentException("Cannot find file " + file, nameof(file));
+            try
+            {
+                using (var reader = File.OpenText(file))
+                {
+                    var serializer = new JsonSerializer();
+                    return (T)serializer.Deserialize(reader, typeof(T));
+                }
+            }
+            catch (JsonReaderException e)
+            {
+                ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(e, new[] { "File", file }));
+                throw new Exception($"Cannot deserialize the content of {file} to {typeof(T).FullName}", e);
+            }
+            catch (JsonSerializationException e)
+            {
+                ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(e, new[] { "File", file }));
+                throw new Exception($"Cannot deserialize the content of {file} to {typeof(T).FullName}", e);
+            }
+
+        }
 
 
         public static T DeserializeFromJson<T>(this Stream stream)
