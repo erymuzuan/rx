@@ -82,9 +82,9 @@
             </tr>
         </thead>
         <tbody data-bind="foreach :queues">
-            <tr>
+            <tr data-bind="css : {'danger' : messages > 0}">
                 <td>
-                    <span data-bind="text:name"></span>
+                    <a href="#queue-detail-dialog" data-toggle="modal" data-bind="text:name, click : $parent.viewQueueDetail"></a>
                     <!-- ko if : name === 'ms_dead_letter_queue'-->
                     <a href="#rabbitmq-consoles-panel" data-bind="attr:{'href':'#deadletter.view'}">
                         <i class="fa fa-arrow-right"></i>
@@ -103,4 +103,114 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+
+<div class="modal fade" role="dialog" id="queue-detail-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with : selectedQueue">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 data-bind="text:name">Queueu detail dialog</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Memory</td>
+                            <td data-bind="text:memory"></td>
+                        </tr>
+                        <tr>
+                            <td>Messages</td>
+                            <td data-bind="text:messages"></td>
+                        </tr>
+                        <tr>
+                            <td>Rate</td>
+                            <td data-bind="text:messages_details.rate"></td>
+                        </tr>
+                        <tr>
+                            <td>messages_ready</td>
+                            <td data-bind="text:messages_ready"></td>
+                        </tr>
+                        <tr>
+                            <td>messages_ready_details</td>
+                            <td data-bind="text:messages_ready_details.rate"></td>
+                        </tr>
+                        <tr>
+                            <td>messages_unacknowledged</td>
+                            <td data-bind="text:messages_unacknowledged"></td>
+                        </tr>
+                        <tr>
+                            <td>messages_unacknowledged_details</td>
+                            <td data-bind="text:messages_unacknowledged_details.rate"></td>
+                        </tr>
+                        <tr>
+                            <td>idle_since</td>
+                            <td data-bind="text:idle_since"></td>
+                        </tr>
+                        <tr>
+                            <td>consumer_utilisation</td>
+                            <td data-bind="text:consumer_utilisation"></td>
+                        </tr>
+                        <tr>
+                            <td>state</td>
+                            <td data-bind="text:state"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Consumers</h4>
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>channel_details</th>
+                            <th>consumer_tag</th>
+                            <th>prefetch_count</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach :consumer_details">
+                        <tr>
+                            <td data-bind="with : channel_details">
+                                <label>connection_name</label>: <span data-bind="text:connection_name"></span>
+                                <label>peer_port</label>: <span data-bind="text:peer_port"></span>
+                                <label>peer_host</label>: <span data-bind="text:peer_host"></span>
+                                <label>number</label>: <span data-bind="text:number"></span>
+                            </td>
+                            <td data-bind="text:consumer_tag"></td>
+                            <td data-bind="text:prefetch_count"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Bindings</h4>
+                <table class="table table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>source</th>
+                        <th>destination</th>
+                        <th>routing_key</th>
+                    </tr>
+                    </thead>
+                    <tbody data-bind="foreach :$parent.bindings">
+                    <tr>
+                        <td data-bind="text:source"></td>
+                        <td data-bind="text:destination"></td>
+                        <td data-bind="text:routing_key"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
 </div>
