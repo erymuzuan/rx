@@ -8,11 +8,6 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public class StoreAsSourceAttribute : Attribute
-    {
-        public bool IsElasticsearch { get; set; }
-        public bool IsSqlDatabase { get; set; }
-    }
     public abstract class Entity : DomainObject
     {
         [XmlAttribute]
