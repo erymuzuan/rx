@@ -186,7 +186,7 @@
     "Query": "",
     "WebId": null
   },
-  "ReportDefinitionId": 2,
+  "Id": "my-customers-2013",
   "Title": "My customers in 2013",
   "Category": "Customer",
   "IsActive": true,
