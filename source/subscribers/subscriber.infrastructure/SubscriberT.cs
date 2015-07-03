@@ -15,19 +15,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         private TaskCompletionSource<bool> m_stoppingTcs;
         protected abstract Task ProcessMessage(T item, MessageHeaders header);
-        /// <summary>
-        /// The number of messages prefetch by the broker in a batch.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual uint GetParallelProcessing()
-        {
-            var config = ConfigurationManager.AppSettings["sph:prefetchCount:" + this.QueueName];
-            var count = 1;
-            if (int.TryParse(config, out count))
-                return Convert.ToUInt16(count);
-            return 1;
-        }
-
+     
         public override void Run()
         {
             var sw = new Stopwatch();
@@ -143,7 +131,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
 
 
-            m_channel.BasicQos(0, (ushort)this.GetParallelProcessing(), false);
+            m_channel.BasicQos(0, this.PrefectchCount, false);
 
             m_consumer = new TaskBasicConsumer(m_channel);
             m_consumer.Received += Received;

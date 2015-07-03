@@ -24,14 +24,8 @@ namespace Bespoke.Sph.Persistence
         public override string[] RoutingKeys => new[] { "persistence" };
 
         private TaskCompletionSource<bool> m_stoppingTcs;
-        /// <summary>
-        /// The number of messages prefetch by the broker in a batch.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual uint GetParallelProcessing()
-        {
-            return 1;
-        }
+
+
 
         public override void Run()
         {
@@ -121,7 +115,7 @@ namespace Bespoke.Sph.Persistence
             {
                 m_channel.QueueBind(this.QueueName, EXCHANGE_NAME, s, null);
             }
-            m_channel.BasicQos(0, (ushort)this.GetParallelProcessing(), false);
+            m_channel.BasicQos(0, (ushort)this.PrefectchCount, false);
 
             m_consumer = new TaskBasicConsumer(m_channel);
             m_consumer.Received += Received;

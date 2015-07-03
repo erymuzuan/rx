@@ -22,6 +22,25 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public abstract string[] RoutingKeys { get; }
         public INotificationService NotificicationService { get; set; }
 
+        private ushort m_prefetchCount = 1;
+        /// <summary>
+        /// The number of messages prefetch by the broker in a batch.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ushort PrefectchCount
+        {
+            get
+            {
+                if (m_prefetchCount != 1) return m_prefetchCount;
+                var config = ConfigurationManager.AppSettings["sph:PrefetchCount:" + this.QueueName];
+                var count = 1;
+                if (int.TryParse(config, out count))
+                    return Convert.ToUInt16(count);
+                return m_prefetchCount;
+            }
+            set { m_prefetchCount = value; }
+        }
+
         public abstract void Run();
         protected void WriteError(Exception exception)
         {
@@ -79,14 +98,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
 
-        public  Task RegisterCustomEntityDependencies()
+        public Task RegisterCustomEntityDependencies()
         {
             var sqlAssembly = Assembly.Load("sql.repository");
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
             var context = new SphDataContext();
             var entityDefinitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
-         
+
 
             var bags = new ConcurrentDictionary<Type, object>();
             Parallel.ForEach(entityDefinitions, (ed, count) =>
