@@ -8,7 +8,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using subscriber.entities;
 
-namespace sph.builder
+namespace Bespoke.Sph.SourceBuilders
 {
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
@@ -29,9 +29,9 @@ namespace sph.builder
             Console.WriteLine("Reading from " + folder);
 
             var tasks = from f in Directory.GetFiles(folder, "*.json")
-                let json = File.ReadAllText(f)
-                let ed = json.DeserializeFromJson<EntityDefinition>()
-                select this.RestoreAsync(ed);
+                        let json = File.ReadAllText(f)
+                        let ed = json.DeserializeFromJson<EntityDefinition>()
+                        select this.RestoreAsync(ed);
 
             await Task.WhenAll(tasks);
 
@@ -44,7 +44,7 @@ namespace sph.builder
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName.ToLowerInvariant() + "/_mapping/" + ed.Name.ToLowerInvariant() );
+                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName.ToLowerInvariant() + "/_mapping/" + ed.Name.ToLowerInvariant());
                 Console.WriteLine("DELETE {1} type : {0}", response.StatusCode, ed.Name.ToLowerInvariant());
             }
         }
@@ -52,7 +52,6 @@ namespace sph.builder
         public async override Task RestoreAsync(EntityDefinition ed)
         {
             await this.DeleteElasticSearchType(ed);
-            await InsertAsync(ed);
 
             var type = CompileEntityDefinition(ed);
             Console.WriteLine("Compiled : {0}", type);
@@ -70,32 +69,11 @@ namespace sph.builder
                 var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification(null) };
                 await subs.PutMappingAsync(clone);
             }
-            await InsertIconAsync(ed);
 
             Console.WriteLine("Deploying : {0}", ed.Name);
-            DeployCustomEntity(ed);
 
         }
 
-        private async Task InsertIconAsync(EntityDefinition ed)
-        {
-            var wc = ConfigurationManager.SphSourceDirectory;
-            var folder = Path.Combine(wc, typeof(EntityDefinition).Name);
-            var icon = Path.Combine(folder, ed.Name + ".png");
-            if (!File.Exists(icon)) return;
-
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var schema = new BinaryStore
-            {
-                Content = File.ReadAllBytes(icon),
-                Extension = ".png",
-                Id = ed.IconStoreId,
-                FileName = ed.Name + ".png",
-                WebId = ed.IconStoreId
-            };
-            await store.DeleteAsync(ed.IconStoreId);
-            await store.AddAsync(schema);
-        }
 
         private static Type CompileEntityDefinition(EntityDefinition ed)
         {
@@ -118,23 +96,8 @@ namespace sph.builder
             var type = assembly.GetType($"{ed.CodeNamespace}.{ed.Name}");
             return type;
         }
-        
-        private static void DeployCustomEntity(EntityDefinition ed)
-        {
-            var dll = $"{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
-            var pdb = $"{ConfigurationManager.ApplicationName}.{ed.Name}.pdb";
-            var dllFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, dll);
-            var pdbFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, pdb);
 
-            File.Copy(dllFullPath, ConfigurationManager.WebPath + @"\bin\" + dll, true);
-            File.Copy(pdbFullPath, ConfigurationManager.WebPath + @"\bin\" + pdb, true);
 
-            File.Copy(dllFullPath, ConfigurationManager.SubscriberPath + @"\" + dll, true);
-            File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);
-
-            File.Copy(dllFullPath, ConfigurationManager.ToolsPath + @"\" + dll, true);
-            File.Copy(pdbFullPath, ConfigurationManager.ToolsPath + @"\" + pdb, true);
-        }
 
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
 
-namespace sph.builder
+namespace Bespoke.Sph.SourceBuilders
 {
     public static class Program
     {
@@ -85,59 +85,9 @@ namespace sph.builder
             var edb = new EntityDefinitionBuilder();
             edb.Initialize();
             await edb.RestoreAsync(item);
-
-            // now build the EntityForm
-            var formBuilder = new EntityFormBuilder();
-            formBuilder.Initialize();
-            var formTasks = from ff in GetJsonFiles(typeof(EntityForm))
-                            let fjson = File.ReadAllText(ff)
-                            let fo = JObject.Parse(fjson)
-                            let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
-                            where edid == item.Id
-                            select formBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityForm>());
-            await Task.WhenAll(formTasks);
-
-            // then build the EntityView
-            var viewBuilder = new EntityViewBuilder();
-            viewBuilder.Initialize();
-            var viewTasks = from ff in GetJsonFiles(typeof(EntityView))
-                            let fjson = File.ReadAllText(ff)
-                            let fo = JObject.Parse(fjson)
-                            let edidToken = fo.SelectToken("$.EntityDefinitionId")
-                            where null != edidToken
-                            let edid = edidToken.Value<string>()
-                            where edid == item.Id
-                            select viewBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityView>());
-            await Task.WhenAll(viewTasks);
-
-            // then build the charts
-            var chartBuilder = new Builder<EntityChart>();
-            chartBuilder.Initialize();
-            var chartTasks = from ff in GetJsonFiles(typeof(EntityChart))
-                             let fjson = File.ReadAllText(ff)
-                             let fo = JObject.Parse(fjson)
-                             let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
-                             where edid == item.Id
-                             select chartBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityChart>());
-            await Task.WhenAll(chartTasks);
-
-            // then the triggers
-            var triggerBuilder = new TriggerBuilder();
-            triggerBuilder.Initialize();
-            var triggerTasks = from ff in GetJsonFiles(typeof(Trigger))
-                               let fjson = File.ReadAllText(ff)
-                               let fo = JObject.Parse(fjson)
-                               let ent = fo.SelectToken("$.Entity").Value<string>()
-                               where ent == item.Name
-                               select triggerBuilder.RestoreAsync(fjson.DeserializeFromJson<Trigger>());
-            await Task.WhenAll(triggerTasks);
+            
         }
-
-        private static IEnumerable<string> GetJsonFiles(Type type)
-        {
-            var triggerfolder = Path.Combine(ConfigurationManager.SphSourceDirectory, type.Name);
-            return Directory.GetFiles(triggerfolder, "*.json");
-        }
+        
 
         private static async Task BuildAssAsync()
         {
@@ -149,52 +99,17 @@ namespace sph.builder
             var wdBuilder = new WorkflowDefinitionBuilder();
             await wdBuilder.RestoreAllAsync();
 
+            var mapBuilder = new TransformDefinitionBuilder();
+            await mapBuilder.RestoreAllAsync();
 
+
+            var adapterBuilder = new AdapterBuilder();
+            await adapterBuilder.RestoreAllAsync();
+            
             var triggerBuilder = new TriggerBuilder();
             triggerBuilder.Initialize();
             await triggerBuilder.RestoreAllAsync();
-
-
-            var chartBuilder = new Builder<EntityChart>();
-            chartBuilder.Initialize();
-            await chartBuilder.RestoreAllAsync();
-
-            var formBuilder = new EntityFormBuilder();
-            formBuilder.Initialize();
-            await formBuilder.RestoreAllAsync();
-
-            var viewBuilder = new EntityViewBuilder();
-            viewBuilder.Initialize();
-            await viewBuilder.RestoreAllAsync();
-
-            var orgBuilder = new Builder<Organization>();
-            orgBuilder.Initialize();
-            await orgBuilder.RestoreAllAsync();
-
-            var settingBuilder = new Builder<Setting>();
-            settingBuilder.Initialize();
-            await settingBuilder.RestoreAllAsync();
-
-            var pageBuilder = new Builder<Page>();
-            pageBuilder.Initialize();
-            await pageBuilder.RestoreAllAsync();
-
-            var designationBuilder = new Builder<Designation>();
-            designationBuilder.Initialize();
-            await designationBuilder.RestoreAllAsync();
-
-
-            var rdlBuilder = new Builder<ReportDefinition>();
-            rdlBuilder.Initialize();
-            await rdlBuilder.RestoreAllAsync();
-
-            var rsBuilder = new Builder<ReportDelivery>();
-            rsBuilder.Initialize();
-            await rsBuilder.RestoreAllAsync();
-
-            var etBuilder = new Builder<EmailTemplate>();
-            etBuilder.Initialize();
-            await etBuilder.RestoreAllAsync();
+            
 
         }
 

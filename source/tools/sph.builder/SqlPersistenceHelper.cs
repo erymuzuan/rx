@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
-namespace sph.builder
+namespace Bespoke.Sph.SourceBuilders
 {
     public static class SqlPersistenceHelper
     {

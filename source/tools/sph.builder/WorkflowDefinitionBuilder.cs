@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 
-namespace sph.builder
+namespace Bespoke.Sph.SourceBuilders
 {
     internal class WorkflowDefinitionBuilder : Builder<WorkflowDefinition>
     {
@@ -22,25 +22,6 @@ namespace sph.builder
             }
         }
 
-        private async Task<bool> InsertSchemaAsync(WorkflowDefinition wd)
-        {
-            var wc = ConfigurationManager.SphSourceDirectory;
-            var folder = Path.Combine(wc, typeof(WorkflowDefinition).Name);
-            var xsd = Path.Combine(folder, wd.Name + ".xsd");
-            if (!File.Exists(xsd)) return false;
-
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var schema = new BinaryStore
-            {
-                Content = File.ReadAllBytes(xsd),
-                Extension = ".xsd",
-                Id = wd.SchemaStoreId,
-                FileName = wd.Name + ".xsd",
-                WebId = wd.SchemaStoreId
-            };
-            await store.AddAsync(schema);
-            return true;
-        }
 
         private void Compile(WorkflowDefinition item)
         {
@@ -68,8 +49,8 @@ namespace sph.builder
 
         private void Deploy(WorkflowDefinition item)
         {
-            var dll = string.Format("workflows.{0}.{1}.dll", item.Id, item.Version);
-            var pdb = string.Format("workflows.{0}.{1}.pdb", item.Id, item.Version);
+            var dll = $"workflows.{item.Id}.{item.Version}.dll";
+            var pdb = $"workflows.{item.Id}.{item.Version}.pdb";
             var dllFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, dll);
             var pdbFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, pdb);
 
@@ -82,14 +63,14 @@ namespace sph.builder
         private async Task<IEnumerable<Page>> GetPublishPagesAsync(WorkflowDefinition wd)
         {
             var context = new SphDataContext();
-            if (null == wd) throw new ArgumentNullException("wd");
+            if (null == wd) throw new ArgumentNullException(nameof(wd));
             var screens = wd.ActivityCollection.OfType<ScreenActivity>();
             var pages = new List<Page>();
             foreach (var scr in screens)
             {
                 // copy the previous version pages if there's any
                 var scr1 = scr;
-                var tag = string.Format("wf_{0}_{1}", wd.Id, scr1.WebId);
+                var tag = $"wf_{wd.Id}_{scr1.WebId}";
                 var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
                 var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
                 var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
@@ -102,10 +83,8 @@ namespace sph.builder
                     Tag = tag,
                     Version = wd.Version,
                     WebId = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/{0}/{1}.cshtml", wd.WorkflowTypeName, scr1.ActionName)
+                    VirtualPath = $"~/Views/{wd.WorkflowTypeName}/{scr1.ActionName}.cshtml"
                 };
-
-
                 pages.Add(page);
 
             }
@@ -119,10 +98,6 @@ namespace sph.builder
         public override async Task RestoreAsync(WorkflowDefinition wd)
         {
             Console.WriteLine("Compiling : {0} ", wd.Name);
-            var exist = await this.InsertSchemaAsync(wd);
-            if (!exist) return;
-
-            await this.InsertAsync(wd);
             try
             {
                 this.Compile(wd);
@@ -143,11 +118,10 @@ namespace sph.builder
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var archived = new BinaryStore
             {
-                Id = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
+                Id = $"wd.{wd.Id}.{wd.Version}",
                 Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)),
                 Extension = ".json",
-                FileName = string.Format("wd.{0}.{1}.json", wd.Id, wd.Version)
-
+                FileName = $"wd.{wd.Id}.{wd.Version}.json"
             };
             await store.DeleteAsync(archived.Id);
             await store.AddAsync(archived);
@@ -156,7 +130,6 @@ namespace sph.builder
             foreach (var page in pages)
             {
                 page.Id = (Guid.NewGuid()).ToString();
-                await pageBuilder.InsertAsync(page);
             }
         }
     }

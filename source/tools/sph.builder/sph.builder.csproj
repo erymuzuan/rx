@@ -7,7 +7,7 @@
     <ProjectGuid>{A78D7CDB-780A-47E4-97FE-105688E80FC4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>sph.builder</RootNamespace>
+    <RootNamespace>Bespoke.Sph.SourceBuilders</RootNamespace>
     <AssemblyName>sph.builder</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -82,13 +82,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdapterBuilder.cs" />
     <Compile Include="Builder.cs" />
-    <Compile Include="EntityFormBuilder.cs" />
-    <Compile Include="EntityViewBuilder.cs" />
     <Compile Include="EntityDefinitionBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
+    <Compile Include="TransformDefinitionBuilder.cs" />
     <Compile Include="TriggerBuilder.cs" />
     <Compile Include="WorkflowDefinitionBuilder.cs" />
   </ItemGroup>
