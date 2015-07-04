@@ -72,6 +72,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var content = await store.GetContentAsync(id);
+            if (null == content)
+                return HttpNotFound("Cannot find WorkflowDefinition XSD with id " + id);
             using (var stream = new MemoryStream(content.Content))
             {
                 var xsd = XElement.Load(stream);
@@ -314,36 +316,36 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult GetLoadedAssemblies()
         {
             var assesmblies = AppDomain.CurrentDomain.GetAssemblies();
-            var refAssemblies =( from a in assesmblies
-                                where a.IsDynamic == false
-                                let name = a.GetName()
-                                where !Ignores.Any(x => name.Name.StartsWith(x))
-                                let web = ConfigurationManager.WebPath + "\\bin\\" + Path.GetFileName(a.Location)
-                                let path = System.IO.File.Exists(web) ? web : a.Location
-                                select new ReferencedAssembly
-                                {
-                                    Version = name.Version.ToString(),
-                                    FullName = name.FullName,
-                                    IsGac = a.GlobalAssemblyCache,
-                                    RuntimeVersion = a.ImageRuntimeVersion,
-                                    Location = path ,
-                                    Name = name.Name
-                                }).ToList();
+            var refAssemblies = (from a in assesmblies
+                                 where a.IsDynamic == false
+                                 let name = a.GetName()
+                                 where !Ignores.Any(x => name.Name.StartsWith(x))
+                                 let web = ConfigurationManager.WebPath + "\\bin\\" + Path.GetFileName(a.Location)
+                                 let path = System.IO.File.Exists(web) ? web : a.Location
+                                 select new ReferencedAssembly
+                                 {
+                                     Version = name.Version.ToString(),
+                                     FullName = name.FullName,
+                                     IsGac = a.GlobalAssemblyCache,
+                                     RuntimeVersion = a.ImageRuntimeVersion,
+                                     Location = path,
+                                     Name = name.Name
+                                 }).ToList();
             var outputs = from f in Directory.GetFiles(ConfigurationManager.CompilerOutputPath, "*.dll")
-                let fn = Path.GetFileNameWithoutExtension(f)
-                where !fn.StartsWith("ff") && !fn.StartsWith("subscriber")
-                && refAssemblies.All(x => x.Name != fn)
-                let dll = Assembly.ReflectionOnlyLoadFrom(f)
-                let name = dll.GetName()
-                select new ReferencedAssembly
-                {
-                    Version = name.Version.ToString(),
-                    FullName = name.FullName,
-                    IsGac = false,
-                    RuntimeVersion = dll.ImageRuntimeVersion,
-                    Location = f,
-                    Name = fn
-                };
+                          let fn = Path.GetFileNameWithoutExtension(f)
+                          where !fn.StartsWith("ff") && !fn.StartsWith("subscriber")
+                          && refAssemblies.All(x => x.Name != fn)
+                          let dll = Assembly.ReflectionOnlyLoadFrom(f)
+                          let name = dll.GetName()
+                          select new ReferencedAssembly
+                          {
+                              Version = name.Version.ToString(),
+                              FullName = name.FullName,
+                              IsGac = false,
+                              RuntimeVersion = dll.ImageRuntimeVersion,
+                              Location = f,
+                              Name = fn
+                          };
 
             refAssemblies.AddRange(outputs);
 
