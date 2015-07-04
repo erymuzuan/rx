@@ -102,8 +102,12 @@ namespace Bespoke.Sph.SqlRepository
 
                 foreach (var item in deletedList)
                 {
-                    count++;
                     var entityType = this.GetEntityType(item);
+                    var source = entityType.GetCustomAttribute<StoreAsSourceAttribute>();
+                    if (null != source && !source.IsSqlDatabase)
+                        continue;
+
+                    count++;
                     var typeName = entityType.Name;
                     var schema = this.GetSchema(entityType);
                     var id = item.Id;
