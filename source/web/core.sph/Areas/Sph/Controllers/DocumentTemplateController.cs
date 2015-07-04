@@ -16,13 +16,30 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Save()
         {
             var dt = this.GetRequestJson<DocumentTemplate>();
-            if (string.IsNullOrWhiteSpace(dt.Id) || dt.Id == "0")
-                dt.Id = Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(dt.Name))
+                throw new InvalidOperationException("Document template name cannot be empty");
+            if (dt.IsNewItem)
+                dt.Id = dt.Name.ToIdFormat();
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
                 session.Attach(dt);
+                await session.SubmitChanges("Save");
+            }
+            return Json(new { success = true, status = "OK", id = dt.Id });
+        }
+
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> Remove(string id)
+        {
+            var context = new SphDataContext();
+            var dt = context.LoadOneFromSources<DocumentTemplate>(x => x.Id == id);
+            using (var session = context.OpenSession())
+            {
+                session.Delete(dt);
                 await session.SubmitChanges("Save");
             }
             return Json(new { success = true, status = "OK", id = dt.Id });
@@ -68,7 +85,7 @@ namespace Bespoke.Sph.Web.Controllers
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
             var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed.Name);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
+            var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
             var edType = edAssembly.GetType(edTypeName);
             if (null == edType)
                 Console.WriteLine("Cannot create type " + edTypeName);

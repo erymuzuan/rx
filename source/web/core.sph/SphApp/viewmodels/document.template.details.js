@@ -8,7 +8,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', objectbuilders.system],
+define(["services/datacontext", "services/logger", objectbuilders.system],
     function (context, logger, system) {
 
         var template = ko.observable(new bespoke.sph.domain.DocumentTemplate(system.guid())),
@@ -23,7 +23,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                     tcs = new $.Deferred();
 
 
-                $.when(entityTask, templateTask).then(function (lo,b) {
+                $.when(entityTask, templateTask).then(function (lo, b) {
                     var types = _(lo.itemCollection).map(function (v) {
                         return v.Name();
                     });
@@ -41,17 +41,14 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
 
             },
             save = function () {
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(template);
+                var data = ko.mapping.toJSON(template);
                 isBusy(true);
 
-                context.post(data, "/document-template")
-                    .then(function (result) {
-                        isBusy(false);
-                        template().Id(result.id);
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
+                return context.post(data, "/document-template")
+                     .then(function (result) {
+                         isBusy(false);
+                         template().Id(result.id);
+                     });
             },
             publishAsync = function () {
                 var tcs = new $.Deferred(),
@@ -75,11 +72,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                 return tcs.promise();
             },
             testAsync = function () {
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(template);
+                var data = ko.mapping.toJSON(template);
                 isBusy(true);
 
-                context.post(data, "/document-template/test")
+                return context.post(data, "/document-template/test")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -91,10 +87,14 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                             errors(result.Errors);
                             logger.error("There are errors in your template, !!!");
                         }
-                        tcs.resolve(result);
                     });
-                return tcs.promise();
-            };
+            },
+            removeAsync = function() {
+                return context.send("{}", "/document-template/" + template().Id(), "DELETE");
+            },
+            canRemove = ko.computed(function() {
+                return template().Id() && template().Id() !== "0";
+            });
 
         var vm = {
             errors: errors,
@@ -106,10 +106,15 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
             toolbar: {
 
                 saveCommand: save,
+                canExecuteSaveCommand: ko.computed(function () {
+                    return template().Name() && template().Entity();
+                }),
+                removeCommand : removeAsync,
+                canExecuteRemoveCommand : canRemove,
                 commands: ko.observableArray([
                     {
                         command: publishAsync,
-                        caption: 'Publish',
+                        caption: "Publish",
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
                             return template().Id() && template().Id() !== "0";
@@ -117,7 +122,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                     },
                     {
                         command: testAsync,
-                        caption: 'Test',
+                        caption: "Test",
                         icon: "fa fa-cog",
                         enable: ko.computed(function () {
                             return template().Id()
