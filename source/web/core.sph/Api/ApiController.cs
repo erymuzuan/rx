@@ -31,64 +31,49 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
         }
         [Route("adapter")]
-        public async Task<ActionResult> Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<Adapter>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<Adapter>(filter, page, size, includeTotal);
+            return ReadFromSource<Adapter>(filter, page, size);
         }
 
         [Route("Designation")]
-        public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<Designation>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<Designation>(filter, page, size, includeTotal);
+            return ReadFromSource<Designation>(filter, page, size);
         }
 
         [Route("DocumentTemplate")]
-        public async Task<ActionResult> DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<DocumentTemplate>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<DocumentTemplate>(filter, page, size, includeTotal);
+            return ReadFromSource<DocumentTemplate>(filter, page, size);
         }
+
         [Route("EmailTemplate")]
-        public async Task<ActionResult> EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<EmailTemplate>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<EmailTemplate>(filter, page, size, includeTotal);
+            return ReadFromSource<EmailTemplate>(filter, page, size);
         }
         [Route("EntityDefinition")]
-        public async Task<ActionResult> EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<EntityDefinition>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<EntityDefinition>(filter, page, size, includeTotal);
+            return ReadFromSource<EntityDefinition>(filter, page, size);
         }
 
         [Route("EntityChart")]
-        public async Task<ActionResult> EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<EntityChart>(filter);
-            if (null != source) return source;
-            return await ExecuteAsync<EntityChart>(filter, page, size, includeTotal);
+            return ReadFromSource<EntityChart>(filter);
         }
         [Route("EntityForm")]
-        public async Task<ActionResult> EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<EntityForm>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<EntityForm>(filter, page, size, includeTotal);
+            return ReadFromSource<EntityForm>(filter, page, size);
         }
 
         [Route("EntityView")]
-        public async Task<ActionResult> EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<EntityView>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<EntityView>(filter, page, size, includeTotal);
+            return ReadFromSource<EntityView>(filter, page, size);
         }
 
         [Route("Message")]
@@ -110,28 +95,22 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("ReportDefinition")]
-        public async Task<ActionResult> ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<ReportDefinition>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<ReportDefinition>(filter, page, size, includeTotal);
+            return ReadFromSource<ReportDefinition>(filter, page, size);
         }
 
 
         [Route("SearchDefinition")]
-        public async Task<ActionResult> SearchDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult SearchDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<SearchDefinition>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<SearchDefinition>(filter, page, size, includeTotal);
+            return ReadFromSource<SearchDefinition>(filter, page, size);
         }
 
         [Route("Setting")]
-        public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<Setting>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<Setting>(filter, page, size, includeTotal);
+            return ReadFromSource<Setting>(filter, page, size);
         }
 
 
@@ -152,11 +131,9 @@ namespace Bespoke.Sph.Web.Api
 
 
         [Route("Trigger")]
-        public async Task<ActionResult> Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<Trigger>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<Trigger>(filter, page, size, includeTotal);
+            return ReadFromSource<Trigger>(filter, page, size);
         }
 
         [Route("UserProfile")]
@@ -172,20 +149,16 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("TransformDefinition")]
-        public async Task<ActionResult> TransformDefinition(string filter = null, int page = 1, int size = 20, bool includeTotal = false)
+        public ActionResult TransformDefinition(string filter = null, int page = 1, int size = 20, bool includeTotal = false)
         {
-            var source = ReadFromSource<TransformDefinition>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<TransformDefinition>(filter, page, size, includeTotal);
+            return ReadFromSource<TransformDefinition>(filter, page, size);
         }
 
 
         [Route("WorkflowDefinition")]
-        public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            var source = ReadFromSource<WorkflowDefinition>(filter, page, size);
-            if (null != source) return source;
-            return await ExecuteAsync<WorkflowDefinition>(filter, page, size, includeTotal);
+            return ReadFromSource<WorkflowDefinition>(filter, page, size);
         }
 
 
@@ -363,68 +336,18 @@ namespace Bespoke.Sph.Web.Api
             var rows = 0;
             var id = Strings.RegexSingleValue(filter, "^Id eq '(?<id>[0-9A-Za-z-_ ]{1,50})'", "id");
             string folder = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                if (!Directory.Exists(folder)) return null;
-                var files = Directory.GetFiles(folder, "*.json");
-                if (string.IsNullOrWhiteSpace(filter) || filter == "Id ne '0'")
-                {
 
-                    list = files
-                       .Skip((page - 1) * size)
-                       .Take(size)
-                       .Select(f => f.DeserializeFromJsonFile<T>())
-                       .ToList();
-                    rows = files.Length;
+            if (Directory.Exists(folder))
+            {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    var sources = IterateFromSource<T>(filter, page, size, folder, out rows).ToList();
+                    list.AddRange(sources);
                 }
                 else
                 {
-                    filter = filter
-                        .Replace("IsPublished eq 1", "IsPublished eq true")
-                        .Replace("IsPublished eq 0", "IsPublished eq false")
-                        .Replace("IsAllowedNewItem eq 1", "IsAllowedNewItem eq true")
-                        .Replace("IsAllowedNewItem eq 0", "IsAllowedNewItem eq false")
-                        .Replace("IsDashboardItem eq 1", "IsDashboardItem eq true")
-                        .Replace("IsDashboardItem eq 0", "IsDashboardItem eq false")
-                        .Replace("IsDefault eq 1", "IsDefault eq true")
-                        .Replace("IsDefault eq 0", "IsDefault eq false")
-                        .Replace("IsActive eq 1", "IsActive eq true")
-                        .Replace("IsActive eq 0", "IsActive eq false")
-                        .Replace("IsPrivate eq 1", "IsPrivate eq true")
-                        .Replace("IsPrivate eq 0", "IsPrivate eq false")
-                        .Replace(" OR ", " or ")
-                        .Replace("[DataSource.EntityName]", "DataSource/EntityName")
-                        ;
-                    var filtered = files.Select(f => f.DeserializeFromJsonFile<T>())
-                        .AsQueryable()
-                        .LinqToQuerystring("?$filter=" + filter)
-                        .ToList();
-                    list = filtered.Skip((page - 1) * size)
-                        .Take(size)
-                        .ToList();
-                    rows = filtered.Count;
-
-                }
-
-            }
-            else
-            {
-                var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{id}.json";
-                if (System.IO.File.Exists(file))
-                {
-                    var item = file.DeserializeFromJsonFile<T>();
-                    list.Add(item);
-
-                    rows = 1;
-                }
-                else
-                {
-                    var files = Directory.GetFiles(folder, "*.json");
-                    var item = files
-                        .Select(f => f.DeserializeFromJsonFile<T>())
-                        .FirstOrDefault(x => x.Id == id);
-                    if (null != item)
-                        list.Add(item);
+                    var item = ReadOneFromSource<T>(id);
+                    if (null != item) list.Add(item);
                 }
             }
             var json = new
@@ -443,6 +366,66 @@ namespace Bespoke.Sph.Web.Api
 
             this.Response.ContentType = "application/json";
             return Content(JsonConvert.SerializeObject(json, Formatting.None, setting), "application/json", Encoding.UTF8);
+        }
+
+        private static IList<T> IterateFromSource<T>(string filter, int page, int size, string folder, out int rows)
+            where T : Entity
+        {
+            List<T> list;
+            var files = Directory.GetFiles(folder, "*.json");
+            if (string.IsNullOrWhiteSpace(filter) || filter == "Id ne '0'")
+            {
+                list = files
+                    .Skip((page - 1) * size)
+                    .Take(size)
+                    .Select(f => f.DeserializeFromJsonFile<T>())
+                    .ToList();
+                rows = files.Length;
+            }
+            else
+            {
+                filter = filter
+                    .Replace("IsPublished eq 1", "IsPublished eq true")
+                    .Replace("IsPublished eq 0", "IsPublished eq false")
+                    .Replace("IsAllowedNewItem eq 1", "IsAllowedNewItem eq true")
+                    .Replace("IsAllowedNewItem eq 0", "IsAllowedNewItem eq false")
+                    .Replace("IsDashboardItem eq 1", "IsDashboardItem eq true")
+                    .Replace("IsDashboardItem eq 0", "IsDashboardItem eq false")
+                    .Replace("IsDefault eq 1", "IsDefault eq true")
+                    .Replace("IsDefault eq 0", "IsDefault eq false")
+                    .Replace("IsActive eq 1", "IsActive eq true")
+                    .Replace("IsActive eq 0", "IsActive eq false")
+                    .Replace("IsPrivate eq 1", "IsPrivate eq true")
+                    .Replace("IsPrivate eq 0", "IsPrivate eq false")
+                    .Replace(" OR ", " or ")
+                    .Replace("[DataSource.EntityName]", "DataSource/EntityName")
+                    ;
+                var filtered = files.Select(f => f.DeserializeFromJsonFile<T>())
+                    .AsQueryable()
+                    .LinqToQuerystring("?$filter=" + filter)
+                    .ToList();
+                list = filtered.Skip((page - 1) * size)
+                    .Take(size)
+                    .ToList();
+                rows = filtered.Count;
+            }
+            return list;
+        }
+
+        private T ReadOneFromSource<T>(string id) where T : Entity
+        {
+            string folder = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
+            var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{id}.json";
+            if (System.IO.File.Exists(file))
+            {
+                return file.DeserializeFromJsonFile<T>();
+            }
+
+            var files = Directory.GetFiles(folder, "*.json");
+            var item = files
+                .Select(f => f.DeserializeFromJsonFile<T>())
+                .FirstOrDefault(x => x.Id == id);
+            return item;
         }
     }
 }
