@@ -212,11 +212,8 @@ namespace Bespoke.Sph.Domain
                 throw new ArgumentException("Cannot find file " + file, nameof(file));
             try
             {
-                using (var reader = File.OpenText(file))
-                {
-                    var serializer = new JsonSerializer();
-                    return (T)serializer.Deserialize(reader, typeof(T));
-                }
+                var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                return JsonConvert.DeserializeObject<T>(File.ReadAllText(file), setting);
             }
             catch (JsonReaderException e)
             {
