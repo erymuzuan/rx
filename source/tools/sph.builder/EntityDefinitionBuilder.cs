@@ -6,13 +6,14 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Newtonsoft.Json;
 using subscriber.entities;
 
 namespace Bespoke.Sph.SourceBuilders
 {
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
-     
+
         public override async Task RestoreAllAsync()
         {
             var folder = ConfigurationManager.SphSourceDirectory + @"\EntityDefinition";
@@ -54,6 +55,53 @@ namespace Bespoke.Sph.SourceBuilders
 
             var type = CompileEntityDefinition(ed);
             Console.WriteLine("Compiled : {0}", type);
+
+
+            if (ed.TreatDataAsSource)
+            {
+                // clean all data
+                var builder = new Builder { EntityDefinition = ed, Name = ed.Name };
+                builder.Initialize();
+                await "Sph".ExecuteNonQueryAsync($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{ed.Name}]");
+
+                var sqlSub1 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification(null) };
+                await sqlSub1.ProcessMessageAsync(ed);
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                    await
+                        client.DeleteAsync(
+                            $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/_mapping/{ed.Name.ToLowerInvariant()}");
+
+
+
+                    var files = Directory.
+                    GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{ed.Name}", "*.json");
+                    foreach (var f in files)
+                    {
+                        var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                        dynamic ent = JsonConvert.DeserializeObject(File.ReadAllText(f), setting);
+                        ent.Id = Path.GetFileNameWithoutExtension(f);
+                        await builder.InsertAsync(ent);
+
+
+                        var setting2 = new JsonSerializerSettings();
+                        var json = JsonConvert.SerializeObject(ent, setting2);
+
+                        var content = new StringContent(json);
+
+                        var type2 = ed.Name.ToLowerInvariant();
+                        var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
+                        var url = $"{index}/{type2}/{ent.Id}";
+                        var response = await client.PutAsync(url, content);
+                        Console.WriteLine($"{ent.Id} -> {response.StatusCode}");
+                    }
+                }
+
+                return;
+            }
+
 
             var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification(null) };
             await sqlSub.ProcessMessageAsync(ed);

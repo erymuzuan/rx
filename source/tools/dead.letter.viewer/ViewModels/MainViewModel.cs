@@ -183,7 +183,6 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         {
             var jo = JsonConvert.DeserializeObject(message);
             this.Message = JsonConvert.SerializeObject(jo, Formatting.Indented);
-
         }
 
         private static async Task<string> DecompressAsync(byte[] content)
