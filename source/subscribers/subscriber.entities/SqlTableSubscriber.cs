@@ -48,7 +48,7 @@ namespace subscriber.entities
                 .ToList();
             filterables.AddRange(list);
 
-            filterables.Where(m => string.IsNullOrWhiteSpace(m.FullName))
+            filterables.Where(m => string.IsNullOrWhiteSpace(m.FullName) || !m.FullName.EndsWith(m.Name))
                 .ToList().ForEach(m => m.FullName = parent + m.Name);
 
             return filterables;
