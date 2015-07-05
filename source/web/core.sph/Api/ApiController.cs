@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Web.Api
         [Route("adapter")]
         public ActionResult Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return ReadFromSource<Adapter>(filter, page, size);
+            return ReadFromSource<Adapter>(filter, page, size, true);
         }
 
         [Route("Designation")]
@@ -67,7 +67,7 @@ namespace Bespoke.Sph.Web.Api
         [Route("EntityForm")]
         public ActionResult EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return ReadFromSource<EntityForm>(filter, page, size);
+            return ReadFromSource<EntityForm>(filter, page, size, true);
         }
 
         [Route("EntityView")]
@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Web.Api
         [Route("ReportDefinition")]
         public ActionResult ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return ReadFromSource<ReportDefinition>(filter, page, size);
+            return ReadFromSource<ReportDefinition>(filter, page, size, true);
         }
 
 
@@ -133,7 +133,7 @@ namespace Bespoke.Sph.Web.Api
         [Route("Trigger")]
         public ActionResult Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return ReadFromSource<Trigger>(filter, page, size);
+            return ReadFromSource<Trigger>(filter, page, size, true);
         }
 
         [Route("UserProfile")]
@@ -151,14 +151,14 @@ namespace Bespoke.Sph.Web.Api
         [Route("TransformDefinition")]
         public ActionResult TransformDefinition(string filter = null, int page = 1, int size = 20, bool includeTotal = false)
         {
-            return ReadFromSource<TransformDefinition>(filter, page, size);
+            return ReadFromSource<TransformDefinition>(filter, page, size, true);
         }
 
 
         [Route("WorkflowDefinition")]
         public ActionResult WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return ReadFromSource<WorkflowDefinition>(filter, page, size);
+            return ReadFromSource<WorkflowDefinition>(filter, page, size, true);
         }
 
 
@@ -330,7 +330,7 @@ namespace Bespoke.Sph.Web.Api
             }
         }
 
-        private ActionResult ReadFromSource<T>(string filter, int page = 1, int size = 20) where T : Entity
+        private ActionResult ReadFromSource<T>(string filter, int page = 1, int size = 20, bool readAllText = false) where T : Entity
         {
             var list = new List<T>();
             var rows = 0;
@@ -341,12 +341,12 @@ namespace Bespoke.Sph.Web.Api
             {
                 if (string.IsNullOrWhiteSpace(id))
                 {
-                    var sources = IterateFromSource<T>(filter, page, size, folder, out rows).ToList();
+                    var sources = IterateFromSource<T>(filter, page, size, folder, out rows, readAllText).ToList();
                     list.AddRange(sources);
                 }
                 else
                 {
-                    var item = ReadOneFromSource<T>(id);
+                    var item = ReadOneFromSource<T>(id, readAllText);
                     if (null != item) list.Add(item);
                 }
             }
@@ -368,7 +368,7 @@ namespace Bespoke.Sph.Web.Api
             return Content(JsonConvert.SerializeObject(json, Formatting.None, setting), "application/json", Encoding.UTF8);
         }
 
-        private static IList<T> IterateFromSource<T>(string filter, int page, int size, string folder, out int rows)
+        private static IList<T> IterateFromSource<T>(string filter, int page, int size, string folder, out int rows, bool readAllText = false)
             where T : Entity
         {
             List<T> list;
@@ -378,7 +378,7 @@ namespace Bespoke.Sph.Web.Api
                 list = files
                     .Skip((page - 1) * size)
                     .Take(size)
-                    .Select(f => f.DeserializeFromJsonFile<T>())
+                    .Select(f => f.DeserializeFromJsonFile<T>(readAllText))
                     .ToList();
                 rows = files.Length;
             }
@@ -400,7 +400,7 @@ namespace Bespoke.Sph.Web.Api
                     .Replace(" OR ", " or ")
                     .Replace("[DataSource.EntityName]", "DataSource/EntityName")
                     ;
-                var filtered = files.Select(f => f.DeserializeFromJsonFile<T>())
+                var filtered = files.Select(f => f.DeserializeFromJsonFile<T>(readAllText))
                     .AsQueryable()
                     .LinqToQuerystring("?$filter=" + filter)
                     .ToList();
@@ -412,18 +412,18 @@ namespace Bespoke.Sph.Web.Api
             return list;
         }
 
-        private T ReadOneFromSource<T>(string id) where T : Entity
+        private T ReadOneFromSource<T>(string id, bool readAllText = false) where T : Entity
         {
             string folder = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{id}.json";
             if (System.IO.File.Exists(file))
             {
-                return file.DeserializeFromJsonFile<T>();
+                return file.DeserializeFromJsonFile<T>(readAllText);
             }
 
             var files = Directory.GetFiles(folder, "*.json");
             var item = files
-                .Select(f => f.DeserializeFromJsonFile<T>())
+                .Select(f => f.DeserializeFromJsonFile<T>(readAllText))
                 .FirstOrDefault(x => x.Id == id);
             return item;
         }

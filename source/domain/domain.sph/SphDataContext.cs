@@ -42,34 +42,34 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public IEnumerable<T> LoadFromSources<T>() where T : Entity
+        public IEnumerable<T> LoadFromSources<T>(bool readAllText = false) where T : Entity
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return new T[] { };
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => f.DeserializeFromJsonFile<T>());
+                .Select(f => f.DeserializeFromJsonFile<T>(readAllText));
         }
 
-        public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
+        public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate, bool readAllText = false) where T : Entity
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return new T[] { };
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => f.DeserializeFromJsonFile<T>())
+                .Select(f => f.DeserializeFromJsonFile<T>(readAllText))
                 .Where(predicate.Compile());
         }
-        public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
+        public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate, bool readAllText = false) where T : Entity
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return default(T);
             
             return Directory.GetFiles(path, "*.json")
-                .Select(f => f.DeserializeFromJsonFile<T>())
+                .Select(f => f.DeserializeFromJsonFile<T>(readAllText))
                 .FirstOrDefault(predicate.Compile());
         }
 

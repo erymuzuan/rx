@@ -205,15 +205,25 @@ namespace Bespoke.Sph.Domain
         /// 
         /// </summary>
         /// <param name="file">The path to the json file</param>
+        /// <param name="readAllText">Read the text first and use the text as the json, so we can use JsonConvert.Deserialize with TypeNameHandling.All, use it if your json migh contains derived types</param>
         /// <returns></returns>
-        public static T DeserializeFromJsonFile<T>(this string file)
+        public static T DeserializeFromJsonFile<T>(this string file, bool readAllText = false)
         {
             if (!File.Exists(file))
                 throw new ArgumentException("Cannot find file " + file, nameof(file));
             try
             {
-                var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-                return JsonConvert.DeserializeObject<T>(File.ReadAllText(file), setting);
+                if (readAllText)
+                {
+                    var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(file), setting);
+                }
+
+                using (var reader = File.OpenText(file))
+                {
+                    var serializer = new JsonSerializer();
+                    return (T)serializer.Deserialize(reader, typeof(T));
+                }
             }
             catch (JsonReaderException e)
             {
