@@ -12,7 +12,7 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
-
+     
         public override async Task RestoreAllAsync()
         {
             var folder = ConfigurationManager.SphSourceDirectory + @"\EntityDefinition";
@@ -29,8 +29,7 @@ namespace Bespoke.Sph.SourceBuilders
             Console.WriteLine("Reading from " + folder);
 
             var tasks = from f in Directory.GetFiles(folder, "*.json")
-                        let json = File.ReadAllText(f)
-                        let ed = json.DeserializeFromJson<EntityDefinition>()
+                        let ed = f.DeserializeFromJsonFile<EntityDefinition>()
                         select this.RestoreAsync(ed);
 
             await Task.WhenAll(tasks);
@@ -68,6 +67,7 @@ namespace Bespoke.Sph.SourceBuilders
 
                 var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification(null) };
                 await subs.PutMappingAsync(clone);
+                await subs.MigrateDataAsync(ed.Name);
             }
 
             Console.WriteLine("Deploying : {0}", ed.Name);

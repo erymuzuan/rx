@@ -13,10 +13,10 @@ namespace Bespoke.Sph.SourceBuilders
         public override async Task RestoreAllAsync()
         {
             this.Initialize();
-            var maps = this.GetItems();
-            foreach (var wd in maps)
+            var list = this.GetItems();
+            foreach (var adapter in list)
             {
-                await RestoreAsync(wd);
+                await RestoreAsync(adapter);
 
             }
         }
@@ -24,6 +24,10 @@ namespace Bespoke.Sph.SourceBuilders
 
         private async  Task CompileAsync(Adapter item)
         {
+            var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{item.Name}";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
             var options = new CompilerOptions
             {
                 SourceCodeDirectory = ConfigurationManager.SphSourceDirectory

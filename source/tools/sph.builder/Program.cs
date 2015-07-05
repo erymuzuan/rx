@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.SourceBuilders
@@ -28,23 +30,48 @@ namespace Bespoke.Sph.SourceBuilders
             if (!quiet)
             {
 
-                "Enter \"y\" to continue".WriteLine();
-                var cont = Console.ReadLine();
-                if (cont != "y")
-                {
-                    Console.WriteLine(@"BYE.");
-                    return;
-                }
+                "press [ENTER] to continue : to exit Ctrl + c".WriteLine();
+                Console.ReadLine();
             }
 
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            ObjectBuilder.AddCacheList<ILogger>(new Logger());
             if (args.Length > 0)
             {
                 BuildWithArgsAsync(args).Wait();
                 return;
             }
 
-            BuildAssAsync().Wait();
+            BuilAllAsyc().Wait();
 
+        }
+
+
+
+        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs e)
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                var dll = e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                    .First().Trim();
+                Console.WriteLine($"Loading {e.Name}");
+                Console.WriteLine($"File name :  {dll}");
+                var output = $"{ConfigurationManager.CompilerOutputPath}\\{dll}.dll";
+                if (File.Exists(output))
+                    return Assembly.LoadFile(output);
+                var web = $"{ConfigurationManager.WebPath}\\bin\\{dll}.dll";
+                if (File.Exists(web))
+                    return Assembly.LoadFile(web);
+                var sub = $"{ConfigurationManager.SubscriberPath}\\{dll}.dll";
+                if (File.Exists(sub))
+                    return Assembly.LoadFile(sub);
+            }
+            finally
+            {
+                Console.ResetColor();
+            }
+            throw new Exception("Cannot find any assembly for " + e.Name);
         }
 
         private static async Task BuildWithArgsAsync(IEnumerable<string> args)
@@ -57,60 +84,118 @@ namespace Bespoke.Sph.SourceBuilders
                 var o = JObject.Parse(json);
                 var typeName = o.SelectToken("$.$type").Value<string>();
                 var type = Type.GetType(typeName);
-
+                if (null == type)
+                {
+                    Console.WriteLine($"Unrecognized type {typeName}  in {f}");
+                    continue;
+                }
 
                 if (type == typeof(EntityDefinition))
                 {
-                    await BuildEntityDefinitionAsync(json);
+                    await BuildAsync<EntityDefinition, EntityDefinitionBuilder>(json);
+                }
+                if (type.BaseType == typeof(Adapter))
+                {
+                    await BuildAsync<Adapter, AdapterBuilder>(json);
                 }
                 if (type == typeof(WorkflowDefinition))
                 {
-                    await BuildWorkflowAsync(json);
+                    await BuildAsync<WorkflowDefinition, WorkflowDefinitionBuilder>(json);
+                }
+                if (type == typeof(Designation))
+                {
+                    await BuildAsync<Designation, DesignationBuilder>(json);
+                }
+                if (type == typeof(TransformDefinition))
+                {
+                    await BuildAsync<TransformDefinition, TransformDefinitionBuilder>(json);
                 }
             }
         }
 
-        private static async Task BuildWorkflowAsync(string json)
+        private static async Task BuildAsync<T, TBuilder>(string json) where TBuilder : new()
         {
-            var wd = json.DeserializeFromJson<WorkflowDefinition>();
-            var builder = new WorkflowDefinitionBuilder();
+            var item = json.DeserializeFromJson<T>();
+
+            dynamic builder = new TBuilder();
             builder.Initialize();
-            await builder.RestoreAsync(wd);
+            await builder.RestoreAsync(item);
+
         }
 
-        private static async Task BuildEntityDefinitionAsync(string json)
-        {
-            var item = json.DeserializeFromJson<EntityDefinition>();
 
-            var edb = new EntityDefinitionBuilder();
-            edb.Initialize();
-            await edb.RestoreAsync(item);
-            
-        }
-        
-
-        private static async Task BuildAssAsync()
+        private static async Task BuilAllAsyc()
         {
+            if (!Directory.Exists(ConfigurationManager.CompilerOutputPath))
+                Directory.CreateDirectory(ConfigurationManager.CompilerOutputPath);
+
+
+            // TODO : remove all from output and apps
+            //RemoveExistingCompiledBinaries(ConfigurationManager.CompilerOutputPath);
+            //RemoveExistingCompiledBinaries(Path.Combine(ConfigurationManager.WebPath, "bin"));
+            //RemoveExistingCompiledBinaries(ConfigurationManager.SchedulerPath);
+            //RemoveExistingCompiledBinaries(ConfigurationManager.SubscriberPath);
+            //RemoveExistingCompiledBinaries(ConfigurationManager.ToolsPath);
+            RemoveExistingCompiledBinaries(@"c:\\non-existens");
 
             var edBuilder = new EntityDefinitionBuilder();
             edBuilder.Initialize();
             await edBuilder.RestoreAllAsync();
 
-            var wdBuilder = new WorkflowDefinitionBuilder();
-            await wdBuilder.RestoreAllAsync();
 
+            // TODO : we got bugs here, why can't we compile adapters with just *.json file
+            //var adapterBuilder = new AdapterBuilder();
+            //await adapterBuilder.RestoreAllAsync();
+
+            // NOTE : since map normally depends on adapter, this could fail miserably
             var mapBuilder = new TransformDefinitionBuilder();
+            mapBuilder.Initialize();
             await mapBuilder.RestoreAllAsync();
 
+            // NOTE : and WorkflowDefinition may depends on adapter/map, this could fail
+            var wdBuilder = new WorkflowDefinitionBuilder();
+            wdBuilder.Initialize();
+            await wdBuilder.RestoreAllAsync();
 
-            var adapterBuilder = new AdapterBuilder();
-            await adapterBuilder.RestoreAllAsync();
-            
             var triggerBuilder = new TriggerBuilder();
             triggerBuilder.Initialize();
             await triggerBuilder.RestoreAllAsync();
-            
 
+            var roleBuilder = new DesignationBuilder();
+            roleBuilder.Initialize();
+            await roleBuilder.RestoreAllAsync();
+
+            DeployCompiledBinaries(Path.Combine(ConfigurationManager.WebPath, "bin"));
+            DeployCompiledBinaries(ConfigurationManager.SchedulerPath);
+            DeployCompiledBinaries(ConfigurationManager.SubscriberPath);
+            DeployCompiledBinaries(ConfigurationManager.ToolsPath);
+
+        }
+
+        private static void RemoveExistingCompiledBinaries(string folder)
+        {
+            if (!Directory.Exists(folder)) return;
+            Directory.GetFiles(folder, $"{ConfigurationManager.ApplicationName}.*.dll")
+                .ToList().ForEach(File.Delete);
+            Directory.GetFiles(folder, $"{ConfigurationManager.ApplicationName}.*.pdb")
+                .ToList().ForEach(File.Delete);
+            Directory.GetFiles(folder, "workflows.*.dll")
+                .ToList().ForEach(File.Delete);
+            Directory.GetFiles(folder, "workflows.*.pdb")
+                .ToList().ForEach(File.Delete);
+            Directory.GetFiles(folder, "subscriber.trigger.*.dll")
+                .Where(f => Path.GetFileName(f) != "subscriber.trigger.dll")
+                .ToList().ForEach(File.Delete);
+            Directory.GetFiles(folder, "subscriber.trigger.*.pdb")
+                .Where(f => Path.GetFileName(f) != "subscriber.trigger.pdb")
+                .ToList().ForEach(File.Delete);
+        }
+        private static void DeployCompiledBinaries(string folder)
+        {
+            Directory.GetFiles(ConfigurationManager.CompilerOutputPath, ".*.dll")
+                .ToList().ForEach(x => File.Copy(x, $"{folder}\\{Path.GetFileName(x)}", true));
+            Directory.GetFiles(ConfigurationManager.CompilerOutputPath, ".*.pdb")
+                .ToList().ForEach(x => File.Copy(x, $"{folder}\\{Path.GetFileName(x)}", true));
         }
 
         public static void WriteMessage(this string message)

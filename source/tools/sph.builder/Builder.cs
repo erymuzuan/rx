@@ -14,7 +14,7 @@ namespace Bespoke.Sph.SourceBuilders
             return Task.FromResult(0);
         }
 
-        public virtual  Task RestoreAsync(T item)
+        public virtual Task RestoreAsync(T item)
         {
             return Task.FromResult(0);
         }
@@ -26,7 +26,8 @@ namespace Bespoke.Sph.SourceBuilders
             if (!Directory.Exists(folder))
                 return new List<T>();
 
-            var list = Directory.GetFiles(folder, "*.json").Select(f => f.DeserializeFromJsonFile<T>());
+            var list = Directory.GetFiles(folder, "*.json").Select(f => f.DeserializeFromJsonFile<T>(true)).ToList();
+            //list.ForEach(x => ObjectBuilder.ComposeMefCatalog(x));
             return list;
         }
 
@@ -46,7 +47,7 @@ namespace Bespoke.Sph.SourceBuilders
                     .Wait(5000);
             }
         }
-        
+
 
     }
 }

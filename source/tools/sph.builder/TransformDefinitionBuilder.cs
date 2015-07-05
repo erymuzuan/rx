@@ -13,21 +13,20 @@ namespace Bespoke.Sph.SourceBuilders
         {
             this.Initialize();
             var maps = this.GetItems();
-            foreach (var wd in maps)
+            foreach (var m in maps)
             {
-                await RestoreAsync(wd);
+                await RestoreAsync(m);
 
             }
         }
 
 
-        private async  Task CompileAsync(TransformDefinition item)
+        private async  Task CompileAsync(TransformDefinition map)
         {
             var options = new CompilerOptions
             {
                 SourceCodeDirectory = ConfigurationManager.SphSourceDirectory
             };
-            options.ReferencedAssembliesLocation.Add(typeof(Controller).Assembly.Location);
             options.ReferencedAssembliesLocation.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
             options.ReferencedAssembliesLocation.Add(typeof(JsonConvert).Assembly.Location);
             var outputPath = ConfigurationManager.CompilerOutputPath;
@@ -37,9 +36,9 @@ namespace Bespoke.Sph.SourceBuilders
             {
                 options.ReferencedAssembliesLocation.Add(dll);
             }
-
-
-            var result = await item.CompileAsync(options);
+            var codes = map.GenerateCode();
+            var sources = map.SaveSources(codes);
+            var result = await map.CompileAsync(options, sources);
             result.Errors.ForEach(Console.WriteLine);
 
         }
@@ -47,17 +46,17 @@ namespace Bespoke.Sph.SourceBuilders
      
 
         
-        public override async Task RestoreAsync(TransformDefinition wd)
+        public override async Task RestoreAsync(TransformDefinition map)
         {
-            Console.WriteLine("Compiling : {0} ", wd.Name);
+            Console.WriteLine("Compiling : {0} ", map.Name);
             try
             {
-               await this.CompileAsync(wd);
+               await this.CompileAsync(map);
             }
             catch (Exception e)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Failed to compile Trasnform Definition {0}", wd.Name);
+                Console.WriteLine("Failed to compile TransformDefinition {0}", map.Name);
                 Console.WriteLine(e.Message);
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(e.StackTrace);

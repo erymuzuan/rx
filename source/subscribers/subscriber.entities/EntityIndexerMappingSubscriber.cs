@@ -63,10 +63,11 @@ namespace subscriber.entities
 
         private async void MigrateData(string name)
         {
-            await MigrateDataAsycn(name);
+            await MigrateDataAsync(name);
 
         }
-        private async Task MigrateDataAsycn(string name)
+
+        public async Task MigrateDataAsync(string name)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(name);
@@ -79,7 +80,7 @@ namespace subscriber.entities
             using (var conn = new SqlConnection(connectionString))
             {
                 await conn.OpenAsync();//migrate
-                var readSql = string.Format("SELECT [Id],[Json] FROM [{1}].[{0}]", name, applicationName);
+                var readSql = $"SELECT [Id],[Json] FROM [{applicationName}].[{name}]";
                 this.WriteMessage(readSql);
 
 
@@ -135,7 +136,7 @@ namespace subscriber.entities
                 var response = await client.PostAsync(url, content);
                 if (null != response)
                 {
-                    Console.Write(@".");
+                    Console.Write($"{url} : {response.StatusCode}");
                 }
             }
             Console.ResetColor();
