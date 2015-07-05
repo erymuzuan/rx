@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Web.Controllers
             }
         }
 
-
+        [HttpPost]
         [Route("basic-get/{queue}")]
         public ActionResult LoadMessageFromQueue(string queue)
         {
