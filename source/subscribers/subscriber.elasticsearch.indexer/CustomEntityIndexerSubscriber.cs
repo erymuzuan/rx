@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -26,7 +27,8 @@ namespace Bespoke.Sph.ElasticSearch
             if (item.IsSystemType()) return;// just custom entity
 
 
-            var type = item.GetType().Name.ToLowerInvariant();
+            var type1 = item.GetType();
+            var type = type1.Name.ToLowerInvariant();
             var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
             var url = $"{ConfigurationManager.ElasticSearchHost}/{index}/{type}/{item.Id}";
 

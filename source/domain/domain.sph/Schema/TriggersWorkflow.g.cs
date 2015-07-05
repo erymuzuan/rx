@@ -66,49 +66,33 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameFiredOnOperations = "FiredOnOperations";
 
 
-        private readonly ObjectCollection<Rule> m_RuleCollection = new ObjectCollection<Rule>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Rule", IsNullable = false)]
-        public ObjectCollection<Rule> RuleCollection
-        {
-            get { return m_RuleCollection; }
-        }
+        public ObjectCollection<Rule> RuleCollection { get; } = new ObjectCollection<Rule>();
 
-        private readonly ObjectCollection<CustomAction> m_ActionCollection = new ObjectCollection<CustomAction>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<CustomAction> ActionCollection
-        {
-            get { return m_ActionCollection; }
-        }
+        public ObjectCollection<CustomAction> ActionCollection { get; } = new ObjectCollection<CustomAction>();
 
-        private readonly ObjectCollection<ReferencedAssembly> m_ReferencedAssemblyCollection = new ObjectCollection<ReferencedAssembly>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
-        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection
-        {
-            get { return m_ReferencedAssemblyCollection; }
-        }
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
 
-        private readonly ObjectCollection<ExceptionFilter> m_RequeueFilterCollection = new ObjectCollection<ExceptionFilter>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ExceptionFilter", IsNullable = false)]
-        public ObjectCollection<ExceptionFilter> RequeueFilterCollection
-        {
-            get { return m_RequeueFilterCollection; }
-        }
+        public ObjectCollection<ExceptionFilter> RequeueFilterCollection { get; } = new ObjectCollection<ExceptionFilter>();
+
 
         ///<summary>
         /// 
@@ -461,16 +445,12 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<MethodArg> m_MethodArgCollection = new ObjectCollection<MethodArg>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("MethodArg", IsNullable = false)]
-        public ObjectCollection<MethodArg> MethodArgCollection
-        {
-            get { return m_MethodArgCollection; }
-        }
+        public ObjectCollection<MethodArg> MethodArgCollection { get; } = new ObjectCollection<MethodArg>();
+
 
 
     }
@@ -924,16 +904,12 @@ namespace Bespoke.Sph.Domain
     public partial class SetterAction
     {
 
-        private readonly ObjectCollection<SetterActionChild> m_SetterActionChildCollection = new ObjectCollection<SetterActionChild>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("SetterActionChild", IsNullable = false)]
-        public ObjectCollection<SetterActionChild> SetterActionChildCollection
-        {
-            get { return m_SetterActionChildCollection; }
-        }
+        public ObjectCollection<SetterActionChild> SetterActionChildCollection { get; } = new ObjectCollection<SetterActionChild>();
+
 
 
     }
@@ -1171,16 +1147,12 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<WorkflowTriggerMap> m_WorkflowTriggerMapCollection = new ObjectCollection<WorkflowTriggerMap>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("WorkflowTriggerMap", IsNullable = false)]
-        public ObjectCollection<WorkflowTriggerMap> WorkflowTriggerMapCollection
-        {
-            get { return m_WorkflowTriggerMapCollection; }
-        }
+        public ObjectCollection<WorkflowTriggerMap> WorkflowTriggerMapCollection { get; } = new ObjectCollection<WorkflowTriggerMap>();
+
 
 
     }
@@ -1378,16 +1350,12 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<MethodArg> m_MethodArgCollection = new ObjectCollection<MethodArg>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("MethodArg", IsNullable = false)]
-        public ObjectCollection<MethodArg> MethodArgCollection
-        {
-            get { return m_MethodArgCollection; }
-        }
+        public ObjectCollection<MethodArg> MethodArgCollection { get; } = new ObjectCollection<MethodArg>();
+
 
 
     }
@@ -1426,71 +1394,47 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameVersion = "Version";
 
 
-        private readonly ObjectCollection<Activity> m_ActivityCollection = new ObjectCollection<Activity>();
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Activity> ActivityCollection { get; } = new ObjectCollection<Activity>();
+
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<Activity> ActivityCollection
-        {
-            get { return m_ActivityCollection; }
-        }
+        public ObjectCollection<Variable> VariableDefinitionCollection { get; } = new ObjectCollection<Variable>();
 
-        private readonly ObjectCollection<Variable> m_VariableDefinitionCollection = new ObjectCollection<Variable>();
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<Variable> VariableDefinitionCollection
-        {
-            get { return m_VariableDefinitionCollection; }
-        }
-
-        private readonly ObjectCollection<ReferencedAssembly> m_ReferencedAssemblyCollection = new ObjectCollection<ReferencedAssembly>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
-        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection
-        {
-            get { return m_ReferencedAssemblyCollection; }
-        }
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
 
-        private readonly ObjectCollection<CorrelationSet> m_CorrelationSetCollection = new ObjectCollection<CorrelationSet>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("CorrelationSet", IsNullable = false)]
-        public ObjectCollection<CorrelationSet> CorrelationSetCollection
-        {
-            get { return m_CorrelationSetCollection; }
-        }
+        public ObjectCollection<CorrelationSet> CorrelationSetCollection { get; } = new ObjectCollection<CorrelationSet>();
 
-        private readonly ObjectCollection<CorrelationType> m_CorrelationTypeCollection = new ObjectCollection<CorrelationType>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("CorrelationType", IsNullable = false)]
-        public ObjectCollection<CorrelationType> CorrelationTypeCollection
-        {
-            get { return m_CorrelationTypeCollection; }
-        }
+        public ObjectCollection<CorrelationType> CorrelationTypeCollection { get; } = new ObjectCollection<CorrelationType>();
 
-        private readonly ObjectCollection<TryScope> m_TryScopeCollection = new ObjectCollection<TryScope>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("TryScope", IsNullable = false)]
-        public ObjectCollection<TryScope> TryScopeCollection
-        {
-            get { return m_TryScopeCollection; }
-        }
+        public ObjectCollection<TryScope> TryScopeCollection { get; } = new ObjectCollection<TryScope>();
+
 
         ///<summary>
         /// 
@@ -1664,16 +1608,12 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameVersion = "Version";
 
 
-        private readonly ObjectCollection<VariableValue> m_VariableValueCollection = new ObjectCollection<VariableValue>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("VariableValue", IsNullable = false)]
-        public ObjectCollection<VariableValue> VariableValueCollection
-        {
-            get { return m_VariableValueCollection; }
-        }
+        public ObjectCollection<VariableValue> VariableValueCollection { get; } = new ObjectCollection<VariableValue>();
+
 
         ///<summary>
         /// 
@@ -1997,16 +1937,12 @@ namespace Bespoke.Sph.Domain
     public partial class DecisionActivity
     {
 
-        private readonly ObjectCollection<DecisionBranch> m_DecisionBranchCollection = new ObjectCollection<DecisionBranch>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("DecisionBranch", IsNullable = false)]
-        public ObjectCollection<DecisionBranch> DecisionBranchCollection
-        {
-            get { return m_DecisionBranchCollection; }
-        }
+        public ObjectCollection<DecisionBranch> DecisionBranchCollection { get; } = new ObjectCollection<DecisionBranch>();
+
 
 
     }
@@ -2822,16 +2758,12 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<PropertyMapping> m_PropertyMappingCollection = new ObjectCollection<PropertyMapping>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<PropertyMapping> PropertyMappingCollection
-        {
-            get { return m_PropertyMappingCollection; }
-        }
+        public ObjectCollection<PropertyMapping> PropertyMappingCollection { get; } = new ObjectCollection<PropertyMapping>();
+
 
 
     }
@@ -2967,16 +2899,12 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<PropertyMapping> m_PropertyMappingCollection = new ObjectCollection<PropertyMapping>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<PropertyMapping> PropertyMappingCollection
-        {
-            get { return m_PropertyMappingCollection; }
-        }
+        public ObjectCollection<PropertyMapping> PropertyMappingCollection { get; } = new ObjectCollection<PropertyMapping>();
+
 
 
     }
@@ -3142,38 +3070,26 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<string> m_InitializingCorrelationSetCollection = new ObjectCollection<string>();
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> InitializingCorrelationSetCollection { get; } = new ObjectCollection<string>();
+
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> InitializingCorrelationSetCollection
-        {
-            get { return m_InitializingCorrelationSetCollection; }
-        }
+        public ObjectCollection<string> FollowingCorrelationSetCollection { get; } = new ObjectCollection<string>();
 
-        private readonly ObjectCollection<string> m_FollowingCorrelationSetCollection = new ObjectCollection<string>();
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> FollowingCorrelationSetCollection
-        {
-            get { return m_FollowingCorrelationSetCollection; }
-        }
-
-        private readonly ObjectCollection<CorrelationProperty> m_CorrelationPropertyCollection = new ObjectCollection<CorrelationProperty>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("CorrelationProperty", IsNullable = false)]
-        public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection
-        {
-            get { return m_CorrelationPropertyCollection; }
-        }
+        public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection { get; } = new ObjectCollection<CorrelationProperty>();
+
 
 
     }
@@ -3299,38 +3215,26 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<ExceptionFilter> m_ExceptionFilterCollection = new ObjectCollection<ExceptionFilter>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ExceptionFilter", IsNullable = false)]
-        public ObjectCollection<ExceptionFilter> ExceptionFilterCollection
-        {
-            get { return m_ExceptionFilterCollection; }
-        }
+        public ObjectCollection<ExceptionFilter> ExceptionFilterCollection { get; } = new ObjectCollection<ExceptionFilter>();
 
-        private readonly ObjectCollection<string> m_InitializingCorrelationSetCollection = new ObjectCollection<string>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> InitializingCorrelationSetCollection
-        {
-            get { return m_InitializingCorrelationSetCollection; }
-        }
+        public ObjectCollection<string> InitializingCorrelationSetCollection { get; } = new ObjectCollection<string>();
 
-        private readonly ObjectCollection<string> m_FollowingCorrelationSetCollection = new ObjectCollection<string>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> FollowingCorrelationSetCollection
-        {
-            get { return m_FollowingCorrelationSetCollection; }
-        }
+        public ObjectCollection<string> FollowingCorrelationSetCollection { get; } = new ObjectCollection<string>();
+
 
 
     }
@@ -3344,16 +3248,12 @@ namespace Bespoke.Sph.Domain
     public partial class ListenActivity
     {
 
-        private readonly ObjectCollection<ListenBranch> m_ListenBranchCollection = new ObjectCollection<ListenBranch>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ListenBranch", IsNullable = false)]
-        public ObjectCollection<ListenBranch> ListenBranchCollection
-        {
-            get { return m_ListenBranchCollection; }
-        }
+        public ObjectCollection<ListenBranch> ListenBranchCollection { get; } = new ObjectCollection<ListenBranch>();
+
 
 
     }
@@ -3367,16 +3267,12 @@ namespace Bespoke.Sph.Domain
     public partial class ParallelActivity
     {
 
-        private readonly ObjectCollection<ParallelBranch> m_ParallelBranchCollection = new ObjectCollection<ParallelBranch>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ParallelBranch", IsNullable = false)]
-        public ObjectCollection<ParallelBranch> ParallelBranchCollection
-        {
-            get { return m_ParallelBranchCollection; }
-        }
+        public ObjectCollection<ParallelBranch> ParallelBranchCollection { get; } = new ObjectCollection<ParallelBranch>();
+
 
 
     }
@@ -3482,16 +3378,12 @@ namespace Bespoke.Sph.Domain
     public partial class ParallelBranch
     {
 
-        private readonly ObjectCollection<Activity> m_ActivityCollection = new ObjectCollection<Activity>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<Activity> ActivityCollection
-        {
-            get { return m_ActivityCollection; }
-        }
+        public ObjectCollection<Activity> ActivityCollection { get; } = new ObjectCollection<Activity>();
+
 
 
     }
@@ -3593,16 +3485,12 @@ namespace Bespoke.Sph.Domain
     public partial class ScheduledTriggerActivity
     {
 
-        private readonly ObjectCollection<IntervalSchedule> m_IntervalScheduleCollection = new ObjectCollection<IntervalSchedule>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("IntervalSchedule", IsNullable = false)]
-        public ObjectCollection<IntervalSchedule> IntervalScheduleCollection
-        {
-            get { return m_IntervalScheduleCollection; }
-        }
+        public ObjectCollection<IntervalSchedule> IntervalScheduleCollection { get; } = new ObjectCollection<IntervalSchedule>();
+
 
 
     }
@@ -3627,27 +3515,19 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
-        private readonly ObjectCollection<string> m_ForbiddenActivities = new ObjectCollection<string>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> ForbiddenActivities
-        {
-            get { return m_ForbiddenActivities; }
-        }
+        public ObjectCollection<string> ForbiddenActivities { get; } = new ObjectCollection<string>();
 
-        private readonly ObjectCollection<ExecutedActivity> m_ExecutedActivityCollection = new ObjectCollection<ExecutedActivity>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ExecutedActivity", IsNullable = false)]
-        public ObjectCollection<ExecutedActivity> ExecutedActivityCollection
-        {
-            get { return m_ExecutedActivityCollection; }
-        }
+        public ObjectCollection<ExecutedActivity> ExecutedActivityCollection { get; } = new ObjectCollection<ExecutedActivity>();
+
 
         ///<summary>
         /// 
@@ -4556,16 +4436,12 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<MappingSource> m_MappingSourceCollection = new ObjectCollection<MappingSource>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("MappingSource", IsNullable = false)]
-        public ObjectCollection<MappingSource> MappingSourceCollection
-        {
-            get { return m_MappingSourceCollection; }
-        }
+        public ObjectCollection<MappingSource> MappingSourceCollection { get; } = new ObjectCollection<MappingSource>();
+
 
 
     }
@@ -4685,49 +4561,33 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsPublished = "IsPublished";
 
 
-        private readonly ObjectCollection<Map> m_MapCollection = new ObjectCollection<Map>();
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Map> MapCollection { get; } = new ObjectCollection<Map>();
+
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<Map> MapCollection
-        {
-            get { return m_MapCollection; }
-        }
+        public ObjectCollection<Functoid> FunctoidCollection { get; } = new ObjectCollection<Functoid>();
 
-        private readonly ObjectCollection<Functoid> m_FunctoidCollection = new ObjectCollection<Functoid>();
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<Functoid> FunctoidCollection
-        {
-            get { return m_FunctoidCollection; }
-        }
-
-        private readonly ObjectCollection<MethodArg> m_InputCollection = new ObjectCollection<MethodArg>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("MethodArg", IsNullable = false)]
-        public ObjectCollection<MethodArg> InputCollection
-        {
-            get { return m_InputCollection; }
-        }
+        public ObjectCollection<MethodArg> InputCollection { get; } = new ObjectCollection<MethodArg>();
 
-        private readonly ObjectCollection<ReferencedAssembly> m_ReferencedAssemblyCollection = new ObjectCollection<ReferencedAssembly>();
 
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
-        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection
-        {
-            get { return m_ReferencedAssemblyCollection; }
-        }
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
+
 
         ///<summary>
         /// 
@@ -5739,16 +5599,12 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameName = "Name";
 
 
-        private readonly ObjectCollection<CorrelationProperty> m_CorrelationPropertyCollection = new ObjectCollection<CorrelationProperty>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("CorrelationProperty", IsNullable = false)]
-        public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection
-        {
-            get { return m_CorrelationPropertyCollection; }
-        }
+        public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection { get; } = new ObjectCollection<CorrelationProperty>();
+
 
         ///<summary>
         /// 
@@ -6019,16 +5875,12 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<Variable> m_VariableMapCollection = new ObjectCollection<Variable>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<Variable> VariableMapCollection
-        {
-            get { return m_VariableMapCollection; }
-        }
+        public ObjectCollection<Variable> VariableMapCollection { get; } = new ObjectCollection<Variable>();
+
 
 
     }
@@ -6042,16 +5894,12 @@ namespace Bespoke.Sph.Domain
     public partial class TryScope
     {
 
-        private readonly ObjectCollection<CatchScope> m_CatchScopeCollection = new ObjectCollection<CatchScope>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("CatchScope", IsNullable = false)]
-        public ObjectCollection<CatchScope> CatchScopeCollection
-        {
-            get { return m_CatchScopeCollection; }
-        }
+        public ObjectCollection<CatchScope> CatchScopeCollection { get; } = new ObjectCollection<CatchScope>();
+
 
 
     }
@@ -6682,16 +6530,12 @@ namespace Bespoke.Sph.Domain
         private double m_y;
         public const string PropertyNameY = "Y";
 
-        private readonly ObjectCollection<FunctoidArg> m_ArgumentCollection = new ObjectCollection<FunctoidArg>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("FunctoidArg", IsNullable = false)]
-        public ObjectCollection<FunctoidArg> ArgumentCollection
-        {
-            get { return m_ArgumentCollection; }
-        }
+        public ObjectCollection<FunctoidArg> ArgumentCollection { get; } = new ObjectCollection<FunctoidArg>();
+
 
 
         // public properties members

@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Web.Api
         public static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
-        [Route("scalar/{table}/{column}")]
+        [Route("scalar")]
         public async Task<ActionResult> Scalar(string column, string table, string filter)
         {
 

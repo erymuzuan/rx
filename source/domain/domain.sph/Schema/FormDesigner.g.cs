@@ -107,7 +107,7 @@ namespace Bespoke.Sph.Domain
         {
             set
             {
-                if (string.Equals(m_name, value, StringComparison.Ordinal)) return;
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -2066,6 +2066,18 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameTreatDataAsSource = "TreatDataAsSource";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool? m_storeInDatabase;
+        public const string PropertyNameStoreInDatabase = "StoreInDatabase";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool? m_storeInElasticsearch;
+        public const string PropertyNameStoreInElasticsearch = "StoreInElasticsearch";
+
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -2325,6 +2337,50 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public bool? StoreInDatabase
+        {
+            set
+            {
+                if (m_storeInDatabase == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStoreInDatabase, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_storeInDatabase = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_storeInDatabase; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public bool? StoreInElasticsearch
+        {
+            set
+            {
+                if (m_storeInElasticsearch == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStoreInElasticsearch, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_storeInElasticsearch = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_storeInElasticsearch; }
+        }
 
 
     }

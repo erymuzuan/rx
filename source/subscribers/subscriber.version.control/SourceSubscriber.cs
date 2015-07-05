@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -15,26 +13,15 @@ namespace subscriber.version.control
 
         public override string[] RoutingKeys => new[]
         {
-            typeof(Adapter).Name + ".#.#",
-            typeof(EmailTemplate).Name + ".#.#",
-            typeof(DocumentTemplate).Name + ".#.#",
-            typeof(ReportDelivery).Name + ".#.#",
-            typeof(Page).Name + ".#.#",
-            typeof(Organization).Name + ".#.#",
-            typeof(Setting).Name + ".#.#",
-            typeof(Designation).Name + ".#.#",
-            typeof(EntityChart).Name + ".#.#",
-            typeof(EntityView).Name + ".#.#",
-            typeof(EntityForm).Name + ".#.#",
-            typeof(EntityDefinition).Name + ".#.#",
-            typeof(ReportDefinition).Name + ".#.#",
-            typeof(WorkflowDefinition).Name + ".#.#",
-            typeof(TransformDefinition).Name + ".#.#",
-            typeof(Trigger).Name + ".#.#"
+            "#.added.#",
+            "#.changed.#",
+            "#.deleted.#"
         };
 
         private void RemoveExistingSource(Entity item)
         {
+            if (null == item) return;
+            
             var wc = ConfigurationManager.SphSourceDirectory;
             var type = item.GetEntityType();
             var folder = Path.Combine(wc, type.Name);
@@ -74,6 +61,7 @@ namespace subscriber.version.control
 
         protected override async Task ProcessMessage(Entity item, MessageHeaders header)
         {
+            if (null == item) return;
             RemoveExistingSource(item);
 
             var type = item.GetEntityType();
@@ -138,8 +126,11 @@ namespace subscriber.version.control
                 return;
             }
 
+            var sourceAttribute = StoreAsSourceAttribute.GetAttribute(type);
+            if (null == sourceAttribute) return;
 
             var provider = new EntitySourceProvider();
+
 
             if (header.Crud == CrudOperation.Deleted)
                 await provider.RemoveItem(item);

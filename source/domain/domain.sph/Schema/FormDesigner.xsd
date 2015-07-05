@@ -372,6 +372,8 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="Performer"/>
+				<xs:element name="StoreInDatabase" type="xs:boolean" nillable="true"/>
+				<xs:element name="StoreInElasticsearch" type="xs:boolean" nillable="true"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Plural" type="xs:string" use="required"/>

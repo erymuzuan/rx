@@ -61,7 +61,7 @@
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-placement="left" data-bind="tooltip:'Creates database column, to allow API filter and Report filter, Views and search do not use this property'">
-                            <input data-bind="checked: IsFilterable" id="member-analyzed" type="checkbox" name="IsFilterable" />
+                            <input data-bind="checked: IsFilterable" id="member-filtered" type="checkbox" name="IsFilterable" />
                             Can be filtered
                         </label>
                     </div>
@@ -213,6 +213,19 @@
                                 <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="icon-class"></i>
                             </div>
                         </div>
+
+                        <h4>Source for reference data</h4>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-bind="checked: TreatDataAsSource" id="treat-data-as-source" type="checkbox" name="TreatDataAsSource" />
+                                        Treat data as source
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </form>
                 </div>

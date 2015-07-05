@@ -36,6 +36,13 @@ namespace Bespoke.Sph.Domain
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
 
+            if (this.TreatDataAsSource)
+            {
+                var es = this.StoreInElasticsearch ?? true ? "true" : "false";
+                var db = this.StoreInDatabase ?? true ? "true" : "false";
+                code.AppendLine($"  [StoreAsSource(IsElasticsearch={es}, IsSqlDatabase={db})]");
+            }
+
             code.AppendLine("   public class " + this.Name + " : Entity");
             code.AppendLine("   {");
 
