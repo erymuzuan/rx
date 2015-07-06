@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -115,7 +113,7 @@ namespace Bespoke.Sph.Persistence
             {
                 m_channel.QueueBind(this.QueueName, EXCHANGE_NAME, s, null);
             }
-            m_channel.BasicQos(0, (ushort)this.PrefectchCount, false);
+            m_channel.BasicQos(0, this.PrefectchCount, false);
 
             m_consumer = new TaskBasicConsumer(m_channel);
             m_consumer.Received += Received;
