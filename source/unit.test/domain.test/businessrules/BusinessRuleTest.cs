@@ -66,9 +66,9 @@ namespace domain.test.businessrules
 
             br.FilterCollection.Add(new Rule
             {
-                Left = new DocumentField{Type = typeof(string),Path = "Gender"},
+                Left = new DocumentField { Type = typeof(string), Path = "Gender" },
                 Operator = Operator.Eq,
-                Right = new ConstantField{ Type = typeof(string), Value = "Male"}
+                Right = new ConstantField { Type = typeof(string), Value = "Male" }
             });
 
             ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
@@ -104,9 +104,9 @@ namespace domain.test.businessrules
 
             br.FilterCollection.Add(new Rule
             {
-                Left = new DocumentField{Type = typeof(string),Path = "Gender"},
+                Left = new DocumentField { Type = typeof(string), Path = "Gender" },
                 Operator = Operator.Eq,
-                Right = new ConstantField{ Type = typeof(string), Value = "Male"}
+                Right = new ConstantField { Type = typeof(string), Value = "Male" }
             });
 
             ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
@@ -138,7 +138,7 @@ namespace domain.test.businessrules
             };
             br.RuleCollection.Add(nameMustContainsA);
             customerDefinition.BusinessRuleCollection.Add(br);
-        
+
             ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
             Assert.IsFalse(result.Success);
 
@@ -173,9 +173,9 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "B" }
             };
             br2.RuleCollection.Add(nameMustContainsB);
-            
 
-            customer.Title= "Temp C";
+
+            customer.Title = "Temp C";
             customer.FullName = "Kelantan";
             customerDefinition.BusinessRuleCollection.Add(br);
             customerDefinition.BusinessRuleCollection.Add(br2);
@@ -251,7 +251,7 @@ namespace domain.test.businessrules
 
             // try to instantiate the EntityDefinition
             var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
+            var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
 
             var edType = assembly.GetType(edTypeName);
             Assert.IsNotNull(edType, edTypeName + " is null");
@@ -262,13 +262,13 @@ namespace domain.test.businessrules
 
         public EntityDefinition CreatePatientDefinition()
         {
-            var ent = new EntityDefinition { Name = "Patient", Plural = "Patients" ,RecordName = "FullName"};
+            var ent = new EntityDefinition { Name = "Patient", Plural = "Patients", RecordName = "FullName", Id = "patient" };
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
-            }); 
+            });
             ent.MemberCollection.Add(new Member
             {
                 Name = "Title",

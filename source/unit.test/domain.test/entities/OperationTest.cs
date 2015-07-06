@@ -54,7 +54,7 @@ namespace domain.test.entities
 
             // try to instantiate the EntityDefinition
             var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
+            var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
 
             var edType = assembly.GetType(edTypeName);
             Assert.IsNotNull(edType, edTypeName + " is null");
@@ -65,7 +65,7 @@ namespace domain.test.entities
 
         public EntityDefinition CreatePatientDefinition(string name = "Patient")
         {
-            var ent = new EntityDefinition { Name = name, Plural = "Patients", RecordName = "FullName" };
+            var ent = new EntityDefinition { Name = name, Plural = "Patients", RecordName = "FullName", Id="patient" };
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",

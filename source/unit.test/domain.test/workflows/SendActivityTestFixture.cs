@@ -136,9 +136,9 @@ namespace domain.test.workflows
             StringAssert.Contains("await adapter.InsertAsync(this.staff);", code);
 
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
-            File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll", true);
+            File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\DevV1.MySqlSampleTest001.dll", true);
             var options = new CompilerOptions();
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll");
+            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\DevV1.MySqlSampleTest001.dll");
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));

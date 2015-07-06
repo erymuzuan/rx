@@ -48,7 +48,7 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 customScript = itemCustomScript.Script;
 
             var block = script;
-            if (!block.EndsWith(";"))block = string.Format("return {0};", script);
+            if (!block.EndsWith(";"))block = $"return {script};";
 
 
             var code = string.Format("using System;\r\n" +

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using LinqToQuerystring;
@@ -19,13 +20,93 @@ namespace Bespoke.Sph.Web.Api
 
         public async Task<ActionResult> Index(string column, string table, string filter)
         {
+            // TODO : should get all the one with SaveAsSourceAttribute instead
+            var type = table.ToLowerInvariant();
+            switch (type)
+            {
+                case "designation": return SelectSystemObjectProperty<Designation>(column, filter);
+                case "workflowdefinition": return SelectSystemObjectProperty<WorkflowDefinition>(column, filter);
+                case "entitydefinition": return SelectSystemObjectProperty<EntityDefinition>(column, filter);
+                case "transformdefinition": return SelectSystemObjectProperty<TransformDefinition>(column, filter);
+                case "entityview": return SelectSystemObjectProperty<EntityView>(column, filter);
+                case "entityform": return SelectSystemObjectProperty<EntityForm>(column, filter);
+                case "entitychart": return SelectSystemObjectProperty<EntityChart>(column, filter);
+                case "trigger": return SelectSystemObjectProperty<Trigger>(column, filter);
+                case "adapter": return SelectSystemObjectProperty<Adapter>(column, filter);
+            }
             var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Scalar(filter);
             return await ExecuteListAsync(sql);
         }
 
-        public async Task<ActionResult> Distinct(string column, string table, string filter)
+        private ActionResult SelectSystemObjectProperty<T>(string column, string filter) where T : Entity
         {
+            var context = new SphDataContext();
+            if (string.IsNullOrWhiteSpace(filter))
+            {
+                var val2 = context.LoadFromSources<T>()
+                    .AsQueryable()
+                    .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
+                    .SelectMany(d => d.Values)
+                    .Where(v => null != v)
+                    .ToList();
+
+                return Json(val2, JsonRequestBehavior.AllowGet);
+
+            }
+            var val = context.LoadFromSources<T>()
+                .AsQueryable()
+                .LinqToQuerystring($"?$filter={filter}")
+                .AsQueryable()
+                .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
+                .SelectMany(d => d.Values);
+
+            return Json(val, JsonRequestBehavior.AllowGet);
+        }
+
+
+        private ActionResult SelectDistinctSystemObjectProperty<T>(string column, string filter) where T : Entity
+        {
+            var context = new SphDataContext();
+            if (string.IsNullOrWhiteSpace(filter))
+            {
+                var val2 = context.LoadFromSources<T>()
+                    .AsQueryable()
+                    .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
+                    .SelectMany(d => d.Values)
+                    .Where(v => null != v)
+                    .Distinct()
+                    .ToList();
+
+                return Json(val2, JsonRequestBehavior.AllowGet);
+
+            }
+            var val = context.LoadFromSources<T>()
+                .AsQueryable()
+                .LinqToQuerystring($"?$filter={filter}")
+                .AsQueryable()
+                .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
+                .SelectMany(d => d.Values)
+                .Distinct();
+
+            return Json(val, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> Distinct(string column, string table, string filter)
+        {    // TODO : should get all the one with SaveAsSourceAttribute instead
+            var type = table.ToLowerInvariant();
+            switch (type)
+            {
+                case "designation": return SelectDistinctSystemObjectProperty<Designation>(column, filter);
+                case "workflowdefinition": return SelectDistinctSystemObjectProperty<WorkflowDefinition>(column, filter);
+                case "entitydefinition": return SelectDistinctSystemObjectProperty<EntityDefinition>(column, filter);
+                case "transformdefinition": return SelectDistinctSystemObjectProperty<TransformDefinition>(column, filter);
+                case "entityview": return SelectDistinctSystemObjectProperty<EntityView>(column, filter);
+                case "entityform": return SelectDistinctSystemObjectProperty<EntityForm>(column, filter);
+                case "entitychart": return SelectDistinctSystemObjectProperty<EntityChart>(column, filter);
+                case "trigger": return SelectDistinctSystemObjectProperty<Trigger>(column, filter);
+                case "adapter": return SelectDistinctSystemObjectProperty<Adapter>(column, filter);
+            }
             var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Distinct(filter);
             return await ExecuteListAsync(sql);
@@ -71,12 +152,12 @@ namespace Bespoke.Sph.Web.Api
             {
                 await conn.OpenAsync();
 
-                var result = new List<Tuple<object, object, object,object>>();
+                var result = new List<Tuple<object, object, object, object>>();
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
-                        var item = new Tuple<object, object,object,object>(reader[0], reader[1], reader[2], reader[3]);
+                        var item = new Tuple<object, object, object, object>(reader[0], reader[1], reader[2], reader[3]);
                         result.Add(item);
                     }
                 }
@@ -92,12 +173,12 @@ namespace Bespoke.Sph.Web.Api
             {
                 await conn.OpenAsync();
 
-                var result = new List<Tuple<object, object, object,object,object>>();
+                var result = new List<Tuple<object, object, object, object, object>>();
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
-                        var item = new Tuple<object, object,object,object,object>(reader[0], reader[1], reader[2], reader[3], reader[4]);
+                        var item = new Tuple<object, object, object, object, object>(reader[0], reader[1], reader[2], reader[3], reader[4]);
                         result.Add(item);
                     }
                 }

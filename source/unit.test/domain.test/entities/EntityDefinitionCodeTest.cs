@@ -72,7 +72,7 @@ namespace domain.test.entities
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
             var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType("Bespoke.Dev_lead.Domain.Lead");
+            var type = assembly.GetType($"Bespoke.{ConfigurationManager.ApplicationName}_lead.Domain.Lead");
             Assert.IsNotNull(type, type.FullName + " is null");
 
             dynamic lead = Activator.CreateInstance(type);
