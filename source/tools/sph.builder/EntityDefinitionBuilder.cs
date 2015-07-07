@@ -70,11 +70,19 @@ namespace Bespoke.Sph.SourceBuilders
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                    await
-                        client.DeleteAsync(
-                            $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/_mapping/{ed.Name.ToLowerInvariant()}");
 
+                    var typeName = ed.Name.ToLowerInvariant();
+                    var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
+                    var mappingFile = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ed.Name}.mapping";
+                    string mappingUrl = $"{index}/_mapping/{typeName}";
 
+                    await client.DeleteAsync(mappingUrl);
+                    if (File.Exists(mappingFile))
+                    {
+                        var mappingContent = new StringContent(File.ReadAllText(mappingFile));
+                        await client.PutAsync(mappingUrl, mappingContent);
+
+                    }
 
                     var files = Directory.
                     GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{ed.Name}", "*.json");
@@ -91,9 +99,7 @@ namespace Bespoke.Sph.SourceBuilders
 
                         var content = new StringContent(json);
 
-                        var type2 = ed.Name.ToLowerInvariant();
-                        var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
-                        var url = $"{index}/{type2}/{ent.Id}";
+                        var url = $"{index}/{typeName}/{ent.Id}";
                         var response = await client.PutAsync(url, content);
                         Console.WriteLine($"{ent.Id} -> {response.StatusCode}");
                     }

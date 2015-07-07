@@ -66,10 +66,9 @@
                     });
                     view().ViewColumnCollection(columns);
 
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(view);
+                    var data = ko.mapping.toJSON(view);
 
-                    context.post(data, "/Sph/EntityView/Publish")
+                    return context.post(data, "/Sph/EntityView/Publish")
                         .then(function (result) {
                             if (result.success) {
                                 logger.info(result.message);
@@ -81,9 +80,7 @@
                                 logger.error("There are errors in your entity, !!!");
                             }
 
-                            tcs.resolve(result);
                         });
-                    return tcs.promise();
                 },
                 save = function () {
                     // get the sorted element
@@ -92,16 +89,13 @@
                     });
                     view().ViewColumnCollection(columns);
 
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(view);
+                    var data = ko.mapping.toJSON(view);
 
-                    context.post(data, "/Sph/EntityView/Save")
+                    return context.post(data, "/Sph/EntityView/Save")
                         .then(function (result) {
                             view().Id(result.id);
-                            tcs.resolve(result);
                             logger.info(result.message);
                         });
-                    return tcs.promise();
                 },
                 remove = function () {
 
@@ -116,6 +110,7 @@
                                     })
                                     .fail(function (v) {
                                         logger.error(v.statusText);
+                                        tcs.reject(v);
                                     })
                                     .then(tcs.resolve);
 
@@ -126,10 +121,9 @@
 
             depublishAsync = function () {
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(view);
+                var data = ko.mapping.toJSON(view);
 
-                context.post(data, "/EntityView/Depublish")
+               return context.post(data, "/EntityView/Depublish")
                     .then(function (result) {
                         if (result.success) {
                             view().IsPublished(false);
@@ -138,9 +132,7 @@
                         } else {
                             logger.error("There are errors in your view, !!!");
                         }
-                        tcs.resolve(result);
                     });
-                return tcs.promise();
             },
             partialEditor = null,
             editCode = function () {

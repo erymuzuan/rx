@@ -30,7 +30,8 @@ namespace subscriber.test
             var wd = new WorkflowDefinition
             {
                 IsActive = true,
-                Name = "Weekly Trigger Test"
+                Name = "Weekly Trigger Test",
+                Id = "weekly-trigger-test"
             };
             var trigger = new ScheduledTriggerActivity
             {
@@ -64,7 +65,8 @@ namespace subscriber.test
             var wd = new WorkflowDefinition
             {
                 IsActive = true,
-                Name = "Monthly Trigger Test"
+                Name = "Monthly Trigger Test",
+                Id = "monthly-trigger-test"
             };
             var trigger = new ScheduledTriggerActivity
             {
@@ -99,7 +101,8 @@ namespace subscriber.test
             var wd = new WorkflowDefinition
             {
                 IsActive = true,
-                Name = "Test 01"
+                Name = "Test 01",
+                Id = "test-01"
             };
             var trigger = new ScheduledTriggerActivity
             {

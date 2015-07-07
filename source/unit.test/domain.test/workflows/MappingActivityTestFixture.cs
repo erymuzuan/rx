@@ -56,9 +56,9 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new EndActivity { WebId = "End", Name = "EndWf" });
 
 
-            var adapterPath = string.Format(@"C:\project\work\sph\bin\output\{0}.Customer.dll", ConfigurationManager.ApplicationName);
-            var patientPath = string.Format(@"C:\project\work\sph\bin\output\{0}.Patient.dll", ConfigurationManager.ApplicationName);
-            var mappingPath = string.Format(@"C:\project\work\sph\bin\output\{0}.PatientToCustomer.dll", ConfigurationManager.ApplicationName);
+            var adapterPath = $@"C:\project\work\sph\bin\output\{ConfigurationManager.ApplicationName}.Customer.dll";
+            var patientPath = $@"C:\project\work\sph\bin\output\{ConfigurationManager.ApplicationName}.Patient.dll";
+            var mappingPath =$@"C:\project\work\sph\bin\output\{ConfigurationManager.ApplicationName}.PatientToCustomer.dll";
 
             File.Copy(adapterPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Customer.dll", true);
             File.Copy(patientPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Patient.dll", true);

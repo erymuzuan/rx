@@ -22,12 +22,12 @@ namespace Bespoke.Sph.Web.Api
         [Route("scalar")]
         public async Task<ActionResult> Scalar(string column, string table, string filter)
         {
-
-
             // TODO : should get all the one with SaveAsSourceAttribute instead
             var type = table.ToLowerInvariant();
             switch (type)
             {
+                case "workflowdefinition": return GetSystemObjectScalar<WorkflowDefinition>(column, filter);
+                case "designation": return GetSystemObjectScalar<Designation>(column, filter);
                 case "entitydefinition": return GetSystemObjectScalar<EntityDefinition>(column, filter);
                 case "transformdefinition": return GetSystemObjectScalar<TransformDefinition>(column, filter);
                 case "entityview": return GetSystemObjectScalar<EntityView>(column, filter);

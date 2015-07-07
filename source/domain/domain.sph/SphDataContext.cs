@@ -67,7 +67,7 @@ namespace Bespoke.Sph.Domain
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return default(T);
-            
+
             return Directory.GetFiles(path, "*.json")
                 .Select(f => f.DeserializeFromJsonFile<T>(readAllText))
                 .FirstOrDefault(predicate.Compile());
@@ -135,6 +135,12 @@ namespace Bespoke.Sph.Domain
 
         public async Task<int> GetCountAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
+            var source = StoreAsSourceAttribute.GetAttribute<T>();
+            if (null != source && !source.IsSqlDatabase)
+            {
+                var list = LoadFromSources<T>(predicate);
+                return list.Count();
+            }
             var query = Translate(predicate);
             var repos = ObjectBuilder.GetObject<IRepository<T>>();
             return await repos.GetCountAsync(query).ConfigureAwait(false);
@@ -248,6 +254,13 @@ namespace Bespoke.Sph.Domain
         public async Task<IEnumerable<TResult>> GetListAsync<T, TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
             where T : Entity
         {
+            var source = StoreAsSourceAttribute.GetAttribute<T>();
+            if (null != source && !source.IsSqlDatabase)
+            {
+                var list = LoadFromSources(predicate)
+                    .Select(selector.Compile());
+                return list;
+            }
             var provider = ObjectBuilder.GetObject<QueryProvider>();
             var query = new Query<T>(provider).Where(predicate);
 

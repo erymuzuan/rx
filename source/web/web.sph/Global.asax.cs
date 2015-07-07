@@ -71,7 +71,7 @@ namespace web.sph
             WebApplicationHelper.Application_Error();
             Console.WriteLine("ERROR*******************");
         }
-        protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
             var headers = Request.Headers.GetValues("Authorization");
             var token = headers?.FirstOrDefault();
