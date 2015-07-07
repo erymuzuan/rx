@@ -10,7 +10,7 @@
     <tbody data-bind="foreach: auditTrailCollection">
         <tr>
             <td data-bind="">
-                <button class="btn btn-link" data-bind="click: $parent.showChangesCommand, date: { value: DateTime, format: 'D MMM YYYY HH:mm' },enable: ChangeCollection().length > 0"></button>
+                <button class="btn btn-link" data-bind="click: $parent.showChangesCommand, date: { value: DateTime, format: 'D MMM YYYY HH:mm' , inputFormat:'YYY-MM-DDTHH:mm:ss'},enable: ChangeCollection().length > 0"></button>
             </td>
             <td data-bind="text: User"></td>
             <td data-bind="text: Operation"></td>

@@ -22,7 +22,7 @@ define(['services/datacontext'],
                     type = typeOrOption.entity;
                     id = typeOrOption.id;
                 }
-                if (!parseInt(id)) {
+                if (!id) {
                     return Task.fromResult(false);
                 }
 
