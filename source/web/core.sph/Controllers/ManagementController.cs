@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Models;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -23,7 +24,9 @@ namespace Bespoke.Sph.Web.Controllers
             this.Response.ContentType = "application/json; charset=utf-8";
             return Content(JsonConvert.SerializeObject(results));
         }
+
         [Route("rabbitmq")]
+        [NoCache]
         public async Task<ActionResult> InvokeRabbitMqManagementApi(string resource)
         {
             var url = "api/" + resource;
