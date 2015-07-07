@@ -32,9 +32,20 @@ namespace Bespoke.Sph.Domain
             if (null == m_context)
                 throw new ObjectDisposedException("This session has been completed or terminated");
 
-            foreach (var t in entities.Where(e => string.IsNullOrWhiteSpace(e.WebId)))
+            var userName = ObjectBuilder.GetObject<IDirectoryService>().CurrentUserName;
+            entities.Where(e => string.IsNullOrWhiteSpace(e.WebId)).ToList().ForEach(t => t.WebId = Strings.GenerateId());
+
+            foreach (var t in entities.Where(e => string.IsNullOrWhiteSpace(e.CreatedBy) || e.CreatedDate == DateTime.MinValue))
             {
-                t.WebId = Guid.NewGuid().ToString();
+                t.CreatedBy = userName;
+                t.ChangedBy = userName;
+                t.CreatedDate = DateTime.Now;
+                t.ChangedDate = DateTime.Now;
+            }
+            foreach (var t in entities)
+            {
+                t.ChangedBy = userName;
+                t.ChangedDate = DateTime.Now;
             }
             AttachedCollection.AddRange(entities);
         }
