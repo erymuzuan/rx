@@ -43,7 +43,16 @@ namespace Bespoke.Sph.Domain
                 return obj.Evaluate(context.Item);
 
             var dll = Path.Combine(ConfigurationManager.CompilerOutputPath, $"{this.CodeNamespace}.dll");
-            if (!File.Exists(dll)) this.Compile(context);
+            if (File.Exists(dll))
+            {
+                // by this time it may already there
+                if (m_ff.TryGetValue(this.WebId, out obj))
+                    return obj.Evaluate(context.Item);
+            }
+            else
+            {
+                this.Compile(context);
+            }
 
             var assembly = Assembly.LoadFile(dll);
             dynamic ff = Activator.CreateInstance(assembly.GetType(this.CodeNamespace + ".FunctionFieldHost"));
