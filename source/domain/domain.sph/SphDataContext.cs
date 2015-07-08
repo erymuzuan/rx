@@ -44,13 +44,12 @@ namespace Bespoke.Sph.Domain
 
         public IEnumerable<T> LoadFromSources<T>() where T : Entity
         {
-            var storeAsSource = StoreAsSourceAttribute.GetAttribute<T>();
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return new T[] { };
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => f.DeserializeFromJsonFile<T>(storeAsSource.HasDerivedTypes));
+                .Select(f => f.DeserializeFromJsonFile<T>());
         }
 
         public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
@@ -61,19 +60,17 @@ namespace Bespoke.Sph.Domain
                 return new T[] { };
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => f.DeserializeFromJsonFile<T>(source.HasDerivedTypes))
+                .Select(f => f.DeserializeFromJsonFile<T>())
                 .Where(predicate.Compile());
         }
         public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            var storeAsSource = StoreAsSourceAttribute.GetAttribute<T>();
-
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return default(T);
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => f.DeserializeFromJsonFile<T>(storeAsSource.HasDerivedTypes))
+                .Select(f => f.DeserializeFromJsonFile<T>())
                 .FirstOrDefault(predicate.Compile());
         }
 

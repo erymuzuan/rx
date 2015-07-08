@@ -26,7 +26,7 @@ namespace Bespoke.Sph.SourceBuilders
             if (!Directory.Exists(folder))
                 return new List<T>();
 
-            var list = Directory.GetFiles(folder, "*.json").Select(f => f.DeserializeFromJsonFile<T>(true)).ToList();
+            var list = Directory.GetFiles(folder, "*.json").Select(f => f.DeserializeFromJsonFile<T>()).ToList();
             //list.ForEach(x => ObjectBuilder.ComposeMefCatalog(x));
             return list;
         }

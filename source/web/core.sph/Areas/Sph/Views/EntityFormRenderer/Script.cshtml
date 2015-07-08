@@ -182,7 +182,6 @@
                             if(result.success){
                                 context.post(data, "@saveUrl")
                                    .then(function(result) {
-                                       tcs.resolve(result);
                                        entity().Id(result.id);
                                        app.showMessage("Your @Model.EntityDefinition.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["ok"]);
                                    });

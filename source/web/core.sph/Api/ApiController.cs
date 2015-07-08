@@ -378,7 +378,7 @@ namespace Bespoke.Sph.Web.Api
                 list = files
                     .Skip((page - 1) * size)
                     .Take(size)
-                    .Select(f => f.DeserializeFromJsonFile<T>(readAllText))
+                    .Select(f => f.DeserializeFromJsonFile<T>())
                     .ToList();
                 rows = files.Length;
             }
@@ -400,7 +400,7 @@ namespace Bespoke.Sph.Web.Api
                     .Replace(" OR ", " or ")
                     .Replace("[DataSource.EntityName]", "DataSource/EntityName")
                     ;
-                var filtered = files.Select(f => f.DeserializeFromJsonFile<T>(readAllText))
+                var filtered = files.Select(f => f.DeserializeFromJsonFile<T>())
                     .AsQueryable()
                     .LinqToQuerystring("?$filter=" + filter)
                     .ToList();
@@ -418,12 +418,12 @@ namespace Bespoke.Sph.Web.Api
             var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{id}.json";
             if (System.IO.File.Exists(file))
             {
-                return file.DeserializeFromJsonFile<T>(readAllText);
+                return file.DeserializeFromJsonFile<T>();
             }
 
             var files = Directory.GetFiles(folder, "*.json");
             var item = files
-                .Select(f => f.DeserializeFromJsonFile<T>(readAllText))
+                .Select(f => f.DeserializeFromJsonFile<T>())
                 .FirstOrDefault(x => x.Id == id);
             return item;
         }

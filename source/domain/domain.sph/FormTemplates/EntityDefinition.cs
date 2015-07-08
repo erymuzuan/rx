@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("Name = {Name}")]
-    [StoreAsSource]
+    [StoreAsSource(HasDerivedTypes = true)]
     public partial class EntityDefinition : Entity
     {
         // reserved names
