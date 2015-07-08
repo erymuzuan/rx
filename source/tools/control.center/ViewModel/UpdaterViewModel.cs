@@ -107,7 +107,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     if (response.StatusCode == HttpStatusCode.NotFound)
                     {
                         if (!silent)
-                            MessageBox.Show("Now new update is found, Please check again in the future", "Rx Developer", MessageBoxButton.OK,
+                            MessageBox.Show("No new update is found, Please check again in the future", "Rx Developer", MessageBoxButton.OK,
                                     MessageBoxImage.Information);
 
 
