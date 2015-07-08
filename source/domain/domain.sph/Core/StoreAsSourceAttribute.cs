@@ -9,6 +9,10 @@ namespace Bespoke.Sph.Domain
     {
         public bool IsElasticsearch { get; set; }
         public bool IsSqlDatabase { get; set; }
+        /// <summary>
+        /// JsonSerializer must use TypeNameHandling.All, thus the object with derived types as it's aggregates might not be deserialize correctly using StreamRead
+        /// </summary>
+        public bool HasDerivedTypes { get; set; }   
 
         private static readonly ConcurrentDictionary<Type, StoreAsSourceAttribute> m_store = new ConcurrentDictionary<Type, StoreAsSourceAttribute>();
         private static  readonly ConcurrentDictionary<Type, bool> m_hasSourceAttribute = new ConcurrentDictionary<Type, bool>();

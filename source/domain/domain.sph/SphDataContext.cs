@@ -42,34 +42,38 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public IEnumerable<T> LoadFromSources<T>(bool readAllText = false) where T : Entity
+        public IEnumerable<T> LoadFromSources<T>() where T : Entity
         {
+            var storeAsSource = StoreAsSourceAttribute.GetAttribute<T>();
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return new T[] { };
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => f.DeserializeFromJsonFile<T>(readAllText));
+                .Select(f => f.DeserializeFromJsonFile<T>(storeAsSource.HasDerivedTypes));
         }
 
-        public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate, bool readAllText = false) where T : Entity
+        public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
+            var source = StoreAsSourceAttribute.GetAttribute<T>();
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return new T[] { };
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => f.DeserializeFromJsonFile<T>(readAllText))
+                .Select(f => f.DeserializeFromJsonFile<T>(source.HasDerivedTypes))
                 .Where(predicate.Compile());
         }
-        public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate, bool readAllText = false) where T : Entity
+        public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
+            var storeAsSource = StoreAsSourceAttribute.GetAttribute<T>();
+
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return default(T);
 
             return Directory.GetFiles(path, "*.json")
-                .Select(f => f.DeserializeFromJsonFile<T>(readAllText))
+                .Select(f => f.DeserializeFromJsonFile<T>(storeAsSource.HasDerivedTypes))
                 .FirstOrDefault(predicate.Compile());
         }
 
@@ -138,7 +142,7 @@ namespace Bespoke.Sph.Domain
             var source = StoreAsSourceAttribute.GetAttribute<T>();
             if (null != source && !source.IsSqlDatabase)
             {
-                var list = LoadFromSources<T>(predicate);
+                var list = LoadFromSources(predicate);
                 return list.Count();
             }
             var query = Translate(predicate);

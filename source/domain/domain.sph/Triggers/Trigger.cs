@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource]
+    [StoreAsSource(HasDerivedTypes = true)]
     public partial class Trigger : Entity
     {
         public static Trigger ParseJson(string json)

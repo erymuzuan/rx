@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource]
+    [StoreAsSource(HasDerivedTypes = true)]
     public partial class WorkflowDefinition : Entity
     {
         public T GetActivity<T>(string webId) where T : Activity

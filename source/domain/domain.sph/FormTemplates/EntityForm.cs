@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource]
+    [StoreAsSource(HasDerivedTypes = true)]
     public partial class EntityForm : Entity
     {
         [ImportMany(typeof(IBuildDiagnostics))]

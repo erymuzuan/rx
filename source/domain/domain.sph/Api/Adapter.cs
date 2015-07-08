@@ -15,6 +15,7 @@ using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain.Api
 {
+    [StoreAsSource(HasDerivedTypes = true)]
     public abstract partial class Adapter
     {
         public string[] SaveSources(Dictionary<string, string> sources, string folder)

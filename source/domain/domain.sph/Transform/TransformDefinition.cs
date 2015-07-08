@@ -13,7 +13,7 @@ using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource]
+    [StoreAsSource(HasDerivedTypes = true)]
     public partial class TransformDefinition : Entity
     {
         
