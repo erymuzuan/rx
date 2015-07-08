@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SqlRepository
@@ -31,7 +31,7 @@ namespace Bespoke.Sph.SqlRepository
         AND t.name <> N'sysname'
     ORDER 
         BY o.type";
-        private readonly Dictionary<string, Table> m_cache = new Dictionary<string, Table>();
+        private readonly ConcurrentDictionary<string, Table> m_cache = new ConcurrentDictionary<string, Table>();
 
         public SqlServer2012Metadata()
         {
@@ -47,8 +47,9 @@ namespace Bespoke.Sph.SqlRepository
 
         public Table GetTable(string name)
         {
-            if (m_cache.ContainsKey(name))
-                return m_cache[name];
+            Table tb;
+            if (m_cache.TryGetValue(name, out tb))
+                return tb;
 
             using (var conn = new SqlConnection(ConnectionString))
             using (var cmd = new SqlCommand(Sql, conn))
@@ -63,15 +64,15 @@ namespace Bespoke.Sph.SqlRepository
                     while (reader.Read())
                     {
                         var column = new Column
-                            {
-                                Name = reader.GetString(1),
-                                SqlType = reader.GetString(2),
-                                Length = reader.GetInt16(3),
-                                IsNullable = reader.GetBoolean(4),
-                                IsIdentity = reader.GetBoolean(5),
-                                CanWrite = !reader.GetBoolean(6)// computed
+                        {
+                            Name = reader.GetString(1),
+                            SqlType = reader.GetString(2),
+                            Length = reader.GetInt16(3),
+                            IsNullable = reader.GetBoolean(4),
+                            IsIdentity = reader.GetBoolean(5),
+                            CanWrite = !reader.GetBoolean(6)// computed
 
-                            };
+                        };
                         column.CanWrite |= !column.IsIdentity;
                         column.CanRead = true;
                         column.IsPrimaryKey = column.Name == "Id";
@@ -86,24 +87,15 @@ namespace Bespoke.Sph.SqlRepository
 
 
                     table.Columns = columns.ToArray();
-                    lock (m_lock)
-                    {
-                        try
-                        {
-                            m_cache.Add(name, table);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                    }
+                    m_cache.TryAdd(name, table);
+
+
                 }
 
             }
             return GetTable(name);
         }
 
-        private static readonly object m_lock = new object();
 
         public string GetDataColumn<T>() where T : Entity
         {
