@@ -11,9 +11,9 @@ namespace csproj.gen
         public string GetNugetPackagesConfig()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            const string resourceName = "csproj.gen.packages.xml";
+            const string RESOURCE_NAME = "csproj.gen.packages.xml";
 
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
             using (var reader = new StreamReader(stream))
             {
                 var raw = reader.ReadToEnd();
@@ -31,9 +31,9 @@ namespace csproj.gen
             };
 
             var assembly = Assembly.GetExecutingAssembly();
-            const string resourceName = "csproj.gen.ed.xml";
+            const string RESOURCE_NAME = "csproj.gen.ed.xml";
 
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
             using (var reader = new StreamReader(stream))
             {
                 var raw = reader.ReadToEnd();
@@ -46,14 +46,10 @@ namespace csproj.gen
 
         public string TransformTemplate(string template, dynamic model)
         {
-            dynamic viewBag = new DynamicViewBag();
-            //viewBag.BaseUrl = ConfigurationManager.BaseUrl;
-            //viewBag.ApplicationName = ConfigurationManager.ApplicationName;
-            //viewBag.ApplicationFullName = ConfigurationManager.ApplicationFullName;
-
+            var viewBag = new DynamicViewBag();
             if (string.IsNullOrWhiteSpace(template)) return string.Empty;
-            var body = Razor.Parse(template, model, viewBag, null);
-            return body;
+            var result = Engine.Razor.RunCompile(template, template, null, (object)model, viewBag);
+            return result;
         }
     }
 }

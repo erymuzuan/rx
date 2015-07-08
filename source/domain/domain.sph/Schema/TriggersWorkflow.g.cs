@@ -5859,20 +5859,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private bool m_IsAsync;
-        [XmlAttribute]
-        public bool IsAsync
-        {
-            get
-            {
-                return m_IsAsync;
-            }
-            set
-            {
-                m_IsAsync = value;
-                RaisePropertyChanged();
-            }
-        }
+    
 
 
         ///<summary>
