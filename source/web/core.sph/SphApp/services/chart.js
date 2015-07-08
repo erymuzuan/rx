@@ -61,6 +61,55 @@ define(["services/datacontext", objectbuilders.system], function (context, syste
                 });
             return tcs.promise();
         },
+        getMissingBucket = function (fd) {
+
+            var missingQuery = JSON.parse(JSON.stringify(_query));
+            if (_aggregate() === "term") {
+                missingQuery.aggs = {
+                    "category": {
+                        "missing": {
+                            "field": fd
+                        }
+                    }
+                };
+            }
+
+            if (_aggregate() === "histogram") {
+                missingQuery.aggs = {
+                    "category": {
+                        "histogram": {
+                            "field": fd,
+                            "interval": parseInt(_histogramInterval()),
+                            "min_doc_count": 0
+                        }
+                    }
+                };
+            }
+
+
+            if (_aggregate() === "date_histogram") {
+                missingQuery.aggs = {
+                    "category": {
+                        "date_histogram": {
+                            "field": fd,
+                            "interval": _dateInterval(),
+                            "format": _format()
+                        }
+                    }
+                };
+            }
+
+            var tcs = new $.Deferred();
+            context.searchAsync(_entity(), missingQuery)
+                .fail(tcs.reject)
+                .done(function (result) {
+                    tcs.resolve(result.aggregations.category.doc_count);
+
+                });
+            return tcs.promise();
+
+
+        },
         draw = function (fd) {
             if (!_field()) {
                 _field(fd);
@@ -68,7 +117,7 @@ define(["services/datacontext", objectbuilders.system], function (context, syste
             if (!fd) {
                 return Task.fromResult(false);
             }
-            var tcs = new $.Deferred();
+
             if (_aggregate() === "term") {
                 _query.aggs = {
                     "category": {
@@ -105,8 +154,13 @@ define(["services/datacontext", objectbuilders.system], function (context, syste
                 };
             }
 
-            context.searchAsync(_entity(), _query)
-                .done(function (result) {
+            var missing = 0;
+            return getMissingBucket(fd)
+                .then(function (result) {
+                    missing = result;
+                    return context.searchAsync(_entity(), _query);
+                })
+                .then(function (result) {
 
                     var buckets = result.aggregations.category.buckets || result.aggregations.category,
                         data = _(buckets).map(function (v) {
@@ -118,60 +172,62 @@ define(["services/datacontext", objectbuilders.system], function (context, syste
                         categories = _(buckets).map(function (v) {
                             return v.key_as_string || v.key.toString();
                         }),
-                        container = $("div#chart-container").length ? "div#chart-container" : "div#chart-" + _entity(),
-                        chart = $(container).empty().kendoChart({
-                            theme: "metro",
-                            title: {
-                                text: _entity() + " count by " + _field()
-                            },
-                            legend: {
-                                position: "bottom"
-                            },
-                            seriesDefaults: {
-                                labels: {
-                                    visible: true,
-                                    format: "{0}"
-                                }
-                            },
-                            series: [
-                                {
-                                    type: _type(),
-                                    data: data
-                                }
-                            ],
-                            categoryAxis: {
-                                categories: categories,
-                                majorGridLines: {
-                                    visible: false
-                                }
-                            },
-                            seriesClick: function (e) {
-                                if (typeof _click === "function") {
-                                    _click({
-                                        query: _query,
-                                        category: e.category,
-                                        value: e.value,
-                                        field: _field(),
-                                        aggregate: _aggregate(),
-                                        histogramInterval: _histogramInterval(),
-                                        dateInterval: _dateInterval()
+                        container = $("div#chart-container").length ? "div#chart-container" : "div#chart-" + _entity();
 
-                                    });
+                    if (missing > 0) {
 
-                                }
-                            }, tooltip: {
+                        data.push({ category: "<Empty>", value: missing });
+                    }
+                    var chart = $(container).empty().kendoChart({
+                        theme: "metro",
+                        title: {
+                            text: _entity() + " count by " + _field()
+                        },
+                        legend: {
+                            position: "bottom"
+                        },
+                        seriesDefaults: {
+                            labels: {
                                 visible: true,
-                                format: "{0}",
-                                template: "#= category #: #= value #"
+                                format: "{0}"
                             }
-                        }).data("kendoChart");
-                    console.log(chart);
-                    tcs.resolve(true);
+                        },
+                        series: [
+                            {
+                                type: _type(),
+                                data: data
+                            }
+                        ],
+                        categoryAxis: {
+                            categories: categories,
+                            majorGridLines: {
+                                visible: false
+                            }
+                        },
+                        seriesClick: function (e) {
+                            if (typeof _click === "function") {
+                                _click({
+                                    query: _query,
+                                    category: e.category,
+                                    value: e.value,
+                                    field: _field(),
+                                    aggregate: _aggregate(),
+                                    histogramInterval: _histogramInterval(),
+                                    dateInterval: _dateInterval()
+
+                                });
+
+                            }
+                        }, tooltip: {
+                            visible: true,
+                            format: "{0}",
+                            template: "#= category #: #= value #"
+                        }
+                    }).data("kendoChart");
 
                 });
 
 
-            return tcs.promise();
         },
         execute = function () {
             return draw(_field());

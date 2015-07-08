@@ -118,9 +118,14 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
 
                     q.query.filtered.filter.bool.must.push(date_histogram);
                 }
-                if(e.aggregate === "term"){
-                    cat.term[e.field] = e.category;
-                    q.query.filtered.filter.bool.must.push(cat);
+                if(e.aggregate === "term"){  
+                    if(e.category === "<Empty>"){
+                        var missing = {"missing" : { "field" : e.field}};
+                        q.query.filtered.filter.bool.must.push(missing);
+                    }else {
+                        cat.term[e.field] = e.category;
+                        q.query.filtered.filter.bool.must.push(cat);
+                    }
                 }
 
 
