@@ -110,6 +110,10 @@ namespace Bespoke.Sph.SourceBuilders
                 {
                     await BuildAsync<TransformDefinition, TransformDefinitionBuilder>(json);
                 }
+                if (type == typeof(Trigger))
+                {
+                    await BuildAsync<Trigger, TriggerBuilder>(json);
+                }
             }
         }
 

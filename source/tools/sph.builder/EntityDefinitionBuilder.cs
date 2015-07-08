@@ -61,8 +61,27 @@ namespace Bespoke.Sph.SourceBuilders
             {
                 // clean all data
                 var builder = new Builder { EntityDefinition = ed, Name = ed.Name };
-                builder.Initialize();
-                await "Sph".ExecuteNonQueryAsync($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{ed.Name}]");
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    builder.Initialize();
+                    await "Sph".ExecuteNonQueryAsync($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{ed.Name}]");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Please wait.. retrying....");
+                    Console.WriteLine(e.ToString());
+
+                    var sqlSub2 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification(null) };
+                    await sqlSub2.ProcessMessageAsync(ed);
+
+                    await RestoreAsync(ed);
+                    return;
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
 
                 var sqlSub1 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification(null) };
                 await sqlSub1.ProcessMessageAsync(ed);
