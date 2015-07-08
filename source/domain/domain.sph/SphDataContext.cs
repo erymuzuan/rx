@@ -103,14 +103,9 @@ namespace Bespoke.Sph.Domain
 
         public async Task<T> LoadOneAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            var jsonText = typeof (T) == typeof (EntityForm)
-                           || typeof (T) == typeof (Api.Adapter)
-                           || typeof (T) == typeof (TransformDefinition)
-                           || typeof (T) == typeof (Trigger)
-                           || typeof (T) == typeof (WorkflowDefinition);
             var storeAsSource = StoreAsSourceAttribute.GetAttribute<T>();
             if (null != storeAsSource)
-                return this.LoadOneFromSources(predicate, jsonText);
+                return this.LoadOneFromSources(predicate);
 
 
             var provider = ObjectBuilder.GetObject<QueryProvider>();
