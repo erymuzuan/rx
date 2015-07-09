@@ -83,9 +83,9 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("Page")]
-        public async Task<ActionResult> Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return await ExecuteAsync<Page>(filter, page, size, includeTotal);
+            return ReadFromSource<Page>(filter, page, size, includeTotal);
         }
 
         [Route("ReportDelivery")]
@@ -108,9 +108,9 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("Setting")]
-        public ActionResult Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return ReadFromSource<Setting>(filter, page, size);
+            return await ExecuteAsync<Setting>(filter, page, size, includeTotal);
         }
 
 

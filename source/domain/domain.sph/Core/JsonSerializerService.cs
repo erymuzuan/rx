@@ -143,7 +143,7 @@ namespace Bespoke.Sph.Domain
         /// <returns></returns>
         public static T JsonClone<T>(this T source) where T : class
         {
-            if (null == source) throw new ArgumentNullException("source");
+            if (null == source) throw new ArgumentNullException(nameof(source));
 
             var json = ToJsonString(source);
             var clone = json.DeserializeFromJson<T>();
@@ -206,13 +206,16 @@ namespace Bespoke.Sph.Domain
         /// </summary>
         /// <param name="file">The path to the json file</param>
         /// <returns></returns>
-        public static T DeserializeFromJsonFile<T>(this string file) where T: Entity
+        public static T DeserializeFromJsonFile<T>(this string file) where T : Entity
         {
             if (!File.Exists(file))
                 throw new ArgumentException("Cannot find file " + file, nameof(file));
             try
             {
-                var readAllText = StoreAsSourceAttribute.GetAttribute<T>().HasDerivedTypes;
+                var source = StoreAsSourceAttribute.GetAttribute<T>();
+                if (null == source)
+                    throw new InvalidOperationException(typeof(T) + " does not have StoreAsSourceAttribute");
+                var readAllText = source.HasDerivedTypes;
                 if (readAllText)
                 {
                     var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
