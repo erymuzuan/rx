@@ -183,7 +183,7 @@
                                 context.post(data, "@saveUrl")
                                    .then(function(result) {
                                        entity().Id(result.id);
-                                       app.showMessage("Your @Model.EntityDefinition.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["ok"]);
+                                       app.showMessage("Your @Model.EntityDefinition.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["OK"]);
                                    });
                             }else{
                                 var ve = _(result.validationErrors).map(function(v){
@@ -204,7 +204,7 @@
                     return context.post(data, "@saveUrl")
                         .then(function(result) {
                             entity().Id(result.id);
-                            app.showMessage("Your @Model.EntityDefinition.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["ok"]);
+                            app.showMessage("Your @Model.EntityDefinition.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["OK"]);
 
                         });
                     </text>

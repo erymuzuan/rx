@@ -545,7 +545,7 @@ WriteLiteral(" has been successfully saved\", \"");
             
             #line default
             #line hidden
-WriteLiteral(@""", [""ok""]);
+WriteLiteral(@""", [""OK""]);
                                    });
                             }else{
                                 var ve = _(result.validationErrors).map(function(v){
@@ -600,7 +600,7 @@ WriteLiteral(" has been successfully saved\", \"");
             
             #line default
             #line hidden
-WriteLiteral("\", [\"ok\"]);\r\n\r\n                        });\r\n                    ");
+WriteLiteral("\", [\"OK\"]);\r\n\r\n                        });\r\n                    ");
 
 WriteLiteral("\r\n");
 
