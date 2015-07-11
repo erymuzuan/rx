@@ -234,7 +234,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		    // when the connection is closed, this method is called
 		    ws.onclose = function () {
-		        logger.error("* Connection closed");
+		        console.error("* Connection closed");
 		        logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connection closed", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Warning" }));
 		        scroll();
 		        connected(false);
@@ -249,7 +249,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             clearInterval(refresh);
                             if (tcs.state() !== "resolved") {
                                 start().done(function() {
-                                    logger.info("Web socket re-connect!");
+                                    console.log("Web socket re-connect!");
                                 });
                             }
 		                    tcs.resolve(true);

@@ -328,6 +328,41 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\EntityViewDesigner\_conditionalFormatting.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_conditionalFormatting.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityViewDesigner\_erroList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_erroList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityViewDesigner\_filters.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_filters.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityViewDesigner\_general.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_general.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityViewDesigner\_parameters.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_parameters.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityViewDesigner\_performer.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_performer.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityViewDesigner\_sorts.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_sorts.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\BarChartItem.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1531,6 +1566,34 @@
     <Content Include="Areas\Sph\Views\SphAccount\ResetPassword.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ResetPassword.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityViewDesigner\_general.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_general.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityViewDesigner\_filters.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_filters.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityViewDesigner\_parameters.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_parameters.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityViewDesigner\_performer.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_performer.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityViewDesigner\_conditionalFormatting.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_conditionalFormatting.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityViewDesigner\_sorts.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_sorts.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityViewDesigner\_erroList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_erroList.generated.cs</LastGenOutput>
     </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />

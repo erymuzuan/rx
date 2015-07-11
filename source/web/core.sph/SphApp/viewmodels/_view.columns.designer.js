@@ -7,7 +7,7 @@ define([objectbuilders.datacontext], function (context) {
         formsOptions = ko.observableArray(),
         activate = function (vw) {
             _view(vw);
-
+            _item(new bespoke.sph.domain.ViewColumn());
             var tcs = new $.Deferred(),
                 viewFilter = {
                     "filter": {

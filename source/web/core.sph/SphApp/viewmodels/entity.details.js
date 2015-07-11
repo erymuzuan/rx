@@ -23,6 +23,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
             activate = function (entityid) {
                 var id = parseInt(entityid);
+                member(new bespoke.sph.domain.Member("-"));
+
                 if (isNaN(id)) {
                     var query = String.format("Id eq '{0}'", entityid);
                     return context.loadOneAsync("EntityDefinition", query)
