@@ -14,7 +14,7 @@ define([objectbuilders.datacontext, objectbuilders.config],
     function (context, config) {
 
         var isBusy = ko.observable(false),
-            messages = ko.observableArra(),
+            messages = ko.observableArray(),
             unread = ko.observable(),
             query = String.format("UserName eq '{0}' and IsRead eq 0", config.userName),
         activate = function () {

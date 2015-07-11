@@ -2067,6 +2067,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_dashboardTemplate;
+        public const string PropertyNameDashboardTemplate = "DashboardTemplate";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool? m_storeInDatabase;
         public const string PropertyNameStoreInDatabase = "StoreInDatabase";
 
@@ -2334,6 +2339,32 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_treatDataAsSource;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string DashboardTemplate
+        {
+            set
+            {
+                if (String.Equals(m_dashboardTemplate, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDashboardTemplate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_dashboardTemplate = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_dashboardTemplate;
             }
         }
 
@@ -3768,6 +3799,16 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNamePartial = "Partial";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_template;
+        public const string PropertyNameTemplate = "Template";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_displayOnDashboard;
+        public const string PropertyNameDisplayOnDashboard = "DisplayOnDashboard";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -4166,6 +4207,59 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_partial;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Template
+        {
+            set
+            {
+                if (String.Equals(m_template, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTemplate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_template = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_template;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool DisplayOnDashboard
+        {
+            set
+            {
+                if (m_displayOnDashboard == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDisplayOnDashboard, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_displayOnDashboard = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_displayOnDashboard;
             }
         }
 
@@ -6351,6 +6445,113 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_path;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ViewTemplate", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ViewTemplate
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_viewModelType;
+        public const string PropertyNameViewModelType = "ViewModelType";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string ViewModelType
+        {
+            set
+            {
+                if (String.Equals(m_viewModelType, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameViewModelType, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_viewModelType = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_viewModelType;
             }
         }
 

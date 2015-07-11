@@ -18,52 +18,63 @@ namespace subscriber.entities
         {
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == view.EntityDefinitionId);
-            var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true 
+            var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true
                 && f.EntityDefinitionId == view.EntityDefinitionId);
 
 
-            if(null == ed)
+            if (null == ed)
                 this.WriteError(new NullReferenceException("EntityDefinition is null Id = " + view.EntityDefinitionId));
-            if(null == form)
+            if (null == form)
                 this.WriteError(new NullReferenceException("Default EntityForm cannot be found for EntityDefinition = " + view.EntityDefinitionId));
             var vm = new
             {
                 Definition = ed,
-                View = view, 
+                View = view,
                 Form = form,
                 FilterDsl = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection),
                 SortDsl = view.GenerateEsSortDsl(),
-                Routes = string.Join(",",view.RouteParameterCollection.Select(r => r.Name)),
+                Routes = string.Join(",", view.RouteParameterCollection.Select(r => r.Name)),
                 PartialArg = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", partial",
                 PartialPath = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", \"" + view.Partial + "\""
             };
 
-
-            var assembly = Assembly.GetExecutingAssembly();
-            const string RESOURCE_NAME = "subscriber.entities.entity.view";
-
+            var template = context.LoadOneFromSources<ViewTemplate>(t => t.Name == view.Template) ??
+                           this.GetDefaultHtmlTemplate();
 
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + view.Route.ToLower() + ".html");
-            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME + ".html"))
-            using (var reader = new StreamReader(stream))
-            {
-                var raw = reader.ReadToEnd();
-                var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
-                File.WriteAllText(html, markup);
-
-            }
-
+            var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(template.Html, vm);
+            File.WriteAllText(html, markup);
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + view.Route.ToLower() + ".js");
-            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME + ".js"))
+            var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(template.Js, vm);
+            File.WriteAllText(js, script);
+
+
+
+        }
+
+        private ViewTemplate GetDefaultHtmlTemplate()
+        {
+            var html = "";
+            var js = "";
+            var assembly = Assembly.GetExecutingAssembly();
+            const string RESOURCE_NAME = "subscriber.entities.entity.view.html";
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
             using (var reader = new StreamReader(stream))
             {
-                var raw = reader.ReadToEnd();
-                var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
-                File.WriteAllText(js, script);
+                html = reader.ReadToEnd();
 
             }
 
+            const string RESOURCE_NAME_JS = "subscriber.entities.entity.view.js";
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME_JS))
+            using (var reader = new StreamReader(stream))
+            {
+                js = reader.ReadToEnd();
+
+            }
+
+            return new ViewTemplate(html, js);
         }
 
 

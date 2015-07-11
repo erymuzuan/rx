@@ -14,6 +14,7 @@
         function (context, logger, router, system, app) {
 
             var errors = ko.observableArray(),
+                warnings = ko.observableArray(),
                 entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
                 view = ko.observable(new bespoke.sph.domain.EntityView({ WebId: system.guid() })),
                 activate = function (entityid, viewid) {
@@ -163,6 +164,7 @@
             };
 
             var vm = {
+                warnings: warnings,
                 errors: errors,
                 attached: attached,
                 activate: activate,

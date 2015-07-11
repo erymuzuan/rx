@@ -383,6 +383,7 @@
 			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsShowOnNavigationBar" type="xs:boolean" use="required"/>
 			<xs:attribute name="TreatDataAsSource" type="xs:boolean" use="optional"/>
+			<xs:attribute name="DashboardTemplate" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Member">
@@ -531,6 +532,8 @@
 			<xs:attribute name="CountMessage" type="xs:string" use="optional"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="Partial" type="xs:string" use="required"/>
+			<xs:attribute name="Template" type="xs:string" use="optional"/>
+			<xs:attribute name="DisplayOnDashboard" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Filter">
@@ -807,6 +810,13 @@
 	<xs:element name="PartialJs">
 		<xs:complexType>
 			<xs:attribute name="Path" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ViewTemplate">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="optional"/>
+			<xs:attribute name="ViewModelType" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
