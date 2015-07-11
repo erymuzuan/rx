@@ -8,13 +8,13 @@ namespace Bespoke.Sph.Domain
     {
         private readonly string m_html;
         private readonly string m_js;
-        private readonly string m_htmlPath;
-        private readonly string m_jsPath;
+        [JsonIgnore]
+        private string HtmlPath  =>$"{ConfigurationManager.SphSourceDirectory}\\ViewTemplate\\{this.Name}.html.cshtml";
+        [JsonIgnore]
+        private string JsPath =>$"{ConfigurationManager.SphSourceDirectory}\\ViewTemplate\\{this.Name}.js.cshtml";
 
         public ViewTemplate()
         {
-            m_htmlPath = $"{ConfigurationManager.SphSourceDirectory}\\ViewTemplate\\{this.Name}.html.cshtml";
-            m_jsPath = $"{ConfigurationManager.SphSourceDirectory}\\ViewTemplate\\{this.Name}.js.cshtml";
         }
 
         public ViewTemplate(string html, string js)
@@ -25,15 +25,15 @@ namespace Bespoke.Sph.Domain
 
         public void StoreHtml(string html)
         {
-            File.WriteAllText(m_htmlPath, html);
+            File.WriteAllText(HtmlPath, html);
         }
         public void StoreJs(string js)
         {
-            File.WriteAllText(m_jsPath, js);
+            File.WriteAllText(JsPath, js);
         }
         [JsonIgnore]
-        public string Html => !string.IsNullOrWhiteSpace(m_html) ? m_html : File.ReadAllText(m_htmlPath);
+        public string Html => !string.IsNullOrWhiteSpace(m_html) ? m_html : File.ReadAllText(HtmlPath);
         [JsonIgnore]
-        public string Js => !string.IsNullOrWhiteSpace(m_js) ? m_js : File.ReadAllText(m_jsPath);
+        public string Js => !string.IsNullOrWhiteSpace(m_js) ? m_js : File.ReadAllText(JsPath);
     }
 }

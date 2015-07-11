@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Jsbeautifier;
 
 namespace subscriber.entities
 {
@@ -18,7 +19,7 @@ namespace subscriber.entities
         {
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == view.EntityDefinitionId);
-            var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true
+            var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault
                 && f.EntityDefinitionId == view.EntityDefinitionId);
 
 
@@ -40,6 +41,7 @@ namespace subscriber.entities
 
             var template = context.LoadOneFromSources<ViewTemplate>(t => t.Name == view.Template) ??
                            this.GetDefaultHtmlTemplate();
+            var beau = new Beautifier();
 
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + view.Route.ToLower() + ".html");
             var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(template.Html, vm);
@@ -47,7 +49,8 @@ namespace subscriber.entities
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + view.Route.ToLower() + ".js");
             var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(template.Js, vm);
-            File.WriteAllText(js, script);
+            var formattedScript = beau.Beautify(script);
+            File.WriteAllText(js, formattedScript);
 
 
 
@@ -55,8 +58,8 @@ namespace subscriber.entities
 
         private ViewTemplate GetDefaultHtmlTemplate()
         {
-            var html = "";
-            var js = "";
+            string html;
+            string js;
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "subscriber.entities.entity.view.html";
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
