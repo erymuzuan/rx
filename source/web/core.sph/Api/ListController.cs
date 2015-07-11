@@ -33,6 +33,7 @@ namespace Bespoke.Sph.Web.Api
                 case "entitychart": return SelectSystemObjectProperty<EntityChart>(column, filter);
                 case "trigger": return SelectSystemObjectProperty<Trigger>(column, filter);
                 case "adapter": return SelectSystemObjectProperty<Adapter>(column, filter);
+                case "viewtemplate": return SelectSystemObjectProperty<ViewTemplate>(column, filter);
             }
             var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Scalar(filter);
@@ -106,6 +107,7 @@ namespace Bespoke.Sph.Web.Api
                 case "entitychart": return SelectDistinctSystemObjectProperty<EntityChart>(column, filter);
                 case "trigger": return SelectDistinctSystemObjectProperty<Trigger>(column, filter);
                 case "adapter": return SelectDistinctSystemObjectProperty<Adapter>(column, filter);
+                case "viewtemplate": return SelectDistinctSystemObjectProperty<ViewTemplate>(column, filter);
             }
             var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Distinct(filter);

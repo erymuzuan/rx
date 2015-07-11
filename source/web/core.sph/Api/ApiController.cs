@@ -161,6 +161,12 @@ namespace Bespoke.Sph.Web.Api
             return ReadFromSource<WorkflowDefinition>(filter, page, size, true);
         }
 
+        [Route("ViewTemplate")]
+        public ActionResult ViewTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return ReadFromSource<ViewTemplate>(filter, page, size, true);
+        }
+
 
         [Route("Workflow")]
         public async Task<ActionResult> Workflow(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
