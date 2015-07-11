@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -77,8 +78,21 @@ namespace Bespoke.Sph.Messaging
             var list = new ObjectCollection<Entity>();
             foreach (var item in items)
             {
-                var o1 = item;
                 var type = item.GetEntityType();
+                var o1 = item;
+                var source = StoreAsSourceAttribute.GetAttribute(type);
+                if (null != source)
+                {
+                    var file = $"{ConfigurationManager.SphSourceDirectory}\\{type.Name}\\{item.Id}.json";
+                    if (!File.Exists(file))
+                        continue;
+
+                    var old = File.ReadAllText(file).DeserializeFromJson<Entity>();
+                    list.Add(old);
+
+                    continue;
+                }
+
                 var reposType = typeof(IRepository<>).MakeGenericType(type);
                 var repos = ObjectBuilder.GetObject(reposType);
 
@@ -152,7 +166,7 @@ namespace Bespoke.Sph.Messaging
             {
                 foreach (var h in headers)
                 {
-                    args.Properties.Headers.Add(h.Key, h.Value);
+                    args.Properties.Headers.AddIfNotExist(h.Key, h.Value);
                 }
             }
 
