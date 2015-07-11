@@ -1,0 +1,82 @@
+﻿<form class="form-horizontal">
+    <div class="form-group">
+        <label for="view-name" class="col-lg-3 col-md-3 control-label">Name</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <input type="text" data-bind="value: Name, valueUpdate: 'keyup'"
+                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                   placeholder="Name for the view"
+                   class="form-control" id="view-name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="view-route" class="col-lg-3 col-md-3 col-sm-2 control-label">Route</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <input type="text"
+                   required pattern="^[a-z][a-z0-9-.]*$" class="form-control" data-bind="value: Route, tooltip:'Route is a way the system identify your view via its URL, must be lower case with - or .'"
+                   placeholder="route url" id="view-route">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="view-note" class="col-lg-3 col-md-3 col-sm-2 control-label">Note</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <textarea data-bind="value: Note, valueUpdate: 'keyup'"
+                      placeholder="Note about the view"
+                      class="form-control" id="view-note"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="icon-storeid" class="col-lg-3 col-md-3 col-sm-2 control-label">Image</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <div data-bind="attr : {'class':TileColour}" style="padding: 10px;">
+                <div class="pull-left">
+                    <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon">
+                </div>
+                <div>
+                    <span style="font-size: 32px; font-weight: bold; margin: 5px">0</span>
+                </div>
+                <div>
+                    <h5 data-bind="text: Name"></h5>
+                    <label data-bind="text: Note"></label>
+                </div>
+            </div>
+            <input type="file" data-bind="kendoUpload: {value: IconStoreId, extensions : ['.png', '.gif']}" name="files" class="form-control" id="icon-storeid">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="icon-class" class="col-lg-3 col-md-3 control-label">Icon class</label>
+        <div class="col-md-9 col-lg-9">
+            <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="icon-class"></i>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ev-tl-color" class="col-lg-3 col-md-3 col-sm-2 control-label">Color</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <select class="form-control" id="ev-tl-color" data-bind="value:TileColour">
+                <option value="bblue">Blue</option>
+                <option value="blightblue">Light blue</option>
+                <option value="bred">Red</option>
+                <option value="bgreen">Green</option>
+                <option value="borange">Orange</option>
+                <option value="bviolet">Violet</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="ev-template" class="col-lg-3 col-md-3  control-label">Template</label>
+        <div class="col-lg-9 col-md-9">
+            <select class="form-control" id="ev-template" data-bind="value: Template, options:$root.templateOptions, optionsCaption :'[Select a template]'"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+                <label>
+                    <input data-bind="checked: DisplayOnDashboard" id="ev-display-dashboard" type="checkbox" name="DisplayOnDashboard" />
+                    Display thumbnail on dashboard
+                </label>
+            </div>
+        </div>
+    </div>
+
+</form>

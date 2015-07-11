@@ -14,6 +14,7 @@
         function (context, logger, router, system, app) {
 
             var errors = ko.observableArray(),
+                templateOptions = ko.observableArray(),
                 warnings = ko.observableArray(),
                 entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
                 view = ko.observable(new bespoke.sph.domain.EntityView({ WebId: system.guid() })),
@@ -22,6 +23,9 @@
 
                     var query = String.format("Id eq '{0}'", entityid),
                         tcs = new $.Deferred();
+
+                    context.getListAsync("ViewTemplate", "Id ne '0'", "Name")
+                    .done(templateOptions);
 
                     context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
@@ -32,6 +36,7 @@
                             }
 
                         });
+
                     if (viewid && viewid !== "0") {
                         context.loadOneAsync("EntityView", "Id eq '" + viewid + "'")
                         .done(function (f) {
@@ -54,9 +59,29 @@
                     return tcs.promise();
 
                 },
-                attached = function () {
+                attached = function (vw) {
 
+                    $(vw).on("click", "#expand-collapse-property-tabe", function () {
+                        if ($(this).text() === "Expand") {
 
+                            $("#view-column-designer")
+                                    .removeClass("col-lg-8").addClass("col-lg-4")
+                                    .removeClass("col-md-8").addClass("col-md-4");
+                            $("#view-properties-tab")
+                                .removeClass("col-lg-4").addClass("col-lg-8")
+                                .removeClass("col-md-4").addClass("col-md-8");
+                            $(this).text("Collapse");
+                        } else {
+
+                            $("#view-column-designer")
+                                .removeClass("col-lg-4").addClass("col-lg-8")
+                                .removeClass("col-md-4").addClass("col-md-8");
+                            $("#view-properties-tab")
+                                .removeClass("col-lg-8").addClass("col-lg-4")
+                                .removeClass("col-md-8").addClass("col-md-4");
+                            $(this).text("Expand");
+                        }
+                    });
 
                 },
                 publish = function () {
@@ -124,16 +149,16 @@
 
                 var data = ko.mapping.toJSON(view);
 
-               return context.post(data, "/EntityView/Depublish")
-                    .then(function (result) {
-                        if (result.success) {
-                            view().IsPublished(false);
-                            logger.info(result.message);
-                            errors.removeAll();
-                        } else {
-                            logger.error("There are errors in your view, !!!");
-                        }
-                    });
+                return context.post(data, "/EntityView/Depublish")
+                     .then(function (result) {
+                         if (result.success) {
+                             view().IsPublished(false);
+                             logger.info(result.message);
+                             errors.removeAll();
+                         } else {
+                             logger.error("There are errors in your view, !!!");
+                         }
+                     });
             },
             partialEditor = null,
             editCode = function () {
@@ -166,6 +191,7 @@
             var vm = {
                 warnings: warnings,
                 errors: errors,
+                templateOptions: templateOptions,
                 attached: attached,
                 activate: activate,
                 view: view,

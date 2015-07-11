@@ -778,11 +778,15 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         RecordName: ko.observable(""),
         IsPublished: ko.observable(false),
         IsShowOnNavigationBar: ko.observable(false),
+        TreatDataAsSource: ko.observable(false),
+        DashboardTemplate: ko.observable(""),
         MemberCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
         EntityOperationCollection: ko.observableArray([]),
         AuthorizedRoleCollection: ko.observableArray([]),
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
+        StoreInDatabase: ko.observable(),
+        StoreInElasticsearch: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -951,6 +955,8 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         CountMessage: ko.observable(""),
         Entity: ko.observable(""),
         Partial: ko.observable(""),
+        Template: ko.observable(""),
+        DisplayOnDashboard: ko.observable(false),
         FilterCollection: ko.observableArray([]),
         ViewColumnCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
@@ -1497,6 +1503,36 @@ bespoke.sph.domain.PartialJs = function (optionOrWebid) {
 
     if (bespoke.sph.domain.PartialJsPartial) {
         return _(model).extend(new bespoke.sph.domain.PartialJsPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ViewTemplate = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ViewTemplate, domain.sph",
+        Name: ko.observable(""),
+        Note: ko.observable(""),
+        ViewModelType: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ViewTemplatePartial) {
+        return _(model).extend(new bespoke.sph.domain.ViewTemplatePartial(model));
     }
     return model;
 };

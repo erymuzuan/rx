@@ -1,0 +1,33 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Css Class</th>
+            <th>Condition</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :ConditionalFormattingCollection">
+        <tr>
+            <td>
+                <select name="rule-operator" class="form-control" data-bind="value: CssClass">
+                    <option value="active">active</option>
+                    <option value="success">success</option>
+                    <option value="warning">warning</option>
+                    <option value="danger">danger</option>
+                    <option value="info">info</option>
+                </select>
+            </td>
+            <td>
+                <input type="text" required class="form-control" data-bind="value:Condition" />
+            </td>
+            <td>
+                <a href="#" data-bind="click : $parent.removeConditionalFormatting.call($parent,$data)">
+                    <span class="fa fa-times"></span>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<a class="btn btn-link" data-bind="click : addConditionalFormatting">
+    <i class="fa fa-plus-circle"></i> Add a conditional formatting
+</a>
