@@ -63,6 +63,7 @@ namespace subscriber.entities
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "subscriber.entities.entity.view.html";
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
+            // ReSharper disable once AssignNullToNotNullAttribute
             using (var reader = new StreamReader(stream))
             {
                 html = reader.ReadToEnd();
@@ -71,6 +72,7 @@ namespace subscriber.entities
 
             const string RESOURCE_NAME_JS = "subscriber.entities.entity.view.js";
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME_JS))
+            // ReSharper disable once AssignNullToNotNullAttribute
             using (var reader = new StreamReader(stream))
             {
                 js = reader.ReadToEnd();

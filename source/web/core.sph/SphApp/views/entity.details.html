@@ -213,6 +213,15 @@
                                 <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="icon-class"></i>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="ev-template" class="col-lg-3 col-md-3  control-label">Template</label>
+                            <div class="col-lg-9 col-md-9">
+                                <select class="form-control" id="ev-template" data-bind="value: DashboardTemplate, options:$root.templateOptions, optionsCaption :'[Select a template]'"></select>
+                                <a href="javascript:;" data-bind="command: $root.publishDashboard, tooltip:'Publish dashboard'">
+                                    <i class="fa fa-gear"></i>
+                                </a>
+                            </div>
+                        </div>
 
                         <h4>Source for reference data</h4>
                         <div class="form-group">

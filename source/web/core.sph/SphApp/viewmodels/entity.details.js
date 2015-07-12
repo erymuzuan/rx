@@ -19,10 +19,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             errors = ko.observableArray(),
             triggers = ko.observableArray(),
             forms = ko.observableArray(),
+            templateOptions = ko.observableArray(),
             views = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
             activate = function (entityid) {
                 var id = parseInt(entityid);
+
+                context.getListAsync("ViewTemplate", "Id ne '0'", "Name")
+                .done(templateOptions);
+
                 member(new bespoke.sph.domain.Member("-"));
 
                 if (isNaN(id)) {
@@ -53,6 +58,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 if (entity().Id() === "0") {
                    //TODO : should do the modal
                 }
+            },
+            publishDashboard = function () {
+                var data = ko.mapping.toJSON(entity);
+                return context.post(data, "/entity-definition/publish-dashboard");
             },
             save = function () {
                 if (!document.getElementById("entity-form").checkValidity()) {
@@ -184,6 +193,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var vm = {
             triggers: triggers,
+            templateOptions:templateOptions,
+            publishDashboard: publishDashboard,
             forms: forms,
             views: views,
             errors: errors,

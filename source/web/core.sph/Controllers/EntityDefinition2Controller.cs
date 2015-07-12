@@ -39,6 +39,24 @@ namespace Bespoke.Sph.Web.Controllers
 
 
         [HttpPost]
+        [Route("publish-dashboard")]
+        public async Task<ActionResult> PublishDashboardAsync()
+        {
+            var context = new SphDataContext();
+            var ed = this.GetRequestJson<EntityDefinition>();
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(ed);
+                await session.SubmitChanges("PublishDashboard");
+            }
+            return Json(new { success = true, status = "OK", message = "Your dashboard has been sent for publishing ", id = ed.Id });
+
+
+        }
+
+
+        [HttpPost]
         [Route("")]
         public async Task<ActionResult> Save()
         {
@@ -132,10 +150,10 @@ namespace Bespoke.Sph.Web.Controllers
         {
 
             var context = new SphDataContext();
-            var entity =  context.LoadOneFromSources<EntityDefinition>(e => e.Id == id);
+            var entity = context.LoadOneFromSources<EntityDefinition>(e => e.Id == id);
             var package = new EntityDefinitionPackage();
             var zip = await package.PackAsync(entity, includeData);
-            var file = $"{Path.GetFileNameWithoutExtension(zip)}_{Environment.MachineName}_{DateTime.Now:s}{(includeData ? "_data": "")}.zip";
+            var file = $"{Path.GetFileNameWithoutExtension(zip)}_{Environment.MachineName}_{DateTime.Now:s}{(includeData ? "_data" : "")}.zip";
             return File(System.IO.File.ReadAllBytes(zip), MimeMapping.GetMimeMapping(zip), file);
         }
 
@@ -241,7 +259,7 @@ namespace Bespoke.Sph.Web.Controllers
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
             if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
 
-            var forms  = context.LoadFromSources<EntityForm>(f => f.EntityDefinitionId == id) ;
+            var forms = context.LoadFromSources<EntityForm>(f => f.EntityDefinitionId == id);
             var views = context.LoadFromSources<EntityView>(f => f.EntityDefinitionId == id);
             var triggers = context.LoadFromSources<Trigger>(f => f.Entity == id);
 
