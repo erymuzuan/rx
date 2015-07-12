@@ -17,23 +17,23 @@ namespace Bespoke.Sph.Powershells
 
         public InvokeRxCompiler()
         {
-            var entities = GetSources("EntityDefinition");
-            m_sources.Add("EntityDefinition", entities);
-
-            var triggers = GetSources("Trigger");
-            m_sources.Add("Trigger", triggers);
+            m_sources.Add("EntityDefinition", new string[] { });
+            m_sources.Add("Trigger", new string[] { });
+            m_sources.Add("WorkflowDefinition", new string[] { });
+            m_sources.Add("TransformDefinition", new string[] { });
+            m_sources.Add("Adapter", new string[] { });
 
         }
 
         private string[] GetSources(string type)
         {
-            var source = $@".\sources\{type}\";
-            var files = new[] { $"Cannot find any {type} in {Path.GetFullPath(source)}"  };
+            var source = $@"{this.SessionState.Path.CurrentFileSystemLocation}\sources\{type}\";
+            var files = new[] { $"Cannot find any {type} in {Path.GetFullPath(source)}" };
             if (Directory.Exists(source))
             {
 
                 files = (from f in Directory.GetFiles(source, "*.json")
-                    select Path.GetFileNameWithoutExtension(f))
+                         select Path.GetFileNameWithoutExtension(f))
                     .ToArray();
             }
 
@@ -44,15 +44,18 @@ namespace Bespoke.Sph.Powershells
         {
             WriteObject($"Type = {m_type}");
             var source = ((DynParamQuotedString)MyInvocation.BoundParameters["Source"]).OriginalString;
+            string file = $@"{this.SessionState.Path.CurrentFileSystemLocation}\sources\{m_type}\{source}.json";
             WriteObject($"Source = {source}");
+            WriteObject($"Source = {file}");
 
+            var toolsSphBuilderExe = $@"{this.SessionState.Path.CurrentFileSystemLocation}\tools\sph.builder.exe";
             var info = new ProcessStartInfo
             {
-               FileName = @".\tools\sph.builder.exe",
-               Arguments = $@".\sources\{m_type}\{source}.json /s",
-               CreateNoWindow = true,
-               UseShellExecute = true
-              
+                FileName = toolsSphBuilderExe,
+                Arguments = file,
+                CreateNoWindow = true,
+                UseShellExecute = true
+
             };
 
             var builder = Process.Start(info);
@@ -78,8 +81,9 @@ namespace Bespoke.Sph.Powershells
             bool isTypeParameterMandatory = true;
             if (!string.IsNullOrEmpty(m_type) && m_sources.ContainsKey(m_type))
             {
+                m_sources[m_type] = GetSources(m_type);
                 isTypeParameterMandatory = false;
-                var bookParameter = new RuntimeDefinedParameter(
+                var sourceParameter = new RuntimeDefinedParameter(
                     "Source",
                     typeof(DynParamQuotedString),
                     new Collection<Attribute>
@@ -94,7 +98,7 @@ namespace Bespoke.Sph.Powershells
                     }
                     );
 
-                parameters.Add(bookParameter.Name, bookParameter);
+                parameters.Add(sourceParameter.Name, sourceParameter);
             }
 
             // Create author parameter. Parameter isn't mandatory if _author

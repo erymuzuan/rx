@@ -29,7 +29,6 @@ namespace Bespoke.Sph.SourceBuilders
             var quiet = args.Contains("/s") || args.Contains("/q") || args.Contains("/silent") || args.Contains("/quiet");
             if (!quiet)
             {
-
                 "press [ENTER] to continue : to exit Ctrl + c".WriteLine();
                 Console.ReadLine();
             }
