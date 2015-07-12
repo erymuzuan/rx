@@ -30,7 +30,7 @@ namespace Bespoke.Sph.SourceBuilders
 
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.SphSourceDirectory
+                SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory
             };
             options.ReferencedAssembliesLocation.Add(typeof(Controller).Assembly.Location);
             options.ReferencedAssembliesLocation.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
