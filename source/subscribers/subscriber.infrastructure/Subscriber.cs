@@ -33,7 +33,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 if (m_prefetchCount != 1) return m_prefetchCount;
                 var config = ConfigurationManager.AppSettings["sph:PrefetchCount:" + this.QueueName];
-                var count = 1;
+                int count;
                 if (int.TryParse(config, out count))
                     return Convert.ToUInt16(count);
                 return m_prefetchCount;
@@ -44,7 +44,17 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public abstract void Run();
         protected void WriteError(Exception exception)
         {
-            this.NotificicationService.WriteError(exception, "Exception is thrown in " + this.QueueName);
+            try
+            {
+                this.NotificicationService.WriteError(exception, "Exception is thrown in " + this.QueueName);
+                var logger = ObjectBuilder.GetObject<ILogger>();
+                logger.Log(new LogEntry(exception));
+            }
+            catch (Exception e)
+            {
+                this.NotificicationService.WriteError(e, "Fail to log exception ");
+            }
+
         }
 
         protected void WriteMessage(object value)

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Mindscape.Raygun4Net;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.SourceBuilders
@@ -15,6 +16,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException  ;
             Console.ForegroundColor = ConsoleColor.Yellow;
             '-'.WriteFrame();
             " ".WriteMessage();
@@ -45,7 +47,22 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
-
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var version = "unknown";
+            string file = "..\\version.json";
+            if (File.Exists(file))
+            {
+                var json = JObject.Parse(File.ReadAllText(file));
+                var build = json.SelectToken("$.build").Value<int>();
+                version = build.ToString();
+            }
+            var client = new RaygunClient("imHU3x8eZamg84BwYekfMQ==")
+            {
+                ApplicationVersion = version
+            };
+            client.SendInBackground(e.ExceptionObject as Exception, new List<string>());
+        }
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs e)
         {
