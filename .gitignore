@@ -153,3 +153,10 @@ bin/sources/**/*.cs
 *.vspx
 /source/web/web.sph/App_Data/data-imports
 bin/sources/_generated/
+bin/subscribers.a/
+bin/subscribers.b/
+bin/subscribers.c/
+bin/subscribers.host.a/
+bin/subscribers.host.b/
+bin/subscribers.host.c/
+deploy.epsikometrik.bat
