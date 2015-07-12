@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Humanizer;
+using RabbitMQ.Client;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -20,7 +19,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public string HostName { get; set; }
         public int Port { get; set; }
         public string VirtualHost { get; set; }
-        public ObjectCollection<AppDomain> AppDomainCollection { get; } = new ObjectCollection<AppDomain>();
 
         public ObjectCollection<Subscriber> SubscriberCollection { get; } = new ObjectCollection<Subscriber>();
 
@@ -35,24 +33,35 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
         }
 
-        private FileSystemWatcher m_fsw;
 
-
+        private IConnection m_connection;
         public void Start(SubscriberMetadata[] subscribersMetadata)
         {
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
             this.NotificationService.Write("Starts...");
-            var threads = new ConcurrentBag<Thread>();
+            var list = new ConcurrentBag<Subscriber>();
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            AppDomain.CurrentDomain.UnhandledException += AppdomainUnhandledException;
+
+            var factory = new ConnectionFactory
+            {
+                UserName = this.UserName,
+                VirtualHost = this.VirtualHost,
+                Password = this.Password,
+                HostName = this.HostName,
+                Port = this.Port
+            };
+            m_connection = factory.CreateConnection();
 
             Parallel.ForEach(subscribersMetadata, (mt, c) =>
             {
                 this.NotificationService.Write("Starts..." + mt.FullName);
                 try
                 {
-                    var worker = StartAppDomain(mt);
+                    var worker = StartSubscriber(mt, m_connection);
                     if (null != worker)
                     {
-                        threads.Add(worker);
+                        list.Add(worker);
                     }
                     else
                     {
@@ -66,104 +75,43 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             });
 
-            if (null != m_fsw)
-            {
-                m_fsw.Changed -= FswChanged;
-                m_fsw.Deleted -= FswChanged;
-                m_fsw.Created -= FswChanged;
-                m_fsw.Dispose();
-            }
-
-            m_fsw = new FileSystemWatcher(AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers")
-            {
-                EnableRaisingEvents = true
-            };
-            m_fsw.Changed += FswChanged;
-            m_fsw.Deleted += FswChanged;
-            m_fsw.Created += FswChanged;
 
             m_stopping = false;
 
-            threads.ToList().ForEach(t => t.Join());
+
 
         }
 
-        void FswChanged(object sender, FileSystemEventArgs e)
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            if (e.Name == "CachePath")
-            {
-                this.NotificationService.Write("Changes in CachePath will be ignored");
-                return;
-            }
-            this.NotificationService.Write("Detected changes in FileSystem initiating stop\r\n{0} has {1}", e.Name, e.ChangeType);
-            this.Stop();
-            this.NotificationService.Write("Restarting in 2 seconds");
-            Thread.Sleep(2.Seconds());
-            using (var work = new Isolated<Discoverer>())
-            {
-                var metadata = work.Value.Find();
-                this.Start(metadata);
-            }
-
-            this.NotificationService.Write("Your workers has been succesfully restarted.");
+            var assembly = args.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                    .First().Trim();
+            var subs = $"{ConfigurationManager.SubscriberPath}\\{assembly}.dll";
+            if (File.Exists(subs))
+                return Assembly.LoadFile(subs);
+            subs = $"{ConfigurationManager.CompilerOutputPath}\\{assembly}.dll";
+            if (File.Exists(subs))
+                return Assembly.LoadFile(subs);
+            throw new Exception("Cannot load " + subs);
         }
 
-        private Thread StartAppDomain(SubscriberMetadata metadata)
+
+
+        private Subscriber StartSubscriber(SubscriberMetadata metadata, IConnection connection)
         {
             var dll = Path.GetFileNameWithoutExtension(metadata.Assembly);
             if (string.IsNullOrWhiteSpace(dll)) return null;
-            var appdomain = this.CreateAppDomain(metadata);
-            appdomain.UnhandledException += AppdomainUnhandledException;
-            var subscriber = appdomain.CreateInstanceAndUnwrap(dll, metadata.FullName) as Subscriber;
-            var thread = new Thread(o =>
-            {
-                var o1 = (Subscriber) o;
-                o1.HostName = this.HostName;
-                o1.VirtualHost = this.VirtualHost;
-                o1.UserName = this.UserName;
-                o1.Password = this.Password;
-                o1.Port = this.Port;
-                o1.NotificicationService = this.NotificationService;
-                o1.Run();
-            }) {Name = metadata.Name};
-            thread.Start(subscriber);
+            var subs = Activator.CreateInstance(dll, metadata.FullName).Unwrap() as Subscriber;
+            if (null == subs) return null;
+            subs.NotificicationService = this.NotificationService;
 
-            this.AppDomainCollection.Add(appdomain);
-            this.SubscriberCollection.Add(subscriber);
+            subs.Run(connection);
 
-            return thread;
+            return subs;
+
+
         }
 
-        //Assembly appdomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        //{
-        //    var name = new AssemblyName(args.Name);
-        //    var dll = Path.Combine(ConfigurationManager.CompilerOutputPath, name + ".dll");
-        //    if (File.Exists(dll))
-        //        return Assembly.LoadFile(dll);
-        //    return null;
-        //}
-
-
-
-        public AppDomain CreateAppDomain(SubscriberMetadata metadata)
-        {
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var configurationFile = metadata.Assembly + ".config";
-            var currentConfig = Path.Combine(baseDirectory, Assembly.GetEntryAssembly().GetName().Name + ".exe.config");
-            var ads = new AppDomainSetup
-            {
-                ApplicationBase = ConfigurationManager.SubscriberPath,
-                DisallowBindingRedirects = false,
-                DisallowCodeDownload = true,
-                ConfigurationFile = File.Exists(configurationFile) ? configurationFile : currentConfig,
-                ShadowCopyFiles = "true",
-                //ShadowCopyDirectories = "",
-                CachePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers", "CachePath"),
-                ApplicationName = metadata.FullName
-            };
-
-            return AppDomain.CreateDomain(metadata.FullName, null, ads);
-        }
 
         private static void AppdomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
@@ -182,9 +130,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 exc = exc.InnerException;
             }
             m_notificationService2.WriteError(message.ToString());
-
-            // TODO: restart appdomain if IsTerminating
-            // StartAppDomain(subscriber);
         }
 
         private bool m_stopping;
@@ -193,28 +138,15 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             if (m_stopping) return;
 
             m_stopping = true;
-            if (null != m_fsw)
-            {
-                m_fsw.Changed -= FswChanged;
-                m_fsw.Dispose();
-            }
-
             this.SubscriberCollection.ForEach(s => s.Stop());
-
-            foreach (var appDomain in this.AppDomainCollection)
-            {
-                this.NotificationService.Write("UNLOADING -> {0}", appDomain.FriendlyName);
-                try
-                {
-                    AppDomain.Unload(appDomain);
-                }
-                catch (Exception e)
-                {
-                    this.NotificationService.WriteError(e, "Fail to unload " + appDomain.FriendlyName);
-                }
-            }
             this.SubscriberCollection.Clear();
-            this.AppDomainCollection.Clear();
+            if (null != m_connection)
+            {
+                m_connection.Close();
+                m_connection.Dispose();
+                m_connection = null;
+            }
+
 
 
         }

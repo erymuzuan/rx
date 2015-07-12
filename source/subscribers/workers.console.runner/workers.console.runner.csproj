@@ -39,7 +39,7 @@
     <ApplicationIcon>Propeller.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>F6FBA375D43A1B515F8D26697BC39E3303DD1F86</ManifestCertificateThumbprint>

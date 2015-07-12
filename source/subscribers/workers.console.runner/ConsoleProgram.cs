@@ -42,7 +42,7 @@ namespace workers.console.runner
             sw.Start();
             Console.WriteLine("Stopwatch started");
 
-            INotificationService log = new ConsoleNotification(ObjectBuilder.GetObject<IBrokerConnection>());
+            INotificationService log = new ConsoleNotification();
             if (ParseArg("log") != "console")
             {
                 log = new EventLogNotification();

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
@@ -41,7 +42,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             set { m_prefetchCount = value; }
         }
 
-        public abstract void Run();
+        public abstract void Run(IConnection connection);
         protected void WriteError(Exception exception)
         {
             try

@@ -16,7 +16,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         private TaskCompletionSource<bool> m_stoppingTcs;
         protected abstract Task ProcessMessage(T item, MessageHeaders header);
      
-        public override void Run()
+        public override void Run(IConnection connection)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -25,7 +25,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 this.WriteMessage("Starting {0}....", this.GetType().Name);
                 RegisterServices();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.StartConsume();
+                this.StartConsume(connection);
                 PrintSubscriberInformation(sw.Elapsed);
                 sw.Stop();
             }
@@ -47,13 +47,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             }
 
-            if (null != m_connection)
-            {
-                m_connection.Close();
-                m_connection.Dispose();
-                m_connection = null;
-            }
-
+  
             if (null != m_channel)
             {
                 m_channel.Close();
@@ -77,12 +71,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_channel.BasicNack(tag, multiple, requeue);
         }
 
-        private IConnection m_connection;
         private IModel m_channel;
         private TaskBasicConsumer m_consumer;
         private int m_processing;
 
-        public void StartConsume()
+        public void StartConsume(IConnection connection)
         {
             const bool NO_ACK = false;
             const string EXCHANGE_NAME = "sph.topic";
@@ -91,16 +84,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             this.OnStart();
 
-            var factory = new ConnectionFactory
-            {
-                UserName = this.UserName,
-                VirtualHost = this.VirtualHost,
-                Password = this.Password,
-                HostName = this.HostName,
-                Port = this.Port
-            };
-            m_connection = factory.CreateConnection();
-            m_channel = m_connection.CreateModel();
+         
+            m_channel = connection.CreateModel();
 
 
             m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);

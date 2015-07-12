@@ -128,7 +128,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
 
-            this.ConsoleLogger = new ConsoleNotificationSubscriber(this.Settings);
+            this.ConsoleLogger = new ConsoleNotificationSubscriber();
             var loggerStarted = this.ConsoleLogger.Start(this.Settings.LoggerWebSocketPort ?? 50230);
             this.WebConsoleStarted = true;
             Log(loggerStarted

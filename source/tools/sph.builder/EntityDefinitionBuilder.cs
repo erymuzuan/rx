@@ -72,7 +72,7 @@ namespace Bespoke.Sph.SourceBuilders
                     Console.WriteLine("Please wait.. retrying....");
                     Console.WriteLine(e.ToString());
 
-                    var sqlSub2 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification(null) };
+                    var sqlSub2 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
                     await sqlSub2.ProcessMessageAsync(ed);
 
                     await RestoreAsync(ed);
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.SourceBuilders
                     Console.ResetColor();
                 }
 
-                var sqlSub1 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification(null) };
+                var sqlSub1 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
                 await sqlSub1.ProcessMessageAsync(ed);
 
                 using (var client = new HttpClient())
@@ -128,7 +128,7 @@ namespace Bespoke.Sph.SourceBuilders
             }
 
 
-            var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification(null) };
+            var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
             await sqlSub.ProcessMessageAsync(ed);
 
             using (var client = new HttpClient())
@@ -138,7 +138,7 @@ namespace Bespoke.Sph.SourceBuilders
                 var clone = ed.Clone();
                 clone.MemberCollection.Add(new Member { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
 
-                var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification(null) };
+                var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification() };
                 await subs.PutMappingAsync(clone);
                 await subs.MigrateDataAsync(ed.Name);
             }

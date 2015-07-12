@@ -1,32 +1,30 @@
 ﻿using System;
-using System.Text;
 using System.Threading;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.RabbitMqPublisher;
+using NamedPipeWrapper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using RabbitMQ.Client;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
     [Serializable]
     public class ConsoleNotification : INotificationService
     {
-        private readonly IBrokerConnection m_connectionInfo;
         private readonly object m_lock = new object();
 
-        public const int PERSISTENT_DELIVERY_MODE = 2;
-        public const int NON_PERSISTENT_DELIVERY_MODE = 1;
-
-        public string Exchange { get; set; }
-        public bool IsOpened { get; set; }
-
-        public ConsoleNotification(IBrokerConnection connectionInfo)
+        private readonly NamedPipeClient<string, string> m_namedPipeClient;
+        public ConsoleNotification()
         {
-            m_connectionInfo = connectionInfo;
-            this.Exchange = "sph.topic";
+            m_namedPipeClient = new NamedPipeClient<string, string>("rx.web.console");
+            m_namedPipeClient.ServerMessage += delegate (NamedPipeConnection<string, string> conn, string message)
+            {
+                this.Write($"Server says: {message}");
+            };
+
+            m_namedPipeClient.Start();
         }
+
         private static string GetJsonContent(LogEntry entry)
         {
             var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
@@ -46,40 +44,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             entry.Computer = Environment.MachineName;
 
             var json = GetJsonContent(entry);
-            if (null == m_connectionInfo) return;
-            var factory = new ConnectionFactory
-            {
-                UserName = m_connectionInfo.UserName,
-                Password = m_connectionInfo.Password,
-                HostName = m_connectionInfo.Host,
-                Port = m_connectionInfo.Port,
-                VirtualHost = m_connectionInfo.VirtualHost
-            };
-
-
-            try
-            {
-                using (var connection = factory.CreateConnection())
-                using (var channel = connection.CreateModel())
-                {
-                    var routingKey = "logger." + entry.Severity;
-                    var body = Encoding.Default.GetBytes(json);
-
-                    var props = channel.CreateBasicProperties();
-                    props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
-                    props.ContentType = "application/json";
-
-                    channel.BasicPublish(this.Exchange, routingKey, props, body);
-
-                }
-            }
-            catch
-            {
-                // ignore
-            }
-
-
-
+            m_namedPipeClient?.PushMessage(json);
         }
 
         public void Write(string format, params object[] args)

@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Persistence
 
 
 
-        public override void Run()
+        public override void Run(IConnection connection)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Persistence
             {
                 RegisterServices();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.StartConsume();
+                this.StartConsume(connection);
                 PrintSubscriberInformation(sw.Elapsed);
                 sw.Stop();
 
@@ -56,13 +56,7 @@ namespace Bespoke.Sph.Persistence
 
             }
 
-            if (null != m_connection)
-            {
-                m_connection.Close();
-                m_connection.Dispose();
-                m_connection = null;
-            }
-
+      
             if (null != m_channel)
             {
                 m_channel.Close();
@@ -73,12 +67,11 @@ namespace Bespoke.Sph.Persistence
             this.WriteMessage("!!Stopped : {0}", this.QueueName);
         }
 
-        private IConnection m_connection;
         private IModel m_channel;
         private TaskBasicConsumer m_consumer;
         private int m_processing;
 
-        public void StartConsume()
+        public void StartConsume(IConnection connection)
         {
             const bool NO_ACK = false;
             const string EXCHANGE_NAME = "sph.topic";
@@ -95,8 +88,7 @@ namespace Bespoke.Sph.Persistence
                 HostName = this.HostName,
                 Port = this.Port
             };
-            m_connection = factory.CreateConnection();
-            m_channel = m_connection.CreateModel();
+            m_channel = connection.CreateModel();
 
 
             m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
