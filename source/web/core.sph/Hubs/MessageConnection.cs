@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Microsoft.AspNet.SignalR;
 
@@ -10,10 +9,7 @@ namespace Bespoke.Sph.Web.Hubs
         private IEntityChangedListener<Message> m_listener;
         protected override Task OnConnected(IRequest request, string connectionId)
         {
-            if (null != m_listener)
-            {
-                m_listener.Stop();
-            }
+            m_listener?.Stop();
             m_listener = ObjectBuilder.GetObject<IEntityChangedListener<Message>>();
             m_listener.Changed += ListenerChanged;
             m_listener.Run();
