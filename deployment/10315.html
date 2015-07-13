@@ -454,6 +454,13 @@ pre.editor-colors .fold-marker:after,
 <li>Workitem 3002 RabbitMq workers run in single process in which they all share the same connection. This allow for a very speedy startup time</li>
 <li>Workitem 2999 &amp; 3000, allow user to create their own template for EntityView and EntityDefinition dashboard.Making theme fully customizable</li>
 </ul>
+<h2 id="important-bugs-and-workaround">Important bugs and workaround</h2>
+<p>While this build provide a new improved RabbitMq workers for development purpose, faster startup time, less CPU cycle and lot more efficient in using your memory. Unfortunately there is one bug crept out in control center
+if you start the worker from control center. There is however a very simple workaround to this bug. you can start your worker from a command line</p>
+<p>Create a new file called <code>StartWorker.bat</code> in your project directory</p>
+<pre class="editor-colors lang-bat"><div class="line"><span class="text plain null-grammar"><span>subscribers.host\workers.console.runner.exe&nbsp;/log:console&nbsp;/v:&lt;your&nbsp;application&nbsp;name&gt;</span></span></div></pre>
+<p>So you can just run the bat file everytime you wan to start the worker. and to stop the worker, use <code>Ctrl + C</code>, key.</p>
+<p>You will need to stop the worker manually if you need to deploy new dll from your output folder. </p>
 <h2 id="create-your-own-themeable-template">Create your own themeable template</h2>
 <p>To create your own template for EntityView, you&#39;ll need to create 3 files in <code>sources\ViewTemplate</code> folder</p>
 <ol>
