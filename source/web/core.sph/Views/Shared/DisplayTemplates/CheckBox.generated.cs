@@ -68,18 +68,22 @@ WriteLiteral("</label>\r\n    <span");
 
 WriteLiteral(" class=\"col-md-8\"");
 
-WriteLiteral(" data-bind=\"text: ");
+WriteLiteral(" data-bind=\"visible: ");
 
             
             #line 4 "..\..\Views\Shared\DisplayTemplates\CheckBox.cshtml"
-                                       Write(Model.Path);
+                                          Write(Model.Path);
 
             
             #line default
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral("></span>\r\n</div>");
+WriteLiteral(">\r\n        <i");
+
+WriteLiteral(" class=\"fa fa-check\"");
+
+WriteLiteral("></i>\r\n    </span>\r\n</div>");
 
         }
     }
