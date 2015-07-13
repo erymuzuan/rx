@@ -10,11 +10,15 @@
                 <form class="form-horizontal" data-bind="with: profile">
                     <div class="form-group">
                         <label for="input-username" class="col-lg-3">UserName </label>
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <input class="form-control" required data-bind="value: UserName, readonly:!IsNew()" id="input-username" type="text" name="UserName" />
                             <div data-bind="visible: IsNew()">
-                                <i class="fa fa-spinner fa-2x" data-bind="visible: $root.isBusyValidatingUserName"></i>
                                 <span class="help-block alert alert-danger" data-bind="text: $root.userNameValidationStatus, visible: $root.userNameValidationStatus() "></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <div data-bind="visible: IsNew()">
+                                <i class="fa fa-spinner fa-2x" data-bind="visible: $root.isBusyValidatingUserName"></i>
                             </div>
                         </div>
                     </div>
@@ -22,6 +26,9 @@
                         <label for="Password" class="col-lg-3">Password </label>
                         <div class="col-lg-6">
                             <input class="form-control" required data-bind="value: Password" id="Password" type="password" name="Password" />
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <i class="fa fa-exclamation error" data-bind="visible: $root.passwordValidationStatus() === false, tooltip: 'password is invalid'"></i>
                         </div>
                     </div>
                     <div class="form-group" data-bind="visible: IsNew()">
@@ -69,7 +76,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <input type="button" id="save-button" class="btn btn-default" data-bind="click: saveCommand" data-dismiss="modal" value="Save" />
+                <button id="save-button" class="btn btn-default" data-bind="command: saveCommand" data-dismiss="modal">Save</button>
                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" />
             </div>
         </div>

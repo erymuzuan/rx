@@ -78,107 +78,116 @@ WriteLiteral(",\r\n            printprofile = ko.observable(new bespoke.sph.doma
 "           profile = ko.observable(new bespoke.sph.domain.Profile()),\r\n         " +
 "   profiles = ko.observableArray(),\r\n            departmentOptions = ko.observab" +
 "leArray(),\r\n            designationOptions = ko.observableArray(),\r\n            " +
-"userNameValidationStatus = ko.observable(\"\"),\r\n            emailValidationStatus" +
-" = ko.observable(\"\"),\r\n            importedSecuritySettingStoreId = ko.observabl" +
-"e(\"\"),\r\n            password1 = ko.observable(\"\"),\r\n            password2 = ko.o" +
-"bservable(\"\"),\r\n            isBusyValidatingUserName = ko.observable(false),\r\n  " +
-"          isBusyValidatingEmail= ko.observable(false),\r\n            loadDetails " +
-"= function() {\r\n                designationvm.activate(roles);\r\n                " +
-"departmentvm.activate();\r\n            },\r\n            map = function(item) {\r\n  " +
-"              var p = new bespoke.sph.domain.Profile();\r\n                p.IsNew" +
-"(false);\r\n                p.FullName(item.FullName());\r\n                p.UserNa" +
-"me(item.UserName());\r\n                p.Email(item.Email());\r\n                p." +
-"Designation(item.Designation());\r\n                p.Department(item.Department()" +
-");\r\n                p.Telephone(item.Telephone());\r\n                return p;\r\n " +
-"           },\r\n            activate = function() {\r\n                var query = " +
-"String.format(\"Id ne \'0\'\");\r\n                var tcs = new $.Deferred();\r\n      " +
-"          loadDetails();\r\n                var profileTask = context.loadAsync(\"U" +
-"serProfile\", query);\r\n                var designationTask = context.getListAsync" +
-"(\"Designation\",\"Id ne \'0\'\", \"Name\");\r\n                var departmentTask = conte" +
-"xt.loadOneAsync(\"Setting\", \"Key eq \'Departments\'\");\r\n                $.when(desi" +
-"gnationTask,profileTask,departmentTask)\r\n                 .then(function(s,p,d) " +
-"{\r\n                     isBusy(false);\r\n                     if (s) {\r\n         " +
-"                designationOptions(s);\r\n                     }\r\n                " +
-"     if (d) {\r\n                         var departments = JSON.parse(ko.mapping." +
-"toJS(d.Value));;\r\n                         departmentOptions(departments);\r\n    " +
-"                 }\r\n                     var list = _(p.itemCollection).map(map)" +
-";\r\n                     profiles(list);\r\n\r\n                     tcs.resolve(true" +
-");\r\n                 });\r\n                return tcs.promise();\r\n            },\r" +
-"\n            userNameChaged = function(userName) {\r\n                isBusyValida" +
-"tingUserName(true);\r\n                var tcs = new $.Deferred();\r\n              " +
-"  var data = JSON.stringify({userName : userName});\r\n                isBusy(true" +
-");\r\n                context.post(data, \"/sph/Admin/ValidateUserName\")\r\n         " +
-"           .then(function(result) {\r\n                        isBusy(false);\r\n   " +
-"                     isBusyValidatingUserName(false);\r\n                        i" +
-"f (result.status !== \"OK\") {\r\n                            userNameValidationStat" +
-"us(result.message);\r\n                        }\r\n\r\n                        tcs.re" +
-"solve(result);\r\n                    });\r\n                return tcs.promise();\r\n" +
-"            },\r\n            emailChanged = function(email) {\r\n                is" +
-"BusyValidatingEmail(true);\r\n                var tcs = new $.Deferred();\r\n       " +
-"         var data = JSON.stringify({email : email});\r\n                isBusy(tru" +
-"e);\r\n                context.post(data, \"/Sph/Admin/ValidateEmail\")\r\n           " +
-"         .then(function(result) {\r\n                        isBusy(false);\r\n     " +
-"                   isBusyValidatingEmail(false);\r\n                        if (re" +
-"sult.status !== \"OK\") {\r\n                            emailValidationStatus(resul" +
-"t.message);\r\n                        }\r\n\r\n                        tcs.resolve(re" +
-"sult);\r\n                    });\r\n                return tcs.promise();\r\n        " +
-"    },\r\n            add = function() {\r\n                profile(new bespoke.sph." +
-"domain.Profile());\r\n                profile().IsNew(true);\r\n                prof" +
-"ile().UserName(\'\');\r\n                profile().Email.subscribe(emailChanged);\r\n " +
-"               profile().UserName.subscribe(userNameChaged);\r\n\r\n                " +
-"$(\'#user-details-modal\').modal();\r\n            },\r\n            editedProfile = k" +
-"o.observable(),\r\n            edit = function(user) {\r\n                editedProf" +
-"ile(user);\r\n                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(user)" +
-");\r\n                var clone = c1;\r\n                profile(clone);\r\n          " +
-"  },\r\n            save = function() {\r\n                var data = ko.mapping.toJ" +
-"SON({profile : profile}) ;\r\n                isBusy(true);\r\n\r\n                ret" +
-"urn context.post(data, \"/sph/Admin/AddUser\")\r\n                    .then(function" +
-"(result) {\r\n                        isBusy(false);\r\n                        var " +
-"existing = _(profiles()).find(function(v) { return ko.unwrap(v.UserName) === ko." +
-"unwrap(result.UserName); });\r\n                        if (existing) {\r\n         " +
-"                   profiles.replace(existing, result);\r\n                        " +
-"} else {\r\n                            profiles.push(result);\r\n                  " +
-"      }\r\n                    });\r\n            },\r\n            resetPassword = fu" +
-"nction(user) {\r\n                password1(\'\');\r\n                password2(\'\');\r\n" +
-"                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(user));\r\n        " +
-"        var clone = c1;\r\n                profile(clone);\r\n            },\r\n      " +
-"      savePassword = function() {\r\n                if (!password1() && !password" +
-"2()) {\r\n                    return Task.fromResult(false);\r\n                };\r\n" +
-"                if (password1() !== password2()) {\r\n                    logger.l" +
-"ogError(\'Password mismatch\', this, this, true);\r\n                    return Task" +
-".fromResult(false);\r\n                }\r\n\r\n                var data = ko.mapping." +
-"toJSON({userName: profile().UserName(), password: password1}) ;\r\n               " +
-" isBusy(true);\r\n\r\n                return context.post(data, \"/sph/Admin/ResetPas" +
-"sword\")\r\n                    .then(function(result) {\r\n                        i" +
-"sBusy(false);\r\n                        if (result.OK) {\r\n                       " +
-"     logger.info(result.messages);\r\n                        } else {\r\n          " +
-"                  logger.logError(result.messages, this, this, true);\r\n         " +
-"               }\r\n                    });\r\n\r\n\r\n            },\r\n            expor" +
-"tCommand = function() {\r\n                window.open(\"/sph/admin/ExportSecurityS" +
-"ettings\");\r\n                return Task.fromResult(true);\r\n\r\n            };\r\n\r\n " +
-"       importedSecuritySettingStoreId.subscribe(function(id) {\r\n            cont" +
-"ext.post(JSON.stringify({\"id\": id}), \"/sph/admin/import/\" + id)\r\n            .do" +
-"ne(function() {\r\n                logger.info(\"All the settings has been imported" +
-"\");\r\n                activate();\r\n            });\r\n        });\r\n\r\n        var vm" +
-" = {\r\n            importedSecuritySettingStoreId: importedSecuritySettingStoreId" +
-",\r\n            activate: activate,\r\n            isBusyValidatingUserName : isBus" +
-"yValidatingUserName,\r\n            isBusyValidatingEmail : isBusyValidatingEmail," +
-"\r\n            profiles: profiles,\r\n            profile: profile,\r\n            pr" +
-"intprofile : printprofile,\r\n            designationOptions : designationOptions," +
-"\r\n            departmentOptions : departmentOptions,\r\n            userNameValida" +
-"tionStatus : userNameValidationStatus,\r\n            emailValidationStatus : emai" +
-"lValidationStatus,\r\n            editCommand: edit,\r\n            saveCommand: sav" +
-"e,\r\n            add: add,\r\n            password1: password1,\r\n            passwo" +
-"rd2: password2,\r\n            resetPasswordCommand: resetPassword,\r\n            s" +
-"avePasswordCommand: savePassword,\r\n            map: map,\r\n            searchTerm" +
-": {\r\n                department:ko.observable(),\r\n                keyword: ko.ob" +
-"servable()\r\n            },\r\n            toolbar : ko.observable({\r\n             " +
-"   exportCommand : exportCommand,\r\n                reloadCommand: function () {\r" +
-"\n                    return activate();\r\n                },\r\n                pri" +
-"ntCommand: ko.observable({\r\n                    entity: ko.observable(\"UserProfi" +
-"le\"),\r\n                    id: ko.observable(0),\r\n                    item: prin" +
-"tprofile,\r\n                })\r\n            })\r\n        };\r\n\r\n\r\n        return vm" +
-";\r\n\r\n\r\n    });\r\n</script>\r\n");
+"userNameValidationStatus = ko.observable(\"\"),\r\n            passwordValidationSta" +
+"tus = ko.observable(true),\r\n            emailValidationStatus = ko.observable(\"\"" +
+"),\r\n            importedSecuritySettingStoreId = ko.observable(\"\"),\r\n           " +
+" password1 = ko.observable(\"\"),\r\n            password2 = ko.observable(\"\"),\r\n   " +
+"         isBusyValidatingUserName = ko.observable(false),\r\n            isBusyVal" +
+"idatingEmail= ko.observable(false),\r\n            loadDetails = function() {\r\n   " +
+"             designationvm.activate(roles);\r\n                departmentvm.activa" +
+"te();\r\n            },\r\n            map = function(item) {\r\n                var p" +
+" = new bespoke.sph.domain.Profile();\r\n                p.IsNew(false);\r\n         " +
+"       p.FullName(item.FullName());\r\n                p.UserName(item.UserName())" +
+";\r\n                p.Email(item.Email());\r\n                p.Designation(item.De" +
+"signation());\r\n                p.Department(item.Department());\r\n               " +
+" p.Telephone(item.Telephone());\r\n                return p;\r\n            },\r\n    " +
+"        activate = function() {\r\n                var query = String.format(\"Id n" +
+"e \'0\'\");\r\n                var tcs = new $.Deferred();\r\n                loadDetai" +
+"ls();\r\n                var profileTask = context.loadAsync(\"UserProfile\", query)" +
+";\r\n                var designationTask = context.getListAsync(\"Designation\",\"Id " +
+"ne \'0\'\", \"Name\");\r\n                var departmentTask = context.loadOneAsync(\"Se" +
+"tting\", \"Key eq \'Departments\'\");\r\n                $.when(designationTask,profile" +
+"Task,departmentTask)\r\n                 .then(function(s,p,d) {\r\n                " +
+"     isBusy(false);\r\n                     if (s) {\r\n                         des" +
+"ignationOptions(s);\r\n                     }\r\n                     if (d) {\r\n    " +
+"                     var departments = JSON.parse(ko.mapping.toJS(d.Value));;\r\n " +
+"                        departmentOptions(departments);\r\n                     }\r" +
+"\n                     var list = _(p.itemCollection).map(map);\r\n                " +
+"     profiles(list);\r\n\r\n                     tcs.resolve(true);\r\n               " +
+"  });\r\n                return tcs.promise();\r\n            },\r\n            userNa" +
+"meChaged = function(userName) {\r\n                isBusyValidatingUserName(true);" +
+"\r\n                var tcs = new $.Deferred();\r\n                var data = JSON.s" +
+"tringify({userName : userName});\r\n                isBusy(true);\r\n               " +
+" context.post(data, \"/sph/Admin/ValidateUserName\")\r\n                    .then(fu" +
+"nction(result) {\r\n                        isBusy(false);\r\n                      " +
+"  isBusyValidatingUserName(false);\r\n                        if (result.status !=" +
+"= \"OK\") {\r\n                            userNameValidationStatus(result.message);" +
+"\r\n                        }\r\n\r\n                        tcs.resolve(result);\r\n   " +
+"                 });\r\n                return tcs.promise();\r\n            },\r\n   " +
+"         passwordChanged = function(pwd) {\r\n                var data = JSON.stri" +
+"ngify({password : pwd});\r\n                return context.post(data, \"/sph/Admin/" +
+"CheckPasswordComplexity\")\r\n                    .then(function(result) {\r\n       " +
+"                 passwordValidationStatus(result);\r\n                    });\r\n   " +
+"         },\r\n            emailChanged = function(email) {\r\n                isBus" +
+"yValidatingEmail(true);\r\n                var tcs = new $.Deferred();\r\n          " +
+"      var data = JSON.stringify({email : email});\r\n                isBusy(true);" +
+"\r\n                context.post(data, \"/Sph/Admin/ValidateEmail\")\r\n              " +
+"      .then(function(result) {\r\n                        isBusy(false);\r\n        " +
+"                isBusyValidatingEmail(false);\r\n                        if (resul" +
+"t.status !== \"OK\") {\r\n                            emailValidationStatus(result.m" +
+"essage);\r\n                        }\r\n\r\n                        tcs.resolve(resul" +
+"t);\r\n                    });\r\n                return tcs.promise();\r\n           " +
+" },\r\n            add = function() {\r\n                profile(new bespoke.sph.dom" +
+"ain.Profile());\r\n                profile().IsNew(true);\r\n                profile" +
+"().UserName(\'\');\r\n                profile().Email.subscribe(emailChanged);\r\n    " +
+"            profile().UserName.subscribe(userNameChaged);\r\n                profi" +
+"le().Password.subscribe(passwordChanged);\r\n\r\n                $(\'#user-details-mo" +
+"dal\').modal();\r\n            },\r\n            editedProfile = ko.observable(),\r\n  " +
+"          edit = function(user) {\r\n                editedProfile(user);\r\n       " +
+"         var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(user));\r\n               " +
+" var clone = c1;\r\n                profile(clone);\r\n            },\r\n            s" +
+"ave = function() {\r\n                var data = ko.mapping.toJSON({profile : prof" +
+"ile}) ;\r\n                isBusy(true);\r\n\r\n                return context.post(da" +
+"ta, \"/sph/Admin/AddUser\")\r\n                    .then(function(result) {\r\n       " +
+"                 isBusy(false);\r\n                        if (!result.success) {\r" +
+"\n                            logger.error(result.message);\r\n                    " +
+"        return;\r\n                        }\r\n                        var existing" +
+" = _(profiles()).find(function(v) { return ko.unwrap(v.UserName) === ko.unwrap(r" +
+"esult.UserName); });\r\n                        if (existing) {\r\n                 " +
+"           profiles.replace(existing, result);\r\n                        } else {" +
+"\r\n                            profiles.push(result);\r\n                        }\r" +
+"\n                    });\r\n            },\r\n            resetPassword = function(u" +
+"ser) {\r\n                password1(\'\');\r\n                password2(\'\');\r\n        " +
+"        var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(user));\r\n                " +
+"var clone = c1;\r\n                profile(clone);\r\n            },\r\n            sa" +
+"vePassword = function() {\r\n                if (!password1() && !password2()) {\r\n" +
+"                    return Task.fromResult(false);\r\n                };\r\n        " +
+"        if (password1() !== password2()) {\r\n                    logger.logError(" +
+"\'Password mismatch\', this, this, true);\r\n                    return Task.fromRes" +
+"ult(false);\r\n                }\r\n\r\n                var data = ko.mapping.toJSON({" +
+"userName: profile().UserName(), password: password1}) ;\r\n                isBusy(" +
+"true);\r\n\r\n                return context.post(data, \"/sph/Admin/ResetPassword\")\r" +
+"\n                    .then(function(result) {\r\n                        isBusy(fa" +
+"lse);\r\n                        if (result.OK) {\r\n                            log" +
+"ger.info(result.messages);\r\n                        } else {\r\n                  " +
+"          logger.logError(result.messages, this, this, true);\r\n                 " +
+"       }\r\n                    });\r\n\r\n\r\n            },\r\n            exportCommand" +
+" = function() {\r\n                window.open(\"/sph/admin/ExportSecuritySettings\"" +
+");\r\n                return Task.fromResult(true);\r\n\r\n            };\r\n\r\n        i" +
+"mportedSecuritySettingStoreId.subscribe(function(id) {\r\n            context.post" +
+"(JSON.stringify({\"id\": id}), \"/sph/admin/import/\" + id)\r\n            .done(funct" +
+"ion() {\r\n                logger.info(\"All the settings has been imported\");\r\n   " +
+"             activate();\r\n            });\r\n        });\r\n\r\n        var vm = {\r\n  " +
+"          importedSecuritySettingStoreId: importedSecuritySettingStoreId,\r\n     " +
+"       activate: activate,\r\n            passwordValidationStatus : passwordValid" +
+"ationStatus,\r\n            isBusyValidatingUserName : isBusyValidatingUserName,\r\n" +
+"            isBusyValidatingEmail : isBusyValidatingEmail,\r\n            profiles" +
+": profiles,\r\n            profile: profile,\r\n            printprofile : printprof" +
+"ile,\r\n            designationOptions : designationOptions,\r\n            departme" +
+"ntOptions : departmentOptions,\r\n            userNameValidationStatus : userNameV" +
+"alidationStatus,\r\n            emailValidationStatus : emailValidationStatus,\r\n  " +
+"          editCommand: edit,\r\n            saveCommand: save,\r\n            add: a" +
+"dd,\r\n            password1: password1,\r\n            password2: password2,\r\n     " +
+"       resetPasswordCommand: resetPassword,\r\n            savePasswordCommand: sa" +
+"vePassword,\r\n            map: map,\r\n            searchTerm: {\r\n                d" +
+"epartment:ko.observable(),\r\n                keyword: ko.observable()\r\n          " +
+"  },\r\n            toolbar : ko.observable({\r\n                exportCommand : exp" +
+"ortCommand,\r\n                reloadCommand: function () {\r\n                    r" +
+"eturn activate();\r\n                },\r\n                printCommand: ko.observab" +
+"le({\r\n                    entity: ko.observable(\"UserProfile\"),\r\n               " +
+"     id: ko.observable(0),\r\n                    item: printprofile,\r\n           " +
+"     })\r\n            })\r\n        };\r\n\r\n\r\n        return vm;\r\n\r\n\r\n    });\r\n</scri" +
+"pt>\r\n");
 
         }
     }

@@ -18,6 +18,7 @@
             departmentOptions = ko.observableArray(),
             designationOptions = ko.observableArray(),
             userNameValidationStatus = ko.observable(""),
+            passwordValidationStatus = ko.observable(true),
             emailValidationStatus = ko.observable(""),
             importedSecuritySettingStoreId = ko.observable(""),
             password1 = ko.observable(""),
@@ -80,6 +81,13 @@
                     });
                 return tcs.promise();
             },
+            passwordChanged = function(pwd) {
+                var data = JSON.stringify({password : pwd});
+                return context.post(data, "/sph/Admin/CheckPasswordComplexity")
+                    .then(function(result) {
+                        passwordValidationStatus(result);
+                    });
+            },
             emailChanged = function(email) {
                 isBusyValidatingEmail(true);
                 var tcs = new $.Deferred();
@@ -103,6 +111,7 @@
                 profile().UserName('');
                 profile().Email.subscribe(emailChanged);
                 profile().UserName.subscribe(userNameChaged);
+                profile().Password.subscribe(passwordChanged);
 
                 $('#user-details-modal').modal();
             },
@@ -120,6 +129,10 @@
                 return context.post(data, "/sph/Admin/AddUser")
                     .then(function(result) {
                         isBusy(false);
+                        if (!result.success) {
+                            logger.error(result.message);
+                            return;
+                        }
                         var existing = _(profiles()).find(function(v) { return ko.unwrap(v.UserName) === ko.unwrap(result.UserName); });
                         if (existing) {
                             profiles.replace(existing, result);
@@ -176,6 +189,7 @@
         var vm = {
             importedSecuritySettingStoreId: importedSecuritySettingStoreId,
             activate: activate,
+            passwordValidationStatus : passwordValidationStatus,
             isBusyValidatingUserName : isBusyValidatingUserName,
             isBusyValidatingEmail : isBusyValidatingEmail,
             profiles: profiles,

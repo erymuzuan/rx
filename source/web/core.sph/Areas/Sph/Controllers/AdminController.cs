@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -64,7 +65,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var user = Membership.GetUser(userName);
             if (null != user)
-                return Json(new { status = "DUPLICATE", message = $"nama pengguna '{userName}' sudah digunakan" });
+                return Json(new { status = "DUPLICATE", message = $"User name '{userName}' is not available anymore" });
             this.Response.ContentType = "application/json; charset=utf-8";
             return Content(JsonConvert.SerializeObject(true));
 
@@ -103,17 +104,57 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 Roles.AddUserToRoles(userName, profile.Roles);
                 Membership.UpdateUser(em);
                 await CreateProfile(profile, designation);
-                return Json(profile);
+                return Json(new { success = true, profile, status = "OK" });
             }
 
+            try
+            {
+                Membership.CreateUser(userName, profile.Password, profile.Email);
+            }
+            catch (MembershipCreateUserException ex)
+            {
+                ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(ex));
+                return Json(new { message = ex.Message, success = false, status = "ERROR" });
+            }
 
-            Membership.CreateUser(userName, profile.Password, profile.Email);
             Roles.AddUserToRoles(userName, roles);
             profile.Roles = roles;
 
             await CreateProfile(profile, designation);
 
-            return Json(profile);
+            return Json(new { success = true, profile, status = "Created" });
+        }
+
+        /// <summary>
+        /// Checks password complexity requirements for the actual membership provider
+        /// </summary>
+        /// <param name="password">password to check</param>
+        /// <returns>true if the password meets the req. complexity</returns>
+        public ActionResult CheckPasswordComplexity(string password)
+        {
+            var result =  CheckPasswordComplexity(Membership.Provider, password);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// Checks password complexity requirements for the given membership provider
+        /// </summary>
+        /// <param name="membershipProvider">membership provider</param>
+        /// <param name="password">password to check</param>
+        /// <returns>true if the password meets the req. complexity</returns>
+        static public bool CheckPasswordComplexity(MembershipProvider membershipProvider, string password)
+        {
+            if (string.IsNullOrEmpty(password)) return false;
+            if (password.Length < membershipProvider.MinRequiredPasswordLength) return false;
+            int nonAlnumCount = password.Where((t, i) => !char.IsLetterOrDigit(password, i)).Count();
+            if (nonAlnumCount < membershipProvider.MinRequiredNonAlphanumericCharacters) return false;
+            if (!string.IsNullOrEmpty(membershipProvider.PasswordStrengthRegularExpression) &&
+                !Regex.IsMatch(password, membershipProvider.PasswordStrengthRegularExpression))
+            {
+                return false;
+            }
+            return true;
         }
 
 
