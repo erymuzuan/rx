@@ -14,6 +14,7 @@ namespace subscriber.entities
 
         protected async override Task ProcessMessage(EntityForm item, MessageHeaders header)
         {
+            await Task.Delay(2000);//temporay woraround for source being written
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + item.Route.ToLower() + ".html");
             using (var client = new HttpClient())
             {
