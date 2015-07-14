@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain.QueryProviders
 
     public class DistinctRewriter : DbExpressionVisitor
     {
-       // bool m_isOuterMostSelect;
+        // bool m_isOuterMostSelect;
         public Expression Rewrite(Expression expression)
         {
             //m_isOuterMostSelect = true;
@@ -117,26 +117,15 @@ namespace Bespoke.Sph.Domain.QueryProviders
 
         protected class BindResult
         {
-            readonly ReadOnlyCollection<ColumnDeclaration> m_columns;
-            readonly ReadOnlyCollection<OrderExpression> m_orderings;
             public BindResult(IEnumerable<ColumnDeclaration> columns, IEnumerable<OrderExpression> orderings)
             {
-                this.m_columns = columns as ReadOnlyCollection<ColumnDeclaration> ??
+                this.Columns = columns as ReadOnlyCollection<ColumnDeclaration> ??
                                  new List<ColumnDeclaration>(columns).AsReadOnly();
-                this.m_orderings = orderings as ReadOnlyCollection<OrderExpression>;
-                if (this.m_orderings == null)
-                {
-                    this.m_orderings = new List<OrderExpression>(orderings).AsReadOnly();
-                }
+                this.Orderings = orderings as ReadOnlyCollection<OrderExpression> ??
+                                 new List<OrderExpression>(orderings).AsReadOnly();
             }
-            public ReadOnlyCollection<ColumnDeclaration> Columns
-            {
-                get { return this.m_columns; }
-            }
-            public ReadOnlyCollection<OrderExpression> Orderings
-            {
-                get { return this.m_orderings; }
-            }
+            public ReadOnlyCollection<ColumnDeclaration> Columns { get; }
+            public ReadOnlyCollection<OrderExpression> Orderings { get; }
         }
 
         /// <summary>

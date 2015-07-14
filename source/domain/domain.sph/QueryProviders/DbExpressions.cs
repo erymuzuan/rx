@@ -306,13 +306,12 @@ namespace Bespoke.Sph.Domain.QueryProviders
     /// </summary>
     public class ProjectionExpression : Expression
     {
-        private readonly Expression m_projector;
         private readonly SelectExpression m_source;
 
         public ProjectionExpression(SelectExpression source, Expression projector)
         {
             this.m_source = source;
-            this.m_projector = projector;
+            this.Projector = projector;
         }
          public override Type Type
         {
@@ -329,10 +328,7 @@ namespace Bespoke.Sph.Domain.QueryProviders
             get { return m_source; }
         }
 
-        public Expression Projector
-        {
-            get { return m_projector; }
-        }
+        public Expression Projector { get; }
     }
 
     /// <summary>

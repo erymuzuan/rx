@@ -170,6 +170,21 @@ function (logger, system, ko2) {
         return tcs.promise();
     }
 
+    function sendDelete( url) {
+
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "DELETE",
+            data: "{}",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: tcs.resolve
+        });
+
+        return tcs.promise();
+    }
     function post(json, url) {
 
 
@@ -498,6 +513,7 @@ function (logger, system, ko2) {
         getListAsync: getListAsync,
         getDistinctAsync: getDistinctAsync,
         getTuplesAsync: getTuplesAsync,
+        sendDelete: sendDelete,
         post: post,
         send: send,
         get: get,

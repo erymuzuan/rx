@@ -178,7 +178,7 @@ namespace Bespoke.Sph.SqlRepository
             var ce = b.Left as ColumnExpression;
             if (null != ce && ce.Type == typeof(bool))
             {
-                if(!(b.Right is ConstantExpression))
+                if (!(b.Right is ConstantExpression))
                     m_sb.Append(" = 1 ");
             }
 
@@ -320,7 +320,9 @@ namespace Bespoke.Sph.SqlRepository
                     {
                         m_sb.Append(", ");
                     }
-                    this.Visit(exp.Expression);
+                    //this.Visit(exp.Expression);
+                    dynamic pe = exp.Expression;
+                    m_sb.Append($" {pe.Member.Name}");
                     if (exp.OrderType != OrderType.Ascending)
                     {
                         m_sb.Append(" DESC");

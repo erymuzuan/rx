@@ -9,90 +9,74 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext'],
-	function (context) {
+define(["services/datacontext", objectbuilders.router],
+	function (context, router) {
 
-	    var
+	    var message = ko.observable(),
+        body = ko.observable(),
         isBusy = ko.observable(false),
-        activate = function (id) {
-            var query = String.format("Id eq '{0}'", id),
-                tcs = new $.Deferred();
-            context.loadOneAsync("Message", query)
-                .done(function (b) {
-                    vm.message(b);
-                    tcs.resolve(true);
-                    vm.body(convertText(b.Body()));
-                    markRead();
-                });
-
-            return tcs.promise();
-
-        },
-        attached = function (view) {
-
-        },
-	   convertText = function (text) {
+	    convertText = function (text) {
 	       var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 	       return text.replace(exp, "<a href='$1'>$1</a>");
 	   },
         markUnread = function () {
-            var tcs = new $.Deferred();
-            var data = ko.mapping.toJSON(vm.message);
             isBusy(true);
 
-            context.post(data, "/Sph/Message/MarkUnread/" + vm.message().Id())
-                .then(function (result) {
+            var data = JSON.stringify({ id: message().Id() });
+            return context.post(data, "/sph-message/mark-unread")
+                .then(function () {
                     isBusy(false);
-                    tcs.resolve(result);
-                    vm.message().IsRead(true);
+                    message().IsRead(true);
                 });
-            return tcs.promise();
         },
         markRead = function () {
-            var tcs = new $.Deferred();
-            var data = ko.mapping.toJSON(vm.message);
+            var data = JSON.stringify({id: message().Id()});
             isBusy(true);
 
-            context.post(data, "/Sph/Message/MarkRead/" + vm.message().Id())
-                .then(function (result) {
+            return context.post(data, "/sph-message/mark-read")
+                .then(function () {
                     isBusy(false);
-                    tcs.resolve(result);
-                    vm.message().IsRead(true);
+                    message().IsRead(true);
                 });
-            return tcs.promise();
+        },
+        activate = function (id) {
+            var query = String.format("Id eq '{0}'", id);
+            return context.loadOneAsync("Message", query)
+                .done(function (b) {
+                    message(b);
+                    body(convertText(b.Body()));
+                    markRead();
+                });
+
+
+        },
+        attached = function () {
+
         },
         remove = function () {
-
-            var tcs = new $.Deferred(),
-                data = ko.mapping.toJSON(vm.message);
-            isBusy(true);
-
-            context.post(data, "/Sph/Message/Remove/" + vm.message().Id())
-                .then(function (result) {
-                    isBusy(false);
-                    tcs.resolve(result);
-                    window.location = '/sph#/message.inbox';
+            return context.sendDelete("/sph-message/" + message().Id())
+                .then(function () {
+                    router.navigateBack();
                 });
-            return tcs.promise();
         };
 
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,
 	        attached: attached,
-	        message: ko.observable(),
-	        body: ko.observable(),
+	        message: message,
+	        body: body,
 	        toolbar: {
 	            removeCommand: remove,
 	            commands: ko.observableArray([{
 	                command: markUnread,
-	                caption: 'Mark unread',
-	                icon: 'fa fa-check-square'
+	                caption: "Mark unread",
+	                icon: "fa fa-check-square"
 	            },
 	                {
 	                    command: markRead,
-	                    caption: 'Mark read',
-	                    icon: 'fa fa-check'
+	                    caption: "Mark read",
+	                    icon: "fa fa-check"
 	                }
 	            ])
 	        }
