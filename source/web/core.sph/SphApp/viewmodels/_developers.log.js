@@ -183,9 +183,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        if (typeof model.outputFile === "string") {
 
 		            var existing = _(outputFiles()).find(function (v) { return v.outputFile === model.outputFile; });
-                    if (existing) {
-                        outputFiles.remove(existing);
-                    }
+		            if (existing) {
+		                outputFiles.remove(existing);
+		            }
 
 		            model.deployed = ko.observable(false);
 		            outputFiles.push(model);
@@ -239,7 +239,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        scroll();
 		        connected(false);
 
-                // restart
+		        // restart
 		        var refresh = setInterval(function () {
 		            context.loadAsync("Setting", "")
                         .fail(function () {
@@ -248,12 +248,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         .done(function () {
                             clearInterval(refresh);
                             if (tcs.state() !== "resolved") {
-                                start().done(function() {
+                                start().done(function () {
                                     console.log("Web socket re-connect!");
                                 });
                             }
-		                    tcs.resolve(true);
-		                });
+                            tcs.resolve(true);
+                        });
 
 		        }, 2000);
 
@@ -308,7 +308,27 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        $("#developers-log-panel").css("width", "100%");
 		        $("#developers-log-panel").css("background-color", "transparent");
 
+		        $("#content").css({
+		            "margin-left": "",
+		            "height": "",
+		            "overflow-y": "",
+		            "min-height": "",
+		            "max-height": ""
+		        });
+
 		    });
+		    var expand = function () {
+		        var dev = $("#developers-log-panel").height(),
+                    top = $(window).height(),
+                    height = top - dev - 70;
+		                $("#content").css({
+		                    "margin-left": 0,
+		                    "height": "100%",
+		                    "overflow-y": "scroll",
+		                    "max-height": height,
+		                    "min-height": height
+		                });
+		    };
 		    $("#developers-log-panel-expand", view).on("click", function (e) {
 		        e.preventDefault();
 		        $("#developers-log-panel > div.tabbable").show();
@@ -319,6 +339,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        $("#developers-log-panel").css("background-color", "whitesmoke");
 		        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
 
+		        expand();
+
+		    }).trigger("click");
+		    $(window).resize(function () {
+		        if ($("#developers-log-panel > div.tabbable:visible").length > 0) {
+		            expand();
+		        }
 		    });
 
 

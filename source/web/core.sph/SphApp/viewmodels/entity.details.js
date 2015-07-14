@@ -56,8 +56,21 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             attached = function () {
                 if (entity().Id() === "0") {
-                   //TODO : should do the modal
+                    //TODO : should do the modal
                 }
+                var setDesignerHeight = function () {
+                    if ($("#schema-tree-panel").length === 0) {
+                        return;
+                    }
+
+                    var dev = $("#developers-log-panel").height(),
+                        top = $("#schema-tree-panel").offset().top,
+                        height = dev + top;
+                    $("#schema-tree-panel").css("max-height", $(window).height() - height);
+
+                };
+                $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
+                setDesignerHeight();
             },
             publishDashboard = function () {
                 var data = ko.mapping.toJSON(entity);
@@ -167,7 +180,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 return tcs.promise();
             },
-            exportPackage = function() {
+            exportPackage = function () {
                 var tcs = new $.Deferred();
                 require(["viewmodels/entity.export.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.entity(entity());
@@ -179,7 +192,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
 
             },
-            importData = function() {
+            importData = function () {
                 var tcs = new $.Deferred();
                 require(["viewmodels/entity.import.data.dialog", "durandal/app"], function (dialog, app2) {
 
@@ -193,7 +206,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var vm = {
             triggers: triggers,
-            templateOptions:templateOptions,
+            templateOptions: templateOptions,
             publishDashboard: publishDashboard,
             forms: forms,
             views: views,

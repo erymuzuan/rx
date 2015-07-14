@@ -1,7 +1,6 @@
-﻿<div id="developers-log-panel" class="footer" data-bind="value: visible" style="background-color: whitesmoke">
+﻿<div id="developers-log-panel" class="footer" data-bind="value: visible" style="background-color: whitesmoke; position: absolute; bottom: 0px; left: 0px;margin-left: 10px">
 
     <div class="pull-right">
-
         <button class="btn btn-default pull-right" style="border: none" id="developers-log-panel-collapse" title="Collapse">
             <i class="fa fa-minus"></i>
         </button>
@@ -15,8 +14,9 @@
                 <a href="#server-logs-panel" data-toggle="tab">Logs Output</a>
             </li>
             <li>
-                <a href="#compiler-output-panel" data-toggle="tab">Compiler Outputs
-                <i class="fa fa-warning" data-bind="visible: outputFiles().length > 0" style="color: red;margin-left: 5px"></i>
+                <a href="#compiler-output-panel" data-toggle="tab">
+                    Compiler Outputs
+                    <i class="fa fa-warning" data-bind="visible: outputFiles().length > 0" style="color: red;margin-left: 5px"></i>
                 </a>
             </li>
 
@@ -130,10 +130,10 @@
                         <i class="fa fa-gear"></i>
                     </button>
                     <input type="text" data-bind="textInput:filterText" placeholder=" filter..."
-                            style="width: 120px; border: none; background-color: #ffffff; margin: 2px; margin-left: 50px" />
+                           style="width: 120px; border: none; background-color: #ffffff; margin: 2px; margin-left: 50px" />
 
                 </div>
-                <div id="developers-log-footer" style="height: 250px; overflow-y: scroll; background-color: #fff">
+                <div id="developers-log-footer" style="height: 180px; overflow-y: scroll; background-color: #fff">
                     <ul data-bind="foreach :list" class="list-group">
                         <li data-bind="css :{'list-group-item-success': message === 'Your workers has been succesfully restarted.'}">
 
@@ -143,20 +143,17 @@
                             <span data-bind="text:time" style="margin-left: 5px"></span>
                             <span data-bind="html:message" style="margin-left: 5px"></span>
                             <!--/ko-->
-
                             <!-- ko if: ko.unwrap(severity) === "Info"-->
                             <i class="fa fa-info" style="color: blue">
                             </i>
                             <span data-bind="text:time" style="margin-left: 5px"></span>
                             <span data-bind="html:message" style="margin-left: 5px"></span>
                             <!--/ko-->
-                            
                             <!-- ko if: ko.unwrap(severity) === "Warning"-->
                             <i class="fa fa-warning" style="color: orange"></i>
                             <span data-bind="text:time" style="margin-left: 5px"></span>
                             <span data-bind="html:message" style="margin-left: 5px"></span>
                             <!--/ko-->
-
                             <!-- ko if: ko.unwrap(severity) === "Error"-->
                             <a class="" href="#developers-log-panel" title="View Exception stack trace" data-bind="click : $root.viewStackTrace">
                                 <i class="fa fa-exclamation-circle" style="color: red"></i>
@@ -165,7 +162,7 @@
                             </a>
                             <!--/ko-->
                             <!-- ko if: ko.unwrap(severity) === "Critical"-->
-                            <a class="" href="#developers-log-panel" title="View Exception stack trace" >
+                            <a class="" href="#developers-log-panel" title="View Exception stack trace">
                                 <i class="fa fa-exclamation-triangle" style="color: red"></i>
                                 <span data-bind="text:time" style="margin-left: 5px"></span>
                                 <span data-bind="html:message" style="margin-left: 5px"></span>
@@ -178,8 +175,6 @@
             </div>
             <div id="compiler-output-panel" class="tab-pane">
                 <div style="margin-left: 10px">
-
-
                     <button class="btn btn-default" style="border: none" data-bind="command : deployOutputFiles" title="Break the connection to the workers">
                         <i class="fa fa-copy" style="border: none"></i>
                         Deploy
@@ -199,7 +194,7 @@
                             <span data-bind="html:message" style="margin-left: 5px"></span>
                         </li>
                     </ul>
-                    
+
                 </div>
             </div>
 

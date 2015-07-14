@@ -5,11 +5,9 @@
         <!--ko compose: {view: 'nav'} -->
         <!--/ko-->
     </header>
-    <section id="content" class="container">
+    <section id="content" class="container" style="padding-bottom: 200px">
 
         <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: router.isNavigating" />
-
-
         <!--ko compose: {view: 'toolbar'} -->
         <!--/ko-->
         <!--ko compose: {model: router.activeItem,
@@ -17,10 +15,8 @@
           compositionComplete: router.compositionComplete,
           transition: 'entrance'} -->
         <!--/ko-->
-        
-        <!-- ko compose : 'viewmodels/_developers.log'-->
-        <!--/ko-->
-
-    </section>
+    </section> 
+    <!-- ko compose : 'viewmodels/_developers.log'-->
+    <!--/ko-->
 
 </div>

@@ -1,11 +1,7 @@
 ﻿
 <link href="/Content/jstree/style.min.css" rel="stylesheet" />
-<div class="row">
-    <h1 data-bind="with : entity">
-        Custom Entity Definition :
-        <span data-bind="text:Name"></span>
-    </h1>
-</div>
+
+
 <div id="error-list" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
     <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
@@ -26,8 +22,7 @@
             <h3>Schema Designer</h3>
             <div class="col-sm-8">
                 <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree" value="" />
-                <div data-bind="tree : {entity: entity, selected: member, searchbox: '#search-box-tree'}">
-                </div>
+                <div id="schema-tree-panel" style="overflow-y: scroll" data-bind="tree : {entity: entity, selected: member, searchbox: '#search-box-tree'}"></div>
             </div>
             <div class="col-sm-4" data-bind="with: member">
                 <h3>Member properties</h3>
