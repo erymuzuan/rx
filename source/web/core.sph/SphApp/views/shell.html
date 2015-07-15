@@ -1,22 +1,116 @@
-﻿<div>
-    <header>
-        <!--ko compose: {view: 'header'} -->
-        <!--/ko-->
-        <!--ko compose: {view: 'nav'} -->
-        <!--/ko-->
-    </header>
-    <section id="content" class="container" style="padding-bottom: 200px">
+﻿ <!-- BEGIN SIDEBAR -->
+<div class="page-sidebar-wrapper">
+    <div class="page-sidebar navbar-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
 
-        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: router.isNavigating" />
-        <!--ko compose: {view: 'toolbar'} -->
-        <!--/ko-->
-        <!--ko compose: {model: router.activeItem,
-          attached: router.attached,
-          compositionComplete: router.compositionComplete,
-          transition: 'entrance'} -->
-        <!--/ko-->
-    </section> 
-    <!-- ko compose : 'viewmodels/_developers.log'-->
-    <!--/ko-->
-
+        <ul class="page-sidebar-menu page-sidebar-menu-light" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+            <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+            <li class="sidebar-toggler-wrapper">
+                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                <div class="sidebar-toggler">
+                </div>
+                <!-- END SIDEBAR TOGGLER BUTTON -->
+            </li>
+            <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+            <li class="sidebar-search-wrapper">
+                <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+                <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+                <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+                <form class="sidebar-search " action="extra_search.html" method="POST">
+                    <a href="javascript:;" class="remove">
+                        <i class="icon-close"></i>
+                    </a>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+                        </span>
+                    </div>
+                </form>
+                <!-- END RESPONSIVE QUICK SEARCH FORM -->
+            </li>
+            <li class="start active open">
+                <a href="javascript:;">
+                    <i class="icon-home"></i>
+                    <span class="title">Dashboard</span>
+                    <span class="selected"></span>
+                    <span class="arrow open"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="active">
+                        <a href="index.html">
+                            <i class="icon-bar-chart"></i>
+                            Default Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index_2.html">
+                            <i class="icon-bulb"></i>
+                            New Dashboard #1
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index_3.html">
+                            <i class="icon-graph"></i>
+                            New Dashboard #2
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- END SIDEBAR MENU -->
+    </div>
 </div>
+<!-- END SIDEBAR -->
+<!-- BEGIN CONTENT -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+
+        <!-- BEGIN PAGE HEADER-->
+        <h3 class="page-title">
+            Dashboard <small>reports & statistics</small>
+        </h3>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <i class="fa fa-home"></i>
+                    <a href="/sph">Home</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+            </ul>
+
+
+        </div>
+        <!-- END PAGE HEADER-->
+
+        <section id="content">
+
+            <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: router.isNavigating" />
+            <!--ko compose: {view: 'toolbar'} -->
+            <!--/ko-->
+            <!--ko compose: {model: router.activeItem,
+        attached: router.attached,
+        compositionComplete: router.compositionComplete,
+        transition: 'entrance'} -->
+            <!--/ko-->
+        </section>
+        <!-- ko compose : 'viewmodels/_developers.log'-->
+        <!--/ko-->
+
+
+
+    </div>
+</div>
+<!-- END CONTENT -->
+<!-- BEGIN QUICK SIDEBAR -->
+<a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-close"></i></a>
+<div class="page-quick-sidebar-wrapper">
+    <div class="page-quick-sidebar">
+
+
+    </div>
+</div>
+<!-- END QUICK SIDEBAR -->

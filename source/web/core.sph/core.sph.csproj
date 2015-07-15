@@ -1386,8 +1386,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <EmbeddedResource Include="Content\jstree\32px.png" />
     <EmbeddedResource Include="Content\jstree\40px.png" />
+    <Content Include="Content\darkblue.css" />
     <Content Include="Content\daterangepicker-bs3.css" />
-    <Content Include="Content\durandal.css" />
+    <EmbeddedResource Include="Content\durandal.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\icon.png" />
@@ -1611,7 +1612,7 @@
       <DependentUpon>kendo.all.js</DependentUpon>
     </EmbeddedResource>
     <Content Include="Scripts\complete.ly.1.0.1.js" />
-    <Content Include="Scripts\complete.ly.1.0.1.min.js" />
+    <EmbeddedResource Include="Scripts\complete.ly.1.0.1.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
@@ -2161,6 +2162,13 @@
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.script.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.import.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\solution.diagnostics.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\add.entity-definition.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\add.entity-definition.form.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\add.entity-definition.view.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.2.js" />
+    <EmbeddedResource Include="SphApp\views\add.entity-definition.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\add.entity-definition.form.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\add.entity-definition.view.dialog.html" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2672,6 +2680,7 @@
     <EmbeddedResource Include="SphApp\views\_custom.forms.routes.html" />
     <EmbeddedResource Include="SphApp\views\_custom.forms.scripts.html" />
     <EmbeddedResource Include="SphApp\views\solution.diagnostics.html" />
+    <EmbeddedResource Include="SphApp\views\solution.explorer.2.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

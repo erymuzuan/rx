@@ -55,169 +55,1216 @@ namespace ASP
             
             #line default
             #line hidden
-WriteLiteral("\r\n<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>");
+WriteLiteral("\r\n<!DOCTYPE html>\r\n<html");
+
+WriteLiteral(" lang=\"en\"");
+
+WriteLiteral(" class=\"no-js\"");
+
+WriteLiteral(">\r\n<!-- BEGIN HEAD -->\r\n<head>\r\n    <meta");
+
+WriteLiteral(" charset=\"utf-8\"");
+
+WriteLiteral(" />\r\n    <title>Metronic | Dashboard</title>\r\n    <meta");
+
+WriteLiteral(" http-equiv=\"X-UA-Compatible\"");
+
+WriteLiteral(" content=\"IE=edge\"");
+
+WriteLiteral(">\r\n    <meta");
+
+WriteLiteral(" content=\"width=device-width, initial-scale=1\"");
+
+WriteLiteral(" name=\"viewport\"");
+
+WriteLiteral(" />\r\n    <meta");
+
+WriteLiteral(" content=\"\"");
+
+WriteLiteral(" name=\"description\"");
+
+WriteLiteral(" />\r\n    <meta");
+
+WriteLiteral(" content=\"\"");
+
+WriteLiteral(" name=\"author\"");
+
+WriteLiteral(" />\r\n    <!-- BEGIN GLOBAL MANDATORY STYLES -->\r\n    <link");
+
+WriteLiteral(" href=\"http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=al" +
+"l\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" />\r\n    <link");
+
+WriteLiteral(" href=\"/assets/global/plugins/font-awesome/css/font-awesome.min.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" />\r\n    <link");
+
+WriteLiteral(" href=\"/assets/global/plugins/simple-line-icons/simple-line-icons.min.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" />\r\n    <link");
+
+WriteLiteral(" href=\"/assets/global/plugins/bootstrap/css/bootstrap.min.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" />\r\n    <link");
+
+WriteLiteral(" href=\"/assets/global/plugins/uniform/css/uniform.default.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" />\r\n    <!-- END GLOBAL MANDATORY STYLES -->\r\n    <!-- BEGIN PAGE STYLES -->\r\n  " +
+"  <link");
+
+WriteLiteral(" href=\"/assets/admin/pages/css/tasks.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" />\r\n    <!-- END PAGE STYLES -->\r\n    <!-- BEGIN THEME STYLES -->\r\n    <link");
+
+WriteLiteral(" href=\"/Content/theme.matyie.css\"");
+
+WriteLiteral(" id=\"style_components\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" />\r\n    <link");
+
+WriteLiteral(" href=\"/assets/admin/layout/css/layout.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" />\r\n    <link");
+
+WriteLiteral(" href=\"/assets/admin/layout/css/themes/darkblue.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" id=\"style_color\"");
+
+WriteLiteral(" />\r\n    <link");
+
+WriteLiteral(" href=\"/content/durandal.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" id=\"style_color\"");
+
+WriteLiteral(" />\r\n    <!-- END THEME STYLES -->\r\n    <link");
+
+WriteLiteral(" rel=\"shortcut icon\"");
+
+WriteLiteral(" href=\"favicon.ico\"");
+
+WriteLiteral(" />\r\n</head>\r\n<!-- END HEAD -->\r\n<!-- BEGIN BODY -->\r\n<body");
+
+WriteLiteral(" class=\"page-md page-header-fixed page-quick-sidebar-over-content page-sidebar-cl" +
+"osed-hide-logo \"");
+
+WriteLiteral(">\r\n    <!-- BEGIN HEADER -->\r\n    <div");
+
+WriteLiteral(" class=\"page-header md-shadow-z-1-i navbar navbar-fixed-top\"");
+
+WriteLiteral(">\r\n        <!-- BEGIN HEADER INNER -->\r\n        <div");
+
+WriteLiteral(" class=\"page-header-inner\"");
+
+WriteLiteral(">\r\n            <!-- BEGIN LOGO -->\r\n            <div");
+
+WriteLiteral(" class=\"page-logo\"");
+
+WriteLiteral(">\r\n                <a");
+
+WriteLiteral(" href=\"index.html\"");
+
+WriteLiteral(">\r\n                    <img");
+
+WriteLiteral(" src=\"/assets/admin/layout/img/logo.png\"");
+
+WriteLiteral(" alt=\"logo\"");
+
+WriteLiteral(" class=\"logo-default\"");
+
+WriteLiteral(" />\r\n                </a>\r\n                <div");
+
+WriteLiteral(" class=\"menu-toggler sidebar-toggler hide\"");
+
+WriteLiteral(">\r\n                </div>\r\n            </div>\r\n            <!-- END LOGO -->\r\n   " +
+"         <!-- BEGIN RESPONSIVE MENU TOGGLER -->\r\n            <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" class=\"menu-toggler responsive-toggler\"");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral(" data-target=\".navbar-collapse\"");
+
+WriteLiteral(">\r\n            </a>\r\n            <!-- END RESPONSIVE MENU TOGGLER -->\r\n          " +
+"  <!-- BEGIN TOP NAVIGATION MENU -->\r\n            <div");
+
+WriteLiteral(" class=\"top-menu\"");
+
+WriteLiteral(">\r\n                <ul");
+
+WriteLiteral(" class=\"nav navbar-nav pull-right\"");
+
+WriteLiteral(">\r\n                    <!-- BEGIN NOTIFICATION DROPDOWN -->\r\n                    " +
+"<!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change " +
+"the dropdown styte -->\r\n                    <li");
+
+WriteLiteral(" class=\"dropdown dropdown-extended dropdown-notification\"");
+
+WriteLiteral(" id=\"header_notification_bar\"");
+
+WriteLiteral(">\r\n                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" class=\"dropdown-toggle\"");
+
+WriteLiteral(" data-toggle=\"dropdown\"");
+
+WriteLiteral(" data-hover=\"dropdown\"");
+
+WriteLiteral(" data-close-others=\"true\"");
+
+WriteLiteral(">\r\n                            <i");
+
+WriteLiteral(" class=\"icon-bell\"");
+
+WriteLiteral("></i>\r\n                            <span");
+
+WriteLiteral(" class=\"badge badge-default\"");
+
+WriteLiteral(">\r\n                                7\r\n                            </span>\r\n      " +
+"                  </a>\r\n                        <ul");
+
+WriteLiteral(" class=\"dropdown-menu\"");
+
+WriteLiteral(">\r\n                            <li");
+
+WriteLiteral(" class=\"external\"");
+
+WriteLiteral(">\r\n                                <h3><span");
+
+WriteLiteral(" class=\"bold\"");
+
+WriteLiteral(">12 pending</span> notifications</h3>\r\n                                <a");
+
+WriteLiteral(" href=\"extra_profile.html\"");
+
+WriteLiteral(">view all</a>\r\n                            </li>\r\n                            <li" +
+">\r\n                                <ul");
+
+WriteLiteral(" class=\"dropdown-menu-list scroller\"");
+
+WriteLiteral(" style=\"height: 250px;\"");
+
+WriteLiteral(" data-handle-color=\"#637283\"");
+
+WriteLiteral(">\r\n                                    <li>\r\n                                    " +
+"    <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">just now</span>\r\n                                            <span");
+
+WriteLiteral(" class=\"details\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"label label-sm label-icon label-success\"");
+
+WriteLiteral(">\r\n                                                    <i");
+
+WriteLiteral(" class=\"fa fa-plus\"");
+
+WriteLiteral(@"></i>
+                                                </span>
+                                                New user registered.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">3 mins</span>\r\n                                            <span");
+
+WriteLiteral(" class=\"details\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"label label-sm label-icon label-danger\"");
+
+WriteLiteral(">\r\n                                                    <i");
+
+WriteLiteral(" class=\"fa fa-bolt\"");
+
+WriteLiteral(@"></i>
+                                                </span>
+                                                Server #12 overloaded.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">10 mins</span>\r\n                                            <span");
+
+WriteLiteral(" class=\"details\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"label label-sm label-icon label-warning\"");
+
+WriteLiteral(">\r\n                                                    <i");
+
+WriteLiteral(" class=\"fa fa-bell-o\"");
+
+WriteLiteral(@"></i>
+                                                </span>
+                                                Server #2 not responding.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">14 hrs</span>\r\n                                            <span");
+
+WriteLiteral(" class=\"details\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"label label-sm label-icon label-info\"");
+
+WriteLiteral(">\r\n                                                    <i");
+
+WriteLiteral(" class=\"fa fa-bullhorn\"");
+
+WriteLiteral(@"></i>
+                                                </span>
+                                                Application error.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">2 days</span>\r\n                                            <span");
+
+WriteLiteral(" class=\"details\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"label label-sm label-icon label-danger\"");
+
+WriteLiteral(">\r\n                                                    <i");
+
+WriteLiteral(" class=\"fa fa-bolt\"");
+
+WriteLiteral(@"></i>
+                                                </span>
+                                                Database overloaded 68%.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">3 days</span>\r\n                                            <span");
+
+WriteLiteral(" class=\"details\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"label label-sm label-icon label-danger\"");
+
+WriteLiteral(">\r\n                                                    <i");
+
+WriteLiteral(" class=\"fa fa-bolt\"");
+
+WriteLiteral(@"></i>
+                                                </span>
+                                                A user IP blocked.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">4 days</span>\r\n                                            <span");
+
+WriteLiteral(" class=\"details\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"label label-sm label-icon label-warning\"");
+
+WriteLiteral(">\r\n                                                    <i");
+
+WriteLiteral(" class=\"fa fa-bell-o\"");
+
+WriteLiteral(@"></i>
+                                                </span>
+                                                Storage Server #4 not responding dfdfdfd.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">5 days</span>\r\n                                            <span");
+
+WriteLiteral(" class=\"details\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"label label-sm label-icon label-info\"");
+
+WriteLiteral(">\r\n                                                    <i");
+
+WriteLiteral(" class=\"fa fa-bullhorn\"");
+
+WriteLiteral(@"></i>
+                                                </span>
+                                                System Error.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">9 days</span>\r\n                                            <span");
+
+WriteLiteral(" class=\"details\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"label label-sm label-icon label-danger\"");
+
+WriteLiteral(">\r\n                                                    <i");
+
+WriteLiteral(" class=\"fa fa-bolt\"");
+
+WriteLiteral(@"></i>
+                                                </span>
+                                                Storage server failed.
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END NOTIFICATION DROPDOWN -->
+                    <!-- BEGIN INBOX DROPDOWN -->
+                    <!-- DOC: Apply ""dropdown-dark"" class after below ""dropdown-extended"" to change the dropdown styte -->
+                    <li");
+
+WriteLiteral(" class=\"dropdown dropdown-extended dropdown-inbox\"");
+
+WriteLiteral(" id=\"header_inbox_bar\"");
+
+WriteLiteral(">\r\n                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" class=\"dropdown-toggle\"");
+
+WriteLiteral(" data-toggle=\"dropdown\"");
+
+WriteLiteral(" data-hover=\"dropdown\"");
+
+WriteLiteral(" data-close-others=\"true\"");
+
+WriteLiteral(">\r\n                            <i");
+
+WriteLiteral(" class=\"icon-envelope-open\"");
+
+WriteLiteral("></i>\r\n                            <span");
+
+WriteLiteral(" class=\"badge badge-default\"");
+
+WriteLiteral(">\r\n                                4\r\n                            </span>\r\n      " +
+"                  </a>\r\n                        <ul");
+
+WriteLiteral(" class=\"dropdown-menu\"");
+
+WriteLiteral(">\r\n                            <li");
+
+WriteLiteral(" class=\"external\"");
+
+WriteLiteral(">\r\n                                <h3>You have <span");
+
+WriteLiteral(" class=\"bold\"");
+
+WriteLiteral(">7 New</span> Messages</h3>\r\n                                <a");
+
+WriteLiteral(" href=\"page_inbox.html\"");
+
+WriteLiteral(">view all</a>\r\n                            </li>\r\n                            <li" +
+">\r\n                                <ul");
+
+WriteLiteral(" class=\"dropdown-menu-list scroller\"");
+
+WriteLiteral(" style=\"height: 275px;\"");
+
+WriteLiteral(" data-handle-color=\"#637283\"");
+
+WriteLiteral(">\r\n                                    <li>\r\n                                    " +
+"    <a");
+
+WriteLiteral(" href=\"inbox.html?a=view\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"photo\"");
+
+WriteLiteral(">\r\n                                                <img");
+
+WriteLiteral(" src=\"/assets/admin/layout3/img/avatar2.jpg\"");
+
+WriteLiteral(" class=\"img-circle\"");
+
+WriteLiteral(" alt=\"\"");
+
+WriteLiteral(">\r\n                                            </span>\r\n                         " +
+"                   <span");
+
+WriteLiteral(" class=\"subject\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"from\"");
+
+WriteLiteral(">\r\n                                                    Lisa Wong\r\n               " +
+"                                 </span>\r\n                                      " +
+"          <span");
+
+WriteLiteral(" class=\"time\"");
+
+WriteLiteral(">Just Now </span>\r\n                                            </span>\r\n         " +
+"                                   <span");
+
+WriteLiteral(" class=\"message\"");
+
+WriteLiteral(@">
+                                                Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh...
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END INBOX DROPDOWN -->
+                    <!-- BEGIN TODO DROPDOWN -->
+                    <!-- DOC: Apply ""dropdown-dark"" class after below ""dropdown-extended"" to change the dropdown styte -->
+                    <li");
+
+WriteLiteral(" class=\"dropdown dropdown-extended dropdown-tasks\"");
+
+WriteLiteral(" id=\"header_task_bar\"");
+
+WriteLiteral(">\r\n                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" class=\"dropdown-toggle\"");
+
+WriteLiteral(" data-toggle=\"dropdown\"");
+
+WriteLiteral(" data-hover=\"dropdown\"");
+
+WriteLiteral(" data-close-others=\"true\"");
+
+WriteLiteral(">\r\n                            <i");
+
+WriteLiteral(" class=\"icon-calendar\"");
+
+WriteLiteral("></i>\r\n                            <span");
+
+WriteLiteral(" class=\"badge badge-default\"");
+
+WriteLiteral(">\r\n                                3\r\n                            </span>\r\n      " +
+"                  </a>\r\n                        <ul");
+
+WriteLiteral(" class=\"dropdown-menu extended tasks\"");
+
+WriteLiteral(">\r\n                            <li");
+
+WriteLiteral(" class=\"external\"");
+
+WriteLiteral(">\r\n                                <h3>You have <span");
+
+WriteLiteral(" class=\"bold\"");
+
+WriteLiteral(">12 pending</span> tasks</h3>\r\n                                <a");
+
+WriteLiteral(" href=\"page_todo.html\"");
+
+WriteLiteral(">view all</a>\r\n                            </li>\r\n                            <li" +
+">\r\n                                <ul");
+
+WriteLiteral(" class=\"dropdown-menu-list scroller\"");
+
+WriteLiteral(" style=\"height: 275px;\"");
+
+WriteLiteral(" data-handle-color=\"#637283\"");
+
+WriteLiteral(">\r\n                                    <li>\r\n                                    " +
+"    <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"task\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"desc\"");
+
+WriteLiteral(">New release v1.2 </span>\r\n                                                <span");
+
+WriteLiteral(" class=\"percent\"");
+
+WriteLiteral(">30%</span>\r\n                                            </span>\r\n               " +
+"                             <span");
+
+WriteLiteral(" class=\"progress\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" style=\"width: 40%;\"");
+
+WriteLiteral(" class=\"progress-bar progress-bar-success\"");
+
+WriteLiteral(" aria-valuenow=\"40\"");
+
+WriteLiteral(" aria-valuemin=\"0\"");
+
+WriteLiteral(" aria-valuemax=\"100\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"sr-only\"");
+
+WriteLiteral(">40% Complete</span></span>\r\n                                            </span>\r" +
+"\n                                        </a>\r\n                                 " +
+"   </li>\r\n                                    <li>\r\n                            " +
+"            <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"task\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"desc\"");
+
+WriteLiteral(">Application deployment</span>\r\n                                                <" +
+"span");
+
+WriteLiteral(" class=\"percent\"");
+
+WriteLiteral(">65%</span>\r\n                                            </span>\r\n               " +
+"                             <span");
+
+WriteLiteral(" class=\"progress\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" style=\"width: 65%;\"");
+
+WriteLiteral(" class=\"progress-bar progress-bar-danger\"");
+
+WriteLiteral(" aria-valuenow=\"65\"");
+
+WriteLiteral(" aria-valuemin=\"0\"");
+
+WriteLiteral(" aria-valuemax=\"100\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"sr-only\"");
+
+WriteLiteral(">65% Complete</span></span>\r\n                                            </span>\r" +
+"\n                                        </a>\r\n                                 " +
+"   </li>\r\n                                    <li>\r\n                            " +
+"            <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"task\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"desc\"");
+
+WriteLiteral(">Mobile app release</span>\r\n                                                <span" +
+"");
+
+WriteLiteral(" class=\"percent\"");
+
+WriteLiteral(">98%</span>\r\n                                            </span>\r\n               " +
+"                             <span");
+
+WriteLiteral(" class=\"progress\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" style=\"width: 98%;\"");
+
+WriteLiteral(" class=\"progress-bar progress-bar-success\"");
+
+WriteLiteral(" aria-valuenow=\"98\"");
+
+WriteLiteral(" aria-valuemin=\"0\"");
+
+WriteLiteral(" aria-valuemax=\"100\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"sr-only\"");
+
+WriteLiteral(">98% Complete</span></span>\r\n                                            </span>\r" +
+"\n                                        </a>\r\n                                 " +
+"   </li>\r\n                                    <li>\r\n                            " +
+"            <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"task\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"desc\"");
+
+WriteLiteral(">Database migration</span>\r\n                                                <span" +
+"");
+
+WriteLiteral(" class=\"percent\"");
+
+WriteLiteral(">10%</span>\r\n                                            </span>\r\n               " +
+"                             <span");
+
+WriteLiteral(" class=\"progress\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" style=\"width: 10%;\"");
+
+WriteLiteral(" class=\"progress-bar progress-bar-warning\"");
+
+WriteLiteral(" aria-valuenow=\"10\"");
+
+WriteLiteral(" aria-valuemin=\"0\"");
+
+WriteLiteral(" aria-valuemax=\"100\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"sr-only\"");
+
+WriteLiteral(">10% Complete</span></span>\r\n                                            </span>\r" +
+"\n                                        </a>\r\n                                 " +
+"   </li>\r\n                                    <li>\r\n                            " +
+"            <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"task\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"desc\"");
+
+WriteLiteral(">Web server upgrade</span>\r\n                                                <span" +
+"");
+
+WriteLiteral(" class=\"percent\"");
+
+WriteLiteral(">58%</span>\r\n                                            </span>\r\n               " +
+"                             <span");
+
+WriteLiteral(" class=\"progress\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" style=\"width: 58%;\"");
+
+WriteLiteral(" class=\"progress-bar progress-bar-info\"");
+
+WriteLiteral(" aria-valuenow=\"58\"");
+
+WriteLiteral(" aria-valuemin=\"0\"");
+
+WriteLiteral(" aria-valuemax=\"100\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"sr-only\"");
+
+WriteLiteral(">58% Complete</span></span>\r\n                                            </span>\r" +
+"\n                                        </a>\r\n                                 " +
+"   </li>\r\n                                    <li>\r\n                            " +
+"            <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"task\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"desc\"");
+
+WriteLiteral(">Mobile development</span>\r\n                                                <span" +
+"");
+
+WriteLiteral(" class=\"percent\"");
+
+WriteLiteral(">85%</span>\r\n                                            </span>\r\n               " +
+"                             <span");
+
+WriteLiteral(" class=\"progress\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" style=\"width: 85%;\"");
+
+WriteLiteral(" class=\"progress-bar progress-bar-success\"");
+
+WriteLiteral(" aria-valuenow=\"85\"");
+
+WriteLiteral(" aria-valuemin=\"0\"");
+
+WriteLiteral(" aria-valuemax=\"100\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"sr-only\"");
+
+WriteLiteral(">85% Complete</span></span>\r\n                                            </span>\r" +
+"\n                                        </a>\r\n                                 " +
+"   </li>\r\n                                    <li>\r\n                            " +
+"            <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n                                            <span");
+
+WriteLiteral(" class=\"task\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" class=\"desc\"");
+
+WriteLiteral(">New UI release</span>\r\n                                                <span");
+
+WriteLiteral(" class=\"percent\"");
+
+WriteLiteral(">38%</span>\r\n                                            </span>\r\n               " +
+"                             <span");
+
+WriteLiteral(" class=\"progress progress-striped\"");
+
+WriteLiteral(">\r\n                                                <span");
+
+WriteLiteral(" style=\"width: 38%;\"");
+
+WriteLiteral(" class=\"progress-bar progress-bar-important\"");
+
+WriteLiteral(" aria-valuenow=\"18\"");
+
+WriteLiteral(" aria-valuemin=\"0\"");
+
+WriteLiteral(" aria-valuemax=\"100\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"sr-only\"");
+
+WriteLiteral(@">38% Complete</span></span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END TODO DROPDOWN -->
+                    <!-- BEGIN USER LOGIN DROPDOWN -->
+                    <!-- DOC: Apply ""dropdown-dark"" class after below ""dropdown-extended"" to change the dropdown styte -->
+                    <li");
+
+WriteLiteral(" class=\"dropdown dropdown-user\"");
+
+WriteLiteral(">\r\n                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" class=\"dropdown-toggle\"");
+
+WriteLiteral(" data-toggle=\"dropdown\"");
+
+WriteLiteral(" data-hover=\"dropdown\"");
+
+WriteLiteral(" data-close-others=\"true\"");
+
+WriteLiteral(">\r\n                            <img");
+
+WriteLiteral(" alt=\"\"");
+
+WriteLiteral(" class=\"img-circle\"");
+
+WriteLiteral(" src=\"/assets/admin/layout/img/avatar3_small.jpg\"");
+
+WriteLiteral(" />\r\n                            <span");
+
+WriteLiteral(" class=\"username username-hide-on-mobile\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                                ");
 
             
-            #line 14 "..\..\Areas\Sph\Views\Home\index.cshtml"
-      Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationName);
+            #line 324 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                           Write(User.Identity.Name);
 
             
             #line default
             #line hidden
-WriteLiteral("</title>\r\n    <meta");
+WriteLiteral("\r\n                            </span>\r\n                            <i");
 
-WriteLiteral(" charset=\"utf-8\"");
+WriteLiteral(" class=\"fa fa-angle-down\"");
 
-WriteLiteral(" />\r\n    <meta");
+WriteLiteral("></i>\r\n                        </a>\r\n                        <ul");
 
-WriteLiteral(" http-equiv=\"X-UA-Compatible\"");
+WriteLiteral(" class=\"dropdown-menu dropdown-menu-default\"");
 
-WriteLiteral(" content=\"IE=edge, chrome=1\"");
+WriteLiteral(">\r\n                            <li>\r\n                                <a");
 
-WriteLiteral(" />\r\n    <meta");
+WriteLiteral(" href=\"extra_profile.html\"");
 
-WriteLiteral(" name=\"apple-mobile-web-app-capable\"");
+WriteLiteral(">\r\n                                    <i");
 
-WriteLiteral(" content=\"yes\"");
+WriteLiteral(" class=\"icon-user\"");
 
-WriteLiteral(" />\r\n    <meta");
+WriteLiteral("></i> My Profile\r\n                                </a>\r\n                         " +
+"   </li>\r\n                            <li>\r\n                                <a");
 
-WriteLiteral(" name=\"apple-mobile-web-app-status-bar-style\"");
+WriteLiteral(" href=\"page_calendar.html\"");
 
-WriteLiteral(" content=\"black\"");
+WriteLiteral(">\r\n                                    <i");
 
-WriteLiteral(" />\r\n    <meta");
+WriteLiteral(" class=\"icon-calendar\"");
 
-WriteLiteral(" name=\"format-detection\"");
+WriteLiteral("></i> My Calendar\r\n                                </a>\r\n                        " +
+"    </li>\r\n                            <li>\r\n                                <a");
 
-WriteLiteral(" content=\"telephone=no\"");
+WriteLiteral(" href=\"inbox.html\"");
 
-WriteLiteral(" />\r\n    <meta");
+WriteLiteral(">\r\n                                    <i");
 
-WriteLiteral(" name=\"viewport\"");
+WriteLiteral(" class=\"icon-envelope-open\"");
 
-WriteLiteral(" content=\"width=device-width, initial-scale=1.0\"");
+WriteLiteral("></i> My Inbox <span");
 
-WriteLiteral(" />\r\n");
+WriteLiteral(" class=\"badge badge-danger\"");
+
+WriteLiteral(">\r\n                                        3\r\n                                   " +
+" </span>\r\n                                </a>\r\n                            </li" +
+">\r\n                            <li>\r\n                                <a");
+
+WriteLiteral(" href=\"page_todo.html\"");
+
+WriteLiteral(">\r\n                                    <i");
+
+WriteLiteral(" class=\"icon-rocket\"");
+
+WriteLiteral("></i> My Tasks <span");
+
+WriteLiteral(" class=\"badge badge-success\"");
+
+WriteLiteral(">\r\n                                        7\r\n                                   " +
+" </span>\r\n                                </a>\r\n                            </li" +
+">\r\n                            <li");
+
+WriteLiteral(" class=\"divider\"");
+
+WriteLiteral(">\r\n                            </li>\r\n                            <li>\r\n         " +
+"                       <a");
+
+WriteLiteral(" href=\"extra_lock.html\"");
+
+WriteLiteral(">\r\n                                    <i");
+
+WriteLiteral(" class=\"icon-lock\"");
+
+WriteLiteral("></i> Lock Screen\r\n                                </a>\r\n                        " +
+"    </li>\r\n                            <li>\r\n                                <a");
+
+WriteLiteral(" href=\"login.html\"");
+
+WriteLiteral(">\r\n                                    <i");
+
+WriteLiteral(" class=\"icon-key\"");
+
+WriteLiteral(@"></i> Log Out
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                    <!-- BEGIN QUICK SIDEBAR TOGGLER -->
+                    <!-- DOC: Apply ""dropdown-dark"" class after below ""dropdown-extended"" to change the dropdown styte -->
+                    <li");
+
+WriteLiteral(" class=\"dropdown dropdown-quick-sidebar-toggler\"");
+
+WriteLiteral(">\r\n                        <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" class=\"dropdown-toggle\"");
+
+WriteLiteral(">\r\n                            <i");
+
+WriteLiteral(" class=\"icon-logout\"");
+
+WriteLiteral(@"></i>
+                        </a>
+                    </li>
+                    <!-- END QUICK SIDEBAR TOGGLER -->
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END HEADER INNER -->
+    </div>
+    <!-- END HEADER -->
+    <div");
+
+WriteLiteral(" class=\"clearfix\"");
+
+WriteLiteral(">\r\n    </div>\r\n    <!-- BEGIN CONTAINER -->\r\n<div");
+
+WriteLiteral(" id=\"applicationHost\"");
+
+WriteLiteral(" class=\"page-container\"");
+
+WriteLiteral(">\r\n");
 
             
-            #line 21 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 387 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 21 "..\..\Areas\Sph\Views\Home\index.cshtml"
-     if (HttpContext.Current.IsDebuggingEnabled)
+            #line 387 "..\..\Areas\Sph\Views\Home\index.cshtml"
+     if (!string.IsNullOrWhiteSpace(splashHtml))
     {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        <link");
-
-WriteLiteral(" href=\"/Content/__css.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" />\r\n");
-
-            
-            #line 24 "..\..\Areas\Sph\Views\Home\index.cshtml"
-    }
-    else
-    {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        <link");
-
-WriteLiteral(" href=\"/content/release.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" />\r\n");
-
-            
-            #line 28 "..\..\Areas\Sph\Views\Home\index.cshtml"
-    }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    <script");
-
-WriteLiteral(" src=\"/Scripts/modernizr-2.8.3.js\"");
-
-WriteLiteral("></script>\r\n    <meta");
-
-WriteLiteral(" name=\"description\"");
-
-WriteLiteral(" content=\"The description of my page\"");
-
-WriteLiteral(" />\r\n</head>\r\n<body>\r\n    <div");
-
-WriteLiteral(" id=\"applicationHost\"");
-
-WriteLiteral(">\r\n");
-
-            
-            #line 34 "..\..\Areas\Sph\Views\Home\index.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 34 "..\..\Areas\Sph\Views\Home\index.cshtml"
-         if (!string.IsNullOrWhiteSpace(splashHtml))
-        {
-            
-            
-            #line default
-            #line hidden
-            
-            #line 36 "..\..\Areas\Sph\Views\Home\index.cshtml"
-       Write(Html.Raw(splashHtml));
+            #line 389 "..\..\Areas\Sph\Views\Home\index.cshtml"
+   Write(Html.Raw(splashHtml));
 
             
             #line default
             #line hidden
             
-            #line 36 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                                 
-        }
-        else
-        {
-            
+            #line 389 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                             
+    }
+    else
+    {
+        
             
             #line default
             #line hidden
             
-            #line 40 "..\..\Areas\Sph\Views\Home\index.cshtml"
-       Write(Html.Partial("_splash"));
+            #line 393 "..\..\Areas\Sph\Views\Home\index.cshtml"
+   Write(Html.Partial("_splash"));
 
             
             #line default
             #line hidden
             
-            #line 40 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                                    
-        }
+            #line 393 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                                
+    }
 
             
             #line default
             #line hidden
-WriteLiteral("    </div>\r\n\r\n");
+WriteLiteral("\r\n</div>\r\n    <!-- END CONTAINER -->\r\n    <!-- BEGIN FOOTER -->\r\n    <!-- END FOO" +
+"TER -->\r\n\r\n\r\n    <script");
+
+WriteLiteral(" src=\"/assets/global/plugins/jquery.min.js\"");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral("></script>\r\n    <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to " +
+"fix bootstrap tooltip conflict with jquery ui tooltip -->\r\n    <script");
+
+WriteLiteral(" src=\"/assets/global/plugins/jquery-ui/jquery-ui.min.js\"");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"/assets/global/plugins/bootstrap/js/bootstrap.min.js\"");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.mi" +
+"n.js\"");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js\"");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral("></script>\r\n    <!-- END CORE PLUGINS -->\r\n    <!-- BEGIN PAGE LEVEL SCRIPTS -->\r" +
+"\n    <script");
+
+WriteLiteral(" src=\"/assets/global/scripts/metronic.js\"");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"/assets/admin/layout/scripts/layout.js\"");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"/assets/admin/layout/scripts/quick-sidebar.js\"");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral(@"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+    <script>
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core componets
+            Layout.init(); // init layout
+            QuickSidebar.init(); // init quick sidebar
+        });
+    </script>
+");
 
             
-            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 421 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 421 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -226,16 +1273,65 @@ WriteLiteral("    </div>\r\n\r\n");
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1375), Tuple.Create("\"", 1407)
-, Tuple.Create(Tuple.Create("", 1381), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 1381), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 25372), Tuple.Create("\"", 25404)
+, Tuple.Create(Tuple.Create("", 25378), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 25378), false)
 );
+
+WriteLiteral("></script>\r\n");
+
+            
+            #line 424 "..\..\Areas\Sph\Views\Home\index.cshtml"
+        
+            
+            #line default
+            #line hidden
+            
+            #line 424 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                                                        
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <script");
+
+WriteLiteral(" src=\"/Scripts/knockout-3.2.0.js\"");
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteLiteral(" src=\"/Scripts/__vendor.js\"");
+WriteLiteral(" src=\"/Scripts/knockout.mapping-latest.js\"");
+
+WriteLiteral("></script>\r\n");
+
+WriteLiteral("        <script");
+
+WriteLiteral(" src=\"/Scripts/toastr.js\"");
+
+WriteLiteral("></script>\r\n");
+
+WriteLiteral("        <script");
+
+WriteLiteral(" src=\"/Scripts/underscore.min.js\"");
+
+WriteLiteral("></script>\r\n");
+
+WriteLiteral("        <script");
+
+WriteLiteral(" src=\"/Scripts/moment.min.js\"");
+
+WriteLiteral("></script>\r\n");
+
+WriteLiteral("        <script");
+
+WriteLiteral(" src=\"/Scripts/jstree.min.js\"");
+
+WriteLiteral("></script>\r\n");
+
+WriteLiteral("        <script");
+
+WriteLiteral(" src=\"/Scripts/complete.ly.1.0.1.min.js\"");
 
 WriteLiteral("></script>\r\n");
 
@@ -270,7 +1366,7 @@ WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 53 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 437 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -285,7 +1381,7 @@ WriteLiteral(" src=\"/Scripts/__rx.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 57 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 441 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             
@@ -305,7 +1401,8 @@ WriteLiteral(" src=\"/Scripts/require.js\"");
 
 WriteLiteral(" data-main=\"SphApp/main\"");
 
-WriteLiteral("></script>\r\n\r\n</body>\r\n</html>\r\n");
+WriteLiteral("></script>\r\n\r\n    <!-- END JAVASCRIPTS -->\r\n</body>\r\n<!-- END BODY -->\r\n</html>\r\n" +
+"");
 
         }
     }

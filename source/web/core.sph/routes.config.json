@@ -14,6 +14,20 @@
     "startPageRoute": "solution.diagnostics"
   },
   {
+    "role": "developers",
+    "groupName": "Code",
+    "route": "solution.explorer.2",
+    "moduleId": "viewmodels/solution.explorer.2",
+    "title": "Solution Explorer",
+    "nav": true,
+    "icon": "fa fa-folder-o",
+    "caption": "Solution Explorer",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "isAdminPage": false,
+    "startPageRoute": "solution.explorer"
+  },
+  {
     "role": null,
     "groupName": "Main",
     "route": "",
