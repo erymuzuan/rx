@@ -248,19 +248,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 
             },
-            okClick = function (data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
-                    dialog.close(this, "OK");
-                }
-
-            },
-            cancelClick = function () {
-                dialog.close(this, "Cancel");
-            },
-            hassanRefresh = function () {
-                console.log("clicking hassan refresh function");
-                activate();
-            },
             singleClick = function (e, data) {
                 selected(data);
             },
@@ -288,13 +275,19 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     router.navigate("trigger.setup/" + selected().node.id);
                 }
 
+                if (parent === "WorkflowDefinition") {
+                    router.navigate("workflow.definition.visual/" + selected().node.id);
+                }
+                if (parent === "TransformDefinition") {
+                    router.navigate("workflow.definition.visual/" + selected().node.id);
+                }
+
             };
 
         var vm = {
             attached: attached,
             click: click,
             singleClick: singleClick,
-            //solution: solution,
             loadAsync: loadAsync,
             isBusy: isBusy,
             transforms: transforms,
@@ -302,9 +295,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             triggers: triggers,
             items: items,
             activate: activate,
-            okClick: okClick,
-            cancelClick: cancelClick,
-            hassanRefresh: hassanRefresh,
             addEntityDefinition: addEntityDefinition,
             addForm: addForm,
             addOperation: addOperation,

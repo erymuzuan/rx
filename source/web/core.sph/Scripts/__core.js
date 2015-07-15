@@ -482,8 +482,17 @@ ko.bindingHandlers.solutiontree = {
                 data: { TypeName: "TransformDefinition" }
             });
         });
+        _.each(wds, function (pmd) {
+            eds.push({
+                id: ko.unwrap(pmd.Id),
+                text: ko.unwrap(pmd.Name),
+                parent: "WorkflowDefinition",
+                icon: "fa fa-code-form",
+                data: { TypeName: "WorkflowDefinition" }
+            });
+        });
 
-        $("#jstree_demo_div").jstree({
+        $(element).jstree({
             'core': {
                 'data': treeRoots.concat(eds)
             },
@@ -570,8 +579,8 @@ ko.bindingHandlers.solutiontree = {
             }
         });
 
-        $("#jstree_demo_div").on("select_node.jstree", singleClick);
-        $("#jstree_demo_div").delegate("a", "dblclick", click);
+        $(element).on("select_node.jstree", singleClick);
+        $(element).delegate("a", "dblclick", click);
     }
 };
 

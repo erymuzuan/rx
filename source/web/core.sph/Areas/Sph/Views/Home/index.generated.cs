@@ -100,14 +100,6 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/assets/global/plugins/font-awesome/css/font-awesome.min.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
 WriteLiteral(" href=\"/assets/global/plugins/simple-line-icons/simple-line-icons.min.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -130,20 +122,10 @@ WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" type=\"text/css\"");
 
-WriteLiteral(" />\r\n    <!-- END GLOBAL MANDATORY STYLES -->\r\n    <!-- BEGIN PAGE STYLES -->\r\n  " +
-"  <link");
+WriteLiteral(" />\r\n    <!-- END GLOBAL MANDATORY STYLES -->\r\n\r\n\r\n    <!-- BEGIN THEME STYLES --" +
+">\r\n    <link");
 
-WriteLiteral(" href=\"/assets/admin/pages/css/tasks.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <!-- END PAGE STYLES -->\r\n    <!-- BEGIN THEME STYLES -->\r\n    <link");
-
-WriteLiteral(" href=\"/Content/theme.matyie.css\"");
-
-WriteLiteral(" id=\"style_components\"");
+WriteLiteral(" href=\"/Content/__css.bundle.dev.min.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -1021,7 +1003,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                ");
 
             
-            #line 324 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 322 "..\..\Areas\Sph\Views\Home\index.cshtml"
                            Write(User.Identity.Name);
 
             
@@ -1149,13 +1131,13 @@ WriteLiteral(" class=\"page-container\"");
 WriteLiteral(">\r\n");
 
             
-            #line 387 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 385 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 387 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 385 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (!string.IsNullOrWhiteSpace(splashHtml))
     {
         
@@ -1163,14 +1145,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 389 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 387 "..\..\Areas\Sph\Views\Home\index.cshtml"
    Write(Html.Raw(splashHtml));
 
             
             #line default
             #line hidden
             
-            #line 389 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 387 "..\..\Areas\Sph\Views\Home\index.cshtml"
                              
     }
     else
@@ -1180,14 +1162,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 393 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 391 "..\..\Areas\Sph\Views\Home\index.cshtml"
    Write(Html.Partial("_splash"));
 
             
             #line default
             #line hidden
             
-            #line 393 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 391 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                 
     }
 
@@ -1197,7 +1179,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n</div>\r\n    <!-- END CONTAINER -->\r\n    <!-- BEGIN FOOTER -->\r\n    <!-- END FOO" +
 "TER -->\r\n\r\n\r\n    <script");
 
-WriteLiteral(" src=\"/assets/global/plugins/jquery.min.js\"");
+WriteLiteral(" src=\"/scripts/__vendor.dev.min.js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -1258,13 +1240,13 @@ WriteLiteral(@"></script>
 ");
 
             
-            #line 421 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 419 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 421 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 419 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -1273,65 +1255,10 @@ WriteLiteral(@"></script>
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 25376), Tuple.Create("\"", 25408)
-, Tuple.Create(Tuple.Create("", 25382), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 25382), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 25093), Tuple.Create("\"", 25125)
+, Tuple.Create(Tuple.Create("", 25099), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 25099), false)
 );
-
-WriteLiteral("></script>\r\n");
-
-            
-            #line 424 "..\..\Areas\Sph\Views\Home\index.cshtml"
-        
-            
-            #line default
-            #line hidden
-            
-            #line 424 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                                                        
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/knockout-3.2.0.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/knockout.mapping-latest.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/toastr.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/underscore.min.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/moment.min.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/jstree.min.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/complete.ly.1.0.1.min.js\"");
 
 WriteLiteral("></script>\r\n");
 
@@ -1366,7 +1293,7 @@ WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 437 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 427 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -1381,7 +1308,7 @@ WriteLiteral(" src=\"/Scripts/__rx.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 441 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 431 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             

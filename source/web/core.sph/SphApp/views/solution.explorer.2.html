@@ -1,20 +1,19 @@
-﻿<link href="/Content/jstree/style.min.css" rel="stylesheet"/>
+﻿
+<link href="/Content/jstree/style.min.css" rel="stylesheet" />
+<div>
+    <form class="sidebar-search ">
+        <a href="javascript:;" class="remove">
+            <i class="icon-close"></i>
+        </a>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search...">
+            <span class="input-group-btn">
+                <a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+            </span>
+        </div>
+    </form>
 
-<section class="view-model-modal" id="solution-explorer-dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
-                <h3>Solution Explorer
-                    <button class="btn btn-link" data-bind="command : loadAsync, tooltip:'Click to reload the solution items from the server'">
-                        <i class="fa fa-refresh"></i>
-                    </button></h3>
-            </div>
-            <div class="modal-body">
-                <div id="solution-explorer-docking">
-                    <p><strong>Double click</strong> to open.</p>
-                    <br/>
-                    <div id="jstree_demo_div" data-bind="solutiontree:{
+    <div id="soltuion-explorer-panel" data-bind="solutiontree:{
                         items: items,
                         triggers:triggers,
                         wds:triggers,
@@ -32,9 +31,4 @@
                         addAdapter: addAdapter,
                         addBusinessRules: addBusinessRules
                     }"></div>
-                </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</section>
+</div>
