@@ -65,7 +65,7 @@ WriteLiteral(">\r\n<!-- BEGIN HEAD -->\r\n<head>\r\n    <meta");
 
 WriteLiteral(" charset=\"utf-8\"");
 
-WriteLiteral(" />\r\n    <title>Metronic | Dashboard</title>\r\n    <meta");
+WriteLiteral(" />\r\n    <title>Rx Developer | Dashboard</title>\r\n    <meta");
 
 WriteLiteral(" http-equiv=\"X-UA-Compatible\"");
 
@@ -1273,9 +1273,9 @@ WriteLiteral(@"></script>
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 25372), Tuple.Create("\"", 25404)
-, Tuple.Create(Tuple.Create("", 25378), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 25378), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 25376), Tuple.Create("\"", 25408)
+, Tuple.Create(Tuple.Create("", 25382), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 25382), false)
 );
 
 WriteLiteral("></script>\r\n");

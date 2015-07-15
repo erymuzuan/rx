@@ -19,8 +19,8 @@ form * {
 }
 
 input, textarea{
-	background-image: none !important;
-	border: 1px solid #ccc !important;
+	background-image: none;
+	border: 1px solid #ccc;
 	font-family: "Open Sans", Arial, Helvetica, sans-serif !important;
 }
 
@@ -34,7 +34,7 @@ input[type="radio"], input[type="checkbox"] {
 
 .btn{
 	background-image: none !important;
-	font-family: "Open Sans", Arial, Helvetica, sans-serif;
+	font-family:  "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
 }
 
 .btn.btn-mini{
