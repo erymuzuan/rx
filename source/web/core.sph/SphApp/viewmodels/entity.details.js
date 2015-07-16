@@ -15,6 +15,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
     function (context, logger, router, system, app) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+            originalEntity = "",
             isBusy = ko.observable(false),
             errors = ko.observableArray(),
             triggers = ko.observableArray(),
@@ -35,6 +36,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     return context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
                             entity(b);
+                            originalEntity = ko.toJSON(b);
                             window.typeaheadEntity = b.Name();
                         });
 
@@ -88,6 +90,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
+                            originalEntity = ko.toJSON(entity);
                             logger.info(result.message);
                             if (!entity().Id()) {
                                 //reload forms and views 
@@ -109,6 +112,29 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         }
                     });
             },
+            canDeactivate = function () {
+                var tcs = new $.Deferred();
+                if (originalEntity !== ko.toJSON(entity)) {
+                    app.showMessage("Save change to the item", "Rx Developer", ["Yes", "No", "Cancel"])
+                        .done(function (dialogResult) {
+                            if (dialogResult === "Yes") {
+                                save().done(function () {
+                                    tcs.resolve(true);
+                                });
+                            }
+                            if (dialogResult === "No") {
+                                tcs.resolve(true);
+                            }
+                            if (dialogResult === "Cancel") {
+                                tcs.resolve(false);
+                            }
+
+                        });
+                } else {
+                    return true;
+                }
+                return tcs.promise();
+            },
             publishAsync = function () {
 
                 var data = ko.mapping.toJSON(entity);
@@ -116,6 +142,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 return context.post(data, "/entity-definition/publish")
                     .then(function (result) {
+
+                        originalEntity = ko.toJSON(entity);
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
@@ -213,6 +241,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             errors: errors,
             isBusy: isBusy,
             activate: activate,
+            canDeactivate: canDeactivate,
             attached: attached,
             entity: entity,
             member: member,
