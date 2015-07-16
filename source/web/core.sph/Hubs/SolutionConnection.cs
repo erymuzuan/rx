@@ -14,13 +14,19 @@ namespace Bespoke.Sph.Web.Hubs
     {
         public class SolutionItem
         {
-            
+
             public string id { get; set; }
             public string changedType { get; set; }
             public SolutionItem item { get; set; }
             public string text { get; set; }
             public string icon { get; set; }
             public string type { get; set; }
+            public string url { get; set; }
+            public string dialog { get; set; }
+            public string createDialog { get; set; }
+            public string createdUrl { get; set; }
+            public string codeEditor { get; set; }
+
             public ObjectCollection<SolutionItem> itemCollection { get; } = new ObjectCollection<SolutionItem>();
         }
         public class Solution
@@ -63,7 +69,7 @@ namespace Bespoke.Sph.Web.Hubs
 
         }
 
-        private  SolutionItem GetSolution()
+        private SolutionItem GetSolution()
         {
             var solution = new SolutionItem();
 
@@ -74,12 +80,13 @@ namespace Bespoke.Sph.Web.Hubs
                 {
                     id = ed.Id,
                     text = ed.Name,
-                    icon = "fa fa-database"
+                    icon = "fa fa-database",
+                    url = "entity.details/" + ed.Id
                 };
-                var ops = ed.EntityOperationCollection.Select(x => new SolutionItem { id = x.Name, text = x.Name, icon="fa fa-keyboard-o"});
+                var ops = ed.EntityOperationCollection.Select(x => new SolutionItem { id = x.Name, text = x.Name, icon = "fa fa-keyboard-o", url = $"entity.operation.details/{ed.Id}/{x.Name}" });
                 entity.itemCollection.AddRange(ops);
 
-                var rules = ed.BusinessRuleCollection.Select(x => new SolutionItem { id = x.Name, text = x.Name, icon="fa fa-graduation-cap"});
+                var rules = ed.BusinessRuleCollection.Select(x => new SolutionItem { id = x.Name, text = x.Name, icon = "fa fa-graduation-cap" });
                 entity.itemCollection.AddRange(rules);
                 solution.itemCollection.Add(entity);
 
@@ -94,6 +101,7 @@ namespace Bespoke.Sph.Web.Hubs
                     id = Path.GetFileNameWithoutExtension(f),
                     text = Path.GetFileNameWithoutExtension(f),
                     icon = "fa fa-pencil-square-o",
+                    url = $"entity.form.designer/{parent.id}/{form.Id}"
                 });
             }
             foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityView", "*.json"))
@@ -106,6 +114,7 @@ namespace Bespoke.Sph.Web.Hubs
                     id = Path.GetFileNameWithoutExtension(f),
                     text = Path.GetFileNameWithoutExtension(f),
                     icon = "fa fa-list-ul",
+                    url = $"entity.view.designer/{parent.id}/{view.Id}"
                 });
             }
             foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\Trigger", "*.json"))
@@ -118,6 +127,7 @@ namespace Bespoke.Sph.Web.Hubs
                     id = Path.GetFileNameWithoutExtension(f),
                     text = Path.GetFileNameWithoutExtension(f),
                     icon = "fa fa-bolt",
+                    url = $"trigger.setup/{trigger.Id}"
                 });
             }
 
@@ -153,7 +163,34 @@ namespace Bespoke.Sph.Web.Hubs
                 }
             }
 
-            
+            var customRoutes = new SolutionItem { id = "custom.forms", text = "Custom Forms", icon = "fa fa-file-o" };
+
+            solution.itemCollection.AddRange(customRoutes);
+
+            var scripts = new SolutionItem { id = "custom.scrpts", text = "Custom Scripts", icon = "fa fa-file-o" };
+            solution.itemCollection.AddRange(scripts);
+
+            var dialogs = new SolutionItem
+            {
+                id = "custom.dialogs",
+                text = "Custom Dialogs",
+                icon = "fa fa-file-o",
+                createDialog = "custom.form.dialog.dialog"
+
+            };
+            solution.itemCollection.AddRange(dialogs);
+
+            var partialViews = new SolutionItem
+            {
+                id = "partial.views",
+                text = "Partial Views",
+                icon = "fa fa-file-o",
+                createDialog = "custom.form.dialog.dialog",
+                createdUrl = ""
+            };
+            solution.itemCollection.AddRange(partialViews);
+
+
             return solution;
         }
 

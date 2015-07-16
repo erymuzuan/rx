@@ -43,10 +43,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         });
       },
-      addOperation = function(name) {
-      },
-      addView = function(ed) {
-      },
+      addOperation = function(name) {},
+      addView = function(ed) {},
       addWorkflowDefinition = function(name) {
         return router.navigate("/workflow.definition.visual/0");
       },
@@ -154,32 +152,48 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         return true;
       },
       createTree = function(solution) {
-        if(!solution.itemCollection){
+        if (!solution.itemCollection) {
           return;
         }
         var items = [];
-        _(solution.itemCollection).each(function(v){
-            v.data = {
-              id : v.id,
-              text : v.text,
-              parent : "#"
-            };
-            v.parent = "#";
+        _(solution.itemCollection).each(function(v) {
+          v.data = {
+            id: v.id,
+            text: v.text,
+            parent: "#",
+            url: v.url,
+            createDialog: v.createDialog,
+            createdUrl: v.createdUrl,
+            dialog: v.dialog
 
-            items.push(v);
-            _(v.itemCollection).each(function(k){
-              k.parent = v.id;
-              k.data = {};
-              items.push(k);
-            });
+          };
+          v.parent = "#";
+
+          items.push(v);
+          _(v.itemCollection).each(function(k) {
+            k.parent = v.id;
+            k.data = {
+              id: k.id,
+              text: k.text,
+              url: k.url,
+              createDialog: k.createDialog,
+              createdUrl: k.createdUrl,
+              dialog: k.dialog
+            };
+            items.push(k);
+          });
 
 
         });
 
+//$.jstree.defaults.search.show_only_matches
         var element = document.getElementById("solution-explorer-panel");
         $(element).jstree({
           'core': {
             'data': items
+          },
+          "search" :{
+            "show_only_matches" : true
           },
           "plugins": ["contextmenu", "search"],
           "contextmenu": {
@@ -274,6 +288,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
       attached = function() {
 
 
+        var to = false;
+        $('#search-solution-tree').keyup(function() {
+          if (to) {
+            clearTimeout(to);
+          }
+          to = setTimeout(function() {
+            var v = $("#search-solution-tree").val();
+              $('#solution-explorer-panel').jstree(true).search(v);
+          }, 250);
+        });
         var connection = $.connection("/signalr_solution");
 
         connection.received(function(data) {
@@ -302,27 +326,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         var parent = e.currentTarget.parentNode.parentNode.parentNode.id;
         var current = e.currentTarget.parentNode.id;
 
-        if (parent === "EntityDefinition") {
-          router.navigate("entity.details/" + current);
-        } else if (selected().node.data.TypeName === "EntityForm") {
-          router.navigate("entity.form.designer/" + selected().node.parent + "/" + selected().node.id);
-        } else if (selected().node.data.TypeName === "EntityOperation") {
-          router.navigate("entity.operation.details/" + selected().node.parent + "/" + selected().node.data.Name);
-        } else if (selected().node.data.TypeName === "EntityView") {
-          router.navigate("entity.view.designer/" + selected().node.parent + "/" + selected().node.id);
-        } else if (selected().node.data.TypeName === "BusinessRule") {
-          router.navigate("entity.details/" + selected().node.parent);
-        } else if (selected().node.data.TypeName === "TransformDefinition") {
-          router.navigate("transform.definition.edit/" + current);
-        } else if (selected().node.data.TypeName === "Trigger") {
-          router.navigate("trigger.setup/" + selected().node.id);
-        }
-
-        if (parent === "WorkflowDefinition") {
-          router.navigate("workflow.definition.visual/" + selected().node.id);
-        }
-        if (parent === "TransformDefinition") {
-          router.navigate("workflow.definition.visual/" + selected().node.id);
+        var data = selected().node.data;
+        if (data.url) {
+          router.navigate(data.url);
         }
 
       };
