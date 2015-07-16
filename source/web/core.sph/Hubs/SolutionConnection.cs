@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
-using Bespoke.Sph.Web.Controllers;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -15,7 +14,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Web.Hubs
 {
-    public class SolutionConnection : PersistentConnection//, IDisposable
+    public class SolutionConnection : PersistentConnection, IDisposable
     {
         public class SolutionItem
         {
@@ -144,7 +143,7 @@ namespace Bespoke.Sph.Web.Hubs
                     .Select(a => a.SelectToken("name").Value<string>())
                         .Select(x => new SolutionItem
                         {
-                            icon = "fa fa-code",
+                            icon = "fa fa-file-text-o",
                             text = x.ToString(),
                             id = x.ToString(),
                             codeEditor = $"/sphapp/services/{x}.js"
@@ -154,7 +153,7 @@ namespace Bespoke.Sph.Web.Hubs
             }
             solution.itemCollection.AddRange(scriptNode);
 
-            var dialogs = new SolutionItem
+            var dialogNode = new SolutionItem
             {
                 id = "custom.dialogs",
                 text = "Custom Dialogs",
@@ -162,7 +161,22 @@ namespace Bespoke.Sph.Web.Hubs
                 createDialog = "custom.form.dialog.dialog"
 
             };
-            solution.itemCollection.AddRange(dialogs);
+            var dialogConfig = $"{ConfigurationManager.WebPath}\\App_Data\\custom-dialog.json";
+            if (File.Exists(dialogConfig))
+            {
+                var scripts = JArray.Parse(File.ReadAllText(scriptConfig))
+                    .Select(a => a.SelectToken("name").Value<string>())
+                        .Select(x => new SolutionItem
+                        {
+                            icon = "fa fa-file-text-o",
+                            text = x.ToString(),
+                            id = x.ToString(),
+                            codeEditor = $"/sphapp/viewmodels/{x}.js"
+                        });
+                dialogNode.itemCollection.AddRange(scripts);
+
+            }
+            solution.itemCollection.AddRange(dialogNode);
 
             var partialViews = new SolutionItem
             {
