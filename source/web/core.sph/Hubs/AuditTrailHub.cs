@@ -9,11 +9,7 @@ namespace Bespoke.Sph.Web.Hubs
         private IEntityChangedListener<AuditTrail> m_listener;
         public override Task OnConnected()
         {
-          
-            if (null != m_listener)
-            {
-                m_listener.Stop();
-            }
+            m_listener?.Stop();
             m_listener = ObjectBuilder.GetObject<IEntityChangedListener<AuditTrail>>();
             m_listener.Changed += ListenerChanged;
             m_listener.Run();

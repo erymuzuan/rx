@@ -120,10 +120,14 @@
   "RecordName": "Name",
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
-  "CreatedBy": null,
+  "TreatDataAsSource": false,
+  "DashboardTemplate": null,
+  "StoreInDatabase": null,
+  "StoreInElasticsearch": null,
+  "CreatedBy": "admin",
   "Id": "district",
-  "CreatedDate": "0001-01-01T00:00:00",
-  "ChangedBy": "erymuzuan",
-  "ChangedDate": "2015-06-23T08:08:14.0160854+08:00",
+  "CreatedDate": "2015-07-16T08:11:23.5545416+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-07-16T08:11:23.6055777+08:00",
   "WebId": "a9b46951-3540-45fd-af99-69e1128dc718"
 }

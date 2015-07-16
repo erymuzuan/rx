@@ -864,6 +864,7 @@
     <Compile Include="Helpers\RawRequestBodyModelBinder.cs" />
     <Compile Include="Helpers\RequestBodyModelBinder.cs" />
     <Compile Include="Hubs\AuditTrailHub.cs" />
+    <Compile Include="Hubs\SolutionConnection.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
     <Compile Include="Models\CustomPartialView.cs" />

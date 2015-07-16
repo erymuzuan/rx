@@ -16,6 +16,7 @@ namespace Bespoke.Sph.Web.App_Start
             Console.WriteLine("[Starting signalR Hubs]");
             app.MapSignalR();
             app.MapSignalR<MessageConnection>("/signalr_message");
+            app.MapSignalR<SolutionConnection>("/signalr_solution");
         }
 
 
@@ -25,7 +26,7 @@ namespace Bespoke.Sph.Web.App_Start
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
             var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + name);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, id, name);
+            var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{id}.Domain.{name}";
             var edType = edAssembly.GetType(edTypeName);
             if (null == edType)
                 Console.WriteLine("Cannot create type " + edTypeName);

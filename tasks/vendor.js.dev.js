@@ -23,7 +23,8 @@ var sources = [
 "./source/web/core.sph/Scripts/toastr.js",
 "./source/web/core.sph/Scripts/nprogress.js",
 "./source/web/core.sph/Scripts/jstree.min.js",
-"./source/web/core.sph/Scripts/jquery.floatThead.min.js"
+"./source/web/core.sph/Scripts/jquery.floatThead.min.js",
+"./source/web/core.sph/Scripts/jquery.signalR-2.1.2.min.js"
 
 
 ];
