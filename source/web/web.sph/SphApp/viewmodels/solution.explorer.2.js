@@ -178,7 +178,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
               url: k.url,
               createDialog: k.createDialog,
               createdUrl: k.createdUrl,
-              dialog: k.dialog
+              dialog: k.dialog,
+              codeEditor : k.codeEditor
             };
             items.push(k);
           });
@@ -329,6 +330,18 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         var data = selected().node.data;
         if (data.url) {
           router.navigate(data.url);
+        }
+
+        if(data.codeEditor){
+            var params = [
+                    "height=" + screen.height,
+                    "width=" + screen.width,
+                    "toolbar=0",
+                    "location=0",
+                    "fullscreen=yes"
+            ].join(","),
+            editor = window.open("/sph/editor/file?id=" + data.codeEditor, "_blank", params);
+            editor.moveTo(0, 0);
         }
 
       };

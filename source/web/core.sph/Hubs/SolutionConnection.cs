@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Web.Controllers;
 using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 // ReSharper disable InconsistentNaming
 
 namespace Bespoke.Sph.Web.Hubs
@@ -73,63 +78,12 @@ namespace Bespoke.Sph.Web.Hubs
         {
             var solution = new SolutionItem();
 
-            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition", "*.json"))
-            {
-                var ed = f.DeserializeFromJsonFile<EntityDefinition>();
-                var entity = new SolutionItem
-                {
-                    id = ed.Id,
-                    text = ed.Name,
-                    icon = "fa fa-database",
-                    url = "entity.details/" + ed.Id
-                };
-                var ops = ed.EntityOperationCollection.Select(x => new SolutionItem { id = x.Name, text = x.Name, icon = "fa fa-keyboard-o", url = $"entity.operation.details/{ed.Id}/{x.Name}" });
-                entity.itemCollection.AddRange(ops);
+            var entities = GetEntityDefinition();
+            solution.itemCollection.AddRange(entities.ToArray());
 
-                var rules = ed.BusinessRuleCollection.Select(x => new SolutionItem { id = x.Name, text = x.Name, icon = "fa fa-graduation-cap" });
-                entity.itemCollection.AddRange(rules);
-                solution.itemCollection.Add(entity);
-
-            }
-            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityForm", "*.json"))
-            {
-                var form = f.DeserializeFromJsonFile<EntityForm>();
-                var parent = solution.itemCollection.SingleOrDefault(x => x.id.Equals(form.EntityDefinitionId, StringComparison.InvariantCultureIgnoreCase));
-
-                parent?.itemCollection.Add(new SolutionItem
-                {
-                    id = Path.GetFileNameWithoutExtension(f),
-                    text = Path.GetFileNameWithoutExtension(f),
-                    icon = "fa fa-pencil-square-o",
-                    url = $"entity.form.designer/{parent.id}/{form.Id}"
-                });
-            }
-            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityView", "*.json"))
-            {
-                var view = f.DeserializeFromJsonFile<EntityView>();
-                var parent = solution.itemCollection.SingleOrDefault(x => x.id.Equals(view.EntityDefinitionId, StringComparison.InvariantCultureIgnoreCase));
-
-                parent?.itemCollection.Add(new SolutionItem
-                {
-                    id = Path.GetFileNameWithoutExtension(f),
-                    text = Path.GetFileNameWithoutExtension(f),
-                    icon = "fa fa-list-ul",
-                    url = $"entity.view.designer/{parent.id}/{view.Id}"
-                });
-            }
-            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\Trigger", "*.json"))
-            {
-                var trigger = f.DeserializeFromJsonFile<Trigger>();
-                var parent = solution.itemCollection.SingleOrDefault(x => x.id.Equals(trigger.Entity, StringComparison.InvariantCultureIgnoreCase));
-
-                parent?.itemCollection.Add(new SolutionItem
-                {
-                    id = Path.GetFileNameWithoutExtension(f),
-                    text = Path.GetFileNameWithoutExtension(f),
-                    icon = "fa fa-bolt",
-                    url = $"trigger.setup/{trigger.Id}"
-                });
-            }
+            ExtractEntityForms(solution);
+            ExtractEntityView(solution);
+            ExtractTrigger(solution);
 
 
             foreach (var folder in Directory.GetDirectories(ConfigurationManager.SphSourceDirectory))
@@ -165,11 +119,40 @@ namespace Bespoke.Sph.Web.Hubs
             }
 
             var customRoutes = new SolutionItem { id = "custom.forms", text = "Custom Forms", icon = "fa fa-file-o" };
+            var crFile = $"{ConfigurationManager.WebPath}\\App_Data\\routes.config.json";
+            if (File.Exists(crFile))
+            {
+                var routes = from r in
+                    JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(crFile))
+                             select new SolutionItem
+                             {
+                                 id = r.ModuleId,
+                                 text = r.Title,
+                                 icon = "fa fa-code",
+                                 codeEditor = $"/sphapp/{r.ModuleId}.js"
+                             };
+                customRoutes.itemCollection.AddRange(routes);
 
+            }
             solution.itemCollection.AddRange(customRoutes);
 
-            var scripts = new SolutionItem { id = "custom.scrpts", text = "Custom Scripts", icon = "fa fa-file-o" };
-            solution.itemCollection.AddRange(scripts);
+            var scriptNode = new SolutionItem { id = "custom.scrpts", text = "Custom Scripts", icon = "fa fa-file-o" };
+            var scriptConfig = $"{ConfigurationManager.WebPath}\\App_Data\\custom-script.json";
+            if (File.Exists(scriptConfig))
+            {
+                var scripts = JArray.Parse(File.ReadAllText(scriptConfig))
+                    .Select(a => a.SelectToken("name").Value<string>())
+                        .Select(x => new SolutionItem
+                        {
+                            icon = "fa fa-code",
+                            text = x.ToString(),
+                            id = x.ToString(),
+                            codeEditor = $"/sphapp/services/{x}.js"
+                        });
+                scriptNode.itemCollection.AddRange(scripts);
+
+            }
+            solution.itemCollection.AddRange(scriptNode);
 
             var dialogs = new SolutionItem
             {
@@ -193,6 +176,98 @@ namespace Bespoke.Sph.Web.Hubs
 
 
             return solution;
+        }
+
+        private static void ExtractTrigger(SolutionItem solution)
+        {
+            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\Trigger", "*.json"))
+            {
+                var trigger = f.DeserializeFromJsonFile<Trigger>();
+                var parent =
+                    solution.itemCollection.SingleOrDefault(
+                        x => x.id.Equals(trigger.Entity, StringComparison.InvariantCultureIgnoreCase));
+
+                parent?.itemCollection.Add(new SolutionItem
+                {
+                    id = Path.GetFileNameWithoutExtension(f),
+                    text = Path.GetFileNameWithoutExtension(f),
+                    icon = "fa fa-bolt",
+                    url = $"trigger.setup/{trigger.Id}"
+                });
+            }
+        }
+
+        private static void ExtractEntityView(SolutionItem solution)
+        {
+            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityView", "*.json"))
+            {
+                var view = f.DeserializeFromJsonFile<EntityView>();
+                var parent =
+                    solution.itemCollection.SingleOrDefault(
+                        x => x.id.Equals(view.EntityDefinitionId, StringComparison.InvariantCultureIgnoreCase));
+
+                parent?.itemCollection.Add(new SolutionItem
+                {
+                    id = Path.GetFileNameWithoutExtension(f),
+                    text = Path.GetFileNameWithoutExtension(f),
+                    icon = "fa fa-list-ul",
+                    url = $"entity.view.designer/{parent.id}/{view.Id}"
+                });
+            }
+        }
+
+        private static void ExtractEntityForms(SolutionItem solution)
+        {
+            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityForm", "*.json"))
+            {
+                var form = f.DeserializeFromJsonFile<EntityForm>();
+                var parent =
+                    solution.itemCollection.SingleOrDefault(
+                        x => x.id.Equals(form.EntityDefinitionId, StringComparison.InvariantCultureIgnoreCase));
+
+                parent?.itemCollection.Add(new SolutionItem
+                {
+                    id = Path.GetFileNameWithoutExtension(f),
+                    text = Path.GetFileNameWithoutExtension(f),
+                    icon = "fa fa-pencil-square-o",
+                    url = $"entity.form.designer/{parent.id}/{form.Id}"
+                });
+            }
+        }
+
+        private IList<SolutionItem> GetEntityDefinition()
+        {
+            var list = new List<SolutionItem>();
+            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition", "*.json"))
+            {
+                var ed = f.DeserializeFromJsonFile<EntityDefinition>();
+                var entity = new SolutionItem
+                {
+                    id = ed.Id,
+                    text = ed.Name,
+                    icon = "fa fa-database",
+                    url = "entity.details/" + ed.Id
+                };
+                var ops =
+                    ed.EntityOperationCollection.Select(
+                        x =>
+                            new SolutionItem
+                            {
+                                id = x.Name,
+                                text = x.Name,
+                                icon = "fa fa-keyboard-o",
+                                url = $"entity.operation.details/{ed.Id}/{x.Name}"
+                            });
+                entity.itemCollection.AddRange(ops);
+
+                var rules =
+                    ed.BusinessRuleCollection.Select(
+                        x => new SolutionItem { id = x.Name, text = x.Name, icon = "fa fa-graduation-cap" });
+                entity.itemCollection.AddRange(rules);
+                list.Add(entity);
+            }
+
+            return list;
         }
 
         private string GetEditUrl(string folder, string file)

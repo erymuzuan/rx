@@ -320,7 +320,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    var expand = function () {
 		        var dev = $("#developers-log-panel").height(),
                     top = $(window).height(),
-                    height = top - dev - 70;
+                    height = top - dev - 90; //TODO: WHERE's the magic no coming from
 		                $("#content").css({
 		                    "margin-left": 0,
 		                    "height": "100%",
