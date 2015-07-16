@@ -158,6 +158,7 @@ namespace Bespoke.Sph.Web.Hubs
                     {
                         id = Path.GetFileNameWithoutExtension(f),
                         text = Path.GetFileNameWithoutExtension(f),
+                        url = GetEditUrl(Path.GetFileName(folder), f),
                         icon = GetIcon(Path.GetFileName(folder))
                     });
                 }
@@ -194,6 +195,41 @@ namespace Bespoke.Sph.Web.Hubs
             return solution;
         }
 
+        private string GetEditUrl(string folder, string file)
+        {
+            if (folder == nameof(DocumentTemplate))
+            {
+                var template = file.DeserializeFromJsonFile<DocumentTemplate>();
+                return $"document.template.details/{template.Id}";
+            }
+            if (folder == nameof(EmailTemplate))
+            {
+                var template = file.DeserializeFromJsonFile<EmailTemplate>();
+                return $"email.template.details/{template.Id}";
+            }
+            if (folder == nameof(ReportDefinition))
+            {
+                var rdl = file.DeserializeFromJsonFile<ReportDefinition>();
+                return $"reportdefinition.edit/{rdl.Id}";
+            }
+            if (folder == nameof(WorkflowDefinition))
+            {
+                var d = file.DeserializeFromJsonFile<WorkflowDefinition>();
+                return $"workflow.definition.visual/{d.Id}";
+            }
+            if (folder == nameof(Designation))
+            {
+                var d = file.DeserializeFromJsonFile<Designation>();
+                return $"role.settings/{d.Id}";
+            }
+            if (folder == nameof(TransformDefinition))
+            {
+                var map = file.DeserializeFromJsonFile<Designation>();
+                return $"transform.definition.edit/{map.Id}";
+            }
+            return string.Empty;
+        }
+
 
         protected override Task OnConnected(IRequest request, string connectionId)
         {
@@ -223,7 +259,7 @@ namespace Bespoke.Sph.Web.Hubs
                 case nameof(Adapter): return "fa fa-puzzle-piece";
                 case nameof(Designation): return "fa fa-users";
                 case nameof(EmailTemplate): return "fa fa-envelope-o";
-                case nameof(DocumentTemplate): return "fa fa-word-o";
+                case nameof(DocumentTemplate): return "fa fa-file-word-o";
                 case nameof(ReportDefinition): return "fa fa-bar-chart-o";
                 case "CustomForm": return "fa fa-file-o";
                 case "PartialView": return "fa fa-file-o";

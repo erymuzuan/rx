@@ -159,7 +159,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" id=\"style_color\"");
 
-WriteLiteral(" />\r\n    <!-- END THEME STYLES -->\r\n    <link");
+WriteLiteral("/>\r\n    <!-- END THEME STYLES -->\r\n    <link");
 
 WriteLiteral(" rel=\"shortcut icon\"");
 
@@ -170,955 +170,18 @@ WriteLiteral(" />\r\n</head>\r\n<!-- END HEAD -->\r\n<!-- BEGIN BODY -->\r\n<bod
 WriteLiteral(" class=\"page-md page-header-fixed page-quick-sidebar-over-content page-sidebar-cl" +
 "osed-hide-logo \"");
 
-WriteLiteral(">\r\n    <!-- BEGIN HEADER -->\r\n    <div");
-
-WriteLiteral(" class=\"page-header md-shadow-z-1-i navbar navbar-fixed-top\"");
-
-WriteLiteral(">\r\n        <!-- BEGIN HEADER INNER -->\r\n        <div");
-
-WriteLiteral(" class=\"page-header-inner\"");
-
-WriteLiteral(">\r\n            <!-- BEGIN LOGO -->\r\n            <div");
-
-WriteLiteral(" class=\"page-logo\"");
-
-WriteLiteral(">\r\n                <a");
-
-WriteLiteral(" href=\"index.html\"");
-
-WriteLiteral(">\r\n                    <img");
-
-WriteLiteral(" src=\"/assets/admin/layout/img/logo.png\"");
-
-WriteLiteral(" alt=\"logo\"");
-
-WriteLiteral(" class=\"logo-default\"");
-
-WriteLiteral(" />\r\n                </a>\r\n                <div");
-
-WriteLiteral(" class=\"menu-toggler sidebar-toggler hide\"");
-
-WriteLiteral(">\r\n                </div>\r\n            </div>\r\n            <!-- END LOGO -->\r\n   " +
-"         <!-- BEGIN RESPONSIVE MENU TOGGLER -->\r\n            <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(" class=\"menu-toggler responsive-toggler\"");
-
-WriteLiteral(" data-toggle=\"collapse\"");
-
-WriteLiteral(" data-target=\".navbar-collapse\"");
-
-WriteLiteral(">\r\n            </a>\r\n            <!-- END RESPONSIVE MENU TOGGLER -->\r\n          " +
-"  <!-- BEGIN TOP NAVIGATION MENU -->\r\n            <div");
-
-WriteLiteral(" class=\"top-menu\"");
-
-WriteLiteral(">\r\n                <ul");
-
-WriteLiteral(" class=\"nav navbar-nav pull-right\"");
-
-WriteLiteral(">\r\n                    <!-- BEGIN NOTIFICATION DROPDOWN -->\r\n                    " +
-"<!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change " +
-"the dropdown styte -->\r\n                    <li");
-
-WriteLiteral(" class=\"dropdown dropdown-extended dropdown-notification\"");
-
-WriteLiteral(" id=\"header_notification_bar\"");
-
-WriteLiteral(">\r\n                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(" class=\"dropdown-toggle\"");
-
-WriteLiteral(" data-toggle=\"dropdown\"");
-
-WriteLiteral(" data-hover=\"dropdown\"");
-
-WriteLiteral(" data-close-others=\"true\"");
-
-WriteLiteral(">\r\n                            <i");
-
-WriteLiteral(" class=\"icon-bell\"");
-
-WriteLiteral("></i>\r\n                            <span");
-
-WriteLiteral(" class=\"badge badge-default\"");
-
-WriteLiteral(">\r\n                                7\r\n                            </span>\r\n      " +
-"                  </a>\r\n                        <ul");
-
-WriteLiteral(" class=\"dropdown-menu\"");
-
-WriteLiteral(">\r\n                            <li");
-
-WriteLiteral(" class=\"external\"");
-
-WriteLiteral(">\r\n                                <h3><span");
-
-WriteLiteral(" class=\"bold\"");
-
-WriteLiteral(">12 pending</span> notifications</h3>\r\n                                <a");
-
-WriteLiteral(" href=\"extra_profile.html\"");
-
-WriteLiteral(">view all</a>\r\n                            </li>\r\n                            <li" +
-">\r\n                                <ul");
-
-WriteLiteral(" class=\"dropdown-menu-list scroller\"");
-
-WriteLiteral(" style=\"height: 250px;\"");
-
-WriteLiteral(" data-handle-color=\"#637283\"");
-
-WriteLiteral(">\r\n                                    <li>\r\n                                    " +
-"    <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">just now</span>\r\n                                            <span");
-
-WriteLiteral(" class=\"details\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"label label-sm label-icon label-success\"");
-
-WriteLiteral(">\r\n                                                    <i");
-
-WriteLiteral(" class=\"fa fa-plus\"");
-
-WriteLiteral(@"></i>
-                                                </span>
-                                                New user registered.
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">3 mins</span>\r\n                                            <span");
-
-WriteLiteral(" class=\"details\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"label label-sm label-icon label-danger\"");
-
-WriteLiteral(">\r\n                                                    <i");
-
-WriteLiteral(" class=\"fa fa-bolt\"");
-
-WriteLiteral(@"></i>
-                                                </span>
-                                                Server #12 overloaded.
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">10 mins</span>\r\n                                            <span");
-
-WriteLiteral(" class=\"details\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"label label-sm label-icon label-warning\"");
-
-WriteLiteral(">\r\n                                                    <i");
-
-WriteLiteral(" class=\"fa fa-bell-o\"");
-
-WriteLiteral(@"></i>
-                                                </span>
-                                                Server #2 not responding.
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">14 hrs</span>\r\n                                            <span");
-
-WriteLiteral(" class=\"details\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"label label-sm label-icon label-info\"");
-
-WriteLiteral(">\r\n                                                    <i");
-
-WriteLiteral(" class=\"fa fa-bullhorn\"");
-
-WriteLiteral(@"></i>
-                                                </span>
-                                                Application error.
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">2 days</span>\r\n                                            <span");
-
-WriteLiteral(" class=\"details\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"label label-sm label-icon label-danger\"");
-
-WriteLiteral(">\r\n                                                    <i");
-
-WriteLiteral(" class=\"fa fa-bolt\"");
-
-WriteLiteral(@"></i>
-                                                </span>
-                                                Database overloaded 68%.
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">3 days</span>\r\n                                            <span");
-
-WriteLiteral(" class=\"details\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"label label-sm label-icon label-danger\"");
-
-WriteLiteral(">\r\n                                                    <i");
-
-WriteLiteral(" class=\"fa fa-bolt\"");
-
-WriteLiteral(@"></i>
-                                                </span>
-                                                A user IP blocked.
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">4 days</span>\r\n                                            <span");
-
-WriteLiteral(" class=\"details\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"label label-sm label-icon label-warning\"");
-
-WriteLiteral(">\r\n                                                    <i");
-
-WriteLiteral(" class=\"fa fa-bell-o\"");
-
-WriteLiteral(@"></i>
-                                                </span>
-                                                Storage Server #4 not responding dfdfdfd.
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">5 days</span>\r\n                                            <span");
-
-WriteLiteral(" class=\"details\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"label label-sm label-icon label-info\"");
-
-WriteLiteral(">\r\n                                                    <i");
-
-WriteLiteral(" class=\"fa fa-bullhorn\"");
-
-WriteLiteral(@"></i>
-                                                </span>
-                                                System Error.
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">9 days</span>\r\n                                            <span");
-
-WriteLiteral(" class=\"details\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"label label-sm label-icon label-danger\"");
-
-WriteLiteral(">\r\n                                                    <i");
-
-WriteLiteral(" class=\"fa fa-bolt\"");
-
-WriteLiteral(@"></i>
-                                                </span>
-                                                Storage server failed.
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- END NOTIFICATION DROPDOWN -->
-                    <!-- BEGIN INBOX DROPDOWN -->
-                    <!-- DOC: Apply ""dropdown-dark"" class after below ""dropdown-extended"" to change the dropdown styte -->
-                    <li");
-
-WriteLiteral(" class=\"dropdown dropdown-extended dropdown-inbox\"");
-
-WriteLiteral(" id=\"header_inbox_bar\"");
-
-WriteLiteral(">\r\n                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(" class=\"dropdown-toggle\"");
-
-WriteLiteral(" data-toggle=\"dropdown\"");
-
-WriteLiteral(" data-hover=\"dropdown\"");
-
-WriteLiteral(" data-close-others=\"true\"");
-
-WriteLiteral(">\r\n                            <i");
-
-WriteLiteral(" class=\"icon-envelope-open\"");
-
-WriteLiteral("></i>\r\n                            <span");
-
-WriteLiteral(" class=\"badge badge-default\"");
-
-WriteLiteral(">\r\n                                4\r\n                            </span>\r\n      " +
-"                  </a>\r\n                        <ul");
-
-WriteLiteral(" class=\"dropdown-menu\"");
-
-WriteLiteral(">\r\n                            <li");
-
-WriteLiteral(" class=\"external\"");
-
-WriteLiteral(">\r\n                                <h3>You have <span");
-
-WriteLiteral(" class=\"bold\"");
-
-WriteLiteral(">7 New</span> Messages</h3>\r\n                                <a");
-
-WriteLiteral(" href=\"page_inbox.html\"");
-
-WriteLiteral(">view all</a>\r\n                            </li>\r\n                            <li" +
-">\r\n                                <ul");
-
-WriteLiteral(" class=\"dropdown-menu-list scroller\"");
-
-WriteLiteral(" style=\"height: 275px;\"");
-
-WriteLiteral(" data-handle-color=\"#637283\"");
-
-WriteLiteral(">\r\n                                    <li>\r\n                                    " +
-"    <a");
-
-WriteLiteral(" href=\"inbox.html?a=view\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"photo\"");
-
-WriteLiteral(">\r\n                                                <img");
-
-WriteLiteral(" src=\"/assets/admin/layout3/img/avatar2.jpg\"");
-
-WriteLiteral(" class=\"img-circle\"");
-
-WriteLiteral(" alt=\"\"");
-
-WriteLiteral(">\r\n                                            </span>\r\n                         " +
-"                   <span");
-
-WriteLiteral(" class=\"subject\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"from\"");
-
-WriteLiteral(">\r\n                                                    Lisa Wong\r\n               " +
-"                                 </span>\r\n                                      " +
-"          <span");
-
-WriteLiteral(" class=\"time\"");
-
-WriteLiteral(">Just Now </span>\r\n                                            </span>\r\n         " +
-"                                   <span");
-
-WriteLiteral(" class=\"message\"");
-
-WriteLiteral(@">
-                                                Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh...
-                                            </span>
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- END INBOX DROPDOWN -->
-                    <!-- BEGIN TODO DROPDOWN -->
-                    <!-- DOC: Apply ""dropdown-dark"" class after below ""dropdown-extended"" to change the dropdown styte -->
-                    <li");
-
-WriteLiteral(" class=\"dropdown dropdown-extended dropdown-tasks\"");
-
-WriteLiteral(" id=\"header_task_bar\"");
-
-WriteLiteral(">\r\n                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(" class=\"dropdown-toggle\"");
-
-WriteLiteral(" data-toggle=\"dropdown\"");
-
-WriteLiteral(" data-hover=\"dropdown\"");
-
-WriteLiteral(" data-close-others=\"true\"");
-
-WriteLiteral(">\r\n                            <i");
-
-WriteLiteral(" class=\"icon-calendar\"");
-
-WriteLiteral("></i>\r\n                            <span");
-
-WriteLiteral(" class=\"badge badge-default\"");
-
-WriteLiteral(">\r\n                                3\r\n                            </span>\r\n      " +
-"                  </a>\r\n                        <ul");
-
-WriteLiteral(" class=\"dropdown-menu extended tasks\"");
-
-WriteLiteral(">\r\n                            <li");
-
-WriteLiteral(" class=\"external\"");
-
-WriteLiteral(">\r\n                                <h3>You have <span");
-
-WriteLiteral(" class=\"bold\"");
-
-WriteLiteral(">12 pending</span> tasks</h3>\r\n                                <a");
-
-WriteLiteral(" href=\"page_todo.html\"");
-
-WriteLiteral(">view all</a>\r\n                            </li>\r\n                            <li" +
-">\r\n                                <ul");
-
-WriteLiteral(" class=\"dropdown-menu-list scroller\"");
-
-WriteLiteral(" style=\"height: 275px;\"");
-
-WriteLiteral(" data-handle-color=\"#637283\"");
-
-WriteLiteral(">\r\n                                    <li>\r\n                                    " +
-"    <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"task\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"desc\"");
-
-WriteLiteral(">New release v1.2 </span>\r\n                                                <span");
-
-WriteLiteral(" class=\"percent\"");
-
-WriteLiteral(">30%</span>\r\n                                            </span>\r\n               " +
-"                             <span");
-
-WriteLiteral(" class=\"progress\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" style=\"width: 40%;\"");
-
-WriteLiteral(" class=\"progress-bar progress-bar-success\"");
-
-WriteLiteral(" aria-valuenow=\"40\"");
-
-WriteLiteral(" aria-valuemin=\"0\"");
-
-WriteLiteral(" aria-valuemax=\"100\"");
-
-WriteLiteral("><span");
-
-WriteLiteral(" class=\"sr-only\"");
-
-WriteLiteral(">40% Complete</span></span>\r\n                                            </span>\r" +
-"\n                                        </a>\r\n                                 " +
-"   </li>\r\n                                    <li>\r\n                            " +
-"            <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"task\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"desc\"");
-
-WriteLiteral(">Application deployment</span>\r\n                                                <" +
-"span");
-
-WriteLiteral(" class=\"percent\"");
-
-WriteLiteral(">65%</span>\r\n                                            </span>\r\n               " +
-"                             <span");
-
-WriteLiteral(" class=\"progress\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" style=\"width: 65%;\"");
-
-WriteLiteral(" class=\"progress-bar progress-bar-danger\"");
-
-WriteLiteral(" aria-valuenow=\"65\"");
-
-WriteLiteral(" aria-valuemin=\"0\"");
-
-WriteLiteral(" aria-valuemax=\"100\"");
-
-WriteLiteral("><span");
-
-WriteLiteral(" class=\"sr-only\"");
-
-WriteLiteral(">65% Complete</span></span>\r\n                                            </span>\r" +
-"\n                                        </a>\r\n                                 " +
-"   </li>\r\n                                    <li>\r\n                            " +
-"            <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"task\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"desc\"");
-
-WriteLiteral(">Mobile app release</span>\r\n                                                <span" +
-"");
-
-WriteLiteral(" class=\"percent\"");
-
-WriteLiteral(">98%</span>\r\n                                            </span>\r\n               " +
-"                             <span");
-
-WriteLiteral(" class=\"progress\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" style=\"width: 98%;\"");
-
-WriteLiteral(" class=\"progress-bar progress-bar-success\"");
-
-WriteLiteral(" aria-valuenow=\"98\"");
-
-WriteLiteral(" aria-valuemin=\"0\"");
-
-WriteLiteral(" aria-valuemax=\"100\"");
-
-WriteLiteral("><span");
-
-WriteLiteral(" class=\"sr-only\"");
-
-WriteLiteral(">98% Complete</span></span>\r\n                                            </span>\r" +
-"\n                                        </a>\r\n                                 " +
-"   </li>\r\n                                    <li>\r\n                            " +
-"            <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"task\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"desc\"");
-
-WriteLiteral(">Database migration</span>\r\n                                                <span" +
-"");
-
-WriteLiteral(" class=\"percent\"");
-
-WriteLiteral(">10%</span>\r\n                                            </span>\r\n               " +
-"                             <span");
-
-WriteLiteral(" class=\"progress\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" style=\"width: 10%;\"");
-
-WriteLiteral(" class=\"progress-bar progress-bar-warning\"");
-
-WriteLiteral(" aria-valuenow=\"10\"");
-
-WriteLiteral(" aria-valuemin=\"0\"");
-
-WriteLiteral(" aria-valuemax=\"100\"");
-
-WriteLiteral("><span");
-
-WriteLiteral(" class=\"sr-only\"");
-
-WriteLiteral(">10% Complete</span></span>\r\n                                            </span>\r" +
-"\n                                        </a>\r\n                                 " +
-"   </li>\r\n                                    <li>\r\n                            " +
-"            <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"task\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"desc\"");
-
-WriteLiteral(">Web server upgrade</span>\r\n                                                <span" +
-"");
-
-WriteLiteral(" class=\"percent\"");
-
-WriteLiteral(">58%</span>\r\n                                            </span>\r\n               " +
-"                             <span");
-
-WriteLiteral(" class=\"progress\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" style=\"width: 58%;\"");
-
-WriteLiteral(" class=\"progress-bar progress-bar-info\"");
-
-WriteLiteral(" aria-valuenow=\"58\"");
-
-WriteLiteral(" aria-valuemin=\"0\"");
-
-WriteLiteral(" aria-valuemax=\"100\"");
-
-WriteLiteral("><span");
-
-WriteLiteral(" class=\"sr-only\"");
-
-WriteLiteral(">58% Complete</span></span>\r\n                                            </span>\r" +
-"\n                                        </a>\r\n                                 " +
-"   </li>\r\n                                    <li>\r\n                            " +
-"            <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"task\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"desc\"");
-
-WriteLiteral(">Mobile development</span>\r\n                                                <span" +
-"");
-
-WriteLiteral(" class=\"percent\"");
-
-WriteLiteral(">85%</span>\r\n                                            </span>\r\n               " +
-"                             <span");
-
-WriteLiteral(" class=\"progress\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" style=\"width: 85%;\"");
-
-WriteLiteral(" class=\"progress-bar progress-bar-success\"");
-
-WriteLiteral(" aria-valuenow=\"85\"");
-
-WriteLiteral(" aria-valuemin=\"0\"");
-
-WriteLiteral(" aria-valuemax=\"100\"");
-
-WriteLiteral("><span");
-
-WriteLiteral(" class=\"sr-only\"");
-
-WriteLiteral(">85% Complete</span></span>\r\n                                            </span>\r" +
-"\n                                        </a>\r\n                                 " +
-"   </li>\r\n                                    <li>\r\n                            " +
-"            <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(">\r\n                                            <span");
-
-WriteLiteral(" class=\"task\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" class=\"desc\"");
-
-WriteLiteral(">New UI release</span>\r\n                                                <span");
-
-WriteLiteral(" class=\"percent\"");
-
-WriteLiteral(">38%</span>\r\n                                            </span>\r\n               " +
-"                             <span");
-
-WriteLiteral(" class=\"progress progress-striped\"");
-
-WriteLiteral(">\r\n                                                <span");
-
-WriteLiteral(" style=\"width: 38%;\"");
-
-WriteLiteral(" class=\"progress-bar progress-bar-important\"");
-
-WriteLiteral(" aria-valuenow=\"18\"");
-
-WriteLiteral(" aria-valuemin=\"0\"");
-
-WriteLiteral(" aria-valuemax=\"100\"");
-
-WriteLiteral("><span");
-
-WriteLiteral(" class=\"sr-only\"");
-
-WriteLiteral(@">38% Complete</span></span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- END TODO DROPDOWN -->
-                    <!-- BEGIN USER LOGIN DROPDOWN -->
-                    <!-- DOC: Apply ""dropdown-dark"" class after below ""dropdown-extended"" to change the dropdown styte -->
-                    <li");
-
-WriteLiteral(" class=\"dropdown dropdown-user\"");
-
-WriteLiteral(">\r\n                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(" class=\"dropdown-toggle\"");
-
-WriteLiteral(" data-toggle=\"dropdown\"");
-
-WriteLiteral(" data-hover=\"dropdown\"");
-
-WriteLiteral(" data-close-others=\"true\"");
-
-WriteLiteral(">\r\n                            <img");
-
-WriteLiteral(" alt=\"\"");
-
-WriteLiteral(" class=\"img-circle\"");
-
-WriteLiteral(" src=\"/assets/admin/layout/img/avatar3_small.jpg\"");
-
-WriteLiteral(" />\r\n                            <span");
-
-WriteLiteral(" class=\"username username-hide-on-mobile\"");
-
 WriteLiteral(">\r\n");
 
-WriteLiteral("                                ");
+WriteLiteral("    ");
 
             
-            #line 322 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                           Write(User.Identity.Name);
+            #line 40 "..\..\Areas\Sph\Views\Home\index.cshtml"
+Write(Html.Partial("_header"));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                            </span>\r\n                            <i");
-
-WriteLiteral(" class=\"fa fa-angle-down\"");
-
-WriteLiteral("></i>\r\n                        </a>\r\n                        <ul");
-
-WriteLiteral(" class=\"dropdown-menu dropdown-menu-default\"");
-
-WriteLiteral(">\r\n                            <li>\r\n                                <a");
-
-WriteLiteral(" href=\"extra_profile.html\"");
-
-WriteLiteral(">\r\n                                    <i");
-
-WriteLiteral(" class=\"icon-user\"");
-
-WriteLiteral("></i> My Profile\r\n                                </a>\r\n                         " +
-"   </li>\r\n                            <li>\r\n                                <a");
-
-WriteLiteral(" href=\"page_calendar.html\"");
-
-WriteLiteral(">\r\n                                    <i");
-
-WriteLiteral(" class=\"icon-calendar\"");
-
-WriteLiteral("></i> My Calendar\r\n                                </a>\r\n                        " +
-"    </li>\r\n                            <li>\r\n                                <a");
-
-WriteLiteral(" href=\"inbox.html\"");
-
-WriteLiteral(">\r\n                                    <i");
-
-WriteLiteral(" class=\"icon-envelope-open\"");
-
-WriteLiteral("></i> My Inbox <span");
-
-WriteLiteral(" class=\"badge badge-danger\"");
-
-WriteLiteral(">\r\n                                        3\r\n                                   " +
-" </span>\r\n                                </a>\r\n                            </li" +
-">\r\n                            <li>\r\n                                <a");
-
-WriteLiteral(" href=\"page_todo.html\"");
-
-WriteLiteral(">\r\n                                    <i");
-
-WriteLiteral(" class=\"icon-rocket\"");
-
-WriteLiteral("></i> My Tasks <span");
-
-WriteLiteral(" class=\"badge badge-success\"");
-
-WriteLiteral(">\r\n                                        7\r\n                                   " +
-" </span>\r\n                                </a>\r\n                            </li" +
-">\r\n                            <li");
-
-WriteLiteral(" class=\"divider\"");
-
-WriteLiteral(">\r\n                            </li>\r\n                            <li>\r\n         " +
-"                       <a");
-
-WriteLiteral(" href=\"extra_lock.html\"");
-
-WriteLiteral(">\r\n                                    <i");
-
-WriteLiteral(" class=\"icon-lock\"");
-
-WriteLiteral("></i> Lock Screen\r\n                                </a>\r\n                        " +
-"    </li>\r\n                            <li>\r\n                                <a");
-
-WriteLiteral(" href=\"login.html\"");
-
-WriteLiteral(">\r\n                                    <i");
-
-WriteLiteral(" class=\"icon-key\"");
-
-WriteLiteral(@"></i> Log Out
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- END USER LOGIN DROPDOWN -->
-                    <!-- BEGIN QUICK SIDEBAR TOGGLER -->
-                    <!-- DOC: Apply ""dropdown-dark"" class after below ""dropdown-extended"" to change the dropdown styte -->
-                    <li");
-
-WriteLiteral(" class=\"dropdown dropdown-quick-sidebar-toggler\"");
-
-WriteLiteral(">\r\n                        <a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(" class=\"dropdown-toggle\"");
-
-WriteLiteral(">\r\n                            <i");
-
-WriteLiteral(" class=\"icon-logout\"");
-
-WriteLiteral(@"></i>
-                        </a>
-                    </li>
-                    <!-- END QUICK SIDEBAR TOGGLER -->
-                </ul>
-            </div>
-            <!-- END TOP NAVIGATION MENU -->
-        </div>
-        <!-- END HEADER INNER -->
-    </div>
-    <!-- END HEADER -->
-    <div");
+WriteLiteral("\r\n    <div");
 
 WriteLiteral(" class=\"clearfix\"");
 
@@ -1131,13 +194,13 @@ WriteLiteral(" class=\"page-container\"");
 WriteLiteral(">\r\n");
 
             
-            #line 385 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 45 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 385 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 45 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (!string.IsNullOrWhiteSpace(splashHtml))
     {
         
@@ -1145,14 +208,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 387 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 47 "..\..\Areas\Sph\Views\Home\index.cshtml"
    Write(Html.Raw(splashHtml));
 
             
             #line default
             #line hidden
             
-            #line 387 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 47 "..\..\Areas\Sph\Views\Home\index.cshtml"
                              
     }
     else
@@ -1162,14 +225,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 391 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 51 "..\..\Areas\Sph\Views\Home\index.cshtml"
    Write(Html.Partial("_splash"));
 
             
             #line default
             #line hidden
             
-            #line 391 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 51 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                 
     }
 
@@ -1240,13 +303,13 @@ WriteLiteral(@"></script>
 ");
 
             
-            #line 419 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 79 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 419 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 79 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -1255,9 +318,9 @@ WriteLiteral(@"></script>
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 25070), Tuple.Create("\"", 25102)
-, Tuple.Create(Tuple.Create("", 25076), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 25076), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 3555), Tuple.Create("\"", 3587)
+, Tuple.Create(Tuple.Create("", 3561), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 3561), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -1293,7 +356,7 @@ WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 427 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 87 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -1308,7 +371,7 @@ WriteLiteral(" src=\"/Scripts/__rx.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 431 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 91 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             

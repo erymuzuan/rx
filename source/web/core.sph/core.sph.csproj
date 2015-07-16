@@ -693,6 +693,11 @@
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
+    <Compile Include="Areas\Sph\Views\Home\_header.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_header.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Sph\Views\SphAccount\ForgotPassword.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1596,6 +1601,10 @@
     <Content Include="Areas\App\Views\EntityViewDesigner\_erroList.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_erroList.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Home\_header.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_header.generated.cs</LastGenOutput>
     </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
