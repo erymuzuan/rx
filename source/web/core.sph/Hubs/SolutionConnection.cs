@@ -117,68 +117,115 @@ namespace Bespoke.Sph.Web.Hubs
                 }
             }
 
-            var customRoutes = new SolutionItem { id = "custom.forms", text = "Custom Forms", icon = "fa fa-file-o" };
-            var crFile = $"{ConfigurationManager.WebPath}\\App_Data\\routes.config.json";
-            if (File.Exists(crFile))
-            {
-                var routes = from r in
-                    JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(crFile))
-                             select new SolutionItem
-                             {
-                                 id = r.ModuleId,
-                                 text = r.Title,
-                                 icon = "fa fa-code",
-                                 codeEditor = $"/sphapp/{r.ModuleId}.js"
-                             };
-                customRoutes.itemCollection.AddRange(routes);
-
-            }
+            var customRoutes = GetCustomRoutes();
             solution.itemCollection.AddRange(customRoutes);
 
+            string scriptConfig;
+            var scriptNode = GetScripts(out scriptConfig);
+            solution.itemCollection.AddRange(scriptNode);
+
+            var dialogNode = GetCustomDialogs();
+            solution.itemCollection.AddRange(dialogNode);
+
+            var partialViewNode = GetPartialViewNode();
+            solution.itemCollection.AddRange(partialViewNode);
+
+
+            return solution;
+        }
+
+        private static SolutionItem GetCustomRoutes()
+        {
+            var routes = new SolutionItem { id = "custom.forms", text = "Custom Forms", icon = "fa fa-file-o" };
+            var config = $"{ConfigurationManager.WebPath}\\App_Data\\routes.config.json";
+            if (File.Exists(config))
+            {
+                var scripts = from r in JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(config))
+                              where !string.IsNullOrWhiteSpace(r.ModuleId)
+                              let name = r.ModuleId.Replace("viewmodels/", "")
+                              select new SolutionItem
+                              {
+                                  id = $"{r.ModuleId}.js",
+                                  text = $"{name}.js",
+                                  icon = "fa fa-file-text-o",
+                                  codeEditor = $"/sphapp/{r.ModuleId}.js"
+                              };
+                var views = from r in JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(config))
+                            where !string.IsNullOrWhiteSpace(r.ModuleId)
+                            let name = r.ModuleId.Replace("viewmodels/", "")
+                            select new SolutionItem
+                            {
+                                id = $"{r.ModuleId}.html",
+                                text = $"{name}.html",
+                                icon = "fa fa-file-code-o",
+                                codeEditor = $"/sphapp/views/{name}.html"
+                            };
+                var forms = views.Concat(scripts).OrderBy(x => x.text);
+                routes.itemCollection.AddRange(forms);
+            }
+            return routes;
+        }
+
+        private static SolutionItem GetScripts(out string scriptConfig)
+        {
             var scriptNode = new SolutionItem { id = "custom.scrpts", text = "Custom Scripts", icon = "fa fa-file-o" };
-            var scriptConfig = $"{ConfigurationManager.WebPath}\\App_Data\\custom-script.json";
+            scriptConfig = $"{ConfigurationManager.WebPath}\\App_Data\\custom-script.json";
             if (File.Exists(scriptConfig))
             {
                 var scripts = JArray.Parse(File.ReadAllText(scriptConfig))
                     .Select(a => a.SelectToken("name").Value<string>())
-                        .Select(x => new SolutionItem
-                        {
-                            icon = "fa fa-file-text-o",
-                            text = x.ToString(),
-                            id = x.ToString(),
-                            codeEditor = $"/sphapp/services/{x}.js"
-                        });
+                    .Select(x => new SolutionItem
+                    {
+                        icon = "fa fa-file-text-o",
+                        text = x.ToString(),
+                        id = x.ToString(),
+                        codeEditor = $"/sphapp/services/{x}.js"
+                    });
                 scriptNode.itemCollection.AddRange(scripts);
-
             }
-            solution.itemCollection.AddRange(scriptNode);
+            return scriptNode;
+        }
 
+        private static SolutionItem GetCustomDialogs()
+        {
             var dialogNode = new SolutionItem
             {
                 id = "custom.dialogs",
                 text = "Custom Dialogs",
-                icon = "fa fa-file-o",
+                icon = "fa fa-folder-o",
                 createDialog = "custom.form.dialog.dialog"
-
             };
             var dialogConfig = $"{ConfigurationManager.WebPath}\\App_Data\\custom-dialog.json";
             if (File.Exists(dialogConfig))
             {
-                var scripts = JArray.Parse(File.ReadAllText(scriptConfig))
+                var scripts = JArray.Parse(File.ReadAllText(dialogConfig))
                     .Select(a => a.SelectToken("name").Value<string>())
-                        .Select(x => new SolutionItem
-                        {
-                            icon = "fa fa-file-text-o",
-                            text = x.ToString(),
-                            id = x.ToString(),
-                            codeEditor = $"/sphapp/viewmodels/{x}.js"
-                        });
-                dialogNode.itemCollection.AddRange(scripts);
+                    .Select(x => new SolutionItem
+                    {
+                        icon = "fa fa-file-text-o",
+                        text = $"{x}.js",
+                        id = $"{x}.js",
+                        codeEditor = $"/sphapp/viewmodels/{x}.js"
+                    });
 
+                var views = JArray.Parse(File.ReadAllText(dialogConfig))
+                    .Select(a => a.SelectToken("name").Value<string>())
+                    .Select(x => new SolutionItem
+                    {
+                        icon = "fa fa-file-code-o",
+                        text = $"{x}.html",
+                        id = $"{x}.html",
+                        codeEditor = $"/sphapp/views/{x}.html"
+                    });
+                var dialogs = scripts.Concat(views).OrderBy(x => x.text);
+                dialogNode.itemCollection.AddRange(dialogs);
             }
-            solution.itemCollection.AddRange(dialogNode);
+            return dialogNode;
+        }
 
-            var partialViews = new SolutionItem
+        private static SolutionItem GetPartialViewNode()
+        {
+            var partialViewNode = new SolutionItem
             {
                 id = "partial.views",
                 text = "Partial Views",
@@ -186,10 +233,21 @@ namespace Bespoke.Sph.Web.Hubs
                 createDialog = "custom.form.dialog.dialog",
                 createdUrl = ""
             };
-            solution.itemCollection.AddRange(partialViews);
-
-
-            return solution;
+            var partialViewConfig = $"{ConfigurationManager.WebPath}\\App_Data\\custom-partial-view.json";
+            if (File.Exists(partialViewConfig))
+            {
+                var scripts = JArray.Parse(File.ReadAllText(partialViewConfig))
+                    .Select(a => a.SelectToken("name").Value<string>())
+                    .Select(x => new SolutionItem
+                    {
+                        icon = "fa fa-file-code-o",
+                        text = x.ToString(),
+                        id = x.ToString(),
+                        codeEditor = $"/sphapp/views/{x}.html"
+                    });
+                partialViewNode.itemCollection.AddRange(scripts);
+            }
+            return partialViewNode;
         }
 
         private static void ExtractTrigger(SolutionItem solution)
