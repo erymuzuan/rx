@@ -24,9 +24,10 @@ namespace Bespoke.Sph.Domain.diagnostics
 
         public override Task<BuildError[]> ValidateWarningsAsync(EntityForm form, EntityDefinition ed)
         {
-
             var warnings = new List<BuildError>();
 
+            if (null == ed)
+                return Task.FromResult(new[] {new BuildError(form.Id, $"No EntityDefinition defined for form {form.Id} -> {form.EntityDefinitionId}"), });
             var paths = ed.GetMembersPath();
             var invalidPathWarnings = from f in form.FormDesign.FormElementCollection
                                       where f.IsPathIsRequired
