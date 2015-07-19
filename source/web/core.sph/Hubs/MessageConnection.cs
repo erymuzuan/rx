@@ -27,17 +27,17 @@ namespace Bespoke.Sph.Web.Hubs
         async void ListenerChanged(object sender, EntityChangedEventArgs<Message> e)
         {
             var conn = "";
-            if (m_connections.TryGetValue(e.Item.UserName, out conn))
-            {
-                var context = new SphDataContext();
-                var query = context.CreateQueryable<Message>()
-                    .Where(x => x.UserName == e.Item.UserName && x.IsRead == false)
-                    .OrderByDescending(x => x.ChangedDate);
-                var lo = await context.LoadAsync(query, 1, 5, true);
+            if (!m_connections.TryGetValue(e.Item.UserName, out conn)) return;
 
-                var data = new { message = e.Item, messages = lo.ItemCollection, unread = lo.TotalRows };
-                await Connection.Send(conn, data);
-            }
+
+            var context = new SphDataContext();
+            var query = context.CreateQueryable<Message>()
+                .Where(x => x.UserName == e.Item.UserName && x.IsRead == false)
+                .OrderByDescending(x => x.ChangedDate);
+            var lo = await context.LoadAsync(query, 1, 5, true);
+
+            var data = new { message = e.Item, messages = lo.ItemCollection, unread = lo.TotalRows };
+            await Connection.Send(conn, data);
         }
 
     

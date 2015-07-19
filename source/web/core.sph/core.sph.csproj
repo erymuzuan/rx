@@ -698,6 +698,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_header.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Sph\Views\Home\_messagesHeader.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_messagesHeader.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Sph\Views\SphAccount\ForgotPassword.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -905,6 +910,7 @@
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
+    <Compile Include="ViewModels\SphIndexViewModel.cs" />
     <Compile Include="ViewModels\ImportDataViewModel.cs" />
     <Compile Include="ViewModels\JsTestViewModel.cs" />
     <Compile Include="ViewModels\PageCompareViewModel.cs" />
@@ -1605,6 +1611,10 @@
     <Content Include="Areas\Sph\Views\Home\_header.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_header.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Home\_messagesHeader.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_messagesHeader.generated.cs</LastGenOutput>
     </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />

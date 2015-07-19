@@ -1,4 +1,6 @@
-﻿
+﻿@model Bespoke.Sph.Web.ViewModels.SphIndexViewModel
+@using System.Web.Mvc.Html
+
  <!-- BEGIN HEADER -->
 <div class="page-header md-shadow-z-1-i navbar navbar-fixed-top">
     <!-- BEGIN HEADER INNER -->
@@ -23,7 +25,11 @@
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
 
-
+                @if (Model.Designation.IsMessageVisible)
+                {
+                    @Html.Partial("_messagesHeader")
+					<!-- END INBOX DROPDOWN -->
+                }
 
                 <!-- BEGIN USER LOGIN DROPDOWN -->
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->

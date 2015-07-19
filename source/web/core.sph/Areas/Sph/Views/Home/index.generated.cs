@@ -22,7 +22,7 @@ namespace ASP
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     
-    #line 1 "..\..\Areas\Sph\Views\Home\index.cshtml"
+    #line 2 "..\..\Areas\Sph\Views\Home\index.cshtml"
     using System.Web.Mvc.Html;
     
     #line default
@@ -34,7 +34,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Home/index.cshtml")]
-    public partial class _Areas_Sph_Views_Home_index_cshtml : System.Web.Mvc.WebViewPage<dynamic>
+    public partial class _Areas_Sph_Views_Home_index_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.SphIndexViewModel>
     {
         public _Areas_Sph_Views_Home_index_cshtml()
         {
@@ -42,7 +42,7 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 3 "..\..\Areas\Sph\Views\Home\index.cshtml"
   
     Layout = null;
     var splash = Server.MapPath("~/_splash.html");
@@ -168,14 +168,14 @@ WriteLiteral(" href=\"favicon.ico\"");
 WriteLiteral(" />\r\n</head>\r\n<!-- END HEAD -->\r\n<!-- BEGIN BODY -->\r\n<body");
 
 WriteLiteral(" class=\"page-md page-header-fixed page-quick-sidebar-over-content page-sidebar-cl" +
-"osed-hide-logo \"");
+"osed-hide-logo page-sidebar-closed\"");
 
 WriteLiteral(">\r\n");
 
 WriteLiteral("    ");
 
             
-            #line 40 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 41 "..\..\Areas\Sph\Views\Home\index.cshtml"
 Write(Html.Partial("_header"));
 
             
@@ -194,13 +194,13 @@ WriteLiteral(" class=\"page-container\"");
 WriteLiteral(">\r\n");
 
             
-            #line 45 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 46 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 45 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 46 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (!string.IsNullOrWhiteSpace(splashHtml))
     {
         
@@ -208,14 +208,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 47 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 48 "..\..\Areas\Sph\Views\Home\index.cshtml"
    Write(Html.Raw(splashHtml));
 
             
             #line default
             #line hidden
             
-            #line 47 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 48 "..\..\Areas\Sph\Views\Home\index.cshtml"
                              
     }
     else
@@ -225,14 +225,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 51 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 52 "..\..\Areas\Sph\Views\Home\index.cshtml"
    Write(Html.Partial("_splash"));
 
             
             #line default
             #line hidden
             
-            #line 51 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 52 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                 
     }
 
@@ -303,13 +303,13 @@ WriteLiteral(@"></script>
 ");
 
             
-            #line 79 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 80 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 79 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 80 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -318,9 +318,9 @@ WriteLiteral(@"></script>
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 3555), Tuple.Create("\"", 3587)
-, Tuple.Create(Tuple.Create("", 3561), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 3561), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 3627), Tuple.Create("\"", 3659)
+, Tuple.Create(Tuple.Create("", 3633), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 3633), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -356,7 +356,7 @@ WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 87 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 88 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -371,7 +371,7 @@ WriteLiteral(" src=\"/Scripts/__rx.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 91 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 92 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             

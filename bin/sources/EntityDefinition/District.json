@@ -121,13 +121,13 @@
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
   "TreatDataAsSource": false,
-  "DashboardTemplate": null,
+  "DashboardTemplate": "Dashboard Standard",
   "StoreInDatabase": null,
   "StoreInElasticsearch": null,
   "CreatedBy": "admin",
   "Id": "district",
   "CreatedDate": "2015-07-16T08:11:23.5545416+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-07-16T08:11:23.6055777+08:00",
+  "ChangedDate": "2015-07-19T07:17:43.0807864+08:00",
   "WebId": "a9b46951-3540-45fd-af99-69e1128dc718"
 }

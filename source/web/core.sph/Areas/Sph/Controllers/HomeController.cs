@@ -1,15 +1,33 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Web.UI;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.ViewModels;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
-    [Authorize(Roles = "developers,admin")]
+    [Authorize(Roles = "developers,administrators")]
     public class HomeController : Controller
     {
         [OutputCache(Duration = 604800, Location = OutputCacheLocation.Any)]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var context = new SphDataContext();
+            var profile = await context.LoadOneAsync<UserProfile>(ua => ua.UserName == User.Identity.Name);
+            if (null == profile)
+                return View(new SphIndexViewModel { Designation = new Designation { IsHelpVisible = false } });
+
+            ViewBag.StartModule = "#" + profile.StartModule;
+
+            var designation = (await context.LoadOneAsync<Designation>(d => d.Name == profile.Designation)) ?? new Designation { IsHelpVisible = true, HelpUri = "/docs/" };
+            designation.HelpUri = string.IsNullOrWhiteSpace(designation.HelpUri) ? "/docs/" : designation.HelpUri;
+            var vm = new SphIndexViewModel
+            {
+                Profile = profile,
+                Designation = designation
+            };
+
+            return View(vm);
         }
 
     }

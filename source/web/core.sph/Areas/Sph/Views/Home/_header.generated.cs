@@ -21,7 +21,12 @@ namespace ASP
     using System.Web.Helpers;
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
+    
+    #line 2 "..\..\Areas\Sph\Views\Home\_header.cshtml"
     using System.Web.Mvc.Html;
+    
+    #line default
+    #line hidden
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
@@ -29,7 +34,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Home/_header.cshtml")]
-    public partial class _Areas_Sph_Views_Home__header_cshtml : System.Web.Mvc.WebViewPage<dynamic>
+    public partial class _Areas_Sph_Views_Home__header_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.SphIndexViewModel>
     {
         public _Areas_Sph_Views_Home__header_cshtml()
         {
@@ -96,9 +101,48 @@ WriteLiteral(">\r\n            <ul");
 
 WriteLiteral(" class=\"nav navbar-nav pull-right\"");
 
-WriteLiteral(">\r\n\r\n\r\n\r\n                <!-- BEGIN USER LOGIN DROPDOWN -->\r\n                <!--" +
-" DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change the " +
-"dropdown styte -->\r\n                <li");
+WriteLiteral(">\r\n\r\n");
+
+            
+            #line 28 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+                
+            
+            #line default
+            #line hidden
+            
+            #line 28 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+                 if (Model.Designation.IsMessageVisible)
+                {
+                    
+            
+            #line default
+            #line hidden
+            
+            #line 30 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+               Write(Html.Partial("_messagesHeader"));
+
+            
+            #line default
+            #line hidden
+            
+            #line 30 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+                                                    
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\t\t\t\t\t<!-- END INBOX DROPDOWN -->\r\n");
+
+            
+            #line 32 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+                }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                <!-- BEGIN USER LOGIN DROPDOWN -->\r\n                <!-- DOC: A" +
+"pply \"dropdown-dark\" class after below \"dropdown-extended\" to change the dropdow" +
+"n styte -->\r\n                <li");
 
 WriteLiteral(" class=\"dropdown dropdown-user\"");
 
@@ -127,7 +171,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                            ");
 
             
-            #line 34 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+            #line 40 "..\..\Areas\Sph\Views\Home\_header.cshtml"
                        Write(User.Identity.Name);
 
             
@@ -169,14 +213,14 @@ WriteLiteral(" class=\"divider\"");
 WriteLiteral(">\r\n                        </li>\r\n                    \r\n                        <" +
 "li>\r\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2355), Tuple.Create("\"", 2396)
+WriteAttribute("href", Tuple.Create(" href=\"", 2618), Tuple.Create("\"", 2659)
             
-            #line 54 "..\..\Areas\Sph\Views\Home\_header.cshtml"
-, Tuple.Create(Tuple.Create("", 2362), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff","SphAccount")
+            #line 60 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+, Tuple.Create(Tuple.Create("", 2625), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff","SphAccount")
             
             #line default
             #line hidden
-, 2362), false)
+, 2625), false)
 );
 
 WriteLiteral(">\r\n                                <i");
