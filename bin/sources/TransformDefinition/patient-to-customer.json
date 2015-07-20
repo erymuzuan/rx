@@ -1,0 +1,32 @@
+{
+  "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "CodeNamespace": "DevV1.Integrations.Transforms",
+  "MapCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "FunctoidCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "InputCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "TransformDefinitionId": 0,
+  "Name": "Patient to customer",
+  "Description": "",
+  "InputTypeName": "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient",
+  "OutputTypeName": "Bespoke.DevV1_customer.Domain.Customer, DevV1.Customer",
+  "IsPublished": false,
+  "CreatedBy": "admin",
+  "Id": "patient-to-customer",
+  "CreatedDate": "2015-07-16T14:16:43.0995791+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-07-16T14:16:43.0950631+08:00",
+  "WebId": "9d4b8ed2-3b75-4a06-c835-3cf119c602d7"
+}
