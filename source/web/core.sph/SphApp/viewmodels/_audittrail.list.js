@@ -10,11 +10,15 @@
 /// <reference path="../services/domain.g.js.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="~/Scripts/_task.js" />
+/// <reference path="~/Scripts/jquery.signalR-2.1.2.js" />
 
-define(['services/datacontext'],
+define(["services/datacontext"],
     function (context) {
 
         var isBusy = ko.observable(false),
+            log = ko.observable(new bespoke.sph.domain.AuditTrail()),
+            auditTrailCollection = ko.observableArray(),
+            connection = null,
             ///
             activate = function (typeOrOption, id) {
                 var type = typeOrOption;
@@ -26,32 +30,47 @@ define(['services/datacontext'],
                     return Task.fromResult(false);
                 }
 
-                var query = String.format("Type eq '{0}' and EntityId eq '{1}'", type, id),
-                 tcs = new $.Deferred();
+                var query = String.format("Type eq '{0}' and EntityId eq '{1}'", type, id);
 
-                context.loadAsync({ entity: "AuditTrail", orderby: "CreatedDate desc" }, query)
+                connection = $.connection("/signalr_audittrail", "type=" + type + "&id=" + id);
+
+                connection.received(function (data) {
+                    console.log(data);
+                    data.ChangeCollection = ko.observableArray(data.ChangeCollection);
+                    auditTrailCollection.splice(0, 0, data);
+                });
+
+                connection.start().done(function (e) {
+                    console.log("started...connection to message connection");
+                    console.log(e);
+                });
+
+                return context.loadAsync({ entity: "AuditTrail", orderby: "CreatedDate desc" }, query)
                     .then(function (lo) {
                         isBusy(false);
-                        vm.auditTrailCollection(lo.itemCollection);
-                        tcs.resolve(true);
+                        auditTrailCollection(lo.itemCollection);
                     });
-                return tcs.promise();
 
+            },
+            detached = function () {
+                console.log("Disconnect from the server");
+                return connection.stop();
             },
             attached = function () {
 
             },
             showChange = function (audit) {
-                vm.log(audit);
+                log(audit);
                 $("#changes-dialog").modal();
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            detached: detached,
             attached: attached,
-            auditTrailCollection: ko.observable(),
-            log: ko.observable(new bespoke.sph.domain.AuditTrail()),
+            auditTrailCollection: auditTrailCollection,
+            log: log,
             showChangesCommand: showChange
         };
 

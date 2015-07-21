@@ -6,10 +6,11 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schema/sph.domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/router', objectbuilders.system],
-    function (context, logger, dialog, router, system) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system],
+    function (context, logger, router, system) {
         "use strict";
         var items = ko.observableArray(),
             triggers = ko.observableArray(),
@@ -51,22 +52,19 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                     });
 
             },
-            addForm = function (EntityDefinitionName) {
+            addForm = function (ed) {
 
-                var edForm = new bespoke.sph.domain.EntityForm({ WebId: system.guid() });
-                require(["viewmodels/add.entity-definition.form.dialog", "durandal/app"], function (dialog, app2) {
-                    dialog.entity(EntityDefinitionName);
-                    dialog.entityId(EntityDefinitionName);
-                    dialog.form(edForm);
-
-                    app2.showDialog(dialog)
-                        .done(function (result) {
-                            if (!result) return;
-                            if (result === "OK") {
-                                context.post(ko.toJSON(edForm), "/entity-form")
+                var form = new bespoke.sph.domain.EntityForm({ WebId: system.guid(), EntityDefinitionId : ed });
+                require(["viewmodels/add.entity-definition.form.dialog", "durandal/app"], function (dlg, app2) {
+                    dlg.form(form);
+                    app2.showDialog(dlg)
+                        .done(function (dlgr) {
+                            if (!dlgr) return;
+                            if (dlgr === "OK") {
+                                context.post(ko.toJSON(form), "/entity-form")
                                         .done(function (result) {
                                             if (result.success) {
-                                                router.navigate('/entity.form.designer/' + dialog.entity().Id() + '/' + dialog.form().Id());
+                                                router.navigate(result.location);
                                                 logger.info("Your form has been successfully saved.");
                                             }
                                         });
@@ -95,7 +93,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                                             entity().Id(result.id);
                                             //errors.removeAll();
                                             setTimeout(function () {
-                                                router.navigate('/entity.details/' + entity().Id());
+                                                router.navigate("/entity.details/" + entity().Id());
                                             }, 1000);
                                         } else {
 
@@ -110,11 +108,11 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
 
                 });
             },
-            addView = function (EntityDefinitionName) {
+            addView = function (ed) {
                 var edView = new bespoke.sph.domain.EntityForm({ WebId: system.guid() });
                 require(["viewmodels/add.entity-definition.view.dialog", "durandal/app"], function (dialog, app2) {
-                    dialog.entity(EntityDefinitionName);
-                    dialog.entityId(EntityDefinitionName);
+                    dialog.entity(ed);
+                    dialog.entityId(ed);
                     dialog.view(edView);
                     app2.showDialog(dialog)
                         .done(function (result) {
@@ -127,7 +125,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                                     .then(function (result) {
                                         dialog.view().Id(result.id);
                                         tcs.resolve(result);
-                                        router.navigate('/entity.view.designer/' + dialog.entity().Id() + '/' + dialog.view().Id());
+                                        router.navigate("/entity.view.designer/" + dialog.entity().Id() + "/" + dialog.view().Id());
                                     });
                                 return tcs.promise();
                             }
@@ -136,26 +134,26 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 });
             },
             addWorkflowDefinition = function (name) {
-                return router.navigate('/workflow.definition.visual/0');
+                return router.navigate("/workflow.definition.visual/0");
             },
             addTransformDefinition = function (name) {
-                return router.navigate('/transform.definition.edit/0');
+                return router.navigate("/transform.definition.edit/0");
             },
             addReportDefinition = function (name) {
-                return router.navigate('/reportdefinition.edit/0');
+                return router.navigate("/reportdefinition.edit/0");
             },
             addTrigger = function (name) {
-                return router.navigate('/trigger.setup/0');
+                return router.navigate("/trigger.setup/0");
             },
             addAdapter = function (name) {
-                return router.navigate('/adapter.definition.list');
+                return router.navigate("/adapter.definition.list");
             },
             addEntityDefinition = function () {
                 var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
                 require(["viewmodels/add.entity-definition.dialog", "durandal/app"], function (dialog, app2) {
                     ed.Name.subscribe(function (name) {
                         if (!ed.Plural()) {
-                            $.get('/entity-definition/plural/' + name, function (v) {
+                            $.get("/entity-definition/plural/" + name, function (v) {
                                 ed.Plural(v);
                             });
                         }
@@ -179,9 +177,9 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
 
                 });
             },
-            addBusinessRules = function (EntityDefinitionName) {
+            addBusinessRules = function (ed) {
                 var entity = ko.observable(new bespoke.sph.domain.EntityDefinition());
-                var query = String.format("Id eq '{0}'", ko.unwrap(EntityDefinitionName)),
+                var query = String.format("Id eq '{0}'", ko.unwrap(ed)),
                 tcs = new $.Deferred();
 
                 context.loadOneAsync("EntityDefinition", query)
@@ -195,12 +193,12 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 var br = new bespoke.sph.domain.BusinessRule({ WebId: system.guid() });
                 var self = this;
 
-                require(['viewmodels/business.rule.dialog', 'durandal/app'], function (dialog, app) {
+                require(["viewmodels/business.rule.dialog", "durandal/app"], function (dialog, app) {
                     dialog.rule(br);
                     app.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 entity().BusinessRuleCollection().push(br);
 
                                 var tcs = new $.Deferred(),
@@ -237,9 +235,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 });
             },
             activate = function () {
-                /*return $.getJSON("/Solution/open/asdasd").then(function (d) {
-                    solution(context.toObservable(d));
-                });*/
+
+
                 if (items().length === 0) {
                     return loadAsync();
                 }
@@ -251,19 +248,6 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
 
 
             },
-            okClick = function (data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
-                    dialog.close(this, "OK");
-                }
-
-            },
-            cancelClick = function () {
-                dialog.close(this, "Cancel");
-            },
-            hassanRefresh = function () {
-                console.log("clicking hassan refresh function");
-                activate();
-            },
             singleClick = function (e, data) {
                 selected(data);
             },
@@ -271,33 +255,39 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 e.stopPropagation();
                 // parent id e.currentTarget.parentNode.parentNode.parentNode.id
                 // current id e.currentTarget.parentNode.id
-                
+
                 var parent = e.currentTarget.parentNode.parentNode.parentNode.id;
                 var current = e.currentTarget.parentNode.id;
 
                 if (parent === "EntityDefinition") {
-                    router.navigate('entity.details/' + current);
+                    router.navigate("entity.details/" + current);
                 } else if (selected().node.data.TypeName === "EntityForm") {
-                    router.navigate('entity.form.designer/' + selected().node.parent + "/" + selected().node.id);
+                    router.navigate("entity.form.designer/" + selected().node.parent + "/" + selected().node.id);
                 } else if (selected().node.data.TypeName === "EntityOperation") {
-                    router.navigate('entity.operation.details/' + selected().node.parent + "/" + selected().node.data.Name);
+                    router.navigate("entity.operation.details/" + selected().node.parent + "/" + selected().node.data.Name);
                 } else if (selected().node.data.TypeName === "EntityView") {
-                    router.navigate('entity.view.designer/' + selected().node.parent + "/" + selected().node.id);
+                    router.navigate("entity.view.designer/" + selected().node.parent + "/" + selected().node.id);
                 } else if (selected().node.data.TypeName === "BusinessRule") {
-                    router.navigate('entity.details/' + selected().node.parent);
+                    router.navigate("entity.details/" + selected().node.parent);
                 } else if (selected().node.data.TypeName === "TransformDefinition") {
-                    router.navigate('transform.definition.edit/' + current);
+                    router.navigate("transform.definition.edit/" + current);
                 } else if (selected().node.data.TypeName === "Trigger") {
-                    router.navigate('trigger.setup/' + selected().node.id);
+                    router.navigate("trigger.setup/" + selected().node.id);
                 }
-                
+
+                if (parent === "WorkflowDefinition") {
+                    router.navigate("workflow.definition.visual/" + selected().node.id);
+                }
+                if (parent === "TransformDefinition") {
+                    router.navigate("workflow.definition.visual/" + selected().node.id);
+                }
+
             };
 
         var vm = {
             attached: attached,
             click: click,
-            singleClick:singleClick,
-            //solution: solution,
+            singleClick: singleClick,
             loadAsync: loadAsync,
             isBusy: isBusy,
             transforms: transforms,
@@ -305,9 +295,6 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
             triggers: triggers,
             items: items,
             activate: activate,
-            okClick: okClick,
-            cancelClick: cancelClick,
-            hassanRefresh: hassanRefresh,
             addEntityDefinition: addEntityDefinition,
             addForm: addForm,
             addOperation: addOperation,

@@ -1,26 +1,91 @@
-﻿<div>
-    <header>
-        <!--ko compose: {view: 'header'} -->
-        <!--/ko-->
-        <!--ko compose: {view: 'nav'} -->
-        <!--/ko-->
-    </header>
-    <section id="content" class="container">
+﻿ <!-- BEGIN SIDEBAR -->
+<div class="page-sidebar-wrapper">
+    <div class="page-sidebar navbar-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
 
-        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: router.isNavigating" />
+        <ul class="page-sidebar-menu page-sidebar-menu-light page-sidebar-menu-closed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+            <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+            <li class="sidebar-toggler-wrapper">
+                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                <div class="sidebar-toggler">
+                </div>
+                <!-- END SIDEBAR TOGGLER BUTTON -->
+            </li>
+            <li class="sidebar-search-wrapper">
+                <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+                <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+                <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+                <form class="sidebar-search ">
+                    <a href="javascript:;" class="remove">
+                        <i class="icon-close"></i>
+                    </a>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search..." style="border: none !important">
+                        <span class="input-group-btn">
+                            <a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+                        </span>
+                    </div>
+                </form>
+                <!-- END RESPONSIVE QUICK SEARCH FORM -->
+            </li>
+            <li class="start active open">
+                <a href="#dev.home">
+                    <i class="icon-home"></i>
+                    <span class="title">Developers</span>
+                    <span class="selected"></span>
+                    <span class="arrow open"></span>
+                </a>
+                <ul class="sub-menu" data-bind="foreach :router.navigationModel">
+                    <li class="active">
+                        <a href="#" data-bind=" attr: { href: hash }">
+                            <i class="icon-bar-chart" data-bind="attr : {'class' : icon}"></i>
+                            <!--ko text: title-->
+                            <!-- /ko-->
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- END SIDEBAR MENU -->
+    </div>
+</div>
+<!-- END SIDEBAR -->
+<!-- BEGIN CONTENT -->
+<div class="page-content-wrapper">
+    <div class="page-content">
 
+        <!-- BEGIN PAGE HEADER-->
+       
+        <!-- END PAGE HEADER-->
 
-        <!--ko compose: {view: 'toolbar'} -->
-        <!--/ko-->
-        <!--ko compose: {model: router.activeItem,
-          attached: router.attached,
-          compositionComplete: router.compositionComplete,
-          transition: 'entrance'} -->
-        <!--/ko-->
-        
+        <section id="content" style="overflow-x: hidden">
+
+            <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: router.isNavigating" />
+            <!--ko compose: {view: 'toolbar'} -->
+            <!--/ko-->
+            <!--ko compose: {model: router.activeItem,
+        attached: router.attached,
+        compositionComplete: router.compositionComplete,
+        transition: 'entrance'} -->
+            <!--/ko-->
+        </section>
         <!-- ko compose : 'viewmodels/_developers.log'-->
         <!--/ko-->
 
-    </section>
 
+
+    </div>
 </div>
+<!-- END CONTENT -->
+<!-- BEGIN QUICK SIDEBAR -->
+<a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-close"></i></a>
+<div class="page-quick-sidebar-wrapper">
+    <div class="page-quick-sidebar">
+        <!-- ko compose : 'viewmodels/solution.explorer.2'-->
+        <!--/ko-->
+
+
+
+    </div>
+</div>
+<!-- END QUICK SIDEBAR -->

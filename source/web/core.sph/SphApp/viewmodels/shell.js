@@ -4,8 +4,8 @@
 /// <reference path="../../Scripts/require.js" />
 
 
-define(["durandal/system","services/system", "plugins/router", "services/logger", "services/datacontext", objectbuilders.config, objectbuilders.cultures],
-    function (system,system2, router, logger, context, config) {
+define(["durandal/system","services/system", "plugins/router", "services/logger", "services/datacontext", objectbuilders.config, objectbuilders.cultures, "viewmodels/messages"],
+    function (system,system2, router, logger, context, config, cultures, messagesConfig) {
 
         var activate = function () {
             return router.map(config.routes)
@@ -24,11 +24,7 @@ define(["durandal/system","services/system", "plugins/router", "services/logger"
                     var topic = $(this).data("dialog");
                     window.open("/docs/#" + topic);
                 });
-                // BUG:#1499
-                if (window.location.href.indexOf("/sph#") === -1) {
-                    window.location = "/sph#" + config.startModule;
-                    return;
-                }
+          
                 var dropDown = function (e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -69,155 +65,10 @@ define(["durandal/system","services/system", "plugins/router", "services/logger"
                         $(this).trigger("click");
                     }
                 });
-                var $menu = $("#slider-menu"),
-                    hideSlider = function () {
-                        $("section#content").animate({ "margin-left": 0 });
-                        $menu.hide().css({ "width": 0 });
-                    },
-                    showSlider = function () {
 
-                        $("section#content").animate({ "margin-left": 280 }, function () {
-                            $menu.show();
-                        });
-                        return $menu.css("height", $(document).height())
-                            .animate({ "width": 280 },function() {
-                                $menu.width("280px");
-                            });
-
-
-                    },
-                    sliderVisible = $menu.is(":visible");
-
-
-                $(view).on("click", "#drawer-menu", function (e) {
-                    e.preventDefault();
-                    if (sliderVisible) {
-                        hideSlider();
-                    } else {
-                        showSlider();
-                    }
-                    sliderVisible = !sliderVisible;
-
+                return messagesConfig.attached(view).done(function () {
+                    ko.applyBindings(messagesConfig, document.getElementById("header_inbox_bar"));
                 });
-                $("#slider-menu").on("click", "li>a", function () {
-                    hideSlider();
-                    sliderVisible = false;
-                });
-
-                $(view).on("click", "#solution-explorer-menu", function (e) {
-                    if (_(config.roles).indexOf("developers") < 0) {
-                        return;
-                    }
-
-                    router.navigate("solution.explorer.2");
-                });
-
-               
-
-                $(document).on("keyup", function (e) {
-                    //console.log(e.keyCode);
-                    if (e.ctrlKey && e.keyCode === 81) {
-                        if (sliderVisible) {
-                            hideSlider();
-                            sliderVisible = false;
-                        } else {
-                            showSlider()
-                                .done(function () {
-                                    filterInput.focus();
-                                    sliderVisible = true;
-                                });
-                        }
-                    }
-                    if (e.ctrlKey && (e.keyCode === 188 || e.keyCode === 192)) {
-                        if (_(config.roles).indexOf("developers") < 0) {
-                            return;
-                        }
-                        require(["viewmodels/solution.explorer", "durandal/app"], function (dialog, app2) {
-
-                            app2.showDialog(dialog)
-                                .done(function (result) {
-                                    console.log(result);
-                                });
-
-                        });
-                    }
-                });
-
-                var $links = $("div#slider-menu li"),
-                    filterInput = $("#filter-text"),
-                    selectedRouteItemIndex = 0,
-                    dofilter = function (e) {
-                        if (e && e.keyCode) {
-                            if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {
-                                return;
-                            }
-                        }
-                        selectedRouteItemIndex = 0;
-                        var filter = filterInput.val().toLowerCase();
-                        $links.each(function () {
-                            var $anchor = $(this);
-                            if (typeof $anchor.data("string") !== "string") {
-                                return;
-                            }
-                            if ($anchor.data("string").toLowerCase().indexOf(filter) > -1) {
-                                $anchor.show();
-                            } else {
-                                $anchor.hide();
-                            }
-                        });
-
-                    },
-                    navigateSelectedItem = function (e) {
-                        var selectRouteItem = function (step) {
-                            selectedRouteItemIndex += step;
-                            var $list = $("div#slider-menu li:visible");
-
-                            if (selectedRouteItemIndex <= 0) {
-                                selectedRouteItemIndex = 1;
-                                return;
-                            }
-
-                            if (selectedRouteItemIndex > $list.length - 1) {
-                                selectedRouteItemIndex = $list.length - 1;
-                                return;
-                            }
-
-                            $list.removeClass("active");
-                            $($list[selectedRouteItemIndex]).addClass("active");
-
-                        };
-                        // select items
-                        if (e && e.keyCode) {
-                            if (e.keyCode === 40) {
-                                selectRouteItem(1);
-                                return;
-                            }
-                            if (e.keyCode === 38) {
-                                selectRouteItem(-1);
-                                return;
-                            }
-                            if (e.keyCode === 13) {
-                                $("div#slider-menu li:visible.active").find("a").trigger("click");
-                                return;
-                            }
-                        }
-                    },
-
-                    throttled = _.throttle(dofilter, 800);
-
-
-                filterInput
-                    .on("keyup", throttled)
-                    .on("keyup", navigateSelectedItem)
-                    .siblings("span")
-                    .click(function () {
-                        filterInput.val("");
-                        dofilter();
-                    });
-
-                if (filterInput.val()) {
-                    dofilter();
-                }
 
             },
 

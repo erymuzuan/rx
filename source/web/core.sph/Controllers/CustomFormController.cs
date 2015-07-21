@@ -24,10 +24,10 @@ namespace Bespoke.Sph.Web.Controllers
     {
 
         readonly JsonSerializerSettings m_settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        const string CustomRouteConfig = "~/App_Data/routes.config.json";
-        private const string AppDataCustomPartialViewJson = "~/App_Data/custom-partial-view.json";
-        private const string AppDataCustomDialogJson = "~/App_Data/custom-dialog.json";
-        private const string AppDataCustomScriptJson = "~/App_Data/custom-script.json";
+        public const string CustomRouteConfig = "~/App_Data/routes.config.json";
+        public const string AppDataCustomPartialViewJson = "~/App_Data/custom-partial-view.json";
+        public const string AppDataCustomDialogJson = "~/App_Data/custom-dialog.json";
+        public const string AppDataCustomScriptJson = "~/App_Data/custom-script.json";
 
         [HttpGet]
         [Route("download")]

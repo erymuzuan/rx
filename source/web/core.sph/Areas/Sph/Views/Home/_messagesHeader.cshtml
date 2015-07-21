@@ -1,0 +1,40 @@
+﻿@model Bespoke.Sph.Web.ViewModels.SphIndexViewModel
+<!-- BEGIN INBOX DROPDOWN -->
+<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+<li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+        <i class="icon-envelope-open"></i>
+        <span class="badge badge-default" data-bind="text:unread">
+        </span>
+    </a>
+    <ul class="dropdown-menu" style="left: -124px">
+        <li class="external">
+            <h3>
+                You have <span class="bold">
+                    <!-- ko text: unread -->
+                    <!-- /ko-->
+                </span> new messages
+            </h3>
+            <a href="#message.inbox">View all</a>
+        </li>
+        <li>
+            <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283" data-bind="foreach:messages">
+
+                <li>
+                    <a data-bind="attr : {'href' : '#message.detail/' + ko.unwrap(Id)}">
+                        <span class="photo">
+                            <i class="fa fa-user fa2x"></i>
+                        </span>
+                        <span class="subject">
+                            <span class="from"></span>
+                            <span class="time" data-bind="text: $parent.getTimeSpan($data)"> </span>
+                        </span>
+                        <span class="message" data-bind="text: Subject"></span>
+                    </a>
+                </li>
+
+
+            </ul>
+        </li>
+    </ul>
+</li>

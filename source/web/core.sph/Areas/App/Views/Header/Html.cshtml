@@ -1,4 +1,4 @@
-@model Bespoke.Sph.Web.Areas.App.Controllers.HtmlHeaderModel
+@model Bespoke.Sph.Web.ViewModels.SphIndexViewModel
 @{
     Layout = null;
 }
@@ -23,7 +23,7 @@
                 <!-- Links -->
                 <div class="btn-group">
                     <button id="user-profile-split-button" type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown">
-                        <img src="/Images/user_24_white.png" alt="">
+                        <i class="icon-user"></i>
                         @User.Identity.Name
                         <span class="caret"></span>
                     </button>

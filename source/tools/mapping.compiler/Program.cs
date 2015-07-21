@@ -67,7 +67,7 @@ namespace mapping.compiler
 
         }
 
-        static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             var dlld = Path.Combine(ConfigurationManager.CompilerOutputPath, args.Name + ".dll");
             

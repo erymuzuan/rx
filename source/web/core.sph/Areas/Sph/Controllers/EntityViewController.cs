@@ -34,9 +34,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Index(string id)
         {
             var context = new SphDataContext();
-            var view =  context.LoadOneFromSources<EntityView>(x => x.Id == id);
+            var view = context.LoadOneFromSources<EntityView>(x => x.Id == id);
             if (null == view) return new HttpNotFoundResult("Cannot find EntityView with id " + id);
-           
+
 
             using (var session = context.OpenSession())
             {
@@ -87,7 +87,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             string path = $"{ConfigurationManager.SphSourceDirectory}\\EntityView\\{id}.json";
             if (!System.IO.File.Exists(path))
             {
-                return Json(new {hits = new {total = 0}}, JsonRequestBehavior.AllowGet);
+                return Json(new { hits = new { total = 0 } }, JsonRequestBehavior.AllowGet);
             }
             var view = path.DeserializeFromJsonFile<EntityView>();
             var type = view.EntityDefinitionId.ToLowerInvariant();
@@ -123,8 +123,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var user = User.Identity.Name;
             var views =
                 from f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityView\\", "*.json")
-                let v = System.IO.File.ReadAllText(f).DeserializeFromJson<EntityView>()
-                where v.IsPublished && string.Equals(v.EntityDefinitionId, id, StringComparison.InvariantCultureIgnoreCase)
+                let v = f.DeserializeFromJsonFile<EntityView>()
+                where v.IsPublished
+                && v.DisplayOnDashboard
+                && string.Equals(v.EntityDefinitionId, id, StringComparison.InvariantCultureIgnoreCase)
                 select v;
 
             var list = new ObjectCollection<EntityView>();

@@ -80,14 +80,6 @@ namespace Bespoke.Sph.Persistence
 
             this.OnStart();
 
-            var factory = new ConnectionFactory
-            {
-                UserName = this.UserName,
-                VirtualHost = this.VirtualHost,
-                Password = this.Password,
-                HostName = this.HostName,
-                Port = this.Port
-            };
             m_channel = connection.CreateModel();
 
 

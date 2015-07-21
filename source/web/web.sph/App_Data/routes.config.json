@@ -12,5 +12,19 @@
     "showWhenLoggedIn": false,
     "isAdminPage": false,
     "startPageRoute": null
+  },
+  {
+    "role": "everybody",
+    "groupName": null,
+    "route": "custom-paging",
+    "moduleId": "viewmodels/custom-paging2",
+    "title": "Custom Paging for Azrol",
+    "nav": true,
+    "icon": "fa fa-pagelines",
+    "caption": "Custom Paging for Azrol",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "isAdminPage": false,
+    "startPageRoute": null
   }
 ]

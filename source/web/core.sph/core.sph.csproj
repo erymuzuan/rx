@@ -140,7 +140,6 @@
       <HintPath>..\..\..\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Monads.NET">
       <HintPath>..\..\..\packages\Monads.NET.1.0.3\lib\net40\Monads.NET.dll</HintPath>
     </Reference>
@@ -693,6 +692,16 @@
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
+    <Compile Include="Areas\Sph\Views\Home\_header.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_header.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Home\_messagesHeader.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_messagesHeader.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Sph\Views\SphAccount\ForgotPassword.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -863,7 +872,8 @@
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Helpers\RawRequestBodyModelBinder.cs" />
     <Compile Include="Helpers\RequestBodyModelBinder.cs" />
-    <Compile Include="Hubs\AuditTrailHub.cs" />
+    <Compile Include="Hubs\AuditTrailConnection.cs" />
+    <Compile Include="Hubs\SolutionConnection.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
     <Compile Include="Models\CustomPartialView.cs" />
@@ -899,6 +909,7 @@
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
+    <Compile Include="ViewModels\SphIndexViewModel.cs" />
     <Compile Include="ViewModels\ImportDataViewModel.cs" />
     <Compile Include="ViewModels\JsTestViewModel.cs" />
     <Compile Include="ViewModels\PageCompareViewModel.cs" />
@@ -1386,8 +1397,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <EmbeddedResource Include="Content\jstree\32px.png" />
     <EmbeddedResource Include="Content\jstree\40px.png" />
+    <Content Include="Content\darkblue.css" />
     <Content Include="Content\daterangepicker-bs3.css" />
-    <Content Include="Content\durandal.css" />
+    <EmbeddedResource Include="Content\durandal.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\icon.png" />
@@ -1595,6 +1607,14 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_erroList.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Areas\Sph\Views\Home\_header.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_header.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Home\_messagesHeader.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_messagesHeader.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
     <EmbeddedResource Include="routes.config.json" />
@@ -1611,7 +1631,7 @@
       <DependentUpon>kendo.all.js</DependentUpon>
     </EmbeddedResource>
     <Content Include="Scripts\complete.ly.1.0.1.js" />
-    <Content Include="Scripts\complete.ly.1.0.1.min.js" />
+    <EmbeddedResource Include="Scripts\complete.ly.1.0.1.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
@@ -2161,6 +2181,13 @@
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.script.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\custom.form.import.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\solution.diagnostics.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\add.entity-definition.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\add.entity-definition.form.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\add.entity-definition.view.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.2.js" />
+    <EmbeddedResource Include="SphApp\views\add.entity-definition.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\add.entity-definition.form.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\add.entity-definition.view.dialog.html" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2672,6 +2699,7 @@
     <EmbeddedResource Include="SphApp\views\_custom.forms.routes.html" />
     <EmbeddedResource Include="SphApp\views\_custom.forms.scripts.html" />
     <EmbeddedResource Include="SphApp\views\solution.diagnostics.html" />
+    <EmbeddedResource Include="SphApp\views\solution.explorer.2.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

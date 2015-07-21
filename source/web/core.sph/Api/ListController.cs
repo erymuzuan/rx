@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -114,19 +115,23 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteListAsync(sql);
         }
 
-        public async Task<ActionResult> Tuple(string table, string filter, string column, string column2, string column3 = "", string column5 = "", string column4 = "")
+        public async Task<ActionResult> Tuple(string table, string filter, string column, string column2, string column3 = "", string column4 = "", string column5 = "")
         {
-            if (string.Equals(table, nameof(EntityForm), StringComparison.InvariantCultureIgnoreCase))
+            var type = table.ToLowerInvariant();
+            switch (type)
             {
-                var context = new SphDataContext();
-                var forms = context.LoadFromSources<EntityForm>()
-                    .AsQueryable()
-                    .LinqToQuerystring($"?$filter={filter}")
-                    .AsQueryable()
-                    .LinqToQuerystring<EntityForm, IQueryable<Dictionary<string, object>>>($"?$select={column},{column2}")
-                    .ToList();
-                return Json(forms, JsonRequestBehavior.AllowGet);
+                case "designation": return SelectTupleFromSource<Designation>( filter, column, column2, column3, column4, column5);
+                case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>( filter, column, column2, column3, column4, column5);
+                case "entitydefinition": return SelectTupleFromSource<EntityDefinition>( filter, column, column2, column3, column4, column5);
+                case "transformdefinition": return SelectTupleFromSource<TransformDefinition>( filter, column, column2, column3, column4, column5);
+                case "entityview": return SelectTupleFromSource<EntityView>( filter, column, column2, column3, column4, column5);
+                case "entityform": return SelectTupleFromSource<EntityForm>( filter, column, column2, column3, column4, column5);
+                case "entitychart": return SelectTupleFromSource<EntityChart>( filter, column, column2, column3, column4, column5);
+                case "trigger": return SelectTupleFromSource<Trigger>( filter, column, column2, column3, column4, column5);
+                case "adapter": return SelectTupleFromSource<Adapter>( filter, column, column2, column3, column4, column5);
+                case "viewtemplate": return SelectTupleFromSource<ViewTemplate>( filter, column, column2, column3, column4, column5);
             }
+
             var translator = new OdataSqlTranslator("", table);
             if (!string.IsNullOrWhiteSpace(column5))
             {
@@ -145,6 +150,38 @@ namespace Bespoke.Sph.Web.Api
             }
             var sql = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column}],[{column2}]");
             return await ExecuteListTupleAsync(sql);
+        }
+
+        private ActionResult SelectTupleFromSource<T>(string filter, string column, string column2, string column3 = "", string column4 = "", string column5 = "") where T : Entity
+        {
+            if (string.IsNullOrWhiteSpace(filter)) filter = "Id ne '0'";
+
+            var context = new SphDataContext();
+            var list = context.LoadFromSources<T>()
+                .AsQueryable()
+                .LinqToQuerystring($"?$filter={filter}")
+                .AsQueryable();
+
+            var select = $"?$select={column},{column2}";
+            if(!string.IsNullOrWhiteSpace(column3))
+                select = $"?$select={column},{column2},{column3}";
+            if(!string.IsNullOrWhiteSpace(column4))
+                select = $"?$select={column},{column2},{column3},{column4}";
+            if(!string.IsNullOrWhiteSpace(column5))
+                select = $"?$select={column},{column2},{column3},{column4},{column5}";
+
+            var tuples = list.LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>(select)
+                .ToList();
+            var results = new ArrayList();
+            foreach (var t in tuples)
+            {
+                var q = new ArrayList();
+                foreach (var k in t.Keys)
+                {
+
+                }
+            }
+            return Json(tuples, JsonRequestBehavior.AllowGet);
         }
 
         private async Task<ActionResult> ExecuteListTuple4Async(string sql)

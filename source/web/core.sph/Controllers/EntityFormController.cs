@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -16,15 +17,16 @@ namespace Bespoke.Sph.Web.Controllers
             var ef = this.GetRequestJson<EntityForm>();
             var context = new SphDataContext();
 
-            if (string.IsNullOrWhiteSpace(ef.Id) || ef.Id == "0")
-                ef.Id = ef.Route.ToIdFormat();
+            var baru = string.IsNullOrWhiteSpace(ef.Id) || ef.Id == "0";
+            if (baru)ef.Id = ef.Route.ToIdFormat();
 
             using (var session = context.OpenSession())
             {
                 session.Attach(ef);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.Id });
+            this.Response.StatusCode = (int)(baru ? HttpStatusCode.Created : HttpStatusCode.OK);
+            return Json(new { success = true, status = "OK", id = ef.Id, location = $"{ConfigurationManager.BaseUrl}/sph#entity.form.designer/{ef.EntityDefinitionId}/{ef.Id}" });
         }
 
         [HttpPost]

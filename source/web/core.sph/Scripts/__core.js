@@ -405,10 +405,13 @@ ko.bindingHandlers.solutiontree = {
         var eds = [];
         var treeRoots = [
             { "id": "EntityDefinition", "parent": "#", "text": "Entity Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
-            { "id": "WorkflowDefinition", "parent": "#", "text": "Workflow Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
-            { "id": "TransformDefinition", "parent": "#", "text": "Transform Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
-            { "id": "Adapter", "parent": "#", "text": "Adapters", icon: "fa fa-file", data: { TypeName: "#" } },
-            //{ "id": "Trigger", "parent": "#", "text": "Triggers", icon: "fa fa-file", data: { TypeName: "#" } }
+            { "id": "WorkflowDefinition", "parent": "#", "text": "Workflow Definitions", icon: "fa fa-code-fork", data: { TypeName: "#" } },
+            { "id": "TransformDefinition", "parent": "#", "text": "Transform Definitions", icon: "fa fa-random", data: { TypeName: "#" } },
+            { "id": "Adapter", "parent": "#", "text": "Adapters", icon: "fa fa-puzzle-piece", data: { TypeName: "#" } },
+            { "id": "CustomForm", "parent": "#", "text": "Custom Forms", icon: "fa fa-file-o", data: { TypeName: "#" } },
+            { "id": "CustomDialog", "parent": "#", "text": "Custom Dialog", icon: "fa fa-file-o", data: { TypeName: "#" } },
+            { "id": "CustomScript", "parent": "#", "text": "Custom Scripts", icon: "fa fa-file-o", data: { TypeName: "#" } },
+            { "id": "PartialView", "parent": "#", "text": "Partial View", icon: "fa fa-file-o", data: { TypeName: "#" } }
         ];
 
         _.each(items, function (pmd) {
@@ -432,7 +435,7 @@ ko.bindingHandlers.solutiontree = {
 
             _.each(pmd.Operations, function (op) {
                 eds.push({
-                    id: ko.unwrap(op.Id),
+                    id: ko.unwrap(op.WebId),
                     text: ko.unwrap(op.Name),
                     parent: ko.unwrap(pmd.Id),
                     icon: "fa fa-gavel",
@@ -444,10 +447,10 @@ ko.bindingHandlers.solutiontree = {
             _.each(pmd.Rdl, function (rdl) {
                 eds.push({
                     id: ko.unwrap(rdl.Id),
-                    text: ko.unwrap(rdl.Name),
+                    text: ko.unwrap(rdl.Title),
                     parent: ko.unwrap(pmd.Id),
                     icon: "fa fa-clipboard",
-                    type: 'Rdl'
+                    type: "Rdl"
                 });
             });
 
@@ -482,8 +485,17 @@ ko.bindingHandlers.solutiontree = {
                 data: { TypeName: "TransformDefinition" }
             });
         });
+        _.each(wds, function (pmd) {
+            eds.push({
+                id: ko.unwrap(pmd.Id),
+                text: ko.unwrap(pmd.Name),
+                parent: "WorkflowDefinition",
+                icon: "fa fa-code-fork",
+                data: { TypeName: "WorkflowDefinition" }
+            });
+        });
 
-        $("#jstree_demo_div").jstree({
+        $(element).jstree({
             'core': {
                 'data': treeRoots.concat(eds)
             },
@@ -543,6 +555,7 @@ ko.bindingHandlers.solutiontree = {
                                 "label": "Add New Business Rules",
                                 "action": function (obj) {
                                     addBusinessRules(node.id);
+                                    console.log(ob);
                                 }
                             },
                             "Create Form": {
@@ -555,12 +568,14 @@ ko.bindingHandlers.solutiontree = {
                                 "label": "Add New View",
                                 "action": function (obj) {
                                     addView(node.id);
+                                    console.log(obj);
                                 }
                             },
                             "Create Operation": {
                                 "label": "Add New Operation",
                                 "action": function (obj) {
                                     addOperation(node.id);
+                                    console.log(obj);
                                 }
                             }
                         };
@@ -570,8 +585,8 @@ ko.bindingHandlers.solutiontree = {
             }
         });
 
-        $("#jstree_demo_div").on("select_node.jstree", singleClick);
-        $("#jstree_demo_div").delegate("a", "dblclick", click);
+        $(element).on("select_node.jstree", singleClick);
+        $(element).delegate("a", "dblclick", click);
     }
 };
 
@@ -593,7 +608,7 @@ ko.bindingHandlers.tree = {
                 node.children = _(node.data.MemberCollection()).map(function (v) {
                     return {
                         text: v.Name(),
-                        state: 'open',
+                        state: "open",
                         type: v.TypeName(),
                         data: v
                     };
@@ -604,14 +619,14 @@ ko.bindingHandlers.tree = {
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
                     return {
                         text: v.Name(),
-                        state: 'open',
+                        state: "open",
                         type: v.TypeName(),
                         data: v
                     };
                 });
                 _(jsTreeData.children).each(recurseChildMember);
                 $(element)
-                    .on('select_node.jstree', function (node, selected) {
+                    .on("select_node.jstree", function (node, selected) {
                         if (selected.node.data) {
                             member(selected.node.data);
 
@@ -627,10 +642,10 @@ ko.bindingHandlers.tree = {
                             });
                         }
                     })
-                    .on('create_node.jstree', function (event, node) {
+                    .on("create_node.jstree", function (event, node) {
                         console.log(node, "node");
                     })
-                    .on('rename_node.jstree', function (ev, node) {
+                    .on("rename_node.jstree", function (ev, node) {
                         var mb = node.node.data;
                         mb.Name(node.text);
                     })
@@ -646,10 +661,10 @@ ko.bindingHandlers.tree = {
                                 {
                                     label: "Add Child",
                                     action: function () {
-                                        var child = new bespoke.sph.domain.Member({ WebId: system.guid(), TypeName: 'System.String, mscorlib', Name: 'Member_Name' }),
-                                            parent = $(element).jstree('get_selected', true),
+                                        var child = new bespoke.sph.domain.Member({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
+                                            parent = $(element).jstree("get_selected", true),
                                             mb = parent[0].data,
-                                            newNode = { state: "open", type: "System.String, mscorlib", text: 'Member_Name', data: child };
+                                            newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
 
                                         var ref = $(element).jstree(true),
                                             sel = ref.get_selected();
@@ -680,7 +695,7 @@ ko.bindingHandlers.tree = {
 
                                         // now delete the member
                                         var n = ref.get_selected(true)[0],
-                                            p = ref.get_node($('#' + n.parent)),
+                                            p = ref.get_node($("#" + n.parent)),
                                             parentMember = p.data;
                                         if (parentMember && typeof parentMember.MemberCollection === "function") {
                                             var child = _(parentMember.MemberCollection()).find(function (v) {
@@ -770,7 +785,7 @@ var substringMatcher = function (strs) {
         // an array that will be populated with substring matches
         matches = [];
         // regex used to determine if a string contains the substring `q`
-        substringRegex = new RegExp(q, 'i');
+        substringRegex = new RegExp(q, "i");
 
         // iterate through the pool of strings and for any string that
         // contains the substring `q`, add it to the `matches` array
@@ -793,7 +808,7 @@ ko.bindingHandlers.typeaheadUrl = {
             ttl = 300000,
             url = String.format("/list?table={0}&column={1}", types[0], "Route"),
             suggestions = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 limit: 10,
                 remote: {
@@ -811,7 +826,7 @@ ko.bindingHandlers.typeaheadUrl = {
         suggestions.initialize();
         $(element).typeahead(null,
             {
-                name: 'EntityView_' + $(element).prop("id"),
+                name: "EntityView_" + $(element).prop("id"),
                 displayKey: "name",
                 source: suggestions.ttAdapter()
             });
@@ -831,15 +846,15 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
                 var ed = ko.toJS(bespoke[config.applicationName + "_" + eid.toLowerCase()].domain[name]());
                 var input = $(element),
-                         div = $('<div></div>').css({
-                             'height': '28px'
+                         div = $("<div></div>").css({
+                             'height': "28px"
                          });
                 input.hide().before(div);
 
                 var c = completely(div[0], {
-                    fontSize: '12px',
-                    color: '#555;',
-                    fontFamily: '"Open Sans", Arial, Helvetica, sans-serif'
+                    fontSize: "12px",
+                    color: "#555;",
+                    fontFamily: "\"Open Sans\", Arial, Helvetica, sans-serif"
                 });
 
                 c.setText(ko.unwrap(allBindings.value));
@@ -847,7 +862,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                     if (ix === "$type") continue;
                     if (ix === "addChildItem") continue;
                     if (ix === "removeChildItem") continue;
-                    c.options.push('' + ix);
+                    c.options.push("" + ix);
                 }
                 c.options.sort();
 
@@ -867,24 +882,24 @@ ko.bindingHandlers.entityTypeaheadPath = {
                             if (i === "$type") continue;
                             if (i === "addChildItem") continue;
                             if (i === "removeChildItem") continue;
-                            c.options.push('' + i);
+                            c.options.push("" + i);
                         }
                         c.options.sort();
-                        c.startFrom = text.lastIndexOf('.') + 1;
+                        c.startFrom = text.lastIndexOf(".") + 1;
                     }
                     c.repaint();
                 };
 
                 c.repaint();
                 $(c.input)
-                    .attr('autocomplete', 'off')
+                    .attr("autocomplete", "off")
                     .blur(function () {
                         allBindings.value($(this).val());
-                    }).parent().find('input')
+                    }).parent().find("input")
                     .css({ "padding": "6px 12px", "height": "28px" });
 
-                if ($(element).prop('required')) {
-                    $(c.input).prop('required', true);
+                if ($(element).prop("required")) {
+                    $(c.input).prop("required", true);
                 }
 
 
@@ -892,7 +907,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
 
         if (idOrName) {
-            context.loadOneAsync('EntityDefinition', "Name eq '" + idOrName + "' OR id eq '" + idOrName + "'", 'Id')
+            context.loadOneAsync("EntityDefinition", "Name eq '" + idOrName + "' OR id eq '" + idOrName + "'", "Id")
                 .done(function (edf) {
                     setup({ name: edf.Name(), id: edf.Id() });
                 });
@@ -902,7 +917,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
         if (typeof value === "function" && typeof value.subscribe === "function") {
             value.subscribe(function (entity) {
-                $(element).typeahead('destroy');
+                $(element).typeahead("destroy");
                 setup(entity);
             });
         }
@@ -917,7 +932,7 @@ ko.bindingHandlers.cssTypeahead = {
                 var result = /([^,]+)$/.exec(query);
                 if (result && result[1])
                     return result[1].trim();
-                return '';
+                return "";
             },
             paths = _(results).map(function (v) {
                 return { path: v };
@@ -937,7 +952,7 @@ ko.bindingHandlers.cssTypeahead = {
             minLength: 0,
             highlight: true,
             updater: function () {
-                return this.$element.val().replace(/[^,]*$/, '') + item + ',';
+                return this.$element.val().replace(/[^,]*$/, "") + item + ",";
             },
             matcher: function (item) {
                 var tquery = extractor(this.query);
@@ -946,11 +961,11 @@ ko.bindingHandlers.cssTypeahead = {
             }
         },
             {
-                name: 'css-class',
-                displayKey: 'path',
+                name: "css-class",
+                displayKey: "path",
                 source: members.ttAdapter()
             })
-            .on('typeahead:closed', function () {
+            .on("typeahead:closed", function () {
                 allBindings.value($(this).val());
             });
 
@@ -961,7 +976,7 @@ ko.bindingHandlers.cssTypeahead = {
 ko.bindingHandlers.chart = {
     init: function (element, valueAccessor) {
         var chart = ko.unwrap(valueAccessor()),
-            context = require('services/datacontext'),
+            context = require("services/datacontext"),
             entity = chart.Entity(),
             query = JSON.parse(chart.Query()),
             type = chart.Type(),
@@ -1038,12 +1053,12 @@ ko.bindingHandlers.iconPicker = {
     init: function (element, valueAccessor) {
         var $input = $(element),
             value = valueAccessor(),
-            $picker = $('<a href="#" class="btn btn-link">Pick Icon</a>');
+            $picker = $("<a href=\"#\" class=\"btn btn-link\">Pick Icon</a>");
 
         $input.parent().append($picker);
         $picker.click(function (e) {
             e.preventDefault();
-            require(['viewmodels/icon.picker', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/icon.picker", "durandal/app"], function (dialog, app2) {
                 app2.showDialog(dialog)
                     .done(function (result) {
                         if (result === "OK") {
@@ -1081,7 +1096,7 @@ ko.bindingHandlers.lookup = {
             e.preventDefault();
             e.stopPropagation();
 
-            require(['viewmodels/entity.lookup.dialog', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/entity.lookup.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.options(options);
                 app2.showDialog(dialog)
                     .done(function (result) {
@@ -1104,7 +1119,7 @@ bespoke.lookupText = function (element, valueAccessor) {
         displayPath = ko.unwrap(options.displayPath),
         valuePath = ko.unwrap(options.valuePath),
         val = ko.unwrap(options.value),
-        context = require('services/datacontext'),
+        context = require("services/datacontext"),
         setTextContent = function (ele, textContent) {
             var value = ko.utils.unwrapObservable(textContent);
             if ((value === null) || (value === undefined))
@@ -1136,10 +1151,10 @@ ko.bindingHandlers.readonly = {
             ro = ko.unwrap(valueAccessor());
 
         if (ro) {
-            input.prop('readonly', true);
+            input.prop("readonly", true);
         } else {
 
-            input.prop('readonly', false);
+            input.prop("readonly", false);
         }
     },
     update: function (element, valueAccessor) {
@@ -1147,10 +1162,10 @@ ko.bindingHandlers.readonly = {
              ro = ko.unwrap(valueAccessor());
 
         if (ro) {
-            input.prop('readonly', true);
+            input.prop("readonly", true);
         } else {
 
-            input.prop('readonly', false);
+            input.prop("readonly", false);
         }
     }
 };
