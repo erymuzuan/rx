@@ -2,10 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Bespoke.Sph.Domain;
-using Bespoke.Sph.RabbitMqPublisher;
 using Bespoke.Sph.SubscribersInfrastructure;
-using NamedPipeWrapper;
 using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
 namespace workers.console.runner
@@ -28,7 +25,6 @@ namespace workers.console.runner
             var vhost = ParseArg("v") ?? "DevV1";
             var userName = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
-            var instanceName = ParseArg("i") ?? "instance";
             var debug = ParseArgExist("debug");
             if (debug)
             {
@@ -75,45 +71,21 @@ namespace workers.console.runner
                 program.Stop();
                 stopFlag.Set();
             };
-            StartNamePipeServer(program, instanceName, stopFlag);
 
             var discoverElapsed = sw.Elapsed;
             program.Start(metadata);
-            Console.WriteLine("********* Watching " + AppDomain.CurrentDomain.BaseDirectory);
 
             var span = sw.Elapsed;
             sw.Stop();
-            Console.WriteLine("{0} seconds taken to start discover the subscribers", discoverElapsed.TotalSeconds);
+            Console.WriteLine("{0} seconds taken to discover the subscribers", discoverElapsed.TotalSeconds);
             Console.WriteLine("{0} seconds taken to start the console", span.TotalSeconds);
             Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
 
+        
             stopFlag.WaitOne();
             return 0;
         }
-
-        private static void StartNamePipeServer(Program program, string instanceName, EventWaitHandle stopFlag)
-        {
-            var server = new NamedPipeServer<string>($"RxDevConsole.{ConfigurationManager.ApplicationName}.{instanceName}");
-            server.ClientConnected += delegate (NamedPipeConnection<string, string> conn)
-            {
-                Console.WriteLine("Client {0} is now connected!", conn.Id);
-                conn.PushMessage("Welcome!");
-            };
-
-            server.ClientMessage += delegate (NamedPipeConnection<string, string> conn, string message)
-            {
-                Console.WriteLine("Client {0} says: {1}", conn.Id, message);
-                if (message == "stop app")
-                {
-                    program.Stop();
-                    stopFlag.Set();
-                }
-            };
-            server.Start();
-
-        }
-
-
+        
         public static string ParseArg(string name)
         {
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

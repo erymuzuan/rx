@@ -6,6 +6,7 @@ using System.IO;
 using System.Management;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,7 +14,6 @@ using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.Properties;
 using GalaSoft.MvvmLight.Command;
-using NamedPipeWrapper;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using EventLog = Bespoke.Sph.ControlCenter.Model.EventLog;
@@ -102,7 +102,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     MessageBoxImage.Error);
                 return;
             }
-            // TODO : see if the database, elasticsearch index, RabbitMq vhost etc are present
+            // NOTE : see if the database, elasticsearch index, RabbitMq vhost etc are present
             this.IsSetup = await this.FindOutSetupAsync();
 
 
@@ -138,8 +138,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 MessageBox.Show("Fail to start Web Console Logger on port " + this.Settings.LoggerWebSocketPort,
                     "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
-            if (!string.IsNullOrWhiteSpace(this.Settings.ApplicationName) && rabbitStarted)
-                this.ConsoleLogger.Listen();
+         
 
             this.CheckWorkers();
             this.CheckIisExpress();
@@ -452,7 +451,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private Process m_rabbitMqServer;
         private Process m_sphWorkerProcess;
         private int m_elasticSearchId;
-        private NamedPipeClient<string, string> m_namedPipeClient;
 
         public async void StartRabbitMqService()
         {
@@ -514,7 +512,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     Task.Delay(1000).Wait();
                     this.Post(() =>
                     {
-                        this.ConsoleLogger.Listen();
                         RabbitMqServiceStarted = true;
                         this.IsBusy = false;
                         this.RabbitMqServiceStarting = false;
@@ -682,7 +679,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 if (id == 0) return;
                 this.Post(() =>
                 {
-                    this.StartWorkerNamePipeClient();
                     m_sphWorkerProcess = Process.GetProcessById(id);
                     this.IsBusy = false;
                     this.SphWorkerServiceStarted = true;
@@ -723,16 +719,21 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
-                    WindowStyle = ProcessWindowStyle.Hidden
+                    RedirectStandardInput = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    
                 };
+
 
 
                 m_sphWorkerProcess = Process.Start(workerInfo);
                 if (null == m_sphWorkerProcess) throw new InvalidOperationException("Cannot start subscriber worker");
+                m_sphWorkerProcess.StandardInput.AutoFlush = true;
                 m_sphWorkerProcess.BeginOutputReadLine();
                 m_sphWorkerProcess.BeginErrorReadLine();
                 m_sphWorkerProcess.OutputDataReceived += OnWorkerDataReceived;
                 m_sphWorkerProcess.ErrorDataReceived += OnWorkerErrorReceived;
+                this.SphWorkerServiceStarted = true;
 
             }
             catch (Exception ex)
@@ -748,13 +749,58 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool AttachConsole(uint dwProcessId);
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        static extern bool FreeConsole();
+
+        [DllImport("kernel32.dll")]
+        // ReSharper disable InconsistentNaming
+        static extern bool SetConsoleCtrlHandler(ConsoleCtrlDelegate HandlerRoutine, bool Add);
+   
+        // Delegate type to be used as the Handler Routine for SCCH
+        delegate Boolean ConsoleCtrlDelegate(CtrlTypes CtrlType);
+     // ReSharper restore InconsistentNaming
+        [DllImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool GenerateConsoleCtrlEvent(CtrlTypes dwCtrlEvent, uint dwProcessGroupId);
+        // Enumerated type for the control messages sent to the handler routine
+        enum CtrlTypes : uint
+        {
+            // ReSharper disable InconsistentNaming
+            CTRL_C_EVENT = 0,
+            // ReSharper disable UnusedMember.Local
+            CTRL_BREAK_EVENT,
+            CTRL_CLOSE_EVENT,
+            CTRL_LOGOFF_EVENT = 5,
+            CTRL_SHUTDOWN_EVENT
+            // ReSharper restore UnusedMember.Local
+            // ReSharper restore InconsistentNaming
+        }
+
         private void StopSphWorker()
         {
             this.IsBusy = true;
             this.QueueUserWorkItem(() =>
-            {
-                PushMessageToWorker("stop app");
-                Task.Delay(5000).Wait();
+            {    //This does not require the console window to be visible.
+                if (AttachConsole((uint)m_sphWorkerProcess.Id))
+                {
+                    Log("SPH worker .. attached");
+                    //Disable Ctrl-C handling for our program
+                    SetConsoleCtrlHandler(null, true);
+                    Log("SPH Worker .. sending Ctrl C");
+                    GenerateConsoleCtrlEvent(CtrlTypes.CTRL_C_EVENT, 0);
+
+                    //Must wait here. If we don't and re-enable Ctrl-C handling below too fast, we might terminate ourselves.
+                    m_sphWorkerProcess.WaitForExit();
+
+                    FreeConsole();
+
+                    //Re-enable Ctrl-C handling or any subsequently started programs will inherit the disabled state.
+                    SetConsoleCtrlHandler(null, false);
+                }
+                Task.Delay(1000).Wait();
                 if (!m_sphWorkerProcess.HasExited)
                 {
                     Log("SPH Worker... [STOPPING]");
@@ -772,22 +818,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             });
         }
 
-        private void StartWorkerNamePipeClient()
-        {
-            m_namedPipeClient = new NamedPipeClient<string, string>("RxDevConsole." + this.Settings.ApplicationName);
-            m_namedPipeClient.ServerMessage += delegate (NamedPipeConnection<string, string> conn, string message)
-            {
-                Log($"Server says: {message}");
-            };
 
-            m_namedPipeClient.Start();
-        }
-
-        private void PushMessageToWorker(string msg)
-        {
-            m_namedPipeClient?.PushMessage(msg);
-        }
-
+  
 
         private void SaveSettings()
         {
@@ -899,7 +931,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 SphWorkersStatus = "Running";
                 Log("SPH Worker... [STARTED]");
 
-                StartWorkerNamePipeClient();
 
             }
         }
@@ -961,7 +992,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public void Stop()
         {
-            m_namedPipeClient?.Stop();
             this.ConsoleLogger?.Stop();
 
         }
