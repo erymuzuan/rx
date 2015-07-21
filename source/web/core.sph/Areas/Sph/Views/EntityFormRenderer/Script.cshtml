@@ -7,21 +7,21 @@
     ViewBag.Title = "title";
     Layout = null;
     var ns = ConfigurationManager.ApplicationName + "_" + this.Model.EntityDefinition.Id;
-    var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.EntityDefinition.Name);
-    var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
-    var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
-    var validateUrl = string.Format("/Sph/BusinessRule/Validate?{0};{1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
+    var typeCtor = $"bespoke.{ns}.domain.{Model.EntityDefinition.Name}({{WebId:system.guid()}})";
+    var typeName = $"bespoke.{ns}.domain.{Model.EntityDefinition.Name}";
+    var saveUrl = $"/{@Model.EntityDefinition.Name}/Save";
+    var validateUrl = $"/Sph/BusinessRule/Validate?{@Model.EntityDefinition.Name};{string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize()))}";
     var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.Id;
     var buttonOperations = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
         .Where(b => b.IsToolbarItem)
         .Where(b => !string.IsNullOrWhiteSpace(b.Operation))
-        .Select(b => string.Format("{{ caption :\"{0}\", command : {1}, icon:\"{2}\" }}", b.Label, b.Operation.ToCamelCase(), b.IconClass));
+        .Select(b => $"{{ caption :\"{b.Label}\", command : {b.Operation.ToCamelCase()}, icon:\"{b.IconClass}\" }}");
 
     var commands = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
         .Where(b => b.IsToolbarItem)
         .Where(b => !string.IsNullOrWhiteSpace(b.CommandName))
-        .Select(b => string.Format("{{ caption :\"{0}\", command : {1}, icon:\"{2}\" }}", b.Label, b.CommandName, b.IconClass));
-    var commandsJs = string.Format("[{0}]", string.Join(",", commands.Concat(buttonOperations)));
+        .Select(b => $"{{ caption :\"{b.Label}\", command : {b.CommandName}, icon:\"{b.IconClass}\" }}");
+    var commandsJs = $"[{string.Join(",", commands.Concat(buttonOperations))}]";
 
 
     var formId = @Model.Form.Route + "-form";

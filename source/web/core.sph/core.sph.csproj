@@ -140,7 +140,6 @@
       <HintPath>..\..\..\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Monads.NET">
       <HintPath>..\..\..\packages\Monads.NET.1.0.3\lib\net40\Monads.NET.dll</HintPath>
     </Reference>
