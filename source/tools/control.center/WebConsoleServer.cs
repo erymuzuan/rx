@@ -2,18 +2,23 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NamedPipeWrapper;
 using Newtonsoft.Json;
 using SuperSocket.WebSocket;
 
 namespace Bespoke.Sph.ControlCenter
 {
-    public class ConsoleNotificationSubscriber
+    public class WebConsoleServer
     {
+        private static WebConsoleServer m_instance;
+
+        public static WebConsoleServer Default => m_instance ?? (m_instance = new WebConsoleServer());
+
+        private WebConsoleServer()
+        {
+            
+        }
         private WebSocketServer m_appServer;
         private FileSystemWatcher m_fsw;
-        // name pipe server listen to workers process and push them all to the browser via websocket
-        private NamedPipeServer<string> m_messageListenerServer;
 
         public bool Start(int port = 50230)
         {
@@ -32,29 +37,10 @@ namespace Bespoke.Sph.ControlCenter
             }
             m_appServer.NewMessageReceived += NewMessageReceived;
             var started = m_appServer.Start();
-            if (started)
-                StartNamePipeServer();
 
             return started;
         }
 
-
-        private void StartNamePipeServer()
-        {
-            m_messageListenerServer = new NamedPipeServer<string>("rx.web.console");
-            m_messageListenerServer.ClientConnected += delegate (NamedPipeConnection<string, string> conn)
-            {
-                Console.WriteLine("Client {0} is now connected!", conn.Id);
-                conn.PushMessage("Welcome!");
-            };
-
-            m_messageListenerServer.ClientMessage += delegate (NamedPipeConnection<string, string> conn, string message)
-            {
-                SendMessage(message);
-            };
-            m_messageListenerServer.Start();
-
-        }
         public bool Stop()
         {
             if (null != m_fsw)
@@ -64,31 +50,22 @@ namespace Bespoke.Sph.ControlCenter
             }
             m_appServer.Stop();
             m_appServer.Dispose();
-            m_messageListenerServer?.Stop();
             return true;
         }
 
-        public void Listen()
-        {
-            // TODO : listen to name pipe for notification
-        }
-
-
-        protected void OnStop() { }
-
         void FswChanged(object sender, FileSystemEventArgs e)
         {
-            //this.WriteInfo($"Detected changes in FileSystem \r\n{e.Name} has {e.ChangeType}");
             var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message = $"{e.ChangeType} in output {e.FullPath}", severity = "Info", outputFile = e.FullPath });
             SendMessage(json);
         }
-        private void SendMessage(string json)
+
+        public void SendMessage(string json)
         {
             m_appServer?.GetAllSessions().ToList().ForEach(x =>
             {
                 try
                 {
-                    x.Send(json);
+                    x?.Send(json);
                 }
                 catch (Exception e)
                 {
@@ -96,6 +73,7 @@ namespace Bespoke.Sph.ControlCenter
                 }
             });
         }
+
         private void NewMessageReceived(WebSocketSession session, string value)
         {
             Console.WriteLine("Getting new message from {0} => {1}", session.SessionID, value);
