@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.Properties;
 using GalaSoft.MvvmLight.Command;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using EventLog = Bespoke.Sph.ControlCenter.Model.EventLog;
@@ -25,7 +26,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private Process m_elasticProcess;
         private Process m_iisServiceProcess;
         public DispatcherObject View { get; set; }
-        public ConsoleNotificationSubscriber ConsoleLogger { get; set; }
         public RelayCommand StartElasticSearchCommand { get; set; }
         public RelayCommand StopElasticSearchCommand { get; set; }
         public RelayCommand StartRabbitMqCommand { get; set; }
@@ -57,7 +57,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 && !SphWorkerServiceStarted
                 && !IisServiceStarted));
 
-            StartWebConsoleCommand = new RelayCommand(StartWebConsole, () => !WebConsoleStarted );
+            StartWebConsoleCommand = new RelayCommand(StartWebConsole, () => !WebConsoleStarted);
             StopWebConsoleCommand = new RelayCommand(StopWebConsole, () => WebConsoleStarted);
 
             StartElasticSearchCommand = new RelayCommand(StartElasticSearch, () => !ElasticSearchServiceStarted && RabbitMqServiceStarted && !RabbitMqServiceStarting);
@@ -75,13 +75,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StopWebConsole()
         {
-            this.ConsoleLogger.Stop();
+            WebConsoleServer.Default.Stop();
             this.WebConsoleStarted = false;
         }
 
         private void StartWebConsole()
         {
-            this.ConsoleLogger.Start(this.Settings.LoggerWebSocketPort ?? 50230);
+            WebConsoleServer.Default.Start(this.Settings.LoggerWebSocketPort ?? 50230);
             this.WebConsoleStarted = true;
         }
 
@@ -128,8 +128,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
 
-            this.ConsoleLogger = new ConsoleNotificationSubscriber();
-            var loggerStarted = this.ConsoleLogger.Start(this.Settings.LoggerWebSocketPort ?? 50230);
+            var loggerStarted = WebConsoleServer.Default.Start(this.Settings.LoggerWebSocketPort ?? 50230);
             this.WebConsoleStarted = true;
             Log(loggerStarted
                 ? "Web Console subscriber successfully started"
@@ -138,7 +137,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 MessageBox.Show("Fail to start Web Console Logger on port " + this.Settings.LoggerWebSocketPort,
                     "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
-         
+
 
             this.CheckWorkers();
             this.CheckIisExpress();
@@ -220,12 +219,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             try
             {
-                using(var conn = new SqlConnection($"Data Source=(localdb)\\{this.Settings.SqlLocalDbName};Initial Catalog={this.Settings.ApplicationName};Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False"))
-                using(var cmd = new SqlCommand("SELECT COUNT(*) FROM [Sph].[UserProfile]", conn))
+                using (var conn = new SqlConnection($"Data Source=(localdb)\\{this.Settings.SqlLocalDbName};Initial Catalog={this.Settings.ApplicationName};Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False"))
+                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM [Sph].[UserProfile]", conn))
                 {
                     conn.Open();
                     var count = (int)cmd.ExecuteScalar();
-                    if(count > 0 )
+                    if (count > 0)
                     {
 
                         SqlServiceStarted = true;
@@ -233,7 +232,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     }
                 }
 
-            }catch(SqlException)
+            }
+            catch (SqlException)
             {
 
             }
@@ -484,8 +484,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     if (!Directory.Exists(rabbitMqBase))
                         Directory.CreateDirectory(rabbitMqBase);
 
-	                if (!startInfo.EnvironmentVariables.ContainsKey("RABBITMQ_BASE"))
-						startInfo.EnvironmentVariables.Add("RABBITMQ_BASE", rabbitMqBase);
+                    if (!startInfo.EnvironmentVariables.ContainsKey("RABBITMQ_BASE"))
+                        startInfo.EnvironmentVariables.Add("RABBITMQ_BASE", rabbitMqBase);
                 }
 
                 m_rabbitMqServer = Process.Start(startInfo);
@@ -721,7 +721,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     RedirectStandardError = true,
                     RedirectStandardInput = true,
                     WindowStyle = ProcessWindowStyle.Hidden,
-                    
+
                 };
 
 
@@ -758,10 +758,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         [DllImport("kernel32.dll")]
         // ReSharper disable InconsistentNaming
         static extern bool SetConsoleCtrlHandler(ConsoleCtrlDelegate HandlerRoutine, bool Add);
-   
+
         // Delegate type to be used as the Handler Routine for SCCH
         delegate Boolean ConsoleCtrlDelegate(CtrlTypes CtrlType);
-     // ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool GenerateConsoleCtrlEvent(CtrlTypes dwCtrlEvent, uint dwProcessGroupId);
@@ -819,7 +819,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         }
 
 
-  
+
 
         private void SaveSettings()
         {
@@ -922,7 +922,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void OnWorkerDataReceived(object sender, DataReceivedEventArgs e)
         {
             var message = $"{e.Data}";
-            m_writer?.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, message);
 
             if (message.Contains("Welcome to [SPH] Type ctrl + c to quit at any time"))
             {
@@ -930,8 +929,15 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 SphWorkerServiceStarted = true;
                 SphWorkersStatus = "Running";
                 Log("SPH Worker... [STARTED]");
-
-
+            }
+            if (message.StartsWith("===BEGIN=="))
+            {
+                WebConsoleServer.Default.SendMessage(message.Replace("===BEGIN===", "")
+                    .Replace("===END===", ""));
+            }
+            else
+            {
+                m_writer?.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, message);
             }
         }
 
@@ -975,6 +981,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 Console.WriteLine(@"@[{0:HH:mm:ss}] {1}", DateTime.Now, m);
             }, message);
+            var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message, severity = "Info" });
+            WebConsoleServer.Default.SendMessage(json);
         }
 
         public bool CanExit()
@@ -992,7 +1000,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public void Stop()
         {
-            this.ConsoleLogger?.Stop();
+            WebConsoleServer.Default?.Stop();
 
         }
     }

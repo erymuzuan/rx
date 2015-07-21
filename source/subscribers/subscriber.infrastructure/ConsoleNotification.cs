@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using Bespoke.Sph.Domain;
-using NamedPipeWrapper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -13,23 +12,13 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         private readonly object m_lock = new object();
 
-        private readonly NamedPipeClient<string, string> m_namedPipeClient;
-        public ConsoleNotification()
-        {
-            m_namedPipeClient = new NamedPipeClient<string, string>("rx.web.console");
-            m_namedPipeClient.ServerMessage += delegate (NamedPipeConnection<string, string> conn, string message)
-            {
-                this.Write($"Server says: {message}");
-            };
 
-            m_namedPipeClient.Start();
-        }
 
         private static string GetJsonContent(LogEntry entry)
         {
             var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             setting.Converters.Add(new StringEnumConverter());
-            setting.Formatting = Formatting.Indented;
+            setting.Formatting = Formatting.None;
             setting.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             var json = JsonConvert.SerializeObject(entry, setting);
@@ -44,7 +33,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             entry.Computer = Environment.MachineName;
 
             var json = GetJsonContent(entry);
-            m_namedPipeClient?.PushMessage(json);
+            Console.WriteLine("===BEGIN===" + json + "===END===");
         }
 
         public void Write(string format, params object[] args)

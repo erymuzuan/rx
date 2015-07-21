@@ -100,7 +100,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 Settings = this.Settings,
                 View = this.View,
-                ConsoleLogger = new ConsoleNotificationSubscriber(),
                 Logger = new Logger()
             };
             this.MainViewModel = main;
