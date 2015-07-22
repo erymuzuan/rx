@@ -5,145 +5,11 @@
 }
 
 <h1>Trigger</h1>
-<form class="form-horizontal" data-bind="with: trigger" role="form" style="clear: both">
 
+@Html.Partial("_errorList")
+<div class="row">
+    <div id="action-list-panel" class="col-lg-7 col-md-6 col-sm-12 col-xs-12" data-bind="with : trigger">
 
-    <a data-toggle="collapse" href="#general-trigger-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            General options
-        </h3>
-    </a>
-
-    <div class="collapse in" id="general-trigger-panel">
-        <div class="form-group">
-            <label for="Name" class="col-sm-2 control-label">Name</label>
-            <div class="col-sm-6">
-                <input required maxlength="35" placeholder="Trigger's' name" class="form-control" data-bind="value: Name" id="Name" type="text" name="Name" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="Entity" class="col-sm-2 control-label">Entity</label>
-            <div class="col-sm-6">
-                <select required class="form-control" data-bind="value: Entity, options: $root.entities, optionsCaption:'[--SELECT TRIGGER ENTITY--]'" id="Entity" name="Entity"></select>
-            </div>
-        </div>
-        @*, optionsText:'Name', optionsValue:'Type',*@
-
-
-        <div class="form-group">
-            <label for="Note" class="col-sm-2 control-label">Note</label>
-            <div class="col-sm-6">
-                <textarea class="form-control" data-bind="value: Note" id="Note" name="Note"></textarea>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2">CRUD</label>
-            <div class="col-sm-6">
-                <div class="checkbox col-sm-3 checkbox-no-padding-left">
-                    <label>
-                        <input data-bind="checked: IsFiredOnAdded" id="fired-on-added" type="checkbox" name="IsFiredOnAdded" />
-                        Added
-                    </label>
-                </div>
-                <div class="checkbox col-sm-3 checkbox-no-padding-left">
-                    <label>
-                        <input data-bind="checked: IsFiredOnChanged" id="fired-on-changed" type="checkbox" name="IsFireOnChanged" />
-                        Changed
-                    </label>
-                </div>
-                <div class="checkbox col-sm-3 checkbox-no-padding-left">
-                    <label>
-                        <input data-bind="checked: IsFiredOnDeleted" id="fire-on-deleted" type="checkbox" name="IsFireOnDeleted" />
-                        Deleted
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group clear clearfix" style="clear: both">
-            <label class="control-label col-sm-2" data-bind="tooltip:'When this operation is invoked, then fire this trigger'">Operation</label>
-            <div class="col-sm-6" id="operation-options">
-                <!-- ko foreach: $root.operationOptions -->
-                <div class="checkbox col-sm-3 checkbox-no-padding-left">
-                    <label>
-                        <input type="checkbox" data-bind="value:$data, checked: $root.operations" />
-                        <!-- ko text: $data-->
-                        <!-- /ko -->
-                    </label>
-                </div>
-                <!-- /ko -->
-            </div>
-        </div>
-        <div class="form-group">
-
-        </div>
-    </div>
-
-    <a data-toggle="collapse" href="#rules-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Rules
-        </h3>
-    </a>
-    <div id="rules-panel" class="collapsed collapse">
-        <table id="rules-table" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Left</th>
-                    <th>Operator</th>
-                    <th>Right</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: RuleCollection">
-                <tr>
-                    <td>
-                        @Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Left" })
-                    </td>
-                    <td>
-                        <select name="rule-operator" class="form-control" data-bind="value: Operator">
-                            <option value="Eq">=</option>
-                            <option value="Neq">!=</option>
-                            <option value="Le">&lt;=</option>
-                            <option value="Lt">&lt;</option>
-                            <option value="Ge">&gt;=</option>
-                            <option value="Gt">&gt;</option>
-                            <option value="Substringof">Substringof</option>
-                            <option value="StartsWith">StartsWith</option>
-                            <option value="EndsWith">EndsWith</option>
-                            <option value="NotContains">Not Substringof</option>
-                            <option value="NotStartsWith">Not StartsWith</option>
-                            <option value="NotEndsWith">Not EndsWith</option>
-                        </select>
-                    </td>
-                    <td>
-                        @Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" })
-                    </td>
-                    <td>
-                        <a rel="nofollow" href="#" data-bind="click : $parent.removeRule.call($parent,$data)">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <a href="#" class="btn btn-link" data-bind="click: addRule">
-
-            <i class="fa fa-plus-circle"></i> Add a filter rule
-        </a>
-    </div>
-
-    <a data-toggle="collapse" href="#actions-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-
-            Action
-        </h3>
-    </a>
-
-    <div id="actions-panel" class="collapsed collapse">
         <div id="action-panel">
             <div class="btn-group">
                 <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
@@ -155,7 +21,7 @@
                         <a class="btn btn-link" style="text-align: left" data-bind="click: $root.trigger().addAction(action.$type)">
 
                             <!-- ko if :designer.FontAwesomeIcon-->
-                            <i  data-bind="attr : {'class':'fa fa-'+ designer.FontAwesomeIcon + ' fa-fw'}"></i>
+                            <i data-bind="attr : {'class':'fa fa-'+ designer.FontAwesomeIcon + ' fa-fw'}"></i>
                             <!--/ko-->
                             Add <!-- ko text: designer.Name -->
                             <!-- /ko-->
@@ -198,39 +64,33 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <a data-toggle="collapse" href="#ref-assemblies-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
 
-            Referenced assemblies
-        </h3>
-    </a>
-    <div id="ref-assemblies-panel" class="collapsed collapse">
-        <table class="table table-striped table-condensed">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Version</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach : ReferencedAssemblyCollection">
-                <tr>
-                    <td data-bind="text:Name"></td>
-                    <td data-bind="text:Version"></td>
-                    <td>
-                        <a href="#" data-bind="click : $parent.removeReferencedAssembly.call($parent,$data)">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>
-        <a href="#" data-bind="click : addReferencedAssembly" class="btn btn-link">
-            <i class="fa fa-plus-circle"></i>
-            Add an assembly
-        </a>
     </div>
-</form>
+    <div id="view-properties-tab" class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
+       
+        <ul class="nav nav-tabs" data-bind2="filter : {path:'>li'}">
+            <li class="active">
+                <a href="#general-trigger-panel" data-toggle="tab">General</a>
+            </li>
+            <li>
+                <a href="#rules-panel" data-toggle="tab">Rules</a>
+            </li>
+            <li>
+                <a href="#ref-assemblies-panel" data-toggle="tab">Referenced Assemblies</a>
+            </li>
+
+        </ul>
+        <div class="tab-content" data-bind="with : trigger">
+            <div class="tab-pane active" id="general-trigger-panel">
+                @Html.Partial("_generalTrigger")
+            </div>
+
+            <div id="rules-panel" class="tab-pane">
+                @Html.Partial("_rules")
+            </div>
+            <div id="ref-assemblies-panel"  class="tab-pane">
+                @Html.Partial("_referencedAssemblies")
+            </div>
+        </div>
+    </div>
+</div>

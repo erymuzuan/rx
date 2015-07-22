@@ -681,6 +681,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\TriggerSetup\_errorList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_errorList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\TriggerSetup\_generalTrigger.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_generalTrigger.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\TriggerSetup\_referencedAssemblies.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_referencedAssemblies.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\TriggerSetup\_rules.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_rules.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Sph\Controllers\AdapterController.cs" />
     <Compile Include="Areas\Sph\Controllers\BaseSphController.cs" />
     <Compile Include="Areas\Sph\Controllers\BusinessRuleController.cs" />
@@ -1606,6 +1626,22 @@
     </Content>
     <Content Include="Content\theme.matyie\user.css.map">
       <DependentUpon>user.css</DependentUpon>
+    </Content>
+    <Content Include="Areas\App\Views\TriggerSetup\_errorList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_errorList.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\TriggerSetup\_referencedAssemblies.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_referencedAssemblies.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\TriggerSetup\_rules.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_rules.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\TriggerSetup\_generalTrigger.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_generalTrigger.generated.cs</LastGenOutput>
     </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />

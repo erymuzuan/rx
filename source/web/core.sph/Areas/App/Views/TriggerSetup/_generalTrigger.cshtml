@@ -1,0 +1,65 @@
+﻿
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="Name" class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-6">
+            <input required maxlength="35" placeholder="Trigger's' name" class="form-control" data-bind="value: Name" id="Name" type="text" name="Name" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Entity" class="col-sm-2 control-label">Entity</label>
+        <div class="col-sm-6">
+            <select required class="form-control" data-bind="value: Entity, options: $root.entities, optionsCaption:'[--SELECT TRIGGER ENTITY--]'" id="Entity" name="Entity"></select>
+        </div>
+    </div>
+    @*, optionsText:'Name', optionsValue:'Type',*@
+
+
+    <div class="form-group">
+        <label for="Note" class="col-sm-2 control-label">Note</label>
+        <div class="col-sm-6">
+            <textarea class="form-control" data-bind="value: Note" id="Note" name="Note"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2">CRUD</label>
+        <div class="col-sm-6">
+            <div class="checkbox col-sm-3 checkbox-no-padding-left">
+                <label>
+                    <input data-bind="checked: IsFiredOnAdded" id="fired-on-added" type="checkbox" name="IsFiredOnAdded" />
+                    Added
+                </label>
+            </div>
+            <div class="checkbox col-sm-3 checkbox-no-padding-left">
+                <label>
+                    <input data-bind="checked: IsFiredOnChanged" id="fired-on-changed" type="checkbox" name="IsFireOnChanged" />
+                    Changed
+                </label>
+            </div>
+            <div class="checkbox col-sm-3 checkbox-no-padding-left">
+                <label>
+                    <input data-bind="checked: IsFiredOnDeleted" id="fire-on-deleted" type="checkbox" name="IsFireOnDeleted" />
+                    Deleted
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group clear clearfix" style="clear: both">
+        <label class="control-label col-sm-2" data-bind="tooltip:'When this operation is invoked, then fire this trigger'">Operation</label>
+        <div class="col-sm-6" id="operation-options">
+            <!-- ko foreach: $root.operationOptions -->
+            <div class="checkbox col-sm-3 checkbox-no-padding-left">
+                <label>
+                    <input type="checkbox" data-bind="value:$data, checked: $root.operations" />
+                    <!-- ko text: $data-->
+                    <!-- /ko -->
+                </label>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+
+
+</form>

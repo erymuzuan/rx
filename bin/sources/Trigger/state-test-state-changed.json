@@ -15,13 +15,11 @@
         "BodyTemplate": "test",
         "Bcc": "",
         "Cc": "",
-        "UseAsync": true,
         "Title": "test",
         "IsActive": true,
         "TriggerId": "",
         "Note": "test",
         "CustomActionId": 0,
-        "UseCode": false,
         "WebId": "2cb3bf01-163f-47c8-b264-bcaf98e8e6f3"
       }
     ]
@@ -37,7 +35,7 @@
   "Name": "Test state changed",
   "Entity": "State",
   "TypeOf": "Bespoke.DevV1_state.Domain.State, DevV1.State",
-  "Note": "test",
+  "Note": "test 123",
   "IsActive": true,
   "IsFiredOnAdded": true,
   "IsFiredOnDeleted": false,
@@ -45,10 +43,10 @@
   "FiredOnOperations": "",
   "ClassName": "StateTestStateChangedTriggerSubscriber",
   "CodeNamespace": "Bespoke.Sph.TriggerSubscribers",
-  "CreatedBy": null,
+  "CreatedBy": "admin",
   "Id": "state-test-state-changed",
-  "CreatedDate": "0001-01-01T00:00:00",
+  "CreatedDate": "2015-07-22T09:56:10.2897093+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-04-08T06:45:18.3835269+08:00",
+  "ChangedDate": "2015-07-22T09:56:10.2897093+08:00",
   "WebId": "24403f00-6272-400c-f96d-30f960334023"
 }
