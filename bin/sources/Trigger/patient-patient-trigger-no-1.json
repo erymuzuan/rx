@@ -1,0 +1,52 @@
+{
+  "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+  "RuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ActionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.EmailAction, domain.sph",
+        "From": "admin@@gmail.com",
+        "To": "erymuzuan@@gmail.com",
+        "SubjectTemplate": "Test @Model.Mrn is added",
+        "BodyTemplate": "Test @Model.Mrn is added",
+        "Bcc": "",
+        "Cc": "",
+        "Title": "email me",
+        "IsActive": true,
+        "TriggerId": "",
+        "Note": "email me",
+        "CustomActionId": 0,
+        "WebId": "2208536f-e399-4035-99ae-c39d94835cc9"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "RequeueFilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Patient trigger no 1",
+  "Entity": "Patient",
+  "TypeOf": "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient",
+  "Note": "no ",
+  "IsActive": false,
+  "IsFiredOnAdded": true,
+  "IsFiredOnDeleted": false,
+  "IsFiredOnChanged": false,
+  "FiredOnOperations": "",
+  "ClassName": "PatientPatientTriggerNo1TriggerSubscriber",
+  "CodeNamespace": "Bespoke.Sph.TriggerSubscribers",
+  "CreatedBy": "admin",
+  "Id": "patient-patient-trigger-no-1",
+  "CreatedDate": "2015-07-22T10:07:48.1250777+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-07-22T10:08:15.434126+08:00",
+  "WebId": "f1445372-fae7-40c9-c794-8c609022080c"
+}
