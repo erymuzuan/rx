@@ -2215,6 +2215,7 @@ div.collapse.padded table{padding-right:20px}
 .dataTables_length{float:none}
 .dataTables_length select{width:80px}
 .dataTables_paginate{float:right;text-align:right}
+section#content div.row{margin-left:0}
 #preview-parameters-dialog .modal-dialog{height:800px;width:900px}
 #rdl-configuration-panel .modal-dialog{max-height:600px;width:761px}
 #decision-activity-dialog div.modal-content,#function-panel-modal div.modal-content{width:800px}
