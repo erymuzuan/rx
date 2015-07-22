@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.ViewModels;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     [Authorize(Roles = "developers,administrators")]
     public class HomeController : Controller
     {
-        [OutputCache(Duration = 604800, Location = OutputCacheLocation.Any)]
+        [NoCache]
         public async Task<ActionResult> Index()
         {
             var context = new SphDataContext();
