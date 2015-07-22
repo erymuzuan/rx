@@ -28,19 +28,20 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" x:Name="menu">
-            <MenuItem Header="File">
-                <MenuItem Header="Exit" Click="WindowExit"/>
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xit" Click="WindowExit"/>
+                <MenuItem Header="_Force Exit" Click="ForceWindowExit"/>
             </MenuItem>
-            <MenuItem Header="Tools">
+            <MenuItem Header="_Tools">
                 <MenuItem Header="Update"/>
                 <!--<MenuItem Header="Starts web console logger" Icon="{StaticResource ControlStart}" Command="{Binding StartWebConsoleCommand}"/>
                 <MenuItem Header="Stop web console logger" Icon="{StaticResource ControlStop}" Command="{Binding StopWebConsoleCommand}"/>-->
-                <MenuItem Header="Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
-                <MenuItem Header="Dead Letter Viewer" ToolTip="Starts Dead Letter Viewere to manage all the rejected messages" Icon="{StaticResource date_error}" Click="RunDeadLetterViewerClicked"/>
+                <MenuItem Header="_Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
+                <MenuItem Header="_Dead Letter Viewer" ToolTip="Starts Dead Letter Viewere to manage all the rejected messages" Icon="{StaticResource date_error}" Click="RunDeadLetterViewerClicked"/>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="Help" Icon="{StaticResource ImageHelp}" Click="HelpClicked"/>
-                <MenuItem Header="About" Click="AboutClicked"/>
+            <MenuItem Header="_Help">
+                <MenuItem Header="He_lp" Icon="{StaticResource ImageHelp}" Click="HelpClicked"/>
+                <MenuItem Header="_About" Click="AboutClicked"/>
             </MenuItem>
         </Menu>
         <Label Grid.Row="1" Content="Reactive Developer Control Center" FontSize="18" FontWeight="Bold"  />

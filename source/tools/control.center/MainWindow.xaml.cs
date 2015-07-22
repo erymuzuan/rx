@@ -51,8 +51,7 @@ namespace Bespoke.Sph.ControlCenter
 
         void MainWindowClosing(object sender, CancelEventArgs e)
         {
-
-            dynamic vm = this.DataContext ;
+            dynamic vm = this.DataContext;
             if (null == vm) return;
             if (!vm.CanExit())
             {
@@ -92,7 +91,7 @@ namespace Bespoke.Sph.ControlCenter
             this.Dispatcher.BeginInvoke(caret, DispatcherPriority.ApplicationIdle);
         }
 
-     
+
 
         private void CleartOutputText(object sender, RoutedEventArgs e)
         {
@@ -125,6 +124,24 @@ namespace Bespoke.Sph.ControlCenter
                 MessageBox.Show("Please stop all the services before exit", Strings.Title,
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
+            }
+            this.Close();
+        }
+
+        private void ForceWindowExit(object sender, RoutedEventArgs e)
+        {
+            dynamic vm = this.DataContext;
+            if (null == vm) return;
+            if (!vm.CanExit())
+            {
+                var result = MessageBox.Show("This action will close the control center without stopping any of the services, Are you sure you want to continue", Strings.Title, MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
+                WebConsoleServer.Default.Stop();
+                WebConsoleServer.Default.StopConsume();
             }
             this.Close();
         }

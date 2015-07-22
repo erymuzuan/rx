@@ -517,6 +517,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                         this.RabbitMqServiceStarting = false;
                         RabbitMqStatus = "Started";
                         Log("RabbitMQ... [STARTED]");
+                        WebConsoleServer.Default.StartConsume(this.Settings);
                     });
                 });
             }
@@ -528,6 +529,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StopRabbitMqService()
         {
+            Log("[STOPPING] web.console.logger");
+            WebConsoleServer.Default.StopConsume();
             Log("RabbitMQ...[STOPPING]");
 
             var rabbitmqctl = string.Join(@"\", this.Settings.RabbitMqDirectory, "sbin", "rabbitmqctl.bat").TranslatePath();

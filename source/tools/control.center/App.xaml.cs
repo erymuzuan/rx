@@ -20,6 +20,8 @@ namespace Bespoke.Sph.ControlCenter
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            WebConsoleServer.Default.Stop();
+            WebConsoleServer.Default.StopConsume();
             var entry = new LogEntry(e.ExceptionObject as Exception);
             var message = entry.ToString();
 
@@ -52,6 +54,9 @@ namespace Bespoke.Sph.ControlCenter
 
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+            WebConsoleServer.Default.Stop();
+            WebConsoleServer.Default.StopConsume();
+
             var entry = new LogEntry(e.Exception);
             var message = entry.ToString();
 
