@@ -5,6 +5,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         var errors = ko.observableArray(),
             warnings = ko.observableArray(),
+            originalEntity = "",
             operationsOption = ko.observableArray(),
             layoutOptions = ko.observableArray(),
             collectionMemberOptions = ko.observableArray(),
@@ -70,7 +71,14 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     });
 
                 $.get("/app/entityformdesigner/layoutoptions").done(function (options) {
-                    layoutOptions(options);
+                    var layouts = _(options).map(function (v) {
+                        return {
+                            value: v,
+                            text: v
+                        };
+                    });
+                    layouts.splice(0, 0, { value: "", text: "[Default Layout]" });
+                    layoutOptions(layouts);
                 });
 
                 if (formid !== "0") {
@@ -80,6 +88,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             v.isSelected = ko.observable(false);
                         });
                         form(f);
+                        originalEntity = ko.toJSON(form);
                         tcs.resolve(true);
                     });
                 } else {
@@ -335,6 +344,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             form().Id(result.id);
                             errors.removeAll();
                             warnings(result.warnings);
+                            originalEntity = ko.toJSON(form);
                         } else {
                             errors(result.Errors);
                             warnings(result.Warnings);
@@ -361,11 +371,37 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             form().Id(result.id);
                             router.navigate("/entity.form.designer/" + entity().Id() + "/" + form().Id());
                             logger.info("Your form has been successfully saved.");
+                            originalEntity = ko.toJSON(form);
                         } else {
                             errors(result.Errors);
                         }
                         tcs.resolve(result);
                     });
+                return tcs.promise();
+            },
+            canDeactivate = function () {
+                var tcs = new $.Deferred();
+
+
+                if (originalEntity !== ko.toJSON(form)) {
+                    app.showMessage("Save change to the item", "Rx Developer", ["Yes", "No", "Cancel"])
+                        .done(function (dialogResult) {
+                            if (dialogResult === "Yes") {
+                                save().done(function () {
+                                    tcs.resolve(true);
+                                });
+                            }
+                            if (dialogResult === "No") {
+                                tcs.resolve(true);
+                            }
+                            if (dialogResult === "Cancel") {
+                                tcs.resolve(false);
+                            }
+
+                        });
+                } else {
+                    return true;
+                }
                 return tcs.promise();
             },
 
@@ -491,6 +527,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             operationsOption: operationsOption,
             attached: attached,
             activate: activate,
+            canDeactivate: canDeactivate,
             formElements: formElements,
             selectedFormElement: selectedFormElement,
             selectFormElement: selectFormElement,

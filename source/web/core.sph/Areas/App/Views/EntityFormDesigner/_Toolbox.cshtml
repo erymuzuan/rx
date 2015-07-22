@@ -40,9 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label for="form-design-layout">Layout</label>
-                    <select class="form-control" data-bind="options :$root.layoutOptions,
-                            optionsCaption :'[Default Layout]',
-                            value: Layout" id="form-design-layout" name="FormDesign.Layout"></select>
+                    <select class="form-control" data-bind="options :$root.layoutOptions, optionsText :'text', optionsValue : 'value', value: Layout" id="form-design-layout" name="FormDesign.Layout"></select>
                 </div>
                 <div class="form-group">
                     <label for="form-design-operation">Operation</label>
