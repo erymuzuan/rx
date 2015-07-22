@@ -27,7 +27,6 @@ var files = [
 "/Content/theme.matyie/site.css",
 "/Content/theme.matyie/header.css",
 "/Content/theme.matyie/nav.css",
-"/Content/theme.matyie/dashboard.css",
 "/Content/theme.matyie/user.css",
 "/Content/theme.matyie/report.css",
 "/Content/theme.matyie/workflow.triggers.css",
