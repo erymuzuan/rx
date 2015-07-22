@@ -13,6 +13,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
     function (context, eximp, router, app, system, logger) {
 
         var trigger = ko.observable(new bespoke.sph.domain.Trigger()),
+            originalEntity = "",
             typeaheadEntity = ko.observable(),
             isBusy = ko.observable(false),
             id = ko.observable(),
@@ -46,6 +47,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                     entities(list);
                     actionOptions(actions[0]);
                     if (t) {
+                        originalEntity = ko.toJSON(t);
                         trigger(t);
                         typeaheadEntity(t.Entity());
                         window.typeaheadEntity = t.Entity();
@@ -68,16 +70,38 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
             },
             save = function () {
                 trigger().FiredOnOperations(operations().join());
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(trigger);
+                var data = ko.mapping.toJSON(trigger);
                 isBusy(true);
 
                 return context.post(data, "/Trigger/Save")
                     .then(function (result) {
                         isBusy(false);
                         trigger().Id(result);
-                        router.navigate("/trigger.setup/" + trigger().Id());
+                        originalEntity = ko.toJSON(trigger);
                     });
+            },
+            canDeactivate = function () {
+                var tcs = new $.Deferred();
+                if (originalEntity !== ko.toJSON(trigger)) {
+                    app.showMessage("Save change to the item", "Rx Developer", ["Yes", "No", "Cancel"])
+                        .done(function (dialogResult) {
+                            if (dialogResult === "Yes") {
+                                save().done(function () {
+                                    tcs.resolve(true);
+                                });
+                            }
+                            if (dialogResult === "No") {
+                                tcs.resolve(true);
+                            }
+                            if (dialogResult === "Cancel") {
+                                tcs.resolve(false);
+                            }
+
+                        });
+                } else {
+                    return true;
+                }
+                return tcs.promise();
             },
             publishAsync = function () {
                 trigger().FiredOnOperations(operations().join());
@@ -89,6 +113,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                         isBusy(false);
                         trigger().Id(result);
                         trigger().IsActive(true);
+                        originalEntity = ko.toJSON(trigger);
                         logger.info("Your trigger has been succesfully published, and will be added to the exchange shortly");
                     });
             },
@@ -160,6 +185,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            canDeactivate: canDeactivate,
             attached: attached,
             trigger: trigger,
             errors: errors,

@@ -35,7 +35,7 @@
   "Name": "Test state changed",
   "Entity": "State",
   "TypeOf": "Bespoke.DevV1_state.Domain.State, DevV1.State",
-  "Note": "test 123",
+  "Note": "test 12345",
   "IsActive": true,
   "IsFiredOnAdded": true,
   "IsFiredOnDeleted": false,
@@ -47,6 +47,6 @@
   "Id": "state-test-state-changed",
   "CreatedDate": "2015-07-22T09:56:10.2897093+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-07-22T09:56:10.2897093+08:00",
+  "ChangedDate": "2015-07-22T10:04:13.1852594+08:00",
   "WebId": "24403f00-6272-400c-f96d-30f960334023"
 }
