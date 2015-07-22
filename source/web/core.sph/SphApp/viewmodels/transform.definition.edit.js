@@ -10,11 +10,12 @@
 /// <reference path="../../Scripts/jsPlumb/jsPlumb.js" />
 
 
-define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping"],
-    function (context, logger, system) {
+define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping", objectbuilders.app],
+    function (context, logger, system, koMapping, app) {
 
         var td = ko.observable(),
             functoidToolboxItems = ko.observableArray(),
+            originalEntity = "",
             errors = ko.observableArray(),
             isBusy = ko.observable(false),
             sourceMember = ko.observable(),
@@ -41,6 +42,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                     v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
                                 });
                                 td(b);
+                                originalEntity = ko.toJSON(td);
                                 return context.get("/transform-definition/json-schema/" + b.OutputTypeName());
 
                             })
@@ -502,9 +504,34 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                          isBusy(false);
                          if (!td().Id() || td().Id() === "0") {
                              td().Id(result.id);
-                             window.location = "/sph#transform.definition.edit/" + result.id;
+                             router.navigate("transform.definition.edit/" + result.id);
                          }
+
+                         originalEntity = ko.toJSON(td);
                      });
+            },
+            canDeactivate = function () {
+                var tcs = new $.Deferred();
+                if (originalEntity !== ko.toJSON(td)) {
+                    app.showMessage("Save change to the item", "Rx Developer", ["Yes", "No", "Cancel"])
+                        .done(function (dialogResult) {
+                            if (dialogResult === "Yes") {
+                                save().done(function () {
+                                    tcs.resolve(true);
+                                });
+                            }
+                            if (dialogResult === "No") {
+                                tcs.resolve(true);
+                            }
+                            if (dialogResult === "Cancel") {
+                                tcs.resolve(false);
+                            }
+
+                        });
+                } else {
+                    return true;
+                }
+                return tcs.promise();
             },
             editProp = function () {
 
@@ -574,6 +601,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         if (result.success) {
                             logger.info(result.message);
                             errors.removeAll();
+                            originalEntity = ko.toJSON(td);
                         } else {
                             errors(result.Errors);
                             logger.error("There are errors in your map, !!!");
@@ -587,6 +615,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             errors: errors,
             functoidToolboxItems: functoidToolboxItems,
             activate: activate,
+            canDeactivate: canDeactivate,
             attached: attached,
             sourceMember: sourceMember,
             sourceSchema: sourceSchema,
