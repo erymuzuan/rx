@@ -122,8 +122,8 @@ WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" type=\"text/css\"");
 
-WriteLiteral(" />\r\n    <!-- END GLOBAL MANDATORY STYLES -->\r\n\r\n\r\n    <!-- BEGIN THEME STYLES --" +
-">\r\n    <link");
+WriteLiteral(" />\r\n    <!-- END GLOBAL MANDATORY STYLES -->\r\n    <!-- BEGIN THEME STYLES -->\r\n " +
+"   <link");
 
 WriteLiteral(" href=\"/Content/__css.bundle.dev.min.css\"");
 
@@ -159,7 +159,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" id=\"style_color\"");
 
-WriteLiteral("/>\r\n    <!-- END THEME STYLES -->\r\n    <link");
+WriteLiteral(" />\r\n    <!-- END THEME STYLES -->\r\n    <link");
 
 WriteLiteral(" rel=\"shortcut icon\"");
 
@@ -175,7 +175,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("    ");
 
             
-            #line 41 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 39 "..\..\Areas\Sph\Views\Home\index.cshtml"
 Write(Html.Partial("_header"));
 
             
@@ -185,7 +185,7 @@ WriteLiteral("\r\n    <div");
 
 WriteLiteral(" class=\"clearfix\"");
 
-WriteLiteral(">\r\n    </div>\r\n    <!-- BEGIN CONTAINER -->\r\n<div");
+WriteLiteral(">\r\n    </div>\r\n    <!-- BEGIN CONTAINER -->\r\n    <div");
 
 WriteLiteral(" id=\"applicationHost\"");
 
@@ -194,53 +194,53 @@ WriteLiteral(" class=\"page-container\"");
 WriteLiteral(">\r\n");
 
             
-            #line 46 "..\..\Areas\Sph\Views\Home\index.cshtml"
-    
-            
-            #line default
-            #line hidden
-            
-            #line 46 "..\..\Areas\Sph\Views\Home\index.cshtml"
-     if (!string.IsNullOrWhiteSpace(splashHtml))
-    {
+            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 48 "..\..\Areas\Sph\Views\Home\index.cshtml"
-   Write(Html.Raw(splashHtml));
+            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
+         if (!string.IsNullOrWhiteSpace(splashHtml))
+        {
+            
+            
+            #line default
+            #line hidden
+            
+            #line 46 "..\..\Areas\Sph\Views\Home\index.cshtml"
+       Write(Html.Raw(splashHtml));
 
             
             #line default
             #line hidden
             
-            #line 48 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                             
-    }
-    else
-    {
-        
+            #line 46 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                                 
+        }
+        else
+        {
+            
             
             #line default
             #line hidden
             
-            #line 52 "..\..\Areas\Sph\Views\Home\index.cshtml"
-   Write(Html.Partial("_splash"));
+            #line 50 "..\..\Areas\Sph\Views\Home\index.cshtml"
+       Write(Html.Partial("_splash"));
 
             
             #line default
             #line hidden
             
-            #line 52 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                                
-    }
+            #line 50 "..\..\Areas\Sph\Views\Home\index.cshtml"
+                                    
+        }
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n</div>\r\n    <!-- END CONTAINER -->\r\n    <!-- BEGIN FOOTER -->\r\n    <!-- END FOO" +
-"TER -->\r\n\r\n\r\n    <script");
+WriteLiteral("\r\n    </div>\r\n    <!-- END CONTAINER -->\r\n    <!-- BEGIN FOOTER -->\r\n    <!-- END" +
+" FOOTER -->\r\n\r\n\r\n    <script");
 
 WriteLiteral(" src=\"/scripts/__vendor.dev.min.js\"");
 
@@ -292,7 +292,7 @@ WriteLiteral(" src=\"/assets/admin/layout/scripts/quick-sidebar.js\"");
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral(@"></script>
-<!-- END PAGE LEVEL SCRIPTS -->
+    <!-- END PAGE LEVEL SCRIPTS -->
     <script>
         jQuery(document).ready(function () {
             Metronic.init(); // init metronic core componets
@@ -303,13 +303,13 @@ WriteLiteral(@"></script>
 ");
 
             
-            #line 80 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 78 "..\..\Areas\Sph\Views\Home\index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 80 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 78 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -318,9 +318,9 @@ WriteLiteral(@"></script>
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 3627), Tuple.Create("\"", 3659)
-, Tuple.Create(Tuple.Create("", 3633), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 3633), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 3668), Tuple.Create("\"", 3700)
+, Tuple.Create(Tuple.Create("", 3674), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 3674), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -356,7 +356,7 @@ WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 88 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 86 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -371,7 +371,7 @@ WriteLiteral(" src=\"/Scripts/__rx.min.js\"");
 WriteLiteral("></script>\r\n");
 
             
-            #line 92 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 90 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             
@@ -391,8 +391,8 @@ WriteLiteral(" src=\"/Scripts/require.js\"");
 
 WriteLiteral(" data-main=\"SphApp/main\"");
 
-WriteLiteral("></script>\r\n\r\n    <!-- END JAVASCRIPTS -->\r\n</body>\r\n<!-- END BODY -->\r\n</html>\r\n" +
-"");
+WriteLiteral("></script>\r\n \r\n    <!-- END JAVASCRIPTS -->\r\n</body>\r\n<!-- END BODY -->\r\n</html>\r" +
+"\n");
 
         }
     }
