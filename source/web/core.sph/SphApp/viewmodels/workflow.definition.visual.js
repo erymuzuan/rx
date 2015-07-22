@@ -17,6 +17,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var isBusy = ko.observable(false),
             isPublishing = ko.observable(false),
+            originalEntity = "",
             publishingMessage = ko.observable(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             populateToolbox = function () {
@@ -42,6 +43,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                     wdChanged(b);
                                 }
                             }, 500);
+
+                            originalEntity = ko.toJSON(wd);
 
                         });
 
@@ -414,23 +417,20 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 });
 
-                var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(wd());
                 isBusy(true);
 
-                context.post(data, "/WorkflowDefinition/Save")
+                return context.post(data, "/WorkflowDefinition/Save")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
                             logger.info("Data have been succesfully save");
                             wd().Id(result.id);
-                            router.navigate("/workflow.definition.visual/" + wd().Id());
+                            originalEntity = ko.toJSON(wd);
                         } else {
                             logger.error(result.message);
                         }
-                        tcs.resolve(result);
                     });
-                return tcs.promise();
             },
             compileCompleted = function (result) {
 
@@ -469,12 +469,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             },
             publishAsync = function () {
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(wd);
+                var data = ko.mapping.toJSON(wd);
 
                 isPublishing(true);
                 publishingMessage("Compiling....");
-                context.post(data, "/WorkflowDefinition/Publish")
+                return context.post(data, "/WorkflowDefinition/Publish")
                     .then(function (result) {
                         compileCompleted(result);
                         if (result.success) {
@@ -489,13 +488,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                     }, 5 * 1000);
                                 }, 2 * 1000);
                             }, 5 * 1000);
+
+                            originalEntity = ko.toJSON(wd);
                         } else {
                             publishingMessage("Errors");
                             isPublishing(false);
                         }
-                        tcs.resolve(result);
                     });
-                return tcs.promise();
 
             },
             exportWd = function () {
@@ -545,6 +544,29 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             viewPages = function () {
                 window.location = "#page.list/" + wd().Id();
                 return Task.fromResult(true, 1500);
+            },
+            canDeactivate = function () {
+                var tcs = new $.Deferred();
+                if (originalEntity !== ko.toJSON(wd)) {
+                    app.showMessage("Save change to the item", "Rx Developer", ["Yes", "No", "Cancel"])
+                        .done(function (dialogResult) {
+                            if (dialogResult === "Yes") {
+                                saveAsync().done(function () {
+                                    tcs.resolve(true);
+                                });
+                            }
+                            if (dialogResult === "No") {
+                                tcs.resolve(true);
+                            }
+                            if (dialogResult === "Cancel") {
+                                tcs.resolve(false);
+                            }
+
+                        });
+                } else {
+                    return true;
+                }
+                return tcs.promise();
             };
 
         var vm = {
@@ -553,6 +575,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             isBusy: isBusy,
             activate: activate,
             attached: attached,
+            canDeactivate: canDeactivate,
             toolboxElements: ko.observableArray(),
             wd: wd,
             itemAdded: itemAdded,
