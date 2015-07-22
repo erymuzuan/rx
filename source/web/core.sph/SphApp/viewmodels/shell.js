@@ -2,10 +2,12 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/_task.js" />
+/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
 
 
-define(["durandal/system","services/system", "plugins/router", "services/logger", "services/datacontext", objectbuilders.config, objectbuilders.cultures, "viewmodels/messages"],
-    function (system,system2, router, logger, context, config, cultures, messagesConfig) {
+define(["durandal/system", "services/system", "plugins/router", "services/logger", "services/datacontext", objectbuilders.config, objectbuilders.cultures, "viewmodels/messages"],
+    function (system, system2, router, logger, context, config, cultures, messagesConfig) {
 
         var activate = function () {
             return router.map(config.routes)
@@ -24,7 +26,7 @@ define(["durandal/system","services/system", "plugins/router", "services/logger"
                     var topic = $(this).data("dialog");
                     window.open("/docs/#" + topic);
                 });
-          
+
                 var dropDown = function (e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -67,7 +69,11 @@ define(["durandal/system","services/system", "plugins/router", "services/logger"
                 });
 
                 return messagesConfig.attached(view).done(function () {
-                    ko.applyBindings(messagesConfig, document.getElementById("header_inbox_bar"));
+                    var inboxHeader = document.getElementById("header_inbox_bar");
+                    
+                    if (inboxHeader && !ko.dataFor(inboxHeader)) {
+                        ko.applyBindings(messagesConfig, inboxHeader);
+                    }
                 });
 
             },
