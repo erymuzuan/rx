@@ -44,8 +44,8 @@
   {
     "role": "administrators",
     "groupName": "Security",
-    "route": "users",
-    "moduleId": "viewmodels/users",
+    "route": "users.management",
+    "moduleId": "viewmodels/users.management",
     "title": "Users management",
     "nav": false,
     "icon": "fa fa-user",

@@ -284,7 +284,6 @@
     <Compile Include="Areas\App\Controllers\RoleSettingsController.cs" />
     <Compile Include="Areas\App\Controllers\ScreenEditorController.cs" />
     <Compile Include="Areas\App\Controllers\TriggerSetupController.cs" />
-    <Compile Include="Areas\App\Controllers\UsersController.cs" />
     <Compile Include="Areas\App\Controllers\UserProfileController.cs" />
     <Compile Include="Areas\App\Controllers\WorkflowDraftController.cs" />
     <Compile Include="Areas\App\Views\ActivityScreen\Html.generated.cs">
@@ -1129,16 +1128,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\App\Views\Users\Html.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Html.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\Users\Script.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Script.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Areas\Sph\Views\App\WorkflowDraftHtml.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1615,6 +1604,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_messagesHeader.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\theme.matyie\user.css.map">
+      <DependentUpon>user.css</DependentUpon>
+    </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
     <EmbeddedResource Include="routes.config.json" />
@@ -1905,8 +1897,6 @@
     <EmbeddedResource Include="SphApp\views\search.html" />
     <EmbeddedResource Include="SphApp\views\trigger.list.html" />
     <EmbeddedResource Include="SphApp\views\_template.custom.field.html" />
-    <EmbeddedResource Include="SphApp\views\_user.add.html" />
-    <EmbeddedResource Include="SphApp\views\_user.change.password.html" />
     <EmbeddedResource Include="SphApp\views\_users.department.html" />
     <EmbeddedResource Include="SphApp\views\_workflow.definition.activities.html" />
     <EmbeddedResource Include="SphApp\views\_workflow.definition.variables.html" />
@@ -2188,6 +2178,8 @@
     <EmbeddedResource Include="SphApp\views\add.entity-definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\add.entity-definition.form.dialog.html" />
     <EmbeddedResource Include="SphApp\views\add.entity-definition.view.dialog.html" />
+    <EmbeddedResource Include="SphApp\viewmodels\user.reset.password.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\users.management.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2700,6 +2692,10 @@
     <EmbeddedResource Include="SphApp\views\_custom.forms.scripts.html" />
     <EmbeddedResource Include="SphApp\views\solution.diagnostics.html" />
     <EmbeddedResource Include="SphApp\views\solution.explorer.2.html" />
+    <EmbeddedResource Include="SphApp\views\user.dialog.html" />
+    <EmbeddedResource Include="SphApp\viewmodels\user.dialog.js" />
+    <EmbeddedResource Include="SphApp\views\user.reset.password.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\users.management.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
@@ -3149,14 +3145,6 @@
     <Content Include="Areas\App\Views\Config\Index.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Index.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\Users\Html.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Html.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\Users\Script.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Script.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\Home\index.cshtml">
       <Generator>RazorGenerator</Generator>
