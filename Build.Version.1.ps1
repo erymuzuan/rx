@@ -140,8 +140,8 @@ if($vs.Count -gt 0){
 # kill all the msbuild instance and rebuild all
 gps msbuild* | kill
 msbuild .\sph.all.sln /m /p:Configuration=Debug /p:Platform="Any CPU"
-msbuild /p:Configuration=Debug /p:Platform="Any CPU" /p:SolutionDir=c:\project\work\sph\ .\source\dependencies\web.console.logger\web.console.logger.csproj
-msbuild /p:Configuration=Debug /p:Platform="Any CPU" /p:SolutionDir=c:\project\work\sph\ .\source\tools\sph.builder\sph.builder.csproj
+msbuild /p:Configuration=Debug /p:Platform="AnyCPU" /p:SolutionDir=c:\project\work\sph\ .\source\dependencies\web.console.logger\web.console.logger.csproj
+msbuild /p:Configuration=Debug /p:Platform="AnyCPU" /p:SolutionDir=c:\project\work\sph\ .\source\tools\sph.builder\sph.builder.csproj
 
 #build  dependencies
 $domains = @("domain.sph", "trigger.action.messaging")
