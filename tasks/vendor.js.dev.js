@@ -55,12 +55,12 @@ gulp.task("vendor.dev.min.js", function(){
         .pipe(concat("__vendor.dev.min.js"))
         .pipe(sourcemaps.write("./"))
         .pipe(useref())
-        .pipe(gulp.dest("./source/web/web.sph/Scripts"));
+        .pipe(gulp.dest("./source/web/core.sph/Scripts"));
 });
 
 gulp.task("vendor.dev.js",["vendor.dev.min.js"], function(){
     return gulp.src(sources)
         .pipe(concat("__vendor.dev.js"))
-        .pipe(gulp.dest("./source/web/web.sph/Scripts"));
+        .pipe(gulp.dest("./source/web/core.sph/Scripts"));
 
 });
