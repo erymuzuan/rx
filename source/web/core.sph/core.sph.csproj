@@ -1781,6 +1781,7 @@
     <EmbeddedResource Include="Scripts\__vendor.js" />
     <EmbeddedResource Include="Scripts\__vendor.min.js" />
     <EmbeddedResource Include="Scripts\__rx.min.js" />
+    <EmbeddedResource Include="Scripts\__vendor.dev.min.js" />
     <Content Include="SphApp\partial\ChildEntityListView.js" />
     <Content Include="SphApp\partial\CorrelationType.js" />
     <Content Include="SphApp\partial\CreateEntityActivity.js" />
