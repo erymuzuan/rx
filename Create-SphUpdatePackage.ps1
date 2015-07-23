@@ -1,6 +1,9 @@
 ﻿Param(
+       [Parameter(Position=0)]
        [int]$Build ,
-       [switch]$Release = $false
+       [Parameter(Position=1)]
+       [ValidateSet('Production','Staging','Alpha')]
+       [string]$Release = 'Alpha'
      )
 
 function Create-FtpDirectory {
@@ -26,7 +29,7 @@ function Create-FtpDirectory {
   Set-FTPConnection -Credentials $PSCredential -Server ftp://www.reactivedeveloper.com -Session ss01 
   $Session = Get-FTPConnection -Session ss01
 
-  New-FTPItem -Session $Session -Path /staging/binaries -Name $Directory
+  New-FTPItem -Session $Session -Path /$Release/binaries -Name $Directory
     
 }
 
@@ -418,10 +421,7 @@ $versionBuildJson > .\deployment\version.$Build.json
 #release note - copy from existing file, should maintains the UTF8 encoding
 copy .\deployment\release-note-template.md .\deployment\$Build.md
 
-$ftpRoot = "ftp://www.reactivedeveloper.com/staging/binaries"
-if($Release -eq $true){
-    $ftpRoot = "ftp://www.reactivedeveloper.com/production/binaries"
-}
+$ftpRoot = "ftp://www.reactivedeveloper.com/$Release/binaries"
 $ftpUserName = "rxdeveloper"
 $ftpPassword = "reH2TaXd"
 
@@ -429,11 +429,7 @@ Write-Host -ForegroundColor Yellow "NOW edit the .\deployment\$Build.ps1 and the
 Write-Host "Press [ENTER] to continue uploaded  to ftp " -NoNewline -ForegroundColor Yellow
 Read-Host
 
-if($Release -eq $false)
-{
-   ## Remove-FtpDirectory -username $ftpUserName -password $ftpPassword -Directory "/staging/binaries/$Build" -sourceuri $ftpRoot
-   ## Remove-FtpDirectory -username $ftpUserName -password $ftpPassword -Directory "/staging/binaries/$Build.ps1" -sourceuri $ftpRoot
-}
+
 
 Create-FtpDirectory -sourceuri "$ftpRoot/" -username $ftpUserName -password $ftpPassword -Directory $Build
 Upload-FtpFile -RemoteDirectory "$ftpRoot/" -username $ftpUserName -password $ftpPassword -LocalFile .\deployment\$previous.json
