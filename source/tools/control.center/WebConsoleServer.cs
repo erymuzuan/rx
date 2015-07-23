@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.ControlCenter.Model;
+using Bespoke.Sph.ControlCenter.ViewModel;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -50,9 +51,12 @@ namespace Bespoke.Sph.ControlCenter
         private IModel m_channel;
         private IConnection m_connection;
         private TaskBasicConsumer m_consumer;
+        private MainViewModel m_mainViewModel;
 
-        public void StartConsume(SphSettings settings)
+        public void StartConsume(MainViewModel mainViewModel)
         {
+            m_mainViewModel = mainViewModel;
+            var settings = mainViewModel.Settings;
             const bool NO_ACK = true;
             const string EXCHANGE_NAME = "sph.topic";
             var factory = new ConnectionFactory
@@ -116,6 +120,11 @@ namespace Bespoke.Sph.ControlCenter
             var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message = $"{e.ChangeType} in output {e.FullPath}", severity = "Info", outputFile = e.FullPath });
             SendMessage(json);
         }
+        void WriteMessage(string message)
+        {
+            var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message, severity = "Info" });
+            SendMessage(json);
+        }
 
         public void SendMessage(string json)
         {
@@ -132,37 +141,46 @@ namespace Bespoke.Sph.ControlCenter
             });
         }
 
-        private void NewMessageReceived(WebSocketSession session, string value)
+        private async void NewMessageReceived(WebSocketSession session, string value)
         {
             Console.WriteLine("Getting new message from {0} => {1}", session.SessionID, value);
-            if (value.StartsWith("POST /deploy:"))
+            if (!value.StartsWith("POST /deploy:")) return;
+
+            // stop the workers
+            m_mainViewModel.StopSphWorkerCommand.Execute(null);
+            await Task.Delay(2500);
+
+            var outputs = value.Replace("POST /deploy:", "")
+                .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+            var parent = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\");
+            var projectPath = Path.GetFullPath(parent);
+
+            Parallel.ForEach(outputs, f =>
             {
-                var outputs = value.Replace("POST /deploy:", "")
-                    .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                if (!File.Exists(f)) return;
 
-                var parent = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\");
-                var projectPath = Path.GetFullPath(parent);
+                var fileName = Path.GetFileName(f) ?? "";
+                if (fileName.StartsWith("ff")) return;
 
-                Parallel.ForEach(outputs, f =>
-                {
-                    if (!File.Exists(f)) return;
+                WriteMessage($"Copying {fileName} to subsribers");
+                File.Copy(f, $"{projectPath}\\subscribers\\{fileName}", true);
 
-                    var fileName = Path.GetFileName(f) ?? "";
-                    if (fileName.StartsWith("ff")) return;
+                if (fileName.StartsWith("subscriber.trigger")) return;
 
-                    Console.WriteLine($"Copying {fileName} to subsribers");
-                    File.Copy(f, $"{projectPath}\\subscribers\\{fileName}", true);
+                WriteMessage($"Copying {fileName} to schedulers");
+                File.Copy(f, $"{projectPath}\\schedulers\\{fileName}", true);
+                WriteMessage($"Copying {fileName} to web\\bin");
+                File.Copy(f, $"{projectPath}\\web\\bin\\{fileName}", true);
+                WriteMessage($"Done copying {fileName}");
+            });
 
-                    if (fileName.StartsWith("subscriber.trigger")) return;
-
-                    Console.WriteLine($"Copying {fileName} to schedulers");
-                    File.Copy(f, $"{projectPath}\\schedulers\\{fileName}", true);
-                    Console.WriteLine($"Copying {fileName} to web\\bin");
-                    File.Copy(f, $"{projectPath}\\web\\bin\\{fileName}", true);
-                    Console.WriteLine($"Done copying {fileName}");
-                });
-
+            // restart the workers
+            while (!m_mainViewModel.StartSphWorkerCommand.CanExecute(null))
+            {
+                await Task.Delay(500);
             }
+            m_mainViewModel.StartSphWorkerCommand.Execute(null);
 
         }
 
