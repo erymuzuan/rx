@@ -61,7 +61,7 @@ WriteLiteral(" lang=\"en\"");
 
 WriteLiteral(" class=\"no-js\"");
 
-WriteLiteral(">\r\n<!-- BEGIN HEAD -->\r\n<head>\r\n    <meta");
+WriteLiteral(">\r\n<head>\r\n    <meta");
 
 WriteLiteral(" charset=\"utf-8\"");
 
@@ -89,7 +89,7 @@ WriteLiteral(" content=\"\"");
 
 WriteLiteral(" name=\"author\"");
 
-WriteLiteral(" />\r\n    <!-- BEGIN GLOBAL MANDATORY STYLES -->\r\n    <link");
+WriteLiteral(" />\r\n    <link");
 
 WriteLiteral(" href=\"http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=al" +
 "l\"");
@@ -100,31 +100,6 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/assets/global/plugins/simple-line-icons/simple-line-icons.min.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/assets/global/plugins/bootstrap/css/bootstrap.min.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/assets/global/plugins/uniform/css/uniform.default.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <!-- END GLOBAL MANDATORY STYLES -->\r\n    <!-- BEGIN THEME STYLES -->\r\n " +
-"   <link");
-
 WriteLiteral(" href=\"/Content/__css.bundle.dev.min.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -133,39 +108,11 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/assets/admin/layout/css/layout.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/content/darkblue.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" id=\"style_color\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/content/durandal.css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" id=\"style_color\"");
-
-WriteLiteral(" />\r\n    <!-- END THEME STYLES -->\r\n    <link");
-
 WriteLiteral(" rel=\"shortcut icon\"");
 
-WriteLiteral(" href=\"favicon.ico\"");
+WriteLiteral(" href=\"/favicon.ico\"");
 
-WriteLiteral(" />\r\n</head>\r\n<!-- END HEAD -->\r\n<!-- BEGIN BODY -->\r\n<body");
+WriteLiteral(" />\r\n</head>\r\n\r\n\r\n<body");
 
 WriteLiteral(" class=\"page-md page-header-fixed page-quick-sidebar-over-content page-sidebar-cl" +
 "osed-hide-logo page-sidebar-closed\"");
@@ -175,7 +122,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("    ");
 
             
-            #line 39 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 28 "..\..\Areas\Sph\Views\Home\index.cshtml"
 Write(Html.Partial("_header"));
 
             
@@ -185,7 +132,7 @@ WriteLiteral("\r\n    <div");
 
 WriteLiteral(" class=\"clearfix\"");
 
-WriteLiteral(">\r\n    </div>\r\n    <!-- BEGIN CONTAINER -->\r\n    <div");
+WriteLiteral(">\r\n    </div>\r\n\r\n    <div");
 
 WriteLiteral(" id=\"applicationHost\"");
 
@@ -193,206 +140,27 @@ WriteLiteral(" class=\"page-container\"");
 
 WriteLiteral(">\r\n");
 
+WriteLiteral("        ");
+
             
-            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
-        
-            
-            #line default
-            #line hidden
-            
-            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
-         if (!string.IsNullOrWhiteSpace(splashHtml))
-        {
-            
-            
-            #line default
-            #line hidden
-            
-            #line 46 "..\..\Areas\Sph\Views\Home\index.cshtml"
-       Write(Html.Raw(splashHtml));
+            #line 33 "..\..\Areas\Sph\Views\Home\index.cshtml"
+    Write(!string.IsNullOrWhiteSpace(splashHtml) ? Html.Raw(splashHtml) : Html.Partial("_splash"));
 
             
             #line default
             #line hidden
+WriteLiteral("\r\n\r\n    </div>\r\n\r\n");
+
+WriteLiteral(" ");
+
             
-            #line 46 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                                 
-        }
-        else
-        {
-            
-            
-            #line default
-            #line hidden
-            
-            #line 50 "..\..\Areas\Sph\Views\Home\index.cshtml"
-       Write(Html.Partial("_splash"));
+            #line 37 "..\..\Areas\Sph\Views\Home\index.cshtml"
+Write(Html.Partial("_scripts"));
 
             
             #line default
             #line hidden
-            
-            #line 50 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                                    
-        }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n    </div>\r\n    <!-- END CONTAINER -->\r\n    <!-- BEGIN FOOTER -->\r\n    <!-- END" +
-" FOOTER -->\r\n\r\n\r\n    <script");
-
-WriteLiteral(" src=\"/scripts/__vendor.dev.min.js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral("></script>\r\n    <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to " +
-"fix bootstrap tooltip conflict with jquery ui tooltip -->\r\n    <script");
-
-WriteLiteral(" src=\"/assets/global/plugins/jquery-ui/jquery-ui.min.js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" src=\"/assets/global/plugins/bootstrap/js/bootstrap.min.js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" src=\"/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.mi" +
-"n.js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" src=\"/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral("></script>\r\n    <!-- END CORE PLUGINS -->\r\n    <!-- BEGIN PAGE LEVEL SCRIPTS -->\r" +
-"\n    <script");
-
-WriteLiteral(" src=\"/assets/global/scripts/metronic.js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" src=\"/assets/admin/layout/scripts/layout.js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" src=\"/assets/admin/layout/scripts/quick-sidebar.js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral(@"></script>
-    <!-- END PAGE LEVEL SCRIPTS -->
-    <script>
-        jQuery(document).ready(function () {
-            Metronic.init(); // init metronic core componets
-            Layout.init(); // init layout
-            QuickSidebar.init(); // init quick sidebar
-        });
-    </script>
-");
-
-            
-            #line 78 "..\..\Areas\Sph\Views\Home\index.cshtml"
-    
-            
-            #line default
-            #line hidden
-            
-            #line 78 "..\..\Areas\Sph\Views\Home\index.cshtml"
-     if (HttpContext.Current.IsDebuggingEnabled)
-    {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        <script");
-
-WriteAttribute("src", Tuple.Create(" src=\"", 3668), Tuple.Create("\"", 3700)
-, Tuple.Create(Tuple.Create("", 3674), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 3674), false)
-);
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/__core.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/SphApp/schemas/__domain.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/SphApp/prototypes/prototypes.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/SphApp/partial/__partial.js\"");
-
-WriteLiteral("></script>\r\n");
-
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/kendo/js/kendo.custom.min.js\"");
-
-WriteLiteral("></script>\r\n");
-
-            
-            #line 86 "..\..\Areas\Sph\Views\Home\index.cshtml"
-    }
-    else
-    {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        <script");
-
-WriteLiteral(" src=\"/Scripts/__rx.min.js\"");
-
-WriteLiteral("></script>\r\n");
-
-            
-            #line 90 "..\..\Areas\Sph\Views\Home\index.cshtml"
-    }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n    <script");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral(" src=\"/sph/entitydefinition/schemas\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral(" src=\"/Scripts/require.js\"");
-
-WriteLiteral(" data-main=\"SphApp/main\"");
-
-WriteLiteral("></script>\r\n \r\n    <!-- END JAVASCRIPTS -->\r\n</body>\r\n<!-- END BODY -->\r\n</html>\r" +
-"\n");
+WriteLiteral("\r\n\r\n</body>\r\n</html>\r\n");
 
         }
     }

@@ -711,6 +711,11 @@
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
+    <Compile Include="Areas\Sph\Views\Home\_scripts.generated.cs">
+      <DependentUpon>_scripts.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\Sph\Views\Home\_header.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1400,12 +1405,10 @@
     <EmbeddedResource Include="SphApp\goog.js" />
     <EmbeddedResource Include="SphApp\main.js" />
     <EmbeddedResource Include="SphApp\objectbuilders.js" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <EmbeddedResource Include="Content\jstree\32px.png" />
     <EmbeddedResource Include="Content\jstree\40px.png" />
+    <Content Include="Scripts\bootstrap-hover-dropdown.min.js" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\darkblue.css" />
     <Content Include="Content\daterangepicker-bs3.css" />
     <EmbeddedResource Include="Content\durandal.css" />
@@ -1421,6 +1424,7 @@
     <Content Include="Content\jstree\style.css" />
     <EmbeddedResource Include="Content\jstree\style.min.css" />
     <EmbeddedResource Include="Content\jstree\throbber.gif" />
+    <Content Include="Content\layout.css" />
     <Content Include="Content\less\print.css">
       <DependentUpon>print.less</DependentUpon>
     </Content>
@@ -1435,6 +1439,12 @@
     <EmbeddedResource Include="Content\Metro\slider-v.gif" />
     <EmbeddedResource Include="Content\Metro\sprite.png" />
     <EmbeddedResource Include="Content\Metro\sprite_2x.png" />
+    <Content Include="Content\font\Simple-Line-Icons.dev.svg" />
+    <Content Include="Content\simple-line-icons\icons-lte-ie7.js" />
+    <Content Include="Content\simple-line-icons\License.txt" />
+    <Content Include="Content\simple-line-icons\Readme.txt" />
+    <Content Include="Content\simple-line-icons\simple-line-icons.css" />
+    <Content Include="Content\simple-line-icons\simple-line-icons.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -1556,9 +1566,15 @@
       <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Content\__css.css" />
-    <EmbeddedResource Include="Content\__css.min.css">
+    <Content Include="Areas\Sph\Views\Home\_scripts.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_scripts.generated.cs</LastGenOutput>
+    </Content>
+    <None Include="Content\__css.min.css">
       <DependentUpon>__css.css</DependentUpon>
-    </EmbeddedResource>
+    </None>
+    <Content Include="Content\__css.bundle.dev.css" />
+    <EmbeddedResource Include="Content\__css.bundle.dev.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="kendo\js\kendo.all.min.js.map">
@@ -1578,8 +1594,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\Sph\Views\SphAccount\ForgotPassword.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ForgotPassword.generated.cs</LastGenOutput>
@@ -1655,9 +1669,9 @@
       <DependentUpon>complete.ly.1.0.1.min.js</DependentUpon>
     </Content>
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
-    <EmbeddedResource Include="kendo\js\kendo.all.min.js">
+    <Content Include="kendo\js\kendo.all.min.js">
       <DependentUpon>kendo.all.js</DependentUpon>
-    </EmbeddedResource>
+    </Content>
     <Content Include="Scripts\complete.ly.1.0.1.js" />
     <EmbeddedResource Include="Scripts\complete.ly.1.0.1.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
@@ -1720,6 +1734,7 @@
     <EmbeddedResource Include="Scripts\jquery.floatThead.min.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.js" />
     <EmbeddedResource Include="Scripts\jquery.signalR-2.1.2.min.js" />
+    <Content Include="Scripts\jquery.slimscroll.min.js" />
     <Content Include="Scripts\jquery.tablescroll.js" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -1740,11 +1755,14 @@
     <EmbeddedResource Include="Scripts\toastr.js" />
     <EmbeddedResource Include="Scripts\toastr.min.js" />
     <EmbeddedResource Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\layout.js" />
+    <Content Include="Scripts\metronic.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\quick-sidebar.js" />
     <Content Include="Scripts\r.js" />
     <EmbeddedResource Include="Scripts\require.js" />
     <Content Include="Scripts\sammy-0.7.5.js" />
@@ -2136,7 +2154,6 @@
     <EmbeddedResource Include="SphApp\viewmodels\document.template.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.permission.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\entity.operation.details.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.javascriptexpression.js" />
     <EmbeddedResource Include="SphApp\services\chart.js" />
     <EmbeddedResource Include="SphApp\viewmodels\dev.home.js" />
@@ -2210,12 +2227,12 @@
     <EmbeddedResource Include="SphApp\viewmodels\add.entity-definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\add.entity-definition.form.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\add.entity-definition.view.dialog.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.2.js" />
     <EmbeddedResource Include="SphApp\views\add.entity-definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\add.entity-definition.form.dialog.html" />
     <EmbeddedResource Include="SphApp\views\add.entity-definition.view.dialog.html" />
     <EmbeddedResource Include="SphApp\viewmodels\user.reset.password.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\users.management.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.2.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2223,7 +2240,6 @@
     <EmbeddedResource Include="SphApp\views\document.template.details.html" />
     <EmbeddedResource Include="SphApp\views\field.permission.dialog.html" />
     <EmbeddedResource Include="SphApp\views\entity.operation.details.html" />
-    <EmbeddedResource Include="SphApp\views\solution.explorer.html" />
     <EmbeddedResource Include="SphApp\views\field.javascriptexpression.html" />
     <EmbeddedResource Include="SphApp\views\dev.home.html" />
     <EmbeddedResource Include="SphApp\views\entity.chart.dialog.html" />
@@ -2364,7 +2380,7 @@
       <DependentUpon>__bundle.min.js</DependentUpon>
     </Content>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
-    <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
+    <None Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
     <EmbeddedResource Include="Scripts\jquery.contextMenu.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.mousewheel.js" />
@@ -2727,11 +2743,11 @@
     <EmbeddedResource Include="SphApp\views\_custom.forms.routes.html" />
     <EmbeddedResource Include="SphApp\views\_custom.forms.scripts.html" />
     <EmbeddedResource Include="SphApp\views\solution.diagnostics.html" />
-    <EmbeddedResource Include="SphApp\views\solution.explorer.2.html" />
     <EmbeddedResource Include="SphApp\views\user.dialog.html" />
     <EmbeddedResource Include="SphApp\viewmodels\user.dialog.js" />
     <EmbeddedResource Include="SphApp\views\user.reset.password.dialog.html" />
     <EmbeddedResource Include="SphApp\views\users.management.html" />
+    <EmbeddedResource Include="SphApp\views\solution.explorer.2.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
@@ -2890,21 +2906,19 @@
     <Content Include="SphApp\prototypes\__prototypes.min.js.map">
       <DependentUpon>__prototypes.min.js</DependentUpon>
     </Content>
-    <EmbeddedResource Include="SphApp\partial\__partial.min.js.map">
+    <None Include="SphApp\partial\__partial.min.js.map">
       <DependentUpon>__partial.js</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SphApp\schemas\__domain.min.js.map">
+    </None>
+    <None Include="SphApp\schemas\__domain.min.js.map">
       <DependentUpon>__domain.js</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\__core.min.js.map">
+    </None>
+    <None Include="Scripts\__core.min.js.map">
       <DependentUpon>__core.js</DependentUpon>
-    </EmbeddedResource>
+    </None>
     <Content Include="Views\Shared\DisplayTemplates\DateTimePicker.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Scripts\__vendor.min.js.map" />
-    <EmbeddedResource Include="Scripts\__rx.min.js.map" />
     <Content Include="Views\CustomForm\Compare.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Compare.generated.cs</LastGenOutput>
@@ -2936,6 +2950,8 @@
     <Folder Include="Areas\Sph\Views\EntityChart\" />
     <Folder Include="Areas\Sph\Views\EntityForm\" />
     <Folder Include="Areas\Sph\Views\TransformDefinition\" />
+    <Folder Include="Content\simple-line-icons\fonts\" />
+    <Folder Include="Content\uniform\" />
     <Folder Include="Views\Main\" />
     <Folder Include="Views\RequireJsBundle\" />
     <Folder Include="Views\Solution\" />
@@ -3000,7 +3016,7 @@
     <EmbeddedResource Include="Images\user_24_white.png" />
     <Content Include="kendo\js\cultures\kendo.culture.ms-MY.js" />
     <Content Include="kendo\js\cultures\kendo.culture.ms.js" />
-    <EmbeddedResource Include="kendo\js\kendo.all.js" />
+    <Content Include="kendo\js\kendo.all.js" />
     <Content Include="kendo\js\kendo.autocomplete.js" />
     <Content Include="kendo\js\kendo.binder.js" />
     <Content Include="kendo\js\kendo.calendar.js" />
@@ -3564,9 +3580,9 @@
       <LastGenOutput>Help.generated.cs</LastGenOutput>
     </Content>
     <None Include="SphApp\prototypes\__prototypes.js.bundle" />
-    <EmbeddedResource Include="SphApp\prototypes\prototypes.min.js.map">
+    <None Include="SphApp\prototypes\prototypes.min.js.map">
       <DependentUpon>prototypes.min.js</DependentUpon>
-    </EmbeddedResource>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

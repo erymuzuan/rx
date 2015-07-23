@@ -1,0 +1,31 @@
+﻿@model Bespoke.Sph.Web.ViewModels.SphIndexViewModel
+@using System.Web.Mvc.Html
+
+
+<script src="/scripts/__vendor.dev.min.js" type="text/javascript"></script>
+
+<!-- END PAGE LEVEL SCRIPTS -->
+<script type="text/javascript">
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core componets
+            Layout.init(); // init layout
+            QuickSidebar.init(); // init quick sidebar
+        });
+</script>
+@if (HttpContext.Current.IsDebuggingEnabled)
+{
+    <script src="~/SphApp/objectbuilders.js"></script>
+        <script src="/Scripts/__core.js"></script>
+        <script src="/SphApp/schemas/__domain.js"></script>
+        <script src="/SphApp/prototypes/prototypes.js"></script>
+        <script src="/SphApp/partial/__partial.js"></script>
+        <script src="/kendo/js/kendo.custom.min.js"></script>
+}
+else
+{
+    <script src="/Scripts/__rx.min.js"></script>
+}
+
+<script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
+<script type="text/javascript" src="/Scripts/require.js" data-main="SphApp/main"></script>
+

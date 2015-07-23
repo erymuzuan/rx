@@ -219,7 +219,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\theme.matyie.css" />
     <Content Include="Content\external\bootstrap-theme.css" />
     <Content Include="Content\external\bootstrap-theme.min.css" />
     <Content Include="Content\external\bootstrap.css" />
@@ -229,6 +228,7 @@
     <Content Include="Content\external\prism.css" />
     <Content Include="Content\external\transformation-mapping.css" />
     <Content Include="Content\external\transformation-mapping.min.css" />
+    <Content Include="Content\fonts\Simple-Line-Icons.svg" />
     <Content Include="docs\Action.html">
       <DependentUpon>Action.md</DependentUpon>
     </Content>
@@ -340,6 +340,9 @@
       <DependentUpon>custom-form-dialog.md</DependentUpon>
     </Content>
     <Content Include="docs\custom-form-dialog.md" />
+    <Content Include="Content\fonts\Simple-Line-Icons.eot" />
+    <Content Include="Content\fonts\Simple-Line-Icons.ttf" />
+    <Content Include="Content\fonts\Simple-Line-Icons.woff" />
     <None Include="docs\custom.form.list.md" />
     <Content Include="docs\custom.form.list.html">
       <DependentUpon>custom.form.list.md</DependentUpon>
@@ -1161,6 +1164,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="docs\WorkflowDefinition.HowTo.ExceptionHandling.md" />
     <Content Include="docs\snippets-dialog.md" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />

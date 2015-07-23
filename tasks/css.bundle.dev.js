@@ -23,6 +23,12 @@ var files = [
 "/Content/toastr.min.css",
 "/Content/daterangepicker-bs3.css",
 
+"/Content/bootstrap.min.css",
+"/Content/uniform/css/uniform.default.css",
+"/Content/simple-line-icons/simple-line-icons.min.css",
+"/Content/darkblue.css",
+"/Content/layout.css",
+
 "/Content/theme.matyie/style.css",
 "/Content/theme.matyie/site.css",
 "/Content/theme.matyie/header.css",
@@ -43,12 +49,12 @@ gulp.task("css.bundle.dev.min", function () {
     return gulp.src(sources)
         .pipe(mcss({ keepBreaks: true }))
         .pipe(concat("__css.bundle.dev.min.css"))
-        .pipe(gulp.dest("./source/web/web.sph/Content"));
+        .pipe(gulp.dest("./source/web/core.sph/Content"));
 });
 
 gulp.task("css.bundle.dev", ["css.bundle.dev.min"], function () {
     return gulp.src(sources)
         .pipe(concat("__css.bundle.dev.css"))
-        .pipe(gulp.dest("./source/web/web.sph/Content"));
+        .pipe(gulp.dest("./source/web/core.sph/Content"));
 
 });
