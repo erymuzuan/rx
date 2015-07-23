@@ -517,7 +517,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                         this.RabbitMqServiceStarting = false;
                         RabbitMqStatus = "Started";
                         Log("RabbitMQ... [STARTED]");
-                        WebConsoleServer.Default.StartConsume(this.Settings);
+                        WebConsoleServer.Default.StartConsume(this);
                     });
                 });
             }

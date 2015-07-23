@@ -33,9 +33,7 @@
                 <MenuItem Header="_Force Exit" Click="ForceWindowExit"/>
             </MenuItem>
             <MenuItem Header="_Tools">
-                <MenuItem Header="Update"/>
-                <!--<MenuItem Header="Starts web console logger" Icon="{StaticResource ControlStart}" Command="{Binding StartWebConsoleCommand}"/>
-                <MenuItem Header="Stop web console logger" Icon="{StaticResource ControlStop}" Command="{Binding StopWebConsoleCommand}"/>-->
+                <MenuItem x:Name="topMostMenuItem" Header="Always on top" IsCheckable="True" Checked="TopMostChecked2"  Unchecked="TopMostUnchecked"/>
                 <MenuItem Header="_Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
                 <MenuItem Header="_Dead Letter Viewer" ToolTip="Starts Dead Letter Viewere to manage all the rejected messages" Icon="{StaticResource date_error}" Click="RunDeadLetterViewerClicked"/>
             </MenuItem>

@@ -30,8 +30,16 @@ namespace Bespoke.Sph.ControlCenter
         public MainWindow()
         {
             InitializeComponent();
+            this.Height = Properties.Settings.Default.WindowHeight;
+            this.Width = Properties.Settings.Default.WindowWidth;
+            this.WindowStartupLocation = WindowStartupLocation.Manual;
+            topMostMenuItem.IsChecked = this.Topmost = Properties.Settings.Default.WindowTopMost;
+            this.Left = Properties.Settings.Default.WindowLeft;
+            this.Top = Properties.Settings.Default.WindowTop;
+
             Loaded += MainWindowLoaded;
             this.Closing += MainWindowClosing;
+            this.Closed += MainWindow_Closed;
 
             if (ParseArgExist("in-memory-broker"))
             {
@@ -47,6 +55,16 @@ namespace Bespoke.Sph.ControlCenter
                 this.controlPanelBox.Content = vr;
                 vr.InitializeComponent();
             }
+        }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.WindowHeight = this.Height;
+            Properties.Settings.Default.WindowWidth = this.Width;
+            Properties.Settings.Default.WindowTopMost = this.Topmost;
+            Properties.Settings.Default.WindowLeft = this.Left;
+            Properties.Settings.Default.WindowTop = this.Top;
+            Properties.Settings.Default.Save();
         }
 
         void MainWindowClosing(object sender, CancelEventArgs e)
@@ -90,8 +108,6 @@ namespace Bespoke.Sph.ControlCenter
             });
             this.Dispatcher.BeginInvoke(caret, DispatcherPriority.ApplicationIdle);
         }
-
-
 
         private void CleartOutputText(object sender, RoutedEventArgs e)
         {
@@ -182,6 +198,15 @@ namespace Bespoke.Sph.ControlCenter
 
             }
 
+        }
+
+        private void TopMostChecked2(object sender, RoutedEventArgs e)
+        {
+            this.Topmost = true;
+        }
+        private void TopMostUnchecked(object sender, RoutedEventArgs e)
+        {
+            this.Topmost = false;
         }
     }
 }
