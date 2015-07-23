@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -219,7 +220,15 @@ namespace Bespoke.Sph.Domain
                 if (readAllText)
                 {
                     var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(file), setting);
+                    try
+                    {
+                        return JsonConvert.DeserializeObject<T>(File.ReadAllText(file), setting);
+                    }
+                    catch (IOException e) when(e.Message.Contains("because it is being used by another process"))
+                    {
+                        Thread.Sleep(500);
+                        return file.DeserializeFromJsonFile<T>();
+                    }
                 }
 
                 using (var reader = File.OpenText(file))
