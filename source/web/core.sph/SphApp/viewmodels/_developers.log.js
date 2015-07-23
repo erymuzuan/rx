@@ -238,6 +238,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connection closed", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Warning" }));
 		        scroll();
 		        connected(false);
+		        ws.onmessage = null;
+		        ws.onopen = null;
+		        ws.onclose = null;
+		        ws = null;
 
 		        // restart
 		        var refresh = setInterval(function () {
