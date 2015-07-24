@@ -3,7 +3,7 @@
        [int]$Build ,
        [Parameter(Position=1)]
        [ValidateSet('Production','Staging','Alpha')]
-       [string]$Release = 'Alpha'
+       [string]$Channel = 'Alpha'
      )
 
 function Create-FtpDirectory {
@@ -29,7 +29,7 @@ function Create-FtpDirectory {
   Set-FTPConnection -Credentials $PSCredential -Server ftp://www.reactivedeveloper.com -Session ss01 
   $Session = Get-FTPConnection -Session ss01
 
-  New-FTPItem -Session $Session -Path /$Release/binaries -Name $Directory
+  New-FTPItem -Session $Session -Path /$Channel/binaries -Name $Directory
     
 }
 
@@ -157,6 +157,10 @@ if((Test-Path("$output\schedulers")) -eq $false)
 {
     mkdir "$output\schedulers"
 }
+if((Test-Path("$output\utils")) -eq $false)
+{
+    mkdir "$output\utils"
+}
 if((Test-Path("$output\subscribers")) -eq $false)
 {
     mkdir "$output\subscribers"
@@ -181,6 +185,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\schedulers" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
+| ? { $_.Name.EndsWith(".config") -eq $false} `
 | Copy-Item -Destination "$output\schedulers" -Force
 
 
@@ -189,8 +194,13 @@ Get-ChildItem -Filter *.* -Path ".\bin\subscribers" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
+| ? { $_.Name.EndsWith(".config") -eq $false} `
 | Copy-Item -Destination "$output\subscribers" -Force
 
+
+#utils
+Get-ChildItem -Filter *.* -Path ".\bin\utils" `
+| Copy-Item -Destination "$output\utils" -Force
 
 
 #subscribers.host
@@ -198,8 +208,8 @@ Get-ChildItem -Filter *.* -Path ".\bin\subscribers.host" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
+| ? { $_.Name.EndsWith(".config") -eq $false} `
 | Copy-Item -Destination "$output\subscribers.host" -Force
-
 
 
 #tools
@@ -207,6 +217,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\tools" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
+| ? { $_.Name.EndsWith(".config") -eq $false} `
 | Copy-Item -Destination "$output\tools" -Force -Recurse
 
 #web
@@ -214,6 +225,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\web" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
+| ? { $_.Name.EndsWith(".config") -eq $false} `
 | Copy-Item -Destination "$output\web" -Force -Recurse
 #App_data/empty.xsd
 copy .\source\web\web.sph\App_Data -Destination $output\Web -Force -Recurse
@@ -225,6 +237,7 @@ Get-ChildItem -Filter *.* -Path ".\source\web\web.sph\bin" `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".config") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
+| ? { $_.Name.EndsWith(".config") -eq $false} `
 | Copy-Item -Destination "$output\web\bin" -Force
 
 
@@ -332,24 +345,19 @@ $commonLibraries = @("Telerik", "Roslyn.Services", "Microsoft", "Oracle.ManagedD
 
 foreach($lib in $commonLibraries)
 {
-    
-    Write-Host "Delete $lib dll ? [ENTER] or n [NO] : " -ForegroundColor Yellow -NoNewline
-    $deleteLib = Read-Host
-    if($deleteLib-eq "")
-    {
-        Write-Host "Deleting $lib.*"
-        ls -Path $output -Recurse -Filter "$lib*.dll" | Remove-Item
-        ls -Path $output -Recurse -Filter "$lib*.pdb" | Remove-Item
-        ls -Path $output -Recurse -Filter "$lib*.xml" | Remove-Item
-    }
+    Write-Host "Deleting $lib.*"
+    ls -Path $output -Recurse -Filter "$lib*.dll" | Remove-Item
+    ls -Path $output -Recurse -Filter "$lib*.pdb" | Remove-Item
+    ls -Path $output -Recurse -Filter "$lib*.xml" | Remove-Item   
 
 }
 
-
+Write-Host "You'll need to manually copy any new NuGet packages to each individual folders" -ForegroundColor Yellow -NoNewline  
 
 
 # remove unused and big files
 ls -Path $output\control.center -Filter *.xml | Remove-Item
+ls -Path $output\control.center -Filter *.cache | Remove-Item
 
 ls -Path $output -Recurse -Filter assembly.test.* | Remove-Item
 ls -Path $output -Recurse -Filter GalaSoft.*.pdb | Remove-Item
@@ -394,7 +402,7 @@ if($compressed -eq 'q')
 $previous = $Build -1
 if(Test-Path .\deployment\update-script-template.ps1)
 {
-    (Get-Content .\deployment\update-script-template.ps1).Replace("%build_number%", $Build.ToString()) > .\deployment\$Build.ps1
+    (Get-Content .\deployment\update-script-template.ps1).Replace("%build_number%", $Build.ToString()).Replace("%channel%", $Channel.ToString()) > .\deployment\$Build.ps1
 }
 
 #create the update files
@@ -421,7 +429,7 @@ $versionBuildJson > .\deployment\version.$Build.json
 #release note - copy from existing file, should maintains the UTF8 encoding
 copy .\deployment\release-note-template.md .\deployment\$Build.md
 
-$ftpRoot = "ftp://www.reactivedeveloper.com/$Release/binaries"
+$ftpRoot = "ftp://www.reactivedeveloper.com/$Channel/binaries"
 $ftpUserName = "rxdeveloper"
 $ftpPassword = "reH2TaXd"
 

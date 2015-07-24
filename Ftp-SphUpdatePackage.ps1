@@ -3,7 +3,7 @@
        [int]$Build ,
        [Parameter(Position=1)]
        [ValidateSet('Production','Staging','Alpha')]
-       [string]$Release = 'Alpha'
+       [string]$Channel = 'Alpha'
      )
 
 function Create-FtpDirectory {
@@ -19,7 +19,10 @@ function Create-FtpDirectory {
     $password,
     [Parameter(Mandatory=$true)]
     [string]
-    $Directory
+    $Directory,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $Channel
   )
   
   $SecureString = ConvertTo-SecureString $password -AsPlainText -Force
@@ -29,7 +32,7 @@ function Create-FtpDirectory {
   Set-FTPConnection -Credentials $PSCredential -Server ftp://www.reactivedeveloper.com -Session ss01 
   $Session = Get-FTPConnection -Session ss01
 
-  New-FTPItem -Session $Session -Path "/Alpha/binaries" -Name $Directory
+  New-FTPItem -Session $Session -Path "/$Channel/binaries" -Name $Directory
     
 }
 
@@ -108,13 +111,13 @@ if($Build -eq 0)
 }
 
 
-$ftpRoot = "ftp://www.reactivedeveloper.com/$Release/binaries"
+$ftpRoot = "ftp://www.reactivedeveloper.com/$Channel/binaries"
 $ftpUserName = "rxdeveloper"
 $ftpPassword = "reH2TaXd"
+$previous = $Build -1
 
-
-
-Create-FtpDirectory -sourceuri "$ftpRoot/" -username $ftpUserName -password $ftpPassword -Directory $Build
+Remove-FtpDirectory -sourceuri "$ftpRoot/" -username $ftpUserName -password $ftpPassword -Directory "$Channel\binaries\$Build"
+Create-FtpDirectory -sourceuri "$ftpRoot/" -username $ftpUserName -password $ftpPassword -Directory $Build -Channel $Channel
 Upload-FtpFile -RemoteDirectory "$ftpRoot/" -username $ftpUserName -password $ftpPassword -LocalFile .\deployment\$previous.json
 Upload-FtpFile -RemoteDirectory "$ftpRoot/$Build/" -username $ftpUserName -password $ftpPassword -LocalFile .\deployment\version.$Build.json
 
