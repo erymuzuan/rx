@@ -77,7 +77,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             text: v
                         };
                     });
-                    layouts.splice(0, 0, { value: "", text: "[Default Layout]" });
+                    layouts.splice(0, 0, { value: " ", text: "[Default Layout]" });
                     layoutOptions(layouts);
                 });
 
@@ -578,6 +578,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     caption: "Edit Layout",
                     icon: "fa  fa-file-text-o",
                     enable: ko.computed(function () {
+                        if (typeof form().Layout() === "undefined") {
+                            return false;
+                        }
+                        if (!form().Layout()) {
+                            return false;
+                        }
+                        if (form().Layout().trim() === "") {
+                            return false;
+                        }
                         return form().Route();
                     })
                 },
