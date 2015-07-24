@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var form = await context.LoadOneAsync<EntityForm>(f => f.Route == id);
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == form.EntityDefinitionId);
             
-            var layout = form.Layout ?? "Html2ColsWithAuditTrail";
+            var layout = string.IsNullOrWhiteSpace(form.Layout) ? "Html2ColsWithAuditTrail" : form.Layout;
             var vm = new FormRendererViewModel { Form = form, EntityDefinition = ed };
 
 
