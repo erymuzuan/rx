@@ -9,7 +9,6 @@ namespace Bespoke.Sph.ControlCenter
         #region "dispatcher"
         public static void Post(this DispatcherObject vm, Action action)
         {
-
             vm.Dispatcher.Invoke(DispatcherPriority.Normal, action);
         }
 

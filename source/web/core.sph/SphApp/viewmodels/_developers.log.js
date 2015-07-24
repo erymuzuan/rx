@@ -325,13 +325,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        var dev = $("#developers-log-panel").height(),
                     top = $(window).height(),
                     height = top - dev - 90; //TODO: WHERE's the magic no coming from
-		                $("#content").css({
-		                    "margin-left": 0,
-		                    "height": "100%",
-		                    "overflow-y": "scroll",
-		                    "max-height": height,
-		                    "min-height": height
-		                });
+		        $("#content").css({
+		            "margin-left": 0,
+		            "height": "100%",
+		            "overflow-y": "scroll",
+		            "max-height": height,
+		            "min-height": height
+		        });
 		    };
 		    $("#developers-log-panel-expand", view).on("click", function (e) {
 		        e.preventDefault();
@@ -392,6 +392,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	    clearLogsFilter = function () {
 
 	    },
+	        showControlCenter = function () {
+	            ws.send("POST /bring-to-view:");
+	        },
 	        deployOutputFiles = function () {
 	            var files = _(ko.unwrap(outputFiles)).map(function (v) { return v.outputFile; });
 	            ws.send("POST /deploy:" + files.join(";"));
@@ -460,6 +463,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	        activate: activate,
 	        attached: attached,
 	        selectAllOutputFiles: selectAllOutputFiles,
+	        showControlCenter: showControlCenter,
 	        deployOutputFiles: deployOutputFiles,
 	        clearOutputFiles: clearOutputFiles
 	    };

@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bespoke.Sph.ControlCenter.Model;
+using System.Windows;
 using Bespoke.Sph.ControlCenter.ViewModel;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
@@ -144,6 +144,22 @@ namespace Bespoke.Sph.ControlCenter
         private async void NewMessageReceived(WebSocketSession session, string value)
         {
             Console.WriteLine("Getting new message from {0} => {1}", session.SessionID, value);
+            if (value.StartsWith("POST /bring-to-view:"))
+            {
+                m_mainViewModel.Post(() =>
+                {
+                    var wdw = Application.Current.MainWindow;
+                    wdw.WindowState = WindowState.Normal;
+                    wdw.Activate();
+                    if (!wdw.Topmost)
+                    {
+                        wdw.Topmost = true;
+                        wdw.Topmost = false;
+                    }
+                    wdw.Focus();
+                });
+                return;
+            }
             if (!value.StartsWith("POST /deploy:")) return;
 
             // stop the workers
@@ -181,6 +197,7 @@ namespace Bespoke.Sph.ControlCenter
                 await Task.Delay(500);
             }
             m_mainViewModel.StartSphWorkerCommand.Execute(null);
+
 
         }
 
