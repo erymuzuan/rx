@@ -1,25 +1,25 @@
-﻿/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+﻿/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
 /// <reference path="core.sph/Scripts/typeahead.bundle.js" />
 /// <reference path="core.sph/Scripts/bloodhound.js" />
-define(['types'], function (types) {
+define(["types"], function (types) {
 
     var nav = function (href2) {
-        $('#applicationHost').load(href2, null, function (responseText, textStatus) {
+        $("#applicationHost").load(href2, null, function (responseText, textStatus) {
             if (textStatus === "error") {
-                $('#applicationHost').html('<div class="alert alert-danger alert-dismissable">Cannot find the content for : ' + href2 + '</div>');
+                $("#applicationHost").html("<div class=\"alert alert-danger alert-dismissable\">Cannot find the content for : " + href2 + "</div>");
                 return;
             }
-            $('#applicationHost img').addClass('img-thumbnail');
-            $('#applicationHost a').prepend('<i class="fa fa-link"></i>');
-            $('pre code').each(function (i, block) {
+            $("#applicationHost img").addClass("img-thumbnail");
+            $("#applicationHost a").prepend("<i class=\"fa fa-link\"></i>");
+            $("pre code").each(function (i, block) {
                 hljs.highlightBlock(block);
             });
         });
     },
         mapTopic = function (topicHash) {
             var tcs = new $.Deferred();
-            topicHash = topicHash.toLowerCase().replace(/#\/?/g, '').replace(new RegExp(/\/.*$/g), '');
+            topicHash = topicHash.toLowerCase().replace(/#\/?/g, "").replace(new RegExp(/\/.*$/g), "");
             $.get("scripts/topics.map", function (script) {
                 var ooo = JSON.parse(script);
                 tcs.resolve(ooo[topicHash]);
@@ -28,18 +28,18 @@ define(['types'], function (types) {
 
         },
         topic = window.location.hash;
-    $('#applicationHost').load('/docs/overview.html');
-    $('#sidebar').load('/docs/sidebar.html');
-    $('#sidebar').on('click', 'a', function (e) {
+    $("#applicationHost").load("/docs/overview.html");
+    $("#sidebar").load("/docs/sidebar.html");
+    $("#sidebar").on("click", "a", function (e) {
         e.preventDefault();
         e.stopPropagation();
         nav(this.href);
         var appHostTop = $("#applicationHost").position().top;
-        $('html, body').animate({ scrollTop: appHostTop - 60 }, 800);
+        $("html, body").animate({ scrollTop: appHostTop - 60 }, 800);
     });
-    $('#applicationHost').on('click', 'a', function (e) {
+    $("#applicationHost").on("click", "a", function (e) {
         var $anchor = $(this),
-            href = $anchor.attr('href');
+            href = $anchor.attr("href");
         if (href.indexOf("http://") > -1) {
             return;
         }
@@ -47,15 +47,15 @@ define(['types'], function (types) {
             return;
         }
 
-        $('#applicationHost').load(href, null, function (responseText, textStatus) {
+        $("#applicationHost").load(href, null, function (responseText, textStatus) {
             if (textStatus === "error") {
-                $('#applicationHost').html('<div class="alert alert-danger alert-dismissable">Cannot find the content for : ' + href + '</div>');
+                $("#applicationHost").html("<div class=\"alert alert-danger alert-dismissable\">Cannot find the content for : " + href + "</div>");
                 return;
             }
-            $('#applicationHost img').addClass('img-thumbnail');
-            $('#applicationHost a').prepend('<i class="fa fa-link">');
+            $("#applicationHost img").addClass("img-thumbnail");
+            $("#applicationHost a").prepend("<i class=\"fa fa-link\">");
             console.log("downloaded %s", this.href);
-            $('pre code').each(function (i, block) {
+            $("pre code").each(function (i, block) {
                 hljs.highlightBlock(block);
             });
 
@@ -77,17 +77,17 @@ define(['types'], function (types) {
                 });
     members.initialize();
 
-    $('#search').typeahead({
+    $("#search").typeahead({
         minLength: 0,
         highlight: true,
     },
         {
-            name: 'types-search',
-            displayKey: 'path',
+            name: "types-search",
+            displayKey: "path",
             source: members.ttAdapter()
         })
-        .on('typeahead:closed', function () {
-            $('#applicationHost').load($(this).val() + ".html");
+        .on("typeahead:closed", function () {
+            $("#applicationHost").load($(this).val() + ".html");
         });
 
     if (topic) {

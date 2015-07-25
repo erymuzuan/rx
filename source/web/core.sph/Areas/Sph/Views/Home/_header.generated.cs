@@ -197,11 +197,11 @@ WriteLiteral("></i> My Profile\r\n                            </a>\r\n          
 "\r\n                   \r\n                        <li>\r\n                           " +
 " <a");
 
-WriteLiteral(" href=\"#help\"");
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" id=\"rx-context-help\"");
 
 WriteLiteral(">\r\n                                <i");
-
-WriteLiteral(" id=\"help\"");
 
 WriteLiteral(" class=\"icon-question\"");
 
@@ -213,14 +213,14 @@ WriteLiteral(" class=\"divider\"");
 WriteLiteral(">\r\n                        </li>\r\n                    \r\n                        <" +
 "li>\r\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2618), Tuple.Create("\"", 2659)
+WriteAttribute("href", Tuple.Create(" href=\"", 2636), Tuple.Create("\"", 2677)
             
             #line 60 "..\..\Areas\Sph\Views\Home\_header.cshtml"
-, Tuple.Create(Tuple.Create("", 2625), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff","SphAccount")
+, Tuple.Create(Tuple.Create("", 2643), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff","SphAccount")
             
             #line default
             #line hidden
-, 2625), false)
+, 2643), false)
 );
 
 WriteLiteral(">\r\n                                <i");

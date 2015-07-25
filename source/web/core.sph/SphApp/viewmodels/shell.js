@@ -16,7 +16,7 @@ define(["durandal/system", "services/system", "plugins/router", "services/logger
                 .activate();
         },
             attached = function (view) {
-                $(view).on("click", "a#help", function (e) {
+                $(document).on("click", "a#rx-context-help", function (e) {
                     e.preventDefault();
                     var topic = window.location.hash;
                     window.open("/docs/" + topic);
