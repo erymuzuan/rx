@@ -371,7 +371,7 @@ namespace Bespoke.Sph.Web.Hubs
             }
             if (folder == nameof(TransformDefinition))
             {
-                var map = file.DeserializeFromJsonFile<Designation>();
+                var map = file.DeserializeFromJsonFile<TransformDefinition>();
                 return $"transform.definition.edit/{map.Id}";
             }
             return string.Empty;
