@@ -99,7 +99,6 @@ namespace Bespoke.Sph.ControlCenter
         {
             var json = Encoding.UTF8.GetString(e.Body);
             SendMessage(json);
-
         }
 
 
@@ -128,16 +127,19 @@ namespace Bespoke.Sph.ControlCenter
 
         public void SendMessage(string json)
         {
-            m_appServer?.GetAllSessions().ToList().ForEach(x =>
+            m_appServer?.GetAllSessions().Where(x => null != x).ToList().ForEach(x =>
             {
-                try
+                this.QueueUserWorkItem(m =>
                 {
-                    x?.Send(json);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                    try
+                    {
+                        x?.Send(json);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }, json);
             });
         }
 
