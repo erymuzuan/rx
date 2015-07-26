@@ -79,7 +79,12 @@
 
     "custom-form-dialog" : "custom-form-dialog.html",
     "custom.form.list" : "custom.form.list.html",
-    "snippets.dialog" : "snippets-dialog.html",
+    "snippets.dialog": "snippets-dialog.html",
+
+    "users.management" : "userprofile.html",
+    "role.settings" : "designation.html",
+    "role.dialog" : "designation.html",
+    "users.token" : "api.token.html",
 
     "default": "Overview.html"
 }
