@@ -39,10 +39,12 @@
 
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
               for (var n in optionOrWebid) {
-              if (typeof v[n] === "function") {
-              v[n](optionOrWebid[n]);
-              }
-              }
+                if (optionOrWebid.hasOwnProperty(n)) {
+                    if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                    }
+                  }
+                }
               }
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "string") {
               v.WebId(optionOrWebid);
@@ -71,10 +73,12 @@
               };
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
               for (var n in optionOrWebid) {
-              if (typeof model[n] === "function") {
-              model[n](optionOrWebid[n]);
-              }
-              }
+                if (optionOrWebid.hasOwnProperty(n)) {
+                    if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                    }
+                  }
+                }
               }
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "string") {
               model.WebId(optionOrWebid);
@@ -105,8 +109,10 @@
       };
       if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
       for (var n in optionOrWebid) {
+      if (optionOrWebid.hasOwnProperty(n)) {
       if (typeof model[n] === "function") {
       model[n](optionOrWebid[n]);
+      }
       }
       }
       }

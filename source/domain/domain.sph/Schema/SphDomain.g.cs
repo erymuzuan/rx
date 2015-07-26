@@ -4,8 +4,6 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -135,16 +133,12 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameExtension = "Extension";
 
 
-        private readonly ObjectCollection<DocumentVersion> m_DocumentVersionCollection = new ObjectCollection<DocumentVersion>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("DocumentVersion", IsNullable = false)]
-        public ObjectCollection<DocumentVersion> DocumentVersionCollection
-        {
-            get { return m_DocumentVersionCollection; }
-        }
+        public ObjectCollection<DocumentVersion> DocumentVersionCollection { get; } = new ObjectCollection<DocumentVersion>();
+
 
         ///<summary>
         /// 
@@ -565,16 +559,12 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameEntityId = "EntityId";
 
 
-        private readonly ObjectCollection<Change> m_ChangeCollection = new ObjectCollection<Change>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("Change", IsNullable = false)]
-        public ObjectCollection<Change> ChangeCollection
-        {
-            get { return m_ChangeCollection; }
-        }
+        public ObjectCollection<Change> ChangeCollection { get; } = new ObjectCollection<Change>();
+
 
         ///<summary>
         /// 
@@ -1537,6 +1527,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_enforceStartModule;
+        public const string PropertyNameEnforceStartModule = "EnforceStartModule";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool m_isSearchVisible;
         public const string PropertyNameIsSearchVisible = "IsSearchVisible";
 
@@ -1566,16 +1561,12 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameOption = "Option";
 
 
-        private readonly ObjectCollection<string> m_RoleCollection = new ObjectCollection<string>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> RoleCollection
-        {
-            get { return m_RoleCollection; }
-        }
+        public ObjectCollection<string> RoleCollection { get; } = new ObjectCollection<string>();
+
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Owner m_owner
@@ -1594,13 +1585,12 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        private readonly ObjectCollection<string> m_SearchableEntityCollection = new ObjectCollection<string>();
-
         ///<summary>
         /// 
         ///</summary>
         [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> SearchableEntityCollection => m_SearchableEntityCollection;
+        public ObjectCollection<string> SearchableEntityCollection { get; } = new ObjectCollection<string>();
+
 
         ///<summary>
         /// 
@@ -1706,6 +1696,32 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_startModule;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public bool EnforceStartModule
+        {
+            set
+            {
+                if (m_enforceStartModule == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEnforceStartModule, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_enforceStartModule = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_enforceStartModule;
             }
         }
 

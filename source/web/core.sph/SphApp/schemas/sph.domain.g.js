@@ -20,8 +20,10 @@ bespoke.sph.domain.LatLng = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -50,8 +52,10 @@ bespoke.sph.domain.Document = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -82,8 +86,10 @@ bespoke.sph.domain.DocumentVersion = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -114,8 +120,10 @@ bespoke.sph.domain.Owner = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -148,8 +156,10 @@ bespoke.sph.domain.AuditTrail = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -179,8 +189,10 @@ bespoke.sph.domain.Change = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -213,8 +225,10 @@ bespoke.sph.domain.Organization = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -252,8 +266,10 @@ bespoke.sph.domain.UserProfile = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -283,8 +299,10 @@ bespoke.sph.domain.Setting = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -310,6 +328,7 @@ bespoke.sph.domain.Designation = function (optionOrWebid) {
         Description: ko.observable(""),
         IsActive: ko.observable(false),
         StartModule: ko.observable(""),
+        EnforceStartModule: ko.observable(false),
         IsSearchVisible: ko.observable(false),
         IsMessageVisible: ko.observable(false),
         IsHelpVisible: ko.observable(false),
@@ -324,8 +343,10 @@ bespoke.sph.domain.Designation = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -357,8 +378,10 @@ bespoke.sph.domain.Watcher = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -395,8 +418,10 @@ bespoke.sph.domain.Profile = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -427,8 +452,10 @@ bespoke.sph.domain.Message = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -458,8 +485,10 @@ bespoke.sph.domain.Photo = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -493,8 +522,10 @@ bespoke.sph.domain.Address = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -527,8 +558,10 @@ bespoke.sph.domain.EmailTemplate = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -560,8 +593,10 @@ bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }

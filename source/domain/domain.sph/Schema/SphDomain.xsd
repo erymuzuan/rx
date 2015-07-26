@@ -130,6 +130,7 @@
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 			<xs:attribute name="StartModule" type="xs:string" use="required"/>
+			<xs:attribute name="EnforceStartModule" type="xs:boolean" use="optional"/>
 			<xs:attribute name="IsSearchVisible" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsMessageVisible" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsHelpVisible" type="xs:boolean" use="required"/>

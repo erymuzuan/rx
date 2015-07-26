@@ -47,6 +47,12 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             if (null != profile)
             {
                 vm.StartModule = profile.StartModule;
+
+                var designation = context.LoadOneFromSources<Designation>(x => x.Name == profile.Designation);
+                if (null != designation && designation.EnforceStartModule)
+                    vm.StartModule = designation.StartModule;
+                vm.Designation = designation;
+
                 vm.Routes.Add(new JsRoute
                 {
                     GroupName = "default",
