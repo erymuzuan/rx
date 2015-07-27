@@ -6,6 +6,7 @@ using System.Management.Automation;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Model;
@@ -109,8 +110,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                         if (!silent)
                             MessageBox.Show("No new update is found, Please check again in the future", "Rx Developer", MessageBoxButton.OK,
                                     MessageBoxImage.Information);
-
-
                         return;
 
                     }
@@ -127,6 +126,18 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 {
                     if (!silent)
                         MessageBox.Show($"Cannot download {client.BaseAddress}/{url} \r\n{e}", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                catch (TaskCanceledException e)
+                {
+                    if (!silent)
+                        MessageBox.Show($"Cannot download {client.BaseAddress}/{url} \r\n{e}", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                catch (Exception e)
+                {
+                    if (!silent)
+                        MessageBox.Show($"Exception is thrown when downloading and parsing {client.BaseAddress}/{url} \r\n{e}", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 finally
