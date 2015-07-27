@@ -97,11 +97,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         tcs.resolve(true);
                     }, 500);
                 }
-                form().Name.subscribe(function (v) {
-                    if (!form().Route()) {
-                        form().Route(v.toLowerCase().replace(/\W+/g, "-"));
-                    }
-                });
+
                 form().EntityDefinitionId(entityid);
 
                 return tcs.promise();
@@ -112,7 +108,11 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 fd.FormElementCollection.remove(fe);
             },
             attached = function (view) {
-
+                form().Name.subscribe(function (v) {
+                    if (!form().Route()) {
+                        form().Route(v.toLowerCase().replace(/\W+/g, "-"));
+                    }
+                });
                 var fd = ko.unwrap(form().FormDesign);
 
                 var dropDown = function (e) {
@@ -546,6 +546,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         form().Name(form().Name() + " Copy (1)");
                         form().Route("");
                         form().Id("0");
+                        form().Partial("");
                         return Task.fromResult(0);
                     }
                 },
