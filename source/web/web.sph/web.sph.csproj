@@ -1188,6 +1188,7 @@
     <Content Include="images\list.png" />
     <Content Include="images\logo_sph.png" />
     <Content Include="images\mysql-24-black.png" />
+    <Content Include="images\sidebar_inline_toggler_icon_darkblue.jpg" />
     <Content Include="offline\header.html" />
     <Content Include="offline\IndexedDB.js" />
     <Content Include="offline\offline.js" />
