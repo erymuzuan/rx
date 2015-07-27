@@ -12,7 +12,7 @@ namespace Bespoke.Sph.WebTests
     {
 
         [Test]
-        public async Task _001_DeveloperLogin()
+        public async Task _100_DeveloperLogin()
         {
             this.Driver.Login(wait: 3000);
 
@@ -21,7 +21,7 @@ namespace Bespoke.Sph.WebTests
 
         }
         [Test]
-        public async Task _002_GoToNewEntityDefinition()
+        public async Task _200_CreatePatient()
         {
             var json = $"{ProjectDirectory}\\sources\\EntityDefinition\\patient.json";
             if (File.Exists(json))
@@ -45,7 +45,7 @@ namespace Bespoke.Sph.WebTests
 
         }
         [Test]
-        public async Task _003_AddBusinessRules()
+        public async Task _300_AddBusinessRules()
         {
             this.Driver.LogOff()
                 .Wait(2.Seconds())
@@ -83,20 +83,34 @@ namespace Bespoke.Sph.WebTests
                     x => x.GetAttribute("data-bind") != null && x.GetAttribute("data-bind").Contains("okClick"))
                 .Wait(1.Seconds());
 
-            //this.Driver // add contant field
-            //    .ClickFirst("a.btn-link", x => x.GetAttribute("data-bind") != null && x.GetAttribute("data-bind").Contains("Right"))
-            //    .Wait(1.Seconds());
-            //this.Driver
-            //    .ClickFirst("a.btn-link",
-            //        x => x.GetAttribute("data-bind") != null && x.GetAttribute("data-bind").Contains("Constant"))
-            //    .Wait(2.Seconds());
+    
 
-            //    this.Driver
-            //    .Value("#constant-field-value", "Michael")
-            //    .Value("#constant-field-note", "Michael Corleone")
-            //    .ClickLast("input.btn-default", x => x.GetAttribute("data-bind") != null && x.GetAttribute("data-bind").Contains("okClick"))
-            //    .Wait(1.Seconds())
-            //    ;
+
+            await Task.Delay(5.Seconds());
+
+        }
+        [Test]
+        public async Task _400_AddOperation()
+        {
+            this.Driver.LogOff()
+                .Wait(2.Seconds())
+                .Login()
+                .Wait(5.Seconds());
+
+            this.Driver
+                .NavigateToUrl("/sph#entity.details/patient", 5.Seconds());
+
+          
+            this.Driver
+                .ActivateTabItem("#operations-tab")
+                .Wait(500.Milliseconds());
+
+            this.Driver
+                .ClickFirst("a.btn-link", x => x.Text == "Add an operation ")
+                .Wait(5.Seconds());
+
+            Assert.IsTrue(this.Driver.Url.Contains("operation"));
+    
 
 
             await Task.Delay(5.Seconds());
