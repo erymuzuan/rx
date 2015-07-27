@@ -4227,8 +4227,8 @@ ul.listview li div{padding:5px}
 li.th{background-color:#e0e0e0;color:#fff;border:2px solid #52b9e9;margin:5px;padding:6px;min-width:100px}
 li.selected-th{background-color:#e0e0e0;color:#fff;border:2px dashed #666}
 #template-form-designer{border:5px dashed silver;min-height:800px;padding:15px}
-#template-form-designer>form>div{-ms-opacity:.6;opacity:.6;margin:5px;padding:5px;border:1px solid #FFF}
-#template-form-designer>form>div:hover{border:1px}
+#template-form-designer>form>div{opacity:.6;margin:5px;padding:5px;border:2px solid #FFF}
+#template-form-designer>form>div:hover{border:2px dashed #000}
 #report-designer{border:5px dashed silver;min-height:800px;padding:15px}
 .report-layout{border:2px dashed #d9ccb2;padding:8px;margin:5px;min-height:150px;background-color:#f7f7f7}
 .report-layout.active{border:3px dashed #e1e6fb;padding:8px;margin:5px;background-color:#fff}
