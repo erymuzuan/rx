@@ -26,7 +26,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                     return typeof v.$type === "string";
                 });
                 action().WorkflowTriggerMapCollection(maps);
-                var query = "IsActive eq 1";
+                var query = "IsActive eq true";
                 return context.getTuplesAsync("WorkflowDefinition", query, "Name", "Id")
                     .then(wdOptions);
 

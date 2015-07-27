@@ -95,7 +95,8 @@ namespace Bespoke.Sph.Web.Api
         }
 
         public async Task<ActionResult> Distinct(string column, string table, string filter)
-        {    // TODO : should get all the one with SaveAsSourceAttribute instead
+        {    
+            // TODO : should get all the one with SaveAsSourceAttribute instead
             var type = table.ToLowerInvariant();
             switch (type)
             {

@@ -270,8 +270,12 @@ ko.bindingHandlers.checkedItems = {
 ko.bindingHandlers.typeahead = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var id = ko.unwrap(valueAccessor()),
-            allBindings = allBindingsAccessor(),
-            members = new Bloodhound({
+            allBindings = allBindingsAccessor();
+
+        if (typeof id === "undefined") {
+            return;
+        }
+          var  members = new Bloodhound({
                 datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.Path); },
                 queryTokenizer: Bloodhound.tokenizers.nonword,
                 prefetch: "/WorkflowDefinition/GetVariablePath/" + id
