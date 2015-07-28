@@ -101,7 +101,6 @@ function Upload-FtpFile {
 
 }
 
-Import-Module .\source\PSFTP\PSFTP.psm1
 
 
 if($Build -eq 0)
