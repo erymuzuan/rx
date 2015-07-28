@@ -10,7 +10,7 @@
         <div class="form-group">
             <label for="adapter" class="col-lg-2 control-label">Adapter</label>
             <div class="col-lg-6">
-                <select required class="form-control" id="adapter" data-bind="value:model().adapter, options: adapterOptions, optionsValue:'Item1', optionsText:'Item2', optionsCaption:'[Select your adapter]'"></select>
+                <select required class="form-control" id="adapter" data-bind="value:model().adapter, options: adapterOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your adapter]'"></select>
             </div>
         </div>
         <div class="form-group">
@@ -64,7 +64,7 @@
         <div class="form-group">
             <label for="entity" class="col-lg-2 control-label">Entity</label>
             <div class="col-lg-6">
-                <select class="form-control" id="entity" data-bind="value:model().entity, options: entityOptions, optionsCaption:'[Select your destination entity]', optionsText:'Item2', optionsValue:'Item2'"></select>
+                <select class="form-control" id="entity" data-bind="value:model().entity, options: entityOptions, optionsCaption:'[Select your destination entity]', optionsText:'Name', optionsValue:'Id'"></select>
             </div>
 
             <div class="col-lg-3">
@@ -75,7 +75,7 @@
         <div class="form-group">
             <label for="map" class="col-lg-2 control-label">Map</label>
             <div class="col-lg-6">
-                <select class="form-control" id="map" data-bind="value: model().map, options: mapOptions, optionsValue:'Item1', optionsText:'Item2', optionsCaption:'[Select your map]'"></select>
+                <select class="form-control" id="map" data-bind="value: model().map, options: mapOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your map]'"></select>
             </div>
 
             <div class="col-lg-3">

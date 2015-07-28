@@ -56,20 +56,27 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         model().table(cloned.table);
                     });
                 });
+
+                var filterMapOptions = function (list) {
+                    var filtered = _(list).filter(function(v) {
+                        return v.InputTypeName.indexOf(model().table()) > -1 && v.OutputTypeName.indexOf(model().entity()) > -1;
+                    });
+                    mapOptions(filtered);
+                };
                 model().table.subscribe(function (a) {
                     model().sql(String.format("select * from {0} ", a));
                     if (!(a && model().entity())) {
                         return Task.fromResult(0);
                     }
-                    return context.getTuplesAsync("TransformDefinition", String.format("substringof('{0}', InputTypeName) and substringof('{1}', OutputTypeName)", a, model().entity()), "Id", "Name")
-                    .done(mapOptions);
+                    return context.getTuplesAsync("TransformDefinition", "Id ne '0'", "Id", "Name", "InputTypeName", "OutputTypeName")
+                    .done(filterMapOptions);
                 });
                 model().entity.subscribe(function (a) {
                     if (!(a && model().entity())) {
                         return Task.fromResult(0);
                     }
-                    return context.getTuplesAsync("TransformDefinition", String.format("substringof('{0}', InputTypeName) and substringof('{1}', OutputTypeName)", model().table(), a), "Id", "Name")
-                    .done(mapOptions)
+                    return context.getTuplesAsync("TransformDefinition", "Id ne '0'", "Id", "Name", "InputTypeName", "OutputTypeName")
+                    .done(filterMapOptions)
                     .done(function () {
                         model().map(cloned.map);
                     });

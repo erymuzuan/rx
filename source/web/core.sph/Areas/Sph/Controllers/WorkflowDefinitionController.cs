@@ -203,6 +203,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == id);
+            if (null == wd)
+                return HttpNotFound("No WorkflowDefinition is found with the id " + id);
+
             var list = wd.VariableDefinitionCollection.Select(v => v.Name).ToList();
             var schema = wd.GetCustomSchema();
             if (null != schema)

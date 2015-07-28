@@ -28,9 +28,9 @@ define(["services/datacontext", "services/logger", "plugins/dialog",objectbuilde
                     .then(function (lo) {
                         var maps = _(lo).map(function (v) {
                             return {
-                                Name: ko.unwrap(v.Item2),
-                                FullName: config.applicationName + ".Integrations.Transforms." + ko.unwrap(v.Item2),
-                                Id: v.Item1
+                                Name: ko.unwrap(v.Name),
+                                FullName: config.applicationName + ".Integrations.Transforms." + ko.unwrap(v.Name),
+                                Id: v.Id
                             };
                         });
                         definitionOptions(maps);
