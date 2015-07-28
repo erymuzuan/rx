@@ -256,6 +256,15 @@ namespace Bespoke.Sph.WebTests.Helpers
             driver.Manage().Timeouts().ImplicitlyWait(span);
             return driver;
         }
+        public static IWebDriver WaitUntil(this IWebDriver driver,  By by,TimeSpan span, string message = "")
+        {
+            Console.WriteLine("Wait {0} : {1}", span, message);
+            driver.Manage().Timeouts().ImplicitlyWait(span);
+            var wait = new WebDriverWait(driver, span);
+            wait.Until(d => d.FindElement(by));
+
+            return driver;
+        }
         public static IWebDriver Sleep(this IWebDriver driver, int miliseconds, string message = "")
         {
             Console.WriteLine("Sleep {0} : {1}", miliseconds, message);

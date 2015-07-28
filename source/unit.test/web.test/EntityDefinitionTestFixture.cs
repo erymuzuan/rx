@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.WebTests.Helpers;
 using Humanizer;
 using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace Bespoke.Sph.WebTests
 {
@@ -55,7 +56,7 @@ namespace Bespoke.Sph.WebTests
             this.Driver
                 .NavigateToUrl("/sph#entity.details/patient", 5.Seconds());
 
-          
+
             this.Driver
                 .ActivateTabItem("#business-rules-tab")
                 .Wait(500.Milliseconds());
@@ -71,7 +72,7 @@ namespace Bespoke.Sph.WebTests
                 .ClickFirst("a.btn-link", x => x.GetAttribute("data-bind") != null && x.GetAttribute("data-bind").Contains("addFilter"))
                 .Wait(1.Seconds());
 
-            this.Driver 
+            this.Driver
                 .ClickFirst("a.btn-link", x => x.GetAttribute("data-bind") != null && x.GetAttribute("data-bind").Contains("Left"))
                 .Wait(1.Seconds())// add document field
                 .ClickFirst("a.btn-link",
@@ -83,7 +84,7 @@ namespace Bespoke.Sph.WebTests
                     x => x.GetAttribute("data-bind") != null && x.GetAttribute("data-bind").Contains("okClick"))
                 .Wait(1.Seconds());
 
-    
+
 
 
             await Task.Delay(5.Seconds());
@@ -100,17 +101,34 @@ namespace Bespoke.Sph.WebTests
             this.Driver
                 .NavigateToUrl("/sph#entity.details/patient", 5.Seconds());
 
-          
+
             this.Driver
                 .ActivateTabItem("#operations-tab")
                 .Wait(500.Milliseconds());
 
             this.Driver
-                .ClickFirst("a.btn-link", x => x.Text == "Add an operation ")
-                .Wait(5.Seconds());
+                .ClickFirst("a.btn-link", x => !string.IsNullOrWhiteSpace(x.Text) && x.Text.Contains("Add an operation"))
+                .Wait(2.Seconds())
+                .ClickLast("button.btn-default", x => x.Text == "No")
+                .WaitUntil(By.Id("success-message"), 2.Seconds());
 
             Assert.IsTrue(this.Driver.Url.Contains("operation"));
-    
+
+            this.Driver.Value("#name", "Register")
+                .Value("#success-message", "The patient has been registered")
+                .Value("#navigate-url", "#patient");
+            this.Driver
+                .Click("input[value=developers]");
+
+            this.Driver
+                .ClickLast("a.btn-link", x => null != x.GetAttribute("data-bind") && x.GetAttribute("data-bind").Contains("addChildAction"))
+                .Wait(1.Seconds())
+                .Value("#setter-action-child-path", "FullName");
+
+            this.Driver
+                .Click("a.dropdown")
+                .Wait(500.Milliseconds())
+                .Click("a.btn-add-constant-setter-field");
 
 
             await Task.Delay(5.Seconds());
