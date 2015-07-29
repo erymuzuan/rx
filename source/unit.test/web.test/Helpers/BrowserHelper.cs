@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using Castle.Core.Internal;
 using Humanizer;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
 namespace Bespoke.Sph.WebTests.Helpers
@@ -23,9 +26,9 @@ namespace Bespoke.Sph.WebTests.Helpers
             driver
                 .NavigateToUrl("/Sph/SphAccount/Logoff")
                 .NavigateToUrl("/Sph/SphAccount/Login", 1.Seconds());
-            driver.Value("[name='UserName']", userName)
-                .Value("[name='Password']", password)
-                .Click("[name='submit']");
+            driver.Value("[name=UserName]", userName)
+                .Value("[name=Password]", password)
+                .Click("[name=submit]");
 
             return driver;
         }
@@ -35,23 +38,45 @@ namespace Bespoke.Sph.WebTests.Helpers
             return driver;
         }
 
+        public static IWebDriver ClikOkDialog(this IWebDriver driver)
+        {
+            return driver.ClickLast("input[value=OK]", x => null != x.GetAttribute("data-bind"));
+        }
+
         public static IWebDriver Value(this IWebDriver driver, string selector, string text, int index = 0, int wait = 0)
         {
             var list = driver.FindElements(By.CssSelector(selector));
-            if (list.Count <= index) throw new ArgumentException(
-                $"There's only {list.Count} elements for {selector} selector");
+            if (list.Count <= index)
+                throw new ArgumentException($"There's only {list.Count} elements for {selector} selector");
 
-           
             var element = list[index];
+            driver.Focus(selector);
 
             var tag = $"{element.TagName}".ToLower();
-            if (tag == "select") return driver.SelectOption(element, text);
-            if (tag == "input") return driver.SetText(element, text);
-            if (tag == "textarea") return driver.SetText(element, text);
+            try
+            {
+                switch (tag)
+                {
+                    case "select":
+                        driver.SelectOption(element, text);
+                        break;
+                    case "input":
+                        driver.SetText(element, text);
+                        break;
+                    case "textarea":
+                        driver.SetText(element, text);
+                        break;
+                }
 
-            if (wait > 0)
-                driver.Sleep(wait);
+            }
+            finally
+            {
+                if (wait > 0)
+                    driver.Sleep(wait);
 
+                driver.Blur(selector);
+
+            }
             return driver;
         }
 
@@ -59,18 +84,56 @@ namespace Bespoke.Sph.WebTests.Helpers
         {
             var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
             var element = elements.SingleOrDefault(filter);
-            if (element != null)
+            if (null == element) return driver;
+            try
             {
+                driver.Focus(selector);
                 var ag = $"{element.TagName}".ToLower();
-                if (ag == "select") return driver.SelectOption(element, text);
-                if (ag == "input") return driver.SetText(element, text);
-                if (ag == "textarea") return driver.SetText(element, text);
+                switch (ag)
+                {
+                    case "select":
+                        driver.SelectOption(element, text);
+                        break;
+                    case "input":
+                        driver.SetText(element, text);
+                        break;
+                    case "textarea":
+                        driver.SetText(element, text);
+                        break;
+                }
+
+                if (wait > 0)
+                    driver.Sleep(wait);
+            }
+            finally
+            {
+                driver.Blur(selector);
             }
 
-            if (wait > 0)
-                driver.Sleep(wait);
+            return driver;
+        }
+
+
+        public static IWebDriver Blur(this IWebDriver driver, string selector)
+        {
+            return driver.ExecuteScript($"$(\"{selector}\").blur();");
+
+        }
+
+        public static IWebDriver Focus(this IWebDriver driver, string selector)
+        {
+            return driver.ExecuteScript($"$(\"{selector}\").focus();");
+
+        }
+
+        public static IWebDriver ExecuteScript(this IWebDriver driver, string script)
+        {
+            var jse = driver as IJavaScriptExecutor;
+            Console.WriteLine(" execute scripts : " + script);
+            jse?.ExecuteScript(script);
 
             return driver;
+
         }
         public static IWebDriver StringAssert(this IWebDriver driver, string expected, string actual)
         {
@@ -87,8 +150,9 @@ namespace Bespoke.Sph.WebTests.Helpers
         public static IWebDriver SelectOption(this IWebDriver driver, string selector, string text, int index = 0, bool selectByText = true)
         {
             var elements = driver.FindElements(By.CssSelector(selector));
-            if (elements.Count <= index) throw new ArgumentException(
-                $"There's only {elements.Count} elements for {selector} selector");
+            if (elements.Count <= index)
+                throw new ArgumentException(
+$"There's only {elements.Count} elements for {selector} selector");
 
             var select = new SelectElement(elements[index]);
 
@@ -124,12 +188,12 @@ namespace Bespoke.Sph.WebTests.Helpers
         {
             try
             {
-        
+
 
                 // step 1 - select the element you want to right-click
-                var elementToRightClick =driver.FindElement(By.CssSelector(selector));
+                var elementToRightClick = driver.FindElement(By.CssSelector(selector));
                 // step 2 - create and step up an Actions object with your driver
-                var action = new OpenQA.Selenium.Interactions.Actions(driver);
+                var action = new Actions(driver);
                 action.ContextClick(elementToRightClick);
                 // step 3 - execute the action
                 action.Perform();
@@ -149,7 +213,7 @@ namespace Bespoke.Sph.WebTests.Helpers
         {
             var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
             var ele = elements.SingleOrDefault(assert);
-            NUnit.Framework.Assert.IsTrue(null != ele, message);
+            Assert.IsTrue(null != ele, message);
             return driver;
         }
 
@@ -195,7 +259,7 @@ namespace Bespoke.Sph.WebTests.Helpers
 
         public static IWebDriver ActivateTabItem(this IWebDriver driver, string href)
         {
-            return driver.ClickFirst("a[data-toggle=tab]", e =>  e.GetAttribute("href").EndsWith(href));
+            return driver.ClickFirst("a[data-toggle=tab]", e => e.GetAttribute("href").EndsWith(href));
         }
         public static IWebDriver ClickFirst(this IWebDriver driver, string selector, Expression<Func<IWebElement, bool>> filter)
         {
@@ -256,7 +320,7 @@ namespace Bespoke.Sph.WebTests.Helpers
             driver.Manage().Timeouts().ImplicitlyWait(span);
             return driver;
         }
-        public static IWebDriver WaitUntil(this IWebDriver driver,  By by,TimeSpan span, string message = "")
+        public static IWebDriver WaitUntil(this IWebDriver driver, By by, TimeSpan span, string message = "")
         {
             Console.WriteLine("Wait {0} : {1}", span, message);
             driver.Manage().Timeouts().ImplicitlyWait(span);
@@ -268,13 +332,13 @@ namespace Bespoke.Sph.WebTests.Helpers
         public static IWebDriver Sleep(this IWebDriver driver, int miliseconds, string message = "")
         {
             Console.WriteLine("Sleep {0} : {1}", miliseconds, message);
-            System.Threading.Thread.Sleep(miliseconds);
+            Thread.Sleep(miliseconds);
             return driver;
         }
         public static IWebDriver Sleep(this IWebDriver driver, TimeSpan span, string message = "")
         {
             Console.WriteLine("Sleep {0} : {1}", span, message);
-            System.Threading.Thread.Sleep(span);
+            Thread.Sleep(span);
             return driver;
         }
     }

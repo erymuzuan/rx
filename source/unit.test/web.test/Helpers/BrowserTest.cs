@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Security.Principal;
 using System.Threading;
+using Humanizer;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -15,10 +16,14 @@ namespace Bespoke.Sph.WebTests.Helpers
         public void Setup()
         {
             m_driver = InitiateDriver();
+
+            m_driver.Login()
+                .WaitUntil(By.ClassName("page-logo"), 2.Seconds());
         }
         [TestFixtureTearDown]
         public void TearDown()
         {
+            m_driver.LogOff();
             m_driver?.Close();
             m_driver?.Dispose();
             m_driver = null;
@@ -41,9 +46,9 @@ namespace Bespoke.Sph.WebTests.Helpers
         {
             IWebDriver driver = new FirefoxDriver();
             return driver;
-        }   
+        }
 
- 
-        
+
+
     }
 }
