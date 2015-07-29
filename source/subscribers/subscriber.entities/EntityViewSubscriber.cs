@@ -17,6 +17,7 @@ namespace subscriber.entities
 
         protected async override Task ProcessMessage(EntityView view, MessageHeaders header)
         {
+            await Task.Delay(2000);
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == view.EntityDefinitionId);
             var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault

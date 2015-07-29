@@ -13,10 +13,11 @@ namespace subscriber.entities
         public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
 
 
-        protected  override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
+            await Task.Delay(2000);
             var context = new SphDataContext();
-            var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished).Select( a => a.Name);
+            var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished).Select(a => a.Name);
             var entities = string.Join("|", list.ToArray());
 
             var path = ConfigurationManager.WebPath + @"\Web.config";
@@ -39,7 +40,6 @@ namespace subscriber.entities
                 config.Save(path);
             }
 
-            return Task.FromResult(0);
 
         }
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
+
 namespace subscriber.entities
 {
     public class EntityCodeSubscriber : Subscriber<EntityDefinition>
