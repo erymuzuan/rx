@@ -22,7 +22,7 @@ namespace ASP
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     
-    #line 2 "..\..\Areas\Sph\Views\Home\index.cshtml"
+    #line 2 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
     using System.Web.Mvc.Html;
     
     #line default
@@ -33,16 +33,16 @@ namespace ASP
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Home/index.cshtml")]
-    public partial class _Areas_Sph_Views_Home_index_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.SphIndexViewModel>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Home/ide.shell.cshtml")]
+    public partial class _Areas_Sph_Views_Home_ide_shell_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.SphIndexViewModel>
     {
-        public _Areas_Sph_Views_Home_index_cshtml()
+        public _Areas_Sph_Views_Home_ide_shell_cshtml()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 3 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
   
     Layout = null;
     var splash = Server.MapPath("~/_splash.html");
@@ -122,7 +122,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("    ");
 
             
-            #line 28 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 28 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
 Write(Html.Partial("_header"));
 
             
@@ -143,7 +143,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("        ");
 
             
-            #line 33 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 33 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
     Write(!string.IsNullOrWhiteSpace(splashHtml) ? Html.Raw(splashHtml) : Html.Partial("_splash"));
 
             
@@ -154,7 +154,7 @@ WriteLiteral("\r\n\r\n    </div>\r\n\r\n");
 WriteLiteral(" ");
 
             
-            #line 37 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 37 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
 Write(Html.Partial("_scripts"));
 
             

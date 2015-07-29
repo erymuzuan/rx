@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var context = new SphDataContext();
             var profile = await context.LoadOneAsync<UserProfile>(ua => ua.UserName == User.Identity.Name);
             if (null == profile)
-                return View(new SphIndexViewModel { Designation = new Designation { IsHelpVisible = false } });
+                return View("ide.shell", new SphIndexViewModel { Designation = new Designation { IsHelpVisible = false } });
 
             ViewBag.StartModule = "#" + profile.StartModule;
 
@@ -27,8 +27,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 Designation = designation
             };
 
-            return View(vm);
+            return View("ide.shell", vm);
         }
 
     }
+   
 }

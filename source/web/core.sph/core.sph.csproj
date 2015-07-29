@@ -744,6 +744,7 @@
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\DataImportController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InternationalizationController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\RequireJsBundleController.cs" />
@@ -835,10 +836,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_FormContent.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Home\index.generated.cs">
+    <Compile Include="Areas\Sph\Views\Home\ide.shell.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>index.cshtml</DependentUpon>
+      <DependentUpon>ide.shell.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\Home\_splash.generated.cs">
       <AutoGen>True</AutoGen>
@@ -3199,9 +3200,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Index.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Home\index.cshtml">
+    <Content Include="Areas\Sph\Views\Home\ide.shell.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>index.generated.cs</LastGenOutput>
+      <LastGenOutput>ide.shell.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\Home\_splash.cshtml">
       <Generator>RazorGenerator</Generator>
