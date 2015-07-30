@@ -1,4 +1,4 @@
 ﻿@model Bespoke.Sph.Domain.LabelItem
-<div class="control-group">
+<div class="control-group" data-bind="visible:@Html.Raw(Model.Visible)">
     <label class="control-label">@Model.Name</label>
 </div>

@@ -1,6 +1,6 @@
 ﻿@model Bespoke.Sph.Domain.MapElement
 
-<div class="control-group" data-bind="visible:@Model.Visible">
+<div class="control-group" data-bind="visible:@Html.Raw(Model.Visible)">
     <label for="@Model.ElementId" class="control-label">@Model.Label</label>
     <div class="controls">
         <button title="@Model.Tooltip" id="@Model.ElementId" class="@Model.CssClass" data-bind="click: $root.showMapCommand">

@@ -2,7 +2,7 @@
 @{
     
 }
-<div class="control-group">
+<div class="control-group" data-bind="visible:@Html.Raw(Model.Visible)">
     <div class="controls">
         <label class="checkbox">
             <input data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.Path" title="@Model.Tooltip" type="checkbox" name="@Model.Path" />

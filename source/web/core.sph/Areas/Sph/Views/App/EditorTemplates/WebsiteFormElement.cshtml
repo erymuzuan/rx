@@ -1,5 +1,5 @@
 ﻿@model Bespoke.Sph.Domain.WebsiteFormElement
-<div class="control-group">
+<div class="control-group" data-bind="visible:@Html.Raw(Model.Visible)">
     <label for="@Model.ElementId" class="control-label">@Model.Label</label>
     <div class="controls">
         <input class="@(Model.CssClass + " "+ Model.Size)" 
