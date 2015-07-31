@@ -133,11 +133,16 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     var reposType = sqlRepositoryType.MakeGenericType(edType);
                     var repository = Activator.CreateInstance(reposType);
 
-                    var ff = typeof(IRepository<>).MakeGenericType(edType);
+                    var ff = typeof (IRepository<>).MakeGenericType(edType);
                     bags.AddOrReplace(ff, repository);
                 }
                 catch (FileNotFoundException e)
                 {
+                    Debug.WriteLine(e);
+                }
+                catch (Exception e) when (e.Message.Contains("Cannot load"))
+                {
+
                     Debug.WriteLine(e);
                 }
             });
