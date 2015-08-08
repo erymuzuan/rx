@@ -85,21 +85,24 @@ namespace Bespoke.Sph.Web.Controllers
 
             }
 
+
+            var formId = ed.Name.ToIdFormat() + "-details";
             var form = new EntityForm
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = formId,
                 Name = ed.Name + " details",
                 Entity = ed.Name,
-                Route = ed.Name.ToLowerInvariant() + "-details",
+                Route = formId,
                 EntityDefinitionId = ed.Id,
                 IsDefault = true
             };
+            var viewId = ed.Name.ToIdFormat() + "-all";
             var view = new EntityView
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = viewId,
                 Entity = ed.Name,
                 Name = "All " + ed.Plural,
-                Route = ed.Plural.ToLowerInvariant() + "-all",
+                Route = viewId,
                 EntityDefinitionId = ed.Id,
             };
 
