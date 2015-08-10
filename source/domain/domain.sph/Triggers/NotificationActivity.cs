@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain
         {
             return new BuildValidationResult { Result = true };
         }
-        
+
 
         public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
@@ -44,16 +44,16 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
 
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
-            code.AppendLinf("       var act = this.GetActivity<NotificationActivity>(\"{0}\");", this.WebId);
-            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
+            code.AppendLine($"       var act = this.GetActivity<NotificationActivity>(\"{this.WebId}\");");
+            code.AppendLine($"       result.NextActivities = new[]{{\"{this.NextActivityWebId}\"}};");
             code.AppendLine();
 
-            code.AppendLinf("       var @from = await this.TransformFrom{0}(act.From);", this.MethodName);
-            code.AppendLinf("       var to = await this.TransformTo{0}(act.To);", this.MethodName);
-            code.AppendLinf("       var subject = await this.TransformSubject{0}(act.Subject);", this.MethodName);
-            code.AppendLinf("       var body = await this.TransformBody{0}(act.Body);", this.MethodName);
-            code.AppendLinf("       var cc = await this.TransformBody{0}(act.Cc);", this.MethodName);
-            code.AppendLinf("       var bcc = await this.TransformBody{0}(act.Bcc);", this.MethodName);
+            code.AppendLine($"       var @from = await this.TransformFrom{this.MethodName}(act.From);");
+            code.AppendLine($"       var to = await this.TransformTo{this.MethodName}(act.To);");
+            code.AppendLine($"       var subject = await this.TransformSubject{this.MethodName}(act.Subject);");
+            code.AppendLine($"       var body = await this.TransformBody{this.MethodName}(act.Body);");
+            code.AppendLine($"       var cc = await this.TransformBody{this.MethodName}(act.Cc);");
+            code.AppendLine($"       var bcc = await this.TransformBody{this.MethodName}(act.Bcc);");
 
             code.AppendLine();
 
@@ -63,6 +63,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       mm.Body = body;");
             code.AppendLine("       mm.From = new System.Net.Mail.MailAddress(@from);");
             code.AppendLine("       mm.To.Add(to);");
+            code.AppendLine($"      mm.IsBodyHtml = { (this.IsHtmlEmail ? "true" : "false")};");
             code.AppendLine("       if (!string.IsNullOrWhiteSpace(cc))");
             code.AppendLine("           mm.CC.Add(cc);");
             code.AppendLine("       if (!string.IsNullOrWhiteSpace(bcc))");
@@ -80,15 +81,15 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("           var message = new Message");
             code.AppendLine("                           {");
-            code.AppendLinf("                               Subject = subject,");
-            code.AppendLinf("                               UserName = user.UserName,");
-            code.AppendLinf("                               Body = body,");
+            code.AppendLine("                               Subject = subject,");
+            code.AppendLine("                               UserName = user.UserName,");
+            code.AppendLine("                               Body = body,");
             code.AppendLinf("                               Id = Strings.GenerateId()");
             code.AppendLine("                           };");
             code.AppendLine("           using (var session = context.OpenSession())");
             code.AppendLine("           {");
             code.AppendLine("               session.Attach(message);");
-            code.AppendLinf("               await session.SubmitChanges(\"{0}\").ConfigureAwait(false);", this.Name);
+            code.AppendLine($"              await session.SubmitChanges(\"{this.Name}\").ConfigureAwait(false);");
             code.AppendLine("           }");
             code.AppendLine("       }");
 
@@ -108,7 +109,7 @@ namespace Bespoke.Sph.Domain
 
             if (template.StartsWith("="))
             {
-                code.AppendLinf("   private Task<string> Transform{1}{0}(string template)", this.MethodName, fieldName);
+                code.AppendLine($"   private Task<string> Transform{fieldName}{this.MethodName}(string template)");
                 code.AppendLine("   {");
                 code.AppendLine("        if (string.IsNullOrWhiteSpace(template)) return Task.FromResult(string.Empty);");
                 code.AppendFormat(@"
@@ -117,7 +118,7 @@ namespace Bespoke.Sph.Domain
             }
             else
             {
-                code.AppendLinf("   private async Task<string> Transform{1}{0}(string template)", this.MethodName, fieldName);
+                code.AppendLine($"   private async Task<string> Transform{fieldName}{this.MethodName}(string template)");
                 code.AppendLine("   {");
                 code.Append(@"
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();
@@ -128,7 +129,7 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
 
         }
-        
+
         public override Task<ActivityExecutionResult> ExecuteAsync()
         {
             return null;
