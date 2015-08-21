@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Spring.Context.Support;
 using Spring.Objects.Factory;
 
@@ -110,6 +111,11 @@ namespace Bespoke.Sph.Domain
                 logger.Log(new LogEntry(compositionException));
                 Debugger.Break();
             }
+            catch (InvalidOperationException ioe) when (ioe.Message.Contains("Currently composing another batch in this ComposablePartExportProvider"))
+            {
+                ComposeMefCatalog(part, assemblies);
+            }
+
         }
 
         public static void AddCacheList(Type type, object dependency)
