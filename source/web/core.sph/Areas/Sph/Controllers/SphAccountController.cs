@@ -49,7 +49,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var mail = new MailMessage(ConfigurationManager.FromEmailAddress, email)
                 {
                     Subject = ConfigurationManager.ApplicationFullName + " Forgot password ",
-                    Body = string.Format("{0}/Sph/SphAccount/ResetPassword/{1}", ConfigurationManager.BaseUrl, setting.Id)
+                    Body = $"{ConfigurationManager.BaseUrl}/Sph/SphAccount/ResetPassword/{setting.Id}",
+                    IsBodyHtml = false
                 };
                 await smtp.SendMailAsync(mail);
             }

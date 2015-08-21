@@ -22,6 +22,6 @@ namespace Bespoke.Sph.EmailServiceNotification
             await smtp.SendMailAsync(this.From ?? "admin@sph.my", to, message.Subject, message.Body);
         }
 
-        public IList<INotificationChannel> NotificationChannelCollection { get; private set; }
+        public IList<INotificationChannel> NotificationChannelCollection { get; } = new List<INotificationChannel>();
     }
 }

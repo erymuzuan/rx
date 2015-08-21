@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Domain
             return value;
         }
 
-        public static bool IsEqual<T>(this T value, T value2) where T : struct ,IConvertible
+        public static bool IsEqual<T>(this T value, T value2) where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
             {
@@ -118,9 +118,22 @@ namespace Bespoke.Sph.Domain
             return Guid.NewGuid().ToString();
         }
 
+        public static string SplitCamelCase(this string str)
+        {
+            return Regex.Replace(
+                Regex.Replace(
+                    str,
+                    @"(\P{Ll})(\P{Ll}\p{Ll})",
+                    "$1-$2"
+                ),
+                @"(\p{Ll})(\P{Ll})",
+                "$1-$2"
+            );
+        }
+
         public static string ToIdFormat(this string text)
         {
-            return text.Replace(".", "-")
+            return text.SplitCamelCase().Replace(".", "-")
                 .Replace("_", "-")
                 .Replace(",", "-")
                 .Replace("'", "-")
@@ -273,7 +286,7 @@ namespace Bespoke.Sph.Domain
             return $"{value}";
         }
 
-        public static DateTime? RegexDateTimeValue(string input, string pattern, string group, params  string[] formats)
+        public static DateTime? RegexDateTimeValue(string input, string pattern, string group, params string[] formats)
         {
             var val = RegexSingleValue(input, pattern, group);
             DateTime dv;

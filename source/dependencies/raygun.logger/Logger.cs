@@ -69,7 +69,10 @@ namespace Bespoke.Sph.RayGunLoggers
                 {
                     m_currentRequestMessage = currentRequestMessage;
                     this.StripAndSend(entry.Exception, m_tags, data)
-                    .Wait();
+                    .ContinueWith(_ =>
+                    {
+                        Console.WriteLine(@"done");
+                    });
                 }
                 catch (Exception)
                 {
@@ -108,12 +111,11 @@ namespace Bespoke.Sph.RayGunLoggers
                 await this.Send(this.BuildMessage(e, tags, userCustomData));
             }
         }
-        // Mindscape.Raygun4Net.RaygunClient
+
+        public string Url { get; set; } = "http://alpha.reactivedeveloper.com";
         public async Task Send(RaygunMessage raygunMessage)
         {
-            var baseAdress = ConfigurationManager.AppSettings["Sph:Incidere.BaseAddress"] ?? "http://alpha.reactivedeveloper.com";
-            //http://localhost:3530/
-            using (var client = new HttpClient { BaseAddress = new Uri(baseAdress) })
+            using (var client = new HttpClient { BaseAddress = new Uri(Url) })
             {
                 try
                 {
@@ -139,7 +141,6 @@ namespace Bespoke.Sph.RayGunLoggers
                 .SetEnvironmentDetails()
                 .SetMachineName(Environment.MachineName)
                 .SetExceptionDetails(exception)
-                .SetClientDetails()
                 .SetVersion(m_version)
                 .SetTags(tags)
                 .SetUserCustomData(userCustomData)
@@ -211,5 +212,7 @@ namespace Bespoke.Sph.RayGunLoggers
             }
             return data;
         }
+
+  
     }
 }
