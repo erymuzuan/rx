@@ -82,8 +82,6 @@ namespace Bespoke.Sph.Web.App_Start
             var forms = context.LoadFromSources<EntityForm>(x => x.IsPublished) ;
 
 
-
-
             RegisterCustomEntityDependencies(entityDefinitions);
 
             // get valid users for ed

@@ -23,9 +23,7 @@ namespace Bespoke.Sph.WebTests.Helpers
 
         public static IWebDriver Login(this IWebDriver driver, string userName = "admin", string password = "123456", int wait = 2000)
         {
-            driver
-                .NavigateToUrl("/Sph/SphAccount/Logoff")
-                .NavigateToUrl("/Sph/SphAccount/Login", 1.Seconds());
+            driver.NavigateToUrl("/Sph/SphAccount/Login", 1.Seconds());
             driver.Value("[name=UserName]", userName)
                 .Value("[name=Password]", password)
                 .Click("[name=submit]");
