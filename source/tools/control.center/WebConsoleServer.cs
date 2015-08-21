@@ -82,8 +82,10 @@ namespace Bespoke.Sph.ControlCenter
         }
         public void StopConsume()
         {
+            
             Console.WriteLine("!!Stoping : {0}", WebConsoleLogger);
 
+            this.Stop();
             if (null != m_consumer)
                 m_consumer.Received -= Received;
 
