@@ -8,7 +8,7 @@ using Bespoke.Sph.Web.Helpers;
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("entity-form")]
-    public class EntityFormController : Controller
+    public class EntityFormController : BaseController
     {
         [HttpPost]
         [Route("")]
@@ -66,6 +66,8 @@ namespace Bespoke.Sph.Web.Controllers
             var context = new SphDataContext();
             var form = this.GetRequestJson<EntityForm>();
             form.IsPublished = true;
+            form.BuildDiagnostics = this.BuildDiagnostics;
+
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == form.EntityDefinitionId);
 
             var buildValidation = await form.ValidateBuildAsync(ed);

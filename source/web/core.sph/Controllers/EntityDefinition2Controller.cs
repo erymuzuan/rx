@@ -14,7 +14,7 @@ using Humanizer;
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("entity-definition")]
-    public class EntityDefinition2Controller : Controller
+    public class EntityDefinition2Controller : BaseController
     {
         public const string ED_SCHEMA = "ed-schema";
 
@@ -281,9 +281,14 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("publish")]
         public async Task<ActionResult> Publish()
         {
+            if(null== this.BuildDiagnostics)
+                ObjectBuilder.ComposeMefCatalog(this);
+
             this.DeleteEdSchemaCache();
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
+            ed.BuildDiagnostics = this.BuildDiagnostics;
+
             var buildValidation = await ed.ValidateBuildAsync();
 
 
