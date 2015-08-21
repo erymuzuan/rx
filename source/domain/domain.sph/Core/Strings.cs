@@ -170,7 +170,12 @@ namespace Bespoke.Sph.Domain
                 ;
         }
 
+        public static string ToPascalCase(this string text)
+        {
+            return string.Join("", text.Split(new[] { '_', ' ', '-','.',',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Substring(0, 1).ToUpper() + s.Substring(1)).ToArray());
+        }
 
+        
         private static IEnumerable<char> ToCamelCaseHelper(this string text)
         {
             bool first = true;
@@ -361,6 +366,7 @@ namespace Bespoke.Sph.Domain
         }
         public static string ToCSharp(this Type type)
         {
+            if (type == typeof(void)) return "void";
             if (type == typeof(DateTime)) return "DateTime";
             if (type == typeof(string)) return "string";
             if (type == typeof(int)) return "int";

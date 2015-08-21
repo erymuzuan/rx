@@ -80,15 +80,17 @@ namespace mapping.transformation.test
             customer.Age = 45;
             customer.Id = "_50";
 
-
+            const string NAME = "customer to patient test map";
             var td = new TransformDefinition
             {
-                Name = "__CustomerToPatientMapping",
+                Name = NAME,
                 Description = "Just a description",
                 InputTypeName = GetTypeName(CUSTOMER),
                 OutputTypeName = GetTypeName(PATIENT),
-                Id = "__CustomerToPatientMapping"
+                Id = NAME.ToIdFormat()
             };
+            Console.WriteLine($"Id =>{td.Id}");
+            td.GeneratePartialCode();
             td.FunctoidCollection.Add(new ConstantFunctoid
             {
                 Value = "2011-05-05",
@@ -135,7 +137,7 @@ namespace mapping.transformation.test
                 result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType(ConfigurationManager.ApplicationName + ".Integrations.Transforms." + td.Name);
+            var mt = dll.GetType($"{ConfigurationManager.ApplicationName}.Integrations.Transforms.{td.ClassName}");
             dynamic map = Activator.CreateInstance(mt);
 
 

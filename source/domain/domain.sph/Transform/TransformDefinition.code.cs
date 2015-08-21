@@ -4,16 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class TransformDefinition
     {
+        public string ClassName => this.Name.ToPascalCase();
+        public string CodeNamespace => $"{ConfigurationManager.ApplicationName}.Integrations.Transforms";
+
         private string GetCodeHeader()
         {
             var header = new StringBuilder();
             header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
+            header.AppendLine("using " + typeof(int).Namespace + ";");
             header.AppendLine("using " + typeof(Task<>).Namespace + ";");
             header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
             header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
@@ -30,7 +34,7 @@ namespace Bespoke.Sph.Domain
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
 
-            code.AppendLine("   public partial class " + this.Name);
+            code.AppendLine("   public partial class " + this.ClassName);
             code.AppendLine("   {");
 
 
@@ -41,10 +45,72 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
 
-            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode() } };
+
+
+            var sourceCodes = new Dictionary<string, string> { { this.ClassName + ".cs", code.FormatCode() } };
 
 
             return sourceCodes;
+        }
+        public void GeneratePartialCode()
+        {
+            var file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{this.Id}.cs";
+            var partial = new Class
+            {
+                IsPartial = true,
+                Name = this.ClassName,
+                FileName = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{this.Id}.cs",
+                Namespace = this.CodeNamespace
+            };
+            partial.MethodCollection.Add(new Method
+            {
+                Name = "BeforeTransform",
+                IsPartial = true,
+                ReturnType = typeof(void),
+                Body = "",
+                AccessModifier = Modifier.Private
+
+
+            });
+            partial.MethodCollection[0].ArgumentCollection.Add(new MethodArg
+            {
+                Name = "item",
+                TypeName = this.InputTypeName,
+            });
+
+            partial.MethodCollection[0].ArgumentCollection.Add(new MethodArg
+            {
+                Name = "destination",
+                TypeName = this.OutputTypeName,
+            });
+
+
+            partial.MethodCollection.Add(new Method
+            {
+                Name = "AfterTransform",
+                IsPartial = true,
+                ReturnType = typeof(void),
+                Body = "",
+                AccessModifier = Modifier.Private
+
+
+            });
+            partial.MethodCollection[1].ArgumentCollection.Add(new MethodArg
+            {
+                Name = "item",
+                TypeName = this.InputTypeName,
+            });
+            partial.MethodCollection[1].ArgumentCollection.Add(new MethodArg
+            {
+                Name = "destination",
+                TypeName = this.OutputTypeName,
+            });
+
+            if (!File.Exists(file))
+                File.WriteAllText(file, partial.GetCode());
+
+
+
         }
 
 
@@ -62,7 +128,6 @@ namespace Bespoke.Sph.Domain
                     .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f}")
                     .ToArray();
         }
-        public string CodeNamespace => $"{ConfigurationManager.ApplicationName}.Integrations.Transforms";
 
         public string GenerateTransformCode()
         {

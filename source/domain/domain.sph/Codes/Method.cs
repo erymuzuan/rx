@@ -20,18 +20,11 @@ namespace Bespoke.Sph.Domain.Codes
         [JsonIgnore]
         public Class Class { get; set; }
 
-        private readonly ObjectCollection<string> m_attributeCollection = new ObjectCollection<string>();
-        private readonly ObjectCollection<MethodArg> m_argumentCollection = new ObjectCollection<MethodArg>();
+        public ObjectCollection<MethodArg> ArgumentCollection { get; } = new ObjectCollection<MethodArg>();
 
-        public ObjectCollection<MethodArg> ArgumentCollection
-        {
-            get { return m_argumentCollection; }
-        }
+        public ObjectCollection<string> AttributeCollection { get; } = new ObjectCollection<string>();
 
-        public ObjectCollection<string> AttributeCollection
-        {
-            get { return m_attributeCollection; }
-        }
+        public bool IsPartial { get; set; }
 
         public string GenerateCode()
         {
@@ -39,7 +32,7 @@ namespace Bespoke.Sph.Domain.Codes
                 return this.Code;
             var code = new StringBuilder("//" + this.Comment);
 
-            var args = this.ArgumentCollection.Select(x => string.Format("{0} {1}", x.Type.ToCSharp(), x.Name));
+            var args = this.ArgumentCollection.Select(x => $"{x.Type.ToCSharp()} {x.Name}");
 
             foreach (var attr in this.AttributeCollection)
             {
@@ -49,16 +42,22 @@ namespace Bespoke.Sph.Domain.Codes
             var overrideModifier = this.IsOverride ? "override " : "";
             var staticModifier = this.IsStatic ? "static " : "";
             var virtualModifier = this.IsStatic ? "static " : "";
+            var partialModifier = this.IsPartial ? " partial " : "";
 
-            code.AppendFormat("{0} {7}{6}{5}{3}{1} {2}({4})", this.AccessModifier,
+            var argSignature = string.Join(",", args);
+            var signature =  string.Format("{0} {8}{7}{6}{5}{3}{1} {2}({4})", AccessModifier.ToString().ToLowerInvariant(),
                 this.ReturnType.ToCSharp(),
                 this.Name,
                 asyncModifier,
-                string.Join(",", args),
+                argSignature,
                 overrideModifier,
                 staticModifier,
-                virtualModifier);
-
+                virtualModifier,
+                partialModifier);
+            if (IsPartial)
+                signature = $"partial void {Name}({argSignature})";
+            code.AppendLine();
+            code.AppendLine(signature);
             code.AppendLine("{");
             code.AppendLine(this.Body);
             code.AppendLine("}");
