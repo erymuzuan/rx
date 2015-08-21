@@ -91,7 +91,12 @@ namespace Bespoke.Sph.Domain
                 {
                     parameters.ReferencedAssemblies.Add(ass);
                 }
-                var result = provider.CompileAssemblyFromFile(parameters, files);
+
+                var sources = new List<string>(files);
+                var partial = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{this.Id}.cs";
+                if (File.Exists(partial))sources.Add(partial);
+
+                var result = provider.CompileAssemblyFromFile(parameters, sources.ToArray());
                 var cr = new WorkflowCompilerResult
                 {
                     Result = true,

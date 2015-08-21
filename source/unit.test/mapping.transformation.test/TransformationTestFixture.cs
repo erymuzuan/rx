@@ -49,7 +49,7 @@ namespace mapping.transformation.test
         {
             if (string.IsNullOrWhiteSpace(typeName))
                 typeName = entity;
-            var name = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, entity.ToIdFormat(), typeName);
+            var name = $"Bespoke.{ConfigurationManager.ApplicationName}_{entity.ToIdFormat()}.Domain.{typeName}";
             var type = LoadAssembly(entity).GetType(name);
             dynamic instance = Activator.CreateInstance(type);
             return instance;
@@ -57,7 +57,7 @@ namespace mapping.transformation.test
 
         private static Assembly LoadAssembly(string entity)
         {
-            var assemblyFile = string.Format(@".\{0}.{1}.dll", ConfigurationManager.ApplicationName, entity);
+            var assemblyFile = $@".\{ConfigurationManager.ApplicationName}.{entity}.dll";
             return Assembly.LoadFrom(assemblyFile);
         }
 
@@ -86,7 +86,8 @@ namespace mapping.transformation.test
                 Name = "__CustomerToPatientMapping",
                 Description = "Just a description",
                 InputTypeName = GetTypeName(CUSTOMER),
-                OutputTypeName = GetTypeName(PATIENT)
+                OutputTypeName = GetTypeName(PATIENT),
+                Id = "__CustomerToPatientMapping"
             };
             td.FunctoidCollection.Add(new ConstantFunctoid
             {

@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Domain
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
 
-            code.AppendLine("   public class " + this.Name);
+            code.AppendLine("   public partial class " + this.Name);
             code.AppendLine("   {");
 
 
@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Domain
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
             this.MapCollection.ForEach(x => x.TransformDefinition = this);
 
-            code.AppendLinf("           public async Task<{0}> TransformAsync({1})", this.OutputType.FullName, args);
+            code.AppendLine($"           public async Task<{this.OutputType.FullName}> TransformAsync({args})");
             code.AppendLine("           {");
             if (this.InputCollection.Count > 0)
             {
@@ -111,7 +111,7 @@ namespace Bespoke.Sph.Domain
             }
 
             code.AppendLinf("               var dest =  new {0}();", this.OutputType.FullName);
-
+            code.AppendLine("               this.BeforeTransform(item, dest);");
             // functoids statement
             var sorted = new List<Functoid>(this.FunctoidCollection);
             sorted.Sort(new FunctoidDependencyComparer());
@@ -128,6 +128,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine(string.Concat(mappingCodes.ToArray()));
             code.AppendLine();
 
+            code.AppendLine("               this.AfterTransform(item, dest);");
 
             if (code.ToString().Contains("await "))
                 code.AppendLinf("               return dest;");
@@ -138,6 +139,18 @@ namespace Bespoke.Sph.Domain
             }
 
             code.AppendLine("           }");
+
+            // partial method
+            if (this.InputCollection.Count > 0)
+            {
+                code.AppendLine($"partial void BeforeTransform(Input item,{this.OutputType.FullName} destination);");
+                code.AppendLine($"partial void AfterTransform(Input item,{this.OutputType.FullName} destination);");
+            }
+            else
+            {
+                code.AppendLine($"partial void BeforeTransform({this.InputType.FullName} item,{this.OutputType.FullName} destination);");
+                code.AppendLine($"partial void AfterTransform({this.InputType.FullName} item,{this.OutputType.FullName} destination);");
+            }
 
             if (!string.IsNullOrWhiteSpace(this.InputTypeName))
                 code.Replace("{SOURCE_TYPE}", this.InputType.FullName);
