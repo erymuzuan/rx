@@ -13,7 +13,7 @@
 define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping", objectbuilders.app],
     function (context, logger, system, koMapping, app) {
 
-        var td = ko.observable(),
+        var td = ko.observable(new bespoke.sph.domain.TransformDefinition({Id: "0"})),
             functoidToolboxItems = ko.observableArray(),
             originalEntity = "",
             errors = ko.observableArray(),
@@ -608,6 +608,16 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         }
                     });
 
+            },
+            generatePartialAsync = function() {
+                return context.post(ko.mapping.toJSON(td), "/transform-definition/generate-partial")
+                         .done(function (result) {
+                             if (result.success) {
+                                 logger.info(result.message);
+                             } else {
+                                 logger.error("You alread have the partial code define, in " + result.message);
+                             }
+                         });
             };
 
         var vm = {
@@ -639,6 +649,20 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         command: publishAsync,
                         caption: "Publish",
                         icon: "fa fa-sign-out"
+                    },
+                    {
+                        command: generatePartialAsync,
+                        caption: "Generate Partial",
+                        icon: "fa fa-code",
+                        enable : ko.computed(function() {
+                            if (ko.unwrap(td().Id) === "0") {
+                                return false;
+                            }
+                            if (!ko.unwrap(td().Id)) {
+                                return false;
+                            }
+                            return true;
+                        })
                     }
                 ])
             }

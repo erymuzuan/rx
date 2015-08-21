@@ -90,7 +90,8 @@ namespace mapping.transformation.test
                 Id = NAME.ToIdFormat()
             };
             Console.WriteLine($"Id =>{td.Id}");
-            td.GeneratePartialCode();
+            string partia;
+            td.GeneratePartialCode(out partia);
             td.FunctoidCollection.Add(new ConstantFunctoid
             {
                 Value = "2011-05-05",

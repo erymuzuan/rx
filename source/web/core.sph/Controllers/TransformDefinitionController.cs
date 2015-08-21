@@ -84,6 +84,16 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
+        [HttpPost]
+        [Route("generate-partial")]
+        public ActionResult GeneratePartial([RequestBody] TransformDefinition map)
+        {
+            string file;
+            var partial = map.GeneratePartialCode(out file);
+            return Json(new { success = partial, status = "OK", message = $"Your partial code is successfuly generated {file}", id = map.Id });
+
+        }
+
         [HttpGet]
         [Route("functoids")]
         public ActionResult GetFunctoids()
@@ -232,7 +242,7 @@ namespace Bespoke.Sph.Web.Controllers
             var t = Type.GetType(type);
             if (null == t)
             {
-                var splits = type.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
+                var splits = type.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 var dll = Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
                 t = dll.GetType(splits.First().Trim());
             }

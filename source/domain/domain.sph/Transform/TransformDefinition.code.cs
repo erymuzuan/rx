@@ -52,9 +52,9 @@ namespace Bespoke.Sph.Domain
 
             return sourceCodes;
         }
-        public void GeneratePartialCode()
+        public bool GeneratePartialCode(out string file)
         {
-            var file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{this.Id}.cs";
+            file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{this.Id}.cs";
             var partial = new Class
             {
                 IsPartial = true,
@@ -107,10 +107,13 @@ namespace Bespoke.Sph.Domain
             });
 
             if (!File.Exists(file))
+            {
                 File.WriteAllText(file, partial.GetCode());
+                return true;
+            }
 
 
-
+            return false;
         }
 
 

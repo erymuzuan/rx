@@ -172,10 +172,10 @@ namespace Bespoke.Sph.Domain
 
         public static string ToPascalCase(this string text)
         {
-            return string.Join("", text.Split(new[] { '_', ' ', '-','.',',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Substring(0, 1).ToUpper() + s.Substring(1)).ToArray());
+            return string.Join("", text.Split(new[] { '_', ' ', '-', '.', ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Substring(0, 1).ToUpper() + s.Substring(1)).ToArray());
         }
 
-        
+
         private static IEnumerable<char> ToCamelCaseHelper(this string text)
         {
             bool first = true;
@@ -387,6 +387,19 @@ namespace Bespoke.Sph.Domain
             if (type == typeof(long?)) return "long?";
             return type.FullName;
         }
+
+        public static Type GetType(string typeName)
+        {
+
+            var t = Type.GetType(typeName);
+            if (null == t)
+            {
+                var splits = typeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                var dll = System.Reflection.Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
+                t = dll.GetType(splits.First().Trim());
+            }
+            return t;
+        }
         public static object ToDbNull(this object value)
         {
             return value ?? DBNull.Value;
@@ -410,7 +423,7 @@ namespace Bespoke.Sph.Domain
         public static string ConvertToUnsecureString(this SecureString securePassword)
         {
             if (securePassword == null)
-                throw new ArgumentNullException("securePassword");
+                throw new ArgumentNullException(nameof(securePassword));
 
             IntPtr unmanagedString = IntPtr.Zero;
             try
