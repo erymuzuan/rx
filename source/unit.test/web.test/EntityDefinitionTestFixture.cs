@@ -92,7 +92,7 @@ namespace Bespoke.Sph.WebTests
                 .ExecuteScript("$(\"a.btn-link.dropdown[data-bind*=Left]:visible\").trigger(\"click\");")
                 .Wait(1.Seconds())// add document field
                 .ExecuteScript("$(\"a.btn-link[data-bind*=Document]:visible\").trigger(\"click\");")
-                .WaitUntil(By.Id("doc-field-path"), 2.Seconds())
+                .WaitUntil("#doc-field-path")
                 .Value("#doc-field-path", "FullName")
                 .Value("#doc-field-note", "FullName")
                 .ClikOkDialog()

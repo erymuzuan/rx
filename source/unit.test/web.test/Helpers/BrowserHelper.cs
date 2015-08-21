@@ -329,6 +329,15 @@ $"There's only {elements.Count} elements for {selector} selector");
 
             return driver;
         }
+        public static IWebDriver WaitUntil(this IWebDriver driver,string selector, double seconds = 2, string message = "")
+        {
+            Console.WriteLine("Wait {0} : {1}", seconds, message);
+            driver.Manage().Timeouts().ImplicitlyWait(seconds.Seconds());
+            var wait = new WebDriverWait(driver, seconds.Seconds());
+            wait.Until(d => d.FindElement(By.CssSelector(selector)));
+
+            return driver;
+        }
         public static IWebDriver Sleep(this IWebDriver driver, int miliseconds, string message = "")
         {
             Console.WriteLine("Sleep {0} : {1}", miliseconds, message);
