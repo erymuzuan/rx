@@ -239,15 +239,11 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("json-schema/{type}")]
         public ActionResult Schema(string type)
         {
-            var t = Type.GetType(type);
-            if (null == t)
-            {
-                var splits = type.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                var dll = Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
-                t = dll.GetType(splits.First().Trim());
-            }
-            var schema = JsonSerializerService.GetJsonSchemaFromObject(t);
+            var t = Strings.GetType(type);
+            if(null == t)
+                return HttpNotFound($"Cannot find {type} in your {ConfigurationManager.WebPath}/bin or {ConfigurationManager.CompilerOutputPath}, Please build it if you have not done so");
 
+            var schema = JsonSerializerService.GetJsonSchemaFromObject(t);
             return Content(schema.ToString(), "application/json", Encoding.UTF8);
         }
 
