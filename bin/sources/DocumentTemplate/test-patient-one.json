@@ -1,0 +1,14 @@
+{
+  "$type": "Bespoke.Sph.Domain.DocumentTemplate, domain.sph",
+  "Name": "Test patient one",
+  "Note": "test patient one",
+  "WordTemplateStoreId": "68323456-1a77-45e8-8d8f-5188374dfbce",
+  "IsPublished": true,
+  "Entity": "Patient",
+  "CreatedBy": "admin",
+  "Id": "test-patient-one",
+  "CreatedDate": "2015-08-23T07:09:55.7083044+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-08-23T07:11:06.3546829+08:00",
+  "WebId": "9eee5fb0-c8bd-452b-89c9-bdc3e9de3bbe"
+}
