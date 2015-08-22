@@ -16,7 +16,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system],
             errors = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function (id) {
-                var query = String.format("IsPublished eq 1"),
+                var query = String.format("IsPublished eq true"),
                     query1 = String.format("Id eq '{0}'", id),
                     entityTask = context.loadAsync("EntityDefinition", query),
                     templateTask = context.loadOneAsync("DocumentTemplate", query1),

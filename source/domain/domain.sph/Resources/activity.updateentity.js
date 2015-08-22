@@ -14,7 +14,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config],
 
         var entityOptions = ko.observableArray(),
             activate = function () {
-                var query = String.format("IsPublished eq 1"),
+                var query = String.format("IsPublished eq true"),
                     tcs = new $.Deferred();
 
                 context.loadAsync("EntityDefinition", query)

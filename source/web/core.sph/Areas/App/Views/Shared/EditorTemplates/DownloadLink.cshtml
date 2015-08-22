@@ -23,7 +23,7 @@
     <select data-bind="comboBoxLookupOptions:{
                 value: Entity,
                 entity:'EntityDefinition',
-                query: 'IsPublished eq 1',
+                query: 'IsPublished eq true',
                 valuePath:'Name',
                 displayPath:'Name',
                 caption : '[Please select an entity]'},
@@ -37,7 +37,7 @@
     <select data-bind="comboBoxLookupOptions:{
             value: TemplateId,
             entity:'DocumentTemplate',
-            query: 'IsPublished eq 1',
+            query: 'IsPublished eq true',
             valuePath:'Id',
             displayPath:'Name',
             caption : '[Please select a template]'},

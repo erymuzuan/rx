@@ -16,7 +16,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             wdOptions = ko.observableArray(),
             wd= ko.observable(),
             activate = function () {
-                var query = "IsActive eq 1";
+                var query = "IsActive eq true";
                 var tcs = new $.Deferred();
 
                 context.loadAsync("WorkflowDefinition", query)

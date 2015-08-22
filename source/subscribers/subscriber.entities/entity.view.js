@@ -35,7 +35,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                 });
                 var edQuery = String.format("Name eq '{0}'", '@Model.Definition.Name'),
                   tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq '@(Model.Definition.Id)' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  formsQuery = String.format("EntityDefinitionId eq '@(Model.Definition.Id)' and IsPublished eq true and IsAllowedNewItem eq true"),
                   viewQuery = String.format("EntityDefinitionId eq '@(Model.Definition.Id)'"),
                   edTask = context.loadOneAsync("EntityDefinition", edQuery),
                   formsTask = context.loadAsync("EntityForm", formsQuery),

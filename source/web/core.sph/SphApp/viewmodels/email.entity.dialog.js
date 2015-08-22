@@ -27,7 +27,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                 message("");
                 template(0);
 
-                var query = String.format("IsPublished eq 1 and Entity eq '{0}'", entity()),
+                var query = String.format("IsPublished eq true and Entity eq '{0}'", entity()),
                     tcs = new $.Deferred();
 
                 context.loadAsync("EmailTemplate", query)

@@ -26,6 +26,8 @@ namespace Bespoke.Sph.Web.Api
             switch (type)
             {
                 case "designation": return SelectSystemObjectProperty<Designation>(column, filter);
+                case "emailtemplate": return SelectSystemObjectProperty<EmailTemplate>(column, filter);
+                case "documenttemplate": return SelectSystemObjectProperty<DocumentTemplate>(column, filter);
                 case "workflowdefinition": return SelectSystemObjectProperty<WorkflowDefinition>(column, filter);
                 case "entitydefinition": return SelectSystemObjectProperty<EntityDefinition>(column, filter);
                 case "transformdefinition": return SelectSystemObjectProperty<TransformDefinition>(column, filter);
@@ -100,16 +102,18 @@ namespace Bespoke.Sph.Web.Api
             var type = table.ToLowerInvariant();
             switch (type)
             {
+                case "adapter": return SelectDistinctSystemObjectProperty<Adapter>(column, filter);
                 case "designation": return SelectDistinctSystemObjectProperty<Designation>(column, filter);
-                case "workflowdefinition": return SelectDistinctSystemObjectProperty<WorkflowDefinition>(column, filter);
+                case "documenttemplate": return SelectDistinctSystemObjectProperty<DocumentTemplate>(column, filter);
+                case "emailtemplate": return SelectDistinctSystemObjectProperty<EmailTemplate>(column, filter);
+                case "entitychart": return SelectDistinctSystemObjectProperty<EntityChart>(column, filter);
                 case "entitydefinition": return SelectDistinctSystemObjectProperty<EntityDefinition>(column, filter);
-                case "transformdefinition": return SelectDistinctSystemObjectProperty<TransformDefinition>(column, filter);
                 case "entityview": return SelectDistinctSystemObjectProperty<EntityView>(column, filter);
                 case "entityform": return SelectDistinctSystemObjectProperty<EntityForm>(column, filter);
-                case "entitychart": return SelectDistinctSystemObjectProperty<EntityChart>(column, filter);
                 case "trigger": return SelectDistinctSystemObjectProperty<Trigger>(column, filter);
-                case "adapter": return SelectDistinctSystemObjectProperty<Adapter>(column, filter);
+                case "transformdefinition": return SelectDistinctSystemObjectProperty<TransformDefinition>(column, filter);
                 case "viewtemplate": return SelectDistinctSystemObjectProperty<ViewTemplate>(column, filter);
+                case "workflowdefinition": return SelectDistinctSystemObjectProperty<WorkflowDefinition>(column, filter);
             }
             var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Distinct(filter);
@@ -121,16 +125,18 @@ namespace Bespoke.Sph.Web.Api
             var type = table.ToLowerInvariant();
             switch (type)
             {
-                case "designation": return SelectTupleFromSource<Designation>( filter, column, column2, column3, column4, column5);
-                case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>( filter, column, column2, column3, column4, column5);
-                case "entitydefinition": return SelectTupleFromSource<EntityDefinition>( filter, column, column2, column3, column4, column5);
-                case "transformdefinition": return SelectTupleFromSource<TransformDefinition>( filter, column, column2, column3, column4, column5);
-                case "entityview": return SelectTupleFromSource<EntityView>( filter, column, column2, column3, column4, column5);
-                case "entityform": return SelectTupleFromSource<EntityForm>( filter, column, column2, column3, column4, column5);
-                case "entitychart": return SelectTupleFromSource<EntityChart>( filter, column, column2, column3, column4, column5);
-                case "trigger": return SelectTupleFromSource<Trigger>( filter, column, column2, column3, column4, column5);
                 case "adapter": return SelectTupleFromSource<Adapter>( filter, column, column2, column3, column4, column5);
+                case "designation": return SelectTupleFromSource<Designation>( filter, column, column2, column3, column4, column5);
+                case "documenttemplate": return SelectTupleFromSource<DocumentTemplate>( filter, column, column2, column3, column4, column5);
+                case "emailtemplate": return SelectTupleFromSource<EmailTemplate>( filter, column, column2, column3, column4, column5);
+                case "entitychart": return SelectTupleFromSource<EntityChart>( filter, column, column2, column3, column4, column5);
+                case "entitydefinition": return SelectTupleFromSource<EntityDefinition>( filter, column, column2, column3, column4, column5);
+                case "entityform": return SelectTupleFromSource<EntityForm>( filter, column, column2, column3, column4, column5);
+                case "entityview": return SelectTupleFromSource<EntityView>( filter, column, column2, column3, column4, column5);
+                case "transformdefinition": return SelectTupleFromSource<TransformDefinition>( filter, column, column2, column3, column4, column5);
+                case "trigger": return SelectTupleFromSource<Trigger>( filter, column, column2, column3, column4, column5);
                 case "viewtemplate": return SelectTupleFromSource<ViewTemplate>( filter, column, column2, column3, column4, column5);
+                case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>( filter, column, column2, column3, column4, column5);
             }
 
             var translator = new OdataSqlTranslator("", table);

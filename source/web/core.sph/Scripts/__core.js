@@ -347,27 +347,45 @@ ko.bindingHandlers.comboBoxLookupOptions = {
             lookup = ko.unwrap(valueAccessor()),
             value = lookup.value,
             caption = lookup.caption,
-            context = require('services/datacontext');
+            context = require("services/datacontext"),
+            displayPath = ko.unwrap(lookup.displayPath),
+            valuePath = ko.unwrap(lookup.valuePath);
 
-        var setup = function(query) {
-            context.getTuplesAsync({
+        var setup = function (query) {
+
+            //getListAsync
+            var promise = ko.unwrap(lookup.valuePath) === ko.unwrap(lookup.displayPath) ?
+                context.getListAsync( ko.unwrap(lookup.entity), query, ko.unwrap(lookup.valuePath)) :
+                context.getTuplesAsync({
                     entity: ko.unwrap(lookup.entity),
                     query: query,
-                    field: ko.unwrap(lookup.valuePath),
-                    field2: ko.unwrap(lookup.displayPath)
+                    field: valuePath,
+                    field2: displayPath
+                });
 
-                })
-                .done(function(list) {
+            
+                promise.done(function(list) {
                     element.options.length = 0;
                     if (caption) {
                         element.add(new Option(caption, ""));
                     }
-                    _(list).each(function(v) {
-                        element.add(new Option(v.Item2, v.Item1));
+                    _(list).each(function (v) {
+                        if (typeof v === "string") {
+                            element.add(new Option(v, v));
+                            return;
+                        }
+                        if (typeof v.Item1 === "string" && typeof v.Item2 === "string") {
+                            element.add(new Option(v.Item2, v.Item1));
+                            return;
+                        }
+                        if (typeof v[valuePath] === "string" && typeof v[displayPath] === "string") {
+                            element.add(new Option(v[valuePath], v[displayPath]));
+                            return;
+                        }
                     });
 
                     $select.val(ko.unwrap(value))
-                        .on('change', function() {
+                        .on("change", function() {
                             value($select.val());
                         });
 
