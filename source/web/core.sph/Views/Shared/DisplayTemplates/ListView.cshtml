@@ -27,10 +27,10 @@
                     var download = col.Input as Bespoke.Sph.Domain.DownloadLink;
                     if (null != download)
                     {
-                        var pathd = string.Format("'/sph/binarystore/get/' + {0}()", download.Path);
+                        var pathd = $"'/sph/binarystore/get/' + {download.Path}()";
                         if (download.IsTransformTemplate)
                         {
-                            pathd = string.Format("'/sph/documenttemplate/transform?entity={0}&templateId={1}&id=' + {2}()", download.Entity, download.TemplateId, download.Path);
+                            pathd = $"'/sph/documenttemplate/transform?entity={download.Entity}&templateId={download.TemplateId}&id=' + {download.Path}()";
                         }
                         <td>
                             <a data-bind="attr : {'href':@Html.Raw(pathd)}" download>
@@ -40,18 +40,26 @@
                         continue;
                     }
                     var image = col.Input as Bespoke.Sph.Domain.ImageElement;
-                    if(null != image)
+                    if (null != image)
                     {
-                        var path = string.Format("'/sph/image/store/' + {0}()", image.Path);
+                        var path = $"'/sph/image/store/' + {image.Path}()";
                         <td>
                             <img alt="@image.Label" title="@image.Tooltip" width="@image.Width" height="@image.Height" data-bind="attr : {'src':@Html.Raw(path)}, visible:@Html.Raw(image.Visible)" />
                         </td>
                         continue;
                     }
-                    
+                    var checkbox = col.Input as Bespoke.Sph.Domain.CheckBox;
+                    if (null != checkbox)
+                    {
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        continue;
+                    }
+
                     <td data-bind="text:@col.Path"></td>
                 }
-               
+
             </tr>
         </tbody>
     </table>
