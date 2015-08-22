@@ -240,8 +240,15 @@ namespace Bespoke.Sph.Web.Controllers
         public ActionResult Schema(string type)
         {
             var t = Strings.GetType(type);
-            if(null == t)
-                return HttpNotFound($"Cannot find {type} in your {ConfigurationManager.WebPath}/bin or {ConfigurationManager.CompilerOutputPath}, Please build it if you have not done so");
+            if (null == t)
+            {
+                string message = $"Cannot find {type} in your {ConfigurationManager.WebPath}/bin or {ConfigurationManager.CompilerOutputPath}, Please build it if you have not done so";
+               
+                ObjectBuilder.GetObject<ILogger>()
+                    .Log(new LogEntry(new Exception(message)));
+               return HttpNotFound(message);
+
+            }
 
             var schema = JsonSerializerService.GetJsonSchemaFromObject(t);
             return Content(schema.ToString(), "application/json", Encoding.UTF8);

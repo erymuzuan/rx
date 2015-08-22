@@ -53,7 +53,13 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                 }
                                 return context.post(ko.toJSON(td), "/transform-definition/json-schema");
 
-                            }).then(sourceSchema);
+                            })
+                            .then(sourceSchema)
+                            .fail(function(a, b, text) {
+                                console.error(a);
+                               // console.error(b);
+                                logger.error(text);
+                            });
 
             },
             isJsPlumbReady,

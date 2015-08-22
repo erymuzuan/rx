@@ -395,7 +395,10 @@ namespace Bespoke.Sph.Domain
             if (null == t)
             {
                 var splits = typeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                var dll = System.Reflection.Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
+                string path = $"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll";
+                if (!File.Exists(path)) return null;
+
+                var dll = System.Reflection.Assembly.LoadFile(path);
                 t = dll.GetType(splits.First().Trim());
             }
             return t;
