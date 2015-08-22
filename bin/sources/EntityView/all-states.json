@@ -6,7 +6,25 @@
   },
   "ViewColumnCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Abbreviation",
+        "Header": "Abbreviation",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "cd79eaa8-b40c-4d15-8e0f-bdb544dea707"
+      }
+    ]
   },
   "SortCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
@@ -40,10 +58,12 @@
   "CountMessage": "",
   "Entity": "",
   "Partial": "partial/all-states",
-  "CreatedBy": null,
+  "Template": null,
+  "DisplayOnDashboard": false,
+  "CreatedBy": "admin",
   "Id": "all-states",
-  "CreatedDate": "0001-01-01T00:00:00",
+  "CreatedDate": "2015-08-22T11:30:40.5695153+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-05-21T13:59:45.4975659+08:00",
+  "ChangedDate": "2015-08-22T11:30:40.5695153+08:00",
   "WebId": "d889dc66-78df-464a-aec1-4bd8685fd26b"
 }

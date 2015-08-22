@@ -37,8 +37,6 @@
                         
                     });
 
-
-
                     return tcs.promise();
                 },
                 promoteTo = function(){
@@ -47,10 +45,9 @@
                          return Task.fromResult(false);
                      }
 
-                     var tcs = new $.Deferred(),
-                         data = ko.mapping.toJSON(entity);
+                     var data = ko.mapping.toJSON(entity);
 
-                     context.post(data, "/Customer/PromoteTo" )
+                    return  context.post(data, "/Customer/PromoteTo" )
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
@@ -65,9 +62,7 @@
                                  });
                                  logger.error("There are errors in your entity, !!!");
                              }
-                             tcs.resolve(result);
                          });
-                     return tcs.promise();
                  },
                 demote = function(){
 
@@ -75,10 +70,9 @@
                          return Task.fromResult(false);
                      }
 
-                     var tcs = new $.Deferred(),
-                         data = ko.mapping.toJSON(entity);
+                     var data = ko.mapping.toJSON(entity);
 
-                     context.post(data, "/Customer/Demote" )
+                    return  context.post(data, "/Customer/Demote" )
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
@@ -93,9 +87,7 @@
                                  });
                                  logger.error("There are errors in your entity, !!!");
                              }
-                             tcs.resolve(result);
                          });
-                     return tcs.promise();
                  },
                 createOrder = function(){
 
@@ -103,10 +95,9 @@
                          return Task.fromResult(false);
                      }
 
-                     var tcs = new $.Deferred(),
-                         data = ko.mapping.toJSON(entity);
+                     var data = ko.mapping.toJSON(entity);
 
-                     context.post(data, "/Customer/CreateOrder" )
+                    return  context.post(data, "/Customer/CreateOrder" )
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
@@ -121,9 +112,7 @@
                                  });
                                  logger.error("There are errors in your entity, !!!");
                              }
-                             tcs.resolve(result);
                          });
-                     return tcs.promise();
                  },
                 i7 = function(){
 
@@ -131,10 +120,9 @@
                          return Task.fromResult(false);
                      }
 
-                     var tcs = new $.Deferred(),
-                         data = ko.mapping.toJSON(entity);
+                     var data = ko.mapping.toJSON(entity);
 
-                     context.post(data, "/Customer/i7" )
+                    return  context.post(data, "/Customer/i7" )
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
@@ -149,9 +137,7 @@
                                  });
                                  logger.error("There are errors in your entity, !!!");
                              }
-                             tcs.resolve(result);
                          });
-                     return tcs.promise();
                  },
                 attached = function (view) {
                     // validation
@@ -172,66 +158,44 @@
 
                   checkTheRevenue = function(){
 
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
+                    var data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate?checkTheRevenue" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
+                   return context.post(data, "/Sph/BusinessRule/Validate?checkTheRevenue" );
                 },
                   verifyTheGrade = function(){
 
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
+                    var data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate?verifyTheGrade" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
+                   return context.post(data, "/Sph/BusinessRule/Validate?verifyTheGrade" );
                 },
                   verifyTheAge = function(){
 
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
+                    var data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate?verifyTheAge" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
+                   return context.post(data, "/Sph/BusinessRule/Validate?verifyTheAge" );
                 },
                   mustBeMalaysian = function(){
 
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
+                    var data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate?mustBeMalaysian" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
+                   return context.post(data, "/Sph/BusinessRule/Validate?mustBeMalaysian" );
                 },
                                 save = function() {
                     if (!validation.valid()) {
                         return Task.fromResult(false);
                     }
 
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
+                    var data = ko.mapping.toJSON(entity);
 
                         
 
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;CheckTheRevenue;VerifyTheGrade;VerifyTheAge;MustBeMalaysian")
+                    return context.post(data, "/Sph/BusinessRule/Validate?Customer;CheckTheRevenue;VerifyTheGrade;VerifyTheAge;MustBeMalaysian")
                         .then(function(result) {
                             if(result.success){
                                 context.post(data, "/Customer/Save")
                                    .then(function(result) {
-                                       tcs.resolve(result);
                                        entity().Id(result.id);
-                                       app.showMessage("Your Customer has been successfully saved", "SPH Platform Showcase", ["ok"]);
+                                       app.showMessage("Your Customer has been successfully saved", "SPH Platform Showcase", ["OK"]);
                                    });
                             }else{
                                 var ve = _(result.validationErrors).map(function(v){
@@ -241,23 +205,18 @@
                                 });
                                 errors(ve);
                                 logger.error("There are errors in your entity, !!!");
-                                tcs.resolve(result);
                             }
                         });
                     
 
-                    return tcs.promise();
                 },
                 remove = function() {
-                    var tcs = new $.Deferred();
-                    $.ajax({
+                    return $.ajax({
                         type: "DELETE",
                         url: "/Customer/Remove/" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        error: tcs.reject,
                         success: function() {
-                            tcs.resolve(true);
                             app.showMessage("Your item has been successfully removed", "Removed", ["OK"])
                               .done(function () {
                                   window.location = "#customer";
@@ -266,7 +225,6 @@
                     });
 
 
-                    return tcs.promise();
                 };
 
             var vm = {

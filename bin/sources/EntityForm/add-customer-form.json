@@ -890,7 +890,7 @@
           "Name": "Download file",
           "Label": "Download Profile",
           "Tooltip": null,
-          "Path": "CustomerId",
+          "Path": "Id",
           "IsRequired": false,
           "Size": "input-large",
           "CssClass": "",
@@ -1189,7 +1189,7 @@
   "CreatedBy": "admin",
   "Id": "add-customer-form",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
-  "ChangedBy": "erymuzuan",
-  "ChangedDate": "2015-06-21T08:11:23.7383349+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-08-22T11:31:54.2870365+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

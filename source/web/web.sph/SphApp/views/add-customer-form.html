@@ -68,7 +68,7 @@
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="State" class="col-md-4">State</label>
         <div class="col-md-8">
-            <select  data-bind=" visible :true, comboBoxLookupOptions : { value: Address().State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'Id ne \'0\''}" id="" name="Address.State" class="  form-control">
+            <select  data-bind=" visible :true,  enable :true, comboBoxLookupOptions : { value: Address().State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'Id ne \'0\''}" id="" name="Address.State" class="  form-control">
             </select>
         </div>
     </div>
@@ -77,7 +77,7 @@
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="District" class="col-md-4">District</label>
         <div class="col-md-8">
-            <select  data-bind=" visible :true, comboBoxLookupOptions : { value: Address().District, entity : 'District', valuePath : 'Name', displayPath: 'Name', query :ko.computed(function(){ return 'State eq \'' + Address().State() + '\'';})}" id="" name="Address.District" class="  form-control">
+            <select  data-bind=" visible :true,  enable :true, comboBoxLookupOptions : { value: Address().District, entity : 'District', valuePath : 'Name', displayPath: 'Name', query :ko.computed(function(){ return 'State eq \'' + Address().State() + '\'';})}" id="" name="Address.District" class="  form-control">
             </select>
         </div>
     </div>
@@ -114,13 +114,13 @@
 
 
     <input  class=" form-control " title=""
-            data-bind="value: Title, visible :true, enable :true ,uniqueName:true"
-            
-             
-            type="text" 
-            name="Title" 
-            
-             />
+           data-bind="value: Title, visible :true, enable :true ,uniqueName:true"
+           
+           
+           type="text"
+           name="Title"
+           
+            />
 
 
                     </td>
@@ -239,7 +239,7 @@
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Download Profile" for="f7afcecf-9176-4446-b55d-2d5e43a3fea4" class=""></label>
         <div class="col-md-8">
-            <a data-i18n="Download Profile" id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/documenttemplate/transform?entity=Customer&templateId=2&id=' + CustomerId()}, visible:true" download>
+            <a data-i18n="Download Profile" id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/documenttemplate/transform?entity=Customer&templateId=2&id=' + Id()}, visible:true" download>
                 Download Profile
             </a>
         </div>
