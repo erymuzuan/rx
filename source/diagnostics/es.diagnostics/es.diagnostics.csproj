@@ -53,6 +53,7 @@
     <Compile Include="EsMappingHelper.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDiagnostics.cs" />
   </ItemGroup>
   <ItemGroup>
     <OutputFile Include="$(OutputPath)*.*">

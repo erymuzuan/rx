@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Properties;
 using Microsoft.CSharp;
 using Newtonsoft.Json;
+using Polly;
 
 namespace Bespoke.Sph.Domain
 {
@@ -70,7 +71,7 @@ namespace Bespoke.Sph.Domain
                 typeof(EntityForm).Name,
                 typeof(Message).Name};
 
-        
+
 
         public override string ToString()
         {
@@ -123,8 +124,16 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException($"Fail to initialize MEF for {nameof(EntityDefinition)}.{nameof(BuildDiagnostics)}");
 
             var result = this.CanSave();
-            var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this));
-            var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x);
+            var policy = Policy.Handle<Exception>().WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500), (ex, ts) =>
+            {
+                ObjectBuilder.GetObject<ILogger>()
+                .Log(new LogEntry(ex));
+
+            });
+            var errorTasks = this.BuildDiagnostics
+                .Select(d => policy.ExecuteAndCapture(() => d.ValidateErrorsAsync(this)).Result)
+                .Where(x => null != x);
+            var errors = (await Task.WhenAll(errorTasks)).Where(x => null != x).SelectMany(x => x);
 
             var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this));
             var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
