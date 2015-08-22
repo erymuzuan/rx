@@ -7,7 +7,9 @@ using System.Windows;
 using Bespoke.Sph.ControlCenter.ViewModel;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
+using Polly;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
 using SuperSocket.WebSocket;
 
 namespace Bespoke.Sph.ControlCenter
@@ -68,7 +70,13 @@ namespace Bespoke.Sph.ControlCenter
                 HostName = settings.RabbitMqHost ?? "localhost"
 
             };
-            m_connection = factory.CreateConnection();
+            var policy = Policy.Handle<BrokerUnreachableException>()
+                .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500 * c));
+
+            var pr = policy.ExecuteAndCapture(() => factory.CreateConnection());
+            if (null == pr.FinalException)
+                m_connection = pr.Result;
+
             m_channel = m_connection.CreateModel();
             var qd = m_channel.QueueDeclare(WebConsoleLogger, false, true, true, null);
             Console.WriteLine(qd);
@@ -82,7 +90,7 @@ namespace Bespoke.Sph.ControlCenter
         }
         public void StopConsume()
         {
-            
+
             Console.WriteLine("!!Stoping : {0}", WebConsoleLogger);
 
             this.Stop();
