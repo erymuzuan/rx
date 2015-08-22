@@ -124,18 +124,29 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException($"Fail to initialize MEF for {nameof(EntityDefinition)}.{nameof(BuildDiagnostics)}");
 
             var result = this.CanSave();
-            var policy = Policy.Handle<Exception>().WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500), (ex, ts) =>
-            {
-                ObjectBuilder.GetObject<ILogger>()
-                .Log(new LogEntry(ex));
+            var policy = Policy.Handle<Exception>()
+                .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500),
+                    (ex, ts) =>
+                    {
+                        ObjectBuilder.GetObject<ILogger>()
+                        .Log(new LogEntry(ex));
 
-            });
+                    });
+
             var errorTasks = this.BuildDiagnostics
-                .Select(d => policy.ExecuteAndCapture(() => d.ValidateErrorsAsync(this)).Result)
-                .Where(x => null != x);
+                .Select(d => policy.ExecuteAndCapture(() => d.ValidateErrorsAsync(this)) )
+                .Where(x => null != x)
+                .Where(x => x.FinalException == null)
+                .Select(x => x.Result)
+                .ToArray();
             var errors = (await Task.WhenAll(errorTasks)).Where(x => null != x).SelectMany(x => x);
 
-            var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this));
+            var warningTasks = this.BuildDiagnostics
+                .Select(d => policy.ExecuteAndCapture(() => d.ValidateWarningsAsync(this)))
+                .Where(x => null != x)
+                .Where(x => x.FinalException == null)
+                .Select(x => x.Result)
+                .ToArray();
             var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
 
             result.Errors.AddRange(errors);
