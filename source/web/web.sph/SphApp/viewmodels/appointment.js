@@ -83,7 +83,7 @@ function(context, logger, router) {
             return tcs.promise();
         },
         attached = function(view) {
-            $(view).on('click', 'a.unpin-chart', function(e) {
+            $(view).on('click', 'a.hover-drop', function(e) {
                 e.preventDefault();
                 var chart = ko.dataFor(this),
                     link = $(this);
@@ -110,29 +110,10 @@ function(context, logger, router) {
                     "order": "desc"
                 }
             }]
-        },
-        getMetronicColor = function(color) {
-            switch (ko.unwrap(color)) {
-                case "borange":
-                    return "yellow-gold";
-                case "bviolet":
-                    return "purple";
-                case "blightblue":
-                    return "blue";
-                case "bblue":
-                    return "blue-madison";
-                case "bred":
-                    return "red";
-                case "bgreen":
-                    return "green-meadow";
-
-            }
-            return "blue-madison";
         };
 
     var vm = {
         isBusy: isBusy,
-        getMetronicColor: getMetronicColor,
         views: views,
         charts: charts,
         entity: entity,
