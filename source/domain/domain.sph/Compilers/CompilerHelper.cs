@@ -11,26 +11,26 @@ namespace Bespoke.Sph.Domain
     {
         public static MetadataReference CreateMetadataReference(this Type type)
         {
-            return MetadataReference.CreateFromAssembly(type.Assembly);
+            return MetadataReference.CreateFromFile(type.Assembly.Location);
         }
 
         public static MetadataReference CreateMetadataReference<T>(this object type)
         {
-            return MetadataReference.CreateFromAssembly((typeof(T)).Assembly);
+            return MetadataReference.CreateFromFile((typeof(T)).Assembly.Location);
         }
 
         public static CSharpCompilation AddReference<T>(this CSharpCompilation type)
         {
-            return type.AddReferences(MetadataReference.CreateFromAssembly((typeof(T)).Assembly));
+            return type.AddReferences(MetadataReference.CreateFromFile((typeof(T)).Assembly.Location));
         }
         public static Project AddMetadataReference<T>(this Project type)
         {
-            return type.AddMetadataReference(MetadataReference.CreateFromAssembly((typeof(T)).Assembly));
+            return type.AddMetadataReference(MetadataReference.CreateFromFile((typeof(T)).Assembly.Location));
         }
 
         public static Project AddMetadataReference(this Project project, Type type)
         {
-            return project.AddMetadataReference(MetadataReference.CreateFromAssembly(type.Assembly));
+            return project.AddMetadataReference(MetadataReference.CreateFromFile(type.Assembly.Location));
         }
 
         public static Project AddMetadataReference(this Project project, string location)
@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Domain
         public static ProjectInfo AddMetadataReference<T>(this ProjectInfo info)
         {
             var list = info.MetadataReferences.ToList();
-            list.Add(MetadataReference.CreateFromAssembly((typeof(T)).Assembly));
+            list.Add(MetadataReference.CreateFromFile((typeof(T)).Assembly.Location));
             return info.WithMetadataReferences(list.ToArray());
         }
 
@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Domain
         public static ProjectInfo AddMetadataReference(this ProjectInfo info, Type type)
         {
             var list = info.MetadataReferences.ToList();
-            list.Add(MetadataReference.CreateFromAssembly(type.Assembly));
+            list.Add(MetadataReference.CreateFromFile(type.Assembly.Location));
             return info.WithMetadataReferences(list.ToArray());
         }
 
@@ -62,7 +62,7 @@ namespace Bespoke.Sph.Domain
 
         public static string FormatCode(this StringBuilder code)
         {
-            var ws = new CustomWorkspace();
+            var ws = new AdhocWorkspace();
             var info = ProjectInfo.Create(ProjectId.CreateNewId("formatter"),
                 VersionStamp.Default, "formatter", "formatter", LanguageNames.CSharp);
             var project = ws.AddProject(info);

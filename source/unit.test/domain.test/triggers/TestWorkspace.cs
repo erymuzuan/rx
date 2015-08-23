@@ -10,7 +10,7 @@ namespace domain.test.triggers
         private readonly NonReentrantLock m_serializationLock = new NonReentrantLock();
 
         public TestWorkspace(HostServices hostServices = null)
-            : base(hostServices ?? new CustomWorkspace().Services.HostServices, "Test")
+            : base(hostServices ?? new AdhocWorkspace().Services.HostServices, "Test")
         {
         }
 

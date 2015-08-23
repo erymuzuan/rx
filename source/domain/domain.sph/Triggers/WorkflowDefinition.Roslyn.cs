@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
             .WithUsings();
             var codes = this.GenerateCode();
 
-            var ws = new CustomWorkspace();
+            var ws = new AdhocWorkspace();
             var projectInfo = ProjectInfo.Create(ProjectId.CreateNewId(this.Id),
                 VersionStamp.Create(),
                 this.Id, this.Id,
