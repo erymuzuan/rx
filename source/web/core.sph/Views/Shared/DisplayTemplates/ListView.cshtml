@@ -56,6 +56,14 @@
                         </td>
                         continue;
                     }
+                    var button = col.Input as Bespoke.Sph.Domain.Button;
+                    if (null != button)
+                    {
+                        <td>
+                           <button>@button.Label</button>
+                        </td>
+                        continue;
+                    }
 
                     <td data-bind="text:@col.Path"></td>
                 }

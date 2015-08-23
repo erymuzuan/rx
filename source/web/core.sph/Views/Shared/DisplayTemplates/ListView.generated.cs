@@ -268,6 +268,28 @@ WriteLiteral(" />\r\n                        </td>\r\n");
             #line 57 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                         continue;
                     }
+                    var button = col.Input as Bespoke.Sph.Domain.Button;
+                    if (null != button)
+                    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        <td>\r\n                           <button>");
+
+            
+            #line 63 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+                              Write(button.Label);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</button>\r\n                        </td>\r\n");
+
+            
+            #line 65 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+                        continue;
+                    }
 
 
             
@@ -278,7 +300,7 @@ WriteLiteral("                    <td");
 WriteLiteral(" data-bind=\"text:");
 
             
-            #line 60 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 68 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                    Write(col.Path);
 
             
@@ -289,7 +311,7 @@ WriteLiteral("\"");
 WriteLiteral("></td>\r\n");
 
             
-            #line 61 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 69 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                 }
 
             
