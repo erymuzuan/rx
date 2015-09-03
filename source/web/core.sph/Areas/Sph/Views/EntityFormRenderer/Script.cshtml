@@ -304,6 +304,17 @@
                     {
                         <text>
                     saveCommand : @saveOperation.ToCamelCase(),
+                    @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
+                    {
+                        <text>                        
+                    canExecuteSaveCommand : ko.computed(function(){
+                        if(typeof partial.canExecuteSaveCommand === "function"){
+                            return partial.canExecuteSaveCommand();
+                        }
+                        return true;
+                    }),
+                        </text>
+                    }
                     </text>
                     }
                     commands : ko.observableArray(@Html.Raw(commandsJs))

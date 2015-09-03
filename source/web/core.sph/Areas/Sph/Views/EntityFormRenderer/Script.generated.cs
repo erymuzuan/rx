@@ -972,12 +972,48 @@ WriteLiteral("\r\n                    saveCommand : ");
             
             #line default
             #line hidden
-WriteLiteral(",\r\n                    ");
+WriteLiteral(",\r\n");
+
+            
+            #line 307 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+                    
+            
+            #line default
+            #line hidden
+            
+            #line 307 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+                     if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
+                    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        ");
+
+WriteLiteral(@"                        
+                    canExecuteSaveCommand : ko.computed(function(){
+                        if(typeof partial.canExecuteSaveCommand === ""function""){
+                            return partial.canExecuteSaveCommand();
+                        }
+                        return true;
+                    }),
+                        ");
 
 WriteLiteral("\r\n");
 
             
-            #line 308 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 317 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+                    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    ");
+
+WriteLiteral("\r\n");
+
+            
+            #line 319 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
@@ -986,7 +1022,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                    commands : ko.observableArray(");
 
             
-            #line 309 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 320 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                              Write(Html.Raw(commandsJs));
 
             
