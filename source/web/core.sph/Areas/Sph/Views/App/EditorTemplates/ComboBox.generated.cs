@@ -36,14 +36,22 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<div");
+            
+            #line 2 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+  
+    var required = Model.IsRequired ? "required" : null;
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 2 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+            #line 5 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
                                       Write(Html.Raw(Model.Visible));
 
             
@@ -53,30 +61,30 @@ WriteLiteral("\"");
 
 WriteLiteral(">\r\n    <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 117), Tuple.Create("\"", 139)
+WriteAttribute("for", Tuple.Create(" for=\"", 182), Tuple.Create("\"", 204)
             
-            #line 3 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
-, Tuple.Create(Tuple.Create("", 123), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 6 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+, Tuple.Create(Tuple.Create("", 188), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 123), false)
+, 188), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 140), Tuple.Create("\"", 168)
+WriteAttribute("class", Tuple.Create(" class=\"", 205), Tuple.Create("\"", 233)
             
-            #line 3 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
-, Tuple.Create(Tuple.Create("", 148), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+            #line 6 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+, Tuple.Create(Tuple.Create("", 213), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 148), false)
+, 213), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 3 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+            #line 6 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
                                                           Write(Model.Label);
 
             
@@ -84,70 +92,71 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n    <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 200), Tuple.Create("\"", 233)
+WriteAttribute("class", Tuple.Create(" class=\"", 265), Tuple.Create("\"", 298)
             
-            #line 4 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
-, Tuple.Create(Tuple.Create("", 208), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            #line 7 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+, Tuple.Create(Tuple.Create("", 273), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 208), false)
+, 273), false)
 );
 
-WriteLiteral(">\r\n        <select");
+WriteLiteral(">\r\n        <select ");
 
+            
+            #line 8 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+           Write(required);
+
+            
+            #line default
+            #line hidden
 WriteLiteral(" data-bind=\"");
 
             
-            #line 5 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
-                       Write(Html.Raw(Model.GetKnockoutBindingExpression()));
+            #line 8 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+                                 Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
             #line default
             #line hidden
-WriteLiteral("\"");
+WriteLiteral("\" id=\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 314), Tuple.Create("\"", 335)
             
-            #line 5 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
-   , Tuple.Create(Tuple.Create("", 319), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            #line 8 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+                                                                                       Write(Model.ElementId);
+
             
             #line default
             #line hidden
-, 319), false)
-);
+WriteLiteral("\" name=\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 336), Tuple.Create("\"", 356)
             
-            #line 5 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
-                            , Tuple.Create(Tuple.Create("", 343), Tuple.Create<System.Object, System.Int32>(Model.Path
+            #line 8 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+                                                                                                                Write(Model.Path);
+
             
             #line default
             #line hidden
-, 343), false)
-);
+WriteLiteral("\" class=\"");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 357), Tuple.Create("\"", 413)
             
-            #line 5 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
-                                                  , Tuple.Create(Tuple.Create("", 365), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " "+ Model.Size
+            #line 8 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+                                                                                                                                      Write(Model.CssClass + " "+ Model.Size);
+
             
             #line default
             #line hidden
-, 365), false)
-, Tuple.Create(Tuple.Create(" ", 400), Tuple.Create("form-control", 401), true)
-);
-
-WriteLiteral(">\r\n");
+WriteLiteral(" form-control\">\r\n");
 
             
-            #line 6 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+            #line 9 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 6 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+            #line 9 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
              foreach (var op in Model.ComboBoxItemCollection)
             {
 
@@ -156,20 +165,20 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("                <option");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 518), Tuple.Create("\"", 535)
+WriteAttribute("value", Tuple.Create(" value=\"", 593), Tuple.Create("\"", 610)
             
-            #line 8 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
-, Tuple.Create(Tuple.Create("", 526), Tuple.Create<System.Object, System.Int32>(op.Value
+            #line 11 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+, Tuple.Create(Tuple.Create("", 601), Tuple.Create<System.Object, System.Int32>(op.Value
             
             #line default
             #line hidden
-, 526), false)
+, 601), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 8 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+            #line 11 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
                                      Write(op.Caption);
 
             
@@ -178,7 +187,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
             
-            #line 9 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
+            #line 12 "..\..\Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml"
             }
 
             
