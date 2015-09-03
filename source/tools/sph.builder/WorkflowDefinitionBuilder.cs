@@ -114,17 +114,6 @@ namespace Bespoke.Sph.SourceBuilders
             }
             // save
             var pages = await GetPublishPagesAsync(wd);
-            //archive the WD
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var archived = new BinaryStore
-            {
-                Id = $"wd.{wd.Id}.{wd.Version}",
-                Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)),
-                Extension = ".json",
-                FileName = $"wd.{wd.Id}.{wd.Version}.json"
-            };
-            await store.DeleteAsync(archived.Id);
-            await store.AddAsync(archived);
             var pageBuilder = new Builder<Page>();
             pageBuilder.Initialize();
             foreach (var page in pages)
