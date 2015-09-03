@@ -423,6 +423,7 @@
 					<xs:attribute name="Cc" type="xs:string" use="optional"/>
 					<xs:attribute name="Bcc" type="xs:string" use="optional"/>
 					<xs:attribute name="IsHtmlEmail" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsMessageSuppressed" type="xs:boolean"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

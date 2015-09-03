@@ -31,8 +31,10 @@ bespoke.sph.domain.Trigger = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -71,8 +73,10 @@ bespoke.sph.domain.AssemblyField = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -100,8 +104,10 @@ bespoke.sph.domain.JavascriptExpressionField = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -129,8 +135,10 @@ bespoke.sph.domain.FunctionField = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -158,8 +166,10 @@ bespoke.sph.domain.ConstantField = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -193,8 +203,10 @@ bespoke.sph.domain.DocumentField = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -228,8 +240,10 @@ bespoke.sph.domain.PropertyChangedField = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -258,8 +272,10 @@ bespoke.sph.domain.Rule = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -297,8 +313,10 @@ bespoke.sph.domain.EmailAction = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -325,8 +343,10 @@ bespoke.sph.domain.SetterAction = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -354,8 +374,10 @@ bespoke.sph.domain.SetterActionChild = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -384,8 +406,10 @@ bespoke.sph.domain.MethodArg = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -418,8 +442,10 @@ bespoke.sph.domain.StartWorkflowAction = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -447,8 +473,10 @@ bespoke.sph.domain.WorkflowTriggerMap = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -489,8 +517,10 @@ bespoke.sph.domain.AssemblyAction = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -528,8 +558,10 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -562,8 +594,10 @@ bespoke.sph.domain.Workflow = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -606,8 +640,10 @@ bespoke.sph.domain.ScreenActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -634,8 +670,10 @@ bespoke.sph.domain.DecisionActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -664,8 +702,10 @@ bespoke.sph.domain.DecisionBranch = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -702,13 +742,17 @@ bespoke.sph.domain.NotificationActivity = function (optionOrWebid) {
 
     v.IsHtmlEmail = ko.observable(false);
 
+    v.IsMessageSuppressed = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.NotificationActivity, domain.sph";
 
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -734,8 +778,10 @@ bespoke.sph.domain.SimpleVariable = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -761,8 +807,10 @@ bespoke.sph.domain.ComplexVariable = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -790,8 +838,10 @@ bespoke.sph.domain.VariableValue = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -827,8 +877,10 @@ bespoke.sph.domain.Page = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -856,8 +908,10 @@ bespoke.sph.domain.EndActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -886,8 +940,10 @@ bespoke.sph.domain.Performer = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -915,8 +971,10 @@ bespoke.sph.domain.WorkflowDesigner = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -942,8 +1000,10 @@ bespoke.sph.domain.SimpleMapping = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -970,8 +1030,10 @@ bespoke.sph.domain.FunctoidMapping = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1002,8 +1064,10 @@ bespoke.sph.domain.CreateEntityActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1030,8 +1094,10 @@ bespoke.sph.domain.ExpressionActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1061,8 +1127,10 @@ bespoke.sph.domain.DeleteEntityActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1097,8 +1165,10 @@ bespoke.sph.domain.UpdateEntityActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1126,8 +1196,10 @@ bespoke.sph.domain.ScriptFunctoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1155,8 +1227,10 @@ bespoke.sph.domain.ConfirmationOptions = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1191,8 +1265,10 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1235,8 +1311,10 @@ bespoke.sph.domain.SendActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1263,8 +1341,10 @@ bespoke.sph.domain.ListenActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1291,8 +1371,10 @@ bespoke.sph.domain.ParallelActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1320,8 +1402,10 @@ bespoke.sph.domain.JoinActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1353,8 +1437,10 @@ bespoke.sph.domain.DelayActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1382,8 +1468,10 @@ bespoke.sph.domain.ThrowActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1410,8 +1498,10 @@ bespoke.sph.domain.ParallelBranch = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1441,8 +1531,10 @@ bespoke.sph.domain.ListenBranch = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1472,8 +1564,10 @@ bespoke.sph.domain.ClrTypeVariable = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1500,8 +1594,10 @@ bespoke.sph.domain.ScheduledTriggerActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1533,8 +1629,10 @@ bespoke.sph.domain.Tracker = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1568,8 +1666,10 @@ bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1604,8 +1704,10 @@ bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1638,8 +1740,10 @@ bespoke.sph.domain.ReferencedAssembly = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1672,8 +1776,10 @@ bespoke.sph.domain.MappingActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1701,8 +1807,10 @@ bespoke.sph.domain.MappingSource = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1739,8 +1847,10 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1770,8 +1880,10 @@ bespoke.sph.domain.DirectMap = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1801,8 +1913,10 @@ bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1828,8 +1942,10 @@ bespoke.sph.domain.StringConcateFunctoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1859,8 +1975,10 @@ bespoke.sph.domain.ParseBooleanFunctoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1888,8 +2006,10 @@ bespoke.sph.domain.ParseDoubleFunctoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1917,8 +2037,10 @@ bespoke.sph.domain.ParseDecimalFunctoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1946,8 +2068,10 @@ bespoke.sph.domain.ParseInt32Functoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -1979,8 +2103,10 @@ bespoke.sph.domain.ParseDateTimeFunctoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2008,8 +2134,10 @@ bespoke.sph.domain.FormattingFunctoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2044,8 +2172,10 @@ bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2074,8 +2204,10 @@ bespoke.sph.domain.ConstantFunctoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2103,8 +2235,10 @@ bespoke.sph.domain.SourceFunctoid = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2135,8 +2269,10 @@ bespoke.sph.domain.ExceptionFilter = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2164,8 +2300,10 @@ bespoke.sph.domain.CorrelationType = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2193,8 +2331,10 @@ bespoke.sph.domain.CorrelationSet = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2223,8 +2363,10 @@ bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2257,8 +2399,10 @@ bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2285,8 +2429,10 @@ bespoke.sph.domain.TryScope = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2316,8 +2462,10 @@ bespoke.sph.domain.CatchScope = function (optionOrWebid) {
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2344,8 +2492,10 @@ bespoke.sph.domain.Field = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2374,8 +2524,10 @@ bespoke.sph.domain.CustomAction = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2405,8 +2557,10 @@ bespoke.sph.domain.Activity = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2433,8 +2587,10 @@ bespoke.sph.domain.Variable = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2460,8 +2616,10 @@ bespoke.sph.domain.PropertyMapping = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2492,8 +2650,10 @@ bespoke.sph.domain.Functoid = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2520,8 +2680,10 @@ bespoke.sph.domain.Map = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }
@@ -2547,8 +2709,10 @@ bespoke.sph.domain.Scope = function (optionOrWebid) {
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
             }
         }
     }

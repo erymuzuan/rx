@@ -141,7 +141,7 @@ namespace Bespoke.Sph.Domain
                 name = cort.Name,
                 value
             });
-            var url = string.Format("{0}/{1}/{2}", ConfigurationManager.ElasticSearchIndex, "correlationset", id);
+            var url = $"{ConfigurationManager.ElasticSearchIndex}/{"correlationset"}/{id}";
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);

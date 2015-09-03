@@ -86,11 +86,21 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsMessageSuppressed, tooltip: 'prevent from system sending a message to internal message box'" id="is-message-suppressed" type="checkbox" name="IsMessageSuppressed" />
+                                    Suppressed Message
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="email-body" class="col-lg-2 control-label">Body</label>
                         <div class="col-lg-9">
-                            <textarea required data-bind="value: Body" class="form-control expression-field razor-field" id="email-body" placeholder="Email body"></textarea>
+                            <textarea required data-bind="value: Body" class="form-control expression-field razor-field" id="email-body" placeholder="Email body" rows="8"></textarea>
                         </div>
                     </div>
                 </form>

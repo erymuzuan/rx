@@ -2114,6 +2114,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private bool m_IsMessageSuppressed;
+        [XmlAttribute]
+        public bool IsMessageSuppressed
+        {
+            get
+            {
+                return m_IsMessageSuppressed;
+            }
+            set
+            {
+                m_IsMessageSuppressed = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -5859,7 +5875,20 @@ namespace Bespoke.Sph.Domain
         }
 
 
-    
+        private bool m_IsAsync;
+        [XmlAttribute]
+        public bool IsAsync
+        {
+            get
+            {
+                return m_IsAsync;
+            }
+            set
+            {
+                m_IsAsync = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         ///<summary>

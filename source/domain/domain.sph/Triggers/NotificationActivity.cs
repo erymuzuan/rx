@@ -72,6 +72,11 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine();
             code.AppendLine();
+            if (this.IsMessageSuppressed)
+            {
+                return code.ToString();
+            }
+
             code.AppendLine("       var context = new SphDataContext();");
             code.AppendLine("       foreach(var et in to.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries))");
             code.AppendLine("       {");
