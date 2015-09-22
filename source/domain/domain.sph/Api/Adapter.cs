@@ -105,9 +105,10 @@ namespace Bespoke.Sph.Domain.Api
         {
             return Task.FromResult(0);
         }
+
+
         public async Task<WorkflowCompilerResult> CompileAsync()
         {
-
             var options = new CompilerOptions();
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
@@ -119,11 +120,15 @@ namespace Bespoke.Sph.Domain.Api
             var sourceFolder = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, this.Name);
             var sources = new List<string>();
 
+            var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
             foreach (var table in this.Tables)
             {
                 var td = await this.GetSchemaDefinitionAsync(table.Name);
                 td.CodeNamespace = this.CodeNamespace;
-                var es = $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{table}.schema.json";
+                var es = $"{folder}\\{table}.schema.json";
 
                 if (!options.EmbeddedResourceCollection.Contains(es))
                 {

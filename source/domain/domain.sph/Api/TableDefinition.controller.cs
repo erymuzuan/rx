@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -9,7 +10,9 @@ namespace Bespoke.Sph.Domain.Api
     {
 
         [ImportMany(typeof(ControllerAction))]
+        [JsonIgnore]
         public IEnumerable<ControllerAction> ActionCodeGenerators { get; set; }
+
         private string GenerateController(Adapter adapter)
         {
             if(null == this.ActionCodeGenerators)

@@ -71,6 +71,8 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         public override async Task OpenAsync(bool verbose = false)
         {
             this.TableDefinitionCollection.Clear();
+            TableColumns.Clear();
+
             foreach (var table in this.Tables)
             {
 
@@ -146,10 +148,10 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                               };
                 td.MemberCollection.AddRange(members);
 
-                if (m_tableColumns.ContainsKey(table.Name))
-                    m_tableColumns[table.Name] = columns;
+                if (TableColumns.ContainsKey(table.Name))
+                    TableColumns[table.Name] = columns;
                 else
-                    m_tableColumns.Add(table.Name, columns);
+                    TableColumns.Add(table.Name, columns);
 
                 this.TableDefinitionCollection.Add(td);
 
@@ -187,7 +189,8 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         }
 
-        private readonly Dictionary<string, ObjectCollection<SqlColumn>> m_tableColumns = new Dictionary<string, ObjectCollection<SqlColumn>>();
+        public Dictionary<string, ObjectCollection<SqlColumn>> TableColumns { get; } =
+            new Dictionary<string, ObjectCollection<SqlColumn>>();
 
 
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
@@ -336,7 +339,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         private string GenerateUpdateMethod(TableDefinition table)
         {
             var name = table.Name;
-            var columns = m_tableColumns[name];
+            var columns = TableColumns[name];
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<object> UpdateAsync({0} item)", name);
             code.AppendLine("       {");
@@ -389,14 +392,14 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         }
         public string GetSelectCommand(TableDefinition table)
         {
-            return string.Format("SELECT * FROM {0}.{1} ", this.Schema, table);
+            return $"SELECT * FROM {this.Schema}.{table} ";
         }
 
         private string GenerateSelectOneMethod(TableDefinition table)
         {
 
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguments = pks.Select(k => string.Format("{0} {1}", k.Type.ToCSharp(), k.Name));
+            var arguments = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name}");
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguments));
             code.AppendLine("       {");
@@ -474,7 +477,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         private string PopulateItemFromReader(string name)
         {
-            var columns = m_tableColumns[name];
+            var columns = TableColumns[name];
             var code = new StringBuilder();
             foreach (var column in columns)
             {
@@ -511,7 +514,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         private string GenerateDeleteMethod(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguements = pks.Select(k => string.Format("{0} {1}", k.Type.ToCSharp(), k.Name.ToCamelCase()));
+            var arguements = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name.ToCamelCase()}");
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");
@@ -539,7 +542,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var name = table.Name;
             var code = new StringBuilder();
-            var columns = m_tableColumns[name];
+            var columns = TableColumns[name];
             code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
             code.AppendLine("       {");
 
@@ -563,7 +566,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
             var parameters = pks.Select(m => string.Format("[{0}] = @{0}", m.Name));
-            var columns = m_tableColumns[table.Name];
+            var columns = TableColumns[table.Name];
             var sql = new StringBuilder("UPDATE  ");
             sql.AppendFormat("[{0}].[{1}] SET ", this.Schema, table);
 
@@ -586,7 +589,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             sql.AppendFormat("[{0}].[{1}] (", this.Schema, table);
 
 
-            var cols = m_tableColumns[table.Name]
+            var cols = TableColumns[table.Name]
                 .Where(c => !c.IsIdentity)
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)

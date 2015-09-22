@@ -7,23 +7,12 @@ namespace Bespoke.Sph.Domain.Api
         public AdapterTable[] Tables { get; set; }
         public string Schema { get; set; }
 
-        public virtual string CodeNamespace
-        {
-            get { return string.Format("{0}.Adapters.{1}.{2}", ConfigurationManager.ApplicationName, this.Schema, this.Name); }
-        }
+        public virtual string CodeNamespace => $"{ConfigurationManager.ApplicationName}.Adapters.{this.Schema}.{this.Name}";
 
 
-        private readonly ObjectCollection<OperationDefinition> m_operationDefinitionsCollection = new ObjectCollection<OperationDefinition>();
-        private readonly ObjectCollection<TableDefinition> m_tableDefinitionCollection = new ObjectCollection<TableDefinition>();
+        public ObjectCollection<TableDefinition> TableDefinitionCollection { get; } = new ObjectCollection<TableDefinition>();
 
-        public ObjectCollection<TableDefinition> TableDefinitionCollection
-        {
-            get { return m_tableDefinitionCollection; }
-        }
-        public ObjectCollection<OperationDefinition> OperationDefinitionCollection
-        {
-            get { return m_operationDefinitionsCollection; }
-        }
+        public ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
 
 
         [XmlAttribute]
