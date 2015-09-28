@@ -52,17 +52,17 @@ namespace Bespoke.Sph.SourceBuilders
      
 
         
-        public override async Task RestoreAsync(Adapter wd)
+        public override async Task RestoreAsync(Adapter adapter)
         {
-            Console.WriteLine("Compiling : {0} ", wd.Name);
+            Console.WriteLine("Compiling : {0} ", adapter.Name);
             try
             {
-                await this.CompileAsync(wd);
+                await this.CompileAsync(adapter);
             }
             catch (Exception e)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Failed to compile Adapter {0}", wd.Name);
+                Console.WriteLine("Failed to compile Adapter {0}", adapter.Name);
                 Console.WriteLine(e.Message);
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(e.StackTrace);

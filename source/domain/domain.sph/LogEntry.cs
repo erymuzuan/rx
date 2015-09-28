@@ -88,7 +88,7 @@ namespace Bespoke.Sph.Domain
             try
             {
                 this.Severity = Severity.Error;
-                this.Message = string.Format("{0} => {1}", exception.GetType().Name, exception.Message);
+                this.Message = $"{exception.GetType().Name} => {exception.Message}";
                 this.Details = details.ToString();
                 this.Time = DateTime.Now;
                 this.Keywords = keywords.ToArray();
