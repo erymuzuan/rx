@@ -31,9 +31,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             entry.Log = EventLog.Subscribers;
             entry.Time = DateTime.Now;
             entry.Computer = Environment.MachineName;
-
-            var json = GetJsonContent(entry);
-            Console.WriteLine("===BEGIN===" + json + "===END===");
         }
 
         public void Write(string format, params object[] args)

@@ -933,15 +933,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 SphWorkersStatus = "Running";
                 Log("SPH Worker... [STARTED]");
             }
-            if (message.StartsWith("===BEGIN=="))
-            {
-                WebConsoleServer.Default.SendMessage(message.Replace("===BEGIN===", "")
-                    .Replace("===END===", ""));
-            }
-            else
-            {
-                m_writer?.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, message);
-            }
+
+            m_writer?.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, message);
+
         }
 
         private void OnWorkerErrorReceived(object sender, DataReceivedEventArgs e)
