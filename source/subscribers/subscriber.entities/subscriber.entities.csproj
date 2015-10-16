@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jsbeautifier">
-      <HintPath>..\..\..\lib\Jsbeautifier.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -72,6 +69,10 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\dependencies\Jsbeautifier\Jsbeautifier.csproj">
+      <Project>{0ff8fea3-04fb-475c-9f56-d9337652c05a}</Project>
+      <Name>Jsbeautifier</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\dependencies\sql.repository\sql.repository.csproj">
       <Project>{79494592-2FE0-429E-8F79-CB97863378DC}</Project>
       <Name>sql.repository</Name>
