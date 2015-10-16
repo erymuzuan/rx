@@ -9,7 +9,7 @@
 }
 @if (Model.IsCompact)
 {
-    <label class="checkbox" data-bind="visible:@Model.Visible">
+    <label class="checkbox" data-bind="visible:@Html.Raw(Model.Visible)">
         <input data-i18n="@Model.Label" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.Path" title="@Model.Tooltip" type="checkbox" name="@originalPath" />
         @Model.Label
     </label>
@@ -17,7 +17,7 @@
 else
 {
 
-    <div class="form-group" data-bind="visible:@Model.Visible">
+    <div class="form-group" data-bind="visible:@Html.Raw(Model.Visible)">
         <div class="col-md-offset-@(@Model.LabelColMd ?? 4) @Model.InputPanelCssClass">
             <div class="checkbox">
                 <label class="checkbox">

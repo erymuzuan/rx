@@ -746,6 +746,71 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResetPassword.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\CheckBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\ComboBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\DatePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\DateTimePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DateTimePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\EmailFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\FormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\HtmlElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\LabelItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LabelItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\NumberTextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberTextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\SectionFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SectionFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\TextAreaElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextAreaElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Workflow\EditorTemplates\WebsiteFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomFormController.cs" />
     <Compile Include="Controllers\CustomFormController.dialog.cs" />
@@ -3525,18 +3590,54 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_DesignerContextAction.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\CheckBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\ComboBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\DatePicker.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\EmailFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\FormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\HtmlElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\LabelItem.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\NumberTextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\SectionFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\TextAreaElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\TextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\CheckBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\ComboBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\DatePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\EmailFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\FormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\HtmlElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\LabelItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>LabelItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\NumberTextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumberTextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\SectionFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SectionFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\TextAreaElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\WebsiteFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\Shared\_LayoutWorkflow.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_LayoutWorkflow.generated.cs</LastGenOutput>
@@ -3574,7 +3675,10 @@
       <LastGenOutput>DatePickerTime.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\DateTimePicker.cshtml" />
-    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\DateTimePicker.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\DateTimePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\TextBox.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\ComboBox.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\ListView.cshtml" />

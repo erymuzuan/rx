@@ -1,5 +1,5 @@
 ﻿@model Bespoke.Sph.Domain.ComboBox
-<div class="form-group" data-bind="visible:@Model.Visible">
+<div class="form-group" data-bind="visible:@Html.Raw(Model.Visible)">
     <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
     <div class="@Model.InputPanelCssClass">
         <select data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" name="@(Model.Path)" class="@(Model.CssClass + " "+ Model.Size) form-control">

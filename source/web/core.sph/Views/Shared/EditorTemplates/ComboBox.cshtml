@@ -21,13 +21,13 @@
 else
 {
 
-    <div class="form-group" data-bind="visible:@Model.Visible">
+    <div class="form-group" data-bind="visible:@Html.Raw(Model.Visible)">
         <label data-i18n="@Model.Label" for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
         <div class="@Model.InputPanelCssClass">
             <select @required data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" name="@originalPath" class="@(Model.CssClass + " "+ Model.Size) form-control">
                 @foreach (var op in Model.ComboBoxItemCollection)
                 {
-                    <option value="@op.Value" data-i18n="@op.Caption">@op.Caption</option>
+                    <option value="@Html.Raw(op.Value)" data-i18n="@op.Caption">@op.Caption</option>
                 }
             </select>
         </div>

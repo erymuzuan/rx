@@ -24,7 +24,7 @@
 }
 else
 {
-    <div data-bind="visible:@Model.Visible" class="form-group">
+    <div data-bind="visible:@Html.Raw(Model.Visible)" class="form-group">
         <label data-i18n="@Model.Label" for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
 
         <script type="text/json" id="@($"filter-{Model.ElementId}")">
