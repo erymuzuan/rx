@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.3.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -746,6 +746,8 @@ bespoke.sph.domain.NotificationActivity = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.NotificationActivity, domain.sph";
 
+    v.Retry = ko.observable();//nillable
+    v.RetryInterval = ko.observable();//nillable
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {

@@ -159,6 +159,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(ApiController).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(RoutePrefixAttribute).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(Polly.Context).Assembly.Location);
 
                 this.ReferencedAssemblyCollection
                     .Select(u => $"{ConfigurationManager.CompilerOutputPath}\\{Path.GetFileName(u.Location)}")

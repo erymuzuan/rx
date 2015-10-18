@@ -52,14 +52,8 @@ namespace Bespoke.Sph.Messaging
             }
         }
 
-        public override bool UseAsync
-        {
-            get { return true; }
-        }
+        public override bool UseAsync => true;
 
-        public override bool UseCode
-        {
-            get { return true; }
-        }
+        public override bool UseCode => true;
     }
 }

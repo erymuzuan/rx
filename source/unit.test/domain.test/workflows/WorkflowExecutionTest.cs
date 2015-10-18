@@ -198,7 +198,9 @@ namespace domain.test.workflows
                 WebId = "_EMAIL_",
                 NextActivityWebId = "_END_",
                 UserName = "admin",
-                Name = "Email me"
+                Name = "Email me",
+                Retry = 5,
+                RetryInterval = 50*1000
 
             };
             wd.ActivityCollection.Add(email);

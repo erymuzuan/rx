@@ -2130,6 +2130,10 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        public int? Retry { get; set; }
+
+        public long? RetryInterval { get; set; }
+
 
     }
 

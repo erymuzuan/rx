@@ -415,6 +415,10 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="Retry" type="xs:int" nillable="true"/>
+						<xs:element name="RetryInterval" type="xs:long" nillable="true"/>
+					</xs:all>
 					<xs:attribute name="From" type="xs:string" use="required"/>
 					<xs:attribute name="Subject" type="xs:string" use="required"/>
 					<xs:attribute name="Body" type="xs:string" use="required"/>

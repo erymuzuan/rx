@@ -43,6 +43,7 @@ namespace Bespoke.Sph.Domain
 
             var code = new StringBuilder();
 
+            code.AppendLine("       var logger = ObjectBuilder.GetObject<ILogger>();");
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
             code.AppendLine($"       var act = this.GetActivity<NotificationActivity>(\"{this.WebId}\");");
             code.AppendLine($"       result.NextActivities = new[]{{\"{this.NextActivityWebId}\"}};");
@@ -68,7 +69,30 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           mm.CC.Add(cc);");
             code.AppendLine("       if (!string.IsNullOrWhiteSpace(bcc))");
             code.AppendLine("           mm.Bcc.Add(bcc);");
-            code.AppendLine("       await client.SendMailAsync(mm).ConfigureAwait(false);");
+            if (null != this.Retry)
+            {
+                code.AppendLine("      await Policy.Handle<InvalidOperationException>()");
+                code.AppendLine("               .Or<System.Net.WebException>()");
+                code.AppendLine("               .Or<System.Net.Mail.SmtpException>()");
+                code.AppendLine("               .Or<System.IO.DirectoryNotFoundException>()");
+                code.AppendLine("               .Or<System.Exception>()");
+                code.AppendLine($"          .WaitAndRetryAsync({this.Retry}, cx => TimeSpan.FromMilliseconds({this.RetryInterval ?? 5000}),");
+                code.AppendLine("              (exc, time) =>");
+                code.AppendLine("              {  ");
+                code.AppendLine("                   logger.LogAsync(new LogEntry(exc)).ContinueWith(_ => ");
+                code.AppendLine("                       { ");
+                code.AppendLine("                           logger.Log(new LogEntry { Message = \"Fail to send email, retry again in \" + time.TotalSeconds + \" seconds\", Severity = Severity.Info });");
+                code.AppendLine("                       });");
+                code.AppendLine("               }");
+                code.AppendLine("           )");
+                code.AppendLine("           .ExecuteAsync(() => client.SendMailAsync(mm));");
+
+
+            }
+            else
+            {
+                code.AppendLine("       await client.SendMailAsync(mm).ConfigureAwait(false);");
+            }
 
             code.AppendLine();
             code.AppendLine();

@@ -68,6 +68,32 @@
                                 <input type="text" data-bind="value: Bcc" class="form-control expression-field razor-field" id="email-bcc" placeholder="Bcc email address or template">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="email-body" class="col-lg-2 control-label">Retry</label>
+                            <div class="col-lg-9">
+                                <input type="number" class="form-control" data-bind="value:Retry,tooltip:'Set how many times should the activty attempt to send the email'" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email-body" class="col-lg-2 control-label">Retry Interval(ms)</label>
+                            <div class="col-lg-9">
+                                <input type="number" class="form-control" data-bind="value:RetryInterval,tooltip:'Set the interval between retry'" step="1000"/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-bind="checked: IsMessageSuppressed, tooltip: 'prevent from system sending a message to internal message box'" id="is-message-suppressed" type="checkbox" name="IsMessageSuppressed" />
+                                        Suppressed Message
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="form-group">
                         <label for="email-subject" class="col-lg-2 control-label">Subject</label>
@@ -86,16 +112,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-6">
-                            <div class="checkbox">
-                                <label>
-                                    <input data-bind="checked: IsMessageSuppressed, tooltip: 'prevent from system sending a message to internal message box'" id="is-message-suppressed" type="checkbox" name="IsMessageSuppressed" />
-                                    Suppressed Message
-                                </label>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         <label for="email-body" class="col-lg-2 control-label">Body</label>
@@ -103,6 +119,8 @@
                             <textarea required data-bind="value: Body" class="form-control expression-field razor-field" id="email-body" placeholder="Email body" rows="8"></textarea>
                         </div>
                     </div>
+               
+
                 </form>
             </div>
             <div class="modal-footer">
