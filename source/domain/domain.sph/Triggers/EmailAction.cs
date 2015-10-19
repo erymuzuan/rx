@@ -3,6 +3,8 @@ using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Humanizer;
+using Polly;
 
 namespace Bespoke.Sph.Domain
 {
@@ -37,8 +39,23 @@ namespace Bespoke.Sph.Domain
             if (!string.IsNullOrWhiteSpace(cc))
                 message.CC.Add(cc);
 
+            var logger = ObjectBuilder.GetObject<ILogger>();
             var smtp = new SmtpClient();
-            await smtp.SendMailAsync(message).ConfigureAwait(false);
+            await Policy.Handle<InvalidOperationException>()
+                    .Or<System.Net.WebException>()
+                    .Or<SmtpException>()
+                    .Or<System.IO.DirectoryNotFoundException>()
+                    .Or<Exception>()
+                    .WaitAndRetryAsync(3, cx => 5.Minutes(),
+                            (exc, time) =>
+                                   {
+                                       logger.LogAsync(new LogEntry(exc)).ContinueWith(_ =>
+                                       {
+                                           logger.Log(new LogEntry { Message = $"Fail to send email, retry again in {time.TotalSeconds} seconds", Severity = Severity.Info });
+                                       });
+                                   })
+                    .ExecuteAsync(() => smtp.SendMailAsync(message))
+                    .ConfigureAwait(false);
         }
 
         public override bool UseAsync => true;
