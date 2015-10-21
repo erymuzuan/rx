@@ -134,7 +134,7 @@ namespace Bespoke.Sph.Domain
                     });
 
             var errorTasks = this.BuildDiagnostics
-                .Select(d => policy.ExecuteAndCapture(() => d.ValidateErrorsAsync(this)) )
+                .Select(d => policy.ExecuteAndCapture(() => d.ValidateErrorsAsync(this)))
                 .Where(x => null != x)
                 .Where(x => x.FinalException == null)
                 .Select(x => x.Result)
@@ -178,16 +178,16 @@ namespace Bespoke.Sph.Domain
 
                 };
 
-                parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(SmtpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(HttpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(HttpResponseBase).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
+                parameters.AddReference(typeof(Entity),
+                    typeof(int),
+                    typeof(INotifyPropertyChanged),
+                    typeof(Expression<>),
+                    typeof(XmlAttributeAttribute),
+                    typeof(SmtpClient),
+                    typeof(HttpClient),
+                    typeof(XElement),
+                    typeof(HttpResponseBase),
+                    typeof(ConfigurationManager));
 
                 foreach (var es in options.EmbeddedResourceCollection)
                 {

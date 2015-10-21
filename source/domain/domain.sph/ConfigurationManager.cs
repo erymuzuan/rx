@@ -6,6 +6,14 @@ namespace Bespoke.Sph.Domain
     {
         const string DefaultApplicationName = "DevV1";
         
+        public static int StaticFileCache
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:StaticFileCache"] ?? "120";
+                return int.Parse(pn);
+            }
+        }
         public static int WorkflowDebuggerPort
         {
             get

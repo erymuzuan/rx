@@ -7,7 +7,6 @@ namespace Bespoke.Sph.Domain
 {
     public class LoadOperation<T> where T : DomainObject
     {
-        private readonly ObjectCollection<T> m_itemCollection = new ObjectCollection<T>();
         public bool HasError { get; set; }
         public Exception Exception { get; set; }
         public int CurrentPage { get; set; }
@@ -17,10 +16,7 @@ namespace Bespoke.Sph.Domain
         public int? TotalRows { get; set; }
         public int? NextSkipToken { get; set; }
 
-        public ObjectCollection<T> ItemCollection
-        {
-            get { return m_itemCollection; }
-        }
+        public ObjectCollection<T> ItemCollection { get; } = new ObjectCollection<T>();
 
         public int? TotalPages
         {
