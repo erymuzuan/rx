@@ -17,9 +17,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     public partial class SqlServerAdapter : Adapter
     {
 
-
         public override string OdataTranslator => "OdataSqlTranslator";
-
 
         public override async Task<IEnumerable<ValidationError>> ValidateAsync()
         {
@@ -110,15 +108,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                         {
                             if (first && verbose)
                             {
-                                for (int i = 0; i < reader.FieldCount; i++)
-                                {
-                                    Console.Write(Resources.Format15Tab, reader.GetName(i));
-                                }
-                                Console.WriteLine();
-                                for (var i = 0; i < reader.FieldCount; i++)
-                                {
-                                    Console.Write(Resources.Format15Tab, reader[i]);
-                                }
+                                WriteTableHeader(reader);
                             }
                             first = false;
                             var col = new SqlColumn
@@ -148,18 +138,32 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                               };
                 td.MemberCollection.AddRange(members);
 
-                if (TableColumns.ContainsKey(table.Name))
-                    TableColumns[table.Name] = columns;
+                if (TableColumns.Any(x => x.Name == table.Name))
+                    TableColumns.Single(x => x.Name == table.Name).ColumnCollection.ClearAndAddRange(columns);
                 else
-                    TableColumns.Add(table.Name, columns);
+                {
+                    var sqlTable = new SqlTable { Name = table.Name };
+                    sqlTable.ColumnCollection.AddRange(columns);
+                    TableColumns.Add(sqlTable);
+                }
 
                 this.TableDefinitionCollection.Add(td);
-
 
             }
         }
 
-
+        private static void WriteTableHeader(SqlDataReader reader)
+        {
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                Console.Write(Resources.Format15Tab, reader.GetName(i));
+            }
+            Console.WriteLine();
+            for (var i = 0; i < reader.FieldCount; i++)
+            {
+                Console.Write(Resources.Format15Tab, reader[i]);
+            }
+        }
 
 
         private string GetCodeHeader(params string[] namespaces)
@@ -189,8 +193,6 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         }
 
-        public Dictionary<string, ObjectCollection<SqlColumn>> TableColumns { get; } =
-            new Dictionary<string, ObjectCollection<SqlColumn>>();
 
 
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
@@ -339,7 +341,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         private string GenerateUpdateMethod(TableDefinition table)
         {
             var name = table.Name;
-            var columns = TableColumns[name];
+            var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<object> UpdateAsync({0} item)", name);
             code.AppendLine("       {");
@@ -477,7 +479,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         private string PopulateItemFromReader(string name)
         {
-            var columns = TableColumns[name];
+            var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
             var code = new StringBuilder();
             foreach (var column in columns)
             {
@@ -542,7 +544,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var name = table.Name;
             var code = new StringBuilder();
-            var columns = TableColumns[name];
+            var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
             code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
             code.AppendLine("       {");
 
@@ -566,7 +568,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
             var parameters = pks.Select(m => string.Format("[{0}] = @{0}", m.Name));
-            var columns = TableColumns[table.Name];
+            var columns = TableColumns.Single(x => x.Name == table.Name).ColumnCollection;
             var sql = new StringBuilder("UPDATE  ");
             sql.AppendFormat("[{0}].[{1}] SET ", this.Schema, table);
 
@@ -589,7 +591,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             sql.AppendFormat("[{0}].[{1}] (", this.Schema, table);
 
 
-            var cols = TableColumns[table.Name]
+            var cols = TableColumns.Single(x => x.Name == table.Name).ColumnCollection
                 .Where(c => !c.IsIdentity)
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)

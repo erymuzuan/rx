@@ -107,6 +107,9 @@ namespace Bespoke.Sph.Domain
 
         public override string ToString()
         {
+            if (string.IsNullOrEmpty(this.Details))
+                return this.Message;
+
             return $"{this.Message}\r\n{this.Details}";
         }
 

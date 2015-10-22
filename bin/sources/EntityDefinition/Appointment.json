@@ -314,13 +314,13 @@
   "IsPublished": true,
   "IsShowOnNavigationBar": false,
   "TreatDataAsSource": false,
-  "DashboardTemplate": null,
+  "DashboardTemplate": "Dashboard Standard",
   "StoreInDatabase": null,
   "StoreInElasticsearch": null,
   "CreatedBy": "admin",
   "Id": "appointment",
   "CreatedDate": "2015-07-16T18:31:00.9123459+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-08-23T07:49:53.8867811+08:00",
+  "ChangedDate": "2015-10-21T07:16:24.6358597+08:00",
   "WebId": "3a0cd042-a29f-4d00-add4-768eb28db62d"
 }
