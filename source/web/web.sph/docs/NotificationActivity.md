@@ -1,5 +1,5 @@
-#NotificationActivity
-##Overview
+# NotificationActivity
+## Overview
 [`NotificationActivity`](NotificationActivity.html) lets you to send email and for internal user it will create a [`Message`](Message.html) in the message center.
 ![Message Center](http://i.imgur.com/3ePhbd9.png)
 
@@ -17,9 +17,9 @@ e.g. to create a piece of string concatenation
 NOTE :These must be valid C# expression.
 
 Ommiting `=` at the begining will automaticatlly convert the expression into a `Razor` template expression, as such it allows you to do things like
-<pre>
+```razor
     Notification about new application from  @Model.Applicant.FullName
-</pre>
+```
 NOTE : Since `@` is an identifier in `Razor`, and if you need to provide a literal value for `@` then you need to escape it. For example the email address `someone@company.com` have to be written in `someone@@company.com`
 
 
@@ -27,7 +27,7 @@ Learn more about Razor [`here`](Razor.html)
 
 
 
-##Properties
+## Properties
 <table class="table table-condensed table-bordered">
     <thead>
 <tr>
@@ -42,7 +42,10 @@ Learn more about Razor [`here`](Razor.html)
 <tr><td>To</td><td> - Where to sent to, use , to add more that one recipients</td></tr>
 <tr><td>Cc</td><td> - Carbon copy</td></tr>
 <tr><td>Bcc</td><td> - Blind carbon copy - a copy of the email will be sent to this person witout other recipients in To and Cc knowledge</td></tr>
-<tr><td>IsHtmlEmail</td><td> - Reserved for future use </td></tr>
+<tr><td>Retry</td><td> - Set the retry count in case SMTP server cannot be reached, or an Exception is thrown when the SendMail method is called </td></tr>
+<tr><td>RetryInterval</td><td> - Timespan in miliseconds between the retry </td></tr>
+<tr><td>IsMessageSuppressed</td><td> - Enable this the message from being inserted into system message box </td></tr>
+<tr><td>IsHtmlEmail</td><td> - If your email message need to be HTML formatted </td></tr>
 </tbody></table>
 
 
