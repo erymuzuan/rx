@@ -28,6 +28,8 @@ var files = [
 "/Content/simple-line-icons/simple-line-icons.min.css",
 "/Content/darkblue.css",
 "/Content/layout.css",
+"/Content/jstree/style.min.css",
+"/Content/jsplumb/jsplumb.css",
 
 "/Content/theme.matyie/style.css",
 "/Content/theme.matyie/site.css",

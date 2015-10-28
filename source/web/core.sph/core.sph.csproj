@@ -1482,8 +1482,8 @@
     <EmbeddedResource Include="SphApp\goog.js" />
     <EmbeddedResource Include="SphApp\main.js" />
     <EmbeddedResource Include="SphApp\objectbuilders.js" />
-    <EmbeddedResource Include="Content\jstree\32px.png" />
-    <EmbeddedResource Include="Content\jstree\40px.png" />
+    <EmbeddedResource Include="Content\32px.png" />
+    <EmbeddedResource Include="Content\40px.png" />
     <Content Include="Scripts\bootstrap-hover-dropdown.min.js" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\darkblue.css" />
@@ -1500,7 +1500,7 @@
     </EmbeddedResource>
     <Content Include="Content\jstree\style.css" />
     <EmbeddedResource Include="Content\jstree\style.min.css" />
-    <EmbeddedResource Include="Content\jstree\throbber.gif" />
+    <EmbeddedResource Include="Content\throbber.gif" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\print.css">
       <DependentUpon>print.less</DependentUpon>
@@ -1647,9 +1647,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_scripts.generated.cs</LastGenOutput>
     </Content>
-    <None Include="Content\__css.min.css">
+    <EmbeddedResource Include="Content\__css.min.css">
       <DependentUpon>__css.css</DependentUpon>
-    </None>
+    </EmbeddedResource>
     <Content Include="Content\__css.bundle.dev.css" />
     <EmbeddedResource Include="Content\__css.bundle.dev.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />

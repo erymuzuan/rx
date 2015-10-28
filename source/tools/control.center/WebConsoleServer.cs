@@ -74,8 +74,11 @@ namespace Bespoke.Sph.ControlCenter
                 .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500 * c));
 
             var pr = policy.ExecuteAndCapture(() => factory.CreateConnection());
-            if (null == pr.FinalException)
-                m_connection = pr.Result;
+            if (null != pr.FinalException)
+                return;
+
+            m_connection = pr.Result;
+
 
             m_channel = m_connection.CreateModel();
             var qd = m_channel.QueueDeclare(WebConsoleLogger, false, true, true, null);
