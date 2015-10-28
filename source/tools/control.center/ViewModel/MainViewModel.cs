@@ -941,7 +941,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void OnWorkerErrorReceived(object sender, DataReceivedEventArgs e)
         {
             var message = $"{e.Data}";
-            m_writer.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, message);
+            m_writer?.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, message);
             if (message.Contains("Unhandled Exception"))
             {
                 this.IsBusy = false;
