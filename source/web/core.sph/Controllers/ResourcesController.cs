@@ -1,11 +1,13 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -30,7 +32,7 @@ namespace Bespoke.Sph.Web.Controllers
             var file = Server.MapPath(raw);
             if (System.IO.File.Exists(file))
             {
-                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(7));
+                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(ConfigurationManager.StaticFileCache));
                 this.Response.Cache.SetCacheability(HttpCacheability.Public);
                 var lastAccessTimeUtc = System.IO.File.GetLastAccessTimeUtc(file);
                 this.Response.Cache.SetLastModified(lastAccessTimeUtc);
@@ -41,7 +43,7 @@ namespace Bespoke.Sph.Web.Controllers
             var stream = assembly.GetManifestResourceStream(resourceName);
             if (null != stream)
             {
-                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(7));
+                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(ConfigurationManager.StaticFileCache));
                 this.Response.Cache.SetCacheability(HttpCacheability.Public);
                 var lastAccessTimeUtc = System.IO.File.GetLastAccessTimeUtc(Server.MapPath("~/bin/core.sph.dll"));
                 this.Response.Cache.SetLastModified(lastAccessTimeUtc);
@@ -76,22 +78,8 @@ namespace Bespoke.Sph.Web.Controllers
         {
             using (var md5Hash = MD5.Create())
             {
-                // Convert the input string to a byte array and compute the hash. 
-                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-                // Create a new Stringbuilder to collect the bytes 
-                // and create a string.
-                StringBuilder sBuilder = new StringBuilder();
-
-                // Loop through each byte of the hashed data  
-                // and format each one as a hexadecimal string. 
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
-
-                // Return the hexadecimal string. 
-                return sBuilder.ToString();
+                var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+                return string.Join("", data.Select(x => x.ToString("x2")));
 
             }
         }

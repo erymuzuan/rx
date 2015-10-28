@@ -10,7 +10,7 @@ namespace subscriber.version.control
         public override Task ProcessItem(Entity item)
         {
             var wc = ConfigurationManager.SphSourceDirectory;
-            var type = item.GetType();
+            var type = item.GetEntityType();
             var folder = Path.Combine(wc, type.Name);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);

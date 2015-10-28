@@ -36,7 +36,7 @@ namespace Bespoke.Sph.SourceBuilders
             }
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-            ObjectBuilder.AddCacheList<ILogger>(new Logger());
+            ObjectBuilder.AddCacheList<ILogger>(new ConsoleLogger());
             if (args.Length > 0)
             {
                 BuildWithArgsAsync(args).Wait();

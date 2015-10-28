@@ -1,9 +1,6 @@
 ﻿using System.IO;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
-using Bespoke.Sph.Web.ViewModels;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -15,7 +12,7 @@ namespace Bespoke.Sph.Web.Controllers
         public ActionResult GetResourceAsync(string resource, string language = "en")
         {
             var folder = Server.MapPath("~/App_Data/i18n/");
-            var file = string.Format("{0}.{1}.json", resource, language);
+            var file = $"{resource}.{language}.json";
             this.Response.ContentType = "application/json";
             if (!System.IO.File.Exists(Path.Combine(folder, file)))
                 return Content("{}");

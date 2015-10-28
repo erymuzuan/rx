@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 
@@ -26,6 +27,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
         }
 
+        public List<SqlTable> TableColumns { get; } = new List<SqlTable>();
         public new ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
     }
 }

@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="AdapterBuilder.cs" />
     <Compile Include="Builder.cs" />
+    <Compile Include="ConsoleLogger.cs" />
     <Compile Include="DesignationBuilder.cs" />
     <Compile Include="EntityDefinitionBuilder.cs" />
     <Compile Include="Program.cs" />

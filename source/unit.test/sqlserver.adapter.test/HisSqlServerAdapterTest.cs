@@ -21,6 +21,7 @@ namespace sqlserver.adapter.test
         {
             Console.WriteLine("init................");
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+            ObjectBuilder.AddCacheList<ILogger>(new Logger());
             var tables = new[]
             {
                 new AdapterTable {Name = "Patient"},
@@ -29,7 +30,7 @@ namespace sqlserver.adapter.test
             };
             m_sql = new SqlServerAdapter
             {
-                Server = @"(localdb)\ProjectsV12",
+                Server = @"(localdb)\Projects",
                 Database = "His",
                 TrustedConnection = true,
                 Schema = "dbo",
@@ -39,10 +40,10 @@ namespace sqlserver.adapter.test
 
             };
 
-            var bin = ConfigurationManager.WebPath + @"\bin\Dev.AdventureWorksPersons.dll";
+            var bin = ConfigurationManager.WebPath + @"\bin\DevV1.AdventureWorksPersons.dll";
             if (File.Exists(bin))
                 File.Delete(bin);
-            var pdb = ConfigurationManager.WebPath + @"\bin\Dev.AdventureWorksPersons.pdb";
+            var pdb = ConfigurationManager.WebPath + @"\bin\DevV1.AdventureWorksPersons.pdb";
             if (File.Exists(pdb))
                 File.Delete(pdb);
         }
@@ -52,7 +53,7 @@ namespace sqlserver.adapter.test
 
         public async Task CompileAsync()
         {
-            var bin = ConfigurationManager.WebPath + @"\bin\Dev.AdventureWorksPersons.dll";
+            var bin = ConfigurationManager.WebPath + @"\bin\DevV1.AdventureWorksPersons.dll";
             if (File.Exists(bin))
             {
                 m_dll = Assembly.LoadFile(bin);
@@ -111,14 +112,14 @@ namespace sqlserver.adapter.test
             await this.CompileAsync();
             var adapter = this.GetAdapter();
             var id = m_sql.GetDatabaseScalarValue<int>(
-                "SELECT TOP 1 [BusinessEntityID] FROM [Person].[Person] ORDER BY NEWID()");
+                "SELECT TOP 1 [Id] FROM [dbo].[Patient] ORDER BY NEWID()");
             var firstName = m_sql.GetDatabaseScalarValue<string>(
-                "SELECT [FirstName] FROM [Person].[Person] WHERE [BusinessEntityID] = @BusinessEntityID",
-                new SqlParameter("@BusinessEntityID", id));
+                "SELECT [Name] FROM [dbo].[Patient] WHERE [Id] = @Id",
+                new SqlParameter("@Id", id));
 
             var person2 = await adapter.LoadOneAsync(id);
             Assert.IsNotNull(person2);
-            Assert.AreEqual(firstName, person2.FirstName);
+            Assert.AreEqual(firstName, person2.Name);
 
 
         }

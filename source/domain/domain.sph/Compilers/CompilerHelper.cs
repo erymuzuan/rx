@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
@@ -9,6 +10,13 @@ namespace Bespoke.Sph.Domain
 
     public static class CompilerHelper
     {
+        public static void AddReference(this CompilerParameters parameters, params Type[] types)
+        {
+            foreach (var type in types)
+            {
+                parameters.ReferencedAssemblies.Add(type.Assembly.Location);
+            }
+        }
         public static MetadataReference CreateMetadataReference(this Type type)
         {
             return MetadataReference.CreateFromFile(type.Assembly.Location);
