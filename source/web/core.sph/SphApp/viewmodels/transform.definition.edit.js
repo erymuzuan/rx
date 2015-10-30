@@ -435,6 +435,20 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                     });
                 });
+                $.getScript("/scripts/jquery.contextMenu.js", function () {
+
+                    $.contextMenu({
+                        selector: "ul.nav-pills>li",
+                        callback: function (key) {
+                            console.log(ko.dataFor(this));
+                            console.log(key);
+                        },
+                        items: {
+                            "rename": { name: "Rename<br/>", icon: "bug" },
+                            "delete": { name: "Delete<br/>", icon: "circle-o" }
+                        }
+                    });
+                });
 
 
             },
@@ -792,7 +806,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             if(conn1.getOverlay("connLabel")){
                                 return;
                             }
-                            conn1.addOverlay(["Label", { label: label, location:0.5, id: "connLabel"} ]);
+                            conn1.addOverlay(["Label", { label: label, location: 0.5, id: "connLabel", cssClass: "connector-label" }]);
                             setTimeout(function(){
                                 conn1.removeOverlay("connLabel");
                             }, 5000);
