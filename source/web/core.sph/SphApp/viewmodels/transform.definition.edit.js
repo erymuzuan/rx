@@ -56,9 +56,6 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                         return ko.mapping.fromJS(v);
                                     });
                                     pages(items);
-                                }else{
-                                    var pg = new bespoke.sph.domain.TransformDefinitionPage(1);
-                                    pages.push(pg);
                                 }
                                 return $.get("/transform-definition/functoids");   
                             })
@@ -72,6 +69,14 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                     v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
                                 });
                                 td(b);
+                                if(pages().length === 0){
+
+                                    var pg = new bespoke.sph.domain.TransformDefinitionPage(1, "Page 1");
+                                    pg.functoids(_(b.FunctoidCollection()).map(function(v){ return ko.unwrap(v.WebId);}));
+                                    pg.mappings(_(b.MapCollection()).map(function(v){ return ko.unwrap(v.WebId);}));
+                                    pages.push(pg);
+                                }
+
                                 originalEntity = ko.toJSON(td);
                                 return context.get("/transform-definition/json-schema/" + b.OutputTypeName());
 
@@ -365,6 +370,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 };
 
                 buildTree("source-field-", root, "", sources);
+                $.support.touch = false;
                 $("#source-panel").jstree({
                     'core': {
                         'data': sources
@@ -780,7 +786,21 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             conn2.map = m;
                             return;
                         }
-                        var conn = jsPlumbInstance.connect({ source: src, target: target});
+                        var label = "From : "+ ko.unwrap(m.Source) +"<br>To : " + ko.unwrap(m.Destination),
+                            conn = jsPlumbInstance.connect({ source: src, target: target});
+                        conn.bind("mouseenter", function(conn1) {
+                            if(conn1.getOverlay("connLabel")){
+                                return;
+                            }
+                            conn1.addOverlay(["Label", { label: label, location:0.5, id: "connLabel"} ]);
+                            setTimeout(function(){
+                                conn1.removeOverlay("connLabel");
+                            }, 5000);
+                        }); 
+
+                        conn.bind("mouseout", function(conn1) {
+                            conn1.removeOverlay("connLabel");
+                        });
                         conn.map = m;
 
                     }catch (e) {

@@ -1,5 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "ClassName": "PatientToCustomer2",
   "CodeNamespace": "DevV1.Integrations.Transforms",
   "MapCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
@@ -82,6 +83,6 @@
   "Id": "patient-to-customer",
   "CreatedDate": "2015-07-16T14:16:43.0995791+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-08-21T18:00:47.3715279+08:00",
+  "ChangedDate": "2015-10-30T11:12:23.6408258+08:00",
   "WebId": "9d4b8ed2-3b75-4a06-c835-3cf119c602d7"
 }
