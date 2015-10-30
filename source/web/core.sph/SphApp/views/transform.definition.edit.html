@@ -84,8 +84,14 @@
         <ul id="source-panel" style="list-style: none;margin-left: -49px"></ul>
     </div>
     <div class="col-lg-6" data-bind="with: td">
-        <h3>Maps</h3>
-        <div id="container-canvas" data-bind="foreach: FunctoidCollection">
+        <div>
+            <ul data-bind="foreach: $root.pages" class="nav nav-pills">
+                <li role="presentation" data-bind="css: {'active' : active}">
+                    <a href="#" data-bind="text:name, click : $root.changePage"></a>
+                </li>
+            </ul>
+        </div>
+        <div id="container-canvas" data-bind="foreach: $root.functoids">
             <!-- ko ifnot : ko.unwrap($type) === 'Bespoke.Sph.Domain.SourceFunctoid, domain.sph' -->
             <div class="functoid" style="z-index: 999" data-bind="style : {'left': X() + 'px','top': Y() + 'px'},
                 attr : {id : WebId},
@@ -133,6 +139,10 @@
         </ul>
     </div>
 
+
+</div>
+
+<div class="row">
 </div>
 
 

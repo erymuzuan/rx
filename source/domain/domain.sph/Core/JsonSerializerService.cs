@@ -78,11 +78,13 @@ namespace Bespoke.Sph.Domain
                 if (prop.PropertyType.IsGenericType
                     && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
+                    jp.Value.Required = false;
                     var underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
                     if (underlyingType == typeof(DateTime))
                         jp.Value.Format = "date-time";
                     else if (underlyingType.BaseType == typeof(Enum))
                         jp.Value.Enum = new JArray(Enum.GetNames(underlyingType).Cast<object>());
+
                 }
                 else if (prop.PropertyType == typeof(DateTime))
                 {

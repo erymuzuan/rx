@@ -10,11 +10,28 @@
 /// <reference path="../../Scripts/jsPlumb/jsPlumb.js" />
 
 
-define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping", objectbuilders.app],
-    function (context, logger, system, koMapping, app) {
+bespoke.sph.domain.TransformDefinitionPage = function(no, name){
+    var model = {
+        no : ko.observable(no),
+        name : ko.observable(name),
+        functoids : ko.observableArray(),
+        mappings : ko.observableArray(),
+        source : ko.observable(),
+        target : ko.observable(),
+        active : ko.observable(true)
+    };
 
-        var td = ko.observable(new bespoke.sph.domain.TransformDefinition({Id: "0"})),
+    return model;
+}
+
+define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping", objectbuilders.app, objectbuilders.router],
+    function (context, logger, system, koMapping, app, router) {
+
+        var td = ko.observable(new bespoke.sph.domain.TransformDefinition({ Id: "0" })),
+            pages = ko.observableArray(),
+            currentPage = ko.observable(),
             functoidToolboxItems = ko.observableArray(),
+            functoids = ko.observableArray(),
             originalEntity = "",
             errors = ko.observableArray(),
             isBusy = ko.observable(false),
@@ -30,8 +47,21 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
 
 
-                var query = String.format("Id eq '{0}'", id);
-                return $.get("/transform-definition/functoids")
+                var query = String.format("Id eq '{0}'", id),                    
+                    pageId = String.format("transform-definition-page-{0}", id);
+                return  context.loadOneAsync("Setting", "Key eq '" + pageId + "'")
+                            .then(function(settingPage){
+                                if(settingPage){
+                                    var items = _(JSON.parse(ko.unwrap(settingPage.Value))).map(function(v){
+                                        return ko.mapping.fromJS(v);
+                                    });
+                                    pages(items);
+                                }else{
+                                    var pg = new bespoke.sph.domain.TransformDefinitionPage(1);
+                                    pages.push(pg);
+                                }
+                                return $.get("/transform-definition/functoids");   
+                            })
                             .then(function (list) {
                                 functoidToolboxItems(list.$values);
                                 return context.loadOneAsync("TransformDefinition", query);
@@ -55,15 +85,16 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                             })
                             .then(sourceSchema)
-                            .fail(function(a, b, text) {
+                            .fail(function (a, b, text) {
                                 console.error(a);
-                               // console.error(b);
+                                // console.error(b);
                                 logger.error(text);
                             });
 
             },
             isJsPlumbReady,
             jsPlumbInstance = null,
+            changingPage = false,
             initializeFunctoid = function (fnc) {
                 var element = $("#" + fnc.WebId());
                 jsPlumbInstance.makeSource(element, {
@@ -110,6 +141,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 functoid.Y(y - offset.top + $(window).scrollTop());
                 functoid.WebId(system.guid());
                 td().FunctoidCollection.push(functoid);
+                currentPage().functoids.push(ko.unwrap(functoid.WebId));
+                functoids.push(functoid);
 
                 setTimeout(function () {
                     initializeFunctoid(functoid);
@@ -133,9 +166,6 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 });
                 jsPlumbInstance = instance;
 
-                var sourceWindows = jsPlumb.getSelector("div.source-field");
-                var targetWindows = jsPlumb.getSelector("div.destination-field");
-
                 //instance.draggable(windows);
 
                 instance.bind("click", function (c) {
@@ -156,15 +186,22 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     if (!connectionInitialized) {
                         return;
                     }
+                    if(changingPage)return;
 
                     // direct map
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") > -1) {
                         var sourceField2 = info.sourceId.replace("source-field-", "").replace("-", "."),
                             destinationField2 = info.targetId.replace("destination-field-", "").replace("-", ".");
 
+                        var exists = _(td().MapCollection()).find(function(v){ return ko.unwrap(v.Source) === sourceField2 && ko.unwrap(v.Destination) === destinationField2;});
+                        if(exists)return;
+                        if(info.connection.map) return;
+
+
                         var dm = new bespoke.sph.domain.DirectMap({ Source: sourceField2, Destination: destinationField2, WebId: system.guid() });
                         td().MapCollection.push(dm);
                         info.connection.map = dm;
+                        currentPage().mappings.push(ko.unwrap(dm.WebId));
                     }
                     //  functoid map
                     if (info.targetId.indexOf("destination-field-") > -1 && info.sourceId.indexOf("source-field-") < 0) {
@@ -174,6 +211,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         fm.Functoid(info.sourceId);
                         td().MapCollection.push(fm);
                         info.connection.map = fm;
+                        currentPage().mappings.push(ko.unwrap(fm.WebId));
                     }
 
 
@@ -213,6 +251,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         selectArg(sourceFnc2, targetFnc2).done(function (result) {
                             if (result === "OK") {
                                 td().FunctoidCollection.push(sourceFnc2);
+                                currentPage().functoids.push(ko.unwrap(sourceFnc2.WebId));
+                                functoids.push(sourceFnc2);
                             } else {
                                 instance.detach(info.connection);
                             }
@@ -231,132 +271,11 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     }
                 });
 
-                // suspend drawing and initialise.
-                instance.doWhileSuspended(function () {
-
-                    instance.makeSource(sourceWindows, {
-                        filter: ".ep01",
-                        anchor: ["RightMiddle"],
-                        connector: ["Straight"],
-                        connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
-                    });
-
-
-                });
-
-                instance.makeTarget(targetWindows, {
-                    filter: ".ep02",
-                    dropOptions: { hoverClass: "dragHover" },
-                    anchor: ["LeftMiddle"],
-                    maxConnections: 1,
-                    onMaxConnections: function (info, e) {
-                        alert("Maximum connections (" + info.maxConnections + ") reached" + e);
-                    }
-                });
-
-
-                var makeFunctoidElement = function (item) {
-                    if (!item) {
-                        return;
-                    }
-                    var tool = _(functoidToolboxItems()).find(function (v) {
-                        return ko.unwrap(item.$type) === ko.unwrap(ko.unwrap(v.functoid).$type);
-                    });
-                    item.designer(tool.designer);
-
-                    var element = document.getElementById(ko.unwrap(item.WebId));
-                    instance.makeSource(element, {
-                        filter: ".fep",
-                        endPoint: ["Rectangle", { width: 10, height: 10 }],
-                        anchor: "RightMiddle",
-                        connector: ["Straight"],
-                        connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
-                    });
-                    if (item.ArgumentCollection().length) {
-                        instance.makeTarget(element, {
-                            dropOptions: { hoverClass: "dragHover" },
-                            anchor: ["LeftMiddle"],
-                            maxConnections: item.ArgumentCollection().length,
-                            onMaxConnections: function (info, e) {
-                                alert("Maximum connections (" + info.maxConnections + ") reached" + e);
-                            }
-                        });
-                    }
-                    instance.draggable(element);
-                };
-
-                // functoids maps
-                var fncContains = function (webid) {
-                    var found = null;
-                    _(td().FunctoidCollection()).each(function (f) {
-                        _(f.ArgumentCollection()).each(function (m) {
-                            if (ko.unwrap(m.Functoid) === ko.unwrap(webid)) {
-                                found = ko.unwrap(f.WebId);
-                            }
-                        });
-                    });
-                    return found;
-                };
-
-                // create the source and target for each functoid
-                _(td().FunctoidCollection()).each(function (f) {
-                    if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
-                        makeFunctoidElement(f);
-                    }
-                });
-
-                // creates the connection for each argument list
-                _(td().FunctoidCollection()).each(function (f) {
-                    if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
-                        _(f.ArgumentCollection()).each(function (a) {
-                            var source = document.getElementById(ko.unwrap(a.Functoid));
-                            if (typeof a.Functoid !== "function" || !source) {
-                                return;
-                            }
-                            var conn = instance.connect({ source: source, target: ko.unwrap(f.WebId) });
-                            conn.functoidArg = a.Functoid;
-                        });
-                    }
-                });
-
-                // for source to functoid
-                _(td().FunctoidCollection()).each(function (f) {
-                    if (ko.unwrap(f.$type) === "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
-                        var target = document.getElementById(fncContains(f.WebId));
-                        if (!target) {
-                            td().FunctoidCollection.remove(f);
-                            return;
-                        }
-                        var conn = instance.connect({ source: "source-field-" + ko.unwrap(f.Field).replace(".", "-"), target: target });
-                        conn.sf = f;
-
-                    }
-                });
-
-                // direct maps
-                _(td().MapCollection()).each(function (m) {
-                    if (ko.unwrap(m.Source)) {
-                        try {
-
-                            var conn = instance.connect({ source: "source-field-" + ko.unwrap(m.Source).replace(".", "-"), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-") });
-                            conn.map = m;
-                        } catch (e) {
-                            console.log("Cannot connect", ko.mapping.toJS(m));
-                        }
-                    }
-                });
-                // functoid maps
-                _(td().MapCollection()).each(function (m) {
-                    if (typeof m.Source === "undefined") {
-                        var conn = instance.connect({ source: ko.unwrap(m.Functoid), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-") });
-                        conn.map = m;
-                    }
-                });
 
 
                 connectionInitialized = true;
-
                 jsPlumb.fire("jsPlumbDemoLoaded", instance);
+                currentPage(pages()[0]);
 
             },
             attached = function () {
@@ -383,92 +302,118 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 if (!td().OutputTypeName()) {
                     return;
                 }
-                var icon = function (html, item) {
-                    var type = item.type,
-                        format = item.format;
-                    if (typeof type === "object") {
-                        type = type[0];
-                    }
-                    if (format === "date-time") {
-                        return "<i class=\"glyphicon glyphicon-calendar\" style=\"font-size:12px;color:orange;margin-right:5px\"></i>";
-                    }
-                    if (type === "string") {
-                        return "<i class=\"glyphicon glyphicon-bold\" style=\"font-size:12px;color:brown;margin-right:5px\"></i>";
-                    }
-                    if (type === "integer") {
-                        return "<i class=\"fa fa-sort-numeric-asc\" style=\"font-size:12px;color:blue;margin-right:5px\"></i>";
-                    }
-                    if (type === "object") {
-                        return "<i class=\"fa fa-building-o\" style=\"font-size:12px;color:grey;margin-right:5px\"></i>";
-                    }
-                    if (type === "number") {
-                        return "<i class=\"glyphicon glyphicon-usd\" style=\"font-size:12px;color:green;margin-right:5px\"></i>";
-                    }
-                    if (type === "boolean") {
-                        return "<i class=\"glyphicon glyphicon-ok\" style=\"font-size:12px;color:red;margin-right:5px\"></i>";
-                    }
-                    if (type === "array") {
-                        return "<i class=\"fa fa-list\" style=\"font-size:12px;color:gray;margin-right:5px\"></i>";
-                    }
-                    return "";
-                },
-                    shtml = "",
-                    root = sourceSchema();
-
-                var buildSourceTree = function (branch, parent) {
-                    for (var key in branch.properties) {
-                        var iconHtml = icon(shtml, branch.properties[key]);
-                        shtml += "<li><div style=\"display: inline-block\" class=\"source-field\" id=\"source-field-" + parent + key + "\">" + iconHtml
-                            + "<span class=\"ep01\">" + key + "</span>";
-
-                        var type = branch.properties[key].type;
+                var icon = function (item) {
+                        var type = item.type,
+                            format = item.format;
                         if (typeof type === "object") {
                             type = type[0];
                         }
+                        if (format === "date-time") {
+                            return "glyphicon glyphicon-calendar";
+                        }
+                        if (type === "string") {
+                            return "glyphicon glyphicon-bold";
+                        }
+                        if (type === "integer") {
+                            return "fa fa-sort-numeric-asc";
+                        }
                         if (type === "object") {
-                            shtml += "<ul style=\"list-style: none\">";
-                            buildSourceTree(branch.properties[key], parent + key + "-");
-                            shtml += "</ul>";
+                            return "fa fa-building-o";
+                        }
+                        if (type === "number") {
+                            return "glyphicon glyphicon-usd";
+                        }
+                        if (type === "boolean") {
+                            return "glyphicon glyphicon-ok";
                         }
                         if (type === "array") {
-                            shtml += "<ul style=\"list-style: none\">";
-                            buildSourceTree(branch.properties[key].items, parent + key + "-");
-                            shtml += "</ul>";
+                            return "fa fa-list";
                         }
-                        shtml += "</div></li>";
-                    }
+                        return "";
+                    },
+                    root = sourceSchema();
+
+                var sources = [],
+                    buildTree = function (side, branch, parent, items, parentNode) {
+                        for (var key in branch.properties) {
+                            if (branch.properties.hasOwnProperty(key)) {
+
+                                var leaf = {
+                                    id: side + parent + key ,
+                                    icon : icon(branch.properties[key]),
+                                    text: key + (branch.properties[key].required === false ? " ?" : "")
+                                };
+                                if(parentNode)
+                                    leaf.parent = parentNode.id;
+                                else
+                                    leaf.parent = "#";
+
+                                items.push(leaf);
+
+                                var type = branch.properties[key].type;
+                                if (typeof type === "object") {
+                                    type = type[0];
+                                }
+                                if (type === "object") {
+                                    buildTree(side, branch.properties[key], parent + key + "-", items, leaf);
+                                }
+                                if (type === "array") {
+                                    buildTree(side, branch.properties[key].items, parent + key + "-", items, leaf);
+                                }
+                            }
+                        }
                 };
 
-                buildSourceTree(root, "");
-                $("#source-panel").html(shtml);
+                buildTree("source-field-", root, "", sources);
+                $("#source-panel").jstree({
+                    'core': {
+                        'data': sources
+                    },
+                    "contextmenu" :{
+                        items:[
+                               {
+                                    label: "Hide",
+                                    action: function () {
+                                        var parent = $(element).jstree("get_selected", true),
+                                            mb = parent[0].data;
 
-                var dhtml = "",
-                    buildDestinationTree = function (branch, parent) {
-                        for (var key in branch.properties) {
-                            var iconHtml = icon(dhtml, branch.properties[key]);
-                            dhtml += "<li><div><div class=\"destination-field\" id=\"destination-field-" + parent + key + "\">" + iconHtml +
-                                "<span class=\"ep02\">" + key + "</span></div>";
 
-                            var type = branch.properties[key].type;
-                            if (typeof type === "object") {
-                                type = type[0];
-                            }
-                            if (type === "object") {
-                                dhtml += "<ul style=\"list-style: none\">";
-                                buildDestinationTree(branch.properties[key], parent + key + "-");
-                                dhtml += "</ul>";
-                            }
-                            if (type === "array") {
-                                dhtml += "<ul style=\"list-style: none\">";
-                                buildDestinationTree(branch.properties[key].items, parent + key + "-");
-                                dhtml += "</ul>";
-                            }
-                            dhtml += "</div></li>";
-                        }
-                    };
+                                    }
+                                },
+                        ]
+                    },
+                    "plugins": ["search","contextmenu"]
 
-                buildDestinationTree(destinationSchema(), "");
-                $("#destination-panel").html(dhtml);
+                })
+                .jstree("open_all")
+                .bind("after_open.jstree after_close.jstree", function(){
+                    currentPage(currentPage());
+                });
+
+
+                var destinations = [];
+                buildTree("destination-field-", destinationSchema(), "", destinations);
+                $("#destination-panel").jstree({
+                    'core': {
+                        'data': destinations
+                    },
+                    "contextmenu" :{
+                        items:[
+                               {
+                                    label: "Hide",
+                                    action: function () {
+                                        var parent = $(element).jstree("get_selected", true),
+                                            mb = parent[0].data;
+
+
+                                    }
+                                },
+                        ]
+                    },
+                    "plugins": ["search","contextmenu"]
+
+                });
+                $("#destination-panel li.jstree-leaf").addClass("target-item");
 
                 $("#search-box-tree").on("keyup", function () {
                     var text = $(this).val().toLowerCase();
@@ -501,19 +446,26 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         fnt.Y(y);
                     }
                 });
-                var data = ko.mapping.toJSON(td);
+                var data = ko.mapping.toJSON(td),
+                    pageId = String.format("transform-definition-page-{0}", ko.unwrap(td().Id)),
+                    pageSetting = [new bespoke.sph.domain.Setting({Id : pageId, WebId : pageId, Key : pageId, Value : ko.mapping.toJSON(pages)})],
+                    pageJson = ko.mapping.toJSON(pageSetting);
                 isBusy(true);
 
 
-                return context.post(data, "/transform-definition")
-                     .done(function (result) {
-                         isBusy(false);
-                         if (!td().Id() || td().Id() === "0") {
-                             td().Id(result.id);
-                             router.navigate("transform.definition.edit/" + result.id);
-                         }
 
-                         originalEntity = ko.toJSON(td);
+                return context.post(pageJson, "/setting/save")
+                        .then(function(){
+                            return context.post(data, "/transform-definition");
+                        }) 
+                        .then(function (result) {
+                             isBusy(false);
+                             if (!td().Id() || td().Id() === "0") {
+                                 td().Id(result.id);
+                                 router.navigate("transform.definition.edit/" + result.id);
+                             }
+
+                             originalEntity = ko.toJSON(td);
                      });
             },
             canDeactivate = function () {
@@ -615,7 +567,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     });
 
             },
-            generatePartialAsync = function() {
+            generatePartialAsync = function () {
                 return context.post(ko.mapping.toJSON(td), "/transform-definition/generate-partial")
                          .done(function (result) {
                              if (result.success) {
@@ -624,11 +576,239 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                  logger.error("You alread have the partial code define, in " + result.message);
                              }
                          });
+            },
+            addPage = function(){
+                var name = window.prompt("Give your page a name", "Page " + (pages().length + 1)),
+                    pg = new bespoke.sph.domain.TransformDefinitionPage(pages().length + 1, name);
+                if(!name) return Task.fromResult(0);;
+
+                pages.push(pg);
+
+                currentPage(pg);
+                return Task.fromResult(0);
+            },
+            changePage = function(page){
+                console.log(ko.toJS(page));
+                currentPage(page);
             };
+
+            currentPage.subscribe(function(page){
+
+                var instance = jsPlumbInstance;
+                changingPage = true;
+
+                _(pages()).each(function(p){ p.active(false);});
+                page.active(true);
+
+                instance.deleteEveryEndpoint();
+                // redraw everything here
+                var sourceWindows = jsPlumb.getSelector("#source-panel li.jstree-leaf");
+                var targetWindows = jsPlumb.getSelector("#destination-panel li.jstree-leaf");
+
+               
+                instance.makeSource(sourceWindows, {
+                        anchor: ["RightMiddle"],
+                        connector: ["Straight"],
+                        connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
+                    });
+                          
+
+                instance.makeTarget(targetWindows, {
+                    dropOptions: { hoverClass: "dragHover" },
+                    anchor: ["LeftMiddle"],
+                    maxConnections: 1,
+                    onMaxConnections: function (info, e) {
+                        alert("Maximum connections (" + info.maxConnections + ") reached" + e);
+                    }
+                });
+
+                var currentPageFunctoids = _(td().FunctoidCollection()).filter(function(v){
+                    return page.functoids().indexOf(ko.unwrap(v.WebId)) > -1;
+                });
+                functoids(currentPageFunctoids);
+
+                // -- STARTS
+                var makeFunctoidElement = function (item) {
+                    if (!item) {
+                        return;
+                    }
+                    var tool = _(functoidToolboxItems()).find(function (v) {
+                        return ko.unwrap(item.$type) === ko.unwrap(ko.unwrap(v.functoid).$type);
+                    });
+                    if(typeof item.designer === "function"){
+                        item.designer(tool.designer);
+                    }
+                    else{
+                        item.designer = ko.observable(tool.designer);
+                    }
+
+                    var element = document.getElementById(ko.unwrap(item.WebId));
+                    instance.makeSource(element, {
+                        filter: ".fep",
+                        endPoint: ["Rectangle", { width: 10, height: 10 }],
+                        anchor: "RightMiddle",
+                        connector: ["Straight"],
+                        connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
+                    });
+                    if (item.ArgumentCollection().length) {
+                        instance.makeTarget(element, {
+                            dropOptions: { hoverClass: "dragHover" },
+                            anchor: ["LeftMiddle"],
+                            maxConnections: item.ArgumentCollection().length,
+                            onMaxConnections: function (info, e) {
+                                alert("Maximum connections (" + info.maxConnections + ") reached" + e);
+                            }
+                        });
+                    }
+                    instance.draggable(element);
+                };
+
+                // functoids maps
+                var fncContains = function (webid) {
+                    var found = null;
+                    _(td().FunctoidCollection()).each(function (f) {
+                        if(page.functoids().indexOf(ko.unwrap(f.WebId)) < 0 ) return;
+                        _(f.ArgumentCollection()).each(function (m) {
+                            if (ko.unwrap(m.Functoid) === ko.unwrap(webid)) {
+                                found = ko.unwrap(f.WebId);
+                            }
+                        });
+                    });
+                    return found;
+                };
+
+                // create the source and target for each functoid
+                _(td().FunctoidCollection()).each(function (f) {
+                    if(page.functoids().indexOf(ko.unwrap(f.WebId)) < 0 ) return;
+                    if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
+                        makeFunctoidElement(f);
+                    }
+                });
+
+                // creates the connection for each argument list
+                _(td().FunctoidCollection()).each(function (f) {
+                    if(page.functoids().indexOf(ko.unwrap(f.WebId)) < 0 ) return;
+                    if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
+                        _(f.ArgumentCollection()).each(function (a) {
+                            var source = document.getElementById(ko.unwrap(a.Functoid));
+                            if (typeof a.Functoid !== "function" || !source) {
+                                return;
+                            }
+                            var conn = instance.connect({ source: source, target: ko.unwrap(f.WebId) });
+                            conn.functoidArg = a.Functoid;
+                        });
+                    }
+                });
+
+                // for source to functoid
+                _(td().FunctoidCollection()).each(function (f) {
+                    if(page.functoids().indexOf(ko.unwrap(f.WebId)) < 0 ) return;
+                    if (ko.unwrap(f.$type) === "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
+                        var target = document.getElementById(fncContains(f.WebId)),
+                            src = "source-field-" + ko.unwrap(f.Field).replace(".", "-"),
+                            src2 = "source-field-" + ko.unwrap(f.Field).replace(".", "-");
+                        if (!target) {
+                            td().FunctoidCollection.remove(f);
+                            return;
+                        }
+                        while(src.lastIndexOf("-") > -1 ){
+                            if(document.getElementById(src))break;
+                            src = src.substring(0, src.lastIndexOf("-"));
+                        }
+
+                        var original = src2 === src;
+                        if(!original){
+
+                            var conn2 = jsPlumbInstance.connect({ 
+                                        source: src, 
+                                        target: target, 
+                                        paintStyle:{ lineWidth:1, strokeStyle:'rgba(190, 190, 190, 0.4)' },
+                                        anchors:["Right", "Left"],
+                                        endpoint:[ "Rectangle", { width:10, height:8 } ]
+                                    });
+                            conn2.sf = f;
+                            return;
+                        }
+
+
+                        try {
+
+                            var conn = instance.connect({ source: src, target: target });
+                            conn.sf = f;
+                        }
+                        catch(e){
+                            console.log("Cannot connect", ko.mapping.toJS(f));
+                            console.log(e);
+                        }
+
+                    }
+                });
+
+                // END
+                // direct maps
+                _(td().MapCollection()).each(function (m) {
+                    var id = ko.unwrap(m.WebId);
+                    if(page.mappings().indexOf(id) < 0 )return;
+                    if(!ko.unwrap(m.Source)) return;
+                    
+                    try {
+
+                        var src1 = "source-field-" + ko.unwrap(m.Source).replace(".", "-"),
+                            src = src1,
+                            target = "destination-field-" + ko.unwrap(m.Destination).replace(".", "-");
+
+                        while(src.lastIndexOf("-") > -1 ){
+                            if(document.getElementById(src))break;
+                            src = src.substring(0, src.lastIndexOf("-"));
+                        }
+
+
+
+                        if(!document.getElementById(src))return;
+                        if(!document.getElementById(target))return;
+
+                        var original = src1 === src;
+                        if(!original){
+
+                            var conn2 = jsPlumbInstance.connect({ 
+                                        source: src, 
+                                        target: target, 
+                                        paintStyle:{ lineWidth:1, strokeStyle:'rgba(190, 190, 190, 0.4)' },
+                                        anchors:["Right", "Left"],
+                                        endpoint:[ "Rectangle", { width:10, height:8 } ]
+                                    });
+                            conn2.map = m;
+                            return;
+                        }
+                        var conn = jsPlumbInstance.connect({ source: src, target: target});
+                        conn.map = m;
+
+                    }catch (e) {
+                        console.log("Cannot connect", ko.mapping.toJS(m));
+                        console.log(e);
+                    }
+                    
+                });
+                // functoid maps
+                _(td().MapCollection()).each(function (m) {
+                    var id = ko.unwrap(m.WebId);
+                    if(page.mappings().indexOf(id) < 0 ){
+                        return;
+                    }
+
+                    if (typeof m.Source === "undefined") {
+                        var conn = jsPlumbInstance.connect({ source: ko.unwrap(m.Functoid), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-") });
+                        conn.map = m;
+                    }
+                });
+
+                changingPage = false;
+            });
 
         var vm = {
             isBusy: isBusy,
             errors: errors,
+            functoids : functoids,
             functoidToolboxItems: functoidToolboxItems,
             activate: activate,
             canDeactivate: canDeactivate,
@@ -638,6 +818,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             destinationSchema: destinationSchema,
             td: td,
             editProp: editProp,
+            changePage : changePage,
+            pages : pages,
             toolbar: {
                 saveCommand: save,
                 commands: ko.observableArray([
@@ -660,7 +842,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         command: generatePartialAsync,
                         caption: "Generate Partial",
                         icon: "fa fa-code",
-                        enable : ko.computed(function() {
+                        enable: ko.computed(function () {
                             if (ko.unwrap(td().Id) === "0") {
                                 return false;
                             }
@@ -669,6 +851,11 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             }
                             return true;
                         })
+                    },
+                    {
+                        command : addPage,
+                        caption : "Add Page",
+                        icon : "fa fa-file-o"
                     }
                 ])
             }
