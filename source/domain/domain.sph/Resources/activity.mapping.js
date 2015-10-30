@@ -17,11 +17,11 @@ define(["services/datacontext", "services/logger", "plugins/dialog",objectbuilde
             wd = ko.observable(),
             activate = function () {
                 destinationOptions(wd().VariableDefinitionCollection());
-                var query = "Id ne '0'";
-                var tcs = new $.Deferred();
+                var query = "Id ne '0'",
+                    tcs = new $.Deferred();
 
                 if (activity().MappingSourceCollection().length === 0) {
-                    activity().MappingSourceCollection().push(new bespoke.sph.domain.MappingSource());
+                    activity().MappingSourceCollection([new bespoke.sph.domain.MappingSource()]);
                 }
 
                 context.getTuplesAsync("TransformDefinition", query, "Id", "Name")
@@ -50,7 +50,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog",objectbuilde
                     context.loadOneAsync("TransformDefinition", "Id eq '" + ko.unwrap(md.Id) + "'")
                         .done(function (td) {
                             if (td.InputTypeName()) {
-                                activity().MappingSourceCollection().push(new bespoke.sph.domain.MappingSource());
+                                activity().MappingSourceCollection([new bespoke.sph.domain.MappingSource()]);
                             } else {
                                 var args = _(td.InputCollection()).map(function (v) {
                                     return bespoke.sph.domain.MappingSource({ WebId: ko.unwrap(v.Name) });
