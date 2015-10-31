@@ -71,7 +71,10 @@ namespace domain.test.entities
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
-            var assembly = Assembly.LoadFrom(result.Output);
+            var dll = AppDomain.CurrentDomain.BaseDirectory + "\\" + Path.GetFileName(result.Output);
+            File.Copy(result.Output, dll);
+
+            var assembly = Assembly.LoadFrom(dll);
             var type = assembly.GetType($"Bespoke.{ConfigurationManager.ApplicationName}_lead.Domain.Lead");
             Assert.IsNotNull(type, type.FullName + " is null");
 

@@ -64,7 +64,7 @@ namespace domain.test.triggers
         {
             dynamic customer = this.GetCustomerInstance();
             customer.CreatedDate = DateTime.Today.AddDays(-2);
-            customer.CustomerId = 1;
+            customer.Id = "1";
             customer.FullName = "Wan Fatimah";
 
             var rule = new Rule

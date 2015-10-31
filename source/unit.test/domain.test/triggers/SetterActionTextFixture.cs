@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -10,7 +11,7 @@ namespace domain.test.triggers
     class SetterActionTextFixture
     {
         [Test]
-        public void Setter()
+        public async Task Setter()
         {
             var persistence = new MockPersistence();
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
@@ -31,7 +32,7 @@ namespace domain.test.triggers
             };
             setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "FullName", Field = new ConstantField { Type = typeof(string), Value = "Wan Fatimah Wan Husain" } }); ;
             setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "PrimaryContact", Field = new DocumentField { Path = "CreatedBy", Type = typeof(string) } });
-            setter.ExecuteAsync(new RuleContext(customer)).Wait(5000);
+            await setter.ExecuteAsync(new RuleContext(customer));
 
             dynamic item = persistence.ChangedItems.First();
             Assert.AreEqual("Wan Fatimah Wan Husain", item.FullName);

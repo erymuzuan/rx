@@ -227,7 +227,7 @@ namespace domain.test.triggers
         {
             var customer = this.GetCustomerInstance();
             customer.Rating = 6;
-            customer.CustomerId = 15;
+            customer.Id = "15";
 
             var doc = new DocumentField { Path = "Rating", Type = typeof(int) };
             var rule = new Rule
@@ -247,10 +247,11 @@ namespace domain.test.triggers
         public void DocumentFieldLeConst()
         {
             var customer = this.GetCustomerInstance();
-            customer.CustomerId = 50;
+            customer.Id = "50";
+            customer.Age = 50;
             var rule = new Rule
                 {
-                    Left = new DocumentField { Path = "CustomerId", Type = typeof(int) },
+                    Left = new DocumentField { Path = "Age", Type = typeof(int) },
                     Operator = Operator.Le,
                     Right = new ConstantField { Value = 500 }
                 };
@@ -294,10 +295,10 @@ namespace domain.test.triggers
         public void DocumentFieldLtConst()
         {
             var customer = this.GetCustomerInstance();
-            customer.CustomerId = 300 ;
+            customer.Age = 300 ;
             var rule = new Rule
                 {
-                    Left = new DocumentField { Path = "CustomerId", Type = typeof(int) },
+                    Left = new DocumentField { Path = "Age", Type = typeof(int) },
                     Operator = Operator.Lt,
                     Right = new ConstantField { Value = 400 }
                 };

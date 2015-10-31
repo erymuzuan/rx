@@ -202,7 +202,7 @@ namespace domain.test.workflows
         [Test]
         public async Task ReceveiveCorrelationSet()
         {
-            const string PATIENT_TYPE_FULL_NAME = "Bespoke.Dev_patient.Domain.Patient";
+            string PATIENT_TYPE_FULL_NAME = $"Bespoke.{ConfigurationManager.ApplicationName}_patient.Domain.Patient";
             var wd = new WorkflowDefinition { Name = "Receive Register new patient", Id = "receive-register-patient", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = PATIENT_TYPE_FULL_NAME });
@@ -239,7 +239,7 @@ namespace domain.test.workflows
             StringAssert.Contains("RegisterPatientAsync", code);
 
             var options = new CompilerOptions();
-            options.AddReference(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll"));
+            options.AddReference(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + $@"\{ConfigurationManager.ApplicationName}.Patient.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));

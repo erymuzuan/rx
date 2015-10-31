@@ -39,8 +39,7 @@ namespace domain.test.triggers
         {
             m_efMock.Clear();
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", File.ReadAllText(@"C:\project\work\sph\bin\sources\EntityDefinition\Patient.json").DeserializeFromJson<EntityDefinition>());
-            var json =
-                File.ReadAllText(@"C:\project\work\sph\source\unit.test\domain.test\triggers\assembly.action.json");
+            var json = File.ReadAllText(@"C:\project\work\sph\source\unit.test\domain.test\triggers\assembly.action.json");
             var trigger = json.DeserializeFromJson<Trigger>();
             var code = await trigger.GenerateCodeAsync();
             Console.WriteLine(code);
@@ -195,7 +194,7 @@ namespace Dev.SampleTriggers
 
             var compiler = CSharpCompilation.Create("just.a.test.assembly")
                 .WithOptions(options)
-                .AddReferences(MetadataReference.CreateFromFile("Dev.Patient.dll"),
+                .AddReferences(MetadataReference.CreateFromFile($"{ConfigurationManager.ApplicationName}.Patient.dll"),
                 this.CreateMetadataReference<object>(),
                 this.CreateMetadataReference<EnumerableQuery>(),
                 this.CreateMetadataReference<Task>(),

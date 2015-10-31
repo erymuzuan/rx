@@ -162,6 +162,8 @@ namespace domain.test.entities
             var ed = this.CreatePatientDefinition("PatientWithBusinessRule");
             ed.EntityOperationCollection.Add(release);
             ed.BusinessRuleCollection.Add(mustBeDeadRule);
+            string jsonPath = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ed.Id}.json";
+            File.WriteAllText(jsonPath, ed.ToJsonString(true));
 
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
@@ -186,6 +188,8 @@ namespace domain.test.entities
             Console.WriteLine();
             //Assert.IsFalse(vr.success);
             //Assert.AreEqual(3, vr.rules.Length);
+            if(File.Exists(jsonPath))
+                File.Delete(jsonPath);
 
         }
         [Test]
@@ -201,6 +205,9 @@ namespace domain.test.entities
             var ed = this.CreatePatientDefinition("PatientReleaseOperationWithSetter");
             ed.EntityOperationCollection.Add(release);
             release.SetterActionChildCollection.Add(statusSetter);
+            string jsonPath = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ed.Id}.json";
+            File.WriteAllText(jsonPath, ed.ToJsonString(true));
+
 
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
