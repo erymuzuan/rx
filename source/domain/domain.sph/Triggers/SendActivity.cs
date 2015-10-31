@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Domain
                     code.AppendLinf("               var result = await adapter.{0}(this.{1});", this.Method, this.ArgumentPath);
                     if (null != vrb)
                     {
-                        code.AppendLinf("               this.{0} =  ({1})result;", this.ReturnValuePath, Type.GetType(vrb.TypeName).ToCSharp());
+                        code.AppendLinf("               this.{0} =  ({1})result;", this.ReturnValuePath, Strings.GetType(vrb.TypeName).ToCSharp());
                     }
                     code.AppendLinf("               break;");
                     code.AppendLine("           }");
@@ -84,7 +84,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("        var response = await adapter.{0}(this.{1});", this.Method, this.ArgumentPath);
                 if (null != vrb)
                 {
-                    code.AppendLinf("        this.{0} =  ({1})response;", this.ReturnValuePath, Type.GetType(vrb.TypeName).ToCSharp());
+                    code.AppendLinf("        this.{0} =  ({1})response;", this.ReturnValuePath, Strings.GetType(vrb.TypeName).ToCSharp());
                 }
 
             }

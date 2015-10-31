@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Mvc;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Areas.App.Controllers
@@ -16,7 +17,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
 
         public ActionResult TriggerPathPickerJson(string id)
         {
-            var type = Type.GetType(string.Format("Bespoke.Sph.Domain.{0}, domain.sph", id));
+            var type = Strings.GetType($"Bespoke.Sph.Domain.{id}, domain.sph");
 
             var text = new List<string>();
             TypeHelper.BuildFlatJsonTreeView(text, "", type);
@@ -27,7 +28,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
 
         public ActionResult TriggerPathPickerHtml(string id)
         {
-            var type = Type.GetType(string.Format("Bespoke.Sph.Domain.{0}, domain.sph", id));
+            var type = Strings.GetType($"Bespoke.Sph.Domain.{id}, domain.sph");
 
             var text = new StringBuilder();
             TypeHelper.BuildTreeView(text, "", type);

@@ -39,7 +39,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateAssignmentCode()
         {
-            return string.Format("({1})__result{0}", this.Index, Type.GetType(this.OutputTypeName).ToCSharp());
+            return string.Format("({1})__result{0}", this.Index, Strings.GetType(this.OutputTypeName).ToCSharp());
         }
 
         public override string GenerateStatementCode()

@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return Type.GetType(this.TypeName);
+                return Strings.GetType(this.TypeName);
             }
             set
             {

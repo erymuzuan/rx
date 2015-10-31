@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -31,10 +30,12 @@ namespace Bespoke.Sph.Domain
             if (this.Name.Contains(" "))
             {
                 result.Result = false;
-                result.Errors.Add(new BuildError(this.WebId) { Message = string.Format("[Variable] \"{0}\" cannot contains space ", this.Name) });
+                result.Errors.Add(new BuildError(this.WebId) { Message =$"[Variable] \"{this.Name}\" cannot contains space "
+                });
             }
             if (null == this.Type)
-                result.Errors.Add(new BuildError(this.WebId) { Message = string.Format("[Variable]  cannot find the type \"{0}\"", this.TypeName) });
+                result.Errors.Add(new BuildError(this.WebId) { Message =$"[Variable]  cannot find the type \"{this.TypeName}\""
+                });
 
 
             return result;
@@ -46,14 +47,8 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var t = Type.GetType(this.TypeName);
-                if (null == t)
-                {
-                    var splits = this.TypeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    var dll = System.Reflection.Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
-                    t = dll.GetType(splits.First().Trim());
-                }
-                return t;
+                return Strings.GetType(this.TypeName);
+                
             }
             set
             {
