@@ -98,19 +98,19 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(this.SchemaStoreId))
                 result.Errors.Add(new BuildError(this.WebId) { Message = "You must have exactly one schema defined" });
 
+            var variableViolations = from vr in this.VariableDefinitionCollection
+                                     let v = vr.ValidateBuild(this)
+                                     where null != v
+                                     select v.Errors;
+            result.Errors.AddRange(variableViolations.SelectMany(v => v));
 
-            foreach (var variable in this.VariableDefinitionCollection)
-            {
-                var v = variable.ValidateBuild(this);
-                result.Errors.AddRange(v.Errors);
-            }
+       
+            var activityViolations = from a in this.ActivityCollection
+                                     let v = a.ValidateBuild(this)
+                                     where null != v
+                                     select v.Errors;
+            result.Errors.AddRange(activityViolations.SelectMany(v => v));
 
-            foreach (var activity in this.ActivityCollection)
-            {
-                var a = activity.ValidateBuild(this);
-                if (null == a) continue;
-                result.Errors.AddRange(a.Errors);
-            }
             result.Result = !result.Errors.Any();
             return result;
         }
@@ -178,7 +178,7 @@ namespace Bespoke.Sph.Domain
                     .Where(u => !File.Exists($"{ConfigurationManager.CompilerOutputPath}\\{Path.GetFileName(u.Location)}"))
                     .ToList()
                     .ForEach(u => parameters.ReferencedAssemblies.Add(u.Location));
-            
+
 
                 // custom entities
                 foreach (var ass in options.ReferencedAssembliesLocation)

@@ -67,7 +67,7 @@ namespace Bespoke.Sph.Domain
             }
             var ns = m_xsd.Attribute("targetNamespace");
 
-            @class.AttributeCollection.Add(string.Format("   [XmlType(\"{0}\",  Namespace=\"{1}\")]", name, ns != null ? ns.Value : ""));
+            @class.AttributeCollection.Add($"   [XmlType(\"{name}\",  Namespace=\"{ns?.Value ?? ""}\")]");
 
 
             members.AddRange(this.GetMembers(ct));

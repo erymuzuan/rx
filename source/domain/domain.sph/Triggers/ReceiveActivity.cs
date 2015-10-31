@@ -14,36 +14,34 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Receive", TypeName = "Receive", Description = "Wait for a message to be delivered")]
     public partial class ReceiveActivity : Activity
     {
-        public override bool IsAsync
-        {
-            get { return true; }
-        }
+        public override bool IsAsync => true;
+
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
 
             var result = base.ValidateBuild(wd);
 
             if (this.FollowingCorrelationSetCollection.Count > 0 && this.IsInitiator)
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[ReceiveActivity] : {0} => Receive must follow a correlation or set to be a start activity but not both", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity but not both"));
 
             if (this.FollowingCorrelationSetCollection.Count == 0 && !this.IsInitiator)
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[ReceiveActivity] : {0} => Receive must follow a correlation or set to be a start activity", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity"));
 
             if (string.IsNullOrWhiteSpace(this.Operation))
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[ReceiveActivity] : {0} => does not have Operation", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => does not have Operation"));
             if (string.IsNullOrWhiteSpace(this.MessagePath))
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[ReceiveActivity] : {0} => does not have the MessagePath", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => does not have the MessagePath"));
 
             var variable = wd.VariableDefinitionCollection.SingleOrDefault(x => x.Name == this.MessagePath);
             if (null != variable)
             {
-                var vt = Type.GetType(variable.TypeName);
+                var vt = Strings.GetType(variable.TypeName);
                 if (null == vt)
-                    result.Errors.Add(new BuildError(this.WebId, string.Format("[ReceiveActivity] : {0} => Cannot load the type for {1} in the MesssagePath", this.Name, variable.TypeName)));
+                    result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => Cannot load the type for {variable.TypeName} in the MesssagePath"));
             }
             else
             {
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[ReceiveActivity] : {0} => Cannot find variable {1} in the VariableCollection", this.Name, this.MessagePath)));
+                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => Cannot find variable {this.MessagePath} in the VariableCollection"));
             }
 
             return result;
@@ -111,7 +109,7 @@ namespace Bespoke.Sph.Domain
             // controller
             var controller = new Class
             {
-                Name = string.Format("{0}Controller", this.Name),
+                Name = $"{this.Name}Controller",
                 FileName = this.Name + "Controller.cs",
                 Namespace = wd.CodeNamespace,
                 IsPartial = true,
@@ -127,10 +125,10 @@ namespace Bespoke.Sph.Domain
             controller.ImportCollection.Add(typeof(Enumerable).Namespace);
             controller.ImportCollection.Add(typeof(JsonConvert).Namespace);
             controller.ImportCollection.Add(typeof(MemoryStream).Namespace);
-            controller.AttributeCollection.Add(string.Format("  [RoutePrefix(\"{0}\")]", wd.Id));
+            controller.AttributeCollection.Add($"  [RoutePrefix(\"{wd.Id}\")]");
 
 
-            var vt = Type.GetType(variable.TypeName);
+            var vt = Strings.GetType(variable.TypeName);
             if (null == vt) throw new InvalidOperationException(variable.TypeName + " is null");
 
 

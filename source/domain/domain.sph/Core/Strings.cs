@@ -41,11 +41,9 @@ namespace Bespoke.Sph.Domain
             if (null == obj) throw new ArgumentNullException(nameof(obj));
             var elementType = obj.GetType();
             if (string.IsNullOrWhiteSpace(elementType.Namespace)) return false;
-            if (elementType.Namespace.StartsWith(typeof(Entity).Namespace))// custom entity
-            {
-                return true;
-            }
-            return false;
+            // ReSharper disable AssignNullToNotNullAttribute
+            return elementType.Namespace.StartsWith(typeof(Entity).Namespace);
+            // ReSharper restore AssignNullToNotNullAttribute
         }
         public static string ToCsharpIdentitfier(this string text)
         {
@@ -55,9 +53,9 @@ namespace Bespoke.Sph.Domain
             var t = rg.Replace(text, "$1_$2");
 
             var code = new List<char>();
-            bool first = true;
-            bool gap = false;
-            bool previousUpper = false;
+            var first = true;
+            var gap = false;
+            var previousUpper = false;
             foreach (var c in t)
             {
                 if (first && !char.IsLetter(c))
@@ -178,13 +176,13 @@ namespace Bespoke.Sph.Domain
 
         private static IEnumerable<char> ToCamelCaseHelper(this string text)
         {
-            bool first = true;
+            var first = true;
             foreach (var c in text)
             {
                 if (first)
                 {
                     first = false;
-                    yield return Char.ToLower(c);
+                    yield return char.ToLower(c);
                 }
                 else
                 {
@@ -196,8 +194,8 @@ namespace Bespoke.Sph.Domain
 
         private static IEnumerable<char> ToCamelCaseHelperWithAllUpper(this string text)
         {
-            bool _ = false;
-            bool x = false;
+            var _ = false;
+            var x = false;
             foreach (var c in text)
             {
                 if (x) yield return char.MinValue;
@@ -259,7 +257,7 @@ namespace Bespoke.Sph.Domain
             }
             if (decimal.TryParse(value, out dec))
             {
-                return string.Format("{0:f2}", dec);
+                return $"{dec:f2}";
             }
             return value;
         }
@@ -287,8 +285,7 @@ namespace Bespoke.Sph.Domain
 
         public static string ToEmptyString(this object value)
         {
-            if (null == value) return string.Empty;
-            return $"{value}";
+            return null == value ? string.Empty : $"{value}";
         }
 
         public static DateTime? RegexDateTimeValue(string input, string pattern, string group, params string[] formats)
@@ -392,15 +389,15 @@ namespace Bespoke.Sph.Domain
         {
 
             var t = Type.GetType(typeName);
-            if (null == t)
-            {
-                var splits = typeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                string path = $"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll";
-                if (!File.Exists(path)) return null;
+            if (null != t) return t;
 
-                var dll = System.Reflection.Assembly.LoadFile(path);
-                t = dll.GetType(splits.First().Trim());
-            }
+
+            var splits = typeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            string path = $"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll";
+            if (!File.Exists(path)) return null;
+
+            var dll = System.Reflection.Assembly.LoadFile(path);
+            t = dll.GetType(splits.First().Trim());
             return t;
         }
         public static object ToDbNull(this object value)

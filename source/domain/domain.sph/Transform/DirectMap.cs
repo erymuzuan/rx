@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Domain
         {
             var context = new RuleContext(source as Entity);
             var df = new DocumentField { Path = this.Source };
-            var json = string.Format("\"{0}\":\"{1}\"", this.Destination, df.GetValue(context));
+            var json = $"\"{this.Destination}\":\"{df.GetValue(context)}\"";
             return Task.FromResult(json);
         }
 

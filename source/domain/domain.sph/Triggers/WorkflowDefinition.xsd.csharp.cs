@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
             var typeAttribute = element.Attribute("type");
             var nillableAttribute = element.Attribute("nillable");
 
-            var xsType = typeAttribute != null ? typeAttribute.Value : "";
+            var xsType = typeAttribute?.Value ?? "";
             var nillable = nillableAttribute != null && bool.Parse(nillableAttribute.Value);
             
             string type;
