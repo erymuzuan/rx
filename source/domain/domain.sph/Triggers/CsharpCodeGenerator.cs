@@ -87,7 +87,7 @@ namespace Bespoke.Sph.Domain
                              select new Property
                              {
                                  Name = n,
-                                 Type = Type.GetType(WorkflowDefinition.GetClrDataType(at)),
+                                 Type = Strings.GetType(WorkflowDefinition.GetClrDataType(at)),
                                  Code =  "      [XmlAttribute]\r\n"
                                          + string.Format("      public {1} {0} {{get;set;}}", n, WorkflowDefinition.GetClrDataType(at))
                              };

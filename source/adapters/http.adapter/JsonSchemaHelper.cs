@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             m.Name = p.Name;
             var typeName = p.Value.Type;
-            var type = Type.GetType(string.Format("System.{0}, mscorlib", p.Value.Type));
+            var type = Strings.GetType($"System.{p.Value.Type}, mscorlib");
             if (typeName == JTokenType.Integer)
                 type = typeof(int);//"
             if (typeName == JTokenType.Null)

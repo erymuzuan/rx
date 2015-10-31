@@ -12,15 +12,15 @@ namespace Bespoke.Sph.Domain
         {
             var result = base.ValidateBuild(wd);
             if (string.IsNullOrWhiteSpace(this.EntityIdPath))
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[UpdateEntityActivity] -\"{0}\" EntityIdPath is missing", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityIdPath is missing"));
             if (string.IsNullOrWhiteSpace(this.EntityType))
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[UpdateEntityActivity] -\"{0}\" EntityType is missing", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityType is missing"));
 
             if (!string.IsNullOrWhiteSpace(this.EntityType))
             {
                 var fullTypeName = this.EntityType;
-                var type = Type.GetType(fullTypeName);
-                if (null == type) result.Errors.Add(new BuildError(this.WebId, string.Format("[UpdateEntityActivity] -\"{0}\" Cannot load {1}", this.Name, this.EntityType)));
+                var type = Strings.GetType(fullTypeName);
+                if (null == type) result.Errors.Add(new BuildError(this.WebId, $"[UpdateEntityActivity] -\"{this.Name}\" Cannot load {this.EntityType}"));
 
             }
 
@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
             var fullTypeName = this.EntityType;
-            var type = Type.GetType(fullTypeName);
+            var type = Strings.GetType(fullTypeName);
             if (null == type)
                 throw new InvalidOperationException("Cannot load " + this.EntityType);
 

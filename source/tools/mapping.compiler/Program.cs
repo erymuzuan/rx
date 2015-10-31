@@ -40,7 +40,7 @@ namespace mapping.compiler
                 Console.ReadLine();
             }
             Console.WriteLine("compiling.....");
-            mapping.OutputType = Type.GetType(mapping.OutputTypeName);
+            mapping.OutputType = Strings.GetType(mapping.OutputTypeName);
             Console.WriteLine("Output type : {0} from {1}", mapping.OutputType, mapping.OutputTypeName);
             
             if(!string.IsNullOrWhiteSpace(mapping.InputTypeName))
@@ -49,7 +49,7 @@ namespace mapping.compiler
             {
                 foreach (var p in mapping.InputCollection)
                 {
-                    var type = Type.GetType(p.TypeName);
+                    var type = Strings.GetType(p.TypeName);
                     Console.WriteLine(type);
                 }
             }

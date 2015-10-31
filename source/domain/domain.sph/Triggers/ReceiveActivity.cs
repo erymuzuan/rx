@@ -62,7 +62,7 @@ namespace Bespoke.Sph.Domain
 
 
             var variable = wd.VariableDefinitionCollection.Single(x => x.Name == this.MessagePath);
-            var vt = Type.GetType(variable.TypeName);
+            var vt = Strings.GetType(variable.TypeName);
             if (null == vt) throw new InvalidOperationException(variable.TypeName + " is null");
 
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}Async({1} message)", this.Name, vt.FullName);

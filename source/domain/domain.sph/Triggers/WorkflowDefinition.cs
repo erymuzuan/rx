@@ -29,12 +29,12 @@ namespace Bespoke.Sph.Domain
         public async Task<Workflow> InitiateAsync(VariableValue[] values = null, ScreenActivity screen = null)
         {
             var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.Id, this.Version, this.CodeNamespace);
-            var type = Type.GetType(typeName);
+            var type = Strings.GetType(typeName);
             if (null == type) throw new InvalidOperationException("Cannot instantiate  " + typeName);
 
             var initiator = this.GetInitiatorActivity();
 
-            var wf =(Workflow) Activator.CreateInstance(type);
+            var wf = (Workflow)Activator.CreateInstance(type);
             wf.Name = this.Name;
             wf.WorkflowDefinitionId = this.Id;
             wf.State = "Active";

@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return Type.GetType(this.OutputTypeName);
+                return Strings.GetType(this.OutputTypeName);
             }
             set
             {

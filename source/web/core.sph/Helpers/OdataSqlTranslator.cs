@@ -88,10 +88,10 @@ namespace Bespoke.Sph.Web.Helpers
         {
             get
             {
-                var type = Type.GetType(typeof(Entity).Namespace + "." + m_table + ", domain.sph");
+                var type = Strings.GetType(typeof(Entity).Namespace + "." + m_table + ", domain.sph");
                 if (null != type)
                     return "Sph";
-                var type2 = Type.GetType(typeof(Adapter).Namespace + "." + m_table + ", domain.sph");
+                var type2 = Strings.GetType(typeof(Adapter).Namespace + "." + m_table + ", domain.sph");
                 if (null != type2)
                     return "Sph";
                 return ConfigurationManager.ApplicationName;

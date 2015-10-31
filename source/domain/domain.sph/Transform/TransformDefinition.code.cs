@@ -146,14 +146,14 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("{");
                 foreach (var input in this.InputCollection)
                 {
-                    var type = Type.GetType(input.TypeName);
+                    var type = Strings.GetType(input.TypeName);
                     if (null == type) continue;
                     code.AppendLinf(" public {0} {1} {{ get; set; }}", type.FullName, input.Name);
                 }
                 code.AppendLine("   ");
                 code.AppendLine("}");
                 var list = from p in this.InputCollection
-                           let type = Type.GetType(p.TypeName)
+                           let type = Strings.GetType(p.TypeName)
                            where null != type
                            let name = p.Name.ToCamelCase()
                            select $"{type.FullName} {name}";
@@ -172,7 +172,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf(" var item = new {0}.Input();", this.Name);
                 foreach (var input in this.InputCollection)
                 {
-                    var type = Type.GetType(input.TypeName);
+                    var type = Strings.GetType(input.TypeName);
                     if (null == type) continue;
                     code.AppendLinf("item.{0} =  {1};", input.Name, input.Name.ToCamelCase());
                 }

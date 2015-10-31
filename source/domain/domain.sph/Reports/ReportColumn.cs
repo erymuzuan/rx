@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return Type.GetType(this.TypeName);
+                return Strings.GetType(this.TypeName);
             }
             set
             {
@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Domain
 
         public override string ToString()
         {
-            return string.Format("{0}", this.Value);
+            return $"{this.Value}";
         }
 
         public void SetValue(string value)

@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             if (string.IsNullOrWhiteSpace(id))
                 return Redirect("/images/blank.png");
-            var type = Type.GetType(id);
+            var type = Strings.GetType(id);
             if (type == typeof(DocumentField))
                 return RedirectPermanent("~/images/DocumentField.png");
             if (type == typeof(FunctionField))

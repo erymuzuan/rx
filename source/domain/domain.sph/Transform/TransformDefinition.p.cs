@@ -15,14 +15,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var t = Type.GetType(this.OutputTypeName);
-                if (null == t)
-                {
-                    var splits = this.OutputTypeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    var dll = Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
-                    t = dll.GetType(splits.First().Trim());
-                }
-                return t;
+                return Strings.GetType(this.OutputTypeName);
             }
             set
             {
@@ -37,14 +30,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var t = Type.GetType(this.InputTypeName);
-                if (null == t)
-                {
-                    var splits = this.InputTypeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    var dll = Assembly.LoadFile($"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll");
-                    t = dll.GetType(splits.First().Trim());
-                }
-                return t;
+                return Strings.GetType(this.InputTypeName);
             }
             set
             {

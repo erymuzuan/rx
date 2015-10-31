@@ -18,14 +18,14 @@ namespace Bespoke.Sph.Domain
         }
         public virtual string  GenerateCode()
         {
-            return string.Format("// NOT IMPLEMENTED =>{0}", this.GetType().Name);
+            return $"// NOT IMPLEMENTED =>{this.GetType().Name}";
         }
 
         [JsonIgnore]
         [XmlIgnore]
         public Type SourceType
         {
-            get { return Type.GetType(this.SourceTypeName); }
+            get { return Strings.GetType(this.SourceTypeName); }
             set
             {
                 this.SourceTypeName = value.GetShortAssemblyQualifiedName();
@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Domain
         [XmlIgnore]
         public Type DestinationType
         {
-            get { return Type.GetType(this.DestinationTypeName); }
+            get { return Strings.GetType(this.DestinationTypeName); }
             set
             {
                 this.DestinationTypeName = value.GetShortAssemblyQualifiedName();

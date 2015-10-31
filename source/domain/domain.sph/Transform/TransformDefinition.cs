@@ -76,7 +76,7 @@ namespace Bespoke.Sph.Domain
                 {
                     foreach (var p in this.InputCollection)
                     {
-                        var type = Type.GetType(p.TypeName);
+                        var type = Strings.GetType(p.TypeName);
                         if (null != type)
                             parameters.ReferencedAssemblies.Add(type.Assembly.Location);
                     }

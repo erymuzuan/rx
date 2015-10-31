@@ -99,7 +99,7 @@ namespace Bespoke.Sph.SourceBuilders
                 var json = File.ReadAllText(f);
                 var o = JObject.Parse(json);
                 var typeName = o.SelectToken("$.$type").Value<string>();
-                var type = Type.GetType(typeName);
+                var type = Strings.GetType(typeName);
                 if (null == type)
                 {
                     Console.WriteLine($"Unrecognized type {typeName}  in {f}");

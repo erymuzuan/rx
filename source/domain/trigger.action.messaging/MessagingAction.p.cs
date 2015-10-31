@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Messaging
         {
             get
             {
-                return Type.GetType(this.OutboundMap);
+                return Strings.GetType(this.OutboundMap);
             }
             set
             {
@@ -43,7 +43,7 @@ namespace Bespoke.Sph.Messaging
         {
             get
             {
-                return Type.GetType(this.Adapter);
+                return Strings.GetType(this.Adapter);
             }
             set
             {
