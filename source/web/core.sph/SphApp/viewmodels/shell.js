@@ -5,6 +5,8 @@
 /// <reference path="../../Scripts/_task.js" />
 /// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
 
+$.support = $.support || {};
+$.support.touch = false;
 
 define(["durandal/system", "services/system", "plugins/router", "services/logger", "services/datacontext", objectbuilders.config, objectbuilders.cultures, "viewmodels/messages"],
     function (system, system2, router, logger, context, config, cultures, messagesConfig) {
@@ -70,7 +72,7 @@ define(["durandal/system", "services/system", "plugins/router", "services/logger
 
                 return messagesConfig.attached(view).done(function () {
                     var inboxHeader = document.getElementById("header_inbox_bar");
-                    
+
                     if (inboxHeader && !ko.dataFor(inboxHeader)) {
                         ko.applyBindings(messagesConfig, inboxHeader);
                     }
