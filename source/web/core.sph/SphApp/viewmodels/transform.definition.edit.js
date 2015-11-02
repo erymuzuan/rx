@@ -8,8 +8,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/jsPlumb/jsPlumb.js" />
-
-
+/// <reference path="~/Scripts/_task.js" />
 bespoke.sph.domain.TransformDefinitionPage = function(no, name){
     var model = {
         no : ko.observable(no),
@@ -30,6 +29,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
         var td = ko.observable(new bespoke.sph.domain.TransformDefinition({ Id: "0" })),
             pages = ko.observableArray(),
             currentPage = ko.observable(),
+            hideUnconnectedNodes = ko.observable(false),
             functoidToolboxItems = ko.observableArray(),
             functoids = ko.observableArray(),
             originalEntity = "",
@@ -352,6 +352,17 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                     leaf.parent = parentNode.id;
                                 else
                                     leaf.parent = "#";
+                                // see if there's any connection
+                                if (hideUnconnectedNodes()) {
+                                    var connected = _(td().MapCollection()).find(function(v) {
+                                        return ko.unwrap(v.SourceField) === leaf.id;
+                                    });
+                                    if (!connected) {
+                                        continue;
+                                    }
+                                    
+                                }
+
 
                                 items.push(leaf);
 
@@ -370,7 +381,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 };
 
                 buildTree("source-field-", root, "", sources);
-                $.support.touch = false;
+                
                 $("#source-panel").jstree({
                     'core': {
                         'data': sources
@@ -382,10 +393,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                     action: function () {
                                         var parent = $(element).jstree("get_selected", true),
                                             mb = parent[0].data;
-
-
+                                        console.log(mb);
                                     }
-                                },
+                                }
                         ]
                     },
                     "plugins": ["search","contextmenu"]
@@ -411,9 +421,10 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                         var parent = $(element).jstree("get_selected", true),
                                             mb = parent[0].data;
 
+                                        console.log(mb);
 
                                     }
-                                },
+                                }
                         ]
                     },
                     "plugins": ["search","contextmenu"]
@@ -524,18 +535,21 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             $("div.modalBlockout,div.modalHost").remove();
                             if (!result) return;
                             if (result === "OK") {
-                                for (var g in td()) {
-                                    if (typeof td()[g] === "function" && (td()[g].name === "c" || td()[g].name === "observable")) {
-                                        td()[g](ko.unwrap(clone[g]));
-                                    } else {
-                                        td()[g] = clone[g];
+                                var td1 = td();
+                                for (var g in td1) {
+                                    if (td1.hasOwnProperty(g)) {
+                                        if (typeof td1[g] === "function" && (td1[g].name === "c" || td1[g].name === "observable")) {
+                                            td1[g](ko.unwrap(clone[g]));
+                                        } else {
+                                            td1[g] = clone[g];
+                                        }
                                     }
                                 }
 
                                 // try build the tree for new item
-                                if (!td().Id() || td().Id() === "0") {
+                                if (!td1.Id() || td1.Id() === "0") {
                                     var inTask = context.post(ko.toJSON(td), "/transform-definition/json-schema"),
-                                       outTask = context.get("/transform-definition/json-schema/" + td().OutputTypeName());
+                                       outTask = context.get("/transform-definition/json-schema/" + td1.OutputTypeName());
                                     $.when(inTask, outTask).done(function (input, output) {
                                         sourceSchema(input[0]);
                                         destinationSchema(output[0]);
@@ -559,7 +573,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             errors.removeAll();
                         } else {
                             logger.error("There are errors in your map, !!!");
-                            var uniqueList = _.uniq(result.Errors, function (item, key, a) {
+                            var uniqueList = _.uniq(result.Errors, function (item) {
                                 return item.ItemWebId;
                             });
                             errors(uniqueList);
@@ -853,6 +867,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             td: td,
             editProp: editProp,
             changePage : changePage,
+            hideUnconnectedNodes: hideUnconnectedNodes,
             pages : pages,
             toolbar: {
                 saveCommand: save,
@@ -891,7 +906,13 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         caption : "Add Page",
                         icon : "fa fa-file-o"
                     }
-                ])
+                ]),
+                toggleCommands : ko.observableArray([
+                {
+                    caption: "Hide unconnected members",
+                    icon: "fa fa-users",
+                    toggle : hideUnconnectedNodes
+                }])
             }
         };
 
