@@ -56,13 +56,13 @@ namespace Bespoke.Sph.Web.Controllers
             this.HttpContext.Response.Cache.SetCacheability(HttpCacheability.NoCache);
             if (id.StartsWith("viewmodels") && id.EndsWith(".js"))
             {
+                Console.WriteLine(RouteData);
                 var controller = id.Replace("viewmodels.", "")
                  .Replace(".js", "")
                  .Replace(".", "");
                 return RedirectToAction("Js", controller, new { area = "App" });
-
-
             }
+
             if (id.StartsWith("views.") && id.EndsWith(".html"))
             {
                 var controller = id.Replace("views.", "")
