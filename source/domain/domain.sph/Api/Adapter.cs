@@ -107,9 +107,9 @@ namespace Bespoke.Sph.Domain.Api
         }
 
 
-        public async Task<WorkflowCompilerResult> CompileAsync()
+        public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options = null)
         {
-            var options = new CompilerOptions();
+            if (null == options) options = new CompilerOptions();
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));

@@ -296,6 +296,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ActivityJsResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ReceiveLocation.cs" />
+    <Compile Include="ReceiveLocationDefinition.cs" />
     <Compile Include="Transform\AddDaysFunctoid.cs" />
     <Compile Include="Transform\FunctoidDependencyComparer.cs" />
     <Compile Include="Transform\LoopingFunctoid.cs" />

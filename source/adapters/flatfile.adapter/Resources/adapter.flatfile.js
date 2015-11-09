@@ -19,6 +19,8 @@
 var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
+
+
 bespoke.sph.domain.FlatFileAdapter = function() {
     var adapter = {
         $type: "Bespoke.Sph.Integrations.Adapters.FlatFileAdapter, http.adapter",

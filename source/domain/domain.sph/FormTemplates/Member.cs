@@ -11,6 +11,7 @@ namespace Bespoke.Sph.Domain
     {
         [XmlAttribute]
         public string FullName { get; set; }
+        public string PropertyAttribute { get; set; }
 
         public override string ToString()
         {
@@ -30,37 +31,37 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public string GeneratedCode(string padding = "      ")
+        public virtual string GeneratedCode(string padding = "      ")
         {
             if (null == this.Type)
                 throw new InvalidOperationException(this + " doesn't have a type");
             var code = new StringBuilder();
             if (typeof(object) == this.Type)
             {
-                code.AppendLinf(padding + "public {0} {1} {{get;set;}}", this.Name, this.Name);
+                code.AppendLinf(padding + "public {0} {1} {{ get; set;}}", this.Name, this.Name);
                 return code.ToString();
             }
             if (typeof(Array) == this.Type)
             {
-                code.AppendLinf(padding + "private readonly ObjectCollection<{0}> m_{1} = new ObjectCollection<{0}>();", this.Name.Replace("Collection", ""), this.Name.ToCamelCase());
-                code.AppendLinf(padding + "public ObjectCollection<{0}> {1}", this.Name.Replace("Collection", ""), this.Name);
-                code.AppendLine(padding + "{");
-                code.AppendLinf(padding + "    get{{ return m_{0};}}", this.Name.ToCamelCase());
-                code.AppendLine(padding + "}");
+                var className = this.Name.Replace("Collection", "");
+                code.AppendLine(padding + $"public ObjectCollection<{className}> {Name} {{ get; }} = new ObjectCollection<{className}>();");
                 return code.ToString();
             }
             if (typeof(string) == this.Type || !this.IsNullable)
                 code.AppendLinf(padding + "[XmlAttribute]");
-            code.AppendLinf(padding + "public {0}{2} {1}{{get;set;}}", this.GetCsharpType(), this.Name, this.GetNullable());
+            if (!string.IsNullOrWhiteSpace(PropertyAttribute))
+                code.AppendLine(padding + PropertyAttribute);
+
+            code.AppendLinf(padding + "public {0}{2} {1} {{ get; set; }}", this.GetCsharpType(), this.Name, this.GetNullable());
             return code.ToString();
         }
 
-        private string GetCsharpType()
+        protected string GetCsharpType()
         {
             return this.Type.ToCSharp();
         }
 
-        private string GetNullable()
+        protected string GetNullable()
         {
             if (!this.IsNullable) return string.Empty;
             if (typeof(string) == this.Type) return string.Empty;

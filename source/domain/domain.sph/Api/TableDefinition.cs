@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Domain.Api
 
             var header = new StringBuilder();
             header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
+            header.AppendLine("using " + typeof(int).Namespace + ";");
             header.AppendLine("using " + typeof(Task<>).Namespace + ";");
             header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             header.AppendLine("using " + typeof(JsonConvert).Namespace + ";");
@@ -59,6 +59,9 @@ namespace Bespoke.Sph.Domain.Api
         {
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
+
+            if (!string.IsNullOrWhiteSpace(ClassAttribute))
+                code.AppendLine("   " + ClassAttribute);
 
             code.AppendLine("   public class " + this.Name + " : DomainObject");
             code.AppendLine("   {");
@@ -103,6 +106,7 @@ namespace Bespoke.Sph.Domain.Api
 
         public string Name { get; set; }
         public string CodeNamespace { get; set; }
+        public string ClassAttribute { get; set; }
 
         public string WebId { get; set; }
     }

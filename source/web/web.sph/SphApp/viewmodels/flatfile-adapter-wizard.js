@@ -8,7 +8,7 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['plugins/dialog'],
+define(["plugins/dialog"],
     function(dialog) {
 
         var page = ko.observable(1),

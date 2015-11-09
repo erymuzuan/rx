@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -8,15 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    [EntityType(typeof(Adapter))]
-    [Export("AdapterDesigner", typeof(Adapter))]
-    [DesignerMetadata(Name = "Flat file adapter", FontAwesomeIcon = "file-o", Route = "adapter.flatfile/0", RouteTableProvider = typeof(FlatFileAdapterRouteTableProvider))]
-    public partial class FlatFileAdapter : Adapter
+    [EntityType(typeof(ReceiveLocationDefinition))]
+    [Export(typeof(ReceiveLocationDefinition))]
+    public class FileSystemReceiveLocationDefinition : ReceiveLocationDefinition
     {
+        public string Directory { get; set; }
+        public string Filter { get; set; }
+
         private string GetCodeHeader(params string[] namespaces)
         {
             var header = new StringBuilder();
@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var header = this.GetCodeHeader(namespaces);
             var code = new StringBuilder(header);
 
-            code.AppendLine("   public class " + this.Name + " : IDisposable");
+            code.AppendLine("   public class " + this.Name + " : ReceiveLocation");
             code.AppendLine("   {");
 
             code.AppendLine("       public string Directory {get; set;}");
@@ -64,73 +64,13 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           m_watcher.Created += (e, a) => { };");
             code.AppendLine("       }");
 
-            var watcher = new FileSystemWatcher("c:\\temp", "*.csv") {EnableRaisingEvents = true};
-            watcher.Created += (e, a) => { };
+       
 
-            code.AppendLine(AddDisposeCode());
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
             sources.Add(this.Name + ".cs", code.ToString());
 
             return Task.FromResult(sources);
-        }
-
-        private string AddDisposeCode()
-        {
-
-            var code = new StringBuilder();
-            code.AppendLinf("       public {0}()", this.Name);
-            code.AppendLine("       {");
-            
-
-            code.AppendLine("       }");
-            code.AppendLine("       public void Dispose()");
-            code.AppendLine("       {");
-
-            code.AppendLine("       }");
-
-            return code.ToString();
-        }
-
-
-
-        private static void AddSources(Dictionary<string, string> classes, Dictionary<string, string> sources)
-        {
-            foreach (var cs in classes.Keys)
-            {
-                if (!sources.ContainsKey(cs))
-                {
-                    sources.Add(cs, classes[cs]);
-                    continue;
-                }
-                if (sources[cs] != classes[cs])
-                    throw new InvalidOperationException("You are generating 2 different sources for " + cs);
-            }
-        }
-
-
-        protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
-        {
-            return Task.FromResult(default(Tuple<string, string>));
-        }
-
-        protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
-        {
-            return Task.FromResult(default(Tuple<string, string>));
-        }
-
-        protected override Task<TableDefinition> GetSchemaDefinitionAsync(string table)
-        {
-            var td = TableDefinitionCollection.SingleOrDefault(x => x.Name == table);
-            return Task.FromResult(td);
-        }
-
-        public override string OdataTranslator => null;
-
-
-        public Task OpenAsync()
-        {
-            return Task.FromResult(0);
         }
     }
 }
