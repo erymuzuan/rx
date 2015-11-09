@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
-using Microsoft.CSharp;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -38,7 +37,7 @@ namespace Bespoke.Sph.Domain
         private static readonly ConcurrentDictionary<string, dynamic> m_ff = new ConcurrentDictionary<string, dynamic>();
         public override object GetValue(RuleContext context)
         {
-            dynamic obj = new object();
+            dynamic obj;
             if (m_ff.TryGetValue(this.WebId, out obj))
                 return obj.Evaluate(context.Item);
 
@@ -94,12 +93,12 @@ namespace Bespoke.Sph.Domain
         {
             var code = this.GenerateCode(context);
 
-            using (var provider = new CSharpCodeProvider())
+            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("{0}.dll", this.CodeNamespace)),
+                    OutputAssembly = Path.Combine(outputPath, $"{this.CodeNamespace}.dll"),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
                 };
