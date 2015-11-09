@@ -10,9 +10,9 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    [EntityType(typeof(ReceiveLocationDefinition))]
-    [Export(typeof(ReceiveLocationDefinition))]
-    public class FileSystemReceiveLocationDefinition : ReceiveLocationDefinition
+    [EntityType(typeof(ReceivePortDefinition))]
+    [Export(typeof(ReceivePortDefinition))]
+    public class FileSystemReceiveLocationDefinition : ReceivePortDefinition
     {
         public string Directory { get; set; }
         public string Filter { get; set; }
