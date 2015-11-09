@@ -162,3 +162,4 @@ bin/subscribers.host.c/
 deploy.epsikometrik.bat
 source/web/web.sph/assets/
 bin/10306.ps1
+*.vsp

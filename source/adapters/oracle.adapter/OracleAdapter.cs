@@ -181,7 +181,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var header = new StringBuilder();
             header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
+            header.AppendLine("using " + typeof(int).Namespace + ";");
             header.AppendLine("using " + typeof(Task<>).Namespace + ";");
             header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
@@ -204,10 +204,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         private readonly Dictionary<string, ObjectCollection<Column>> m_columnCollection = new Dictionary<string, ObjectCollection<Column>>();
 
 
-        public override string OdataTranslator
-        {
-            get { return "OdataOracleTranslator"; }
-        }
+        public override string OdataTranslator => "OdataOracleTranslator";
 
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
@@ -638,7 +635,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
         public string GetSelectCommand(string table)
         {
-            return string.Format("SELECT * FROM {0}.{1} ", this.Schema, table);
+            return $"SELECT * FROM {this.Schema}.{table} ";
         }
 
         protected override Task<TableDefinition> GetSchemaDefinitionAsync(string table)

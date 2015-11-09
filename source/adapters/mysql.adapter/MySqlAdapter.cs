@@ -253,7 +253,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
 
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguments = pks.Select(k => string.Format("{0} {1}", k.Type.ToCSharp(), k.Name));
+            var arguments = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name}");
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguments));
             code.AppendLine("       {");
