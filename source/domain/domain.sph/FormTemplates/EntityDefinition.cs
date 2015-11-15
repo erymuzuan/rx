@@ -15,7 +15,6 @@ using System.Web;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Properties;
-using Microsoft.CSharp;
 using Newtonsoft.Json;
 using Polly;
 
@@ -167,7 +166,7 @@ namespace Bespoke.Sph.Domain
                 Debug.WriteLineIf(options.IsVerbose, cs);
             }
 
-            using (var provider = new CSharpCodeProvider())
+            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters

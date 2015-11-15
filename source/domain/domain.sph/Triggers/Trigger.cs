@@ -9,7 +9,6 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Humanizer;
-using Microsoft.CSharp;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -38,7 +37,7 @@ namespace Bespoke.Sph.Domain
                 File.WriteAllText(sourceFile, code);
             }
 
-            using (var provider = new CSharpCodeProvider())
+            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters

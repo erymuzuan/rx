@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Properties;
-using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -52,7 +51,7 @@ namespace Bespoke.Sph.Domain.Api
                 Debug.WriteLineIf(options.IsVerbose, cs);
             }
 
-            using (var provider = new CSharpCodeProvider())
+            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters

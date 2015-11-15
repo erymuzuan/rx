@@ -12,7 +12,6 @@ using System.Web.Http;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Humanizer;
-using Microsoft.CSharp;
 using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json;
 
@@ -135,7 +134,7 @@ namespace Bespoke.Sph.Domain
                 sourceFiles.Add(cs);
             }
 
-            using (var provider = new CSharpCodeProvider())
+            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters

@@ -9,7 +9,6 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain
 {
@@ -42,7 +41,7 @@ namespace Bespoke.Sph.Domain
                 Debug.WriteLineIf(options.IsVerbose, cs);
             }
 
-            using (var provider = new CSharpCodeProvider())
+            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
