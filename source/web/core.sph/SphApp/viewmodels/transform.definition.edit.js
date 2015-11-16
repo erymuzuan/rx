@@ -100,6 +100,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             isJsPlumbReady,
             jsPlumbInstance = null,
             changingPage = false,
+            connectorStyle= { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
             initializeFunctoid = function (fnc) {
                 var element = $("#" + fnc.WebId());
                 jsPlumbInstance.makeSource(element, {
@@ -682,8 +683,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
             instance.makeSource(sourceWindows, {
                 anchor: ["RightMiddle"],
-                connector: ["Straight"],
-                connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
+                connector: ["Straight"]
             });
 
 
@@ -768,7 +768,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         if (typeof a.Functoid !== "function" || !source) {
                             return;
                         }
-                        var conn = instance.connect({ source: source, target: ko.unwrap(f.WebId) });
+                        var conn = instance.connect({ source: source, target: ko.unwrap(f.WebId), paintStyle : connectorStyle });
                         conn.functoidArg = a.Functoid;
                     });
                 }
@@ -807,7 +807,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                     try {
 
-                        var conn = instance.connect({ source: src, target: target });
+                        var conn = instance.connect({ source: src, target: target, paintStyle: connectorStyle });
                         conn.sf = f;
                     }
                     catch (e) {
@@ -861,14 +861,18 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         return;
                     }
                     var label = "From : " + ko.unwrap(m.Source) + "<br>To : " + ko.unwrap(m.Destination),
-                        conn = jsPlumbInstance.connect({ source: src, target: target });
+                        conn = jsPlumbInstance.connect({ source: src, target: target, paintStyle: connectorStyle });
                     conn.bind("mouseenter", function (conn1) {
                         if (conn1.getOverlay("connLabel")) {
                             return;
                         }
                         conn1.addOverlay(["Label", { label: label, location: 0.5, id: "connLabel", cssClass: "connector-label" }]);
                         setTimeout(function () {
-                            conn1.removeOverlay("connLabel");
+                           try {
+                               conn1.removeOverlay("connLabel");
+                           } catch (err) {
+                               console.log(err, "Connectetion migh have been removed from the page");
+                           }
                         }, 5000);
                     });
 
@@ -876,7 +880,6 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         conn1.removeOverlay("connLabel");
                     });
                     conn.map = m;
-
                 } catch (e) {
                     console.log("Cannot connect", ko.mapping.toJS(m));
                     console.log(e);
@@ -891,7 +894,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 }
 
                 if (typeof m.Source === "undefined") {
-                    var conn = jsPlumbInstance.connect({ source: ko.unwrap(m.Functoid), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-") });
+                    var conn = jsPlumbInstance.connect({ source: ko.unwrap(m.Functoid), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-"), paintStyle: connectorStyle });
                     conn.map = m;
                 }
             });
