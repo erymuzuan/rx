@@ -829,11 +829,17 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                     var src1 = "source-field-" + ko.unwrap(m.Source).replace(".", "-"),
                         src = src1,
-                        target = "destination-field-" + ko.unwrap(m.Destination).replace(".", "-");
+                        target1 = "destination-field-" + ko.unwrap(m.Destination).replace(".", "-"),
+                        target = target1;
 
                     while (src.lastIndexOf("-") > -1) {
                         if (document.getElementById(src)) break;
                         src = src.substring(0, src.lastIndexOf("-"));
+                    }
+
+                    while (target.lastIndexOf("-") > -1) {
+                        if (document.getElementById(target)) break;
+                        target = target.substring(0, target.lastIndexOf("-"));
                     }
 
 
@@ -841,7 +847,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     if (!document.getElementById(src)) return;
                     if (!document.getElementById(target)) return;
 
-                    var original = src1 === src;
+                    var original = src1 === src && target === target1;
                     if (!original) {
 
                         var conn2 = jsPlumbInstance.connect({
