@@ -163,11 +163,19 @@
         <!-- /ko -->
 
         <!-- ko if: typeof toggleCommands === "function"-->
-        <!-- ko foreach: commands-->
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+        <!-- ko foreach: toggleCommands -->
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" data-bind="click: function(){ toggle(!toggle());}">
+            <i class="fa fa-check" data-bind="visible:toggle"></i>
             <!-- ko text: caption -->
             <!-- /ko -->
         </button>
+        <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: typeof htmlCommands === "function"-->
+        <!-- ko foreach: htmlCommands -->
+        <div data-bind="html:html"></div>
+
         <!-- /ko -->
         <!-- /ko -->
 

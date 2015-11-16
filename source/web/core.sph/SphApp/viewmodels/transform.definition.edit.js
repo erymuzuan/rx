@@ -283,6 +283,143 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 currentPage(pages()[0]);
 
             },
+            drawSchemaTree = function() {
+                var icon = function (item) {
+                    var type = item.type,
+                        format = item.format;
+                    if (typeof type === "object") {
+                        type = type[0];
+                    }
+                    if (format === "date-time") {
+                        return "glyphicon glyphicon-calendar";
+                    }
+                    if (type === "string") {
+                        return "glyphicon glyphicon-bold";
+                    }
+                    if (type === "integer") {
+                        return "fa fa-sort-numeric-asc";
+                    }
+                    if (type === "object") {
+                        return "fa fa-building-o";
+                    }
+                    if (type === "number") {
+                        return "glyphicon glyphicon-usd";
+                    }
+                    if (type === "boolean") {
+                        return "glyphicon glyphicon-ok";
+                    }
+                    if (type === "array") {
+                        return "fa fa-list";
+                    }
+                    return "";
+                },
+                    root = sourceSchema();
+
+                var sources = [],
+                    buildTree = function (side, branch, parent, items, parentNode) {
+                        for (var key in branch.properties) {
+                            if (branch.properties.hasOwnProperty(key)) {
+
+                                var leaf = {
+                                    id: side + parent + key,
+                                    icon: icon(branch.properties[key]),
+                                    text: key + (branch.properties[key].required === false ? " ?" : "")
+                                };
+                                if (parentNode)
+                                    leaf.parent = parentNode.id;
+                                else
+                                    leaf.parent = "#";
+                                // see if there's any connection
+                                if (hideUnconnectedNodes()) {
+                                    var connected = _(td().MapCollection()).find(function (v) {
+                                        return ko.unwrap(v.SourceField) === leaf.id;
+                                    });
+                                    if (!connected) {
+                                        continue;
+                                    }
+
+                                }
+
+
+                                items.push(leaf);
+
+                                var type = branch.properties[key].type;
+                                if (typeof type === "object") {
+                                    type = type[0];
+                                }
+                                if (type === "object") {
+                                    buildTree(side, branch.properties[key], parent + key + "-", items, leaf);
+                                }
+                                if (type === "array") {
+                                    buildTree(side, branch.properties[key].items, parent + key + "-", items, leaf);
+                                }
+                            }
+                        }
+                    };
+
+                buildTree("source-field-", root, "", sources);
+
+                $("#source-panel").jstree({
+                    'core': {
+                        'data': sources
+                    },
+                    "contextmenu": {
+                        items: [
+                               {
+                                   label: "Hide",
+                                   action: function () {
+                                       var parent = $(element).jstree("get_selected", true),
+                                           mb = parent[0].data;
+                                       console.log(mb);
+                                   }
+                               }
+                        ]
+                    },
+                    "search": {
+                        "case_insensitive": true,
+                        "show_only_matches": true
+                    },
+                    "plugins": ["search", "contextmenu"]
+
+                })
+                .jstree("open_all")
+                .bind("after_open.jstree after_close.jstree", function () {
+                    currentPage(currentPage());
+                });
+
+
+                var destinations = [];
+                buildTree("destination-field-", destinationSchema(), "", destinations);
+                $("#destination-panel").jstree({
+                    'core': {
+                        'data': destinations
+                    },
+                    "contextmenu": {
+                        items: [
+                               {
+                                   label: "Hide",
+                                   action: function () {
+                                       var parent = $(element).jstree("get_selected", true),
+                                           mb = parent[0].data;
+
+                                       console.log(mb);
+
+                                   }
+                               }
+                        ]
+                    },
+                    "search": {
+
+                        "case_insensitive": true,
+                        "show_only_matches": true
+
+
+                    },
+                    "plugins": ["search", "contextmenu"]
+
+                });
+                $("#destination-panel li.jstree-leaf").addClass("target-item");
+            },
             attached = function () {
 
                 $("ul#function-toolbox>li.list-group-item").draggable({
@@ -307,144 +444,17 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 if (!td().OutputTypeName()) {
                     return;
                 }
-                var icon = function (item) {
-                        var type = item.type,
-                            format = item.format;
-                        if (typeof type === "object") {
-                            type = type[0];
-                        }
-                        if (format === "date-time") {
-                            return "glyphicon glyphicon-calendar";
-                        }
-                        if (type === "string") {
-                            return "glyphicon glyphicon-bold";
-                        }
-                        if (type === "integer") {
-                            return "fa fa-sort-numeric-asc";
-                        }
-                        if (type === "object") {
-                            return "fa fa-building-o";
-                        }
-                        if (type === "number") {
-                            return "glyphicon glyphicon-usd";
-                        }
-                        if (type === "boolean") {
-                            return "glyphicon glyphicon-ok";
-                        }
-                        if (type === "array") {
-                            return "fa fa-list";
-                        }
-                        return "";
-                    },
-                    root = sourceSchema();
 
-                var sources = [],
-                    buildTree = function (side, branch, parent, items, parentNode) {
-                        for (var key in branch.properties) {
-                            if (branch.properties.hasOwnProperty(key)) {
-
-                                var leaf = {
-                                    id: side + parent + key ,
-                                    icon : icon(branch.properties[key]),
-                                    text: key + (branch.properties[key].required === false ? " ?" : "")
-                                };
-                                if(parentNode)
-                                    leaf.parent = parentNode.id;
-                                else
-                                    leaf.parent = "#";
-                                // see if there's any connection
-                                if (hideUnconnectedNodes()) {
-                                    var connected = _(td().MapCollection()).find(function(v) {
-                                        return ko.unwrap(v.SourceField) === leaf.id;
-                                    });
-                                    if (!connected) {
-                                        continue;
-                                    }
-                                    
-                                }
-
-
-                                items.push(leaf);
-
-                                var type = branch.properties[key].type;
-                                if (typeof type === "object") {
-                                    type = type[0];
-                                }
-                                if (type === "object") {
-                                    buildTree(side, branch.properties[key], parent + key + "-", items, leaf);
-                                }
-                                if (type === "array") {
-                                    buildTree(side, branch.properties[key].items, parent + key + "-", items, leaf);
-                                }
-                            }
-                        }
-                };
-
-                buildTree("source-field-", root, "", sources);
+                drawSchemaTree();
                 
-                $("#source-panel").jstree({
-                    'core': {
-                        'data': sources
-                    },
-                    "contextmenu" :{
-                        items:[
-                               {
-                                    label: "Hide",
-                                    action: function () {
-                                        var parent = $(element).jstree("get_selected", true),
-                                            mb = parent[0].data;
-                                        console.log(mb);
-                                    }
-                                }
-                        ]
-                    },
-                    "plugins": ["search","contextmenu"]
-
-                })
-                .jstree("open_all")
-                .bind("after_open.jstree after_close.jstree", function(){
-                    currentPage(currentPage());
-                });
-
-
-                var destinations = [];
-                buildTree("destination-field-", destinationSchema(), "", destinations);
-                $("#destination-panel").jstree({
-                    'core': {
-                        'data': destinations
-                    },
-                    "contextmenu" :{
-                        items:[
-                               {
-                                    label: "Hide",
-                                    action: function () {
-                                        var parent = $(element).jstree("get_selected", true),
-                                            mb = parent[0].data;
-
-                                        console.log(mb);
-
-                                    }
-                                }
-                        ]
-                    },
-                    "plugins": ["search","contextmenu"]
-
-                });
-                $("#destination-panel li.jstree-leaf").addClass("target-item");
 
                 $("#search-box-tree").on("keyup", function () {
-                    var text = $(this).val().toLowerCase();
-                    $("#source-panel li>span.source-field").each(function () {
-                        var span = $(this),
-                            li = span.parent(),
-                            content = span.text().toLowerCase();
-                        if (content.indexOf(text) < 0) {
-                            li.hide();
-                        } else {
-                            li.show();
-                        }
+                    var text = $(this).val();
+                    console.log(text);
+                    $("#destination-panel").jstree("search", text);
+                    $("#source-panel").jstree("search", text);
 
-                    });
+
                 });
                 $.getScript("/scripts/jquery.contextMenu.js", function () {
 
@@ -460,6 +470,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         }
                     });
                 });
+
+               // hideUnconnectedNodes.subscribe(drawSchemaTree);
 
 
             },
@@ -756,7 +768,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             var conn2 = jsPlumbInstance.connect({ 
                                         source: src, 
                                         target: target, 
-                                        paintStyle:{ lineWidth:1, strokeStyle:'rgba(190, 190, 190, 0.4)' },
+                                        paintStyle:{ lineWidth:1, strokeStyle:"rgba(190, 190, 190, 0.4)" },
                                         anchors:["Right", "Left"],
                                         endpoint:[ "Rectangle", { width:10, height:8 } ]
                                     });
@@ -807,7 +819,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             var conn2 = jsPlumbInstance.connect({ 
                                         source: src, 
                                         target: target, 
-                                        paintStyle:{ lineWidth:1, strokeStyle:'rgba(190, 190, 190, 0.4)' },
+                                        paintStyle:{ lineWidth:1, strokeStyle:"rgba(190, 190, 190, 0.4)" },
                                         anchors:["Right", "Left"],
                                         endpoint:[ "Rectangle", { width:10, height:8 } ]
                                     });
@@ -907,6 +919,12 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         icon : "fa fa-file-o"
                     }
                 ]),
+                htmlCommands : ko.observableArray([
+                {
+                    html: "<input type=\"text\" id=\"search-box-tree\" class=\"form-control\"></input>",
+                    icon: "fa fa-users",
+                    toggle : hideUnconnectedNodes
+                }]),
                 toggleCommands : ko.observableArray([
                 {
                     caption: "Hide unconnected members",
