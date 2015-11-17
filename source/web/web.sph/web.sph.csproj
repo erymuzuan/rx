@@ -235,6 +235,7 @@
     <Content Include="docs\alm.html">
       <DependentUpon>alm.md</DependentUpon>
     </Content>
+    <Content Include="docs\api.token.html" />
     <Content Include="docs\architecture.html">
       <DependentUpon>architecture.md</DependentUpon>
     </Content>
@@ -331,6 +332,7 @@
     <Content Include="Content\fonts\Simple-Line-Icons.eot" />
     <Content Include="Content\fonts\Simple-Line-Icons.ttf" />
     <Content Include="Content\fonts\Simple-Line-Icons.woff" />
+    <Content Include="docs\api.token.md" />
     <None Include="docs\custom.form.list.md" />
     <Content Include="docs\custom.form.list.html">
       <DependentUpon>custom.form.list.md</DependentUpon>
@@ -872,6 +874,8 @@
     <Content Include="docs\ThrowActivity.html">
       <DependentUpon>ThrowActivity.md</DependentUpon>
     </Content>
+    <Content Include="docs\TransformDefinition.html" />
+    <Content Include="docs\TransformDefinitionConfiguration.html" />
     <Content Include="docs\tree.html" />
     <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.html">
       <DependentUpon>Trigger.HowTo.PassCurrentRecordToWorkflow.md</DependentUpon>
