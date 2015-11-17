@@ -100,7 +100,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             isJsPlumbReady,
             jsPlumbInstance = null,
             changingPage = false,
-            connectorStyle= { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
+            connectorStyle = { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
             initializeFunctoid = function (fnc) {
                 var element = $("#" + fnc.WebId());
                 jsPlumbInstance.makeSource(element, {
@@ -333,7 +333,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                 // see if there's any connection
                                 if (hideUnconnectedNodes()) {
                                     var connected = _(td().MapCollection()).find(function (v) {
+                                        // ReSharper disable ClosureOnModifiedVariable
                                         return ko.unwrap(v.SourceField) === leaf.id;
+                                        // ReSharper restore ClosureOnModifiedVariable
                                     });
                                     if (!connected) {
                                         continue;
@@ -378,7 +380,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     },
                     "search": {
                         "case_insensitive": true,
-                        "show_only_matches": true
+                        "show_only_matches": true,
+                        "show_only_matches_children": true
                     },
                     "plugins": ["search", "contextmenu"]
 
@@ -410,11 +413,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         ]
                     },
                     "search": {
-
                         "case_insensitive": true,
                         "show_only_matches": true
-
-
                     },
                     "plugins": ["search", "contextmenu"]
 
@@ -456,33 +456,43 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
 
                 $("#search-box-source-tree").on("keyup", function (e) {
-                    var code = e.which; 
+                    var code = e.which;
                     if (code === 13) e.preventDefault();
                     if (code === 32 || code === 13 || code === 188 || code === 186) {
-                        var text = $(this).val();
+                        var text = "\"\"" + $(this).val() + "\"\"";
                         console.log(text);
                         $("#source-panel").jstree("search", text);
                         var pg = currentPage();
                         currentPage(null);
                         currentPage(pg);
-                    } 
+                    }
 
+                });
+                $("#clear-search-box-source-tree-button").on("click", function(e) {
+                    e.preventDefault();
+                    $("#source-panel").jstree("clear_search");
+                    $("#search-box-source-tree").val("");
                 });
                 $("#search-box-destination-tree").on("keyup", function (e) {
                     var code = e.which;
                     if (code === 13) e.preventDefault();
                     if (code === 32 || code === 13 || code === 188 || code === 186) {
-                        var text = $(this).val();
+                        var text = "\"\"" + $(this).val() + "\"\"";
                         console.log(text);
-                        $("#destination-panel-panel").jstree("search", text);
+                        $("#destination-panel").jstree("search", text);
 
                         var pg = currentPage();
                         currentPage(null);
                         currentPage(pg);
                     }
-
-
                 });
+                $("#clear-search-box-destination-tree-button").on("click", function (e) {
+                    e.preventDefault();
+                    $("#destination-panel").jstree("clear_search");
+                    $("#search-box-destination-tree").val("");
+                });
+
+
                 $.getScript("/scripts/jquery.contextMenu.js", function () {
 
                     $.contextMenu({
@@ -768,7 +778,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         if (typeof a.Functoid !== "function" || !source) {
                             return;
                         }
-                        var conn = instance.connect({ source: source, target: ko.unwrap(f.WebId), paintStyle : connectorStyle });
+                        var conn = instance.connect({ source: source, target: ko.unwrap(f.WebId), paintStyle: connectorStyle });
                         conn.functoidArg = a.Functoid;
                     });
                 }
@@ -868,11 +878,11 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         }
                         conn1.addOverlay(["Label", { label: label, location: 0.5, id: "connLabel", cssClass: "connector-label" }]);
                         setTimeout(function () {
-                           try {
-                               conn1.removeOverlay("connLabel");
-                           } catch (err) {
-                               console.log(err, "Connectetion migh have been removed from the page");
-                           }
+                            try {
+                                conn1.removeOverlay("connLabel");
+                            } catch (err) {
+                                console.log(err, "Connectetion migh have been removed from the page");
+                            }
                         }, 5000);
                     });
 
@@ -958,20 +968,14 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 ]),
                 htmlCommands: ko.observableArray([
                 {
-                    html: "<input type=\"text\" id=\"search-box-source-tree\" style=\"width:200px;padding:6px 12px\" placeholder=\"search source\"></input>",
-                    icon: "fa fa-users",
-                    toggle: hideUnconnectedNodes
+                    html: "<input type=\"search\" id=\"search-box-source-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search source\"></input>" +
+                    "<button id=\"clear-search-box-source-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
+                    icon: "fa fa-users"
                 },
                 {
-                    html: "<input type=\"text\" id=\"search-box-destination-tree\" style=\"width:200px;padding:6px 12px\" placeholder=\"search destination\"></input>",
-                    icon: "fa fa-users",
-                    toggle: hideUnconnectedNodes
-                }]),
-                toggleCommands: ko.observableArray([
-                {
-                    caption: "Hide unconnected members",
-                    icon: "fa fa-users",
-                    toggle: hideUnconnectedNodes
+                    html: "<input type=\"search\" id=\"search-box-destination-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search destination\"></input>" +
+                        "<buttonid=\"clear-search-box-destination-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
+                    icon: "fa fa-users"
                 }])
             }
         };
