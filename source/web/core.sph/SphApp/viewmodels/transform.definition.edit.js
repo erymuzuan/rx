@@ -950,6 +950,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         command: generatePartialAsync,
                         caption: "Generate Partial",
                         icon: "fa fa-code",
+                        tooltip : "Generate C# partial code for before and after transform custom code",
                         enable: ko.computed(function () {
                             if (ko.unwrap(td().Id) === "0") {
                                 return false;
@@ -969,12 +970,12 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 htmlCommands: ko.observableArray([
                 {
                     html: "<input type=\"search\" id=\"search-box-source-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search source\"></input>" +
-                    "<button id=\"clear-search-box-source-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
+                    "<button title=\"Clear the source search box\" id=\"clear-search-box-source-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
                     icon: "fa fa-users"
                 },
                 {
                     html: "<input type=\"search\" id=\"search-box-destination-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search destination\"></input>" +
-                        "<buttonid=\"clear-search-box-destination-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
+                        "<button title=\"Clear the destination search box\" id=\"clear-search-box-destination-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
                     icon: "fa fa-users"
                 }])
             }

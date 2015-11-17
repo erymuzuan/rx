@@ -1,5 +1,6 @@
 ﻿{
     "trigger.setup":"Trigger.html",
+    "transform.definition.edit" : "TransformDefinition.html",
     "entity.details":"EntityDefinition.html",
     "entity.form.designer":"EntityForm.html",
     "entity.view.designer":"EntityView.html",
