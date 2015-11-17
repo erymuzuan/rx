@@ -100,7 +100,6 @@
 .markdown-preview[data-use-github-style] pre.editor-colors { padding: 0.8em 1em; margin-bottom: 1em; font-size: 0.85em; border-radius: 4px; overflow: auto; }
 .scrollbars-visible-always .markdown-preview pre.editor-colors::shadow .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors::shadow .horizontal-scrollbar { visibility: hidden; }
 .scrollbars-visible-always .markdown-preview pre.editor-colors:hover::shadow .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors:hover::shadow .horizontal-scrollbar { visibility: visible; }
-.markdown-preview code { text-shadow: none; }
 .bracket-matcher .region {
   border-bottom: 1px dotted lime;
   position: absolute;
@@ -477,5 +476,15 @@ pre.editor-colors .fold-marker:after,
 <h2 id="configure-your-mapping">Configure your mapping</h2>
 <p>From the toolbar you can click <code>Edit Properties</code></p>
 <p><img src="https://lh3.googleusercontent.com/-PLdcFmr6mDU/Vkp9Jos1blI/AAAAAAAAKhE/rseujcdWVOc/s2048-Ic42/%25255BUNSET%25255D.png" alt="Mapping properties"></p>
+<ol>
+<li>TransformDefinition name - must be valid C# identifier</li>
+<li>Developers note</li>
+<li>Some mapping can be used with more than one input data, if your map required data to come from multiple input source then check this</li>
+<li>Select a input assembly where the type is defined</li>
+<li>Select the type name for the input, populated from the input assembly</li>
+<li>Select the assembly for your output type</li>
+<li>Select your output type</li>
+<li>If your map requires additional assembly references that you use in your functoids, then you can add them here.</li>
+</ol>
 <p> Go to <a href="TransformDefinitionConfiguration.html">Mapping Configuration</a></p></body>
 </html>
