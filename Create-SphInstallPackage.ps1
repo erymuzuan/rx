@@ -289,6 +289,15 @@ ls -Path $output -Recurse -Filter DevV1.*.pdb | Remove-Item
 ls $output\web\App_Data\i18n | ? {$_.Name.StartsWith("options") -eq $false} | Remove-Item
 ls $output\control.center\controlcenter.vshost.* | Remove-Item
 
+# TODO - remove humanizer localization folders
+# TODO - remove erl_crashdump
+# CODE ANALYSIS files
+# vshost.exe
+#manifest vshost.exe
+# copy bin/roslyn to tools and web/bin
+
+# clean up custom forms
+
 
 
 Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit : " -ForegroundColor Yellow -NoNewline
