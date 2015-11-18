@@ -673,19 +673,21 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                              if (result.success) {
                                  logger.info(result.message);
                              } else {
-                                 logger.error("You alread have the partial code define, in " + result.message);
+                                 logger.error("You already have the partial code define, in " + result.message);
                              }
                          });
             },
             addPage = function () {
-                var name = window.prompt("Give your page a name", "Page " + (pages().length + 1)),
-                    pg = new bespoke.sph.domain.TransformDefinitionPage(pages().length + 1, name);
-                if (!name) return Task.fromResult(0);;
+                return app2.prompt("Give your page a name", "Page " + (pages().length + 1))
+                     .done(function (name) {
 
-                pages.push(pg);
-
-                currentPage(pg);
-                return Task.fromResult(0);
+                         if (!name) {
+                             return;
+                         }
+                         var pg = new bespoke.sph.domain.TransformDefinitionPage(pages().length + 1, name);
+                         pages.push(pg);
+                         currentPage(pg);
+                     });
             },
             changePage = function (page) {
                 console.log(ko.toJS(page));

@@ -9,19 +9,27 @@
 
 
 define(["plugins/dialog"],
-    function(dialog) {
+    function (dialog) {
 
-        var okClick = function() {
-               dialog.close(this, "OK");
-            },
-            cancelClick = function() {
+        var okClick = function () {
+            dialog.close(this, "OK");
+        },
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
+            },
+            attached = function () {
+                setTimeout(function () {
+                    $("#prompt-value").focus()
+                    .select();
+
+                }, 500);
             };
 
         var vm = {
             title: ko.observable("Rx Developer"),
             label: ko.observable(""),
             value: ko.observable(""),
+            attached: attached,
             okClick: okClick,
             cancelClick: cancelClick
         };
