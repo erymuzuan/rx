@@ -2311,6 +2311,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\user.reset.password.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\users.management.js" />
     <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.2.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\prompt.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2826,6 +2827,7 @@
     <EmbeddedResource Include="SphApp\views\user.reset.password.dialog.html" />
     <EmbeddedResource Include="SphApp\views\users.management.html" />
     <EmbeddedResource Include="SphApp\views\solution.explorer.2.html" />
+    <EmbeddedResource Include="SphApp\views\prompt.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

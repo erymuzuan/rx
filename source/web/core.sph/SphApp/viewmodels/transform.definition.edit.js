@@ -23,8 +23,8 @@ bespoke.sph.domain.TransformDefinitionPage = function (no, name) {
     return model;
 }
 
-define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping", objectbuilders.app, objectbuilders.router],
-    function (context, logger, system, koMapping, app, router) {
+define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping", objectbuilders.app, objectbuilders.router, "services/app"],
+    function (context, logger, system, koMapping, app, router, app2) {
 
         var td = ko.observable(new bespoke.sph.domain.TransformDefinition({ Id: "0" })),
             pages = ko.observableArray(),
@@ -47,12 +47,11 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
 
 
-                var query = String.format("Id eq '{0}'", id),
-                    pageId = String.format("transform-definition-page-{0}", id);
-                return context.loadOneAsync("Setting", "Key eq '" + pageId + "'")
+                var query = String.format("Id eq '{0}'", id);
+                return $.getJSON("transform-definition/design/" + id)
                             .then(function (settingPage) {
                                 if (settingPage) {
-                                    var items = _(JSON.parse(ko.unwrap(settingPage.Value))).map(function (v) {
+                                    var items = _(settingPage).map(function (v) {
                                         return ko.mapping.fromJS(v);
                                     });
                                     pages(items);
@@ -468,7 +467,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     }
 
                 });
-                $("#clear-search-box-source-tree-button").on("click", function(e) {
+                $("#clear-search-box-source-tree-button").on("click", function (e) {
                     e.preventDefault();
                     $("#source-panel").jstree("clear_search");
                     $("#search-box-source-tree").val("");
@@ -497,13 +496,53 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                     $.contextMenu({
                         selector: "ul.nav-pills>li",
-                        callback: function (key) {
+                        callback: function (key, e) {
                             console.log(ko.dataFor(this));
                             console.log(key);
+                            var pg = ko.dataFor(e.$trigger[0]);
+                            if (key === "rename") {
+                                app2.prompt("Rename your page", ko.unwrap(pg.name))
+                                    .done(function (result) {
+                                        if (result) {
+                                            pg.name(result);
+                                        };
+                                    });
+                            }
+
+                            if (key === "delete") {
+                                app.showMessage("Are you sure you want to delete '" + ko.unwrap(pg.name) + "', this will also delete all the connections within this page", "Rx Developer", ["Yes", "No"])
+                                    .done(function (dialogResult) {
+                                        if (dialogResult === "Yes") {
+                                            pages.remove(pg);
+                                            // remove the connection as well
+                                            _(pg.mappings()).each(function(v) {
+                                                var mp = (td().MapCollection()).find(function(k) {
+                                                    return ko.unwrap(v) === ko.unwrap(k.WebId);
+                                                });
+
+                                                if (mp) {
+                                                    td().MapCollection.remove(mp);
+                                                }
+                                            });
+                                            _(pg.functoids()).each(function(v) {
+                                                var mp = (td().FunctoidCollection()).find(function(k) {
+                                                    return ko.unwrap(v) === ko.unwrap(k.WebId);
+                                                });
+
+                                                if (mp) {
+                                                    td().FunctoidCollection.remove(mp);
+                                                }
+                                            });
+
+                                            currentPage(pages()[0]);
+
+                                        }
+                                    });
+                            }
                         },
                         items: {
-                            "rename": { name: "Rename<br/>", icon: "bug" },
-                            "delete": { name: "Delete<br/>", icon: "circle-o" }
+                            "rename": { name: "Rename", icon: "bug" },
+                            "delete": { name: "Delete", icon: "circle-o" }
                         }
                     });
                 });
@@ -527,14 +566,12 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     }
                 });
                 var data = ko.mapping.toJSON(td),
-                    pageId = String.format("transform-definition-page-{0}", ko.unwrap(td().Id)),
-                    pageSetting = [new bespoke.sph.domain.Setting({ Id: pageId, WebId: pageId, Key: pageId, Value: ko.mapping.toJSON(pages) })],
-                    pageJson = ko.mapping.toJSON(pageSetting);
+                    pageJson = ko.mapping.toJSON(pages);
                 isBusy(true);
 
 
 
-                return context.post(pageJson, "/setting/save")
+                return context.post(pageJson, "/transform-definition/design/" + ko.unwrap(td().Id))
                         .then(function () {
                             return context.post(data, "/transform-definition");
                         })
@@ -656,19 +693,21 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                              if (result.success) {
                                  logger.info(result.message);
                              } else {
-                                 logger.error("You alread have the partial code define, in " + result.message);
+                                 logger.error("You already have the partial code define, in " + result.message);
                              }
                          });
             },
             addPage = function () {
-                var name = window.prompt("Give your page a name", "Page " + (pages().length + 1)),
-                    pg = new bespoke.sph.domain.TransformDefinitionPage(pages().length + 1, name);
-                if (!name) return Task.fromResult(0);;
+                return app2.prompt("Give your page a name", "Page " + (pages().length + 1))
+                     .done(function (name) {
 
-                pages.push(pg);
-
-                currentPage(pg);
-                return Task.fromResult(0);
+                         if (!name) {
+                             return;
+                         }
+                         var pg = new bespoke.sph.domain.TransformDefinitionPage(pages().length + 1, name);
+                         pages.push(pg);
+                         currentPage(pg);
+                     });
             },
             changePage = function (page) {
                 console.log(ko.toJS(page));
@@ -693,7 +732,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
             instance.makeSource(sourceWindows, {
                 anchor: ["RightMiddle"],
-                connector: ["Straight"]
+                connector: ["Straight"],
+                connectorStyle: connectorStyle
             });
 
 
@@ -950,7 +990,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         command: generatePartialAsync,
                         caption: "Generate Partial",
                         icon: "fa fa-code",
-                        tooltip : "Generate C# partial code for before and after transform custom code",
+                        tooltip: "Generate C# partial code for before and after transform custom code",
                         enable: ko.computed(function () {
                             if (ko.unwrap(td().Id) === "0") {
                                 return false;

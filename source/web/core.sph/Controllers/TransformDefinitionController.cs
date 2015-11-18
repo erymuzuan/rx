@@ -243,10 +243,10 @@ namespace Bespoke.Sph.Web.Controllers
             if (null == t)
             {
                 string message = $"Cannot find {type} in your {ConfigurationManager.WebPath}/bin or {ConfigurationManager.CompilerOutputPath}, Please build it if you have not done so";
-               
+
                 ObjectBuilder.GetObject<ILogger>()
                     .Log(new LogEntry(new Exception(message)));
-               return HttpNotFound(message);
+                return HttpNotFound(message);
 
             }
 
@@ -365,6 +365,25 @@ namespace Bespoke.Sph.Web.Controllers
             this.Response.ContentType = "text/html";
             var html = functoid.GetEditorView();
             return Content(html);
+        }
+
+        [HttpGet]
+        [Route("design/{id}")]
+        public ActionResult GetDesigner(string id)
+        {
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\TransformDefinition\\{id}.designer";
+            if (!System.IO.File.Exists(source)) return Content("[]", "application/json", Encoding.UTF8);
+            var json = System.IO.File.ReadAllText(source);
+            return Content(json, "application/json", Encoding.UTF8);
+        }
+        [HttpPost]
+        [Route("design/{id}")]
+        public ActionResult SaveDesigner(string id)
+        {
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\TransformDefinition\\{id}.designer";
+            Request.InputStream.Position = 0;
+            System.IO.File.WriteAllText(source, this.GetRequestBody(), Encoding.UTF8);
+            return Json(new { success = true });
         }
     }
 }
