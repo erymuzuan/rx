@@ -266,7 +266,23 @@ Write-Host ""
 
 # remove unused and big files
 ls -Path $output\control.center -Filter *.xml | Remove-Item
+ls -Path $output\control.center -Filter *.cache | Remove-Item
+ls -Path $output\control.center -Filter *.vshost.exe | Remove-Item
 
+ls -Path $output\subscribers.host -Filter *.vshost.exe | Remove-Item
+ls -Path $output\subscribers.host -Filter *.vshost.exe.config | Remove-Item
+ls -Path $output\subscribers.host -Filter *.manifest | Remove-Item
+
+ls -Path $output\tools -Filter *.vshost.exe | Remove-Item
+ls -Path $output\tools -Filter *.manifest | Remove-Item
+ls -Path $output\tools -Filter *.js | Remove-Item
+ls -Path $output\tools -Filter *.html | Remove-Item
+
+
+ls -Path $output -Recurse -Filter *.dll.config | Remove-Item
+ls -Path $output -Recurse -Filter *.resources.dll | Remove-Item
+ls -Path $output -Recurse -Filter *.dump | Remove-Item
+ls -Path $output -Recurse -Filter *.lastcodeanalysissucceeded | Remove-Item
 ls -Path $output -Recurse -Filter GalaSoft.*.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Microsoft.*.pdb | Remove-Item
 ls -Path $output -Recurse -Filter sqlmembership.directoryservices.dll.config | Remove-Item
@@ -289,6 +305,31 @@ ls -Path $output -Recurse -Filter DevV1.*.pdb | Remove-Item
 ls $output\web\App_Data\i18n | ? {$_.Name.StartsWith("options") -eq $false} | Remove-Item
 ls $output\control.center\controlcenter.vshost.* | Remove-Item
 
+ls -Path $output\web\bin\ -Recurse -Filter *.resources.dll
+ls -Path $output\subscribers.host -Recurse -Filter *.resources.dll
+ls -Path $output\tools -Recurse -Filter *.resources.dll
+ls -Path $output\schedulers -Recurse -Filter *.resources.dll
+ls -Path $output\control.center -Recurse -Filter *.resources.dll
+
+ls $output\web\bin\ -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+ls $output\subscribers.host -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+ls $output\tools -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+ls $output\schedulers -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+ls $output\control.center -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+
+if((Test-Path("$output\web\bin\roslyn")) -eq $false)
+{
+    mkdir $output\web\bin\roslyn
+    copy .\source\web\web.sph\bin\roslyn\* $output\web\bin\roslyn\
+}
+
+if((Test-Path("$output\tools\bin\roslyn")) -eq $false)
+{
+    mkdir $output\tools\bin\roslyn
+    copy .\source\web\web.sph\bin\roslyn\* $output\tools\bin\roslyn\
+}
+
+
 # TODO - remove humanizer localization folders
 # TODO - remove erl_crashdump
 # CODE ANALYSIS files
@@ -297,6 +338,10 @@ ls $output\control.center\controlcenter.vshost.* | Remove-Item
 # copy bin/roslyn to tools and web/bin
 
 # clean up custom forms
+[System.IO.File]::WriteAllText("c:\project\work\sph\bin\build\web\App_Data\custom-dialog.json","[]")
+[System.IO.File]::WriteAllText("c:\project\work\sph\bin\build\web\App_Data\custom-partial-view.json","[]")
+[System.IO.File]::WriteAllText("c:\project\work\sph\bin\build\web\App_Data\custom-script.json","[]")
+[System.IO.File]::WriteAllText("c:\project\work\sph\bin\build\web\App_Data\routes.config.json","[]")
 
 
 
