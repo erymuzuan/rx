@@ -515,6 +515,26 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                         if (dialogResult === "Yes") {
                                             pages.remove(pg);
                                             // remove the connection as well
+                                            _(pg.mappings()).each(function(v) {
+                                                var mp = (td().MapCollection()).find(function(k) {
+                                                    return ko.unwrap(v) === ko.unwrap(k.WebId);
+                                                });
+
+                                                if (mp) {
+                                                    td().MapCollection.remove(mp);
+                                                }
+                                            });
+                                            _(pg.functoids()).each(function(v) {
+                                                var mp = (td().FunctoidCollection()).find(function(k) {
+                                                    return ko.unwrap(v) === ko.unwrap(k.WebId);
+                                                });
+
+                                                if (mp) {
+                                                    td().FunctoidCollection.remove(mp);
+                                                }
+                                            });
+
+                                            currentPage(pages()[0]);
 
                                         }
                                     });
