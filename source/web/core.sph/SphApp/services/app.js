@@ -44,6 +44,27 @@
 
             return tcs.promise();
         },
+        prompt = function (label,value, title) {
+            var tcs = new $.Deferred();
+
+            require(["viewmodels/prompt", "durandal/app"], function (dialog, app2) {
+
+                dialog.title(title || "Rx Developer");
+                dialog.label(label);
+                dialog.value(value);
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (result === "OK") {
+                            tcs.resolve(ko.unwrap(dialog.value));
+                            return;
+                        }
+                        tcs.resolve(false);
+                    });
+            });
+
+            return tcs.promise();
+
+        },
         showMessage = function (message, title, options) {
             var id = guid(),
                 tcs = new $.Deferred(),
@@ -89,6 +110,7 @@
     var app = {
         guid: guid,
         showModal: showDialog,
+        prompt: prompt,
         showMessage: showMessage
     };
     return app;
