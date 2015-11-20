@@ -358,6 +358,34 @@ Write-Host "You'll need to manually copy any new NuGet packages to each individu
 # remove unused and big files
 ls -Path $output\control.center -Filter *.xml | Remove-Item
 ls -Path $output\control.center -Filter *.cache | Remove-Item
+ls -Path $output -Recurse -Filter *.dll.config | Remove-Item
+ls -Path $output -Recurse -Filter *.resources.dll | Remove-Item
+ls -Path $output -Recurse -Filter *.dump | Remove-Item
+ls -Path $output -Recurse -Filter *.lastcodeanalysissucceeded | Remove-Item
+
+ls -Path $output\web\bin\ -Recurse -Filter *.resources.dll
+ls -Path $output\subscribers.host -Recurse -Filter *.resources.dll
+ls -Path $output\tools -Recurse -Filter *.resources.dll
+ls -Path $output\schedulers -Recurse -Filter *.resources.dll
+ls -Path $output\control.center -Recurse -Filter *.resources.dll
+
+ls $output\web\bin\ -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+ls $output\subscribers.host -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+ls $output\tools -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+ls $output\schedulers -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+ls $output\control.center -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+
+if((Test-Path("$output\web\bin\roslyn")) -eq $false)
+{
+    mkdir $output\web\bin\roslyn
+    copy .\source\web\web.sph\bin\roslyn\* $output\web\bin\roslyn\
+}
+
+if((Test-Path("$output\tools\bin\roslyn")) -eq $false)
+{
+    mkdir $output\tools\bin\roslyn
+    copy .\source\web\web.sph\bin\roslyn\* $output\tools\bin\roslyn\
+}
 
 ls -Path $output -Recurse -Filter assembly.test.* | Remove-Item
 ls -Path $output -Recurse -Filter GalaSoft.*.pdb | Remove-Item
