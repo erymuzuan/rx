@@ -87,9 +87,10 @@ namespace Bespoke.Sph.Web.Controllers
             return await Es(wfes, json);
         }
 
+        [Route("activity")]
         public async Task<ActionResult> Activity()
         {
-            return await Es("activity", this.GetRequestBody());
+            return await Es("activity", this.GetRequestBody(), false);
         }
 
         [Route("log")]
