@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var context = new SphDataContext();
             var query = context.Workflows.Where(w => w.WorkflowDefinitionId == workflowDefinitionId)
                 .WhereIf(w => w.CreatedDate >= createdDateFrom.Value, createdDateFrom.HasValue)
-                .WhereIf(w => w.CreatedDate <= createdDateEnd.Value, createdDateEnd.HasValue)
+                .WhereIf(w => w.CreatedDate <= createdDateEnd.Value.AddHours(23).AddMinutes(59), createdDateEnd.HasValue)
                 .WhereIf(w => w.State == state, !string.IsNullOrWhiteSpace(state));
 
 
