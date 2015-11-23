@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
     {
         private readonly Page m_page;
 
-        public ScreenActivityVirtualFile(string virtualPath,Page page)
+        public ScreenActivityVirtualFile(string virtualPath, Page page)
             : base(virtualPath)
         {
             this.m_page = page;
