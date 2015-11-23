@@ -2,10 +2,10 @@
     <form class="form-inline" data-bind="with : query">
         <div id="intance-query-date-range" class="pull-right">
             <i class="fa fa-calendar fa-lg"></i>
-            <span data-bind="date: {value : createdDateFrom, format :'MMMM DD, YYYY'}">
+            <span data-bind="date: { value : createdDateFrom, format :'MMMM DD, YYYY', inputFormat :'YYYY-MM-DD'}">
             </span>
             -
-            <span data-bind="date: {value : createdDateEnd, format :'MMMM DD, YYYY'}"></span>
+            <span data-bind="date: { value:createdDateEnd, format :'MMMM DD, YYYY', inputFormat :'YYYY-MM-DD'}"></span>
             <b class="caret"></b>
         </div>
 

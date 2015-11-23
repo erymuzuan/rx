@@ -19,8 +19,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 query = {
                     state: ko.observable(),
                     workflowDefinitionId: id,
-                    createdDateFrom: ko.observable(moment().startOf("week").format("DD/MM/YYYY HH:mm")),
-                    createdDateEnd: ko.observable(moment().format("DD/MM/YYYY HH:mm"))
+                    createdDateFrom: ko.observable(moment().startOf("week").format("YYYY-MM-DD")),
+                    createdDateEnd: ko.observable(moment().format("YYYY-MM-DD"))
 
                 },
             wdOptions = ko.observableArray(),
