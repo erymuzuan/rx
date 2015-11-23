@@ -129,7 +129,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             // compile , then save
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory
+                SourceCodeDirectory = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, wd.Id)
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
@@ -279,7 +279,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Tag = tag,
                     Version = wd.Version,
                     WebId = Guid.NewGuid().ToString(),
-                    Id = Guid.NewGuid().ToString(),
+                    Id = $"{wd.Id}-{scr1.Name}".ToIdFormat(),
                     VirtualPath = $"~/Views/{wd.WorkflowTypeName}/{scr1.ActionName}V{wd.Version}.cshtml"
                 };
 

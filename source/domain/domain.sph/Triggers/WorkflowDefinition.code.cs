@@ -224,10 +224,10 @@ namespace Bespoke.Sph.Domain
         {
             var wd = this;
             var script = new StringBuilder();
-            script.AppendLine("var bespoke = bespoke ||{};");
-            script.AppendLine("bespoke.sph = bespoke.sph ||{};");
-            script.AppendLine("bespoke.sph.wf = bespoke.sph.wf ||{};");
-            script.AppendLine($"bespoke.sph.wf.{wd.WorkflowTypeName} = bespoke.sph.wf.{wd.Version} ||{{}};");
+            script.AppendLine("var bespoke = bespoke || {};");
+            script.AppendLine("bespoke.sph = bespoke.sph || {};");
+            script.AppendLine("bespoke.sph.wf = bespoke.sph.wf || {};");
+            script.AppendLine($"bespoke.sph.wf.{wd.WorkflowTypeName} = bespoke.sph.wf.v{wd.Version} || {{}};");
 
             var xsd = wd.GetCustomSchema();
 

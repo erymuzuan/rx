@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public async override Task CancelAsync(Workflow wf)
+        public override async Task CancelAsync(Workflow wf)
         {
             var baseUrl = ConfigurationManager.BaseUrl;
             var url =
@@ -173,7 +173,7 @@ namespace Bespoke.Sph.Domain
             var @classes = new List<Class>();
 
             // controller
-            string name = this.Name.Dehumanize().Replace(" ", string.Empty);
+            var name = this.Name.Dehumanize().Replace(" ", string.Empty);
             var controller = new Class
             {
                 Name = $"{wd.WorkflowTypeName}Controller",
@@ -195,20 +195,24 @@ namespace Bespoke.Sph.Domain
             // GET Action
             getAction.AppendLinf("//exec:{0}", this.WebId);
             getAction.AppendLinf("       [HttpGet]");
-            getAction.AppendLinf("       [Route(\"{0}/{{id}}/{{correlation?}}\")]", this.Name.ToIdFormat());
-            getAction.AppendLinf("       public async Task<ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "" : "string id, string correlation=\"\"");
+
+            var route = this.IsInitiator ? "" : "{id}/{correlation?}";
+            var arg = this.IsInitiator ? "" : "string id, string correlation=\"\"";
+
+            getAction.AppendLine($"       [Route(\"{ this.Name.ToIdFormat()}/{route}\")]");
+            getAction.AppendLine($"       public async Task<ActionResult> {this.ActionName}({arg})");
             getAction.AppendLine("       {");
 
 
             getAction.AppendLine("           var context = new SphDataContext();");
             if (this.IsInitiator)
-                getAction.AppendLinf("           var wf =  new  {0}();", wd.WorkflowTypeName);
+                getAction.AppendLine($"           var wf =  new  {wd.WorkflowTypeName}();");
             else
-                getAction.AppendLinf("           var wf = await context.LoadOneAsync<Workflow>(w => w.Id == id);", wd.WorkflowTypeName);
+                getAction.AppendLine("           var wf = await context.LoadOneAsync<Workflow>(w => w.Id == id);");
 
             getAction.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
-            getAction.AppendLinf("           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);");
-            getAction.AppendLinf("           var screen = wf.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
+            getAction.AppendLine("           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);");
+            getAction.AppendLine($"           var screen = wf.GetActivity<ScreenActivity>(\"{this.WebId}\");");
 
             getAction.AppendLinf("           var vm = new {0}(){{", this.ViewModelType);
             getAction.AppendLinf("                   Screen  = screen,");
@@ -290,13 +294,7 @@ namespace Bespoke.Sph.Domain
         }
 
         [JsonIgnore]
-        public string ViewModelType
-        {
-            get
-            {
-                return String.Format(this.Name.Replace(" ", string.Empty) + "ViewModel");
-            }
-        }
+        public string ViewModelType => string.Format(this.Name.Replace(" ", string.Empty) + "ViewModel");
 
         public string GetView(WorkflowDefinition wd)
         {
@@ -356,7 +354,6 @@ namespace Bespoke.Sph.Domain
 @{{
     ViewBag.Title = Model.Instance.Name;
     Layout = ""~/Views/Shared/_Layout.cshtml"";
-    const string controllerString = ""Controller"";
     var setting = new JsonSerializerSettings {{TypeNameHandling = TypeNameHandling.All}};
     var confirmationText = Model.Screen.ConfirmationOptions.Value;
     

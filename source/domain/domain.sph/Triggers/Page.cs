@@ -1,5 +1,6 @@
 ﻿namespace Bespoke.Sph.Domain
 {
+    [StoreAsSource]
     public partial class Page : Entity
     {
         public void ChangeWorkflowDefinitionVersion(string oldId, string id)
