@@ -5,23 +5,14 @@ using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace Bespoke.Sph.WorkflowsExecution
 {
-    public class PagePublshingSubscriber : Subscriber<Page>
+    public class PagePublishingSubscriber : Subscriber<Page>
     {
-        public override string QueueName
-        {
-            get { return "wd_page_queue"; }
-        }
+        public override string QueueName => "wd_page_queue";
 
-        public override string[] RoutingKeys
+        public override string[] RoutingKeys => new[]
         {
-            get
-            {
-                return new[]
-                {
-                    typeof(Page).Name + ".#.#"
-                };
-            }
-        }
+            typeof(Page).Name + ".#.#"
+        };
 
         protected override Task ProcessMessage(Page item, MessageHeaders header)
         {
