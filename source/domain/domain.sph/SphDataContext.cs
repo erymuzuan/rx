@@ -222,6 +222,13 @@ namespace Bespoke.Sph.Domain
             where T : Entity
             where TResult : struct
         {
+            var source = StoreAsSourceAttribute.GetAttribute<T>();
+            if (null != source && !source.IsSqlDatabase)
+            {
+                var list = this.LoadFromSources(predicate).ToArray();
+                return !list.Any() ? default(TResult) : list.Max(selector.Compile());
+            }
+
             var query = Translate(predicate);
             var repos = ObjectBuilder.GetObject<IRepository<T>>();
             return await repos.GetMaxAsync(query, selector);
@@ -231,6 +238,7 @@ namespace Bespoke.Sph.Domain
             where T : Entity
             where TResult : struct
         {
+            
             var repos = ObjectBuilder.GetObject<IRepository<T>>();
             return await repos.GetMaxAsync(query, selector);
         }
