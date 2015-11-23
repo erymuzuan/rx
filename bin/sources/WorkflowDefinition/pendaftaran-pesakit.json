@@ -1,0 +1,1157 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ScreenActivity, domain.sph",
+        "Title": null,
+        "ViewVirtualPath": null,
+        "WorkflowDefinitionId": 0,
+        "CancelMessageSubject": "[Sph] @Model.Screen.Name was cancelled",
+        "InvitationMessageSubject": "[Sph] @Model.Screen.Name  task is assigned to you",
+        "CancelMessageBody": "@Model.Screen.Name task was cancelled this url is not longer valid @Model.Url",
+        "InvitationMessageBody": "@Model.Screen.Name task is assigned to you go here @Model.Url",
+        "FormDesign": {
+          "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+          "FormElementCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+                "DefaultValue": null,
+                "AutoCompletionEntity": "",
+                "AutoCompletionField": null,
+                "AutoCompletionQuery": null,
+                "IsPathIsRequired": true,
+                "TypeName": "TextBox",
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
+                  "WebId": null
+                },
+                "Name": "Single Line Text",
+                "Label": "Nama Pesakit",
+                "Tooltip": null,
+                "Path": "Pesakit.FullName",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "a4570167-bbbd-45e4-f08e-9d9cd512ecc2",
+                "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": "fa fa-text-width",
+                "IsUniqueName": false,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+                "IsPathIsRequired": true,
+                "TypeName": "DatePicker",
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
+                  "WebId": null
+                },
+                "Name": "Date",
+                "Label": "Tarikh Lahir",
+                "Tooltip": null,
+                "Path": "Pesakit.Dob",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "6160f1fc-6df6-46e2-b972-fd7493fae7da",
+                "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": "fa fa-calendar",
+                "IsUniqueName": false,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+                "ComboBoxItemCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+                  "$values": [
+                    {
+                      "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                      "Caption": "Lelaki",
+                      "Value": "Lelaki",
+                      "WebId": "6c281f03-92f0-4207-b659-835a707f2bd0"
+                    },
+                    {
+                      "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                      "Caption": "Perempuan",
+                      "Value": "Perempuan",
+                      "WebId": "53736737-9cea-4cd9-f9fb-e2226d1dcfd7"
+                    }
+                  ]
+                },
+                "ComboBoxLookup": {
+                  "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+                  "Entity": "",
+                  "ValuePath": null,
+                  "DisplayPath": null,
+                  "Query": null,
+                  "IsComputedQuery": false,
+                  "WebId": null
+                },
+                "IsPathIsRequired": true,
+                "TypeName": "ComboBox",
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
+                  "WebId": null
+                },
+                "Name": "Select List",
+                "Label": "Jantina",
+                "Tooltip": null,
+                "Path": "Pesakit.Gender",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "5bbfa5d2-1945-4ca7-e894-6bacb47238b8",
+                "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": "fa fa-chevron-down",
+                "IsUniqueName": false,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.Button, domain.sph",
+                "IsPathIsRequired": false,
+                "Command": null,
+                "UseClick": false,
+                "CommandName": "save",
+                "LoadingText": null,
+                "CompleteText": null,
+                "IconClass": null,
+                "IsToolbarItem": false,
+                "Operation": null,
+                "TypeName": "Button",
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
+                  "WebId": null
+                },
+                "Name": "Button",
+                "Label": "Submit",
+                "Tooltip": null,
+                "Path": "",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "btn btn-default",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "25052f4d-8eb8-45bc-8ca5-7d04664ffa9e",
+                "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": "fa fa-square",
+                "IsUniqueName": false,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              }
+            ]
+          },
+          "Name": null,
+          "Description": null,
+          "ConfirmationText": null,
+          "ImageStoreId": null,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": "",
+          "Value": null,
+          "IsPublic": true,
+          "WebId": null
+        },
+        "ConfirmationOptions": {
+          "$type": "Bespoke.Sph.Domain.ConfirmationOptions, domain.sph",
+          "Type": "Message",
+          "Value": "Permohonan Pendaftaran and sudah berjaya di hantar",
+          "WebId": null
+        },
+        "IsAsync": true,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Screen",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 401,
+          "Y": 30,
+          "WebId": null
+        },
+        "IsInitiator": true,
+        "NextActivityWebId": "caa8cf62-09c9-4696-c47c-27dcd8cff9e6",
+        "Name": "Permohonan Pendaftaran",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "0188f17d-c3ae-4e6a-a8bc-89248cc14392"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Pendaftaran",
+        "Body": "Pendaftaran Pesakit @Model.Pesakit.FullName",
+        "To": "admin@@bespoke.com.my",
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformFromEmailAdminPesakitBaruAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformToEmailAdminPesakitBaruAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformSubjectEmailAdminPesakitBaruAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformBodyEmailAdminPesakitBaruAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            }
+          ]
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 401,
+          "Y": 250,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "382aeb18-340d-47e1-d48d-4b9ad0484926",
+        "Name": "Email admin pesakit baru",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "caa8cf62-09c9-4696-c47c-27dcd8cff9e6"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ScreenActivity, domain.sph",
+        "Title": null,
+        "ViewVirtualPath": null,
+        "WorkflowDefinitionId": 0,
+        "CancelMessageSubject": "[Sph] @Model.Screen.Name was cancelled",
+        "InvitationMessageSubject": "[Sph] @Model.Screen.Name  task is assigned to you",
+        "CancelMessageBody": "@Model.Screen.Name task was cancelled this url is not longer valid @Model.Url",
+        "InvitationMessageBody": "@Model.Screen.Name task is assigned to you go here @Model.Url",
+        "FormDesign": {
+          "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+          "FormElementCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+                "DefaultValue": null,
+                "AutoCompletionEntity": null,
+                "AutoCompletionField": null,
+                "AutoCompletionQuery": null,
+                "IsPathIsRequired": true,
+                "TypeName": "TextBox",
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
+                  "WebId": null
+                },
+                "Name": "Single Line Text",
+                "Label": "Nama Pesakit",
+                "Tooltip": null,
+                "Path": "Pesakit.FullName",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "9b3045fa-d0b6-4795-dc2d-8d8a0af6b897",
+                "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": "fa fa-text-width",
+                "IsUniqueName": false,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+                "DefaultValue": null,
+                "AutoCompletionEntity": null,
+                "AutoCompletionField": null,
+                "AutoCompletionQuery": null,
+                "IsPathIsRequired": true,
+                "TypeName": "TextBox",
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
+                  "WebId": null
+                },
+                "Name": "Single Line Text",
+                "Label": "MRN",
+                "Tooltip": null,
+                "Path": "Pesakit.Mrn",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "a807aa00-55c7-414d-c9a7-c60f878d3e23",
+                "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": "fa fa-text-width",
+                "IsUniqueName": false,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+                "ComboBoxItemCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+                  "$values": [
+                    {
+                      "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                      "Caption": "Baru",
+                      "Value": "Baru",
+                      "WebId": "dc3ed8ab-ffb5-4e10-f758-f7b3539ec195"
+                    },
+                    {
+                      "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                      "Caption": "Ditolak",
+                      "Value": "Ditolak",
+                      "WebId": "502de0bb-b33f-4d2d-bd6f-58f87745614b"
+                    },
+                    {
+                      "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                      "Caption": "Diterima",
+                      "Value": "Diterima",
+                      "WebId": "2a21ba98-68c9-4bbc-95af-e66523b7268b"
+                    }
+                  ]
+                },
+                "ComboBoxLookup": {
+                  "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+                  "Entity": null,
+                  "ValuePath": null,
+                  "DisplayPath": null,
+                  "Query": null,
+                  "IsComputedQuery": false,
+                  "WebId": null
+                },
+                "IsPathIsRequired": true,
+                "TypeName": "ComboBox",
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
+                  "WebId": null
+                },
+                "Name": "Select List",
+                "Label": "Status",
+                "Tooltip": null,
+                "Path": "Status",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "78e63f82-4c05-4a86-9fad-4f400bd6b5a2",
+                "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": "fa fa-chevron-down",
+                "IsUniqueName": false,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              }
+            ]
+          },
+          "Name": null,
+          "Description": null,
+          "ConfirmationText": null,
+          "ImageStoreId": null,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": "Designation",
+          "Value": "Pegawai Pendaftaran",
+          "IsPublic": false,
+          "WebId": null
+        },
+        "ConfirmationOptions": {
+          "$type": "Bespoke.Sph.Domain.ConfirmationOptions, domain.sph",
+          "Type": "Message",
+          "Value": null,
+          "WebId": null
+        },
+        "IsAsync": true,
+        "ExecutedCode": "     await this.FireListenTriggerMulaProcessKelulusanAsync(\"d1f7fc67-7efa-45fa-b404-4d72ccb78d3b\");",
+        "ExecutingCode": null,
+        "TypeName": "Screen",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 212,
+          "Y": 671,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "1074834d-69ef-449d-83b4-76674189c0a5",
+        "Name": "Process Kelulusan",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "d1f7fc67-7efa-45fa-b404-4d72ccb78d3b"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "End",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 570,
+          "Y": 1402,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": null,
+        "Name": "End_3",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "ffabdb76-0a6c-4ac5-de8a-248ce97ba1ac"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DelayActivity, domain.sph",
+        "IsAsync": true,
+        "Expression": null,
+        "Miliseconds": 0,
+        "Seconds": 0,
+        "Hour": 0,
+        "Days": 4,
+        "ExecutedCode": "     await this.FireListenTriggerMulaProcessKelulusanAsync(\"182fd3c9-622e-4eca-faf5-aebcf0a2a81a\");",
+        "ExecutingCode": null,
+        "TypeName": "Delay",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 570,
+          "Y": 662,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "1f4ea0fa-7bd3-4c01-dfd9-348104160d64",
+        "Name": "Tunggu 4 hari",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "182fd3c9-622e-4eca-faf5-aebcf0a2a81a"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Diterima",
+        "Body": "Diterima",
+        "To": "admin@@bespoke.com.my",
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformFromEmailPedaftaranAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformToEmailPedaftaranAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformSubjectEmailPedaftaranAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformBodyEmailPedaftaranAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            }
+          ]
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 212,
+          "Y": 880,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "c265002e-d203-4e64-e8e3-d77246403589",
+        "Name": "Email Pedaftaran",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "1074834d-69ef-449d-83b4-76674189c0a5"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ListenActivity, domain.sph",
+        "ListenBranchCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ListenBranch, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.ListenBranch, domain.sph",
+              "IsWaitingAsync": false,
+              "IsDestroyed": false,
+              "IsAsync": false,
+              "ExecutedCode": null,
+              "ExecutingCode": null,
+              "TypeName": "ListenBranch",
+              "OtherMethodCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "WorkflowDesigner": {
+                "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+                "X": 0,
+                "Y": 0,
+                "WebId": null
+              },
+              "IsInitiator": false,
+              "NextActivityWebId": "d1f7fc67-7efa-45fa-b404-4d72ccb78d3b",
+              "Name": "Process",
+              "TryScope": "",
+              "CatchScope": "",
+              "WebId": "fc4bbb00-5d04-4557-bf83-c5da206e526f"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.ListenBranch, domain.sph",
+              "IsWaitingAsync": false,
+              "IsDestroyed": false,
+              "IsAsync": false,
+              "ExecutedCode": null,
+              "ExecutingCode": null,
+              "TypeName": "ListenBranch",
+              "OtherMethodCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "WorkflowDesigner": {
+                "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+                "X": 0,
+                "Y": 0,
+                "WebId": null
+              },
+              "IsInitiator": false,
+              "NextActivityWebId": "182fd3c9-622e-4eca-faf5-aebcf0a2a81a",
+              "Name": "Lambat",
+              "TryScope": "",
+              "CatchScope": "",
+              "WebId": "025b924e-73cf-4586-8ad9-c4b908f0acc5"
+            }
+          ]
+        },
+        "IsAsync": true,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Listen",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 401,
+          "Y": 428,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": null,
+        "Name": "Mula Process Kelulusan",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "382aeb18-340d-47e1-d48d-4b9ad0484926"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Habis",
+        "Body": "Habis masa",
+        "To": "admin@@bespoke.com.my",
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformFromHabisMasaAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformToHabisMasaAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformSubjectHabisMasaAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformBodyHabisMasaAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": null,
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false
+            }
+          ]
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 570,
+          "Y": 874,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "ffabdb76-0a6c-4ac5-de8a-248ce97ba1ac",
+        "Name": "Habis Masa",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "1f4ea0fa-7bd3-4c01-dfd9-348104160d64"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.MappingActivity, domain.sph",
+        "MappingDefinition": "DevV1.Integrations.Transforms.PatientToCustomer2",
+        "DestinationType": null,
+        "OutputPath": "Pelanggang",
+        "MappingSourceCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MappingSource, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.MappingSource, domain.sph",
+              "TypeName": "",
+              "Variable": "Pesakit",
+              "WebId": null
+            }
+          ]
+        },
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Mapping",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 212,
+          "Y": 1041,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "0cbb78ed-0d49-4dd0-b152-b456a772a804",
+        "Name": "MapPesakitKePelanggang",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "c265002e-d203-4e64-e8e3-d77246403589"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.CreateEntityActivity, domain.sph",
+        "EntityType": "Customer",
+        "ReturnValuePath": null,
+        "PropertyMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMapping, domain.sph",
+              "Source": "Pelanggang",
+              "Destination": ".",
+              "WebId": "c322d6ab-f4fb-42d9-c8ea-185c0e50d9e4"
+            }
+          ]
+        },
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "CreateEntity",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 212,
+          "Y": 1221,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "ffabdb76-0a6c-4ac5-de8a-248ce97ba1ac",
+        "Name": "Masuk dalam CRM",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "0cbb78ed-0d49-4dd0-b152-b456a772a804"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "Pesakit",
+        "TypeName": "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient",
+        "DefaultValue": "",
+        "WebId": "54a6a454-b3d6-4bf5-f1bf-71e10b846646"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "Pelanggang",
+        "TypeName": "Bespoke.DevV1_customer.Domain.Customer, DevV1.Customer",
+        "DefaultValue": "",
+        "WebId": "30185aa4-e642-4188-f69d-45dbf9d7e0cb"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "Status",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "Baru",
+        "WebId": "36d473d8-4047-4e74-969f-479f3074a8a9"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.Patient",
+        "FullName": "DevV1.Patient, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "c:\\project\\work\\sph\\bin\\output\\DevV1.Patient.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.Customer",
+        "FullName": "DevV1.Customer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "c:\\project\\work\\sph\\source\\web\\web.sph\\bin\\DevV1.Customer.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.PatientToCustomer2",
+        "FullName": "DevV1.PatientToCustomer2, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "c:\\project\\work\\sph\\bin\\output\\DevV1.PatientToCustomer2.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      }
+    ]
+  },
+  "CorrelationSetCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationTypeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "TryScopeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TryScope, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Pendaftaran Pesakit",
+  "Note": "",
+  "IsActive": true,
+  "SchemaStoreId": "9c439e7e-61df-4dfe-a99c-ce064a31d026",
+  "Version": 0,
+  "CreatedBy": "admin",
+  "Id": "pendaftaran-pesakit",
+  "CreatedDate": "2015-11-23T09:15:13.5019851+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-11-23T13:37:05.3040649+08:00",
+  "WebId": "e49fa89f-1fa2-4a92-db9f-1b34dfdf3073"
+}

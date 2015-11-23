@@ -106,42 +106,6 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "Title",
-        "TypeName": "",
-        "Destination": "Contact.Title",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "e0f13ef2-98fe-4bb1-960b-60bbb43ec671"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "Address.Street1",
-        "TypeName": "",
-        "Destination": "Address.Street1",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "ab99db93-1115-42bb-93d9-bb06544a0fe1"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "Address.State",
-        "TypeName": "",
-        "Destination": "Address.State",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "5f24b94e-74f6-4967-d9b6-b482509e13a5"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "Address.WebId",
-        "TypeName": "",
-        "Destination": "Address.WebId",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "0b36eed4-3685-4715-cb16-28aa9e71082c"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
         "Source": "HomeAddress.Street",
         "TypeName": "",
         "Destination": "Address.Street1",
@@ -218,6 +182,6 @@
   "Id": "patient-to-customer",
   "CreatedDate": "2015-07-16T14:16:43.0995791+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-11-18T13:06:04.0590237+08:00",
+  "ChangedDate": "2015-11-23T10:02:04.8567765+08:00",
   "WebId": "9d4b8ed2-3b75-4a06-c835-3cf119c602d7"
 }
