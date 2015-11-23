@@ -171,10 +171,11 @@ ko.bindingHandlers.date = {
         }
 
         var dv = ko.unwrap(value.value),
-        inputFormat = ko.unwrap(value.inputFormat) || "YYYY-MM-DD",
-        date = moment(dv, inputFormat),
-        invalid = ko.unwrap(value.invalid) || "invalid date",
-        format = ko.unwrap(value.format) || "DD/MM/YYYY";
+            defaultFormat = (dv || "").indexOf("T") > -1 ? "YYYY-MM-DDTHH:mm:ss" : "YYYY-MM-DD",
+            inputFormat = ko.unwrap(value.inputFormat) || defaultFormat,
+            date = moment(dv, inputFormat),
+            invalid = ko.unwrap(value.invalid) || "invalid date",
+            format = ko.unwrap(value.format) || "DD/MM/YYYY";
 
         if (!value.format && typeof ko.unwrap(value) === "string") {
             dv = ko.unwrap(value);
@@ -221,10 +222,11 @@ ko.bindingHandlers.date = {
         }
 
         var dv = ko.unwrap(value.value),
-        inputFormat = ko.unwrap(value.inputFormat) || "YYYY-MM-DD",
-        date = moment(dv, inputFormat),
-        invalid = ko.unwrap(value.invalid) || "invalid date",
-        format = ko.unwrap(value.format) || "DD/MM/YYYY";
+            defaultFormat = (dv || "").indexOf("T") > -1 ? "YYYY-MM-DDTHH:mm:ss" : "YYYY-MM-DD",
+            inputFormat = ko.unwrap(value.inputFormat) || defaultFormat,
+            date = moment(dv, inputFormat),
+            invalid = ko.unwrap(value.invalid) || "invalid date",
+            format = ko.unwrap(value.format) || "DD/MM/YYYY";
 
         if (!value.format && typeof ko.unwrap(value) === "string") {
             dv = ko.unwrap(value);
