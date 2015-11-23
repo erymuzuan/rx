@@ -10,43 +10,32 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.app],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
     function (context, logger, router, app) {
 
         var isBusy = ko.observable(false),
             id = ko.observable(),
+            results = ko.observableArray(),
+                query = {
+                    state: ko.observable(),
+                    workflowDefinitionId: id,
+                    createdDateFrom: ko.observable(moment().startOf("week").format("DD/MM/YYYY HH:mm")),
+                    createdDateEnd: ko.observable(moment().format("DD/MM/YYYY HH:mm"))
+
+                },
+            wdOptions = ko.observableArray(),
+            selectedItems = ko.observableArray(),
             activate = function (wdid) {
                 if (typeof wdid === "object" && typeof wdid.wdid === "string") {
                     id(wdid.wdid);
                 } else {
                     id(wdid);
                 }
-                vm.results.removeAll();
-            },
-            attached = function (view) {
-                $('#intance-query-date-range').daterangepicker(
-                                       {
-                                           ranges: {
-                                               'Today': [moment(), moment()],
-                                               'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                                               'Last 7 Days': [moment().subtract( 6, 'days'), moment()],
-                                               'Last 30 Days': [moment().subtract( 29, 'days'), moment()],
-                                               'This Month': [moment().startOf('month'), moment().endOf('month')],
-                                               'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract( 1, 'month').endOf('month')]
-                                           },
-                                           startDate: moment().subtract( 29, 'days'),
-                                           endDate: moment()
-                                       },
-                                       function (start, end) {
-                                           vm.query.createdDateFrom(start.format('YYYY-MM-DD'));
-                                           vm.query.createdDateEnd(end.format('YYYY-MM-DD'));
-                                           return search();
-                                       }
-                                   );
+                results.removeAll();
             },
             search = function () {
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(vm.query);
+                var data = ko.mapping.toJSON(query);
                 isBusy(true);
 
                 context.post(data, "/WorkflowMonitor/Search")
@@ -55,16 +44,37 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         var items = _(result.$values).map(function (v) {
                             return context.toObservable(v, /Bespoke\.Sph\.Workflows.*\.(.*?),/);
                         });
-                        vm.results(items);
+                        results(items);
                         tcs.resolve(items);
-                        vm.selectedItems.removeAll();
+                        selectedItems.removeAll();
                     });
                 return tcs.promise();
+            },
+            attached = function () {
+                $("#intance-query-date-range").daterangepicker(
+                                       {
+                                           ranges: {
+                                               'Today': [moment(), moment()],
+                                               'Yesterday': [moment().subtract(1, "days"), moment().subtract(1, "days")],
+                                               'Last 7 Days': [moment().subtract(6, "days"), moment()],
+                                               'Last 30 Days': [moment().subtract(29, "days"), moment()],
+                                               'This Month': [moment().startOf("month"), moment().endOf("month")],
+                                               'Last Month': [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+                                           },
+                                           startDate: moment().subtract(29, "days"),
+                                           endDate: moment()
+                                       },
+                                       function (start, end) {
+                                           query.createdDateFrom(start.format("YYYY-MM-DD"));
+                                           query.createdDateEnd(end.format("YYYY-MM-DD"));
+                                           return search();
+                                       }
+                                   );
             },
             terminateItems = function () {
 
                 var tcs = new $.Deferred(),
-                    instancesId = _(vm.selectedItems()).map(function (v) {
+                    instancesId = _(selectedItems()).map(function (v) {
                         return v.WorkflowId();
                     }), terminate = function () {
 
@@ -75,16 +85,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                             .then(function (result) {
                                 isBusy(false);
                                 tcs.resolve(result);
-                                logger.info('Your instances has been succesfully terminated');
+                                logger.info("Your instances has been succesfully terminated");
 
                                 // refresh
                                 search();
                             });
 
                     };
-                app.showMessage('Are you sure you want terminate these running instances', 'SPH - Workflow', ['Yes', 'No'])
+                app.showMessage("Are you sure you want terminate these running instances", "SPH - Workflow", ["Yes", "No"])
                     .done(function (dr) {
-                        if (dr === 'Yes') {
+                        if (dr === "Yes") {
                             terminate();
                         } else {
                             tcs.resolve(false);
@@ -97,19 +107,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
         var vm = {
             isBusy: isBusy,
             id: id,
-            query: {
-                state: ko.observable(),
-                workflowDefinitionId: id,
-                createdDateFrom: ko.observable(moment().startOf('week').format('DD/MM/YYYY HH:mm')),
-                createdDateEnd: ko.observable(moment().format('DD/MM/YYYY HH:mm'))
-
-            },
             search: search,
             activate: activate,
             attached: attached,
-            wdOptions: ko.observableArray(),
-            selectedItems: ko.observableArray(),
-            results: ko.observableArray(),
+            results: results,
+            query: query,
+            wdOptions: wdOptions,
+            selectedItems: selectedItems,
             terminateItems: terminateItems
         };
 

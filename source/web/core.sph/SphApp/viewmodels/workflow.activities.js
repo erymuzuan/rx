@@ -10,7 +10,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
+define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
 
         var isBusy = ko.observable(false),
@@ -19,10 +19,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             wd = ko.observable(),
             tracker = ko.observable(),
             loadWd = function (wf) {
-                var query = String.format("WorkflowDefinitionId eq {0}", wf.WorkflowDefinitionId()),
+                var query = String.format("Id eq '{0}'", wf.WorkflowDefinitionId()),
                     tcs = new $.Deferred(),
                     wdTask = context.loadOneAsync("WorkflowDefinition", query),
-                    trackerTask = context.loadOneAsync("Tracker", "WorkflowId eq " + wf.WorkflowId());
+                    trackerTask = context.loadOneAsync("Tracker", "WorkflowId eq '" + ko.unwrap(wf.Id) + "'");
                 $.when(wdTask, trackerTask)
                     .done(function (b, t) {
                         wd(b);
@@ -34,8 +34,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 return tcs.promise();
             },
             activate = function (idArg) {
-                id(parseInt(idArg));
-                var query = String.format("WorkflowId eq {0}", id()),
+                id(idArg);
+                var query = String.format("Id eq '{0}'", id()),
                     tcs = new $.Deferred();
                 context.loadOneAsync("Workflow", query)
                     .done(function (b) {
@@ -48,7 +48,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             },
             attached = function () {
-                
+
             };
 
         var vm = {
