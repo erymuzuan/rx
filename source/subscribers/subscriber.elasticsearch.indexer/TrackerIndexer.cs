@@ -14,7 +14,7 @@ namespace Bespoke.Sph.ElasticSearch
         public async Task ProcessMessage(Tracker item, MessageHeaders headers)
         {
             var tasks = from ea in item.ExecutedActivityCollection
-                let id = string.Format("{0}_{1}_{2}", item.WorkflowDefinitionId, item.WorkflowId, ea.ActivityWebId)
+                let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{ea.ActivityWebId}"
                 let wfid = item.WorkflowId
                 select AddExecutedActivityToIndexAsync(id, ea, headers, wfid);
             await Task.WhenAll(tasks);
@@ -50,14 +50,13 @@ namespace Bespoke.Sph.ElasticSearch
                     t.Performers = await screen.GetUsersAsync(item.Workflow);
             });
             //delete previous pending tasks
-            var url1 = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex, "pendingtask",
-                "_query?q=WorkflowId:" + item.WorkflowId);
+            var url1 = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{"_query?q=WorkflowId:" + item.WorkflowId}";
             var client1 = new HttpClient();
             var response1 = await client1.DeleteAsync(url1);
 
             Debug.WriteLine(response1);
             var tasks = from t in pendings
-                let id = string.Format("{0}_{1}_{2}", item.WorkflowDefinitionId, item.WorkflowId, t.WebId)
+                let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{t.WebId}"
                 select this.AddPendingTaskToIndexAsync(id, t);
             await Task.WhenAll(tasks);
 
@@ -70,7 +69,7 @@ namespace Bespoke.Sph.ElasticSearch
             var content = new StringContent(json);
 
 
-            var url = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex, "pendingtask", id);
+            var url =$"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{id}";
             var client = new HttpClient();
             var response = await client.PutAsync(url, content);
 
@@ -88,7 +87,7 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(ea, setting);
             var content = new StringContent(json);
 
-            var url = string.Format("{0}/{1}/{2}", ConfigurationManager.ElasticSearchIndex, "activity", id);
+            var url = $"{ConfigurationManager.ElasticSearchIndex}/{"activity"}/{id}";
 
             using (var client = new HttpClient())
             {

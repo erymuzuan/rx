@@ -18,7 +18,7 @@ namespace Bespoke.Sph.ElasticSearch
         public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.delete.#" };
 
 
-        protected async override Task ProcessMessage(Entity item, MessageHeaders headers)
+        protected override async Task ProcessMessage(Entity item, MessageHeaders headers)
         {
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(item, setting);

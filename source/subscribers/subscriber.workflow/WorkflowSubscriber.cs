@@ -88,7 +88,7 @@ namespace Bespoke.Sph.WorkflowsExecution
                                       WorkflowDefinitionId = item.WorkflowDefinitionId
                                   };
                         this.BreakpointCollection.AddRange(bps);
-                        Console.WriteLine("XXXXXXXXXXXXXX" + this.BreakpointCollection.Count);
+                        Console.WriteLine(@"XXXXXXXXXXXXXX" + this.BreakpointCollection.Count);
                     }
 
                     #endregion
@@ -123,11 +123,7 @@ namespace Bespoke.Sph.WorkflowsExecution
                 .LastOrDefault(b => activities.Contains(b.ActivityWebId));
         }
 
-        private readonly ObjectCollection<Breakpoint> m_breakpointCollection = new ObjectCollection<Breakpoint>();
-        public ObjectCollection<Breakpoint> BreakpointCollection
-        {
-            get { return m_breakpointCollection; }
-        }
+        public ObjectCollection<Breakpoint> BreakpointCollection { get; } = new ObjectCollection<Breakpoint>();
 
         private WebSocketServer m_appServer;
         protected override void OnStart()
