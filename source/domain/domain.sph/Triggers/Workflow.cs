@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public async virtual Task SaveAsync(string activityId, ActivityExecutionResult result)
+        public virtual async Task SaveAsync(string activityId, ActivityExecutionResult result)
         {
             if (this.IsNewItem)
                 this.Id = Guid.NewGuid().ToString();
@@ -167,7 +167,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public async virtual Task TerminateAsync()
+        public virtual async Task TerminateAsync()
         {
             this.State = "Terminated";
             var context = new SphDataContext();

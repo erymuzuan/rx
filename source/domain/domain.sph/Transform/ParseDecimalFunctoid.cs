@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Domain
     public partial class ParseDecimalFunctoid : Functoid
     {
         public const string DEFAULT_STYLES = "AllowDecimalPoint";
-        public override sealed bool Initialize()
+        public sealed override bool Initialize()
         {
             this.ArgumentCollection.Clear();
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value", Type = typeof(string) });

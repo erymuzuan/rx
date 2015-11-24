@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain
         public const string DEFAULT_STYLES = "None";
         public const string DEFAULT_CULTURE = "System.Globalization.CultureInfo.InvariantCulture";
 
-        public override sealed bool Initialize()
+        public sealed override bool Initialize()
         {
             this.ArgumentCollection.Clear();
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value", Type = typeof(string) });

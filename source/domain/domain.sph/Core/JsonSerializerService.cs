@@ -156,7 +156,7 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public async static Task<T> DeserializeJsonAsync<T>(this Stream stream)
+        public static async Task<T> DeserializeJsonAsync<T>(this Stream stream)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             if (null == stream) throw new ArgumentNullException(nameof(stream));

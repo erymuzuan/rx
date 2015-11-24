@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain
             throw new Exception("Not implemented, use the asynhronous execute");
         }
 
-        public async override Task ExecuteAsync(RuleContext context)
+        public override async Task ExecuteAsync(RuleContext context)
         {
             var item = context.Item;
             var templateEngine = ObjectBuilder.GetObject<ITemplateEngine>();

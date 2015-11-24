@@ -18,7 +18,7 @@ namespace Bespoke.Sph.WorkflowsExecution
         public override string[] RoutingKeys => new[] { "Workflow.*.Execute" };
 
 
-        protected async override Task ProcessMessage(Workflow item, MessageHeaders header)
+        protected override async Task ProcessMessage(Workflow item, MessageHeaders header)
         {
 
             if (item.State == "Completed") return;

@@ -24,7 +24,7 @@ namespace Bespoke.Sph.Domain
             return Properties.Resources.Flow_Cart;
         }
 
-        public async override Task ExecuteAsync(RuleContext ruleContext)
+        public override async Task ExecuteAsync(RuleContext ruleContext)
         {
             var context = new SphDataContext();
             var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == this.WorkflowDefinitionId);

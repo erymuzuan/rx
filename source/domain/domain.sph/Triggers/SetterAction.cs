@@ -24,7 +24,7 @@ namespace Bespoke.Sph.Domain
             throw new Exception("Not implement, use the async");
         }
 
-        public async override Task ExecuteAsync(RuleContext context)
+        public override async Task ExecuteAsync(RuleContext context)
         {
             var item = context.Item;
             if (string.IsNullOrWhiteSpace(this.TriggerId))

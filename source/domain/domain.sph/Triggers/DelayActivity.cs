@@ -73,7 +73,7 @@ namespace Bespoke.Sph.Domain
             await ts.AddTaskAsync(dateTime, task);
         }
 
-        public async override Task CancelAsync(Workflow wf)
+        public override async Task CancelAsync(Workflow wf)
         {
             var ts = ObjectBuilder.GetObject<ITaskScheduler>();
             var task = new ScheduledActivityExecution
@@ -129,7 +129,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public async override Task TerminateAsync(Workflow wf)
+        public override async Task TerminateAsync(Workflow wf)
         {
             var ts = ObjectBuilder.GetObject<ITaskScheduler>();
             var task = new ScheduledActivityExecution
