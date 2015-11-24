@@ -83,8 +83,8 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("workflow/{id}/v{version}")]
         public async Task<ActionResult> Workflow(string id, string version, [RawRequestBody]string json)
         {
-            var wfes = $"workflow_{id}_{version}";
-            return await Es(wfes, json);
+            var wfes = $"{id}workflow".Replace("-","");
+            return await Es(wfes, json, false);
         }
 
         [Route("activity")]

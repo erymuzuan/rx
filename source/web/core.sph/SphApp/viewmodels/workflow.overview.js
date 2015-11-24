@@ -8,7 +8,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext'],
+define(["services/datacontext"],
     function (context) {
 
         var
@@ -16,10 +16,19 @@ define(['services/datacontext'],
             versions = ko.observableArray(),
             wd = ko.observable(),
             id = ko.observable(),
+            query = {
+                "facets": {
+                    "state": {
+                        "terms": {
+                            "field": "State"
+                        }
+                    }
+                }
+            },
             activate = function (wdid) {
                 id(wdid);
                 var query1 = String.format("Id eq '{0}'", wdid),
-                    vt = $.get('/WorkflowMonitor/DeployedVersions/' + id()),
+                    vt = $.get("/WorkflowMonitor/DeployedVersions/" + id()),
                     tcs = new $.Deferred(),
                     wdTask = context.loadOneAsync("WorkflowDefinition", query1);
 
@@ -58,28 +67,21 @@ define(['services/datacontext'],
                 return tcs.promise();
 
             },
-            attached = function () {
-                var last = _(versions()).last();
-                if (!last) {
-                    return;
-                }
-                getExecutionHistogram(id(), last.version)
-                    .done(drawExecutionChart);
-            },
-            query = {
-                "facets": {
-                    "state": {
-                        "terms": {
-                            "field": "State"
+            histogramInterval = ko.observable("day"),
+            createdDateHistogramQuery = {
+                "aggs": {
+                    "execution_histogram": {
+                        "date_histogram": {
+                            "field": "CreatedDate",
+                            "interval": histogramInterval
                         }
                     }
                 }
             },
-            histogramInterval = ko.observable("day"),
             drawExecutionChart = function (result) {
 
-                var data = _(result.aggregations.execution_histogram).map(function (v) { return v.doc_count; }),
-                    categories = _(result.aggregations.execution_histogram).map(function (v) { return moment(v.key).format('DD/MM/YY'); });
+                var data = _(result.aggregations.execution_histogram.buckets).map(function (v) { return v.doc_count; }),
+                    categories = _(result.aggregations.execution_histogram.buckets).map(function (v) { return moment(v.key).format("DD/MM/YY"); });
                 $("#chart-div").kendoChart({
                     title: {
                         text: "Execution by date interval "
@@ -94,13 +96,13 @@ define(['services/datacontext'],
                         type: "line"
                     },
                     series: [{
-                        name: 'Interval ' + histogramInterval(),
+                        name: "Interval " + histogramInterval(),
                         data: data
                     }
                     ],
                     valueAxis: {
                         labels: {
-                            format: ''
+                            format: ""
                         },
                         line: {
                             visible: false
@@ -120,26 +122,16 @@ define(['services/datacontext'],
                 });
             },
             getExecutionHistogram = function (wdid, version) {
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(createdDateHistogramQuery);
-                console.log(data);
-
-                context.post(data,  "/search/workflow/" + wdid + "/v" + version)
-                    .then(function (result) {
-
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
+                var data = ko.mapping.toJSON(createdDateHistogramQuery);
+                return context.post(data,  "/search/workflow/" + wdid + "/v" + version);
             },
-            createdDateHistogramQuery = {
-                "aggs": {
-                    "execution_histogram": {
-                        "date_histogram": {
-                            "field": "CreatedDate",
-                            "interval": histogramInterval
-                        }
-                    }
+            attached = function () {
+                var last = _(versions()).last();
+                if (!last) {
+                    return;
                 }
+                getExecutionHistogram(id(), last.version)
+                    .done(drawExecutionChart);
             };
 
         var vm = {
