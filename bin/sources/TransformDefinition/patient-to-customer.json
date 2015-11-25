@@ -16,51 +16,6 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "Mrn",
-        "TypeName": "",
-        "Destination": "Address.Street1",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "707dfe76-07d5-409d-d441-01ee49b19251"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "Religion",
-        "TypeName": "",
-        "Destination": "Gender",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "28f06d13-23e0-430c-8aaa-6aa6e06e33f5"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "PassportNo",
-        "TypeName": "",
-        "Destination": "Address.State",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "8764980b-58cc-4ed0-98df-5c553c847e6b"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "NextOfKin.WebId",
-        "TypeName": "",
-        "Destination": "Contact.Telephone",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "2dad4a0c-8502-4537-a5e1-51c16b5813f8"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "Income",
-        "TypeName": "",
-        "Destination": "Revenue",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "6df32d86-fd1a-4d43-906b-41ef32ac8013"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
         "Source": "CreatedDate",
         "TypeName": "",
         "Destination": "CreatedDate",
@@ -103,60 +58,6 @@
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "b2d2fb6f-fae1-4ee0-9fe1-bbab9e75515e"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "HomeAddress.Street",
-        "TypeName": "",
-        "Destination": "Address.Street1",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "439bccea-c114-47c4-c117-3668269108d3"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "HomeAddress.Street2",
-        "TypeName": "",
-        "Destination": "Address.Street2",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "1691890f-1ef2-475c-924c-1efb1c3d93fd"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "HomeAddress.Postcode",
-        "TypeName": "",
-        "Destination": "Address.Postcode",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "16ad8adf-0753-4cbe-fbe5-49f9f35e0784"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "HomeAddress.City",
-        "TypeName": "",
-        "Destination": "Address.District",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "6c6c3259-5c47-4c1a-c05d-cd6a5bd4ed9f"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "HomeAddress.State",
-        "TypeName": "",
-        "Destination": "Address.State",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "9705e8c0-c9d4-414f-eaeb-71c320d2e31a"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "HomeAddress.WebId",
-        "TypeName": "",
-        "Destination": "Address.WebId",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "e061169b-79db-4f45-88d8-921c1c83b308"
       }
     ]
   },
@@ -182,6 +83,6 @@
   "Id": "patient-to-customer",
   "CreatedDate": "2015-07-16T14:16:43.0995791+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-11-23T10:02:04.8567765+08:00",
+  "ChangedDate": "2015-11-24T07:50:38.755612+08:00",
   "WebId": "9d4b8ed2-3b75-4a06-c835-3cf119c602d7"
 }
