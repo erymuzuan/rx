@@ -352,8 +352,15 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             foreach (var col in columns.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
             {
                 var nullable = col.IsNullable ? ".ToDbNull()" : "";
-                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", item.{0}{1});", col.Name, nullable);
+                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{col.Name}\", item.{col.Name}{nullable});");
             }
+
+            // WHERE clause is in the primary key
+            foreach (var pk in table.PrimaryKeyCollection)
+            {
+                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{pk}\", item.{pk});");
+            }
+
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
             code.AppendLine("           }");
