@@ -60,7 +60,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             StartWebConsoleCommand = new RelayCommand(StartWebConsole, () => !WebConsoleStarted);
             StopWebConsoleCommand = new RelayCommand(StopWebConsole, () => WebConsoleStarted);
 
-            StartElasticSearchCommand = new RelayCommand(StartElasticSearch, () => !ElasticSearchServiceStarted && RabbitMqServiceStarted && !RabbitMqServiceStarting);
+            StartElasticSearchCommand = new RelayCommand(StartElasticsearch, () => !ElasticSearchServiceStarted && RabbitMqServiceStarted && !RabbitMqServiceStarting);
             StopElasticSearchCommand = new RelayCommand(StopElasticSearch, () => ElasticSearchServiceStarted);
 
             StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted && RabbitMqServiceStarted && SqlServiceStarted);
@@ -556,13 +556,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         }
 
-        public void StartElasticSearch()
+        public void StartElasticsearch()
         {
             this.IsBusy = true;
-            this.QueueUserWorkItem(StartElasticSearchHelper);
+            this.QueueUserWorkItem(StartElasticsearchHelper);
         }
 
-        private async void StartElasticSearchHelper()
+        private async void StartElasticsearchHelper()
         {
 
             Log("ElasticSearch...[INITIATING]");

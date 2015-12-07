@@ -49,63 +49,63 @@ bespoke.sph.domain.LogEntry = function (optionOrWebid) {
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.config],
 	function (context, logger, router, config) {
 	    "use strict";
-	    var OUTPUT_LOGS_SETTING = "output.logs.setting";
-	    var isBusy = ko.observable(false),
-		logs = ko.observableArray().extend({ rateLimit: 250 }),
-		list = ko.observableArray(),
-		subscribers = ko.observableArray(),
-		outputFiles = ko.observableArray(),
-		connected = ko.observable(true),
-		setting = ko.observable({
-		    port: ko.observable(50238),
-		    max: ko.observable(200),
-		    host: ko.observable("localhost"),
-		    iis: {
-		        excludeStatusCodes: ko.observableArray(["101"]),
-		        excludeWhenContains: ko.observable("/signalr_")
-		    }
-		}),
-		filterText = ko.observable("").extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 300 } }),
-        logFilter = {
-            application: ko.observable(true),
-            workflow: ko.observable(true),
-            schedulers: ko.observable(true),
-            subscribers: ko.observable(true),
-            webServer: ko.observable(true),
-            elasticsearch: ko.observable(true),
-            sqlRepository: ko.observable(true),
-            sqlPersistence: ko.observable(true),
-            logger: ko.observable(true),
-            objectBuilder: ko.observable(true),
-            security: ko.observable(true)
-        },
-		verbose = ko.observable(true),
-		info = ko.observable(true),
-		log = ko.observable(true),
-		debug = ko.observable(true),
-		warning = ko.observable(true),
-		error = ko.observable(true),
-		critical = ko.observable(true),
-		filter = function () {
-		    var temp = _(logs()).filter(function (v) {
-		        var sv = ko.unwrap(v.severity);
-
-		        switch (sv) {
-		            case "Verbose": return verbose();
-		            case "Info": return info();
-		            case "Log": return log();
-		            case "Debug": return debug();
-		            case "Warning": return warning();
-		            case "Error": return error();
-		            case "Critical": return critical();
-
-		            default:
-		                return false;
+	    var outputLogsSetting = "output.logs.setting",
+            isBusy = ko.observable(false),
+		    logs = ko.observableArray().extend({ rateLimit: 250 }),
+		    list = ko.observableArray(),
+		    subscribers = ko.observableArray(),
+		    outputFiles = ko.observableArray(),
+		    connected = ko.observable(true),
+		    setting = ko.observable({
+		        port: ko.observable(50238),
+		        max: ko.observable(200),
+		        host: ko.observable("localhost"),
+		        iis: {
+		            excludeStatusCodes: ko.observableArray(["101"]),
+		            excludeWhenContains: ko.observable("/signalr_")
 		        }
-		    });
-		    list(temp);
-		},
-		ws = null,
+		    }),
+		    filterText = ko.observable("").extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 300 } }),
+            logFilter = {
+                application: ko.observable(true),
+                workflow: ko.observable(true),
+                schedulers: ko.observable(true),
+                subscribers: ko.observable(true),
+                webServer: ko.observable(true),
+                elasticsearch: ko.observable(true),
+                sqlRepository: ko.observable(true),
+                sqlPersistence: ko.observable(true),
+                logger: ko.observable(true),
+                objectBuilder: ko.observable(true),
+                security: ko.observable(true)
+            },
+		    verbose = ko.observable(true),
+		    info = ko.observable(true),
+		    log = ko.observable(true),
+		    debug = ko.observable(true),
+		    warning = ko.observable(true),
+		    error = ko.observable(true),
+		    critical = ko.observable(true),
+		    filter = function () {
+		        var temp = _(logs()).filter(function (v) {
+		            var sv = ko.unwrap(v.severity);
+
+		            switch (sv) {
+		                case "Verbose": return verbose();
+		                case "Info": return info();
+		                case "Log": return log();
+		                case "Debug": return debug();
+		                case "Warning": return warning();
+		                case "Error": return error();
+		                case "Critical": return critical();
+
+		                default:
+		                    return false;
+		            }
+		        });
+		        list(temp);
+		    },
+		    ws = null,
 		scroll = function () {
 		    var elem = document.getElementById("developers-log-footer");
 		    elem.scrollTop = elem.scrollHeight;
@@ -266,10 +266,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    return tcs.promise();
 		},
 		activate = function () {
-		    var sj = localStorage.getItem(OUTPUT_LOGS_SETTING);
+		    var sj = localStorage.getItem(outputLogsSetting);
 		    if (sj) {
 		        setting(ko.mapping.fromJSON(sj));
 		    }
+
+		    return $.get("developer-service/websocket-port")
+		        .done(function(p) {
+		            setting().port(parseInt(p));
+		        });
 		},
 		attached = function (view) {
 		    if (config.roles.indexOf("developers") < 0) {
@@ -370,7 +375,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         if (!result) return;
                         if (result === "OK") {
                             setting(dialog.setting());
-                            localStorage.setItem(OUTPUT_LOGS_SETTING, ko.toJSON(dialog.setting));
+                            localStorage.setItem(outputLogsSetting, ko.toJSON(dialog.setting));
                         }
                     });
 

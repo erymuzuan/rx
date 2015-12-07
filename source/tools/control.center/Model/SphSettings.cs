@@ -6,33 +6,19 @@ using System.Text;
 using System.Xml.Serialization;
 using Bespoke.Sph.ControlCenter.Helpers;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.ControlCenter.Model
 {
     [XmlType("SphSettings", Namespace = Strings.DEFAULT_NAMESPACE)]
     public class SphSettings : DomainObject
     {
-        private string m_sqlLocalDbName;
-        private string m_iisExpressDirectory;
-        private string m_rabbitMqDirectory;
-        private string m_elasticSearchHome;
-        private string m_javaHome;
-        private string m_rabbitMqPassword;
-        private string m_rabbitMqUserName;
-        private int? m_websitePort;
-        private string m_rabbitMqHost;
-        private int? m_rabbitMqPort;
-        private int? m_rabbitMqManagementPort;
-        private int? m_loggerWebSocketPort;
         private string m_applicationName;
-        private string m_projectDirectory;
         private string m_elasticsearchClusterName;
         private string m_elasticsearchNodeName;
         private int m_elasticsearchIndexNumberOfShards;
         private int m_elasticsearchIndexNumberOfReplicas;
-        private int m_elasticsearchHttpPort;
         private string m_updateUri;
-        private string m_rabbitMqBase;
 
 
         public override string ToString()
@@ -64,12 +50,13 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
         }
 
+        [JsonIgnore]
         public int ElasticsearchHttpPort
         {
-            get { return m_elasticsearchHttpPort; }
+            get { return GetEnvironmentVariableInt32("ElasticsearchHttpPort") ?? 9200; }
             set
             {
-                m_elasticsearchHttpPort = value;
+                SetEnvironmentVariable("ElasticsearchHttpPort", value.ToString());
                 OnPropertyChanged();
             }
         }
@@ -132,166 +119,162 @@ namespace Bespoke.Sph.ControlCenter.Model
         {
             get
             {
-                return string.IsNullOrWhiteSpace(m_sqlLocalDbName) ?
-                            @"Projects" :
-                            m_sqlLocalDbName;
+                return GetEnvironmentVariable(nameof(SqlLocalDbName)) ?? "Projects";
             }
             set
             {
-                m_sqlLocalDbName = value;
+                SetEnvironmentVariable(nameof(SqlLocalDbName), value);
                 OnPropertyChanged();
             }
         }
 
+        [JsonIgnore]
         public string IisExpressExecutable
         {
-            get
-            {
-                return string.IsNullOrWhiteSpace(m_iisExpressDirectory) ?
-                    @".\IIS Express\iisexpress.exe" :
-                    m_iisExpressDirectory;
-            }
+            get { return GetEnvironmentVariable(nameof(IisExpressExecutable)) ?? @".\IIS Express\iisexpress.exe"; }
             set
             {
-                m_iisExpressDirectory = value;
+                SetEnvironmentVariable(nameof(IisExpressExecutable), value);
                 OnPropertyChanged();
             }
         }
 
-
+        [JsonIgnore]
         public string RabbitMqDirectory
         {
-            get
-            {
-                return string.IsNullOrWhiteSpace(m_rabbitMqDirectory) ?
-                    ".\\rabbitmq_server"
-                    : m_rabbitMqDirectory;
-            }
+            get { return GetEnvironmentVariable(nameof(RabbitMqDirectory)) ?? ".\\rabbitmq_server"; }
             set
             {
-                m_rabbitMqDirectory = value;
+                SetEnvironmentVariable(nameof(RabbitMqDirectory), value);
                 OnPropertyChanged();
             }
         }
 
+        [JsonIgnore]
         public string RabbitMqUserName
         {
             get
             {
-                return string.IsNullOrWhiteSpace(m_rabbitMqUserName) ?
-                    "guest" :
-                    m_rabbitMqUserName;
+                return GetEnvironmentVariable(nameof(RabbitMqUserName)) ?? "guest";
             }
             set
             {
-                m_rabbitMqUserName = value;
+                SetEnvironmentVariable(nameof(RabbitMqUserName), value);
                 OnPropertyChanged();
             }
         }
 
+        [JsonIgnore]
         public string RabbitMqPassword
         {
             get
             {
-                return string.IsNullOrWhiteSpace(m_rabbitMqPassword) ?
-                    "guest" :
-                    m_rabbitMqPassword;
+                return GetEnvironmentVariable(nameof(RabbitMqPassword)) ?? "guest";
             }
             set
             {
-                m_rabbitMqPassword = value;
+                SetEnvironmentVariable(nameof(RabbitMqPassword), value);
                 OnPropertyChanged();
             }
         }
 
+        [JsonIgnore]
         public string JavaHome
         {
-            get
-            {
-                return string.IsNullOrWhiteSpace(m_javaHome) ?
-                    Environment.GetEnvironmentVariable("JAVA_HOME")
-                    : m_javaHome;
-            }
-            set { m_javaHome = value; }
+            get { return Environment.GetEnvironmentVariable("JAVA_HOME"); }
+            set { Environment.SetEnvironmentVariable("JAVA_HOME", value); }
         }
 
+        [JsonIgnore]
         public string ElasticSearchJar
         {
             get
             {
-                return string.IsNullOrWhiteSpace(m_elasticSearchHome) ?
-                    @".\elasticsearch" :
-                    m_elasticSearchHome;
+                var jar = GetEnvironmentVariable(nameof(ElasticSearchJar));
+                if (string.IsNullOrWhiteSpace(jar))
+                {
+                    var root = Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName);
+                    var eslib = Path.Combine(root.FullName, "elasticsearch\\lib\\");
+                    jar = Directory.GetFiles(eslib, "elasticsearch-*.jar").Single();
+                    SetEnvironmentVariable(nameof(ElasticSearchJar), jar);
+                }
+                return jar;
             }
-            set { m_elasticSearchHome = value; }
+            set { SetEnvironmentVariable(nameof(ElasticSearchJar), value); }
         }
 
+        [JsonIgnore]
         public int? WebsitePort
         {
-            get { return m_websitePort; }
+            get { return GetEnvironmentVariableInt32(nameof(WebsitePort)) ?? 50230; }
             set
             {
-                m_websitePort = value;
+                SetEnvironmentVariable(nameof(WebsitePort), value.ToString());
                 OnPropertyChanged();
             }
         }
 
 
-
+        [JsonIgnore]
         public string RabbitMqHost
         {
-            get { return m_rabbitMqHost; }
+            get { return GetEnvironmentVariable(nameof(RabbitMqHost)) ?? "localhost"; }
             set
             {
-                m_rabbitMqHost = value;
+                SetEnvironmentVariable(nameof(RabbitMqHost), value);
                 OnPropertyChanged();
             }
         }
 
+        [JsonIgnore]
         public int? RabbitMqPort
         {
-            get { return m_rabbitMqPort; }
+            get { return GetEnvironmentVariableInt32(nameof(RabbitMqPort)) ?? 5672; }
             set
             {
-                m_rabbitMqPort = value;
+                SetEnvironmentVariable(nameof(RabbitMqPort), value.ToString());
                 OnPropertyChanged();
             }
         }
 
+        [JsonIgnore]
         public int? RabbitMqManagementPort
         {
-            get { return m_rabbitMqManagementPort; }
+            get { return GetEnvironmentVariableInt32(nameof(RabbitMqManagementPort)) ?? 15672; }
             set
             {
-                m_rabbitMqManagementPort = value;
+                SetEnvironmentVariable(nameof(RabbitMqManagementPort), value.ToString());
                 OnPropertyChanged();
             }
         }
 
+        [JsonIgnore]
         public int? LoggerWebSocketPort
         {
-            get { return m_loggerWebSocketPort; }
+            get { return GetEnvironmentVariableInt32(nameof(LoggerWebSocketPort)) ?? 50238; }
             set
             {
-                m_loggerWebSocketPort = value;
+                SetEnvironmentVariable(nameof(LoggerWebSocketPort), value.ToString());
                 OnPropertyChanged();
             }
         }
 
+        [JsonIgnore]
         public string ProjectDirectory
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(m_projectDirectory)
-                    || !Directory.Exists(m_projectDirectory))
-                    m_projectDirectory = Directory.GetCurrentDirectory();
-                return m_projectDirectory;
-            }
-            set
-            {
-                m_projectDirectory = value;
+                var home = GetEnvironmentVariable("HOME");
+                if (string.IsNullOrWhiteSpace(ApplicationName))
+                    throw new InvalidOperationException("Cannot get HOME for empty ApplicationName");
 
-                OnPropertyChanged();
+                if (string.IsNullOrWhiteSpace(home))
+                {
+                    home = Directory.GetCurrentDirectory();
+                    SetEnvironmentVariable("HOME", home);
+
+                }
+                return home;
             }
         }
 
@@ -305,12 +288,13 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
         }
 
+        [JsonIgnore]
         public string RabbitMqBase
         {
-            get { return m_rabbitMqBase; }
+            get { return GetEnvironmentVariable(nameof(RabbitMqBase)); }
             set
             {
-                m_rabbitMqBase = value;
+                SetEnvironmentVariable(nameof(RabbitMqBase), value);
                 OnPropertyChanged();
             }
         }
@@ -318,7 +302,6 @@ namespace Bespoke.Sph.ControlCenter.Model
         public void LoadDefault()
         {
 
-            this.ProjectDirectory = ".".TranslatePath();
             this.WebsitePort = 4436;
             this.RabbitMqManagementPort = 15672;
             this.RabbitMqHost = "localhost";
@@ -360,6 +343,24 @@ namespace Bespoke.Sph.ControlCenter.Model
 
                 File.WriteAllText(es, config);
             }
+        }
+
+        private string ApplicationNameToUpper => this.ApplicationName.ToUpper();
+
+        private string GetEnvironmentVariable(string setting)
+        {
+            return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+        }
+        private void SetEnvironmentVariable(string setting, string value)
+        {
+            Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", value);
+        }
+        private int? GetEnvironmentVariableInt32(string setting)
+        {
+            var val = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+            int intValue;
+            if (int.TryParse(val, out intValue)) return intValue;
+            return null;
         }
     }
 }

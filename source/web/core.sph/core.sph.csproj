@@ -714,6 +714,7 @@
     <Compile Include="Areas\Sph\Controllers\AdapterController.cs" />
     <Compile Include="Areas\Sph\Controllers\BaseSphController.cs" />
     <Compile Include="Areas\Sph\Controllers\BusinessRuleController.cs" />
+    <Compile Include="Areas\Sph\Controllers\DeveloperServiceController.cs" />
     <Compile Include="Areas\Sph\Controllers\DocumentTemplateController.cs" />
     <Compile Include="Areas\Sph\Controllers\EmailTemplateController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityChartController.cs" />

@@ -2,6 +2,12 @@
        [switch]$InMemory = $false
      )
 
+$env:RX_DEVV1_HOME = "c:\project\work\sph\bin\"
+$env:RX_DEVV1_ApplicationFullName = "Engineering Team Development"
+$env:RX_DEVV1_FromEmailAddress = "erymuzuan@bespoke.com.my"
+
+
+
 #copy some dependencies
 copy .\source\web\web.sph\bin\Common.Logging.dll .\bin\subscribers
 copy .\source\web\web.sph\bin\System.Web.Mvc.dll .\bin\subscribers

@@ -1,238 +1,73 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Bespoke.Sph.Domain
 {
     public static class ConfigurationManager
     {
-        const string DefaultApplicationName = "DevV1";
-        
-        public static int StaticFileCache
-        {
-            get
-            {
-                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:StaticFileCache"] ?? "120";
-                return int.Parse(pn);
-            }
-        }
-        public static int WorkflowDebuggerPort
-        {
-            get
-            {
-                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowDebuggerPort"] ?? "50518";
-                return int.Parse(pn);
-            }
-        }
+        public static string ApplicationNameToUpper = ApplicationName.ToUpper();
+        public static string ApplicationName => AppSettings["sph:ApplicationName"] ?? "YOUR_APP";
 
-        public static long EsIndexingDelay
-        {
-            get
-            {
-                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:EsIndexingDelay"] ?? "15000";
-                return long.Parse(pn);
-            }
-        }
-
-        public static int EsIndexingMaxTry
-        {
-            get
-            {
-                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:EsIndexingMaxTry"] ?? "3";
-                return int.Parse(pn);
-            }
-        }
-        public static long SqlPersistenceDelay
-        {
-            get
-            {
-                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:SqlPersistenceDelay"] ?? "15000";
-                return long.Parse(pn);
-            }
-        }
-
-        public static int SqlPersistenceMaxTry
-        {
-            get
-            {
-                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:SqlPersistenceMaxTry"] ?? "3";
-                return int.Parse(pn);
-            }
-        }
-
-        public static bool EnableOfflineForm
-        {
-            get
-            {
-                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:EnableOfflineForm"] ?? "false";
-                return bool.Parse(pn);
-            }
-        }
-
-        public static string BaseUrl => System.Configuration.ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
-        public static string BaseDirectory => System.Configuration.ConfigurationManager.AppSettings["sph:BaseDirectory"] ?? @"c:\project\work\sph";
-
-        public static string CompilerOutputPath
-        {
-            get
-            {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:CompilerOutputPath"];
-                if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\output";
-            }
-        }
-
+        public static string ApplicationFullName => GetEnvironmentVariable("ApplicationFullName") ?? "Reactive Developer platform showcase";
+        public static string FromEmailAddress => GetEnvironmentVariable("FromEmailAddress") ?? "admin@rxdeveoper.com";
+        public static int StaticFileCache => GetEnvironmentVariableInt32("StaticFileCache", 120);
+        public static int WorkflowDebuggerPort => GetEnvironmentVariableInt32("WorkflowDebuggerPort", 50518);
+        public static long EsIndexingDelay => GetEnvironmentVariableInt32("EsIndexingDelay", 15000);
+        public static int EsIndexingMaxTry => GetEnvironmentVariableInt32("EsIndexingMaxTry", 3);
+        public static long SqlPersistenceDelay => GetEnvironmentVariableInt32("SqlPersistenceDelay", 15000);
+        public static int SqlPersistenceMaxTry => GetEnvironmentVariableInt32("SqlPersistenceMaxTry", 3);
+        public static bool EnableOfflineForm => GetEnvironmentVariableBoolean("EnableOfflineForm");
+        public static string BaseUrl => GetEnvironmentVariable("BaseUrl") ?? "http://localhost:4436";
+        public static string BaseDirectory => GetEnvironmentVariable("HOME");
+        public static string CompilerOutputPath => GetPath("CompilerOutputPath", "output");
         /// <summary>
         /// Ad directory where all the sph and systems source code like the *.json file for each asset definitions
         /// </summary>
-        public static string SphSourceDirectory
-        {
-            get
-            {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SphSourceDirectory"];
-                if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\sources\";
-            }
-        }
+        public static string SphSourceDirectory => GetPath("SphSourceDirectory", "sources\\");
         /// <summary>
         /// A directory where all the users source codes are
         /// </summary>
-        public static string GeneratedSourceDirectory
-        {
-            get
-            {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:GeneratedSourceDirectory"];
-                if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\sources\_generated\";
-            }
-        }
-
-        public static string ElasticSearchHost => System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchHost"] ?? "http://localhost:9200";
-
-        public static string ElasticSearchIndex => System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchIndex"]
-                                                   ?? ApplicationName.ToLowerInvariant();
-
-        public static string BinPath => ApplicationName == DefaultApplicationName ? @"\bin" : string.Empty;
-
-        public static string ReportDeliveryExecutable
-        {
-            get
-            {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:ReportDeliveryExecutable"];
-                if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\schedulers\scheduler.report.delivery.exe";
-            }
-        }
-
-        public static string ScheduledTriggerActivityExecutable
-        {
-            get
-            {
-                var val =
-                    System.Configuration.ConfigurationManager.AppSettings["sph:ScheduledTriggerActivityExecutable"];
-                if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\schedulers\scheduler.workflow.trigger.exe";
-            }
-        }
-
-        public static bool EnableWorkflowGetCacheDependency
-        {
-            get
-            {
-                var enabled = System.Configuration.ConfigurationManager.AppSettings["sph:EnableWorkflowGetCacheDependency"] ?? "false";
-                return bool.Parse(enabled);
-            }
-        }
+        public static string GeneratedSourceDirectory => GetPath("GeneratedSourceDirectory", @"sources\_generated\");
+        public static string ElasticSearchHost => GetEnvironmentVariable("ElasticSearchHost") ?? "http://localhost:9200";
+        public static string ElasticSearchIndex => GetEnvironmentVariable("ElasticSearchIndex") ?? ApplicationName.ToLowerInvariant();
+        public static string ReportDeliveryExecutable => GetPath("ReportDeliveryExecutable", @"schedulers\scheduler.report.delivery.exe");
+        public static string ScheduledTriggerActivityExecutable => GetPath("ScheduledTriggerActivityExecutable", @"schedulers\scheduler.workflow.trigger.exe");
+        public static bool EnableWorkflowGetCacheDependency => GetEnvironmentVariableBoolean("EnableWorkflowGetCacheDependency");
 
         public static System.Configuration.ConnectionStringSettingsCollection ConnectionStrings => System.Configuration.ConfigurationManager.ConnectionStrings;
 
         public static System.Collections.Specialized.NameValueCollection AppSettings => System.Configuration.ConfigurationManager.AppSettings;
+        public static int JpegMaxWitdh => GetEnvironmentVariableInt32("jpg.max.width", 400);
 
-        public static int JpegMaxWitdh
+        public static string SchedulerPath => GetPath("SchedulerPath","schedulers");
+        public static string SubscriberPath => GetPath("SubscriberPath","subscribers");
+        public static string ToolsPath => GetPath("ToolsPath", "tools");
+        public static string WebPath => GetPath("WebPath", "web");
+        public static string DelayActivityExecutable => GetPath("DelayActivityExecutable", @"schedulers\scheduler.delayactivity.exe");
+
+        private static string GetPath(string setting, string defaultPath)
         {
-            get
-            {
-                var width = System.Configuration.ConfigurationManager.AppSettings["jpg.max.width"] ?? "400";
-                return int.Parse(width);
-            }
+            var val = GetEnvironmentVariable(setting);
+            if (Path.IsPathRooted(val)) return val;
+            return BaseDirectory + @"\" + defaultPath;
         }
 
-        public static string SchedulerPath
+        private static string GetEnvironmentVariable(string setting)
         {
-            get
-            {
-
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SchedulerPath"];
-                if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\schedulers";
-
-            }
-
+            return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
         }
-        public static string SubscriberPath
+        private static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
         {
-            get
-            {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SubscriberPath"];
-                if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\subscribers";
-            }
+            var val = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+            int intValue;
+            return int.TryParse(val, out intValue) ? intValue : defaultValue;
         }
-        public static string ToolsPath
+        private static bool GetEnvironmentVariableBoolean(string setting, bool defaultValue = false)
         {
-            get
-            {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:ToolsPath"];
-                if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\tools";
-            }
-        }
-        public static string WebPath
-        {
-            get
-            {
-
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WebPath"];
-                if (Path.IsPathRooted(val)) return val;
-
-                if (ApplicationName == DefaultApplicationName)
-                    return BaseDirectory + @"\source\web\web.sph";
-
-                return BaseDirectory + BinPath + @"\web";
-            }
+            var val = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+            bool intValue;
+            return bool.TryParse(val, out intValue) ? intValue : defaultValue;
         }
 
-        public static string DelayActivityExecutable
-        {
-            get
-            {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:DelayActivityExecutable"];
-                if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + BinPath + @"\schedulers\scheduler.delayactivity.exe";
-
-            }
-        }
-
-        public static string ApplicationName
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationName"] ?? "YOUR_APP";
-            }
-        }
-
-        public static string ApplicationFullName
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationFullName"] ?? "Reactive Developer platform showcase";
-            }
-        }
-
-        public static string FromEmailAddress
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:FromEmailAddress"] ?? "admin@rxdeveoper.com";
-            }
-        }
     }
 }

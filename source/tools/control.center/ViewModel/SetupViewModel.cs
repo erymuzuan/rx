@@ -60,28 +60,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.SetupVisible = Visibility.Collapsed;
             this.Settings = new SphSettings
             {
-                RabbitMqDirectory = ".\\rabbitmq_server",
-                RabbitMqManagementPort = 15672,
-                RabbitMqPort = 5672,
-                RabbitMqHost = "localhost",
-                RabbitMqPassword = "guest",
-                RabbitMqUserName = "guest",
-                RabbitMqBase = Directory.GetCurrentDirectory() + "\\rabbitmq_base",
-
-                ElasticSearchJar = ".jar",
                 ElasticsearchClusterName = "",
-                ElasticsearchHttpPort = 9200,
                 ElasticsearchNodeName = "",
                 ElasticsearchIndexNumberOfReplicas = 0,
                 ElasticsearchIndexNumberOfShards = 1,
-                LoggerWebSocketPort = 50238,
-                WebsitePort = 50230,
-                ProjectDirectory = "",
-                ApplicationName = "",
-                IisExpressExecutable = ".\\IIS Express\\iisexpress.exe",
-                JavaHome = Environment.GetEnvironmentVariable("JAVA_HOME"),
-                SqlLocalDbName = "Projects",
-
                 UpdateUri = "http://www.reactivedeveloper.com/updates"
 
             };
@@ -90,12 +72,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public void Load()
         {
-            var root = Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName);
-            var eslib = Path.Combine(root.FullName, "elasticsearch\\lib\\");
-            var jar = Directory.GetFiles(eslib, "elasticsearch-*.jar").Single();
-            this.Settings.ElasticSearchJar = jar;
-
-
+     
             var main = new MainViewModel
             {
                 Settings = this.Settings,
@@ -187,7 +164,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (!main.ElasticSearchServiceStarted)
             {
                 this.Log("Starting Elasticsearch\r\n");
-                main.StartElasticSearch();
+                main.StartElasticsearch();
             }
 
             var flag = new ManualResetEvent(false);
