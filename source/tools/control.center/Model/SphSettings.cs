@@ -30,6 +30,42 @@ namespace Bespoke.Sph.ControlCenter.Model
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../project.json");
             File.WriteAllText(path, this.ToNormalizedJsonString(), Encoding.UTF8);
+            // save the environment variable
+
+            var root = Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName);
+            var eslib = Path.Combine(root.FullName, "elasticsearch\\lib\\");
+            var jar = Directory.GetFiles(eslib, "elasticsearch-*.jar").Single();
+            SetEnvironmentVariable(nameof(ElasticSearchJar), jar);
+
+            SetEnvironmentVariable("HOME", this.ProjectDirectory);
+            SetEnvironmentVariable(nameof(ElasticSearchJar), this.ElasticSearchJar);
+            SetEnvironmentVariable(nameof(ElasticsearchClusterName), this.ElasticsearchClusterName);
+            SetEnvironmentVariable(nameof(ElasticsearchNodeName), this.ElasticsearchNodeName);
+            SetEnvironmentVariable(nameof(ElasticsearchIndexNumberOfReplicas), this.ElasticsearchIndexNumberOfReplicas);
+            SetEnvironmentVariable(nameof(ElasticsearchIndexNumberOfShards), this.ElasticsearchIndexNumberOfShards);
+
+            SetEnvironmentVariable(nameof(ElasticsearchHttpPort), this.ElasticsearchHttpPort);
+            SetEnvironmentVariable(nameof(LoggerWebSocketPort), this.LoggerWebSocketPort);
+            SetEnvironmentVariable(nameof(WebsitePort), this.WebsitePort);
+            SetEnvironmentVariable(nameof(RabbitMqBase), this.RabbitMqBase);
+            SetEnvironmentVariable(nameof(RabbitMqDirectory), this.RabbitMqDirectory);
+            SetEnvironmentVariable(nameof(RabbitMqManagementPort), this.RabbitMqManagementPort);
+            SetEnvironmentVariable(nameof(SqlLocalDbName), this.SqlLocalDbName);
+            SetEnvironmentVariable(nameof(IisExpressExecutable), this.IisExpressExecutable);
+            SetEnvironmentVariable(nameof(RabbitMqUserName), this.RabbitMqUserName);
+            SetEnvironmentVariable(nameof(RabbitMqHost), this.RabbitMqHost);
+
+            var sb = new StringBuilder();
+            var variables = Environment.GetEnvironmentVariables();
+            foreach (var key in variables.Keys)
+            {
+                if (!$"{key}".StartsWith("RX_")) continue;
+                sb.AppendLine($"SET {key}={variables[key]}");
+            }
+
+            var bat = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../env.bat");
+            File.WriteAllText(bat, sb.ToString(), Encoding.UTF8);
+
         }
 
         public static SphSettings Load()
@@ -190,15 +226,9 @@ namespace Bespoke.Sph.ControlCenter.Model
         {
             get
             {
-                var jar = GetEnvironmentVariable(nameof(ElasticSearchJar));
-                if (string.IsNullOrWhiteSpace(jar))
-                {
-                    var root = Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName);
-                    var eslib = Path.Combine(root.FullName, "elasticsearch\\lib\\");
-                    jar = Directory.GetFiles(eslib, "elasticsearch-*.jar").Single();
-                    SetEnvironmentVariable(nameof(ElasticSearchJar), jar);
-                }
-                return jar;
+                var root = Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName);
+                var eslib = Path.Combine(root.FullName, "elasticsearch\\lib\\");
+                return Directory.GetFiles(eslib, "elasticsearch-*.jar").Single();
             }
             set { SetEnvironmentVariable(nameof(ElasticSearchJar), value); }
         }
@@ -291,7 +321,7 @@ namespace Bespoke.Sph.ControlCenter.Model
         [JsonIgnore]
         public string RabbitMqBase
         {
-            get { return GetEnvironmentVariable(nameof(RabbitMqBase)); }
+            get { return GetEnvironmentVariable(nameof(RabbitMqBase)) ?? "rabbitmq_base"; }
             set
             {
                 SetEnvironmentVariable(nameof(RabbitMqBase), value);
@@ -345,15 +375,15 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
         }
 
-        private string ApplicationNameToUpper => this.ApplicationName.ToUpper();
+        private string ApplicationNameToUpper => $"{this.ApplicationName}".ToUpper();
 
         private string GetEnvironmentVariable(string setting)
         {
             return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
         }
-        private void SetEnvironmentVariable(string setting, string value)
+        private void SetEnvironmentVariable(string setting, object value)
         {
-            Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", value);
+            Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}");
         }
         private int? GetEnvironmentVariableInt32(string setting)
         {

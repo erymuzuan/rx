@@ -16,7 +16,7 @@ namespace Bespoke.Sph.SourceBuilders
                              CreateNoWindow = true,
                              UseShellExecute = true,
                              WindowStyle = ProcessWindowStyle.Hidden,
-                             FileName = $"{ConfigurationManager.BaseDirectory}\\utils\\mru.exe",
+                             FileName = $"{ConfigurationManager.Home}\\utils\\mru.exe",
                              Arguments = $"-r \"{r}\" -c \"{ConfigurationManager.WebPath}\\web.config\""
                          };
             starts.ToList().ForEach(i => Process.Start(i));
@@ -38,7 +38,7 @@ namespace Bespoke.Sph.SourceBuilders
                                   CreateNoWindow = true,
                                   UseShellExecute = true,
                                   WindowStyle = ProcessWindowStyle.Hidden,
-                                  FileName = $"{ConfigurationManager.BaseDirectory}\\utils\\mru.exe",
+                                  FileName = $"{ConfigurationManager.Home}\\utils\\mru.exe",
                                   Arguments = $"-r \"{r}\" -u {u.UserName} -c \"{ConfigurationManager.WebPath}\\web.config\""
                               };
                 starts2.ToList().ForEach(i => Process.Start(i));

@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Domain
         public static int SqlPersistenceMaxTry => GetEnvironmentVariableInt32("SqlPersistenceMaxTry", 3);
         public static bool EnableOfflineForm => GetEnvironmentVariableBoolean("EnableOfflineForm");
         public static string BaseUrl => GetEnvironmentVariable("BaseUrl") ?? "http://localhost:4436";
-        public static string BaseDirectory => GetEnvironmentVariable("HOME");
+        public static string Home => GetEnvironmentVariable("HOME");
         public static string CompilerOutputPath => GetPath("CompilerOutputPath", "output");
         /// <summary>
         /// Ad directory where all the sph and systems source code like the *.json file for each asset definitions
@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Domain
         {
             var val = GetEnvironmentVariable(setting);
             if (Path.IsPathRooted(val)) return val;
-            return BaseDirectory + @"\" + defaultPath;
+            return Home + @"\" + defaultPath;
         }
 
         private static string GetEnvironmentVariable(string setting)
