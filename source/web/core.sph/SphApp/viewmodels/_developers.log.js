@@ -271,9 +271,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        setting(ko.mapping.fromJSON(sj));
 		    }
 
-		    return $.get("developer-service/websocket-port")
-		        .done(function(p) {
-		            setting().port(parseInt(p));
+		    return $.get("developer-service/environment-variables")
+		        .done(function (result) {
+		            var port = result.RX_DEVV1_LoggerWebSocketPort;
+		            setting().port(parseInt(port));
 		        });
 		},
 		attached = function (view) {

@@ -128,14 +128,16 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
 
-            var loggerStarted = WebConsoleServer.Default.Start(this.Settings.LoggerWebSocketPort ?? 50230);
+            var port = this.Settings.LoggerWebSocketPort ?? 50238;
+            var loggerStarted = false;
+            while (!loggerStarted)
+            {
+                loggerStarted = WebConsoleServer.Default.Start(port++);
+            }
             this.WebConsoleStarted = true;
-            Log(loggerStarted
-                ? "Web Console subscriber successfully started"
-                : "Fail to start Web Console Logger");
-            if (!loggerStarted)
-                MessageBox.Show("Fail to start Web Console Logger on port " + this.Settings.LoggerWebSocketPort,
-                    "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            this.Settings.LoggerWebSocketPort = port;
+            Log("Web console subscriber successfully started on port " + port);
+            MessageBox.Show("Web console subscriber successfully started on port " + port);
 
 
 

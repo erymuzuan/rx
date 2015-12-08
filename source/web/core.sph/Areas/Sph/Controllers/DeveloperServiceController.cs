@@ -10,18 +10,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     [Authorize(Roles = "developers")]
     [RoutePrefix("developer-service")]
-    public class DeveloperServiceController : Controller
+    public class DeveloperServiceController : BaseController
     {
-        [Route("websocket-port")]
-        public ActionResult GetDeveloperLogPortNumber()
-        {
-            var port = Environment.GetEnvironmentVariable("loggerWebSocketPort") ?? "50238";
-            return Content(port);
-        }
         [Route("environment-variables")]
         public ActionResult GetEnvironmentVariables()
         {
-            return Json(Environment.GetEnvironmentVariables(), JsonRequestBehavior.AllowGet);
+            var json = JsonConvert.SerializeObject(Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User));
+            return Content(json, APPLICATION_JSON, Encoding.UTF8);
         }
 
         [Route("configs")]
@@ -36,7 +31,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                               Key = m.Name,
                               Value = m.GetValue(null, null)
                           };
-            return Content(JsonConvert.SerializeObject(configs.ToDictionary(k => k.Key, v => v.Value)), "application/json", Encoding.UTF8);
+            var json = JsonConvert.SerializeObject(configs.ToDictionary(k => k.Key, v => v.Value));
+            return Content(json, "application/json", Encoding.UTF8);
         }
 
 

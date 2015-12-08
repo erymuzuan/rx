@@ -32,7 +32,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="Application Name"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ApplicationName}" IsReadOnly="True" Background="LightSlateGray"/>
                     <Label Grid.Row="1" Grid.Column="0" Content="Project Directory"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ProjectDirectory}" IsReadOnly="True" Background="LightSlateGray"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ProjectDirectory, Mode=OneWay}" IsReadOnly="True" Background="LightSlateGray"/>
                     
                     <Label Grid.Row="3" Grid.Column="0" Content="Web console port"/>
                     <TextBox Grid.Row="3" Grid.Column="1" ToolTip="Port number used by the web console logger, the default is 50230" Text="{Binding LoggerWebSocketPort, Mode=TwoWay}"/>
@@ -99,7 +99,7 @@
                     <Label Grid.Row="5" Grid.Column="0" Content="Management Port"/>
                     <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding RabbitMqManagementPort}"/>
                     
-                    <Label Grid.Row="6" Grid.Column="0" Content="RABBITMQ_BASE"/>
+                    <Label Grid.Row="6" Grid.Column="0" Content="RABBITMQ__BASE"/>
                     <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding RabbitMqBase}" IsReadOnly="True"/>
                 </Grid>
             </TabItem>
@@ -114,7 +114,7 @@
                         <ColumnDefinition Width="30*"/>
                         <ColumnDefinition Width="80*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="JAVA Home"/>
+                    <Label Grid.Row="0" Grid.Column="0" Content="JAVA__HOME"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding JavaHome}"/>
                     <Label Grid.Row="1" Grid.Column="0" Content="JAR"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElasticSearchJar}"/>

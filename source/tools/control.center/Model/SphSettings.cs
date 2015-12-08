@@ -379,15 +379,15 @@ namespace Bespoke.Sph.ControlCenter.Model
 
         private string GetEnvironmentVariable(string setting)
         {
-            return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+            return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.User);
         }
         private void SetEnvironmentVariable(string setting, object value)
         {
-            Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}");
+            Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}", EnvironmentVariableTarget.User);
         }
         private int? GetEnvironmentVariableInt32(string setting)
         {
-            var val = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+            var val = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.User);
             int intValue;
             if (int.TryParse(val, out intValue)) return intValue;
             return null;

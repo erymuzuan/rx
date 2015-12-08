@@ -9,6 +9,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
 
         public const string APPLICATION_JAVASCRIPT = "application/javascript";
+        public const string APPLICATION_JSON= "application/json";
         public const string TEXT_HTML = "text/html";
 
         private static string ExtractScriptFromHtml(string html)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Management.Automation;
 using System.Text.RegularExpressions;
 using System.Threading;
