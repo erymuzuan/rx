@@ -470,10 +470,12 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
                 c.setText(ko.unwrap(allBindings.value));
                 for (var ix in ed) {
-                    if (ix === "$type") continue;
-                    if (ix === "addChildItem") continue;
-                    if (ix === "removeChildItem") continue;
-                    c.options.push("" + ix);
+                    if (ed.hasOwnProperty(ix)) {
+                        if (ix === "$type") continue;
+                        if (ix === "addChildItem") continue;
+                        if (ix === "removeChildItem") continue;
+                        c.options.push("" + ix);
+                    }
                 }
                 c.options.sort();
 
@@ -490,10 +492,12 @@ ko.bindingHandlers.entityTypeaheadPath = {
                         });
                         console.log("currentObject", currentObject);
                         for (var i in currentObject) {
-                            if (i === "$type") continue;
-                            if (i === "addChildItem") continue;
-                            if (i === "removeChildItem") continue;
-                            c.options.push("" + i);
+                            if (currentObject.hasOwnProperty(i)) {
+                                if (i === "$type") continue;
+                                if (i === "addChildItem") continue;
+                                if (i === "removeChildItem") continue;
+                                c.options.push("" + i);
+                            }
                         }
                         c.options.sort();
                         c.startFrom = text.lastIndexOf(".") + 1;

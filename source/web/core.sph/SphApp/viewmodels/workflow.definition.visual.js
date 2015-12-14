@@ -19,10 +19,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             isPublishing = ko.observable(false),
             originalEntity = "",
             publishingMessage = ko.observable(),
+            toolboxElements = ko.observableArray(),
+            errors = ko.observableArray(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             populateToolbox = function () {
                 return $.get("/wf-designer/toolbox-items", function (result) {
-                    vm.toolboxElements(result);
+                    toolboxElements(result);
                 });
             },
             activate = function (id) {
@@ -33,7 +35,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 if (id && id !== "0") {
                     context.loadOneAsync("WorkflowDefinition", query)
                         .done(function (b) {
-                            vm.wd(b);
+                            wd(b);
                             tcs.resolve(true);
                             b.loadSchema();
 
@@ -134,7 +136,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     sourceAnchors = [];
                 }
 
-                if (name == "EndActivity") {
+                if (name === "EndActivity") {
                     sourceAnchors = [];
                 }
                 if (act.IsInitiator()) {
@@ -447,10 +449,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                     _(wd().ActivityCollection()).each(clearItemHasError);
                     _(wd().VariableDefinitionCollection()).each(clearItemHasError);
-                    vm.errors.removeAll();
+                    errors.removeAll();
                 } else {
 
-                    vm.errors(result.Errors);
+                    errors(result.Errors);
                     logger.error("There are errors in your Workflow, please fix them all");
                     //
                     _(wd().ActivityCollection()).each(setItemHasError);
@@ -576,10 +578,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             activate: activate,
             attached: attached,
             canDeactivate: canDeactivate,
-            toolboxElements: ko.observableArray(),
+            toolboxElements: toolboxElements,
             wd: wd,
             itemAdded: itemAdded,
-            errors: ko.observableArray(),
+            errors: errors,
             showError: showError,
             autoSave: autoSave,
             autoSaveInterval: autoSaveInterval,
