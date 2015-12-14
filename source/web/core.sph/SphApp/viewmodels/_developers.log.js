@@ -164,7 +164,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        logger.error("No WebSocket support for console notification");
 		    }
 
-		    logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connecting to server ...", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Info" }));
+		    logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connecting to server on port " + setting().port() + "....", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Info" }));
 		    // create a new websocket and connect
 		    ws = new window[support]("ws://" + setting().host() + ":" + setting().port() + "/");
 

@@ -81,8 +81,27 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StartWebConsole()
         {
-            WebConsoleServer.Default.Start(this.Settings.LoggerWebSocketPort ?? 50230);
-            this.WebConsoleStarted = true;
+            this.QueueUserWorkItem(() =>
+            {
+                var port = this.Settings.LoggerWebSocketPort ?? 50238;
+                var loggerStarted = false;
+                while (!loggerStarted)
+                {
+                    port++;
+                    loggerStarted = WebConsoleServer.Default.Start(port);
+                }
+                this.WebConsoleStarted = true;
+                this.Settings.LoggerWebSocketPort = port;
+                var message = "Web console subscriber successfully started on port " + port;
+                Log(message);
+                this.Post(p =>
+                {
+                    MessageBox.Show(p, "WebSocket Console Port", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }, message);
+       
+
+            });
         }
 
         private void Setup()
@@ -127,19 +146,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
-
-            var port = this.Settings.LoggerWebSocketPort ?? 50238;
-            var loggerStarted = false;
-            while (!loggerStarted)
-            {
-                loggerStarted = WebConsoleServer.Default.Start(port++);
-            }
-            this.WebConsoleStarted = true;
-            this.Settings.LoggerWebSocketPort = port;
-            Log("Web console subscriber successfully started on port " + port);
-            MessageBox.Show("Web console subscriber successfully started on port " + port);
-
-
+            this.StartWebConsole();
+        
 
             this.CheckWorkers();
             this.CheckIisExpress();
@@ -999,8 +1007,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public void Stop()
         {
-            WebConsoleServer.Default?.Stop();
-
+            this.StopWebConsole();
         }
     }
 }

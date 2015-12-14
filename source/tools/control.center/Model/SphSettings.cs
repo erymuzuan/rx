@@ -383,6 +383,8 @@ namespace Bespoke.Sph.ControlCenter.Model
         }
         private void SetEnvironmentVariable(string setting, object value)
         {
+            if($"{value}".Contains("control.center"))
+                throw new InvalidOperationException($"You cannot set \"RX_{ApplicationNameToUpper}_{setting}\" variable to \"{value}\"");
             Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}", EnvironmentVariableTarget.User);
         }
         private int? GetEnvironmentVariableInt32(string setting)
