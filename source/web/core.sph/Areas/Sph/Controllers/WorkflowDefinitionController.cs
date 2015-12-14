@@ -165,6 +165,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var wd = this.GetRequestJson<WorkflowDefinition>();
             if (string.IsNullOrWhiteSpace(wd.Name))
                 return Json(new { success = false, status = "Not OK", message = "Name cannot be empty" });
+            if (wd.Name.Trim() == "0")
+                return Json(new { success = false, status = "Not OK", message = "Name \"0\" is invalid" });
             if (wd.IsNewItem && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
             {
                 wd.Id = wd.Name.ToIdFormat();
@@ -297,6 +299,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             if (null == wd) throw new ArgumentNullException(nameof(wd));
+
+            if(string.IsNullOrWhiteSpace(wd.Name))
+                throw new InvalidOperationException("Cannot save WorkflowDefinition with empty Name");
 
 
             using (var session = context.OpenSession())
