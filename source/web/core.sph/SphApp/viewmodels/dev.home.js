@@ -46,6 +46,15 @@ define(["services/datacontext", "services/logger", objectbuilders.config, object
                             router.navigate("#entity.details/" + ko.unwrap(dialog.id));
                         }
                     });
+            },
+            addWorkflowDefinitionAsync = function () {
+
+              return app.showDialog("new.workflow.definition.dialog")
+                    .done(function (dialog, result) {
+                        if (result === "OK") {
+                            router.navigate("#workflow.definition.visual/" + ko.unwrap(dialog.id));
+                        }
+                    });
             };
 
         var vm = {
@@ -56,7 +65,8 @@ define(["services/datacontext", "services/logger", objectbuilders.config, object
             attached: attached,
             openSnippetsDialog: openSnippetsDialog,
             groups: groups,
-            addEntityDefinitionAsync: addEntityDefinitionAsync
+            addEntityDefinitionAsync: addEntityDefinitionAsync,
+            addWorkflowDefinitionAsync: addWorkflowDefinitionAsync
         };
 
         return vm;
