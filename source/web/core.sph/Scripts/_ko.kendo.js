@@ -508,7 +508,7 @@ ko.bindingHandlers.kendoEnable = {
 };
 
 ko.bindingHandlers.command = {
-    init: function (element, valueAccessor, allBindingsAccessor) {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var action = valueAccessor(),
             $button = $(element),
             allBindings = allBindingsAccessor(),
@@ -546,7 +546,7 @@ ko.bindingHandlers.command = {
             $spinner.show();
             $warning.hide();
 
-            action()
+            action(viewModel, e)
                 .fail(function (err, o, message) {
                     $button
                        .button("complete")
