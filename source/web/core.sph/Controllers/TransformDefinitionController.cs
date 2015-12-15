@@ -115,6 +115,8 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var ed = this.GetRequestJson<TransformDefinition>();
             var context = new SphDataContext();
+            if (string.IsNullOrWhiteSpace(ed.Name))
+                return Json(new { success = false, status = "Not OK", message = "You will need a valid name for your mapping" });
 
             if (ed.IsNewItem)
             {
@@ -173,14 +175,21 @@ namespace Bespoke.Sph.Web.Controllers
             "web.console.logger",
             "roslyn.scriptengine",
             "Org.Mentalis.Security.Cryptography",
-            "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn"
+            "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn",
+            "LinqToQuerystring", "Mindscape","Polly","Raygun","raygun","flatfile"
         };
 
+        readonly Func<Type, bool> m_typePredicate = x => x.IsClass && x.IsPublic
+                                          && !x.IsInterface
+                                          && !x.IsAbstract
+                                          && !x.Name.EndsWith("Controller");
 
         [HttpGet]
         [Route("assemblies")]
         public ActionResult Assemblies()
         {
+
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var refAssemblies = (from a in assemblies
                                  let name = a.GetName()
@@ -192,10 +201,7 @@ namespace Bespoke.Sph.Web.Controllers
                                      name.FullName,
                                      name.Name,
                                      Types = a.GetTypes()
-                                                 .Where(x => !x.IsAbstract)
-                                                 .Where(x => !x.IsInterface)
-                                                 .Where(x => x.IsPublic)
-                                                 .Where(x => x.IsClass)
+                                                 .Where(m_typePredicate)
                                                  .Select(x => new
                                                  {
                                                      x.Namespace,
@@ -221,10 +227,7 @@ namespace Bespoke.Sph.Web.Controllers
                                      name.FullName,
                                      name.Name,
                                      Types = a.GetTypes()
-                                                 .Where(x => !x.IsAbstract)
-                                                 .Where(x => !x.IsInterface)
-                                                 .Where(x => x.IsPublic)
-                                                 .Where(x => x.IsClass)
+                                                 .Where(m_typePredicate)
                                                  .Select(x => new
                                                  {
                                                      x.Namespace,
@@ -289,10 +292,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (null == assembly) return HttpNotFound("Cannot find assembly " + dll);
 
             var types = assembly.GetTypes()
-                .Where(x => !x.IsAbstract)
-                .Where(x => !x.IsInterface)
-                .Where(x => x.IsPublic)
-                .Where(x => x.IsClass);
+                .Where(m_typePredicate);
             return Json(types.Select(x => new
             {
                 FullName = x.FullName + ", " + dll,
