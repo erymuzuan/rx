@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain
         public static string ApplicationName => AppSettings["sph:ApplicationName"] ?? "YOUR_APP";
 
         public static string ApplicationFullName => GetEnvironmentVariable("ApplicationFullName") ?? "Reactive Developer platform showcase";
-        public static string FromEmailAddress => GetEnvironmentVariable("FromEmailAddress") ?? "admin@rxdeveoper.com";
+        public static string FromEmailAddress => GetEnvironmentVariable("FromEmailAddress") ?? "admin@rxdeveloper.com";
         public static int StaticFileCache => GetEnvironmentVariableInt32("StaticFileCache", 120);
         public static int WorkflowDebuggerPort => GetEnvironmentVariableInt32("WorkflowDebuggerPort", 50518);
         public static long EsIndexingDelay => GetEnvironmentVariableInt32("EsIndexingDelay", 15000);
