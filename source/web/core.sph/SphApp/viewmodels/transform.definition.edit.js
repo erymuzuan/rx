@@ -622,6 +622,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             if (!result) return;
                             if (result === "OK") {
                                 var td1 = td();
+                                td().Name(ko.unwrap(clone.Name));
                                 for (var g in td1) {
                                     if (td1.hasOwnProperty(g)) {
                                         if (typeof td1[g] === "function" && (td1[g].name === "c" || td1[g].name === "observable")) {
@@ -970,6 +971,15 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             pages: pages,
             toolbar: {
                 saveCommand: save,
+                canExecuteSaveCommand: ko.pureComputed(function () {
+                    if (!this.Name())
+                        return false;
+                    if (this.Name() === "New Mapping Definition")
+                        return false;
+                    if (this.Name() === "0")
+                        return false;
+                    return true;
+                }, td()),
                 commands: ko.observableArray([
                     {
                         command: editProp,
@@ -983,6 +993,15 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     },
                     {
                         command: publishAsync,
+                        enable: ko.computed(function () {
+                            if (!td().Name())
+                                return false;
+                            if (td().Name() === "New Mapping Definition")
+                                return false;
+                            if (td().Name() === "0")
+                                return false;
+                            return true;
+                        }),
                         caption: "Publish",
                         icon: "fa fa-sign-out"
                     },

@@ -7,10 +7,9 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
-
-
-define(['services/datacontext', 'services/logger', objectbuilders.config],
-    function (context, logger, config) {
+/// <reference path="~/Scripts/_task.js" />
+define(["services/datacontext", "services/logger", objectbuilders.config, objectbuilders.router],
+    function (context, logger, config, router) {
 
         var isBusy = ko.observable(false),
             groups = ko.observableArray(),
@@ -33,11 +32,26 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
                 groups(groups2);
                 return Task.fromResult(true);
             },
-            attached = function (view) {
+            attached = function () {
 
             },
             openSnippetsDialog = function () {
-                
+
+            },
+            addEntityDefinitionAsync = function () {
+                var tcs = new $.Deferred();
+                require(["viewmodels/new.entity.definition.dialog", "durandal/app"], function (dialog, app2) {
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                router.navigate("#entity.details/" + ko.unwrap(dialog.id));
+                            }
+                            tcs.resolve(true);
+                        });
+                });
+
+                return tcs.promise();
             };
 
         var vm = {
@@ -47,7 +61,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
             activate: activate,
             attached: attached,
             openSnippetsDialog: openSnippetsDialog,
-            groups: groups
+            groups: groups,
+            addEntityDefinitionAsync: addEntityDefinitionAsync
         };
 
         return vm;
