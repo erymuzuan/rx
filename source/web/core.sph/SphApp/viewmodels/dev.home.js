@@ -55,6 +55,15 @@ define(["services/datacontext", "services/logger", objectbuilders.config, object
                             router.navigate("#workflow.definition.visual/" + ko.unwrap(dialog.id));
                         }
                     });
+            },
+            addTransformDefinitionAsync = function () {
+
+              return app.showDialog("new.transform.definition.dialog")
+                    .done(function (dialog, result) {
+                        if (result === "OK") {
+                            router.navigate("#transform.definition.edit/" + ko.unwrap(dialog.id));
+                        }
+                    });
             };
 
         var vm = {
@@ -66,6 +75,7 @@ define(["services/datacontext", "services/logger", objectbuilders.config, object
             openSnippetsDialog: openSnippetsDialog,
             groups: groups,
             addEntityDefinitionAsync: addEntityDefinitionAsync,
+            addTransformDefinitionAsync: addTransformDefinitionAsync,
             addWorkflowDefinitionAsync: addWorkflowDefinitionAsync
         };
 
