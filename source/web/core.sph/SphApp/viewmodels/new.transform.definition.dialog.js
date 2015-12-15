@@ -19,7 +19,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             typeOptions = ko.observableArray(),
             selectedOutputAssembly = ko.observable(),
             id = ko.observable(),
-            activate = function() {
+            activate = function () {
                 td(new bespoke.sph.domain.TransformDefinition());
 
                 return context.get("/transform-definition/assemblies")
@@ -62,10 +62,41 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     console.log(z);
                 });
             },
-            attached = function() {
+            attached = function (view) {
                 setTimeout(function () {
                     $("#name-input").focus();
                 }, 500);
+
+                $(view).on("click", "a.fa-angle-double-down", function (e) {
+                    e.preventDefault();
+                    var arg = ko.dataFor(this);
+                    td().InputCollection.push(new bespoke.sph.domain.MethodArg({
+                        TypeName: arg.FullName,
+                        Name: arg.Name,
+                        WebId: system.guid()
+                    }));
+                });
+                $(view).on("click", "a.fa-times", function (e) {
+                    e.preventDefault();
+                    var arg = ko.dataFor(this);
+                    td().InputCollection.remove(arg);
+                });
+
+                //scrollable tbody
+                var $table = $("#types-table"),
+                    $bodyCells = $table.find("tbody tr:first").children(),
+                    colWidth;
+
+                $(window).resize(function () {
+                    colWidth = $bodyCells.map(function () {
+                        return $(this).width();
+                    }).get();
+
+                    $table.find("thead tr").children().each(function (i, v) {
+                        $(v).width(colWidth[i]);
+                    });
+                }).resize();
+
 
                 selectedInputAssembly.subscribe(function (dll) {
                     return context.get("/transform-definition/types/" + dll)
@@ -75,8 +106,17 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     return context.get("/transform-definition/types/" + dll)
                         .then(outputTypeOptions);
                 });
+
+                var search = $("input[type=search]").parent();
+                allowMultipleSource.subscribe(function (allow) {
+                    if (allow)
+                        search.show();
+                    else
+                        search.hide();
+                });
+                search.hide();
             },
-            saveAsync = function(data,ev) {
+            saveAsync = function (data, ev) {
 
                 var json = ko.mapping.toJSON(td);
                 return context.post(json, "/transform-definition")
@@ -92,10 +132,10 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     dialog.close(this, "OK");
                 }
 
-                return saveAsync(data,ev);
+                return saveAsync(data, ev);
 
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
@@ -110,10 +150,10 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             selectedOutputAssembly: selectedOutputAssembly,
             id: id,
             attached: attached,
-            activate : activate,
+            activate: activate,
             okClick: okClick,
             cancelClick: cancelClick,
-            saveAsync : saveAsync
+            saveAsync: saveAsync
         };
 
 
