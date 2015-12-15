@@ -1,12 +1,29 @@
 ﻿define(function () {
     var guid = function () {
-        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    },
-        showDialog = function (dialog) {
+            return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        },
+        showDialog2 = function (moduleId, activate) {
+            var tcs = new $.Deferred();
+            require(["viewmodels/" + moduleId, "durandal/app"], function (dialog, app2) {
+                if (typeof activate === "function") {
+                    activate(dialog);
+                }
+                app2.showDialog(dialog)
+                    .done(function(result) {
+                        tcs.resolve(dialog, result);
+                    });
+            });
 
+            return tcs.promise();
+        },
+        showDialog = function (dialog, activate) {
+
+            if (typeof dialog === "string") {
+                return showDialog2(dialog, activate);
+            }
             // get the view
             var moduleId = dialog.__moduleId__,
                 tcs = new $.Deferred();
@@ -110,6 +127,7 @@
     var app = {
         guid: guid,
         showModal: showDialog,
+        showDialog: showDialog,
         prompt: prompt,
         showMessage: showMessage
     };

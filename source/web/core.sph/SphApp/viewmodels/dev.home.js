@@ -8,8 +8,8 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="~/Scripts/_task.js" />
-define(["services/datacontext", "services/logger", objectbuilders.config, objectbuilders.router],
-    function (context, logger, config, router) {
+define(["services/datacontext", "services/logger", objectbuilders.config, objectbuilders.router, "services/app"],
+    function (context, logger, config, router, app) {
 
         var isBusy = ko.observable(false),
             groups = ko.observableArray(),
@@ -39,19 +39,13 @@ define(["services/datacontext", "services/logger", objectbuilders.config, object
 
             },
             addEntityDefinitionAsync = function () {
-                var tcs = new $.Deferred();
-                require(["viewmodels/new.entity.definition.dialog", "durandal/app"], function (dialog, app2) {
-                    app2.showDialog(dialog)
-                        .done(function (result) {
-                            if (!result) return;
-                            if (result === "OK") {
-                                router.navigate("#entity.details/" + ko.unwrap(dialog.id));
-                            }
-                            tcs.resolve(true);
-                        });
-                });
 
-                return tcs.promise();
+              return app.showDialog("new.entity.definition.dialog")
+                    .done(function (dialog, result) {
+                        if (result === "OK") {
+                            router.navigate("#entity.details/" + ko.unwrap(dialog.id));
+                        }
+                    });
             };
 
         var vm = {
