@@ -1,0 +1,87 @@
+﻿
+<section class="view-model-modal" id="new-trigger-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>New Trigger</h3>
+            </div>
+            <div class="modal-body" data-bind="with: trigger">
+
+                <form class="form-horizontal" id="new-trigger-dialog-form">
+
+                    <div class="form-group">
+                        <label for="name-input" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: Name"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Triggers's name"
+                                   class="form-control" id="name-input">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Entity" class="col-sm-2 control-label">Entity</label>
+                        <div class="col-sm-9">
+                            <select required class="form-control" data-bind="value: Entity, options: $root.entities, optionsCaption:'[--SELECT TRIGGER ENTITY--]'" id="Entity" name="Entity"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Note" class="col-sm-2 control-label">Note</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" data-bind="value: Note" id="Note" name="Note"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">CRUD</label>
+                        <div class="col-sm-9">
+                            <div class="checkbox col-sm-3 checkbox-no-padding-left">
+                                <label>
+                                    <input data-bind="checked: IsFiredOnAdded" id="fired-on-added" type="checkbox" name="IsFiredOnAdded" />
+                                    Added
+                                </label>
+                            </div>
+                            <div class="checkbox col-sm-4 checkbox-no-padding-left">
+                                <label>
+                                    <input data-bind="checked: IsFiredOnChanged" id="fired-on-changed" type="checkbox" name="IsFireOnChanged" />
+                                    Changed
+                                </label>
+                            </div>
+                            <div class="checkbox col-sm-4 checkbox-no-padding-left">
+                                <label>
+                                    <input data-bind="checked: IsFiredOnDeleted" id="fire-on-deleted" type="checkbox" name="IsFireOnDeleted" />
+                                    Deleted
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group clear clearfix" style="clear: both">
+                        <label class="control-label col-sm-2" data-bind="tooltip:'When this operation is invoked, then fire this trigger'">Operation</label>
+                        <div class="col-sm-9" id="operation-options">
+                            <!-- ko foreach: $root.operationOptions -->
+                            <div class="checkbox col-sm-4 checkbox-no-padding-left">
+                                <label>
+                                    <input type="checkbox" data-bind="value:$data, checked: $root.operations" />
+                                    <!-- ko text: $data-->
+                                    <!-- /ko -->
+                                </label>
+                            </div>
+                            <!-- /ko -->
+                        </div>
+                    </div>
+
+           
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button form="new-trigger-dialog-form" data-dismiss="modal" class="btn btn-default" data-bind="command: okClick">OK</button>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>
