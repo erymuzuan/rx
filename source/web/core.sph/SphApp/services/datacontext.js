@@ -7,7 +7,7 @@
 /// <reference path="../objectbuilders.js" />
 /// <reference path="/SphApp/schemas/sph.domain.g.js" />
 
-define(['services/logger', objectbuilders.system, 'durandal/knockout'],
+define(["services/logger", objectbuilders.system, "durandal/knockout"],
 function (logger, system, ko2) {
     if (!window.ko && typeof ko2 === "object") {
         window.ko = ko2;
@@ -151,8 +151,8 @@ function (logger, system, ko2) {
           logger.info("Event: " + event.type + "; Status: " + condition);
       };
 
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
 
 
     function send(json, url, verb) {
@@ -191,6 +191,22 @@ function (logger, system, ko2) {
         var tcs = new $.Deferred();
         $.ajax({
             type: "POST",
+            data: json,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: tcs.resolve
+        });
+
+        return tcs.promise();
+    }
+    function put(json, url) {
+
+
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "PUT",
             data: json,
             url: url,
             contentType: "application/json; charset=utf-8",
@@ -515,6 +531,7 @@ function (logger, system, ko2) {
         getTuplesAsync: getTuplesAsync,
         sendDelete: sendDelete,
         post: post,
+        put: put,
         send: send,
         get: get,
         clone: clone,

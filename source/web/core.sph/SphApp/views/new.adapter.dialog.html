@@ -1,0 +1,75 @@
+﻿
+<section class="view-model-modal" id="new-adapter-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>New adapter</h3>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" id="new-adapter-dialog-form">
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">Select Adapter Type</label>
+                     
+                        <div class="col-lg-8">
+                            <div class="btn-group">
+                                <a class="btn btn-link dropdown-toggle" data-toggle="drop-down" data-bind="with : selectedItem().designer">
+                                    <!-- ko if : FontAwesomeIcon -->
+                                    <i data-bind="attr : {'class':'fa fa-' + ko.unwrap(FontAwesomeIcon)}"></i>
+                                    <!--/ko -->
+                                    <!-- ko if : BootstrapIcon -->
+                                    <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon}"></i>
+                                    <!--/ko -->
+                                    <!-- ko if : PngIcon -->
+                                    <img data-bind="attr : {'src': PngIcon, 'alt': Name}" alt="#" />
+                                    <!--/ko -->
+                                    <!-- ko text: Name-->
+                                    <!--/ko -->
+                                    &nbsp;<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" data-bind="foreach :adapterOptions">
+                                    <li>
+                                        <a style="text-align: left" class="btn btn-link" data-bind="click : $root.selectAdapter">
+                                            <!-- ko if : designer.FontAwesomeIcon -->
+                                            <i data-bind="attr : {'class':'fa fa-' + designer.FontAwesomeIcon}"></i>
+                                            <!--/ko -->
+                                            <!-- ko if : designer.BootstrapIcon -->
+                                            <i data-bind="attr : {'class':'glyphicon glyphicon-' + designer.BootstrapIcon}"></i>
+                                            <!--/ko -->
+                                            <!-- ko if : designer.PngIcon -->
+                                            <img data-bind="attr : {'src': designer.PngIcon, 'alt': designer.Name}" alt="#" />
+                                            <!--/ko -->
+                                            <!-- ko text: designer.Name-->
+                                            <!--/ko -->
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adapter-name" class="col-lg-4 control-label">Name</label>
+                        <div class="col-lg-8">
+                            <input type="text" data-bind="value: name"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   placeholder="Adapter name"
+                                   class="form-control" id="adapter-name">
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button form="new-adapter-dialog-form" data-dismiss="modal" class="btn btn-default" data-bind="command: okClick">OK</button>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

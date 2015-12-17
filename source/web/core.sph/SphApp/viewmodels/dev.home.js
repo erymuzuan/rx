@@ -73,6 +73,15 @@ define(["services/datacontext", "services/logger", objectbuilders.config, object
                             router.navigate("#trigger.setup/" + ko.unwrap(dialog.id));
                         }
                     });
+            },
+            addAdapterAsync = function () {
+
+              return app.showDialog("new.adapter.dialog")
+                    .done(function (dialog, result) {
+                        if (result === "OK") {
+                            router.navigate("#" + ko.unwrap(dialog.url));
+                        }
+                    });
             };
 
         var vm = {
@@ -84,6 +93,7 @@ define(["services/datacontext", "services/logger", objectbuilders.config, object
             openSnippetsDialog: openSnippetsDialog,
             groups: groups,
             addEntityDefinitionAsync: addEntityDefinitionAsync,
+            addAdapterAsync: addAdapterAsync,
             addTriggerAsync: addTriggerAsync,
             addTransformDefinitionAsync: addTransformDefinitionAsync,
             addWorkflowDefinitionAsync: addWorkflowDefinitionAsync

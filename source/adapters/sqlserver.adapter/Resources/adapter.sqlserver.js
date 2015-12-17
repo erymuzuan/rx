@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.1.3.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -22,32 +22,47 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             tableOptions = ko.observableArray(),
             sprocOptions = ko.observableArray(),
             selectedTables = ko.observableArray(),
-            activate = function (sid) {
-                if (!sid || sid === "0") {
-                    adapter({
-                        $type: "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter",
-                        Id: ko.observable("0"),
-                        Name: ko.observable(),
-                        Description: ko.observable(),
-                        Server: ko.observable("(localdb)\\ProjectsV12"),
-                        TrustedConnection: ko.observable(true),
-                        UserId: ko.observable(),
-                        Password: ko.observable(),
-                        Database: ko.observable(),
-                        Schema: ko.observable(),
-                        OperationDefinitionCollection: ko.observableArray(),
-                        Tables: selectedTables
+            connect = function (adp) {
+                if (!adp) {
+                    adp = adapter;
+                }
+                if (typeof adp.Database !== "function") {
+                    adp = adapter;
+                }
+                var tcs = new $.Deferred();
+                loadingSchemas(true);
+                loadingDatabases(true);
+                context.post(ko.mapping.toJSON(adp), "sqlserver-adapter/databases")
+                    .done(function (result) {
+                        loadingSchemas(false);
+                        loadingDatabases(false);
+                        if (result.success) {
+                            connected(true);
+                            databaseOptions(result.databases);
+                            logger.info("You are now connected, please select your database");
+                        } else {
+                            connected(false);
+                            logger.error(result.message);
+                        }
+                        tcs.resolve(result);
                     });
 
-                    return null;
-                }
+                return tcs.promise();
+            },
+            activate = function (sid) {
 
                 var query = String.format("Id eq '{0}'", sid),
                     tcs = new $.Deferred();
 
                 context.loadOneAsync("Adapter", query)
                     .done(function (b) {
-
+                        var initialized = ko.unwrap(b.Schema) && ko.unwrap(b.Database);
+                        if (!initialized) {
+                            b.TrustedConnection(true);
+                            adapter(b);
+                            tcs.resolve(true);
+                            return;
+                        }
                         var loadSchemaTask = context.post(ko.mapping.toJSON(b), "sqlserver-adapter/schema"),
                             loadTablesSprocsTask = context.post(ko.mapping.toJSON(b), "sqlserver-adapter/objects"),
                             loadDatabasesTask = connect(b);
@@ -213,33 +228,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 }
 
             },
-            connect = function (adp) {
-                if (!adp) {
-                    adp = adapter;
-                }
-                if (typeof adp.Database !== "function") {
-                    adp = adapter;
-                }
-                var tcs = new $.Deferred();
-                loadingSchemas(true);
-                loadingDatabases(true);
-                context.post(ko.mapping.toJSON(adp), "sqlserver-adapter/databases")
-                    .done(function (result) {
-                        loadingSchemas(false);
-                        loadingDatabases(false);
-                        if (result.success) {
-                            connected(true);
-                            databaseOptions(result.databases);
-                            logger.info("You are now connected, please select your database");
-                        } else {
-                            connected(false);
-                            logger.error(result.message);
-                        }
-                        tcs.resolve(result);
-                    });
-
-                return tcs.promise();
-            },
+          
             generate = function () {
 
                 var data = ko.mapping.toJSON(adapter);
@@ -257,7 +246,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
-                return context.post(data, "/adapter")
+                return context.put(data, "/adapter/" + ko.unwrap(adapter().Id))
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {

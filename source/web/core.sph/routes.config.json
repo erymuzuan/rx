@@ -235,7 +235,7 @@
     "moduleId": "viewmodels/adapter.definition.list",
     "title": "Adapters",
     "nav": true,
-    "icon": "fa fa-puzzle-piece",
+    "icon": "fa fa-database",
     "caption": "Adapters",
     "settings": null,
     "isAdminPage": true,

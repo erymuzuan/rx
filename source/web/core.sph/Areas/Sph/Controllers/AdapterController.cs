@@ -26,11 +26,12 @@ namespace Bespoke.Sph.Web.Controllers
                 ObjectBuilder.ComposeMefCatalog(this);
 
             var actions = from a in this.Adapters
-                          select string.Format(@"
+                          select
+                              $@"
 {{
-    ""designer"" : {0},
-    ""adapter"" : {1}
-}}", JsonConvert.SerializeObject(a.Metadata), a.Value.ToJsonString());
+    ""designer"" : {JsonConvert.SerializeObject(a.Metadata)},
+    ""adapter"" : {a.Value.ToJsonString()}
+}}";
 
 
             return Content("[" + string.Join(",", actions) + "]", "application/json", Encoding.UTF8);
@@ -69,13 +70,48 @@ namespace Bespoke.Sph.Web.Controllers
 
         [Route("")]
         [HttpPost]
-        public async Task<ActionResult> Save()
+        public async Task<ActionResult> Create()
         {
             var adapter = this.GetRequestJson<Adapter>();
             if (null == adapter)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Cannot deserialize adapter");
 
+            var context = new SphDataContext();
+            adapter.Id = adapter.Name.ToIdFormat();
 
+            using (var session = context.OpenSession())
+            {
+                session.Attach(adapter);
+                await session.SubmitChanges("Save");
+            }
+
+            this.Response.StatusCode = (int)HttpStatusCode.Created;
+            this.Response.StatusDescription = "Created";
+
+            return Json(new
+            {
+                success = true,
+                status = "OK",
+                id = adapter.Id,
+                link = new
+                {
+                    rel = "self",
+                    href = "adapter/" + adapter.Id
+                }
+            });
+        }
+
+
+
+        [Route("{id}")]
+        [HttpPut]
+        public async Task<ActionResult> Save(string id)
+        {
+            var adapter = this.GetRequestJson<Adapter>();
+            if (null == adapter)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Cannot deserialize adapter");
+
+            adapter.Id = id;
             var vr = (await adapter.ValidateAsync()).ToArray();
             if (vr.Any())
             {
