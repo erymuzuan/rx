@@ -82,6 +82,15 @@ define(["services/datacontext", "services/logger", objectbuilders.config, object
                             router.navigate("#" + ko.unwrap(dialog.url));
                         }
                     });
+            },
+            addReportDefinitionAsync = function () {
+
+              return app.showDialog("new.report.definition.dialog")
+                    .done(function (dialog, result) {
+                        if (result === "OK") {
+                            router.navigate("#reportdefinition.edit/" + ko.unwrap(dialog.id));
+                        }
+                    });
             };
 
         var vm = {
@@ -94,6 +103,7 @@ define(["services/datacontext", "services/logger", objectbuilders.config, object
             groups: groups,
             addEntityDefinitionAsync: addEntityDefinitionAsync,
             addAdapterAsync: addAdapterAsync,
+            addReportDefinitionAsync: addReportDefinitionAsync,
             addTriggerAsync: addTriggerAsync,
             addTransformDefinitionAsync: addTransformDefinitionAsync,
             addWorkflowDefinitionAsync: addWorkflowDefinitionAsync

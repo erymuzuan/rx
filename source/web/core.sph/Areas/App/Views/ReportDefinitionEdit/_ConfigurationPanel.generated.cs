@@ -48,6 +48,8 @@ WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"modal-dialog\"");
 
+WriteLiteral(" style=\"z-index: 1050\"");
+
 WriteLiteral(">\r\n        <div");
 
 WriteLiteral(" class=\"modal-content\"");
