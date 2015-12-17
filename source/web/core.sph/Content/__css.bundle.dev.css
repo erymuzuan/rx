@@ -11924,7 +11924,10 @@ background-image: url("sph.wf.64.png");
 .activity64-ReceiveActivity{background-position:-592px 0px ; width: 64px ; height: 64px; }
 .activity64-DelayActivity{background-position:-666px 0px ; width: 64px ; height: 64px; }
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600');
+@font-face{font-family:'Open Sans';font-style:normal;font-weight:400;src:local('Open Sans'),local('OpenSans'),url(/content/external/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype')}
+@font-face{font-family:'Open Sans';font-style:normal;font-weight:600;src:local('Open Sans Semibold'),local('OpenSans-Semibold'),url(/content/external/MTP_ySUJH_bn48VBG8sNSonF5uFdDttMLvmWuJdhhgs.ttf) format('truetype')}
+@font-face{font-family:'Open Sans';font-style:italic;font-weight:400;src:local('Open Sans Italic'),local('OpenSans-Italic'),url(/content/external/xjAJXh38I15wypJXxuGMBp0EAVxt0G0biEntp43Qt6E.ttf) format('truetype')}
+@font-face{font-family:'Open Sans';font-style:italic;font-weight:600;src:local('Open Sans Semibold Italic'),local('OpenSans-SemiboldItalic'),url(/content/external/PRmiXeptR36kaC0GEAetxi8cqLH4MEiSE0ROcU-qHOA.ttf) format('truetype')}
 
 * {
 	border-radius: 0 !important;

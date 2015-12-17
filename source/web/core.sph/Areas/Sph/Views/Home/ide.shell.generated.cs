@@ -91,15 +91,6 @@ WriteLiteral(" name=\"author\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=al" +
-"l\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
 WriteLiteral(" href=\"/Content/__css.bundle.dev.min.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -122,7 +113,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("    ");
 
             
-            #line 28 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
+            #line 27 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
 Write(Html.Partial("_header"));
 
             
@@ -143,7 +134,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("        ");
 
             
-            #line 33 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
+            #line 32 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
     Write(!string.IsNullOrWhiteSpace(splashHtml) ? Html.Raw(splashHtml) : Html.Partial("_splash"));
 
             
@@ -154,7 +145,7 @@ WriteLiteral("\r\n\r\n    </div>\r\n\r\n");
 WriteLiteral(" ");
 
             
-            #line 37 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
+            #line 36 "..\..\Areas\Sph\Views\Home\ide.shell.cshtml"
 Write(Html.Partial("_scripts"));
 
             

@@ -213,6 +213,7 @@
     <Content Include="Content\external\bootstrap.min.css" />
     <Content Include="Content\external\daterangepicker-bs3.css" />
     <Content Include="Content\external\font-awesome.min.css" />
+    <Content Include="Content\external\google-font.css" />
     <Content Include="Content\external\prism.css" />
     <Content Include="Content\external\transformation-mapping.css" />
     <Content Include="Content\external\transformation-mapping.min.css" />
@@ -333,6 +334,10 @@
     <Content Include="Content\fonts\Simple-Line-Icons.ttf" />
     <Content Include="Content\fonts\Simple-Line-Icons.woff" />
     <Content Include="docs\api.token.md" />
+    <Content Include="Content\external\cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf" />
+    <Content Include="Content\external\MTP_ySUJH_bn48VBG8sNSonF5uFdDttMLvmWuJdhhgs.ttf" />
+    <Content Include="Content\external\PRmiXeptR36kaC0GEAetxi8cqLH4MEiSE0ROcU-qHOA.ttf" />
+    <Content Include="Content\external\xjAJXh38I15wypJXxuGMBp0EAVxt0G0biEntp43Qt6E.ttf" />
     <None Include="docs\custom.form.list.md" />
     <Content Include="docs\custom.form.list.html">
       <DependentUpon>custom.form.list.md</DependentUpon>
