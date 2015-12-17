@@ -1,5 +1,50 @@
 ﻿
+
 <div>
+    <div class="btn-group">
+        <a class="btn btn-link dropdown-toggle" data-toggle="drop-down" style="color: white">
+            <i class="fa fa-plus"></i>
+            Add new item &nbsp;<span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" data-bind="with :newItemService">
+            <li>
+                <a href="#" data-bind="command: addEntityDefinitionAsync">
+                    <i class="fa fa-clipboard"></i>
+                    New Entity Definition
+                </a>
+            </li>
+            <li>
+                <a href="#" data-bind="command: addWorkflowDefinitionAsync">
+                    <i class="fa fa-code-fork"></i>
+                    New Workflow Definition
+                </a>
+            </li>
+            <li>
+                <a href="#" data-bind="command:addTriggerAsync">
+                    <i class="fa fa-bolt"></i>
+                    New Trigger
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" data-bind="command:addReportDefinitionAsync">
+                    <i class="fa fa-bar-chart-o"></i>
+                    New Report Definition
+                </a>
+            </li>
+            <li>
+                <a href="#" data-bind="command : addTransformDefinitionAsync">
+                    <i class="fa fa-exchange"></i>
+                    New Mapping Transform
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" data-bind="command: addAdapterAsync">
+                    <i class="fa fa-database"></i>
+                    New Adapter
+                </a>
+            </li>
+        </ul>
+    </div>
     <form class="sidebar-search ">
         <a href="javascript:;" class="remove">
             <i class="icon-close"></i>
