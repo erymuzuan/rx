@@ -971,15 +971,6 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             pages: pages,
             toolbar: {
                 saveCommand: save,
-                canExecuteSaveCommand: ko.pureComputed(function () {
-                    if (!this.Name())
-                        return false;
-                    if (this.Name() === "New Mapping Definition")
-                        return false;
-                    if (this.Name() === "0")
-                        return false;
-                    return true;
-                }, td()),
                 commands: ko.observableArray([
                     {
                         command: editProp,
