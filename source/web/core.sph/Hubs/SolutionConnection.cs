@@ -252,7 +252,9 @@ namespace Bespoke.Sph.Web.Hubs
 
         private static void ExtractTrigger(SolutionItem solution)
         {
-            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\Trigger", "*.json"))
+            var folder = $"{ConfigurationManager.SphSourceDirectory}\\Trigger";
+            if (!Directory.Exists(folder)) return;
+            foreach (var f in Directory.GetFiles(folder, "*.json"))
             {
                 var trigger = f.DeserializeFromJsonFile<Trigger>();
                 var parent =
@@ -271,7 +273,10 @@ namespace Bespoke.Sph.Web.Hubs
 
         private static void ExtractEntityView(SolutionItem solution)
         {
-            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityView", "*.json"))
+            var folder = $"{ConfigurationManager.SphSourceDirectory}\\EntityView";
+            if (!Directory.Exists(folder)) return;
+
+            foreach (var f in Directory.GetFiles(folder, "*.json"))
             {
                 var view = f.DeserializeFromJsonFile<EntityView>();
                 var parent =
@@ -290,7 +295,10 @@ namespace Bespoke.Sph.Web.Hubs
 
         private static void ExtractEntityForms(SolutionItem solution)
         {
-            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityForm", "*.json"))
+            var folder = $"{ConfigurationManager.SphSourceDirectory}\\EntityForm";
+            if (!Directory.Exists(folder)) return;
+
+            foreach (var f in Directory.GetFiles(folder, "*.json"))
             {
                 var form = f.DeserializeFromJsonFile<EntityForm>();
                 var parent =
@@ -310,7 +318,10 @@ namespace Bespoke.Sph.Web.Hubs
         private IList<SolutionItem> GetEntityDefinition()
         {
             var list = new List<SolutionItem>();
-            foreach (var f in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition", "*.json"))
+            var folder = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition";
+            if (!Directory.Exists(folder)) return list;
+
+            foreach (var f in Directory.GetFiles(folder, "*.json"))
             {
                 var ed = f.DeserializeFromJsonFile<EntityDefinition>();
                 var entity = new SolutionItem
