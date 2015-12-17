@@ -24,41 +24,34 @@ namespace Bespoke.Sph.Integrations.Adapters
             return null;
         }
 
-        public IEnumerable<JsRoute> Routes
+        public IEnumerable<JsRoute> Routes => new List<JsRoute> {new JsRoute
         {
-            get
+            Caption = "MySql Server Adapter",
+            GroupName = "developers",
+            IsAdminPage = true,
+            Route = "adapter.mysql/:id",
+            Title = "MySql Server Adapter",
+            Icon = "fa fa-windows",
+            Nav = false,
+            ModuleId = "viewmodels/adapter.mysql",
+            Role = "developers",
+            Settings = new JsRouteSetting(),
+            ShowWhenLoggedIn = true,
+            StartPageRoute = null
+        },
+            new JsRoute
             {
-                var list = new List<JsRoute> {new JsRoute
-                {
-                    Caption = "MySql Server Adapter",
-                    GroupName = "developers",
-                    IsAdminPage = true,
-                    Route = "adapter.mysql/:id",
-                    Title = "MySql Server Adapter",
-                    Icon = "fa fa-windows",
-                    Nav = false,
-                    ModuleId = "viewmodels/adapter.mysql",
-                    Role = "developers",
-                    Settings = new JsRouteSetting(),
-                    ShowWhenLoggedIn = true,
-                    StartPageRoute = "adapter.mysql/0"
-                },
-                new JsRoute
-                {
-                    Caption = "MySQl Server Adapter",
-                    GroupName = "developers",
-                    IsAdminPage = true,
-                    Route = "adapter.mysql.sproc/:id/:sproc",
-                    Title = "MySql Server Adapter Stored Procedure",
-                    Icon = "fa fa-windows",
-                    Nav = false,
-                    ModuleId = "viewmodels/adapter.mysql.sproc",
-                    Role = "developers",
-                    Settings = new JsRouteSetting(),
-                    ShowWhenLoggedIn = true
-                }};
-                return list;
-            }
-        }
+                Caption = "MySQl Server Adapter",
+                GroupName = "developers",
+                IsAdminPage = true,
+                Route = "adapter.mysql.sproc/:id/:sproc",
+                Title = "MySql Server Adapter Stored Procedure",
+                Icon = "fa fa-windows",
+                Nav = false,
+                ModuleId = "viewmodels/adapter.mysql.sproc",
+                Role = "developers",
+                Settings = new JsRouteSetting(),
+                ShowWhenLoggedIn = true
+            }};
     }
 }

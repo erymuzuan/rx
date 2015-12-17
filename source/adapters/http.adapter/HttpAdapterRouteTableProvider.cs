@@ -24,42 +24,36 @@ namespace Bespoke.Sph.Integrations.Adapters
             return null;
         }
 
-        public IEnumerable<JsRoute> Routes
-        {
-            get
+        public IEnumerable<JsRoute> Routes => new[]{
+            new JsRoute
             {
-                return new[]{
-                new JsRoute
-                {
-                    Caption = "Http Adapter",
-                    GroupName = "Adapter",
-                    IsAdminPage = true,
-                    Route = "adapter.http/:id",
-                    Title = "Http Adapter",
-                    Icon = "fa fa-html5",
-                    Nav = false,
-                    ModuleId = "viewmodels/adapter.http",
-                    Role = "developers",
-                    Settings = new JsRouteSetting(),
-                    ShowWhenLoggedIn = true,
-                    StartPageRoute = "adapter.http/0"
-                },
-                new JsRoute
-                {
-                    Caption = "Web page operation",
-                    GroupName = "Adapter",
-                    IsAdminPage = false,
-                    Route = "adapter.http.operation/:id/:uuid",
-                    ModuleId = "viewmodels/adapter.http.operation",
-                    Title = "Web page operation",
-                    Icon = "fa fa-share-alt",
-                    Nav = false,
-                    Role = "developers",
-                    Settings = new JsRouteSetting(),
-                    ShowWhenLoggedIn = true
-                }
-                };
+                Caption = "Http Adapter",
+                GroupName = "Adapter",
+                IsAdminPage = true,
+                Route = "adapter.http/:id",
+                Title = "Http Adapter",
+                Icon = "fa fa-html5",
+                Nav = false,
+                ModuleId = "viewmodels/adapter.http",
+                Role = "developers",
+                Settings = new JsRouteSetting(),
+                ShowWhenLoggedIn = true,
+                StartPageRoute = null
+            },
+            new JsRoute
+            {
+                Caption = "Web page operation",
+                GroupName = "Adapter",
+                IsAdminPage = false,
+                Route = "adapter.http.operation/:id/:uuid",
+                ModuleId = "viewmodels/adapter.http.operation",
+                Title = "Web page operation",
+                Icon = "fa fa-share-alt",
+                Nav = false,
+                Role = "developers",
+                Settings = new JsRouteSetting(),
+                ShowWhenLoggedIn = true
             }
-        }
+        };
     }
 }

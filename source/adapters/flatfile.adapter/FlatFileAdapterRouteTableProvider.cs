@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 Role = "developers",
                 Settings = new JsRouteSetting(),
                 ShowWhenLoggedIn = true,
-                StartPageRoute = "adapter.flatfile/0"
+                StartPageRoute = null
             },
             new JsRoute
             {
