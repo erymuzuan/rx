@@ -15,9 +15,7 @@ namespace Bespoke.Sph.Web.Controllers
     {
         private ActionResult GetResource(string id, string folder)
         {
-
             var contentType = MimeMapping.GetMimeMapping(Path.GetExtension(id) ?? ".txt");
-
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = $"Bespoke.Sph.Web.{folder}.{id}";
 
@@ -32,22 +30,14 @@ namespace Bespoke.Sph.Web.Controllers
             var file = Server.MapPath(raw);
             if (System.IO.File.Exists(file))
             {
-                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(ConfigurationManager.StaticFileCache));
-                this.Response.Cache.SetCacheability(HttpCacheability.Public);
-                var lastAccessTimeUtc = System.IO.File.GetLastAccessTimeUtc(file);
-                this.Response.Cache.SetLastModified(lastAccessTimeUtc);
-                this.Response.Cache.SetETag(GetMd5Hash(lastAccessTimeUtc.ToString(CultureInfo.InvariantCulture)));
+                SetStaticFileCacheability(file);
                 return File(System.IO.File.ReadAllBytes(file), contentType);
             }
 
             var stream = assembly.GetManifestResourceStream(resourceName);
             if (null != stream)
             {
-                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(ConfigurationManager.StaticFileCache));
-                this.Response.Cache.SetCacheability(HttpCacheability.Public);
-                var lastAccessTimeUtc = System.IO.File.GetLastAccessTimeUtc(Server.MapPath("~/bin/core.sph.dll"));
-                this.Response.Cache.SetLastModified(lastAccessTimeUtc);
-                this.Response.Cache.SetETag(GetMd5Hash(lastAccessTimeUtc.ToString(CultureInfo.InvariantCulture)));
+                SetCoreResourceCacheability();
                 return File(stream, contentType);
             }
 
@@ -74,6 +64,45 @@ namespace Bespoke.Sph.Web.Controllers
             return new HttpNotFoundResult("Cannot find " + id + " in core.sph.dll embedded resources");
 
         }
+
+        private void SetCoreResourceCacheability()
+        {
+            if (HttpContext.IsDebuggingEnabled)
+            {
+                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(-1));
+                this.Response.Cache.SetValidUntilExpires(false);
+                this.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+                this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                this.Response.Cache.SetNoStore();
+                return;
+            }
+
+            this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(ConfigurationManager.StaticFileCache));
+            this.Response.Cache.SetCacheability(HttpCacheability.Public);
+            var lastAccessTimeUtc = System.IO.File.GetLastAccessTimeUtc(Server.MapPath("~/bin/core.sph.dll"));
+            this.Response.Cache.SetLastModified(lastAccessTimeUtc);
+            this.Response.Cache.SetETag(GetMd5Hash(lastAccessTimeUtc.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        private void SetStaticFileCacheability(string file)
+        {
+            if (HttpContext.IsDebuggingEnabled)
+            {
+                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(-1));
+                this.Response.Cache.SetValidUntilExpires(false);
+                this.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+                this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                this.Response.Cache.SetNoStore();
+                return;
+            }
+
+            this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(ConfigurationManager.StaticFileCache));
+            this.Response.Cache.SetCacheability(HttpCacheability.Public);
+            var lastAccessTimeUtc = System.IO.File.GetLastAccessTimeUtc(file);
+            this.Response.Cache.SetLastModified(lastAccessTimeUtc);
+            this.Response.Cache.SetETag(GetMd5Hash(lastAccessTimeUtc.ToString(CultureInfo.InvariantCulture)));
+        }
+
         static string GetMd5Hash(string input)
         {
             using (var md5Hash = MD5.Create())
