@@ -12,12 +12,13 @@ define(["plugins/dialog", objectbuilders.datacontext],
 
         var trigger = ko.observable(),
             id = ko.observable(),
+            entity = ko.observable(),
             entities = ko.observableArray(),
             actionOptions = ko.observableArray(),
             operationOptions = ko.observableArray(),
             operations = ko.observableArray(),
             activate = function () {
-                trigger(new bespoke.sph.domain.Trigger({"IsActive" : true}));
+                trigger(new bespoke.sph.domain.Trigger({"IsActive" : true, "Entity" : ko.unwrap(entity)}));
 
                 var actionOptionsTask = $.get("/sph/trigger/actions"),
                     entitiesTask = context.getListAsync("EntityDefinition", "Id ne ''", "Name"),
@@ -29,10 +30,14 @@ define(["plugins/dialog", objectbuilders.datacontext],
                                     return;
                                 }
                                 operationOptions(_(ed.EntityOperationCollection()).map(function (v) { return v.Name(); }));
-
-
                             });
                     };
+
+                if (ko.unwrap(entity)) {
+                    loadOperationOptions(ko.unwrap(entity));
+                } else {
+                    operationOptions([]);
+                }
 
                 return $.when(entitiesTask, actionOptionsTask).done(function (list, actions) {
                     entities(list);
@@ -69,6 +74,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
 
         var vm = {
             trigger: trigger,
+            entity: entity,
             entities: entities,
             actionOptions: actionOptions,
             operationOptions: operationOptions,

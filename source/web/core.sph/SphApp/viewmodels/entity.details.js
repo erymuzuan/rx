@@ -11,8 +11,8 @@
 /// <reference path="../objectbuilders.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app],
-    function (context, logger, router, system, app) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app"],
+    function (context, logger, router, system, app, servicesApp) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             originalEntity = "",
@@ -229,6 +229,17 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 });
 
                 return tcs.promise();
+            },
+            addTriggerAsync = function () {
+
+                return servicesApp.showDialog("new.trigger.dialog", function (dialog) {
+                    dialog.entity(entity().Name());
+                })
+                      .done(function (dialog, result) {
+                          if (result === "OK") {
+                              router.navigate("#trigger.setup/" + ko.unwrap(dialog.id));
+                          }
+                      });
             };
 
 
@@ -236,6 +247,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             triggers: triggers,
             templateOptions: templateOptions,
             publishDashboard: publishDashboard,
+            addTriggerAsync: addTriggerAsync,
             forms: forms,
             views: views,
             errors: errors,

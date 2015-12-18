@@ -29,7 +29,9 @@
             },
             addTriggerAsync = function () {
 
-                return app.showDialog("new.trigger.dialog")
+                return app.showDialog("new.trigger.dialog", function (dialog) {
+                    dialog.entity(null);
+                })
                       .done(function (dialog, result) {
                           if (result === "OK") {
                               router.navigate("#trigger.setup/" + ko.unwrap(dialog.id));
