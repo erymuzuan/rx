@@ -113,12 +113,28 @@ WriteLiteral(@">
             
             #line default
             #line hidden
-WriteLiteral("px;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n");
+WriteLiteral(@"px;
+        }
+
+        div.ace_search {
+            color: #5F5E5E;
+        }
+
+        button.ace_replacebtn {
+            margin-top: 2px;
+            font-size: 16px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+");
 
 WriteLiteral("    ");
 
             
-            #line 39 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 50 "..\..\Areas\Sph\Views\Editor\File.cshtml"
 Write(Html.Partial("_Toolbar"));
 
             
@@ -133,7 +149,7 @@ WriteLiteral(">\r\n// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\r\n</pre>\r\n");
 WriteLiteral("    ");
 
             
-            #line 43 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 54 "..\..\Areas\Sph\Views\Editor\File.cshtml"
 Write(Html.Partial("_VendorScripts"));
 
             
@@ -177,7 +193,7 @@ WriteLiteral(@">
             editor.setTheme(""ace/theme/");
 
             
-            #line 71 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 82 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                   Write(theme);
 
             
@@ -186,7 +202,7 @@ WriteLiteral(@">
 WriteLiteral("\");\r\n\r\n            editor.getSession().setMode(\"ace/mode/");
 
             
-            #line 73 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 84 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                              Write(mode);
 
             
@@ -218,7 +234,7 @@ WriteLiteral(@""");
                         file: '");
 
             
-            #line 96 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 107 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                           Write(Model.File);
 
             
@@ -264,7 +280,7 @@ WriteLiteral("\',\r\n                        code: editor.getValue()\r\n        
 " // let it run\r\n            $.get(\'/sph/editor/code?id=");
 
             
-            #line 181 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 192 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                   Write(Model.File);
 
             
@@ -275,7 +291,7 @@ WriteLiteral("\').done(function (text) {\r\n                editor.setValue(text
 "         $.get(\'/sph/editor/snippets/");
 
             
-            #line 188 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 199 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                    Write(mode);
 
             
@@ -286,7 +302,7 @@ WriteLiteral("\').done(function (snippets) {\r\n                vm.snippets(snip
 "            ace.config.loadModule(\"ace/snippets/");
 
             
-            #line 193 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 204 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                                Write(mode);
 
             

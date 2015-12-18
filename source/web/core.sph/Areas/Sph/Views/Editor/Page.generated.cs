@@ -117,12 +117,27 @@ WriteLiteral(@">
             
             #line default
             #line hidden
-WriteLiteral("px;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n");
+WriteLiteral(@"px;
+        }
+        div.ace_search {
+            color: #5F5E5E;
+        }
+
+        button.ace_replacebtn {
+            margin-top: 2px;
+            font-size: 16px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+");
 
 WriteLiteral("    ");
 
             
-            #line 37 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
+            #line 47 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
 Write(Html.Partial("_Toolbar"));
 
             
@@ -142,9 +157,9 @@ WriteLiteral(" data-bind=\"visible: isBusy\"");
 
 WriteLiteral("></div>\r\n    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1238), Tuple.Create("\"", 1267)
-, Tuple.Create(Tuple.Create("", 1244), Tuple.Create<System.Object, System.Int32>(Href("~/Images/spinner-md.gif")
-, 1244), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1475), Tuple.Create("\"", 1504)
+, Tuple.Create(Tuple.Create("", 1481), Tuple.Create<System.Object, System.Int32>(Href("~/Images/spinner-md.gif")
+, 1481), false)
 );
 
 WriteLiteral(" alt=\"loading\"");
@@ -158,7 +173,7 @@ WriteLiteral(" />\r\n\r\n");
 WriteLiteral("    ");
 
             
-            #line 46 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
+            #line 56 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
 Write(Html.Partial("_VendorScripts"));
 
             
@@ -189,7 +204,7 @@ WriteLiteral(@">
         editor.setTheme(""ace/theme/");
 
             
-            #line 65 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
+            #line 75 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
                               Write(theme);
 
             
@@ -199,13 +214,13 @@ WriteLiteral("\");\r\n        require([\'services/datacontext\', \'jquery\', \'s
 "/system\'], function (context, jquery, app, system) {\r\n\r\n");
 
             
-            #line 68 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
+            #line 78 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 68 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
+            #line 78 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
               
             var mode = this.Request.QueryString["mode"] ?? "csharp";
         
@@ -215,7 +230,7 @@ WriteLiteral("\");\r\n        require([\'services/datacontext\', \'jquery\', \'s
 WriteLiteral("\r\n            editor.getSession().setMode(\"ace/mode/");
 
             
-            #line 71 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
+            #line 81 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
                                              Write(mode);
 
             
@@ -232,7 +247,7 @@ WriteLiteral(@""");
             var cursor2 = localStorage.getItem(""page_");
 
             
-            #line 79 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
+            #line 89 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
                                                 Write(Model.Page.Id);
 
             
@@ -280,7 +295,7 @@ WriteLiteral(@"""),
                         localStorage.setItem(""page_");
 
             
-            #line 118 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
+            #line 128 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
                                               Write(Model.Page.Id);
 
             
@@ -307,7 +322,7 @@ WriteLiteral(@""", JSON.stringify(cursor));
                         var query = ""Type eq 'Page' and EntityId = ");
 
             
-            #line 136 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
+            #line 146 "..\..\Areas\Sph\Views\Editor\Page.cshtml"
                                                               Write(Model.Page.Id);
 
             
