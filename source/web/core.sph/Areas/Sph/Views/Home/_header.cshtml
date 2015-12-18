@@ -1,13 +1,14 @@
 ﻿@model Bespoke.Sph.Web.ViewModels.SphIndexViewModel
 @using System.Web.Mvc.Html
 
- <!-- BEGIN HEADER -->
+
+<!-- BEGIN HEADER -->
 <div class="page-header md-shadow-z-1-i navbar navbar-fixed-top">
     <!-- BEGIN HEADER INNER -->
     <div class="page-header-inner">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="/sph">
+            <a href="/sph#@(Model.Profile?.StartModule)">
                 <img src="/Images/sph_32x32.png" alt="logo" class="logo-default" />
             </a>
             <div class="menu-toggler sidebar-toggler hide">
@@ -19,7 +20,7 @@
         </a>
         <!-- END RESPONSIVE MENU TOGGLER -->
         <div class="pull-left" style="padding-top: 10px">
-            <a href="/sph" style="font-size:24px;color:white;">REACTIVE DEVELOPER</a>
+            <a href="/sph#@(Model.Profile?.StartModule)" style="font-size:24px;color:white;">REACTIVE DEVELOPER</a>
         </div>
         <!-- BEGIN TOP NAVIGATION MENU -->
         <div class="top-menu">

@@ -41,7 +41,7 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("\r\n <!-- BEGIN HEADER -->\r\n<div");
+WriteLiteral("\r\n\r\n<!-- BEGIN HEADER -->\r\n<div");
 
 WriteLiteral(" class=\"page-header md-shadow-z-1-i navbar navbar-fixed-top\"");
 
@@ -55,7 +55,16 @@ WriteLiteral(" class=\"page-logo\"");
 
 WriteLiteral(">\r\n            <a");
 
-WriteLiteral(" href=\"/sph\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 321), Tuple.Create("\"", 362)
+, Tuple.Create(Tuple.Create("", 328), Tuple.Create("/sph#", 328), true)
+            
+            #line 11 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+, Tuple.Create(Tuple.Create("", 333), Tuple.Create<System.Object, System.Int32>(Model.Profile?.StartModule
+            
+            #line default
+            #line hidden
+, 333), false)
+);
 
 WriteLiteral(">\r\n                <img");
 
@@ -88,7 +97,16 @@ WriteLiteral(" style=\"padding-top: 10px\"");
 
 WriteLiteral(">\r\n            <a");
 
-WriteLiteral(" href=\"/sph\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 901), Tuple.Create("\"", 942)
+, Tuple.Create(Tuple.Create("", 908), Tuple.Create("/sph#", 908), true)
+            
+            #line 23 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+, Tuple.Create(Tuple.Create("", 913), Tuple.Create<System.Object, System.Int32>(Model.Profile?.StartModule
+            
+            #line default
+            #line hidden
+, 913), false)
+);
 
 WriteLiteral(" style=\"font-size:24px;color:white;\"");
 
@@ -104,13 +122,13 @@ WriteLiteral(" class=\"nav navbar-nav pull-right\"");
 WriteLiteral(">\r\n\r\n");
 
             
-            #line 28 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+            #line 29 "..\..\Areas\Sph\Views\Home\_header.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 28 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+            #line 29 "..\..\Areas\Sph\Views\Home\_header.cshtml"
                  if (Model.Designation.IsMessageVisible)
                 {
                     
@@ -118,14 +136,14 @@ WriteLiteral(">\r\n\r\n");
             #line default
             #line hidden
             
-            #line 30 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+            #line 31 "..\..\Areas\Sph\Views\Home\_header.cshtml"
                Write(Html.Partial("_messagesHeader"));
 
             
             #line default
             #line hidden
             
-            #line 30 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+            #line 31 "..\..\Areas\Sph\Views\Home\_header.cshtml"
                                                     
 
             
@@ -134,7 +152,7 @@ WriteLiteral(">\r\n\r\n");
 WriteLiteral("\t\t\t\t\t<!-- END INBOX DROPDOWN -->\r\n");
 
             
-            #line 32 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+            #line 33 "..\..\Areas\Sph\Views\Home\_header.cshtml"
                 }
 
             
@@ -171,7 +189,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                            ");
 
             
-            #line 40 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+            #line 41 "..\..\Areas\Sph\Views\Home\_header.cshtml"
                        Write(User.Identity.Name);
 
             
@@ -213,14 +231,14 @@ WriteLiteral(" class=\"divider\"");
 WriteLiteral(">\r\n                        </li>\r\n                    \r\n                        <" +
 "li>\r\n                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2636), Tuple.Create("\"", 2677)
+WriteAttribute("href", Tuple.Create(" href=\"", 2697), Tuple.Create("\"", 2738)
             
-            #line 60 "..\..\Areas\Sph\Views\Home\_header.cshtml"
-, Tuple.Create(Tuple.Create("", 2643), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff","SphAccount")
+            #line 61 "..\..\Areas\Sph\Views\Home\_header.cshtml"
+, Tuple.Create(Tuple.Create("", 2704), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff","SphAccount")
             
             #line default
             #line hidden
-, 2643), false)
+, 2704), false)
 );
 
 WriteLiteral(">\r\n                                <i");
