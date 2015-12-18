@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
-    function (context, logger, router, app) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "services/new-item"],
+    function (context, logger, router, app, addItemService) {
 
         var isBusy = ko.observable(false),
             mappings = ko.observableArray(),
@@ -41,7 +41,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             mappings: mappings,
             isBusy: isBusy,
             activate: activate,
-            attached: attached
+            attached: attached,
+            toolbar: {
+                addNewCommand: function () {
+                    return addItemService.addTransformDefinitionAsync();
+                }
+            }
         };
 
         return vm;

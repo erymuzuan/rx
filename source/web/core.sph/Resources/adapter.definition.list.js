@@ -8,8 +8,8 @@
 /// <reference path="~/SphApp/schemas/sph.domain.g.js" />
 /// <reference path="~/SphApp/objectbuilders.js" />
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
-    function (context, logger, router, app) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app,"services/new-item"],
+    function (context, logger, router, app,addItemService) {
 
         var adapterOptions = ko.observableArray(),
             getAdapterType = function (adapter) {
@@ -64,7 +64,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             adapters: adapters,
             isBusy: isBusy,
             activate: activate,
-            attached: attached
+            attached: attached,
+            toolbar : {
+                 addNewCommand: function() {
+                return addItemService.addAdapterAsync();
+            }
+            }
         };
 
         return vm;

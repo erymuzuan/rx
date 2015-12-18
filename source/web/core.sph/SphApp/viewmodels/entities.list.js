@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(["services/datacontext", "services/logger"],
-    function (context, logger) {
+define(["services/datacontext", "services/logger", "services/new-item"],
+    function (context, logger, addItemService) {
 
         var entities = ko.observableArray(),
             isBusy = ko.observable(false),
@@ -18,13 +18,13 @@ define(["services/datacontext", "services/logger"],
 
             },
             attached = function (view) {
-          
+
 
             },
             uploadPackage = function () {
 
                 var tcs = new $.Deferred();
-                 require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
+                require(["viewmodels/entity.import.dialog", "durandal/app"], function (dialog, app2) {
                     app2.showDialog(dialog)
                         .done(function () {
                             var ent = dialog.entity();
@@ -33,7 +33,7 @@ define(["services/datacontext", "services/logger"],
                             }
                             tcs.resolve();
                         });
-                 });
+                });
 
                 return tcs.promise();
 
@@ -60,9 +60,8 @@ define(["services/datacontext", "services/logger"],
             exportPackage: exportPackage,
             toolbar: {
                 importCommand: uploadPackage,
-                addNew: {
-                    location: "#/entity.details/0",
-                    caption: "Add New Custom Entity"
+                addNewCommand: function () {
+                    return addItemService.addEntityDefinitionAsync();
                 }
             }
         };

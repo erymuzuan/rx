@@ -6,7 +6,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define([], function () {
+define(["services/new-item"], function (addItemService) {
 
     var activate = function () {
         return true;
@@ -16,7 +16,9 @@ define([], function () {
         activate: activate,
         triggerCollection: ko.observableArray([]),
         toolbar: {
-            addNew: { location: "#/trigger.setup/0", caption: "Add new trigger" }
+            addNewCommand: function() {
+                return addItemService.addTriggerAsync();
+            }
         }
     };
 

@@ -7,6 +7,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -29,12 +30,14 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -57,6 +60,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -79,6 +83,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -101,6 +106,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -123,6 +129,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -145,6 +152,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -184,6 +192,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -206,6 +215,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -235,6 +245,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -257,12 +268,14 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -285,6 +298,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -307,6 +321,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -329,12 +344,14 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": [
                   {
                     "$type": "Bespoke.Sph.Domain.Member, domain.sph",
                     "FullName": null,
+                    "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
@@ -357,6 +374,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.Member, domain.sph",
                     "FullName": null,
+                    "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
@@ -379,6 +397,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.Member, domain.sph",
                     "FullName": null,
+                    "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
@@ -401,6 +420,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.Member, domain.sph",
                     "FullName": null,
+                    "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
@@ -423,6 +443,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.Member, domain.sph",
                     "FullName": null,
+                    "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
@@ -445,6 +466,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.Member, domain.sph",
                     "FullName": null,
+                    "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
@@ -467,6 +489,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.Member, domain.sph",
                     "FullName": null,
+                    "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
@@ -506,6 +529,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -528,6 +552,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -550,6 +575,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -572,6 +598,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -594,6 +621,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -633,6 +661,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -655,6 +684,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -677,6 +707,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -699,6 +730,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -721,6 +753,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -743,6 +776,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -765,6 +799,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -787,6 +822,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -809,6 +845,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
+        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -1109,10 +1146,14 @@
   "RecordName": "FullName",
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
+  "TreatDataAsSource": false,
+  "DashboardTemplate": null,
+  "StoreInDatabase": null,
+  "StoreInElasticsearch": null,
   "CreatedBy": "admin",
   "Id": "customer",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-03-14T17:28:25.2770211+08:00",
+  "ChangedDate": "2015-12-18T11:33:03.3900772+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

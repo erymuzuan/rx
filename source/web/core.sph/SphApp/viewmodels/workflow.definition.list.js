@@ -7,8 +7,8 @@
 /// <reference path="/Scripts/string.js" />
 
 
-define([objectbuilders.datacontext, objectbuilders.cultures, objectbuilders.logger],
-    function (context, cultures, logger) {
+define([objectbuilders.datacontext, objectbuilders.cultures, objectbuilders.logger, "services/new-item"],
+    function (context, cultures, logger, addItemService) {
         var
             activate = function () {
                 return true;
@@ -44,9 +44,8 @@ define([objectbuilders.datacontext, objectbuilders.cultures, objectbuilders.logg
             attached: attached,
             definitions: ko.observableArray(),
             toolbar: {
-                addNew: {
-                    location: '#/workflow.definition.visual/0',
-                    caption: 'New Workflow Definition'
+                addNewCommand: function () {
+                    return addItemService.addWorkflowDefinitionAsync();
                 }
             },
             cultures: cultures
