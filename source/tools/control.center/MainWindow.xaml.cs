@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Helpers;
 using Bespoke.Sph.ControlCenter.ViewModel;
@@ -94,7 +95,13 @@ namespace Bespoke.Sph.ControlCenter
             outputTextBox.TextChanged += OutputTextBoxTextChanged;
 
             this.Title += " : " + vm.Settings.ApplicationName;
+            ((ViewModelBase)vm).PropertyChanged += PropertyChanged;
 
+        }
+
+        void PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.Post(CommandManager.InvalidateRequerySuggested);
         }
 
         void OutputTextBoxTextChanged(object sender, TextChangedEventArgs e)
