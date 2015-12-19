@@ -73,6 +73,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         }
 
+
         private void StopWebConsole()
         {
             WebConsoleServer.Default.Stop();
@@ -83,28 +84,26 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             this.QueueUserWorkItem(() =>
             {
-                var port = this.Settings.LoggerWebSocketPort ?? 50238;
+                var port = (this.Settings.LoggerWebSocketPort - 1) ?? 50237;
                 var loggerStarted = false;
                 while (!loggerStarted)
                 {
                     port++;
-                    loggerStarted = WebConsoleServer.Default.Start(port);
+                    Log($"Trying to start web socket console on port {port}");
+                    loggerStarted = WebConsoleServer.Default.Start(this, port);
                 }
                 this.WebConsoleStarted = true;
                 this.Settings.LoggerWebSocketPort = port;
                 var message = "Web console subscriber successfully started on port " + port;
                 Log(message);
-                this.Post(p =>
+                if (RabbitMqServiceStarted)
                 {
-                    MessageBox.Show(p, "WebSocket Console Port", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                }, message);
-       
-
+                    WebConsoleServer.Default.StartConsume(this);
+                }
             });
         }
 
-        private void Setup()
+        private static void Setup()
         {
             MessageBox.Show("Use powershell to run Setup-SphApp.ps1");
         }
@@ -143,11 +142,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (!string.IsNullOrEmpty(this.Settings.RabbitMqUserName) && !string.IsNullOrEmpty(this.Settings.RabbitMqPassword))
             {
                 rabbitStarted = CheckRabbitMqHostConnection(this.Settings.RabbitMqUserName, this.Settings.RabbitMqPassword, this.Settings.ApplicationName);
+
             }
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
             this.StartWebConsole();
-        
+
 
             this.CheckWorkers();
             this.CheckIisExpress();
@@ -943,8 +943,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 SphWorkersStatus = "Running";
                 Log("SPH Worker... [STARTED]");
             }
-
-            m_writer?.WriteLine("*[{0:HH:mm:ss}] {1}", DateTime.Now, message);
+            Log(message);
 
         }
 
@@ -982,13 +981,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
-        private void Log(string message)
+        private void Log(string message, string severity = "Info")
         {
             this.Post(m =>
             {
                 Console.WriteLine(@"@[{0:HH:mm:ss}] {1}", DateTime.Now, m);
             }, message);
-            var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message, severity = "Info" });
+            var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message, severity });
             WebConsoleServer.Default.SendMessage(json);
         }
 
