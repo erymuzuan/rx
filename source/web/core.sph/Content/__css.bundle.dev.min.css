@@ -4504,7 +4504,7 @@ li.selected-th{background-color:#e0e0e0;color:#fff;border:2px dashed #666}
 #report-designer{border:5px dashed silver;min-height:800px;padding:15px}
 .report-layout{border:2px dashed #d9ccb2;padding:8px;margin:5px;min-height:150px;background-color:#f7f7f7}
 .report-layout.active{border:3px dashed #e1e6fb;padding:8px;margin:5px;background-color:#fff}
-.report-layout>span{color:#ccc;font-size:18px;position:absolute;width:10%;height:50%;overflow:auto;margin:auto;top:0;left:0;bottom:0;right:0}
+.report-layout>span{color:#ccc;font-size:18px;margin-left:50%}
 .report-item{margin:5px;padding:5px;-ms-opacity:.3!important;opacity:.3!important;position:relative}
 #report-info{padding:.5em 0;border-bottom:1px dotted #ccc}
 #report-info h2{margin:0;padding-bottom:0;font-size:160%;font-weight:700}
