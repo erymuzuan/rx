@@ -661,6 +661,10 @@
     <Content Include="docs\MySqlAdapter.html">
       <DependentUpon>MySqlAdapter.md</DependentUpon>
     </Content>
+    <None Include="docs\new.trigger.dialog.md" />
+    <Content Include="docs\new.trigger.dialog.html">
+      <DependentUpon>new.trigger.dialog.md</DependentUpon>
+    </Content>
     <Content Include="docs\NotificationActivity.html">
       <DependentUpon>NotificationActivity.md</DependentUpon>
     </Content>
