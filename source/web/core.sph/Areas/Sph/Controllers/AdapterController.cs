@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -7,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
 
@@ -16,16 +16,16 @@ namespace Bespoke.Sph.Web.Controllers
     [RoutePrefix("adapter")]
     public class AdapterController : Controller
     {
-        [ImportMany("AdapterDesigner", typeof(Adapter), AllowRecomposition = true)]
-        public Lazy<Adapter, IDesignerMetadata>[] Adapters { get; set; }
 
+        static AdapterController()
+        {
+            DeveloperService.Init();
+        }
         [Route("installed-adapters")]
         public ActionResult InstalledAdapters()
         {
-            if (null == this.Adapters)
-                ObjectBuilder.ComposeMefCatalog(this);
-
-            var actions = from a in this.Adapters
+            var developerService = ObjectBuilder.GetObject<DeveloperService>();
+            var actions = from a in developerService.Adapters
                           select
                               $@"
 {{
@@ -157,14 +157,11 @@ namespace Bespoke.Sph.Web.Controllers
                     return Content(Properties.Resources.AdapterDefinitionListHtml, "text/html", Encoding.UTF8);
             }
 
-
-            if (null == this.Adapters)
-                ObjectBuilder.ComposeMefCatalog(this);
-
-            if (null == this.Adapters)
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            if (null == ds.Adapters)
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "MEF Cannot load adapters metadata");
 
-            var routeProviders = this.Adapters
+            var routeProviders = ds.Adapters
                 .Where(x => null != x.Metadata.RouteTableProvider)
                 .Select(x => Activator.CreateInstance(x.Metadata.RouteTableProvider) as IRouteTableProvider)
                 .Where(x => null != x)

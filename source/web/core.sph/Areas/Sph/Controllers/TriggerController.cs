@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Dependencies;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
@@ -14,15 +14,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     [Authorize(Roles = "administrators,developers")]
     public class TriggerController : Controller
     {
-        [ImportMany(typeof(CustomAction), AllowRecomposition = true)]
-        public Lazy<CustomAction, IDesignerMetadata>[] ActionOptions { get; set; }
+        static TriggerController()
+        {
+            DeveloperService.Init();
+        }
 
         public ActionResult Actions()
         {
-            if (null == this.ActionOptions)
-                ObjectBuilder.ComposeMefCatalog(this);
-
-            var actions = from a in this.ActionOptions
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var actions = from a in ds.ActionOptions
                           select
                               $@"
 {{
@@ -37,12 +37,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public ActionResult Action(string id, string type)
         {
-            if (null == this.ActionOptions)
-                ObjectBuilder.ComposeMefCatalog(this);
-
-            if (null == this.ActionOptions) throw new InvalidOperationException("Fail to load MEF");
-
-            var action = this.ActionOptions.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var action = ds.ActionOptions.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
                 .ToLowerInvariant() == type.Replace(",", ", ")).Value;
             if (id == "js")
             {
@@ -58,12 +54,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public ActionResult Image(string id)
         {
-            if (null == this.ActionOptions)
-                ObjectBuilder.ComposeMefCatalog(this);
-
-            if (null == this.ActionOptions) throw new InvalidOperationException("Fail to load MEF");
-
-            var action = this.ActionOptions.Single(
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var action = ds.ActionOptions.Single(
                 x => string.Equals(x.Metadata.TypeName, id, StringComparison.InvariantCultureIgnoreCase)).Value;
 
 

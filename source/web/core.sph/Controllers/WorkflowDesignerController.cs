@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -8,6 +7,7 @@ using System.Text;
 using System.Web.Mvc;
 using System.Web.UI;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Dependencies;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -16,16 +16,14 @@ namespace Bespoke.Sph.Web.Controllers
     [RoutePrefix("wf-designer")]
     public class WorkflowDesignerController : Controller
     {
-        [ImportMany("ActivityDesigner", typeof(Activity), AllowRecomposition = true)]
-        public Lazy<Activity, IDesignerMetadata>[] ToolboxItems { get; set; }
 
         [Route("toolbox-items")]
         [OutputCache(Duration = 300)]
         public ActionResult GetToolboxItems()
         {
-            if (null == this.ToolboxItems)
-                ObjectBuilder.ComposeMefCatalog(this);
-            var actions = from a in this.ToolboxItems
+          
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var actions = from a in ds.ActivityOptions
                           select
                               $@"
 {{
@@ -42,11 +40,8 @@ namespace Bespoke.Sph.Web.Controllers
         [OutputCache(Duration = 31600, Location = OutputCacheLocation.Any)]
         public ActionResult GetPngIcon(string name)
         {
-            if (null == this.ToolboxItems)
-                ObjectBuilder.ComposeMefCatalog(this);
-            if (null == this.ToolboxItems) throw new Exception("fail to load activity from MEF");
-
-            var act = this.ToolboxItems
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var act = ds.ActionOptions
                 .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
             if (null != act)
             {
@@ -62,11 +57,8 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("editor/{name}.{extension:length(2,4)}")]
         public ActionResult GetDialog(string name, string extension)
         {
-            if (null == this.ToolboxItems)
-                ObjectBuilder.ComposeMefCatalog(this);
-            if (null == this.ToolboxItems) throw new Exception("fail to load activity from MEF");
-
-            var info = this.ToolboxItems
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var info = ds.ActivityOptions
                 .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
             if (null != info)
             {

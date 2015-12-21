@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -7,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -15,8 +15,10 @@ namespace Bespoke.Sph.Web.Controllers
     [RoutePrefix("transform-definition")]
     public class TransformDefinitionController : Controller
     {
-        [ImportMany("FunctoidDesigner", typeof(Functoid), AllowRecomposition = true)]
-        public Lazy<Functoid, IDesignerMetadata>[] Functoids { get; set; }
+        static TransformDefinitionController()
+        {
+            DeveloperService.Init();
+        }
 
         [HttpPost]
         [Route("validate")]
@@ -98,9 +100,9 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("functoids")]
         public ActionResult GetFunctoids()
         {
-            if (null == this.Functoids)
-                ObjectBuilder.ComposeMefCatalog(this);
-            var list = from f in Functoids
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+
+            var list = from f in ds.Functoids
                        let v = f.Value
                        let g = v.Initialize()
                        orderby f.Metadata.Category
@@ -350,11 +352,10 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("functoid/{extension}/{type}")]
         public ActionResult Functoid(string extension, string type)
         {
-            if (null == this.Functoids)
-                ObjectBuilder.ComposeMefCatalog(this);
-            if (null == this.Functoids) throw new InvalidOperationException("Cannot compose MEF");
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            if (null == ds.Functoids) throw new InvalidOperationException("Cannot compose MEF");
 
-            var functoid = this.Functoids.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
+            var functoid = ds.Functoids.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
                 .ToLowerInvariant() == type).Value;
             if (extension == "js")
             {

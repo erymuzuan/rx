@@ -1,30 +1,19 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("solution")]
     [Authorize(Roles = "developers")]
-    public class SolutionController : Controller
+    public class SolutionController : BaseController
     {
-        [ImportMany(typeof(IBuildDiagnostics))]
-        [JsonIgnore]
-        [XmlIgnore]
-        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
-
         [Route("diagnostics")]
         public async Task<ActionResult> StartDiagnostics()
         {
-            if (null == this.BuildDiagnostics)
-                ObjectBuilder.ComposeMefCatalog(this);
-
             var context = new SphDataContext();
 
             // validate all entities
