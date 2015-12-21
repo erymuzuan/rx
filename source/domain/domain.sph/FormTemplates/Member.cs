@@ -2,22 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class Member : DomainObject
     {
-        [XmlAttribute]
         public string FullName { get; set; }
         public string PropertyAttribute { get; set; }
 
+
+        public virtual string GetDefaultValueCode(int count)
+        {
+            var member = this;
+            if (member.Type == typeof(object))
+            {
+                return $"           this.{Name} = new {Name}();";
+            }
+            if (null == member.DefaultValue) return null;
+
+
+            var json = member.DefaultValue.ToJsonString().Replace("\"", "\\\"");
+            var typeName = member.DefaultValue.GetType().Name;
+
+            var code = new StringBuilder();
+            code.AppendLine($"           var mj{count} = \"{json}\";");
+            code.AppendLine($"           var field{count} = mj{count}.DeserializeFromJson<{typeName}>();");
+            code.AppendLine($"           var val{count} = field{count}.GetValue(rc);");
+            code.AppendLine($"           this.{member.Name} = ({member.Type.FullName})val{count};");
+
+            return code.ToString();
+
+        }
         public override string ToString()
         {
             return $"{this.Name}->{this.FullName}:{this.TypeName}";
         }
-        [XmlIgnore]
         [JsonIgnore]
         public Type Type
         {
@@ -70,7 +90,7 @@ namespace Bespoke.Sph.Domain
             return "?";
         }
 
-        public string GeneratedCustomClass()
+        public virtual string GeneratedCustomClass()
         {
             var code = new StringBuilder();
             if (typeof(object) == this.Type)

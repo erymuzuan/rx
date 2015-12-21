@@ -53,17 +53,9 @@ namespace Bespoke.Sph.Domain
             var count = 0;
             foreach (var member in this.MemberCollection)
             {
-                if (member.Type == typeof(object))
-                {
-                    code.AppendLinf("           this.{0} = new {0}();", member.Name);
-                }
-                if (null == member.DefaultValue) continue;
                 count++;
-                code.AppendLine();
-                code.AppendLinf("           var mj{1} = \"{0}\";", member.DefaultValue.ToJsonString().Replace("\"", "\\\""), count);
-                code.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();", count, member.DefaultValue.GetType().Name);
-                code.AppendLinf("           var val{0} = field{0}.GetValue(rc);", count);
-                code.AppendLinf("           this.{0} = ({1})val{2};", member.Name, member.Type.FullName, count);
+                var defaultValueCode = member.GetDefaultValueCode(count);
+                code.AppendLine(defaultValueCode);
             }
             code.AppendLine("       }");
 
@@ -89,12 +81,24 @@ namespace Bespoke.Sph.Domain
             var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode() } };
 
             // classes for members
-            foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
+            var complexMembers = this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array));
+            foreach (var member in complexMembers)
             {
                 var mc = new StringBuilder(header);
                 mc.AppendLine(member.GeneratedCustomClass());
                 mc.AppendLine("}");
-                sourceCodes.Add(member.Name + ".cs", mc.FormatCode());
+
+                var vom = member as ValueObjectMember;
+                var key = vom?.ValueObjectName + ".cs";
+                if (null != vom)
+                {
+                    if (!sourceCodes.ContainsKey(key))
+                        sourceCodes.Add(key, mc.FormatCode());
+                }
+                else
+                {
+                    sourceCodes.Add(member.Name + ".cs", mc.FormatCode());
+                }
             }
 
             var controller = this.GenerateController();

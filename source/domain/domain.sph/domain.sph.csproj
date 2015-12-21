@@ -285,6 +285,8 @@
     <Compile Include="FormTemplates\BusinessRule.cs" />
     <Compile Include="FormTemplates\ValidationField.cs" />
     <Compile Include="FormTemplates\ValidationRule.cs" />
+    <Compile Include="FormTemplates\ValueObjectDefinition.cs" />
+    <Compile Include="FormTemplates\ValueObjectMember.cs" />
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\ViewTemplate.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />

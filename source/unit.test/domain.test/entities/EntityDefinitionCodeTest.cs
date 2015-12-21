@@ -72,7 +72,7 @@ namespace domain.test.entities
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
             var dll = AppDomain.CurrentDomain.BaseDirectory + "\\" + Path.GetFileName(result.Output);
-            File.Copy(result.Output, dll);
+            File.Copy(result.Output, dll, true);
 
             var assembly = Assembly.LoadFrom(dll);
             var type = assembly.GetType($"Bespoke.{ConfigurationManager.ApplicationName}_lead.Domain.Lead");

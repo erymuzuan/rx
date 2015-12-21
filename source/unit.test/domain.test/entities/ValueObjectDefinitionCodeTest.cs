@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.QueryProviders;
+using Bespoke.Sph.RoslynScriptEngines;
+using Moq;
+using Newtonsoft.Json;
+using NUnit.Framework;
+
+namespace domain.test.entities
+{
+    [TestFixture]
+    public class ValueObjectDefinitionCodeTest
+    {
+        private Mock<IRepository<ValueObjectDefinition>> m_vodRepo;
+        private Mock<IDirectoryService> m_ds;
+        [SetUp]
+        public void Init()
+        {
+            ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+
+            var qp = new MockQueryProvider();
+            ObjectBuilder.AddCacheList<QueryProvider>(qp);
+
+
+            m_ds = new Mock<IDirectoryService>(MockBehavior.Strict);
+            ObjectBuilder.AddCacheList(m_ds.Object);
+
+            m_vodRepo = new Mock<IRepository<ValueObjectDefinition>>(MockBehavior.Strict);
+
+            string path = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            ObjectBuilder.AddCacheList(m_vodRepo.Object);
+        }
+
+        [Test]
+        public void GenerateCodeBasic()
+        {
+            var address = new ValueObjectDefinition { Name = "Address", Id = "address", ChangedDate = DateTime.Now, ChangedBy = "Me", CreatedBy = "Me", CreatedDate = DateTime.Now };
+            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new Member { Name = "Street2", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new Member { Name = "Postcode", IsFilterable = true, TypeName = "System.String, mscorlib" });
+
+            var spouse = new ValueObjectDefinition { Name = "Spouse", Id = "spouse" };
+            spouse.MemberCollection.Add(new Member {Name = "Name", Type = typeof(string)});
+            spouse.MemberCollection.Add(new Member {Name = "Age", Type = typeof(int)});
+            spouse.MemberCollection.Add(new ValueObjectMember { Name = "WorkPlaceAddress", ValueObjectName = "Address" });
+
+            string path = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\address.json";
+            File.WriteAllText(path, address.ToJsonString(true));
+            string path1 = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\spouse.json";
+            File.WriteAllText(path1, spouse.ToJsonString(true));
+
+            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
+            ent.MemberCollection.Add(new Member
+            {
+                Name = "Name2",
+                TypeName = "System.String, mscorlib",
+                IsFilterable = true
+            }); ent.MemberCollection.Add(new Member
+            {
+                Name = "Title",
+                TypeName = "System.String, mscorlib",
+                IsFilterable = true
+            });
+
+
+            var home = new ValueObjectMember { ValueObjectName = "Address", Name = "HomeAddress" };
+            ent.MemberCollection.Add(home);
+
+            var office = new ValueObjectMember { ValueObjectName = "Address", Name = "WorkPlaceAddress" };
+            ent.MemberCollection.Add(office);
+            ent.MemberCollection.Add(new ValueObjectMember {ValueObjectName = "Spouse", Name = "Wife"});
+
+
+            var options = new CompilerOptions
+            {
+                IsVerbose = true,
+                IsDebug = true
+            };
+
+            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
+            ent.MemberCollection.Add(contacts);
+
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+
+            var codes = ent.GenerateCode();
+            var sources = ent.SaveSources(codes);
+
+            var result = ent.Compile(options, sources);
+            result.Errors.ForEach(Console.WriteLine);
+
+            Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+
+
+        }
+    }
+}

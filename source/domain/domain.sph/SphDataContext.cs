@@ -54,7 +54,6 @@ namespace Bespoke.Sph.Domain
 
         public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            var source = StoreAsSourceAttribute.GetAttribute<T>();
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             if (!Directory.Exists(path))
                 return new T[] { };
