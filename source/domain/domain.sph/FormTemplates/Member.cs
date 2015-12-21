@@ -50,6 +50,7 @@ namespace Bespoke.Sph.Domain
                 this.TypeName = value.GetShortAssemblyQualifiedName();
             }
         }
+        public bool AllowMultiple { get; set; }
 
         public virtual string GeneratedCode(string padding = "      ")
         {
@@ -58,7 +59,12 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             if (typeof(object) == this.Type)
             {
-                code.AppendLinf(padding + "public {0} {1} {{ get; set;}}", this.Name, this.Name);
+                var className = this.Name.Replace("Collection", "");
+                if (this.AllowMultiple)
+                    code.AppendLine(padding + $"public  ObjectCollection<{className}> {Name} {{ get; }} = new ObjectCollection<{className}>();");
+                else
+                    code.AppendLine(padding + $"public {Name} {Name} {{ get; set;}}");
+
                 return code.ToString();
             }
             if (typeof(Array) == this.Type)
@@ -67,12 +73,15 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine(padding + $"public ObjectCollection<{className}> {Name} {{ get; }} = new ObjectCollection<{className}>();");
                 return code.ToString();
             }
-            if (typeof(string) == this.Type || !this.IsNullable)
-                code.AppendLinf(padding + "[XmlAttribute]");
+
             if (!string.IsNullOrWhiteSpace(PropertyAttribute))
                 code.AppendLine(padding + PropertyAttribute);
 
-            code.AppendLinf(padding + "public {0}{2} {1} {{ get; set; }}", this.GetCsharpType(), this.Name, this.GetNullable());
+
+            if (this.AllowMultiple)
+                code.AppendLine(padding + $"public  ObjectCollection<{this.GetCsharpType()}> {Name} {{ get; }} = new ObjectCollection<{this.GetCsharpType()}>();");
+            else
+                code.AppendLine(padding + $"public {this.GetCsharpType()}{this.GetNullable()} {Name} {{ get; set; }}");
             return code.ToString();
         }
 

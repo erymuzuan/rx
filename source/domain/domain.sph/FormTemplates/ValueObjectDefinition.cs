@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO;
 
 namespace Bespoke.Sph.Domain
 {
@@ -8,5 +9,11 @@ namespace Bespoke.Sph.Domain
     {
         public string Name { get; set; }
         public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
+
+        public void Save()
+        {
+            string childJsonFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\{Id}.json";
+            File.WriteAllText(childJsonFile, this.ToJsonString(true));
+        }
     }
 }

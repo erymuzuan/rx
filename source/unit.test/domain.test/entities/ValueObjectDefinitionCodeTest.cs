@@ -46,14 +46,17 @@ namespace domain.test.entities
             address.MemberCollection.Add(new Member { Name = "Postcode", IsFilterable = true, TypeName = "System.String, mscorlib" });
 
             var spouse = new ValueObjectDefinition { Name = "Spouse", Id = "spouse" };
-            spouse.MemberCollection.Add(new Member {Name = "Name", Type = typeof(string)});
-            spouse.MemberCollection.Add(new Member {Name = "Age", Type = typeof(int)});
+            spouse.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
+            spouse.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int) });
             spouse.MemberCollection.Add(new ValueObjectMember { Name = "WorkPlaceAddress", ValueObjectName = "Address" });
 
-            string path = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\address.json";
-            File.WriteAllText(path, address.ToJsonString(true));
-            string path1 = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\spouse.json";
-            File.WriteAllText(path1, spouse.ToJsonString(true));
+            var child = new ValueObjectDefinition { Name = "Child", Id = "child" };
+            child.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
+            child.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int) });
+
+            address.Save();
+            spouse.Save();
+            child.Save();
 
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
             ent.MemberCollection.Add(new Member
@@ -61,11 +64,13 @@ namespace domain.test.entities
                 Name = "Name2",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
-            }); ent.MemberCollection.Add(new Member
+            });
+            ent.MemberCollection.Add(new Member
             {
-                Name = "Title",
+                Name = "Titles",
                 TypeName = "System.String, mscorlib",
-                IsFilterable = true
+                IsFilterable = false,
+                AllowMultiple = true
             });
 
 
@@ -74,7 +79,8 @@ namespace domain.test.entities
 
             var office = new ValueObjectMember { ValueObjectName = "Address", Name = "WorkPlaceAddress" };
             ent.MemberCollection.Add(office);
-            ent.MemberCollection.Add(new ValueObjectMember {ValueObjectName = "Spouse", Name = "Wife"});
+            ent.MemberCollection.Add(new ValueObjectMember { ValueObjectName = "Spouse", Name = "Wife" });
+            ent.MemberCollection.Add(new ValueObjectMember { ValueObjectName = "Child", Name = "Children", AllowMultiple = true});
 
 
             var options = new CompilerOptions

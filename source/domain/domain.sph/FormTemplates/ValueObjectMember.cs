@@ -9,14 +9,16 @@ namespace Bespoke.Sph.Domain
     {
         public override string GetDefaultValueCode(int count)
         {
-            return $"this.{Name} = new {ValueObjectName}();";
+            return this.AllowMultiple ? null : $"this.{Name} = new {ValueObjectName}();";
         }
 
 
         public override string GeneratedCode(string padding = "      ")
         {
+            if (this.AllowMultiple)
+                return padding +
+                       $"public ObjectCollection<{ValueObjectName}> {Name} {{get;}} = new ObjectCollection<{ValueObjectName}>();";
             return padding + $"public {ValueObjectName} {Name} {{ get; set;}}";
-
         }
 
 
@@ -64,7 +66,6 @@ namespace Bespoke.Sph.Domain
             this.TypeName = typeof(object).GetShortAssemblyQualifiedName();
         }
         public string ValueObjectName { get; set; }
-        public bool AllowMultiple { get; set; }
 
         [JsonIgnore]
         public new Type Type
