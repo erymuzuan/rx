@@ -50,7 +50,6 @@ namespace Bespoke.Sph.Domain
                 this.TypeName = value.GetShortAssemblyQualifiedName();
             }
         }
-        public bool AllowMultiple { get; set; }
 
         public virtual string GeneratedCode(string padding = "      ")
         {

@@ -2086,7 +2086,7 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Member", IsNullable = false)]
+        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
 
 
@@ -2421,8 +2421,8 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Member", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class Member
+    [XmlType("ValueObjectDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ValueObjectDefinition
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2430,59 +2430,25 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameName = "Name";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_typeName;
-        public const string PropertyNameTypeName = "TypeName";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isNullable;
-        public const string PropertyNameIsNullable = "IsNullable";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isNotIndexed;
-        public const string PropertyNameIsNotIndexed = "IsNotIndexed";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isAnalyzed;
-        public const string PropertyNameIsAnalyzed = "IsAnalyzed";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isFilterable;
-        public const string PropertyNameIsFilterable = "IsFilterable";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isExcludeInAll;
-        public const string PropertyNameIsExcludeInAll = "IsExcludeInAll";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_boost;
-        public const string PropertyNameBoost = "Boost";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Field m_defaultValue;
-        public const string PropertyNameDefaultValue = "DefaultValue";
-
-
-
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Member", IsNullable = false)]
+        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("FieldPermission", IsNullable = false)]
-        public ObjectCollection<FieldPermission> FieldPermissionCollection { get; } = new ObjectCollection<FieldPermission>();
+        [XmlArrayItem("BusinessRule", IsNullable = false)]
+        public ObjectCollection<BusinessRule> BusinessRuleCollection { get; } = new ObjectCollection<BusinessRule>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("EntityOperation", IsNullable = false)]
+        public ObjectCollection<EntityOperation> EntityOperationCollection { get; } = new ObjectCollection<EntityOperation>();
 
 
         ///<summary>
@@ -2512,216 +2478,33 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
 
-        [Required]
-        public string TypeName
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ValueObjectMember", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ValueObjectMember
+    {
+
+        private string m_ValueObjectName;
+        [XmlAttribute]
+        public string ValueObjectName
         {
-            set
-            {
-                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_typeName = value;
-                    OnPropertyChanged();
-                }
-            }
             get
             {
-                return m_typeName;
+                return m_ValueObjectName;
             }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsNullable
-        {
             set
             {
-                if (m_isNullable == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsNullable, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isNullable = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isNullable;
+                m_ValueObjectName = value;
+                RaisePropertyChanged();
             }
         }
 
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsNotIndexed
-        {
-            set
-            {
-                if (m_isNotIndexed == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsNotIndexed, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isNotIndexed = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isNotIndexed;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsAnalyzed
-        {
-            set
-            {
-                if (m_isAnalyzed == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsAnalyzed, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isAnalyzed = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isAnalyzed;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsFilterable
-        {
-            set
-            {
-                if (m_isFilterable == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsFilterable, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isFilterable = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isFilterable;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsExcludeInAll
-        {
-            set
-            {
-                if (m_isExcludeInAll == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsExcludeInAll, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isExcludeInAll = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isExcludeInAll;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public int Boost
-        {
-            set
-            {
-                if (m_boost == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameBoost, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_boost = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_boost;
-            }
-        }
-
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public Field DefaultValue
-        {
-            set
-            {
-                if (m_defaultValue == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameDefaultValue, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_defaultValue = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_defaultValue; }
-        }
 
 
     }
@@ -7161,6 +6944,302 @@ namespace Bespoke.Sph.Domain
                 }
             }
             get { return m_inputColXs; }
+        }
+
+
+
+    }
+
+
+
+    [XmlType("Member", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Member
+    {
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_isNullable;
+        public const string PropertyNameIsNullable = "IsNullable";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_isNotIndexed;
+        public const string PropertyNameIsNotIndexed = "IsNotIndexed";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_isAnalyzed;
+        public const string PropertyNameIsAnalyzed = "IsAnalyzed";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_isFilterable;
+        public const string PropertyNameIsFilterable = "IsFilterable";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_isExcludeInAll;
+        public const string PropertyNameIsExcludeInAll = "IsExcludeInAll";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int m_boost;
+        public const string PropertyNameBoost = "Boost";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_allowMultiple;
+        public const string PropertyNameAllowMultiple = "AllowMultiple";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private Field m_defaultValue;
+        public const string PropertyNameDefaultValue = "DefaultValue";
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("FieldPermission", IsNullable = false)]
+        public ObjectCollection<FieldPermission> FieldPermissionCollection { get; } = new ObjectCollection<FieldPermission>();
+
+
+
+        // public properties members
+
+
+
+        [XmlAttribute]
+        public string Name
+        {
+            set
+            {
+                if (m_name == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string TypeName
+        {
+            set
+            {
+                if (m_typeName == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public bool IsNullable
+        {
+            set
+            {
+                if (m_isNullable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsNullable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isNullable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isNullable;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public bool IsNotIndexed
+        {
+            set
+            {
+                if (m_isNotIndexed == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsNotIndexed, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isNotIndexed = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isNotIndexed;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public bool IsAnalyzed
+        {
+            set
+            {
+                if (m_isAnalyzed == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAnalyzed, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAnalyzed = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAnalyzed;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public bool IsFilterable
+        {
+            set
+            {
+                if (m_isFilterable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsFilterable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isFilterable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isFilterable;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public bool IsExcludeInAll
+        {
+            set
+            {
+                if (m_isExcludeInAll == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsExcludeInAll, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isExcludeInAll = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isExcludeInAll;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public int Boost
+        {
+            set
+            {
+                if (m_boost == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBoost, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_boost = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_boost;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public bool AllowMultiple
+        {
+            set
+            {
+                if (m_allowMultiple == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAllowMultiple, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_allowMultiple = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_allowMultiple;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public Field DefaultValue
+        {
+            set
+            {
+                if (m_defaultValue == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefaultValue, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_defaultValue = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_defaultValue; }
         }
 
 

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public class ValueObjectMember : Member
+    public partial class ValueObjectMember : Member
     {
         public override string GetDefaultValueCode(int count)
         {
@@ -65,7 +65,6 @@ namespace Bespoke.Sph.Domain
         {
             this.TypeName = typeof(object).GetShortAssemblyQualifiedName();
         }
-        public string ValueObjectName { get; set; }
 
         [JsonIgnore]
         public new Type Type
