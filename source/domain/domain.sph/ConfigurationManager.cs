@@ -39,8 +39,8 @@ namespace Bespoke.Sph.Domain
         public static System.Collections.Specialized.NameValueCollection AppSettings => System.Configuration.ConfigurationManager.AppSettings;
         public static int JpegMaxWitdh => GetEnvironmentVariableInt32("jpg.max.width", 400);
 
-        public static string SchedulerPath => GetPath("SchedulerPath","schedulers");
-        public static string SubscriberPath => GetPath("SubscriberPath","subscribers");
+        public static string SchedulerPath => GetPath("SchedulerPath", "schedulers");
+        public static string SubscriberPath => GetPath("SubscriberPath", "subscribers");
         public static string ToolsPath => GetPath("ToolsPath", "tools");
         public static string WebPath => GetPath("WebPath", "web");
         public static string DelayActivityExecutable => GetPath("DelayActivityExecutable", @"schedulers\scheduler.delayactivity.exe");
@@ -51,22 +51,28 @@ namespace Bespoke.Sph.Domain
             if (Path.IsPathRooted(val)) return val;
             return Home + @"\" + defaultPath;
         }
-
-        private static string GetEnvironmentVariable(string setting)
-        {
-            return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
-        }
         private static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
         {
-            var val = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+            var val = GetEnvironmentVariable(setting);
             int intValue;
             return int.TryParse(val, out intValue) ? intValue : defaultValue;
         }
         private static bool GetEnvironmentVariableBoolean(string setting, bool defaultValue = false)
         {
-            var val = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+            var val = GetEnvironmentVariable(setting);
             bool intValue;
             return bool.TryParse(val, out intValue) ? intValue : defaultValue;
+        }
+
+        private static string GetEnvironmentVariable(string setting)
+        {
+            var process = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+            if (!string.IsNullOrWhiteSpace(process)) return process;
+
+            var user = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.User);
+            if (!string.IsNullOrWhiteSpace(user)) return user;
+
+            return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Machine);
         }
 
     }

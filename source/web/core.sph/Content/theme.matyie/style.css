@@ -1346,6 +1346,10 @@ border:1px solid #eee;
 .admin-form form{
 	padding: 10px 0px;
 }
+
+#solution-explorer-panel a.jstree-clicked {
+    color: #000000;
+}
 /* Responsive */
 
 @media (max-width: 480px){

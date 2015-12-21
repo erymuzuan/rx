@@ -1,4 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery.signalR-2.1.2.js" />
 /// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -288,15 +289,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         },
         attached = function () {
 
+            $("#solution-explorer-panel a.jstree-clicked").css("color", "black");
 
             var to = false;
-            $('#search-solution-tree').keyup(function () {
+            $("#search-solution-tree").keyup(function () {
                 if (to) {
                     clearTimeout(to);
                 }
                 to = setTimeout(function () {
                     var v = $("#search-solution-tree").val();
-                    $('#solution-explorer-panel').jstree(true).search(v);
+                    $("#solution-explorer-panel").jstree(true).search(v);
                 }, 250);
             });
             var connection = $.connection("/signalr_solution");

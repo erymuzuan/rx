@@ -4414,6 +4414,7 @@ hr{margin:8px 0!important;padding:0!important;border-top:0;border-bottom:1px sol
 .post{margin-top:20px}
 .admin-form{max-width:500px;margin:50px auto}
 .admin-form form{padding:10px 0}
+#solution-explorer-panel a.jstree-clicked{color:#000}
 @media (max-width:480px){.mainbar .page-head h2{float:none}
 .mainbar .bread-crumb{float:none;margin-top:10px}
 .col-left{width:100%;float:none;margin-right:none}

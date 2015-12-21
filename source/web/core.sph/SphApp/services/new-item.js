@@ -1,5 +1,5 @@
-﻿define(["services/datacontext", "services/logger", objectbuilders.config, objectbuilders.router, "services/app"],
-    function (context, logger, config, router, app) {
+﻿define(["services/datacontext", "services/logger", objectbuilders.config, objectbuilders.router, "services/app","viewmodels/_custom.forms.routes", "viewmodels/_custom.forms.dialogs", "viewmodels/_custom.forms.partial.views", "viewmodels/_custom.forms.scripts"],
+    function (context, logger, config, router, app, customForm, customDialog, partialView, customScript) {
     var addEntityDefinitionAsync = function () {
 
         return app.showDialog("new.entity.definition.dialog")
@@ -58,6 +58,10 @@
             };
 
     var vm = {
+        addCustomFormAsync: customForm.addNew,
+        addCustomDialogAsync: customDialog.addNewDialog,
+        addPartialViewAsync: partialView.addNewPartialView,
+        addCustomScriptAsync: customScript.addNew,
         addEntityDefinitionAsync: addEntityDefinitionAsync,
         addAdapterAsync: addAdapterAsync,
         addReportDefinitionAsync: addReportDefinitionAsync,
