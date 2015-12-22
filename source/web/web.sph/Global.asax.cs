@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Web;
@@ -15,6 +17,7 @@ using Bespoke.Sph.Web.App_Start;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
+using ConfigurationManager = Bespoke.Sph.Domain.ConfigurationManager;
 
 namespace web.sph
 {
@@ -24,6 +27,7 @@ namespace web.sph
 
         protected void Application_Start()
         {
+            ConfigurationManager.AddConnectionString();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             GlobalConfiguration.Configure(WebApiConfig.Register);
@@ -42,6 +46,8 @@ namespace web.sph
             });
 
         }
+
+     
 
         protected void Application_Stop()
         {
