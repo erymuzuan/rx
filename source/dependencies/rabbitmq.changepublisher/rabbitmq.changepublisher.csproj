@@ -59,9 +59,7 @@
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
     <Compile Include="ChangePublisherClient.cs" />
-    <Compile Include="DefaultBrokerConnection.cs" />
     <Compile Include="EntityChangedListener.cs" />
-    <Compile Include="IBrokerConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReceivedMessageArgs.cs" />
     <Compile Include="TaskBasicConsumer.cs" />
