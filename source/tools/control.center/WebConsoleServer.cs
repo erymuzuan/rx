@@ -28,8 +28,9 @@ namespace Bespoke.Sph.ControlCenter
         private WebSocketServer m_appServer;
         private FileSystemWatcher m_fsw;
 
-        public bool Start(int port = 50230)
+        public bool Start(MainViewModel mainViewModel, int port = 50230)
         {
+            m_mainViewModel = mainViewModel;
             var output = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + "..\\output\\");
             m_fsw = new FileSystemWatcher(output)
             {
@@ -127,12 +128,12 @@ namespace Bespoke.Sph.ControlCenter
             return true;
         }
 
-        void FswChanged(object sender, FileSystemEventArgs e)
+        private void FswChanged(object sender, FileSystemEventArgs e)
         {
             var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message = $"{e.ChangeType} in output {e.FullPath}", severity = "Info", outputFile = e.FullPath });
             SendMessage(json);
         }
-        void WriteMessage(string message)
+        private void WriteMessage(string message)
         {
             var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message, severity = "Info" });
             SendMessage(json);
@@ -146,7 +147,7 @@ namespace Bespoke.Sph.ControlCenter
                 {
                     try
                     {
-                        x?.Send(json);
+                        x?.Send(m);
                     }
                     catch (Exception e)
                     {

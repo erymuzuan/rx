@@ -39,6 +39,7 @@ namespace Bespoke.Sph.Web.Hubs
         }
 
         private FileSystemWatcher m_watcher;
+        private FileSystemWatcher m_appDataWatcher;
         public override void Initialize(IDependencyResolver resolver)
         {
             m_watcher = new FileSystemWatcher(ConfigurationManager.SphSourceDirectory, "*.json")
@@ -46,12 +47,21 @@ namespace Bespoke.Sph.Web.Hubs
                 EnableRaisingEvents = true,
                 IncludeSubdirectories = true
             };
+          
             m_watcher.Changed += SourceChanged;
             m_watcher.Deleted += SourceChanged;
             m_watcher.Created += SourceChanged;
             m_watcher.Renamed += SourceChanged;
+
+            m_appDataWatcher = new FileSystemWatcher($"{ConfigurationManager.WebPath}\\App_Data", " *.json")
+            {
+                EnableRaisingEvents = true,
+                IncludeSubdirectories = false
+            };
+            m_appDataWatcher.Changed += SourceChanged;
             base.Initialize(resolver);
         }
+        
 
         private readonly ConcurrentBag<string> m_connections = new ConcurrentBag<string>();
         private void SourceChanged(object sender, FileSystemEventArgs e)
@@ -136,39 +146,37 @@ namespace Bespoke.Sph.Web.Hubs
 
         private static SolutionItem GetCustomRoutes()
         {
-            var routes = new SolutionItem { id = "custom.forms", text = "Custom Forms", icon = "fa fa-file-o" };
+            var routes = new SolutionItem { id = "custom.forms", text = "Custom Forms", icon = "fa fa-edit" };
             var config = $"{ConfigurationManager.WebPath}\\App_Data\\routes.config.json";
-            if (File.Exists(config))
-            {
-                var scripts = from r in JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(config))
-                              where !string.IsNullOrWhiteSpace(r.ModuleId)
-                              let name = r.ModuleId.Replace("viewmodels/", "")
-                              select new SolutionItem
-                              {
-                                  id = $"{r.ModuleId}.js",
-                                  text = $"{name}.js",
-                                  icon = "fa fa-file-text-o",
-                                  codeEditor = $"/sphapp/{r.ModuleId}.js"
-                              };
-                var views = from r in JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(config))
-                            where !string.IsNullOrWhiteSpace(r.ModuleId)
-                            let name = r.ModuleId.Replace("viewmodels/", "")
-                            select new SolutionItem
-                            {
-                                id = $"{r.ModuleId}.html",
-                                text = $"{name}.html",
-                                icon = "fa fa-file-code-o",
-                                codeEditor = $"/sphapp/views/{name}.html"
-                            };
-                var forms = views.Concat(scripts).OrderBy(x => x.text);
-                routes.itemCollection.AddRange(forms);
-            }
+            if (!File.Exists(config)) return routes;
+            var scripts = from r in JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(config))
+                where !string.IsNullOrWhiteSpace(r.ModuleId)
+                let name = r.ModuleId.Replace("viewmodels/", "")
+                select new SolutionItem
+                {
+                    id = $"{r.ModuleId}.js",
+                    text = $"{name}.js",
+                    icon = "fa fa-text-o",
+                    codeEditor = $"/sphapp/{r.ModuleId}.js"
+                };
+            var views = from r in JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(config))
+                where !string.IsNullOrWhiteSpace(r.ModuleId)
+                let name = r.ModuleId.Replace("viewmodels/", "")
+                select new SolutionItem
+                {
+                    id = $"{r.ModuleId}.html",
+                    text = $"{name}.html",
+                    icon = "fa fa-file-code-o",
+                    codeEditor = $"/sphapp/views/{name}.html"
+                };
+            var forms = views.Concat(scripts).OrderBy(x => x.text);
+            routes.itemCollection.AddRange(forms);
             return routes;
         }
 
         private static SolutionItem GetScripts(out string scriptConfig)
         {
-            var scriptNode = new SolutionItem { id = "custom.scrpts", text = "Custom Scripts", icon = "fa fa-file-o" };
+            var scriptNode = new SolutionItem { id = "custom.scrpts", text = "Custom Scripts", icon = "fa fa-file-text-o" };
             scriptConfig = $"{ConfigurationManager.WebPath}\\App_Data\\custom-script.json";
             if (File.Exists(scriptConfig))
             {
@@ -192,7 +200,7 @@ namespace Bespoke.Sph.Web.Hubs
             {
                 id = "custom.dialogs",
                 text = "Custom Dialogs",
-                icon = "fa fa-folder-o",
+                icon = "fa fa-files-o",
                 createDialog = "custom.form.dialog.dialog"
             };
             var dialogConfig = $"{ConfigurationManager.WebPath}\\App_Data\\custom-dialog.json";
@@ -202,7 +210,7 @@ namespace Bespoke.Sph.Web.Hubs
                     .Select(a => a.SelectToken("name").Value<string>())
                     .Select(x => new SolutionItem
                     {
-                        icon = "fa fa-file-text-o",
+                        icon = "fa fa-files-o",
                         text = $"{x}.js",
                         id = $"{x}.js",
                         codeEditor = $"/sphapp/viewmodels/{x}.js"
@@ -403,6 +411,19 @@ namespace Bespoke.Sph.Web.Hubs
 
         public void Dispose()
         {
+            if (null != m_watcher)
+            {
+                m_watcher.Changed -= SourceChanged;
+                m_watcher.Deleted -= SourceChanged;
+                m_watcher.Renamed -= SourceChanged;
+                m_watcher.Created -= SourceChanged;
+            }
+            if (null != m_appDataWatcher)
+            {
+                m_appDataWatcher.Changed -= SourceChanged;
+                m_appDataWatcher.Dispose();
+                m_appDataWatcher = null;
+            }
             m_watcher?.Dispose();
             m_watcher = null;
         }
@@ -419,10 +440,10 @@ namespace Bespoke.Sph.Web.Hubs
                 case nameof(EmailTemplate): return "fa fa-envelope-o";
                 case nameof(DocumentTemplate): return "fa fa-file-word-o";
                 case nameof(ReportDefinition): return "fa fa-bar-chart-o";
-                case "CustomForm": return "fa fa-file-o";
-                case "PartialView": return "fa fa-file-o";
+                case "CustomForm": return "fa fa-edit";
+                case "PartialView": return "fa fa-code-o";
                 case "CustomScript": return "fa fa-file-o";
-                case "CustomDialog": return "fa fa-file-o";
+                case "CustomDialog": return "fa fa-files-o";
             }
             return "fa fa-file-o";
         }

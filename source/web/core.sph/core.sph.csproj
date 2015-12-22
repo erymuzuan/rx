@@ -963,6 +963,7 @@
     <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Controllers\FormDesignerController.cs" />
     <Compile Include="Controllers\WorkflowDesignerController.cs" />
+    <Compile Include="Dependencies\DeveloperService.cs" />
     <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Filters\RazorScriptStream.cs" />
     <Compile Include="Filters\RazorScriptFilter.cs" />

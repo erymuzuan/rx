@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -8,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
 
@@ -16,16 +16,13 @@ namespace Bespoke.Sph.Web.Controllers
     [RoutePrefix("form-designer")]
     public class FormDesignerController : Controller
     {
-        [ImportMany("FormDesigner", typeof(FormElement), AllowRecomposition = true)]
-        public Lazy<FormElement, IDesignerMetadata>[] ToolboxItems { get; set; }
 
         [Route("toolbox-items")]
         [OutputCache(Duration = 64800, Location = OutputCacheLocation.Any)]
         public ActionResult GetToolboxItems()
         {
-            if (null == this.ToolboxItems)
-                ObjectBuilder.ComposeMefCatalog(this);
-            var actions = from a in this.ToolboxItems
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var actions = from a in ds.ToolboxItems
                           orderby a.Metadata.Order
                           select
                               $@"
@@ -43,10 +40,9 @@ namespace Bespoke.Sph.Web.Controllers
         [OutputCache(Duration = 2592200, Location = OutputCacheLocation.Any)]
         public ActionResult GetPngIcon(string name)
         {
-            if (null == this.ToolboxItems)
-                ObjectBuilder.ComposeMefCatalog(this);
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
 
-            var act = this.ToolboxItems
+            var act = ds.ToolboxItems
                 .SingleOrDefault(x => string.Equals(x.Metadata.Name, name, StringComparison.InvariantCultureIgnoreCase));
             if (null != act)
             {
@@ -72,10 +68,8 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("editor/{name}.{extension:length(2,4)}")]
         public ActionResult GetDialog(string name, string extension)
         {
-            if (null == this.ToolboxItems)
-                ObjectBuilder.ComposeMefCatalog(this);
-
-            var info = this.ToolboxItems
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var info = ds.ToolboxItems
                 .SingleOrDefault(x => string.Equals(x.Metadata.Name, name, StringComparison.InvariantCultureIgnoreCase));
             if (null != info)
             {

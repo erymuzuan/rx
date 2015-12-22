@@ -387,10 +387,8 @@ namespace Bespoke.Sph.Domain
 
         public static Type GetType(string typeName)
         {
-
             var t = Type.GetType(typeName);
             if (null != t) return t;
-
 
             var splits = typeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             string path = $"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll";
