@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
         /// <summary>
         /// Ad directory where all the sph and systems source code like the *.json file for each asset definitions
         /// </summary>
-        public static string SphSourceDirectory => GetPath("SphSourceDirectory", "sources\\");
+        public static string SphSourceDirectory => GetPath("SphSourceDirectory", "sources");
         /// <summary>
         /// A directory where all the users source codes are
         /// </summary>

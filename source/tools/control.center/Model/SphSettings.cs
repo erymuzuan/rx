@@ -379,17 +379,25 @@ namespace Bespoke.Sph.ControlCenter.Model
 
         private string GetEnvironmentVariable(string setting)
         {
-            return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.User);
+            var process = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Process);
+            if (!string.IsNullOrWhiteSpace(process)) return process;
+
+            var user = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.User);
+            if (!string.IsNullOrWhiteSpace(user)) return user;
+
+            return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Machine);
         }
         private void SetEnvironmentVariable(string setting, object value)
         {
-            if($"{value}".Contains("control.center"))
+            if ($"{value}".Contains("control.center"))
                 throw new InvalidOperationException($"You cannot set \"RX_{ApplicationNameToUpper}_{setting}\" variable to \"{value}\"");
+
+            Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}", EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}", EnvironmentVariableTarget.User);
         }
         private int? GetEnvironmentVariableInt32(string setting)
         {
-            var val = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.User);
+            var val = GetEnvironmentVariable(setting);
             int intValue;
             if (int.TryParse(val, out intValue)) return intValue;
             return null;
