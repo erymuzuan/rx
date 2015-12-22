@@ -149,33 +149,28 @@ $allConfigs = @("$WorkingCopy\web\web.config"
 , "$WorkingCopy\tools\sph.builder.exe.config"
 )
 
+
+[Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_BaseUrl", 'http://localhost:' + $Port, "User")
+[Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_HOME", "$WorkingCopy", "User")
+[Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_ApplicationFullName", "$ApplicationName", "User")
+    
+$connectionString = "Data Source=(localdb)\$SqlServer;Initial Catalog=$ApplicationName;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False"
+[Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_SqlConnectionString", "$connectionString", "User")
+
+[Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_RabbitMqVirtualHost", "$ApplicationName", "User")
+[Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_RabbitMqUserName", "$RabbitMqUserName", "User")
+[Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_RabbitMqPassword", "$RabbitMqPassword", "User")
+ 
+ 
+$taskscheduler = $WorkingCopy   + "\schedulers\scheduler.delayactivity.exe"       
+[Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_TaskScheduler", "$taskscheduler", "User")
+
+
 foreach($configFile in $allConfigs){
     Write-Debug "Processing $configFile"
 
     $xml = (Get-Content $configFile) -as [xml]
-
-    $xml.SelectSingleNode('//appSettings/add[@key="sph:BaseUrl"]/@value').'#text' = 'http://localhost:' + $Port
-    $xml.SelectSingleNode('//appSettings/add[@key="sph:BaseDirectory"]/@value').'#text' = $WorkingCopy
     $xml.SelectSingleNode('//appSettings/add[@key="sph:ApplicationName"]/@value').'#text' = $ApplicationName
-    $xml.SelectSingleNode('//appSettings/add[@key="sph:ApplicationFullName"]/@value').'#text' = $ApplicationName
-
-    $connectionString = 'Data Source=(localdb)\' + $SqlServer +';Initial Catalog='+ $ApplicationName +';Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False'
-
-    $xml.SelectSingleNode('//connectionStrings/add[@name="Sph"]/@connectionString').'#text' = $connectionString
-
-    $nsmgr = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
-    $nsmgr.AddNamespace("sp", "http://www.springframework.net")
-    Write-Debug $nsmgr
-
-    $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IBrokerConnection"]/sp:property[@name="VirtualHost"]/@value', $nsmgr).'#text' = $ApplicationName
-    $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IBrokerConnection"]/sp:property[@name="UserName"]/@value', $nsmgr).'#text' = $RabbitMqUserName
-    $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IBrokerConnection"]/sp:property[@name="Password"]/@value', $nsmgr).'#text' = $RabbitMqPassword
-    $xml.DocumentElement.SelectSingleNode('/configuration/spring/sp:objects/sp:object[@name="IPersistence"]/sp:constructor-arg[@name="connectionString"]/@value', $nsmgr).'#text' = $connectionString
-    
-    Try{
-        $taskscheduler = $WorkingCopy   + "\schedulers\scheduler.delayactivity.exe"  
-        $xml.SelectSingleNode('//spring/objects/object[@name="ITaskScheduler"]/constructor-arg[@name="executable"]/@value').'#text' = $taskscheduler
-    }Catch{}
     $xml.Save($configFile)
 }
 #set the IIS config
