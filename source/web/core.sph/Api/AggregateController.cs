@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Web.Api
     public class AggregateController : Controller
     {
         public static readonly string ConnectionString =
-            ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            ConfigurationManager.SqlConnectionString;
 
         [Route("scalar")]
         public async Task<ActionResult> Scalar(string column, string table, string filter)

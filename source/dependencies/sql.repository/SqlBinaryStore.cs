@@ -12,7 +12,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public SqlBinaryStore()
         {
-            m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            m_connectionString = ConfigurationManager.SqlConnectionString;
         }
 
         public SqlBinaryStore(string connectionString)

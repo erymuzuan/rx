@@ -55,9 +55,9 @@ namespace subscriber.entities
 
         }
 
-        protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["sph"].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
             var tableExistSql =
                 $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{applicationName}'  AND  TABLE_NAME = '{item.Name}'";

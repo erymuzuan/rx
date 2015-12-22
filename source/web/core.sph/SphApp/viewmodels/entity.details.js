@@ -23,43 +23,28 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             templateOptions = ko.observableArray(),
             views = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
-            activate = function (entityid) {
-                var id = parseInt(entityid);
+            activate = function (id) {
 
                 context.getListAsync("ViewTemplate", "Id ne '0'", "Name")
                 .done(templateOptions);
 
                 member(new bespoke.sph.domain.Member("-"));
 
-                if (isNaN(id)) {
-                    var query = String.format("Id eq '{0}'", entityid);
-                    return context.loadOneAsync("EntityDefinition", query)
-                        .done(function (b) {
-                            entity(b);
-                            originalEntity = ko.toJSON(b);
-                            window.typeaheadEntity = b.Name();
-                        });
-
-                }
-                var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
-                ed.Name.subscribe(function (name) {
-                    if (!entity().Plural()) {
-                        $.get("/entity-definition/plural/" + name, function (v) {
-                            entity().Plural(v);
-                        });
-                    }
-                    window.typeaheadEntity = name;
-                });
-                ed.IconStoreId("sph-img-document");
-
-                entity(ed);
-                return Task.fromResult(true);
+                var query = String.format("Id eq '{0}'", id);
+                return context.loadOneAsync("EntityDefinition", query)
+                    .done(function (b) {
+                        if (!b) {
+                            return router.navigate("#not.found");
+                        }
+                        entity(b);
+                        originalEntity = ko.toJSON(b);
+                        window.typeaheadEntity = b.Name();
+                        return  true;
+                    });
 
             },
             attached = function () {
-                if (entity().Id() === "0") {
-                    //TODO : should do the modal
-                }
+
                 var setDesignerHeight = function () {
                     if ($("#schema-tree-panel").length === 0) {
                         return;
@@ -282,7 +267,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         caption: "Publish",
                         icon: "fa fa-sign-in",
                         enable: ko.computed(function () {
-                            return entity().Id();
+                            var ent = ko.unwrap(entity);
+                            if (!ent) return false;
+                            return ko.unwrap(ent.Id);
                         })
                     },
                     {
@@ -290,7 +277,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         caption: "Depublish",
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
-                            return entity().Id() && entity().IsPublished();
+                            var ent = ko.unwrap(entity);
+                            if (!ent) return false;
+                            return ko.unwrap(ent.Id) && ko.unwrap(ent.IsPublished);
                         })
                     }])
             }

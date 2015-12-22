@@ -35,7 +35,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public SqlServer2012Metadata()
         {
-            this.ConnectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            this.ConnectionString = ConfigurationManager.SqlConnectionString;
             this.Schema = "Sph";
         }
 

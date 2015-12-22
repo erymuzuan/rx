@@ -88,14 +88,20 @@ WriteLiteral(" content=\"width=device-width\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 400), Tuple.Create("\"", 426)
-, Tuple.Create(Tuple.Create("", 407), Tuple.Create<System.Object, System.Int32>(Href("~/Content/__css.css")
-, 407), false)
+WriteLiteral(" href=\"/Content/external/bootstrap.min.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" />\r\n    <link");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 474), Tuple.Create("\"", 500)
+, Tuple.Create(Tuple.Create("", 481), Tuple.Create<System.Object, System.Int32>(Href("~/Content/__css.css")
+, 481), false)
 );
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" />\r\n\r\n</head>\r\n<body>\r\n    <div");
+WriteLiteral("/>\r\n\r\n\r\n</head>\r\n<body>\r\n    <div");
 
 WriteLiteral(" id=\"body\"");
 
@@ -104,13 +110,13 @@ WriteLiteral(" class=\"container\"");
 WriteLiteral(">\r\n\r\n        <section>\r\n\r\n");
 
             
-            #line 22 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 24 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 22 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 24 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
              using (Html.BeginForm((string)ViewBag.FormAction, "SphAccount"))
             {
 
@@ -127,7 +133,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                    ");
 
             
-            #line 26 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 28 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                Write(Html.Partial("_Slider"));
 
             
@@ -151,13 +157,13 @@ WriteLiteral("/>\r\n                        </div>\r\n                        <h
 "");
 
             
-            #line 32 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 34 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 32 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 34 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                          if (!@ViewData.ModelState.IsValid)
                         {
 
@@ -180,7 +186,7 @@ WriteLiteral(">&times;</a>\r\n                                Incorrect userName
 "                          </div>\r\n");
 
             
-            #line 38 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 40 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
 
                         }
 
@@ -200,7 +206,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                            ");
 
             
-            #line 41 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 43 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                        Write(Html.TextBoxFor(m => m.UserName, new {placeholder = "UserName", @class = "form-control", required = true, autofocus = "autofocus"}));
 
             
@@ -211,7 +217,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                            ");
 
             
-            #line 42 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 44 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                        Write(Html.ValidationMessageFor(m => m.UserName));
 
             
@@ -226,7 +232,7 @@ WriteLiteral("></label>\r\n");
 WriteLiteral("                            ");
 
             
-            #line 44 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 46 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                        Write(Html.PasswordFor(m => m.Password, new {placeholder = "Password", @class = "form-control", required = true}));
 
             
@@ -237,7 +243,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                            ");
 
             
-            #line 45 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 47 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                        Write(Html.ValidationMessageFor(m => m.Password));
 
             
@@ -275,21 +281,21 @@ WriteLiteral(" class=\"btn btn-default\"");
 WriteLiteral(">Login</button>\r\n                        </form>\r\n\r\n                        <div>" +
 "\r\n                            <p>\r\n                                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2469), Tuple.Create("\"", 2505)
+WriteAttribute("href", Tuple.Create(" href=\"", 2544), Tuple.Create("\"", 2580)
             
-            #line 57 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-, Tuple.Create(Tuple.Create("", 2476), Tuple.Create<System.Object, System.Int32>(Url.Action("ForgotPassword")
+            #line 59 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+, Tuple.Create(Tuple.Create("", 2551), Tuple.Create<System.Object, System.Int32>(Url.Action("ForgotPassword")
             
             #line default
             #line hidden
-, 2476), false)
+, 2551), false)
 );
 
 WriteLiteral(">Forgot your password</a>\r\n                            </p>\r\n                    " +
 "    </div>\r\n                    </div>\r\n\r\n                </div>\r\n");
 
             
-            #line 63 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 65 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
               
 
 
@@ -313,20 +319,20 @@ WriteLiteral(" href=\"/docs/#custom-login-page\"");
 WriteLiteral(">Go to help</a>\r\n                </div>\r\n");
 
             
-            #line 71 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 73 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 71 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 73 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
            Write(Html.Partial("_Footer"));
 
             
             #line default
             #line hidden
             
-            #line 71 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 73 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                                         
 
             }
@@ -336,9 +342,9 @@ WriteLiteral(">Go to help</a>\r\n                </div>\r\n");
             #line hidden
 WriteLiteral("        </section>\r\n    </div>\r\n\r\n\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 3109), Tuple.Create("\"", 3140)
-, Tuple.Create(Tuple.Create("", 3115), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/__vendor.min.js")
-, 3115), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 3184), Tuple.Create("\"", 3215)
+, Tuple.Create(Tuple.Create("", 3190), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/__vendor.min.js")
+, 3190), false)
 );
 
 WriteLiteral("></script>\r\n    <script");

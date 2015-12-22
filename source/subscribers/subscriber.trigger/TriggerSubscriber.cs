@@ -53,12 +53,12 @@ namespace Bespoke.Sph.CustomTriggers
 
             Thread.Sleep(1000);
             this.WriteMessage("Deleted the trigger dll");
-            dynamic connection = ObjectBuilder.GetObject("IBrokerConnection");
-            var url = string.Format("http://{0}:{1}", connection.Host, connection.ManagementPort);
+
+            var url = $"http://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}";
 
             var handler = new HttpClientHandler
             {
-                Credentials = new NetworkCredential(connection.UserName, connection.Password)
+                Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword)
             };
             using (var client = new HttpClient(handler) { BaseAddress = new Uri(url) })
             {

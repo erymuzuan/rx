@@ -1,4 +1,5 @@
 ﻿using System;
+using Bespoke.Sph.Domain;
 using System.Linq;
 using System.ServiceProcess;
 using Westwind.Windows.Services;
@@ -46,6 +47,8 @@ namespace workers.windowsservice.runner
 
                 return;
             }
+
+            ConfigurationManager.AddConnectionString();
             var servicesToRun = new ServiceBase[]
                 {
                     new SphWorkerService()

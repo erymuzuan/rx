@@ -273,7 +273,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		    return $.get("developer-service/environment-variables")
 		        .done(function (result) {
-		            var port = result.RX_DEVV1_LoggerWebSocketPort;
+		            var port = result["RX_" + config.applicationName.toUpperCase() +"_LoggerWebSocketPort"];
 		            setting().port(parseInt(port));
 		        });
 		},
@@ -312,8 +312,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    $("#developers-log-panel-collapse", view).on("click", function (e) {
 		        e.preventDefault();
 		        $("#developers-log-panel > div.tabbable").hide();
-		        $("#developers-log-panel").css("bottom", "0px");
-		        $("#developers-log-panel").css("left", "0px");
+		        $("#developers-log-panel").css("bottom", "0");
+		        $("#developers-log-panel").css("left", "0");
 		        $("#developers-log-panel").css("position", "fixed");
 		        $("#developers-log-panel").css("width", "100%");
 		        $("#developers-log-panel").css("background-color", "transparent");

@@ -16,12 +16,14 @@ namespace Bespoke.Sph.Web.Controllers
     [RoutePrefix("wf-designer")]
     public class WorkflowDesignerController : Controller
     {
-
+        static WorkflowDesignerController()
+        {
+            DeveloperService.Init();
+        }
         [Route("toolbox-items")]
         [OutputCache(Duration = 300)]
         public ActionResult GetToolboxItems()
         {
-          
             var ds = ObjectBuilder.GetObject<DeveloperService>();
             var actions = from a in ds.ActivityOptions
                           select

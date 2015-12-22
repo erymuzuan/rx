@@ -17,7 +17,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public SqlPersistence()
         {
-            m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            m_connectionString = ConfigurationManager.SqlConnectionString;
         }
 
         public SqlPersistence(string connectionString)

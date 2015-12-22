@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
+using System.Reflection;
 
 namespace Bespoke.Sph.Domain
 {
@@ -23,18 +25,28 @@ namespace Bespoke.Sph.Domain
         /// <summary>
         /// Ad directory where all the sph and systems source code like the *.json file for each asset definitions
         /// </summary>
-        public static string SphSourceDirectory => GetPath("SphSourceDirectory", "sources");
+        public static string SphSourceDirectory => GetPath("SourceDirectory", "sources");
         /// <summary>
         /// A directory where all the users source codes are
         /// </summary>
         public static string GeneratedSourceDirectory => GetPath("GeneratedSourceDirectory", @"sources\_generated\");
+        public static string SqlConnectionString => GetEnvironmentVariable("SqlConnectionString") ?? $"Data Source=(localdb)\\Projects;Initial Catalog={ApplicationName};Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False";
+
+        public static string RabbitMqUserName => GetEnvironmentVariable("RabbitMqUserName") ?? "guest";
+        public static string RabbitMqPassword => GetEnvironmentVariable("RabbitMqPassword") ?? "guest";
+        public static string RabbitMqHost => GetEnvironmentVariable("RabbitMqHost") ?? "localhost";
+        public static string RabbitMqManagementScheme => GetEnvironmentVariable("RabbitMqManagementScheme") ?? "http";
+        public static int RabbitMqPort => GetEnvironmentVariableInt32("RabbitMqPort", 5672);
+        public static int RabbitMqManagementPort => GetEnvironmentVariableInt32("RabbitMqManagementPort", 15672);
+        public static string RabbitMqVirtualHost => GetEnvironmentVariable("RabbitMqVirtualHost") ?? ApplicationName;
+
         public static string ElasticSearchHost => GetEnvironmentVariable("ElasticSearchHost") ?? "http://localhost:9200";
         public static string ElasticSearchIndex => GetEnvironmentVariable("ElasticSearchIndex") ?? ApplicationName.ToLowerInvariant();
         public static string ReportDeliveryExecutable => GetPath("ReportDeliveryExecutable", @"schedulers\scheduler.report.delivery.exe");
         public static string ScheduledTriggerActivityExecutable => GetPath("ScheduledTriggerActivityExecutable", @"schedulers\scheduler.workflow.trigger.exe");
         public static bool EnableWorkflowGetCacheDependency => GetEnvironmentVariableBoolean("EnableWorkflowGetCacheDependency");
 
-        public static System.Configuration.ConnectionStringSettingsCollection ConnectionStrings => System.Configuration.ConfigurationManager.ConnectionStrings;
+        public static ConnectionStringSettingsCollection ConnectionStrings => System.Configuration.ConfigurationManager.ConnectionStrings;
 
         public static System.Collections.Specialized.NameValueCollection AppSettings => System.Configuration.ConfigurationManager.AppSettings;
         public static int JpegMaxWitdh => GetEnvironmentVariableInt32("jpg.max.width", 400);
@@ -75,5 +87,22 @@ namespace Bespoke.Sph.Domain
             return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Machine);
         }
 
+        public static void AddConnectionString()
+        {
+            var settings = ConnectionStrings;
+            var element = typeof(ConfigurationElement).GetField("_bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
+            var collection = typeof(ConfigurationElementCollection).GetField("bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            element.SetValue(settings, false);
+            collection.SetValue(settings, false);
+
+            settings.Add(new ConnectionStringSettings("Sph", SqlConnectionString));
+
+            // Repeat above line as necessary
+
+            collection.SetValue(settings, true);
+            element.SetValue(settings, true);
+
+        }
     }
 }

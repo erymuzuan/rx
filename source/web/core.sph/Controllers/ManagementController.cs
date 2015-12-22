@@ -32,11 +32,10 @@ namespace Bespoke.Sph.Web.Controllers
             var url = "api/" + resource;
             try
             {
-                dynamic broker = ObjectBuilder.GetObject("IBrokerConnection");
-                using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(broker.UserName, broker.Password) })
+                using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword) })
                 using (var client = new HttpClient(handler))
                 {
-                    client.BaseAddress = new Uri(broker.ManagementScheme + "://" + broker.Host + ":" + broker.ManagementPort + "/");
+                    client.BaseAddress = new Uri(ConfigurationManager.RabbitMqManagementPort + "://" + ConfigurationManager.RabbitMqHost + ":" + ConfigurationManager.RabbitMqManagementPort + "/");
 
                     var response = await client.GetStringAsync(url);
                     this.Response.ContentType = "application/json; charset=utf-8";
@@ -53,14 +52,13 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("basic-get/{queue}")]
         public ActionResult LoadMessageFromQueue(string queue)
         {
-            dynamic broker = ObjectBuilder.GetObject("IBrokerConnection");
             var factory = new ConnectionFactory
             {
-                VirtualHost = broker.VirtualHost,
-                HostName = broker.Host,
-                UserName = broker.UserName,
-                Password = broker.Password,
-                Port = broker.Port,
+                VirtualHost = ConfigurationManager.RabbitMqVirtualHost,
+                HostName = ConfigurationManager.RabbitMqHost,
+                UserName = ConfigurationManager.RabbitMqUserName,
+                Password = ConfigurationManager.RabbitMqPassword,
+                Port = ConfigurationManager.RabbitMqPort,
             };
             var conn = factory.CreateConnection();
             var model = conn.CreateModel();

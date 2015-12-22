@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Web.Api
     public class ListController : Controller
     {
         public static readonly string ConnectionString =
-            ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            ConfigurationManager.SqlConnectionString;
 
         public async Task<ActionResult> Index(string column, string table, string filter)
         {

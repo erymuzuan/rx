@@ -2,7 +2,6 @@
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.RabbitMqPublisher;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -14,25 +13,21 @@ namespace web.console.logger
     public class Logger : ILogger
     {
         public const int NON_PERSISTENT_DELIVERY_MODE = 2;
-        public IBrokerConnection BrokerConnection { get; set; }
         public Severity TraceSwitch { get; set; }
 
 
         private void SendMessage(string json, Severity severity)
         {
-            if (null == this.BrokerConnection)
-            {
-                this.BrokerConnection = ObjectBuilder.GetObject<IBrokerConnection>();
-            }
+
 
 
             var factory = new ConnectionFactory
             {
-                UserName = this.BrokerConnection.UserName,
-                Password = this.BrokerConnection.Password,
-                HostName = this.BrokerConnection.Host,
-                Port = this.BrokerConnection.Port,
-                VirtualHost = this.BrokerConnection.VirtualHost
+                UserName = ConfigurationManager.RabbitMqUserName,
+                Password = ConfigurationManager.RabbitMqPassword,
+                HostName = ConfigurationManager.RabbitMqHost,
+                Port = ConfigurationManager.RabbitMqPort,
+                VirtualHost = ConfigurationManager.RabbitMqVirtualHost
             };
 
 

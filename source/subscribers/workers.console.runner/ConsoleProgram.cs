@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
@@ -33,6 +34,7 @@ namespace workers.console.runner
             }
 
             var port = ParseArg("port") == null ? 5672 : int.Parse(ParseArg("port"));
+            ConfigurationManager.AddConnectionString();
 
             var sw = new Stopwatch();
             sw.Start();
