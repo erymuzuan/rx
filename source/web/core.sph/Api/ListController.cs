@@ -30,6 +30,7 @@ namespace Bespoke.Sph.Web.Api
                 case "documenttemplate": return SelectSystemObjectProperty<DocumentTemplate>(column, filter);
                 case "workflowdefinition": return SelectSystemObjectProperty<WorkflowDefinition>(column, filter);
                 case "entitydefinition": return SelectSystemObjectProperty<EntityDefinition>(column, filter);
+                case "valueobjectdefinition": return SelectSystemObjectProperty<EntityDefinition>(column, filter);
                 case "transformdefinition": return SelectSystemObjectProperty<TransformDefinition>(column, filter);
                 case "entityview": return SelectSystemObjectProperty<EntityView>(column, filter);
                 case "entityform": return SelectSystemObjectProperty<EntityForm>(column, filter);

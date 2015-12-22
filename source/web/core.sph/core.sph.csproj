@@ -820,6 +820,7 @@
     <Compile Include="Controllers\CustomFormController.scripts.cs" />
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\DataImportController.cs" />
+    <Compile Include="Controllers\ValueObjectDefinitionController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InternationalizationController.cs" />
@@ -2315,6 +2316,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.2.js" />
     <EmbeddedResource Include="SphApp\viewmodels\prompt.js" />
     <EmbeddedResource Include="SphApp\services\new-item.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\value.object.details.js" />
     <Content Include="SphApp\viewmodels\environment.variables.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.entity.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.workflow.definition.dialog.js" />
@@ -2322,6 +2324,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\new.trigger.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.adapter.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.report.definition.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.value.object.definition.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2838,6 +2841,7 @@
     <EmbeddedResource Include="SphApp\views\users.management.html" />
     <EmbeddedResource Include="SphApp\views\solution.explorer.2.html" />
     <EmbeddedResource Include="SphApp\views\prompt.html" />
+    <EmbeddedResource Include="SphApp\views\value.object.details.html" />
     <Content Include="SphApp\views\environment.variables.html" />
     <EmbeddedResource Include="SphApp\views\new.entity.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.workflow.definition.dialog.html" />
@@ -2845,6 +2849,7 @@
     <EmbeddedResource Include="SphApp\views\new.trigger.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.adapter.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.report.definition.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\new.value.object.definition.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

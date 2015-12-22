@@ -14,5 +14,10 @@ namespace Bespoke.Sph.Domain
             string childJsonFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\{Id}.json";
             File.WriteAllText(childJsonFile, this.ToJsonString(true));
         }
+
+        public BuildValidationResult CanSave()
+        {
+            return new BuildValidationResult {Result = true};
+        }
     }
 }

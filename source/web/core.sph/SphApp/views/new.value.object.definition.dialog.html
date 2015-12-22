@@ -1,0 +1,30 @@
+﻿
+<section class="view-model-modal" id="new-vod-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>New Value Object Definition</h3>
+            </div>
+            <div class="modal-body" data-bind="with: vod">
+
+                <form class="form-horizontal" id="new-vod-dialog-form">
+                    <div class="form-group">
+                        <label for="ent-name" class="col-md-3">Name</label>
+                        <div class="col-md-9">
+                            <input type="text" data-bind="value: Name, readonly : ko.unwrap(Id) !== '0'"
+                                   required="" pattern="^[A-Za-z][A-Za-z0-9]*$"
+                                   placeholder="Value object's name"
+                                   class="form-control" id="ent-name">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="new-vod-dialog-ok-button" form="new-vod-dialog-form" data-dismiss="modal" class="btn btn-default" data-bind="command: okClick">OK</button>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

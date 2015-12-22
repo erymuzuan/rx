@@ -491,6 +491,20 @@
   {
     "role": "developers",
     "groupName": "Entity",
+    "route": "value.object.details/:id",
+    "moduleId": "viewmodels/value.object.details",
+    "title": "Custom Value Object",
+    "nav": false,
+    "icon": "fa fa-bug",
+    "caption": "Custom Value Object",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "developers",
+    "groupName": "Entity",
     "route": "entity.form.designer/:entityid/:formid",
     "moduleId": "viewmodels/entity.form.designer",
     "title": "Entity Form Designer",
