@@ -128,11 +128,11 @@ namespace subscriber.entities
 
         private static async Task RemoveSqlTablesAsync(EntityDefinition item)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["sph"].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
 
 
-            var dropTable = string.Format("DROP TABLE [{0}].[{1}]", applicationName, item.Name);
+            var dropTable = $"DROP TABLE [{applicationName}].[{item.Name}]";
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(dropTable, conn))
             {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using System.Linq;
 using Bespoke.Sph.Domain.QueryProviders;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
+
 
 namespace Bespoke.Sph.SqlRepository
 {
@@ -20,7 +20,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public SqlSpatial()
         {
-            m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            m_connectionString = ConfigurationManager.SqlConnectionString;
         }
 
         public SqlSpatial(string connectionString)

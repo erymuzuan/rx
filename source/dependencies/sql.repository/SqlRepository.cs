@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -16,7 +15,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public SqlRepository()
         {
-            m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            m_connectionString = ConfigurationManager.SqlConnectionString;
         }
 
         public SqlRepository(string connectionString)
@@ -120,7 +119,7 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
             var sql = query.ToString().Replace("[Json]", string.Format("[{0}]", column));
-            var connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -142,8 +141,8 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             var column2 = GetMemberName(selector2);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
-            var sql = query.ToString().Replace("[Json]", string.Format("[{0}], [{1}]", column, column2));
-            var connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            var sql = query.ToString().Replace("[Json]", $"[{column}], [{column2}]");
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {

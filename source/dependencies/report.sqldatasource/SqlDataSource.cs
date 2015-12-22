@@ -75,7 +75,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                 query = compiler.Compile(dataSource);
             }
 
-            var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            var cs = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(cs))
             using (var cmd = new SqlCommand(query, conn))
             {

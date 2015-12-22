@@ -72,7 +72,7 @@ namespace subscriber.entities
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(name);
             this.WriteMessage("Starting data migration for " + name);
-            var connectionString = ConfigurationManager.ConnectionStrings["sph"].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
 
             var taskBuckets = new List<Task>();
