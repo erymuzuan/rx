@@ -37,7 +37,7 @@ namespace Bespoke.Sph.WathersSubscribers
 
         private readonly ObjectCollection<Watcher> m_watchers = new ObjectCollection<Watcher>();
 
-        protected async override void OnStart()
+        protected override async void OnStart()
         {
             var context = new SphDataContext();
             var query = context.Watchers.Where(w => w.IsActive == true);
@@ -80,7 +80,7 @@ namespace Bespoke.Sph.WathersSubscribers
                     this.WriteError(new Exception("Cannot create type " + edTypeName));
 
                 var listenerType = changePublisherType.MakeGenericType(edType);
-                dynamic listener = Activator.CreateInstance(listenerType, ObjectBuilder.GetObject("IBrokerConnection"));
+                dynamic listener = Activator.CreateInstance(listenerType);
                 listener.Callback = new Action<object>(arg => this.EntityChanged(listener, arg));
 
 

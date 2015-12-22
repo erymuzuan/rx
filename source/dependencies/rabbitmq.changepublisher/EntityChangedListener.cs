@@ -12,17 +12,15 @@ namespace Bespoke.Sph.RabbitMqPublisher
 {
     public class EntityChangedListener<T> : IDisposable, IEntityChangedListener<T> where T : Entity
     {
-        public string QueueName { get; private set; }
-        public string[] RoutingKeys { get; private set; }
+        public string QueueName { get; }
+        public string[] RoutingKeys { get; }
         private bool m_isRun;
         private IConnection m_connection;
         private IModel m_channel;
         private SynchronizationContext m_currentContext;
-        private readonly IBrokerConnection m_brokerConnection;
 
-        public EntityChangedListener(IBrokerConnection connection)
+        public EntityChangedListener()
         {
-            m_brokerConnection = connection;
             var guid = Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
             this.QueueName = $"_{Environment.MachineName}_{guid}_{typeof (T).Name}";
             this.RoutingKeys = new[] { typeof(T).Name + ".#.#" };
@@ -41,11 +39,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             var factory = new ConnectionFactory
             {
-                UserName = m_brokerConnection.UserName,
-                VirtualHost = m_brokerConnection.VirtualHost,
-                Password = m_brokerConnection.Password,
-                HostName = m_brokerConnection.Host,
-                Port = m_brokerConnection.Port
+                UserName = ConfigurationManager.RabbitMqUserName,
+                VirtualHost = ConfigurationManager.RabbitMqVirtualHost,
+                Password = ConfigurationManager.RabbitMqPassword,
+                HostName = ConfigurationManager.RabbitMqHost,
+                Port = ConfigurationManager.RabbitMqPort
             };
             m_connection = factory.CreateConnection();
             m_channel = m_connection.CreateModel();

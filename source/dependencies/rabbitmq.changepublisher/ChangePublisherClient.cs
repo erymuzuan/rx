@@ -16,16 +16,15 @@ namespace Bespoke.Sph.RabbitMqPublisher
     [Export(typeof(IEntityChangePublisher))]
     public class ChangePublisherClient : IEntityChangePublisher, IDisposable
     {
-        private readonly IBrokerConnection m_connectionInfo;
+
         private IConnection m_connection;
         private IModel m_channel;
         public const int PERSISTENT_DELIVERY_MODE = 2;
 
         public string Exchange { get; set; }
 
-        public ChangePublisherClient(IBrokerConnection connectionInfo)
+        public ChangePublisherClient()
         {
-            m_connectionInfo = connectionInfo;
             this.Exchange = "sph.topic";
         }
 
@@ -123,11 +122,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             var factory = new ConnectionFactory
             {
-                UserName = m_connectionInfo.UserName,
-                Password = m_connectionInfo.Password,
-                HostName = m_connectionInfo.Host,
-                Port = m_connectionInfo.Port,
-                VirtualHost = m_connectionInfo.VirtualHost
+                UserName = ConfigurationManager.RabbitMqUserName,
+                Password = ConfigurationManager.RabbitMqPassword,
+                HostName = ConfigurationManager.RabbitMqHost,
+                Port = ConfigurationManager.RabbitMqPort,
+                VirtualHost = ConfigurationManager.RabbitMqVirtualHost
             };
             m_connection = factory.CreateConnection();
             m_channel = m_connection.CreateModel();
