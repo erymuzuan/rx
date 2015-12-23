@@ -251,6 +251,11 @@ Get-Item -Path .\bin\build\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
 | Remove-Item
 
+Get-Item -Path .\bin\build\web\bin\subscriber.trigger.* `
+| ? { $_.Name.EndsWith("trigger.dll") -eq $false} `
+| ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
+| Remove-Item
+
 ls -Filter *.md -Path $output\web\docs | Remove-Item
 
 #version
@@ -320,14 +325,21 @@ ls $output\control.center -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles()
 if((Test-Path("$output\web\bin\roslyn")) -eq $false)
 {
     mkdir $output\web\bin\roslyn
-    copy .\source\web\web.sph\bin\roslyn\* $output\web\bin\roslyn\
 }
+copy .\source\web\web.sph\bin\roslyn\* $output\web\bin\roslyn\
 
 if((Test-Path("$output\tools\bin\roslyn")) -eq $false)
 {
     mkdir $output\tools\bin\roslyn
-    copy .\source\web\web.sph\bin\roslyn\* $output\tools\bin\roslyn\
 }
+copy .\source\web\web.sph\bin\roslyn\* $output\tools\bin\roslyn\
+
+
+if((Test-Path("$output\subscribers.host\bin\roslyn")) -eq $false)
+{
+    mkdir $output\subscribers.host\bin\roslyn
+}
+copy .\source\web\web.sph\bin\roslyn\* $output\subscribers.host\bin\roslyn\
 
 
 # TODO - remove humanizer localization folders

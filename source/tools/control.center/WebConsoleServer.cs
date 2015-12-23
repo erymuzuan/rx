@@ -82,6 +82,8 @@ namespace Bespoke.Sph.ControlCenter
 
 
             m_channel = m_connection.CreateModel();
+
+            m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
             var qd = m_channel.QueueDeclare(WebConsoleLogger, false, true, true, null);
             Console.WriteLine(qd);
             m_channel.QueueBind(WebConsoleLogger, EXCHANGE_NAME, "logger.#", null);
