@@ -35,7 +35,8 @@ namespace Bespoke.Sph.Web.Controllers
                 using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword) })
                 using (var client = new HttpClient(handler))
                 {
-                    client.BaseAddress = new Uri(ConfigurationManager.RabbitMqManagementPort + "://" + ConfigurationManager.RabbitMqHost + ":" + ConfigurationManager.RabbitMqManagementPort + "/");
+                    var uri = $"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}/";
+                    client.BaseAddress = new Uri(uri);
 
                     var response = await client.GetStringAsync(url);
                     this.Response.ContentType = "application/json; charset=utf-8";
