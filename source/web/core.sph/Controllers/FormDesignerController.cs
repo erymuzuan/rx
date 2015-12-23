@@ -16,6 +16,10 @@ namespace Bespoke.Sph.Web.Controllers
     [RoutePrefix("form-designer")]
     public class FormDesignerController : Controller
     {
+        static FormDesignerController()
+        {
+            DeveloperService.Init();
+        }
 
         [Route("toolbox-items")]
         [OutputCache(Duration = 64800, Location = OutputCacheLocation.Any)]

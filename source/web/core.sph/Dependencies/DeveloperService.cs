@@ -19,6 +19,8 @@ namespace Bespoke.Sph.Web.Dependencies
             ObjectBuilder.AddCacheList(ds);
         }
 
+        [ImportMany(typeof(IBuildDiagnostics))]
+        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
 
         [ImportMany(typeof(IBuildDiagnostics))]
         public IBuildDiagnostics[] BuildDiagnostics { get; set; }

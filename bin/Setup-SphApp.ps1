@@ -50,7 +50,7 @@ if(!(Get-Command Invoke-WebRequest -ErrorAction SilentlyContinue))
 
 if(!(Test-Path("C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe")))
 {
-    Write-Warning "Cannot find aspnet_regsql in your path, you may not have .Net 4.5.1 SDK installed"
+    Write-Warning "Cannot find aspnet_regsql in your path, you may not have .Net 4.6 SDK installed"
     Start-Process "http://www.bespoke.com.my/download"
     exit;
 }
@@ -194,8 +194,8 @@ Write-Debug "Aspnet membership has been added"
 Write-Debug "Please wait....."
 
 #roles
-& .\utils\mru.exe -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
-& .\utils\mru.exe -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
+& .\utils\mru.exe -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config" -env -app $ApplicationName
+& .\utils\mru.exe -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config" -env -app $ApplicationName
 
 
 

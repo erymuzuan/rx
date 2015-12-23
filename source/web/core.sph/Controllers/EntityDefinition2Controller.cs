@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.ModelBinding;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
 using Humanizer;
 
@@ -284,13 +285,11 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("publish")]
         public async Task<ActionResult> Publish()
         {
-            if(null== this.BuildDiagnostics)
-                ObjectBuilder.ComposeMefCatalog(this);
 
             this.DeleteEdSchemaCache();
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
-            ed.BuildDiagnostics = this.BuildDiagnostics;
+            ed.BuildDiagnostics = ObjectBuilder.GetObject<DeveloperService>().BuildDiagnostics;
 
             var buildValidation = await ed.ValidateBuildAsync();
 
