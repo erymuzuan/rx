@@ -435,6 +435,21 @@
   {
     "role": "developers",
     "groupName": "Workflow",
+    "route": "value.object.list",
+    "moduleId": "viewmodels/value.object.list",
+    "title": "Value Objects Console",
+    "nav": true,
+    "icon": "fa fa-clipboard",
+    "caption": "Value Objects Console",
+    "settings": null,
+    "isAdminPage": true,
+    "showWhenLoggedIn": false,
+    "error": "",
+    "startPageRoute": "value.object.list"
+  },
+  {
+    "role": "developers",
+    "groupName": "Workflow",
     "route": "workflow.activities/:id",
     "moduleId": "viewmodels/workflow.activities",
     "title": "Instant Activity logs",

@@ -20,6 +20,9 @@ namespace Bespoke.Sph.Web.Dependencies
         }
 
 
+        [ImportMany(typeof(IBuildDiagnostics))]
+        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
+
         [ImportMany("ActivityDesigner", typeof(Activity), AllowRecomposition = true)]
         public Lazy<Activity, IDesignerMetadata>[] ActivityOptions { get; set; }
 

@@ -240,7 +240,12 @@ ko.bindingHandlers.tree = {
                     .on("select_node.jstree", function (node, selected) {
                         if (selected.node.data) {
                             member(selected.node.data);
-
+                            if (!ko.unwrap(member)) {
+                                return;
+                            }
+                            if (typeof member().Name !== "function") {
+                                return;
+                            }
                             // subscribe to Name change
                             member().Name.subscribe(function (name) {
                                 $(element).jstree(true)
@@ -270,12 +275,42 @@ ko.bindingHandlers.tree = {
                         "contextmenu": {
                             "items": [
                                 {
-                                    label: "Add Child",
+                                    label: "Add Simple Child",
                                     action: function () {
                                         var child = new bespoke.sph.domain.Member({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
                                             parent = $(element).jstree("get_selected", true),
                                             mb = parent[0].data,
                                             newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
+
+                                        var ref = $(element).jstree(true),
+                                            sel = ref.get_selected();
+                                        if (!sel.length) {
+                                            return false;
+                                        }
+                                        sel = sel[0];
+                                        sel = ref.create_node(sel, newNode);
+                                        if (sel) {
+                                            ref.edit(sel);
+                                            if (mb && mb.MemberCollection) {
+                                                mb.MemberCollection.push(child);
+                                            } else {
+                                                entity.MemberCollection.push(child);
+                                            }
+                                            return true;
+                                        }
+                                        return false;
+
+
+                                    }
+                                },
+                                {
+                                    label: "Add Value Object Child",
+                                    action: function () {
+                                        var typeName = "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+                                            child = new bespoke.sph.domain.ValueObjectMember({ WebId: system.guid(), TypeName:typeName, Name: "Member_Name" }),
+                                            parent = $(element).jstree("get_selected", true),
+                                            mb = parent[0].data,
+                                            newNode = { state: "open", type: typeName, text: "Member_Name", data: child };
 
                                         var ref = $(element).jstree(true),
                                             sel = ref.get_selected();
@@ -351,6 +386,10 @@ ko.bindingHandlers.tree = {
                             },
                             "System.Boolean, mscorlib": {
                                 "icon": "glyphicon glyphicon-ok",
+                                "valid_children": []
+                            },
+                            "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph": {
+                                "icon": "icon-bag",
                                 "valid_children": []
                             },
                             "System.Object, mscorlib": {

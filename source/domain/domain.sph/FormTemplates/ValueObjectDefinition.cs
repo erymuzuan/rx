@@ -7,8 +7,6 @@ namespace Bespoke.Sph.Domain
     [StoreAsSource(HasDerivedTypes = true)]
     public partial class ValueObjectDefinition : Entity
     {
-
-
         public void Save()
         {
             string childJsonFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\{Id}.json";

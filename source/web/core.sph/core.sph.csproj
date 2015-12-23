@@ -1487,13 +1487,14 @@
     <EmbeddedResource Include="SphApp\objectbuilders.js" />
     <EmbeddedResource Include="Content\32px.png" />
     <EmbeddedResource Include="Content\40px.png" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Scripts\bootstrap-hover-dropdown.min.js" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\darkblue.css" />
     <Content Include="Content\daterangepicker-bs3.css" />
     <EmbeddedResource Include="Content\durandal.css" />
-    <Content Include="Content\font-awesome.css" />
-    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\ios-startup-image-landscape.png" />
     <Content Include="Content\images\ios-startup-image-portrait.png" />
@@ -1655,7 +1656,6 @@
     </EmbeddedResource>
     <Content Include="Content\__css.bundle.dev.css" />
     <EmbeddedResource Include="Content\__css.bundle.dev.min.css" />
-    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="kendo\js\kendo.all.min.js.map">
       <DependentUpon>kendo.all.min.js</DependentUpon>
@@ -1667,10 +1667,6 @@
     <Content Include="kendo\js\kendo.dataviz.core.min.js">
       <DependentUpon>kendo.dataviz.core.js</DependentUpon>
     </Content>
-    <EmbeddedResource Include="fonts\fontawesome-webfont.woff" />
-    <EmbeddedResource Include="fonts\fontawesome-webfont.ttf" />
-    <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="fonts\FontAwesome.otf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -1737,6 +1733,11 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_generalTrigger.generated.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="fonts\FontAwesome.otf" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.woff2" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.eot" />
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
     <EmbeddedResource Include="routes.config.json" />
@@ -2317,6 +2318,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\prompt.js" />
     <EmbeddedResource Include="SphApp\services\new-item.js" />
     <EmbeddedResource Include="SphApp\viewmodels\value.object.details.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\value.object.list.js" />
     <Content Include="SphApp\viewmodels\environment.variables.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.entity.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.workflow.definition.dialog.js" />
@@ -2842,6 +2844,7 @@
     <EmbeddedResource Include="SphApp\views\solution.explorer.2.html" />
     <EmbeddedResource Include="SphApp\views\prompt.html" />
     <EmbeddedResource Include="SphApp\views\value.object.details.html" />
+    <EmbeddedResource Include="SphApp\views\value.object.list.html" />
     <Content Include="SphApp\views\environment.variables.html" />
     <EmbeddedResource Include="SphApp\views\new.entity.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.workflow.definition.dialog.html" />

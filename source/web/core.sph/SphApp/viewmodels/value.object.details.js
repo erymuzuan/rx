@@ -12,12 +12,13 @@
 
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app"],
-    function (context, logger, router, system, app, servicesApp) {
+    function (context, logger, router, system, app) {
 
         var vod = ko.observable(new bespoke.sph.domain.ValueObjectDefinition(system.guid())),
             originalEntity = "",
             isBusy = ko.observable(false),
             errors = ko.observableArray(),
+            valueObjectOptions = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
             activate = function (id) {
 
@@ -25,9 +26,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 var query = String.format("Id eq '{0}'", id);
                 return context.loadOneAsync("ValueObjectDefinition", query)
-                    .done(function (b) {
+                    .then(function (b) {
                         vod(b);
                         originalEntity = ko.toJSON(b);
+
+                        return context.getListAsync("ValueObjectDefinition", "Name ne '" + ko.unwrap(b.Name) +"'", "Name");
+                    }).then(function (list) {
+                        
+                        valueObjectOptions(list);
                     });
 
 
@@ -105,7 +111,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 
-                            context.send(data, "/value-object-definition/" + vod().Id(), "DELETE")
+                            context.send(data, "/value-object-definition/" + ko.unwrap(vod().Id), "DELETE")
                                 .then(function (result) {
                                     isBusy(false);
                                     if (result.success) {
@@ -132,6 +138,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var vm = {
             errors: errors,
+            valueObjectOptions: valueObjectOptions,
             isBusy: isBusy,
             activate: activate,
             canDeactivate: canDeactivate,

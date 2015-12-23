@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return File(thumbnail, MimeMapping.GetMimeMapping(thumbnail));
         }
 
-
+        [OutputCache(CacheProfile = "Long")]
         public ActionResult Index(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (type == typeof(DocumentField))
                 return RedirectPermanent("~/images/DocumentField.png");
             if (type == typeof(FunctionField))
-                return RedirectPermanent("~/images/FunctionField.png");
+                return Content("~/images/FunctionField.png");
             if (type == typeof(ConstantField))
                 return RedirectPermanent("~/images/ConstantField.png");
             if (type == typeof(SetterAction))

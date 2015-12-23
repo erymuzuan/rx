@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
@@ -34,9 +35,6 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("           var rc = new RuleContext(this);");
 
 
-            var context = new SphDataContext();
-            var vod = context.LoadOne<ValueObjectDefinition>(d => d.Name == this.ValueObjectName);
-            this.MemberCollection.ClearAndAddRange(vod.MemberCollection);
 
             var count = 0;
             foreach (var member in this.MemberCollection)
@@ -74,6 +72,25 @@ namespace Bespoke.Sph.Domain
             {
                 Console.WriteLine(value);
             }
+        }
+
+        public new ObjectCollection<Member> MemberCollection
+        {
+            get
+            {
+                if(string.IsNullOrWhiteSpace(this.ValueObjectName))
+                    return new ObjectCollection<Member>();
+
+                var context = new SphDataContext();
+                var vod = context.LoadOne<ValueObjectDefinition>(d => d.Name == this.ValueObjectName);
+                return null == vod ? new ObjectCollection<Member>() : vod.MemberCollection;
+            }
+        }
+
+        public new string TypeName
+        {
+            get { return typeof (ValueObjectDefinition).GetShortAssemblyQualifiedName(); }
+            set { Debug.Write(value);}
         }
     }
 }

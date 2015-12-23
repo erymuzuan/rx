@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -9,6 +10,10 @@ namespace Bespoke.Sph.Web.Controllers
     [RoutePrefix("value-object-definition")]
     public class ValueObjectDefinitionController : BaseController
     {
+        static ValueObjectDefinitionController()
+        {
+            DeveloperService.Init();
+        }
         public const string ED_SCHEMA = "ed-schema";
 
         private void DeleteEdSchemaCache()
