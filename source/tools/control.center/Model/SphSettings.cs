@@ -37,23 +37,24 @@ namespace Bespoke.Sph.ControlCenter.Model
             var jar = Directory.GetFiles(eslib, "elasticsearch-*.jar").Single();
             SetEnvironmentVariable(nameof(ElasticSearchJar), jar);
 
-            SetEnvironmentVariable("HOME", this.ProjectDirectory);
+            SetEnvironmentVariable("HOME", this.Home);
             SetEnvironmentVariable(nameof(ElasticSearchJar), this.ElasticSearchJar);
             SetEnvironmentVariable(nameof(ElasticsearchClusterName), this.ElasticsearchClusterName);
             SetEnvironmentVariable(nameof(ElasticsearchNodeName), this.ElasticsearchNodeName);
             SetEnvironmentVariable(nameof(ElasticsearchIndexNumberOfReplicas), this.ElasticsearchIndexNumberOfReplicas);
             SetEnvironmentVariable(nameof(ElasticsearchIndexNumberOfShards), this.ElasticsearchIndexNumberOfShards);
 
-            SetEnvironmentVariable(nameof(ElasticsearchHttpPort), this.ElasticsearchHttpPort);
-            SetEnvironmentVariable(nameof(LoggerWebSocketPort), this.LoggerWebSocketPort);
-            SetEnvironmentVariable(nameof(WebsitePort), this.WebsitePort);
+            SetEnvironmentVariable(nameof(ElasticsearchHttpPort), this.ElasticsearchHttpPort,9200);
+            SetEnvironmentVariable(nameof(LoggerWebSocketPort), this.LoggerWebSocketPort, 50238);
+            SetEnvironmentVariable(nameof(WebsitePort), this.WebsitePort, 50230);
             SetEnvironmentVariable(nameof(RabbitMqBase), this.RabbitMqBase);
             SetEnvironmentVariable(nameof(RabbitMqDirectory), this.RabbitMqDirectory);
-            SetEnvironmentVariable(nameof(RabbitMqManagementPort), this.RabbitMqManagementPort);
-            SetEnvironmentVariable(nameof(SqlLocalDbName), this.SqlLocalDbName);
+            SetEnvironmentVariable(nameof(RabbitMqManagementPort), this.RabbitMqManagementPort, 15672);
+            SetEnvironmentVariable(nameof(SqlLocalDbName), this.SqlLocalDbName, "Projects");
             SetEnvironmentVariable(nameof(IisExpressExecutable), this.IisExpressExecutable);
-            SetEnvironmentVariable(nameof(RabbitMqUserName), this.RabbitMqUserName);
-            SetEnvironmentVariable(nameof(RabbitMqHost), this.RabbitMqHost);
+            SetEnvironmentVariable(nameof(RabbitMqUserName), this.RabbitMqUserName, "guest");
+            SetEnvironmentVariable(nameof(RabbitMqPassword), this.RabbitMqPassword, "guest");
+            SetEnvironmentVariable(nameof(RabbitMqHost), this.RabbitMqHost, "localhost");
 
             var sb = new StringBuilder();
             var variables = Environment.GetEnvironmentVariables();
@@ -167,7 +168,12 @@ namespace Bespoke.Sph.ControlCenter.Model
         [JsonIgnore]
         public string IisExpressExecutable
         {
-            get { return GetEnvironmentVariable(nameof(IisExpressExecutable)) ?? @".\IIS Express\iisexpress.exe"; }
+            get
+            {
+
+                var path = GetEnvironmentVariable(nameof(IisExpressExecutable)) ?? Home + @"\IIS Express\iisexpress.exe";
+                return path.TranslatePath();
+            }
             set
             {
                 SetEnvironmentVariable(nameof(IisExpressExecutable), value);
@@ -178,7 +184,11 @@ namespace Bespoke.Sph.ControlCenter.Model
         [JsonIgnore]
         public string RabbitMqDirectory
         {
-            get { return GetEnvironmentVariable(nameof(RabbitMqDirectory)) ?? ".\\rabbitmq_server"; }
+            get
+            {
+                var path = GetEnvironmentVariable(nameof(RabbitMqDirectory)) ?? ".\\rabbitmq_server";
+                return path.TranslatePath();
+            }
             set
             {
                 SetEnvironmentVariable(nameof(RabbitMqDirectory), value);
@@ -195,7 +205,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
             set
             {
-                SetEnvironmentVariable(nameof(RabbitMqUserName), value);
+                SetEnvironmentVariable(nameof(RabbitMqUserName), value, "guest");
                 OnPropertyChanged();
             }
         }
@@ -209,7 +219,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
             set
             {
-                SetEnvironmentVariable(nameof(RabbitMqPassword), value);
+                SetEnvironmentVariable(nameof(RabbitMqPassword), value, "guest");
                 OnPropertyChanged();
             }
         }
@@ -239,7 +249,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             get { return GetEnvironmentVariableInt32(nameof(WebsitePort)) ?? 50230; }
             set
             {
-                SetEnvironmentVariable(nameof(WebsitePort), value.ToString());
+                SetEnvironmentVariable(nameof(WebsitePort), value ?? 50230, 50230);
                 OnPropertyChanged();
             }
         }
@@ -251,7 +261,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             get { return GetEnvironmentVariable(nameof(RabbitMqHost)) ?? "localhost"; }
             set
             {
-                SetEnvironmentVariable(nameof(RabbitMqHost), value);
+                SetEnvironmentVariable(nameof(RabbitMqHost), value, "localhost");
                 OnPropertyChanged();
             }
         }
@@ -290,7 +300,7 @@ namespace Bespoke.Sph.ControlCenter.Model
         }
 
         [JsonIgnore]
-        public string ProjectDirectory
+        public string Home
         {
             get
             {
@@ -387,10 +397,12 @@ namespace Bespoke.Sph.ControlCenter.Model
 
             return Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Machine);
         }
-        private void SetEnvironmentVariable(string setting, object value)
+        private void SetEnvironmentVariable(string setting, object value, object defaultValue = null)
         {
             if ($"{value}".Contains("control.center"))
                 throw new InvalidOperationException($"You cannot set \"RX_{ApplicationNameToUpper}_{setting}\" variable to \"{value}\"");
+
+            if (null != defaultValue && defaultValue == value) return;
 
             Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}", EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}", EnvironmentVariableTarget.User);
