@@ -1,6 +1,5 @@
 {
   "$type": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
-  "Name": "Child",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -8,7 +7,6 @@
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
         "PropertyAttribute": null,
-        "AllowMultiple": false,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -25,6 +23,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": null
       },
@@ -32,7 +31,6 @@
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
         "PropertyAttribute": null,
-        "AllowMultiple": false,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -49,11 +47,21 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": null
       }
     ]
   },
+  "BusinessRuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.BusinessRule, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityOperationCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityOperation, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Child",
   "CreatedBy": null,
   "Id": "child",
   "CreatedDate": "0001-01-01T00:00:00",

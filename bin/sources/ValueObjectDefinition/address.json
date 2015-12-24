@@ -1,6 +1,5 @@
 {
   "$type": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
-  "Name": "Address",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -8,7 +7,6 @@
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
         "PropertyAttribute": null,
-        "AllowMultiple": false,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -25,6 +23,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": null
       },
@@ -32,7 +31,6 @@
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
         "PropertyAttribute": null,
-        "AllowMultiple": false,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -49,6 +47,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": null
       },
@@ -56,7 +55,6 @@
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
         "PropertyAttribute": null,
-        "AllowMultiple": false,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -73,6 +71,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": null
       },
@@ -80,7 +79,6 @@
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
         "PropertyAttribute": null,
-        "AllowMultiple": false,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
@@ -97,15 +95,25 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": null
       }
     ]
   },
+  "BusinessRuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.BusinessRule, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityOperationCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityOperation, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Address",
   "CreatedBy": "Me",
   "Id": "address",
-  "CreatedDate": "2015-12-21T18:40:14.1955279+08:00",
+  "CreatedDate": "2015-12-24T10:15:40.5835607+08:00",
   "ChangedBy": "Me",
-  "ChangedDate": "2015-12-21T18:40:14.195028+08:00",
+  "ChangedDate": "2015-12-24T10:15:40.5830601+08:00",
   "WebId": null
 }

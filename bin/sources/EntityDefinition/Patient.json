@@ -690,30 +690,6 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
           "$values": []
         },
-        "Name": "Spouse",
-        "TypeName": "System.String, mscorlib",
-        "IsNullable": true,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 0,
-        "AllowMultiple": false,
-        "DefaultValue": null,
-        "WebId": "892023c1-b8af-496f-a96d-50991e682d16"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
-        "PropertyAttribute": null,
-        "MemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "FieldPermissionCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-          "$values": []
-        },
         "Name": "MaritalStatus",
         "TypeName": "System.String, mscorlib",
         "IsNullable": true,
@@ -800,9 +776,6 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
-        "ValueObjectName": "Spouse",
-        "FullName": null,
-        "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
@@ -856,9 +829,6 @@
             },
             {
               "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
-              "ValueObjectName": "Address",
-              "FullName": null,
-              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": [
@@ -960,12 +930,15 @@
                   }
                 ]
               },
+              "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+              "ValueObjectName": "Address",
+              "FullName": null,
+              "PropertyAttribute": null,
               "FieldPermissionCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
               "Name": "WorkPlaceAddress",
-              "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
               "IsNullable": false,
               "IsNotIndexed": false,
               "IsAnalyzed": false,
@@ -978,9 +951,6 @@
             },
             {
               "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
-              "ValueObjectName": "Child",
-              "FullName": null,
-              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": [
@@ -1034,12 +1004,15 @@
                   }
                 ]
               },
+              "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+              "ValueObjectName": "Child",
+              "FullName": null,
+              "PropertyAttribute": null,
               "FieldPermissionCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
               "Name": "Children",
-              "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
               "IsNullable": false,
               "IsNotIndexed": false,
               "IsAnalyzed": false,
@@ -1076,9 +1049,6 @@
             },
             {
               "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
-              "ValueObjectName": "Address",
-              "FullName": null,
-              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": [
@@ -1180,12 +1150,15 @@
                   }
                 ]
               },
+              "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+              "ValueObjectName": "Address",
+              "FullName": null,
+              "PropertyAttribute": null,
               "FieldPermissionCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
               "Name": "HomeAddress",
-              "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
               "IsNullable": false,
               "IsNotIndexed": false,
               "IsAnalyzed": false,
@@ -1229,9 +1202,6 @@
                   },
                   {
                     "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
-                    "ValueObjectName": "Address",
-                    "FullName": null,
-                    "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": [
@@ -1333,12 +1303,15 @@
                         }
                       ]
                     },
+                    "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+                    "ValueObjectName": "Address",
+                    "FullName": null,
+                    "PropertyAttribute": null,
                     "FieldPermissionCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                       "$values": []
                     },
                     "Name": "HomeAddress",
-                    "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
                     "IsNullable": false,
                     "IsNotIndexed": false,
                     "IsAnalyzed": false,
@@ -1369,12 +1342,15 @@
             }
           ]
         },
+        "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+        "ValueObjectName": "Spouse",
+        "FullName": null,
+        "PropertyAttribute": null,
         "FieldPermissionCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
           "$values": []
         },
         "Name": "Wife",
-        "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
         "IsNullable": false,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
@@ -1729,6 +1705,6 @@
   "Id": "patient",
   "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-12-23T09:11:41.219829+08:00",
+  "ChangedDate": "2015-12-24T09:33:04.2861599+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }
