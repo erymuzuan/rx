@@ -9,36 +9,17 @@ namespace Bespoke.Sph.Domain.Codes
         public string Namespace { get; set; }
         public string BaseClass { get; set; }
 
-        private readonly ObjectCollection<Property> m_propertyCollection = new ObjectCollection<Property>();
-        private readonly ObjectCollection<Method> m_methodCollection = new ObjectCollection<Method>();
-        private readonly ObjectCollection<string> m_attributeCollection = new ObjectCollection<string>();
-        private readonly ObjectCollection<string> m_importCollection = new ObjectCollection<string>();
-        private readonly ObjectCollection<string> m_ctorCollection = new ObjectCollection<string>();
         private string m_fileName;
 
-        public ObjectCollection<string> CtorCollection
-        {
-            get { return m_ctorCollection; }
-        }
+        public ObjectCollection<string> CtorCollection { get; } = new ObjectCollection<string>();
 
-        public ObjectCollection<string> ImportCollection
-        {
-            get { return m_importCollection; }
-        }
+        public ObjectCollection<string> ImportCollection { get; } = new ObjectCollection<string>();
 
-        public ObjectCollection<string> AttributeCollection
-        {
-            get { return m_attributeCollection; }
-        }
+        public ObjectCollection<string> AttributeCollection { get; } = new ObjectCollection<string>();
 
-        public ObjectCollection<Method> MethodCollection
-        {
-            get { return m_methodCollection; }
-        }
-        public ObjectCollection<Property> PropertyCollection
-        {
-            get { return m_propertyCollection; }
-        }
+        public ObjectCollection<Method> MethodCollection { get; } = new ObjectCollection<Method>();
+
+        public ObjectCollection<Property> PropertyCollection { get; } = new ObjectCollection<Property>();
 
         public string FileName
         {
