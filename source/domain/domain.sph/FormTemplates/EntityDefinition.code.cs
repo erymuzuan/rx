@@ -10,8 +10,6 @@ namespace Bespoke.Sph.Domain
 {
     public partial class EntityDefinition
     {
-
-
         private string GetCodeHeader()
         {
 
@@ -28,6 +26,20 @@ namespace Bespoke.Sph.Domain
             header.AppendLine("namespace " + this.CodeNamespace);
             header.AppendLine("{");
             return header.ToString();
+
+        }
+        private string[] GetUsingNamespaces()
+        {
+
+            return new string[] {
+            typeof(Entity).Namespace,
+            typeof(Int32).Namespace ,
+            typeof(Task<>).Namespace,
+            typeof(Enumerable).Namespace ,
+            typeof(XmlAttributeAttribute).Namespace ,
+            "using System.Web.Mvc;",
+            "using Bespoke.Sph.Web.Helpers;"};
+
 
         }
 
@@ -55,7 +67,8 @@ namespace Bespoke.Sph.Domain
             {
                 count++;
                 var defaultValueCode = member.GetDefaultValueCode(count);
-                code.AppendLine(defaultValueCode);
+                if (!string.IsNullOrWhiteSpace(defaultValueCode))
+                    code.AppendLine(defaultValueCode);
             }
             code.AppendLine("       }");
 
@@ -81,24 +94,13 @@ namespace Bespoke.Sph.Domain
             var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode() } };
 
             // classes for members
-            var complexMembers = this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array));
-            foreach (var member in complexMembers)
+            foreach (var member in this.MemberCollection)
             {
-                var mc = new StringBuilder(header);
-                mc.AppendLine(member.GeneratedCustomClass());
-                mc.AppendLine("}");
-
-                var vom = member as ValueObjectMember;
-                var key = vom?.ValueObjectName + ".cs";
-                if (null != vom)
-                {
-                    if (!sourceCodes.ContainsKey(key))
-                        sourceCodes.Add(key, mc.FormatCode());
-                }
-                else
-                {
-                    sourceCodes.Add(member.Name + ".cs", mc.FormatCode());
-                }
+                string fileName;
+                var mc = member.GeneratedCustomClass(this.CodeNamespace, GetUsingNamespaces(), out fileName);
+                if (string.IsNullOrWhiteSpace(mc)) continue;
+                if (sourceCodes.ContainsKey(fileName)) continue;
+                sourceCodes.Add(fileName, mc.FormatCode());
             }
 
             var controller = this.GenerateController();
@@ -140,15 +142,13 @@ namespace Bespoke.Sph.Domain
             script.AppendLine(" model = {");
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.CodeNamespace, this.Name, assemblyName);
             script.AppendLine("     Id : ko.observable(\"0\"),");
-            foreach (var item in this.MemberCollection)
-            {
-                if (item.Type == typeof(Array))
-                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
-                else if (item.Type == typeof(object))
-                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
-                else
-                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
-            }
+
+            var members = from item in this.MemberCollection
+                          let m = item.GenerateJavascriptMember(jsNamespace)
+                          where !string.IsNullOrWhiteSpace(m)
+                          select m;
+            members.ToList().ForEach(m => script.AppendLine(m));
+
             script.AppendFormat(@"
     addChildItem : function(list, type){{
                         return function(){{                          
@@ -186,11 +186,14 @@ namespace Bespoke.Sph.Domain
 
             script.AppendLine(" return model;");
             script.AppendLine("};");
-            foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var code = item.GenerateJavascriptClass(jsNamespace, this.CodeNamespace, assemblyName);
-                script.AppendLine(code);
-            }
+
+            var classes = from m in this.MemberCollection
+                          let c = m.GenerateJavascriptClass(jsNamespace, CodeNamespace, assemblyName)
+                          where !string.IsNullOrWhiteSpace(c)
+                          select c;
+            classes.ToList().ForEach(x => script.AppendLine(x));
+
+
             return Task.FromResult(script.ToString());
         }
 

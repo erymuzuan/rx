@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -39,7 +42,7 @@ namespace Bespoke.Sph.Domain
             return $"{this.Name}->{this.FullName}:{this.TypeName}";
         }
         [JsonIgnore]
-        public Type Type
+        public virtual Type Type
         {
             get
             {
@@ -51,6 +54,16 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public virtual string GenerateJavascriptMember(string ns)
+        {
+            var item = this;
+            if (item.Type == typeof(Array) || this.AllowMultiple)
+                return $"     {Name}: ko.observableArray([]),";
+
+            return item.Type == typeof(object) ? 
+                $"     {Name}: ko.observable(new bespoke.{ns}.domain.{Name}())," : 
+                $"     {Name}: ko.observable(),";
+        }
         public virtual string GeneratedCode(string padding = "      ")
         {
             if (null == this.Type)
@@ -98,9 +111,29 @@ namespace Bespoke.Sph.Domain
             return "?";
         }
 
-        public virtual string GeneratedCustomClass()
+        protected string GetCodeHeader(string codeNamespace, string[] usingNamespaces)
         {
-            var code = new StringBuilder();
+
+            var header = new StringBuilder();
+            foreach (var ns in usingNamespaces)
+            {
+                header.AppendLine($"using {ns};");
+            }
+            header.AppendLine();
+
+            header.AppendLine("namespace " + codeNamespace);
+            header.AppendLine("{");
+            return header.ToString();
+
+        }
+
+        public virtual string GeneratedCustomClass(string codeNamespace, string[] usingNamespaces,  out string fileName)
+        {
+            fileName = "";
+            var complex = this.Type == typeof (object) || this.Type == typeof (Array);
+            if (!complex) return null;
+
+            var code = new StringBuilder(this.GetCodeHeader(codeNamespace, usingNamespaces));
             if (typeof(object) == this.Type)
             {
                 code.AppendLinf("   public class {0}: DomainObject", this.Name);
@@ -148,9 +181,11 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("   }");
                 foreach (var member in this.MemberCollection)
                 {
-                    code.AppendLine(member.GeneratedCustomClass());
+                    string fileName2;
+                    code.AppendLine(member.GeneratedCustomClass(codeNamespace, usingNamespaces, out fileName2));
                 }
             }
+            code.AppendLine("}");
             return code.FormatCode();
         }
 
@@ -179,24 +214,27 @@ namespace Bespoke.Sph.Domain
             return list.ToArray();
         }
 
-        public string GenerateJavascriptClass(string jsNamespace, string codeNamespace, string assemblyName)
+        public virtual string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
         {
+            var complex = this.Type == typeof (object) || this.Type == typeof (Array);
+            if (!complex) return null;
+
+
             var script = new StringBuilder();
             var name = this.Name.Replace("Collection", "");
 
-            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, name);
+            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jns, name);
             script.AppendLine(" var model = {");
-            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", codeNamespace, name,
+            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", csNs, name,
                 assemblyName);
-            foreach (var item in this.MemberCollection)
-            {
-                if (item.Type == typeof(Array))
-                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
-                else if (item.Type == typeof(object))
-                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
-                else
-                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
-            }
+            
+
+            var members = from item in this.MemberCollection
+                          let m = item.GenerateJavascriptMember(jns)
+                          where !string.IsNullOrWhiteSpace(m)
+                          select m;
+            members.ToList().ForEach(m => script.AppendLine(m));
+
             script.AppendFormat(@"
     addChildItem : function(list, type){{
                         return function(){{
@@ -231,16 +269,16 @@ namespace Bespoke.Sph.Domain
     if (bespoke.{0}.domain.{1}Partial) {{
         return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
     }}
-", jsNamespace, this.Name.Replace("Collection", string.Empty));
+", jns, this.Name.Replace("Collection", string.Empty));
 
             script.AppendLine(" return model;");
             script.AppendLine("};");
 
-            foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var code = item.GenerateJavascriptClass(jsNamespace, codeNamespace, assemblyName);
-                script.AppendLine(code);
-            }
+            var classes = from m in this.MemberCollection
+                          let c = m.GenerateJavascriptClass(jns, csNs, assemblyName)
+                          where !string.IsNullOrWhiteSpace(c)
+                          select c;
+            classes.ToList().ForEach(x => script.AppendLine(x));
             return script.ToString();
         }
     }

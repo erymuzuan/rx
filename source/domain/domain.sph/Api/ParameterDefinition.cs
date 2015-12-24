@@ -13,6 +13,23 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class ParameterDefinition
     {
+        private string[] GetUsingNamespaces()
+        {
+            return new string[] {
+           typeof(Entity).Namespace ,
+           typeof(Int32).Namespace ,
+           typeof(Task<>).Namespace ,
+           typeof(Enumerable).Namespace ,
+           typeof(JsonConvert).Namespace ,
+           typeof(CamelCasePropertyNamesContractResolver).Namespace ,
+           typeof(StringEnumConverter).Namespace,
+           typeof(XmlAttributeAttribute).Namespace ,
+           typeof(MediaTypeFormatter).Namespace ,
+            "using System.Web.Http;",
+            "using System.Net;",
+            "using System.Net.Http;"};
+
+        }
         private string GetCodeHeader()
         {
 
@@ -63,8 +80,9 @@ namespace Bespoke.Sph.Domain.Api
             // classes for members
             foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                sourceCodes.Add(member.Name + ".cs", mc);
+                string fileName;
+                var mc = member.GeneratedCustomClass(this.CodeNamespace, GetUsingNamespaces(), out fileName);
+                sourceCodes.Add(fileName, mc);
             }
 
 

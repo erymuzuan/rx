@@ -31,6 +31,24 @@ namespace Bespoke.Sph.Domain.Api
 
         }
 
+        private string[] GetUsingNamespaces()
+        {
+
+            return new[] {
+            typeof(Entity).Namespace ,
+            typeof(int).Namespace ,
+            typeof(Task<>).Namespace ,
+            typeof(Enumerable).Namespace ,
+            typeof(JsonConvert).Namespace ,
+            typeof(CamelCasePropertyNamesContractResolver).Namespace ,
+            typeof(StringEnumConverter).Namespace ,
+            typeof(XmlAttributeAttribute).Namespace ,
+            typeof(MediaTypeFormatter).Namespace,
+            "using System.Web.Http;",
+            "using System.Net;",
+            "using System.Net.Http;"};
+
+        }
         private string GetCodeHeader()
         {
 
@@ -93,8 +111,9 @@ namespace Bespoke.Sph.Domain.Api
             // classes for members
             foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                sourceCodes.Add(member.Name + ".cs", mc);
+                string fileName;
+                var mc = header + member.GeneratedCustomClass(this.CodeNamespace, GetUsingNamespaces(), out fileName) + "\r\n}";
+                sourceCodes.Add(fileName, mc);
             }
 
             var controller = this.GenerateController(adapter);

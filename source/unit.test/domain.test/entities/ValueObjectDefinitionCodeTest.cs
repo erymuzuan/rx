@@ -34,11 +34,7 @@ namespace domain.test.entities
                 Directory.CreateDirectory(path);
 
             ObjectBuilder.AddCacheList(m_vodRepo.Object);
-        }
 
-        [Test]
-        public void GenerateCodeBasic()
-        {
             var address = new ValueObjectDefinition { Name = "Address", Id = "address", ChangedDate = DateTime.Now, ChangedBy = "Me", CreatedBy = "Me", CreatedDate = DateTime.Now };
             address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
             address.MemberCollection.Add(new Member { Name = "Street2", IsFilterable = false, TypeName = "System.String, mscorlib" });
@@ -57,6 +53,12 @@ namespace domain.test.entities
             address.Save();
             spouse.Save();
             child.Save();
+        }
+
+        [Test]
+        public void GenerateCodeBasic()
+        {
+      
 
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
             ent.MemberCollection.Add(new Member

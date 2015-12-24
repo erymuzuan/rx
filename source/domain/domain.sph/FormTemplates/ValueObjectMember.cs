@@ -23,9 +23,11 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GeneratedCustomClass()
+        public override string GeneratedCustomClass(string codeNamespace, string[] usingNamespaces, out string fileName)
         {
-            var code = new StringBuilder();
+            fileName = $"{this.ValueObjectName}.cs";
+
+            var code = new StringBuilder(this.GetCodeHeader(codeNamespace, usingNamespaces));
             code.AppendLine($"   public class {ValueObjectName}: DomainObject");
 
             code.AppendLine("   {");
@@ -41,7 +43,8 @@ namespace Bespoke.Sph.Domain
             {
                 count++;
                 var defaultValueCode = member.GetDefaultValueCode(count);
-                code.AppendLine(defaultValueCode);
+                if (!string.IsNullOrWhiteSpace(defaultValueCode))
+                    code.AppendLine(defaultValueCode);
             }
             code.AppendLine("       }");
             foreach (var member in this.MemberCollection)
@@ -50,11 +53,12 @@ namespace Bespoke.Sph.Domain
 
             }
             code.AppendLine("   }");
-            foreach (var member in this.MemberCollection.Where(x =>x.GetType() != typeof(ValueObjectMember)))
+            foreach (var member in this.MemberCollection.Where(x => x.GetType() != typeof(ValueObjectMember)))
             {
-                code.AppendLine(member.GeneratedCustomClass());
+                string fileName2;
+                code.AppendLine(member.GeneratedCustomClass(codeNamespace, usingNamespaces, out fileName2));
             }
-
+            code.AppendLine("}");
             return code.FormatCode();
         }
 
@@ -65,7 +69,7 @@ namespace Bespoke.Sph.Domain
         }
 
         [JsonIgnore]
-        public new Type Type
+        public override Type Type
         {
             get { return null; }
             set
@@ -74,11 +78,78 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public override string GenerateJavascriptMember(string ns)
+        {
+            return this.AllowMultiple
+                    ? $"     {Name}: ko.observableArray([]),"
+                    : $"     {Name}: ko.observable(new bespoke.{ns}.domain.{ValueObjectName}()),";
+        }
+
+        public override string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
+        {
+            var script = new StringBuilder();
+
+            script.AppendLine($"bespoke.{jns}.domain.{ValueObjectName} = function(optionOrWebid){{");
+            script.AppendLine(" var model = {");
+            script.AppendLine($"     $type : ko.observable(\"{csNs}.{ValueObjectName}, {assemblyName}\"),");
+
+            var members = from mb in this.MemberCollection
+                          let m = mb.GenerateJavascriptMember(jns)
+                          where !string.IsNullOrWhiteSpace(m)
+                          select m;
+            members.ToList().ForEach(m => script.AppendLine(m));
+
+            script.AppendFormat(@"
+    addChildItem : function(list, type){{
+                        return function(){{
+                            list.push(new childType(system.guid()));
+                        }}
+                    }},
+            
+   removeChildItem : function(list, obj){{
+                        return function(){{
+                            list.remove(obj);
+                        }}
+                    }},
+");
+            script.AppendLine("     WebId: ko.observable()");
+
+            script.AppendLine(" };");
+
+            script.AppendLine(@" 
+             if (optionOrWebid && typeof optionOrWebid === ""object"") {
+                for (var n in optionOrWebid) {
+                    if (typeof model[n] === ""function"") {
+                        model[n](optionOrWebid[n]);
+                    }
+                }
+            }
+            if (optionOrWebid && typeof optionOrWebid === ""string"") {
+                model.WebId(optionOrWebid);
+            }");
+
+            script.AppendFormat(@"
+
+    if (bespoke.{0}.domain.{1}Partial) {{
+        return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
+    }}
+", jns, this.Name.Replace("Collection", string.Empty));
+
+            script.AppendLine(" return model;");
+            script.AppendLine("};");
+            var classes = from m in this.MemberCollection
+                          let c = m.GenerateJavascriptClass(jns, csNs, assemblyName)
+                          where !string.IsNullOrWhiteSpace(c)
+                          select c;
+            classes.ToList().ForEach(x => script.AppendLine(x));
+            return script.ToString();
+        }
+
         public new ObjectCollection<Member> MemberCollection
         {
             get
             {
-                if(string.IsNullOrWhiteSpace(this.ValueObjectName))
+                if (string.IsNullOrWhiteSpace(this.ValueObjectName))
                     return new ObjectCollection<Member>();
 
                 var context = new SphDataContext();
@@ -89,8 +160,8 @@ namespace Bespoke.Sph.Domain
 
         public new string TypeName
         {
-            get { return typeof (ValueObjectDefinition).GetShortAssemblyQualifiedName(); }
-            set { Debug.Write(value);}
+            get { return typeof(ValueObjectDefinition).GetShortAssemblyQualifiedName(); }
+            set { Debug.Write(value); }
         }
     }
 }

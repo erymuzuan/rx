@@ -34,14 +34,23 @@ namespace Bespoke.Sph.Domain.diagnostics
             if (!validName.Match(member.Name).Success)
                 errors.Add(new BuildError(member.WebId) { Message = message });
             if (forbiddenNames.Contains(member.Name))
-                errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " is a reserved name" });
+                errors.Add(new BuildError(member.WebId) { Message = $"[Member] {member.Name} is a reserved name" });
+
+            var vom = member as ValueObjectMember;
+            if (null != vom)
+            {
+                if(string.IsNullOrWhiteSpace(vom.ValueObjectName))
+                    errors.Add(new BuildError(member.WebId) {Message = $"[Member] {vom.Name} has no ValueObjectDefinition defined"});
+                return;
+            }
+
             if (null == member.TypeName)
-                errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " does not have a type" });
+                errors.Add(new BuildError(member.WebId) { Message = $"[Member] {member.Name} does not have a type" });
 
             if (member.Type == typeof(Array) && !member.Name.EndsWith("Collection"))
-                errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must be append with \"Collection\"" });
+                errors.Add(new BuildError(member.WebId) { Message = $"[Member] {member.Name} must be append with \"Collection\"" });
             if (member.Type == typeof(object) && member.Name.EndsWith("Collection"))
-                errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must not end with \"Collection\"" });
+                errors.Add(new BuildError(member.WebId) { Message = $"[Member] {member.Name} must not end with \"Collection\"" });
 
 
             foreach (var m in member.MemberCollection)
