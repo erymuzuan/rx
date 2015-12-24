@@ -5,7 +5,7 @@
     <Setting Name="ApplicationName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ProjectDirectory" Type="System.String" Scope="User">
+    <Setting Name="Home" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="WindowHeight" Type="System.Double" Scope="User">

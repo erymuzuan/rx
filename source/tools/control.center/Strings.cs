@@ -16,7 +16,7 @@ namespace Bespoke.Sph.ControlCenter
         public static string TranslatePath(this string path)
         {
             if (Path.IsPathRooted(path))
-                return path;
+                return Path.GetFullPath(path);
             var abs = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\" + path);
             try
             {

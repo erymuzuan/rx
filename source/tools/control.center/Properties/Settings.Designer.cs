@@ -40,10 +40,10 @@ namespace Bespoke.Sph.ControlCenter.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ProjectDirectory {
             get {
-                return ((string)(this["ProjectDirectory"]));
+                return ((string)(this["Home"]));
             }
             set {
-                this["ProjectDirectory"] = value;
+                this["Home"] = value;
             }
         }
         

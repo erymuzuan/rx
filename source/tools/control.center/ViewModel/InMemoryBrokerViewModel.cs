@@ -377,7 +377,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 FileName = this.Settings.JavaHome + @"\bin\java.exe",
                 Arguments = arg,
-                WorkingDirectory = this.Settings.ProjectDirectory,
+                WorkingDirectory = this.Settings.Home,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true,
