@@ -11,25 +11,25 @@ namespace Bespoke.Sph.Domain
 {
     public partial class EntityDefinition
     {
-        private string[] GetUsingNamespaces()
+        private readonly string[] m_importDirectives =
         {
-            return new[] {
             typeof(Entity).Namespace,
             typeof(Int32).Namespace ,
             typeof(Task<>).Namespace,
             typeof(Enumerable).Namespace ,
-            typeof(XmlAttributeAttribute).Namespace ,
+            typeof(XmlAttributeAttribute).Namespace,
             "System.Web.Mvc",
-            "Bespoke.Sph.Web.Helpers"};
+            "Bespoke.Sph.Web.Helpers"
+        };
 
 
-        }
+
 
         public IEnumerable<Class> GenerateCode()
         {
 
             var @class = new Class { Name = this.Name, FileName = $"{Name}.cs", Namespace = CodeNamespace, BaseClass = nameof(Entity) };
-            @class.ImportCollection.AddRange(GetUsingNamespaces());
+            @class.ImportCollection.AddRange(m_importDirectives);
             var list = new ObjectCollection<Class> { @class };
 
             if (this.TreatDataAsSource)
@@ -70,7 +70,7 @@ namespace Bespoke.Sph.Domain
             // classes for members
             foreach (var member in this.MemberCollection)
             {
-                var mc = member.GeneratedCustomClass(this.CodeNamespace, GetUsingNamespaces());
+                var mc = member.GeneratedCustomClass(this.CodeNamespace, m_importDirectives);
                 list.AddRange(mc);
 
             }
@@ -172,12 +172,20 @@ namespace Bespoke.Sph.Domain
 
         private Class GenerateController()
         {
-            var controller = new Class { Name = $"{Name}Controller", IsPartial = true, FileName = $"{Name}Controller.cs", BaseClass = "System.Web.Mvc.Controller", Namespace = CodeNamespace };
-            controller.ImportCollection.AddRange(GetUsingNamespaces());
+            var controller = new Class
+            {
+                Name = $"{Name}Controller",
+                IsPartial = true,
+                FileName = $"{Name}Controller.cs",
+                BaseClass = "System.Web.Mvc.Controller",
+                Namespace = CodeNamespace
+            };
+            controller.ImportCollection.ClearAndAddRange(m_importDirectives);
+            controller.AttributeCollection.Add($"[RoutePrefix(\"{Name}\")]");
 
             var search = GenerateSearchAction();
             controller.MethodCollection.Add(search);
-            
+
             var save = GenerateSaveAction();
             controller.MethodCollection.Add(save);
 
@@ -213,14 +221,14 @@ namespace Bespoke.Sph.Domain
 
             schema.AppendLine("           return Content(script);");
             schema.AppendLine("       }");
-            return new Method {Code = schema.ToString()};
+            return new Method { Code = schema.ToString() };
         }
 
         private Method GenerateSearchAction()
         {
             var search = new StringBuilder();
-            
-            search.AppendLinf("       //exec:Search");
+
+            search.AppendLinf("       [Route(\"search\")]");
             search.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
             search.AppendLine("       {");
             search.AppendFormat(@"
@@ -246,7 +254,7 @@ namespace Bespoke.Sph.Domain
 
         private Method GenerateSaveAction()
         {
-// SAVE
+            // SAVE
             var save = new StringBuilder();
             save.AppendLinf("       //exec:Save");
             save.AppendLinf("       [HttpPost]");
@@ -272,7 +280,7 @@ namespace Bespoke.Sph.Domain
 
         private Method GenerteRemoveAction()
         {
-// REMOVE
+            // REMOVE
             var remove = new StringBuilder();
             remove.AppendLinf("       //exec:Remove");
             remove.AppendLinf("       [HttpDelete]");
@@ -336,6 +344,28 @@ namespace Bespoke.Sph.Domain
 
             return new Method { Name = "Validate", Code = code.ToString() };
 
+        }
+
+        public string GetElasticsearchMapping()
+        {
+            var map = new StringBuilder();
+            map.AppendLine("{");
+            map.AppendLine($"    \"{Name.ToLowerInvariant()}\":{{");
+            map.AppendLine("        \"properties\":{");
+            // add entity default properties
+            map.AppendLine("            \"CreatedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
+            map.AppendLine("            \"ChangedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
+            map.AppendLine("            \"WebId\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
+            map.AppendLine("            \"CreatedDate\": {\"type\": \"date\"},");
+            map.AppendLine("            \"ChangedDate\": {\"type\": \"date\"},");
+
+            var memberMappings = string.Join(",\r\n", this.MemberCollection.Select(d => d.GetEsMapping()));
+            map.AppendLine(memberMappings);
+
+            map.AppendLine("        }");
+            map.AppendLine("    }");
+            map.AppendLine("}");
+            return map.ToString();
         }
     }
 }

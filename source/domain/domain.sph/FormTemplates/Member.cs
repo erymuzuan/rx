@@ -188,6 +188,7 @@ namespace Bespoke.Sph.Domain
             }
             return list.ToArray();
         }
+        
 
         public virtual string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
         {

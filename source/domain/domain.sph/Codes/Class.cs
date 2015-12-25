@@ -12,13 +12,9 @@ namespace Bespoke.Sph.Domain.Codes
         private string m_fileName;
 
         public ObjectCollection<string> CtorCollection { get; } = new ObjectCollection<string>();
-
         public ObjectCollection<string> ImportCollection { get; } = new ObjectCollection<string>();
-
         public ObjectCollection<string> AttributeCollection { get; } = new ObjectCollection<string>();
-
         public ObjectCollection<Method> MethodCollection { get; } = new ObjectCollection<Method>();
-
         public ObjectCollection<Property> PropertyCollection { get; } = new ObjectCollection<Property>();
 
         public string FileName
@@ -44,17 +40,19 @@ namespace Bespoke.Sph.Domain.Codes
             var code = new StringBuilder();
             foreach (var @import in this.ImportCollection)
             {
-                code.AppendFormat("using {0};", @import);
-                code.AppendLine();
+                var directive = @import.StartsWith("using ") ? $"{@import};" : $"using {@import};";
+                code.AppendLine(directive.Replace(";;",";"));
             }
             code.AppendLine();
-            code.AppendLinf("namespace {0}", this.Namespace);
+            code.AppendLine($"namespace {Namespace}");
             code.AppendLine("{");
             foreach (var ctor in this.AttributeCollection)
             {
                 code.AppendLine(ctor);
             }
-            code.AppendLinf("   public {2} class {0} {3} {1}", this.Name, this.BaseClass, this.IsPartial ? "partial" : "", !string.IsNullOrWhiteSpace(this.BaseClass) ? ":" : "");
+            var partial = this.IsPartial ? "partial" : "";
+            var baseClass = !string.IsNullOrWhiteSpace(this.BaseClass) ? $": {BaseClass}" : "";
+            code.AppendLine($"   public {partial} class {Name} {baseClass}");
             code.AppendLine("   {");
 
             foreach (var ctor in this.CtorCollection)
@@ -75,7 +73,7 @@ namespace Bespoke.Sph.Domain.Codes
 
             code.AppendLine("   }");
             code.AppendLine("}");
-            
+
             return code.FormatCode();
 
         }

@@ -9,7 +9,6 @@ using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using subscriber.entities;
 
 namespace subscriber.test
 {
@@ -67,8 +66,7 @@ namespace subscriber.test
             locality.Add(new Dictionary<string, Type> { { "Mode", typeof(string) } });
             address.MemberCollection.Add(locality);
 
-            var sub = new EntityIndexerMappingSubscriber();
-            var map = sub.GetMapping(ent);
+            var map = ent.GetElasticsearchMapping();
             Console.WriteLine(map);
             StringAssert.Contains("\"type\":", map);
 
@@ -81,8 +79,7 @@ namespace subscriber.test
             var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = customerDefinition.DeserializeFromJson<EntityDefinition>();
 
-            var sub = new EntityIndexerMappingSubscriber();
-            var map = sub.GetMapping(ed);
+            var map = ed.GetElasticsearchMapping();
             Console.WriteLine(map);
             StringAssert.Contains("\"type\":", map);
 
@@ -92,27 +89,25 @@ namespace subscriber.test
         {
             var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = customerDefinition.DeserializeFromJson<EntityDefinition>();
+            var map = ed.GetElasticsearchMapping();
 
-            var sub = new EntityIndexerMappingSubscriber();
-            var map = sub.GetMapping(ed);
-
-            const string url = "dev/_mapping/customer";
+            const string URL = "dev/_mapping/customer";
 
             var content = new StringContent(map);
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
 
-                var response = await client.PutAsync(url, content);
-                Console.WriteLine("Response status : {0}", response.StatusCode);
+                var response = await client.PutAsync(URL, content);
+                Console.WriteLine($"Response status : {response.StatusCode}");
                 while (response.StatusCode != HttpStatusCode.OK)
                 {
                     Console.WriteLine(response.StatusCode);
-                    Console.WriteLine(".");
-                    await client.PutAsync(ConfigurationManager.ApplicationName.ToLowerInvariant(), new StringContent(""));
+                    Console.WriteLine(@".");
+                    response = await client.PutAsync(ConfigurationManager.ApplicationName.ToLowerInvariant(), new StringContent(""));
 
                 }
-                var existingMapping = (await client.GetStringAsync(url))
+                var existingMapping = (await client.GetStringAsync(URL))
                             .Replace(".0", string.Empty)
                             .Replace(@"""norms"":{""enabled"":false},", string.Empty)
                             .Replace("\"format\":\"dateOptionalTime\",", string.Empty)
@@ -144,12 +139,12 @@ namespace subscriber.test
                     //Console.WriteLine(c0);
                     if (g0.ToString().Contains("\"type\": \"object\""))
                     {
-                        Console.Write("..");
+                        Console.Write(@"..");
                         Console.WriteLine(g0.Children()[0]);
                         continue;
                     }
                     dynamic g1 = JObject.Parse(g0.ToString().Replace("\"" + g.Name + "\":", ""));
-                    dynamic s1 = JObject.Parse(s0.ToString().Replace("\"" + g.Name + "\":", ""));
+                    dynamic s1 = JObject.Parse(s0?.ToString().Replace("\"" + g.Name + "\":", ""));
                     Assert.AreEqual(g1.type, s1.type);
                     if (g1.ToString() != s1.ToString())
                     {

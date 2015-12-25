@@ -244,6 +244,7 @@
     <Compile Include="FormTemplates\ListView.cs" />
     <Compile Include="FormTemplates\ListViewColumn.cs" />
     <Compile Include="FormTemplates\MapElement.cs" />
+    <Compile Include="FormTemplates\Member.es.cs" />
     <Compile Include="FormTemplates\Member.cs" />
     <Compile Include="Core\Change.cs" />
     <Compile Include="Core\ChangeGenerator.cs" />
@@ -286,6 +287,7 @@
     <Compile Include="FormTemplates\ValidationField.cs" />
     <Compile Include="FormTemplates\ValidationRule.cs" />
     <Compile Include="FormTemplates\ValueObjectDefinition.cs" />
+    <Compile Include="FormTemplates\ValueObjectMember.es.cs" />
     <Compile Include="FormTemplates\ValueObjectMember.cs" />
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\ViewTemplate.cs" />

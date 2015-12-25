@@ -13,23 +13,23 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class ParameterDefinition
     {
-        private string[] GetUsingNamespaces()
+        private readonly string[] m_importDirectives =
         {
-            return new[] {
-           typeof(Entity).Namespace ,
-           typeof(Int32).Namespace ,
-           typeof(Task<>).Namespace ,
-           typeof(Enumerable).Namespace ,
-           typeof(JsonConvert).Namespace ,
-           typeof(CamelCasePropertyNamesContractResolver).Namespace ,
-           typeof(StringEnumConverter).Namespace,
-           typeof(XmlAttributeAttribute).Namespace ,
-           typeof(MediaTypeFormatter).Namespace ,
-            "using System.Web.Http;",
-            "using System.Net;",
-            "using System.Net.Http;"};
+            typeof(Entity).Namespace ,
+            typeof(Int32).Namespace ,
+            typeof(Task<>).Namespace ,
+            typeof(Enumerable).Namespace ,
+            typeof(JsonConvert).Namespace ,
+            typeof(CamelCasePropertyNamesContractResolver).Namespace,
+            typeof(StringEnumConverter).Namespace,
+            typeof(XmlAttributeAttribute).Namespace ,
+            typeof(MediaTypeFormatter).Namespace ,
+            "System.Web.Http",
+            "System.Net",
+            "System.Net.Http"
+        };
 
-        }
+
         private string GetCodeHeader()
         {
 
@@ -80,7 +80,7 @@ namespace Bespoke.Sph.Domain.Api
             // classes for members
             foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                var classes = member.GeneratedCustomClass(this.CodeNamespace, GetUsingNamespaces());
+                var classes = member.GeneratedCustomClass(this.CodeNamespace, m_importDirectives);
                 foreach (var @class in classes)
                 {
                     if (!sourceCodes.ContainsKey(@class.FileName))
