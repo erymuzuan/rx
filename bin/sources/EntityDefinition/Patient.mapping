@@ -1,0 +1,71 @@
+{
+    "patient":{
+        "properties":{
+            "CreatedBy": {"type": "string", "index":"not_analyzed"},
+            "ChangedBy": {"type": "string", "index":"not_analyzed"},
+            "WebId": {"type": "string", "index":"not_analyzed"},
+            "CreatedDate": {"type": "date"},
+            "ChangedDate": {"type": "date"},
+             "Mrn":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "FullName":{"type":"string","index":"analyzed","boost":5,"include_in_all":true},
+             "Dob":{"type":"date","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+             "Gender":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Religion":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Race":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "RegisteredDate":{"type":"date","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+             "IdentificationNo":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "PassportNo":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Nationality":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+    "NextOfKin":{
+        "type":  "object",
+        "properties":{
+             "FullName":{"type":"string","index":"analyzed","boost":1,"include_in_all":true},
+             "Relationship":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "MobilePhone":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Email":{"type":"string","index":"analyzed","boost":1,"include_in_all":true},
+             "Telephone":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true}
+        }
+    }
+,
+    "HomeAddress":{
+        "type":  "object",
+        "properties":{
+             "Street":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Street2":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Postcode":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "City":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "State":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Country":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true}
+        }
+    }
+,
+             "Occupation":{"type":"string","index":"analyzed","boost":1,"include_in_all":true},
+             "Status":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Age":{"type":"integer","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+             "Income":{"type":"float","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+             "Empty":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "MaritalStatus":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "OldIC":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "DeathDate":{"type":"date","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+             "OccupationStatus":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+    "Wife":{
+        "type":  "object",
+        "properties":{
+             "Name":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Age":{"type":"integer","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+    "WorkPlaceAddress":{
+        "type":  "object",
+        "properties":{
+             "Street1":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Street2":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "State":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Postcode":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true}
+        }
+    }
+
+        }
+    }
+
+        }
+    }
+}
