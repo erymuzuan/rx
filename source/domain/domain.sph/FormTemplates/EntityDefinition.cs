@@ -215,7 +215,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private Member GetMember(string path)
+        public Member GetMember(string path)
         {
             if (!path.Contains("."))
                 return this.MemberCollection.Single(a => a.Name == path);

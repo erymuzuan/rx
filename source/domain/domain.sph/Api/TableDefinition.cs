@@ -21,13 +21,14 @@ namespace Bespoke.Sph.Domain.Api
         public TableDefinition(AdapterTable table)
         {
             this.Name = table.Name;
-            this.ChildTableCollection.ClearAndAddRange(from a in table.ChildRelationCollection
-                                                       select new TableDefinition
-                                                       {
-                                                           Name = a.Table,
-                                                           CodeNamespace = this.CodeNamespace,
-                                                           Schema = this.Schema
-                                                       });
+            var tables = from a in table.ChildRelationCollection
+                select new TableDefinition
+                {
+                    Name = a.Table,
+                    CodeNamespace = this.CodeNamespace,
+                    Schema = this.Schema
+                };
+            this.ChildTableCollection.ClearAndAddRange(tables);
 
         }
 
@@ -111,9 +112,12 @@ namespace Bespoke.Sph.Domain.Api
             // classes for members
             foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                string fileName;
-                var mc = header + member.GeneratedCustomClass(this.CodeNamespace, GetUsingNamespaces(), out fileName) + "\r\n}";
-                sourceCodes.Add(fileName, mc);
+                var classes = member.GeneratedCustomClass(this.CodeNamespace, GetUsingNamespaces());
+                foreach (var @class in classes)
+                {
+                    if (!sourceCodes.ContainsKey(@class.FileName))
+                        sourceCodes.Add(@class.FileName, @class.GetCode());
+                }
             }
 
             var controller = this.GenerateController(adapter);

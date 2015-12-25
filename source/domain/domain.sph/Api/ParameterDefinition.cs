@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain.Api
     {
         private string[] GetUsingNamespaces()
         {
-            return new string[] {
+            return new[] {
            typeof(Entity).Namespace ,
            typeof(Int32).Namespace ,
            typeof(Task<>).Namespace ,
@@ -80,9 +80,13 @@ namespace Bespoke.Sph.Domain.Api
             // classes for members
             foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                string fileName;
-                var mc = member.GeneratedCustomClass(this.CodeNamespace, GetUsingNamespaces(), out fileName);
-                sourceCodes.Add(fileName, mc);
+                var classes = member.GeneratedCustomClass(this.CodeNamespace, GetUsingNamespaces());
+                foreach (var @class in classes)
+                {
+                    if (!sourceCodes.ContainsKey(@class.FileName))
+                        sourceCodes.Add(@class.FileName, @class.GetCode());
+
+                }
             }
 
 

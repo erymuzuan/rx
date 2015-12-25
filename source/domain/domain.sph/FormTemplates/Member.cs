@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -60,10 +58,11 @@ namespace Bespoke.Sph.Domain
             if (item.Type == typeof(Array) || this.AllowMultiple)
                 return $"     {Name}: ko.observableArray([]),";
 
-            return item.Type == typeof(object) ? 
-                $"     {Name}: ko.observable(new bespoke.{ns}.domain.{Name}())," : 
+            return item.Type == typeof(object) ?
+                $"     {Name}: ko.observable(new bespoke.{ns}.domain.{Name}())," :
                 $"     {Name}: ko.observable(),";
         }
+
         public virtual string GeneratedCode(string padding = "      ")
         {
             if (null == this.Type)
@@ -110,83 +109,59 @@ namespace Bespoke.Sph.Domain
             if (typeof(Array) == this.Type) return string.Empty;
             return "?";
         }
+        
 
-        protected string GetCodeHeader(string codeNamespace, string[] usingNamespaces)
+        public virtual IEnumerable<Class> GeneratedCustomClass(string codeNamespace, string[] usingNamespaces = null)
         {
+            var complex = this.Type == typeof(object) || this.Type == typeof(Array);
+            if (!complex) return new Class[] {};
 
-            var header = new StringBuilder();
-            foreach (var ns in usingNamespaces)
+            var @class = new Class { Name = this.Name, BaseClass = nameof(DomainObject), FileName = $"{Name}.cs" , Namespace = codeNamespace};
+            if (null != usingNamespaces)
             {
-                header.AppendLine($"using {ns};");
+                @class.ImportCollection.AddRange(usingNamespaces);
             }
-            header.AppendLine();
-
-            header.AppendLine("namespace " + codeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
-
-        }
-
-        public virtual string GeneratedCustomClass(string codeNamespace, string[] usingNamespaces,  out string fileName)
-        {
-            fileName = "";
-            var complex = this.Type == typeof (object) || this.Type == typeof (Array);
-            if (!complex) return null;
-
-            var code = new StringBuilder(this.GetCodeHeader(codeNamespace, usingNamespaces));
-            if (typeof(object) == this.Type)
+            else
             {
-                code.AppendLinf("   public class {0}: DomainObject", this.Name);
+                @class.ImportCollection.Add(typeof(DateTime).Namespace);
+                @class.ImportCollection.Add(typeof(Entity).Namespace);
             }
+            var classes = new ObjectCollection<Class> { @class };
+
             if (typeof(Array) == this.Type)
             {
-                code.AppendLinf("   public class {0}: DomainObject", this.Name.Replace("Collection", ""));
+                var name = this.Name.Replace("Collection", "");
+                @class.Name = name;
+                @class.FileName = $"{name}.cs";
             }
 
-            if (typeof(object) == this.Type || typeof(Array) == this.Type)
+            var ctor = new StringBuilder($"public {@class.Name}()");
+            ctor.AppendLine("{");
+            ctor.AppendLine("  var rc = new RuleContext(this);");
+            var count = 0;
+            foreach (var member in this.MemberCollection)
             {
-
-                code.AppendLine("   {");
-                // ctor
-                code.AppendLine("       public " + this.Name.Replace("Collection", "") + "()");
-                code.AppendLine("       {");
-                //code.AppendLinf("           var rc = new RuleContext(this);");
-                //var count = 0;
-                foreach (var member in this.MemberCollection)
-                {
-                    if (member.Type == typeof(object))
-                    {
-                        code.AppendLinf("           this.{0} = new {0}();", member.Name);
-                    }
-                    /*
-                    if (null == member.DefaultValue) continue;
-                    count++;
-                    code.AppendLine();
-                    code.AppendLinf("           var mj{1} = \"{0}\";", member.DefaultValue.ToJsonString().Replace("\"", "\\\""), count);
-                    code.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();", count, member.DefaultValue.GetType().Name);
-                    code.AppendLinf("           var val{0} = field{0}.GetValue(rc);", count);
-                    code.AppendLinf("           this.{0} = ({1})val{2};", member.Name, member.Type.FullName, count);
-                
-                     * 
-                     */
-                }
-                code.AppendLine("       }");
-
-
-                foreach (var member in this.MemberCollection)
-                {
-                    code.AppendLine(member.GeneratedCode());
-
-                }
-                code.AppendLine("   }");
-                foreach (var member in this.MemberCollection)
-                {
-                    string fileName2;
-                    code.AppendLine(member.GeneratedCustomClass(codeNamespace, usingNamespaces, out fileName2));
-                }
+                count++;
+                var defaultValueCode = member.GetDefaultValueCode(count);
+                if (!string.IsNullOrWhiteSpace(defaultValueCode))
+                    ctor.AppendLine(defaultValueCode);
             }
-            code.AppendLine("}");
-            return code.FormatCode();
+            ctor.AppendLine("}");
+            @class.CtorCollection.Add(ctor.ToString());
+
+
+            var properties = from m in this.MemberCollection
+                let prop = m.GeneratedCode("   ")
+                select new Property {Code = prop};
+            @class.PropertyCollection.ClearAndAddRange(properties);
+
+            var childClasses = this.MemberCollection
+                .Select(x => x.GeneratedCustomClass(codeNamespace))
+                .Where(x => null != x)
+                .SelectMany(x => x.ToArray());
+            @classes.AddRange(childClasses);
+
+            return @classes;
         }
 
 
@@ -216,7 +191,7 @@ namespace Bespoke.Sph.Domain
 
         public virtual string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
         {
-            var complex = this.Type == typeof (object) || this.Type == typeof (Array);
+            var complex = this.Type == typeof(object) || this.Type == typeof(Array);
             if (!complex) return null;
 
 
@@ -227,7 +202,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLine(" var model = {");
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", csNs, name,
                 assemblyName);
-            
+
 
             var members = from item in this.MemberCollection
                           let m = item.GenerateJavascriptMember(jns)

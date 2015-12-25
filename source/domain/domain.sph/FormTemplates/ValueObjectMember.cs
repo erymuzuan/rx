@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -23,43 +25,51 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GeneratedCustomClass(string codeNamespace, string[] usingNamespaces, out string fileName)
+        public override IEnumerable<Class> GeneratedCustomClass(string codeNamespace, string[] usingNamespaces = null)
         {
-            fileName = $"{this.ValueObjectName}.cs";
+            var @class = new Class { Name = this.ValueObjectName, BaseClass = nameof(DomainObject), FileName = $"{ValueObjectName}.cs" , Namespace = codeNamespace};
+            if (null != usingNamespaces)
+            {
+                @class.ImportCollection.AddRange(usingNamespaces);
+            }
+            else
+            {
+                @class.ImportCollection.Add(typeof(DateTime).Namespace);
+                @class.ImportCollection.Add(typeof(Entity).Namespace);
+            }
+            var classes = new ObjectCollection<Class> { @class };
 
-            var code = new StringBuilder(this.GetCodeHeader(codeNamespace, usingNamespaces));
-            code.AppendLine($"   public class {ValueObjectName}: DomainObject");
 
-            code.AppendLine("   {");
+            var ctor = new StringBuilder();
             // ctor
-            code.AppendLine($"       public {ValueObjectName}()");
-            code.AppendLine("       {");
-            code.AppendLinf("           var rc = new RuleContext(this);");
-
-
-
+            ctor.AppendLine($"       public {ValueObjectName}()");
+            ctor.AppendLine("       {");
+            ctor.AppendLinf("           var rc = new RuleContext(this);");
             var count = 0;
             foreach (var member in this.MemberCollection)
             {
                 count++;
                 var defaultValueCode = member.GetDefaultValueCode(count);
                 if (!string.IsNullOrWhiteSpace(defaultValueCode))
-                    code.AppendLine(defaultValueCode);
+                    ctor.AppendLine(defaultValueCode);
             }
-            code.AppendLine("       }");
-            foreach (var member in this.MemberCollection)
-            {
-                code.AppendLine(member.GeneratedCode());
+            ctor.AppendLine("       }");
+            @class.CtorCollection.Add(ctor.ToString());
+            
 
-            }
-            code.AppendLine("   }");
-            foreach (var member in this.MemberCollection.Where(x => x.GetType() != typeof(ValueObjectMember)))
-            {
-                string fileName2;
-                code.AppendLine(member.GeneratedCustomClass(codeNamespace, usingNamespaces, out fileName2));
-            }
-            code.AppendLine("}");
-            return code.FormatCode();
+            var properties = from m in this.MemberCollection
+                             let prop = m.GeneratedCode("   ")
+                             select new Property { Code = prop };
+            @class.PropertyCollection.ClearAndAddRange(properties);
+
+            var childClasses = this.MemberCollection
+                .Select(x => x.GeneratedCustomClass(codeNamespace))
+                .Where(x => null != x)
+                .SelectMany(x => x.ToArray());
+            @classes.AddRange(childClasses);
+
+
+            return classes;
         }
 
 
