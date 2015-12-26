@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 using ParameterDirection = System.Data.ParameterDirection;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -22,7 +23,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         private readonly ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();
 
-        protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
+        protected override Task<Class> GeneratePagingSourceCodeAsync()
         {
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OraclePagingTranslator.txt";
@@ -34,7 +35,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
-                var source = new Tuple<string, string>("OraclePagingTranslator.cs", code);
+                var source = new Class(code) {FileName = "OraclePagingTranslator.cs"};
                 return Task.FromResult(source);
 
             }
@@ -76,7 +77,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var table in this.Tables)
             {
                 var table1 = table;
-                if(m_tableDefinitions.Contains(t => t.Name == table1.Name))continue;
+                if (m_tableDefinitions.Contains(t => t.Name == table1.Name)) continue;
 
                 var td = new TableDefinition { Schema = this.Schema, Name = table.Name, CodeNamespace = this.CodeNamespace };
                 m_columnCollection.Add(table.Name, new ObjectCollection<Column>());
@@ -176,81 +177,64 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        private string GetCodeHeader(params string[] namespaces)
+        public static readonly string[] ImportDirectoves =
         {
 
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(int).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
-            header.AppendLine("using " + typeof(OracleConnection).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Mvc;");
-            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
-            foreach (var ns in namespaces)
-            {
-                header.AppendLinf("using {0};", ns);
-            }
-            header.AppendLine();
+            typeof(Entity).Namespace,
+            typeof(int).Namespace ,
+            typeof(Task<>).Namespace ,
+            typeof(Enumerable).Namespace,
+            typeof(IEnumerable<>).Namespace,
+            typeof(OracleConnection).Namespace,
+            typeof(XmlAttributeAttribute).Namespace ,
+            "System.Web.Mvc",
+            "Bespoke.Sph.Web.Helpers"
 
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
-
-        }
+        };
 
         private readonly Dictionary<string, ObjectCollection<Column>> m_columnCollection = new Dictionary<string, ObjectCollection<Column>>();
 
 
         public override string OdataTranslator => "OdataOracleTranslator";
 
-        protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
+        protected override Task<IEnumerable<Class>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             options.AddReference(typeof(OracleConnection));
-            var sources = new Dictionary<string, string>();
+            var sources = new ObjectCollection<Class>();
             foreach (var table in this.Tables)
             {
                 var table1 = table;
                 var td = m_tableDefinitions.Single(a => a.Name == table1.Name);
                 var name = table.Name;
-                var adapterName = name + "Adapter";
-                if(sources.ContainsKey(adapterName + ".cs"))continue;
 
-                var header = this.GetCodeHeader(namespaces);
-                var code = new StringBuilder(header);
+                var code = new Class { Name = $"{name}Adapter", Namespace = CodeNamespace };
+                code.ImportCollection.AddRange(ImportDirectoves);
+                code.ImportCollection.AddRange(namespaces);
 
-                code.AppendLine("   public class " + adapterName);
-                code.AppendLine("   {");
+                sources.Add(code);
 
-                code.AppendLine(GenerateExecuteScalarMethod());
-                code.AppendLine(GenerateInsertMethod(td));
-                code.AppendLine(GenerateUpdateMethod(td));
-                code.AppendLine(GenerateConvertMethod(td));
-                code.AppendLine(GenerateConnectionStringProperty());
 
-                code.AppendLine(GenerateSelectOne(td));
-                code.AppendLine(GenerateSelectMethod(td));
-                code.AppendLine(GenerateDeleteMethod(td));
+                code.AddMethod(GenerateExecuteScalarMethod());
+                code.AddMethod(GenerateInsertMethod(td));
+                code.AddMethod(GenerateUpdateMethod(td));
+                code.AddMethod(GenerateConvertMethod(td));
+                code.AddMethod(GenerateConnectionStringProperty());
 
+                code.AddMethod(GenerateSelectOne(td));
+                code.AddMethod(GenerateSelectMethod(td));
+                code.AddMethod(GenerateDeleteMethod(td));
 
 
 
-                code.AppendLine("   }");// end class
-                code.AppendLine("}");// end namespace
-
-                Console.WriteLine(adapterName);
-                sources.Add(adapterName + ".cs", code.ToString());
             }
-            sources.Add("Column.cs", this.GenerateColumnClass());
-            sources.Add("OracleHelpers.cs", this.GenerateHelperClass());
+            sources.Add(this.GenerateColumnClass());
+            sources.Add(this.GenerateHelperClass());
 
-            return Task.FromResult(sources);
+            return Task.FromResult(sources.AsEnumerable());
 
         }
 
-        protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
+        protected override Task<Class> GenerateOdataTranslatorSourceCodeAsync()
         {
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OdataOracleTranslator.txt";
@@ -262,22 +246,21 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
-                var source = new Tuple<string, string>("OdataOracleTranslator.cs", code);
+                var source = new Class(code) { FileName = "OdataOracleTranslator.cs" };
                 return Task.FromResult(source);
 
             }
         }
 
-        private string GenerateHelperClass()
+        private Class GenerateHelperClass()
         {
 
-            var header = this.GetCodeHeader(typeof(ParameterDirection).Namespace);
-            var code = new StringBuilder(header);
+            var code = new Class { Name = "OracleHelpers", IsStatic = true, Namespace = CodeNamespace };
+            code.ImportCollection.AddRange(ImportDirectoves);
+            code.ImportCollection.Add(typeof(ParameterDirection).Namespace);
 
-            code.AppendLine("   public static class OracleHelpers");
-            code.AppendLine("   {");
-            code.AppendLine(@" 
-           public static IList<Column> AddWithValue(this IList<Column> columns, string name, object value)
+            code.AddMethod(@" 
+        public static IList<Column> AddWithValue(this IList<Column> columns, string name, object value)
         {
             var type = OracleDbType.Char;
             if (value is bool)
@@ -298,6 +281,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             columns.Add(col);
             return columns;
         }
+");
+
+            code.AddMethod(@" 
         public static IList<Column> AddWithValue(this IList<Column> columns, string name, object value, OracleDbType type)
         {
             var col = new Column
@@ -308,49 +294,37 @@ namespace Bespoke.Sph.Integrations.Adapters
             };
             columns.Add(col);
             return columns;
+        }");
+
+
+
+            return code;
         }
 
-");
-
-
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-
-            return code.ToString();
-        }
-
-        private string GenerateColumnClass()
+        private Class GenerateColumnClass()
         {
 
-            var header = this.GetCodeHeader(typeof(ParameterDirection).Namespace);
-            var code = new StringBuilder(header);
-
-            code.AppendLine("   public class Column");
-            code.AppendLine("   {");
-            code.AppendLine(@" 
-        public Column()
-        {
-            this.Direction = ParameterDirection.Input;
-        }
-
-        public string Name { get; set; }
-        public bool IsPrimaryKey { get; set; }
-        public string DataType { get; set; }
-        public bool IsNullable { get; set; }
-        public bool IsComputed { get; set; }
-        public bool IsIdentity { get; set; }
-        public int Length { get; set; }
-        public decimal? Scale { get; set; }
-        public decimal? Precision { get; set; }
-        public object Value { get; set; }
-        public OracleDbType Type { get; set; }
-        public ParameterDirection Direction { get; set; }");
+            var code = new Class { Name = "Column", Namespace = CodeNamespace };
+            code.ImportCollection.AddRange(ImportDirectoves);
+            code.ImportCollection.Add(typeof(ParameterDirection).Namespace);
+            
+            code.CtorCollection.Add("public Column(){ this.Direction = ParameterDirection.Input; }");
+            code.AddProperty("Name", typeof(string));
+            code.AddProperty("IsPrimaryKey", typeof(bool));
+            code.AddProperty("DataType", typeof(string));
+            code.AddProperty("IsNullable", typeof(bool));
+            code.AddProperty("IsComputed", typeof(bool));
+            code.AddProperty("IsIdentity", typeof(bool));
+            code.AddProperty("Length", typeof(int));
+            code.AddProperty("Scale", typeof(decimal?));
+            code.AddProperty("Precision", typeof(decimal?));
+            code.AddProperty("Value", typeof(object));
+            code.AddProperty("Type", typeof(OracleDbType));
+            code.AddProperty("Direction", typeof(ParameterDirection));
 
 
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
 
-            return code.ToString();
+            return code;
         }
 
         private string GenerateDeleteMethod(TableDefinition table)

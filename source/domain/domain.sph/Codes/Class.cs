@@ -17,9 +17,10 @@ namespace Bespoke.Sph.Domain.Codes
         public string Name { get; set; }
         public string Namespace { get; set; }
         public string BaseClass { get; set; }
+        public bool IsStatic { get; set; }
 
         private string m_fileName;
-        private string m_code;
+        private readonly string m_code;
 
 
         public ObjectCollection<string> CtorCollection { get; } = new ObjectCollection<string>();
@@ -63,9 +64,10 @@ namespace Bespoke.Sph.Domain.Codes
             {
                 code.AppendLine(ctor);
             }
-            var partial = this.IsPartial ? "partial" : "";
+            var partial = this.IsPartial ? "partial " : "";
+            var @static = this.IsStatic ? "static " : "";
             var baseClass = !string.IsNullOrWhiteSpace(this.BaseClass) ? $": {BaseClass}" : "";
-            code.AppendLine($"   public {partial} class {Name} {baseClass}");
+            code.AppendLine($"   public {@static}{partial}class {Name} {baseClass}");
             code.AppendLine("   {");
 
             foreach (var ctor in this.CtorCollection)
