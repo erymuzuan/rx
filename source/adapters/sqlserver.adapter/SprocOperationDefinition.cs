@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Integrations.Adapters.Properties;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -22,7 +23,8 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand(\"[{0}].[{1}]\", conn))", adapter.Schema, this.MethodName);
+            code.AppendLinf("           using(var cmd = new SqlCommand(\"[{0}].[{1}]\", conn))", adapter.Schema,
+                this.MethodName);
             code.AppendLine("           {");
             code.AppendLine("               cmd.CommandType = CommandType.StoredProcedure;");
             foreach (var m in this.RequestMemberCollection.OfType<SprocParameter>())
@@ -31,27 +33,30 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
-                if(m.Type == typeof(Array))continue;
-                if(m.Type == typeof(object))continue;
+                if (m.Type == typeof(Array)) continue;
+                if (m.Type == typeof(object)) continue;
                 if (m.Name == "@return_value") continue;
-                code.AppendLinf("               cmd.Parameters.Add(\"{0}\", SqlDbType.{1}).Direction = ParameterDirection.Output;", m.Name, m.SqlDbType);
+                code.AppendLinf(
+                    "               cmd.Parameters.Add(\"{0}\", SqlDbType.{1}).Direction = ParameterDirection.Output;",
+                    m.Name, m.SqlDbType);
             }
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
             code.AppendLinf("               var response = new {0}Response();", this.MethodName.ToCsharpIdentitfier());
             foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
-                if (m.Type == typeof (Array))
+                if (m.Type == typeof(Array))
                 {
                     code.AppendLinf("               using(var reader = await cmd.ExecuteReaderAsync())");
                     code.AppendLine("               {");
                     code.AppendLine("                   while(await reader.ReadAsync())");
                     code.AppendLine("                   {");
-                    code.AppendLinf("                       var item = new {0}();",m.Name.Replace("Collection",""));
+                    code.AppendLinf("                       var item = new {0}();", m.Name.Replace("Collection", ""));
                     foreach (var rm in m.MemberCollection.OfType<SprocResultMember>())
                     {
 
-                        code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", rm.Name, rm.Type.ToCSharp());
+                        code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", rm.Name,
+                            rm.Type.ToCSharp());
                     }
                     code.AppendLinf("                       response.{0}.Add(item);", m.Name);
                     code.AppendLine("                   }");
@@ -59,7 +64,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                     continue;
                 }
                 if (m.Name == "@return_value") continue;
-                code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name, m.Type.ToCSharp());
+                code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name,
+                    m.Type.ToCSharp());
             }
 
             code.AppendLine("               return response;");
@@ -81,114 +87,59 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        public override Dictionary<string, string> GenerateRequestCode()
+        public override IEnumerable<Class> GenerateRequestCode()
         {
-            var sources = new Dictionary<string, string>();
-            var header = this.GetCodeHeader();
-
-            var typeName = this.Name.ToCsharpIdentitfier() + "Request";
-            var code = new StringBuilder();
-            code.AppendLine(header);
-            code.AppendLine("   public class " + typeName + " : DomainObject");
-            code.AppendLine("   {");
 
 
-            // properties for each members
-            foreach (var member in this.RequestMemberCollection)
-            {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
-            }
+            var @class = new Class { Name = this.Name.ToCsharpIdentitfier() + "Response", BaseClass = nameof(DomainObject), Namespace = CodeNamespace };
+            var sources = new ObjectCollection<Class> { @class };
+
+            var properties = from m in this.RequestMemberCollection
+                             select new Property { Code = m.GeneratedCode("   ") };
+            @class.PropertyCollection.ClearAndAddRange(properties);
 
 
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-
-            sources.Add(typeName + ".cs", code.FormatCode());
-            // classes for members
-            foreach (var member in this.RequestMemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                var fileName = member.Name + ".cs";
-                if (sources.ContainsKey(fileName))
-                {
-                    Console.WriteLine(Resources.DuplicateContentSource, fileName, mc == sources[fileName] ? "same" : "different");
-                    continue;
-                }
-
-                sources.Add(member.Name + ".cs", mc);
-            }
-
+            var otherClasses = this.RequestMemberCollection
+                            .Select(m => m.GeneratedCustomClass(this.CodeNamespace, m_importDirectives))
+                            .SelectMany(x => x.ToArray());
+            sources.AddRange(otherClasses);
 
             return sources;
-        }
-
-        private string GetCodeHeader(params string[] namespaces)
-        {
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
-            header.AppendLine("using " + typeof(SqlConnection).Namespace + ";");
-            header.AppendLine("using " + typeof(CommandType).Namespace + ";");
-            header.AppendLine("using " + typeof(Encoding).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Mvc;");
-            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
-            foreach (var ns in namespaces)
-            {
-                header.AppendLinf("using {0};", ns);
-            }
-            header.AppendLine();
-
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
 
         }
 
-
-        public override Dictionary<string, string> GenerateResponseCode()
+        private readonly string[] m_importDirectives =
         {
-            var sources = new Dictionary<string, string>();
-            var header = this.GetCodeHeader();
+            typeof (Entity).Namespace ,
+            typeof (Int32).Namespace ,
+            typeof (Task<>).Namespace,
+            typeof (Enumerable).Namespace ,
+            typeof (IEnumerable<>).Namespace ,
+            typeof (SqlConnection).Namespace ,
+            typeof (CommandType).Namespace ,
+            typeof (Encoding).Namespace ,
+            typeof (XmlAttributeAttribute).Namespace ,
+            "System.Web.Mvc",
+            "Bespoke.Sph.Web.Helpers"
 
-            var responseTypeName = this.Name.ToCsharpIdentitfier() + "Response";
-            var code = new StringBuilder();
-            code.AppendLine(header);
-            code.AppendLine("   public class " + responseTypeName + " : DomainObject");
-            code.AppendLine("   {");
-
-
-            // properties for each members
-            foreach (var member in this.ResponseMemberCollection.OfType<SprocResultMember>())
-            {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
-            }
+        };
 
 
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
+        public override IEnumerable<Class> GenerateResponseCode()
+        {
+            var @class = new Class { Name = this.Name.ToCsharpIdentitfier() + "Response", BaseClass = nameof(DomainObject), Namespace = CodeNamespace };
+            var sources = new ObjectCollection<Class> { @class };
 
-            sources.Add(responseTypeName + ".cs", code.FormatCode());
+            var properties = from m in this.ResponseMemberCollection.OfType<SprocResultMember>()
+                             select new Property { Code = m.GeneratedCode("   ") };
+            @class.PropertyCollection.ClearAndAddRange(properties);
 
 
-            // classes for members
-            foreach (var member in this.ResponseMemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                var fileName = member.Name + ".cs";
-                if (sources.ContainsKey(fileName))
-                {
-                    Console.WriteLine(Resources.DuplicateContentSource, fileName, mc == sources[fileName] ? "same" : "different");
-                    continue;
-                }
-                sources.Add(member.Name + ".cs", new StringBuilder(mc).FormatCode());
-            }
-
+            var otherClasses =   this.ResponseMemberCollection
+                            .Select(m => m.GeneratedCustomClass(this.CodeNamespace, m_importDirectives))
+                            .SelectMany(x => x.ToArray());
+            sources.AddRange(otherClasses);
+            
             return sources;
         }
 
