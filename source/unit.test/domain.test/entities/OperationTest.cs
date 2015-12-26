@@ -176,6 +176,34 @@ namespace domain.test.entities
 
         }
         [Test]
+        public void HttpPutAdmit()
+        {
+            var admit = new EntityOperation { Name = "Admit" , IsHttpPut = true, WebId = "PutAdmit"};
+            admit.PatchPathCollection.Add("Status");
+            
+            var ed = this.CreatePatientDefinition("PatientPutAdmit");
+            ed.EntityOperationCollection.Add(admit);
+
+            var patient = this.CreateInstance(ed, true);
+            Assert.IsNotNull(patient);
+
+            Type patientType = patient.GetType();
+            var dll = patientType.Assembly;
+            foreach (var type in dll.GetTypes())
+            {
+                Console.WriteLine(type);
+            }
+            var controllerType = dll.GetType(patientType.Namespace + ".PatientPutAdmitController");
+            Assert.IsNotNull(controllerType);
+
+            var releaseActionMethodInfo = controllerType.GetMethod("PutAdmit");
+            Assert.IsNotNull(releaseActionMethodInfo);
+            
+
+        }
+
+
+        [Test]
         public async Task AddReleaseOperationWithBusinessRule()
         {
             var release = new EntityOperation { Name = "Release" };

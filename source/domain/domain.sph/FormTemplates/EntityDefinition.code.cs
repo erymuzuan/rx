@@ -194,7 +194,7 @@ namespace Bespoke.Sph.Domain
             var patches = this.EntityOperationCollection.Where(x => x.IsHttpPatch).Select(x => x.GeneratePatchAction(this));
             controller.MethodCollection.AddRange(patches);
 
-            var puts = this.EntityOperationCollection.Where(x => x.IsHttpPut).Select(x => x.GeneratePatchAction(this));
+            var puts = this.EntityOperationCollection.Where(x => x.IsHttpPut).Select(x => x.GeneratePutAction(this));
             controller.MethodCollection.AddRange(puts);
 
             controller.MethodCollection.Add(GenerateValidationAction());

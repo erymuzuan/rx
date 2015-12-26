@@ -96,7 +96,7 @@ namespace Bespoke.Sph.Domain
             if (!IsHttpPatch) return null;
 
             var route = this.Route ?? this.Name;
-            var patch = new Method { Name = $"Patch{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public};
+            var patch = new Method { Name = $"Patch{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
             patch.AttributeCollection.Add("[HttpPatch]");
             patch.AttributeCollection.Add($"[Route(\"{route.ToLowerInvariant()}/{{id}}\")]");
 
@@ -155,32 +155,42 @@ namespace Bespoke.Sph.Domain
             if (!IsHttpPut) return null;
 
             var route = this.Route ?? this.Name;
-            var put = new Method { Name = $"Put{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public};
-            put.AttributeCollection.Add("[HttpPut]");
-            put.AttributeCollection.Add($"[Route(\"{route}/{{id}}\")]");
+            var put = new Method { Name = $"Put{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
+            put.AttributeCollection.Add("[HttpPatch]");
+            put.AttributeCollection.Add($"[Route(\"{route.ToLowerInvariant()}/{{id?}}\")]");
 
             var authorize = GenerateAuthorizeAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
                 put.AttributeCollection.Add(authorize);
 
 
-            put.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string) });
-            var item = new MethodArg { Name = "body", Type = typeof(string) };
-            item.AttributeCollection.Add("[RequestBody]");
-            put.ArgumentCollection.Add(item);
+            var body = new MethodArg { Name = "body", Type = typeof(string) };
+            body.AttributeCollection.Add("[RequestBody]");
+            put.ArgumentCollection.Add(body);
+            put.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string), Default = "null" });
 
 
-            var rules = GenerateRulesCode(ed);
-            put.AppendLine(rules);
-
+            put.AppendLine("           var context = new SphDataContext();");
+            if (this.Rules.Any() || this.SetterActionChildCollection.Any())
+                put.AppendLine(GetEntityDefinitionCode(ed));
 
             put.AppendLine(
                 $@"
             var repos = ObjectBuilder.GetObject<IRepository<{ed.Name}>>();
-            var item = await repos.LoadOneAsync(x => x.Id == id);
-            if(null == item) return HttpNotFoundResult(""Cannot find any {ed.Name} with Id "" + id);
+            var item = await repos.LoadOneAsync(id);
+            if(null == item)
+            {{
+                item = body.DeserializeFromJson<{ed.Name}>();
+                if (!string.IsNullOrWhiteSpace(item.Id))
+                    item.Id = id ?? System.Guid.NewGuid().ToString();
+                this.Response.StatusCode = (int) System.Net.HttpStatusCode.Created;
+            }}
+            else
+            {{
+                this.Response.StatusCode = (int) System.Net.HttpStatusCode.OK;
 
-            var jo = JObject.Parse(body);");
+                var jo = JObject.Parse(body);
+            ");
 
             foreach (var path in this.PatchPathCollection)
             {
@@ -188,7 +198,13 @@ namespace Bespoke.Sph.Domain
                 if (null == member) throw new InvalidOperationException($"Cannot find member with path {path}");
                 put.AppendLine($"            item.{path} = jo.SelectToken(\"$.{path}\").Value<{member.Type.ToCSharp()}>();");
             }
-            put.AppendLine();
+            put.AppendLine(@"
+            }");
+
+            var rules = GenerateRulesCode(ed);
+            if (!string.IsNullOrWhiteSpace(rules))
+                put.AppendLine(rules);
+
 
             var setterCode = GetSetterCode(ed);
             if (!string.IsNullOrWhiteSpace(setterCode))
@@ -201,7 +217,7 @@ namespace Bespoke.Sph.Domain
                 session.Attach(item);
                 await session.SubmitChanges(""{Name}"");
             }}
-            return Json(new {{success = true, message=""{SuccessMessage}"", status=""OK"", id = item.Id}});");
+            return Json(new {{success = true, message=""{SuccessMessage}"", status=""OK"", id = item.Id, href=""{ed.Name}/"" + item.Id}});");
 
             return put;
         }
@@ -232,7 +248,7 @@ namespace Bespoke.Sph.Domain
         private string GetEntityDefinitionCode(EntityDefinition ed)
         {
             return $"           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Id == \"{ed.Id}\");";
-            
+
         }
         private string GenerateRulesCode(EntityDefinition ed)
         {
@@ -273,6 +289,6 @@ namespace Bespoke.Sph.Domain
                     string.Join(",", this.Permissions.Where(s => s != "Everybody" && s != "Anonymous")));
             return code.ToString();
         }
-        
+
     }
 }

@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain.Codes
     {
         public Class()
         {
-            
+
         }
 
         public Class(string code)
@@ -55,7 +55,7 @@ namespace Bespoke.Sph.Domain.Codes
             foreach (var @import in this.ImportCollection)
             {
                 var directive = @import.StartsWith("using ") ? $"{@import};" : $"using {@import};";
-                code.AppendLine(directive.Replace(";;",";"));
+                code.AppendLine(directive.Replace(";;", ";"));
             }
             code.AppendLine();
             code.AppendLine($"namespace {Namespace}");
@@ -82,7 +82,8 @@ namespace Bespoke.Sph.Domain.Codes
             code.AppendLine();
             foreach (var mtd in this.MethodCollection)
             {
-                code.AppendLine(mtd.Comment);
+                if (!string.IsNullOrWhiteSpace(mtd.Comment))
+                    code.AppendLine(mtd.Comment);
                 code.AppendLine(mtd.GenerateCode());
             }
 
@@ -103,7 +104,7 @@ namespace Bespoke.Sph.Domain.Codes
         }
         public void AddProperty(string name, Type type)
         {
-            this.PropertyCollection.Add(new Property {Name = name, Type = type });
+            this.PropertyCollection.Add(new Property { Name = name, Type = type });
         }
     }
 }

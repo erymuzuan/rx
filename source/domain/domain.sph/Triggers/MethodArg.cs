@@ -24,10 +24,12 @@ namespace Bespoke.Sph.Domain
         {
             var type = this.Type == null ? this.TypeName : this.Type.ToCSharp();
             var attribute = string.Join("\r\n", this.AttributeCollection);
-            return $"{attribute}{type} {Name}";
+            var defaultValue = string.IsNullOrWhiteSpace(this.Default) ? "" : $" = {this.Default}";
+            return $"{attribute}{type} {Name}{defaultValue}";
         }
 
         public ObjectCollection<string> AttributeCollection { get; } = new ObjectCollection<string>();
+        public string Default { get; set; }
 
         public object GetValue(RuleContext context)
         {
