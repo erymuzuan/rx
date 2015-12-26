@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
 using Bespoke.Sph.Domain;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -32,6 +33,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (null == this.HarProcessors)
                 ObjectBuilder.ComposeMefCatalog(this);
 
+            if (null == this.HarProcessors)
+                throw new Exception("Cannot do MEF for HarProcessors");
+
             var mt = jt.SelectToken("response.content.mimeType");
             if (null != mt)
                 this.ResponseMimeType = mt.Value<string>();
@@ -43,64 +47,55 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        private string GetCodeHeader()
+        public static readonly string[] ImportDirectives =
         {
 
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(JsonConvert).Namespace + ";");
-            header.AppendLine("using " + typeof(CamelCasePropertyNamesContractResolver).Namespace + ";");
-            header.AppendLine("using " + typeof(StringEnumConverter).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Http;");
-            header.AppendLine("using System.Net;");
-            header.AppendLine("using System.Net.Http;");
-            header.AppendLine();
 
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
+           typeof(Entity).Namespace,
+           typeof(Int32).Namespace ,
+           typeof(Task<>).Namespace ,
+           typeof(Enumerable).Namespace,
+           typeof(JsonConvert).Namespace,
+           typeof(CamelCasePropertyNamesContractResolver).Namespace ,
+           typeof(StringEnumConverter).Namespace,
+           typeof(XmlAttributeAttribute).Namespace ,
+            "System.Web.Http",
+            "System.Net",
+            "System.Net.Http"
 
-        }
+        };
 
-        public override Dictionary<string, string> GenerateResponseCode()
+        public override IEnumerable<Class> GenerateResponseCode()
         {
-            var sources = new Dictionary<string, string>();
 
             var responseTypeName = (this.HttpMethod + "_" + this.Name).ToCsharpIdentitfier() + "Response";
-            var code = new StringBuilder();
-            code.AppendLine(this.GetCodeHeader());
-            code.AppendLine("   public class " + responseTypeName + " : DomainObject");
-            code.AppendLine("   {");
-
-            code.AppendLine("       [XmlIgnore]");
-            code.AppendLine("       [JsonIgnore]");
-            code.AppendLine("       public string ResponseText{ get; private set;}");
+            var @class = new Class { Name = responseTypeName, BaseClass = nameof(DomainObject), Namespace = CodeNamespace };
+            @class.ImportCollection.AddRange(ImportDirectives);
+            var sources = new ObjectCollection<Class> { @class };
+            @class.AddProperty("       [JsonIgnore]public string ResponseText{ get; private set;}");
 
 
+            var loadAsync = new Method { ReturnType = typeof(Task), Name = "LoadAsync" };
+            loadAsync.ArgumentCollection.Add(new MethodArg { Name = "respopnse", Type = typeof(HttpResponseMessage) });
 
-            code.AppendLinf("       public async Task LoadAsync(HttpResponseMessage response)", this.HttpMethod, this.Name);
-            code.AppendLine("       {");
-            code.AppendLine("           var content = response.Content as StreamContent;");
-            code.AppendLine("           if(null == content) throw new Exception(\"Fail to read from response\");");
-            code.AppendLine("           this.ResponseText = await content.ReadAsStringAsync();");
+
+            loadAsync.AppendLine("           var content = response.Content as StreamContent;");
+            loadAsync.AppendLine("           if(null == content) throw new Exception(\"Fail to read from response\");");
+            loadAsync.AppendLine("           this.ResponseText = await content.ReadAsStringAsync();");
 
             foreach (var m in this.ResponseMemberCollection.OfType<RegexMember>().Where(m => !string.IsNullOrWhiteSpace(m.Group) && !string.IsNullOrWhiteSpace(m.Pattern)))
             {
-                code.AppendLine(m.GenerateParseCode("this"));
+                loadAsync.AppendLine(m.GenerateParseCode("this"));
             }
             //objects
             foreach (var m in this.ResponseMemberCollection.OfType<RegexMember>().Where(m => m.Type == typeof(object)))
             {
                 var m1 = m;
-                code.AppendLinf("           //{0}", m1.Name);
-                code.AppendLinf("           this.{0} = new {0}();", m1.Name);
+                loadAsync.AppendLine($"           //{m1.Name}");
+                loadAsync.AppendLine($"           this.{m1.Name} = new {m1.Name}();");
                 var objectsChildren = from mc in m.MemberCollection.OfType<RegexMember>()
                                       select mc.GenerateParseCode("this." + m1.Name);
-                objectsChildren.ToList().ForEach(x => code.AppendLine(x));
+                objectsChildren.ToList().ForEach(x => loadAsync.AppendLine(x));
 
             }
 
@@ -112,131 +107,96 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var first = m.MemberCollection.OfType<RegexMember>().FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Group) && !string.IsNullOrWhiteSpace(x.Pattern));
                 if (null == first) continue;
 
-                code.AppendLine("           // " + m.Name);
-                code.AppendLinf("           var values{2} = Strings.RegexValues(this.ResponseText, {1}, \"{0}\");", first.Group, first.Pattern.ToLiteral(), count);
-                code.AppendLinf("           var colls{1} = new ObjectCollection<{0}>(Enumerable.Range(0,values{1}.Length).Select(x => new {0}() ));", m.Name.Replace("Collection", ""), count);
+                loadAsync.AppendLine("           // " + m.Name);
+                loadAsync.AppendLine($"           var values{count} = Strings.RegexValues(this.ResponseText, {first.Pattern.ToLiteral()}, \"{first.Group}\");");
+                var cname = m.Name.Replace("Collection", "");
+                loadAsync.AppendLine($"           var colls{count} = new ObjectCollection<{cname}>(Enumerable.Range(0,values{count}.Length).Select(x => new {cname}() ));");
 
 
-                code.AppendLinf("           for(int i = 0 ; i < values{0}.Length; i++)", count);
-                code.AppendLine("           {");
+                loadAsync.AppendLine($"           for(int i = 0 ; i < values{count}.Length; i++)");
+                loadAsync.AppendLine("           {");
 
                 var collectionChildrenCodes = from cm in m.MemberCollection.OfType<RegexMember>()
                                               where !string.IsNullOrWhiteSpace(cm.Group)
                                                     && !string.IsNullOrWhiteSpace(cm.Pattern)
                                               select cm.GenerateParseCode("   colls" + count1 + "[i]");
-                collectionChildrenCodes.ToList().ForEach(x => code.AppendLine(x));
+                collectionChildrenCodes.ToList().ForEach(x => loadAsync.AppendLine(x));
 
 
-                code.AppendLine("           }");
-                code.AppendLinf("           this.{0}.AddRange(colls{1});", m.Name, count);
+                loadAsync.AppendLine("           }");
+                loadAsync.AppendLine($"           this.{m.Name}.AddRange(colls{count});");
                 count++;
             }
 
             // for ajax request
             if (this.ResponseMimeType == "application/json; charset=utf-8")
             {
-                code.AppendLine();
+                loadAsync.AppendLine();
                 if (this.ResponseIsJsonArray)
-                    code.AppendLinf("           var result = JsonConvert.DeserializeObject<{0}>(\"{{ \\\"list\\\" :\" + this.ResponseText + \"}}\");", responseTypeName, this.HttpMethod);
+                    loadAsync.AppendLine($"           var result = JsonConvert.DeserializeObject<{responseTypeName}>(\"{{ \\\"list\\\" :\" + this.ResponseText + \"}}\");");
                 else
-                    code.AppendLinf("           var result = JsonConvert.DeserializeObject<{0}>(this.ResponseText);", responseTypeName);
+                    loadAsync.AppendLine($"           var result = JsonConvert.DeserializeObject<{responseTypeName}>(this.ResponseText);");
                 foreach (var member in this.ResponseMemberCollection)
                 {
-                    code.AppendLinf(
+                    loadAsync.AppendLine(
                         member.Type == typeof(Array)
-                            ? "           this.{0}.ClearAndAddRange(result.{0});"
-                            : "           this.{0} = result.{0};", member.Name);
+                            ? $"           this.{member.Name}.ClearAndAddRange(result.{member.Name});"
+                            : $"           this.{member.Name} = result.{member.Name};");
                 }
             }
 
-
-            code.AppendLine("       }");
-
-            // properties for each members
-            foreach (var member in this.ResponseMemberCollection)
-            {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
-            }
+            @class.MethodCollection.Add(loadAsync);
+            var properties = this.ResponseMemberCollection.Select(x => new Property {Code = x.GeneratedCode("    ")});
+            @class.PropertyCollection.AddRange(properties);
 
 
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
 
-            sources.Add(responseTypeName + ".cs", code.ToString());
-
-
-            // classes for members
-            foreach (var member in this.ResponseMemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var mc = GetCodeHeader() + member.GeneratedCustomClass() + "\r\n}";
-                var fileName = member.Name + ".cs";
-                if (sources.ContainsKey(fileName))
-                {
-                    Console.WriteLine("There is already file {0} with the {1} content", fileName, mc == sources[fileName] ? "same" : "different");
-                    continue;
-                }
-                sources.Add(member.Name + ".cs", mc);
-            }
-
+            var childrenClasses = this.ResponseMemberCollection.Select(
+                x => x.GeneratedCustomClass(CodeNamespace, ImportDirectives))
+                .SelectMany(x => x.ToArray());
+            sources.AddRange(childrenClasses);
+            
             return sources;
         }
 
-        public override Dictionary<string, string> GenerateRequestCode()
+        public override IEnumerable<Class> GenerateRequestCode()
         {
-            var sources = new Dictionary<string, string>();
 
             var typeName = (this.HttpMethod + "_" + this.Name).ToCsharpIdentitfier() + "Request";
-            var code = new StringBuilder();
-            code.AppendLine(this.GetCodeHeader());
-            code.AppendLine("   public class " + typeName + " : DomainObject");
-            code.AppendLine("   {");
+            var code = new Class { Name = typeName, Namespace = CodeNamespace, BaseClass = nameof(DomainObject) };
+            code.ImportCollection.AddRange(ImportDirectives);
+            var sources = new ObjectCollection<Class> { code };
 
             if (!string.IsNullOrWhiteSpace(this.RequestRouting))
             {
-                code.AppendLine("       public string GenerateUrl(string url)");
-                code.AppendLine("       {");
-                code.AppendLine("           return \"" + this.RequestRouting.Replace("{", "\" + ").Replace("}", ".EscapeUriString() + \"") + "\";");
-                code.AppendLine("       }");
+                var body = $"           return \"" + this.RequestRouting.Replace("{", "\" + ").Replace("}", ".EscapeUriString() + \"") + "\";";
+                var generateUrl = new Method { Name = "GenerateUrl", AccessModifier = Modifier.Public, ReturnType = typeof(string), Body = body };
+                generateUrl.ArgumentCollection.Add(new MethodArg { Name = "url", Type = typeof(string) });
+                code.MethodCollection.Add(generateUrl);
             }
 
 
-            code.AppendLine("       [JsonIgnore]");
-            code.AppendLine("       [XmlIgnore]");
-            code.AppendLine("       public string PostData");
-            code.AppendLine("       {");
-            code.AppendLine("           get");
-            code.AppendLine("           {");
-            code.AppendLine(PostDataCodeGenerator.Create(this).GenerateCode(this));
-            code.AppendLine("           }");
-            code.AppendLine("       }");
+            var postData = new StringBuilder();
+            postData.AppendLine("       [JsonIgnore]");
+            postData.AppendLine("       [XmlIgnore]");
+            postData.AppendLine("       public string PostData");
+            postData.AppendLine("       {");
+            postData.AppendLine("           get");
+            postData.AppendLine("           {");
+            postData.AppendLine(PostDataCodeGenerator.Create(this).GenerateCode(this));
+            postData.AppendLine("           }");
+            postData.AppendLine("       }");
+            code.AddProperty(postData.ToString());
+
+            var members = this.RequestMemberCollection.Select(m => m.GeneratedCode(" "))
+                .Select(m => new Property { Code = m });
+            code.PropertyCollection.AddRange(members);
 
 
-            // properties for each members
-            foreach (var member in this.RequestMemberCollection)
-            {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
-            }
-
-
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-
-            sources.Add(typeName + ".cs", code.ToString());
-            // classes for members
-            foreach (var member in this.RequestMemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var mc = GetCodeHeader() + member.GeneratedCustomClass() + "\r\n}";
-                var fileName = member.Name + ".cs";
-                if (sources.ContainsKey(fileName))
-                {
-                    Console.WriteLine("There is already file {0} with the {1} content", fileName, mc == sources[fileName] ? "same" : "different");
-                    continue;
-                }
-
-                sources.Add(member.Name + ".cs", mc);
-            }
+            var childrenClasses = this.RequestMemberCollection.Select(
+                x => x.GeneratedCustomClass(CodeNamespace, ImportDirectives))
+                .SelectMany(x => x.ToArray());
+            sources.AddRange(childrenClasses);
 
 
             return sources;
