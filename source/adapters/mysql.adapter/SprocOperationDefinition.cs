@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Integrations.Adapters.Properties;
 using MySql.Data.MySqlClient;
 
@@ -17,8 +18,8 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public string GenerateActionCode(MySqlAdapter adapter, string methodName)
         {
-            var code = new StringBuilder();
-            code.AppendLine(CreateMethodCode(adapter));
+            var name = this.MethodName.ToCsharpIdentitfier();
+            var code = new StringBuilder($"       public async Task<{name}Response> {name}Async({name}Request request)");
 
             var parameterList = this.RequestMemberCollection.Select(p => p.Name).ToList();
             parameterList.AddRange(this.ResponseMemberCollection.OfType<SprocResultMember>()
@@ -29,7 +30,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var outParameterSelectList = this.ResponseMemberCollection.OfType<SprocResultMember>()
                 .Where(p => p.Type != typeof(Array))
                 .Where(p => p.Type != typeof(object))
-                .Select(p => p.Type == typeof(string) ? p.Name : string.Format("CAST({0} AS SIGNED)", p.Name))
+                .Select(p => p.Type == typeof(string) ? p.Name : $"CAST({p.Name} AS SIGNED)")
                 .ToList();
 
             code.AppendFormat("           var sql =\"CALL `{0}`.`{1}`({2});\";", adapter.Schema, this.MethodName,
@@ -47,19 +48,13 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             foreach (var m in this.RequestMemberCollection.OfType<SprocParameter>())
             {
-                code.AppendLinf("               cmd.Parameters.AddWithValue(\"{0}\", request.{0});", m.Name);
-            }
-            foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
-            {
-                if (m.Type == typeof(Array)) continue;
-                if (m.Type == typeof(object)) continue;
-                if (m.Name == "@return_value") continue;
+                code.AppendLine($"               cmd.Parameters.AddWithValue(\"{m.Name}\", request.{m.Name});");
             }
             code.AppendLine("               await conn.OpenAsync();");
-            code.AppendLinf("               var response = new {0}Response();", this.MethodName.ToCsharpIdentitfier());
+            code.AppendLine($"               var response = new {MethodName.ToCsharpIdentitfier()}Response();");
             if (outParameterSelectList.Any())
             {
-                code.AppendLinf("               using(var reader = await cmd.ExecuteReaderAsync())");
+                code.AppendLine("               using(var reader = await cmd.ExecuteReaderAsync())");
                 code.AppendLine("               {");
                 code.AppendLine("                   if(await reader.ReadAsync())");
                 code.AppendLine("                   {");
@@ -68,7 +63,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 .Where(p => p.Type != typeof(Array))
                 .Where(p => p.Type != typeof(object)))
                 {
-                    code.AppendLinf("                       response.{0} = ({1})reader[{2}];", p.Name, p.Type.ToCSharp(), i);
+                    code.AppendLine($"                       response.{p.Name} = ({p.Type})reader[{i}];");
                     i++;
                 }
 
@@ -78,31 +73,26 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             else
             {
-                var hasReader = this.ResponseMemberCollection.OfType<SprocResultMember>().Any(p => p.Type == typeof (Array));
+                var hasReader = this.ResponseMemberCollection.OfType<SprocResultMember>().Any(p => p.Type == typeof(Array));
                 if (!hasReader)
                     code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
             }
 
             foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
-                if (m.Type == typeof(Array))
+                if (m.Type != typeof (Array)) continue;
+                code.AppendLinf("               using(var reader = await cmd.ExecuteReaderAsync())");
+                code.AppendLine("               {");
+                code.AppendLine("                   while(await reader.ReadAsync())");
+                code.AppendLine("                   {");
+                code.AppendLinf("                       var item = new {0}();", m.Name.Replace("Collection", ""));
+                foreach (var rm in m.MemberCollection.OfType<SprocResultMember>())
                 {
-                    code.AppendLinf("               using(var reader = await cmd.ExecuteReaderAsync())");
-                    code.AppendLine("               {");
-                    code.AppendLine("                   while(await reader.ReadAsync())");
-                    code.AppendLine("                   {");
-                    code.AppendLinf("                       var item = new {0}();", m.Name.Replace("Collection", ""));
-                    foreach (var rm in m.MemberCollection.OfType<SprocResultMember>())
-                    {
-
-                        code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", rm.Name, rm.Type.ToCSharp());
-                    }
-                    code.AppendLinf("                       response.{0}.Add(item);", m.Name);
-                    code.AppendLine("                   }");
-                    code.AppendLine("               }");
-                    continue;
+                    code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", rm.Name, rm.Type.ToCSharp());
                 }
-                if (m.Name == "@return_value") continue;
+                code.AppendLinf("                       response.{0}.Add(item);", m.Name);
+                code.AppendLine("                   }");
+                code.AppendLine("               }");
             }
 
             code.AppendLine("               return response;");
@@ -111,124 +101,65 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
+        
 
-        private string CreateMethodCode(MySqlAdapter adapter)
+
+        public override IEnumerable<Class> GenerateRequestCode()
         {
-            var code = new StringBuilder();
-            code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)",
-                this.MethodName.ToCsharpIdentitfier());
-            code.AppendLine("       {");
-            return code.ToString();
-        }
+            var code = new Class {Name = $"{Name.ToCsharpIdentitfier()}Request", BaseClass = nameof(DomainObject), Namespace = CodeNamespace};
+            var sources = new ObjectCollection<Class> {code};
 
 
-        public override Dictionary<string, string> GenerateRequestCode()
-        {
-            var sources = new Dictionary<string, string>();
-            var header = this.GetCodeHeader();
+            var properties = this.RequestMemberCollection.Select(x => new Property {Code = x.GeneratedCode("   ")});
+            code.PropertyCollection.AddRange(properties);
 
-            var typeName = this.Name.ToCsharpIdentitfier() + "Request";
-            var code = new StringBuilder();
-            code.AppendLine(header);
-            code.AppendLine("   public class " + typeName + " : DomainObject");
-            code.AppendLine("   {");
-
-
-            // properties for each members
-            foreach (var member in this.RequestMemberCollection)
-            {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
-            }
-
-
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-
-            sources.Add(typeName + ".cs", code.ToString());
-            // classes for members
-            foreach (var member in this.RequestMemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                var fileName = member.Name + ".cs";
-                if (sources.ContainsKey(fileName))
-                {
-                    Console.WriteLine(Resources.DuplicationFileContent, fileName, mc == sources[fileName] ? "same" : "different");
-                    continue;
-                }
-
-                sources.Add(member.Name + ".cs", mc);
-            }
-
+            var otherClasses = this.RequestMemberCollection
+                .Select(x => x.GeneratedCustomClass(CodeNamespace, ImportDirectives))
+                .SelectMany(x => x.ToArray());
+            sources.AddRange(otherClasses);
 
             return sources;
         }
 
-        private string GetCodeHeader(params string[] namespaces)
+        public static readonly string[] ImportDirectives =
         {
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
-            header.AppendLine("using " + typeof(MySqlConnection).Namespace + ";");
-            header.AppendLine("using " + typeof(CommandType).Namespace + ";");
-            header.AppendLine("using " + typeof(Encoding).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Mvc;");
-            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
-            foreach (var ns in namespaces)
-            {
-                header.AppendLinf("using {0};", ns);
-            }
-            header.AppendLine();
+   typeof(Entity).Namespace,
+   typeof(Int32).Namespace,
+   typeof(Task<>).Namespace,
+   typeof(Enumerable).Namespace,
+   typeof(IEnumerable<>).Namespace,
+   typeof(MySqlConnection).Namespace,
+   typeof(CommandType).Namespace,
+   typeof(Encoding).Namespace,
+   typeof(XmlAttributeAttribute).Namespace,
+   "System.Web.Mvc;",
+   "Bespoke.Sph.Web.Helpers"
 
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
-
-        }
+        };
 
 
-        public override Dictionary<string, string> GenerateResponseCode()
+        public override IEnumerable<Class> GenerateResponseCode()
         {
-            var sources = new Dictionary<string, string>();
-            var header = this.GetCodeHeader();
-
-            var responseTypeName = this.Name.ToCsharpIdentitfier() + "Response";
-            var code = new StringBuilder();
-            code.AppendLine(header);
-            code.AppendLine("   public class " + responseTypeName + " : DomainObject");
-            code.AppendLine("   {");
-
-
-            // properties for each members
-            foreach (var member in this.ResponseMemberCollection.OfType<SprocResultMember>())
+            var code = new Class
             {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
-            }
+                Name = $"{this.Name.ToCsharpIdentitfier()}Response",
+                BaseClass = nameof(DomainObject),
+                Namespace = CodeNamespace
+            };
+            var sources = new ObjectCollection<Class> {code};
 
 
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
+            var properties = this.ResponseMemberCollection.OfType<SprocResultMember>().Select(x => x.GeneratedCode())
+                .Select(x => new Property {Code = x});
+            code.PropertyCollection.AddRange(properties);
 
-            sources.Add(responseTypeName + ".cs", code.ToString());
 
 
-            // classes for members
-            foreach (var member in this.ResponseMemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                var fileName = member.Name + ".cs";
-                if (sources.ContainsKey(fileName))
-                {
-                    Console.WriteLine(Resources.DuplicationFileContent, fileName, mc == sources[fileName] ? "same" : "different");
-                    continue;
-                }
-                sources.Add(member.Name + ".cs", mc);
-            }
+            var otherClasses = this.ResponseMemberCollection
+              .Select(x => x.GeneratedCustomClass(CodeNamespace, ImportDirectives))
+              .SelectMany(x => x.ToArray());
+            sources.AddRange(otherClasses);
+         
 
             return sources;
         }
