@@ -10,6 +10,7 @@ using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Domain.Properties;
 
 namespace Bespoke.Sph.Domain.Api
@@ -17,17 +18,18 @@ namespace Bespoke.Sph.Domain.Api
     [StoreAsSource(HasDerivedTypes = true)]
     public abstract partial class Adapter
     {
-        public string[] SaveSources(Dictionary<string, string> sources, string folder)
+        public string[] SaveSources(IEnumerable<Class> classes, string folder)
         {
+            var sources = classes.ToArray();
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
-            foreach (var cs in sources.Keys)
+            foreach (var cs in sources)
             {
-                var file = Path.Combine(folder, cs);
-                File.WriteAllText(file, sources[cs]);
+                var file = Path.Combine(folder, cs.FileName);
+                File.WriteAllText(file, cs.GetCode());
             }
-            return sources.Keys.ToArray()
-                    .Select(f => Path.Combine(folder, f))
+            return sources.ToArray()
+                    .Select(f => Path.Combine(folder, f.FileName))
                     .ToArray();
         }
 
@@ -148,13 +150,7 @@ namespace Bespoke.Sph.Domain.Api
             var odataTranslatorCode = await this.GenerateOdataTranslatorSourceCodeAsync();
             if (null != odataTranslatorCode)
             {
-                var odataSource = this.SaveSources(new Dictionary<string, string>
-                {
-                    {
-                        odataTranslatorCode.Item1,
-                        odataTranslatorCode.Item2
-                    }
-                }, sourceFolder);
+                var odataSource = this.SaveSources(new[] { odataTranslatorCode }, sourceFolder);
                 sources.AddRange(odataSource);
 
             }
@@ -162,13 +158,7 @@ namespace Bespoke.Sph.Domain.Api
             var pagingCode = await this.GeneratePagingSourceCodeAsync();
             if (null != pagingCode)
             {
-                var pagingSource = this.SaveSources(new Dictionary<string, string>
-                {
-                    {
-                        pagingCode.Item1,
-                        pagingCode.Item2
-                    }
-                }, sourceFolder);
+                var pagingSource = this.SaveSources(new[] { pagingCode }, sourceFolder);
                 sources.AddRange(pagingSource);
 
             }
@@ -183,9 +173,9 @@ namespace Bespoke.Sph.Domain.Api
 
         }
 
-        protected abstract Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces);
-        protected abstract Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync();
-        protected abstract Task<Tuple<string, string>> GeneratePagingSourceCodeAsync();
+        protected abstract Task<IEnumerable<Class>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces);
+        protected abstract Task<Class> GenerateOdataTranslatorSourceCodeAsync();
+        protected abstract Task<Class> GeneratePagingSourceCodeAsync();
         protected abstract Task<TableDefinition> GetSchemaDefinitionAsync(string table);
 
         public virtual void SaveAssets()

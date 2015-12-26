@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
@@ -11,31 +12,28 @@ namespace Bespoke.Sph.Domain.Api
 
         [ImportMany(typeof(ControllerAction))]
         [JsonIgnore]
-        public IEnumerable<ControllerAction> ActionCodeGenerators { get; set; }
+        public ControllerAction[] ActionCodeGenerators { get; set; }
 
-        private string GenerateController(Adapter adapter)
+        private Class GenerateController(Adapter adapter)
         {
             if(null == this.ActionCodeGenerators)
                 ObjectBuilder.ComposeMefCatalog(this);
-
-            var header = this.GetCodeHeader();
-            var code = new StringBuilder(header);
-
-            code.AppendLinf("   [RoutePrefix(\"api/{0}/{1}\")]", this.Schema.ToLowerInvariant(), this.Name.ToLowerInvariant());
-            code.AppendLinf("   public partial class {0}Controller : ApiController", this.Name);
-            code.AppendLine("   {");
+            if(null == this.ActionCodeGenerators)
+                throw new Exception($"Cannot compose MEF for {nameof(TableDefinition)}");
+            
+            var code = new Class {Name = $"{Name}Controller", BaseClass = "ApiController", Namespace = CodeNamespace};
+            code.AttributeCollection.Add($"   [RoutePrefix(\"api/{Schema.ToLowerInvariant()}/{Name.ToLowerInvariant()}\")]");
+            code.ImportCollection.AddRange(ImportDirectives);
 
             var executed = new List<Type>();
             foreach (var action in this.ActionCodeGenerators)
             {
                 if (executed.Contains(action.GetType())) continue;
                 executed.Add(action.GetType());
-                code.AppendLine(action.GenerateCode(this, adapter));
+                code.AddMethod(action.GenerateCode(this, adapter));
             }
-
-            code.AppendLine("   }");// end class
-            code.AppendLine("}"); // end namespace
-            return code.ToString();
+            
+            return code;
 
         }
 

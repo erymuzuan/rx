@@ -5,11 +5,22 @@ namespace Bespoke.Sph.Domain.Codes
 {
     public class Class
     {
+        public Class()
+        {
+            
+        }
+
+        public Class(string code)
+        {
+            this.m_code = code;
+        }
         public string Name { get; set; }
         public string Namespace { get; set; }
         public string BaseClass { get; set; }
 
         private string m_fileName;
+        private string m_code;
+
 
         public ObjectCollection<string> CtorCollection { get; } = new ObjectCollection<string>();
         public ObjectCollection<string> ImportCollection { get; } = new ObjectCollection<string>();
@@ -37,6 +48,8 @@ namespace Bespoke.Sph.Domain.Codes
 
         public string GetCode()
         {
+            if (!string.IsNullOrWhiteSpace(m_code))
+                return m_code;
             var code = new StringBuilder();
             foreach (var @import in this.ImportCollection)
             {
@@ -78,9 +91,17 @@ namespace Bespoke.Sph.Domain.Codes
 
         }
 
+        public void AddMethod(string format, params object[] args)
+        {
+            this.MethodCollection.Add(new Method { Code = string.Format(format, args) });
+        }
         public void AddProperty(string format, params object[] args)
         {
             this.PropertyCollection.Add(new Property { Code = string.Format(format, args) });
+        }
+        public void AddProperty(string name, Type type)
+        {
+            this.PropertyCollection.Add(new Property {Name = name, Type = type });
         }
     }
 }
