@@ -138,6 +138,44 @@ namespace domain.test.entities
 
         }
         [Test]
+        public async Task HttpPatchReleaseOperation()
+        {
+            var release = new EntityOperation { Name = "Release" , IsHttpPatch = true, WebId = "ReleaseWithPatch"};
+            release.PatchPathCollection.Add("Status");
+            //release.PatchPathCollection.Add("ClinicalNote");
+            release.Rules.Add("VerifyRegisteredDate");
+
+
+            var ed = this.CreatePatientDefinition("PatientForRelease");
+            ed.EntityOperationCollection.Add(release);
+           
+
+            var patient = this.CreateInstance(ed, true);
+            Assert.IsNotNull(patient);
+
+            Type patientType = patient.GetType();
+            var dll = patientType.Assembly;
+            foreach (var type in dll.GetTypes())
+            {
+                Console.WriteLine(type);
+            }
+            var controllerType = dll.GetType(patientType.Namespace + ".PatientForReleaseController");
+            Assert.IsNotNull(controllerType);
+
+            var releaseActionMethodInfo = controllerType.GetMethod("PatchRelease");
+            Assert.IsNotNull(releaseActionMethodInfo);
+            
+            dynamic controller = Activator.CreateInstance(controllerType);
+            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
+
+            var result = await controller.PatchRelease("abc", "{\"Status\":\"Released\"}");
+            dynamic vr = result.Data;
+            var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
+            StringAssert.Contains("\"success\": false", ttt);
+            Console.WriteLine();
+
+        }
+        [Test]
         public async Task AddReleaseOperationWithBusinessRule()
         {
             var release = new EntityOperation { Name = "Release" };

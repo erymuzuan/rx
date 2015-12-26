@@ -4894,6 +4894,26 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameSuccessCommand = "SuccessCommand";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_route;
+        public const string PropertyNameRoute = "Route";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isHttpPut;
+        public const string PropertyNameIsHttpPut = "IsHttpPut";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isHttpPatch;
+        public const string PropertyNameIsHttpPatch = "IsHttpPatch";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isHttpPost;
+        public const string PropertyNameIsHttpPost = "IsHttpPost";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -4920,6 +4940,13 @@ namespace Bespoke.Sph.Domain
         ///</summary>
         [XmlArrayItem("SetterActionChild", IsNullable = false)]
         public ObjectCollection<SetterActionChild> SetterActionChildCollection { get; } = new ObjectCollection<SetterActionChild>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> PatchPathCollection { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
@@ -5053,6 +5080,113 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_successCommand;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Route
+        {
+            set
+            {
+                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_route = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_route;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsHttpPut
+        {
+            set
+            {
+                if (m_isHttpPut == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsHttpPut, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isHttpPut = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isHttpPut;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsHttpPatch
+        {
+            set
+            {
+                if (m_isHttpPatch == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsHttpPatch, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isHttpPatch = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isHttpPatch;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsHttpPost
+        {
+            set
+            {
+                if (m_isHttpPost == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsHttpPost, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isHttpPost = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isHttpPost;
             }
         }
 

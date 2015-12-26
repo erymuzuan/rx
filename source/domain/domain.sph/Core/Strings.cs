@@ -361,6 +361,7 @@ namespace Bespoke.Sph.Domain
         {
             return $"{type.FullName}, {type.Assembly.GetName().Name}";
         }
+
         public static string ToCSharp(this Type type)
         {
             if (type == typeof(void)) return "void";
@@ -382,6 +383,8 @@ namespace Bespoke.Sph.Domain
             if (type == typeof(double?)) return "double?";
             if (type == typeof(short?)) return "short?";
             if (type == typeof(long?)) return "long?";
+
+           
             return type.FullName;
         }
 

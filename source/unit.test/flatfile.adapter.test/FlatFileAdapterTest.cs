@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;

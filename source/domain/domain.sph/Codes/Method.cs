@@ -34,14 +34,17 @@ namespace Bespoke.Sph.Domain.Codes
         public ObjectCollection<string> AttributeCollection { get; } = new ObjectCollection<string>();
 
         public bool IsPartial { get; set; }
+        public string ReturnTypeName { get; set; }
 
         public string GenerateCode()
         {
             if (!string.IsNullOrWhiteSpace(this.Code))
                 return this.Code;
-            var code = new StringBuilder("//" + this.Comment);
-
-            var args = this.ArgumentCollection.Select(x => $"{x.Type.ToCSharp()} {x.Name}");
+            var code = new StringBuilder();
+            if (!string.IsNullOrWhiteSpace(this.Comment))
+                code.AppendLine("//" + this.Comment);
+            
+            var args = this.ArgumentCollection.Select(x => x.ToString());
 
             foreach (var attr in this.AttributeCollection)
             {
@@ -54,8 +57,9 @@ namespace Bespoke.Sph.Domain.Codes
             var partialModifier = this.IsPartial ? " partial " : "";
 
             var argSignature = string.Join(",", args);
+            var retType =this.ReturnType == null ? this.ReturnTypeName: this.ReturnType.ToCSharp();
             var signature = string.Format("{0} {8}{7}{6}{5}{3}{1} {2}({4})", AccessModifier.ToString().ToLowerInvariant(),
-                this.ReturnType.ToCSharp(),
+                retType,
                 this.Name,
                 asyncModifier,
                 argSignature,

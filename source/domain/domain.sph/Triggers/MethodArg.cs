@@ -20,6 +20,15 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public override string ToString()
+        {
+            var type = this.Type == null ? this.TypeName : this.Type.ToCSharp();
+            var attribute = string.Join("\r\n", this.AttributeCollection);
+            return $"{attribute}{type} {Name}";
+        }
+
+        public ObjectCollection<string> AttributeCollection { get; } = new ObjectCollection<string>();
+
         public object GetValue(RuleContext context)
         {
             return this.ValueProvider.GetValue(context);

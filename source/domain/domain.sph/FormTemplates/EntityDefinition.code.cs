@@ -181,20 +181,25 @@ namespace Bespoke.Sph.Domain
                 Namespace = CodeNamespace
             };
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);
+            controller.ImportCollection.Add("Newtonsoft.Json.Linq");
             controller.AttributeCollection.Add($"[RoutePrefix(\"{Name}\")]");
 
             var search = GenerateSearchAction();
             controller.MethodCollection.Add(search);
+            
 
-            var save = GenerateSaveAction();
-            controller.MethodCollection.Add(save);
+            var posts = this.EntityOperationCollection.Where(x => x.IsHttpPost).Select(x => x.GeneratePostAction(this));
+            controller.MethodCollection.AddRange(posts);
 
-            var operations = this.EntityOperationCollection.Select(x => x.GenerateMethod(this));
-            controller.MethodCollection.AddRange(operations);
+            var patches = this.EntityOperationCollection.Where(x => x.IsHttpPatch).Select(x => x.GeneratePatchAction(this));
+            controller.MethodCollection.AddRange(patches);
+
+            var puts = this.EntityOperationCollection.Where(x => x.IsHttpPut).Select(x => x.GeneratePatchAction(this));
+            controller.MethodCollection.AddRange(puts);
 
             controller.MethodCollection.Add(GenerateValidationAction());
 
-            var remove = GenerteRemoveAction();
+            var remove = GenerateRemoveAction();
             controller.MethodCollection.Add(remove);
 
             //SCHEMAS
@@ -251,34 +256,8 @@ namespace Bespoke.Sph.Domain
             search.AppendLine();
             return new Method { Code = search.ToString() };
         }
-
-        private Method GenerateSaveAction()
-        {
-            // SAVE
-            var save = new StringBuilder();
-            save.AppendLinf("       //exec:Save");
-            save.AppendLinf("       [HttpPost]");
-            save.AppendLinf("       [Route(\"\")]");
-            save.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]{0} item)", this.Name);
-            save.AppendLine("       {");
-            save.AppendLinf(@"
-            if(null == item) throw new ArgumentNullException(""item"");
-            var context = new Bespoke.Sph.Domain.SphDataContext();
-            if(item.IsNewItem)item.Id = Guid.NewGuid().ToString();
-
-            using(var session = context.OpenSession())
-            {{
-                session.Attach(item);
-                await session.SubmitChanges(""save"");
-            }}
-            this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.Id, href = ""{1}/"" + item.Id}});", this.Name,
-                this.Name.ToLowerInvariant());
-            save.AppendLine("       }");
-            return new Method { Code = save.ToString() };
-        }
-
-        private Method GenerteRemoveAction()
+        
+        private Method GenerateRemoveAction()
         {
             // REMOVE
             var remove = new StringBuilder();
