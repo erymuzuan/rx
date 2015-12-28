@@ -22,7 +22,8 @@ The other aspects of Rx Developer Configuration is the fact that it read the val
 So let's say we take a Configuration for `BaseUrl` , Rx Developer will look for Environment Variable `RX_<YOUR_APPLICARION_NAME>_BaseUrl` value in your **Process** first, it can find it then it will return this value from the `Process` Environment Variable, but it cannot find it then it will traverse to **User** Environment Variable followed by **System**. If it cannot find the value in any of those Environment Variable then the default value is returned, in this case it's `http://localhost:4436/`
 
 ## Common configuration options
-------------------------------
+
+These are sets of shared and common configuration setting
 
 | Key                 | Default value                         | Description                                                     |
 |---------------------|:--------------------------------------|:----------------------------------------------------------------|
@@ -38,63 +39,49 @@ So let's say we take a Configuration for `BaseUrl` , Rx Developer will look for 
 | EnableOfflineForm   | false                                 | Turn on your offline capability for your web app                |
 
 
+## Path configuration
+Path based configuration basically defines where the specified file or directory is, it takes a little different twist as the the path is depend on your `RX_<APPLICATION_NAME>_HOME` value if no root is specified.
+
+For example if your `RX_<APPLICATION_NAME>_HOME` is `c:\apps\` and you have this scenario
+1. You do not specify your `RX_<APPLICATION_NAME>_WebPath`, it will take the default value as `web` and the path is calculated as `c:\apps\web`
+2. You specify your `RX_<APPLICATION_NAME>_WebPath` = `src-web` then your web application web folder is calculated as `c:\apps\src-web`
+3. You specify your `RX_<APPLICATION_NAME>_WebPath` = `D:\web-app\app01`, then it will be calculated as `D:\web-app\app01`
+
+
+| Key                     | Default value                         | Description                                                     |
+|-------------------------|:--------------------------------------|:----------------------------------------------------------------|
+| WebPath                 | web                                   | Your web application root directory                             |
+| CompilerOutputPath      | output                                | directory where all you compiled output dll will be created     |
+| SourceDirectory         | sources                               | The source directory for your system assets, things like your EntityDefinition, EntityForm, WorkflowDefinition etc, will be saved.                                                                                              |
+| GeneratedSourceDirectory| sources/_generated                    | Where the compiler will save your C# generated source code, the source for your dll
+| SubscriberPath          | subscribers                           | The directory where your subscribers, triggers dll are, it will used by your subscriber.host |
+| ToolsPath               | tools                                 | the directory where your other utility tools are                |
+| SchedulerPath           | schedulers                            | The directory for you schedulers
+| DelayActivityExecutable | schedulers\scheduler.delayactivity.exe | Your WorkflowDefinition delay activity is fired by taks scheduler, this the executable that kicks it off |
+| ReportDeliveryExecutable| schedulers\scheduler.report.delivery.exe | Report Deliver scheduler path |
+| ScheduledTriggerActivityExecutable| schedulers\scheduler.workflow.trigger.exe | For your scheduled workflow
+
+
+## RabbitMq connection setting
+We finally rid off `IBrokerConnection` object, and all the duplicates that you have to do in all your `*.config` files
+
+| Key                     | Default value                         | Description                                                     |
+|-------------------------|:--------------------------------------|:----------------------------------------------------------------|
+| RabbitMqUserName        | guest                                 | The user name to connection to the broker                       |
+| RabbitMqPassword        | guest                                 | The user password to connect to the broker                      |
+| RabbitMqHost            | localhost                             | The broker host address                                         |
+| RabbitMqManagementScheme | http                                 | If you have `rabbitmq_management` plugin enabled, this the scheme, it could https |
+| RabbitMqPort            | 5672                                  | The port no used by the broker |
+| RabbitMqManagementPort  | 15672                                 | If you have `rabbitmq_management` plugin enabled, this the port number |
+| RabbitMqVirtualHost     | `<APPLICATION_NAME>`                 | vhost use to isolate you rabbitmq environment, the default value is equal to you APPLICATION_NAME|
 
 
 
+## Elasticsearch connection setting
 
-
-
-```csharp
-public static class ConfigurationManager
-   {
-       public static string ApplicationNameToUpper = ApplicationName.ToUpper();
-       public static string ApplicationName => AppSettings["sph:ApplicationName"] ?? "YOUR_APP";
-
-       public static string ApplicationFullName => GetEnvironmentVariable("ApplicationFullName") ?? "Reactive Developer platform showcase";
-       public static string FromEmailAddress => GetEnvironmentVariable("FromEmailAddress") ?? "admin@rxdeveloper.com";
-       public static int StaticFileCache => GetEnvironmentVariableInt32("StaticFileCache", 120);
-       public static int WorkflowDebuggerPort => GetEnvironmentVariableInt32("WorkflowDebuggerPort", 50518);
-       public static long EsIndexingDelay => GetEnvironmentVariableInt32("EsIndexingDelay", 15000);
-       public static int EsIndexingMaxTry => GetEnvironmentVariableInt32("EsIndexingMaxTry", 3);
-       public static long SqlPersistenceDelay => GetEnvironmentVariableInt32("SqlPersistenceDelay", 15000);
-       public static int SqlPersistenceMaxTry => GetEnvironmentVariableInt32("SqlPersistenceMaxTry", 3);
-       public static bool EnableOfflineForm => GetEnvironmentVariableBoolean("EnableOfflineForm");
-       public static string BaseUrl => GetEnvironmentVariable("BaseUrl") ?? "http://localhost:4436";
-       public static string Home => GetEnvironmentVariable("HOME");
-       public static string CompilerOutputPath => GetPath("CompilerOutputPath", "output");
-       /// <summary>
-       /// Ad directory where all the sph and systems source code like the *.json file for each asset definitions
-       /// </summary>
-       public static string SphSourceDirectory => GetPath("SourceDirectory", "sources");
-       /// <summary>
-       /// A directory where all the users source codes are
-       /// </summary>
-       public static string GeneratedSourceDirectory => GetPath("GeneratedSourceDirectory", @"sources\_generated\");
-       public static string SqlConnectionString => GetEnvironmentVariable("SqlConnectionString") ?? $"Data Source=(localdb)\\Projects;Initial Catalog={ApplicationName};Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False";
-
-       public static string RabbitMqUserName => GetEnvironmentVariable("RabbitMqUserName") ?? "guest";
-       public static string RabbitMqPassword => GetEnvironmentVariable("RabbitMqPassword") ?? "guest";
-       public static string RabbitMqHost => GetEnvironmentVariable("RabbitMqHost") ?? "localhost";
-       public static string RabbitMqManagementScheme => GetEnvironmentVariable("RabbitMqManagementScheme") ?? "http";
-       public static int RabbitMqPort => GetEnvironmentVariableInt32("RabbitMqPort", 5672);
-       public static int RabbitMqManagementPort => GetEnvironmentVariableInt32("RabbitMqManagementPort", 15672);
-       public static string RabbitMqVirtualHost => GetEnvironmentVariable("RabbitMqVirtualHost") ?? ApplicationName;
-
-       public static string ElasticSearchHost => GetEnvironmentVariable("ElasticSearchHost") ?? "http://localhost:9200";
-       public static string ElasticSearchIndex => GetEnvironmentVariable("ElasticSearchIndex") ?? ApplicationName.ToLowerInvariant();
-       public static string ReportDeliveryExecutable => GetPath("ReportDeliveryExecutable", @"schedulers\scheduler.report.delivery.exe");
-       public static string ScheduledTriggerActivityExecutable => GetPath("ScheduledTriggerActivityExecutable", @"schedulers\scheduler.workflow.trigger.exe");
-       public static bool EnableWorkflowGetCacheDependency => GetEnvironmentVariableBoolean("EnableWorkflowGetCacheDependency");
-
-       public static ConnectionStringSettingsCollection ConnectionStrings => System.Configuration.ConfigurationManager.ConnectionStrings;
-
-       public static System.Collections.Specialized.NameValueCollection AppSettings => System.Configuration.ConfigurationManager.AppSettings;
-       public static int JpegMaxWitdh => GetEnvironmentVariableInt32("jpg.max.width", 400);
-
-       public static string SchedulerPath => GetPath("SchedulerPath", "schedulers");
-       public static string SubscriberPath => GetPath("SubscriberPath", "subscribers");
-       public static string ToolsPath => GetPath("ToolsPath", "tools");
-       public static string WebPath => GetPath("WebPath", "web");
-       public static string DelayActivityExecutable => GetPath("DelayActivityExecutable", @"schedulers\scheduler.delayactivity.exe");
-
-```
+| Key                     | Default value                         | Description                                                     |
+|-------------------------|:--------------------------------------|:----------------------------------------------------------------|
+| ElasticSearchHost       | http://localhost:9200                 | The full URL to your Elasticsearch Server                       |
+| ElasticSearchIndex      | lowered application name              |                        |
+| EsIndexingDelay         | 1500                                  | The number in miliseconds to wait if the attempt to update you Elasticsearch fails
+| EsIndexingMaxTry        | 3                                     | The number of retry to update your Elasticsearch data           |
