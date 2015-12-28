@@ -261,6 +261,8 @@ WriteLiteral(" name=\"remember\"");
 
 WriteLiteral(" value=\"1\"");
 
+WriteLiteral(" style=\"position: relative\"");
+
 WriteLiteral(">\r\n                                Remember me\r\n                            </lab" +
 "el>\r\n\r\n                            <input");
 
@@ -281,14 +283,14 @@ WriteLiteral(" class=\"btn btn-default\"");
 WriteLiteral(">Login</button>\r\n                        </form>\r\n\r\n                        <div>" +
 "\r\n                            <p>\r\n                                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2544), Tuple.Create("\"", 2580)
+WriteAttribute("href", Tuple.Create(" href=\"", 2571), Tuple.Create("\"", 2607)
             
             #line 59 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-, Tuple.Create(Tuple.Create("", 2551), Tuple.Create<System.Object, System.Int32>(Url.Action("ForgotPassword")
+, Tuple.Create(Tuple.Create("", 2578), Tuple.Create<System.Object, System.Int32>(Url.Action("ForgotPassword")
             
             #line default
             #line hidden
-, 2551), false)
+, 2578), false)
 );
 
 WriteLiteral(">Forgot your password</a>\r\n                            </p>\r\n                    " +
@@ -342,9 +344,9 @@ WriteLiteral(">Go to help</a>\r\n                </div>\r\n");
             #line hidden
 WriteLiteral("        </section>\r\n    </div>\r\n\r\n\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 3184), Tuple.Create("\"", 3215)
-, Tuple.Create(Tuple.Create("", 3190), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/__vendor.min.js")
-, 3190), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 3211), Tuple.Create("\"", 3242)
+, Tuple.Create(Tuple.Create("", 3217), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/__vendor.min.js")
+, 3217), false)
 );
 
 WriteLiteral("></script>\r\n    <script");

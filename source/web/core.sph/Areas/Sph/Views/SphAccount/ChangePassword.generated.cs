@@ -85,6 +85,12 @@ WriteLiteral(" content=\"width=device-width\"");
 
 WriteLiteral(" />\r\n    <link");
 
+WriteLiteral(" href=\"/Content/external/bootstrap.min.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" />\r\n    <link");
+
 WriteLiteral(" href=\"/Content/__css.min.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -98,13 +104,13 @@ WriteLiteral(" class=\"container\"");
 WriteLiteral(">\r\n        <section>\r\n");
 
             
-            #line 20 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+            #line 21 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 20 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+            #line 21 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
              using (Html.BeginForm((string)ViewBag.FormAction, "SphAccount"))
             {
 
@@ -121,7 +127,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                    ");
 
             
-            #line 24 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+            #line 25 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
                Write(Html.Partial("_Slider"));
 
             
@@ -150,7 +156,7 @@ WriteLiteral(">\r\n\r\n                            <p>\r\n                      
 "ds are required to be a minimum of ");
 
             
-            #line 36 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+            #line 37 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
                                                                          Write(Membership.MinRequiredPasswordLength);
 
             
@@ -202,14 +208,14 @@ WriteLiteral(">\r\n                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteAttribute("min", Tuple.Create(" min=\"", 1931), Tuple.Create("\"", 1985)
+WriteAttribute("min", Tuple.Create(" min=\"", 2005), Tuple.Create("\"", 2059)
             
-            #line 49 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
-, Tuple.Create(Tuple.Create("", 1937), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
+            #line 50 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+, Tuple.Create(Tuple.Create("", 2011), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
             
             #line default
             #line hidden
-, 1937), false)
+, 2011), false)
 );
 
 WriteLiteral(" required");
@@ -241,14 +247,14 @@ WriteLiteral(">\r\n                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteAttribute("min", Tuple.Create(" min=\"", 2439), Tuple.Create("\"", 2493)
+WriteAttribute("min", Tuple.Create(" min=\"", 2513), Tuple.Create("\"", 2567)
             
-            #line 56 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
-, Tuple.Create(Tuple.Create("", 2445), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
+            #line 57 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+, Tuple.Create(Tuple.Create("", 2519), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
             
             #line default
             #line hidden
-, 2445), false)
+, 2519), false)
 );
 
 WriteLiteral(" required");
@@ -297,20 +303,20 @@ WriteLiteral(" class=\"col-sm-12\"");
 WriteLiteral(" />\r\n                </div>\r\n");
 
             
-            #line 73 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+            #line 74 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 73 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+            #line 74 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
            Write(Html.Partial("_Footer"));
 
             
             #line default
             #line hidden
             
-            #line 73 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+            #line 74 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
                                         
 
 
