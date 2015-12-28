@@ -26,6 +26,7 @@
   "daily-schedule-dialog": "DailySchedule.html",
   "weekly-schedule-dialog": "WeeklySchedule.html",
   "monthly-schedule-dialog": "MonthlySchedule.html",
+  "configuration" : "configuration.manager.md.html",
 
   "page-detail-dialog": "Page.html",
 
