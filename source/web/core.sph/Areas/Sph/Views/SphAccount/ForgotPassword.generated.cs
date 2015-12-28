@@ -88,9 +88,15 @@ WriteLiteral(" content=\"width=device-width\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 359), Tuple.Create("\"", 385)
-, Tuple.Create(Tuple.Create("", 366), Tuple.Create<System.Object, System.Int32>(Href("~/Content/__css.css")
-, 366), false)
+WriteLiteral(" href=\"/Content/external/bootstrap.min.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" />\r\n    <link");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 433), Tuple.Create("\"", 459)
+, Tuple.Create(Tuple.Create("", 440), Tuple.Create<System.Object, System.Int32>(Href("~/Content/__css.css")
+, 440), false)
 );
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -110,7 +116,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 25 "..\..\Areas\Sph\Views\SphAccount\ForgotPassword.cshtml"
+            #line 26 "..\..\Areas\Sph\Views\SphAccount\ForgotPassword.cshtml"
            Write(Html.Partial("_Slider"));
 
             
@@ -221,7 +227,7 @@ WriteLiteral(">Go to help</a>\r\n            </div>\r\n");
 WriteLiteral("            ");
 
             
-            #line 63 "..\..\Areas\Sph\Views\SphAccount\ForgotPassword.cshtml"
+            #line 64 "..\..\Areas\Sph\Views\SphAccount\ForgotPassword.cshtml"
        Write(Html.Partial("_Footer"));
 
             
@@ -229,9 +235,9 @@ WriteLiteral("            ");
             #line hidden
 WriteLiteral("\r\n\r\n\r\n        </section>\r\n    </div>\r\n\r\n\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2447), Tuple.Create("\"", 2478)
-, Tuple.Create(Tuple.Create("", 2453), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/__vendor.min.js")
-, 2453), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2521), Tuple.Create("\"", 2552)
+, Tuple.Create(Tuple.Create("", 2527), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/__vendor.min.js")
+, 2527), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
