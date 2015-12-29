@@ -60,34 +60,44 @@ namespace Bespoke.Sph.Domain
         public Method GeneratePostAction(EntityDefinition ed)
         {
             if (!IsHttpPost) return null;
-
             var route = this.Route ?? this.Name;
-            var post = new Method { Name = Name, ReturnTypeName = "Task<ActionResult>" };
+            var post = new Method { Name = $"Post{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
             post.AttributeCollection.Add("[HttpPost]");
-            post.AttributeCollection.Add($"[Route(\"{route}\")]");
+            post.AttributeCollection.Add($"[Route(\"{route.ToLowerInvariant()}\")]");
 
-            var authroize = GenerateAuthorizeAttribute();
-            post.AttributeCollection.Add(authroize);
-
-            var item = new MethodArg { Name = "item", TypeName = ed.Name };
-            item.AttributeCollection.Add("[RequestBody]");
-            post.ArgumentCollection.Add(item);
+            var authorize = GenerateAuthorizeAttribute();
+            if (!string.IsNullOrWhiteSpace(authorize))
+                post.AttributeCollection.Add(authorize);
 
 
-            var rules = GenerateRulesCode(ed);
-            post.AppendLine(rules);
+            var body = new MethodArg { Name = "item", TypeName = ed.Name };
+            body.AttributeCollection.Add("[RequestBody]");
+            post.ArgumentCollection.Add(body);
 
-            post.AppendLine(GetSetterCode(ed));
+
+            post.AppendLine("           var context = new SphDataContext();");
+            if (this.Rules.Any() || this.SetterActionChildCollection.Any())
+                post.AppendLine(GetEntityDefinitionCode(ed));
+
+            post.AppendLine($"      item.Id = Strings.GenerateId(); ");
+
+            var rules = GenerateRulesCode();
+            if (!string.IsNullOrWhiteSpace(rules))
+                post.AppendLine(rules);
+
+
+            var setterCode = GetSetterCode(ed);
+            if (!string.IsNullOrWhiteSpace(setterCode))
+                post.AppendLine(setterCode);
 
             post.AppendLine($@"
-            item.Id = Guid.NewGuid().ToString();
         
             using(var session = context.OpenSession())
             {{
                 session.Attach(item);
                 await session.SubmitChanges(""{Name}"");
             }}
-            return Json(new {{success = true, message=""{SuccessMessage}"", status=""OK"", id = item.Id}});");
+            return Json(new {{success = true, message=""{SuccessMessage}"", status=""OK"", id = item.Id, href=""{ed.Name}/"" + item.Id}});");
 
             return post;
         }
@@ -131,7 +141,7 @@ namespace Bespoke.Sph.Domain
             }
             patch.AppendLine();
 
-            var rules = GenerateRulesCode(ed);
+            var rules = GenerateRulesCode();
             patch.AppendLine(rules);
 
 
@@ -201,7 +211,7 @@ namespace Bespoke.Sph.Domain
             put.AppendLine(@"
             }");
 
-            var rules = GenerateRulesCode(ed);
+            var rules = GenerateRulesCode();
             if (!string.IsNullOrWhiteSpace(rules))
                 put.AppendLine(rules);
 
@@ -250,7 +260,7 @@ namespace Bespoke.Sph.Domain
             return $"           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Id == \"{ed.Id}\");";
 
         }
-        private string GenerateRulesCode(EntityDefinition ed)
+        private string GenerateRulesCode()
         {
             if (this.Rules.Count == 0) return string.Empty;
 

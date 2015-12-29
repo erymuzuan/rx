@@ -34,7 +34,10 @@ namespace domain.test.reports
 
         public Task<T> LoadOneAsync(string id)
         {
-            throw new NotImplementedException();
+            if (m_dictionary.ContainsKey(id))
+                return Task.FromResult(m_dictionary[id]);
+
+            return null;
         }
 
         public T LoadOne(IQueryable<T> query)

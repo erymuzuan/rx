@@ -113,12 +113,12 @@ namespace domain.test.entities
         }
 
         [Test]
-        public void AddReleaseOperation()
+        public void PostRegister()
         {
-            var release = new EntityOperation { Name = "Release" };
+            var release = new EntityOperation { Name = "Register", IsHttpPost = true, WebId = "abc"};
             release.Rules.Add("VerifyRegisteredDate");
 
-            var ed = this.CreatePatientDefinition("PatientForRelease");
+            var ed = this.CreatePatientDefinition("PatientRegistered");
             ed.EntityOperationCollection.Add(release);
 
             var patient = this.CreateInstance(ed, true);
@@ -130,15 +130,15 @@ namespace domain.test.entities
             {
                 Console.WriteLine(type);
             }
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientForReleaseController");
+            var controllerType = dll.GetType(patientType.Namespace + ".PatientRegisteredController");
             Assert.IsNotNull(controllerType);
 
-            var releaseActionMethodInfo = controllerType.GetMethod("Release");
+            var releaseActionMethodInfo = controllerType.GetMethod("PostRegister");
             Assert.IsNotNull(releaseActionMethodInfo);
 
         }
         [Test]
-        public async Task HttpPatchReleaseOperation()
+        public void HttpPatchReleaseOperation()
         {
             var release = new EntityOperation { Name = "Release" , IsHttpPatch = true, WebId = "ReleaseWithPatch"};
             release.PatchPathCollection.Add("Status");
@@ -165,14 +165,6 @@ namespace domain.test.entities
             var releaseActionMethodInfo = controllerType.GetMethod("PatchRelease");
             Assert.IsNotNull(releaseActionMethodInfo);
             
-            dynamic controller = Activator.CreateInstance(controllerType);
-            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
-
-            var result = await controller.PatchRelease("abc", "{\"Status\":\"Released\"}");
-            dynamic vr = result.Data;
-            var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
-            StringAssert.Contains("\"success\": false", ttt);
-            Console.WriteLine();
 
         }
         [Test]
@@ -203,10 +195,23 @@ namespace domain.test.entities
         }
 
 
-        [Test]
-        public async Task AddReleaseOperationWithBusinessRule()
+        private dynamic AddMockRespository(Type edType)
         {
-            var release = new EntityOperation { Name = "Release" };
+            var mock = typeof (MockRepository<>);
+            var reposType = mock.MakeGenericType(edType);
+            var repository = Activator.CreateInstance(reposType);
+
+            var ff = typeof(IRepository<>).MakeGenericType(edType);
+
+            ObjectBuilder.AddCacheList(ff, repository);
+
+            return repository;
+        }
+
+        [Test]
+        public async Task PatchReleaseOperationWithBusinessRule()
+        {
+            var release = new EntityOperation { Name = "Release", IsHttpPatch = true, WebId = "1"};
             release.Rules.Add("Must be dead");
             release.Rules.Add("Must be registered");
 
@@ -233,10 +238,14 @@ namespace domain.test.entities
 
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
+            patient.Id = Guid.NewGuid().ToString();
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
             Type patientType = patient.GetType();
             var dll = patientType.Assembly;
+
+            var repos = AddMockRespository(patientType);
+            repos.AddToDictionary(patient.Id, patient);
 
             var controllerType = dll.GetType(patientType.Namespace + ".PatientWithBusinessRuleController");
             dynamic controller = Activator.CreateInstance(controllerType);
@@ -244,7 +253,7 @@ namespace domain.test.entities
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
 
-            var result = await controller.Release(patient);
+            var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient,true));
             Console.WriteLine("Result type : " + result);
             Assert.IsNotNull(result);
 
@@ -259,9 +268,9 @@ namespace domain.test.entities
 
         }
         [Test]
-        public async Task AddReleaseOperationWithSetter()
+        public async Task PatchReleaseOperationWithSetter()
         {
-            var release = new EntityOperation { Name = "Release", WebId = Guid.NewGuid().ToString() };
+            var release = new EntityOperation { Name = "Release", IsHttpPatch = true, WebId = Guid.NewGuid().ToString() };
             var statusSetter = new SetterActionChild
             {
                 Path = "Status",
@@ -278,9 +287,13 @@ namespace domain.test.entities
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
             patient.DeathDateTime = DateTime.Today.AddDays(1);
+            patient.Id = Guid.NewGuid().ToString();
+
 
             Type patientType = patient.GetType();
             var dll = patientType.Assembly;
+            var repos = AddMockRespository(patientType);
+            repos.AddToDictionary(patient.Id, patient);
 
             var controllerType = dll.GetType(patientType.Namespace + ".PatientReleaseOperationWithSetterController");
             dynamic controller = Activator.CreateInstance(controllerType);
@@ -288,7 +301,7 @@ namespace domain.test.entities
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
 
-            var result = await controller.Release(patient);
+            var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
             Assert.IsNotNull(result);
 
@@ -296,8 +309,6 @@ namespace domain.test.entities
             Assert.IsNotNull(vr);
 
             Assert.AreEqual("Released", patient.Status);
-            //Assert.IsFalse(vr.success);
-            //Assert.AreEqual(3, vr.rules.Length);
 
         }
     }
