@@ -183,6 +183,11 @@ $site.SelectSingleNode("bindings/binding").SetAttribute("bindingInformation","$b
 $apc.Save("$WorkingCopy\config\applicationhost.config")
 
 
+#web
+if((Test-Path("$WorkingCopy\web\SphApp\partial")) -eq $false)
+{
+    mkdir "$WorkingCopy\web\SphApp\partial"
+}
 
 #asp.net memberships
 Write-Debug "Executing Aspnet membership provider"
