@@ -4945,8 +4945,8 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<string> PatchPathCollection { get; } = new ObjectCollection<string>();
+        [XmlArrayItem("PatchSetter", IsNullable = false)]
+        public ObjectCollection<PatchSetter> PatchPathCollection { get; } = new ObjectCollection<PatchSetter>();
 
 
         ///<summary>
@@ -6469,6 +6469,113 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_viewModelType;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("PatchSetter", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class PatchSetter
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_path;
+        public const string PropertyNamePath = "Path";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isRequired;
+        public const string PropertyNameIsRequired = "IsRequired";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_defaultValue;
+        public const string PropertyNameDefaultValue = "DefaultValue";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Path
+        {
+            set
+            {
+                if (String.Equals(m_path, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_path = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_path;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsRequired
+        {
+            set
+            {
+                if (m_isRequired == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsRequired, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isRequired = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isRequired;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string DefaultValue
+        {
+            set
+            {
+                if (String.Equals(m_defaultValue, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefaultValue, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_defaultValue = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_defaultValue;
             }
         }
 
