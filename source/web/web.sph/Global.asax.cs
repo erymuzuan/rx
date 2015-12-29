@@ -105,9 +105,7 @@ namespace web.sph
 
         private bool FindToken(string id)
         {
-            var url = string.Format("{0}_sys/setting/{1}",
-                ConfigurationManager.ApplicationName.ToLowerInvariant(),
-                id);
+            var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sys/setting/{id}";
 
             using (var client = new HttpClient())
             {
