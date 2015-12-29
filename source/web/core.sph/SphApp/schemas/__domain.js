@@ -1314,10 +1314,15 @@ bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
         ShowSuccessMessage: ko.observable(false),
         NavigateSuccessUrl: ko.observable(""),
         SuccessCommand: ko.observable(""),
+        Route: ko.observable(""),
+        IsHttpPut: ko.observable(false),
+        IsHttpPatch: ko.observable(false),
+        IsHttpPost: ko.observable(false),
         EntityPermissionCollection: ko.observableArray([]),
         Rules: ko.observableArray([]),
         Permissions: ko.observableArray([]),
         SetterActionChildCollection: ko.observableArray([]),
+        PatchPathCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

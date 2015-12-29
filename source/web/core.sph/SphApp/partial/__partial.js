@@ -783,7 +783,7 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
 
 bespoke.sph.domain.EntityOperationPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         removeChildAction = function (child) {
             var self = this;
             return function() {
@@ -794,9 +794,20 @@ bespoke.sph.domain.EntityOperationPartial = function () {
             var child = new bespoke.sph.domain.SetterActionChild(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.SetterActionChildCollection.push(child);
+        },
+        removePatchPath = function (child) {
+            var self = this;
+            return function() {
+                self.SetterActionChildCollection.remove(child);
+            };
+        },
+        addPatchPath = function() {
+            this.PatchPathCollection.push("");
         };
 
     var vm = {
+        removePatchPath: removePatchPath,
+        addPatchPath: addPatchPath,
         addChildAction: addChildAction,
         removeChildAction: removeChildAction
 
