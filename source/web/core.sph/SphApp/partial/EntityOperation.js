@@ -28,11 +28,12 @@ bespoke.sph.domain.EntityOperationPartial = function () {
         removePatchPath = function (child) {
             var self = this;
             return function() {
-                self.SetterActionChildCollection.remove(child);
+                self.PatchPathCollection.remove(child);
             };
         },
-        addPatchPath = function() {
-            this.PatchPathCollection.push("");
+        addPatchPath = function () {
+            var child = new bespoke.sph.domain.PatchSetter({ WebId: system.guid() , IsRequired: true});
+            this.PatchPathCollection.push(child);
         };
 
     var vm = {

@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (type == typeof(DocumentField))
                 return RedirectPermanent("~/images/DocumentField.png");
             if (type == typeof(FunctionField))
-                return Content("~/images/FunctionField.png");
+                return RedirectPermanent("~/images/FunctionField.png");
             if (type == typeof(ConstantField))
                 return RedirectPermanent("~/images/ConstantField.png");
             if (type == typeof(SetterAction))

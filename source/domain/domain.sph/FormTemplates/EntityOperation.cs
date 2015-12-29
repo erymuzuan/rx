@@ -135,7 +135,7 @@ namespace Bespoke.Sph.Domain
 
             foreach (var path in this.PatchPathCollection)
             {
-                var member = ed.GetMember(path);
+                var member = ed.GetMember(path.Path);
                 if (null == member) throw new InvalidOperationException($"Cannot find member with path {path}");
                 patch.AppendLine($"            item.{path} = jo.SelectToken(\"$.{path}\").Value<{member.Type.ToCSharp()}>();");
             }
@@ -204,9 +204,9 @@ namespace Bespoke.Sph.Domain
 
             foreach (var path in this.PatchPathCollection)
             {
-                var member = ed.GetMember(path);
+                var member = ed.GetMember(path.Path);
                 if (null == member) throw new InvalidOperationException($"Cannot find member with path {path}");
-                put.AppendLine($"            item.{path} = jo.SelectToken(\"$.{path}\").Value<{member.Type.ToCSharp()}>();");
+                put.AppendLine($"            item.{path.Path} = jo.SelectToken(\"$.{path}\").Value<{member.Type.ToCSharp()}>();");
             }
             put.AppendLine(@"
             }");

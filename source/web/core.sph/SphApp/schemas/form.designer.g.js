@@ -1660,6 +1660,38 @@ bespoke.sph.domain.ViewTemplate = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.PatchSetter = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        Path: ko.observable(""),
+        IsRequired: ko.observable(false),
+        DefaultValue: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.PatchSetterPartial) {
+        return _(model).extend(new bespoke.sph.domain.PatchSetterPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

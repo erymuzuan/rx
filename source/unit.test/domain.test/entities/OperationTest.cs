@@ -141,7 +141,7 @@ namespace domain.test.entities
         public void HttpPatchReleaseOperation()
         {
             var release = new EntityOperation { Name = "Release" , IsHttpPatch = true, WebId = "ReleaseWithPatch"};
-            release.PatchPathCollection.Add("Status");
+            release.PatchPathCollection.Add(new PatchSetter {Path = "Status" });
             //release.PatchPathCollection.Add("ClinicalNote");
             release.Rules.Add("VerifyRegisteredDate");
 
@@ -171,7 +171,7 @@ namespace domain.test.entities
         public void HttpPutAdmit()
         {
             var admit = new EntityOperation { Name = "Admit" , IsHttpPut = true, WebId = "PutAdmit"};
-            admit.PatchPathCollection.Add("Status");
+            admit.PatchPathCollection.Add(new PatchSetter {Path = "Status" });
             
             var ed = this.CreatePatientDefinition("PatientPutAdmit");
             ed.EntityOperationCollection.Add(admit);
