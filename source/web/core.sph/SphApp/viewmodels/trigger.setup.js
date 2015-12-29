@@ -27,7 +27,6 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                 id(id2);
 
                 var query = String.format("Id eq '{0}' ", id()),
-                    triggerTask = context.loadOneAsync("Trigger", query),
                     actionOptionsTask = $.get("/sph/trigger/actions"),
                     entitiesTask = context.getListAsync("EntityDefinition", "Id ne ''", "Name"),
                     loadOperationOptions = function (ent) {
@@ -43,20 +42,24 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                             });
                     };
 
-                return $.when(triggerTask, entitiesTask, actionOptionsTask).done(function (t, list, actions) {
+                return $.when(entitiesTask, actionOptionsTask).then(function (list, actions) {
                     entities(list);
                     actionOptions(actions[0]);
-                    if (t) {
-                        originalEntity = ko.toJSON(t);
-                        trigger(t);
-                        typeaheadEntity(t.Entity());
-                        window.typeaheadEntity = t.Entity();
-                        operations(t.FiredOnOperations().split(","));
-                        loadOperationOptions(t.Entity());
-                    } else {
-                        trigger(new bespoke.sph.domain.Trigger(system.guid()));
-                        operations.removeAll();
+                    return context.loadOneAsync("Trigger", query);
+                })
+                .then(function (trg) {
+                    if (!trg) {
+
+                        router.navigate("#not.found");
+                        return;
                     }
+                    originalEntity = ko.toJSON(trg);
+                    trigger(trg);
+                    typeaheadEntity(trg.Entity());
+                    window.typeaheadEntity = trg.Entity();
+                    operations(trg.FiredOnOperations().split(","));
+                    loadOperationOptions(trg.Entity());
+
                     trigger().Entity.subscribe(function (ent) {
                         typeaheadEntity(ent);
                         window.typeaheadEntity = ent;
