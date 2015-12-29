@@ -27,6 +27,66 @@
             </div>
         </div>
         <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsHttpPut" id="IsHttpPut" type="checkbox" name="IsHttpPut"/>
+                        IsHttpPut
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsHttpPost" id="http-post" type="checkbox" name="IsHttpPost"/>
+                        HTTP POST
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsHttpPatch" id="http-patch" type="checkbox" name="IsHttpPatch"/>
+                        HTTP PATCH
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group" data-bind="visible:IsHttpPatch">
+            <label class="col-md-2">Patch Setters</label>
+            <div class="col-md-9">
+
+                <table id="" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Path</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: PatchPathCollection">
+                        <tr>
+                            <td>
+                                <input class="input-setter-path form-control" type="text" data-bind="value: $data, entityTypeaheadPath : $root.entity().Id()" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a class="btn btn-link" data-bind="click: addPatchPath">
+                    <i class="fa fa-plus-circle"></i>
+                    Add a Patch Path
+                </a>
+            </div>
+        </div>
+
+
+        <div class="form-group">
             <label class="col-md-2">Rules</label>
             <div class="col-md-6">
                 <ul data-bind="foreach :$root.entity().BusinessRuleCollection" class="nav">
