@@ -128,8 +128,8 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     });
             },
             okClick = function (data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
-                    dialog.close(this, "OK");
+                if (!bespoke.utils.form.checkValidity(ev.target)) {
+                    return Task.fromResult(0);
                 }
 
                 return saveAsync(data, ev);

@@ -32,7 +32,9 @@
                     return app.showDialog("new.transform.definition.dialog")
                           .done(function (dialog, result) {
                               if (result === "OK") {
-                                  router.navigate("#transform.definition.edit/" + ko.unwrap(dialog.id));
+                                  setTimeout(function () {
+                                      router.navigate("#transform.definition.edit/" + ko.unwrap(dialog.id));
+                                  }, 500);
                               }
                           });
                 },
@@ -52,7 +54,9 @@
                     return app.showDialog("new.adapter.dialog")
                           .done(function (dialog, result) {
                               if (result === "OK") {
-                                  router.navigate("#" + ko.unwrap(dialog.url));
+                                  setTimeout(function () {
+                                      router.navigate("#" + ko.unwrap(dialog.url));
+                                  }, 500);
                               }
                           });
                 },

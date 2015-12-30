@@ -22,52 +22,34 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             toolboxElements = ko.observableArray(),
             errors = ko.observableArray(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
-            populateToolbox = function () {
-                return $.get("/wf-designer/toolbox-items", function (result) {
-                    toolboxElements(result);
-                });
-            },
+            isJsPlumbReady = false,
             activate = function (id) {
                 isBusy(true);
-                var query = String.format("Id eq '{0}'", id),
-                    tcs = new $.Deferred();
+                var query = String.format("Id eq '{0}'", id);
 
-                if (id && id !== "0") {
-                    context.loadOneAsync("WorkflowDefinition", query)
-                        .done(function (b) {
-                            wd(b);
-                            tcs.resolve(true);
-                            b.loadSchema();
 
-                            var timer = setInterval(function () {
-                                if (isJsPlumbReady) {
-                                    clearInterval(timer);
-                                    wdChanged(b);
-                                }
-                            }, 500);
+                return $.get("/wf-designer/toolbox-items")
+                    .then(function (result) {
+                        toolboxElements(result);
+                        return context.loadOneAsync("WorkflowDefinition", query);
+                    })
+                    .then(function (b) {
+                        wd(b);
+                        b.loadSchema();
 
-                            originalEntity = ko.toJSON(wd);
+                        var timer = setInterval(function () {
+                            if (isJsPlumbReady) {
+                                clearInterval(timer);
+                                wdChanged(b);
+                            }
+                        }, 500);
 
-                        });
+                        originalEntity = ko.toJSON(wd);
+                        isBusy(false);
 
-                } else {
-                    wd(new bespoke.sph.domain.WorkflowDefinition(system.guid()));
-
-                    var timer2 = setInterval(function () {
-                        if (isJsPlumbReady) {
-                            clearInterval(timer2);
-                            wdChanged(wd());
-                        }
-                    }, 500);
-                    return Task.fromResult(true);
-
-                }
-
-                return tcs.promise();
+                    });
 
             },
-
-            isJsPlumbReady = false,
             connectorPaintStyle = {
                 lineWidth: 2,
                 strokeStyle: "#808080",
@@ -297,14 +279,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     }, 2500);
 
 
-                populateToolbox().done(function () {
-                    $("div.toolbox-item").draggable({
-                        helper: function () {
-                            return $("<div></div>").addClass("dragHoverToolbox").append($(this).find(".activity32").clone());
-                        },
-                        stop: toolboxItemDraggedStop
-                    });
+                $("div.toolbox-item").draggable({
+                    helper: function () {
+                        return $("<div></div>").addClass("dragHoverToolbox").append($(this).find(".activity32").clone());
+                    },
+                    stop: toolboxItemDraggedStop
                 });
+
 
 
 

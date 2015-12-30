@@ -6,11 +6,9 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
-
-
-
-define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
-    function (dialog, context, system) {
+/// <reference path="~/Scripts/_task.js" />
+define(["plugins/dialog", objectbuilders.datacontext],
+    function (dialog, context) {
 
         var wd = ko.observable(),
             id = ko.observable(),
@@ -22,7 +20,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     $("#wd-name").focus();
                 }, 500);
             },
-            saveAsync = function(data,ev) {
+            saveAsync = function(data) {
 
                 var json = ko.mapping.toJSON(wd);
                 return context.post(json, "/WorkflowDefinition/Save")
@@ -34,8 +32,8 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     });
             },
             okClick = function (data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
-                    dialog.close(this, "OK");
+                if (!bespoke.utils.form.checkValidity(ev.target)) {
+                    return Task.fromResult(0);
                 }
 
                 return saveAsync(data,ev);
