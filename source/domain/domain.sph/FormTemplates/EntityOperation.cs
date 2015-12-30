@@ -232,6 +232,51 @@ namespace Bespoke.Sph.Domain
             return put;
         }
 
+
+        public Method GenerateDeleteAction(EntityDefinition ed)
+        {
+            if (!IsHttpDelete) return null;
+
+            var route = !string.IsNullOrWhiteSpace(this.Route) ? $"{this.Route.ToLowerInvariant()}/" : "";
+
+            var delete = new Method { Name = $"Delete{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
+            delete.AttributeCollection.Add("[HttpDelete]");
+            delete.AttributeCollection.Add($"[Route(\"{route}{{id}}\")]");
+            delete.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string) });
+
+            var authorize = GenerateAuthorizeAttribute();
+            if (!string.IsNullOrWhiteSpace(authorize))
+                delete.AttributeCollection.Add(authorize);
+
+
+            delete.AppendLine("           var context = new SphDataContext();");
+            delete.AppendLine(
+                $@"
+            var repos = ObjectBuilder.GetObject<IRepository<{ed.Name}>>();
+            var item = await repos.LoadOneAsync(id);
+            if(null == item)
+                return new HttpNotFoundResult();");
+
+            if (this.Rules.Any())
+            {
+                delete.AppendLine(GetEntityDefinitionCode(ed));
+                var rules = GenerateRulesCode();
+                delete.AppendLine(rules);
+            }
+
+            delete.AppendLine(
+              $@"
+            using(var session = context.OpenSession())
+            {{
+                session.Delete(item);
+                await session.SubmitChanges(""{this.Name}"");
+            }}
+            this.Response.ContentType = ""application/json; charset=utf-8"";
+            return Json(new {{success = true, status=""OK"", id = item.Id}});");
+
+            return delete;
+        }
+
         private string GetSetterCode(EntityDefinition ed)
         {
             if (this.SetterActionChildCollection.Count == 0) return string.Empty;
@@ -272,8 +317,8 @@ namespace Bespoke.Sph.Domain
             {
                 count++;
                 code.AppendLine($@"
-            var appliedRules{count} = ed.BusinessRuleCollection.Where(b => b.Name == ""{rule}"");
-            ValidationResult result{count} = item.ValidateBusinessRule(appliedRules{count});
+            var rules{count} = ed.BusinessRuleCollection.Where(b => b.Name == ""{rule}"");
+            var result{count} = item.ValidateBusinessRule(rules{count});
 
             if(!result{1}.Success){{
                 brokenRules.Add(result{count});

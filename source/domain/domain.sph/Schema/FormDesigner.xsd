@@ -720,6 +720,7 @@
 			<xs:attribute name="IsHttpPut" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsHttpPatch" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsHttpPost" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsHttpDelete" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="SetterActionChild">

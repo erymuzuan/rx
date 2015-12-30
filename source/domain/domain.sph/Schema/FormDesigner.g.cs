@@ -4914,6 +4914,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsHttpPost = "IsHttpPost";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isHttpDelete;
+        public const string PropertyNameIsHttpDelete = "IsHttpDelete";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -5187,6 +5192,33 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isHttpPost;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsHttpDelete
+        {
+            set
+            {
+                if (m_isHttpDelete == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsHttpDelete, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isHttpDelete = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isHttpDelete;
             }
         }
 

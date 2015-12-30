@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -65,7 +67,7 @@ namespace domain.test.entities
 
         public EntityDefinition CreatePatientDefinition(string name = "Patient")
         {
-            var ent = new EntityDefinition { Name = name, Plural = "Patients", RecordName = "FullName", Id="patient" };
+            var ent = new EntityDefinition { Name = name, Plural = "Patients", RecordName = "FullName", Id = "patient" };
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",
@@ -115,7 +117,7 @@ namespace domain.test.entities
         [Test]
         public void PostRegister()
         {
-            var release = new EntityOperation { Name = "Register", IsHttpPost = true, WebId = "abc"};
+            var release = new EntityOperation { Name = "Register", IsHttpPost = true, WebId = "abc" };
             release.Rules.Add("VerifyRegisteredDate");
 
             var ed = this.CreatePatientDefinition("PatientRegistered");
@@ -140,15 +142,15 @@ namespace domain.test.entities
         [Test]
         public void HttpPatchReleaseOperation()
         {
-            var release = new EntityOperation { Name = "Release" , IsHttpPatch = true, WebId = "ReleaseWithPatch"};
-            release.PatchPathCollection.Add(new PatchSetter {Path = "Status" });
+            var release = new EntityOperation { Name = "Release", IsHttpPatch = true, WebId = "ReleaseWithPatch" };
+            release.PatchPathCollection.Add(new PatchSetter { Path = "Status" });
             //release.PatchPathCollection.Add("ClinicalNote");
             release.Rules.Add("VerifyRegisteredDate");
 
 
             var ed = this.CreatePatientDefinition("PatientForRelease");
             ed.EntityOperationCollection.Add(release);
-           
+
 
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
@@ -164,15 +166,15 @@ namespace domain.test.entities
 
             var releaseActionMethodInfo = controllerType.GetMethod("PatchRelease");
             Assert.IsNotNull(releaseActionMethodInfo);
-            
+
 
         }
         [Test]
         public void HttpPutAdmit()
         {
-            var admit = new EntityOperation { Name = "Admit" , IsHttpPut = true, WebId = "PutAdmit"};
-            admit.PatchPathCollection.Add(new PatchSetter {Path = "Status" });
-            
+            var admit = new EntityOperation { Name = "Admit", IsHttpPut = true, WebId = "PutAdmit" };
+            admit.PatchPathCollection.Add(new PatchSetter { Path = "Status" });
+
             var ed = this.CreatePatientDefinition("PatientPutAdmit");
             ed.EntityOperationCollection.Add(admit);
 
@@ -190,14 +192,85 @@ namespace domain.test.entities
 
             var releaseActionMethodInfo = controllerType.GetMethod("PutAdmit");
             Assert.IsNotNull(releaseActionMethodInfo);
-            
 
+
+        }
+
+
+        [Test]
+        public void HttpDelete()
+        {
+            var delete = new EntityOperation { Name = "Remove", Route = "", IsHttpDelete = true, WebId = "remove" };
+
+            var ed = this.CreatePatientDefinition("PatientDelete");
+            ed.EntityOperationCollection.Add(delete);
+
+            var patient = this.CreateInstance(ed, true);
+            Assert.IsNotNull(patient);
+
+            Type patientType = patient.GetType();
+            var dll = patientType.Assembly;
+            foreach (var type in dll.GetTypes())
+            {
+                Console.WriteLine(type);
+            }
+            var controllerType = dll.GetType(patientType.Namespace + ".PatientDeleteController");
+            Assert.IsNotNull(controllerType);
+
+            var remove = controllerType.GetMethod("DeleteRemove");
+            Assert.IsNotNull(remove);
+
+            var httpDelete = remove.CustomAttributes.SingleOrDefault(x => x.AttributeType == typeof(HttpDeleteAttribute));
+            Assert.IsNotNull(httpDelete);
+
+            var parameters = remove.GetParameters();
+            Assert.AreEqual(1, parameters.Length, "DELETE action should only contains 1 parameter{id}");
+            var id = parameters.Single();
+            Assert.AreEqual("id", id.Name);
+            Assert.AreEqual(typeof(string), id.ParameterType);
+        }
+        [Test]
+        public void HttpDeleteWithRule()
+        {
+            var delete = new EntityOperation { Name = "Remove", Route = "", IsHttpDelete = true, WebId = "remove" };
+         
+            const string NAME = "PatientDeleteWithRule";
+            var ed = this.CreatePatientDefinition(NAME);
+            ed.EntityOperationCollection.Add(delete);
+            var rule = new BusinessRule {Name = "Cannot delete admitted patient", WebId = "rule01"};
+            rule.RuleCollection.Add(new Rule { Left = new DocumentField {Path = "Status"} , Operator = Operator.Neq, Right = new ConstantField {Value = "Admitter", Type = typeof(string)} });
+            ed.BusinessRuleCollection.Add(rule);
+            delete.Rules.Add(rule.Name);
+
+            var patient = this.CreateInstance(ed, true);
+            Assert.IsNotNull(patient);
+
+            Type patientType = patient.GetType();
+            var dll = patientType.Assembly;
+            foreach (var type in dll.GetTypes())
+            {
+                Console.WriteLine(type);
+            }
+            var controllerType = dll.GetType($"{patientType.Namespace}.{NAME}Controller");
+            Assert.IsNotNull(controllerType);
+
+            var remove = controllerType.GetMethod("DeleteRemove");
+            Assert.IsNotNull(remove);
+
+            var httpDelete = remove.CustomAttributes.SingleOrDefault(x => x.AttributeType == typeof(HttpDeleteAttribute));
+            Assert.IsNotNull(httpDelete);
+
+            var parameters = remove.GetParameters();
+            Assert.AreEqual(1, parameters.Length, "DELETE action should only contains 1 parameter{id}");
+            var id = parameters.Single();
+            Assert.AreEqual("id", id.Name);
+            Assert.AreEqual(typeof(string), id.ParameterType);
         }
 
 
         private dynamic AddMockRespository(Type edType)
         {
-            var mock = typeof (MockRepository<>);
+            var mock = typeof(MockRepository<>);
             var reposType = mock.MakeGenericType(edType);
             var repository = Activator.CreateInstance(reposType);
 
@@ -211,7 +284,7 @@ namespace domain.test.entities
         [Test]
         public async Task PatchReleaseOperationWithBusinessRule()
         {
-            var release = new EntityOperation { Name = "Release", IsHttpPatch = true, WebId = "1"};
+            var release = new EntityOperation { Name = "Release", IsHttpPatch = true, WebId = "1" };
             release.Rules.Add("Must be dead");
             release.Rules.Add("Must be registered");
 
@@ -253,7 +326,7 @@ namespace domain.test.entities
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
 
-            var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient,true));
+            var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
             Assert.IsNotNull(result);
 
@@ -263,7 +336,7 @@ namespace domain.test.entities
             Console.WriteLine();
             //Assert.IsFalse(vr.success);
             //Assert.AreEqual(3, vr.rules.Length);
-            if(File.Exists(jsonPath))
+            if (File.Exists(jsonPath))
                 File.Delete(jsonPath);
 
         }

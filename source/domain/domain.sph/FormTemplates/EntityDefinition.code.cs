@@ -197,10 +197,10 @@ namespace Bespoke.Sph.Domain
             var puts = this.EntityOperationCollection.Where(x => x.IsHttpPut).Select(x => x.GeneratePutAction(this));
             controller.MethodCollection.AddRange(puts);
 
-            controller.MethodCollection.Add(GenerateValidationAction());
+            var deletes = this.EntityOperationCollection.Where(x => x.IsHttpDelete).Select(x => x.GenerateDeleteAction(this));
+            controller.MethodCollection.AddRange(deletes);
 
-            var remove = GenerateRemoveAction();
-            controller.MethodCollection.Add(remove);
+            controller.MethodCollection.Add(GenerateValidationAction());
 
             //SCHEMAS
             var schema = GenerateSchemaAction();
@@ -257,31 +257,7 @@ namespace Bespoke.Sph.Domain
             return new Method { Code = search.ToString() };
         }
         
-        private Method GenerateRemoveAction()
-        {
-            // REMOVE
-            var remove = new StringBuilder();
-            remove.AppendLinf("       //exec:Remove");
-            remove.AppendLinf("       [HttpDelete]");
-            remove.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(string id)");
-            remove.AppendLine("       {");
-            remove.AppendLinf(@"
-            var repos = ObjectBuilder.GetObject<IRepository<{0}>>();
-            var item = await repos.LoadOneAsync(id);
-            if(null == item)
-                return new HttpNotFoundResult();
-
-            var context = new Bespoke.Sph.Domain.SphDataContext();
-            using(var session = context.OpenSession())
-            {{
-                session.Delete(item);
-                await session.SubmitChanges(""delete"");
-            }}
-            this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.Id}});", this.Name);
-            remove.AppendLine("       }");
-            return new Method { Code = remove.ToString() };
-        }
+  
 
 
         private Method GenerateValidationAction()
