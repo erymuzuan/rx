@@ -1,5 +1,6 @@
 ﻿Param(
        [int]$Build = 0,
+       [int]$Drop = 1,
        [switch]$PreRelease = $false,
        [string]$ToolsDirectory = "c:\project\tools"
      )
@@ -367,4 +368,4 @@ if($compressed -eq 'q')
 
 
 #compress
-& 7za a -t7z ".\sph.package.1.0.$Build.7z" ".\bin\build\*"
+& 7za a -t7z ".\sph.package.1.0.$Build-$Drop.7z" ".\bin\build\*"
