@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Domain
 
         public override IEnumerable<Class> GeneratedCustomClass(string codeNamespace, string[] usingNamespaces = null)
         {
-            var @class = new Class { Name = this.ValueObjectName, BaseClass = nameof(DomainObject), FileName = $"{ValueObjectName}.cs" , Namespace = codeNamespace};
+            var @class = new Class { Name = this.ValueObjectName, BaseClass = nameof(DomainObject), FileName = $"{ValueObjectName}.cs", Namespace = codeNamespace };
             if (null != usingNamespaces)
             {
                 @class.ImportCollection.AddRange(usingNamespaces);
@@ -55,7 +55,7 @@ namespace Bespoke.Sph.Domain
             }
             ctor.AppendLine("       }");
             @class.CtorCollection.Add(ctor.ToString());
-            
+
 
             var properties = from m in this.MemberCollection
                              let prop = m.GeneratedCode("   ")
@@ -78,14 +78,21 @@ namespace Bespoke.Sph.Domain
             this.TypeName = typeof(object).GetShortAssemblyQualifiedName();
         }
 
-        [JsonIgnore]
-        public override Type Type
+
+        public override BuildError[] Validate()
         {
-            get { return null; }
-            set
+            var errors = new ObjectCollection<BuildError>();
+
+            if (string.IsNullOrWhiteSpace(this.ValueObjectName))
+                errors.Add(new BuildError(this.WebId) { Message = $"[Member] {Name} has no ValueObjectDefinition defined" });
+            
+            foreach (var m in this.MemberCollection)
             {
-                Console.WriteLine(value);
+               var list = m.Validate();
+                errors.AddRange(list);
             }
+
+            return errors.ToArray();
         }
 
         public override string GenerateJavascriptMember(string ns)

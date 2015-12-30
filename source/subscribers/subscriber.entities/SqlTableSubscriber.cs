@@ -15,9 +15,7 @@ namespace subscriber.entities
     public class SqlTableSubscriber : Subscriber<EntityDefinition>
     {
         public override string QueueName => "ed_sql_table";
-
         public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
-
         private static string GetSqlType(string typeName)
         {
             switch (typeName)
@@ -34,11 +32,12 @@ namespace subscriber.entities
 
         public IEnumerable<Member> GetFilterableMembers(string parent, IList<Member> members)
         {
-            var filterables = members.Where(m => m.IsFilterable)
+            var filterables = new ObjectCollection<Member>();
+            var simples = members.OfType<SimpleMember>().Where(m => m.IsFilterable)
                 .Where(m => m.Type != typeof(object))
                 .Where(m => m.Type != typeof(Array))
                 .ToList();
-            var list = members.Where(m => m.Type == typeof(object))
+            var list = members.OfType<ComplexMember>()
                 .Select(m => this.GetFilterableMembers(parent + m.Name + ".", m.MemberCollection)).ToList()
                 .SelectMany(m =>
                 {
@@ -46,6 +45,7 @@ namespace subscriber.entities
                     return enumerable;
                 })
                 .ToList();
+            filterables.AddRange(simples);
             filterables.AddRange(list);
 
             filterables.Where(m => string.IsNullOrWhiteSpace(m.FullName) || !m.FullName.EndsWith(m.Name))
@@ -137,7 +137,7 @@ namespace subscriber.entities
             var table = metadataProvider.GetTable(item.Name);
 
             // compare the members againts column
-            foreach (var mb in members)
+            foreach (var mb in members.OfType<SimpleMember>())
             {
                 var colType = GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
                 var mb1 = mb;
@@ -162,7 +162,7 @@ namespace subscriber.entities
                 if (col.Name == "Json") continue;
 
                 var col1 = col;
-                var member = members.SingleOrDefault(m =>
+                var member = members.OfType<SimpleMember>().SingleOrDefault(m =>
                             m.Name.Equals(col1.Name, StringComparison.InvariantCultureIgnoreCase)
                             && string.Equals(GetSqlType(m.TypeName).Replace("(255)", string.Empty), col1.SqlType, StringComparison.InvariantCultureIgnoreCase)
                             && col.IsNullable == m.IsNullable);
@@ -185,7 +185,7 @@ namespace subscriber.entities
             sql.AppendLine("(");
             sql.AppendLinf("  [Id] VARCHAR(50) PRIMARY KEY NOT NULL", item.Name);
             var members = this.GetFilterableMembers("", item.MemberCollection);
-            foreach (var member in members)
+            foreach (var member in members.OfType<SimpleMember>())
             {
                 sql.AppendFormat(",[{0}] {1} {2} NULL", member.FullName, GetSqlType(member.TypeName), member.IsNullable ? "" : "NOT");
                 sql.AppendLine("");

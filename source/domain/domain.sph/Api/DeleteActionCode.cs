@@ -11,8 +11,8 @@ namespace Bespoke.Sph.Domain.Api
         {
             var code = new StringBuilder();
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var routeConstraint = pks.Select(m => "{" + m.Name.ToCamelCase() + this.GetRouteConstraint(m.Type) + "}");
-            var arguments = pks.Select(m => m.Type.ToCSharp() + " " + m.Name.ToCamelCase());
+            var routeConstraint = pks.Select(m => "{" + m.Name.ToCamelCase() + this.GetRouteConstraint(m) + "}");
+            var arguments = pks.Select(m => m.GenerateParameterCode());
             var parameters = pks.Select(m => m.Name.ToCamelCase());
 
             code.AppendLinf("       [Route(\"{0}\")]", string.Join("/", routeConstraint.ToArray()));

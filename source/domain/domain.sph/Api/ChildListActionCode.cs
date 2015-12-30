@@ -28,8 +28,8 @@ namespace Bespoke.Sph.Domain.Api
             var code = new StringBuilder();
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(k => k.Name.ToCamelCase());
-            var routes = pks.Select(k => k.Name.ToCamelCase() + this.GetRouteConstraint(k.Type));
-            var args = pks.Select(k => string.Format("{0} {1}", k.Type.ToCSharp(), k.Name.ToCamelCase()));
+            var routes = pks.Select(k => k.Name.ToCamelCase() + this.GetRouteConstraint(k));
+            var args = pks.Select(k => k.GenerateParameterCode());
             var filter =string.Join(" AND ", pks.Select(k => k.Name + " = \" + " + k.Name.ToCamelCase() + "+\""));
 
 

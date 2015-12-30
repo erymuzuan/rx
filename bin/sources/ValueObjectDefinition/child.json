@@ -4,7 +4,14 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
         "FullName": null,
         "PropertyAttribute": null,
         "MemberCollection": {
@@ -16,19 +23,19 @@
           "$values": []
         },
         "Name": "Name",
-        "TypeName": "System.String, mscorlib",
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.Int32, mscorlib",
         "IsNullable": false,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
-        "AllowMultiple": false,
-        "DefaultValue": null,
-        "WebId": null
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         "FullName": null,
         "PropertyAttribute": null,
         "MemberCollection": {
@@ -40,13 +47,6 @@
           "$values": []
         },
         "Name": "Age",
-        "TypeName": "System.Int32, mscorlib",
-        "IsNullable": false,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 0,
         "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": null

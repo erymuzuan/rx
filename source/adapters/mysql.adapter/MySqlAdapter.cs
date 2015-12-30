@@ -59,7 +59,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
 
                 var members = from c in columns
-                              select new Member
+                              select new SimpleMember
                               {
                                   Name = c.Name,
                                   IsNullable = c.IsNullable,
@@ -210,7 +210,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
 
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguments = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name}");
+            var arguments = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguments));
             code.AppendLine("       {");
@@ -403,7 +403,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         private string GenerateDeleteMethod(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguements = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name.ToCamelCase()}");
+            var arguements = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");
@@ -555,7 +555,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 {
                     while (await reader.ReadAsync())
                     {
-                        var col = new Member
+                        var col = new SimpleMember
                         {
                             Name = reader.GetString(0),
                             Type = reader.GetString(1).GetClrDataType(),

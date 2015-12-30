@@ -217,6 +217,8 @@
     <Compile Include="FormTemplates\Button.cs" />
     <Compile Include="FormTemplates\ChildEntityListView.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
+    <Compile Include="FormTemplates\ComplexMember.cs" />
+    <Compile Include="FormTemplates\ComplexMember.es.cs" />
     <Compile Include="FormTemplates\ConditionalFormatting.cs" />
     <Compile Include="FormTemplates\CurrencyElement.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
@@ -281,6 +283,8 @@
     <Compile Include="FormTemplates\SearchDefinition.cs" />
     <Compile Include="FormTemplates\SectionFormElement.cs" />
     <Compile Include="FormTemplates\Series.cs" />
+    <Compile Include="FormTemplates\SimpleMember.cs" />
+    <Compile Include="FormTemplates\SimpleMember.es.cs" />
     <Compile Include="FormTemplates\Sort.cs" />
     <Compile Include="FormTemplates\TextAreaElement.cs" />
     <Compile Include="FormTemplates\TextBox.cs" />

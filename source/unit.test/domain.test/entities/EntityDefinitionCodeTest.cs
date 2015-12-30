@@ -18,36 +18,36 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
             var ent = new EntityDefinition { Name = "Lead", Id = "lead", Plural = "Leads", RecordName = "Name" };
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name",
                 Type = typeof(string),
                 IsFilterable = true,
                 DefaultValue = new ConstantField { Value = "<Name>", Type = typeof(string) }
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
                 Type = typeof(string),
                 IsFilterable = true
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Rating",
                 Type = typeof(int),
                 IsFilterable = true,
                 DefaultValue = new ConstantField { Value = 1, Type = typeof(int) }
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "RegisteredDate",
                 Type = typeof(DateTime),
                 IsFilterable = true,
                 DefaultValue = new FunctionField { Script = "new DateTime(2011,5,2)", ScriptEngine = new RoslynScriptEngine() }
             });
-            var address = new Member { Name = "Address", Type = typeof(object) };
-            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, Type = typeof(string) });
-            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, Type = typeof(string) });
+            var address = new SimpleMember { Name = "Address", Type = typeof(object) };
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, Type = typeof(string) });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, Type = typeof(string) });
             ent.MemberCollection.Add(address);
             var options = new CompilerOptions
             {
@@ -55,7 +55,7 @@ namespace domain.test.entities
                 IsDebug = true
             };
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
@@ -89,20 +89,20 @@ namespace domain.test.entities
         public void GenerateCodeBasic()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name2",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
-            }); ent.MemberCollection.Add(new Member
+            }); ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
-            var address = new Member { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
             var options = new CompilerOptions
             {
@@ -110,7 +110,7 @@ namespace domain.test.entities
                 IsDebug = true
             };
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
@@ -134,24 +134,24 @@ namespace domain.test.entities
         public void GetMembersPath()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name2",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
-            }); ent.MemberCollection.Add(new Member
+            }); ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
-            var address = new Member { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             contacts.MemberCollection.Add(address);
             ent.MemberCollection.Add(contacts);

@@ -1,3 +1,4 @@
+using System;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -8,5 +9,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         public ParameterMode Mode { get; set; }
         public string SqlType { get; set; }
         public int Position { get; set; }
+        public Type Type { get; set; }
     }
 }

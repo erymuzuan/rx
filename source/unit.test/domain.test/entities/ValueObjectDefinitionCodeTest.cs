@@ -37,19 +37,19 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList(m_vodRepo.Object);
 
             var address = new ValueObjectDefinition { Name = "Address", Id = "address", ChangedDate = DateTime.Now, ChangedBy = "Me", CreatedBy = "Me", CreatedDate = DateTime.Now };
-            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new Member { Name = "Street2", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new Member { Name = "Postcode", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street2", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Postcode", IsFilterable = true, TypeName = "System.String, mscorlib" });
 
             var spouse = new ValueObjectDefinition { Name = "Spouse", Id = "spouse" };
-            spouse.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
-            spouse.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int) });
+            spouse.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
+            spouse.MemberCollection.Add(new SimpleMember { Name = "Age", Type = typeof(int) });
             spouse.MemberCollection.Add(new ValueObjectMember { Name = "WorkPlaceAddress", ValueObjectName = "Address" });
 
             var child = new ValueObjectDefinition { Name = "Child", Id = "child" };
-            child.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
-            child.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int) });
+            child.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
+            child.MemberCollection.Add(new SimpleMember { Name = "Age", Type = typeof(int) });
 
             address.Save();
             spouse.Save();
@@ -60,13 +60,13 @@ namespace domain.test.entities
         public void GenerateCodeBasic()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name2",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Titles",
                 TypeName = "System.String, mscorlib",
@@ -90,7 +90,7 @@ namespace domain.test.entities
                 IsDebug = true
             };
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
@@ -112,13 +112,13 @@ namespace domain.test.entities
         public void ElasticsearchMapping()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name2",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Titles",
                 TypeName = "System.String, mscorlib",
@@ -136,7 +136,7 @@ namespace domain.test.entities
             ent.MemberCollection.Add(new ValueObjectMember { ValueObjectName = "Child", Name = "Children", AllowMultiple = true});
            
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 

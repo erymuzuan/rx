@@ -129,12 +129,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                             {
                                 for (int i = 0; i < reader.FieldCount; i++)
                                 {
-                                    Console.Write("{0,-15}\t", reader.GetName(i));
+                                    Console.Write(@"{0,-15}\t", reader.GetName(i));
                                 }
                                 Console.WriteLine();
                                 for (int i = 0; i < reader.FieldCount; i++)
                                 {
-                                    Console.Write("{0,-15}\t", reader[i]);
+                                    Console.Write(@"{0,-15}\t", reader[i]);
                                 }
                             }
                             first = false;
@@ -161,7 +161,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
 
                 var members = from c in m_columnCollection[table.Name]
-                              select new Member
+                              select new SimpleMember
                               {
                                   Name = c.Name,
                                   IsNullable = c.IsNullable,
@@ -331,7 +331,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var code = new StringBuilder();
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguements = pks.Select(k => k.Type.ToCSharp() + " " + k.Name);
+            var arguements = pks.Select(k => k.GenerateParameterCode());
             code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");
 
@@ -450,7 +450,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var code = new StringBuilder();
             var name = table.Name;
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguements = pks.Select(k => k.Type.ToCSharp() + " " + k.Name);
+            var arguements = pks.Select(k => k.GenerateParameterCode());
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguements));
             code.AppendLine("       {");
 

@@ -20,7 +20,7 @@ namespace subscriber.test
         public void GenerateColumn()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name",
                 TypeName = "System.String, mscorlib",
@@ -28,41 +28,41 @@ namespace subscriber.test
                 IsAnalyzed = true,
                 Boost = 5
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true,
                 IsAnalyzed = false
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "RegisteredDate",
                 TypeName = "System.DateTime, mscorlib",
                 IsFilterable = true
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Age",
                 TypeName = "System.Int32, mscorlib",
                 IsFilterable = true
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Salary",
                 TypeName = "System.Decimal, mscorlib",
                 IsFilterable = true,
                 IsExcludeInAll = true
             });
-            var address = new Member { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib", IsAnalyzed = true });
-            address.MemberCollection.Add(new Member { Name = "Street2", IsNotIndexed = true, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new Member { Name = "Postcode", IsFilterable = true, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib", IsAnalyzed = true });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street2", IsNotIndexed = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Postcode", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 
-            var locality = new Member { Name = "Locality", Type = typeof(object) };
+            var locality = new SimpleMember { Name = "Locality", Type = typeof(object) };
             locality.Add(new Dictionary<string, Type> { { "Mode", typeof(string) } });
             address.MemberCollection.Add(locality);
 

@@ -130,7 +130,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 }
 
                 var members = from c in columns
-                              select new Member
+                              select new SimpleMember
                               {
                                   Name = c.Name,
                                   IsNullable = c.IsNullable,
@@ -370,7 +370,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
 
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguments = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name}");
+            var arguments = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguments));
             code.AppendLine("       {");
@@ -485,7 +485,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         private string GenerateDeleteMethod(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguements = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name.ToCamelCase()}");
+            var arguements = pks.Select(k =>k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");

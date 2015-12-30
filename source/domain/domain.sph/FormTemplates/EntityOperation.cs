@@ -137,7 +137,7 @@ namespace Bespoke.Sph.Domain
             {
                 var member = ed.GetMember(path.Path);
                 if (null == member) throw new InvalidOperationException($"Cannot find member with path {path}");
-                patch.AppendLine($"            item.{path} = jo.SelectToken(\"$.{path}\").Value<{member.Type.ToCSharp()}>();");
+                patch.AppendLine($"            item.{path} = jo.SelectToken(\"$.{path}\").Value<{member.GetMemberTypeName()}>();");
             }
             patch.AppendLine();
 
@@ -206,7 +206,7 @@ namespace Bespoke.Sph.Domain
             {
                 var member = ed.GetMember(path.Path);
                 if (null == member) throw new InvalidOperationException($"Cannot find member with path {path}");
-                put.AppendLine($"            item.{path.Path} = jo.SelectToken(\"$.{path}\").Value<{member.Type.ToCSharp()}>();");
+                put.AppendLine($"            item.{path.Path} = jo.SelectToken(\"$.{path}\").Value<{member.GetMemberTypeName()}>();");
             }
             put.AppendLine(@"
             }");
@@ -289,11 +289,9 @@ namespace Bespoke.Sph.Domain
             foreach (var act in this.SetterActionChildCollection)
             {
                 count++;
-                code.AppendLinf(
-                    "           var setter{0} = operation.SetterActionChildCollection.Single(a => a.WebId == \"{1}\");", count,
-                    act.WebId);
-                code.AppendLinf("           item.{1} = ({2})setter{0}.Field.GetValue(rc);", count, act.Path,
-                    ed.GetMember(act.Path).Type.FullName);
+                var member = ed.GetMember(act.Path);
+                code.AppendLine($"           var setter{count} = operation.SetterActionChildCollection.Single(a => a.WebId == \"{act.WebId}\");");
+                code.AppendLine($"           item.{act.Path} = ({member.GetMemberTypeName()})setter{count}.Field.GetValue(rc);");
             }
 
             return code.ToString();

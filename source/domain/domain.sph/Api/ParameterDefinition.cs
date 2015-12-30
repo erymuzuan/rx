@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Domain.Api
             var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.ToString() } };
 
             // classes for members
-            foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
+            foreach (var member in this.MemberCollection)
             {
                 var classes = member.GeneratedCustomClass(this.CodeNamespace, m_importDirectives);
                 foreach (var @class in classes)

@@ -138,10 +138,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                     loadAsync.AppendLine($"           var result = JsonConvert.DeserializeObject<{responseTypeName}>(this.ResponseText);");
                 foreach (var member in this.ResponseMemberCollection)
                 {
+                    // TODO : lots more stuff here
                     loadAsync.AppendLine(
-                        member.Type == typeof(Array)
+                       /* member.Type == typeof(Array)
                             ? $"           this.{member.Name}.ClearAndAddRange(result.{member.Name});"
-                            : $"           this.{member.Name} = result.{member.Name};");
+                            :*/ $"           this.{member.Name} = result.{member.Name};");
                 }
             }
 

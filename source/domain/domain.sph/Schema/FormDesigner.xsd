@@ -433,15 +433,32 @@
 			<xs:element name="DefaultValue" type="Field"/>
 		</xs:all>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
-		<xs:attribute name="TypeName" type="xs:string" use="required"/>
-		<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
-		<xs:attribute name="IsNotIndexed" type="xs:boolean" use="required"/>
-		<xs:attribute name="IsAnalyzed" type="xs:boolean" use="required"/>
-		<xs:attribute name="IsFilterable" type="xs:boolean" use="required"/>
-		<xs:attribute name="IsExcludeInAll" type="xs:boolean" use="required"/>
-		<xs:attribute name="Boost" type="xs:int" use="required"/>
 		<xs:attribute name="AllowMultiple" type="xs:boolean" use="optional" default="false"/>
 	</xs:complexType>
+	<xs:element name="SimpleMember">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Member">
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+					<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsNotIndexed" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsAnalyzed" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsFilterable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsExcludeInAll" type="xs:boolean" use="required"/>
+					<xs:attribute name="Boost" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComplexMember">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Member">
+					<xs:attribute name="EmptyField" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="ValueObjectMember">
 		<xs:complexType>
 			<xs:complexContent>

@@ -136,7 +136,7 @@ namespace Bespoke.Sph.SourceBuilders
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
                 // mapping - get a clone to differ than the on the disk
                 var clone = ed.Clone();
-                clone.MemberCollection.Add(new Member { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
+                clone.MemberCollection.Add(new SimpleMember { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
 
                 var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification() };
                 await subs.PutMappingAsync(clone);
