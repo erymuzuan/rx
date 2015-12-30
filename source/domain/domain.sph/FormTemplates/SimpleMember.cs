@@ -93,7 +93,7 @@ namespace Bespoke.Sph.Domain
 
         public override string ToString()
         {
-            return $"{this.Name}->{this.FullName}:{this.TypeName}";
+            return $"[SimpleMember]{this.Name}->{this.Type.ToCSharp()}";
         }
     }
 }

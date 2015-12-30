@@ -38,13 +38,17 @@ namespace domain.test.triggers
         public async Task AssemblyActionCompile()
         {
             m_efMock.Clear();
-            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", File.ReadAllText(@"C:\project\work\sph\bin\sources\EntityDefinition\Patient.json").DeserializeFromJson<EntityDefinition>());
+            var jsonFile = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\Patient.json";
+            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", 
+                File.ReadAllText(jsonFile).DeserializeFromJson<EntityDefinition>());
             var json = File.ReadAllText(@"C:\project\work\sph\source\unit.test\domain.test\triggers\assembly.action.json");
             var trigger = json.DeserializeFromJson<Trigger>();
             var code = await trigger.GenerateCodeAsync();
             Console.WriteLine(code);
             var options = new CompilerOptions();
             var result = await trigger.CompileAsync(options);
+            if(!result.Result)
+                result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Result);
         }
 
@@ -103,7 +107,7 @@ namespace domain.test.triggers
             action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
             var code = action.GeneratorCode();
             StringAssert.DoesNotContain("return response", code);
-            StringAssert.Contains("return 0", code);
+            StringAssert.Contains("return Task.FromResult", code);
         }
 
         [Test]
@@ -126,7 +130,9 @@ namespace domain.test.triggers
         [Test]
         public async Task CallPatientControllerValidate()
         {
-            var dll = Assembly.LoadFile(@"C:\project\work\sph\bin\output\DevV1.Patient.dll");
+            var patientDll = $@"{ConfigurationManager.CompilerOutputPath}\DevV1.Patient.dll";
+            File.Copy(patientDll, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DevV1.Patient.dll"),true);
+            var dll = Assembly.LoadFile(patientDll);
             await Task.Delay(250);
             var action = new AssemblyAction
             {

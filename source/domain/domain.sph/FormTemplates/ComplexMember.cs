@@ -8,6 +8,11 @@ namespace Bespoke.Sph.Domain
 {
     public partial class ComplexMember : Member
     {
+        public override string ToString()
+        {
+            return $"[ComplexMember]{this.Name}; AllowMultiple = {AllowMultiple}, Members = {MemberCollection.Count}";
+        }
+
         public override string GenerateJavascriptMember(string ns)
         {
             return this.AllowMultiple ?
@@ -19,7 +24,6 @@ namespace Bespoke.Sph.Domain
         {
             return $"           this.{Name} = new {Name}();";
         }
-
         
         public override string GeneratedCode(string padding = "      ")
         {

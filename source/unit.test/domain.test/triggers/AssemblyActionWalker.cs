@@ -18,16 +18,13 @@ namespace domain.test.triggers
         {
 
             var member = node.Expression as MemberAccessExpressionSyntax;
-            if (member != null)
+            var type = member?.Expression as IdentifierNameSyntax;
+            if (type != null && type.Identifier.Text == "k" && member.Name.Identifier.Text == this.MethodName)
             {
-                var type = member.Expression as IdentifierNameSyntax;
-                if (type != null && type.Identifier.Text == "k" && member.Name.Identifier.Text == this.MethodName)
+                foreach (var arg in node.ArgumentList.Arguments)
                 {
-                    foreach (var arg in node.ArgumentList.Arguments)
-                    {
-                        Arguments.Add(arg.Expression);
+                    Arguments.Add(arg.Expression);
 
-                    }
                 }
             }
 
