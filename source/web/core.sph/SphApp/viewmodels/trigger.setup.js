@@ -81,6 +81,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                         isBusy(false);
                         trigger().Id(result);
                         originalEntity = ko.toJSON(trigger);
+                        logger.info("Your Trigger has been successfully saved");
                     });
             },
             canDeactivate = function () {
