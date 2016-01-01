@@ -18,16 +18,6 @@
           "$values": [
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
-              "Name": "Age",
-              "IsPrimaryKey": false,
-              "DataType": "smallint",
-              "IsNullable": true,
-              "IsComputed": false,
-              "IsIdentity": false,
-              "Length": 2
-            },
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
               "Name": "Id",
               "IsPrimaryKey": true,
               "DataType": "int",
@@ -55,16 +45,6 @@
               "IsComputed": false,
               "IsIdentity": false,
               "Length": 9
-            },
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
-              "Name": "Nrid",
-              "IsPrimaryKey": false,
-              "DataType": "bigint",
-              "IsNullable": true,
-              "IsComputed": false,
-              "IsIdentity": false,
-              "Length": 8
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
@@ -213,6 +193,7 @@
         "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
         "Name": "Patient",
         "CodeNamespace": "DevV1.Adapters.dbo.TestHIS",
+        "ClassAttribute": null,
         "WebId": null,
         "Schema": "dbo",
         "ParentTableCollection": {
@@ -229,28 +210,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "Age",
-              "TypeName": "System.Int16, mscorlib",
-              "IsNullable": true,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": true,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -273,6 +233,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -295,6 +256,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -317,28 +279,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "Nrid",
-              "TypeName": "System.Int64, mscorlib",
-              "IsNullable": true,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": true,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -361,6 +302,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -383,6 +325,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -407,6 +350,7 @@
         "PrimaryKey": {
           "$type": "Bespoke.Sph.Domain.Member, domain.sph",
           "FullName": null,
+          "PropertyAttribute": null,
           "MemberCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
             "$values": []
@@ -437,6 +381,7 @@
         "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
         "Name": "Department",
         "CodeNamespace": "DevV1.Adapters.dbo.TestHIS",
+        "ClassAttribute": null,
         "WebId": null,
         "Schema": "dbo",
         "ParentTableCollection": {
@@ -453,6 +398,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -475,6 +421,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -499,6 +446,7 @@
         "PrimaryKey": {
           "$type": "Bespoke.Sph.Domain.Member, domain.sph",
           "FullName": null,
+          "PropertyAttribute": null,
           "MemberCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
             "$values": []
@@ -529,6 +477,7 @@
         "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
         "Name": "PatientDepartment",
         "CodeNamespace": "DevV1.Adapters.dbo.TestHIS",
+        "ClassAttribute": null,
         "WebId": null,
         "Schema": "dbo",
         "ParentTableCollection": {
@@ -545,6 +494,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -567,6 +517,7 @@
             {
               "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
+              "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
@@ -602,6 +553,6 @@
   "Id": "test-his",
   "CreatedDate": "2015-10-22T08:23:01.0046044+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-10-22T08:23:01.0046044+08:00",
+  "ChangedDate": "2016-01-01T14:50:20.2680949+08:00",
   "WebId": "09ed38d2-5e4f-499b-8cf7-2c9af00d294b"
 }

@@ -111,7 +111,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                             var sp = await this.GetStoreProcedureAsync(adapter, reader.GetString(0));
                             sprocs.Add(sp);
                         }
-                        var json =$"{{ \"sprocs\" :[{string.Join(",\r\n", sprocs.Select(x => x.ToJsonString()))}], \"tables\" :[{string.Join(",", tables.Select(x => "\"" + x + "\""))}], \"success\" :true, \"status\" : \"OK\" }}";
+                        var json = $"{{ \"sprocs\" :[{string.Join(",\r\n", sprocs.Select(x => x.ToJsonString()))}], \"tables\" :[{string.Join(",", tables.Select(x => "\"" + x + "\""))}], \"success\" :true, \"status\" : \"OK\" }}";
                         var response = new JsonResponseMessage(json);
                         return response;
                     }
@@ -344,8 +344,14 @@ order by ORDINAL_POSITION";
                 session.Attach(adapter);
                 await session.SubmitChanges("Publish");
             }
-            
-            var json2 = JsonConvert.SerializeObject(new { message = "Successfully compiled", success = result.Result, status = "OK" });
+
+            var json2 = JsonConvert.SerializeObject(new
+            {
+                message = result.Result ? "Successfully compiled" : "There are errors in your adapter",
+                errors = result.Errors.ToArray(),
+                success = result.Result,
+                status = "OK"
+            });
             var response2 = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json2) };
             return response2;
         }
