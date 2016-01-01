@@ -6,7 +6,7 @@
 /// <reference path="../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
-
+/// <reference path="../domain/domain.sph/Scripts/objectbuilders.js" />
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
     function (context, logger, router, app) {
@@ -91,7 +91,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
 
             },
-            attached = function (view) {
+            attached = function () {
                 adapter().Database.subscribe(function (db) {
                     if (!db) {
                         return;
@@ -134,7 +134,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     if (typeof table.busy !== "function") {
                         table = ko.dataFor(checkbox.parents("ul")[0]);
                         var at0 = _(selectedTables()).find(function (v) {
-                            return v.Name == table.name;
+                            return v.Name === table.name;
                         }),
                             child = ko.dataFor(this);
                         if (checkbox.is(":checked")) {
@@ -151,7 +151,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         table.children.removeAll();
 
                         var at = _(selectedTables()).find(function (v) {
-                            return v.Name == table.name;
+                            return v.Name === table.name;
                         });
 
                         selectedTables.remove(at);
@@ -235,8 +235,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 isBusy(true);
 
                 return context.post(data, "/sqlserver-adapter/generate")
-                    .then(function () {
+                    .then(function (result) {
                         isBusy(false);
+                        if (result.success) {
+                            logger.info(result.message);
+                        } else {
+                            logger.error(result.message);
+                        }
                     });
 
 
@@ -252,9 +257,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         if (result.success) {
                             adapter().Id(result.id);
                             errors.removeAll();
+                            logger.info("Your Sql Server adapter has been saved");
 
                         } else {
                             errors(result.errors);
+                            logger.error("Please check for any errors in your adapter");
                         }
 
                     });

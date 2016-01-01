@@ -515,8 +515,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                         if (dialogResult === "Yes") {
                                             pages.remove(pg);
                                             // remove the connection as well
-                                            _(pg.mappings()).each(function(v) {
-                                                var mp = (td().MapCollection()).find(function(k) {
+                                            _(pg.mappings()).each(function (v) {
+                                                var mp = (td().MapCollection()).find(function (k) {
                                                     return ko.unwrap(v) === ko.unwrap(k.WebId);
                                                 });
 
@@ -524,8 +524,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                                     td().MapCollection.remove(mp);
                                                 }
                                             });
-                                            _(pg.functoids()).each(function(v) {
-                                                var mp = (td().FunctoidCollection()).find(function(k) {
+                                            _(pg.functoids()).each(function (v) {
+                                                var mp = (td().FunctoidCollection()).find(function (k) {
                                                     return ko.unwrap(v) === ko.unwrap(k.WebId);
                                                 });
 
@@ -577,12 +577,12 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         })
                         .then(function (result) {
                             isBusy(false);
-                            if (!td().Id() || td().Id() === "0") {
-                                td().Id(result.id);
-                                router.navigate("transform.definition.edit/" + result.id);
+                            if (result.success) {
+                                logger.info(result.message);
+                                originalEntity = ko.toJSON(td);
+                            } else {
+                                logger.error(result.message);
                             }
-
-                            originalEntity = ko.toJSON(td);
                         });
             },
             canDeactivate = function () {

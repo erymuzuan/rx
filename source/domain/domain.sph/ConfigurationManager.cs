@@ -96,8 +96,15 @@ namespace Bespoke.Sph.Domain
             element.SetValue(settings, false);
             collection.SetValue(settings, false);
 
-            settings.Add(new ConnectionStringSettings("Sph", SqlConnectionString));
-
+            try
+            {
+                settings.Add(new ConnectionStringSettings("Sph", SqlConnectionString));
+            }
+            catch (ConfigurationErrorsException e) when (e.Message == "The entry 'Sph' has already been added.")
+            {
+                var config = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+                throw new Exception($"Please remove the 'Sph' ConnectionString entry in '{config}'", e);
+            }
             // Repeat above line as necessary
 
             collection.SetValue(settings, true);

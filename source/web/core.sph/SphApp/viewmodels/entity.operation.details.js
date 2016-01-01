@@ -7,9 +7,8 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
-
-
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, objectbuilders.config],
+/// <reference path="~/Scripts/_task.js" />
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.config],
     function (context, logger, router, system, config) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
@@ -22,8 +21,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                 if (!roles().length) {
                     roles(config.allRoles);
-                    roles.splice(0, 0, 'Anonymous');
-                    roles.splice(0, 0, 'Everybody');
+                    roles.splice(0, 0, "Anonymous");
+                    roles.splice(0, 0, "Everybody");
                 }
 
                 var query = String.format("Id eq '{0}'", eid),
@@ -47,11 +46,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                 return tcs.promise();
             },
-            attached = function (view) {
+            attached = function () {
 
             },
             save = function () {
-                if (!document.getElementById('entity-operation-detail-form').checkValidity()) {
+                if (!document.getElementById("entity-operation-detail-form").checkValidity()) {
                     logger.error("Please correct all the validations errors");
                     return Task.fromResult(0);
                 }
@@ -67,12 +66,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         if (result.success) {
                             logger.info(result.message);
                             entity().Id(result.id);
-                            errors.removeAll();
-                            setTimeout(function () {
-                                router.navigate('/entity.details/' + entity().Id());
-                            }, 1000);                            
+                            errors.removeAll();                          
                         } else {
-
                             errors(result.Errors);
                             logger.error("There are errors in your entity, !!!");
                         }
@@ -117,7 +112,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 commands: ko.observableArray([
                             {
                                 command: publishAsync,
-                                caption: 'Publish',
+                                caption: "Publish",
                                 icon: "fa fa-sign-in",
                                 enable: ko.computed(function () {
                                     return entity().Id() && entity().Id() !== "0";

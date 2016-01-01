@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.SqlReportDataSource;
+using Moq;
 using NUnit.Framework;
 
 namespace domain.test.reports
@@ -22,31 +25,31 @@ namespace domain.test.reports
         [Test]
         public async Task GetColumns()
         {
-            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" ,Id = "customer"};
-            ent.MemberCollection.Add(new SimpleMember
+            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
+            ent.MemberCollection.Add(new Member
             {
                 Name = "Name2",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
-            });
-            ent.MemberCollection.Add(new SimpleMember
+            }); ent.MemberCollection.Add(new Member
             {
                 Name = "Title",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = false
             });
-            var address = new ComplexMember { Name = "Address" };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            var address = new Member { Name = "Address", TypeName = "System.Object, mscorlib" };
+            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 
-            var contacts = new ComplexMember { Name = "Contacts", AllowMultiple = true };
-            contacts.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
-            contacts.MemberCollection.Add(new SimpleMember { Name = "Telephone", Type = typeof(string) });
+            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             contacts.MemberCollection.Add(address);
             ent.MemberCollection.Add(contacts);
-            
+
+
+
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ent);
             var ds = new SqlDataSource();
             var columns = (await ds.GetColumnsAsync("Customer"))
