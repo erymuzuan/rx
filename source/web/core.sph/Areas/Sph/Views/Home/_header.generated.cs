@@ -263,6 +263,8 @@ WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" class=\"dropdown-toggle\"");
 
+WriteLiteral(" id=\"solution-explorer-toggle-button\"");
+
 WriteLiteral(">\r\n                        <i");
 
 WriteLiteral(" class=\"icon-logout\"");
