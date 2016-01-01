@@ -189,6 +189,13 @@ if((Test-Path("$WorkingCopy\web\SphApp\partial")) -eq $false)
     mkdir "$WorkingCopy\web\SphApp\partial"
 }
 
+#email folder
+if((Test-Path("C:\temp\sphEmail")) -eq $false)
+{
+    mkdir "C:\temp\sphEmail"
+}
+
+
 #asp.net memberships
 Write-Debug "Executing Aspnet membership provider"
 Start-Process -RedirectStandardOutput "v1.log" -Wait -WindowStyle Hidden -FilePath "C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe" `
