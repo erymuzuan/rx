@@ -1024,7 +1024,7 @@
           ]
         },
         "Name": "PromoteTo",
-        "SuccessMessage": "Wholaaa 123",
+        "SuccessMessage": "Wholaaa 1234",
         "ShowSuccessMessage": false,
         "NavigateSuccessUrl": "#customer",
         "SuccessCommand": null,
@@ -1154,6 +1154,6 @@
   "Id": "customer",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-12-18T11:33:03.3900772+08:00",
+  "ChangedDate": "2016-01-01T15:07:50.713754+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }
