@@ -32,19 +32,23 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 var query = String.format("Id eq '{0}'", id);
                 return context.loadOneAsync("EntityDefinition", query)
-                    .done(function (b) {
+                    .then(function (b) {
                         if (!b) {
-                            return router.navigate("#not.found");
+                            originalEntity = null;
+                            return app.showMessage("Cannot find any EntityDefinition with id = " + id, "Not Found", ["OK"])
+                            .done(function () {
+                                return router.navigate("#dev.home");
+                            });
                         }
                         entity(b);
-                        originalEntity = ko.toJSON(b);
                         window.typeaheadEntity = b.Name();
-                        return  true;
+                        return Task.fromResult(true);
                     });
 
             },
             attached = function () {
 
+                originalEntity = ko.toJSON(entity);
                 var setDesignerHeight = function () {
                     if ($("#schema-tree-panel").length === 0) {
                         return;
@@ -99,6 +103,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             canDeactivate = function () {
                 var tcs = new $.Deferred();
+                if (!originalEntity) {
+                    return true;
+                }
+               
+
+
                 if (originalEntity !== ko.toJSON(entity)) {
                     app.showMessage("Save change to the item", "Rx Developer", ["Yes", "No", "Cancel"])
                         .done(function (dialogResult) {
