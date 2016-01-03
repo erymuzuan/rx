@@ -1,13 +1,15 @@
 <Query Kind="Program">
+  <Reference Relative="..\bin\subscribers.host\domain.sph.dll">C:\project\work\sph\bin\subscribers.host\domain.sph.dll</Reference>
   <Reference Relative="..\bin\subscribers.host\Newtonsoft.Json.dll">C:\project\work\sph\bin\subscribers.host\Newtonsoft.Json.dll</Reference>
   <Namespace>Newtonsoft.Json.Linq</Namespace>
+  <Namespace>Bespoke.Sph.Domain</Namespace>
 </Query>
-
 
 void Main()
 {
 	var file = @"C:\Users\erymuzuan\Downloads\Patient.json";
-	var jo = JObject.Parse(File.ReadAllText(file));
+	var originalJson = File.ReadAllText(file);
+	var jo = JObject.Parse(originalJson);
 	var members = jo.SelectToken("$.MemberCollection.$values");
 	foreach (var m in members)
 	{
@@ -15,7 +17,11 @@ void Main()
 		UpdateMember(m1);
 		
 	}
-	Console.WriteLine(jo.ToString());
+	var ed = JsonSerializerService.DeserializeFromJson<EntityDefinition>(jo.ToString());
+	Console.WriteLine(ed.Name);
+	File.Copy(file, $"{file}-{DateTime.Now:g}.backup",true);
+	File.WriteAllText(file, jo.ToString());
+
 }
 
 // Define other methods and classes here
@@ -35,6 +41,7 @@ private static void UpdateMember(JObject m1)
 		{
 			m1["$type"] = "Bespoke.Sph.Domain.ComplexMember, domain.sph";
 			m1.Add(new JProperty("AllowMultiple", false));
+			m1.Remove("TypeName");
 			m1.Remove("IsNullable");
 			m1.Remove("IsNotIndexed");
 			m1.Remove("IsAnalyzed");
@@ -47,6 +54,7 @@ private static void UpdateMember(JObject m1)
 		{
 			m1["$type"] = "Bespoke.Sph.Domain.ComplexMember, domain.sph";
 			m1.Add(new JProperty("AllowMultiple", true));
+			m1.Remove("TypeName");
 			m1.Remove("IsNullable");
 			m1.Remove("IsNotIndexed");
 			m1.Remove("IsAnalyzed");
