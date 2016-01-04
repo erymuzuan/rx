@@ -169,6 +169,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flatfile.adapter", "source\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flatfile.adapter.test", "source\unit.test\flatfile.adapter.test\flatfile.adapter.test.csproj", "{3C2C025D-5A91-425C-A32C-0DD5398E4E14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "member.convert", "source\tools\member.convert\member.convert.csproj", "{30D10FBA-D93E-4C5A-B7C3-1392F89838D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -423,6 +425,10 @@ Global
 		{3C2C025D-5A91-425C-A32C-0DD5398E4E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C2C025D-5A91-425C-A32C-0DD5398E4E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C2C025D-5A91-425C-A32C-0DD5398E4E14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30D10FBA-D93E-4C5A-B7C3-1392F89838D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D10FBA-D93E-4C5A-B7C3-1392F89838D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D10FBA-D93E-4C5A-B7C3-1392F89838D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D10FBA-D93E-4C5A-B7C3-1392F89838D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -491,5 +497,6 @@ Global
 		{0FF8FEA3-04FB-475C-9F56-D9337652C05A} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{305043FB-253C-462E-806D-0714340464CC} = {B9C4C533-8EA0-4DD0-887E-4C5734F27238}
 		{3C2C025D-5A91-425C-A32C-0DD5398E4E14} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{30D10FBA-D93E-4C5A-B7C3-1392F89838D5} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 	EndGlobalSection
 EndGlobal

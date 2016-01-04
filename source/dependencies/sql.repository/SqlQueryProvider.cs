@@ -12,15 +12,7 @@ namespace Bespoke.Sph.SqlRepository
     /// </summary>
     public class SqlQueryProvider : QueryProvider
     {
-
-        TextWriter m_log;
-
-
-        public TextWriter Log
-        {
-            get { return this.m_log; }
-            set { this.m_log = value; }
-        }
+        public TextWriter Log { get; set; }
 
         public override string GetQueryText(Expression expression)
         {
@@ -37,10 +29,10 @@ namespace Bespoke.Sph.SqlRepository
             
             query.Projector.Compile();
 
-            if (this.m_log != null)
+            if (this.Log != null)
             {
-                this.m_log.WriteLine(query.CommandText);
-                this.m_log.WriteLine();
+                this.Log.WriteLine(query.CommandText);
+                this.Log.WriteLine();
             }
 
             var text = query.CommandText;
