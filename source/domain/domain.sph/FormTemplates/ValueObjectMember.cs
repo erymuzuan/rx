@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -73,10 +71,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public ValueObjectMember()
-        {
-            this.TypeName = typeof(object).GetShortAssemblyQualifiedName();
-        }
 
 
         public override BuildError[] Validate()
@@ -175,10 +169,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public new string TypeName
-        {
-            get { return typeof(ValueObjectDefinition).GetShortAssemblyQualifiedName(); }
-            set { Debug.Write(value); }
-        }
+
     }
 }

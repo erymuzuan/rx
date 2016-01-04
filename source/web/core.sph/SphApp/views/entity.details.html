@@ -23,7 +23,7 @@
             </div>
             <div class="col-sm-4" data-bind="with: member">
                 <h3>Member properties</h3>
-                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Member, domain.sph"-->
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.SimpleMember, domain.sph"-->
                 <form class="form" role="form" data-bind="visible:Name()">
                     <div class="form-group">
                         <label for="member_name">Name</label>
@@ -40,8 +40,6 @@
                             <option value="System.Decimal, mscorlib">Decimal</option>
                             <option value="System.DateTime, mscorlib">DateTime</option>
                             <option value="System.Boolean, mscorlib">Boolean</option>
-                            <option value="System.Object, mscorlib">Complex</option>
-                            <option value="System.Array, mscorlib">Collection</option>
                         </select>
 
                     </div>
@@ -81,7 +79,7 @@
                             Do not include in all
                         </label>
                     </div>
-                    <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
+                    <div class="form-group">
                         <label for="member-boost" class="control-label">Boost</label>
 
                         <input type="number" data-bind="value: Boost, disable: IsNotIndexed"
@@ -91,7 +89,7 @@
 
                     </div>
 
-                    <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
+                    <div class="form-group">
                         <label for="member-default-value" class="control-label">Default Value</label>
                         <div class="btn-group" id="member-default-value">
                             <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
@@ -129,6 +127,24 @@
                         <i class="fa fa-lock"></i>
                         Permission
                     </a>-->
+
+                </form>
+
+                <!-- /ko-->
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph"-->
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="complex-member-name">Name</label>
+                        <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: AllowMultiple" id="complex-member-allow-multiple" type="checkbox" name="AllowMultiple" />
+                            Allow Multiple
+                        </label>
+                    </div>
+
 
                 </form>
 

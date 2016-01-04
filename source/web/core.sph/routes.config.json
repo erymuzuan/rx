@@ -439,7 +439,7 @@
     "moduleId": "viewmodels/value.object.list",
     "title": "Value Objects Console",
     "nav": true,
-    "icon": "fa fa-clipboard",
+    "icon": "fa fa-object-ungroup",
     "caption": "Value Objects Console",
     "settings": null,
     "isAdminPage": true,

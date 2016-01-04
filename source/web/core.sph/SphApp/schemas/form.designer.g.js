@@ -894,6 +894,80 @@ bespoke.sph.domain.ValueObjectDefinition = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.SimpleMember = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Member(optionOrWebid);
+
+    v.TypeName = ko.observable("");
+
+    v.IsNullable = ko.observable(false);
+
+    v.IsNotIndexed = ko.observable(false);
+
+    v.IsAnalyzed = ko.observable(false);
+
+    v.IsFilterable = ko.observable(false);
+
+    v.IsExcludeInAll = ko.observable(false);
+
+    v.Boost = ko.observable(0);
+
+    v["$type"] = "Bespoke.Sph.Domain.SimpleMember, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SimpleMemberPartial) {
+        return _(v).extend(new bespoke.sph.domain.SimpleMemberPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ComplexMember = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Member(optionOrWebid);
+
+    v.EmptyField = ko.observable("");
+
+    v["$type"] = "Bespoke.Sph.Domain.ComplexMember, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ComplexMemberPartial) {
+        return _(v).extend(new bespoke.sph.domain.ComplexMemberPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.ValueObjectMember = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Member(optionOrWebid);
@@ -1318,6 +1392,7 @@ bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
         IsHttpPut: ko.observable(false),
         IsHttpPatch: ko.observable(false),
         IsHttpPost: ko.observable(false),
+        IsHttpDelete: ko.observable(false),
         EntityPermissionCollection: ko.observableArray([]),
         Rules: ko.observableArray([]),
         Permissions: ko.observableArray([]),
@@ -1747,13 +1822,6 @@ bespoke.sph.domain.Member = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         Name: ko.observable(""),
-        TypeName: ko.observable(""),
-        IsNullable: ko.observable(false),
-        IsNotIndexed: ko.observable(false),
-        IsAnalyzed: ko.observable(false),
-        IsFilterable: ko.observable(false),
-        IsExcludeInAll: ko.observable(false),
-        Boost: ko.observable(0),
         AllowMultiple: ko.observable(false),
         MemberCollection: ko.observableArray([]),
         FieldPermissionCollection: ko.observableArray([]),
