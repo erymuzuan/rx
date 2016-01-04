@@ -1,207 +1,4 @@
-﻿ko.bindingHandlers.solutiontree = {
-    init: function (element, valueAccessor) {
-        var value = valueAccessor(),
-            //solution = ko.unwrap(value.solution),            
-            items = ko.unwrap(value.items),
-            transforms = ko.unwrap(value.transforms),
-            wds = ko.unwrap(value.wds),
-            click = value.click,
-            singleClick = value.singleClick,
-            addEntityDefinition = value.addEntityDefinition,
-            addForm = value.addForm,
-            addOperation = value.addOperation,
-            addView = value.addView,
-            addBusinessRules = value.addBusinessRules;
-
-        var eds = [];
-        var treeRoots = [
-            { "id": "EntityDefinition", "parent": "#", "text": "Entity Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
-            { "id": "WorkflowDefinition", "parent": "#", "text": "Workflow Definitions", icon: "fa fa-code-fork", data: { TypeName: "#" } },
-            { "id": "TransformDefinition", "parent": "#", "text": "Transform Definitions", icon: "fa fa-random", data: { TypeName: "#" } },
-            { "id": "Adapter", "parent": "#", "text": "Adapters", icon: "fa fa-puzzle-piece", data: { TypeName: "#" } },
-            { "id": "CustomForm", "parent": "#", "text": "Custom Forms", icon: "fa fa-file-o", data: { TypeName: "#" } },
-            { "id": "CustomDialog", "parent": "#", "text": "Custom Dialog", icon: "fa fa-file-o", data: { TypeName: "#" } },
-            { "id": "CustomScript", "parent": "#", "text": "Custom Scripts", icon: "fa fa-file-o", data: { TypeName: "#" } },
-            { "id": "PartialView", "parent": "#", "text": "Partial View", icon: "fa fa-file-o", data: { TypeName: "#" } }
-        ];
-
-        _.each(items, function (pmd) {
-            eds.push({
-                id: ko.unwrap(pmd.Id),
-                text: ko.unwrap(pmd.Name),
-                parent: "EntityDefinition",
-                icon: "fa fa-clipboard",
-                data: { TypeName: "EntityDefinition" }
-            });
-
-            _.each(pmd.Forms, function (forms) {
-                eds.push({
-                    id: ko.unwrap(forms.Id),
-                    text: ko.unwrap(forms.Name),
-                    parent: ko.unwrap(pmd.Id),
-                    icon: "fa fa-edit",
-                    data: { TypeName: "EntityForm" }
-                });
-            });
-
-            _.each(pmd.Operations, function (op) {
-                eds.push({
-                    id: ko.unwrap(op.WebId),
-                    text: ko.unwrap(op.Name),
-                    parent: ko.unwrap(pmd.Id),
-                    icon: "fa fa-gavel",
-                    data: { TypeName: "EntityOperation", Name: ko.unwrap(op.Name) }
-
-                });
-            });
-
-            _.each(pmd.Rdl, function (rdl) {
-                eds.push({
-                    id: ko.unwrap(rdl.Id),
-                    text: ko.unwrap(rdl.Title),
-                    parent: ko.unwrap(pmd.Id),
-                    icon: "fa fa-clipboard",
-                    type: "Rdl"
-                });
-            });
-
-            _.each(pmd.Triggers, function (trigger) {
-                eds.push({
-                    id: ko.unwrap(trigger.Id),
-                    text: ko.unwrap(trigger.Name),
-                    parent: ko.unwrap(pmd.Id),
-                    icon: "fa fa-clipboard",
-                    data: { TypeName: "Trigger" }
-                });
-            });
-
-            _.each(pmd.Views, function (view) {
-                eds.push({
-                    id: ko.unwrap(view.Id),
-                    text: ko.unwrap(view.Name),
-                    parent: ko.unwrap(pmd.Id),
-                    icon: "fa fa-table",
-                    data: { TypeName: "EntityView" }
-                });
-            });
-
-        });
-
-        _.each(transforms, function (pmd) {
-            eds.push({
-                id: ko.unwrap(pmd.Id),
-                text: ko.unwrap(pmd.Name),
-                parent: "TransformDefinition",
-                icon: "fa fa-clipboard",
-                data: { TypeName: "TransformDefinition" }
-            });
-        });
-        _.each(wds, function (pmd) {
-            eds.push({
-                id: ko.unwrap(pmd.Id),
-                text: ko.unwrap(pmd.Name),
-                parent: "WorkflowDefinition",
-                icon: "fa fa-code-fork",
-                data: { TypeName: "WorkflowDefinition" }
-            });
-        });
-
-        $(element).jstree({
-            'core': {
-                'data': treeRoots.concat(eds)
-            },
-            "plugins": ["contextmenu", "search"],
-            "contextmenu": {
-                "items": function (node) {
-
-                    if (node.id === "EntityDefinition") {
-                        return {
-                            "Create": {
-                                "label": "Add New Entity",
-                                "action": function (obj) {
-                                    //this.create(obj);
-                                    addEntityDefinition();
-                                }
-                            }
-                        };
-                    } else if (node.id === "WorkflowDefinition") {
-                        return {
-                            "Create": {
-                                "label": "Add New Workflow Definition",
-                                "action": function (obj) {
-                                    addWorkflowDefinition();
-                                }
-                            }
-                        };
-                    } else if (node.id === "TransformDefinition") {
-                        return {
-                            "Create": {
-                                "label": "Add New Transform Definition",
-                                "action": function (obj) {
-                                    addTransformDefinition();
-                                }
-                            }
-                        };
-                    } else if (node.id === "Adapter") {
-                        return {
-                            "Create": {
-                                "label": "Add New Adapter",
-                                "action": function (obj) {
-                                    addAdapter();
-                                }
-                            }
-                        };
-                    } else if (node.id === "Trigger") {
-                        return {
-                            "Create": {
-                                "label": "Add New Trigger",
-                                "action": function (obj) {
-                                    addTrigger();
-                                }
-                            }
-                        };
-                    } else if (node.parent === "EntityDefinition") {
-                        return {
-                            "Create Business Rules": {
-                                "label": "Add New Business Rules",
-                                "action": function (obj) {
-                                    addBusinessRules(node.id);
-                                    console.log(ob);
-                                }
-                            },
-                            "Create Form": {
-                                "label": "Add New Form",
-                                "action": function (obj) {
-                                    addForm(node.id);
-                                }
-                            },
-                            "Create Views": {
-                                "label": "Add New View",
-                                "action": function (obj) {
-                                    addView(node.id);
-                                    console.log(obj);
-                                }
-                            },
-                            "Create Operation": {
-                                "label": "Add New Operation",
-                                "action": function (obj) {
-                                    addOperation(node.id);
-                                    console.log(obj);
-                                }
-                            }
-                        };
-                    }
-
-                }
-            }
-        });
-
-        $(element).on("select_node.jstree", singleClick);
-        $(element).delegate("a", "dblclick", click);
-    }
-};
-
-ko.bindingHandlers.tree = {
+﻿ko.bindingHandlers.tree = {
     init: function (element, valueAccessor) {
         var system = require(objectbuilders.system),
             value = valueAccessor(),
@@ -278,8 +75,9 @@ ko.bindingHandlers.tree = {
                             'data': jsTreeData
                         },
                         "contextmenu": {
-                            "items": [
-                                {
+                            "items": function ($node) {
+
+                                var simpleMenu = {
                                     label: "Add Simple Child",
                                     action: function () {
                                         var child = new bespoke.sph.domain.SimpleMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
@@ -308,66 +106,67 @@ ko.bindingHandlers.tree = {
 
                                     }
                                 },
-                                {
-                                    label: "Add Value Object Child",
-                                    action: function () {
-                                        var typeName = "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
-                                            child = new bespoke.sph.domain.ValueObjectMember({ WebId: system.guid(), TypeName: typeName, Name: "Member_Name" }),
-                                            parent = $(element).jstree("get_selected", true),
-                                            mb = parent[0].data,
-                                            newNode = { state: "open", type: "Bespoke.Sph.Domain.ValueObjectMember, domain.sph", text: "Member_Name", data: child };
+                                    valueObjectMenu =
+                                    {
+                                        label: "Add Value Object Child",
+                                        action: function () {
+                                            var typeName = "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+                                                child = new bespoke.sph.domain.ValueObjectMember({ WebId: system.guid(), TypeName: typeName, Name: "Member_Name" }),
+                                                parent = $(element).jstree("get_selected", true),
+                                                mb = parent[0].data,
+                                                newNode = { state: "open", type: "Bespoke.Sph.Domain.ValueObjectMember, domain.sph", text: "Member_Name", data: child };
 
-                                        var ref = $(element).jstree(true),
-                                            sel = ref.get_selected();
-                                        if (!sel.length) {
-                                            return false;
-                                        }
-                                        sel = sel[0];
-                                        sel = ref.create_node(sel, newNode);
-                                        if (sel) {
-                                            ref.edit(sel);
-                                            if (mb && mb.MemberCollection) {
-                                                mb.MemberCollection.push(child);
-                                            } else {
-                                                entity.MemberCollection.push(child);
+                                            var ref = $(element).jstree(true),
+                                                sel = ref.get_selected();
+                                            if (!sel.length) {
+                                                return false;
                                             }
-                                            return true;
-                                        }
-                                        return false;
-
-
-                                    }
-                                },
-                                {
-                                    label: "Add Complex Child",
-                                    action: function () {
-                                        var child = new bespoke.sph.domain.ComplexMember({ WebId: system.guid(), Name: "Member_Name" }),
-                                            parent = $(element).jstree("get_selected", true),
-                                            mb = parent[0].data,
-                                            newNode = { state: "open", type: "Bespoke.Sph.Domain.ComplexMember, domain.sph", text: "Member_Name", data: child };
-
-                                        var ref = $(element).jstree(true),
-                                            sel = ref.get_selected();
-                                        if (!sel.length) {
-                                            return false;
-                                        }
-                                        sel = sel[0];
-                                        sel = ref.create_node(sel, newNode);
-                                        if (sel) {
-                                            ref.edit(sel);
-                                            if (mb && mb.MemberCollection) {
-                                                mb.MemberCollection.push(child);
-                                            } else {
-                                                entity.MemberCollection.push(child);
+                                            sel = sel[0];
+                                            sel = ref.create_node(sel, newNode);
+                                            if (sel) {
+                                                ref.edit(sel);
+                                                if (mb && mb.MemberCollection) {
+                                                    mb.MemberCollection.push(child);
+                                                } else {
+                                                    entity.MemberCollection.push(child);
+                                                }
+                                                return true;
                                             }
-                                            return true;
+                                            return false;
+
+
                                         }
-                                        return false;
+                                    },
+                                  complexChildMenu = {
+                                      label: "Add Complex Child",
+                                      action: function () {
+                                          var child = new bespoke.sph.domain.ComplexMember({ WebId: system.guid(), Name: "Member_Name" }),
+                                              parent = $(element).jstree("get_selected", true),
+                                              mb = parent[0].data,
+                                              newNode = { state: "open", type: "Bespoke.Sph.Domain.ComplexMember, domain.sph", text: "Member_Name", data: child };
+
+                                          var ref = $(element).jstree(true),
+                                              sel = ref.get_selected();
+                                          if (!sel.length) {
+                                              return false;
+                                          }
+                                          sel = sel[0];
+                                          sel = ref.create_node(sel, newNode);
+                                          if (sel) {
+                                              ref.edit(sel);
+                                              if (mb && mb.MemberCollection) {
+                                                  mb.MemberCollection.push(child);
+                                              } else {
+                                                  entity.MemberCollection.push(child);
+                                              }
+                                              return true;
+                                          }
+                                          return false;
 
 
-                                    }
-                                },
-                                {
+                                      }
+                                  },
+                                removeMenu = {
                                     label: "Remove",
                                     action: function () {
                                         var ref = $(element).jstree(true),
@@ -397,8 +196,20 @@ ko.bindingHandlers.tree = {
                                         return true;
 
                                     }
+                                };
+
+                                var items = [];
+
+                                if ($node.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph") {
+                                    items.push(simpleMenu);
+                                    items.push(valueObjectMenu);
+                                    items.push(complexChildMenu);
                                 }
-                            ]
+
+                                console.log($node);
+                                items.push(removeMenu);
+                                return items;
+                            }
                         },
                         "types": {
 
