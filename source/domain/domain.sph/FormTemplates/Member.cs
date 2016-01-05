@@ -8,7 +8,7 @@ namespace Bespoke.Sph.Domain
     {
         public string FullName { get; set; }
         public string PropertyAttribute { get; set; }
-        
+
         public virtual string GetDefaultValueCode(int count)
         {
             return null;
@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
 
         public new virtual BuildError[] Validate()
         {
-            return new BuildError[] {};
+            return new BuildError[] { };
         }
 
         public virtual string GeneratedCode(string padding = "      ")
@@ -45,23 +45,23 @@ namespace Bespoke.Sph.Domain
         {
             return new Class[] { };
         }
-        
+
         public new Member this[string index]
         {
             get { return this.MemberCollection.Single(m => m.Name == index); }
         }
 
-        public IEnumerable<string> GetMembersPath(string root)
+        public virtual IEnumerable<string> GetMembersPath(string root)
         {
             var list = new List<string>();
-            list.AddRange(this.MemberCollection.Select(a => root + this.Name.Replace("Collection", "") + "." + a.Name));
+            list.AddRange(this.MemberCollection.Select(a => $"{root}{this.Name}.{a.Name}"));
             foreach (var member in this.MemberCollection)
             {
-                list.AddRange(member.GetMembersPath(root + this.Name.Replace("Collection", "") + "."));
+                list.AddRange(member.GetMembersPath($"{root}{this.Name}."));
             }
             return list.ToArray();
         }
-        
+
         public virtual string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
         {
             return null;

@@ -170,5 +170,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        public override IEnumerable<string> GetMembersPath(string root)
+        {
+            var list = new List<string>();
+            list.AddRange(this.MemberCollection.Select(a => $"{root}{this.Name}.{a.Name}"));
+            foreach (var member in this.MemberCollection)
+            {
+                list.AddRange(member.GetMembersPath($"{root}{this.Name}."));
+            }
+            return list.ToArray();
+        }
+
+
     }
 }

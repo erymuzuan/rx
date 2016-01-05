@@ -106,8 +106,9 @@ namespace domain.test.entities
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
-
         }
+
+
         [Test]
         public void ElasticsearchMapping()
         {
