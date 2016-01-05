@@ -18,6 +18,8 @@
         <Setter Property="Margin" Value="5" />
     </Style>
     
+    <Image Source="images/opentype.gif" x:Key="ImageOpen" Stretch="None"></Image>
+    <Image Source="images/update.gif" x:Key="ImageUpdate" Stretch="None"></Image>
     <Image Source="images/help.gif" x:Key="ImageHelp" Stretch="None"></Image>
     <Image Source="images/ruby_gear.png" x:Key="RubyGear" Stretch="None"></Image>
     <Image Source="images/control_start.png" x:Key="ControlStart" Stretch="None"></Image>
