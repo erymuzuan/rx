@@ -164,3 +164,4 @@ source/web/web.sph/assets/
 bin/10306.ps1
 *.vsp
 bin/rabbitmq_base/
+*.backup
