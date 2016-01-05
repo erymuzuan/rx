@@ -215,5 +215,10 @@ namespace Bespoke.Sph.ControlCenter
         {
             this.Topmost = false;
         }
+
+        private void OpenProjectDirectory(object sender, RoutedEventArgs e)
+        {
+            Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\"));
+        }
     }
 }
