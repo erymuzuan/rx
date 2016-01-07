@@ -26,37 +26,7 @@ namespace Bespoke.Sph.Domain
 
             return Task.FromResult(errors.AsEnumerable());
         }
-
-        public string GetConfirmationMessage()
-        {
-            var nav = string.Empty;
-            if (!string.IsNullOrWhiteSpace(this.NavigateSuccessUrl))
-            {
-                nav = "window.location='" + this.NavigateSuccessUrl + "'";
-                if (this.NavigateSuccessUrl.StartsWith("="))
-                {
-                    nav = "window.location" + this.NavigateSuccessUrl;
-                }
-                if (string.IsNullOrWhiteSpace(this.SuccessMessage))
-                    return nav;
-            }
-
-            if (string.IsNullOrWhiteSpace(this.SuccessMessage)
-                && string.IsNullOrWhiteSpace(this.NavigateSuccessUrl))
-                return string.Empty;
-
-            if (!this.ShowSuccessMessage) return nav;
-
-            return
-                $@" 
-                                    app.showMessage(""{this.SuccessMessage}"", ""{ConfigurationManager
-                    .ApplicationFullName}"", [""OK""])
-	                                    .done(function () {{
-                                            {nav}
-	                                    }});
-                                 ";
-        }
-
+        
         public Method GeneratePostAction(EntityDefinition ed)
         {
             if (!IsHttpPost) return null;
@@ -79,7 +49,7 @@ namespace Bespoke.Sph.Domain
             if (this.Rules.Any() || this.SetterActionChildCollection.Any())
                 post.AppendLine(GetEntityDefinitionCode(ed));
 
-            post.AppendLine($"      item.Id = Strings.GenerateId(); ");
+            post.AppendLine("      item.Id = Strings.GenerateId(); ");
 
             var rules = GenerateRulesCode();
             if (!string.IsNullOrWhiteSpace(rules))
@@ -97,7 +67,7 @@ namespace Bespoke.Sph.Domain
                 session.Attach(item);
                 await session.SubmitChanges(""{Name}"");
             }}
-            return Json(new {{success = true, message=""{SuccessMessage}"", status=""OK"", id = item.Id, href=""{ed.Name}/"" + item.Id}});");
+            return Json(new {{success = true, status=""OK"", id = item.Id, href=""{ed.Name}/"" + item.Id}});");
 
             return post;
         }
@@ -156,7 +126,7 @@ namespace Bespoke.Sph.Domain
                 session.Attach(item);
                 await session.SubmitChanges(""{Name}"");
             }}
-            return Json(new {{success = true, message=""{SuccessMessage}"", status=""OK"", id = item.Id}});");
+            return Json(new {{success = true, status=""OK"", id = item.Id}});");
 
             return patch;
         }
@@ -227,7 +197,7 @@ namespace Bespoke.Sph.Domain
                 session.Attach(item);
                 await session.SubmitChanges(""{Name}"");
             }}
-            return Json(new {{success = true, message=""{SuccessMessage}"", status=""OK"", id = item.Id, href=""{ed.Name}/"" + item.Id}});");
+            return Json(new {{success = true, status=""OK"", id = item.Id, href=""{ed.Name}/"" + item.Id}});");
 
             return put;
         }

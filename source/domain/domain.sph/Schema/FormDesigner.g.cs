@@ -2776,6 +2776,26 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationSuccessMesage;
+        public const string PropertyNameOperationSuccessMesage = "OperationSuccessMesage";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationSuccessNavigateUrl;
+        public const string PropertyNameOperationSuccessNavigateUrl = "OperationSuccessNavigateUrl";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationSuccessCallback;
+        public const string PropertyNameOperationSuccessCallback = "OperationSuccessCallback";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationFailureCallback;
+        public const string PropertyNameOperationFailureCallback = "OperationFailureCallback";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -3373,6 +3393,114 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_layout;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationSuccessMesage
+        {
+            set
+            {
+                if (String.Equals(m_operationSuccessMesage, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationSuccessMesage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationSuccessMesage = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationSuccessMesage;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationSuccessNavigateUrl
+        {
+            set
+            {
+                if (String.Equals(m_operationSuccessNavigateUrl, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationSuccessNavigateUrl, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationSuccessNavigateUrl = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationSuccessNavigateUrl;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationSuccessCallback
+        {
+            set
+            {
+                if (String.Equals(m_operationSuccessCallback, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationSuccessCallback, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationSuccessCallback = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationSuccessCallback;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationFailureCallback
+        {
+            set
+            {
+                if (String.Equals(m_operationFailureCallback, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationFailureCallback, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationFailureCallback = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationFailureCallback;
             }
         }
 
@@ -5027,26 +5155,6 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_successMessage;
-        public const string PropertyNameSuccessMessage = "SuccessMessage";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_showSuccessMessage;
-        public const string PropertyNameShowSuccessMessage = "ShowSuccessMessage";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_navigateSuccessUrl;
-        public const string PropertyNameNavigateSuccessUrl = "NavigateSuccessUrl";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_successCommand;
-        public const string PropertyNameSuccessCommand = "SuccessCommand";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_route;
         public const string PropertyNameRoute = "Route";
 
@@ -5129,114 +5237,6 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_name;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public string SuccessMessage
-        {
-            set
-            {
-                if (String.Equals(m_successMessage, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameSuccessMessage, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_successMessage = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_successMessage;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public bool ShowSuccessMessage
-        {
-            set
-            {
-                if (m_showSuccessMessage == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameShowSuccessMessage, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_showSuccessMessage = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_showSuccessMessage;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public string NavigateSuccessUrl
-        {
-            set
-            {
-                if (String.Equals(m_navigateSuccessUrl, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameNavigateSuccessUrl, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_navigateSuccessUrl = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_navigateSuccessUrl;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public string SuccessCommand
-        {
-            set
-            {
-                if (String.Equals(m_successCommand, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameSuccessCommand, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_successCommand = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_successCommand;
             }
         }
 

@@ -73,6 +73,12 @@ WriteLiteral(" data-toggle=\"tab\"");
 
 WriteLiteral(">General</a>\r\n        </li>\r\n        <li>\r\n            <a");
 
+WriteLiteral(" href=\"#operation-tab-item\"");
+
+WriteLiteral(" data-toggle=\"tab\"");
+
+WriteLiteral(">API Operation</a>\r\n        </li>\r\n        <li>\r\n            <a");
+
 WriteLiteral(" href=\"#add-field\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
@@ -127,7 +133,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"FormDesign.Name\"");
 
-WriteLiteral("/>\r\n                </div>\r\n\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -185,27 +191,7 @@ WriteLiteral(" id=\"form-design-layout\"");
 
 WriteLiteral(" name=\"FormDesign.Layout\"");
 
-WriteLiteral("></select>\r\n                </div>\r\n                <div");
-
-WriteLiteral(" class=\"form-group\"");
-
-WriteLiteral(">\r\n                    <label");
-
-WriteLiteral(" for=\"form-design-operation\"");
-
-WriteLiteral(">Operation</label>\r\n                    <select");
-
-WriteLiteral(" class=\"form-control\"");
-
-WriteLiteral(" data-bind=\"options :$root.operationsOption,\r\n                            options" +
-"Caption :\'[Default - No Operation]\',\r\n                            value: Operati" +
-"on\"");
-
-WriteLiteral(" id=\"form-design-operation\"");
-
-WriteLiteral(" name=\"FormDesign.Operation\"");
-
-WriteLiteral("></select>\r\n                </div>\r\n                <div");
+WriteLiteral("></select>\r\n                </div>\r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -582,7 +568,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Path\"");
 
-WriteLiteral("/>\r\n                </div>\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -810,13 +796,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 238 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 236 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 238 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 236 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -837,13 +823,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 252 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 250 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 252 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 250 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         FormElement fe1 = fe;
@@ -852,14 +838,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 255 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 253 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 255 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 253 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                  
 
                     }
@@ -889,7 +875,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 267 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 265 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             
@@ -917,7 +903,137 @@ WriteLiteral(" data-bind=\"checked : $root.form().Rules, value: Name\"");
 
 WriteLiteral(" />\r\n                        <!-- ko text : Name -->\r\n                        <!-" +
 "- /ko -->\r\n\r\n                    </label>\r\n                </li>\r\n            </" +
-"ul>\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n");
+"ul>\r\n        </div>\r\n\r\n        <div");
+
+WriteLiteral(" id=\"operation-tab-item\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral("  data-bind=\"with : form\"");
+
+WriteLiteral(">\r\n            <form");
+
+WriteLiteral(" role=\"form\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"form-design-operation\"");
+
+WriteLiteral(">Operation</label>\r\n                    <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"options :$root.operationsOption,\r\n                            options" +
+"Caption :\'[Default - No Operation]\',\r\n                            value: Operati" +
+"on\"");
+
+WriteLiteral(" id=\"form-design-operation\"");
+
+WriteLiteral(" name=\"FormDesign.Operation\"");
+
+WriteLiteral("></select>\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"success-message\"");
+
+WriteLiteral(">Success Message</label>\r\n                    <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: OperationSuccessMesage\"");
+
+WriteLiteral("\r\n                           placeholder=\"The message to alert user when the oper" +
+"ation return success\"");
+
+WriteLiteral("\r\n                           class=\"form-control\"");
+
+WriteLiteral(" id=\"success-message\"");
+
+WriteLiteral(">\r\n\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"success-url\"");
+
+WriteLiteral(">Then nvaigate to</label>\r\n                    <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: OperationSuccessNavigateUrl\"");
+
+WriteLiteral("\r\n                           placeholder=\"Once the alert is okayed then navigate " +
+"to this url\"");
+
+WriteLiteral("\r\n                           class=\"form-control\"");
+
+WriteLiteral(" id=\"success-url\"");
+
+WriteLiteral(">\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"operation-success-callback\"");
+
+WriteLiteral(">Success Callback</label>\r\n                    <textarea");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: OperationSuccessCallback\"");
+
+WriteLiteral("\r\n                              placeholder=\"Execute custom code once the operati" +
+"on successfuly invoked\"");
+
+WriteLiteral("\r\n                              id=\"operation-success-callback\"");
+
+WriteLiteral(" name=\"OperationSuccessCallback\"");
+
+WriteLiteral("></textarea>\r\n                    <a");
+
+WriteLiteral(" href=\"#\"");
+
+WriteLiteral(" data-bind=\"click : editOperationSuccessCallback, disable:(ko.unwrap(OperationSuc" +
+"cessMesage) || ko.unwrap(OperationSuccessNavigateUrl))\"");
+
+WriteLiteral(">Edit</a>\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"operation-failure-callback\"");
+
+WriteLiteral(">Failuire Callback</label>\r\n                    <textarea");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: OperationFailureCallback\"");
+
+WriteLiteral("\r\n                              placeholder=\"Execute custom code once the operati" +
+"on failed to be successfuly invoked\"");
+
+WriteLiteral("\r\n                              id=\"operation-failure-callback\"");
+
+WriteLiteral(" name=\"OperationFailureCallback\"");
+
+WriteLiteral("></textarea>\r\n                    <a");
+
+WriteLiteral(" href=\"#\"");
+
+WriteLiteral(" data-bind=\"click : editOperationFailureCallback\"");
+
+WriteLiteral(">Edit</a>\r\n                </div>\r\n\r\n\r\n            </form>\r\n        </div>\r\n    <" +
+"/div>\r\n</div>\r\n");
 
         }
     }

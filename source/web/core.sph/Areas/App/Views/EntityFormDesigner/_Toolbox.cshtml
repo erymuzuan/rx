@@ -8,6 +8,9 @@
             <a href="#form-general2" data-toggle="tab">General</a>
         </li>
         <li>
+            <a href="#operation-tab-item" data-toggle="tab">API Operation</a>
+        </li>
+        <li>
             <a href="#add-field" data-toggle="tab">Add a field</a>
         </li>
         <li>
@@ -27,7 +30,7 @@
             <form role="form">
                 <div class="form-group">
                     <label>Name</label>
-                    <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name"/>
+                    <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name" />
                 </div>
 
                 <div class="form-group">
@@ -42,12 +45,7 @@
                     <label for="form-design-layout">Layout</label>
                     <select class="form-control" data-bind="options :$root.layoutOptions, optionsText :'text', optionsValue : 'value', value: Layout" id="form-design-layout" name="FormDesign.Layout"></select>
                 </div>
-                <div class="form-group">
-                    <label for="form-design-operation">Operation</label>
-                    <select class="form-control" data-bind="options :$root.operationsOption,
-                            optionsCaption :'[Default - No Operation]',
-                            value: Operation" id="form-design-operation" name="FormDesign.Operation"></select>
-                </div>
+
                 <div class="form-group">
                     <label for="form-design-icon-class">Icon class</label>
                     <br />
@@ -173,7 +171,7 @@
 
                 <div class="form-group" data-bind="visible:IsPathIsRequired">
                     <label for="form-element-path">Path</label>
-                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="form-element-path" type="text" name="Path"/>
+                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="form-element-path" type="text" name="Path" />
                 </div>
                 <div class="form-group">
                     <label for="form-element-label">Label</label>
@@ -281,5 +279,44 @@
             </ul>
         </div>
 
+        <div id="operation-tab-item" class="tab-pane"  data-bind="with : form">
+            <form role="form">
+                <div class="form-group">
+                    <label for="form-design-operation">Operation</label>
+                    <select class="form-control" data-bind="options :$root.operationsOption,
+                            optionsCaption :'[Default - No Operation]',
+                            value: Operation" id="form-design-operation" name="FormDesign.Operation"></select>
+                </div>
+                <div class="form-group">
+                    <label for="success-message">Success Message</label>
+                    <input type="text" data-bind="value: OperationSuccessMesage"
+                           placeholder="The message to alert user when the operation return success"
+                           class="form-control" id="success-message">
+
+                </div>
+                <div class="form-group">
+                    <label for="success-url">Then nvaigate to</label>
+                    <input type="text" data-bind="value: OperationSuccessNavigateUrl"
+                           placeholder="Once the alert is okayed then navigate to this url"
+                           class="form-control" id="success-url">
+                </div>
+                <div class="form-group">
+                    <label for="operation-success-callback">Success Callback</label>
+                    <textarea class="form-control" data-bind="value: OperationSuccessCallback"
+                              placeholder="Execute custom code once the operation successfuly invoked"
+                              id="operation-success-callback" name="OperationSuccessCallback"></textarea>
+                    <a href="#" data-bind="click : editOperationSuccessCallback, disable:(ko.unwrap(OperationSuccessMesage) || ko.unwrap(OperationSuccessNavigateUrl))">Edit</a>
+                </div>
+                <div class="form-group">
+                    <label for="operation-failure-callback">Failuire Callback</label>
+                    <textarea class="form-control" data-bind="value: OperationFailureCallback"
+                              placeholder="Execute custom code once the operation failed to be successfuly invoked"
+                              id="operation-failure-callback" name="OperationFailureCallback"></textarea>
+                    <a href="#" data-bind="click : editOperationFailureCallback">Edit</a>
+                </div>
+
+
+            </form>
+        </div>
     </div>
 </div>

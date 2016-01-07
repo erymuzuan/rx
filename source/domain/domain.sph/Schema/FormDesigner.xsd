@@ -515,6 +515,10 @@
 			<xs:attribute name="Partial" type="xs:string" use="optional"/>
 			<xs:attribute name="Caption" type="xs:string" use="optional"/>
 			<xs:attribute name="Layout" type="xs:string" use="optional"/>
+			<xs:attribute name="OperationSuccessMesage" type="xs:string" use="required"/>
+			<xs:attribute name="OperationSuccessNavigateUrl" type="xs:string" use="required"/>
+			<xs:attribute name="OperationSuccessCallback" type="xs:string" use="required"/>
+			<xs:attribute name="OperationFailureCallback" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FormLayout">
@@ -729,10 +733,6 @@
 				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="SuccessMessage" type="xs:string" use="required"/>
-			<xs:attribute name="ShowSuccessMessage" type="xs:boolean" use="required"/>
-			<xs:attribute name="NavigateSuccessUrl" type="xs:string" use="required"/>
-			<xs:attribute name="SuccessCommand" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="optional"/>
 			<xs:attribute name="IsHttpPut" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsHttpPatch" type="xs:boolean" use="required"/>
