@@ -46,10 +46,12 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                 }
 
 
+
             });
 
             return tcs.promise();
         },
+
         register = function() {
 
             if (!validation.valid()) {
@@ -73,160 +75,126 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                     logger.error("There are errors in your entity, !!!");
                 }
             });
-        },
-        discharge = function() {
+        }
 
-            if (!validation.valid()) {
-                return Task.fromResult(false);
-            }
+    discharge = function() {
 
-            var data = ko.mapping.toJSON(entity);
+        if (!validation.valid()) {
+            return Task.fromResult(false);
+        }
 
-            return context.post(data, "/Patient/Discharge")
-                .then(function(result) {
-                if (result.success) {
-                    logger.info(result.message);
-                    entity().Id(result.id);
-                    errors.removeAll();
+        var data = ko.mapping.toJSON(entity);
 
-                } else {
-                    errors.removeAll();
-                    _(result.rules).each(function(v) {
-                        errors(v.ValidationErrors);
-                    });
-                    logger.error("There are errors in your entity, !!!");
-                }
-            });
-        },
-        transfer = function() {
-
-            if (!validation.valid()) {
-                return Task.fromResult(false);
-            }
-
-            var data = ko.mapping.toJSON(entity);
-
-            return context.post(data, "/Patient/Transfer")
-                .then(function(result) {
-                if (result.success) {
-                    logger.info(result.message);
-                    entity().Id(result.id);
-                    errors.removeAll();
-
-                } else {
-                    errors.removeAll();
-                    _(result.rules).each(function(v) {
-                        errors(v.ValidationErrors);
-                    });
-                    logger.error("There are errors in your entity, !!!");
-                }
-            });
-        },
-        admit = function() {
-
-            if (!validation.valid()) {
-                return Task.fromResult(false);
-            }
-
-            var data = ko.mapping.toJSON(entity);
-
-            return context.post(data, "/Patient/Admit")
-                .then(function(result) {
-                if (result.success) {
-                    logger.info(result.message);
-                    entity().Id(result.id);
-                    errors.removeAll();
-
-                } else {
-                    errors.removeAll();
-                    _(result.rules).each(function(v) {
-                        errors(v.ValidationErrors);
-                    });
-                    logger.error("There are errors in your entity, !!!");
-                }
-            });
-        },
-        attached = function(view) {
-            // validation
-            validation.init($('#patient-registration-form'), form());
-
-
-
-            if (typeof partial.attached === "function") {
-                partial.attached(view);
-            }
-
-
-
-        },
-        compositionComplete = function() {
-            $("[data-i18n]").each(function(i, v) {
-                var $label = $(v),
-                    text = $label.data("i18n");
-                if (typeof i18n[text] === "string") {
-                    $label.text(i18n[text]);
-                }
-            });
-        },
-
-        validate = function() {
-            var tcs = new $.Deferred();
-            context.post(ko.mapping.toJSON(entity), '/patient/validate/Dob,ChildMarriage')
-                .done(function(result) {
-                if (result.success) {
-                    logger.info(result.message);
-                    errors.removeAll();
-                    app.showMessage("OK done", "SPH Platform showcase", ["OK"]);;
-
-                } else {
-                    errors.removeAll();
-                    _(result.rules).each(function(v) {
-                        errors(v.ValidationErrors);
-                    });
-                    logger.error("There are errors in your entity, !!!");
-                }
-                tcs.resolve(true);
-            });
-
-            return tcs.promise();
-        },
-        save = function() {
-            if (!validation.valid()) {
-                return Task.fromResult(false);
-            }
-
-            var data = ko.mapping.toJSON(entity);
-
-
-
-            return context.post(data, "/Patient/Save")
-                .then(function(result) {
+        return context.post(data, "/Patient/Discharge")
+            .then(function(result) {
+            if (result.success) {
+                logger.info(result.message);
                 entity().Id(result.id);
-                app.showMessage("Your Patient has been successfully saved", "Engineering Team Development", ["OK"]);
+                errors.removeAll();
 
-            });
+            } else {
+                errors.removeAll();
+                _(result.rules).each(function(v) {
+                    errors(v.ValidationErrors);
+                });
+                logger.error("There are errors in your entity, !!!");
+            }
+        });
+    }
 
+    transfer = function() {
 
-        },
-        remove = function() {
-            return $.ajax({
-                type: "DELETE",
-                url: "/Patient/Remove/" + entity().Id(),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function() {
-                    app.showMessage("Your item has been successfully removed", "Removed", ["OK"])
-                        .done(function() {
-                        window.location = "#patient";
-                    });
-                }
-            });
+        if (!validation.valid()) {
+            return Task.fromResult(false);
+        }
 
+        var data = ko.mapping.toJSON(entity);
 
-        };
+        return context.post(data, "/Patient/Transfer")
+            .then(function(result) {
+            if (result.success) {
+                logger.info(result.message);
+                entity().Id(result.id);
+                errors.removeAll();
+
+            } else {
+                errors.removeAll();
+                _(result.rules).each(function(v) {
+                    errors(v.ValidationErrors);
+                });
+                logger.error("There are errors in your entity, !!!");
+            }
+        });
+    }
+
+    admit = function() {
+
+        if (!validation.valid()) {
+            return Task.fromResult(false);
+        }
+
+        var data = ko.mapping.toJSON(entity);
+
+        return context.post(data, "/Patient/Admit")
+            .then(function(result) {
+            if (result.success) {
+                logger.info(result.message);
+                entity().Id(result.id);
+                errors.removeAll();
+
+            } else {
+                errors.removeAll();
+                _(result.rules).each(function(v) {
+                    errors(v.ValidationErrors);
+                });
+                logger.error("There are errors in your entity, !!!");
+            }
+        });
+    }
+
+    attached = function(view) {
+        // validation
+        validation.init($('#patient-registration-form'), form());
+
+        if (typeof partial.attached === "function") {
+            partial.attached(view);
+        }
+
+    },
+
+    compositionComplete = function() {
+        $("[data-i18n]").each(function(i, v) {
+            var $label = $(v),
+                text = $label.data("i18n");
+            if (typeof i18n[text] === "string") {
+                $label.text(i18n[text]);
+            }
+        });
+    },
+
+    validate = function() {
+        var tcs = new $.Deferred();
+        context.post(ko.mapping.toJSON(entity), '/patient/validate/Dob,ChildMarriage')
+            .done(function(result) {
+            if (result.success) {
+                logger.info(result.message);
+                errors.removeAll();
+                app.showMessage("OK done", "SPH Platform showcase", ["OK"]);;
+
+            } else {
+                errors.removeAll();
+                _(result.rules).each(function(v) {
+                    errors(v.ValidationErrors);
+                });
+                logger.error("There are errors in your entity, !!!");
+            }
+            tcs.resolve(true);
+        });
+
+        return tcs.promise();
+    },
 
     var vm = {
-
         partial: partial,
 
         activate: activate,
@@ -236,11 +204,14 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         entity: entity,
         errors: errors,
         save: save,
+
         register: register,
+
         discharge: discharge,
+
         transfer: transfer,
+
         admit: admit,
-        //
 
         validate: validate,
 
@@ -249,13 +220,13 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
 
             saveCommand: register,
 
+
             canExecuteSaveCommand: ko.computed(function() {
                 if (typeof partial.canExecuteSaveCommand === "function") {
                     return partial.canExecuteSaveCommand();
                 }
                 return true;
             }),
-
 
             commands: ko.observableArray([])
         }

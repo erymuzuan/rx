@@ -73,14 +73,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                     var query = String.format(""Id eq '{{0}}'"", entityId),
                         tcs = new $.Deferred(),
-                        itemTask = context.loadOneAsync(""{model
-                   .EntityDefinition.Name}"", query),
-                        formTask = context.loadOneAsync(""EntityForm"", ""Route eq '{model
-                       .Form.Route}'""),
-                        watcherTask = watcher.getIsWatchingAsync(""{model
-                           .EntityDefinition.Name}"", entityId),
-                        i18nTask = $.getJSON(""i18n/"" + config.lang + ""/{model
-                               .Form.Route}"");
+                        itemTask = context.loadOneAsync(""{model.EntityDefinition.Name}"", query),
+                        formTask = context.loadOneAsync(""EntityForm"", ""Route eq '{model.Form.Route}'""),
+                        watcherTask = watcher.getIsWatchingAsync(""{model.EntityDefinition.Name}"", entityId),
+                        i18nTask = $.getJSON(""i18n/"" + config.lang + ""/{model.Form.Route}"");
 
                     $.when(itemTask, formTask, watcherTask, i18nTask).done(function(b,f,w,n) {{
                         if (b) {{
@@ -93,9 +89,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         form(f);
                         watching(w);
                         i18n = n[0];");
-            if (!string.IsNullOrWhiteSpace(model.Form.Partial))
+            var hasPartial = !string.IsNullOrWhiteSpace(model.Form.Partial);
+            if (hasPartial)
             {
-
                 script.AppendLine(@"
                             if(typeof partial.activate === ""function""){
                                 var pt = partial.activate(entity());
@@ -121,9 +117,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             foreach (var operation in model.EntityDefinition.EntityOperationCollection)
             {
-
-
                 var opFunc = operation.Name.ToCamelCase();
+                var route = string.IsNullOrWhiteSpace(operation.Route) ? operation.Name : operation.Route;
                 script.AppendLine($@"
                 {opFunc} = function(){{
 
@@ -133,7 +128,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                      var data = ko.mapping.toJSON(entity);
 
-                    return  context.post(data, ""/{model.EntityDefinition.Name}/{operation.Name}"" )
+                     return  context.post(data, ""/{model.EntityDefinition.Name}/{route}"" )
                          .then(function (result) {{
                              if (result.success) {{
                                  logger.info(result.message);
@@ -148,17 +143,17 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                  logger.error(""There are errors in your entity, !!!"");
                              }}
                          }});
-                 }}");
+                 }},");
             }
             script.AppendLine($@"
                 attached = function (view) {{
                     // validation
                     validation.init($('#{formId}'), form());");
-            if (!string.IsNullOrWhiteSpace(model.Form.Partial))
-                script.AppendLine(@"
+
+            script.AppendLine(@"
                     if(typeof partial.attached === ""function""){
                         partial.attached(view);
-                    }");
+                    }", hasPartial);
             script.AppendLine(@"
                 },");
             script.AppendLine(@"
@@ -178,7 +173,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 script.AppendLine($@"
                     {function} = function(){{
 
-                         var data = ko.mapping.toJSON(entity);
+                        var data = ko.mapping.toJSON(entity);
                         return context.post(data, ""/Sph/BusinessRule/Validate?{function}"" );
                         
                 }},");
@@ -205,7 +200,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     {function} : {function},");
 
             }
-            script.AppendLine($@"
+            script.AppendLine(@"
                 activate: activate,
                 config: config,
                 attached: attached,
@@ -271,7 +266,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 script.AppendLine($@"
                     saveCommand : {@saveOperation.ToCamelCase()},");
-                if (!string.IsNullOrWhiteSpace(model.Form.Partial))
+                if (hasPartial)
                     script.AppendLine(@"
                                          
                     canExecuteSaveCommand : ko.computed(function(){
@@ -288,7 +283,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             return vm;
         }});");
-            
+
             return Content(script.ToString(), MimeMapping.GetMimeMapping("some.js"), Encoding.UTF8);
 
 

@@ -227,6 +227,12 @@ namespace Bespoke.Sph.Domain
 
             return text;
         }
+        public static StringBuilder AppendLine(this StringBuilder text, string value, bool predicate)
+        {
+            if (predicate)
+                text.AppendLine(value);
+            return text;
+        }
         //public static bool IsEqual<T>(this T? value, T? value2) where T : struct ,IConvertible
         //{
         //    if (!typeof(T).IsEnum)
@@ -384,7 +390,7 @@ namespace Bespoke.Sph.Domain
             if (type == typeof(short?)) return "short?";
             if (type == typeof(long?)) return "long?";
 
-           
+
             return type.FullName;
         }
 
