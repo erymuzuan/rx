@@ -42,6 +42,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public RelayCommand ExitAppCommand { get; set; }
         public RelayCommand SetupCommand { get; set; }
         public Logger Logger { get; set; }
+        public Action<string> LogCallback { get; set; }
 
         public MainViewModel()
         {
@@ -582,10 +583,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             var es = string.Join(@"\", esHome).TranslatePath();
             Log("Elasticsearch Home " + esHome);
             Log("Version :" + version);
-
-            var arg = string.Format(@" -Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError  -Delasticsearch -Des-foreground=yes -Des.path.home=""{0}""  -cp "";{0}/lib/elasticsearch-{1}.jar;{0}/lib/*;{0}/lib/sigar/*"" ""org.elasticsearch.bootstrap.Elasticsearch""",
-                es,
-                version);
+            
+            var classPath = $"\"{es}/lib/elasticsearch-{version}.jar;{es}/lib/*\"";
+            const string JAVA_OPTS = "-Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError";
+            // ReSharper disable InconsistentNaming
+            string ES_PARAMS = $@"-Delasticsearch -Des-foreground=yes -Des.path.home=""{es}""";
+            // ReSharper restore InconsistentNaming
+            var arg = $@" {JAVA_OPTS} {ES_PARAMS} -cp {classPath} ""org.elasticsearch.bootstrap.Elasticsearch"" start ";
             var info = new ProcessStartInfo
             {
                 FileName = this.Settings.JavaHome + @"\bin\java.exe",
@@ -597,6 +601,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 RedirectStandardError = true,
                 WindowStyle = ProcessWindowStyle.Hidden
             };
+
+            Log(info.FileName);
+            Log(arg);
             if (!File.Exists(info.FileName))
             {
                 this.Post(() =>
@@ -630,7 +637,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     try
                     {
                         var ok = client.GetStringAsync("/").Result;
-                        connected = ok.Contains("200");
+                        connected = ok.Contains("tagline");
                         break;
                     }
                     catch
@@ -985,7 +992,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             this.Post(m =>
             {
-                Console.WriteLine(@"@[{0:HH:mm:ss}] {1}", DateTime.Now, m);
+                var log = $"@[{DateTime.Now:HH:mm:ss}] {m}";
+                if (null != this.LogCallback)
+                    LogCallback(log);
+                Console.WriteLine(log);
             }, message);
             var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message, severity });
             WebConsoleServer.Default.SendMessage(json);
