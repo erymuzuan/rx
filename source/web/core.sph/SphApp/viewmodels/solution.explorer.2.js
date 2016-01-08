@@ -18,6 +18,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         wds = ko.observableArray(),
         transforms = ko.observableArray(),
         isBusy = ko.observable(true),
+        solutionExplorerToggleButton = null,
         activate = function () {
             return true;
         },
@@ -26,7 +27,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         },
         click = function (e) {
             e.stopPropagation();
-            var hide = function () { $("#solution-explorer-toggle-button").trigger("click"); };
+            var hide = function () { solutionExplorerToggleButton.trigger("click"); };
 
             var data = selected().node.data;
             if (data.url) {
@@ -100,7 +101,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         },
         attached = function () {
-
+            solutionExplorerToggleButton = $("#solution-explorer-toggle-button");
             $("#solution-explorer-panel a.jstree-clicked").css("color", "black");
 
             var to = false;
@@ -126,7 +127,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 console.log("started...connection to message connection");
             });
 
-
+            $(document).on("keyup", function (e) {
+                if (e.ctrlKey && (e.keyCode === 188 || e.keyCode === 192)) {
+                    solutionExplorerToggleButton.trigger("click");
+                }
+            });
 
 
         };
