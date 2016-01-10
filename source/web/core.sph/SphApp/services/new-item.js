@@ -49,7 +49,7 @@
                                 return Task.fromResult(0);
                             }).then(function (ed) {
                                 if (ed)
-                                    router.navigate("#workflow.definition.visual//" + ko.unwrap(ed.Id));
+                                    router.navigate("#workflow.definition.visual/" + ko.unwrap(ed.Id));
                             });
                 },
                 addTransformDefinitionAsync = function () {
