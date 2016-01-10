@@ -1,12 +1,12 @@
-﻿define(["services/datacontext", "services/logger", objectbuilders.config, objectbuilders.router, "services/app", "viewmodels/_custom.forms.routes", "viewmodels/_custom.forms.dialogs", "viewmodels/_custom.forms.partial.views", "viewmodels/_custom.forms.scripts"],
-    function (context, logger, config, router, app, customForm, customDialog, partialView, customScript) {
+﻿define(["services/datacontext", "services/logger", objectbuilders.config, objectbuilders.router, "services/app", "viewmodels/_custom.forms.routes", "viewmodels/_custom.forms.dialogs", "viewmodels/_custom.forms.partial.views", "viewmodels/_custom.forms.scripts", objectbuilders.app],
+    function (context, logger, config, router, app, customForm, customDialog, partialView, customScript,app2) {
         var checkSource = function (type, query) {
             var tcs = new $.Deferred(),
                 count = 0,
                 checkExist = function () {
 
                     if (count > 10) {
-                        return app.showMessage("Please make sure your Subscriber Worker is started", "RX Developer", ["OK"])
+                        return app2.showMessage("Please make sure your Subscriber Worker is started", "RX Developer", ["OK"])
                         .done(function () {
                             tcs.resolve(false);
                         });
