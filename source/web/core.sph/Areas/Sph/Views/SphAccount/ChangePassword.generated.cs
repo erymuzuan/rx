@@ -147,8 +147,8 @@ WriteLiteral(" src=\"/images/logo_sph.png\"");
 
 WriteLiteral(" alt=\"logo\"");
 
-WriteLiteral(" />\r\n                        </div>\r\n                        <h2>Tukar kata lalua" +
-"n</h2>\r\n\r\n\r\n\r\n                        <form");
+WriteLiteral(" />\r\n                        </div>\r\n                        <h2>Change Password<" +
+"/h2>\r\n\r\n\r\n\r\n                        <form");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
@@ -208,14 +208,14 @@ WriteLiteral(">\r\n                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteAttribute("min", Tuple.Create(" min=\"", 2005), Tuple.Create("\"", 2059)
+WriteAttribute("min", Tuple.Create(" min=\"", 2003), Tuple.Create("\"", 2057)
             
             #line 50 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
-, Tuple.Create(Tuple.Create("", 2011), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
+, Tuple.Create(Tuple.Create("", 2009), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
             
             #line default
             #line hidden
-, 2011), false)
+, 2009), false)
 );
 
 WriteLiteral(" required");
@@ -247,14 +247,14 @@ WriteLiteral(">\r\n                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteAttribute("min", Tuple.Create(" min=\"", 2513), Tuple.Create("\"", 2567)
+WriteAttribute("min", Tuple.Create(" min=\"", 2511), Tuple.Create("\"", 2565)
             
             #line 57 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
-, Tuple.Create(Tuple.Create("", 2519), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
+, Tuple.Create(Tuple.Create("", 2517), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
             
             #line default
             #line hidden
-, 2519), false)
+, 2517), false)
 );
 
 WriteLiteral(" required");
