@@ -44,7 +44,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             }
                         }, 500);
 
-                        originalEntity = ko.toJSON(wd);
                         isBusy(false);
 
                     });
@@ -385,6 +384,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 });
 
 
+                originalEntity = ko.toJSON(wd);
             },
             saveAsync = function () {
                 $("div#container-canvas>div.activity").each(function () {
