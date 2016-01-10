@@ -1,3 +1,4 @@
+bin/config/applicationhost.config
 packages/*
 /packages/
 bin/
