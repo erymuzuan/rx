@@ -947,7 +947,7 @@ WriteLiteral(">Success Message</label>\r\n                    <input");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" data-bind=\"value: OperationSuccessMesage\"");
+WriteLiteral(" data-bind=\"value: OperationSuccessMesage, enable:Operation\"");
 
 WriteLiteral("\r\n                           placeholder=\"The message to alert user when the oper" +
 "ation return success\"");
@@ -968,7 +968,7 @@ WriteLiteral(">Then nvaigate to</label>\r\n                    <input");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" data-bind=\"value: OperationSuccessNavigateUrl\"");
+WriteLiteral(" data-bind=\"value: OperationSuccessNavigateUrl, enable:Operation\"");
 
 WriteLiteral("\r\n                           placeholder=\"Once the alert is okayed then navigate " +
 "to this url\"");
@@ -989,7 +989,7 @@ WriteLiteral(">Success Callback</label>\r\n                    <textarea");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: OperationSuccessCallback\"");
+WriteLiteral(" data-bind=\"value: OperationSuccessCallback, enable:Operation\"");
 
 WriteLiteral("\r\n                              placeholder=\"Execute custom code once the operati" +
 "on successfuly invoked\"");
@@ -1017,7 +1017,7 @@ WriteLiteral(">Failuire Callback</label>\r\n                    <textarea");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: OperationFailureCallback\"");
+WriteLiteral(" data-bind=\"value: OperationFailureCallback, enable:Operation\"");
 
 WriteLiteral("\r\n                              placeholder=\"Execute custom code once the operati" +
 "on failed to be successfuly invoked\"");

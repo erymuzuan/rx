@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var model = new FormRendererViewModel { Form = form, EntityDefinition = ed };
 
             var ns = ConfigurationManager.ApplicationName + "_" + model.EntityDefinition.Id;
-            var typeCtor = $"bespoke.{ns}.domain.{model.EntityDefinition.Name}({{WebId:system.guid()}})";
+            var typeCtor = $"bespoke.{ns}.domain.{model.EntityDefinition.Name}(system.guid())";
             var buttonOperations = model.Form.FormDesign.FormElementCollection.OfType<Button>()
                 .Where(b => b.IsToolbarItem)
                 .Where(b => !string.IsNullOrWhiteSpace(b.Operation))
@@ -126,9 +126,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                          return Task.fromResult(false);
                      }}
 
-                     var data = ko.mapping.toJSON(entity);
-
-                     return  context.post(data, ""/{model.EntityDefinition.Name}/{route}"" )
+                     var data = ko.mapping.toJSON(entity),
+                        tcs = new $.Deferred();
+                      
+                     context.post(data, ""/{model.EntityDefinition.Name}/{route}"" )
                          .then(function (result) {{
                              if (result.success) {{
                                  logger.info(result.message);
@@ -142,7 +143,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                  }});
                                  logger.error(""There are errors in your entity, !!!"");
                              }}
+                             tcs.resolve(result);
                          }});
+                     return tcs.promise();
                  }},");
             }
             script.AppendLine($@"
@@ -155,16 +158,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         partial.attached(view);
                     }", hasPartial);
             script.AppendLine(@"
-                },");
-            script.AppendLine(@"
-                compositionComplete = function() {
-                    $(""[data-i18n]"").each(function (i, v) {
-                        var $label = $(v),
-                            text = $label.data(""i18n"");
-                        if (typeof i18n[text] === ""string"") {
-                            $label.text(i18n[text]);
-                        }
-                    });
                 },");
 
             foreach (var rule in model.Form.Rules)
@@ -188,6 +181,52 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 }},");
             }
 
+            script.AppendLine(@"
+                compositionComplete = function() {
+                    $(""[data-i18n]"").each(function (i, v) {
+                        var $label = $(v),
+                            text = $label.data(""i18n"");
+                        if (typeof i18n[text] === ""string"") {
+                            $label.text(i18n[text]);
+                        }
+                    });
+                },");
+            script.AppendLine($@"
+                save = function() {{
+                    return {form.Operation.ToCamelCase()}()");
+            if (!string.IsNullOrWhiteSpace(form.OperationSuccessCallback))
+            {
+                script.AppendLine($@"  .then(function(result){{
+                        {form.OperationSuccessCallback}
+                        return Task.fromResult(result);
+                    }})");
+            }
+            if (!string.IsNullOrWhiteSpace(form.OperationSuccessMesage))
+            {
+                script.AppendLine($@"  .then(function(result){{
+                          if(result.success)
+                                return app.showMessage(""{form.OperationSuccessMesage}"", [""OK""]);
+                            else
+                               return Task.fromResult(false);
+                    }})");
+            }
+            if (!string.IsNullOrWhiteSpace(form.OperationSuccessNavigateUrl))
+            {
+                script.AppendLine($@"  .then(function(result){{
+                        if(result) router.navigate(""{form.OperationSuccessNavigateUrl}"");
+                    }})");
+            }
+            if (!string.IsNullOrWhiteSpace(form.OperationFailureCallback))
+            {
+                script.AppendLine($@"  .fail(function(){{
+                        {form.OperationFailureCallback}
+                    }})");
+            }
+
+            script.AppendLine($@"; 
+                }};");
+
+            // viewmodel
             var partialMemberDeclaration = (string.IsNullOrWhiteSpace(model.Form.Partial) ? "" : "partial: partial,");
             script.AppendLine($@"
             var vm = {{
@@ -196,40 +235,32 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             foreach (var rule in model.Form.Rules)
             {
                 var function = rule.Dehumanize().ToCamelCase();
-                script.AppendLine($@"
-                    {function} : {function},");
+                script.AppendLine($@"   {function} : {function},");
 
             }
-            script.AppendLine(@"
-                activate: activate,
-                config: config,
-                attached: attached,
-                compositionComplete:compositionComplete,
-                entity: entity,
-                errors: errors,
-                save : save,");
+            script.AppendLine(@"    activate: activate,
+                                        config: config,
+                                        attached: attached,
+                                        compositionComplete:compositionComplete,
+                                        entity: entity,
+                                        errors: errors,");
             foreach (var op in model.EntityDefinition.EntityOperationCollection)
             {
                 var function = op.Name.ToCamelCase();
-                script.AppendLine($@"
-                    {function} : {function},");
+                script.AppendLine($"    {function} : {function},");
             }
             foreach (
                 var btn in
                     model.Form.FormDesign.FormElementCollection.OfType<Button>()
                         .Where(b => !string.IsNullOrWhiteSpace(b.CommandName)))
             {
-                script.AppendLine($@"
-                {btn.CommandName} : {btn.CommandName},");
+                script.AppendLine($@"   {btn.CommandName} : {btn.CommandName},");
 
             }
 
-            script.AppendLine(@"
-
-                toolbar : {");
+            script.AppendLine(@"     toolbar : {");
             if (model.Form.IsEmailAvailable)
-                script.AppendLine($@"
-                    emailCommand : {{
+                script.AppendLine($@"   emailCommand : {{
                         entity : ""{model.EntityDefinition.Name}"",
                         id :id
                     }},");
@@ -241,8 +272,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         id : id
                     }},");
             if (model.Form.IsRemoveAvailable)
-                script.AppendLine(@"
-                    removeCommand :remove,
+                script.AppendLine(@"removeCommand :remove,
                     canExecuteRemoveCommand : ko.computed(function(){
                         return entity().Id();
                     }),");
@@ -263,22 +293,19 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     watching: watching,");
             if (!string.IsNullOrWhiteSpace(@saveOperation))
             {
-
-                script.AppendLine($@"
-                    saveCommand : {@saveOperation.ToCamelCase()},");
+                script.AppendLine("saveCommand : save,");
                 if (hasPartial)
-                    script.AppendLine(@"
-                                         
-                    canExecuteSaveCommand : ko.computed(function(){
+                    script.AppendLine(@"canExecuteSaveCommand : ko.computed(function(){
                         if(typeof partial.canExecuteSaveCommand === ""function""){
                             return partial.canExecuteSaveCommand();
                         }
                         return true;
                     }),");
             }
+            script.AppendLine(@"                    
+                },// end toolbar");
             script.AppendLine($@"
                     commands : ko.observableArray({commandsJs})
-                }}
             }};
 
             return vm;
