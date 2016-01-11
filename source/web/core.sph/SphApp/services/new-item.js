@@ -1,5 +1,5 @@
 ﻿define(["services/datacontext", "services/logger", objectbuilders.config, objectbuilders.router, "services/app", "viewmodels/_custom.forms.routes", "viewmodels/_custom.forms.dialogs", "viewmodels/_custom.forms.partial.views", "viewmodels/_custom.forms.scripts", objectbuilders.app],
-    function (context, logger, config, router, app, customForm, customDialog, partialView, customScript,app2) {
+    function (context, logger, config, router, app, customForm, customDialog, partialView, customScript, app2) {
         var checkSource = function (type, query) {
             var tcs = new $.Deferred(),
                 count = 0,
@@ -39,7 +39,19 @@
                               router.navigate("#entity.details/" + ko.unwrap(ed.Id));
                       });
             },
-                addWorkflowDefinitionAsync = function () {
+            addValueObjectDefinitionAsync = function () {
+                return app.showDialog("new.value.object.definition.dialog")
+                         .then(function (dialog, result) {
+                             if (result === "OK") {
+                                 return checkSource("WorkflowDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                             }
+                             return Task.fromResult(0);
+                         }).then(function (ed) {
+                             if (ed)
+                                 router.navigate("#value.object.details/" + ko.unwrap(ed.Id));
+                         });
+            },
+            addWorkflowDefinitionAsync = function () {
 
                     return app.showDialog("new.workflow.definition.dialog")
                             .then(function (dialog, result) {
@@ -52,7 +64,7 @@
                                     router.navigate("#workflow.definition.visual/" + ko.unwrap(ed.Id));
                             });
                 },
-                addTransformDefinitionAsync = function () {
+            addTransformDefinitionAsync = function () {
                     return app.showDialog("new.transform.definition.dialog")
                             .then(function (dialog, result) {
                                 if (result === "OK") {
@@ -64,7 +76,7 @@
                                     router.navigate("#transform.definition.edit/" + ko.unwrap(ed.Id));
                             });
                 },
-                addTriggerAsync = function () {
+            addTriggerAsync = function () {
 
                     return app.showDialog("new.trigger.dialog")
                                           .then(function (dialog, result) {
@@ -77,7 +89,7 @@
                                                   router.navigate("#trigger.setup/" + ko.unwrap(ed.Id));
                                           });
                 },
-                addAdapterAsync = function () {
+            addAdapterAsync = function () {
 
                     var url = "";
                     return app.showDialog("new.adapter.dialog")
@@ -92,7 +104,7 @@
                                     router.navigate("#" + url);
                             });
                 },
-                addReportDefinitionAsync = function () {
+            addReportDefinitionAsync = function () {
 
                     return app.showDialog("new.report.definition.dialog")
                             .then(function (dialog, result) {
@@ -111,6 +123,7 @@
             addCustomDialogAsync: customDialog.addNewDialog,
             addPartialViewAsync: partialView.addNewPartialView,
             addCustomScriptAsync: customScript.addNew,
+            addValueObjectDefinitionAsync: addValueObjectDefinitionAsync,
             addEntityDefinitionAsync: addEntityDefinitionAsync,
             addAdapterAsync: addAdapterAsync,
             addReportDefinitionAsync: addReportDefinitionAsync,
