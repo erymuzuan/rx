@@ -77,7 +77,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         tcs.resolve(true);
                     });
                 } else {
-                    form(new bespoke.sph.domain.FormDialog(system.guid()));
+                    var dlg = new bespoke.sph.domain.FormDialog(system.guid());
+                    dlg.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton({WebId : system.guid(), Text: "OK", IsDefault : true}));
+                    dlg.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton({ WebId: system.guid(), Text: "Cancel", IsCancel: true }));
+                    form(dlg);
                     setTimeout(function () {
                         tcs.resolve(true);
                     }, 500);
@@ -436,7 +439,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             return Task.fromResult(true);
 
-        };
+            };
 
         var vm = {
             errors: errors,

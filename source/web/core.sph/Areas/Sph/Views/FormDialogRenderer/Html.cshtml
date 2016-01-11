@@ -1,0 +1,42 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Web.ViewModels.DialogRendererViewModel
+
+@{
+
+    Layout = null;
+}
+
+<section class="view-model-modal" id="@Model.Dialog.Route">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>@Model.Dialog.Title</h3>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_FormContent")
+            </div>
+            <div class="modal-footer">
+                @foreach (var btn in Model.Dialog.DialogButtonCollection)
+                {
+                    var command = btn.Text.ToCamelCase();
+                    if (btn.IsCancel)
+                    {
+                        <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : @(command)Click">Cancel</a>
+                        continue;
+                    }
+
+                    if (btn.IsDefault)
+                    {
+                        <button form="@(Model.Dialog.Route)-form" data-dismiss="modal" class="btn btn-default" data-bind="command: @(command)Click">@btn.Text</button>
+                        continue;
+                    }
+                    <button data-dismiss="modal" class="btn btn-default" data-bind="command: @(command)Click">@btn.Text</button>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+

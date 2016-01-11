@@ -53,13 +53,9 @@ WriteLiteral("<div");
 
 WriteLiteral(" id=\"form-designer-toolbox\"");
 
-WriteLiteral(" data-path=\"Areas\\App\\Views\\EntityFormDesigner\\_Toolbox.cshtml\"");
-
 WriteLiteral(">\r\n    <ul");
 
 WriteLiteral(" class=\"nav nav-tabs\"");
-
-WriteLiteral(" data-bind2=\"filter : {path:\'>li\'}\"");
 
 WriteLiteral(">\r\n        <li");
 
@@ -71,7 +67,13 @@ WriteLiteral(" href=\"#form-general2\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
-WriteLiteral(">General</a>\r\n        </li>\r\n\r\n        <li>\r\n            <a");
+WriteLiteral(">General</a>\r\n        </li>\r\n        <li>\r\n            <a");
+
+WriteLiteral(" href=\"#dialog-button\"");
+
+WriteLiteral(" data-toggle=\"tab\"");
+
+WriteLiteral(">Dialog Buttons</a>\r\n        </li>\r\n        <li>\r\n            <a");
 
 WriteLiteral(" href=\"#add-field\"");
 
@@ -184,8 +186,8 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"FormDesign.Description\"");
 
-WriteLiteral(" />\r\n                </div>\r\n\r\n                \r\n     \r\n\r\n                <!-- ko" +
-" with : FormDesign -->\r\n\r\n\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n\r\n\r\n\r\n\r\n                <!-- ko with : FormDesign --" +
+">\r\n\r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -654,26 +656,26 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 182 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
+            #line 184 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 182 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
+            #line 184 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
-                            typeof(TextBox),
-                            typeof(ComboBox),
-                            typeof(Button),
-                            typeof(DownloadLink),
-                            typeof(ImageElement),
-                            typeof(ChildEntityListView),
-                            typeof(EntityLookupElement),
-                            typeof(FileUploadElement),
-                            typeof(ListView)
-                        };
+                    typeof (TextBox),
+                    typeof (ComboBox),
+                    typeof (Button),
+                    typeof (DownloadLink),
+                    typeof (ImageElement),
+                    typeof (ChildEntityListView),
+                    typeof (EntityLookupElement),
+                    typeof (FileUploadElement),
+                    typeof (ListView)
+                };
                     
             
             #line default
@@ -681,29 +683,29 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 196 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
+            #line 198 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 196 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
+            #line 198 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
-                    {
-                        FormElement fe1 = fe;
+            {
+                FormElement fe1 = fe;
                         
             
             #line default
             #line hidden
             
-            #line 199 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
+            #line 201 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 199 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
+            #line 201 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
                                                  
 
                     }
@@ -733,7 +735,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 211 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
+            #line 213 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             
@@ -761,7 +763,24 @@ WriteLiteral(" data-bind=\"checked : $root.form().Rules, value: Name\"");
 
 WriteLiteral(" />\r\n                        <!-- ko text : Name -->\r\n                        <!-" +
 "- /ko -->\r\n\r\n                    </label>\r\n                </li>\r\n            </" +
-"ul>\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n");
+"ul>\r\n        </div>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral(" id=\"dialog-button\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("        ");
+
+            
+            #line 231 "..\..\Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml"
+   Write(Html.Partial("_DialogButtons"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n    </div>\r\n\r\n    </div>\r\n\r\n</div>\r\n");
 
         }
     }

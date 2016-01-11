@@ -2,12 +2,14 @@
 @using Bespoke.Sph.Domain
 @model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
 
-<div id="form-designer-toolbox" data-path="Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml">
-    <ul class="nav nav-tabs" data-bind2="filter : {path:'>li'}">
+<div id="form-designer-toolbox">
+    <ul class="nav nav-tabs">
         <li class="active">
             <a href="#form-general2" data-toggle="tab">General</a>
         </li>
-
+        <li>
+            <a href="#dialog-button" data-toggle="tab">Dialog Buttons</a>
+        </li>
         <li>
             <a href="#add-field" data-toggle="tab">Add a field</a>
         </li>
@@ -44,8 +46,8 @@
                     <input class="form-control" data-bind="value: Note" id="form-design-Description" type="text" name="FormDesign.Description" />
                 </div>
 
-                
-     
+
+
 
                 <!-- ko with : FormDesign -->
 
@@ -182,20 +184,20 @@
                     @{
                         var types = new[]
                         {
-                            typeof(TextBox),
-                            typeof(ComboBox),
-                            typeof(Button),
-                            typeof(DownloadLink),
-                            typeof(ImageElement),
-                            typeof(ChildEntityListView),
-                            typeof(EntityLookupElement),
-                            typeof(FileUploadElement),
-                            typeof(ListView)
-                        };
+                    typeof (TextBox),
+                    typeof (ComboBox),
+                    typeof (Button),
+                    typeof (DownloadLink),
+                    typeof (ImageElement),
+                    typeof (ChildEntityListView),
+                    typeof (EntityLookupElement),
+                    typeof (FileUploadElement),
+                    typeof (ListView)
+                };
                     }
                     @foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
-                    {
-                        FormElement fe1 = fe;
+            {
+                FormElement fe1 = fe;
                         @Html.EditorFor(m => fe1)
 
                     }
@@ -225,5 +227,10 @@
             </ul>
         </div>
 
+    <div class="tab-pane" id="dialog-button">
+        @Html.Partial("_DialogButtons")
     </div>
+
+    </div>
+
 </div>

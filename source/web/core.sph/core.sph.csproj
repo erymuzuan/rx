@@ -322,6 +322,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Areas\App\Views\FormDialogDesigner\_DialogButtons.generated.cs">
+      <DependentUpon>_DialogButtons.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\App\Views\FormDialogDesigner\_ValidationSetting.generated.cs">
       <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -742,7 +747,28 @@
     <Compile Include="Areas\Sph\Controllers\EntityDefinitionController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
+    <Compile Include="Areas\Sph\Controllers\FormDialogRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
+    <Compile Include="Areas\Sph\Views\FormDialogRenderer\Html.generated.cs">
+      <DependentUpon>Html.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\FormDialogRenderer\Script.generated.cs">
+      <DependentUpon>Script.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\FormDialogRenderer\_ErrorList.generated.cs">
+      <DependentUpon>_ErrorList.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\FormDialogRenderer\_FormContent.generated.cs">
+      <DependentUpon>_FormContent.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\Sph\Views\Home\_scripts.generated.cs">
       <DependentUpon>_scripts.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1015,6 +1041,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CreateMapModel.cs" />
+    <Compile Include="ViewModels\DialogRendererViewModel.cs" />
     <Compile Include="ViewModels\EditorPageViewModel.cs" />
     <Compile Include="ViewModels\FormRendererViewModel.cs" />
     <Compile Include="ViewModels\GetTokenModel.cs" />
@@ -1776,6 +1803,26 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Areas\Sph\Views\FormDialogRenderer\_ErrorList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ErrorList.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\FormDialogRenderer\_FormContent.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_FormContent.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\FormDialogRenderer\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\FormDialogRenderer\Script.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Script.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\FormDialogDesigner\_DialogButtons.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_DialogButtons.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
     <EmbeddedResource Include="routes.config.json" />
@@ -1901,6 +1948,7 @@
     <EmbeddedResource Include="Scripts\__vendor.min.js" />
     <EmbeddedResource Include="Scripts\__rx.min.js" />
     <EmbeddedResource Include="Scripts\__vendor.dev.min.js" />
+    <Content Include="SphApp\partial\FormDialogPartial.js" />
     <Content Include="SphApp\partial\EntityFormPartial.js" />
     <Content Include="SphApp\partial\ChildEntityListView.js" />
     <Content Include="SphApp\partial\CorrelationType.js" />

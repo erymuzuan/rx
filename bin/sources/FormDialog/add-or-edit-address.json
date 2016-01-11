@@ -67,7 +67,44 @@
   },
   "DialogButtonCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.DialogButton, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.DialogButton, domain.sph",
+        "Text": "OK",
+        "IsDefault": true,
+        "IsCancel": false,
+        "CreatedBy": null,
+        "Id": null,
+        "CreatedDate": "0001-01-01T00:00:00",
+        "ChangedBy": null,
+        "ChangedDate": "0001-01-01T00:00:00",
+        "WebId": "2cb27843-72bd-49d8-9604-423d1d30a405"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DialogButton, domain.sph",
+        "Text": "Cancel",
+        "IsDefault": false,
+        "IsCancel": true,
+        "CreatedBy": null,
+        "Id": null,
+        "CreatedDate": "0001-01-01T00:00:00",
+        "ChangedBy": null,
+        "ChangedDate": "0001-01-01T00:00:00",
+        "WebId": "256ebbc8-99d1-4c19-8399-385f6b468eae"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DialogButton, domain.sph",
+        "Text": "Do nothing here",
+        "IsDefault": false,
+        "IsCancel": false,
+        "CreatedBy": null,
+        "Id": null,
+        "CreatedDate": "0001-01-01T00:00:00",
+        "ChangedBy": null,
+        "ChangedDate": "0001-01-01T00:00:00",
+        "WebId": "8fe0be87-4c25-4eec-8df5-a8aa4726d449"
+      }
+    ]
   },
   "Rules": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
@@ -78,12 +115,12 @@
   "Entity": "patient",
   "MemberPath": "HomeAddress",
   "Route": "add-or-edit-address",
-  "IsPublished": false,
+  "IsPublished": true,
   "Note": "Dialog untuk member's path",
   "CreatedBy": "admin",
   "Id": "add-or-edit-address",
   "CreatedDate": "2016-01-11T10:24:34.5557344+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-11T10:34:30.788068+08:00",
+  "ChangedDate": "2016-01-11T15:24:26.2114516+08:00",
   "WebId": "de8aeee4-823d-4c2c-91d2-93c94365cf18"
 }

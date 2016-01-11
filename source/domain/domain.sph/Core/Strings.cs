@@ -103,6 +103,13 @@ namespace Bespoke.Sph.Domain
         {
             if (string.IsNullOrWhiteSpace(text))
                 return string.Empty;
+            var removeSpace = Regex.Replace(text, "\\s[A-Za-z]{1}", match =>
+            {
+                var v = match.ToString();
+                return v.Replace(" ", "").ToUpperInvariant();
+            });
+            text = removeSpace;
+
             if (text.Replace("_", string.Empty).ToCharArray().All(char.IsUpper))
             {
                 return new string(text.ToCamelCaseHelperWithAllUpper().Where(c => c != char.MinValue).ToArray());
