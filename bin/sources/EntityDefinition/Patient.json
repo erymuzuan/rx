@@ -5,8 +5,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -29,8 +28,7 @@
         "WebId": "8bcd9193-40eb-4555-8110-6f04c7d6209a"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -53,8 +51,7 @@
         "WebId": "16d2daae-ea30-4ea4-b125-a426014d8422"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -77,8 +74,7 @@
         "WebId": "846da964-0c28-440a-926d-e08293392892"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -101,8 +97,7 @@
         "WebId": "735865c9-2a2a-47fa-96cc-9ca12eab432d"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -125,8 +120,7 @@
         "WebId": "25e424ca-090e-4572-860d-225fc188448e"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -149,8 +143,7 @@
         "WebId": "7f16952d-f2d3-4553-8f89-d6b8447c510f"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -173,8 +166,7 @@
         "WebId": "a23f7302-b927-45da-8724-c992d20302ea"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -197,8 +189,7 @@
         "WebId": "8a54ac46-286e-4e75-bf1a-274666dcffa0"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -221,8 +212,7 @@
         "WebId": "40cad2f8-1345-49a9-b210-01e8ec3c641f"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -245,15 +235,13 @@
         "WebId": "d0581eed-a29e-4723-ba15-85ae6cfe6712"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -276,8 +264,7 @@
               "WebId": "d5f801b0-d07d-4bd3-b0a9-451ea8c50a2f"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -300,8 +287,7 @@
               "WebId": "db2f4611-86d3-4aad-9458-c5d30d770f47"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -324,8 +310,7 @@
               "WebId": "6a4f773a-261b-41bf-b9e2-329ed5ec064b"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -348,8 +333,7 @@
               "WebId": "e815f1c0-cc63-44df-a5ce-fa1a0879da97"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -378,27 +362,17 @@
           "$values": []
         },
         "Name": "NextOfKin",
-        "TypeName": "System.Object, mscorlib",
-        "IsNullable": false,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 0,
         "AllowMultiple": false,
-        "DefaultValue": null,
         "WebId": "c1b8c2a6-a5bc-4ce0-bb0f-020261f4d460"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -421,8 +395,7 @@
               "WebId": "76267898-ff46-437f-920b-27ce07462229"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -445,8 +418,7 @@
               "WebId": "d5ae2ee2-2a59-4b26-ba02-a577bb206da8"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -469,8 +441,7 @@
               "WebId": "2322e7a8-d310-4ad2-b0f7-f16de872f825"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -493,8 +464,7 @@
               "WebId": "7b96048e-b9ba-4ea7-9a10-1044da7f4fbc"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -517,8 +487,7 @@
               "WebId": "937ea191-8392-488d-97d0-3601ebef18c4"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -547,20 +516,11 @@
           "$values": []
         },
         "Name": "HomeAddress",
-        "TypeName": "System.Object, mscorlib",
-        "IsNullable": false,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 0,
         "AllowMultiple": false,
-        "DefaultValue": null,
         "WebId": "d6a20639-6a60-4cb7-a3c4-eec37c521bf5"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -583,8 +543,7 @@
         "WebId": "66a6e80c-dd5e-4505-8731-09069afeeba5"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -607,8 +566,7 @@
         "WebId": "1b1c8004-db3e-461c-bebd-e61eefcf64ac"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -631,8 +589,7 @@
         "WebId": "0d42f390-a2e9-4c11-809d-ab46de6df9c1"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -655,8 +612,7 @@
         "WebId": "76c418fa-88c5-4d5f-9f5e-e05984c58818"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -679,8 +635,7 @@
         "WebId": "4d9f6fa6-a355-4900-ae58-1740c9f88cf3"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -703,8 +658,7 @@
         "WebId": "892023c1-b8af-496f-a96d-50991e682d16"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -727,8 +681,7 @@
         "WebId": "8adc580b-efb3-46d8-b40b-f4828b81398d"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -751,8 +704,7 @@
         "WebId": "ea2dda9c-1e1a-476c-a0af-61870b979b4e"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -775,8 +727,7 @@
         "WebId": "690041b2-8a33-4029-a096-ceda4f966c43"
       },
       {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -807,8 +758,7 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -831,8 +781,7 @@
               "WebId": null
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -863,8 +812,7 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": [
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -887,8 +835,7 @@
                     "WebId": null
                   },
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -911,8 +858,7 @@
                     "WebId": null
                   },
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -935,8 +881,7 @@
                     "WebId": null
                   },
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -985,8 +930,7 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": [
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1009,8 +953,7 @@
                     "WebId": null
                   },
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1051,8 +994,7 @@
               "WebId": "a2a4ad73-add8-4df3-ff63-d40141738897"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1083,8 +1025,7 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": [
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1107,8 +1048,7 @@
                     "WebId": null
                   },
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1131,8 +1071,7 @@
                     "WebId": null
                   },
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1155,8 +1094,7 @@
                     "WebId": null
                   },
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1197,15 +1135,13 @@
               "WebId": "8df6b504-2de7-4554-8fdd-d6c2e791a9c0"
             },
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
+              "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": [
                   {
-                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                    "FullName": null,
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "PropertyAttribute": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1236,8 +1172,7 @@
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": [
                         {
-                          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                          "FullName": null,
+                          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                           "PropertyAttribute": null,
                           "MemberCollection": {
                             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1260,8 +1195,7 @@
                           "WebId": null
                         },
                         {
-                          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                          "FullName": null,
+                          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                           "PropertyAttribute": null,
                           "MemberCollection": {
                             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1284,8 +1218,7 @@
                           "WebId": null
                         },
                         {
-                          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                          "FullName": null,
+                          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                           "PropertyAttribute": null,
                           "MemberCollection": {
                             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1308,8 +1241,7 @@
                           "WebId": null
                         },
                         {
-                          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-                          "FullName": null,
+                          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                           "PropertyAttribute": null,
                           "MemberCollection": {
                             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1356,15 +1288,7 @@
                 "$values": []
               },
               "Name": "Parent",
-              "TypeName": "System.Object, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": false,
-              "IsExcludeInAll": false,
-              "Boost": 0,
               "AllowMultiple": false,
-              "DefaultValue": null,
               "WebId": "3fcdba68-c21c-4a2d-90e1-b858e56cc4cb"
             }
           ]

@@ -5,6 +5,10 @@ namespace Bespoke.Sph.Domain.diagnostics
 {
     public class BuilDiagnostic : IBuildDiagnostics
     {
+        public virtual Task<BuildError[]> ValidateErrorsAsync(FormDialog form, EntityDefinition entity)
+        {
+            return Task.FromResult(new BuildError[] {});
+        }
         public virtual Task<BuildError[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity)
         {
             return Task.FromResult(new BuildError[] {});
@@ -40,6 +44,10 @@ namespace Bespoke.Sph.Domain.diagnostics
             return Task.FromResult(new BuildError[] { });
         }
 
+        public virtual Task<BuildError[]> ValidateWarningsAsync(FormDialog form, EntityDefinition entity)
+        {
+            return Task.FromResult(new BuildError[] { });
+        }
         public virtual Task<BuildError[]> ValidateWarningsAsync(EntityForm form, EntityDefinition entity)
         {
             return Task.FromResult(new BuildError[] { });

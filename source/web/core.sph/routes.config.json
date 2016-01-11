@@ -530,6 +530,20 @@
     "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
+  }, 
+  {
+    "role": "developers",
+    "groupName": "Entity",
+    "route": "form.dialog.designer/:entityid/:id",
+    "moduleId": "viewmodels/form.dialog.designer",
+    "title": "Dialog Designer",
+    "nav": false,
+    "icon": "fa fa-bug",
+    "caption": "Form Dialog Designer",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
   },
   {
     "role": "developers",

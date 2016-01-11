@@ -285,6 +285,7 @@
     <Compile Include="Areas\App\AppAreaRegistration.cs" />
     <Compile Include="Areas\App\Controllers\ConfigController.cs" />
     <Compile Include="Areas\App\Controllers\ActivityScreenController.cs" />
+    <Compile Include="Areas\App\Controllers\FormDialogDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\EntityViewDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\EntityFormDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\HeaderController.cs" />
@@ -305,6 +306,26 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Script.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\FormDialogDesigner\Html.generated.cs">
+      <DependentUpon>Html.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\FormDialogDesigner\_DesignerContextAction.generated.cs">
+      <DependentUpon>_DesignerContextAction.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\FormDialogDesigner\_Toolbox.generated.cs">
+      <DependentUpon>_Toolbox.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\FormDialogDesigner\_ValidationSetting.generated.cs">
+      <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Areas\App\Views\EntityFormDesigner\Html.generated.cs">
       <AutoGen>True</AutoGen>
@@ -820,6 +841,7 @@
     <Compile Include="Controllers\CustomFormController.scripts.cs" />
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\DataImportController.cs" />
+    <Compile Include="Controllers\FormDialogController.cs" />
     <Compile Include="Controllers\ValueObjectDefinitionController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1738,6 +1760,22 @@
     <EmbeddedResource Include="fonts\fontawesome-webfont.woff" />
     <EmbeddedResource Include="fonts\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Areas\App\Views\FormDialogDesigner\_DesignerContextAction.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_DesignerContextAction.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Toolbox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\FormDialogDesigner\_ValidationSetting.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ValidationSetting.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\FormDialogDesigner\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
     <EmbeddedResource Include="routes.config.json" />
@@ -2320,6 +2358,7 @@
     <EmbeddedResource Include="SphApp\services\new-item.js" />
     <EmbeddedResource Include="SphApp\viewmodels\value.object.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\value.object.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\form.dialog.designer.js" />
     <Content Include="SphApp\viewmodels\environment.variables.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.entity.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.workflow.definition.dialog.js" />

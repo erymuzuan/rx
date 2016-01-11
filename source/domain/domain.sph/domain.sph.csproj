@@ -223,6 +223,7 @@
     <Compile Include="FormTemplates\CurrencyElement.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
+    <Compile Include="FormTemplates\DialogButton.cs" />
     <Compile Include="FormTemplates\DownloadLink.cs" />
     <Compile Include="FormTemplates\EntityChart.cs" />
     <Compile Include="FormTemplates\EntityDefinition.code.cs">
@@ -238,6 +239,7 @@
     <Compile Include="FormTemplates\FieldValidation.cs" />
     <Compile Include="FormTemplates\FileUploadElement.cs" />
     <Compile Include="FormTemplates\Filter.cs" />
+    <Compile Include="FormTemplates\FormDialog.cs" />
     <Compile Include="FormTemplates\FormLayout.cs" />
     <Compile Include="FormTemplates\FormMetadataAttribute.cs" />
     <Compile Include="FormTemplates\IFormRendererMetadata.cs" />

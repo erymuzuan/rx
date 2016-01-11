@@ -34,6 +34,7 @@ namespace Bespoke.Sph.Web.Api
                 case "transformdefinition": return SelectSystemObjectProperty<TransformDefinition>(column, filter);
                 case "entityview": return SelectSystemObjectProperty<EntityView>(column, filter);
                 case "entityform": return SelectSystemObjectProperty<EntityForm>(column, filter);
+                case "formdialog": return SelectSystemObjectProperty<FormDialog>(column, filter);
                 case "entitychart": return SelectSystemObjectProperty<EntityChart>(column, filter);
                 case "trigger": return SelectSystemObjectProperty<Trigger>(column, filter);
                 case "adapter": return SelectSystemObjectProperty<Adapter>(column, filter);

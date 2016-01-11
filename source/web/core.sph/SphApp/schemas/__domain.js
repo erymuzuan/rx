@@ -1767,6 +1767,78 @@ bespoke.sph.domain.PatchSetter = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.FormDialog = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FormDialog, domain.sph",
+        Id: ko.observable("0"),
+        Title: ko.observable(""),
+        IsAllowCancel: ko.observable(false),
+        Entity: ko.observable(""),
+        MemberPath: ko.observable(""),
+        Route: ko.observable(""),
+        IsPublished: ko.observable(false),
+        Note: ko.observable(""),
+        FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
+        DialogButtonCollection: ko.observableArray([]),
+        Rules: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FormDialogPartial) {
+        return _(model).extend(new bespoke.sph.domain.FormDialogPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.DialogButton = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.DialogButton, domain.sph",
+        Text: ko.observable(""),
+        IsDefault: ko.observable(false),
+        IsCancel: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DialogButtonPartial) {
+        return _(model).extend(new bespoke.sph.domain.DialogButtonPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

@@ -891,4 +891,39 @@
 			<xs:attribute name="DefaultValue" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="FormDialog" bspk:entity="true">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="FormDesign"/>
+				<xs:element name="DialogButtonCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DialogButton" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Rules">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Rule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="IsAllowCancel" type="xs:boolean" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="MemberPath" type="xs:string" use="required"/>
+			<xs:attribute name="Route" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DialogButton">
+		<xs:complexType>
+			<xs:attribute name="Text" type="xs:string" use="required"/>
+			<xs:attribute name="IsDefault" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsCancel" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

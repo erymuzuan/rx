@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 f => f.GetType() == typeof(FormElement));
             return View(vm);
         }
-       // [Route("~/sphapp/view/entity.form.designer.html")]
+
         public ActionResult Html()
         {
             var vm = new TemplateFormViewModel

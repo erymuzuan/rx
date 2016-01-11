@@ -69,6 +69,12 @@ namespace Bespoke.Sph.Web.Api
         {
             return ReadFromSource<EntityChart>(filter);
         }
+
+        [Route("FormDialog")]
+        public ActionResult FormDialog(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return ReadFromSource<FormDialog>(filter, page, size, true);
+        }
         [Route("EntityForm")]
         public ActionResult EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

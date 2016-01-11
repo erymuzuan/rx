@@ -6767,6 +6767,381 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FormDialog", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FormDialog
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_title;
+        public const string PropertyNameTitle = "Title";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAllowCancel;
+        public const string PropertyNameIsAllowCancel = "IsAllowCancel";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_memberPath;
+        public const string PropertyNameMemberPath = "MemberPath";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_route;
+        public const string PropertyNameRoute = "Route";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private FormDesign m_formDesign
+                = new FormDesign();
+
+        public const string PropertyNameFormDesign = "FormDesign";
+        [DebuggerHidden]
+
+        public FormDesign FormDesign
+        {
+            get { return m_formDesign; }
+            set
+            {
+                m_formDesign = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("DialogButton", IsNullable = false)]
+        public ObjectCollection<DialogButton> DialogButtonCollection { get; } = new ObjectCollection<DialogButton>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> Rules { get; } = new ObjectCollection<string>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Title
+        {
+            set
+            {
+                if (String.Equals(m_title, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_title = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_title;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsAllowCancel
+        {
+            set
+            {
+                if (m_isAllowCancel == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAllowCancel, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAllowCancel = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAllowCancel;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string MemberPath
+        {
+            set
+            {
+                if (String.Equals(m_memberPath, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMemberPath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_memberPath = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_memberPath;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Route
+        {
+            set
+            {
+                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_route = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_route;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DialogButton", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DialogButton
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_text;
+        public const string PropertyNameText = "Text";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isDefault;
+        public const string PropertyNameIsDefault = "IsDefault";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isCancel;
+        public const string PropertyNameIsCancel = "IsCancel";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Text
+        {
+            set
+            {
+                if (String.Equals(m_text, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameText, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_text = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_text;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsDefault
+        {
+            set
+            {
+                if (m_isDefault == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsDefault, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isDefault = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isDefault;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsCancel
+        {
+            set
+            {
+                if (m_isCancel == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsCancel, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isCancel = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isCancel;
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement

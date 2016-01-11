@@ -373,6 +373,32 @@
                         <i class="fa fa-plus-circle"></i>
                         Add a form
                     </a>
+
+                    <h3>Dialogs</h3>
+                    <table class="table table-striped" data-bind="serverPaging :{entity: 'FormDialog', query :'Entity eq \'' + $root.entity().Id() + '\'', list: dialogs}">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Route</th>
+                                <th>Members' Path</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :dialogs">
+                            <tr>
+                                <td>
+                                    <a data-bind="attr : {'href':'#/form.dialog.designer/' + $root.entity().Id() + '/' + Id()},text: Title"></a>
+                                </td>
+                                <td data-bind="text:Route"></td>
+                                <td data-bind="text:MemberPath"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-link" data-bind="attr : {'href':'#/form.dialog.designer/' + $root.entity().Id() + '/0'}">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a dialog
+                    </a>
                 </div>
                 <div id="views-tab" class="tab-pane">
 
