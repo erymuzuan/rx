@@ -9,8 +9,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit.test", "unit.test", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D5FA217-25F5-4EF5-BADA-7691B883E274}"
 	ProjectSection(SolutionItems) = preProject
+		Build.Version.1.ps1 = Build.Version.1.ps1
+		CompileEntityDefinition.ps1 = CompileEntityDefinition.ps1
+		CopyDependencies.ps1 = CopyDependencies.ps1
+		CopyOutput.ps1 = CopyOutput.ps1
+		Create-SphInstallPackage.ps1 = Create-SphInstallPackage.ps1
+		Create-SphUpdate7zPackageOnly.ps1 = Create-SphUpdate7zPackageOnly.ps1
+		Create-SphUpdatePackage.ps1 = Create-SphUpdatePackage.ps1
+		Ftp-SphUpdatePackage.ps1 = Ftp-SphUpdatePackage.ps1
+		Get-WorklfowQueueLength.ps1 = Get-WorklfowQueueLength.ps1
 		Performance1.psess = Performance1.psess
+		restore-package.ps1 = restore-package.ps1
+		RunControlCenter.ps1 = RunControlCenter.ps1
+		SetUpV1Environment.ps1 = SetUpV1Environment.ps1
 		WE-Markdown.css = WE-Markdown.css
+		x_archive-assets.ps1 = x_archive-assets.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domain", "domain", "{FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}"

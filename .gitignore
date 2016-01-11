@@ -1,3 +1,4 @@
+bin/config/applicationhost.config
 packages/*
 /packages/
 bin/
@@ -165,3 +166,4 @@ bin/10306.ps1
 *.vsp
 bin/rabbitmq_base/
 *.backup
+/bin/config/applicationhost.config

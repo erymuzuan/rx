@@ -12,6 +12,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
 
         var adapterOptions = ko.observableArray(),
             name = ko.observable(),
+            id = ko.observable(),
             selectedItem = ko.observable(),
             getAdapterType = function (adapter) {
 
@@ -68,6 +69,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
 
                 return context.post(json, "/adapter")
                     .then(function (result) {
+                        id(result.id);
                         url(selectedItem().designer.Route.replace("/0", "/" + result.id));
                         dialog.close(data, "OK");
 
@@ -87,6 +89,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
             isBusy: isBusy,
             adapters: adapters,
             getDesigner: getDesigner,
+            id: id,
             url: url,
             attached: attached,
             activate: activate,

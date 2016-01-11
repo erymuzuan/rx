@@ -2,12 +2,14 @@
        [switch]$InMemory = $false
      )
 
-$env:RX_DEVV1_HOME = "c:\project\work\sph\bin\"
+$WorkingDirectory = $PWD
+
+$env:RX_DEVV1_HOME = "$PWD\bin\"
 $env:RX_DEVV1_ApplicationFullName = "Engineering Team Development"
 $env:RX_DEVV1_FromEmailAddress = "erymuzuan@bespoke.com.my"
 $env:RX_DEVV1_LoggerWebSocketPort="50238"
-$env:RX_DEVV1_RabbitMqBase="c:\project\work\sph\bin\rabbitmq_base"
-$env:RABBITMQ_BASE="c:\project\work\sph\bin\rabbitmq_base"
+$env:RX_DEVV1_RabbitMqBase="$PWD\bin\rabbitmq_base"
+$env:RABBITMQ_BASE="$PWD\bin\rabbitmq_base"
 
 
 

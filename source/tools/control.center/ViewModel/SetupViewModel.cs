@@ -76,7 +76,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 Settings = this.Settings,
                 View = this.View,
-                Logger = new Logger()
+                Logger = new Logger(),
+                LogCallback = msg =>
+                {
+                    Log(msg);
+                }
             };
             this.MainViewModel = main;
         }
