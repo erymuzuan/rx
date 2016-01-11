@@ -307,10 +307,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\App\Views\FormDialogDesigner\Html.generated.cs">
-      <DependentUpon>Html.cshtml</DependentUpon>
+    <Compile Include="Areas\App\Views\FormDialogDesigner\Html1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\FormDialogDesigner\_DesignerContextAction.generated.cs">
       <DependentUpon>_DesignerContextAction.cshtml</DependentUpon>
@@ -1801,7 +1801,7 @@
     </Content>
     <Content Include="Areas\App\Views\FormDialogDesigner\Html.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Html.generated.cs</LastGenOutput>
+      <LastGenOutput>Html1.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\FormDialogRenderer\_ErrorList.cshtml">
       <Generator>RazorGenerator</Generator>

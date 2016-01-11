@@ -153,7 +153,7 @@ WriteLiteral(" class=\"row\"");
 
 WriteLiteral(">\r\n    <!-- left toolbox-->\r\n    <div");
 
-WriteLiteral(" class=\"col-sm-3\"");
+WriteLiteral(" class=\"col-sm-3 col-lg-3\"");
 
 WriteLiteral(">\r\n");
 
@@ -166,58 +166,109 @@ WriteLiteral("        ");
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </div>\r\n    <!-- ko with : form -->\r\n    <div");
+WriteLiteral("\r\n    </div>\r\n    <!-- ko with : form -->\r\n\r\n    <div");
 
-WriteLiteral(" id=\"screen-activity-designer\"");
+WriteLiteral(" class=\"modalBlockout col-sm-9 col-lg-9\"");
 
-WriteLiteral(" class=\"col-sm-9\"");
+WriteLiteral(" style=\"opacity: 0.2; min-height: 600px\"");
 
-WriteLiteral(" data-bind=\"with: FormDesign\"");
+WriteLiteral("></div>\r\n    <div");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(" class=\"modalHost\"");
+
+WriteLiteral(" style=\"opacity: 1;\"");
+
+WriteLiteral(">\r\n        <section");
+
+WriteLiteral(" class=\"view-model-modal\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(">\r\n\r\n                    <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(" style=\"cursor: move;\"");
+
+WriteLiteral(">\r\n                        <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" data-dismiss=\"modal\"");
+
+WriteLiteral(">&times;</button>\r\n                        <h3");
+
+WriteLiteral(" data-bind=\"text: Title\"");
+
+WriteLiteral("></h3>\r\n                    </div>\r\n                    <div");
+
+WriteLiteral(" class=\"modal-body\"");
 
 WriteLiteral(" id=\"template-form-designer\"");
 
-WriteLiteral(" class=\"row\"");
+WriteLiteral(" style=\"min-height: 200px\"");
 
-WriteLiteral(">\r\n            <form");
+WriteLiteral("  data-bind=\"with : FormDesign\"");
+
+WriteLiteral(">\r\n\r\n                        <form");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
-WriteLiteral(">\r\n                <!--ko foreach:FormElementCollection -->\r\n");
+WriteLiteral(">\r\n                            <!--ko foreach:FormElementCollection -->\r\n");
 
             
-            #line 50 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
-                
+            #line 61 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+                            
             
             #line default
             #line hidden
             
-            #line 50 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
-                 foreach (var fe in Model.FormElements)
-                {
-                    var fe1 = fe;
-                    
+            #line 61 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+                             foreach (var fe in Model.FormElements)
+                            {
+                                var fe1 = fe;
+                                
             
             #line default
             #line hidden
             
-            #line 53 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
-               Write(Html.DisplayFor(m => fe1));
-
-            
-            #line default
-            #line hidden
-            
-            #line 53 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
-                                              
-                }
+            #line 64 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+                           Write(Html.DisplayFor(m => fe1));
 
             
             #line default
             #line hidden
-WriteLiteral("                <!--/ko-->\r\n\r\n            </form>\r\n        </div>\r\n\r\n    </div>\r\n" +
-"\r\n    <!-- /ko -->\r\n</div>");
+            
+            #line 64 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+                                                          
+                            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                            <!--/ko-->\r\n                        </form>\r\n        " +
+"            </div>\r\n                    <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                        <!--ko foreach:DialogButtonCollection -->\r\n           " +
+"             <button");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" data-bind=\"text:Text\"");
+
+WriteLiteral(">OK</button>\r\n\r\n                        <!--/ko-->\r\n                    </div>\r\n " +
+"               </div>\r\n            </div>\r\n        </section>\r\n    </div>\r\n\r\n\r\n " +
+"   <!-- /ko -->\r\n</div>");
 
         }
     }

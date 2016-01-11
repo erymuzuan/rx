@@ -50,13 +50,31 @@ WriteLiteral(">\r\n\r\n\r\n    <table");
 
 WriteLiteral(" class=\"table table-striped\"");
 
-WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Text</th>\r\n            " +
-"    <th>IsDefault</th>\r\n                <th>IsCancel</th>\r\n                <th><" +
-"/th>\r\n            </tr>\r\n        </thead>\r\n        <tbody");
+WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th></th>\r\n                " +
+"<th>Text</th>\r\n                <th>IsDefault</th>\r\n                <th>IsCancel<" +
+"/th>\r\n                <th></th>\r\n            </tr>\r\n        </thead>\r\n        <t" +
+"body");
 
 WriteLiteral(" data-bind=\"foreach :DialogButtonCollection\"");
 
-WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n                    <input");
+WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n                    <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-arrow-up\"");
+
+WriteLiteral("></i></a>\r\n                    <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-arrow-down\"");
+
+WriteLiteral("></i></a>\r\n                </td>\r\n                <td>\r\n                    <inpu" +
+"t");
 
 WriteLiteral(" class=\"form-control\"");
 
@@ -78,8 +96,12 @@ WriteLiteral(" /></td>\r\n                <td>\r\n                    <a");
 
 WriteLiteral(" data-bind=\"click: $parent.removeDialogButton\"");
 
-WriteLiteral("></a>\r\n                </td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n" +
-"    <a");
+WriteLiteral(">\r\n                        <i");
+
+WriteLiteral(" class=\"fa fa-times\"");
+
+WriteLiteral("></i>\r\n                    </a>\r\n                </td>\r\n            </tr>\r\n      " +
+"  </tbody>\r\n    </table>\r\n    <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
