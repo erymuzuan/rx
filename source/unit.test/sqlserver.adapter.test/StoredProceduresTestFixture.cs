@@ -90,8 +90,7 @@ namespace sqlserver.adapter.test
             Assert.IsNotNull(commerce);
             commerce.ConnectionString = @"server=(localdb)\ProjectsV12;database=Commerce;trusted_connection=yes";
             dynamic request =
-                dll.CreateInstance(string.Format("Dev.Adapters.{0}.{1}.{2}Request", adapter.Schema, adapter.Name,
-                    productByCategory.MethodName.ToCsharpIdentitfier()));
+                dll.CreateInstance($"Dev.Adapters.{adapter.Schema}.{adapter.Name}.{productByCategory.MethodName.ToCsharpIdentitfier()}Request");
             Assert.IsNotNull(request);
             request.@CategoryID = 14;
 

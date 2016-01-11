@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Integrations.Adapters.Properties;
 using MySql.Data.MySqlClient;
 
@@ -58,7 +59,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
 
                 var members = from c in columns
-                              select new Member
+                              select new SimpleMember
                               {
                                   Name = c.Name,
                                   IsNullable = c.IsNullable,
@@ -107,73 +108,48 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        private string GetCodeHeader(params string[] namespaces)
+        public static readonly string[] ImportDirectives =
         {
 
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
-            header.AppendLine("using " + typeof(StringBuilder).Namespace + ";");
-            header.AppendLine("using " + typeof(MySqlConnection).Namespace + ";");
-            header.AppendLine("using " + typeof(CommandType).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Mvc;");
-            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
-            foreach (var ns in namespaces)
-            {
-                header.AppendLinf("using {0};", ns);
-            }
-            header.AppendLine();
+   typeof(Entity).Namespace,
+   typeof(Int32).Namespace,
+   typeof(Task<>).Namespace ,
+   typeof(Enumerable).Namespace ,
+   typeof(IEnumerable<>).Namespace,
+   typeof(StringBuilder).Namespace ,
+   typeof(MySqlConnection).Namespace,
+   typeof(CommandType).Namespace ,
+   typeof(XmlAttributeAttribute).Namespace ,
+   "System.Web.Mvc",
+  "Bespoke.Sph.Web.Helpers"
 
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
+        };
 
-        }
-
-        protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
+        protected override Task<IEnumerable<Class>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
             options.AddReference(typeof(MySqlConnection));
-            var sources = new Dictionary<string, string>();
-            var header = this.GetCodeHeader(namespaces);
+            var sources = new ObjectCollection<Class>();
             foreach (var at in this.Tables)
             {
                 var table = this.TableDefinitionCollection.Single(t => t.Name == at.Name);
-                var adapterName = table + "Adapter";
+                var code = new Class { Name = $"{table}Adapter", Namespace = CodeNamespace };
+                code.ImportCollection.AddRange(namespaces);
+                code.ImportCollection.AddRange(ImportDirectives);
+                sources.Add(code);
 
-                var code = new StringBuilder(header);
-
-                code.AppendLine("   public class " + adapterName);
-                code.AppendLine("   {");
-
-                code.AppendLine(GenerateExecuteScalarMethod());
-                code.AppendLine(GenerateDeleteMethod(table));
-                code.AppendLine(GenerateInsertMethod(table));
-                code.AppendLine(GenerateUpdateMethod(table));
-                code.AppendLine(GenerateSelectMethod(table));
-                code.AppendLine(GenerateSelectOneMethod(table));
-                code.AppendLine(GenerateConnectionStringProperty());
-
-
-                code.AppendLine("   }");// end class
-                code.AppendLine("}");// end namespace
-
-
-                sources.Add(adapterName + ".cs", code.ToString());
-
+                code.AddMethod(GenerateExecuteScalarMethod());
+                code.AddMethod(GenerateDeleteMethod(table));
+                code.AddMethod(GenerateInsertMethod(table));
+                code.AddMethod(GenerateUpdateMethod(table));
+                code.AddMethod(GenerateSelectMethod(table));
+                code.AddMethod(GenerateSelectOneMethod(table));
+                code.AddMethod(GenerateConnectionStringProperty());
 
             }
 
-            var code2 = new StringBuilder(header);
-
-            code2.AppendLine("   public partial class " + this.Name + "");
-            code2.AppendLine("   {");
-
-            code2.AppendLine("      public string ConnectionString{set;get;}");
+            var code2 = new Class { Name = Name, Namespace = CodeNamespace, FileName = $"{Name}.sproc.cs" };
+            code2.AddProperty("ConnectionString", typeof(string));
 
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
@@ -185,38 +161,19 @@ namespace Bespoke.Sph.Integrations.Adapters
                 addedActions.Add(methodName);
 
                 //
-                code2.AppendLine(op.GenerateActionCode(this, methodName));
+                code2.AddMethod(op.GenerateActionCode(this, methodName));
 
                 var requestSources = op.GenerateRequestCode();
-                AddSources(requestSources, sources);
+                sources.AddRange(requestSources);
 
                 var responseSources = op.GenerateResponseCode();
-                AddSources(responseSources, sources);
+                sources.AddRange(responseSources);
             }
 
 
-
-            code2.AppendLine("   }");// end class
-            code2.AppendLine("}");// end namespace
-            sources.Add(this.Name + ".sproc.cs", code2.ToString());
-
-            return Task.FromResult(sources);
+            return Task.FromResult(sources.AsEnumerable());
         }
 
-
-        private static void AddSources(Dictionary<string, string> classes, Dictionary<string, string> sources)
-        {
-            foreach (var cs in classes.Keys)
-            {
-                if (!sources.ContainsKey(cs))
-                {
-                    sources.Add(cs, classes[cs]);
-                    continue;
-                }
-                if (sources[cs] != classes[cs])
-                    throw new InvalidOperationException("You are generating 2 different sources for " + cs);
-            }
-        }
 
         private string GenerateConnectionStringProperty()
         {
@@ -253,7 +210,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
 
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguments = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name}");
+            var arguments = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguments));
             code.AppendLine("       {");
@@ -292,11 +249,12 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
             //load async
-            code.AppendFormat("       public async Task<LoadOperation<{0}>> LoadAsync(string sql, int page = 1, int size = 40, bool includeTotal = false)", table.Name);
+            code.AppendLine($"       public async Task<LoadOperation<{table.Name}>> LoadAsync(string sql, int page = 1, int size = 40, bool includeTotal = false)");
             code.AppendLine("       {");
 
             code.AppendLine("           if (!sql.ToString().Contains(\"ORDER\"))");
-            code.AppendLinf("               sql +=\"\\r\\nORDER BY `{0}`\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.MemberCollection.Select(m => m.Name).First());
+            var pk = table.PrimaryKeyCollection.FirstOrDefault() ?? table.MemberCollection.Select(m => m.Name).First();
+            code.AppendLine($"               sql +=\"\\r\\nORDER BY `{pk}`\";");
             code.AppendLine("           var translator = new MySqlPagingTranslator();");
             code.AppendLine("           sql = translator.Translate(sql, page, size);");
             code.AppendLine();
@@ -304,7 +262,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLinf("           using(var cmd = new MySqlCommand( sql, conn))", this.GetSelectCommand(table));
             code.AppendLine("           {");
 
-            code.AppendLinf("               var lo = new LoadOperation<{0}>", table.Name);
+            code.AppendLine($"               var lo = new LoadOperation<{table.Name}>");
             code.AppendLine("                            {");
             code.AppendLine("                               CurrentPage = page,");
             code.AppendLine("                               Filter = sql,");
@@ -316,7 +274,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("               {");
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
-            code.AppendLinf("                       var item = new {0}();", table.Name);
+            code.AppendLine($"                       var item = new {table.Name}();");
             code.AppendLine(PopulateItemFromReader(table.Name));
             code.AppendLinf("                       lo.ItemCollection.Add(item);");
             code.AppendLine("                   }");
@@ -353,28 +311,28 @@ namespace Bespoke.Sph.Integrations.Adapters
                     code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableString();", column.Name);
                     continue;
                 }
-                if (column.GetClrType() == typeof (DateTime) && column.IsNullable)
+                if (column.GetClrType() == typeof(DateTime) && column.IsNullable)
                 {
                     code.AppendLine($"                       var __temp{count} = reader[\"{column.Name}\"];");
                     code.AppendLine($"                       if( __temp{count} != DBNull.Value)");
-                    code.AppendLine( "                       {");
+                    code.AppendLine("                       {");
                     code.AppendLine($"                          var __val{count} = (MySql.Data.Types.MySqlDateTime)__temp{count};");
                     code.AppendLine($"                          if(__val{count}.IsValidDateTime ) item.{column.Name} = __val{count}.GetDateTime();");
-                    code.AppendLine( "                       }");
+                    code.AppendLine("                       }");
                     continue;
                 }
-                if (column.GetClrType() == typeof (DateTime))
+                if (column.GetClrType() == typeof(DateTime))
                 {
                     code.AppendLine($"                       var __type{count} = reader.GetFieldType({count});");
                     code.AppendLine($"                       if(__type{count} == typeof(DateTime))");
-                    code.AppendLine( "                       {");
+                    code.AppendLine("                       {");
                     code.AppendLine($"                          item.{column.Name} = reader.GetDateTime({count});");
-                    code.AppendLine( "                       }");
-                    code.AppendLine( "                       else");
-                    code.AppendLine( "                       {");
+                    code.AppendLine("                       }");
+                    code.AppendLine("                       else");
+                    code.AppendLine("                       {");
                     code.AppendLine($"                          var __temp{count} = (MySql.Data.Types.MySqlDateTime)reader[\"{column.Name}\"];");
                     code.AppendLine($"                          if(__temp{count}.IsValidDateTime ) item.{column.Name} = __temp{count}.GetDateTime();");
-                    code.AppendLine( "                       }");
+                    code.AppendLine("                       }");
                     continue;
                 }
                 code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
@@ -445,7 +403,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         private string GenerateDeleteMethod(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguements = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name.ToCamelCase()}");
+            var arguements = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");
@@ -537,7 +495,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         }
 
-        protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
+        protected override Task<Class> GenerateOdataTranslatorSourceCodeAsync()
         {
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OdataSqlTranslator.cs";
@@ -549,13 +507,13 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
-                var source = new Tuple<string, string>("OdataSqlTranslator.cs", code);
+                var source = new Class(code) { FileName = "OdataSqlTranslator.cs" };
                 return Task.FromResult(source);
 
             }
         }
 
-        protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
+        protected override Task<Class> GeneratePagingSourceCodeAsync()
         {
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.MySqlPagingTranslator.cs";
@@ -567,7 +525,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
-                var source = new Tuple<string, string>("SqlPagingTranslator.cs", code);
+                var source = new Class(code) { FileName = "SqlPagingTranslator.cs" };
                 return Task.FromResult(source);
 
             }
@@ -597,7 +555,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 {
                     while (await reader.ReadAsync())
                     {
-                        var col = new Member
+                        var col = new SimpleMember
                         {
                             Name = reader.GetString(0),
                             Type = reader.GetString(1).GetClrDataType(),

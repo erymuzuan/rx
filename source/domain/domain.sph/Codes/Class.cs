@@ -5,40 +5,29 @@ namespace Bespoke.Sph.Domain.Codes
 {
     public class Class
     {
+        public Class()
+        {
+
+        }
+
+        public Class(string code)
+        {
+            this.m_code = code;
+        }
         public string Name { get; set; }
         public string Namespace { get; set; }
         public string BaseClass { get; set; }
+        public bool IsStatic { get; set; }
 
-        private readonly ObjectCollection<Property> m_propertyCollection = new ObjectCollection<Property>();
-        private readonly ObjectCollection<Method> m_methodCollection = new ObjectCollection<Method>();
-        private readonly ObjectCollection<string> m_attributeCollection = new ObjectCollection<string>();
-        private readonly ObjectCollection<string> m_importCollection = new ObjectCollection<string>();
-        private readonly ObjectCollection<string> m_ctorCollection = new ObjectCollection<string>();
         private string m_fileName;
+        private readonly string m_code;
 
-        public ObjectCollection<string> CtorCollection
-        {
-            get { return m_ctorCollection; }
-        }
 
-        public ObjectCollection<string> ImportCollection
-        {
-            get { return m_importCollection; }
-        }
-
-        public ObjectCollection<string> AttributeCollection
-        {
-            get { return m_attributeCollection; }
-        }
-
-        public ObjectCollection<Method> MethodCollection
-        {
-            get { return m_methodCollection; }
-        }
-        public ObjectCollection<Property> PropertyCollection
-        {
-            get { return m_propertyCollection; }
-        }
+        public ObjectCollection<string> CtorCollection { get; } = new ObjectCollection<string>();
+        public ObjectCollection<string> ImportCollection { get; } = new ObjectCollection<string>();
+        public ObjectCollection<string> AttributeCollection { get; } = new ObjectCollection<string>();
+        public ObjectCollection<Method> MethodCollection { get; } = new ObjectCollection<Method>();
+        public ObjectCollection<Property> PropertyCollection { get; } = new ObjectCollection<Property>();
 
         public string FileName
         {
@@ -60,20 +49,25 @@ namespace Bespoke.Sph.Domain.Codes
 
         public string GetCode()
         {
+            if (!string.IsNullOrWhiteSpace(m_code))
+                return m_code;
             var code = new StringBuilder();
             foreach (var @import in this.ImportCollection)
             {
-                code.AppendFormat("using {0};", @import);
-                code.AppendLine();
+                var directive = @import.StartsWith("using ") ? $"{@import};" : $"using {@import};";
+                code.AppendLine(directive.Replace(";;", ";"));
             }
             code.AppendLine();
-            code.AppendLinf("namespace {0}", this.Namespace);
+            code.AppendLine($"namespace {Namespace}");
             code.AppendLine("{");
             foreach (var ctor in this.AttributeCollection)
             {
                 code.AppendLine(ctor);
             }
-            code.AppendLinf("   public {2} class {0} {3} {1}", this.Name, this.BaseClass, this.IsPartial ? "partial" : "", !string.IsNullOrWhiteSpace(this.BaseClass) ? ":" : "");
+            var partial = this.IsPartial ? "partial " : "";
+            var @static = this.IsStatic ? "static " : "";
+            var baseClass = !string.IsNullOrWhiteSpace(this.BaseClass) ? $": {BaseClass}" : "";
+            code.AppendLine($"   public {@static}{partial}class {Name} {baseClass}");
             code.AppendLine("   {");
 
             foreach (var ctor in this.CtorCollection)
@@ -88,20 +82,29 @@ namespace Bespoke.Sph.Domain.Codes
             code.AppendLine();
             foreach (var mtd in this.MethodCollection)
             {
-                code.AppendLine(mtd.Comment);
+                if (!string.IsNullOrWhiteSpace(mtd.Comment))
+                    code.AppendLine(mtd.Comment);
                 code.AppendLine(mtd.GenerateCode());
             }
 
             code.AppendLine("   }");
             code.AppendLine("}");
-            
+
             return code.FormatCode();
 
         }
 
+        public void AddMethod(string format, params object[] args)
+        {
+            this.MethodCollection.Add(new Method { Code = string.Format(format, args) });
+        }
         public void AddProperty(string format, params object[] args)
         {
             this.PropertyCollection.Add(new Property { Code = string.Format(format, args) });
+        }
+        public void AddProperty(string name, Type type)
+        {
+            this.PropertyCollection.Add(new Property { Name = name, Type = type });
         }
     }
 }

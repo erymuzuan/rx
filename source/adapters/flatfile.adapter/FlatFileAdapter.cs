@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -17,62 +18,48 @@ namespace Bespoke.Sph.Integrations.Adapters
     [DesignerMetadata(Name = "Flat file adapter", FontAwesomeIcon = "file-o", Route = "adapter.flatfile/0", RouteTableProvider = typeof(FlatFileAdapterRouteTableProvider))]
     public partial class FlatFileAdapter : Adapter
     {
-        private string GetCodeHeader(params string[] namespaces)
+        public static readonly string[] ImportDirectives =
         {
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(int).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Encoding).Namespace + ";");
-            header.AppendLine("using " + typeof(CookieContainer).Namespace + ";");
-            header.AppendLine("using " + typeof(Directory).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using " + typeof(FileHelpers.FieldFixedLengthAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Mvc;");
-            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
-            foreach (var ns in namespaces)
-            {
-                header.AppendLinf("using {0};", ns);
-            }
-            header.AppendLine();
+   typeof(Entity).Namespace ,
+   typeof(int).Namespace ,
+   typeof(Task<>).Namespace ,
+   typeof(Enumerable).Namespace ,
+   typeof(IEnumerable<>).Namespace,
+   typeof(Encoding).Namespace ,
+   typeof(CookieContainer).Namespace ,
+   typeof(Directory).Namespace ,
+   typeof(XmlAttributeAttribute).Namespace,
+   typeof(FileHelpers.FieldFixedLengthAttribute).Namespace,
+   "System.Web.Mvc",
+   "Bespoke.Sph.Web.Helpers"
 
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
+        };
 
-        }
-
-        protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
+        protected override Task<IEnumerable<Class>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
-            var sources = new Dictionary<string, string>();
+            var code = new Class { Name = Name, Namespace = CodeNamespace, BaseClass = nameof(IDisposable) };
+            code.ImportCollection.AddRange(ImportDirectives);
+            var sources = new ObjectCollection<Class> { code };
 
-            var header = this.GetCodeHeader(namespaces);
-            var code = new StringBuilder(header);
+            code.AddProperty("       public string Directory {get; set;}");
+            code.AddProperty("       public string Filter {get; set;}");
+            code.AddProperty("       private FileSystemWatcher m_watcher;");
 
-            code.AppendLine("   public class " + this.Name + " : IDisposable");
-            code.AppendLine("   {");
+            var start = new Method { Name = "Start", AccessModifier = Modifier.Public };
+            start.AppendLine("       public void Start()");
+            start.AppendLine("       {");
+            start.AppendLine("           if(null != m_watcher) m_watcher.Dispose();");
+            start.AppendLine("           m_watcher = new FileSystemWatcher(this.Directory, this.Filter) {EnableRaisingEvents = true};");
+            start.AppendLine("           m_watcher.Created += (e, a) => { };");
+            start.AppendLine("       }");
+            code.MethodCollection.Add(start);
 
-            code.AppendLine("       public string Directory {get; set;}");
-            code.AppendLine("       public string Filter {get; set;}");
-            code.AppendLine("       private FileSystemWatcher m_watcher;");
-            code.AppendLine("       public void Start()");
-            code.AppendLine("       {");
-            code.AppendLine("           if(null != m_watcher) m_watcher.Dispose();");
-            code.AppendLine("           m_watcher = new FileSystemWatcher(this.Directory, this.Filter) {EnableRaisingEvents = true};");
-            code.AppendLine("           m_watcher.Created += (e, a) => { };");
-            code.AppendLine("       }");
-
-            var watcher = new FileSystemWatcher("c:\\temp", "*.csv") {EnableRaisingEvents = true};
+            var watcher = new FileSystemWatcher("c:\\temp", "*.csv") { EnableRaisingEvents = true };
             watcher.Created += (e, a) => { };
 
-            code.AppendLine(AddDisposeCode());
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-            sources.Add(this.Name + ".cs", code.ToString());
+            code.AddMethod(AddDisposeCode());
 
-            return Task.FromResult(sources);
+            return Task.FromResult(sources.AsEnumerable());
         }
 
         private string AddDisposeCode()
@@ -81,7 +68,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var code = new StringBuilder();
             code.AppendLinf("       public {0}()", this.Name);
             code.AppendLine("       {");
-            
+
 
             code.AppendLine("       }");
             code.AppendLine("       public void Dispose()");
@@ -92,31 +79,17 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
+      
 
 
-        private static void AddSources(Dictionary<string, string> classes, Dictionary<string, string> sources)
+        protected override Task<Class> GenerateOdataTranslatorSourceCodeAsync()
         {
-            foreach (var cs in classes.Keys)
-            {
-                if (!sources.ContainsKey(cs))
-                {
-                    sources.Add(cs, classes[cs]);
-                    continue;
-                }
-                if (sources[cs] != classes[cs])
-                    throw new InvalidOperationException("You are generating 2 different sources for " + cs);
-            }
+            return Task.FromResult(default(Class));
         }
 
-
-        protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
+        protected override Task<Class> GeneratePagingSourceCodeAsync()
         {
-            return Task.FromResult(default(Tuple<string, string>));
-        }
-
-        protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
-        {
-            return Task.FromResult(default(Tuple<string, string>));
+            return Task.FromResult(default(Class));
         }
 
         protected override Task<TableDefinition> GetSchemaDefinitionAsync(string table)

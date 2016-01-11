@@ -52,7 +52,7 @@ namespace domain.test
             result.Errors.ForEach(Console.WriteLine);
             DeployCustomEntity(ed);
 
-            var dll = string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, ed.Name);
+            var dll = $"{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
             var assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + @"\" + dll);
             var type = assembly.GetType("Bespoke.DevV1_" + ed.Id + ".Domain." + ed.Name);
             return type;

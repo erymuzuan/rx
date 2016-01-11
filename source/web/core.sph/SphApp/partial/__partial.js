@@ -465,14 +465,113 @@ bespoke.sph.domain.EntityChartPartial = function (model) {
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../objectbuilders.js" />
-/// <reference path="/Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="/Scripts/jquery-2.1.3.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
+bespoke.sph.domain.ValueObjectDefinitionPartial = function () {
+    var system = require("durandal/system"),
+        app = require("durandal/app"),
+        context = require(objectbuilders.datacontext),
+        addMember = function () {
+            this.MemberCollection.push(new bespoke.sph.domain.Member({
+                WebId: system.guid(),
+                Boost: 1
+            }));
+        },
+        removeMember = function (floor) {
+            var self = this;
+            return function () {
+                self.MemberCollection.remove(floor);
+            };
+        },
+        editMember = function (member) {
+            var self = this;
+            return function () {
+                require(["viewmodels/member.dialog", "durandal/app"], function (dialog, app) {
+                    var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
+                    dialog.member(clone);
+                    app.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                self.BlockCollection.replace(member, clone);
+                            }
+                        });
+                });
+            };
+        },
+        addBusinessRule = function () {
+            var br = new bespoke.sph.domain.BusinessRule({ WebId: system.guid() });
+            var self = this;
+
+            require(["viewmodels/business.rule.dialog", "durandal/app"], function (dialog, app) {
+                dialog.rule(br);
+                app.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.BusinessRuleCollection.push(br);
+                        }
+                    });
+            });
+
+        },
+        editBusinessRule = function (rule) {
+            var self = this;
+            return function () {
+                require(["viewmodels/business.rule.dialog", "durandal/app"], function (dialog, app) {
+                    var clone = context.toObservable(ko.mapping.toJS(rule));
+                    dialog.rule(clone);
+                    app.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result == "OK") {
+                                self.BusinessRuleCollection.replace(rule, clone);
+                            }
+                        });
+                });
+            };
+        },
+        removeBusinessRule = function (rule) {
+            var self = this;
+            return function () {
+                self.BusinessRuleCollection.remove(rule);
+            };
+        },
+        editMemberMap = function (member) {
+            var building = this;
+            return function () {
+                console.log("show map ", building);
+                console.log(" on member ", member);
+                require(["viewmodels/member.map", "durandal/app"], function (dialog, app) {
+                    dialog.init(building.BuildingId(), member.MemberPlanStoreId());
+                    app.showDialog(dialog)
+                        .done(function (result) {
+                            if (result == "OK") {
+                                member.MemberPlanStoreId(dialog.spatialStoreId());
+                            }
+                        });
+
+                });
+
+            };
+        };
+    return {
+        addMember: addMember,
+        editMember: editMember,
+        removeMember: removeMember,
+        addBusinessRule: addBusinessRule,
+        editBusinessRule: editBusinessRule,
+        removeBusinessRule: removeBusinessRule,
+        editMemberMap: editMemberMap
+    };
+};
+
 bespoke.sph.domain.EntityDefinitionPartial = function () {
-    var system = require('durandal/system'),
-        app = require('durandal/app'),
+    var system = require("durandal/system"),
+        app = require("durandal/app"),
         context = require(objectbuilders.datacontext),
         addMember = function () {
             this.MemberCollection.push(new bespoke.sph.domain.Member({
@@ -516,13 +615,13 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
         editMember = function (member) {
             var self = this;
             return function () {
-                require(['viewmodels/member.dialog', 'durandal/app'], function (dialog, app) {
+                require(["viewmodels/member.dialog", "durandal/app"], function (dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
                     dialog.member(clone);
                     app.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 self.BlockCollection.replace(member, clone);
                             }
                         });
@@ -533,12 +632,12 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
             var br = new bespoke.sph.domain.BusinessRule({ WebId: system.guid() });
             var self = this;
 
-            require(['viewmodels/business.rule.dialog', 'durandal/app'], function (dialog, app) {
+            require(["viewmodels/business.rule.dialog", "durandal/app"], function (dialog, app) {
                 dialog.rule(br);
                 app.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
-                        if (result == "OK") {
+                        if (result === "OK") {
                             self.BusinessRuleCollection.push(br);
                         }
                     });
@@ -548,7 +647,7 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
         editBusinessRule = function (rule) {
             var self = this;
             return function () {
-                require(['viewmodels/business.rule.dialog', 'durandal/app'], function (dialog, app) {
+                require(["viewmodels/business.rule.dialog", "durandal/app"], function (dialog, app) {
                     var clone = context.toObservable(ko.mapping.toJS(rule));
                     dialog.rule(clone);
                     app.showDialog(dialog)
@@ -572,7 +671,7 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
             return function () {
                 console.log("show map ", building);
                 console.log(" on member ", member);
-                require(['viewmodels/member.map', 'durandal/app'], function (dialog, app) {
+                require(["viewmodels/member.map", "durandal/app"], function (dialog, app) {
                     dialog.init(building.BuildingId(), member.MemberPlanStoreId());
                     app.showDialog(dialog)
                         .done(function (result) {
@@ -595,6 +694,72 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
         editBusinessRule: editBusinessRule,
         removeBusinessRule: removeBusinessRule,
         editMemberMap: editMemberMap
+    };
+};
+/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/moment.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
+/// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../schemas/form.designer.g.js" />
+
+bespoke.sph.domain.EntityFormPartial = function () {
+
+    var editOperationSuccessCallback = function () {
+        var self = this,
+            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
+            wdw = w.window || w,
+            init = function () {
+                wdw.code = ko.unwrap(self.OperationSuccessCallback);
+                if (!w.code) {
+                    w.code = "//insert your code here";
+                }
+                wdw.saved = function (code, close) {
+                    self.OperationSuccessCallback(code);
+                    if (close) {
+                        w.close();
+                    }
+                };
+            };
+        if (wdw.attachEvent) { // for ie
+            wdw.attachEvent("onload", init);
+        } else {
+            init();
+        }
+    },
+    editOperationFailureCallback = function () {
+        var self = this,
+            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
+            wdw = w.window || w,
+            init = function () {
+                wdw.code = ko.unwrap(self.OperationFailureCallback);
+                if (!w.code) {
+                    w.code = "//insert your code here";
+                }
+                wdw.saved = function (code, close) {
+                    self.OperationFailureCallback(code);
+                    if (close) {
+                        w.close();
+                    }
+                };
+            };
+        if (wdw.attachEvent) { // for ie
+            wdw.attachEvent("onload", init);
+        } else {
+            init();
+        }
+    },
+        canSetSuccessCallback = ko.computed(function () {
+
+        });
+    return {
+        editOperationSuccessCallback: editOperationSuccessCallback,
+        editOperationFailureCallback: editOperationFailureCallback,
+        canSetSuccessCallback: canSetSuccessCallback
     };
 };
 /// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
@@ -684,7 +849,7 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
 
 bespoke.sph.domain.EntityOperationPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         removeChildAction = function (child) {
             var self = this;
             return function() {
@@ -695,9 +860,21 @@ bespoke.sph.domain.EntityOperationPartial = function () {
             var child = new bespoke.sph.domain.SetterActionChild(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.SetterActionChildCollection.push(child);
+        },
+        removePatchPath = function (child) {
+            var self = this;
+            return function() {
+                self.PatchPathCollection.remove(child);
+            };
+        },
+        addPatchPath = function () {
+            var child = new bespoke.sph.domain.PatchSetter({ WebId: system.guid() , IsRequired: true});
+            this.PatchPathCollection.push(child);
         };
 
     var vm = {
+        removePatchPath: removePatchPath,
+        addPatchPath: addPatchPath,
         addChildAction: addChildAction,
         removeChildAction: removeChildAction
 

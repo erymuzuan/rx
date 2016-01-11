@@ -409,7 +409,6 @@ ko.bindingHandlers.comboBoxLookupOptions = {
 };
 
 
-
 ko.bindingHandlers.tree = {
     init: function (element, valueAccessor) {
         var system = require(objectbuilders.system),
@@ -426,10 +425,12 @@ ko.bindingHandlers.tree = {
             },
             recurseChildMember = function (node) {
                 node.children = _(node.data.MemberCollection()).map(function (v) {
+
+                    var type = ko.unwrap(v.TypeName) || ko.unwrap(v.$type);
                     return {
                         text: v.Name(),
                         state: "open",
-                        type: v.TypeName(),
+                        type: type,
                         data: v
                     };
                 });
@@ -438,9 +439,9 @@ ko.bindingHandlers.tree = {
             loadJsTree = function () {
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
                     return {
-                        text: v.Name(),
+                        text: ko.unwrap(v.Name),
                         state: "open",
-                        type: v.TypeName(),
+                        type: ko.unwrap(v.TypeName) || ko.unwrap(v.$type),
                         data: v
                     };
                 });
@@ -449,17 +450,25 @@ ko.bindingHandlers.tree = {
                     .on("select_node.jstree", function (node, selected) {
                         if (selected.node.data) {
                             member(selected.node.data);
-
+                            if (!ko.unwrap(member)) {
+                                return;
+                            }
+                            if (typeof member().Name !== "function") {
+                                return;
+                            }
                             // subscribe to Name change
                             member().Name.subscribe(function (name) {
                                 $(element).jstree(true)
                                     .rename_node(selected.node, name);
                             });
                             // type
-                            member().TypeName.subscribe(function (name) {
-                                $(element).jstree(true)
-                                    .set_type(selected.node, name);
-                            });
+                            if (typeof member().TypeName === "function") {
+                                member().TypeName.subscribe(function (name) {
+                                    $(element).jstree(true)
+                                        .set_type(selected.node, name);
+                                });
+
+                            }
                         }
                     })
                     .on("create_node.jstree", function (event, node) {
@@ -477,11 +486,12 @@ ko.bindingHandlers.tree = {
                             'data': jsTreeData
                         },
                         "contextmenu": {
-                            "items": [
-                                {
-                                    label: "Add Child",
+                            "items": function ($node) {
+
+                                var simpleMenu = {
+                                    label: "Add Simple Child",
                                     action: function () {
-                                        var child = new bespoke.sph.domain.Member({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
+                                        var child = new bespoke.sph.domain.SimpleMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
                                             parent = $(element).jstree("get_selected", true),
                                             mb = parent[0].data,
                                             newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
@@ -507,7 +517,67 @@ ko.bindingHandlers.tree = {
 
                                     }
                                 },
-                                {
+                                    valueObjectMenu =
+                                    {
+                                        label: "Add Value Object Child",
+                                        action: function () {
+                                            var typeName = "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+                                                child = new bespoke.sph.domain.ValueObjectMember({ WebId: system.guid(), TypeName: typeName, Name: "Member_Name" }),
+                                                parent = $(element).jstree("get_selected", true),
+                                                mb = parent[0].data,
+                                                newNode = { state: "open", type: "Bespoke.Sph.Domain.ValueObjectMember, domain.sph", text: "Member_Name", data: child };
+
+                                            var ref = $(element).jstree(true),
+                                                sel = ref.get_selected();
+                                            if (!sel.length) {
+                                                return false;
+                                            }
+                                            sel = sel[0];
+                                            sel = ref.create_node(sel, newNode);
+                                            if (sel) {
+                                                ref.edit(sel);
+                                                if (mb && mb.MemberCollection) {
+                                                    mb.MemberCollection.push(child);
+                                                } else {
+                                                    entity.MemberCollection.push(child);
+                                                }
+                                                return true;
+                                            }
+                                            return false;
+
+
+                                        }
+                                    },
+                                  complexChildMenu = {
+                                      label: "Add Complex Child",
+                                      action: function () {
+                                          var child = new bespoke.sph.domain.ComplexMember({ WebId: system.guid(), Name: "Member_Name" }),
+                                              parent = $(element).jstree("get_selected", true),
+                                              mb = parent[0].data,
+                                              newNode = { state: "open", type: "Bespoke.Sph.Domain.ComplexMember, domain.sph", text: "Member_Name", data: child };
+
+                                          var ref = $(element).jstree(true),
+                                              sel = ref.get_selected();
+                                          if (!sel.length) {
+                                              return false;
+                                          }
+                                          sel = sel[0];
+                                          sel = ref.create_node(sel, newNode);
+                                          if (sel) {
+                                              ref.edit(sel);
+                                              if (mb && mb.MemberCollection) {
+                                                  mb.MemberCollection.push(child);
+                                              } else {
+                                                  entity.MemberCollection.push(child);
+                                              }
+                                              return true;
+                                          }
+                                          return false;
+
+
+                                      }
+                                  },
+                                removeMenu = {
                                     label: "Remove",
                                     action: function () {
                                         var ref = $(element).jstree(true),
@@ -537,8 +607,20 @@ ko.bindingHandlers.tree = {
                                         return true;
 
                                     }
+                                };
+
+                                var items = [];
+
+                                if ($node.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph") {
+                                    items.push(simpleMenu);
+                                    items.push(valueObjectMenu);
+                                    items.push(complexChildMenu);
                                 }
-                            ]
+
+                                console.log($node);
+                                items.push(removeMenu);
+                                return items;
+                            }
                         },
                         "types": {
 
@@ -562,14 +644,14 @@ ko.bindingHandlers.tree = {
                                 "icon": "glyphicon glyphicon-ok",
                                 "valid_children": []
                             },
-                            "System.Object, mscorlib": {
-                                "icon": "fa fa-building-o"
+                            "Bespoke.Sph.Domain.ValueObjectMember, domain.sph": {
+                                "icon": "fa fa-object-ungroup"
                             },
-                            "System.Array, mscorlib": {
-                                "icon": "glyphicon glyphicon-list"
+                            "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
+                                "icon": "fa fa-building-o"
                             }
                         },
-                        "plugins": ["contextmenu", "types", "search"]
+                        "plugins": ["contextmenu", "dnd", "types", "search"]
                     });
             };
         loadJsTree();

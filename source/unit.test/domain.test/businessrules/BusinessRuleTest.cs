@@ -263,31 +263,31 @@ namespace domain.test.businessrules
         public EntityDefinition CreatePatientDefinition()
         {
             var ent = new EntityDefinition { Name = "Patient", Plural = "Patients", RecordName = "FullName", Id = "patient" };
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "FullName",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Gender",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
-            var address = new Member { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 

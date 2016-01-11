@@ -13,6 +13,23 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class ParameterDefinition
     {
+        private readonly string[] m_importDirectives =
+        {
+            typeof(Entity).Namespace ,
+            typeof(Int32).Namespace ,
+            typeof(Task<>).Namespace ,
+            typeof(Enumerable).Namespace ,
+            typeof(JsonConvert).Namespace ,
+            typeof(CamelCasePropertyNamesContractResolver).Namespace,
+            typeof(StringEnumConverter).Namespace,
+            typeof(XmlAttributeAttribute).Namespace ,
+            typeof(MediaTypeFormatter).Namespace ,
+            "System.Web.Http",
+            "System.Net",
+            "System.Net.Http"
+        };
+
+
         private string GetCodeHeader()
         {
 
@@ -61,10 +78,15 @@ namespace Bespoke.Sph.Domain.Api
             var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.ToString() } };
 
             // classes for members
-            foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
+            foreach (var member in this.MemberCollection)
             {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                sourceCodes.Add(member.Name + ".cs", mc);
+                var classes = member.GeneratedCustomClass(this.CodeNamespace, m_importDirectives);
+                foreach (var @class in classes)
+                {
+                    if (!sourceCodes.ContainsKey(@class.FileName))
+                        sourceCodes.Add(@class.FileName, @class.GetCode());
+
+                }
             }
 
 

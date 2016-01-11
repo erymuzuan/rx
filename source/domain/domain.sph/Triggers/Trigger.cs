@@ -88,6 +88,8 @@ namespace Bespoke.Sph.Domain
         {
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == this.Entity);
+            if(null == ed)
+                throw new FileNotFoundException($"Cannot load {this.Entity}.json file from {ConfigurationManager.SphSourceDirectory}\\EntityDefinition");
 
 
             var routingKeys = new List<string>();

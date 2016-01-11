@@ -29,6 +29,7 @@ namespace Bespoke.Sph.Web.Api
                 case "workflowdefinition": return GetSystemObjectScalar<WorkflowDefinition>(column, filter);
                 case "designation": return GetSystemObjectScalar<Designation>(column, filter);
                 case "entitydefinition": return GetSystemObjectScalar<EntityDefinition>(column, filter);
+                case "valueobjectdefinition": return GetSystemObjectScalar<ValueObjectDefinition>(column, filter);
                 case "transformdefinition": return GetSystemObjectScalar<TransformDefinition>(column, filter);
                 case "entityview": return GetSystemObjectScalar<EntityView>(column, filter);
                 case "entityform": return GetSystemObjectScalar<EntityForm>(column, filter);

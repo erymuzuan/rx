@@ -8,6 +8,21 @@ namespace Bespoke.Sph.Integrations.Adapters
     public class FlatFileMember : Member
     {
         public FieldConverterAttribute FieldConverter { get; set; }
+        public Type Type { get; set; }
+        public bool IsNullable { get; set; }
+
+        protected string GetCsharpType()
+        {
+            return this.Type.ToCSharp();
+        }
+        protected string GetNullable()
+        {
+            if (!this.IsNullable) return string.Empty;
+            if (typeof(string) == this.Type) return string.Empty;
+            if (typeof(object) == this.Type) return string.Empty;
+            if (typeof(Array) == this.Type) return string.Empty;
+            return "?";
+        }
         public override string GeneratedCode(string padding = "      ")
         {
             if (null == this.Type)

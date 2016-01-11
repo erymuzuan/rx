@@ -15,6 +15,8 @@ namespace domain.test.triggers
     public class CompilerTest
     {
         private MockRepository<EntityDefinition> m_efMock;
+        public const string ENTITY_DEFINITION_ID = "account123";
+        public static readonly string JsonFileName = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\account123.json";
 
         [SetUp]
         public void Init()
@@ -22,6 +24,13 @@ namespace domain.test.triggers
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (File.Exists(JsonFileName))
+                File.Delete(JsonFileName);
         }
 
         [Test]
@@ -70,7 +79,7 @@ namespace domain.test.triggers
 
             var codes = ed.GenerateCode();
             var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources); 
+            var result = ed.Compile(options, sources);
             result.Errors.ForEach(Console.WriteLine);
 
             // try to instantiate the EntityDefinition
@@ -91,28 +100,31 @@ namespace domain.test.triggers
                 Name = "Account",
                 Plural = "Accounts",
                 RecordName = "AccountNo",
-                Id = "72"
+                Id = "account123"
             };
-            ent.MemberCollection.Add(new Member
+            ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "AccountNo",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
-            }); ent.MemberCollection.Add(new Member
+            }); ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
-            var address = new Member { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
+
+
+            File.WriteAllText(JsonFileName, ent.ToJsonString(true));
 
             return ent;
 

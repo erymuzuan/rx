@@ -13,7 +13,7 @@
 
 bespoke.sph.domain.EntityOperationPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         removeChildAction = function (child) {
             var self = this;
             return function() {
@@ -24,9 +24,21 @@ bespoke.sph.domain.EntityOperationPartial = function () {
             var child = new bespoke.sph.domain.SetterActionChild(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.SetterActionChildCollection.push(child);
+        },
+        removePatchPath = function (child) {
+            var self = this;
+            return function() {
+                self.PatchPathCollection.remove(child);
+            };
+        },
+        addPatchPath = function () {
+            var child = new bespoke.sph.domain.PatchSetter({ WebId: system.guid() , IsRequired: true});
+            this.PatchPathCollection.push(child);
         };
 
     var vm = {
+        removePatchPath: removePatchPath,
+        addPatchPath: addPatchPath,
         addChildAction: addChildAction,
         removeChildAction: removeChildAction
 

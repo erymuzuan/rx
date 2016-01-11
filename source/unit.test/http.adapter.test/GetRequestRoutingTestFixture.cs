@@ -1,15 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
-using Humanizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace http.adapter.test
@@ -69,13 +65,13 @@ namespace http.adapter.test
             articleOp.RequestRouting = "/web-api/overview/{category}/{title}";
             articleOp.Name = "Web_Api_Article";
             articleOp.MethodName = "Web_Api_Article";
-            articleOp.RequestMemberCollection.Add(new Member{Name = "title", Type = typeof(string)});
-            articleOp.RequestMemberCollection.Add(new Member { Name = "category", Type = typeof(string) });
+            articleOp.RequestMemberCollection.Add(new SimpleMember{Name = "title", Type = typeof(string)});
+            articleOp.RequestMemberCollection.Add(new SimpleMember { Name = "category", Type = typeof(string) });
 
 
             var dll = Assembly.LoadFile(await this.CompileAsync());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.GetWebApiArticleRequest", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType($"Dev.Adapters.{Adapter.Schema}.{Adapter.Name}.GetWebApiArticleRequest");
             dynamic aspnet = Activator.CreateInstance(type);
             dynamic request = Activator.CreateInstance(requestType);
             request.category = "working-with-http";

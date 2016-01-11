@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -20,30 +19,7 @@ namespace subscriber.entities
 
         public override string QueueName => "ed_es_mapping_gen";
         public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
-
-        public string GetMapping(EntityDefinition item)
-        {
-            var map = new StringBuilder();
-            map.AppendLine("{");
-            map.AppendLinf("    \"{0}\":{{", item.Name.ToLowerInvariant());
-            map.AppendLine("        \"properties\":{");
-            // add entity default properties
-            map.AppendLine("            \"CreatedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
-            map.AppendLine("            \"ChangedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
-            map.AppendLine("            \"WebId\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
-            map.AppendLine("            \"CreatedDate\": {\"type\": \"date\"},");
-            map.AppendLine("            \"ChangedDate\": {\"type\": \"date\"},");
-
-            var memberMappings = string.Join(",\r\n", item.MemberCollection.Select(d => d.GetMemberMappings()));
-            map.AppendLine(memberMappings);
-
-            map.AppendLine("        }");
-            map.AppendLine("    }");
-            map.AppendLine("}");
-            return map.ToString();
-        }
-
-
+        
         protected override void OnStart()
         {
             var wc = ConfigurationManager.SphSourceDirectory;
@@ -143,10 +119,10 @@ namespace subscriber.entities
 
 
         }
-        protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             // compare
-            var map = this.GetMapping(item);
+            var map = item.GetElasticsearchMapping();
             if (this.Compare(item, map)) return;
 
             this.WriteMessage("There are differences from the existing ElasticSearch mapping");
@@ -165,7 +141,7 @@ namespace subscriber.entities
             var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
             var url = $"{index}/_mapping/{type}";
 
-            var map = this.GetMapping(item);
+            var map = item.GetElasticsearchMapping();
             var content = new StringContent(map);
 
             using (var client = new HttpClient())
@@ -213,10 +189,7 @@ namespace subscriber.entities
             return ReadAllText(file) == map;
 
         }
-
-
-
-
+        
         private void SaveMap(EntityDefinition item, string map)
         {
             var wc = ConfigurationManager.SphSourceDirectory;

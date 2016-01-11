@@ -44,7 +44,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         var operations = (b.EntityOperationCollection()).map(function (v) {
                             return v.Name();
                         });
-                        operations.push("save");
                         operationsOption(operations);
 
                         var collectionMembers = [],

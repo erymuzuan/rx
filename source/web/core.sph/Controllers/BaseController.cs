@@ -5,7 +5,6 @@ namespace Bespoke.Sph.Web.Controllers
 {
     public class BaseController : Controller
     {
-
         static BaseController()
         {
             DeveloperService.Init();

@@ -292,14 +292,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 try
                 {
-                    var iisConfig = @".\config\applicationhost.config".TranslatePath();
+                    var iisConfig = $@"{this.Settings.Home}\config\applicationhost.config".TranslatePath();
                     if (!File.Exists(iisConfig))
                     {
-                        Console.WriteLine(Resources.CannotFind + iisConfig);
+                        Log(Resources.CannotFind + iisConfig);
                         return;
 
                     }
-                    if (!File.Exists(this.Settings.IisExpressExecutable.TranslatePath()))
+                    if (!File.Exists(this.Settings.IisExpressExecutable))
                     {
                         Console.WriteLine(Resources.CannotFind + this.Settings.IisExpressExecutable);
                         return;
@@ -317,6 +317,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                         RedirectStandardError = true,
                         WindowStyle = ProcessWindowStyle.Hidden
                     };
+                    Log($"Looking for IIS express in {info.FileName}");
+                    Log($"Starting IIS express with : {arg}");
+                    if(!File.Exists(info.FileName))
+                        throw new FileNotFoundException("Cannot find IIS express ", info.FileName);
                     m_iisServiceProcess = Process.Start(info);
                     if (null == m_iisServiceProcess) throw new InvalidOperationException("Cannot start IIS");
 
@@ -325,9 +329,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     m_iisServiceProcess.OutputDataReceived += OnIisDataReceived;
                     m_iisServiceProcess.ErrorDataReceived += OnIisErrorReceived;
                     m_iisServiceProcess.Exited += (o, e) => { StopIisService(); };
-
-
-
 
                 }
                 catch (Exception ex)
@@ -604,7 +605,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             {
                 FileName = this.Settings.JavaHome + @"\bin\java.exe",
                 Arguments = arg,
-                WorkingDirectory = this.Settings.ProjectDirectory,
+                WorkingDirectory = this.Settings.Home,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true,
@@ -737,7 +738,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             this.IsBusy = true;
             Log("SPH Worker...[STARTING]");
-            var f = string.Join(@"\", this.Settings.ProjectDirectory, "subscribers.host", "workers.console.runner.exe");
+            var f = string.Join(@"\", this.Settings.Home, "subscribers.host", "workers.console.runner.exe");
 
             try
             {

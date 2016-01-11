@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return File(thumbnail, MimeMapping.GetMimeMapping(thumbnail));
         }
 
-
+        [OutputCache(CacheProfile = "Long")]
         public ActionResult Index(string id)
         {
             if (string.IsNullOrWhiteSpace(id))

@@ -89,4 +89,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)*.dll $(SolutionDir)bin\subscribers
+copy $(TargetDir)*.pdb $(SolutionDir)bin\subscribers</PostBuildEvent>
+  </PropertyGroup>
 </Project>

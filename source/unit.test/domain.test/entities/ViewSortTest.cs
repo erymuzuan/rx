@@ -11,8 +11,8 @@ namespace domain.test.entities
         public void SimpleSort()
         {
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
-            ed.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
-            ed.MemberCollection.Add(new Member { Name = "Floors", Type = typeof(int) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Floors", Type = typeof(int) });
 
 
             var view = new EntityView { Name = "All buildings", Route = "all-buildings" };
@@ -28,10 +28,10 @@ namespace domain.test.entities
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
-            ed.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
-            ed.MemberCollection.Add(new Member { Name = "Floors", Type = typeof(int) });
-            ed.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int) });
-            ed.MemberCollection.Add(new Member { Name = "CreatedBy", Type = typeof(string) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Floors", Type = typeof(int) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Age", Type = typeof(int) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "CreatedBy", Type = typeof(string) });
 
 
             var view = new EntityView { Name = "All buildings", Route = "all-buildings" };
@@ -50,10 +50,10 @@ namespace domain.test.entities
         public void UsingNotFilters()
         {
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
-            ed.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
-            ed.MemberCollection.Add(new Member { Name = "Floors", Type = typeof(int) });
-            ed.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int) });
-            ed.MemberCollection.Add(new Member { Name = "Created", Type = typeof(DateTime) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Floors", Type = typeof(int) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Age", Type = typeof(int) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Created", Type = typeof(DateTime) });
 
 
             var view = new EntityView { Name = "All buildings", Route = "all-buildings" };
@@ -73,9 +73,9 @@ namespace domain.test.entities
         public void UsingAndFilters()
         {
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
-            ed.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
-            ed.MemberCollection.Add(new Member { Name = "Floors", Type = typeof(int) });
-            ed.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Floors", Type = typeof(int) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Age", Type = typeof(int) });
 
 
             var view = new EntityView { Name = "All buildings", Route = "all-buildings" };
@@ -94,9 +94,9 @@ namespace domain.test.entities
         public void UsingDateBinaryFilter()
         {
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
-            ed.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
-            ed.MemberCollection.Add(new Member { Name = "BuiltDate", Type = typeof(DateTime) });
-            ed.MemberCollection.Add(new Member { Name = "Floors", Type = typeof(int) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "BuiltDate", Type = typeof(DateTime) });
+            ed.MemberCollection.Add(new SimpleMember { Name = "Floors", Type = typeof(int) });
 
 
             var view = new EntityView { Name = "Built before 2000", Route = "built-buildings-before-2000" };

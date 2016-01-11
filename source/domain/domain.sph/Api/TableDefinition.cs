@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -21,93 +20,71 @@ namespace Bespoke.Sph.Domain.Api
         public TableDefinition(AdapterTable table)
         {
             this.Name = table.Name;
-            this.ChildTableCollection.ClearAndAddRange(from a in table.ChildRelationCollection
-                                                       select new TableDefinition
-                                                       {
-                                                           Name = a.Table,
-                                                           CodeNamespace = this.CodeNamespace,
-                                                           Schema = this.Schema
-                                                       });
+            var tables = from a in table.ChildRelationCollection
+                         select new TableDefinition
+                         {
+                             Name = a.Table,
+                             CodeNamespace = this.CodeNamespace,
+                             Schema = this.Schema
+                         };
+            this.ChildTableCollection.ClearAndAddRange(tables);
 
         }
 
-        private string GetCodeHeader()
+        private static readonly string[] ImportDirectives =
         {
 
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(int).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(JsonConvert).Namespace + ";");
-            header.AppendLine("using " + typeof(CamelCasePropertyNamesContractResolver).Namespace + ";");
-            header.AppendLine("using " + typeof(StringEnumConverter).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using " + typeof(MediaTypeFormatter).Namespace + ";");
-            header.AppendLine("using System.Web.Http;");
-            header.AppendLine("using System.Net;");
-            header.AppendLine("using System.Net.Http;");
-            header.AppendLine();
+            typeof(Entity).Namespace ,
+            typeof(int).Namespace ,
+            typeof(Task<>).Namespace ,
+            typeof(Enumerable).Namespace ,
+            typeof(JsonConvert).Namespace ,
+            typeof(CamelCasePropertyNamesContractResolver).Namespace ,
+            typeof(StringEnumConverter).Namespace ,
+            typeof(XmlAttributeAttribute).Namespace ,
+            typeof(MediaTypeFormatter).Namespace,
+            "System.Web.Http",
+            "System.Net",
+            "System.Net.Http"
+};
 
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
 
-        }
 
-        public Dictionary<string, string> GenerateCode(Adapter adapter)
+        public IEnumerable<Class> GenerateCode(Adapter adapter)
         {
-            var header = this.GetCodeHeader();
-            var code = new StringBuilder(header);
+            var @adapteClass = new Class { Name = Name, BaseClass = nameof(DomainObject), Namespace = this.CodeNamespace };
+
+            var list = new ObjectCollection<Class> { @adapteClass };
 
             if (!string.IsNullOrWhiteSpace(ClassAttribute))
-                code.AppendLine("   " + ClassAttribute);
-
-            code.AppendLine("   public class " + this.Name + " : DomainObject");
-            code.AppendLine("   {");
+                @adapteClass.AttributeCollection.Add(ClassAttribute);
+            
 
             var pk = "\"\"";
             if (null != this.PrimaryKey)
                 pk = this.PrimaryKey.Name;
-
-            code.AppendFormat(@"     
-        public override string ToString()
-        {{
-            return ""{0}:"" + {1};
-        }}", this.Name, pk);
+            var toString = $"public override string ToString(){{ return \"{Name}:\" + {pk};}}";
+            @adapteClass.MethodCollection.Add(new Method {Code = toString});
 
 
-            // properties for each members
-            foreach (var member in this.MemberCollection)
-            {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
-            }
+            var properties = this.MemberCollection.Select(x => new Property {Code = x.GeneratedCode("   ")});
+            @adapteClass.PropertyCollection.AddRange(properties);
 
-
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-
-            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.ToString() } };
-
-            // classes for members
-            foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                sourceCodes.Add(member.Name + ".cs", mc);
-            }
+            var otherClasses = this.MemberCollection.Select(
+                x => x.GeneratedCustomClass(this.CodeNamespace, ImportDirectives))
+                .SelectMany(x => x.ToArray());
+            list.AddRange(otherClasses);
 
             var controller = this.GenerateController(adapter);
-            sourceCodes.Add(this.Name + "Controller.cs", controller);
+            list.Add(controller);
 
 
-            return sourceCodes;
+            return list;
         }
 
         public string Name { get; set; }
         public string CodeNamespace { get; set; }
         public string ClassAttribute { get; set; }
-
         public string WebId { get; set; }
     }
 }

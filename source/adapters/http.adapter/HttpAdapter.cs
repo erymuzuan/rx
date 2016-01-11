@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -19,76 +20,64 @@ namespace Bespoke.Sph.Integrations.Adapters
     [DesignerMetadata(Name = "HTTP adapter", FontAwesomeIcon = "html5", Route = "adapter.http/0", RouteTableProvider = typeof(HttpAdapterRouteTableProvider))]
     public partial class HttpAdapter : Adapter
     {
-        private string GetCodeHeader(params string[] namespaces)
+        public static readonly string[] ImportDirectives =
         {
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
-            header.AppendLine("using " + typeof(HttpClient).Namespace + ";");
-            header.AppendLine("using " + typeof(Encoding).Namespace + ";");
-            header.AppendLine("using " + typeof(CookieContainer).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Mvc;");
-            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
-            foreach (var ns in namespaces)
-            {
-                header.AppendLinf("using {0};", ns);
-            }
-            header.AppendLine();
+    typeof(Entity).Namespace,
+    typeof(Int32).Namespace ,
+    typeof(Task<>).Namespace ,
+    typeof(Enumerable).Namespace ,
+    typeof(IEnumerable<>).Namespace,
+    typeof(HttpClient).Namespace ,
+    typeof(Encoding).Namespace ,
+    typeof(CookieContainer).Namespace,
+    typeof(XmlAttributeAttribute).Namespace ,
+    "System.Web.Mvc",
+    "Bespoke.Sph.Web.Helpers"
 
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
+        };
 
-        }
-
-        protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
+        protected override Task<IEnumerable<Class>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             options.AddReference(typeof(HttpClient));
-            var sources = new Dictionary<string, string>();
 
-            var header = this.GetCodeHeader(namespaces);
-            var code = new StringBuilder(header);
+            var code = new Class { Name = Name, BaseClass = nameof(IDisposable), Namespace = CodeNamespace };
+            code.ImportCollection.AddRange(namespaces);
+            code.ImportCollection.AddRange(ImportDirectives);
+            var sources = new ObjectCollection<Class> { code };
 
-            code.AppendLine("   public class " + this.Name + " : IDisposable");
-            code.AppendLine("   {");
-            code.AppendLine("       public bool IsAuthenticated {get;set;}");
-            code.AppendLine("       private HttpClient m_client;");
-            code.AppendLine("       private CookieContainer m_cookieContainer = new CookieContainer();");
-            code.AppendLinf("       const string BASE_ADDRESS = \"{0}\";", this.BaseAddress);
+            code.AddProperty("       public bool IsAuthenticated {get;set;}");
+            code.AddProperty("       private HttpClient m_client;");
+            code.AddProperty("       private CookieContainer m_cookieContainer = new CookieContainer();");
+            code.AddProperty("       const string BASE_ADDRESS = \"{0}\";", this.BaseAddress);
 
-            AddLoginSource(code);
+            var login = AddLoginSource();
+            if (null != login)
+                code.PropertyCollection.Add(login);
 
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
                 op.CodeNamespace = this.CodeNamespace;
-                var methodName = string.Format("{0}_{1}_", op.HttpMethod, op.Name);
+                var methodName = $"{op.HttpMethod}_{op.Name}_";
 
                 if (addedActions.Contains(methodName)) continue;
                 addedActions.Add(methodName);
 
                 //
-                code.AppendLine(op.GenerateActionCode(this, methodName));
+                code.AddMethod(op.GenerateActionCode(this, methodName));
 
                 var requestSources = op.GenerateRequestCode();
-                AddSources(requestSources, sources);
+                sources.AddRange(requestSources);
 
                 var responseSources = op.GenerateResponseCode();
-                AddSources(responseSources, sources);
+                sources.AddRange(responseSources);
             }
-            code.AppendLine(AddDisposeCode());
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-            sources.Add(this.Name + ".cs", code.ToString());
-
-            return Task.FromResult(sources);
+            code.CtorCollection.Add(GenerateCtorCode());
+            code.MethodCollection.Add(GenerateDisposableMethod());
+            return Task.FromResult(sources.AsEnumerable());
         }
 
-        private string AddDisposeCode()
+        private string GenerateCtorCode()
         {
 
             var code = new StringBuilder();
@@ -102,19 +91,27 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           m_client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)};");
 
             if (this.Timeout.HasValue)
-                code.AppendLinf("           m_client.Timeout = TimeSpan.From{0}({1});", this.TimeoutInterval, this.Timeout);
+                code.AppendLine($"           m_client.Timeout = TimeSpan.From{TimeoutInterval}({Timeout});");
 
             code.AppendLine("       }");
+
+
+            return code.ToString();
+        }
+
+        private Method GenerateDisposableMethod()
+        {
+            var code = new StringBuilder();
             code.AppendLine("       public void Dispose()");
             code.AppendLine("       {");
             code.AppendLine("           m_client.Dispose();");
 
             code.AppendLine("       }");
 
-            return code.ToString();
+            return new Method { Code = code.ToString() };
         }
 
-        private void AddLoginSource(StringBuilder code)
+        private Property AddLoginSource()
         {
             if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired) &&
                 this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Count(o => o.IsLoginOperation) != 1)
@@ -124,34 +121,23 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired))
             {
                 var login = this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
-                code.AppendLinf("       public {0}Request LoginCredential {{get;set;}}",
-                    (login.HttpMethod + "_" + login.Name).ToCsharpIdentitfier());
+                var name = (login.HttpMethod + "_" + login.Name).ToCsharpIdentitfier();
+                var code = $"       public {name}Request LoginCredential {{get;set;}}";
+
+                return new Property { Code = code };
             }
-        }
-
-        private static void AddSources(Dictionary<string, string> classes, Dictionary<string, string> sources)
-        {
-            foreach (var cs in classes.Keys)
-            {
-                if (!sources.ContainsKey(cs))
-                {
-                    sources.Add(cs, classes[cs]);
-                    continue;
-                }
-                if (sources[cs] != classes[cs])
-                    throw new InvalidOperationException("You are generating 2 different sources for " + cs);
-            }
+            return null;
         }
 
 
-        protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
+        protected override Task<Class> GenerateOdataTranslatorSourceCodeAsync()
         {
-            return Task.FromResult(default(Tuple<string, string>));
+            return Task.FromResult(default(Class));
         }
 
-        protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
+        protected override Task<Class> GeneratePagingSourceCodeAsync()
         {
-            return Task.FromResult(default(Tuple<string, string>));
+            return Task.FromResult(default(Class));
         }
 
         protected override Task<TableDefinition> GetSchemaDefinitionAsync(string table)
@@ -159,10 +145,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             throw new NotImplementedException();
         }
 
-        public override string OdataTranslator
-        {
-            get { return null; }
-        }
+        public override string OdataTranslator => null;
 
 
         public Task OpenAsync()
@@ -181,11 +164,11 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             this.OperationDefinitionCollection.AddRange(operations);
             var urls = from j in entries
-                             let url = j.SelectToken("request.url").Value<string>()
-                             let uri = new Uri(url)
-                             select uri;
+                       let url = j.SelectToken("request.url").Value<string>()
+                       let uri = new Uri(url)
+                       select uri;
             var ur = urls.First();
-            this.BaseAddress =string.Format("{0}://{1}{2}", ur.Scheme, ur.Host, ur.IsDefaultPort ? "" : ":" + ur.Port);
+            this.BaseAddress = $"{ur.Scheme}://{ur.Host}{(ur.IsDefaultPort ? "" : ":" + ur.Port)}";
             return Task.FromResult(0);
         }
     }

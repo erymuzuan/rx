@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Web;
@@ -107,9 +105,7 @@ namespace web.sph
 
         private bool FindToken(string id)
         {
-            var url = string.Format("{0}_sys/setting/{1}",
-                ConfigurationManager.ApplicationName.ToLowerInvariant(),
-                id);
+            var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sys/setting/{id}";
 
             using (var client = new HttpClient())
             {

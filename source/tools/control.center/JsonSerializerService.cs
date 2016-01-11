@@ -108,10 +108,10 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public async static Task<T> DeserializeJsonAsync<T>(this Stream stream)
+        public static async Task<T> DeserializeJsonAsync<T>(this Stream stream)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            if (null == stream) throw new ArgumentNullException("stream");
+            if (null == stream) throw new ArgumentNullException(nameof(stream));
             using (var sr = new StreamReader(stream))
             {
                 string result = await sr.ReadToEndAsync();
@@ -124,9 +124,9 @@ namespace Bespoke.Sph.Domain
         public static T DeserializeJson<T>(this Stream stream)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            if (null == stream) throw new ArgumentNullException("stream");
+            if (null == stream) throw new ArgumentNullException(nameof(stream));
 
-            if (null == stream) throw new ArgumentNullException("stream");
+            if (null == stream) throw new ArgumentNullException(nameof(stream));
             using (var sr = new StreamReader(stream))
             {
                 string result = sr.ReadToEnd();

@@ -172,6 +172,7 @@
     <Compile Include="entities\EntityDefinitionCodeTest.cs" />
     <Compile Include="entities\FieldValidationTest.cs" />
     <Compile Include="entities\OperationTest.cs" />
+    <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
     <Compile Include="entities\ViewSortTest.cs" />
     <Compile Include="razor\RazorEngineTestFixture.cs" />
     <Compile Include="reports\DataGridTestFixture.cs" />

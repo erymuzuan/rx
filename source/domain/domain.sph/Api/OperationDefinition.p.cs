@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -13,25 +14,15 @@ namespace Bespoke.Sph.Domain.Api
         public ParameterDirection ResponseDefinition { get; set; }
         public string CodeNamespace { get; set; }
 
-        private readonly ObjectCollection<Member> m_requestMemberCollection = new ObjectCollection<Member>();
+        public ObjectCollection<Member> RequestMemberCollection { get; } = new ObjectCollection<Member>();
 
-        public ObjectCollection<Member> RequestMemberCollection
-        {
-            get { return m_requestMemberCollection; }
-        }
+        public ObjectCollection<Member> ResponseMemberCollection { get; } = new ObjectCollection<Member>();
 
-        private readonly ObjectCollection<Member> m_responseMemberCollection = new ObjectCollection<Member>();
-
-        public ObjectCollection<Member> ResponseMemberCollection
-        {
-            get { return m_responseMemberCollection; }
-        }
-
-        public virtual Dictionary<string, string> GenerateRequestCode()
+        public virtual IEnumerable<Class> GenerateRequestCode()
         {
             throw new System.NotImplementedException();
         }
-        public virtual Dictionary<string, string> GenerateResponseCode()
+        public virtual IEnumerable<Class> GenerateResponseCode()
         {
             throw new System.NotImplementedException();
         }

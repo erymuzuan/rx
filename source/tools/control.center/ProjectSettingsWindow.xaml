@@ -32,7 +32,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="Application Name"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ApplicationName}" IsReadOnly="True" />
                     <Label Grid.Row="1" Grid.Column="0" Content="Project Directory"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ProjectDirectory, Mode=OneWay}" IsReadOnly="True" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Home, Mode=OneWay}" IsReadOnly="True" />
                     
                     <Label Grid.Row="3" Grid.Column="0" Content="Web console port"/>
                     <TextBox Grid.Row="3" Grid.Column="1" ToolTip="Port number used by the web console logger, the default is 50230" Text="{Binding LoggerWebSocketPort, Mode=OneWay}" IsReadOnly="True"/>

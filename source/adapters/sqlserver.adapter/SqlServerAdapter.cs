@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Integrations.Adapters.Properties;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -129,7 +130,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 }
 
                 var members = from c in columns
-                              select new Member
+                              select new SimpleMember
                               {
                                   Name = c.Name,
                                   IsNullable = c.IsNullable,
@@ -166,75 +167,52 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         }
 
 
-        private string GetCodeHeader(params string[] namespaces)
+        public static readonly string[] ImportDirectives =
         {
-
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
-            header.AppendLine("using " + typeof(StringBuilder).Namespace + ";");
-            header.AppendLine("using " + typeof(SqlConnection).Namespace + ";");
-            header.AppendLine("using " + typeof(CommandType).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Mvc;");
-            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
-            foreach (var ns in namespaces)
-            {
-                header.AppendLinf("using {0};", ns);
-            }
-            header.AppendLine();
-
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
-
-        }
+               typeof(Entity).Namespace ,
+               typeof(Int32).Namespace ,
+               typeof(Task<>).Namespace ,
+               typeof(Enumerable).Namespace ,
+               typeof(IEnumerable<>).Namespace,
+               typeof(StringBuilder).Namespace ,
+               typeof(SqlConnection).Namespace ,
+               typeof(CommandType).Namespace ,
+               typeof(XmlAttributeAttribute).Namespace,
+               "System.Web.Mvc",
+               "Bespoke.Sph.Web.Helpers"
+    };
 
 
 
-        protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
+        protected override Task<IEnumerable<Class>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
-            var sources = new Dictionary<string, string>();
-            var header = this.GetCodeHeader(namespaces);
+            var sources = new ObjectCollection<Class>();
             foreach (var at in this.Tables)
             {
                 var table = this.TableDefinitionCollection.Single(t => t.Name == at.Name);
                 options.AddReference(typeof(SqlConnection));
-                var adapterName = table + "Adapter";
 
-                var code = new StringBuilder(header);
-
-                code.AppendLine("   public class " + adapterName);
-                code.AppendLine("   {");
-
-                code.AppendLine(GenerateExecuteScalarMethod());
-                code.AppendLine(GenerateDeleteMethod(table));
-                code.AppendLine(GenerateInsertMethod(table));
-                code.AppendLine(GenerateUpdateMethod(table));
-                code.AppendLine(GenerateSelectMethod(table));
-                code.AppendLine(GenerateSelectOneMethod(table));
-                code.AppendLine(GenerateConnectionStringProperty());
+                var code = new Class { Name = $"{table}Adapter" };
+                code.ImportCollection.AddRange(ImportDirectives);
+                code.ImportCollection.AddRange(namespaces);
 
 
-                code.AppendLine("   }");// end class
-                code.AppendLine("}");// end namespace
+                code.AddMethod(GenerateExecuteScalarMethod());
+                code.AddMethod(GenerateDeleteMethod(table));
+                code.AddMethod(GenerateInsertMethod(table));
+                code.AddMethod(GenerateUpdateMethod(table));
+                code.AddMethod(GenerateSelectMethod(table));
+                code.AddMethod(GenerateSelectOneMethod(table));
+                code.AddMethod(GenerateConnectionStringProperty());
 
-
-                sources.Add(adapterName + ".cs", code.FormatCode());
+                sources.Add(code);
 
 
             }
 
-            var code2 = new StringBuilder(header);
-
-            code2.AppendLine("   public partial class " + this.Name + "");
-            code2.AppendLine("   {");
-
-            code2.AppendLine("      public string ConnectionString{set;get;}");
+            var code2 = new Class { Name = Name, Namespace = CodeNamespace };
+            code2.AddProperty("      public string ConnectionString{set;get;}");
 
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
@@ -246,38 +224,22 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 addedActions.Add(methodName);
 
                 //
-                code2.AppendLine(op.GenerateActionCode(this, methodName));
+                code2.AddMethod(op.GenerateActionCode(this, methodName));
 
                 var requestSources = op.GenerateRequestCode();
-                AddSources(requestSources, sources);
+                sources.AddRange(requestSources);
 
                 var responseSources = op.GenerateResponseCode();
-                AddSources(responseSources, sources);
+                sources.AddRange(responseSources);
             }
 
 
 
-            code2.AppendLine("   }");// end class
-            code2.AppendLine("}");// end namespace
-            sources.Add(this.Name + ".sproc.cs", code2.FormatCode());
 
-            return Task.FromResult(sources);
+            return Task.FromResult(sources.AsEnumerable());
         }
 
 
-        private static void AddSources(Dictionary<string, string> classes, Dictionary<string, string> sources)
-        {
-            foreach (var cs in classes.Keys)
-            {
-                if (!sources.ContainsKey(cs))
-                {
-                    sources.Add(cs, classes[cs]);
-                    continue;
-                }
-                if (sources[cs] != classes[cs])
-                    throw new InvalidOperationException("You are generating 2 different sources for " + cs);
-            }
-        }
 
 
         private string GenerateExecuteScalarMethod()
@@ -303,7 +265,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         }
 
-        protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
+        protected override Task<Class> GenerateOdataTranslatorSourceCodeAsync()
         {
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OdataSqlTranslator.cs";
@@ -315,12 +277,12 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
-                var source = new Tuple<string, string>("OdataSqlTranslator.cs", code);
+                var source = new Class(code) { FileName = "OdataSqlTranslator.cs" };
                 return Task.FromResult(source);
 
             }
         }
-        protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
+        protected override Task<Class> GeneratePagingSourceCodeAsync()
         {
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.Sql2012PagingTranslator.cs";
@@ -332,7 +294,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
-                var source = new Tuple<string, string>("SqlPagingTranslator.cs", code);
+                var source = new Class(code) { FileName = "SqlPagingTranslator.cs" };
                 return Task.FromResult(source);
 
             }
@@ -408,7 +370,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
 
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguments = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name}");
+            var arguments = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguments));
             code.AppendLine("       {");
@@ -523,7 +485,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         private string GenerateDeleteMethod(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguements = pks.Select(k => $"{k.Type.ToCSharp()} {k.Name.ToCamelCase()}");
+            var arguements = pks.Select(k =>k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");

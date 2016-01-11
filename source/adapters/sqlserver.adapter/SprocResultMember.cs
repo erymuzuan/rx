@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using Bespoke.Sph.Domain;
 
@@ -20,5 +21,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             set { m_sqlDbType = value; }
         }
+
+        public Type Type { get; set; }
     }
 }

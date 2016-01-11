@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/FormDesigner.xsd" xmlns:mstns="http://tempuri.org/FormDesigner.xsd" xmlns:bspk="http://www.bespoke.com.my/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/TriggersWorkflow.xsd" targetNamespace="http://tempuri.org/FormDesigner.xsd" elementFormDefault="qualified" id="FormDesigner">
 	<xs:element name="FormDesign">
 		<xs:complexType>
@@ -346,7 +346,7 @@
 				<xs:element name="MemberCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="Member" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="Member" type="Member" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -386,33 +386,86 @@
 			<xs:attribute name="DashboardTemplate" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Member">
+	<xs:element name="ValueObjectDefinition" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="MemberCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="Member" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="Member" type="Member" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="FieldPermissionCollection">
+				<xs:element name="BusinessRuleCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="FieldPermission" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="BusinessRule" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="DefaultValue" type="Field"/>
+				<xs:element name="EntityOperationCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="EntityOperation" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="TypeName" type="xs:string" use="required"/>
-			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsNotIndexed" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsAnalyzed" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsFilterable" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsExcludeInAll" type="xs:boolean" use="required"/>
-			<xs:attribute name="Boost" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Member">
+		<xs:all>
+			<xs:element name="MemberCollection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Member" type="Member" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FieldPermissionCollection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="FieldPermission" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DefaultValue" type="Field"/>
+		</xs:all>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="AllowMultiple" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+	<xs:element name="SimpleMember">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Member">
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+					<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsNotIndexed" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsAnalyzed" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsFilterable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsExcludeInAll" type="xs:boolean" use="required"/>
+					<xs:attribute name="Boost" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComplexMember">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Member">
+					<xs:attribute name="EmptyField" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ValueObjectMember">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Member">
+					<xs:attribute name="ValueObjectName" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EntityForm" bspk:entity="true">
@@ -462,6 +515,10 @@
 			<xs:attribute name="Partial" type="xs:string" use="optional"/>
 			<xs:attribute name="Caption" type="xs:string" use="optional"/>
 			<xs:attribute name="Layout" type="xs:string" use="optional"/>
+			<xs:attribute name="OperationSuccessMesage" type="xs:string" use="required"/>
+			<xs:attribute name="OperationSuccessNavigateUrl" type="xs:string" use="required"/>
+			<xs:attribute name="OperationSuccessCallback" type="xs:string" use="required"/>
+			<xs:attribute name="OperationFailureCallback" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FormLayout">
@@ -667,12 +724,20 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="PatchPathCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="PatchSetter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="SuccessMessage" type="xs:string" use="required"/>
-			<xs:attribute name="ShowSuccessMessage" type="xs:boolean" use="required"/>
-			<xs:attribute name="NavigateSuccessUrl" type="xs:string" use="required"/>
-			<xs:attribute name="SuccessCommand" type="xs:string" use="required"/>
+			<xs:attribute name="Route" type="xs:string" use="optional"/>
+			<xs:attribute name="IsHttpPut" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsHttpPatch" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsHttpPost" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsHttpDelete" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="SetterActionChild">
@@ -817,6 +882,13 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="optional"/>
 			<xs:attribute name="ViewModelType" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PatchSetter">
+		<xs:complexType>
+			<xs:attribute name="Path" type="xs:string" use="required"/>
+			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
+			<xs:attribute name="DefaultValue" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

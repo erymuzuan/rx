@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -15,14 +14,15 @@ namespace Bespoke.Sph.SqlReportDataSource
     {
         public IEnumerable<Member> GetFilterableMembers(string parent, IList<Member> members)
         {
-            var filterables = members
-                .Where(m => m.Type != typeof(object))
-                .Where(m => m.Type != typeof(Array))
+            var filterables = new ObjectCollection<Member>();
+            var simples = members
+                .OfType<SimpleMember>()
                 .ToList();
-            var list = members.Where(m => m.Type == typeof(object))
+            var list = members.OfType<ComplexMember>()
                 .Select(m => this.GetFilterableMembers(parent + m.Name + ".", m.MemberCollection))
-                .SelectMany(m => m)
+                .SelectMany(m => m.ToArray())
                 .ToList();
+            filterables.AddRange(simples);
             filterables.AddRange(list);
 
             filterables.Where(m => string.IsNullOrWhiteSpace(m.FullName))
@@ -40,6 +40,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                 return new ObjectCollection<ReportColumn>();
 
             var databaseColumns = this.GetFilterableMembers("", ed.MemberCollection)
+                .OfType<SimpleMember>()
                 .Select(m => new ReportColumn
                 {
                     IsFilterable = m.IsFilterable,
@@ -161,7 +162,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                     continue;
                 }
 
-                var propertyPathList = c.Name.Split(new[] { '.' });
+                var propertyPathList = c.Name.Split('.');
                 var prop = propertyPathList.Last();
 
                 var node = xml;

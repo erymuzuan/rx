@@ -215,10 +215,15 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private Member GetMember(string path)
+        public Member GetMember(string path)
         {
             if (!path.Contains("."))
-                return this.MemberCollection.Single(a => a.Name == path);
+            {
+                
+                var member =  this.MemberCollection.SingleOrDefault(a => a.Name == path);
+                if (null != member) return member;
+                throw new InvalidOperationException($"Cannot find a member in {Name} with {path}");
+            }
 
             var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var child = this.GetMember(paths.First());

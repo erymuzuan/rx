@@ -12,6 +12,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string Group { get; set; }
         public string DateFormat { get; set; }
         public string NumberFormat { get; set; }
+        public Type Type { get; set; }
+        public bool IsNullable { get; set; }
 
         public string FieldName
         {

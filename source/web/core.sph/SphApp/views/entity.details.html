@@ -23,11 +23,11 @@
             </div>
             <div class="col-sm-4" data-bind="with: member">
                 <h3>Member properties</h3>
-
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.SimpleMember, domain.sph"-->
                 <form class="form" role="form" data-bind="visible:Name()">
                     <div class="form-group">
                         <label for="member_name">Name</label>
-                        <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name" />
+                        <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name"/>
                     </div>
 
                     <div class="form-group">
@@ -40,42 +40,46 @@
                             <option value="System.Decimal, mscorlib">Decimal</option>
                             <option value="System.DateTime, mscorlib">DateTime</option>
                             <option value="System.Boolean, mscorlib">Boolean</option>
-                            <option value="System.Object, mscorlib">Complex</option>
-                            <option value="System.Array, mscorlib">Collection</option>
                         </select>
 
                     </div>
                     <div class="form-group">
                         <label class="checkbox">
-                            <input data-bind="checked: IsNullable" id="member-nullable" type="checkbox" name="IsNullable" />
+                            <input data-bind="checked: AllowMultiple" id="member-allow-multiple" type="checkbox" name="AllowMultiple" />
+                            Allow Multiple
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: IsNullable, disable:AllowMultiple" id="member-nullable" type="checkbox" name="IsNullable" />
                             Nullable
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-placement="left" data-bind="tooltip:'Creates database column, to allow API filter and Report filter, Views and search do not use this property'">
-                            <input data-bind="checked: IsFilterable" id="member-filtered" type="checkbox" name="IsFilterable" />
+                            <input data-bind="checked: IsFilterable, disable:AllowMultiple" id="member-filtered" type="checkbox" name="IsFilterable" />
                             Can be filtered
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-placement="left" data-bind="tooltip:'If checked, this member will not be indexed in Elasticsearch, thus it will not be searchable'">
-                            <input data-bind="checked: IsNotIndexed" id="member-not-indexed" type="checkbox" name="IsNotIndexed" />
+                            <input data-bind="checked: IsNotIndexed" id="member-not-indexed" type="checkbox" name="IsNotIndexed"/>
                             Do not indexed
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-bind="tooltip:'To use full text index, terms will be broken and analyzed. Do not check for items you want to use in aggregates(i.e. term search)'">
-                            <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed() || TypeName() !== 'System.String, mscorlib'" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
+                            <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed() || TypeName() !== 'System.String, mscorlib'" id="member-analyzed" type="checkbox" name="IsAnalyzed"/>
                             Should analyzed(only for string)
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-bind="tooltip:'Check if you do not wish this member to be included in the search terms'">
-                            <input data-bind="checked: IsExcludeInAll, disable: IsNotIndexed" id="member-exclude-all" type="checkbox" name="IsExcludeInAll" />
+                            <input data-bind="checked: IsExcludeInAll, disable: IsNotIndexed" id="member-exclude-all" type="checkbox" name="IsExcludeInAll"/>
                             Do not include in all
                         </label>
                     </div>
-                    <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
+                    <div class="form-group">
                         <label for="member-boost" class="control-label">Boost</label>
 
                         <input type="number" data-bind="value: Boost, disable: IsNotIndexed"
@@ -85,11 +89,11 @@
 
                     </div>
 
-                    <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
+                    <div class="form-group">
                         <label for="member-default-value" class="control-label">Default Value</label>
                         <div class="btn-group" id="member-default-value">
                             <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
-                                <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                <img data-bind="fieldImage : $type" class="pull-left" alt="."/>
                                 <!-- ko text : Name -->
                                 <!-- /ko -->
                                 <i class="fa fa-caret-down"></i>
@@ -105,13 +109,13 @@
 
                                 <li>
                                     <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.DefaultValue" href="#">
-                                        <img src="/images/ConstantField.png" alt=" constantfield" class="pull-left" />
+                                        <img src="/images/ConstantField.png" alt=" constantfield" class="pull-left"/>
                                         + Constant Field
                                     </a>
                                 </li>
                                 <li>
                                     <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.DefaultValue" href="#">
-                                        <img src="/images/FunctionField.png" alt=" FunctionField" class="pull-left" />
+                                        <img src="/images/FunctionField.png" alt=" FunctionField" class="pull-left"/>
                                         + Function Field
                                     </a>
                                 </li>
@@ -125,6 +129,51 @@
                     </a>-->
 
                 </form>
+
+                <!-- /ko-->
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph"-->
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="complex-member-name">Name</label>
+                        <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: AllowMultiple" id="complex-member-allow-multiple" type="checkbox" name="AllowMultiple" />
+                            Allow Multiple
+                        </label>
+                    </div>
+
+
+                </form>
+
+                <!-- /ko-->
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"-->
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="member_name2">Name</label>
+                        <input class="form-control" id="member_name2" name="member.name" type="text" required data-bind="value: Name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member-type2">Type</label>
+
+                        <select class="form-control" id="member-type2" data-bind="value:ValueObjectName, options:$root.valueObjectOptions, optionsCaption: '[Please select value object]'" required></select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: AllowMultiple" id="member-allow-multiple2" type="checkbox" name="AllowMultiple" />
+                            Allow Multiple
+                        </label>
+                    </div>
+
+
+                </form>
+
+                <!-- /ko-->
             </div>
         </div>
 

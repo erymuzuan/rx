@@ -21,12 +21,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             triggers = ko.observableArray(),
             forms = ko.observableArray(),
             templateOptions = ko.observableArray(),
+            valueObjectOptions = ko.observableArray(),
             views = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
             activate = function (id) {
 
                 context.getListAsync("ViewTemplate", "Id ne '0'", "Name")
                 .done(templateOptions);
+                context.getListAsync("ValueObjectDefinition", "Id ne '0'", "Name")
+                .done(valueObjectOptions);
 
                 member(new bespoke.sph.domain.Member("-"));
 
@@ -241,6 +244,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         var vm = {
             triggers: triggers,
             templateOptions: templateOptions,
+            valueObjectOptions: valueObjectOptions,
             publishDashboard: publishDashboard,
             addTriggerAsync: addTriggerAsync,
             forms: forms,

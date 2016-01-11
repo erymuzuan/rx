@@ -1,0 +1,50 @@
+﻿<div class="row">
+    <h1>
+        <i class="fa fa-clipboard"></i>
+        The list of custom entities
+    </h1>
+</div>
+<table class="table table-striped" data-bind="filter : {path:'tbody>tr'},
+    serverPaging : {
+        entity : 'ValueObjectDefinition',
+        query : 'Id ne \'\'',
+        list : entities
+    }">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Created On</th>
+            <th>Changed On</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :entities">
+        <tr>
+            <td>
+
+                <div class="btn-group">
+                    <a title="Click to specify your value" class="btn btn-link dropdown dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                        <!-- ko text : Name  -->
+                        <!-- /ko -->
+
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li data-bind="click : $root.edit">
+
+                            <a data-bind="attr : {href:'#/value.object.details/' + Id()}">
+                                <i class="fa fa-edit"></i>
+                                Edit
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </td>
+            <td data-bind="date:CreatedDate"></td>
+            <td data-bind="date:ChangedDate"></td>
+           
+            <td></td>
+        </tr>
+    </tbody>
+</table>

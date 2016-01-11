@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -74,6 +75,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (brandNewItem)
             {
                 ed.Id = ed.Name.ToIdFormat();
+                this.Response.StatusCode = (int)HttpStatusCode.Created;
             }
             else
             {
@@ -82,6 +84,8 @@ namespace Bespoke.Sph.Web.Controllers
                     session.Attach(ed);
                     await session.SubmitChanges("Save");
                 }
+
+                this.Response.StatusCode = (int)HttpStatusCode.OK;
                 return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
 
             }

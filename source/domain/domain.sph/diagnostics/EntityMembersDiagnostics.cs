@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -34,20 +33,11 @@ namespace Bespoke.Sph.Domain.diagnostics
             if (!validName.Match(member.Name).Success)
                 errors.Add(new BuildError(member.WebId) { Message = message });
             if (forbiddenNames.Contains(member.Name))
-                errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " is a reserved name" });
-            if (null == member.TypeName)
-                errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " does not have a type" });
+                errors.Add(new BuildError(member.WebId) { Message = $"[Member] {member.Name} is a reserved name" });
 
-            if (member.Type == typeof(Array) && !member.Name.EndsWith("Collection"))
-                errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must be append with \"Collection\"" });
-            if (member.Type == typeof(object) && member.Name.EndsWith("Collection"))
-                errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must not end with \"Collection\"" });
+            var list = member.Validate();
+            list.ToList().ForEach(errors.Add);
 
-
-            foreach (var m in member.MemberCollection)
-            {
-                this.ValidateMember(m, errors, ed);
-            }
         }
     }
 }

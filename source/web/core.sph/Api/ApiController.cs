@@ -53,6 +53,11 @@ namespace Bespoke.Sph.Web.Api
         {
             return ReadFromSource<EmailTemplate>(filter, page, size);
         }
+        [Route("ValueObjectDefinition")]
+        public ActionResult ValueObjectDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return ReadFromSource<ValueObjectDefinition>(filter, page, size);
+        }
         [Route("EntityDefinition")]
         public ActionResult EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

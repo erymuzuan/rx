@@ -24,6 +24,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 6,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "8bcd9193-40eb-4555-8110-6f04c7d6209a"
       },
@@ -47,6 +48,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 5,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "16d2daae-ea30-4ea4-b125-a426014d8422"
       },
@@ -70,6 +72,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "846da964-0c28-440a-926d-e08293392892"
       },
@@ -93,6 +96,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "735865c9-2a2a-47fa-96cc-9ca12eab432d"
       },
@@ -116,6 +120,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "25e424ca-090e-4572-860d-225fc188448e"
       },
@@ -139,6 +144,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "7f16952d-f2d3-4553-8f89-d6b8447c510f"
       },
@@ -162,6 +168,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "a23f7302-b927-45da-8724-c992d20302ea"
       },
@@ -185,6 +192,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 5,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "8a54ac46-286e-4e75-bf1a-274666dcffa0"
       },
@@ -208,6 +216,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 5,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "40cad2f8-1345-49a9-b210-01e8ec3c641f"
       },
@@ -231,6 +240,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "d0581eed-a29e-4723-ba15-85ae6cfe6712"
       },
@@ -261,6 +271,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "d5f801b0-d07d-4bd3-b0a9-451ea8c50a2f"
             },
@@ -284,6 +295,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "db2f4611-86d3-4aad-9458-c5d30d770f47"
             },
@@ -307,6 +319,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "6a4f773a-261b-41bf-b9e2-329ed5ec064b"
             },
@@ -330,6 +343,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "e815f1c0-cc63-44df-a5ce-fa1a0879da97"
             },
@@ -353,6 +367,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "583f40e6-986b-453c-a84c-88e3f4eeb37d"
             }
@@ -370,6 +385,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "c1b8c2a6-a5bc-4ce0-bb0f-020261f4d460"
       },
@@ -400,6 +416,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "76267898-ff46-437f-920b-27ce07462229"
             },
@@ -423,6 +440,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "d5ae2ee2-2a59-4b26-ba02-a577bb206da8"
             },
@@ -446,6 +464,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "2322e7a8-d310-4ad2-b0f7-f16de872f825"
             },
@@ -469,6 +488,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "7b96048e-b9ba-4ea7-9a10-1044da7f4fbc"
             },
@@ -492,6 +512,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "937ea191-8392-488d-97d0-3601ebef18c4"
             },
@@ -515,6 +536,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "36cd02ff-4cfb-42a2-8f4f-e79b716da6bc"
             }
@@ -532,6 +554,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "d6a20639-6a60-4cb7-a3c4-eec37c521bf5"
       },
@@ -555,6 +578,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "66a6e80c-dd5e-4505-8731-09069afeeba5"
       },
@@ -578,6 +602,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "1b1c8004-db3e-461c-bebd-e61eefcf64ac"
       },
@@ -601,6 +626,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "0d42f390-a2e9-4c11-809d-ab46de6df9c1"
       },
@@ -624,6 +650,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "76c418fa-88c5-4d5f-9f5e-e05984c58818"
       },
@@ -647,6 +674,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "4d9f6fa6-a355-4900-ae58-1740c9f88cf3"
       },
@@ -670,6 +698,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "892023c1-b8af-496f-a96d-50991e682d16"
       },
@@ -693,6 +722,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "8adc580b-efb3-46d8-b40b-f4828b81398d"
       },
@@ -716,6 +746,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 2,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "ea2dda9c-1e1a-476c-a0af-61870b979b4e"
       },
@@ -739,6 +770,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "690041b2-8a33-4029-a096-ceda4f966c43"
       },
@@ -762,8 +794,596 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "889b7898-13c2-463c-bde4-f55e46df63ff"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
+        "ValueObjectName": "Spouse",
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Name",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Age",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
+              "ValueObjectName": "Address",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": [
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Street1",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Street2",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "State",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": true,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Postcode",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": true,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  }
+                ]
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "WorkPlaceAddress",
+              "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
+              "ValueObjectName": "Child",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": [
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Name",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Age",
+                    "TypeName": "System.Int32, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  }
+                ]
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Children",
+              "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "AllowMultiple": true,
+              "DefaultValue": null,
+              "WebId": "a2a4ad73-add8-4df3-ff63-d40141738897"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Titles",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "AllowMultiple": true,
+              "DefaultValue": null,
+              "WebId": "d5eb0d16-4351-4764-c6ca-e28c577747aa"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
+              "ValueObjectName": "Address",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": [
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Street1",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Street2",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "State",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": true,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Postcode",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": true,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": null
+                  }
+                ]
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "HomeAddress",
+              "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "8df6b504-2de7-4554-8fdd-d6c2e791a9c0"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": [
+                  {
+                    "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Name",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "fa99b205-13d5-459f-96da-f3c29007e160"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.ValueObjectMember, domain.sph",
+                    "ValueObjectName": "Address",
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": [
+                        {
+                          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                          "FullName": null,
+                          "PropertyAttribute": null,
+                          "MemberCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "FieldPermissionCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "Name": "Street1",
+                          "TypeName": "System.String, mscorlib",
+                          "IsNullable": false,
+                          "IsNotIndexed": false,
+                          "IsAnalyzed": false,
+                          "IsFilterable": false,
+                          "IsExcludeInAll": false,
+                          "Boost": 0,
+                          "AllowMultiple": false,
+                          "DefaultValue": null,
+                          "WebId": null
+                        },
+                        {
+                          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                          "FullName": null,
+                          "PropertyAttribute": null,
+                          "MemberCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "FieldPermissionCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "Name": "Street2",
+                          "TypeName": "System.String, mscorlib",
+                          "IsNullable": false,
+                          "IsNotIndexed": false,
+                          "IsAnalyzed": false,
+                          "IsFilterable": false,
+                          "IsExcludeInAll": false,
+                          "Boost": 0,
+                          "AllowMultiple": false,
+                          "DefaultValue": null,
+                          "WebId": null
+                        },
+                        {
+                          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                          "FullName": null,
+                          "PropertyAttribute": null,
+                          "MemberCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "FieldPermissionCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "Name": "State",
+                          "TypeName": "System.String, mscorlib",
+                          "IsNullable": false,
+                          "IsNotIndexed": false,
+                          "IsAnalyzed": false,
+                          "IsFilterable": true,
+                          "IsExcludeInAll": false,
+                          "Boost": 0,
+                          "AllowMultiple": false,
+                          "DefaultValue": null,
+                          "WebId": null
+                        },
+                        {
+                          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+                          "FullName": null,
+                          "PropertyAttribute": null,
+                          "MemberCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "FieldPermissionCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "Name": "Postcode",
+                          "TypeName": "System.String, mscorlib",
+                          "IsNullable": false,
+                          "IsNotIndexed": false,
+                          "IsAnalyzed": false,
+                          "IsFilterable": true,
+                          "IsExcludeInAll": false,
+                          "Boost": 0,
+                          "AllowMultiple": false,
+                          "DefaultValue": null,
+                          "WebId": null
+                        }
+                      ]
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "HomeAddress",
+                    "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "a798f438-0654-4725-a5bf-d0dd9f8798e3"
+                  }
+                ]
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Parent",
+              "TypeName": "System.Object, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "3fcdba68-c21c-4a2d-90e1-b858e56cc4cb"
+            }
+          ]
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Wife",
+        "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": "a99dac64-47d6-46a0-f048-02f3f0c3a460"
       }
     ]
   },
@@ -1096,7 +1716,7 @@
   },
   "Name": "Patient",
   "Plural": "Patients",
-  "IconStoreId": "bd04841c-6dc7-47e3-8757-8c21b86ebbf0",
+  "IconStoreId": "1527fe01-e066-4208-bb15-6ddb84330c2b",
   "IconClass": "fa fa-user",
   "RecordName": "Mrn",
   "IsPublished": true,
@@ -1109,6 +1729,6 @@
   "Id": "patient",
   "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-08T16:20:09.6284821+08:00",
+  "ChangedDate": "2015-12-23T09:11:41.219829+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

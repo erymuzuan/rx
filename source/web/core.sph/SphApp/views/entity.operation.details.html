@@ -26,6 +26,91 @@
                        class="form-control" id="name">
             </div>
         </div>
+
+        <div class="form-group">
+            <label for="operation-route" class="col-lg-2 control-label">Route</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: Route, tooltip:'Route is used by web API controller for your URL, it must be lowercase and can only contains digits or a -'"
+                       pattern="^[a-z-][a-z0-9-]*$"
+                       placeholder="Custom route for your operation, if you leave it blank the default is your operations name in lower case"
+                       class="form-control" id="operation-route">
+            </div>
+        </div>
+        <h3>HTTP Verbs for Web API</h3>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsHttpPut" id="IsHttpPut" type="checkbox" name="IsHttpPut" />
+                        HTTP PUT
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsHttpPost" id="http-post" type="checkbox" name="IsHttpPost" />
+                        HTTP POST
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsHttpPatch" id="http-patch" type="checkbox" name="IsHttpPatch" />
+                        HTTP PATCH
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group" data-bind="visible:IsHttpPatch">
+            <label class="col-md-2">Patch Setters</label>
+            <div class="col-md-9">
+
+                <table id="" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Path</th>
+                            <th>Required</th>
+                            <th>Default Value</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: PatchPathCollection">
+                        <tr>
+                            <td>
+                                <input class="input-setter-path form-control" type="text" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" />
+                            </td>
+                            <td>
+                                <input type="checkbox" class="checkbox-inline" data-bind="checked:IsRequired" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" data-bind="value:DefaultValue, disable:IsRequired" />
+                            </td>
+                            <td>
+                                <a href="#" data-bind="click : $parent.removePatchPath.call($parent, $data)"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a class="btn btn-link" data-bind="click: addPatchPath">
+                    <i class="fa fa-plus-circle"></i>
+                    Add a Patch Path
+                </a>
+            </div>
+        </div>
+
+
+        <h3>Business Rules</h3>
+
         <div class="form-group">
             <label class="col-md-2">Rules</label>
             <div class="col-md-6">
@@ -136,37 +221,7 @@
             </div>
         </div>
 
-        <h3>Success Action</h3>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-6">
-                <div class="checkbox">
-                    <label>
-                        <input data-bind="checked: ShowSuccessMessage" id="show-success-message" type="checkbox" name="ShowSuccessMessage" />
-                        Show success message box
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="success-message" class="col-lg-2 control-label">Success Message</label>
-            <div class="col-lg-8">
-                <textarea data-bind="value: SuccessMessage"
-                          placeholder="Success message to show"
-                          class="form-control" id="success-message"
-                          rows="8"></textarea>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="navigate-url" class="col-lg-2 control-label">Navigate Url</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: NavigateSuccessUrl, typeaheadUrl: ['EntityView']"
-                       placeholder="If success navigate the page to"
-                       class="form-control" id="navigate-url">
-            </div>
-        </div>
     </form>
-</div>  
+</div>
 
 <div class="row" style="height: 200px;"></div>
