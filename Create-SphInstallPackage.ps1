@@ -1,6 +1,6 @@
 ﻿Param(
        [int]$Build = 0,
-       [int]$Drop = 1,
+       [string]$Drop = '01',
        [switch]$PreRelease = $false,
        [string]$ToolsDirectory = "c:\project\tools"
      )
