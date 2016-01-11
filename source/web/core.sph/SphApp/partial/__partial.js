@@ -1053,58 +1053,29 @@ bespoke.sph.domain.FilterPartial = function () {
 bespoke.sph.domain.FormDialogPartial = function (model) {
 
     var system = require("durandal/system"),
-        editOperationSuccessCallback = function () {
-            var self = this,
-                w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
-                wdw = w.window || w,
-                init = function () {
-                    wdw.code = ko.unwrap(self.OperationSuccessCallback);
-                    if (!w.code) {
-                        w.code = "//insert your code here";
-                    }
-                    wdw.saved = function (code, close) {
-                        self.OperationSuccessCallback(code);
-                        if (close) {
-                            w.close();
-                        }
-                    };
-                };
-            if (wdw.attachEvent) { // for ie
-                wdw.attachEvent("onload", init);
-            } else {
-                init();
-            }
-        },
-        editOperationFailureCallback = function () {
-            var self = this,
-                w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
-                wdw = w.window || w,
-                init = function () {
-                    wdw.code = ko.unwrap(self.OperationFailureCallback);
-                    if (!w.code) {
-                        w.code = "//insert your code here";
-                    }
-                    wdw.saved = function (code, close) {
-                        self.OperationFailureCallback(code);
-                        if (close) {
-                            w.close();
-                        }
-                    };
-                };
-            if (wdw.attachEvent) { // for ie
-                wdw.attachEvent("onload", init);
-            } else {
-                init();
-            }
-        },
-        canSetSuccessCallback = ko.computed(function () {
+        init = function() {
 
-        }),
+            var buttons = ko.unwrap(model.DialogButtonCollection);
+            _(buttons).each(function (v) {
+                v.canMoveDown(true);
+                v.canMoveUp(true);
+            });
+            var first = _(buttons).first(),
+                last = _(buttons).last();
+            if (first) {
+                first.canMoveUp(false);
+            }
+            if (last) {
+                last.canMoveDown(false);
+            }
+        },
         addDialogButton = function () {
-            model.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton(system.guid()));
+            model.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton({ WebId: system.guid(), canMoveDown: false }));
+            init();
         },
         removeDialogButton = function (btn) {
             model.DialogButtonCollection.remove(btn);
+            init();
         },
         move = function (array, from, to) {
             if (to === from) return;
@@ -1117,27 +1088,42 @@ bespoke.sph.domain.FormDialogPartial = function (model) {
             }
             array[to] = target;
         },
-        moveDown = function (btn) {
+        arrange = function (btn, step) {
+
             var index = model.DialogButtonCollection().indexOf(btn);
-            move(model.DialogButtonCollection(), index, index + 1);
+            var temps = ko.unwrap(model.DialogButtonCollection);
+            move(temps, index, index + step);
+
+            _(temps).each(function (v) {
+                v.canMoveDown(true);
+                v.canMoveUp(true);
+            });
+            _(temps).first().canMoveUp(false);
+            _(temps).last().canMoveDown(false);
+            model.DialogButtonCollection(temps);
+        },
+        moveDown = function (btn) {
+            arrange(btn, 1);
         },
         moveUp = function (btn) {
+            arrange(btn, -1);
+        };
 
-            var index = model.DialogButtonCollection().indexOf(btn);
-            move(model.DialogButtonCollection(), index, index - 1);
-        },
-        canMoveUp = ko.computed(function () {
-
-        }),
-        canMoveDown = ko.computed(function () {
-
-        });
+    init();
 
     return {
         removeDialogButton: removeDialogButton,
         addDialogButton: addDialogButton,
         moveDown: moveDown,
-        moveUp: moveUp,
+        moveUp: moveUp
+    };
+};
+bespoke.sph.domain.DialogButtonPartial = function (model) {
+
+    var canMoveUp = ko.observable(true),
+        canMoveDown = ko.observable(true);
+
+    return {
         canMoveDown: canMoveDown,
         canMoveUp: canMoveUp
     };

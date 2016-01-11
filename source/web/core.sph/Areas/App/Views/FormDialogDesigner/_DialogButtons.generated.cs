@@ -46,7 +46,7 @@ WriteLiteral(" role=\"form\"");
 
 WriteLiteral(" data-bind=\"with : form\"");
 
-WriteLiteral(">\r\n\r\n\r\n    <table");
+WriteLiteral(">\r\n    <table");
 
 WriteLiteral(" class=\"table table-striped\"");
 
@@ -61,7 +61,7 @@ WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n                 
 
 WriteLiteral(" href=\"javascript:;\"");
 
-WriteLiteral(" data-bind=\"click : $parent.moveUp, enable: $parent.canMoveUp\"");
+WriteLiteral(" data-bind=\"click : $parent.moveUp, visible: canMoveUp\"");
 
 WriteLiteral("><i");
 
@@ -71,7 +71,7 @@ WriteLiteral("></i></a>\r\n                    <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
-WriteLiteral(" data-bind=\"click : $parent.moveDown, enable: $parent.canMoveDown\"");
+WriteLiteral(" data-bind=\"click : $parent.moveDown, visible: canMoveDown\"");
 
 WriteLiteral("><i");
 

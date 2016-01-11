@@ -26,6 +26,50 @@
             "WebId": null
           },
           "Name": null,
+          "Label": "Full Name",
+          "Tooltip": null,
+          "Path": "FullName",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "91d3dd8b-ef57-40ea-dec5-f15db53dadb0",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "ToolboxIconClass": null,
+          "IsUniqueName": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "890a1540-5c6a-470a-ceaa-6cc7be3461df"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+          "DefaultValue": null,
+          "AutoCompletionEntity": null,
+          "AutoCompletionField": null,
+          "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
+          "TypeName": "TextBox",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "Min": null,
+            "Max": null,
+            "MinLength": null,
+            "MaxLength": null,
+            "WebId": null
+          },
+          "Name": null,
           "Label": "Age",
           "Tooltip": null,
           "Path": "Age",
@@ -82,6 +126,18 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.DialogButton, domain.sph",
+        "Text": "Dont Click",
+        "IsDefault": false,
+        "IsCancel": false,
+        "CreatedBy": null,
+        "Id": null,
+        "CreatedDate": "0001-01-01T00:00:00",
+        "ChangedBy": null,
+        "ChangedDate": "0001-01-01T00:00:00",
+        "WebId": "8f82048b-b4f5-4418-fb92-4a3d4356f2ff"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DialogButton, domain.sph",
         "Text": "Cancel",
         "IsDefault": false,
         "IsCancel": true,
@@ -91,18 +147,6 @@
         "ChangedBy": null,
         "ChangedDate": "0001-01-01T00:00:00",
         "WebId": "256ebbc8-99d1-4c19-8399-385f6b468eae"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DialogButton, domain.sph",
-        "Text": "Do nothing here",
-        "IsDefault": false,
-        "IsCancel": false,
-        "CreatedBy": null,
-        "Id": null,
-        "CreatedDate": "0001-01-01T00:00:00",
-        "ChangedBy": null,
-        "ChangedDate": "0001-01-01T00:00:00",
-        "WebId": "8fe0be87-4c25-4eec-8df5-a8aa4726d449"
       }
     ]
   },
@@ -121,6 +165,6 @@
   "Id": "add-or-edit-address",
   "CreatedDate": "2016-01-11T10:24:34.5557344+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-11T16:59:36.8147932+08:00",
+  "ChangedDate": "2016-01-12T07:25:27.4667206+08:00",
   "WebId": "de8aeee4-823d-4c2c-91d2-93c94365cf18"
 }
