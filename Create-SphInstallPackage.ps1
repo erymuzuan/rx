@@ -1,6 +1,6 @@
 ﻿Param(
        [int]$Build = 0,
-       [int]$Drop = 1,
+       [string]$Drop = '01',
        [switch]$PreRelease = $false,
        [string]$ToolsDirectory = "c:\project\tools"
      )
@@ -181,7 +181,7 @@ Get-ChildItem -Filter *.* -Path ".\source\web\web.sph\bin" `
 if((Test-Path("$output\StartAspnetAdminWeb.bat")) -eq $false)
 {
     copy .\StartAspnetAdminWeb.bat -Destination $output
-    $c0 = (gc "$output\StartAspnetAdminWeb.bat").replace("c:\project\work\sph\source\web\web.sph","workingcopy-web")
+    $c0 = (gc "$output\StartAspnetAdminWeb.bat").replace("$PWD\source\web\web.sph","workingcopy-web")
     Set-Content "$output\StartAspnetAdminWeb.bat" -Value $c0
 }
 
@@ -351,10 +351,10 @@ copy .\source\web\web.sph\bin\roslyn\* $output\subscribers.host\bin\roslyn\
 # copy bin/roslyn to tools and web/bin
 
 # clean up custom forms
-[System.IO.File]::WriteAllText("c:\project\work\sph\bin\build\web\App_Data\custom-dialog.json","[]")
-[System.IO.File]::WriteAllText("c:\project\work\sph\bin\build\web\App_Data\custom-partial-view.json","[]")
-[System.IO.File]::WriteAllText("c:\project\work\sph\bin\build\web\App_Data\custom-script.json","[]")
-[System.IO.File]::WriteAllText("c:\project\work\sph\bin\build\web\App_Data\routes.config.json","[]")
+[System.IO.File]::WriteAllText("$PWD\bin\build\web\App_Data\custom-dialog.json","[]")
+[System.IO.File]::WriteAllText("$PWD\bin\build\web\App_Data\custom-partial-view.json","[]")
+[System.IO.File]::WriteAllText("$PWD\bin\build\web\App_Data\custom-script.json","[]")
+[System.IO.File]::WriteAllText("$PWD\bin\build\web\App_Data\routes.config.json","[]")
 
 
 
