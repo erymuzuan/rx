@@ -30,7 +30,7 @@
             <form role="form">
                 <div class="form-group">
                     <label>Name</label>
-                    <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name" />
+                    <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name"/>
                 </div>
 
                 <div class="form-group">
@@ -171,7 +171,7 @@
 
                 <div class="form-group" data-bind="visible:IsPathIsRequired">
                     <label for="form-element-path">Path</label>
-                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="form-element-path" type="text" name="Path" />
+                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="form-element-path" type="text" name="Path"/>
                 </div>
                 <div class="form-group">
                     <label for="form-element-label">Label</label>
@@ -289,27 +289,27 @@
                 </div>
                 <div class="form-group">
                     <label for="success-message">Success Message</label>
-                    <input type="text" data-bind="value: OperationSuccessMesage"
+                    <input type="text" data-bind="value: OperationSuccessMesage, enable:Operation"
                            placeholder="The message to alert user when the operation return success"
                            class="form-control" id="success-message">
 
                 </div>
                 <div class="form-group">
                     <label for="success-url">Then nvaigate to</label>
-                    <input type="text" data-bind="value: OperationSuccessNavigateUrl"
+                    <input type="text" data-bind="value: OperationSuccessNavigateUrl, enable:Operation"
                            placeholder="Once the alert is okayed then navigate to this url"
                            class="form-control" id="success-url">
                 </div>
                 <div class="form-group">
                     <label for="operation-success-callback">Success Callback</label>
-                    <textarea class="form-control" data-bind="value: OperationSuccessCallback"
+                    <textarea class="form-control" data-bind="value: OperationSuccessCallback, enable:Operation"
                               placeholder="Execute custom code once the operation successfuly invoked"
                               id="operation-success-callback" name="OperationSuccessCallback"></textarea>
                     <a href="#" data-bind="click : editOperationSuccessCallback, disable:(ko.unwrap(OperationSuccessMesage) || ko.unwrap(OperationSuccessNavigateUrl))">Edit</a>
                 </div>
                 <div class="form-group">
                     <label for="operation-failure-callback">Failuire Callback</label>
-                    <textarea class="form-control" data-bind="value: OperationFailureCallback"
+                    <textarea class="form-control" data-bind="value: OperationFailureCallback, enable:Operation"
                               placeholder="Execute custom code once the operation failed to be successfuly invoked"
                               id="operation-failure-callback" name="OperationFailureCallback"></textarea>
                     <a href="#" data-bind="click : editOperationFailureCallback">Edit</a>

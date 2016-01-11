@@ -130,7 +130,7 @@
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Home Address  State" for="fea66b5a-9ad6-4fed-aa46-7dd4ba5fadff" class="col-md-4">Home Address  State</label>
         <div class="col-md-8">
-            <select  data-bind=" visible :true, comboBoxLookupOptions : { value: HomeAddress().State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'startswith(Country, \'Ma\') eq true'}" id="fea66b5a-9ad6-4fed-aa46-7dd4ba5fadff" name="HomeAddress.State" class="  form-control">
+            <select  data-bind=" visible :true,  enable :true, comboBoxLookupOptions : { value: HomeAddress().State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'startswith(Country, \'Ma\') eq true'}" id="fea66b5a-9ad6-4fed-aa46-7dd4ba5fadff" name="HomeAddress.State" class="  form-control">
             </select>
         </div>
     </div>
@@ -151,7 +151,7 @@
 
 <div class="form-group" data-bind="visible:true">
     <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('2d63386f-796b-4fbc-8d58-3512c87c0a28')}">
+    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('eaeb98f9-d1e9-46af-8edc-8a82d86cc6ca')}">
         <thead>
             <tr>
                     <th data-i18n="Doctor">Doctor</th>
@@ -160,7 +160,7 @@
                     <th data-i18n="Mrn">Mrn</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('2d63386f-796b-4fbc-8d58-3512c87c0a28')">
+        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('eaeb98f9-d1e9-46af-8edc-8a82d86cc6ca')">
             <tr>
                         <td data-bind="text:Doctor"></td>
                         <td>

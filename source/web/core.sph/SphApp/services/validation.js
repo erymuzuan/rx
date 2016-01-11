@@ -18,7 +18,7 @@ define([],
                 m_form = form;
                 m_template = template;
 
-                var validation = { debug: true, rules: {}, messages: {} };
+                var validation = { ignore: "*:not([name])", debug: true, rules: {}, messages: {} };
                 _(template.FormDesign().FormElementCollection()).each(function (f) {
                     var path = f.Path(),
                         v = ko.unwrap(f.FieldValidation);
