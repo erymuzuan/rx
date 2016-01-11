@@ -14,8 +14,8 @@
         <tbody data-bind="foreach :DialogButtonCollection">
             <tr>
                 <td>
-                    <a href="javascript:;"><i class="fa fa-arrow-up"></i></a>
-                    <a href="javascript:;"><i class="fa fa-arrow-down"></i></a>
+                    <a href="javascript:;" data-bind="click : $parent.moveUp, enable: $parent.canMoveUp"><i class="fa fa-arrow-up"></i></a>
+                    <a href="javascript:;" data-bind="click : $parent.moveDown, enable: $parent.canMoveDown"><i class="fa fa-arrow-down"></i></a>
                 </td>
                 <td>
                     <input class="form-control" data-bind="value:Text"/>

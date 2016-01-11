@@ -61,6 +61,8 @@ WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n                 
 
 WriteLiteral(" href=\"javascript:;\"");
 
+WriteLiteral(" data-bind=\"click : $parent.moveUp, enable: $parent.canMoveUp\"");
+
 WriteLiteral("><i");
 
 WriteLiteral(" class=\"fa fa-arrow-up\"");
@@ -68,6 +70,8 @@ WriteLiteral(" class=\"fa fa-arrow-up\"");
 WriteLiteral("></i></a>\r\n                    <a");
 
 WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" data-bind=\"click : $parent.moveDown, enable: $parent.canMoveDown\"");
 
 WriteLiteral("><i");
 

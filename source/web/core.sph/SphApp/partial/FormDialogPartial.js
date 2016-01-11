@@ -13,27 +13,27 @@ bespoke.sph.domain.FormDialogPartial = function (model) {
 
     var system = require("durandal/system"),
         editOperationSuccessCallback = function () {
-        var self = this,
-            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
-            wdw = w.window || w,
-            init = function () {
-                wdw.code = ko.unwrap(self.OperationSuccessCallback);
-                if (!w.code) {
-                    w.code = "//insert your code here";
-                }
-                wdw.saved = function (code, close) {
-                    self.OperationSuccessCallback(code);
-                    if (close) {
-                        w.close();
+            var self = this,
+                w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
+                wdw = w.window || w,
+                init = function () {
+                    wdw.code = ko.unwrap(self.OperationSuccessCallback);
+                    if (!w.code) {
+                        w.code = "//insert your code here";
                     }
+                    wdw.saved = function (code, close) {
+                        self.OperationSuccessCallback(code);
+                        if (close) {
+                            w.close();
+                        }
+                    };
                 };
-            };
-        if (wdw.attachEvent) { // for ie
-            wdw.attachEvent("onload", init);
-        } else {
-            init();
-        }
-    },
+            if (wdw.attachEvent) { // for ie
+                wdw.attachEvent("onload", init);
+            } else {
+                init();
+            }
+        },
         editOperationFailureCallback = function () {
             var self = this,
                 w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
@@ -58,15 +58,46 @@ bespoke.sph.domain.FormDialogPartial = function (model) {
         },
         canSetSuccessCallback = ko.computed(function () {
 
-            }),
+        }),
         addDialogButton = function () {
-                model.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton(system.guid()));
+            model.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton(system.guid()));
         },
-        removeDialogButton = function(btn) {
+        removeDialogButton = function (btn) {
             model.DialogButtonCollection.remove(btn);
-        };
+        },
+        move = function (array, from, to) {
+            if (to === from) return;
+
+            var target = array[from];
+            var increment = to < from ? -1 : 1;
+
+            for (var k = from; k !== to; k += increment) {
+                array[k] = array[k + increment];
+            }
+            array[to] = target;
+        },
+        moveDown = function (btn) {
+            var index = model.DialogButtonCollection().indexOf(btn);
+            move(model.DialogButtonCollection(), index, index + 1);
+        },
+        moveUp = function (btn) {
+
+            var index = model.DialogButtonCollection().indexOf(btn);
+            move(model.DialogButtonCollection(), index, index - 1);
+        },
+        canMoveUp = ko.computed(function () {
+
+        }),
+        canMoveDown = ko.computed(function () {
+
+        });
+
     return {
         removeDialogButton: removeDialogButton,
-        addDialogButton: addDialogButton
+        addDialogButton: addDialogButton,
+        moveDown: moveDown,
+        moveUp: moveUp,
+        canMoveDown: canMoveDown,
+        canMoveUp: canMoveUp
     };
 };
