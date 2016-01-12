@@ -52,6 +52,7 @@ namespace ASP
   
 
     Layout = null;
+    var cancelButton = Model.Dialog.DialogButtonCollection.FirstOrDefault(x => x.IsCancel);
 
             
             #line default
@@ -60,14 +61,14 @@ WriteLiteral("\r\n\r\n<section");
 
 WriteLiteral(" class=\"view-model-modal\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 180), Tuple.Create("\"", 204)
+WriteAttribute("id", Tuple.Create(" id=\"", 273), Tuple.Create("\"", 297)
             
-            #line 10 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 185), Tuple.Create<System.Object, System.Int32>(Model.Dialog.Route
+            #line 11 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 278), Tuple.Create<System.Object, System.Int32>(Model.Dialog.Route
             
             #line default
             #line hidden
-, 185), false)
+, 278), false)
 );
 
 WriteLiteral(">\r\n    <div");
@@ -82,7 +83,24 @@ WriteLiteral(">\r\n\r\n            <div");
 
 WriteLiteral(" class=\"modal-header\"");
 
-WriteLiteral(">\r\n                <button");
+WriteLiteral(">\r\n");
+
+            
+            #line 16 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+                
+            
+            #line default
+            #line hidden
+            
+            #line 16 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+                 if (null != cancelButton)
+                {
+
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -90,12 +108,30 @@ WriteLiteral(" class=\"close\"");
 
 WriteLiteral(" data-dismiss=\"modal\"");
 
-WriteLiteral(" data-bind=\"click : cancelClick\"");
-
-WriteLiteral(">&times;</button>\r\n                <h3>");
+WriteLiteral(" data-bind=\"click : ");
 
             
-            #line 16 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 19 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+                                                                                            Write(cancelButton.Text.ToCamelCase());
+
+            
+            #line default
+            #line hidden
+WriteLiteral("Click\"");
+
+WriteLiteral(">&times;</button>\r\n");
+
+            
+            #line 20 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+                }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                <h3>");
+
+            
+            #line 22 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                Write(Model.Dialog.Title);
 
             
@@ -110,7 +146,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 19 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 25 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
            Write(Html.Partial("_FormContent"));
 
             
@@ -123,13 +159,13 @@ WriteLiteral(" class=\"modal-footer\"");
 WriteLiteral(">\r\n");
 
             
-            #line 22 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 28 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 22 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 28 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                  foreach (var btn in Model.Dialog.DialogButtonCollection)
                 {
                     var command = btn.Text.ToCamelCase();
@@ -150,7 +186,7 @@ WriteLiteral(" data-dismiss=\"modal\"");
 WriteLiteral(" data-bind=\"click : ");
 
             
-            #line 27 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 33 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                                                                                                 Write(command);
 
             
@@ -161,7 +197,7 @@ WriteLiteral("Click\"");
 WriteLiteral(">Cancel</a>\r\n");
 
             
-            #line 28 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 34 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                         continue;
                     }
 
@@ -173,15 +209,15 @@ WriteLiteral(">Cancel</a>\r\n");
             #line hidden
 WriteLiteral("                        <button");
 
-WriteAttribute("form", Tuple.Create(" form=\"", 1151), Tuple.Create("\"", 1184)
+WriteAttribute("form", Tuple.Create(" form=\"", 1362), Tuple.Create("\"", 1395)
             
-            #line 33 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1158), Tuple.Create<System.Object, System.Int32>(Model.Dialog.Route
+            #line 39 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 1369), Tuple.Create<System.Object, System.Int32>(Model.Dialog.Route
             
             #line default
             #line hidden
-, 1158), false)
-, Tuple.Create(Tuple.Create("", 1179), Tuple.Create("-form", 1179), true)
+, 1369), false)
+, Tuple.Create(Tuple.Create("", 1390), Tuple.Create("-form", 1390), true)
 );
 
 WriteLiteral(" data-dismiss=\"modal\"");
@@ -191,7 +227,7 @@ WriteLiteral(" class=\"btn btn-default\"");
 WriteLiteral(" data-bind=\"command: ");
 
             
-            #line 33 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 39 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                                                                                                                                Write(command);
 
             
@@ -202,7 +238,7 @@ WriteLiteral("Click\"");
 WriteLiteral(">");
 
             
-            #line 33 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 39 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                                                                                                                                                Write(btn.Text);
 
             
@@ -211,7 +247,7 @@ WriteLiteral(">");
 WriteLiteral("</button>\r\n");
 
             
-            #line 34 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 40 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                         continue;
                     }
 
@@ -227,7 +263,7 @@ WriteLiteral(" class=\"btn btn-default\"");
 WriteLiteral(" data-bind=\"command: ");
 
             
-            #line 36 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 42 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                                                                                          Write(command);
 
             
@@ -238,7 +274,7 @@ WriteLiteral("Click\"");
 WriteLiteral(">");
 
             
-            #line 36 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 42 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                                                                                                          Write(btn.Text);
 
             
@@ -247,7 +283,7 @@ WriteLiteral(">");
 WriteLiteral("</button>\r\n");
 
             
-            #line 37 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
+            #line 43 "..\..\Areas\Sph\Views\FormDialogRenderer\Html.cshtml"
                 }
 
             
