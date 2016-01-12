@@ -8,6 +8,7 @@ using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
 {
+    [Authorize]
     [RoutePrefix("form-dialog")]
     public class FormDialogController : BaseController
     {
@@ -19,7 +20,7 @@ namespace Bespoke.Sph.Web.Controllers
             var context = new SphDataContext();
 
             var baru = string.IsNullOrWhiteSpace(ef.Id) || ef.Id == "0";
-            if (baru)ef.Id = ef.Route.ToIdFormat();
+            if (baru) ef.Id = ef.Route.ToIdFormat();
 
             using (var session = context.OpenSession())
             {
@@ -28,6 +29,13 @@ namespace Bespoke.Sph.Web.Controllers
             }
             this.Response.StatusCode = (int)(baru ? HttpStatusCode.Created : HttpStatusCode.OK);
             return Json(new { success = true, status = "OK", id = ef.Id, location = $"{ConfigurationManager.BaseUrl}/sph#form.dialog.designer/{ef.Entity}/{ef.Id}" });
+        }
+        [HttpGet]
+        [Route("members/{entity}/{path}")]
+        public async Task<ActionResult> GetMembers()
+        {
+            await Task.Delay(500);
+            return Content("");
         }
 
         [HttpPost]
@@ -39,12 +47,12 @@ namespace Bespoke.Sph.Web.Controllers
 
             // look for column which points to the form
             var views = context.LoadFromSources<EntityView>(e => e.IsPublished && e.EntityDefinitionId == form.Entity);
-        
+
 
             var violations = (from vw in views
-                where vw.ViewColumnCollection.Any(c => c.IsLinkColumn
-                                                       && c.FormRoute == form.Route)
-                select vw.Name).ToArray();
+                              where vw.ViewColumnCollection.Any(c => c.IsLinkColumn
+                                                                     && c.FormRoute == form.Route)
+                              select vw.Name).ToArray();
             if (violations.Any())
                 return Json(new { success = false, status = "NO", message = "These views has a link to your form ", views = violations, id = form.Id });
 
@@ -90,7 +98,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Remove(string id)
         {
             var context = new SphDataContext();
-            var form =  context.LoadOneFromSources<FormDialog>(e => e.Id == id);
+            var form = context.LoadOneFromSources<FormDialog>(e => e.Id == id);
             if (null == form)
                 return new HttpNotFoundResult("Cannot find form to delete , Id : " + id);
 

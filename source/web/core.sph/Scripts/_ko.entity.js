@@ -77,9 +77,10 @@
                         "contextmenu": {
                             "items": function ($node) {
 
-                                var ref = $(element).jstree(true);
-                                var parents = _($node.parents).map(function (n) { return ref.get_node(n); });
-                                var valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
+                                var ref = $(element).jstree(true),
+                                    parents = _($node.parents).map(function (n) { return ref.get_node(n); }),
+                                    valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; }),
+                                        sel = ref.get_selected();
                                 if (valueMember) {
                                     return [];
                                 }
@@ -92,8 +93,6 @@
                                             mb = parent[0].data,
                                             newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
 
-                                        var ref = $(element).jstree(true),
-                                            sel = ref.get_selected();
                                         if (!sel.length) {
                                             return false;
                                         }
@@ -122,8 +121,6 @@
                                                 mb = parent[0].data,
                                                 newNode = { state: "open", type: "Bespoke.Sph.Domain.ValueObjectMember, domain.sph", text: "Member_Name", data: child };
 
-                                            var ref = $(element).jstree(true),
-                                                sel = ref.get_selected();
                                             if (!sel.length) {
                                                 return false;
                                             }
@@ -151,8 +148,6 @@
                                                 mb = parent[0].data,
                                                 newNode = { state: "open", type: "Bespoke.Sph.Domain.ComplexMember, domain.sph", text: "Member_Name", data: child };
 
-                                            var ref = $(element).jstree(true),
-                                                sel = ref.get_selected();
                                             if (!sel.length) {
                                                 return false;
                                             }
@@ -175,9 +170,6 @@
                                     removeMenu = {
                                         label: "Remove",
                                         action: function () {
-                                            var ref = $(element).jstree(true),
-                                                sel = ref.get_selected();
-
                                             // now delete the member
                                             var n = ref.get_selected(true)[0],
                                                 p = ref.get_node($("#" + n.parent)),
@@ -365,6 +357,8 @@ ko.bindingHandlers.entityTypeaheadPath = {
                         if (ix === "$type") continue;
                         if (ix === "addChildItem") continue;
                         if (ix === "removeChildItem") continue;
+                        if (ix === "Empty") continue;
+                        if (ix === "WebId") continue;
                         c.options.push("" + ix);
                     }
                 }
@@ -387,6 +381,8 @@ ko.bindingHandlers.entityTypeaheadPath = {
                                 if (i === "$type") continue;
                                 if (i === "addChildItem") continue;
                                 if (i === "removeChildItem") continue;
+                                if (i === "Empty") continue;
+                                if (i === "WebId") continue;
                                 c.options.push("" + i);
                             }
                         }

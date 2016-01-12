@@ -533,7 +533,7 @@ ko.bindingHandlers.command = {
             }
         }
 
-        var $spinner = $("<i class='fa fa-spin fa-spinner'></i>").hide(),
+        var $spinner = $("<i class='fa fa-spin fa-circle-o-notch'></i>").hide(),
             $warning = $("<i class='fa fa-warning' style='color:red'></i>").hide();
         $button.append($spinner);
         $button.append($warning);
