@@ -167,3 +167,4 @@ bin/10306.ps1
 bin/rabbitmq_base/
 *.backup
 /bin/config/applicationhost.config
+/bin/kibana-4.1.4-windows
