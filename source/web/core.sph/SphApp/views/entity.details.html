@@ -27,13 +27,13 @@
                 <form class="form" role="form" data-bind="visible:Name()">
                     <div class="form-group">
                         <label for="member_name">Name</label>
-                        <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name"/>
+                        <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name, disable : childOfValueMember"/>
                     </div>
 
                     <div class="form-group">
                         <label for="member-type">Type</label>
 
-                        <select class="form-control" id="member-type" data-bind="value:TypeName">
+                        <select class="form-control" id="member-type" data-bind="value:TypeName, disable : childOfValueMember">
                             <option value="">[Please Select]</option>
                             <option value="System.String, mscorlib">String</option>
                             <option value="System.Int32, mscorlib">Integer</option>
@@ -45,51 +45,51 @@
                     </div>
                     <div class="form-group">
                         <label class="checkbox">
-                            <input data-bind="checked: AllowMultiple" id="member-allow-multiple" type="checkbox" name="AllowMultiple" />
+                            <input data-bind="checked: AllowMultiple, disable : childOfValueMember" id="member-allow-multiple" type="checkbox" name="AllowMultiple" />
                             Allow Multiple
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="checkbox">
-                            <input data-bind="checked: IsNullable, disable:AllowMultiple" id="member-nullable" type="checkbox" name="IsNullable" />
+                            <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple) || ko.unwrap(childOfValueMember) " id="member-nullable" type="checkbox" name="IsNullable" />
                             Nullable
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-placement="left" data-bind="tooltip:'Creates database column, to allow API filter and Report filter, Views and search do not use this property'">
-                            <input data-bind="checked: IsFilterable, disable:AllowMultiple" id="member-filtered" type="checkbox" name="IsFilterable" />
+                            <input data-bind="checked: IsFilterable, disable:ko.unwrap(AllowMultiple) || ko.unwrap(childOfValueMember)" id="member-filtered" type="checkbox" name="IsFilterable" />
                             Can be filtered
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-placement="left" data-bind="tooltip:'If checked, this member will not be indexed in Elasticsearch, thus it will not be searchable'">
-                            <input data-bind="checked: IsNotIndexed" id="member-not-indexed" type="checkbox" name="IsNotIndexed"/>
+                            <input data-bind="checked: IsNotIndexed, disable : childOfValueMember" id="member-not-indexed" type="checkbox" name="IsNotIndexed"/>
                             Do not indexed
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-bind="tooltip:'To use full text index, terms will be broken and analyzed. Do not check for items you want to use in aggregates(i.e. term search)'">
-                            <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed() || TypeName() !== 'System.String, mscorlib'" id="member-analyzed" type="checkbox" name="IsAnalyzed"/>
+                            <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed() || TypeName() !== 'System.String, mscorlib' || ko.unwrap(childOfValueMember)" id="member-analyzed" type="checkbox" name="IsAnalyzed"/>
                             Should analyzed(only for string)
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-bind="tooltip:'Check if you do not wish this member to be included in the search terms'">
-                            <input data-bind="checked: IsExcludeInAll, disable: IsNotIndexed" id="member-exclude-all" type="checkbox" name="IsExcludeInAll"/>
+                            <input data-bind="checked: IsExcludeInAll, disable: ko.unwrap(IsNotIndexed) || ko.unwrap(childOfValueMember)" id="member-exclude-all" type="checkbox" name="IsExcludeInAll"/>
                             Do not include in all
                         </label>
                     </div>
                     <div class="form-group">
                         <label for="member-boost" class="control-label">Boost</label>
 
-                        <input type="number" data-bind="value: Boost, disable: IsNotIndexed"
+                        <input type="number" data-bind="value: Boost, disable: ko.unwrap(IsNotIndexed) || ko.unwrap(childOfValueMember)"
                                required value="1" min="1" max="10"
                                placeholder="Boost"
                                class="form-control" id="member-boost">
 
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" data-bind="visible :!ko.unwrap(childOfValueMember)">
                         <label for="member-default-value" class="control-label">Default Value</label>
                         <div class="btn-group" id="member-default-value">
                             <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
@@ -123,10 +123,8 @@
                         </div>
 
                     </div>
-                    <!--<a href="#" data-bind="click : editPermission">
-                        <i class="fa fa-lock"></i>
-                        Permission
-                    </a>-->
+
+
 
                 </form>
 
@@ -135,12 +133,12 @@
                 <form class="form" role="form" data-bind="visible:Name()">
                     <div class="form-group">
                         <label for="complex-member-name">Name</label>
-                        <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name" />
+                        <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name, disable : childOfValueMember" />
                     </div>
                     
                     <div class="form-group">
                         <label class="checkbox">
-                            <input data-bind="checked: AllowMultiple" id="complex-member-allow-multiple" type="checkbox" name="AllowMultiple" />
+                            <input data-bind="checked: AllowMultiple" id="complex-member-allow-multiple" type="checkbox" name="AllowMultiple, disable : childOfValueMember" />
                             Allow Multiple
                         </label>
                     </div>
@@ -153,19 +151,19 @@
                 <form class="form" role="form" data-bind="visible:Name()">
                     <div class="form-group">
                         <label for="member_name2">Name</label>
-                        <input class="form-control" id="member_name2" name="member.name" type="text" required data-bind="value: Name" />
+                        <input class="form-control" id="member_name2" name="member.name" type="text" required data-bind="value: Name, disable : childOfValueMember" />
                     </div>
 
                     <div class="form-group">
                         <label for="member-type2">Type</label>
 
-                        <select class="form-control" id="member-type2" data-bind="value:ValueObjectName, options:$root.valueObjectOptions, optionsCaption: '[Please select value object]'" required></select>
+                        <select class="form-control" id="member-type2" data-bind="value:ValueObjectName, options:$root.valueObjectOptions, optionsCaption: '[Please select value object]', disable : childOfValueMember" required></select>
 
                     </div>
 
                     <div class="form-group">
                         <label class="checkbox">
-                            <input data-bind="checked: AllowMultiple" id="member-allow-multiple2" type="checkbox" name="AllowMultiple" />
+                            <input data-bind="checked: AllowMultiple, disable : childOfValueMember" id="member-allow-multiple2" type="checkbox" name="AllowMultiple" />
                             Allow Multiple
                         </label>
                     </div>

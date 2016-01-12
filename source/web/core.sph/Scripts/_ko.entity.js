@@ -37,14 +37,25 @@
                 _(jsTreeData.children).each(recurseChildMember);
                 $(element)
                     .on("select_node.jstree", function (node, selected) {
-                        if (selected.node.data) {
-                            member(selected.node.data);
+                        var tag = selected.node.data;
+                        if (tag) {
                             if (!ko.unwrap(member)) {
                                 return;
                             }
                             if (typeof member().Name !== "function") {
                                 return;
                             }
+
+                            if (typeof tag.childOfValueMember !== "function") {
+                                tag.childOfValueMember = ko.observable(true);
+                            }
+
+                            var ref = $(element).jstree(true),
+                                   parents = _(selected.node.parents).map(function (n) { return ref.get_node(n); }),
+                                   valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
+                            tag.childOfValueMember(valueMember || false);
+                            member(tag);
+
                             // subscribe to Name change
                             member().Name.subscribe(function (name) {
                                 $(element).jstree(true)
