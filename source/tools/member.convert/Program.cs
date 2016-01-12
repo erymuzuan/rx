@@ -55,6 +55,7 @@ namespace member.covert
             var typeNameProp = member.Property("TypeName");
 
             var type = typeProp.Value.Value<string>();
+            if (typeNameProp?.Value == null) return;
             var typeName = typeNameProp.Value.Value<string>();
 
             if (type == "Bespoke.Sph.Domain.Member, domain.sph")
