@@ -488,6 +488,13 @@ ko.bindingHandlers.tree = {
                         "contextmenu": {
                             "items": function ($node) {
 
+                                var ref = $(element).jstree(true);
+                                var parents = _($node.parents).map(function (n) { return ref.get_node(n); });
+                                var valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
+                                if (valueMember) {
+                                    return [];
+                                }
+
                                 var simpleMenu = {
                                     label: "Add Simple Child",
                                     action: function () {
@@ -517,8 +524,7 @@ ko.bindingHandlers.tree = {
 
                                     }
                                 },
-                                    valueObjectMenu =
-                                    {
+                                    valueObjectMenu = {
                                         label: "Add Value Object Child",
                                         action: function () {
                                             var typeName = "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
@@ -548,82 +554,87 @@ ko.bindingHandlers.tree = {
 
                                         }
                                     },
-                                  complexChildMenu = {
-                                      label: "Add Complex Child",
-                                      action: function () {
-                                          var child = new bespoke.sph.domain.ComplexMember({ WebId: system.guid(), Name: "Member_Name" }),
-                                              parent = $(element).jstree("get_selected", true),
-                                              mb = parent[0].data,
-                                              newNode = { state: "open", type: "Bespoke.Sph.Domain.ComplexMember, domain.sph", text: "Member_Name", data: child };
+                                    complexChildMenu = {
+                                        label: "Add Complex Child",
+                                        action: function () {
+                                            var child = new bespoke.sph.domain.ComplexMember({ WebId: system.guid(), Name: "Member_Name" }),
+                                                parent = $(element).jstree("get_selected", true),
+                                                mb = parent[0].data,
+                                                newNode = { state: "open", type: "Bespoke.Sph.Domain.ComplexMember, domain.sph", text: "Member_Name", data: child };
 
-                                          var ref = $(element).jstree(true),
-                                              sel = ref.get_selected();
-                                          if (!sel.length) {
-                                              return false;
-                                          }
-                                          sel = sel[0];
-                                          sel = ref.create_node(sel, newNode);
-                                          if (sel) {
-                                              ref.edit(sel);
-                                              if (mb && mb.MemberCollection) {
-                                                  mb.MemberCollection.push(child);
-                                              } else {
-                                                  entity.MemberCollection.push(child);
-                                              }
-                                              return true;
-                                          }
-                                          return false;
-
-
-                                      }
-                                  },
-                                removeMenu = {
-                                    label: "Remove",
-                                    action: function () {
-                                        var ref = $(element).jstree(true),
-                                            sel = ref.get_selected();
-
-                                        // now delete the member
-                                        var n = ref.get_selected(true)[0],
-                                            p = ref.get_node($("#" + n.parent)),
-                                            parentMember = p.data;
-                                        if (parentMember && typeof parentMember.MemberCollection === "function") {
-                                            var child = _(parentMember.MemberCollection()).find(function (v) {
-                                                return v.WebId() === n.data.WebId();
-                                            });
-                                            parentMember.MemberCollection.remove(child);
-                                        } else {
-                                            var child2 = _(entity.MemberCollection()).find(function (v) {
-                                                return v.WebId() === n.data.WebId();
-                                            });
-                                            entity.MemberCollection.remove(child2);
-                                        }
-
-                                        if (!sel.length) {
+                                            var ref = $(element).jstree(true),
+                                                sel = ref.get_selected();
+                                            if (!sel.length) {
+                                                return false;
+                                            }
+                                            sel = sel[0];
+                                            sel = ref.create_node(sel, newNode);
+                                            if (sel) {
+                                                ref.edit(sel);
+                                                if (mb && mb.MemberCollection) {
+                                                    mb.MemberCollection.push(child);
+                                                } else {
+                                                    entity.MemberCollection.push(child);
+                                                }
+                                                return true;
+                                            }
                                             return false;
+
+
                                         }
-                                        ref.delete_node(sel);
+                                    },
+                                    removeMenu = {
+                                        label: "Remove",
+                                        action: function () {
+                                            var ref = $(element).jstree(true),
+                                                sel = ref.get_selected();
 
-                                        return true;
+                                            // now delete the member
+                                            var n = ref.get_selected(true)[0],
+                                                p = ref.get_node($("#" + n.parent)),
+                                                parentMember = p.data;
+                                            if (parentMember && typeof parentMember.MemberCollection === "function") {
+                                                var child = _(parentMember.MemberCollection()).find(function (v) {
+                                                    return v.WebId() === n.data.WebId();
+                                                });
+                                                parentMember.MemberCollection.remove(child);
+                                            } else {
+                                                var child2 = _(entity.MemberCollection()).find(function (v) {
+                                                    return v.WebId() === n.data.WebId();
+                                                });
+                                                entity.MemberCollection.remove(child2);
+                                            }
 
-                                    }
-                                };
+                                            if (!sel.length) {
+                                                return false;
+                                            }
+                                            ref.delete_node(sel);
+
+                                            return true;
+
+                                        }
+                                    };
 
                                 var items = [];
 
-                                if ($node.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph") {
+                                if ($node.type === "default" || $node.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph") {
                                     items.push(simpleMenu);
                                     items.push(valueObjectMenu);
                                     items.push(complexChildMenu);
                                 }
 
                                 console.log($node);
-                                items.push(removeMenu);
+                                if ($node.type !== "default") {
+                                    items.push(removeMenu);
+                                }
                                 return items;
                             }
                         },
                         "types": {
 
+                            "default": {
+                                "icon": "fa fa-clipboard"
+                            },
                             "System.String, mscorlib": {
                                 "icon": "glyphicon glyphicon-bold",
                                 "valid_children": []
@@ -2370,9 +2381,8 @@ var _uiready = function () {
 })(window, jQuery);
 (function (window, $) {
     window.Task = window.Task || {};
-    window.Task.fromResult = function (returnValue, delay) {
+    window.Task.fromResult = function (ret, delay) {
         var tcs = new $.Deferred(),
-            ret = returnValue || true,
             d = delay || 100;
 
         setTimeout(function () {
