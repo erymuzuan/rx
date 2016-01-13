@@ -1556,6 +1556,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Views\Shared\EditorTemplates\TabControl.generated.cs">
+      <DependentUpon>TabControl.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Views\Shared\EditorTemplates\ChildView.generated.cs">
+      <DependentUpon>ChildView.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Views\Shared\EditorTemplates\TextBox.generated.cs">
       <DependentUpon>TextBox.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -3219,6 +3229,14 @@
     <Content Include="Views\CustomForm\DiffPane.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DiffPane.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\ChildView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\TabControl.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TabControl.generated.cs</LastGenOutput>
     </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

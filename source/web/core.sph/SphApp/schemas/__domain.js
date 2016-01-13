@@ -1943,6 +1943,7 @@ bespoke.sph.domain.TabPanel = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.TabPanel, domain.sph",
         Header: ko.observable(""),
         PartialView: ko.observable(""),
+        Path: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

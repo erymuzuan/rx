@@ -7445,6 +7445,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNamePartialView = "PartialView";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_path;
+        public const string PropertyNamePath = "Path";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -7495,6 +7500,33 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_partialView;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Path
+        {
+            set
+            {
+                if (String.Equals(m_path, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_path = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_path;
             }
         }
 

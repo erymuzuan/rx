@@ -39,55 +39,68 @@ namespace ASP
         public override void Execute()
         {
 WriteLiteral("<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.TabControl, domain.sph\" -->\r\n" +
-"<a");
+"    <a");
 
 WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click: addItem\"");
 
-WriteLiteral(">Add a tab page</a>\r\n<div");
+WriteLiteral(">Add a tab page</a>\r\n    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n    <span");
+WriteLiteral(">\r\n        <span");
 
-WriteLiteral(" class=\"col-lg-5\"");
+WriteLiteral(" class=\"col-md-4\"");
 
-WriteLiteral(">Header</span>\r\n    <span");
+WriteLiteral(">Header</span>\r\n        <span");
 
-WriteLiteral(" class=\"col-lg-5\"");
+WriteLiteral(" class=\"col-md-4\"");
 
-WriteLiteral(">Partial View</span>\r\n</div>\r\n\r\n<!-- ko foreach : TabPanelCollection -->\r\n\r\n<div");
+WriteLiteral(">Partial View</span>\r\n        <span");
+
+WriteLiteral(" class=\"col-md-4\"");
+
+WriteLiteral(">Path</span>\r\n    </div>\r\n\r\n    <!-- ko foreach : TabPanelCollection -->\r\n\r\n     " +
+"   <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n    <input");
+WriteLiteral(">\r\n            <input");
 
-WriteLiteral(" class=\"col-lg-5\"");
+WriteLiteral(" class=\"col-md-4\"");
 
 WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value: Header, valueUpdate: \'keyup\'\"");
 
-WriteLiteral(" />\r\n    <input");
+WriteLiteral(" />\r\n            <input");
 
-WriteLiteral(" class=\"col-lg-5\"");
+WriteLiteral(" class=\"col-md-4\"");
 
 WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value: PartialView\"");
 
-WriteLiteral(" />\r\n    <a");
+WriteLiteral(" />\r\n            <input");
+
+WriteLiteral(" class=\"col-md-4\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: Path\"");
+
+WriteLiteral(" />\r\n            <a");
 
 WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click: $parent.removeItem.call($parent, $data)\"");
 
-WriteLiteral(">\r\n        <i");
+WriteLiteral(">\r\n                <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 
-WriteLiteral("></i>\r\n    </a>\r\n</div>\r\n<!-- /ko -->\r\n\r\n\r\n<!--/ko-->\r\n");
+WriteLiteral("></i>\r\n            </a>\r\n        </div>\r\n    <!-- /ko -->\r\n\r\n\r\n<!--/ko-->\r\n");
 
         }
     }

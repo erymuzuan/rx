@@ -184,6 +184,64 @@
           "InputColSm": null,
           "InputColXs": null,
           "WebId": "417a3412-69cf-46f3-ec01-cf2e4f4028e4"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.TabControl, domain.sph",
+          "IsPathIsRequired": false,
+          "TabPanelCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TabPanel, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.TabPanel, domain.sph",
+                "Header": "Alamat",
+                "PartialView": "patient-address-partial",
+                "WebId": "66cb937d-e216-4786-d610-58356bd016e2"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.TabPanel, domain.sph",
+                "Header": "Address",
+                "PartialView": "patient-address-partial",
+                "WebId": "bbab4d18-c85d-43bb-9ab9-548ee2b87cde"
+              }
+            ]
+          },
+          "PartialView": null,
+          "TypeName": "TabControl",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "Min": null,
+            "Max": null,
+            "MinLength": null,
+            "MaxLength": null,
+            "WebId": null
+          },
+          "Name": null,
+          "Label": "Label 4",
+          "Tooltip": null,
+          "Path": null,
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "913e0587-79ca-4eda-fae2-cda1cbad6f48",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "ToolboxIconClass": null,
+          "IsUniqueName": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "da0e1734-dcfc-48bd-d34b-2beed06701fe"
         }
       ]
     },
@@ -242,6 +300,6 @@
   "Id": "admission-form-patient",
   "CreatedDate": "2016-01-12T19:08:12.9476295+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-12T19:08:12.9476295+08:00",
+  "ChangedDate": "2016-01-13T14:35:14.8118268+08:00",
   "WebId": "245957b5-d375-48f6-b500-a24380cb48e9"
 }

@@ -1,22 +1,24 @@
 ﻿@model Bespoke.Sph.Domain.TabControl
 
 <!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.TabControl, domain.sph" -->
-<a href="#" data-bind="click: addItem">Add a tab page</a>
-<div class="row">
-    <span class="col-lg-5">Header</span>
-    <span class="col-lg-5">Partial View</span>
-</div>
+    <a href="#" data-bind="click: addItem">Add a tab page</a>
+    <div class="row">
+        <span class="col-md-4">Header</span>
+        <span class="col-md-4">Partial View</span>
+        <span class="col-md-4">Path</span>
+    </div>
 
-<!-- ko foreach : TabPanelCollection -->
+    <!-- ko foreach : TabPanelCollection -->
 
-<div class="row">
-    <input class="col-lg-5" type="text" data-bind="value: Header, valueUpdate: 'keyup'" />
-    <input class="col-lg-5" type="text" data-bind="value: PartialView" />
-    <a href="#" data-bind="click: $parent.removeItem.call($parent, $data)">
-        <i class="glyphicon glyphicon-remove"></i>
-    </a>
-</div>
-<!-- /ko -->
+        <div class="row">
+            <input class="col-md-4" type="text" data-bind="value: Header, valueUpdate: 'keyup'" />
+            <input class="col-md-4" type="text" data-bind="value: PartialView" />
+            <input class="col-md-4" type="text" data-bind="value: Path" />
+            <a href="#" data-bind="click: $parent.removeItem.call($parent, $data)">
+                <i class="glyphicon glyphicon-remove"></i>
+            </a>
+        </div>
+    <!-- /ko -->
 
 
 <!--/ko-->

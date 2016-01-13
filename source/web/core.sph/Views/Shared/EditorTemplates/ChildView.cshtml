@@ -1,0 +1,15 @@
+@model Bespoke.Sph.Domain.ChildView
+@{
+    var pathSpecified = Model.Path == "." || string.IsNullOrWhiteSpace(Model.Path);
+}
+@if (pathSpecified)
+{
+    <!-- ko with : @Model.Path -->
+}
+    <!-- ko compose : : {view : '@(Model.PartialView)'}-->
+    <!-- /ko-->
+
+@if (pathSpecified)
+{
+    <!-- /ko -->
+}
