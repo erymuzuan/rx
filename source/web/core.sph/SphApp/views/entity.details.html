@@ -397,6 +397,33 @@
                         <i class="fa fa-plus-circle"></i>
                         Add a dialog
                     </a>
+
+
+                    <h3>Partial Views</h3>
+                    <table class="table table-striped" data-bind="serverPaging :{entity: 'PartialView', query :'Entity eq \'' + $root.entity().Id() + '\'', list: partialViews}">
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Members' Path</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :partialViews">
+                            <tr>
+                                <td>
+                                    <a data-bind="attr : {'href':'#/partial.view.designer/' + $root.entity().Id() + '/' + Id()},text: Route"></a>
+                                </td>
+                                <td data-bind="text:MemberPath"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-link" data-bind="attr : {'href':'#/partial.view.designer/' + $root.entity().Id() + '/0'}">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a partial view
+                    </a>
+
+
                 </div>
                 <div id="views-tab" class="tab-pane">
 

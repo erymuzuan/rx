@@ -5,6 +5,7 @@ namespace Bespoke.Sph.Domain
 {
     public interface IBuildDiagnostics
     {
+        Task<BuildError[]> ValidateErrorsAsync(PartialView view, EntityDefinition entity);
         Task<BuildError[]> ValidateErrorsAsync(FormDialog form, EntityDefinition entity);
         Task<BuildError[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity);
         Task<BuildError[]> ValidateErrorsAsync(EntityView view, EntityDefinition entity);
@@ -13,6 +14,7 @@ namespace Bespoke.Sph.Domain
         Task<BuildError[]> ValidateErrorsAsync(Trigger trigger);
         Task<BuildError[]> ValidateErrorsAsync(TransformDefinition map);
         Task<BuildError[]> ValidateErrorsAsync(Adapter adapter);
+        Task<BuildError[]> ValidateWarningsAsync(PartialView view, EntityDefinition entity);
         Task<BuildError[]> ValidateWarningsAsync(FormDialog form, EntityDefinition entity);
         Task<BuildError[]> ValidateWarningsAsync(EntityForm form, EntityDefinition entity);
         Task<BuildError[]> ValidateWarningsAsync(EntityView view, EntityDefinition entity);

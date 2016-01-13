@@ -8,7 +8,7 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
+define(["services/datacontext", "services/logger", "plugins/dialog"],
     function (context, logger, dialog) {
 
         var self = this,
@@ -19,15 +19,15 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             },
             attached = function (view) {
                 self = this;
-                $(view).on('click', 'div.fa-hover>a', function (e) {
+                $(view).on("click", "div.fa-hover>a", function (e) {
                     e.preventDefault();
                     icon("fa " + $(this).text().replace("(alias)","").trim());
                     console.log(icon());
                     dialog.close(self, "OK");
 
                 });
-                $('div.fa-hover>span').css("cursor","pointer");
-                $(view).on('click', 'div.fa-hover>span', function (e) {
+                $("div.fa-hover>span").css("cursor","pointer");
+                $(view).on("click", "div.fa-hover>span", function (e) {
                     e.preventDefault();
                     var span = $(this),
                         css = "";

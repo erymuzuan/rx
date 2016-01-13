@@ -29,11 +29,8 @@ namespace Bespoke.Sph.Web.ViewModels
             this.FormElements.Add(new HtmlElement { Name = "HTML rich", ToolboxIconClass = "fa fa-html5" });
 
         }
-        private readonly ObjectCollection<FormElement> m_nameCollection = new ObjectCollection<FormElement>();
-        public ObjectCollection<FormElement> FormElements
-        {
-            get { return m_nameCollection; }
-        }
+
+        public ObjectCollection<FormElement> FormElements { get; } = new ObjectCollection<FormElement>();
 
         public bool IsImportVisible { get; set; }
     }

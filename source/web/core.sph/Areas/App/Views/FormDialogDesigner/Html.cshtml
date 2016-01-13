@@ -11,32 +11,8 @@
         <span data-bind="text:Name"></span>
     </h1>
 </div>
-<div id="error-list-entity-form" class="row" data-bind="visible:errors().length">
-    <!-- ko foreach : errors -->
-    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <i class="fa fa-exclamation"></i>
-        <span data-bind="text:Message"></span>
-        <!-- ko if : Code -->
-        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
-        <!-- /ko-->
-    </div>
-    <div class="col-sm-2"></div>
-    <!-- /ko-->
-</div>
-<div id="warning-list-entity-form" class="row" data-bind="visible:warnings().length">
-    <!-- ko foreach : warnings -->
-    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-warning">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <i class="fa fa-warning"></i>
-        <span data-bind="text:Message"></span>
-        <!-- ko if : Code -->
-        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
-        <!-- /ko-->
-    </div>
-    <div class="col-sm-2"></div>
-    <!-- /ko-->
-</div>
+@Html.Partial("_DesignerBuildError")
+
 <div class="row">
     <!-- left toolbox-->
     <div class="col-sm-3 col-lg-3">

@@ -1,5 +1,5 @@
 {
-  "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
+  "$type": "Bespoke.Sph.Domain.PartialView, domain.sph",
   "FormDesign": {
     "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
     "FormElementCollection": {
@@ -11,6 +11,8 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
+          "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -23,18 +25,18 @@
             "MaxLength": null,
             "WebId": null
           },
-          "Name": "Single Line Text",
-          "Label": "Name",
+          "Name": null,
+          "Label": "Death Date",
           "Tooltip": null,
-          "Path": "FullName",
+          "Path": "DeathDate",
           "IsRequired": false,
           "Size": "input-large",
           "CssClass": "",
           "Visible": "true",
           "Enable": "true",
-          "ElementId": "d8701038-a00f-433f-9c3c-cb3a370192be",
+          "ElementId": "c313a8f8-466a-444b-910e-2e6a5ab0a4ef",
           "HelpText": null,
-          "UseDisplayTemplate": true,
+          "UseDisplayTemplate": false,
           "ToolboxIconClass": null,
           "IsUniqueName": false,
           "LabelColLg": null,
@@ -45,7 +47,7 @@
           "InputColMd": null,
           "InputColSm": null,
           "InputColXs": null,
-          "WebId": null
+          "WebId": "7f0108ea-172a-48b9-9119-8a70f5e5181d"
         },
         {
           "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
@@ -53,6 +55,8 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
+          "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -65,18 +69,18 @@
             "MaxLength": null,
             "WebId": null
           },
-          "Name": "Single Line Text",
-          "Label": "MRN",
+          "Name": null,
+          "Label": "Full Name",
           "Tooltip": null,
-          "Path": "Mrn",
+          "Path": "FullName",
           "IsRequired": false,
           "Size": "input-large",
           "CssClass": "",
           "Visible": "true",
           "Enable": "true",
-          "ElementId": "4f2948c7-ca58-4650-aee8-cd591e822227",
+          "ElementId": "ff20a350-2c90-4a2b-9f74-251411dc029a",
           "HelpText": null,
-          "UseDisplayTemplate": true,
+          "UseDisplayTemplate": false,
           "ToolboxIconClass": null,
           "IsUniqueName": false,
           "LabelColLg": null,
@@ -87,7 +91,7 @@
           "InputColMd": null,
           "InputColSm": null,
           "InputColXs": null,
-          "WebId": null
+          "WebId": "2036a727-4b45-4b41-853c-ce08eeaf7c83"
         }
       ]
     },
@@ -105,36 +109,15 @@
     "InputColXs": null,
     "WebId": null
   },
-  "Rules": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-    "$values": []
-  },
-  "RouteParameterCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
-    "$values": []
-  },
-  "Id": "admission-form-patient",
-  "EntityDefinitionId": "patient",
-  "Entity": "Patient",
-  "Name": "Admission form",
-  "Route": "admission-form",
+  "Route": "patient-address-partial",
+  "Entity": "patient",
+  "MemberPath": "HomeAddress",
+  "IsPublished": false,
   "Note": "",
-  "IsAllowedNewItem": false,
-  "IconClass": "fa fa-turkish-lira",
-  "IconStoreId": "",
-  "IsPublished": true,
-  "IsDefault": false,
-  "IsWatchAvailable": true,
-  "IsEmailAvailable": true,
-  "IsPrintAvailable": true,
-  "IsAuditTrailAvailable": true,
-  "IsRemoveAvailable": false,
-  "IsImportAvailable": false,
-  "IsExportAvailable": false,
-  "Operation": "Admit",
-  "CreatedBy": null,
-  "CreatedDate": "0001-01-01T00:00:00",
+  "CreatedBy": "admin",
+  "Id": "patient-address-partial",
+  "CreatedDate": "2016-01-13T08:47:02.8336898+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-06-26T07:34:01.2793657+08:00",
-  "WebId": "245957b5-d375-48f6-b500-a24380cb48e9"
+  "ChangedDate": "2016-01-13T08:48:40.2029222+08:00",
+  "WebId": "55870698-a3aa-49a0-ed1e-9bf798d55fa1"
 }

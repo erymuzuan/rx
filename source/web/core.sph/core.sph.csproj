@@ -290,6 +290,7 @@
     <Compile Include="Areas\App\Controllers\EntityFormDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\HeaderController.cs" />
     <Compile Include="Areas\App\Controllers\NavController.cs" />
+    <Compile Include="Areas\App\Controllers\PartialViewDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\ReportDefinitionExecuteController.cs" />
     <Compile Include="Areas\App\Controllers\ReportDefinitionEditController.cs" />
     <Compile Include="Areas\App\Controllers\RoleSettingsController.cs" />
@@ -307,15 +308,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\PartialViewDesigner\Html1.generated.cs">
+      <DependentUpon>Html.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\PartialViewDesigner\_DialogButtons.generated.cs">
+      <DependentUpon>_DialogButtons.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\PartialViewDesigner\_Toolbox.generated.cs">
+      <DependentUpon>_Toolbox.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\PartialViewDesigner\_ValidationSetting.generated.cs">
+      <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\App\Views\FormDialogDesigner\Html1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Html.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\FormDialogDesigner\_DesignerContextAction.generated.cs">
-      <DependentUpon>_DesignerContextAction.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Areas\App\Views\FormDialogDesigner\_Toolbox.generated.cs">
       <DependentUpon>_Toolbox.cshtml</DependentUpon>
@@ -697,6 +713,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TextBox.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\Shared\_DesignerBuildError.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_DesignerBuildError.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\Shared\_DesignerContextAction.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -868,6 +889,7 @@
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\DataImportController.cs" />
     <Compile Include="Controllers\FormDialogController.cs" />
+    <Compile Include="Controllers\PartialViewController.cs" />
     <Compile Include="Controllers\ValueObjectDefinitionController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1787,10 +1809,6 @@
     <EmbeddedResource Include="fonts\fontawesome-webfont.woff" />
     <EmbeddedResource Include="fonts\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="Areas\App\Views\FormDialogDesigner\_DesignerContextAction.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_DesignerContextAction.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\App\Views\FormDialogDesigner\_Toolbox.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Toolbox.generated.cs</LastGenOutput>
@@ -1822,6 +1840,26 @@
     <Content Include="Areas\App\Views\FormDialogDesigner\_DialogButtons.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_DialogButtons.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\PartialViewDesigner\_DialogButtons.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_DialogButtons.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Toolbox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\PartialViewDesigner\_ValidationSetting.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ValidationSetting.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\PartialViewDesigner\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html1.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\_DesignerBuildError.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_DesignerBuildError.generated.cs</LastGenOutput>
     </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
@@ -2415,6 +2453,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\new.adapter.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.report.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.value.object.definition.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\partial.view.designer.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />

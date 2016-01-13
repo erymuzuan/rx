@@ -75,6 +75,11 @@ namespace Bespoke.Sph.Web.Api
         {
             return ReadFromSource<FormDialog>(filter, page, size, true);
         }
+        [Route("PartialView")]
+        public ActionResult PartialView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return ReadFromSource<PartialView>(filter, page, size, true);
+        }
         [Route("EntityForm")]
         public ActionResult EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

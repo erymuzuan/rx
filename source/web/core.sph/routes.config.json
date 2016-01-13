@@ -544,6 +544,20 @@
     "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
+  }, 
+  {
+    "role": "developers",
+    "groupName": "Entity",
+    "route": "partial.view.designer/:entityid/:id",
+    "moduleId": "viewmodels/partial.view.designer",
+    "title": "Partial View Designer",
+    "nav": false,
+    "icon": "fa fa-bug",
+    "caption": "Partial View Designer",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
   },
   {
     "role": "developers",

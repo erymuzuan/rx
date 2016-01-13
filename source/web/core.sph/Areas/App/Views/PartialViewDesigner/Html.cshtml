@@ -1,0 +1,34 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+@{
+    Layout = null;
+}
+<div class="row" data-bind="with : entity">
+    <h1>
+        Partial View :
+        <span data-bind="text:Name"></span>
+    </h1>
+</div>
+@Html.Partial("_DesignerBuildError")
+
+<div class="row">
+    <!-- left toolbox-->
+    <div class="col-sm-3 col-lg-3">
+        @Html.Partial("_Toolbox")
+    </div>
+
+    <div id="template-form-designer" data-bind="with : form().FormDesign" class="col-lg-9 col-md-9">
+
+        <form class="form-horizontal">
+            <!--ko foreach:FormElementCollection -->
+            @foreach (var fe in Model.FormElements)
+            {
+                var fe1 = fe;
+                @Html.DisplayFor(m => fe1)
+            }
+            <!--/ko-->
+        </form>
+    </div>
+</div>

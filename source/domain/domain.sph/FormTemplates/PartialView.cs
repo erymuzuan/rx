@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource(HasDerivedTypes = true)]
-    public partial class FormDialog : Entity
+    public partial class PartialView : Entity
     {
         [ImportMany(typeof(IBuildDiagnostics))]
         [JsonIgnore]
@@ -20,14 +20,14 @@ namespace Bespoke.Sph.Domain
             if (null == this.BuildDiagnostics)
                 ObjectBuilder.ComposeMefCatalog(this);
             if (null == this.BuildDiagnostics)
-                throw new InvalidOperationException("Fail to initialize MEF for FormDialog.BuildDiagnostics");
+                throw new InvalidOperationException($"Fail to initialize MEF for PartialView.BuildDiagnostics");
 
             var result = new BuildValidationResult();
             var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this, ed));
-            var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x);
+            var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray());
 
             var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this, ed));
-            var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
+            var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x.ToArray());
 
             result.Errors.AddRange(errors);
             result.Warnings.AddRange(warnings);

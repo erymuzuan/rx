@@ -1,0 +1,208 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+<div id="form-designer-toolbox">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#form-general2" data-toggle="tab">General</a>
+        </li>
+        <li>
+            <a href="#add-field" data-toggle="tab">Add a field</a>
+        </li>
+        <li>
+            <a href="#fields-settings" data-toggle="tab">Properties</a>
+        </li>
+        <li>
+            <a href="#fields-validation" data-toggle="tab">Validations</a>
+        </li>
+
+
+    </ul>
+    <div class="tab-content">
+        <div id="form-general2" class="tab-pane active" data-bind="with : form">
+            <form role="form">
+               
+                <div class="form-group">
+                    <label>Route</label>
+                    <input required pattern="^[a-z][a-z0-9-.]*$" class="form-control" data-bind="value: Route, tooltip:'Route is a way the system identify your form via its URL, must be lower case with - or .'" id="form-design-Route" type="text" name="FormDesign.Route" />
+                </div>
+                <div class="form-group">
+                    <label for="dialog-member-path">Member's Path</label>
+                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: MemberPath, entityTypeaheadPath : $root.entity().Id()" id="dialog-member-path" type="text" name="Path" />
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <input class="form-control" data-bind="value: Note" id="form-design-Description" type="text" name="FormDesign.Description" />
+                </div>
+
+
+
+
+                <!-- ko with : FormDesign -->
+
+
+                <div class="form-group">
+                    <a href="#label-cols" data-toggle="collapse"><i class="fa fa-chevron-down"></i>Label columns span</a>
+                </div>
+                <div id="label-cols" class="form-group collapse">
+                    <div class="form-group">
+                        <label>Label Col Large</label>
+                        <input class="form-control" data-bind="value: LabelColLg" id="form-design-LabelColLg" type="number" name="FormDesign.LabelColLg" />
+                    </div>
+                    <div class="form-group">
+                        <label>Label Col Medium</label>
+                        <input class="form-control" data-bind="value: LabelColMd" id="form-design-LabelColMd" type="number" name="FormDesign.LabelColMd" />
+                    </div>
+                    <div class="form-group">
+                        <label>Label Col Small</label>
+                        <input class="form-control" data-bind="value: LabelColSm" id="form-design-LabelColSm" type="number" name="FormDesign.LabelColSm" />
+                    </div>
+                    <div class="form-group">
+                        <label>Label Col x-small</label>
+                        <input class="form-control" data-bind="value: LabelColXs" id="form-design-LabelColXs" type="number" name="FormDesign.LabelColXs" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <a href="#input-cols" data-toggle="collapse"><i class="fa fa-chevron-down"></i>Input columns span</a>
+                </div>
+                <div id="input-cols" class="collapse form-group">
+                    <div class="form-group">
+                        <label>Input Col Large</label>
+                        <input class="form-control" data-bind="value: InputColLg" id="form-design-InputColLg" type="number" name="FormDesign.InputColLg" />
+                    </div>
+                    <div class="form-group">
+                        <label>Input Col Medium</label>
+                        <input class="form-control" data-bind="value: InputColMd" id="form-design-InputColMd" type="number" name="FormDesign.InputColMd" />
+                    </div>
+                    <div class="form-group">
+                        <label>Input Col Small</label>
+                        <input class="form-control" data-bind="value: InputColSm" id="form-design-InputColSm" type="number" name="FormDesign.InputColSm" />
+                    </div>
+                    <div class="form-group">
+                        <label>Input Col x-small</label>
+                        <input class="form-control" data-bind="value: InputColXs" id="form-design-InputColXs" type="number" name="FormDesign.InputColXs" />
+                    </div>
+
+                </div>
+
+
+                <!-- /ko -->
+
+            </form>
+        </div>
+        <div id="add-field" class="tab-pane">
+            <ul class="nav" data-bind="foreach: formElements">
+                <li>
+                    <a class="btn btn-default" href="#add-field" data-bind="tooltip : designer.Description">
+                        <i data-bind="attr: { 'class':'fa fa-' + designer.FontAwesomeIcon }" class="pull-left"></i>
+                        <!-- ko text: designer.Name -->
+                        <!-- /ko-->
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
+            <form role="form">
+
+                <div class="form-group" data-bind="visible:IsPathIsRequired">
+                    <label for="form-element-path">Path</label>
+                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="form-element-path" type="text" name="Path" />
+                </div>
+                <div class="form-group">
+                    <label for="form-element-label">Label</label>
+                    <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
+                </div>
+                <div class="form-group">
+                    <a href="/docs/#" data-bind="attr:{href:'/docs#' + ko.unwrap($type)}" target="_blank" title="help">
+                        <i class="fa fa-question-circle"></i>
+                    </a>
+                </div>
+                <div class="form-group checkbox checkbox-no-padding-left">
+                    <label for="use-display-template" class="sr-only">Use display template</label>
+                    <label for="use-display-template">
+                        <input data-bind="checked: UseDisplayTemplate" id="use-display-template" type="checkbox" name="UseDisplayTemplate" />
+                        Use display template
+                    </label>
+                </div>
+                <div class="form-group">
+                    <a href="#toolbox-more-settings" data-toggle="collapse"><i class="fa fa-chevron-down"></i>More settings</a>
+                </div>
+                <div id="toolbox-more-settings" class="collapse">
+                    <div class="form-group">
+                        <label for="form-element-tooltip">Tooltip</label>
+                        <input class="form-control" data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-element-help-text">Help</label>
+                        <input class="form-control" data-bind="value: HelpText, valueUpdate: 'keyup'" id="form-element-help-text" type="text" name="HelpText" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="fe-css-class">Css class</label>
+                        <input class="form-control" data-bind="value: CssClass" id="fe-css-class" type="text" name="CssClass" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-element-visible">Visible</label>
+                        <input class="form-control" data-bind="value: Visible" id="form-element-visible" type="text" name="Visible" />
+                    </div>
+                    <div class="form-group">
+                        <label for="form-element-enable">Enable</label>
+                        <input class="form-control" data-bind="value: Enable" id="form-element-enable" type="text" name="Enable" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="form-element-elementId">Id</label>
+                        <input class="form-control" data-bind="value: ElementId" id="form-element-elementId" type="text" name="ElementId" />
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <a href="#toolbox-advanced-settings" data-toggle="collapse">
+                        <i class="fa fa-chevron-down"></i>
+                        Advanced settings
+                    </a>
+                </div>
+                <div id="toolbox-advanced-settings" class="collapse">
+                    @{
+                        var types = new[]
+                        {
+                    typeof (TextBox),
+                    typeof (ComboBox),
+                    typeof (Button),
+                    typeof (DownloadLink),
+                    typeof (ImageElement),
+                    typeof (ChildEntityListView),
+                    typeof (EntityLookupElement),
+                    typeof (FileUploadElement),
+                    typeof (ListView)
+                };
+                    }
+                    @foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
+            {
+                FormElement fe1 = fe;
+                        @Html.EditorFor(m => fe1)
+
+                    }
+                </div>
+
+                <a data-bind="click: $root.removeFormElement" class="btn btn-warning" title="remove this element">Remove</a>
+                <!-- END OF EDITOR TOOLBOX -->
+            </form>
+
+        </div>
+
+        <div id="fields-validation" class="tab-pane" data-bind="with : selectedFormElement">
+            @Html.Partial("_ValidationSetting")
+        </div>
+ 
+    </div>
+
+</div>

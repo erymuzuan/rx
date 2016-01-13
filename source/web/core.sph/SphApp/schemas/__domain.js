@@ -1839,6 +1839,42 @@ bespoke.sph.domain.DialogButton = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.PartialView = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.PartialView, domain.sph",
+        Id: ko.observable("0"),
+        Route: ko.observable(""),
+        Entity: ko.observable(""),
+        MemberPath: ko.observable(""),
+        IsPublished: ko.observable(false),
+        Note: ko.observable(""),
+        FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.PartialViewPartial) {
+        return _(model).extend(new bespoke.sph.domain.PartialViewPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

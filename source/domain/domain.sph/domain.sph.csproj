@@ -280,6 +280,7 @@
     <Compile Include="FormTemplates\HtmlElement.cs" />
     <Compile Include="FormTemplates\NumberTextBox.cs" />
     <Compile Include="FormTemplates\PartialJs.cs" />
+    <Compile Include="FormTemplates\PartialView.cs" />
     <Compile Include="FormTemplates\PatchSetter.cs" />
     <Compile Include="FormTemplates\RouteParameter.cs" />
     <Compile Include="FormTemplates\SearchDefinition.cs" />

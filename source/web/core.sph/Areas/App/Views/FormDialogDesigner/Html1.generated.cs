@@ -67,87 +67,16 @@ WriteLiteral(">\r\n    <h1>\r\n        Dialog :\r\n        <span");
 
 WriteLiteral(" data-bind=\"text:Name\"");
 
-WriteLiteral("></span>\r\n    </h1>\r\n</div>\r\n<div");
+WriteLiteral("></span>\r\n    </h1>\r\n</div>\r\n");
 
-WriteLiteral(" id=\"error-list-entity-form\"");
+            
+            #line 14 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+Write(Html.Partial("_DesignerBuildError"));
 
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(" data-bind=\"visible:errors().length\"");
-
-WriteLiteral(">\r\n    <!-- ko foreach : errors -->\r\n    <div");
-
-WriteLiteral(" class=\"col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger\"");
-
-WriteLiteral(">\r\n        <button");
-
-WriteLiteral(" type=\"button\"");
-
-WriteLiteral(" class=\"close\"");
-
-WriteLiteral(" data-dismiss=\"alert\"");
-
-WriteLiteral(" aria-hidden=\"true\"");
-
-WriteLiteral(">&times;</button>\r\n        <i");
-
-WriteLiteral(" class=\"fa fa-exclamation\"");
-
-WriteLiteral("></i>\r\n        <span");
-
-WriteLiteral(" data-bind=\"text:Message\"");
-
-WriteLiteral("></span>\r\n        <!-- ko if : Code -->\r\n        <strong");
-
-WriteLiteral(" class=\"icon-read-more\"");
-
-WriteLiteral(" data-bind=\"bootstrapPopover : Code\"");
-
-WriteLiteral("> ..more</strong>\r\n        <!-- /ko-->\r\n    </div>\r\n    <div");
-
-WriteLiteral(" class=\"col-sm-2\"");
-
-WriteLiteral("></div>\r\n    <!-- /ko-->\r\n</div>\r\n<div");
-
-WriteLiteral(" id=\"warning-list-entity-form\"");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(" data-bind=\"visible:warnings().length\"");
-
-WriteLiteral(">\r\n    <!-- ko foreach : warnings -->\r\n    <div");
-
-WriteLiteral(" class=\"col-sm-8 col-sm-offset-2 alert alert-dismissable alert-warning\"");
-
-WriteLiteral(">\r\n        <button");
-
-WriteLiteral(" type=\"button\"");
-
-WriteLiteral(" class=\"close\"");
-
-WriteLiteral(" data-dismiss=\"alert\"");
-
-WriteLiteral(" aria-hidden=\"true\"");
-
-WriteLiteral(">&times;</button>\r\n        <i");
-
-WriteLiteral(" class=\"fa fa-warning\"");
-
-WriteLiteral("></i>\r\n        <span");
-
-WriteLiteral(" data-bind=\"text:Message\"");
-
-WriteLiteral("></span>\r\n        <!-- ko if : Code -->\r\n        <strong");
-
-WriteLiteral(" class=\"icon-read-more\"");
-
-WriteLiteral(" data-bind=\"bootstrapPopover : Code\"");
-
-WriteLiteral("> ..more</strong>\r\n        <!-- /ko-->\r\n    </div>\r\n    <div");
-
-WriteLiteral(" class=\"col-sm-2\"");
-
-WriteLiteral("></div>\r\n    <!-- /ko-->\r\n</div>\r\n<div");
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -160,7 +89,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("        ");
 
             
-            #line 43 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+            #line 19 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
    Write(Html.Partial("_Toolbox"));
 
             
@@ -225,13 +154,13 @@ WriteLiteral(" class=\"form-horizontal\"");
 WriteLiteral(">\r\n                            <!--ko foreach:FormElementCollection -->\r\n");
 
             
-            #line 61 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+            #line 37 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
                             
             
             #line default
             #line hidden
             
-            #line 61 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+            #line 37 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
                              foreach (var fe in Model.FormElements)
                             {
                                 var fe1 = fe;
@@ -240,14 +169,14 @@ WriteLiteral(">\r\n                            <!--ko foreach:FormElementCollect
             #line default
             #line hidden
             
-            #line 64 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+            #line 40 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
                            Write(Html.DisplayFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 64 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
+            #line 40 "..\..\Areas\App\Views\FormDialogDesigner\Html.cshtml"
                                                           
                             }
 
