@@ -1,0 +1,22 @@
+﻿@model Bespoke.Sph.Domain.TabControl
+
+<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.TabControl, domain.sph" -->
+<a href="#" data-bind="click: addItem">Add a tab page</a>
+<div class="row">
+    <span class="col-lg-5">Header</span>
+    <span class="col-lg-5">Partial View</span>
+</div>
+
+<!-- ko foreach : TabPanelCollection -->
+
+<div class="row">
+    <input class="col-lg-5" type="text" data-bind="value: Header, valueUpdate: 'keyup'" />
+    <input class="col-lg-5" type="text" data-bind="value: PartialView" />
+    <a href="#" data-bind="click: $parent.removeItem.call($parent, $data)">
+        <i class="glyphicon glyphicon-remove"></i>
+    </a>
+</div>
+<!-- /ko -->
+
+
+<!--/ko-->

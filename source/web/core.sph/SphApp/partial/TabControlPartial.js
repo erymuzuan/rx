@@ -6,18 +6,18 @@
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
-bespoke.sph.domain.ComboBoxPartial = function () {
-    var system = require('durandal/system'),
+bespoke.sph.domain.TabControlPartial = function () {
+    var system = require("durandal/system"),
         addItem = function () {
             var self = this;
-            var item = new bespoke.sph.domain.ComboBoxItem(system.guid());
-            self.ComboBoxItemCollection.push(item);
+            var item = new bespoke.sph.domain.TabPanel(system.guid());
+            self.TabPanelCollection.push(item);
 
         },
         removeItem = function (item) {
             var self = this;
             return function () {
-                self.ComboBoxItemCollection.remove(item);
+                self.TabPanelCollection.remove(item);
             };
         };
     return {

@@ -1875,6 +1875,98 @@ bespoke.sph.domain.PartialView = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.ChildView = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ChildView, domain.sph",
+        PartialView: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ChildViewPartial) {
+        return _(model).extend(new bespoke.sph.domain.ChildViewPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.TabControl = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.TabControl, domain.sph",
+        PartialView: ko.observable(""),
+        TabPanelCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.TabControlPartial) {
+        return _(model).extend(new bespoke.sph.domain.TabControlPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.TabPanel = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.TabPanel, domain.sph",
+        Header: ko.observable(""),
+        PartialView: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.TabPanelPartial) {
+        return _(model).extend(new bespoke.sph.domain.TabPanelPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

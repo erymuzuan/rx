@@ -678,6 +678,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\TabControl.generated.cs">
+      <DependentUpon>TabControl.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\App\Views\Shared\EditorTemplates\FileUploadElement.generated.cs">
       <DependentUpon>FileUploadElement.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1908,6 +1913,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ChildView.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\TabControl.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TabControl.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
     <EmbeddedResource Include="routes.config.json" />
@@ -2033,6 +2042,7 @@
     <EmbeddedResource Include="Scripts\__vendor.min.js" />
     <EmbeddedResource Include="Scripts\__rx.min.js" />
     <EmbeddedResource Include="Scripts\__vendor.dev.min.js" />
+    <Content Include="SphApp\partial\TabControlPartial.js" />
     <Content Include="SphApp\partial\FormDialogPartial.js" />
     <Content Include="SphApp\partial\EntityFormPartial.js" />
     <Content Include="SphApp\partial\ChildEntityListView.js" />
