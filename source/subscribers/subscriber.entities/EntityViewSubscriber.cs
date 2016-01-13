@@ -15,7 +15,7 @@ namespace subscriber.entities
 
         public override string[] RoutingKeys => new[] { typeof(EntityView).Name + ".#.Publish" };
 
-        protected async override Task ProcessMessage(EntityView view, MessageHeaders header)
+        protected override async Task ProcessMessage(EntityView view, MessageHeaders header)
         {
             await Task.Delay(2000);
             var context = new SphDataContext();
@@ -46,7 +46,7 @@ namespace subscriber.entities
 
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + view.Route.ToLower() + ".html");
             var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(template.Html, vm);
-            File.WriteAllText(html, markup);
+            File.WriteAllText(html, markup.Tidy());
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + view.Route.ToLower() + ".js");
             var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(template.Js, vm);

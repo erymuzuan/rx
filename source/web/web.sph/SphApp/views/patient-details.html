@@ -1,5 +1,3 @@
-
-
 <h1 data-i18n="Patient Details">Patient Details</h1>
 <div id="error-list" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
@@ -7,74 +5,57 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <i class="fa fa-exclamation"></i>
         <span data-bind="text:Message"></span>
-
     </div>
     <div class="col-sm-2"></div>
     <!-- /ko-->
 </div>
 <div class="row">
     <div class="col-sm-8">
-        
 <form class="form-horizontal" data-bind="with : entity" id="patient-details-form">
-
-
-
     <div data-bind="visible:true" class="form-group">
         <label data-i18n="FullName" for="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" class="col-md-4">FullName</label>
         <div class="col-md-8">
-            <input  class=" form-control input-large" title=""
-                   data-bind="value: FullName, enable :true "
+            <input class="form-control input-large"
+                   data-bind="value: FullName"
                    maxlength="50"
-                   
                     data-rule-maxlength="50"
  data-rule-minlength="5"
-
                    id="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" type="text" name="FullName" />
         </div>
     </div>
-
-
-
     <div data-bind="visible:true" class="form-group">
         <label data-i18n="MyKad" for="d9f52c01-887a-4ae6-a0fd-c83002987323" class="col-md-4">MyKad</label>
         <div class="col-md-8">
-            <input  class=" form-control input-large" title=""
-                   data-bind="value: IdentificationNo, enable :true "
+            <input class="form-control input-large"
+                   data-bind="value: IdentificationNo"
                    maxlength="14"
-                   
                     data-rule-maxlength="14"
  data-rule-minlength="12"
-
                    id="d9f52c01-887a-4ae6-a0fd-c83002987323" type="text" name="IdentificationNo" />
         </div>
     </div>
-
     <div class="form-group" data-bind="visible : true">
         <label data-i18n="Dob" for="d1aa9295-8b31-4eec-a357-fe22540040b8" class="col-md-4">Dob</label>
         <div class="col-md-8">
-            <input class=" form-control input-large"
+            <input class="form-control input-large"
                    data-bind="kendoDate: Dob, enable :true" id="d1aa9295-8b31-4eec-a357-fe22540040b8" type="text"
                    name="Dob" />
         </div>
     </div>
-
-
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Gender" for="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" class="col-md-4">Gender</label>
         <div class="col-md-8">
-            <select  data-bind="value: Gender, enable :true" id="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" name="Gender" class=" input-large form-control">
+            <select  data-bind="value: Gender, enable :true" id="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" name="Gender" class="input-large form-control">
                     <option value="Male" data-i18n="Male">Male</option>
                     <option value="Female" data-i18n="Female">Female</option>
                     <option value="Inderterminate" data-i18n="Inderterminate">Inderterminate</option>
             </select>
         </div>
     </div>
-
-
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Race" for="22dc3ef6-2060-4cb1-9393-228bbd706764" class="col-md-4">Race</label>
         <div class="col-md-8">
-            <select  data-bind="value: Race, enable :true" id="22dc3ef6-2060-4cb1-9393-228bbd706764" name="Race" class=" input-large form-control">
+            <select  data-bind="value: Race, enable :true" id="22dc3ef6-2060-4cb1-9393-228bbd706764" name="Race" class="input-large form-control">
                     <option value="Malay" data-i18n="Malay">Malay</option>
                     <option value="Chinese" data-i18n="Chinese">Chinese</option>
                     <option value="Indian" data-i18n="Indian">Indian</option>
@@ -82,12 +63,10 @@
             </select>
         </div>
     </div>
-
-
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Religion" for="205ef0d1-5c5b-4d47-bf76-4c29fafd33fd" class="col-md-4">Religion</label>
         <div class="col-md-8">
-            <select  data-bind="value: Religion, enable :true" id="205ef0d1-5c5b-4d47-bf76-4c29fafd33fd" name="Religion" class=" input-large form-control">
+            <select  data-bind="value: Religion, enable :true" id="205ef0d1-5c5b-4d47-bf76-4c29fafd33fd" name="Religion" class="input-large form-control">
                     <option value="Islam" data-i18n="Islam">Islam</option>
                     <option value="Buddhism" data-i18n="Buddhism">Buddhism</option>
                     <option value="Christianity" data-i18n="Christianity">Christianity</option>
@@ -96,28 +75,24 @@
             </select>
         </div>
     </div>
-
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Income" for="910ee6ef-1143-4c9b-b3a5-0da570e8d1f2" class="col-md-4">Income</label>
         <div class="col-md-8">
-            <input step="0" class=" form-control input-large" data-bind="value: Income, visible :true, enable :true"
+            <input step="0" class="form-control input-large" data-bind="value: Income, visible :true, enable :true"
                    id="910ee6ef-1143-4c9b-b3a5-0da570e8d1f2" type="number" name="Income" />
         </div>
     </div>
-  
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Age" for="b957c5fe-7a6a-4ebc-8fd3-214078641322" class="col-md-4">Age</label>
         <div class="col-md-8">
-            <input step="0" class=" form-control input-large" data-bind="value: Age, visible :true, enable :true"
+            <input step="0" class="form-control input-large" data-bind="value: Age, visible :true, enable :true"
                    id="b957c5fe-7a6a-4ebc-8fd3-214078641322" type="number" name="Age" />
         </div>
     </div>
-  
-
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Marital Status" for="3064a912-b562-4e70-bcf2-170b7a872303" class="col-md-4">Marital Status</label>
         <div class="col-md-8">
-            <select  data-bind="value: MaritalStatus, enable :true" id="3064a912-b562-4e70-bcf2-170b7a872303" name="MaritalStatus" class=" input-large form-control">
+            <select  data-bind="value: MaritalStatus, enable :true" id="3064a912-b562-4e70-bcf2-170b7a872303" name="MaritalStatus" class="input-large form-control">
                     <option value="Single" data-i18n="Single">Single</option>
                     <option value="Married" data-i18n="Married">Married</option>
                     <option value="Divorced" data-i18n="Divorced">Divorced</option>
@@ -125,33 +100,25 @@
             </select>
         </div>
     </div>
-
-
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Home Address  State" for="fea66b5a-9ad6-4fed-aa46-7dd4ba5fadff" class="col-md-4">Home Address  State</label>
         <div class="col-md-8">
-            <select  data-bind=" visible :true,  enable :true, comboBoxLookupOptions : { value: HomeAddress().State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'startswith(Country, \'Ma\') eq true'}" id="fea66b5a-9ad6-4fed-aa46-7dd4ba5fadff" name="HomeAddress.State" class="  form-control">
+            <select  data-bind=" visible :true,  enable :true, comboBoxLookupOptions : { value: HomeAddress().State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'startswith(Country, \'Ma\') eq true'}" id="fea66b5a-9ad6-4fed-aa46-7dd4ba5fadff" name="HomeAddress.State" class=" form-control">
             </select>
         </div>
     </div>
-
-
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Home Address  City" for="28109dd9-5e0a-4309-8bbd-ac89b7d9e040" class="col-md-4">Home Address  City</label>
         <div class="col-md-8">
-            <select  data-bind="value: HomeAddress().City, enable :true" id="28109dd9-5e0a-4309-8bbd-ac89b7d9e040" name="HomeAddress.City" class="  form-control">
+            <select  data-bind="value: HomeAddress().City, enable :true" id="28109dd9-5e0a-4309-8bbd-ac89b7d9e040" name="HomeAddress.City" class=" form-control">
                     <option value="test" data-i18n="test">test</option>
                     <option value="t" data-i18n="t">t</option>
             </select>
         </div>
     </div>
-
-
-
-
 <div class="form-group" data-bind="visible:true">
     <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('eaeb98f9-d1e9-46af-8edc-8a82d86cc6ca')}">
+    <table class="table table-condensed table-striped" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('67833705-8a75-4786-b37f-0d91cbda9f7b')}">
         <thead>
             <tr>
                     <th data-i18n="Doctor">Doctor</th>
@@ -160,7 +127,7 @@
                     <th data-i18n="Mrn">Mrn</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('eaeb98f9-d1e9-46af-8edc-8a82d86cc6ca')">
+        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('67833705-8a75-4786-b37f-0d91cbda9f7b')">
             <tr>
                         <td data-bind="text:Doctor"></td>
                         <td>
@@ -178,7 +145,7 @@
     <div class="form-group" data-bind="visible : true">
         <label data-i18n="Death Date" for="0ca43c3a-a2f7-42ed-91da-d246e1abc790" class="col-md-4">Death Date</label>
         <div class="col-md-8">
-            <input class=" form-control input-large"
+            <input class="form-control input-large"
                    data-bind="kendoDate: DeathDate, enable :true" id="0ca43c3a-a2f7-42ed-91da-d246e1abc790" type="text"
                    name="DeathDate" />
         </div>
@@ -192,6 +159,5 @@
             <h3 data-i18n="Audit Trail">Audit Trail</h3>
         <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().Id(), entity : 'Patient'}} -->
         <!--/ko-->
-
     </div>
 </div>

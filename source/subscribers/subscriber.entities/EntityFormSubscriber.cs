@@ -11,7 +11,7 @@ namespace subscriber.entities
     {
         public override string QueueName => "ed_form_gen";
 
-        public override string[] RoutingKeys => new[] { typeof(EntityForm).Name + ".changed.Publish" };
+        public override string[] RoutingKeys => new[] { "EntityForm.#.Publish" };
 
         protected override async Task ProcessMessage(EntityForm item, MessageHeaders header)
         {
@@ -19,14 +19,14 @@ namespace subscriber.entities
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + item.Route.ToLower() + ".html");
             using (var client = new HttpClient())
             {
-                var uri = ConfigurationManager.BaseUrl + "/Sph/EntityFormRenderer/Html/" + item.Route;
+                var uri = $"{ConfigurationManager.BaseUrl}/Sph/EntityFormRenderer/Html/{item.Route}";
                 this.WriteMessage("Rendering {0}", uri);
                 var markup = await client.GetStringAsync(uri);
-                File.WriteAllText(html, markup);
+                File.WriteAllText(html, markup.Tidy());
             }
 
 
-            var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + item.Route.ToLower() + ".js");
+            var js = Path.Combine(ConfigurationManager.WebPath, $"SphApp/viewmodels/{item.Route.ToLower()}.js");
             using (var client = new HttpClient())
             {
                 var script = await client.GetStringAsync(ConfigurationManager.BaseUrl + "/Sph/EntityFormRenderer/Js/" + item.Route);

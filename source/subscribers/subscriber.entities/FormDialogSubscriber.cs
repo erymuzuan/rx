@@ -22,7 +22,7 @@ namespace subscriber.entities
                 var uri = ConfigurationManager.BaseUrl + "/Sph/FormDialogRenderer/Html/" + item.Route;
                 this.WriteMessage("Rendering {0}", uri);
                 var markup = await client.GetStringAsync(uri);
-                File.WriteAllText(html, markup);
+                File.WriteAllText(html, markup.Tidy());
             }
 
 

@@ -99,6 +99,17 @@ namespace Bespoke.Sph.Domain
             }
             return new string(code.ToArray());
         }
+
+
+        public static string Tidy(this string html)
+        {
+            return Regex.Replace(html, @"^\s+$[\r\n]*", "", RegexOptions.Multiline)
+                 .Replace("class=\" ", "class=\"")
+                 .Replace("<input  class=\"", "<input class=\"")
+                 .Replace(" title=\"\"", "")
+                 .Replace(", enable :true \"", "\"");
+        }
+
         public static string ToCamelCase(this string text)
         {
             if (string.IsNullOrWhiteSpace(text))

@@ -58,6 +58,7 @@
     <Compile Include="EntityPageSubscriber.cs" />
     <Compile Include="EntityCodeSubscriber.cs" />
     <Compile Include="FormDialogSubscriber.cs" />
+    <Compile Include="PartialViewSubscriber.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="IisRewriteRuleSubscriber.cs" />
     <Compile Include="EntityDefinitionDeletedSubscriber.cs" />
