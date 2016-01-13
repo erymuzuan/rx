@@ -1,3 +1,4 @@
+@using Bespoke.Sph.Domain
 @model Bespoke.Sph.Domain.TabControl
 
 <div class="tabbable">
@@ -28,24 +29,29 @@
         {
             var tab = Model.TabPanelCollection[i];
             var id = $"{tab.PartialView}-{i:00}";
-            var pathSpecified = tab.Path == "." || string.IsNullOrWhiteSpace(tab.Path);
-            var dbw = pathSpecified ? $"data-bind=\"with: {Model.Path}\"" : null;
+            var defaultPath = tab.Path == "." || string.IsNullOrWhiteSpace(tab.Path);
+            var dbw = defaultPath ? null : $"data-bind=\"with: {tab.Path.ConvertJavascriptObjectToFunction()}\"";
 
 
 
             if (i == 0)
             {
 
-                <div id="@id" class="tab-pane active" @dbw>
-                    <!-- ko compose : {view : '@tab.PartialView'}-->
-                    <!-- /ko -->
+                <div id="@id" class="tab-pane active" @Html.Raw(dbw)>
+                    <form class="form-horizontal" id="@($"{tab.PartialView}-form-{i:00}")">
+                        <!-- ko compose : {view : '@(tab.PartialView).html'}-->
+                        <!-- /ko -->
+                    </form>
                 </div>
             }
             else
             {
-                <div id="@id" class="tab-pane" @dbw>
-                    <!-- ko compose : {view : '@tab.PartialView'}-->
-                    <!-- /ko -->
+                <div id="@id" class="tab-pane" @Html.Raw(dbw)>
+
+                    <form class="form-horizontal" id="@($"{tab.PartialView}-form-{i:00}")">
+                        <!-- ko compose : {view : '@(tab.PartialView).html'}-->
+                        <!-- /ko -->
+                    </form>
 
                 </div>
 

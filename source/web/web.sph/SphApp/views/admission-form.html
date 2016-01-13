@@ -20,7 +20,6 @@
         <label class="col-md-4">MRN</label>
         <span class="col-md-8" data-bind="text: Mrn"></span>
     </div>
-<button data-bind="click : $root., visible :true, enable: true" class="">Edit Address</button>
     <div data-bind="visible:true" class="form-group">
         <label data-i18n="Street" for="80e3758a-097d-4678-86d9-c2815eb4e8e9" class="col-md-4">Street</label>
         <div class="col-md-8">
@@ -32,20 +31,24 @@
 <div class="tabbable">
     <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#patient-address-partial" data-toggle="tab">Alamat</a>
+                    <a href="#patient-address-partial-00" data-toggle="tab">Alamat Rumah</a>
                 </li>
                 <li>
-                    <a href="#patient-address-partial" data-toggle="tab">Address</a>
+                    <a href="#patient-address-partial-01" data-toggle="tab">Alamat Kerja Pasangan</a>
                 </li>
     </ul>
     <div class="tab-content">
-                <div id="patient-address-partial" class="tab-pane active">
-                    <!-- ko compose : {view : 'patient-address-partial'}-->
-                    <!-- /ko -->
+                <div id="patient-address-partial-00" class="tab-pane active" data-bind="with: HomeAddress">
+                    <form class="form-horizontal" id="patient-address-partial-form-00">
+                        <!-- ko compose : {view : 'patient-address-partial.html'}-->
+                        <!-- /ko -->
+                    </form>
                 </div>
-                <div id="patient-address-partial" class="tab-pane">
-                    <!-- ko compose : {view : 'patient-address-partial'}-->
-                    <!-- /ko -->
+                <div id="patient-address-partial-01" class="tab-pane" data-bind="with: Wife().WorkPlaceAddress">
+                    <form class="form-horizontal" id="patient-address-partial-form-01">
+                        <!-- ko compose : {view : 'patient-address-partial.html'}-->
+                        <!-- /ko -->
+                    </form>
                 </div>
     </div>
 </div>

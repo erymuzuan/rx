@@ -1,15 +1,16 @@
+@using Bespoke.Sph.Domain
 @model Bespoke.Sph.Domain.ChildView
 @{
-    var pathSpecified = Model.Path == "." || string.IsNullOrWhiteSpace(Model.Path);
+    var defaultPath = Model.Path == "." || string.IsNullOrWhiteSpace(Model.Path);
 }
-@if (pathSpecified)
+@if (!defaultPath)
 {
-    <!-- ko with : @Model.Path -->
+    <!-- ko with : @Model.Path.ConvertJavascriptObjectToFunction() -->
 }
-    <!-- ko compose : : {view : '@(Model.PartialView)'}-->
+    <!-- ko compose : : {view : '@(Model.PartialView).html'}-->
     <!-- /ko-->
 
-@if (pathSpecified)
+@if (!defaultPath)
 {
     <!-- /ko -->
 }

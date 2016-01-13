@@ -27,6 +27,12 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     
+    #line 1 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/ChildView.cshtml")]
     public partial class _Views_Shared_EditorTemplates_ChildView_cshtml_ : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ChildView>
@@ -37,9 +43,9 @@ namespace ASP
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
+            #line 3 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
   
-    var pathSpecified = Model.Path == "." || string.IsNullOrWhiteSpace(Model.Path);
+    var defaultPath = Model.Path == "." || string.IsNullOrWhiteSpace(Model.Path);
 
             
             #line default
@@ -47,8 +53,8 @@ namespace ASP
 WriteLiteral("\r\n");
 
             
-            #line 5 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
- if (pathSpecified)
+            #line 6 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
+ if (!defaultPath)
 {
 
             
@@ -57,8 +63,8 @@ WriteLiteral("\r\n");
 WriteLiteral("    <!-- ko with : ");
 
             
-            #line 7 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
-              Write(Model.Path);
+            #line 8 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
+              Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
             #line default
@@ -66,7 +72,7 @@ WriteLiteral("    <!-- ko with : ");
 WriteLiteral(" -->\r\n");
 
             
-            #line 8 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
+            #line 9 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
 }
 
             
@@ -75,17 +81,17 @@ WriteLiteral(" -->\r\n");
 WriteLiteral("    <!-- ko compose : : {view : \'");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
+            #line 10 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
                              Write(Model.PartialView);
 
             
             #line default
             #line hidden
-WriteLiteral("\'}-->\r\n    <!-- /ko-->\r\n\r\n");
+WriteLiteral(".html\'}-->\r\n    <!-- /ko-->\r\n\r\n");
 
             
-            #line 12 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
- if (pathSpecified)
+            #line 13 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
+ if (!defaultPath)
 {
 
             
@@ -94,7 +100,7 @@ WriteLiteral("\'}-->\r\n    <!-- /ko-->\r\n\r\n");
 WriteLiteral("    <!-- /ko -->\r\n");
 
             
-            #line 15 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
+            #line 16 "..\..\Views\Shared\EditorTemplates\ChildView.cshtml"
 }
             
             #line default

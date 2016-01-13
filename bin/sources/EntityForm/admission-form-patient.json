@@ -94,54 +94,6 @@
           "WebId": null
         },
         {
-          "$type": "Bespoke.Sph.Domain.Button, domain.sph",
-          "IsPathIsRequired": false,
-          "Command": "//insert your code here\n\nrequire(['viewmodels/add-or-edit-address' , 'durandal/app'], function (dialog, app2) {\n    app2.showDialog(dialog)\n        .done(function (result) {\n            if (!result) return;\n            if (result === \"OK\") {\n                entity().HomeAddress().Street(dialog.item().Street());\n            \n            }\n    });\n});",
-          "UseClick": true,
-          "CommandName": null,
-          "LoadingText": null,
-          "CompleteText": null,
-          "IconClass": "fa fa-road",
-          "IsToolbarItem": false,
-          "Operation": null,
-          "TypeName": "Button",
-          "FieldValidation": {
-            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-            "IsRequired": false,
-            "Pattern": null,
-            "Mode": "",
-            "Message": null,
-            "Min": null,
-            "Max": null,
-            "MinLength": null,
-            "MaxLength": null,
-            "WebId": null
-          },
-          "Name": null,
-          "Label": "Edit Address",
-          "Tooltip": null,
-          "Path": null,
-          "IsRequired": false,
-          "Size": "input-large",
-          "CssClass": "",
-          "Visible": "true",
-          "Enable": "true",
-          "ElementId": "b47f0732-e0da-4c5c-abfb-254f5b7f6d29",
-          "HelpText": null,
-          "UseDisplayTemplate": false,
-          "ToolboxIconClass": null,
-          "IsUniqueName": false,
-          "LabelColLg": null,
-          "LabelColMd": null,
-          "LabelColSm": null,
-          "LabelColXs": null,
-          "InputColLg": null,
-          "InputColMd": null,
-          "InputColSm": null,
-          "InputColXs": null,
-          "WebId": "c4ba0509-b82f-4188-a3e3-3dc810099d56"
-        },
-        {
           "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
           "DefaultValue": null,
           "AutoCompletionEntity": null,
@@ -193,14 +145,16 @@
             "$values": [
               {
                 "$type": "Bespoke.Sph.Domain.TabPanel, domain.sph",
-                "Header": "Alamat",
+                "Header": "Alamat Rumah",
                 "PartialView": "patient-address-partial",
+                "Path": "HomeAddress",
                 "WebId": "66cb937d-e216-4786-d610-58356bd016e2"
               },
               {
                 "$type": "Bespoke.Sph.Domain.TabPanel, domain.sph",
-                "Header": "Address",
+                "Header": "Alamat Kerja Pasangan",
                 "PartialView": "patient-address-partial",
+                "Path": "Wife.WorkPlaceAddress",
                 "WebId": "bbab4d18-c85d-43bb-9ab9-548ee2b87cde"
               }
             ]
@@ -292,14 +246,14 @@
   "Partial": null,
   "Caption": null,
   "Layout": " ",
-  "OperationSuccessMesage": null,
-  "OperationSuccessNavigateUrl": null,
+  "OperationSuccessMesage": "Done",
+  "OperationSuccessNavigateUrl": "#patient",
   "OperationSuccessCallback": null,
   "OperationFailureCallback": null,
   "CreatedBy": "admin",
   "Id": "admission-form-patient",
   "CreatedDate": "2016-01-12T19:08:12.9476295+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-13T14:35:14.8118268+08:00",
+  "ChangedDate": "2016-01-13T15:13:48.7137768+08:00",
   "WebId": "245957b5-d375-48f6-b500-a24380cb48e9"
 }

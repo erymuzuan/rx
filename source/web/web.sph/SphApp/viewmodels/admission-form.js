@@ -168,7 +168,14 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         },
 
         save = function() {
-            return admit();
+            return admit()
+                .then(function(result) {
+                if (result.success) return app.showMessage("Done", ["OK"]);
+                else return Task.fromResult(false);
+            })
+                .then(function(result) {
+                if (result) router.navigate("#patient");
+            });
         };
 
     var vm = {
