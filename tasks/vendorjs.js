@@ -14,7 +14,7 @@ var sources = [
 "./source/web/core.sph/Scripts/jquery.validate.js",
 "./source/web/core.sph/Scripts/jquery.tablesorter.min.js",
 "./source/web/core.sph/Scripts/jquery-ui-1.10.3.custom.min.js",
-"./source/web/core.sph/Scripts/knockout-3.2.0.js",
+"./source/web/core.sph/Scripts/knockout-3.4.0.js",
 "./source/web/core.sph/Scripts/knockout.mapping-latest.js",
 "./source/web/core.sph/Scripts/bootstrap.js",
 "./source/web/core.sph/Scripts/typeahead.bundle.js",

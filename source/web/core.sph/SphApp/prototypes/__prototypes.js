@@ -49,7 +49,7 @@ bespoke.sph.domain.BusinessRuleBase = function () {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 

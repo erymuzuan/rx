@@ -244,7 +244,7 @@ bespoke.sph.domain.ChildEntityListViewPartial = function (model) {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="/Scripts/jquery-2.1.3.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
@@ -286,7 +286,7 @@ bespoke.sph.domain.ConstantFieldPartial = function (model) {
     return vm;
 };
 /// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../services/datacontext.js" />
@@ -466,7 +466,7 @@ bespoke.sph.domain.EntityChartPartial = function (model) {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../objectbuilders.js" />
 /// <reference path="/Scripts/jquery-2.1.3.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
@@ -763,7 +763,7 @@ bespoke.sph.domain.EntityFormPartial = function () {
     };
 };
 /// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -1040,7 +1040,7 @@ bespoke.sph.domain.FilterPartial = function () {
 };
 
 /// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -1871,7 +1871,7 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/durandal/system.js" />
 /// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -1909,7 +1909,7 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="/Scripts/jquery-2.1.3.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
@@ -1942,7 +1942,7 @@ bespoke.sph.domain.TabControlPartial = function (tab) {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -2709,7 +2709,7 @@ bespoke.sph.domain.WorkflowDesignerPartial = function () {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 

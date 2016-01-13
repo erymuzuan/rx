@@ -1,5 +1,5 @@
 
-/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
+/// <reference path="~/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -2103,7 +2103,7 @@ bespoke.sph.domain.OwnerType = function () {
 
 
 
-/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
+/// <reference path="~/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -2948,7 +2948,7 @@ bespoke.sph.domain.IntervalSchedule = function (optionOrWebid) {
 
 
 
-/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
+/// <reference path="~/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
