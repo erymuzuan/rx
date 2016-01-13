@@ -26,15 +26,15 @@
             "WebId": null
           },
           "Name": null,
-          "Label": "Age",
+          "Label": "Date Time",
           "Tooltip": null,
-          "Path": "Age",
+          "Path": "DateTime",
           "IsRequired": false,
           "Size": "input-large",
           "CssClass": "",
           "Visible": "true",
           "Enable": "true",
-          "ElementId": "fd204350-c406-4f12-9f82-9ed47847ed1e",
+          "ElementId": "29e5cb24-3fcd-44f8-be10-b4e55588fa9a",
           "HelpText": null,
           "UseDisplayTemplate": false,
           "ToolboxIconClass": null,
@@ -47,7 +47,7 @@
           "InputColMd": null,
           "InputColSm": null,
           "InputColXs": null,
-          "WebId": "a8e42c21-228d-4c2d-a146-c150d60c150f"
+          "WebId": "c7911327-4509-4a79-f030-2d186f911234"
         },
         {
           "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
@@ -70,15 +70,15 @@
             "WebId": null
           },
           "Name": null,
-          "Label": "Street",
+          "Label": "Doctor",
           "Tooltip": null,
-          "Path": "Street",
+          "Path": "Doctor",
           "IsRequired": false,
           "Size": "input-large",
           "CssClass": "",
           "Visible": "true",
           "Enable": "true",
-          "ElementId": "91d3dd8b-ef57-40ea-dec5-f15db53dadb0",
+          "ElementId": "4d476ebf-61b4-4760-b4ac-769421813bca",
           "HelpText": null,
           "UseDisplayTemplate": false,
           "ToolboxIconClass": null,
@@ -91,7 +91,7 @@
           "InputColMd": null,
           "InputColSm": null,
           "InputColXs": null,
-          "WebId": "890a1540-5c6a-470a-ceaa-6cc7be3461df"
+          "WebId": "6f61297a-b10e-447f-af7d-ee4ffa49aafb"
         }
       ]
     },
@@ -122,19 +122,7 @@
         "CreatedDate": "0001-01-01T00:00:00",
         "ChangedBy": null,
         "ChangedDate": "0001-01-01T00:00:00",
-        "WebId": "2cb27843-72bd-49d8-9604-423d1d30a405"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DialogButton, domain.sph",
-        "Text": "Dont Click",
-        "IsDefault": false,
-        "IsCancel": false,
-        "CreatedBy": null,
-        "Id": null,
-        "CreatedDate": "0001-01-01T00:00:00",
-        "ChangedBy": null,
-        "ChangedDate": "0001-01-01T00:00:00",
-        "WebId": "8f82048b-b4f5-4418-fb92-4a3d4356f2ff"
+        "WebId": "883e7c17-02db-43a9-8cfe-3d21293b69aa"
       },
       {
         "$type": "Bespoke.Sph.Domain.DialogButton, domain.sph",
@@ -146,7 +134,7 @@
         "CreatedDate": "0001-01-01T00:00:00",
         "ChangedBy": null,
         "ChangedDate": "0001-01-01T00:00:00",
-        "WebId": "256ebbc8-99d1-4c19-8399-385f6b468eae"
+        "WebId": "49112023-5977-4991-f46b-76cf477a2d66"
       }
     ]
   },
@@ -154,17 +142,17 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
-  "Title": "Add or edit home address",
+  "Title": "Edit appointment",
   "IsAllowCancel": false,
-  "Entity": "patient",
-  "MemberPath": "HomeAddress",
-  "Route": "add-or-edit-address",
-  "IsPublished": true,
-  "Note": "Dialog untuk member's path",
+  "Entity": "appointment",
+  "MemberPath": ".",
+  "Route": "edit-appointment-dialog",
+  "IsPublished": false,
+  "Note": "",
   "CreatedBy": "admin",
-  "Id": "add-or-edit-address",
-  "CreatedDate": "2016-01-11T10:24:34.5557344+08:00",
+  "Id": "edit-appointment-dialog",
+  "CreatedDate": "2016-01-12T17:14:30.180205+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-12T17:01:52.4815026+08:00",
-  "WebId": "de8aeee4-823d-4c2c-91d2-93c94365cf18"
+  "ChangedDate": "2016-01-12T17:45:39.8102243+08:00",
+  "WebId": "8154a195-1488-4c11-bfc0-7022d9692107"
 }
