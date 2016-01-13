@@ -543,6 +543,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BarChartItem.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\ChildView.generated.cs">
+      <DependentUpon>ChildView.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\TabControl.generated.cs">
+      <DependentUpon>TabControl.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\App\Views\Shared\DisplayTemplates\Button.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1889,6 +1899,14 @@
     <Content Include="Areas\Sph\Views\PartialViewRenderer\Html.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\TabControl.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TabControl.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\ChildView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildView.generated.cs</LastGenOutput>
     </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />

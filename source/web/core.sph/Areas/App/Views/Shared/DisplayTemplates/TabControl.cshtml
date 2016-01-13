@@ -1,0 +1,21 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.TabControl
+
+<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.TabControl, domain.sph" -->
+<div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    @Html.Partial("_DesignerContextAction")
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs" data-bind="foreach :TabPanelCollection">
+            <li class="active">
+                <a href="#PANEL1" data-toggle="tab" data-bind="text:Header, attr:{'href' : '#' + ko.unwrap(PartialView)}">TEXT1</a>
+            </li>
+        </ul>
+        <div class="tab-content" data-bind="foreach :TabPanelCollection">
+            <div id="PANEL1" class="tab-pane active" data-bind="attr:{'id' : PartialView}">
+                <span data-bind="text:PartialView"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ko-->

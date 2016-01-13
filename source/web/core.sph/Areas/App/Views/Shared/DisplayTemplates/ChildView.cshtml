@@ -1,0 +1,9 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.ChildView
+
+<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.ChildView, domain.sph" -->
+<div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    Child View for <span data-bind="text:PartialView"></span>
+
+</div>
+<!--/ko-->
