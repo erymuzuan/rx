@@ -74,7 +74,9 @@ WriteLiteral(" data-bind=\"foreach :TabPanelCollection\"");
 
 WriteLiteral(">\r\n            <li");
 
-WriteLiteral(" class=\"active\"");
+WriteLiteral(" class=\"\"");
+
+WriteLiteral(" data-bind=\"css : {\'active\' : ko.unwrap($index) === 0}\"");
 
 WriteLiteral(">\r\n                <a");
 
@@ -94,15 +96,18 @@ WriteLiteral(">\r\n            <div");
 
 WriteLiteral(" id=\"PANEL1\"");
 
-WriteLiteral(" class=\"tab-pane active\"");
+WriteLiteral(" class=\"tab-pane\"");
 
-WriteLiteral(" data-bind=\"attr:{\'id\' : PartialView}\"");
+WriteLiteral(" data-bind=\"attr:{\'id\' : PartialView},css : {\'active\' : ko.unwrap($index) === 0}\"" +
+"");
 
-WriteLiteral(">\r\n                <span");
+WriteLiteral(" style=\"border: 2px dashed gray; padding: 100px;\"");
+
+WriteLiteral(">\r\n                <h3");
 
 WriteLiteral(" data-bind=\"text:PartialView\"");
 
-WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<!--/ko-->\r\n");
+WriteLiteral("></h3>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<!--/ko-->\r\n");
 
         }
     }

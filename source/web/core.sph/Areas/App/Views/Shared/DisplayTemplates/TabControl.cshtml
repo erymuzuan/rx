@@ -7,13 +7,13 @@
 
     <div class="tabbable">
         <ul class="nav nav-tabs" data-bind="foreach :TabPanelCollection">
-            <li class="active">
+            <li class="" data-bind="css : {'active' : ko.unwrap($index) === 0}">
                 <a href="#PANEL1" data-toggle="tab" data-bind="text:Header, attr:{'href' : '#' + ko.unwrap(PartialView)}">TEXT1</a>
             </li>
         </ul>
         <div class="tab-content" data-bind="foreach :TabPanelCollection">
-            <div id="PANEL1" class="tab-pane active" data-bind="attr:{'id' : PartialView}">
-                <span data-bind="text:PartialView"></span>
+            <div id="PANEL1" class="tab-pane" data-bind="attr:{'id' : PartialView},css : {'active' : ko.unwrap($index) === 0}" style="border: 2px dashed gray; padding: 100px;">
+                <h3 data-bind="text:PartialView"></h3>
             </div>
         </div>
     </div>

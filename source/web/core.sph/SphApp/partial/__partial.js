@@ -1913,20 +1913,22 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
-bespoke.sph.domain.TabControlPartial = function () {
+bespoke.sph.domain.TabControlPartial = function (tab) {
     var system = require("durandal/system"),
         addItem = function () {
-            var self = this;
             var item = new bespoke.sph.domain.TabPanel(system.guid());
-            self.TabPanelCollection.push(item);
+            tab.TabPanelCollection.push(item);
 
         },
         removeItem = function (item) {
-            var self = this;
             return function () {
-                self.TabPanelCollection.remove(item);
+                tab.TabPanelCollection.remove(item);
             };
         };
+    if (tab.TabPanelCollection().length === 0) {
+        tab.TabPanelCollection.push(new bespoke.sph.domain.TabPanel({ WebId: system.guid() , Header : "Tab 1"}));
+        tab.TabPanelCollection.push(new bespoke.sph.domain.TabPanel({ WebId: system.guid() , Header : "Tab 2"}));
+    }
     return {
         addItem: addItem,
         removeItem: removeItem

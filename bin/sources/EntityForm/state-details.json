@@ -220,6 +220,66 @@
           "InputColSm": null,
           "InputColXs": null,
           "WebId": "ef3ce518-84a3-4070-fcea-25f244acb697"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.TabControl, domain.sph",
+          "IsPathIsRequired": false,
+          "TabPanelCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TabPanel, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.TabPanel, domain.sph",
+                "Header": "Tab 1",
+                "PartialView": "address-partial",
+                "Path": "test",
+                "WebId": "5611ee95-2299-48d5-a939-78d365245837"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.TabPanel, domain.sph",
+                "Header": "Tab 2",
+                "PartialView": "contact-info-partial",
+                "Path": "estest",
+                "WebId": "f1a716a5-6c78-41b1-f768-31443556a690"
+              }
+            ]
+          },
+          "PartialView": null,
+          "TypeName": "TabControl",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "Min": null,
+            "Max": null,
+            "MinLength": null,
+            "MaxLength": null,
+            "WebId": null
+          },
+          "Name": null,
+          "Label": "Label 5",
+          "Tooltip": null,
+          "Path": null,
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "c41709fa-21f3-473e-aa3d-fe736e5569e1",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "ToolboxIconClass": null,
+          "IsUniqueName": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "9aa35189-6dba-469e-e354-a0ec0252662c"
         }
       ]
     },
@@ -265,15 +325,19 @@
   "IsRemoveAvailable": true,
   "IsImportAvailable": false,
   "IsExportAvailable": false,
-  "Operation": "save",
+  "Operation": null,
   "Entity": "State",
   "Partial": null,
   "Caption": null,
-  "Layout": null,
+  "Layout": " ",
+  "OperationSuccessMesage": null,
+  "OperationSuccessNavigateUrl": null,
+  "OperationSuccessCallback": null,
+  "OperationFailureCallback": null,
   "CreatedBy": "admin",
   "Id": "state-details",
   "CreatedDate": "2014-04-19T10:07:12.2520249+08:00",
-  "ChangedBy": "erymuzuan",
-  "ChangedDate": "2015-06-23T06:41:48.478689+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-01-13T20:26:58.1396353+08:00",
   "WebId": "b69c05d0-714d-467c-a212-1f0fa386445f"
 }
