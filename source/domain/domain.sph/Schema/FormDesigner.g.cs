@@ -7331,6 +7331,177 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ChildView", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ChildView
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_partialView;
+        public const string PropertyNamePartialView = "PartialView";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string PartialView
+        {
+            set
+            {
+                if (String.Equals(m_partialView, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePartialView, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_partialView = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_partialView;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("TabControl", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class TabControl
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_partialView;
+        public const string PropertyNamePartialView = "PartialView";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("TabPanel", IsNullable = false)]
+        public ObjectCollection<TabPanel> TabPanelCollection { get; } = new ObjectCollection<TabPanel>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string PartialView
+        {
+            set
+            {
+                if (String.Equals(m_partialView, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePartialView, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_partialView = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_partialView;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("TabPanel", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class TabPanel
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_header;
+        public const string PropertyNameHeader = "Header";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_partialView;
+        public const string PropertyNamePartialView = "PartialView";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Header
+        {
+            set
+            {
+                if (String.Equals(m_header, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHeader, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_header = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_header;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string PartialView
+        {
+            set
+            {
+                if (String.Equals(m_partialView, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePartialView, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_partialView = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_partialView;
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement

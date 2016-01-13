@@ -216,6 +216,7 @@
     <Compile Include="diagnostics\ViewSortDiagnostics.cs" />
     <Compile Include="FormTemplates\Button.cs" />
     <Compile Include="FormTemplates\ChildEntityListView.cs" />
+    <Compile Include="FormTemplates\ChildView.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
     <Compile Include="FormTemplates\ComplexMember.cs" />
     <Compile Include="FormTemplates\ComplexMember.es.cs" />
@@ -289,6 +290,8 @@
     <Compile Include="FormTemplates\SimpleMember.cs" />
     <Compile Include="FormTemplates\SimpleMember.es.cs" />
     <Compile Include="FormTemplates\Sort.cs" />
+    <Compile Include="FormTemplates\TabControl.cs" />
+    <Compile Include="FormTemplates\TabPanel.cs" />
     <Compile Include="FormTemplates\TextAreaElement.cs" />
     <Compile Include="FormTemplates\TextBox.cs" />
     <Compile Include="FormTemplates\BusinessRule.cs" />

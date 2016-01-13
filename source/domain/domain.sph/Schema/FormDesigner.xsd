@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/FormDesigner.xsd" xmlns:mstns="http://tempuri.org/FormDesigner.xsd" xmlns:bspk="http://www.bespoke.com.my/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/TriggersWorkflow.xsd" targetNamespace="http://tempuri.org/FormDesigner.xsd" elementFormDefault="qualified" id="FormDesigner">
 	<xs:element name="FormDesign">
 		<xs:complexType>
@@ -936,6 +936,31 @@
 			<xs:attribute name="MemberPath" type="xs:string" use="required"/>
 			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChildView">
+		<xs:complexType>
+			<xs:attribute name="PartialView" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TabControl">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="TabPanelCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="TabPanel" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="PartialView" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TabPanel">
+		<xs:complexType>
+			<xs:attribute name="Header" type="xs:string" use="required"/>
+			<xs:attribute name="PartialView" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
