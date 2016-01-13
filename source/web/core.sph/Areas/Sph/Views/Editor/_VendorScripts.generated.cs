@@ -78,7 +78,7 @@ WriteLiteral(" charset=\"utf-8\"");
 
 WriteLiteral("></script>\r\n<script");
 
-WriteLiteral(" src=\"/Scripts/knockout-3.2.0.js\"");
+WriteLiteral(" src=\"/Scripts/knockout-3.4.0.js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 

@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+﻿/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
 /// <reference path="../highlight.pack.js" />
 /// <reference path="core.sph/Scripts/typeahead.bundle.js" />

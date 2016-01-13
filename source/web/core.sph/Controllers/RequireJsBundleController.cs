@@ -144,7 +144,7 @@ namespace Bespoke.Sph.Web.Controllers
             js.AppendLine(durandalSystem);
 
 
-            var ko = GetScript("Scripts.knockout-3.2.0.js")
+            var ko = GetScript("Scripts.knockout-3.4.0.js")
                 .Replace("define([", "define('durandal/knockout', [");
             js.AppendLine(ko);
 
