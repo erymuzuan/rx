@@ -186,10 +186,7 @@ namespace Bespoke.Sph.ControlCenter
 
             var outputs = value.Replace("POST /deploy:", "")
                 .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-
-            var parent = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\");
-            var projectPath = Path.GetFullPath(parent);
-
+            
             Parallel.ForEach(outputs, f =>
             {
                 if (!File.Exists(f)) return;
@@ -198,14 +195,14 @@ namespace Bespoke.Sph.ControlCenter
                 if (fileName.StartsWith("ff")) return;
 
                 WriteMessage($"Copying {fileName} to subsribers");
-                File.Copy(f, $"{projectPath}\\subscribers\\{fileName}", true);
+                File.Copy(f, $"{ConfigurationManager.SubscriberPath}\\{fileName}", true);
 
                 if (fileName.StartsWith("subscriber.trigger")) return;
 
                 WriteMessage($"Copying {fileName} to schedulers");
-                File.Copy(f, $"{projectPath}\\schedulers\\{fileName}", true);
+                File.Copy(f, $"{ConfigurationManager.SchedulerPath}\\{fileName}", true);
                 WriteMessage($"Copying {fileName} to web\\bin");
-                File.Copy(f, $"{projectPath}\\web\\bin\\{fileName}", true);
+                File.Copy(f, $"{ConfigurationManager.WebPath}\\bin\\{fileName}", true);
                 WriteMessage($"Done copying {fileName}");
             });
 
