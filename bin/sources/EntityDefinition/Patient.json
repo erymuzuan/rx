@@ -1159,10 +1159,10 @@
           "$values": []
         },
         "Name": "Register",
-        "Route": null,
+        "Route": "register",
         "IsHttpPut": false,
         "IsHttpPatch": false,
-        "IsHttpPost": false,
+        "IsHttpPost": true,
         "IsHttpDelete": false,
         "WebId": "2dfe6dc4-2757-4b67-ae7d-7d57e6a2dc0d"
       },
@@ -1332,6 +1332,6 @@
   "Id": "patient",
   "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-13T08:52:49.3510923+08:00",
+  "ChangedDate": "2016-01-14T08:20:58.7140976+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

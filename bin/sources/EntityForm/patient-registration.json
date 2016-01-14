@@ -568,7 +568,7 @@
         {
           "$type": "Bespoke.Sph.Domain.Button, domain.sph",
           "IsPathIsRequired": false,
-          "Command": "var tcs = new $.Deferred();\ncontext.post( ko.mapping.toJSON(entity),'/patient/validate/Dob,ChildMarriage')\n.done(function(result){\n    if (result.success) {\n        logger.info(result.message);\n        errors.removeAll();\n        app.showMessage(\"OK done\", \"SPH Platform showcase\", [\"OK\"]);;\n    \n    } else {\n        errors.removeAll();\n        _(result.rules).each(function (v) {\n            errors(v.ValidationErrors);\n        });\n        logger.error(\"There are errors in your entity, !!!\");\n    }\n    tcs.resolve(true);\n});\n\nreturn tcs.promise();",
+          "Command": "var tcs = new $.Deferred();\ncontext.post( ko.mapping.toJSON(entity),'/patient/validate/Dob,ChildMarriage')\n.done(function(result){\n    if (result.success) {\n        logger.info(result.message);\n        errors.removeAll();\n        app.showMessage(\"OK done\", \"SPH Platform showcase\", [\"OK\"]);\n    \n    } else {\n        errors.removeAll();\n        _(result.rules).each(function (v) {\n            errors(v.ValidationErrors);\n        });\n        logger.error(\"There are errors in your entity, !!!\");\n    }\n    tcs.resolve(true);\n});\n\nreturn tcs.promise();",
           "UseClick": false,
           "CommandName": "validate",
           "LoadingText": null,
@@ -662,14 +662,14 @@
   "Partial": "partial/patient-registration",
   "Caption": null,
   "Layout": " ",
-  "OperationSuccessMesage": null,
-  "OperationSuccessNavigateUrl": null,
+  "OperationSuccessMesage": "Dah",
+  "OperationSuccessNavigateUrl": "#patient",
   "OperationSuccessCallback": null,
   "OperationFailureCallback": null,
   "CreatedBy": "admin",
   "Id": "patient-registration",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-07T15:25:29.6539493+08:00",
+  "ChangedDate": "2016-01-14T08:21:05.5426495+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }
