@@ -2,7 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using Bespoke.Sph.Domain;
@@ -145,10 +147,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     list.Add(v);
             }
 
-            return Content("[" +
-
-               string.Join(",", list.Select(c => c.ToJsonString(Newtonsoft.Json.Formatting.Indented)))
-                + "]");
+            var jsonViews = string.Join(",", list.Select(c => c.ToJsonString(Newtonsoft.Json.Formatting.Indented)));
+            return Content($"[{jsonViews}]", MimeMapping.GetMimeMapping("views.json"), Encoding.UTF8);
         }
     }
 }

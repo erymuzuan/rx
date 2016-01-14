@@ -21,7 +21,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var layout = string.IsNullOrWhiteSpace(form.Layout) ? "Html2ColsWithAuditTrail" : form.Layout;
             var vm = new FormRendererViewModel { Form = form, EntityDefinition = ed };
 
-
             return View(layout, vm);
         }
 
