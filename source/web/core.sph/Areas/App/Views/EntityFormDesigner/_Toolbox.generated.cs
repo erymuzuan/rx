@@ -965,7 +965,7 @@ WriteLiteral(">\r\n                    <label");
 
 WriteLiteral(" for=\"success-url\"");
 
-WriteLiteral(">Then nvaigate to</label>\r\n                    <input");
+WriteLiteral(">Then navigate to</label>\r\n                    <input");
 
 WriteLiteral(" type=\"text\"");
 
