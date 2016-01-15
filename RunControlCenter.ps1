@@ -9,6 +9,7 @@ $env:RX_DEVV1_ApplicationFullName = "Engineering Team Development"
 $env:RX_DEVV1_FromEmailAddress = "erymuzuan@bespoke.com.my"
 $env:RX_DEVV1_LoggerWebSocketPort="50238"
 $env:RX_DEVV1_RabbitMqBase="$PWD\bin\rabbitmq_base"
+$env:RX_DEVV1_WebPath="$PWD\source\web\web.sph"
 $env:RABBITMQ_BASE="$PWD\bin\rabbitmq_base"
 
 

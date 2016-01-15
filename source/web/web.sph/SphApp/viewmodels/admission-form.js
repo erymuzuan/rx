@@ -48,7 +48,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
             var data = ko.mapping.toJSON(entity),
                 tcs = new $.Deferred();
 
-            context.post(data, "/Patient/Register")
+            context.post(data, "/Patient/register")
                 .then(function(result) {
                 if (result.success) {
                     logger.info(result.message);
