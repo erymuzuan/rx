@@ -16,23 +16,23 @@ define(['durandal/system', 'knockout'], function (system, ko) {
         bindingInstructionKey = 'durandal-binding-instruction',
         koBindingContextKey = '__ko_bindingContext__';
 
-    function normalizeBindingInstruction(result){
-        if(result === undefined){
+    function normalizeBindingInstruction(result) {
+        if (result === undefined) {
             return { applyBindings: true };
         }
 
-        if(system.isBoolean(result)){
-            return { applyBindings:result };
+        if (system.isBoolean(result)) {
+            return { applyBindings: result };
         }
 
-        if(result.applyBindings === undefined){
+        if (result.applyBindings === undefined) {
             result.applyBindings = true;
         }
 
         return result;
     }
 
-    function doBind(obj, view, bindingTarget, data){
+    function doBind(obj, view, bindingTarget, data) {
         if (!view || !bindingTarget) {
             if (binder.throwOnErrors) {
                 system.error(insufficientInfoMessage);
@@ -63,11 +63,11 @@ define(['durandal/system', 'knockout'], function (system, ko) {
             instruction = normalizeBindingInstruction(instruction);
             binder.binding(data, view, instruction);
 
-            if(instruction.applyBindings){
+            if (instruction.applyBindings) {
                 system.log('Binding', viewName, data);
                 ko.applyBindings(bindingTarget, view);
-            }else if(obj){
-                ko.utils.domData.set(view, koBindingContextKey, { $data:obj });
+            } else if (obj) {
+                ko.utils.domData.set(view, koBindingContextKey, { $data: obj });
             }
 
             binder.bindingComplete(data, view, instruction);
@@ -85,6 +85,8 @@ define(['durandal/system', 'knockout'], function (system, ko) {
             } else {
                 system.log(e.message);
             }
+            console.error(e.message);
+            toastr.error(e.message);
         }
     }
 
@@ -121,7 +123,7 @@ define(['durandal/system', 'knockout'], function (system, ko) {
          * @param {DOMElement} view The view that was previously bound.
          * @return {object} The object that carries the binding instructions.
          */
-        getBindingInstruction:function(view){
+        getBindingInstruction: function (view) {
             return ko.utils.domData.get(view, bindingInstructionKey);
         },
         /**
@@ -132,9 +134,9 @@ define(['durandal/system', 'knockout'], function (system, ko) {
          * @param {object} [obj] The data to bind to, causing the creation of a child binding context if present.
          * @param {string} [dataAlias] An alias for $data if present.
          */
-        bindContext: function(bindingContext, view, obj, dataAlias) {
+        bindContext: function (bindingContext, view, obj, dataAlias) {
             if (obj && bindingContext) {
-                bindingContext = bindingContext.createChildContext(obj, typeof(dataAlias) === 'string' ? dataAlias : null);
+                bindingContext = bindingContext.createChildContext(obj, typeof (dataAlias) === 'string' ? dataAlias : null);
             }
 
             return doBind(obj, view, bindingContext, obj || (bindingContext ? bindingContext.$data : null));
@@ -145,7 +147,7 @@ define(['durandal/system', 'knockout'], function (system, ko) {
          * @param {object} obj The data to bind to.
          * @param {DOMElement} view The view to bind.
          */
-        bind: function(obj, view) {
+        bind: function (obj, view) {
             return doBind(obj, view, obj, obj);
         }
     };
