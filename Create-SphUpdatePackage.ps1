@@ -269,7 +269,12 @@ $rubbishConfigs = @("$output\subscribers\subscriber.workflow.dll.config"
 ,"$output\tools\*.dll.config"
 ,"$output\tools\*.js"
 ,"$output\tools\*.html"
+,"$output\web\bin\subscriber.trigger.*.dll"
+,"$output\web\bin\subscriber.trigger.*.pdb"
+,"$output\subscribers\subscriber.trigger.*.dll"
+,"$output\subscribers\subscriber.trigger.*.pdb"
 )
+
 foreach($ucon in $rubbishConfigs)
 {
     if((Test-Path $ucon) -eq $true){

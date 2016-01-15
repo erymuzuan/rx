@@ -29,7 +29,7 @@ namespace Bespoke.Sph.SourceBuilders
         public static T GetDatabaseScalarValue<T>(this string connectionStringName, string sql, params SqlParameter[] parameters)
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -52,7 +52,7 @@ namespace Bespoke.Sph.SourceBuilders
         public static T? GetNullableScalarValue<T>(string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -75,7 +75,7 @@ namespace Bespoke.Sph.SourceBuilders
         public static async Task<T?> GetNullableScalarValueAsync<T>(string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -100,7 +100,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         public static List<T> GetDatabaseList<T>(string command, string connectionStringName, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(command, conn))
             {
@@ -124,7 +124,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         public static async Task<List<T>> GetDatabaseListAsync<T>(string command, string connectionStringName, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(command, conn))
             {
@@ -150,7 +150,7 @@ namespace Bespoke.Sph.SourceBuilders
         public static Dictionary<TKey, TValue> GetDatabaseKeyList<TKey, TValue>(string sql, string connectionStringName, params SqlParameter[] parameters)
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -176,7 +176,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         public static void ExecuteNonQuery(this string connectionStringName, string sql, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -190,7 +190,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         public static async Task ExecuteNonQueryAsync(this string connectionStringName, string sql, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {

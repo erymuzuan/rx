@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 
 namespace domain.test
 {
@@ -52,14 +52,14 @@ namespace domain.test
             var csn = ConfigurationManager.ConnectionStrings[connectionStringName];
             var connectionString = connectionStringName;
             if (null != csn)
-                connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+                connectionString = ConfigurationManager.SqlConnectionString;
             return connectionString;
         }
 
         public static T? GetNullableScalarValue<T>(string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -82,7 +82,7 @@ namespace domain.test
         public static async Task<T?> GetNullableScalarValueAsync<T>(string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -107,7 +107,7 @@ namespace domain.test
 
         public static List<T> GetDatabaseList<T>(string command, string connectionStringName, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(command, conn))
             {
@@ -131,7 +131,7 @@ namespace domain.test
 
         public static async Task<List<T>> GetDatabaseListAsync<T>(string command, string connectionStringName, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(command, conn))
             {
@@ -157,7 +157,7 @@ namespace domain.test
         public static Dictionary<TKey, TValue> GetDatabaseKeyList<TKey, TValue>(string sql, string connectionStringName, params SqlParameter[] parameters)
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -197,7 +197,7 @@ namespace domain.test
 
         public static async Task ExecuteNonQueryAsync(this string connectionStringName, string sql, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
