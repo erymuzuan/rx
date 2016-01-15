@@ -76,7 +76,7 @@ namespace Bespoke.Sph.Domain
             return bool.TryParse(val, out intValue) ? intValue : defaultValue;
         }
 
-        private static string GetEnvironmentVariable(string setting)
+        public static string GetEnvironmentVariable(string setting)
         {
             var process = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
             if (!string.IsNullOrWhiteSpace(process)) return process;

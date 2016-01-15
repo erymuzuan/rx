@@ -12,15 +12,17 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateAssignmentCode()
         {
-            return string.Format("__config{0}", this.Index);
+            return $"__config{this.Index}";
         }
 
         public override string GenerateStatementCode()
         {
-            if (this.Section == "ConnectionString")
-                return string.Format("var __config{1} = ConfigurationManager.ConnectionStrings[\"{0}\"].ConnectionString;", this.Key, this.Index);
+            if (this.Section == "EnvironmentVariable")
+                return $"var __config{Index} = ConfigurationManager.GetEnvironmentVariable(\"{Key}\");";
+             if (this.Section == "ConnectionString")
+                return $"var __config{Index} = ConfigurationManager.ConnectionStrings[\"{Key}\"].ConnectionString;";
             if (this.Section == "AppSetting")
-                return string.Format("var __config{1} = ConfigurationManager.AppSettings[\"{0}\"];", this.Key, this.Index);
+                return $"var __config{Index} = ConfigurationManager.AppSettings[\"{Key}\"];";
             throw new InvalidOperationException("Cannot recognized section " + this.Section);
         }
         public override string GetEditorView()
