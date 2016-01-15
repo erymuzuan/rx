@@ -2,21 +2,20 @@
 using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
-using System.Web.UI;
+using Bespoke.Sph.Web.Filters;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("requirejs-bundle")]
     public class RequireJsBundleController : Controller
     {
-
         [Route("main")]
-        [OutputCache(Duration = 604800, Location = OutputCacheLocation.Any)]
+        [RxOutputCacheAttibute(CacheProfile = "Long")]
         public ActionResult Index()
         {
             var js = new StringBuilder();
             TextJs(js);
-            DurandalCore(js);
+            GetDurandalCore(js);
             MainJs(js);
             DurandalPlugings(js);
             DurandalTransitions(js);
@@ -41,10 +40,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         private void RxServices(StringBuilder js)
         {
-            foreach (var file in System.IO.Directory.GetFiles(Server.MapPath("~/SphApp/services"), "cultures.*"))
+            foreach (var file in Directory.GetFiles(Server.MapPath("~/SphApp/services"), "cultures.*"))
             {
                 js.AppendLine(System.IO.File.ReadAllText(file)
-                .Replace("define([",$"define('services/{System.IO.Path.GetFileNameWithoutExtension(file)}', ["));
+                .Replace("define([",$"define('services/{Path.GetFileNameWithoutExtension(file)}', ["));
             }
             
 
@@ -110,7 +109,7 @@ namespace Bespoke.Sph.Web.Controllers
             js.AppendLine(main);
         }
 
-        private void DurandalCore(StringBuilder js)
+        private static void GetDurandalCore(StringBuilder js)
         {
             var durandalComposition = GetScript("Scripts.durandal.composition.js")
                 .Replace("define([", "define('durandal/composition', [");
@@ -150,14 +149,14 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-        static string GetScript(string key)
+        private static string GetScript(string key)
         {
             var assembly = Assembly.GetExecutingAssembly();
             var stream = assembly.GetManifestResourceStream("Bespoke.Sph.Web." + key);
             if (null != stream)
             {
                 stream.Position = 0;
-                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
                 {
                     return reader.ReadToEnd();
                 }

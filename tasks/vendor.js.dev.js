@@ -6,7 +6,7 @@ var sourcemaps = require("gulp-sourcemaps"),
     gulpif = require("gulp-if"),
     uglify = require("gulp-uglify");
 // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-// core.js
+// vendor.dev.js
 var sources = [
 "./source/web/core.sph/Scripts/moment.js",
 "./source/web/core.sph/Scripts/underscore.js",

@@ -1069,6 +1069,7 @@
     <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Filters\RazorScriptStream.cs" />
     <Compile Include="Filters\RazorScriptFilter.cs" />
+    <Compile Include="Filters\RxOutputCacheAttibute.cs" />
     <Compile Include="Filters\ScriptResult.cs" />
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\Encryptor.cs" />

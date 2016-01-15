@@ -63,11 +63,11 @@ WriteLiteral(">\r\n        jQuery(document).ready(function () {\r\n            M
             
             #line default
             #line hidden
-WriteLiteral("    <script");
+WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 521), Tuple.Create("\"", 553)
-, Tuple.Create(Tuple.Create("", 527), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 527), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 525), Tuple.Create("\"", 557)
+, Tuple.Create(Tuple.Create("", 531), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 531), false)
 );
 
 WriteLiteral("></script>\r\n");

@@ -14,6 +14,11 @@
               .then(function (lo) {
                   messages(lo.itemCollection);
                   unread(lo.rows);
+
+                  if (typeof $.connection !== "function") {
+                      return $.getScript("/scripts/jquery.signalR-2.1.2.min.js");
+                  }
+                  return Task.fromResult(true);
               });
 
         },
@@ -24,24 +29,27 @@
             return d.humanize();
         },
         attached = function () {
-            var connection = $.connection("/signalr_message");
 
-            connection.received(function (data) {
-                if (typeof data.unread === "number") {
-                    messages(data.messages);
-                    unread(data.unread);
-                }
-                if (typeof data === "string") {
-                    logger.info(data);
-                }
+            return activate()
+            .done(function () {
+                var connection = $.connection("/signalr_message");
+
+                connection.received(function (data) {
+                    if (typeof data.unread === "number") {
+                        messages(data.messages);
+                        unread(data.unread);
+                    }
+                    if (typeof data === "string") {
+                        logger.info(data);
+                    }
+                });
+
+                connection.start().done(function (e) {
+                    console.log("started...connection to message connection");
+                    console.log(e);
+                });
+
             });
-
-            connection.start().done(function (e) {
-                console.log("started...connection to message connection");
-                console.log(e);
-            });
-
-            return activate();
         };
 
 

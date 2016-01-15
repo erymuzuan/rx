@@ -22,8 +22,7 @@ namespace Bespoke.Sph.Web.Api
     [RoutePrefix("api")]
     public class ApiController : Controller
     {
-        public static readonly string ConnectionString =
-            ConfigurationManager.SqlConnectionString;
+        public static readonly string ConnectionString = ConfigurationManager.SqlConnectionString;
 
         [Route("audittrail")]
         public async Task<ActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)

@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
@@ -118,7 +117,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
         }
 
-        [OutputCache(Duration = 604800, Location = OutputCacheLocation.Client)]
+        [RxOutputCacheAttibute(CacheProfile = "Long", DirectoryDependencies = new [] {typeof(EntityView)})]
         [AllowAnonymous]
         public async Task<ActionResult> Dashboard(string id)
         {
@@ -148,7 +147,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
             var jsonViews = string.Join(",", list.Select(c => c.ToJsonString(Newtonsoft.Json.Formatting.Indented)));
-            return Content($"[{jsonViews}]", MimeMapping.GetMimeMapping("views.json"), Encoding.UTF8);
+            return Content($"[{jsonViews}]");
         }
     }
 }
