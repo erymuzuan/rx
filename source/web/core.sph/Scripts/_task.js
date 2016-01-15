@@ -5,7 +5,7 @@
             d = delay || 100;
 
         setTimeout(function () {
-            tcs.resolve(ret);
+            tcs.resolve(returnValue);
         }, d);
         return tcs.promise();
 
