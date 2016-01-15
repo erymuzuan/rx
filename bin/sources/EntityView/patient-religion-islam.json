@@ -101,7 +101,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
-  "IconClass": "",
+  "IconClass": "fa fa-caret-square-o-right",
   "IconStoreId": "945b3246-9132-4439-b6e9-229442afd16a",
   "EntityDefinitionId": "patient",
   "Name": "Muslim patients",
@@ -115,11 +115,11 @@
   "Entity": null,
   "Partial": null,
   "Template": "Dashboard Standard",
-  "DisplayOnDashboard": false,
+  "DisplayOnDashboard": true,
   "CreatedBy": "admin",
   "Id": "patient-religion-islam",
   "CreatedDate": "2015-07-22T10:14:37.3563046+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-07-22T10:19:56.5732031+08:00",
+  "ChangedDate": "2016-01-15T07:45:58.6948209+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }
