@@ -39,7 +39,7 @@ namespace sqlserver.adapter.test
         public static async Task<T?> GetNullableScalarAsync<T>(string sql, string connectionStringName, params MySqlParameter[] parameters) where T : struct
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand(sql, conn))
             {
@@ -63,7 +63,7 @@ namespace sqlserver.adapter.test
 
         public static List<T> GetDatabaseList<T>(string command, string connectionStringName, params MySqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand(command, conn))
             {
@@ -87,7 +87,7 @@ namespace sqlserver.adapter.test
 
         public static async Task<List<T>> GetDatabaseListAsync<T>(string command, string connectionStringName, params MySqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand(command, conn))
             {
@@ -113,7 +113,7 @@ namespace sqlserver.adapter.test
         public static Dictionary<TKey, TValue> GetDatabaseKeyList<TKey, TValue>(string sql, string connectionStringName, params MySqlParameter[] parameters)
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand(sql, conn))
             {
