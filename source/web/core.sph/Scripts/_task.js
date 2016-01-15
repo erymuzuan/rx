@@ -2,11 +2,10 @@
     window.Task = window.Task || {};
     window.Task.fromResult = function (returnValue, delay) {
         var tcs = new $.Deferred(),
-            ret = returnValue || true,
             d = delay || 100;
 
         setTimeout(function () {
-            tcs.resolve(ret);
+            tcs.resolve(returnValue);
         }, d);
         return tcs.promise();
 
