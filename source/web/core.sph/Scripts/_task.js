@@ -1,6 +1,6 @@
 ﻿(function (window, $) {
     window.Task = window.Task || {};
-    window.Task.fromResult = function (ret, delay) {
+    window.Task.fromResult = function (returnValue, delay) {
         var tcs = new $.Deferred(),
             d = delay || 100;
 

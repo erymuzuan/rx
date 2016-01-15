@@ -229,7 +229,7 @@ bespoke.utils.ServerPager = function (options) {
 /// <reference path="jstree.min.js" />
 /// <reference path="jstree.min.js" />
 /// <reference path="typeahead.bundle.js" />
-/// <reference path="knockout-3.2.0.debug.js" />
+/// <reference path="knockout-3.4.0.debug.js" />
 /// <reference path="knockout.mapping-latest.debug.js" />
 /// <reference path="../App/services/datacontext.js" />
 /// <reference path="../SphApp/objectbuilders.js" />
@@ -1093,7 +1093,7 @@ ko.bindingHandlers.readonly = {
         }
     }
 };
-/// <reference path="knockout-3.2.0.debug.js" />
+/// <reference path="knockout-3.4.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-2.1.3.intellisense.js" />
@@ -2158,7 +2158,7 @@ ko.bindingHandlers.searchPaging = {
     }
 };
 /// <reference path="typeahead.bundle.js" />
-/// <reference path="knockout-3.2.0.debug.js" />
+/// <reference path="knockout-3.4.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="jquery-2.1.1.intellisense.js" />
 
@@ -2388,7 +2388,7 @@ var _uiready = function () {
 })(window, jQuery);
 (function (window, $) {
     window.Task = window.Task || {};
-    window.Task.fromResult = function (ret, delay) {
+    window.Task.fromResult = function (returnValue, delay) {
         var tcs = new $.Deferred(),
             d = delay || 100;
 
