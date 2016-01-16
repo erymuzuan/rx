@@ -148,7 +148,7 @@
           "$values": []
         },
         "Name": "Save",
-        "Route": "",
+        "Route": "save",
         "IsHttpPut": true,
         "IsHttpPatch": false,
         "IsHttpPost": false,
@@ -183,6 +183,6 @@
   "Id": "district",
   "CreatedDate": "2015-07-16T08:11:23.5545416+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-16T10:27:03.8103214+08:00",
+  "ChangedDate": "2016-01-16T15:44:55.6161639+08:00",
   "WebId": "a9b46951-3540-45fd-af99-69e1128dc718"
 }

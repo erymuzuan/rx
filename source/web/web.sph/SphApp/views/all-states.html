@@ -8,28 +8,30 @@
         <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, map : map, entity : 'State', list:list}">
             <thead>
                 <tr>
+                    <th>Id</th>
+                    <th>Abbreviation</th>
                     <th>Name</th>
                     <th>Country</th>
+                    <th>Area</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach :list">
                 <tr data-bind="">
-
                     <td>
-                        <a data-bind="attr : {href:'#state-details' + '/' + Id, title:'Name' }">
-                            <i class="fa fa-flag"></i>
-                                                        <span data-bind="text:Name"></span>
+                        <a data-bind="attr : {href:'#state-details' + '/' + Id, title:'Id' }">
+                            <i class="fa fa-plus-square-o"></i>
+                                                        <span data-bind="text:Id"></span>
                         </a>
                     </td>
+                    <td data-bind="text:Abbreviation"></td>
+                    <td data-bind="text:Name"></td>
                     <td data-bind="text:Country"></td>
-
-
+                    <td data-bind="text:Area"></td>
                 </tr>
             </tbody>
         </table>
         <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
     </div>
-
     <!-- ko compose : {view : '_chart.panel'}-->
     <!-- /ko -->
 </div>

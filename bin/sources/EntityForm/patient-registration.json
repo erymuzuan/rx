@@ -644,7 +644,7 @@
   "EntityDefinitionId": "patient",
   "Name": "Patient registration",
   "Route": "patient-registration",
-  "Note": "",
+  "Note": "test",
   "IsAllowedNewItem": true,
   "IconClass": "fa fa-h-square",
   "IconStoreId": "",
