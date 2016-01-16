@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Web.Controllers
             var file = Server.MapPath(raw);
             if (System.IO.File.Exists(file))
             {
-                SetStaticFileCacheability(file);
+                SetStaticFileCacheability(file, "images\\form.element");
                 return File(System.IO.File.ReadAllBytes(file), contentType);
             }
 
@@ -84,9 +84,10 @@ namespace Bespoke.Sph.Web.Controllers
             this.Response.Cache.SetETag(GetMd5Hash(lastAccessTimeUtc.ToString(CultureInfo.InvariantCulture)));
         }
 
-        private void SetStaticFileCacheability(string file)
+        private void SetStaticFileCacheability(string file, params string[] cachePattern)
         {
-            if (HttpContext.IsDebuggingEnabled)
+            var cached = cachePattern.Any(file.Contains);
+            if (HttpContext.IsDebuggingEnabled && !cached)
             {
                 this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(-1));
                 this.Response.Cache.SetValidUntilExpires(false);
