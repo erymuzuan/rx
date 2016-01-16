@@ -117,8 +117,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
         }
 
-        [RxOutputCacheAttibute(CacheProfile = "Long", DirectoryDependencies = new [] {typeof(EntityView)})]
         [AllowAnonymous]
+        [RxSourceOutputCache(SourceType = typeof(EntityView))]
         public async Task<ActionResult> Dashboard(string id)
         {
             var user = User.Identity.Name;

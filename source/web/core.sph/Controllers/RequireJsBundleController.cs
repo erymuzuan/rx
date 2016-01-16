@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Web.Controllers
     public class RequireJsBundleController : Controller
     {
         [Route("main")]
-        [RxOutputCacheAttibute(CacheProfile = "Long")]
+        [RxOutputCache(CacheProfile = "Long")]
         public ActionResult Index()
         {
             var js = new StringBuilder();

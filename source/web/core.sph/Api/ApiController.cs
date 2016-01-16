@@ -17,7 +17,6 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Api
 {
-    [NoCache]
     [SessionState(SessionStateBehavior.Disabled)]
     [RoutePrefix("api")]
     public class ApiController : Controller
@@ -29,63 +28,78 @@ namespace Bespoke.Sph.Web.Api
         {
             return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
         }
+
         [Route("adapter")]
+        [RxSourceOutputCache(SourceType = typeof(Adapter))]
         public ActionResult Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<Adapter>(filter, page, size, true);
         }
 
         [Route("Designation")]
+        [RxSourceOutputCache(SourceType = typeof(Designation))]
         public ActionResult Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<Designation>(filter, page, size);
         }
 
         [Route("DocumentTemplate")]
+        [RxSourceOutputCache(SourceType = typeof(DocumentTemplate))]
         public ActionResult DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<DocumentTemplate>(filter, page, size);
         }
 
         [Route("EmailTemplate")]
+        [RxSourceOutputCache(SourceType = typeof(EmailTemplate))]
         public ActionResult EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EmailTemplate>(filter, page, size);
         }
+
         [Route("ValueObjectDefinition")]
+        [RxSourceOutputCache(SourceType = typeof(ValueObjectDefinition))]
         public ActionResult ValueObjectDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<ValueObjectDefinition>(filter, page, size);
         }
+
         [Route("EntityDefinition")]
+        [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
         public ActionResult EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EntityDefinition>(filter, page, size);
         }
 
         [Route("EntityChart")]
+        [RxSourceOutputCache(SourceType = typeof(EntityChart))]
         public ActionResult EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EntityChart>(filter);
         }
 
         [Route("FormDialog")]
+        [RxSourceOutputCache(SourceType = typeof(FormDialog))]
         public ActionResult FormDialog(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<FormDialog>(filter, page, size, true);
         }
         [Route("PartialView")]
+        [RxSourceOutputCache(SourceType = typeof(PartialView))]
         public ActionResult PartialView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<PartialView>(filter, page, size, true);
         }
+
         [Route("EntityForm")]
+        [RxSourceOutputCache(SourceType = typeof(EntityForm))]
         public ActionResult EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EntityForm>(filter, page, size, true);
         }
 
         [Route("EntityView")]
+        [RxSourceOutputCache(SourceType = typeof(EntityView))]
         public ActionResult EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EntityView>(filter, page, size);
@@ -98,6 +112,7 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("Page")]
+        [RxSourceOutputCache(SourceType = typeof(Page))]
         public ActionResult Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<Page>(filter, page, size, includeTotal);
@@ -110,6 +125,7 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("ReportDefinition")]
+        [RxSourceOutputCache(SourceType = typeof(ReportDefinition))]
         public ActionResult ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<ReportDefinition>(filter, page, size, true);
@@ -117,6 +133,7 @@ namespace Bespoke.Sph.Web.Api
 
 
         [Route("SearchDefinition")]
+        [RxSourceOutputCache(SourceType = typeof(SearchDefinition))]
         public ActionResult SearchDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<SearchDefinition>(filter, page, size);
@@ -146,6 +163,7 @@ namespace Bespoke.Sph.Web.Api
 
 
         [Route("Trigger")]
+        [RxSourceOutputCache(SourceType = typeof(Trigger))]
         public ActionResult Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<Trigger>(filter, page, size, true);
@@ -164,6 +182,7 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("TransformDefinition")]
+        [RxSourceOutputCache(SourceType = typeof(TransformDefinition))]
         public ActionResult TransformDefinition(string filter = null, int page = 1, int size = 20, bool includeTotal = false)
         {
             return ReadFromSource<TransformDefinition>(filter, page, size, true);
@@ -171,12 +190,14 @@ namespace Bespoke.Sph.Web.Api
 
 
         [Route("WorkflowDefinition")]
+        [RxSourceOutputCache(SourceType = typeof(WorkflowDefinition))]
         public ActionResult WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<WorkflowDefinition>(filter, page, size, true);
         }
 
         [Route("ViewTemplate")]
+        [RxSourceOutputCache(SourceType = typeof(ViewTemplate))]
         public ActionResult ViewTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<ViewTemplate>(filter, page, size, true);

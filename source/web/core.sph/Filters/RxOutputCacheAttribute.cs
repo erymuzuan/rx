@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,15 +9,16 @@ using Bespoke.Sph.Domain;
 namespace Bespoke.Sph.Web.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public sealed class RxOutputCacheAttibute : OutputCacheAttribute
+    public sealed class RxOutputCacheAttribute : OutputCacheAttribute
     {
         public Type[] DirectoryDependencies { get; set; }
         public string[] FileDependencies { get; set; }
         public string FilePattern { get; set; }
+        public bool Force{ get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (filterContext.HttpContext.IsDebuggingEnabled)
+            if (filterContext.HttpContext.IsDebuggingEnabled && !Force)
             {
                 filterContext.HttpContext.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(-1));
                 filterContext.HttpContext.Response.Cache.SetValidUntilExpires(false);
@@ -31,7 +32,7 @@ namespace Bespoke.Sph.Web.Filters
             if (null != this.DirectoryDependencies)
             {
                 var files = from dir in this.DirectoryDependencies
-                            select Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{dir.Name}", "*.json");
+                    select Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{dir.Name}", "*.json");
                 fileDependencies.AddRange(files.SelectMany(x => x.ToArray()));
 
             }
