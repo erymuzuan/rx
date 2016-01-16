@@ -190,7 +190,7 @@
   "Visibilty": "",
   "TileColour": "bviolet",
   "CountMessage": null,
-  "Entity": null,
+  "Entity": "patient",
   "Partial": null,
   "Template": null,
   "DisplayOnDashboard": true,

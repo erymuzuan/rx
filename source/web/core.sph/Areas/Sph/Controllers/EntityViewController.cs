@@ -2,9 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
@@ -19,6 +17,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var view = this.GetRequestJson<EntityView>();
             var context = new SphDataContext();
+            view.Entity = view.EntityDefinitionId;
 
             if (string.IsNullOrWhiteSpace(view.Id) || view.Id == "0")
                 view.Id = $"{view.EntityDefinitionId}-{view.Route.ToIdFormat()}";
@@ -66,6 +65,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Publish()
         {
             var view = this.GetRequestJson<EntityView>();
+            view.Entity = view.EntityDefinitionId;
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == view.EntityDefinitionId);
 

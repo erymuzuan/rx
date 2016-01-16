@@ -217,10 +217,16 @@ namespace Bespoke.Sph.Domain
 
         public Member GetMember(string path)
         {
+            if (path == nameof(Id)) return new SimpleMember { Name = nameof(Id), Type = typeof(string) };
+            if (path == nameof(CreatedDate)) return new SimpleMember { Name = nameof(CreatedDate), Type = typeof(DateTime) };
+            if (path == nameof(ChangedDate)) return new SimpleMember { Name = nameof(ChangedDate), Type = typeof(DateTime) };
+            if (path == nameof(CreatedBy)) return new SimpleMember { Name = nameof(CreatedBy), Type = typeof(string) };
+            if (path == nameof(ChangedBy)) return new SimpleMember { Name = nameof(ChangedBy), Type = typeof(string) };
+
             if (!path.Contains("."))
             {
-                
-                var member =  this.MemberCollection.SingleOrDefault(a => a.Name == path);
+
+                var member = this.MemberCollection.SingleOrDefault(a => a.Name == path);
                 if (null != member) return member;
                 throw new InvalidOperationException($"Cannot find a member in {Name} with {path}");
             }

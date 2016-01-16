@@ -259,7 +259,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             tcs.resolve(true);
                         });
 
-		        }, 2000);
+		        }, 5000);
 
 		    };
 

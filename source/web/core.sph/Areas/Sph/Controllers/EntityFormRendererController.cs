@@ -191,7 +191,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     });
                 },");
             script.AppendLine($@"
-                save = function() {{
+                saveCommand = function() {{
                     return {form.Operation.ToCamelCase()}()");
             if (!string.IsNullOrWhiteSpace(form.OperationSuccessCallback))
             {
@@ -292,7 +292,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     watching: watching,");
             if (!string.IsNullOrWhiteSpace(@saveOperation))
             {
-                script.AppendLine("saveCommand : save,");
+                script.AppendLine("saveCommand : saveCommand,");
                 if (hasPartial)
                     script.AppendLine(@"canExecuteSaveCommand : ko.computed(function(){
                         if(typeof partial.canExecuteSaveCommand === ""function""){

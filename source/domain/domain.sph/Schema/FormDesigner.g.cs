@@ -4242,7 +4242,7 @@ namespace Bespoke.Sph.Domain
             }
             get
             {
-                return m_entity;
+                return m_entityDefinitionId;
             }
         }
 

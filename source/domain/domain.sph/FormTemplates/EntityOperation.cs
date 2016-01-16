@@ -136,7 +136,7 @@ namespace Bespoke.Sph.Domain
 
             var route = this.Route ?? this.Name;
             var put = new Method { Name = $"Put{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
-            put.AttributeCollection.Add("[HttpPatch]");
+            put.AttributeCollection.Add("[HttpPut]");
             put.AttributeCollection.Add($"[Route(\"{route.ToLowerInvariant()}/{{id?}}\")]");
 
             var authorize = GenerateAuthorizeAttribute();

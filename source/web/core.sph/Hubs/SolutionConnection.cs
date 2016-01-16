@@ -47,7 +47,7 @@ namespace Bespoke.Sph.Web.Hubs
                 EnableRaisingEvents = true,
                 IncludeSubdirectories = true
             };
-          
+
             m_watcher.Changed += SourceChanged;
             m_watcher.Deleted += SourceChanged;
             m_watcher.Created += SourceChanged;
@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Web.Hubs
             m_appDataWatcher.Changed += SourceChanged;
             base.Initialize(resolver);
         }
-        
+
 
         private readonly ConcurrentBag<string> m_connections = new ConcurrentBag<string>();
         private void SourceChanged(object sender, FileSystemEventArgs e)
@@ -90,9 +90,11 @@ namespace Bespoke.Sph.Web.Hubs
             var entities = GetEntityDefinition();
             solution.itemCollection.AddRange(entities.ToArray());
 
-            ExtractEntityForms(solution);
-            ExtractEntityView(solution);
-            ExtractTrigger(solution);
+            ExtractSolutionItems<EntityForm>(solution);
+            ExtractSolutionItems<EntityView>(solution);
+            ExtractSolutionItems<Trigger>(solution);
+            ExtractSolutionItems<FormDialog>(solution);
+            ExtractSolutionItems<PartialView>(solution);
 
 
             foreach (var folder in Directory.GetDirectories(ConfigurationManager.SphSourceDirectory))
@@ -105,6 +107,8 @@ namespace Bespoke.Sph.Web.Hubs
                 if (folder.Contains("EntityForm")) continue;
                 if (folder.Contains("EntityView")) continue;
                 if (folder.Contains("EntityChart")) continue;
+                if (folder.Contains("FormDialog")) continue;
+                if (folder.Contains("PartialView")) continue;
                 if (folder.Contains("Trigger")) continue;
                 if (folder.Contains("Page")) continue;
 
@@ -150,25 +154,25 @@ namespace Bespoke.Sph.Web.Hubs
             var config = $"{ConfigurationManager.WebPath}\\App_Data\\routes.config.json";
             if (!File.Exists(config)) return routes;
             var scripts = from r in JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(config))
-                where !string.IsNullOrWhiteSpace(r.ModuleId)
-                let name = r.ModuleId.Replace("viewmodels/", "")
-                select new SolutionItem
-                {
-                    id = $"{r.ModuleId}.js",
-                    text = $"{name}.js",
-                    icon = "fa fa-text-o",
-                    codeEditor = $"/sphapp/{r.ModuleId}.js"
-                };
+                          where !string.IsNullOrWhiteSpace(r.ModuleId)
+                          let name = r.ModuleId.Replace("viewmodels/", "")
+                          select new SolutionItem
+                          {
+                              id = $"{r.ModuleId}.js",
+                              text = $"{name}.js",
+                              icon = "fa fa-text-o",
+                              codeEditor = $"/sphapp/{r.ModuleId}.js"
+                          };
             var views = from r in JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(config))
-                where !string.IsNullOrWhiteSpace(r.ModuleId)
-                let name = r.ModuleId.Replace("viewmodels/", "")
-                select new SolutionItem
-                {
-                    id = $"{r.ModuleId}.html",
-                    text = $"{name}.html",
-                    icon = "fa fa-file-code-o",
-                    codeEditor = $"/sphapp/views/{name}.html"
-                };
+                        where !string.IsNullOrWhiteSpace(r.ModuleId)
+                        let name = r.ModuleId.Replace("viewmodels/", "")
+                        select new SolutionItem
+                        {
+                            id = $"{r.ModuleId}.html",
+                            text = $"{name}.html",
+                            icon = "fa fa-file-code-o",
+                            codeEditor = $"/sphapp/views/{name}.html"
+                        };
             var forms = views.Concat(scripts).OrderBy(x => x.text);
             routes.itemCollection.AddRange(forms);
             return routes;
@@ -257,68 +261,25 @@ namespace Bespoke.Sph.Web.Hubs
             }
             return partialViewNode;
         }
-
-        private static void ExtractTrigger(SolutionItem solution)
+        
+        private static void ExtractSolutionItems<T>(SolutionItem solution) where T : Entity
         {
-            var folder = $"{ConfigurationManager.SphSourceDirectory}\\Trigger";
-            if (!Directory.Exists(folder)) return;
-            foreach (var f in Directory.GetFiles(folder, "*.json"))
-            {
-                var trigger = f.DeserializeFromJsonFile<Trigger>();
-                var parent =
-                    solution.itemCollection.SingleOrDefault(
-                        x => x.id.Equals(trigger.Entity, StringComparison.InvariantCultureIgnoreCase));
-
-                parent?.itemCollection.Add(new SolutionItem
-                {
-                    id = Path.GetFileNameWithoutExtension(f),
-                    text = Path.GetFileNameWithoutExtension(f),
-                    icon = "fa fa-bolt",
-                    url = $"trigger.setup/{trigger.Id}"
-                });
-            }
-        }
-
-        private static void ExtractEntityView(SolutionItem solution)
-        {
-            var folder = $"{ConfigurationManager.SphSourceDirectory}\\EntityView";
+            var folder = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}";
             if (!Directory.Exists(folder)) return;
 
             foreach (var f in Directory.GetFiles(folder, "*.json"))
             {
-                var view = f.DeserializeFromJsonFile<EntityView>();
+                var form = (IEntityDefinitionAsset)f.DeserializeFromJsonFile<T>();
                 var parent =
                     solution.itemCollection.SingleOrDefault(
-                        x => x.id.Equals(view.EntityDefinitionId, StringComparison.InvariantCultureIgnoreCase));
+                        x => x.id.Equals(form.Entity, StringComparison.InvariantCultureIgnoreCase));
 
                 parent?.itemCollection.Add(new SolutionItem
                 {
-                    id = Path.GetFileNameWithoutExtension(f),
-                    text = Path.GetFileNameWithoutExtension(f),
-                    icon = "fa fa-list-ul",
-                    url = $"entity.view.designer/{parent.id}/{view.Id}"
-                });
-            }
-        }
-
-        private static void ExtractEntityForms(SolutionItem solution)
-        {
-            var folder = $"{ConfigurationManager.SphSourceDirectory}\\EntityForm";
-            if (!Directory.Exists(folder)) return;
-
-            foreach (var f in Directory.GetFiles(folder, "*.json"))
-            {
-                var form = f.DeserializeFromJsonFile<EntityForm>();
-                var parent =
-                    solution.itemCollection.SingleOrDefault(
-                        x => x.id.Equals(form.EntityDefinitionId, StringComparison.InvariantCultureIgnoreCase));
-
-                parent?.itemCollection.Add(new SolutionItem
-                {
-                    id = Path.GetFileNameWithoutExtension(f),
-                    text = Path.GetFileNameWithoutExtension(f),
-                    icon = "fa fa-pencil-square-o",
-                    url = $"entity.form.designer/{parent.id}/{form.Id}"
+                    id = form.Id,
+                    text = form.Name,
+                    icon = form.Icon,
+                    url = form.Url
                 });
             }
         }
@@ -336,7 +297,7 @@ namespace Bespoke.Sph.Web.Hubs
                 {
                     id = ed.Id,
                     text = ed.Name,
-                    icon = "fa fa-database",
+                    icon = ed.IconClass ?? "fa fa-database",
                     url = "entity.details/" + ed.Id
                 };
                 var ops =

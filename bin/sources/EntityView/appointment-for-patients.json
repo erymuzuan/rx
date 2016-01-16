@@ -141,8 +141,8 @@
       }
     ]
   },
-  "IconClass": "",
-  "IconStoreId": "076082c3-1567-4248-84a9-1ae000bcf8c6",
+  "IconClass": "fa fa-ruble",
+  "IconStoreId": "8d0f82e2-3ab8-479b-bb92-024277ed781b",
   "EntityDefinitionId": "appointment",
   "Name": "Appointment for patients",
   "Route": "appointment-for-patients",
@@ -152,7 +152,7 @@
   "Visibilty": "",
   "TileColour": "bblue",
   "CountMessage": "",
-  "Entity": "Appointment",
+  "Entity": "appointment",
   "Partial": "partial/appointment-for-patients",
   "Template": null,
   "DisplayOnDashboard": false,
@@ -160,6 +160,6 @@
   "Id": "appointment-for-patients",
   "CreatedDate": "2015-07-18T07:50:02.724317+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-07-19T07:17:44.0101802+08:00",
+  "ChangedDate": "2016-01-16T10:10:53.5973858+08:00",
   "WebId": "eecd4ad4-7cca-4da3-951e-63bfb4b9c373"
 }

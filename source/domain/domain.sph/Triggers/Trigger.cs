@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource(HasDerivedTypes = true)]
-    public partial class Trigger : Entity
+    public partial class Trigger : Entity, IEntityDefinitionAsset
     {
         public static Trigger ParseJson(string json)
         {
@@ -247,5 +247,8 @@ namespace Bespoke.Sph.Domain
             }
 
         }
+
+        public string Icon => "fa fa-bolt";
+        public string Url => $"trigger.setup/{Id}";
     }
 }

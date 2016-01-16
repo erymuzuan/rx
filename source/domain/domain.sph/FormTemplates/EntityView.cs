@@ -8,10 +8,8 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource]
-    public partial class EntityView : Entity
+    public partial class EntityView : Entity, IEntityDefinitionAsset
     {
-        
-
         [ImportMany(typeof(IBuildDiagnostics))]
         [JsonIgnore]
         [XmlIgnore]
@@ -65,15 +63,10 @@ namespace Bespoke.Sph.Domain
             this.FilterCollection.Add(new Filter { Field = field, Operator = @operator, Term = term });
         }
 
-
-
-
         public override string ToString()
         {
             return $"[{this.Id}] {this.Name}";
         }
-
-
 
         public string GenerateRoute()
         {
@@ -82,5 +75,8 @@ namespace Bespoke.Sph.Domain
             return $"{this.Route.ToLowerInvariant()}"
                    + "/:" + string.Join("/:", this.RouteParameterCollection.Select(r => r.Name));
         }
+
+        public string Icon => "fa fa-list-ul";
+        public string Url => $"entity.view.designer/{Entity}/{Id}";
     }
 }

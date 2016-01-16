@@ -1,82 +1,60 @@
-<div class="row" data-bind="with : entity">
-    <img alt="logo" data-bind="attr:{src:'/sph/image/store/' + IconStoreId() + '?height=50'}" class="pull-right" />
-    <h1 data-bind="text:Plural"></h1>
+<h3 class="page-title">
+  Districts
+</h3>
+<div id="entity-view-list" class="row" data-bind="foreach: views">
+  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div data-bind="attr : {'class': 'dashboard-stat ' + $root.getMetronicColor(TileColour) }">
+      <div class="visual">
+        <i class="fa fa-comments" data-bind="attr :{class : IconClass}"></i>
+      </div>
+      <div class="details">
+        <div class="number" data-bind="text: CountMessage">
+          1000
+        </div>
+        <div class="desc" data-bind="text:Name">
+        </div>
+      </div>
+      <a class="more" data-bind="attr:{href : '#' + Route(), 'title' : Note}">
+            View more <i class="m-icon-swapright m-icon-white"></i>
+      </a>
+    </div>
+  </div>
 </div>
 
+<div class="clearfix">
+</div>
+<div class="row" data-bind="foreach:charts">
 
-<div class="row">
-    <a data-toggle="collapse" href="#recent-districts">
-        <h3 data-bind="with : entity">
-            <i class="fa fa-chevron-down"></i>
-            Recent <span data-bind="text:Plural"></span>
-        </h3>
-    </a>
-    <div id="recent-districts" class="collapse collapsed">
-        <div class="" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery, pagerHidden:true , entity : 'District'}">
-            <ul data-bind="foreach :recentItems" class="metro-tile">
-                <li class="blightblue">
-
-                    <a data-bind="attr:{'href' : '#district-details/' + Id}">
-                        <i class="fa fa-rss-square"></i>
-                        <span data-bind="text:Name"></span>
-                    </a>
-                </li>
-            </ul>
+  <div class="col-md-6 col-sm-6">
+    <!-- BEGIN PORTLET-->
+    <div class="portlet light ">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="icon-bar-chart font-green-sharp hide"></i>
+          <span class="caption-subject font-green-sharp bold uppercase" data-bind="text:Name">Charts Name</span>
+          <span class="caption-helper" data-bind="text:Entity"></span>
         </div>
 
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6">
-
-        <h3>Charts</h3>
-        <div data-bind="foreach: charts">
-            <div class="chart-wrapper">
-                <div data-bind="chart:$data"></div>
-                <a href="#" class="hover-drop" title="Unpin from homepage">
-                    <span class="glyphicon glyphicon-pushpin pull-right"></span>
-                </a>
-            </div>
+        <div class="actions">
+          <div class="btn-group btn-group-devided" data-toggle="buttons">
+            <label class="btn btn-transparent grey-salsa btn-circle btn-sm active">
+              <a href="#" class="unpin-chart" title="Unpin from homepage">
+                <span class="glyphicon glyphicon-pushpin pull-right"></span>
+              </a>
+            </label>
+          </div>
         </div>
 
+      </div>
+      <div class="portlet-body">
+        <div class="chart-wrapper">
+          <div data-bind="chart:$data"></div>
+
+        </div>
+      </div>
     </div>
-    <div class="col-lg-6">
-        <h3>
-            Views
-        </h3>
-        <ul id="entity-view-list" data-bind="foreach :views" class="metro-tile">
-
-            <li data-bind="attr : {'class':TileColour}">
-                <a data-bind="attr:{href : '#' + Route(), 'title' : Note}">
-                    <div class="pull-left">
-                        <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon" />
-                    </div>
-                    <div>
-                        <span class="count-message" data-bind="text:CountMessage"></span>
-                    </div>
-
-                    <div>
-                        <h5 data-bind="text: Name"></h5>
-                        <span data-bind="visible: !Note()">..</span>
-                        <p data-bind="text: Note">..</p>
-                    </div>
-                </a>
-            </li>
-
-        </ul>
-    </div>
-</div>
+    <!-- END PORTLET-->
+  </div>
 
 
-
-<div class="row">
-
-    <h3>
-        Reports
-    </h3>
-    <ul data-bind="foreach: reports">
-        <li>
-            <a data-bind="attr:{href:String.format('#/reportdefinition.execute-id.{0}/{0}', Id()) }, text:Title"></a>
-        </li>
-    </ul>
 </div>
