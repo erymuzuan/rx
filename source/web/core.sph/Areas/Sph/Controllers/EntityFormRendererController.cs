@@ -114,39 +114,18 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     return tcs.promise();
                 },");
 
-            foreach (var operation in model.EntityDefinition.EntityOperationCollection)
+
+            var operation = ed.EntityOperationCollection.SingleOrDefault(x => x.Name == form.Operation);
+            if (null != operation)
             {
-                var opFunc = operation.Name.ToCamelCase();
-                var route = string.IsNullOrWhiteSpace(operation.Route) ? operation.Name : operation.Route;
-                script.AppendLine($@"
-                {opFunc} = function(){{
-
-                     if (!validation.valid()) {{
-                         return Task.fromResult(false);
-                     }}
-
-                     var data = ko.mapping.toJSON(entity),
-                        tcs = new $.Deferred();
-                      
-                     context.post(data, ""/{model.EntityDefinition.Name}/{route}"" )
-                         .then(function (result) {{
-                             if (result.success) {{
-                                 logger.info(result.message);
-                                 entity().Id(result.id);
-                                 errors.removeAll();
-
-                             }} else {{
-                                 errors.removeAll();
-                                 _(result.rules).each(function(v){{
-                                     errors(v.ValidationErrors);
-                                 }});
-                                 logger.error(""There are errors in your entity, !!!"");
-                             }}
-                             tcs.resolve(result);
-                         }});
-                     return tcs.promise();
-                 }},");
+                var api = GenerateApiOperationCode(ed, operation, form.OperationMethod);
+                script.Append(api);
             }
+            if (model.Form.IsRemoveAvailable)
+                script.AppendLine($@"remove = function {{
+                        return context.sendDelete(""{ed.Name}/{form.DeleteOperation}/"" + ko.unwrap(entity().Id));
+                    }},");
+            // end of operation
             script.AppendLine($@"
                 attached = function (view) {{
                     // validation
@@ -315,7 +294,38 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         }
 
+        private static string GenerateApiOperationCode(EntityDefinition ed, EntityOperation operation, string method)
+        {
+            var opFunc = operation.Name.ToCamelCase();
+            var route = string.IsNullOrWhiteSpace(operation.Route) ? operation.Name : operation.Route;
+            return $@"
+                {opFunc} = function(){{
 
+                     if (!validation.valid()) {{
+                         return Task.fromResult(false);
+                     }}
 
+                     var data = ko.mapping.toJSON(entity),
+                        tcs = new $.Deferred();
+                      
+                     context.{method}(data, ""/{ed.Name}/{route}"" )
+                         .then(function (result) {{
+                             if (result.success) {{
+                                 logger.info(result.message);
+                                 entity().Id(result.id);
+                                 errors.removeAll();
+
+                             }} else {{
+                                 errors.removeAll();
+                                 _(result.rules).each(function(v){{
+                                     errors(v.ValidationErrors);
+                                 }});
+                                 logger.error(""There are errors in your entity, !!!"");
+                             }}
+                             tcs.resolve(result);
+                         }});
+                     return tcs.promise();
+                 }},";
+        }
     }
 }

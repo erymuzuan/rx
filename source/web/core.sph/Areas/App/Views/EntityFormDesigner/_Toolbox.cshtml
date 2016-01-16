@@ -289,6 +289,22 @@
                             value: Operation" id="form-design-operation" name="FormDesign.Operation"></select>
                 </div>
                 <div class="form-group">
+                    <label for="form-design-operation-method">Method</label>
+                    <select class="form-control" data-bind="value: OperationMethod" id="form-design-operation-method" name="FormDesign.OperationMethod">
+                        <option value="">[Please select]</option>
+                        <option value="post">POST</option>
+                        <option value="put">PUT</option>
+                        <option value="patch">PATCH</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="form-design-delete-operation">DELETE Operation</label>
+                    <select class="form-control" data-bind="options :$root.operationsOption,
+                            optionsCaption :'[Select a DELETE operation]',
+                            value: DeleteOperation,
+                            enable: IsRemoveAvailable" id="form-design-delete-operation" name="FormDesign.Operation"></select>
+                </div>
+                <div class="form-group">
                     <label for="success-message">Success Message</label>
                     <input type="text" data-bind="value: OperationSuccessMesage, enable:Operation"
                            placeholder="The message to alert user when the operation return success"

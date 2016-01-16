@@ -2796,6 +2796,16 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationMethod;
+        public const string PropertyNameOperationMethod = "OperationMethod";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_deleteOperation;
+        public const string PropertyNameDeleteOperation = "DeleteOperation";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -3501,6 +3511,59 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_operationFailureCallback;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationMethod
+        {
+            set
+            {
+                if (String.Equals(m_operationMethod, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationMethod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationMethod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationMethod;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string DeleteOperation
+        {
+            set
+            {
+                if (String.Equals(m_deleteOperation, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDeleteOperation, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_deleteOperation = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_deleteOperation;
             }
         }
 
@@ -4242,7 +4305,7 @@ namespace Bespoke.Sph.Domain
             }
             get
             {
-                return m_entityDefinitionId;
+                return m_entity;
             }
         }
 

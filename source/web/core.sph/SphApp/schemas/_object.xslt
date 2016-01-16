@@ -7,7 +7,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xsl:output method="text" />
   <xsl:template match="xs:schema">
-    /// &lt;reference path="~/scripts/knockout-3.2.0.debug.js" /&gt;
+    /// &lt;reference path="~/scripts/knockout-3.4.0.debug.js" /&gt;
     /// &lt;reference path="~/Scripts/underscore.js" /&gt;
     /// &lt;reference path="~/Scripts/moment.js" /&gt;
 

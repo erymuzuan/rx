@@ -942,6 +942,61 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                    <label");
 
+WriteLiteral(" for=\"form-design-operation-method\"");
+
+WriteLiteral(">Method</label>\r\n                    <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: OperationMethod\"");
+
+WriteLiteral(" id=\"form-design-operation-method\"");
+
+WriteLiteral(" name=\"FormDesign.OperationMethod\"");
+
+WriteLiteral(">\r\n                        <option");
+
+WriteLiteral(" value=\"\"");
+
+WriteLiteral(">[Please select]</option>\r\n                        <option");
+
+WriteLiteral(" value=\"post\"");
+
+WriteLiteral(">POST</option>\r\n                        <option");
+
+WriteLiteral(" value=\"put\"");
+
+WriteLiteral(">PUT</option>\r\n                        <option");
+
+WriteLiteral(" value=\"patch\"");
+
+WriteLiteral(">PATCH</option>\r\n                    </select>\r\n                </div>\r\n         " +
+"       <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"form-design-delete-operation\"");
+
+WriteLiteral(">DELETE Operation</label>\r\n                    <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"options :$root.operationsOption,\r\n                            options" +
+"Caption :\'[Select a DELETE operation]\',\r\n                            value: Dele" +
+"teOperation,\r\n                            enable: IsRemoveAvailable\"");
+
+WriteLiteral(" id=\"form-design-delete-operation\"");
+
+WriteLiteral(" name=\"FormDesign.Operation\"");
+
+WriteLiteral("></select>\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
 WriteLiteral(" for=\"success-message\"");
 
 WriteLiteral(">Success Message</label>\r\n                    <input");

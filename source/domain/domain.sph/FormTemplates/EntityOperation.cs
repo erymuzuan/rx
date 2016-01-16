@@ -30,10 +30,9 @@ namespace Bespoke.Sph.Domain
         public Method GeneratePostAction(EntityDefinition ed)
         {
             if (!IsHttpPost) return null;
-            var route = this.Route ?? this.Name;
             var post = new Method { Name = $"Post{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
             post.AttributeCollection.Add("[HttpPost]");
-            post.AttributeCollection.Add($"[Route(\"{route.ToLowerInvariant()}\")]");
+            post.AttributeCollection.Add($"[Route(\"{Route}\")]");
 
             var authorize = GenerateAuthorizeAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
@@ -75,10 +74,9 @@ namespace Bespoke.Sph.Domain
         {
             if (!IsHttpPatch) return null;
 
-            var route = this.Route ?? this.Name;
             var patch = new Method { Name = $"Patch{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
             patch.AttributeCollection.Add("[HttpPatch]");
-            patch.AttributeCollection.Add($"[Route(\"{route.ToLowerInvariant()}/{{id}}\")]");
+            patch.AttributeCollection.Add($"[Route(\"{Route}/{{id}}\")]");
 
             var authorize = GenerateAuthorizeAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
@@ -134,10 +132,9 @@ namespace Bespoke.Sph.Domain
         {
             if (!IsHttpPut) return null;
 
-            var route = this.Route ?? this.Name;
             var put = new Method { Name = $"Put{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
             put.AttributeCollection.Add("[HttpPut]");
-            put.AttributeCollection.Add($"[Route(\"{route.ToLowerInvariant()}/{{id?}}\")]");
+            put.AttributeCollection.Add($"[Route(\"{Route}/{{id?}}\")]");
 
             var authorize = GenerateAuthorizeAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))

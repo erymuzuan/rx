@@ -201,6 +201,22 @@ function (logger, system, ko2) {
 
         return tcs.promise();
     }
+    function patch(json, url) {
+
+
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "PATCH",
+            data: json,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: tcs.resolve
+        });
+
+        return tcs.promise();
+    }
     function put(json, url) {
 
 
@@ -530,6 +546,7 @@ function (logger, system, ko2) {
         getDistinctAsync: getDistinctAsync,
         getTuplesAsync: getTuplesAsync,
         sendDelete: sendDelete,
+        patch: patch,
         post: post,
         put: put,
         send: send,

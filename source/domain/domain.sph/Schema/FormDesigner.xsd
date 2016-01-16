@@ -519,6 +519,8 @@
 			<xs:attribute name="OperationSuccessNavigateUrl" type="xs:string" use="required"/>
 			<xs:attribute name="OperationSuccessCallback" type="xs:string" use="required"/>
 			<xs:attribute name="OperationFailureCallback" type="xs:string" use="required"/>
+			<xs:attribute name="OperationMethod" type="xs:string" use="required"/>
+			<xs:attribute name="DeleteOperation" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FormLayout">

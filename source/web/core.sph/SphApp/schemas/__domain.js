@@ -1,5 +1,5 @@
 
-/// <reference path="~/Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.4.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -1029,6 +1029,8 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         OperationSuccessNavigateUrl: ko.observable(""),
         OperationSuccessCallback: ko.observable(""),
         OperationFailureCallback: ko.observable(""),
+        OperationMethod: ko.observable(""),
+        DeleteOperation: ko.observable(""),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
         RouteParameterCollection: ko.observableArray([]),
