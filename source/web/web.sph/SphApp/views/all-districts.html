@@ -1,0 +1,35 @@
+<h1>All districts</h1>
+<div class="row">
+    <div class="col-md-8">
+        <button class="btn btn-link pull-right" data-bind="visible: chartFiltered, click: clearChartFilter">
+            <i class="fa fa-times"></i>
+            Clear chart's filter
+        </button>
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, map : map, entity : 'District', list:list}">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Postcode</th>
+                    <th>State</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :list">
+                <tr data-bind="">
+                    <td>
+                        <a data-bind="attr : {href:'#district-details' + '/' + Id, title:'Id' }">
+                            <i class="fa fa-edit"></i>
+                                                        <span data-bind="text:Id"></span>
+                        </a>
+                    </td>
+                    <td data-bind="text:Name"></td>
+                    <td data-bind="text:Postcode"></td>
+                    <td data-bind="text:State"></td>
+                </tr>
+            </tbody>
+        </table>
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
+    </div>
+    <!-- ko compose : {view : '_chart.panel'}-->
+    <!-- /ko -->
+</div>
