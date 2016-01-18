@@ -227,6 +227,7 @@
     <Compile Include="FormTemplates\DialogButton.cs" />
     <Compile Include="FormTemplates\DownloadLink.cs" />
     <Compile Include="FormTemplates\EntityChart.cs" />
+    <Compile Include="FormTemplates\EntityQuery.compile.cs" />
     <Compile Include="FormTemplates\EntityDefinition.code.cs">
       <DependentUpon>EntityDefinition.cs</DependentUpon>
     </Compile>

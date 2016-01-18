@@ -27,7 +27,6 @@ namespace Bespoke.Sph.Domain
 
         public IEnumerable<Class> GenerateCode()
         {
-
             var @class = new Class { Name = this.Name, FileName = $"{Name}.cs", Namespace = CodeNamespace, BaseClass = nameof(Entity) };
             @class.ImportCollection.AddRange(m_importDirectives);
             var list = new ObjectCollection<Class> { @class };
