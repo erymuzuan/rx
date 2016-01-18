@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Domain
             if (null == this.BuildDiagnostics)
                 ObjectBuilder.ComposeMefCatalog(this);
             if (null == this.BuildDiagnostics)
-                throw new InvalidOperationException($"Fail to initialize MEF for PartialView.BuildDiagnostics");
+                throw new InvalidOperationException($"Fail to initialize MEF for EntityQuery.BuildDiagnostics");
 
             var result = new BuildValidationResult();
             var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this, ed));

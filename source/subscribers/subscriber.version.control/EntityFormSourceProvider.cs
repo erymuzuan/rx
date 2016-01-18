@@ -9,11 +9,8 @@ namespace subscriber.version.control
         {
             base.SaveJsonSource(form);
             await PersistDocumentAsync(form.IconStoreId);
-            
-
         }
-
-
+        
         public override async Task RemoveItem(EntityForm item)
         {
             this.RemoveJsonSource(item);

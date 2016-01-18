@@ -36,7 +36,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 if (!bespoke.utils.form.checkValidity(ev.target)) {
                     return Task.fromResult(0);
                 }
-                var record = new bespoke.sph.domain.Member({
+                var record = new bespoke.sph.domain.SimpleMember({
                         "Name": entity().RecordName(),
                         "TypeName": "System.String, mscorlib",
                         "IsNullable": false,
