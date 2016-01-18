@@ -13,8 +13,12 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
         var entities = ko.observableArray(),
             query = ko.observable(new bespoke.sph.domain.EntityQuery()),
             entity = ko.observable(),
+            id = ko.observable(),
             activate = function () {
                 query(new bespoke.sph.domain.EntityQuery({ "Entity": ko.unwrap(entity), "WebId": system.guid() }));
+                query().Name.subscribe(function (v) {
+                    query().Route(v.toLowerCase().replace(/\W+/g, "-"));
+                });
                 return context.getListAsync("EntityDefinition", "Id ne ''", "Name").done(entities);
             },
             okClick = function (data, ev) {
@@ -26,7 +30,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 return context.post(json, "/entity-query")
                     .then(function (result) {
                         if (result) {
-                            id(result);
+                            id(result.id);
                             dialog.close(data, "OK");
                         }
                     });
@@ -41,6 +45,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             activate: activate,
             okClick: okClick,
             entity: entity,
+            id: id,
             entities: entities,
             cancelClick: cancelClick
         };
