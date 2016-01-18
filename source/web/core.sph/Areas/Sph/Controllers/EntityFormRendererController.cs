@@ -72,10 +72,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                     var query = String.format(""Id eq '{{0}}'"", entityId),
                         tcs = new $.Deferred(),
-                        itemTask = context.loadOneAsync(""{model.EntityDefinition.Name}"", query),
-                        formTask = context.loadOneAsync(""EntityForm"", ""Route eq '{model.Form.Route}'""),
-                        watcherTask = watcher.getIsWatchingAsync(""{model.EntityDefinition.Name}"", entityId),
-                        i18nTask = $.getJSON(""i18n/"" + config.lang + ""/{model.Form.Route}"");
+                        itemTask = context.loadOneAsync(""{ed.Name}"", query),
+                        formTask = context.loadOneAsync(""EntityForm"", ""Route eq '{form.Route}'""),
+                        watcherTask = watcher.getIsWatchingAsync(""{ed.Name}"", entityId),
+                        i18nTask = $.getJSON(""i18n/"" + config.lang + ""/{form.Route}"");
 
                     $.when(itemTask, formTask, watcherTask, i18nTask).done(function(b,f,w,n) {{
                         if (b) {{
@@ -159,7 +159,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 }},");
             }
 
-            script.AppendLine(@"
+            script.Append(@"
                 compositionComplete = function() {
                     $(""[data-i18n]"").each(function (i, v) {
                         var $label = $(v),
@@ -168,41 +168,14 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             $label.text(i18n[text]);
                         }
                     });
-                },");
-            script.AppendLine($@"
-                saveCommand = function() {{
-                    return {form.Operation.ToCamelCase()}()");
-            if (!string.IsNullOrWhiteSpace(form.OperationSuccessCallback))
+                }");
+            if (!string.IsNullOrWhiteSpace(form.Operation))
             {
-                script.AppendLine($@"  .then(function(result){{
-                        {form.OperationSuccessCallback}
-                        return Task.fromResult(result);
-                    }})");
+                var operationScript = this.GetOperationScript(form);
+                script.Append(",");
+                script.Append(operationScript);
             }
-            if (!string.IsNullOrWhiteSpace(form.OperationSuccessMesage))
-            {
-                script.AppendLine($@"  .then(function(result){{
-                          if(result.success)
-                                return app.showMessage(""{form.OperationSuccessMesage}"", [""OK""]);
-                            else
-                               return Task.fromResult(false);
-                    }})");
-            }
-            if (!string.IsNullOrWhiteSpace(form.OperationSuccessNavigateUrl))
-            {
-                script.AppendLine($@"  .then(function(result){{
-                        if(result) router.navigate(""{form.OperationSuccessNavigateUrl}"");
-                    }})");
-            }
-            if (!string.IsNullOrWhiteSpace(form.OperationFailureCallback))
-            {
-                script.AppendLine($@"  .fail(function(){{
-                        {form.OperationFailureCallback}
-                    }})");
-            }
-
-            script.AppendLine($@"; 
-                }};");
+            script.Append(";");
 
             // viewmodel
             var partialMemberDeclaration = (string.IsNullOrWhiteSpace(model.Form.Partial) ? "" : "partial: partial,");
@@ -292,6 +265,47 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return Content(script.ToString(), MimeMapping.GetMimeMapping("some.js"), Encoding.UTF8);
 
 
+        }
+
+        private string GetOperationScript(EntityForm form)
+        {
+            var script = new StringBuilder();
+            script.AppendLine($@"
+                saveCommand = function() {{
+                    return {form.Operation.ToCamelCase()}()");
+            if (!string.IsNullOrWhiteSpace(form.OperationSuccessCallback))
+            {
+                script.AppendLine($@"  .then(function(result){{
+                        {form.OperationSuccessCallback}
+                        return Task.fromResult(result);
+                    }})");
+            }
+            if (!string.IsNullOrWhiteSpace(form.OperationSuccessMesage))
+            {
+                script.AppendLine($@"  .then(function(result){{
+                          if(result.success)
+                                return app.showMessage(""{form.OperationSuccessMesage}"", [""OK""]);
+                            else
+                               return Task.fromResult(false);
+                    }})");
+            }
+            if (!string.IsNullOrWhiteSpace(form.OperationSuccessNavigateUrl))
+            {
+                script.AppendLine($@"  .then(function(result){{
+                        if(result) router.navigate(""{form.OperationSuccessNavigateUrl}"");
+                    }})");
+            }
+            if (!string.IsNullOrWhiteSpace(form.OperationFailureCallback))
+            {
+                script.AppendLine($@"  .fail(function(){{
+                        {form.OperationFailureCallback}
+                    }})");
+            }
+
+            script.AppendLine($@"; 
+                }}");
+
+            return script.ToString();
         }
 
         private static string GenerateApiOperationCode(EntityDefinition ed, EntityOperation operation, string method)
