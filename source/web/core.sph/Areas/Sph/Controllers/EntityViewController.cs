@@ -85,22 +85,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         [NoCache]
         public async Task<ActionResult> Count(string id)
         {
-            string path = $"{ConfigurationManager.SphSourceDirectory}\\EntityView\\{id}.json";
-            if (!System.IO.File.Exists(path))
-            {
-                return Json(new { hits = new { total = 0 } }, JsonRequestBehavior.AllowGet);
-            }
-            var view = path.DeserializeFromJsonFile<EntityView>();
-            var type = view.EntityDefinitionId.ToLowerInvariant();
+            string type;
+            var json = GetElasticsearchQuery(id, out type);
+            if (null == json) return Json(new { hits = new { total = 0 } }, JsonRequestBehavior.AllowGet);
 
-            var json = (@" {
-                ""query"": {
-                    ""filtered"": {
-                        ""filter"":" + Domain.Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection) + @"
-                    }
-                }
-            }").Replace("config.userName", "\"" + User.Identity.Name + "\"");
-            Console.WriteLine(json);
             var request = new StringContent(json);
             var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{type}/_search";
 
@@ -115,6 +103,40 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return Content(await content.ReadAsStringAsync());
 
             }
+        }
+
+        private string GetElasticsearchQuery(string id, out string type)
+        {
+            string path = $"{ConfigurationManager.SphSourceDirectory}\\EntityView\\{id}.json";
+            var key = $"count-view-{id}";
+            if (!System.IO.File.Exists(path))
+            {
+            type = null;
+                return null;
+            }
+
+            var query = CacheManager.Default.Get<Tuple<string,string>>(key);
+            if (null != query)
+            {
+                type = query.Item1;
+                return query.Item2;
+            }
+
+            var view = path.DeserializeFromJsonFile<EntityView>();
+            type = view.EntityDefinitionId.ToLowerInvariant();
+
+            var json = (@" {
+                ""query"": {
+                    ""filtered"": {
+                        ""filter"":" + Domain.Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection) + @"
+                    }
+                }
+            }").Replace("config.userName", "\"" + User.Identity.Name + "\"");
+
+
+            CacheManager.Default.Insert(key, new Tuple<string,string>(type, json), path);
+
+            return json;
         }
 
         [AllowAnonymous]
