@@ -10,6 +10,7 @@ using System.Web.ModelBinding;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Dependencies;
+using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Humanizer;
 
@@ -18,15 +19,10 @@ namespace Bespoke.Sph.Web.Controllers
     [RoutePrefix("entity-definition")]
     public class EntityDefinition2Controller : BaseController
     {
-        public const string ED_SCHEMA = "ed-schema";
-
-        private void DeleteEdSchemaCache()
-        {
-            System.Web.HttpContext.Current.Cache.Remove(ED_SCHEMA);
-        }
 
         [HttpGet]
         [Route("variable-path/{id}")]
+        [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
         public async Task<ActionResult> GetVariablePath(string id)
         {
             var context = new SphDataContext();
@@ -62,7 +58,6 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("")]
         public async Task<ActionResult> Save()
         {
-            this.DeleteEdSchemaCache();
             var ed = this.GetRequestJson<EntityDefinition>();
             var context = new SphDataContext();
             var canSave = ed.CanSave();
@@ -131,13 +126,9 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("schema")]
+        [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
         public async Task<ActionResult> Schemas()
         {
-            this.Response.ContentType = "application/javascript";
-
-            var cached = System.Web.HttpContext.Current.Cache.Get(ED_SCHEMA) as string;
-            if (null != cached) return Content(cached);
-
             var context = new SphDataContext();
             var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
 
@@ -147,16 +138,13 @@ namespace Bespoke.Sph.Web.Controllers
                 var code = await ef.GenerateCustomXsdJavascriptClassAsync();
                 script.AppendLine(code);
             }
-
-            System.Web.HttpContext.Current.Cache.Insert(ED_SCHEMA, script.ToString());
-            return Content(script.ToString());
+            return JavaScript(script.ToString());
         }
 
         [HttpGet]
         [Route("export/{id}")]
         public async Task<ActionResult> Export(string id, [QueryString] bool includeData = false)
         {
-
             var context = new SphDataContext();
             var entity = context.LoadOneFromSources<EntityDefinition>(e => e.Id == id);
             var package = new EntityDefinitionPackage();
@@ -243,7 +231,6 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("depublish")]
         public async Task<ActionResult> Depublish()
         {
-            this.DeleteEdSchemaCache();
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
 
@@ -262,7 +249,6 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("{id}")]
         public async Task<ActionResult> Delete(string id)
         {
-            this.DeleteEdSchemaCache();
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
             if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
@@ -289,8 +275,6 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("publish")]
         public async Task<ActionResult> Publish()
         {
-
-            this.DeleteEdSchemaCache();
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
             ed.BuildDiagnostics = ObjectBuilder.GetObject<DeveloperService>().BuildDiagnostics;

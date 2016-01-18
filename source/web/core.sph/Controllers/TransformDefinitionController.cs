@@ -190,8 +190,6 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("assemblies")]
         public ActionResult Assemblies()
         {
-
-
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var refAssemblies = (from a in assemblies
                                  let name = a.GetName()
