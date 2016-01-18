@@ -18,6 +18,7 @@
         <Setter Property="Margin" Value="5" />
     </Style>
     
+    <Image Source="images/application_osx_terminal.png" x:Key="CommandPrompt" Stretch="None"></Image>
     <Image Source="images/opentype.gif" x:Key="ImageOpen" Stretch="None"></Image>
     <Image Source="images/update.gif" x:Key="ImageUpdate" Stretch="None"></Image>
     <Image Source="images/help.gif" x:Key="ImageHelp" Stretch="None"></Image>

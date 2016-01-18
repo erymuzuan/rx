@@ -220,5 +220,24 @@ namespace Bespoke.Sph.ControlCenter
         {
             Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\"));
         }
+
+        private void StartPowershell(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var ps = new ProcessStartInfo
+                {
+                    FileName = $@"{Environment.SystemDirectory}\WindowsPowerShell\v1.0\powershell.exe",
+                    WorkingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\"),
+                    Arguments = "-NoExit -Command \"Import-Module .\\utils\\sqlcmd.dll\""
+                };
+
+                Process.Start(ps);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Rx Developer", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

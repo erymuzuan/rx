@@ -29,6 +29,7 @@
         <Menu Grid.Row="0" x:Name="menu">
             <MenuItem Header="_File">
                 <MenuItem Icon="{StaticResource ImageOpen}" Header="_Open Project Directory" Click="OpenProjectDirectory"/>
+                <MenuItem Icon="{StaticResource CommandPrompt}" Header="_Starts Powershell" Click="StartPowershell"/>
                 <MenuItem Header="E_xit" Click="WindowExit"/>
                 <MenuItem Header="_Force Exit" Click="ForceWindowExit"/>
             </MenuItem>
