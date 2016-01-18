@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +16,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FormDesign", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormDesign
     {
 
@@ -92,14 +90,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<FormElement> FormElementCollection { get; } = new ObjectCollection<FormElement>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -126,7 +122,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -153,7 +148,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -180,7 +174,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -388,12 +381,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("TextBox", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class TextBox
     {
 
         private string m_DefaultValue;
-        [XmlAttribute]
         public string DefaultValue
         {
             get
@@ -409,7 +400,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_AutoCompletionEntity;
-        [XmlAttribute]
         public string AutoCompletionEntity
         {
             get
@@ -425,7 +415,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_AutoCompletionField;
-        [XmlAttribute]
         public string AutoCompletionField
         {
             get
@@ -441,7 +430,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_AutoCompletionQuery;
-        [XmlAttribute]
         public string AutoCompletionQuery
         {
             get
@@ -464,7 +452,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("CheckBox", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class CheckBox
     {
 
@@ -476,7 +463,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DatePicker", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DatePicker
     {
 
@@ -488,7 +474,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DateTimePicker", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DateTimePicker
     {
 
@@ -500,14 +485,12 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ComboBox", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ComboBox
     {
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ComboBoxItem", IsNullable = false)]
         public ObjectCollection<ComboBoxItem> ComboBoxItemCollection { get; } = new ObjectCollection<ComboBoxItem>();
 
 
@@ -536,12 +519,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("TextAreaElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class TextAreaElement
     {
 
         private string m_Rows;
-        [XmlAttribute]
         public string Rows
         {
             get
@@ -557,7 +538,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsHtml;
-        [XmlAttribute]
         public bool IsHtml
         {
             get
@@ -580,7 +560,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("WebsiteFormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class WebsiteFormElement
     {
 
@@ -592,7 +571,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EmailFormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EmailFormElement
     {
 
@@ -604,12 +582,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("NumberTextBox", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class NumberTextBox
     {
 
         private int m_Step;
-        [XmlAttribute]
         public int Step
         {
             get
@@ -632,12 +608,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("MapElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class MapElement
     {
 
         private string m_Icon;
-        [XmlAttribute]
         public string Icon
         {
             get
@@ -660,7 +634,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SectionFormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SectionFormElement
     {
 
@@ -672,7 +645,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ComboBoxItem", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ComboBoxItem
     {
 
@@ -689,7 +661,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -716,7 +687,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -748,12 +718,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("AddressElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class AddressElement
     {
 
         private bool m_IsUnitNoVisible;
-        [XmlAttribute]
         public bool IsUnitNoVisible
         {
             get
@@ -769,7 +737,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsFloorVisible;
-        [XmlAttribute]
         public bool IsFloorVisible
         {
             get
@@ -785,7 +752,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsBlockVisible;
-        [XmlAttribute]
         public bool IsBlockVisible
         {
             get
@@ -801,7 +767,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_BlockOptionsPath;
-        [XmlAttribute]
         public string BlockOptionsPath
         {
             get
@@ -817,7 +782,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_FloorOptionsPath;
-        [XmlAttribute]
         public string FloorOptionsPath
         {
             get
@@ -840,7 +804,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("HtmlElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class HtmlElement
     {
 
@@ -854,7 +817,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DefaultValue", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DefaultValue
     {
 
@@ -882,7 +844,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -909,7 +870,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -936,7 +896,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -990,7 +949,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FieldValidation", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FieldValidation
     {
 
@@ -1041,7 +999,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1068,7 +1025,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1095,7 +1051,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1122,7 +1077,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1243,7 +1197,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("BusinessRule", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class BusinessRule
     {
 
@@ -1270,21 +1223,18 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Rule", IsNullable = false)]
         public ObjectCollection<Rule> RuleCollection { get; } = new ObjectCollection<Rule>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Rule", IsNullable = false)]
         public ObjectCollection<Rule> FilterCollection { get; } = new ObjectCollection<Rule>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1311,7 +1261,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1338,7 +1287,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1365,7 +1313,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1398,12 +1345,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FileUploadElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FileUploadElement
     {
 
         private string m_AllowedExtensions;
-        [XmlAttribute]
         public string AllowedExtensions
         {
             get
@@ -1426,7 +1371,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ComboBoxLookup", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ComboBoxLookup
     {
 
@@ -1458,7 +1402,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1485,7 +1428,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1512,7 +1454,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1539,7 +1480,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1566,7 +1506,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1598,12 +1537,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ChildEntityListView", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ChildEntityListView
     {
 
         private string m_Entity;
-        [XmlAttribute]
         public string Entity
         {
             get
@@ -1619,7 +1556,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Query;
-        [XmlAttribute]
         public string Query
         {
             get
@@ -1635,7 +1571,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsAllowAddItem;
-        [XmlAttribute]
         public bool IsAllowAddItem
         {
             get
@@ -1651,7 +1586,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_NewItemFormRoute;
-        [XmlAttribute]
         public string NewItemFormRoute
         {
             get
@@ -1667,7 +1601,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_NewItemMappingSource;
-        [XmlAttribute]
         public string NewItemMappingSource
         {
             get
@@ -1683,7 +1616,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_NewItemMappingDestination;
-        [XmlAttribute]
         public string NewItemMappingDestination
         {
             get
@@ -1701,21 +1633,18 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ViewColumn", IsNullable = false)]
         public ObjectCollection<ViewColumn> ViewColumnCollection { get; } = new ObjectCollection<ViewColumn>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Sort", IsNullable = false)]
         public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
         public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection { get; } = new ObjectCollection<ConditionalFormatting>();
 
 
@@ -1727,12 +1656,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ListView", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ListView
     {
 
         private string m_ChildItemType;
-        [XmlAttribute]
         public string ChildItemType
         {
             get
@@ -1748,7 +1675,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsChildItemFunction;
-        [XmlAttribute]
         public bool IsChildItemFunction
         {
             get
@@ -1766,7 +1692,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ListViewColumn", IsNullable = false)]
         public ObjectCollection<ListViewColumn> ListViewColumnCollection { get; } = new ObjectCollection<ListViewColumn>();
 
 
@@ -1778,7 +1703,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ListViewColumn", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ListViewColumn
     {
 
@@ -1801,7 +1725,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1828,7 +1751,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1882,12 +1804,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Button", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Button
     {
 
         private string m_Command;
-        [XmlAttribute]
         public string Command
         {
             get
@@ -1903,7 +1823,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_UseClick;
-        [XmlAttribute]
         public bool UseClick
         {
             get
@@ -1919,7 +1838,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_CommandName;
-        [XmlAttribute]
         public string CommandName
         {
             get
@@ -1935,7 +1853,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_LoadingText;
-        [XmlAttribute]
         public string LoadingText
         {
             get
@@ -1951,7 +1868,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_CompleteText;
-        [XmlAttribute]
         public string CompleteText
         {
             get
@@ -1967,7 +1883,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_IconClass;
-        [XmlAttribute]
         public string IconClass
         {
             get
@@ -1983,7 +1898,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsToolbarItem;
-        [XmlAttribute]
         public bool IsToolbarItem
         {
             get
@@ -1999,7 +1913,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Operation;
-        [XmlAttribute]
         public string Operation
         {
             get
@@ -2022,7 +1935,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EntityDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EntityDefinition
     {
 
@@ -2086,28 +1998,24 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("BusinessRule", IsNullable = false)]
         public ObjectCollection<BusinessRule> BusinessRuleCollection { get; } = new ObjectCollection<BusinessRule>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("EntityOperation", IsNullable = false)]
         public ObjectCollection<EntityOperation> EntityOperationCollection { get; } = new ObjectCollection<EntityOperation>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> AuthorizedRoleCollection { get; } = new ObjectCollection<string>();
 
 
@@ -2131,7 +2039,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2158,7 +2065,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2185,7 +2091,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2212,7 +2117,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2239,7 +2143,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2266,7 +2169,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2293,7 +2195,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2320,7 +2221,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public bool TreatDataAsSource
@@ -2346,7 +2246,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string DashboardTemplate
@@ -2421,7 +2320,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ValueObjectDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ValueObjectDefinition
     {
 
@@ -2433,28 +2331,24 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("BusinessRule", IsNullable = false)]
         public ObjectCollection<BusinessRule> BusinessRuleCollection { get; } = new ObjectCollection<BusinessRule>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("EntityOperation", IsNullable = false)]
         public ObjectCollection<EntityOperation> EntityOperationCollection { get; } = new ObjectCollection<EntityOperation>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2486,12 +2380,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SimpleMember", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SimpleMember
     {
 
         private string m_TypeName;
-        [XmlAttribute]
         public string TypeName
         {
             get
@@ -2507,7 +2399,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsNullable;
-        [XmlAttribute]
         public bool IsNullable
         {
             get
@@ -2523,7 +2414,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsNotIndexed;
-        [XmlAttribute]
         public bool IsNotIndexed
         {
             get
@@ -2539,7 +2429,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsAnalyzed;
-        [XmlAttribute]
         public bool IsAnalyzed
         {
             get
@@ -2555,7 +2444,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsFilterable;
-        [XmlAttribute]
         public bool IsFilterable
         {
             get
@@ -2571,7 +2459,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsExcludeInAll;
-        [XmlAttribute]
         public bool IsExcludeInAll
         {
             get
@@ -2587,7 +2474,6 @@ namespace Bespoke.Sph.Domain
 
 
         private int m_Boost;
-        [XmlAttribute]
         public int Boost
         {
             get
@@ -2610,12 +2496,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ComplexMember", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ComplexMember
     {
 
         private string m_EmptyField;
-        [XmlAttribute]
         public string EmptyField
         {
             get
@@ -2638,12 +2522,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ValueObjectMember", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ValueObjectMember
     {
 
         private string m_ValueObjectName;
-        [XmlAttribute]
         public string ValueObjectName
         {
             get
@@ -2666,7 +2548,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EntityForm", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EntityForm
     {
 
@@ -2825,28 +2706,24 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> Rules { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("RouteParameter", IsNullable = false)]
         public ObjectCollection<RouteParameter> RouteParameterCollection { get; } = new ObjectCollection<RouteParameter>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("FormLayout", IsNullable = false)]
         public ObjectCollection<FormLayout> FormLayoutCollection { get; } = new ObjectCollection<FormLayout>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2873,7 +2750,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2900,7 +2776,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2927,7 +2802,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2954,7 +2828,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2981,7 +2854,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3008,7 +2880,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3035,7 +2906,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3062,7 +2932,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3089,7 +2958,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3116,7 +2984,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3143,7 +3010,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3170,7 +3036,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3197,7 +3062,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3224,7 +3088,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3251,7 +3114,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3278,7 +3140,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3305,7 +3166,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3332,7 +3192,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Partial
@@ -3358,7 +3217,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Caption
@@ -3384,7 +3242,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Layout
@@ -3410,7 +3267,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3437,7 +3293,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3464,7 +3319,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3491,7 +3345,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3518,7 +3371,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3545,7 +3397,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string DeleteOperation
@@ -3576,7 +3427,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FormLayout", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormLayout
     {
 
@@ -3633,7 +3483,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3660,7 +3509,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3687,7 +3535,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3714,7 +3561,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3856,7 +3702,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EntityView", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EntityView
     {
 
@@ -3938,28 +3783,24 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Filter", IsNullable = false)]
         public ObjectCollection<Filter> FilterCollection { get; } = new ObjectCollection<Filter>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ViewColumn", IsNullable = false)]
         public ObjectCollection<ViewColumn> ViewColumnCollection { get; } = new ObjectCollection<ViewColumn>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Sort", IsNullable = false)]
         public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
         public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection { get; } = new ObjectCollection<ConditionalFormatting>();
 
 
@@ -3983,14 +3824,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("RouteParameter", IsNullable = false)]
         public ObjectCollection<RouteParameter> RouteParameterCollection { get; } = new ObjectCollection<RouteParameter>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4017,7 +3856,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4044,7 +3882,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4071,7 +3908,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4098,7 +3934,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4125,7 +3960,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4152,7 +3986,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4179,7 +4012,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4206,7 +4038,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4233,7 +4064,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4260,7 +4090,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string CountMessage
@@ -4286,7 +4115,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4313,7 +4141,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4340,7 +4167,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Template
@@ -4366,7 +4192,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4398,7 +4223,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Filter", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Filter
     {
 
@@ -4421,7 +4245,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4448,7 +4271,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4502,7 +4324,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ViewColumn", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ViewColumn
     {
 
@@ -4554,14 +4375,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
         public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection { get; } = new ObjectCollection<ConditionalFormatting>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4588,7 +4407,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4615,7 +4433,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Sort
@@ -4641,7 +4458,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4668,7 +4484,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4695,7 +4510,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4722,7 +4536,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4749,7 +4562,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4776,7 +4588,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4808,7 +4619,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Sort", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Sort
     {
 
@@ -4825,7 +4635,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4852,7 +4661,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4884,12 +4692,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ImageElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ImageElement
     {
 
         private bool m_IsThumbnail;
-        [XmlAttribute]
         public bool IsThumbnail
         {
             get
@@ -4916,12 +4722,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DownloadLink", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DownloadLink
     {
 
         private bool m_IsTransformTemplate;
-        [XmlAttribute]
         public bool IsTransformTemplate
         {
             get
@@ -4937,7 +4741,6 @@ namespace Bespoke.Sph.Domain
 
 
         private int m_TemplateId;
-        [XmlAttribute]
         public int TemplateId
         {
             get
@@ -4953,7 +4756,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Entity;
-        [XmlAttribute]
         public string Entity
         {
             get
@@ -4969,7 +4771,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_IconClass;
-        [XmlAttribute]
         public string IconClass
         {
             get
@@ -4992,7 +4793,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FieldPermission", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FieldPermission
     {
 
@@ -5014,7 +4814,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5041,7 +4840,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5068,7 +4866,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5100,7 +4897,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EntityPermission", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EntityPermission
     {
 
@@ -5122,7 +4918,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5149,7 +4944,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5176,7 +4970,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5208,7 +5001,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EntityOperation", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EntityOperation
     {
 
@@ -5245,42 +5037,36 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("EntityPermission", IsNullable = false)]
         public ObjectCollection<EntityPermission> EntityPermissionCollection { get; } = new ObjectCollection<EntityPermission>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> Rules { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> Permissions { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("SetterActionChild", IsNullable = false)]
         public ObjectCollection<SetterActionChild> SetterActionChildCollection { get; } = new ObjectCollection<SetterActionChild>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("PatchSetter", IsNullable = false)]
         public ObjectCollection<PatchSetter> PatchPathCollection { get; } = new ObjectCollection<PatchSetter>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5307,7 +5093,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Route
@@ -5333,7 +5118,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5360,7 +5144,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5387,7 +5170,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5414,7 +5196,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5447,7 +5228,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EntityChart", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EntityChart
     {
 
@@ -5515,14 +5295,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Series", IsNullable = false)]
         public ObjectCollection<Series> SeriesCollection { get; } = new ObjectCollection<Series>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5549,7 +5327,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5576,7 +5353,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5603,7 +5379,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5630,7 +5405,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5657,7 +5431,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5684,7 +5457,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5711,7 +5483,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5738,7 +5509,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5765,7 +5535,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5792,7 +5561,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5846,7 +5614,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Series", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Series
     {
 
@@ -5888,7 +5655,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5915,7 +5681,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5942,7 +5707,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5969,7 +5733,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5996,7 +5759,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6023,7 +5785,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6050,7 +5811,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6082,7 +5842,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SearchDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SearchDefinition
     {
 
@@ -6119,28 +5878,24 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Filter", IsNullable = false)]
         public ObjectCollection<Filter> FilterCollection { get; } = new ObjectCollection<Filter>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ViewColumn", IsNullable = false)]
         public ObjectCollection<ViewColumn> ViewColumnCollection { get; } = new ObjectCollection<ViewColumn>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Sort", IsNullable = false)]
         public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6167,7 +5922,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6194,7 +5948,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6221,7 +5974,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6248,7 +6000,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6275,7 +6026,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6307,7 +6057,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ConditionalFormatting", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ConditionalFormatting
     {
 
@@ -6324,7 +6073,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6351,7 +6099,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6383,12 +6130,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EntityLookupElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EntityLookupElement
     {
 
         private string m_Entity;
-        [XmlAttribute]
         public string Entity
         {
             get
@@ -6404,7 +6149,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_DisplayMemberPath;
-        [XmlAttribute]
         public string DisplayMemberPath
         {
             get
@@ -6420,7 +6164,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_ValueMemberPath;
-        [XmlAttribute]
         public string ValueMemberPath
         {
             get
@@ -6436,7 +6179,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_DisplayTemplate;
-        [XmlAttribute]
         public string DisplayTemplate
         {
             get
@@ -6454,14 +6196,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> LookupColumnCollection { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Filter", IsNullable = false)]
         public ObjectCollection<Filter> FilterCollection { get; } = new ObjectCollection<Filter>();
 
 
@@ -6473,12 +6213,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("CurrencyElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class CurrencyElement
     {
 
         private string m_Currency;
-        [XmlAttribute]
         public string Currency
         {
             get
@@ -6501,7 +6239,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("RouteParameter", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class RouteParameter
     {
 
@@ -6518,7 +6255,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6545,7 +6281,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6577,7 +6312,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("PartialJs", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class PartialJs
     {
 
@@ -6589,7 +6323,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6621,7 +6354,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ViewTemplate", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ViewTemplate
     {
 
@@ -6643,7 +6375,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6670,7 +6401,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Note
@@ -6696,7 +6426,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6728,7 +6457,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("PatchSetter", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class PatchSetter
     {
 
@@ -6750,7 +6478,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6777,7 +6504,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6804,7 +6530,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string DefaultValue
@@ -6835,7 +6560,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FormDialog", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormDialog
     {
 
@@ -6894,21 +6618,18 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("DialogButton", IsNullable = false)]
         public ObjectCollection<DialogButton> DialogButtonCollection { get; } = new ObjectCollection<DialogButton>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> Rules { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6935,7 +6656,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6962,7 +6682,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6989,7 +6708,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7016,7 +6734,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7043,7 +6760,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7070,7 +6786,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7102,7 +6817,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DialogButton", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DialogButton
     {
 
@@ -7124,7 +6838,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7151,7 +6864,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7178,7 +6890,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7210,7 +6921,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("PartialView", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class PartialView
     {
 
@@ -7259,7 +6969,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7286,7 +6995,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7313,7 +7021,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7340,7 +7047,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7367,7 +7073,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7399,7 +7104,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ChildView", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ChildView
     {
 
@@ -7411,7 +7115,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7443,7 +7146,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("TabControl", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class TabControl
     {
 
@@ -7455,14 +7157,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("TabPanel", IsNullable = false)]
         public ObjectCollection<TabPanel> TabPanelCollection { get; } = new ObjectCollection<TabPanel>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7494,7 +7194,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("TabPanel", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class TabPanel
     {
 
@@ -7516,7 +7215,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7543,7 +7241,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7570,7 +7267,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -7597,8 +7293,183 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class EntityGetOperation
+    {
 
-    [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_cacheProfile;
+        public const string PropertyNameCacheProfile = "CacheProfile";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_route;
+        public const string PropertyNameRoute = "Route";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_isReturnSource;
+        public const string PropertyNameIsReturnSource = "IsReturnSource";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<Filter> FilterCollection { get; } = new ObjectCollection<Filter>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Performer m_performer
+                = new Performer();
+
+        public const string PropertyNamePerformer = "Performer";
+        [DebuggerHidden]
+
+        public Performer Performer
+        {
+            get { return m_performer; }
+            set
+            {
+                m_performer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<RouteParameter> RouteParameterCollection { get; } = new ObjectCollection<RouteParameter>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<string> MemberCollection { get; } = new ObjectCollection<string>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string CacheProfile
+        {
+            set
+            {
+                if (String.Equals(m_cacheProfile, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCacheProfile, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_cacheProfile = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_cacheProfile;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Route
+        {
+            set
+            {
+                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_route = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_route;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string IsReturnSource
+        {
+            set
+            {
+                if (String.Equals(m_isReturnSource, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsReturnSource, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isReturnSource = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isReturnSource;
+            }
+        }
+
+
+
+    }
+
+
     public partial class FormElement
     {
 
@@ -7735,7 +7606,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Name
         {
             set
@@ -7757,7 +7627,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Label
         {
             set
@@ -7779,7 +7648,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Tooltip
         {
             set
@@ -7801,7 +7669,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Path
         {
             set
@@ -7823,7 +7690,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public bool IsRequired
         {
             set
@@ -7845,7 +7711,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Size
         {
             set
@@ -7867,7 +7732,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string CssClass
         {
             set
@@ -7889,7 +7753,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Visible
         {
             set
@@ -7911,7 +7774,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Enable
         {
             set
@@ -7933,7 +7795,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string ElementId
         {
             set
@@ -7955,7 +7816,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string HelpText
         {
             set
@@ -7977,7 +7837,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public bool UseDisplayTemplate
         {
             set
@@ -7999,7 +7858,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string ToolboxIconClass
         {
             set
@@ -8021,7 +7879,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public bool IsUniqueName
         {
             set
@@ -8207,7 +8064,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-    [XmlType("Member", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Member
     {
 
@@ -8230,14 +8086,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("FieldPermission", IsNullable = false)]
         public ObjectCollection<FieldPermission> FieldPermissionCollection { get; } = new ObjectCollection<FieldPermission>();
 
 
@@ -8246,7 +8100,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Name
         {
             set
@@ -8268,7 +8121,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public bool AllowMultiple
         {
             set

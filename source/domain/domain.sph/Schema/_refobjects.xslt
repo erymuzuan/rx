@@ -12,7 +12,6 @@
 			///&lt;summary&gt;
 			/// <xsl:value-of select="../../../xs:annotation/xs:documentation"/>
 			///&lt;/summary&gt;
-			[XmlArrayItem("<xsl:value-of select="@ref"/>", IsNullable = false)]
 			public <xsl:value-of select="bspk:RemovePrefixDataType(@ref, @maxOccurs, @type)"/> <xsl:value-of select="../../../@name"/> {get;} = new <xsl:value-of select="bspk:RemovePrefixDataType(@ref, @maxOccurs, @type)"/>();
      
 		</xsl:for-each>

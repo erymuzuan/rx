@@ -7,14 +7,6 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public interface IEntityDefinitionAsset
-    {
-        string Id { get; }
-        string Name { get; }
-        string Entity { get; }
-        string Icon { get; }
-        string Url { get; }
-    }
     [StoreAsSource(HasDerivedTypes = true)]
     public partial class FormDialog : Entity, IEntityDefinitionAsset
     {

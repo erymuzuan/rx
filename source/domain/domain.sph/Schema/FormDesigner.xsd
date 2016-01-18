@@ -966,4 +966,44 @@
 			<xs:attribute name="Path" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="EntityGetOperation" bspk:entity="true">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="FilterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Filter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SortCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Sort" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="Performer"/>
+				<xs:element name="RouteParameterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="RouteParameter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MemberCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Member" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="CacheProfile" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Route" type="xs:string" use="required"/>
+			<xs:attribute name="IsReturnSource" type="xs:string" use="required"/>
+			<xs:attribute name="Entity" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

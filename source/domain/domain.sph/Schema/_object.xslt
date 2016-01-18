@@ -6,7 +6,6 @@
   <xsl:output method="text" />
   <xsl:template match="xs:schema">
     using System;
-    using System.Xml.Serialization;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.ComponentModel.DataAnnotations;
@@ -34,7 +33,6 @@
           ///&lt;/summary&gt;
           [DataObject(true)]
           [Serializable]
-          [XmlType("<xsl:value-of select="@name"/>",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public <xsl:value-of select="@bs:inheritance"/> partial class <xsl:value-of select="@name"/>
           {
           <xsl:choose>
@@ -43,7 +41,6 @@
                 <xsl:choose>
                   <xsl:when test="@type">
                     private <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> m_<xsl:value-of select="@name"/>;
-                    [XmlAttribute]
                     public  <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> <xsl:value-of select="@name"/> {get{
                     return m_<xsl:value-of select="@name"/>;}
                     set{
@@ -105,7 +102,6 @@
                 ///&lt;summary&gt;
                 /// <xsl:value-of select="xs:annotation/xs:documentation"/>
                 ///&lt;/summary&gt;
-                [XmlAttribute]
                 [DebuggerHidden]
                 <xsl:if test="@use='required'">
                   [Required]</xsl:if>
@@ -201,7 +197,6 @@
         </xsl:when>
         <xsl:otherwise>
 
-          [XmlType("<xsl:value-of select="@name"/>",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public partial class <xsl:value-of select="@name"/>
           {
 
@@ -228,7 +223,6 @@
           <xsl:for-each select="xs:attribute">
 
 
-            [XmlAttribute]
             public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>
             <xsl:value-of select="@name"/>
             {
