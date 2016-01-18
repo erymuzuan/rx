@@ -7298,7 +7298,7 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    public partial class EntityGetOperation
+    public partial class EntityQuery
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -7319,6 +7319,21 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_isReturnSource;
         public const string PropertyNameIsReturnSource = "IsReturnSource";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
 
 
         ///<summary>
@@ -7462,6 +7477,84 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isReturnSource;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
             }
         }
 

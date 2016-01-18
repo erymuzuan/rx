@@ -1970,6 +1970,47 @@ bespoke.sph.domain.TabPanel = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.EntityQuery = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EntityQuery, domain.sph",
+        Id: ko.observable("0"),
+        CacheProfile: ko.observable(""),
+        Name: ko.observable(""),
+        Route: ko.observable(""),
+        IsReturnSource: ko.observable(""),
+        Entity: ko.observable(""),
+        Note: ko.observable(""),
+        FilterCollection: ko.observableArray([]),
+        SortCollection: ko.observableArray([]),
+        Performer: ko.observable(new bespoke.sph.domain.Performer()),
+        RouteParameterCollection: ko.observableArray([]),
+        MemberCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityQueryPartial) {
+        return _(model).extend(new bespoke.sph.domain.EntityQueryPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

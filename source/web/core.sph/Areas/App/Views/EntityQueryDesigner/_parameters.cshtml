@@ -1,0 +1,33 @@
+﻿
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :RouteParameterCollection">
+        <tr>
+            <td>
+                <select name="rule-operator" class="form-control" data-bind="value: Type, uniqueName: true">
+                    <option value="Number">Integer</option>
+                    <option value="boolean">Boolean</option>
+                    <option value="string">String</option>
+                    <option value="float">Decimal</option>
+                </select>
+            </td>
+            <td>
+                <input pattern="^[A-Za-z][A-Za-z0-9_]*$" type="text" required class="form-control" data-bind="value:Name, uniqueName:true" />
+            </td>
+            <td>
+                <a href="#" data-bind="click : $parent.removeRouteParameter.call($parent,$data)">
+                    <span class="fa fa-times"></span>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<a class="btn btn-link" data-bind="click : addRouteParameter">
+    <i class="fa fa-plus-circle"></i> Add a route parameter
+</a>

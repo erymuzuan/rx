@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+<h1 data-bind="with : entity">Query Designer for <span data-bind="text:Plural"></span></h1>
+@Html.Partial("_erroList")
+<div class="row">
+    <div id="query-column-designer" class="col-lg-8 col-md-7 col-sm-10 col-xs-12">
+
+
+    </div>
+    <div id="view-properties-tab" class="col-lg-4 col-md-5 col-sm-2 col-xs-12">
+        <div>
+            <a class="pull-right" href="javascript:;" id="expand-collapse-property-tabe">Expand</a>
+        </div>
+        <ul class="nav nav-tabs" data-bind2="filter : {path:'>li'}">
+            <li class="active">
+                <a href="#general-ev-panel" data-toggle="tab">General</a>
+            </li>
+            <li>
+                <a href="#filters-ev-panel" data-toggle="tab">Filters</a>
+            </li>
+            <li>
+                <a href="#sorts-ev-panel" data-toggle="tab">Sorts</a>
+            </li>
+            <li>
+                <a href="#route-parameters-ev-panel" data-toggle="tab">Parameters</a>
+            </li>
+            <li>
+                <a href="#performer-ev-panel" data-toggle="tab">Security</a>
+            </li>
+
+        </ul>
+        <div class="tab-content" data-bind="with : query">
+            <div id="general-ev-panel" class="tab-pane active">
+                @Html.Partial("_general")
+            </div>
+            <div class="tab-pane" id="filters-ev-panel">
+                @Html.Partial("_filters")
+            </div>
+            <div class="tab-pane" id="sorts-ev-panel">
+                @Html.Partial("_sorts")
+            </div>
+            <div class="tab-pane" id="performer-ev-panel" data-bind="with : Performer">
+                @Html.Partial("_performer")
+            </div>
+            <div id="route-parameters-ev-panel" class="tab-pane">
+                @Html.Partial("_parameters")
+            </div>
+        </div>
+    </div>
+</div>

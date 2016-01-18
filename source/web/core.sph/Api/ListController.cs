@@ -37,6 +37,7 @@ namespace Bespoke.Sph.Web.Api
                 case "formdialog": return SelectSystemObjectProperty<FormDialog>(column, filter);
                 case "partialview": return SelectSystemObjectProperty<PartialView>(column, filter);
                 case "entitychart": return SelectSystemObjectProperty<EntityChart>(column, filter);
+                case "entityquery": return SelectSystemObjectProperty<EntityQuery>(column, filter);
                 case "trigger": return SelectSystemObjectProperty<Trigger>(column, filter);
                 case "adapter": return SelectSystemObjectProperty<Adapter>(column, filter);
                 case "viewtemplate": return SelectSystemObjectProperty<ViewTemplate>(column, filter);

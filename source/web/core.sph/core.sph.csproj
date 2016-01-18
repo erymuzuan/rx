@@ -285,6 +285,7 @@
     <Compile Include="Areas\App\AppAreaRegistration.cs" />
     <Compile Include="Areas\App\Controllers\ConfigController.cs" />
     <Compile Include="Areas\App\Controllers\ActivityScreenController.cs" />
+    <Compile Include="Areas\App\Controllers\EntityQueryDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\FormDialogDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\EntityViewDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\EntityFormDesignerController.cs" />
@@ -307,6 +308,41 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Script.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityQueryDesigner\Html.generated.cs">
+      <DependentUpon>Html.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityQueryDesigner\_erroList.generated.cs">
+      <DependentUpon>_erroList.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityQueryDesigner\_filters.generated.cs">
+      <DependentUpon>_filters.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityQueryDesigner\_general.generated.cs">
+      <DependentUpon>_general.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityQueryDesigner\_parameters.generated.cs">
+      <DependentUpon>_parameters.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityQueryDesigner\_performer.generated.cs">
+      <DependentUpon>_performer.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityQueryDesigner\_sorts.generated.cs">
+      <DependentUpon>_sorts.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Areas\App\Views\PartialViewDesigner\Html1.generated.cs">
       <DependentUpon>Html.cshtml</DependentUpon>
@@ -919,6 +955,7 @@
     <Compile Include="Controllers\CustomFormController.scripts.cs" />
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\DataImportController.cs" />
+    <Compile Include="Controllers\EntityQueryController.cs" />
     <Compile Include="Controllers\FormDialogController.cs" />
     <Compile Include="Controllers\PartialViewController.cs" />
     <Compile Include="Controllers\ValueObjectDefinitionController.cs" />
@@ -1930,6 +1967,34 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>TabControl.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Areas\App\Views\EntityQueryDesigner\_erroList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_erroList.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityQueryDesigner\_filters.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_filters.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityQueryDesigner\_general.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_general.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityQueryDesigner\_parameters.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_parameters.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityQueryDesigner\_performer.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_performer.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityQueryDesigner\_sorts.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_sorts.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityQueryDesigner\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
     <EmbeddedResource Include="routes.config.json" />
@@ -2055,6 +2120,7 @@
     <EmbeddedResource Include="Scripts\__vendor.min.js" />
     <EmbeddedResource Include="Scripts\__rx.min.js" />
     <EmbeddedResource Include="Scripts\__vendor.dev.min.js" />
+    <Content Include="SphApp\partial\EntityQueryPartial.js" />
     <Content Include="SphApp\partial\TabControlPartial.js" />
     <Content Include="SphApp\partial\FormDialogPartial.js" />
     <Content Include="SphApp\partial\EntityFormPartial.js" />

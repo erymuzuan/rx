@@ -1,0 +1,28 @@
+﻿<form class="form-horizontal">
+    <div class="form-group">
+        <label for="view-name" class="col-lg-3 col-md-3 control-label">Name</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <input type="text" data-bind="value: Name, valueUpdate: 'keyup'"
+                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                   placeholder="Name for the view"
+                   class="form-control" id="view-name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="view-route" class="col-lg-3 col-md-3 col-sm-2 control-label">Route</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <input type="text"
+                   required pattern="^[a-z][a-z0-9-.]*$" class="form-control" data-bind="value: Route, tooltip:'Route is a way the system identify your view via its URL, must be lower case with - or .'"
+                   placeholder="route url" id="view-route">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="view-note" class="col-lg-3 col-md-3 col-sm-2 control-label">Note</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <textarea data-bind="value: Note, valueUpdate: 'keyup'"
+                      placeholder="Note about the view"
+                      class="form-control" id="view-note"></textarea>
+        </div>
+    </div>
+
+</form>

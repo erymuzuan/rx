@@ -90,6 +90,7 @@ namespace Bespoke.Sph.Web.Hubs
             var entities = GetEntityDefinition();
             solution.itemCollection.AddRange(entities.ToArray());
 
+            ExtractSolutionItems<EntityQuery>(solution);
             ExtractSolutionItems<EntityForm>(solution);
             ExtractSolutionItems<EntityView>(solution);
             ExtractSolutionItems<Trigger>(solution);
@@ -105,6 +106,7 @@ namespace Bespoke.Sph.Web.Hubs
                 if (folder.Contains("Setting")) continue;
                 if (folder.Contains("EntityDefinition")) continue;
                 if (folder.Contains("EntityForm")) continue;
+                if (folder.Contains("EntityQuery")) continue;
                 if (folder.Contains("EntityView")) continue;
                 if (folder.Contains("EntityChart")) continue;
                 if (folder.Contains("FormDialog")) continue;

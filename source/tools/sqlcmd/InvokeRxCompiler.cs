@@ -171,10 +171,7 @@ namespace Bespoke.Sph.Powershells
             return null;
         }
 
-        object GetUnboundValue(string paramName)
-        {
-            return GetUnboundValue(paramName, -1);
-        }
+
 
         object GetUnboundValue(string paramName, int unnamedPosition)
         {

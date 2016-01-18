@@ -105,6 +105,13 @@ namespace Bespoke.Sph.Web.Api
             return ReadFromSource<EntityView>(filter, page, size);
         }
 
+        [Route("EntityQuery")]
+        [RxSourceOutputCache(SourceType = typeof(EntityQuery))]
+        public ActionResult EntityQuery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return ReadFromSource<EntityQuery>(filter, page, size);
+        }
+
         [Route("Message")]
         public async Task<ActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

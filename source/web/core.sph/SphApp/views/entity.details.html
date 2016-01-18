@@ -485,6 +485,29 @@
                         <i class="fa fa-plus-circle"></i>
                         Add an operation
                     </a>
+                    <h3>Queries</h3>
+                    <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityQuery', query :'Entity eq \'' + $root.entity().Name() + '\'', list: $root.queries}">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Route</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :$root.queries">
+                            <tr>
+                                <td>
+                                    <a data-bind="attr : {'href':'#/entity.query.designer/' + ko.unwrap(Id)},text: Name"></a>
+                                </td>
+                                <td data-bind="text:Route"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-link" data-bind="click : $root.addEntityQuery">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a query
+                    </a>
                 </div>
                 <div id="premission-tab" class="tab-pane" data-bind="with : entity">
                     <form class="form-horizontal" data-bind="with : Performer">

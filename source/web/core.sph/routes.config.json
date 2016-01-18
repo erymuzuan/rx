@@ -576,6 +576,20 @@
   {
     "role": "developers",
     "groupName": "Entity",
+    "route": "entity.query.designer/:id",
+    "moduleId": "viewmodels/entity.query.designer",
+    "title": "Entity Query Designer",
+    "nav": false,
+    "icon": "fa fa-bug",
+    "caption": "Entity query Designer",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "developers",
+    "groupName": "Entity",
     "route": "entity.business.rule.designer/:entityid/:brid",
     "moduleId": "viewmodels/entity.business.rule.designer",
     "title": "Entity Business Rule Designer",

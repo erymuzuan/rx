@@ -53,70 +53,85 @@
             },
             addWorkflowDefinitionAsync = function () {
 
-                    return app.showDialog("new.workflow.definition.dialog")
-                            .then(function (dialog, result) {
-                                if (result === "OK") {
-                                    return checkSource("WorkflowDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
-                                }
-                                return Task.fromResult(0);
-                            }).then(function (ed) {
-                                if (ed)
-                                    router.navigate("#workflow.definition.visual/" + ko.unwrap(ed.Id));
-                            });
-                },
+                return app.showDialog("new.workflow.definition.dialog")
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("WorkflowDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#workflow.definition.visual/" + ko.unwrap(ed.Id));
+                        });
+            },
             addTransformDefinitionAsync = function () {
-                    return app.showDialog("new.transform.definition.dialog")
-                            .then(function (dialog, result) {
-                                if (result === "OK") {
-                                    return checkSource("TransformDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
-                                }
-                                return Task.fromResult(0);
-                            }).then(function (ed) {
-                                if (ed)
-                                    router.navigate("#transform.definition.edit/" + ko.unwrap(ed.Id));
-                            });
-                },
+                return app.showDialog("new.transform.definition.dialog")
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("TransformDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#transform.definition.edit/" + ko.unwrap(ed.Id));
+                        });
+            },
             addTriggerAsync = function () {
 
-                    return app.showDialog("new.trigger.dialog")
-                                          .then(function (dialog, result) {
-                                              if (result === "OK") {
-                                                  return checkSource("Trigger", "Id eq '" + ko.unwrap(dialog.id) + "'");
-                                              }
-                                              return Task.fromResult(0);
-                                          }).then(function (ed) {
-                                              if (ed)
-                                                  router.navigate("#trigger.setup/" + ko.unwrap(ed.Id));
-                                          });
-                },
+                return app.showDialog("new.trigger.dialog")
+                                      .then(function (dialog, result) {
+                                          if (result === "OK") {
+                                              return checkSource("Trigger", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                                          }
+                                          return Task.fromResult(0);
+                                      }).then(function (ed) {
+                                          if (ed)
+                                              router.navigate("#trigger.setup/" + ko.unwrap(ed.Id));
+                                      });
+            },
             addAdapterAsync = function () {
 
-                    var url = "";
-                    return app.showDialog("new.adapter.dialog")
-                            .then(function (dialog, result) {
-                                if (result === "OK") {
-                                    url = ko.unwrap(dialog.url);
-                                    return checkSource("Adapter", "Id eq '" + ko.unwrap(dialog.id) + "'");
-                                }
-                                return Task.fromResult(0);
-                            }).then(function (ed) {
-                                if (ed)
-                                    router.navigate("#" + url);
-                            });
-                },
+                var url = "";
+                return app.showDialog("new.adapter.dialog")
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                url = ko.unwrap(dialog.url);
+                                return checkSource("Adapter", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#" + url);
+                        });
+            },
             addReportDefinitionAsync = function () {
 
-                    return app.showDialog("new.report.definition.dialog")
-                            .then(function (dialog, result) {
-                                if (result === "OK") {
-                                    return checkSource("ReportDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
-                                }
-                                return Task.fromResult(0);
-                            }).then(function (ed) {
-                                if (ed)
-                                    router.navigate("#reportdefinition.edit/" + ko.unwrap(ed.Id));
-                            });
-                };
+                return app.showDialog("new.report.definition.dialog")
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("ReportDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#reportdefinition.edit/" + ko.unwrap(ed.Id));
+                        });
+            },
+            addEntityQuery = function (ed) {
+
+                return app.showDialog("new.entity.query.dialog", function (dialog) {
+                    dialog.entity(ed);
+                })
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("EntityQuery", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#entity.query.designer/" + ko.unwrap(ed.Id));
+                        });
+            };
 
         var vm = {
             addCustomFormAsync: customForm.addNew,
@@ -129,6 +144,7 @@
             addReportDefinitionAsync: addReportDefinitionAsync,
             addTriggerAsync: addTriggerAsync,
             addTransformDefinitionAsync: addTransformDefinitionAsync,
+            addEntityQuery: addEntityQuery,
             addWorkflowDefinitionAsync: addWorkflowDefinitionAsync
         };
 

@@ -11,8 +11,8 @@
 /// <reference path="../objectbuilders.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app"],
-    function (context, logger, router, system, app, servicesApp) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app", "services/new-item"],
+    function (context, logger, router, system, app, servicesApp, nis) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             originalEntity = "",
@@ -21,6 +21,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             triggers = ko.observableArray(),
             forms = ko.observableArray(),
             dialogs = ko.observableArray(),
+            queries = ko.observableArray(),
             partialViews = ko.observableArray(),
             templateOptions = ko.observableArray(),
             valueObjectOptions = ko.observableArray(),
@@ -240,6 +241,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                               router.navigate("#trigger.setup/" + ko.unwrap(dialog.id));
                           }
                       });
+            },
+            addEntityQuery = function () {
+                return nis.addEntityQuery(ko.unwrap(entity().Name));
             };
 
 
@@ -250,6 +254,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             publishDashboard: publishDashboard,
             addTriggerAsync: addTriggerAsync,
             dialogs: dialogs,
+            queries: queries,
             partialViews: partialViews,
             forms: forms,
             views: views,
@@ -260,6 +265,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attached: attached,
             entity: entity,
             member: member,
+            addEntityQuery: addEntityQuery,
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAsync,
