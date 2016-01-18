@@ -319,7 +319,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     };
                     Log($"Looking for IIS express in {info.FileName}");
                     Log($"Starting IIS express with : {arg}");
-                    if(!File.Exists(info.FileName))
+                    if (!File.Exists(info.FileName))
                         throw new FileNotFoundException("Cannot find IIS express ", info.FileName);
                     m_iisServiceProcess = Process.Start(info);
                     if (null == m_iisServiceProcess) throw new InvalidOperationException("Cannot start IIS");
@@ -513,23 +513,43 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
                 this.QueueUserWorkItem(() =>
                 {
-                    var flag = new ManualResetEvent(false);
+
+                    var tcs = new TaskCompletionSource<bool>();
                     DataReceivedEventHandler started = (o, e) =>
                     {
                         if ($"{e.Data}".Contains("Starting broker"))
-                            flag.Set();
+                            tcs.SetResult(true);
+                        if ($"{e.Data}".Contains("ERROR"))
+                        {
+                            tcs.SetResult(false);
+                        }
+                        if ($"{e.Data}".Contains("erl_crash.dump"))
+                        {
+                            tcs.SetResult(false);
+                        }
+
                     };
                     m_rabbitMqServer.OutputDataReceived += started;
-                    flag.WaitOne(15000);
-                    Task.Delay(1000).Wait();
-                    this.Post(() =>
+                    m_rabbitMqServer.ErrorDataReceived += started;
+                    tcs.Task.ContinueWith(_ =>
                     {
-                        RabbitMqServiceStarted = true;
-                        this.IsBusy = false;
-                        this.RabbitMqServiceStarting = false;
-                        RabbitMqStatus = "Started";
-                        Log("RabbitMQ... [STARTED]");
-                        WebConsoleServer.Default.StartConsume(this);
+                        this.Post(() =>
+                        {
+                            RabbitMqServiceStarted = _.Result;
+                            this.IsBusy = false;
+                            this.RabbitMqServiceStarting = false;
+                            RabbitMqStatus = _.Result ? "Started" : "Error";
+                            if (_.Result)
+                            {
+                                Log("RabbitMQ... [STARTED]");
+                                WebConsoleServer.Default.StartConsume(this);
+                            }
+                            else
+                            {
+                                Log("!Error starting RabbitMq, please check the log in the console", "Error");
+                            }
+                        });
+
                     });
                 });
             }
@@ -590,7 +610,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
 
             //NOTE : V2 CLASS_PATH is a little different than V1
-            string CLASS_PATH = $"\"{es}/lib/elasticsearch-{version}.jar;{es}/lib/*\""; 
+            string CLASS_PATH = $"\"{es}/lib/elasticsearch-{version}.jar;{es}/lib/*\"";
             string ES_PARAMS = $@"-Delasticsearch -Des-foreground=yes -Des.path.home=""{es}""";
             // ReSharper restore InconsistentNaming
 
