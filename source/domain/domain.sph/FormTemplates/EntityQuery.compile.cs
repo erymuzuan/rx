@@ -82,25 +82,31 @@ namespace Bespoke.Sph.Domain
 
         private Method GenerateAction()
         {
-            var search = new StringBuilder();
+            var code = new StringBuilder();
 
+      
+
+
+            code.AppendLine($"       [Route(\"~/{Entity}/{Route}\")]");
+            code.AppendLine("       public async Task<ActionResult> GetAction()");
+            code.AppendLine("       {");
+            code.AppendLine($@"
+
+            var eq = CacheManager.Default.Get<EntityQuery>(""entity-query-{Id}"");
+            if(null == eq )
+            {{
+                var context = new SphDataContext();
+                eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
+                CacheManager.Default.Insert(""entity-query-{Id}"", eq, $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"");
+            }}
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
-            var esQuery = (@"@"" {
-                """"query"""": {
-                    """"filtered"""": {
-                        """"filter"""":" + Filter.GenerateElasticSearchFilterDsl(this, this.FilterCollection).Replace("\"", "\"\"") + @"
-                    }
-                }
-            }""").Replace("config.userName", "\"" + ds.CurrentUserName + "\"");
-
-
-            search.AppendLine($"       [Route(\"~/{this.Entity}/{this.Route}\")]");
-            search.AppendLine("       public async Task<ActionResult> GetAction()");
-            search.AppendLine("       {");
-            search.AppendLine($@"
-
-            
-            var query = {esQuery};
+            var query = (@""{{
+                """"query"""": {{
+                    """"filtered"""": {{
+                        """"filter"""":"" + Bespoke.Sph.Domain.Filter.GenerateElasticSearchFilterDsl(eq, eq.FilterCollection).Replace(""\"""",""\""\"""") + @""
+                    }}
+                }}
+            }}"").Replace(""config.userName"", ""\"""" + ds.CurrentUserName + ""\"""");
             var request = new StringContent(query);
             var url = ""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_search"";
 
@@ -113,10 +119,10 @@ namespace Bespoke.Sph.Domain
                 var json = await content.ReadAsStringAsync();
                 return Content(json, ""application/json; charset=utf-8"");
             }}");
-            search.AppendLine();
-            search.AppendLine("       }");
-            search.AppendLine();
-            return new Method { Code = search.ToString() };
+            code.AppendLine();
+            code.AppendLine("       }");
+            code.AppendLine();
+            return new Method { Code = code.ToString() };
         }
 
         public WorkflowCompilerResult Compile(CompilerOptions options, params Class[] @classes)

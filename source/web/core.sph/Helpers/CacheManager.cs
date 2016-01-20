@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Web.Helpers
         private static CacheManager m_cache;
         public static CacheManager Default => m_cache ?? (m_cache = new CacheManager());
 
-        public void Insert(string key, object data, string fileDependency = null)
+        public void Insert<T>(string key, T data, string fileDependency = null)
         {
             if (HttpContext.Current.Cache.Get(key) != null)
             {

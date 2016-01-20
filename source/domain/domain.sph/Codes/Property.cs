@@ -15,8 +15,11 @@ namespace Bespoke.Sph.Domain.Codes
         {
             get
             {
+                var attributes = string.Join("\r\n", this.AttributeCollection);
                 return string.IsNullOrWhiteSpace(m_code) ?
-                    $"public {this.Type.ToCSharp()} {this.Name} {{get;set}}" : 
+                    $@"
+            {attributes}
+            public {this.Type.ToCSharp()} {this.Name} {{get;set;}}" : 
                     m_code;
             }
             set { m_code = value; }
