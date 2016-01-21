@@ -67,14 +67,72 @@ namespace Bespoke.Sph.Domain
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
 
-            var action = GenerateAction();
-            controller.MethodCollection.Add(action);
+            controller.MethodCollection.Add(GenerateGetAction());
+            controller.MethodCollection.Add(GenerateCountAction());
 
             return controller;
         }
 
 
-        private Method GenerateAction()
+        private Method GenerateCountAction()
+        {
+            var code = new StringBuilder();
+            var route = this.Route.StartsWith("~") ? this.Route : $"~/api/{Entity.ToLowerInvariant()}/{this.Route}";
+
+            code.AppendLine("       [HttpGet]");
+            code.AppendLine($"       [Route(\"{route}/_count\")]");
+            code.AppendLine("       public async Task<ActionResult> GetCountAsync()");
+            code.Append("       {");
+            code.Append($@"
+            var eq = CacheManager.Default.Get<EntityQuery>(""entity-query:{Id}"");
+            var sourceFile = $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"";
+            if(null == eq )
+            {{
+                var context = new SphDataContext();
+                eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
+                CacheManager.Default.Insert(""entity-query:{Id}"", eq, sourceFile);
+            }}");
+
+            if (this.CacheFilter.HasValue)
+            {
+                code.AppendLine($"   var queryCacheKey = $\"entity-query:filter:{Id}\";");
+                code.AppendLine($"   var query = CacheManager.Default.Get<string>(queryCacheKey);");
+                code.AppendLine("   if(null == query)");
+                code.AppendLine("   {");
+                code.AppendLine("       query = await eq.GenerateEsQueryAsync(1, 20);");
+                code.AppendLine($"       CacheManager.Default.Insert(queryCacheKey, query, TimeSpan.FromSeconds({this.CacheFilter}), sourceFile);");
+                code.AppendLine("   }");
+            }
+            else
+            {
+                code.AppendLine("var query = await eq.GenerateEsQueryAsync(1, 20);");
+            }
+            code.Append($@"
+            var request = new StringContent(query);
+            var url = ""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_count"";
+
+            using(var client = new HttpClient{{BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
+            {{
+                var esResponse = await client.PostAsync(url, request);
+                var esResponseContent = esResponse.Content as StreamContent;
+                if (null == esResponseContent) throw new Exception(""Cannot execute query on es "" + request);
+
+                var esResponseString = await esResponseContent.ReadAsStringAsync();
+                var esJsonObject = JObject.Parse(esResponseString);
+
+                var count = esJsonObject.SelectToken(""$.count"").Value<int>();
+            ");
+            code.AppendLine("return Content($\"{{\\\"count\\\":{count}}}\", \"application/json\");");
+
+            code.Append("}");
+            code.AppendLine();
+            code.AppendLine("       }");
+            code.AppendLine();
+            return new Method { Code = code.ToString() };
+        }
+
+
+        private Method GenerateGetAction()
         {
             var code = new StringBuilder();
 
@@ -87,18 +145,18 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       public async Task<ActionResult> GetAction(int page =1, int size=20)");
             code.Append("       {");
             code.Append($@"
-            var eq = CacheManager.Default.Get<EntityQuery>(""entity-query-{Id}"");
+            var eq = CacheManager.Default.Get<EntityQuery>(""entity-query:{Id}"");
             var sourceFile = $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"";
             if(null == eq )
             {{
                 var context = new SphDataContext();
                 eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
-                CacheManager.Default.Insert(""entity-query-{Id}"", eq, sourceFile);
+                CacheManager.Default.Insert(""entity-query:{Id}"", eq, sourceFile);
             }}");
 
             if (this.CacheFilter.HasValue)
             {
-                code.AppendLine($"   var queryCacheKey = $\"entity-query-filter-{{page}}-{{size}}-{Id}\";");
+                code.AppendLine($"   var queryCacheKey = $\"entity-query:filter:{{page}}:{{size}}:{Id}\";");
                 code.AppendLine($"   var query = CacheManager.Default.Get<string>(queryCacheKey);");
                 code.AppendLine("   if(null == query)");
                 code.AppendLine("   {");
