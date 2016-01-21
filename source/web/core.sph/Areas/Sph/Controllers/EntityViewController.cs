@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -86,21 +87,22 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Count(string id)
         {
             string type;
-            var json = GetElasticsearchQuery(id, out type);
-            if (null == json) return Json(new { hits = new { total = 0 } }, JsonRequestBehavior.AllowGet);
+            var query = GetElasticsearchQuery(id, out type);
+            if (null == query) return Json(new { hits = new { total = 0 } }, JsonRequestBehavior.AllowGet);
 
-            var request = new StringContent(json);
-            var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{type}/_search";
+            var request = new StringContent(query);
+            var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{type}/_count";
 
-            using (var client = new HttpClient())
+            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-
                 var response = await client.PostAsync(url, request);
                 var content = response.Content as StreamContent;
                 if (null == content) throw new Exception("Cannot execute query on es " + request);
-                this.Response.ContentType = "application/json; charset=utf-8";
-                return Content(await content.ReadAsStringAsync());
+
+                var responseJson = JObject.Parse(await content.ReadAsStringAsync());
+                var count = responseJson.SelectToken("$.count").Value<int>();
+
+                return Content(count.ToString(), "application/json; charset=utf-8");
 
             }
         }
@@ -111,11 +113,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var key = $"count-view-{id}";
             if (!System.IO.File.Exists(path))
             {
-            type = null;
+                type = null;
                 return null;
             }
 
-            var query = CacheManager.Default.Get<Tuple<string,string>>(key);
+            var query = CacheManager.Default.Get<Tuple<string, string>>(key);
             if (null != query)
             {
                 type = query.Item1;
@@ -134,7 +136,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }").Replace("config.userName", "\"" + User.Identity.Name + "\"");
 
 
-            CacheManager.Default.Insert(key, new Tuple<string,string>(type, json), path);
+            CacheManager.Default.Insert(key, new Tuple<string, string>(type, json), path);
 
             return json;
         }
