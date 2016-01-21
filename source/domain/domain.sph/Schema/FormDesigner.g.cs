@@ -7336,6 +7336,12 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsPublished = "IsPublished";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_cacheFilter;
+        public const string PropertyNameCacheFilter = "CacheFilter";
+
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -7558,6 +7564,28 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? CacheFilter
+        {
+            set
+            {
+                if (m_cacheFilter == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCacheFilter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_cacheFilter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_cacheFilter; }
+        }
 
 
     }

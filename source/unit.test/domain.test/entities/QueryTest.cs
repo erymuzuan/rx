@@ -43,7 +43,7 @@ namespace domain.test.entities
 
 
         [Test]
-        public void GenerateWithFunctionFilter()
+        public void CompileQueryWithFunctionFilter()
         {
             var query = new EntityQuery
             {
@@ -76,7 +76,7 @@ namespace domain.test.entities
             File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
         }
         [Test]
-        public async Task GenerateQueryPaging()
+        public async Task QueryPaging()
         {
             var query = new EntityQuery
             {
@@ -94,7 +94,7 @@ namespace domain.test.entities
         }
 
         [Test]
-        public async Task GenerateQueryFields()
+        public async Task QueryFields()
         {
             var query = new EntityQuery
             {
@@ -112,7 +112,7 @@ namespace domain.test.entities
         }
 
 
-        public async Task GenerateQueryFieldsAndFilter()
+        public async Task CompileQueryFieldsAndFilter()
         {
             var query = new EntityQuery
             {
@@ -146,7 +146,7 @@ namespace domain.test.entities
         }
 
         [Test]
-        public void GenerateWithFieldsAndFilter()
+        public void CompileQueryWithFieldsAndFilter()
         {
             var query = new EntityQuery
             {
@@ -155,6 +155,49 @@ namespace domain.test.entities
                 Id = "patients-born-in-60s",
                 Entity = "Patient",
                 WebId = "all-born-in-60s"
+            };
+            var sixty = new ConstantField { Type = typeof(DateTime), Value = "1960-01-01" };
+            var sixtyNine = new ConstantField { Type = typeof(DateTime), Value = "1969-12-31" };
+            query.FilterCollection.Add(new Filter
+            {
+                Field = sixty,
+                Operator = Operator.Ge,
+                Term = "Dob"
+            });
+            query.FilterCollection.Add(new Filter
+            {
+                Field = sixtyNine,
+                Operator = Operator.Le,
+                Term = "Dob"
+            });
+
+            query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race", "DeathDate");
+
+            var options = new CompilerOptions();
+            var sources = query.GenerateCode();
+            var result = query.Compile(options, sources);
+
+            Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+
+
+            var output = $"{ConfigurationManager.ApplicationName}.EntityQuery.{query.Id}";
+            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
+            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
+            
+            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
+        }
+
+        [Test]
+        public void CompileQueryWithFieldsAndFilterCacheFilter()
+        {
+            var query = new EntityQuery
+            {
+                Name = "Patients with cached filter",
+                Route = "~/api/patients/cache-filter",
+                Id = "patients-cache-filter",
+                Entity = "Patient",
+                WebId = "patients-cache-filter",
+                CacheFilter = 300
             };
             var sixty = new ConstantField { Type = typeof(DateTime), Value = "1960-01-01" };
             var sixtyNine = new ConstantField { Type = typeof(DateTime), Value = "1969-12-31" };

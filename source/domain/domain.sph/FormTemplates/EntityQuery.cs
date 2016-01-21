@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Domain
             if (!this.MemberCollection.Any())
             {
                 code.Append(@" 
-                    var list = from f in jo.SelectToken(""$.hits.hits"")
+                    var list = from f in esJsonObject.SelectToken(""$.hits.hits"")
                                let webId = f.SelectToken(""_source.WebId"").Value<string>()
                                let id = f.SelectToken(""_id"").Value<string>()
                                let _type = f.SelectToken(""_type"").Value<string>()
@@ -89,7 +89,7 @@ namespace Bespoke.Sph.Domain
             }
 
             code.Append(@"
-            var list = from f in jo.SelectToken(""$.hits.hits"")
+            var list = from f in esJsonObject.SelectToken(""$.hits.hits"")
                         let fields = f.SelectToken(""fields"")
                         let id = f.SelectToken(""_id"").Value<string>()
                         select JsonConvert.SerializeObject( new {");

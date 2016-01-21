@@ -88,25 +88,40 @@ namespace Bespoke.Sph.Domain
             code.Append("       {");
             code.Append($@"
             var eq = CacheManager.Default.Get<EntityQuery>(""entity-query-{Id}"");
+            var sourceFile = $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"";
             if(null == eq )
             {{
                 var context = new SphDataContext();
                 eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
-                CacheManager.Default.Insert(""entity-query-{Id}"", eq, $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"");
-            }}
-            var ds = ObjectBuilder.GetObject<IDirectoryService>();
-            var query = await eq.GenerateEsQueryAsync(page, size);
+                CacheManager.Default.Insert(""entity-query-{Id}"", eq, sourceFile);
+            }}");
+
+            if (this.CacheFilter.HasValue)
+            {
+                code.AppendLine($"   var queryCacheKey = $\"entity-query-filter-{{page}}-{{size}}-{Id}\";");
+                code.AppendLine($"   var query = CacheManager.Default.Get<string>(queryCacheKey);");
+                code.AppendLine("   if(null == query)");
+                code.AppendLine("   {");
+                code.AppendLine("       query = await eq.GenerateEsQueryAsync(page, size);");
+                code.AppendLine($"       CacheManager.Default.Insert(queryCacheKey, query, TimeSpan.FromSeconds({this.CacheFilter}), sourceFile);");
+                code.AppendLine("   }");
+            }
+            else
+            {
+                code.AppendLine("var query = await eq.GenerateEsQueryAsync(page, size);");
+            }
+            code.Append($@"
             var request = new StringContent(query);
             var url = ""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_search"";
 
             using(var client = new HttpClient{{BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
             {{
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception(""Cannot execute query on es "" + request);
+                var esResponse = await client.PostAsync(url, request);
+                var esResponseContent = esResponse.Content as StreamContent;
+                if (null == esResponseContent) throw new Exception(""Cannot execute query on es "" + request);
 
-                var json = await content.ReadAsStringAsync();
-                var jo = JObject.Parse(json);
+                var esResponseString = await esResponseContent.ReadAsStringAsync();
+                var esJsonObject = JObject.Parse(esResponseString);
 ");
 
             var context = new SphDataContext();
@@ -116,17 +131,17 @@ namespace Bespoke.Sph.Domain
             code.Append($@"
                 var result = new 
                 {{
-                    results = ""<list>"",
-                    rows = jo.SelectToken(""$.hits.total"").Value<int>(),
+                    results = ""<<list>>"",
+                    rows = esJsonObject.SelectToken(""$.hits.total"").Value<int>(),
                     page = page,
                     nextPageToken = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
                     previousPageToken = page == 1 ? null : $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}"",
                     size = size
                 }};
-                var tempResult = JsonConvert.SerializeObject(result);
-                var temp = string.Join("", "", list);
+                var resultJson = JsonConvert.SerializeObject(result);
+                var itemsList = string.Join("", "", list);
             
-                return Content(tempResult.Replace(""\""<list>\"""",""[""+ temp + ""]""), ""application/json"");
+                return Content(resultJson.Replace(""\""<<list>>\"""",""[""+ itemsList + ""]""), ""application/json"");
             }}");
             code.AppendLine();
             code.AppendLine("       }");
