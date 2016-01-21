@@ -13,6 +13,7 @@ using System.Web;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -28,6 +29,7 @@ namespace Bespoke.Sph.Domain
             typeof(Int32).Namespace ,
             typeof(Task<>).Namespace,
             typeof(Enumerable).Namespace ,
+            typeof(JsonConvert).Namespace ,
             "System.Web.Mvc",
             "System.Net.Http",
             "Bespoke.Sph.Web.Helpers"
@@ -114,15 +116,17 @@ namespace Bespoke.Sph.Domain
             code.Append($@"
                 var result = new 
                 {{
-                    results = list,
+                    results = ""<list>"",
                     rows = jo.SelectToken(""$.hits.total"").Value<int>(),
                     page = page,
                     nextPageToken = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
                     previousPageToken = page == 1 ? null : $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}"",
                     size = size
                 }};
-
-                return Json(result, JsonRequestBehavior.AllowGet);
+                var tempResult = JsonConvert.SerializeObject(result);
+                var temp = string.Join("", "", list);
+            
+                return Content(tempResult.Replace(""\""<list>\"""",""[""+ temp + ""]""), ""application/json"");
             }}");
             code.AppendLine();
             code.AppendLine("       }");

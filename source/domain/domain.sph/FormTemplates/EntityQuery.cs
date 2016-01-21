@@ -78,7 +78,12 @@ namespace Bespoke.Sph.Domain
             if (!this.MemberCollection.Any())
             {
                 code.Append(@" 
-                    var list
+                    var list = from f in jo.SelectToken(""$.hits.hits"")
+                               let webId = f.SelectToken(""_source.WebId"").Value<string>()
+                               let id = f.SelectToken(""_id"").Value<string>()
+                               let _type = f.SelectToken(""_type"").Value<string>()
+                               let link = $""\""link\"" :{{ \""href\"" :\""{ConfigurationManager.BaseUrl}/{_type}/{id}\""}}""
+                               select f.SelectToken(""_source"").ToString().Replace($""{webId}\"""",$""{webId}\"","" + link);
 ");
                 return code.ToString();
             }
@@ -87,7 +92,7 @@ namespace Bespoke.Sph.Domain
             var list = from f in jo.SelectToken(""$.hits.hits"")
                         let fields = f.SelectToken(""fields"")
                         let id = f.SelectToken(""_id"").Value<string>()
-                        select new {");
+                        select JsonConvert.SerializeObject( new {");
             foreach (var g in this.MemberCollection)
             {
                 var mb = ed.GetMember(g) as SimpleMember;
@@ -103,7 +108,7 @@ namespace Bespoke.Sph.Domain
                             links = new {{
                                 href = $""{{ConfigurationManager.BaseUrl}}/{Entity.ToLowerInvariant()}/{{id}}""
 }}
-                        }};
+                        }});
 ");
             return code.ToString();
         }
