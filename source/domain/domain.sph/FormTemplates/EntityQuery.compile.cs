@@ -68,30 +68,23 @@ namespace Bespoke.Sph.Domain
             var action = GenerateAction();
             controller.MethodCollection.Add(action);
 
-            controller.PropertyCollection.Add(GenerateEntityQueryProperty());
-
             return controller;
         }
 
-
-        private Property GenerateEntityQueryProperty()
-        {
-            var prop = new Property { Name = "Query", Type = typeof(EntityQuery)};
-            return prop;
-        }
 
         private Method GenerateAction()
         {
             var code = new StringBuilder();
 
-      
-
-
-            code.AppendLine($"       [Route(\"~/{Entity}/{Route}\")]");
-            code.AppendLine("       public async Task<ActionResult> GetAction()");
-            code.AppendLine("       {");
-            code.AppendLine($@"
-
+            var route = this.Route.StartsWith("~") ? this.Route : $"~/api/{Entity.ToLowerInvariant()}/{this.Route}";
+            var tokenRoute = this.Route.StartsWith("~")
+                ? route.Replace("~/", "")
+                : $"api/{Entity.ToLowerInvariant()}/{this.Route}";
+            code.AppendLine("       [HttpGet]");
+            code.AppendLine($"       [Route(\"{route}\")]");
+            code.AppendLine("       public async Task<ActionResult> GetAction(int page =1, int size=20)");
+            code.Append("       {");
+            code.Append($@"
             var eq = CacheManager.Default.Get<EntityQuery>(""entity-query-{Id}"");
             if(null == eq )
             {{
@@ -103,9 +96,20 @@ namespace Bespoke.Sph.Domain
             var query = (@""{{
                 """"query"""": {{
                     """"filtered"""": {{
-                        """"filter"""":"" + Bespoke.Sph.Domain.Filter.GenerateElasticSearchFilterDsl(eq, eq.FilterCollection).Replace(""\"""",""\""\"""") + @""
+                        """"filter"""":"" + Bespoke.Sph.Domain.Filter.GenerateElasticSearchFilterDsl(eq, eq.FilterCollection) + @""
                     }}
-                }}
+                }}");
+
+            if (this.MemberCollection.Any())
+            {
+                code.Append(",");
+                var fields = string.Join(",", this.MemberCollection.Select(x => $"\"\"{x}\"\""));
+                code.Append($@"
+                    """"fields"""" : [{fields}]                
+");
+            }
+
+            code.AppendLine($@"
             }}"").Replace(""config.userName"", ""\"""" + ds.CurrentUserName + ""\"""");
             var request = new StringContent(query);
             var url = ""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_search"";
@@ -117,7 +121,41 @@ namespace Bespoke.Sph.Domain
                 if (null == content) throw new Exception(""Cannot execute query on es "" + request);
 
                 var json = await content.ReadAsStringAsync();
-                return Content(json, ""application/json; charset=utf-8"");
+
+                var jo = JObject.Parse(json);
+");
+            if (this.MemberCollection.Any())
+            {
+                code.Append(@"
+            var list = from f in jo.SelectToken(""$.hits.hits"")
+                        let fields = f.SelectToken(""fields"")
+                        let id = f.SelectToken(""_id"").Value<string>()
+                        select new {");
+
+                foreach (var mb in this.MemberCollection)
+                {
+                    code.AppendLine($@"  {mb} = fields[""{mb}""][0].ToString(),");
+                }
+
+                code.Append($@"
+                            links = new {{
+                                href = $""{{ConfigurationManager.BaseUrl}}/{Entity.ToLowerInvariant()}/{{id}}""
+}}
+                        }};
+");
+            }
+            code.Append($@"
+                var result = new 
+                {{
+                    results = list,
+                    rows = jo.SelectToken(""$.hits.total"").Value<int>(),
+                    page = page,
+                    nextPageToken = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
+                    previousPageToken = page == 1 ? null : $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}"",
+                    size = size
+                }};
+
+                return Json(result, JsonRequestBehavior.AllowGet);
             }}");
             code.AppendLine();
             code.AppendLine("       }");
@@ -135,7 +173,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{this.Route}.dll"),
+                    OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.EntityQuery.{Id}.dll"),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
