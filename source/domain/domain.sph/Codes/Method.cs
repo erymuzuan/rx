@@ -69,7 +69,6 @@ namespace Bespoke.Sph.Domain.Codes
                 partialModifier);
             if (IsPartial)
                 signature = $"partial void {Name}({argSignature})";
-            code.AppendLine();
             code.AppendLine(signature);
             code.AppendLine("{");
             code.AppendLine(this.Body);

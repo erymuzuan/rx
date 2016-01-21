@@ -2036,6 +2036,23 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private ServiceContract m_serviceContract
+                = new ServiceContract();
+
+        public const string PropertyNameServiceContract = "ServiceContract";
+        [DebuggerHidden]
+
+        public ServiceContract ServiceContract
+        {
+            get { return m_serviceContract; }
+            set
+            {
+                m_serviceContract = value;
+                OnPropertyChanged();
+            }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -5842,221 +5859,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    public partial class SearchDefinition
-    {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_entity;
-        public const string PropertyNameEntity = "Entity";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
-        public const string PropertyNameName = "Name";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isPublished;
-        public const string PropertyNameIsPublished = "IsPublished";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_route;
-        public const string PropertyNameRoute = "Route";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private OwnerType m_ownerType;
-        public const string PropertyNameOwnerType = "OwnerType";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_owner;
-        public const string PropertyNameOwner = "Owner";
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<Filter> FilterCollection { get; } = new ObjectCollection<Filter>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<ViewColumn> ViewColumnCollection { get; } = new ObjectCollection<ViewColumn>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string Entity
-        {
-            set
-            {
-                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entity = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entity;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string Name
-        {
-            set
-            {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_name = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_name;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsPublished
-        {
-            set
-            {
-                if (m_isPublished == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isPublished = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isPublished;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string Route
-        {
-            set
-            {
-                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_route = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_route;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public OwnerType OwnerType
-        {
-            set
-            {
-                if (m_ownerType == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameOwnerType, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_ownerType = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_ownerType;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string Owner
-        {
-            set
-            {
-                if (String.Equals(m_owner, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameOwner, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_owner = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_owner;
-            }
-        }
-
-
-
-    }
-
-    ///<summary>
-    /// 
-    ///</summary>
-    [DataObject(true)]
-    [Serializable]
     public partial class ConditionalFormatting
     {
 
@@ -7586,6 +7388,110 @@ namespace Bespoke.Sph.Domain
             }
             get { return m_cacheFilter; }
         }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class ServiceContract
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_allowFullSearch;
+        public const string PropertyNameAllowFullSearch = "AllowFullSearch";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_allowGetById;
+        public const string PropertyNameAllowGetById = "AllowGetById";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_allowOdataApi;
+        public const string PropertyNameAllowOdataApi = "AllowOdataApi";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool AllowFullSearch
+        {
+            set
+            {
+                if (m_allowFullSearch == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAllowFullSearch, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_allowFullSearch = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_allowFullSearch;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool AllowGetById
+        {
+            set
+            {
+                if (m_allowGetById == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAllowGetById, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_allowGetById = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_allowGetById;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool AllowOdataApi
+        {
+            set
+            {
+                if (m_allowOdataApi == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAllowOdataApi, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_allowOdataApi = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_allowOdataApi;
+            }
+        }
+
 
 
     }

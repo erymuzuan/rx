@@ -19,5 +19,11 @@ namespace web.sph.App_Code
                 new Exception("another exception", new InvalidOperationException("Inner exception")), 
             });
         }
+        [Route("json")]
+        public ActionResult GetJson()
+        {
+            
+            return Json(DateTime.Now);
+        }
     }
 }

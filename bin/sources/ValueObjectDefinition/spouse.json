@@ -154,7 +154,6 @@
             }
           ]
         },
-        "TypeName": "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
         "ValueObjectName": "Address",
         "FullName": null,
         "PropertyAttribute": null,

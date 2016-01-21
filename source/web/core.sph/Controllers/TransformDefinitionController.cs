@@ -28,6 +28,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (!erros.Result)
                 return Json(erros);
 
+            
             return Json(new { success = true, status = "OK", message = "Your map has been successfully validated" });
 
         }

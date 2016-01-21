@@ -2168,7 +2168,6 @@
     <Content Include="SphApp\partial\ComboBox.js" />
     <Content Include="SphApp\partial\NotificationActivity.js" />
     <Content Include="SphApp\partial\Filter.js" />
-    <Content Include="SphApp\partial\SearchDefinition.js" />
     <Content Include="SphApp\partial\WorkflowDefinition.js" />
     <Content Include="SphApp\partial\WorkflowDesigner.js" />
     <Content Include="SphApp\partial\WorkflowTriggerMap.js" />
