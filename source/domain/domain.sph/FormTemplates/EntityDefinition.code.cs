@@ -180,12 +180,21 @@ namespace Bespoke.Sph.Domain
                 Namespace = CodeNamespace
             };
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);
+            controller.ImportCollection.Add("System.Net");
+            controller.ImportCollection.Add("System.Net.Http");
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
-            controller.AttributeCollection.Add($"[RoutePrefix(\"{Name}\")]");
+            controller.AttributeCollection.Add($"[RoutePrefix(\"api/{Name}\")]");
 
-            var search = GenerateSearchAction();
-            controller.MethodCollection.Add(search);
-            
+            if (this.ServiceContract.AllowFullSearch)
+            {
+                var search = GenerateSearchAction();
+                controller.MethodCollection.Add(search);
+            }
+
+            if (this.ServiceContract.AllowGetById)
+            {
+                controller.MethodCollection.Add(this.GenerateGetByIdCode());
+            }
 
             var posts = this.EntityOperationCollection.Where(x => x.IsHttpPost).Select(x => x.GeneratePostAction(this));
             controller.MethodCollection.AddRange(posts);
@@ -208,6 +217,40 @@ namespace Bespoke.Sph.Domain
             return controller;
 
 
+        }
+
+        private Method GenerateGetByIdCode()
+        {
+            var code = new StringBuilder();
+            code.AppendLine("[HttpGet]");
+            code.AppendLine("[Route(\"{id:guid}\")]");
+            code.AppendLine("public async Task<ActionResult> GetOneByIdAsync(string id)");
+            code.AppendLine("{");
+            code.Append($@"
+            var url = $""{ConfigurationManager.ApplicationName.ToLower()}/{this.Name.ToLower()}/{{id}}"";
+
+            using(var client = new HttpClient())
+            {{
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                var response = await client.GetAsync(url);
+                if(response.StatusCode == HttpStatusCode.NotFound)
+                    return HttpNotFound(""Cannot find any {this.Name} with Id "" + id);
+
+                var content = response.Content as StreamContent;
+                if (null == content) throw new Exception(""Cannot execute query on es "" );
+
+                var esResponseString = await content.ReadAsStringAsync();
+                var esJson = JObject.Parse(esResponseString);
+                
+                var source = esJson.SelectToken(""$._source"").ToString();
+                return Content(source, ""application/json; charset=utf-8"");
+            }}
+            ");
+            code.AppendLine();
+            code.AppendLine("}");
+            return new Method { Code = code.ToString() };
+
+           
         }
 
         private Method GenerateSchemaAction()
@@ -255,8 +298,8 @@ namespace Bespoke.Sph.Domain
             search.AppendLine();
             return new Method { Code = search.ToString() };
         }
-        
-  
+
+
 
 
         private Method GenerateValidationAction()

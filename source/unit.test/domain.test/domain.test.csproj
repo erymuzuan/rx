@@ -173,6 +173,7 @@
     <Compile Include="entities\FieldValidationTest.cs" />
     <Compile Include="entities\OperationTest.cs" />
     <Compile Include="entities\QueryTest.cs" />
+    <Compile Include="entities\ServiceContractTest.cs" />
     <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
     <Compile Include="entities\ViewSortTest.cs" />
     <Compile Include="razor\RazorEngineTestFixture.cs" />

@@ -287,9 +287,9 @@
     <Compile Include="FormTemplates\PartialView.cs" />
     <Compile Include="FormTemplates\PatchSetter.cs" />
     <Compile Include="FormTemplates\RouteParameter.cs" />
-    <Compile Include="FormTemplates\SearchDefinition.cs" />
     <Compile Include="FormTemplates\SectionFormElement.cs" />
     <Compile Include="FormTemplates\Series.cs" />
+    <Compile Include="FormTemplates\ServiceContract.cs" />
     <Compile Include="FormTemplates\SimpleMember.cs" />
     <Compile Include="FormTemplates\SimpleMember.es.cs" />
     <Compile Include="FormTemplates\Sort.cs" />

@@ -267,7 +267,14 @@ namespace Bespoke.Sph.Domain
 
         private string GetEntityDefinitionCode(EntityDefinition ed)
         {
-            return $"           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Id == \"{ed.Id}\");";
+            var code = new StringBuilder();
+            code.AppendLine($"var ed = CacheManager.Default.Get<EntityDefinition>(\"entity-definition:{ed.Id}\");");
+            code.AppendLine("if(null == ed)");
+            code.AppendLine("{");
+            code.AppendLine($"   ed = await context.LoadOneAsync<EntityDefinition>(d => d.Id == \"{ed.Id}\");");
+            code.AppendLine($"   CacheManager.Default.Insert(\"entity-definition:{ed.Id}\", ed, $\"{{ConfigurationManager.SphSourceDirectory}}\\\\EntityDefinition\\\\{ed.Id}.json\");");
+            code.AppendLine("}");
+            return code.ToString();
 
         }
         private string GenerateRulesCode()
@@ -290,7 +297,12 @@ namespace Bespoke.Sph.Domain
             }}
 ");
             }
-            code.AppendLine("           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});");
+            code.AppendLine("           if( brokenRules.Count > 0) ");
+            code.AppendLine("           {");
+            code.AppendLine("               this.Response.StatusDescription = \"Unprocessable Entity\";");
+            code.AppendLine("               this.Response.StatusCode = 422; ");
+            code.AppendLine("               return Json(new {success = false, rules = brokenRules.ToArray()});");
+            code.AppendLine("           }");
             return code.ToString();
         }
 

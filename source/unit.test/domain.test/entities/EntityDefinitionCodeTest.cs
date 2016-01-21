@@ -145,14 +145,15 @@ namespace domain.test.entities
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
-            var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
+            var address = new ComplexMember { Name = "Address" };
             address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
             address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 
-            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
-            contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
+            var contacts = new ComplexMember { Name = "Contacts", AllowMultiple = true };
+            contacts.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
+            contacts.MemberCollection.Add(new SimpleMember { Name = "Telephone", Type = typeof(string) });
             contacts.MemberCollection.Add(address);
             ent.MemberCollection.Add(contacts);
 
@@ -161,8 +162,8 @@ namespace domain.test.entities
             var paths = ent.GetMembersPath();
             CollectionAssert.Contains(paths, "Name2");
             CollectionAssert.Contains(paths, "Address.State");
-            CollectionAssert.Contains(paths, "Contact.Name");
-            CollectionAssert.Contains(paths, "Contact.Address.State");
+            CollectionAssert.Contains(paths, "Contacts.Name");
+            CollectionAssert.Contains(paths, "Contacts.Address.State");
 
 
         }

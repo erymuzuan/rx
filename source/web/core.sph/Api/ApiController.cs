@@ -138,13 +138,7 @@ namespace Bespoke.Sph.Web.Api
             return ReadFromSource<ReportDefinition>(filter, page, size, true);
         }
 
-
-        [Route("SearchDefinition")]
-        [RxSourceOutputCache(SourceType = typeof(SearchDefinition))]
-        public ActionResult SearchDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return ReadFromSource<SearchDefinition>(filter, page, size);
-        }
+        
 
         [Route("Setting")]
         public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
