@@ -28,7 +28,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         /// The number of messages prefetch by the broker in a batch.
         /// </summary>
         /// <returns></returns>
-        public virtual ushort PrefectchCount
+        public virtual ushort PrefetchCount
         {
             get
             {

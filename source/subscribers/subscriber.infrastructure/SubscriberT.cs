@@ -116,7 +116,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
 
 
-            m_channel.BasicQos(0, this.PrefectchCount, false);
+            m_channel.BasicQos(0, this.PrefetchCount, false);
 
             m_consumer = new TaskBasicConsumer(m_channel);
             m_consumer.Received += Received;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -13,8 +12,6 @@ namespace Bespoke.Sph.ElasticSearch
     {
 
         public override string QueueName => "custom_entities_es_indexer";
-
-
         public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.delete.#" };
 
 
