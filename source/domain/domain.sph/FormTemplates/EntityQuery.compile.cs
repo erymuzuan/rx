@@ -93,24 +93,7 @@ namespace Bespoke.Sph.Domain
                 CacheManager.Default.Insert(""entity-query-{Id}"", eq, $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"");
             }}
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
-            var query = (@""{{
-                """"query"""": {{
-                    """"filtered"""": {{
-                        """"filter"""":"" + Bespoke.Sph.Domain.Filter.GenerateElasticSearchFilterDsl(eq, eq.FilterCollection) + @""
-                    }}
-                }}");
-
-            if (this.MemberCollection.Any())
-            {
-                code.Append(",");
-                var fields = string.Join(",", this.MemberCollection.Select(x => $"\"\"{x}\"\""));
-                code.Append($@"
-                    """"fields"""" : [{fields}]                
-");
-            }
-
-            code.AppendLine($@"
-            }}"").Replace(""config.userName"", ""\"""" + ds.CurrentUserName + ""\"""");
+            var query = await eq.GenerateEsQueryAsync(page, size);
             var request = new StringContent(query);
             var url = ""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_search"";
 
@@ -121,29 +104,13 @@ namespace Bespoke.Sph.Domain
                 if (null == content) throw new Exception(""Cannot execute query on es "" + request);
 
                 var json = await content.ReadAsStringAsync();
-
                 var jo = JObject.Parse(json);
 ");
-            if (this.MemberCollection.Any())
-            {
-                code.Append(@"
-            var list = from f in jo.SelectToken(""$.hits.hits"")
-                        let fields = f.SelectToken(""fields"")
-                        let id = f.SelectToken(""_id"").Value<string>()
-                        select new {");
 
-                foreach (var mb in this.MemberCollection)
-                {
-                    code.AppendLine($@"  {mb} = fields[""{mb}""][0].ToString(),");
-                }
-
-                code.Append($@"
-                            links = new {{
-                                href = $""{{ConfigurationManager.BaseUrl}}/{Entity.ToLowerInvariant()}/{{id}}""
-}}
-                        }};
-");
-            }
+            var context = new SphDataContext();
+            var ed = context.LoadOne<EntityDefinition>(x => x.Name == this.Entity);
+            code.Append(this.GenerateListCode(ed));
+      
             code.Append($@"
                 var result = new 
                 {{

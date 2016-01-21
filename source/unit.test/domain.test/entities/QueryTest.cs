@@ -1,11 +1,13 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using domain.test.reports;
 using domain.test.triggers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace domain.test.entities
@@ -74,7 +76,43 @@ namespace domain.test.entities
             File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
         }
         [Test]
-        public void GenerateWithFieldsAndFilter()
+        public async Task GenerateQueryPaging()
+        {
+            var query = new EntityQuery
+            {
+                Name = "Patients Born in 60s",
+                Route = "~/api/patients/born-in-60s",
+                Id = "patients-born-in-60s",
+                Entity = "Patient",
+                WebId = "all-born-in-60s"
+            };
+
+            var json = await query.GenerateEsQueryAsync(5,30);
+            var jo = JObject.Parse(json);
+            Assert.AreEqual(120, jo.SelectToken("$.from").Value<int>(), jo.ToString());
+            Assert.AreEqual(30, jo.SelectToken("$.size").Value<int>(), jo.ToString());
+        }
+
+        [Test]
+        public async Task GenerateQueryFields()
+        {
+            var query = new EntityQuery
+            {
+                Name = "Patients Born in 60s",
+                Route = "~/api/patients/born-in-60s",
+                Id = "patients-born-in-60s",
+                Entity = "Patient",
+                WebId = "all-born-in-60s"
+            };
+            query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race");
+
+            var json = await query.GenerateEsQueryAsync();
+            var jo = JObject.Parse(json);
+            Assert.AreEqual(new [] { "Dob", "FullName", "Gender", "Race" }, jo.SelectToken("$.fields").Values<string>().ToArrayString(), jo.ToString());
+        }
+
+
+        public async Task GenerateQueryFieldsAndFilter()
         {
             var query = new EntityQuery
             {
@@ -100,6 +138,40 @@ namespace domain.test.entities
             });
 
             query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race");
+
+            var json = await query.GenerateEsQueryAsync(5,30);
+            var jo = JObject.Parse(json);
+            Assert.AreEqual(120, jo.SelectToken("$.from").Value<int>(), jo.ToString());
+            Assert.AreEqual(30, jo.SelectToken("$.size").Value<int>(), jo.ToString());
+        }
+
+        [Test]
+        public void GenerateWithFieldsAndFilter()
+        {
+            var query = new EntityQuery
+            {
+                Name = "Patients Born in 60s",
+                Route = "~/api/patients/born-in-60s",
+                Id = "patients-born-in-60s",
+                Entity = "Patient",
+                WebId = "all-born-in-60s"
+            };
+            var sixty = new ConstantField { Type = typeof(DateTime), Value = "1960-01-01" };
+            var sixtyNine = new ConstantField { Type = typeof(DateTime), Value = "1969-12-31" };
+            query.FilterCollection.Add(new Filter
+            {
+                Field = sixty,
+                Operator = Operator.Ge,
+                Term = "Dob"
+            });
+            query.FilterCollection.Add(new Filter
+            {
+                Field = sixtyNine,
+                Operator = Operator.Le,
+                Term = "Dob"
+            });
+
+            query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race", "DeathDate");
 
             var options = new CompilerOptions();
             var sources = query.GenerateCode();
