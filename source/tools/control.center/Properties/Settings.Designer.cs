@@ -38,7 +38,7 @@ namespace Bespoke.Sph.ControlCenter.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ProjectDirectory {
+        public string Home {
             get {
                 return ((string)(this["Home"]));
             }

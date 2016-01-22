@@ -64,15 +64,19 @@ namespace Bespoke.Sph.Web.Properties {
         ///   Looks up a localized string similar to &lt;h1&gt;&lt;i class=&quot;glyphicon glyphicon-hdd&quot;&gt;&lt;/i&gt;Integration Adapters &lt;/h1&gt;
         ///&lt;div class=&quot;row&quot;&gt;
         ///
-        ///    &lt;div&gt;
-        ///        &lt;div class=&quot;btn-group&quot;&gt;
-        ///            &lt;a class=&quot;btn btn-link dropdown-toggle&quot; data-toggle=&quot;drop-down&quot;&gt;
-        ///                Add Adapter&amp;nbsp;&lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;
-        ///            &lt;/a&gt;
-        ///            &lt;ul class=&quot;dropdown-menu&quot; data-bind=&quot;foreach :adapterOptions&quot;&gt;
-        ///                &lt;li&gt;
-        ///                    &lt;a style=&quot;text-align: left&quot; class=&quot;btn btn-link&quot; data-bind=&quot;attr : {&apos;href&apos;:&apos;#&apos; + designer.Route}&quot;&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///    &lt;table class=&quot;table table-striped&quot; data-bind=&quot;serverPaging :{entity : &apos;Adapter&apos;, list: adapters}&quot;&gt;
+        ///        &lt;thead&gt;
+        ///            &lt;tr&gt;
+        ///                &lt;th&gt;Name&lt;/th&gt;
+        ///                &lt;th&gt;Type&lt;/th&gt;
+        ///                &lt;th&gt;Description&lt;/th&gt;
+        ///                &lt;th&gt;&lt;/th&gt;
+        ///            &lt;/tr&gt;
+        ///        &lt;/thead&gt;
+        ///        &lt;tbody data-bind=&quot;foreach : adapters&quot;&gt;
+        ///            &lt;tr&gt;
+        ///                &lt;td&gt;
+        ///                    &lt;a href=&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AdapterDefinitionListHtml {
             get {
@@ -81,17 +85,17 @@ namespace Bespoke.Sph.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.3.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.4.0.debug.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/moment.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../schemas/sph.domain.g.js&quot; /&gt;
+        ////// &lt;reference path=&quot;~/SphApp/schemas/sph.domain.g.js&quot; /&gt;
+        ////// &lt;reference path=&quot;~/SphApp/objectbuilders.js&quot; /&gt;
         ///
-        ///
-        ///define([&apos;services/datacontext&apos;, &apos;services/logger&apos;, &apos;plugins [rest of string was truncated]&quot;;.
+        ///de [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AdapterDefinitionListJs {
             get {

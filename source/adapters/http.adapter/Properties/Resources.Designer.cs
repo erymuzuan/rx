@@ -84,7 +84,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.4.0.debug.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
@@ -102,9 +102,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///&lt;link href=&quot;/Content/jstree/style.min.css&quot; rel=&quot;stylesheet&quot; /&gt;
-        ///&lt;h1&gt;Web Page Operation Details&lt;/h1&gt;
+        ///   Looks up a localized string similar to &lt;h1&gt;Web Page Operation Details&lt;/h1&gt;
         ///&lt;div class=&quot;row&quot;&gt;
         ///    &lt;a data-toggle=&quot;collapse&quot; href=&quot;#request-panel&quot;&gt;
         ///        &lt;h3&gt;
@@ -117,7 +115,9 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ///        &lt;form class=&quot;form-horizontal&quot; data-bind=&quot;with : operation&quot;&gt;
         ///
         ///            &lt;div class=&quot;form-group&quot;&gt;
-        ///                &lt;label for=&quot;http-method&quot; class=&quot;col-sm-2 cont [rest of string was truncated]&quot;;.
+        ///                &lt;label for=&quot;http-method&quot; class=&quot;col-sm-2 control-label&quot;&gt;HTTP Method&lt;/label&gt;
+        ///
+        ///                &lt;div class=&quot;col- [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HttpAdapterOperationHtml {
             get {
@@ -127,7 +127,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.4.0.debug.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
