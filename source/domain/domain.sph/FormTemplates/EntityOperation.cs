@@ -66,7 +66,12 @@ namespace Bespoke.Sph.Domain
                 session.Attach(item);
                 await session.SubmitChanges(""{Name}"");
             }}
-            return Json(new {{success = true, status=""OK"", id = item.Id, href=""{ed.Name}/"" + item.Id}});");
+            return Json(new {{success = true, status=""OK"", id = item.Id, 
+                      _links = new {{ 
+                            rel = ""self"",
+                            href=$""{{ConfigurationManager.BaseUrl}}/api/{ed.Name.ToLowerInvariant()}/{{ item.Id}}""
+                        }}
+                }});");
 
             return post;
         }
@@ -76,7 +81,7 @@ namespace Bespoke.Sph.Domain
 
             var patch = new Method { Name = $"Patch{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
             patch.AttributeCollection.Add("[HttpPatch]");
-            patch.AttributeCollection.Add($"[Route(\"{Route}/{{id}}\")]");
+            patch.AttributeCollection.Add($"[Route(\"{Route}\")]");
 
             var authorize = GenerateAuthorizeAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
@@ -268,11 +273,11 @@ namespace Bespoke.Sph.Domain
         private string GetEntityDefinitionCode(EntityDefinition ed)
         {
             var code = new StringBuilder();
-            code.AppendLine($"var ed = CacheManager.Default.Get<EntityDefinition>(\"entity-definition:{ed.Id}\");");
+            code.AppendLine($"var ed = CacheManager.Get<EntityDefinition>(\"entity-definition:{ed.Id}\");");
             code.AppendLine("if(null == ed)");
             code.AppendLine("{");
             code.AppendLine($"   ed = await context.LoadOneAsync<EntityDefinition>(d => d.Id == \"{ed.Id}\");");
-            code.AppendLine($"   CacheManager.Default.Insert(\"entity-definition:{ed.Id}\", ed, $\"{{ConfigurationManager.SphSourceDirectory}}\\\\EntityDefinition\\\\{ed.Id}.json\");");
+            code.AppendLine($"   CacheManager.Insert(\"entity-definition:{ed.Id}\", ed, $\"{{ConfigurationManager.SphSourceDirectory}}\\\\EntityDefinition\\\\{ed.Id}.json\");");
             code.AppendLine("}");
             return code.ToString();
 

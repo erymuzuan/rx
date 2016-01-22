@@ -185,6 +185,10 @@ namespace Bespoke.Sph.Domain
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
             controller.AttributeCollection.Add($"[RoutePrefix(\"api/{Name}\")]");
 
+
+            controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
+            controller.CtorCollection.Add($"public {Name}Controller() {{ this.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
+
             if (this.ServiceContract.AllowFullSearch)
             {
                 var search = GenerateSearchAction();
@@ -226,6 +230,34 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("[Route(\"{id:guid}\")]");
             code.AppendLine("public async Task<ActionResult> GetOneByIdAsync(string id)");
             code.AppendLine("{");
+
+            var links = new List<string>
+            {
+                $@"  """"self"""" : {{{{
+                    """"href"""" : """"{{ConfigurationManager.BaseUrl}}/api/{Name
+                    .ToLowerInvariant()}/{{id}}"""" 
+                }}}}"
+            };
+            foreach (var op in this.EntityOperationCollection)
+            {
+                var methods = new List<string>();
+                if (op.IsHttpDelete) methods.Add("DELETE");
+                if (op.IsHttpPatch) methods.Add("PATCH");
+                if (op.IsHttpPost) methods.Add("POST");
+                if (op.IsHttpPut) methods.Add("PUT");
+                var http = string.Join("|", methods);
+                if (string.IsNullOrWhiteSpace(http)) continue;
+
+                var route = op.Route;
+                route = route.StartsWith("~/") ? route.Replace("~/", "") : $"api/{Name.ToLower()}/{route}";
+
+                links.Add($@"  """"{op.Name.ToCamelCase()}"""" : {{{{
+                    """"href"""" : """"{{ConfigurationManager.BaseUrl}}/{route}"""", 
+                    """"method"""" : """"{http}"""" 
+                }}}}");
+            }
+            var operations = string.Join(",", links);
+
             code.Append($@"
             var url = $""{ConfigurationManager.ApplicationName.ToLower()}/{this.Name.ToLower()}/{{id}}"";
 
@@ -242,15 +274,23 @@ namespace Bespoke.Sph.Domain
                 var esResponseString = await content.ReadAsStringAsync();
                 var esJson = JObject.Parse(esResponseString);
                 
-                var source = esJson.SelectToken(""$._source"").ToString();
-                return Content(source, ""application/json; charset=utf-8"");
+                var source = esJson.SelectToken(""$._source"");
+                var self = JObject.Parse($@""{{{{
+                                                """"self"""":""""{{ConfigurationManager.BaseUrl}}/api/{Name.ToLowerInvariant()}/{{id}}"""",
+                                                {operations}
+                        }}}}""); 
+                var link = new JProperty(""_links"", self);
+                source.Last.AddAfterSelf(link);
+                return Content(source.ToString(), ""application/json; charset=utf-8"");
             }}
             ");
+
+
             code.AppendLine();
             code.AppendLine("}");
             return new Method { Code = code.ToString() };
 
-           
+
         }
 
         private Method GenerateSchemaAction()

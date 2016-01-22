@@ -1,14 +1,12 @@
-﻿using System;
+using System;
 using System.Web;
 using System.Web.Caching;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.Helpers
 {
-    public class CacheManager
+    public class WebCacheManager : ICacheManager
     {
-        private CacheManager() { }
-        private static CacheManager m_cache;
-        public static CacheManager Default => m_cache ?? (m_cache = new CacheManager());
 
         public void Insert<T>(string key, T data, string fileDependency = null)
         {

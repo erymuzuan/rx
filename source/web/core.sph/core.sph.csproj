@@ -1109,7 +1109,6 @@
     <Compile Include="Filters\RxOutputCacheAttribute.cs" />
     <Compile Include="Filters\RxSourceOutputCacheAttribute.cs" />
     <Compile Include="Filters\ScriptResult.cs" />
-    <Compile Include="Helpers\CacheManager.cs" />
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\HashTableHelper.cs" />
@@ -1117,6 +1116,7 @@
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Helpers\RawRequestBodyModelBinder.cs" />
     <Compile Include="Helpers\RequestBodyModelBinder.cs" />
+    <Compile Include="Helpers\WebCacheManager.cs" />
     <Compile Include="Hubs\AuditTrailConnection.cs" />
     <Compile Include="Hubs\SolutionConnection.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />

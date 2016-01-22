@@ -64,8 +64,15 @@ namespace Bespoke.Sph.Domain
                 BaseClass = "Controller",
                 Namespace = CodeNamespace
             };
+
+            
+
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
+
+
+            controller.PropertyCollection.Add(new Property {Name = "CacheManager", Type = typeof(ICacheManager)});
+            controller.CtorCollection.Add($"public {className}Controller() {{ this.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
 
             controller.MethodCollection.Add(GenerateGetAction());
             controller.MethodCollection.Add(GenerateCountAction());
@@ -84,23 +91,23 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       public async Task<ActionResult> GetCountAsync()");
             code.Append("       {");
             code.Append($@"
-            var eq = CacheManager.Default.Get<EntityQuery>(""entity-query:{Id}"");
+            var eq = CacheManager.Get<EntityQuery>(""entity-query:{Id}"");
             var sourceFile = $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"";
             if(null == eq )
             {{
                 var context = new SphDataContext();
                 eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
-                CacheManager.Default.Insert(""entity-query:{Id}"", eq, sourceFile);
+                CacheManager.Insert(""entity-query:{Id}"", eq, sourceFile);
             }}");
 
             if (this.CacheFilter.HasValue)
             {
                 code.AppendLine($"   var queryCacheKey = $\"entity-query:filter:{Id}\";");
-                code.AppendLine($"   var query = CacheManager.Default.Get<string>(queryCacheKey);");
+                code.AppendLine($"   var query = CacheManager.Get<string>(queryCacheKey);");
                 code.AppendLine("   if(null == query)");
                 code.AppendLine("   {");
                 code.AppendLine("       query = await eq.GenerateEsQueryAsync(1, 20);");
-                code.AppendLine($"       CacheManager.Default.Insert(queryCacheKey, query, TimeSpan.FromSeconds({this.CacheFilter}), sourceFile);");
+                code.AppendLine($"       CacheManager.Insert(queryCacheKey, query, TimeSpan.FromSeconds({this.CacheFilter}), sourceFile);");
                 code.AppendLine("   }");
             }
             else
@@ -122,7 +129,7 @@ namespace Bespoke.Sph.Domain
 
                 var count = esJsonObject.SelectToken(""$.count"").Value<int>();
             ");
-            code.AppendLine("return Content($\"{{\\\"count\\\":{count}}}\", \"application/json\");");
+            code.AppendLine("return Content($\"{{\\\"_count\\\":{count}}}\", \"application/json\");");
 
             code.Append("}");
             code.AppendLine();
@@ -145,23 +152,23 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       public async Task<ActionResult> GetAction(int page =1, int size=20)");
             code.Append("       {");
             code.Append($@"
-            var eq = CacheManager.Default.Get<EntityQuery>(""entity-query:{Id}"");
+            var eq = CacheManager.Get<EntityQuery>(""entity-query:{Id}"");
             var sourceFile = $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"";
             if(null == eq )
             {{
                 var context = new SphDataContext();
                 eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
-                CacheManager.Default.Insert(""entity-query:{Id}"", eq, sourceFile);
+                CacheManager.Insert(""entity-query:{Id}"", eq, sourceFile);
             }}");
 
             if (this.CacheFilter.HasValue)
             {
                 code.AppendLine($"   var queryCacheKey = $\"entity-query:filter:{{page}}:{{size}}:{Id}\";");
-                code.AppendLine($"   var query = CacheManager.Default.Get<string>(queryCacheKey);");
+                code.AppendLine($"   var query = CacheManager.Get<string>(queryCacheKey);");
                 code.AppendLine("   if(null == query)");
                 code.AppendLine("   {");
                 code.AppendLine("       query = await eq.GenerateEsQueryAsync(page, size);");
-                code.AppendLine($"       CacheManager.Default.Insert(queryCacheKey, query, TimeSpan.FromSeconds({this.CacheFilter}), sourceFile);");
+                code.AppendLine($"       CacheManager.Insert(queryCacheKey, query, TimeSpan.FromSeconds({this.CacheFilter}), sourceFile);");
                 code.AppendLine("   }");
             }
             else
@@ -189,12 +196,14 @@ namespace Bespoke.Sph.Domain
             code.Append($@"
                 var result = new 
                 {{
-                    results = ""<<list>>"",
-                    rows = esJsonObject.SelectToken(""$.hits.total"").Value<int>(),
-                    page = page,
-                    nextPageToken = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
-                    previousPageToken = page == 1 ? null : $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}"",
-                    size = size
+                    _results = ""<<list>>"",
+                    _count = esJsonObject.SelectToken(""$.hits.total"").Value<int>(),
+                    _page = page,
+                    _links = new {{
+                        _next = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
+                        _previous = page == 1 ? null : $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}""
+                    }},
+                    _size = size
                 }};
                 var resultJson = JsonConvert.SerializeObject(result);
                 var itemsList = string.Join("", "", list);

@@ -116,8 +116,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 type = null;
                 return null;
             }
-
-            var query = CacheManager.Default.Get<Tuple<string, string>>(key);
+            var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
+            var query = cacheManager.Get<Tuple<string, string>>(key);
             if (null != query)
             {
                 type = query.Item1;
@@ -136,7 +136,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }").Replace("config.userName", "\"" + User.Identity.Name + "\"");
 
 
-            CacheManager.Default.Insert(key, new Tuple<string, string>(type, json), path);
+            cacheManager.Insert(key, new Tuple<string, string>(type, json), path);
 
             return json;
         }

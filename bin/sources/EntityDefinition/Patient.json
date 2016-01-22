@@ -1120,7 +1120,7 @@
         "Permissions": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": [
-            "Anonymous"
+            "Everybody"
           ]
         },
         "SetterActionChildCollection": {
@@ -1205,9 +1205,9 @@
           "$values": []
         },
         "Name": "Discharge",
-        "Route": null,
+        "Route": "~/api/patient/{id}/discharge",
         "IsHttpPut": false,
-        "IsHttpPatch": false,
+        "IsHttpPatch": true,
         "IsHttpPost": false,
         "IsHttpDelete": false,
         "WebId": "3fd43fb0-ee29-4933-875c-9c2330e81bbe"
@@ -1297,9 +1297,9 @@
           "$values": []
         },
         "Name": "Admit",
-        "Route": null,
+        "Route": "{id}/admit",
         "IsHttpPut": false,
-        "IsHttpPatch": false,
+        "IsHttpPatch": true,
         "IsHttpPost": false,
         "IsHttpDelete": false,
         "WebId": "c9da7b5e-2a70-46a9-9b04-cd962a3bf368"

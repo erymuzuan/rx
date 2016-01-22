@@ -105,9 +105,9 @@ namespace Bespoke.Sph.Domain
 
 
             code.Append($@"
-                            links = new {{
-                                href = $""{{ConfigurationManager.BaseUrl}}/{Entity.ToLowerInvariant()}/{{id}}""
-}}
+                            _links = new {{
+                                self = new {{ href = $""{{ConfigurationManager.BaseUrl}}/api/{Entity.ToLowerInvariant()}/{{id}}"" }}
+                            }}
                         }});
 ");
             return code.ToString();
