@@ -252,6 +252,7 @@ namespace Bespoke.Sph.Domain
                 route = route.StartsWith("~/") ? route.Replace("~/", "") : $"api/{Name.ToLower()}/{route}";
 
                 links.Add($@"  """"{op.Name.ToCamelCase()}"""" : {{{{
+                    """"rel"""" : """"{op.Name}"""", 
                     """"href"""" : """"{{ConfigurationManager.BaseUrl}}/{route}"""", 
                     """"method"""" : """"{http}"""" 
                 }}}}");
