@@ -98,7 +98,7 @@ namespace Bespoke.Sph.Domain
         /// <returns></returns>
         public static T JsonClone<T>(this T source) where T : class
         {
-            if (null == source) throw new ArgumentNullException("source");
+            if (null == source) throw new ArgumentNullException(nameof(source));
 
             var json = ToJsonString(source);
             var clone = json.DeserializeFromJson<T>();
