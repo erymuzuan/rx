@@ -1,9 +1,56 @@
 {
   "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "ClassName": "PatientToCusomer",
   "CodeNamespace": "DevV1.Integrations.Transforms",
   "MapCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "FullName",
+        "TypeName": "",
+        "Destination": "FullName",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "b99b541d-7d72-471b-a1f0-03e6698d6e72"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Gender",
+        "TypeName": "",
+        "Destination": "Gender",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "81a6af80-7ab2-4c40-ac97-175f479531e6"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "NextOfKin.FullName",
+        "TypeName": "",
+        "Destination": "Contact.Name",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "1725d3fe-c133-4e1b-b5c9-a25f78a8a590"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "NextOfKin.Email",
+        "TypeName": "",
+        "Destination": "Contact.Email",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "247b2380-b0f6-4747-9ff4-f25c9db9767d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "NextOfKin.Telephone",
+        "TypeName": "",
+        "Destination": "Contact.Telephone",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "e69ee9a0-d51d-414c-839e-7a4e234876bb"
+      }
+    ]
   },
   "FunctoidCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
@@ -27,6 +74,6 @@
   "Id": "patient-to-cusotmer-3",
   "CreatedDate": "2015-07-16T14:16:47.7723717+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-07-16T14:16:47.771371+08:00",
+  "ChangedDate": "2016-01-23T19:30:23.5219034+08:00",
   "WebId": "e54967a0-0d78-4eb3-c6f3-420c702ec66e"
 }
