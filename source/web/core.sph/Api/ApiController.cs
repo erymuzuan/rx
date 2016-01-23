@@ -382,10 +382,10 @@ namespace Bespoke.Sph.Web.Api
         private ActionResult ReadFromSource<T>(string filter, int page = 1, int size = 20, bool readAllText = false) where T : Entity
         {
             var list = new List<T>();
-            var rows = 0;
             var id = Strings.RegexSingleValue(filter, "^Id eq '(?<id>[0-9A-Za-z-_ ]{1,50})'", "id");
             string folder = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
 
+            var rows = 0;
             if (Directory.Exists(folder))
             {
                 if (string.IsNullOrWhiteSpace(id))
@@ -399,22 +399,19 @@ namespace Bespoke.Sph.Web.Api
                     if (null != item) list.Add(item);
                 }
             }
-            var json = new
-            {
-                results = list,
-                rows,
-                page = 1,
-                nextPageToken = "",
-                previousPageToken = "",
-                size = 20
-            };
-            var setting = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects
-            };
 
-            this.Response.ContentType = "application/json";
-            return Content(JsonConvert.SerializeObject(json, Formatting.None, setting), "application/json", Encoding.UTF8);
+            var jsonList = list.Select(x => x.ToJsonString(true));
+            var json = $@"
+            {{
+                ""results"" : [{  string.Join(",", jsonList)}],
+                ""rows"" : {rows},
+                ""page"" : 1,
+                ""nextPageToken"" : """",
+                ""previousPageToken"" : """",
+                ""size"" : 20
+            }}";
+
+            return Content(json, "application/json", Encoding.UTF8);
         }
 
         private static IList<T> IterateFromSource<T>(string filter, int page, int size, string folder, out int rows, bool readAllText = false)
