@@ -5,8 +5,8 @@ using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Web.Dependencies
 {
-    [Export]
-    public class DeveloperService
+    [Export(typeof(IDeveloperService))]
+    public class DeveloperService : IDeveloperService
     {
         private static bool m_initialized;
         public static void Init()

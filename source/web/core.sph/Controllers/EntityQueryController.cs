@@ -1,24 +1,29 @@
-using System.Linq;
+using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
 {
-    [Authorize]
     [RoutePrefix("entity-query")]
-    public class EntityQueryController : BaseController
+    public class EntityQueryController : ApiController
     {
+        private readonly IDeveloperService m_developerService;
+        public EntityQueryController()
+        {
+            DeveloperService.Init();
+            m_developerService = ObjectBuilder.GetObject<DeveloperService>();
+        }
+
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> Save()
+        public async Task<HttpResponseMessage> Save([RequestBody]EntityQuery query)
         {
-            var query = this.GetRequestJson<EntityQuery>();
             var context = new SphDataContext();
-
             var baru = string.IsNullOrWhiteSpace(query.Id) || query.Id == "0";
             if (baru) query.Id = query.Name.ToIdFormat();
 
@@ -27,87 +32,93 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(query);
                 await session.SubmitChanges("Save");
             }
-            this.Response.StatusCode = (int)(baru ? HttpStatusCode.Created : HttpStatusCode.OK);
-            return Json(new { success = true, status = "OK", id = query.Id, location = $"{ConfigurationManager.BaseUrl}/sph#entity.query.designer/{query.Id}" });
+            var code = baru ? HttpStatusCode.Created : HttpStatusCode.OK;
+            var location = $"{ConfigurationManager.BaseUrl}/api/entityquery/{query.Id}";
+            var response = new JsonResponseMessage(code, new
+            {
+                success = true,
+                status = "OK",
+                id = query.Id,
+                _link = new
+                {
+                    rel = "self",
+                    href = location
+                }
+            });
+            response.Headers.Location = new Uri(location);
+            return response;
         }
-        [HttpGet]
-        [Route("members/{entity}/{path}")]
-        public async Task<ActionResult> GetMembers()
-        {
-            await Task.Delay(500);
-            return Content("");
-        }
+
+
+
 
         [HttpPost]
-        [Route("depublish")]
-        public async Task<ActionResult> Depublish()
+        [Route("{id}/depublish")]
+        public async Task<HttpResponseMessage> Depublish([RequestBody]EntityQuery query, string id)
         {
             var context = new SphDataContext();
-            var form = this.GetRequestJson<EntityQuery>();
 
-            // look for column which points to the form
-            var views = context.LoadFromSources<EntityView>(e => e.IsPublished && e.EntityDefinitionId == form.Entity);
-
-
-            var violations = (from vw in views
-                where vw.ViewColumnCollection.Any(c => c.IsLinkColumn
-                                                       && c.FormRoute == form.Route)
-                select vw.Name).ToArray();
-            if (violations.Any())
-                return Json(new { success = false, status = "NO", message = "These views has a link to your form ", views = violations, id = form.Id });
-
-
-            form.IsPublished = false;
+            query.IsPublished = false;
             using (var session = context.OpenSession())
             {
-                session.Attach(form);
+                session.Attach(query);
                 await session.SubmitChanges("Depublish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully depublished", id = form.Id });
+            return new JsonResponseMessage(new { success = true, status = "OK", message = "Your form has been successfully depublished", id = query.Id });
 
 
         }
 
         [HttpPost]
         [Route("publish")]
-        public async Task<ActionResult> Publish()
+        public async Task<HttpResponseMessage> Publish([RequestBody]EntityQuery query)
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
             var context = new SphDataContext();
-            var form = this.GetRequestJson<EntityQuery>();
-            form.IsPublished = true;
-            form.BuildDiagnostics = ds.BuildDiagnostics;
+            query.IsPublished = true;
+            query.BuildDiagnostics = this.m_developerService.BuildDiagnostics;
 
-            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == form.Entity);
+            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == query.Entity);
 
-            var buildValidation = await form.ValidateBuildAsync(ed);
+            var buildValidation = await query.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
-                return Json(buildValidation);
+                return new HttpResponseMessage((HttpStatusCode)422) { Content = new JsonContent(buildValidation.ToJsonString(true)) };
 
             using (var session = context.OpenSession())
             {
-                session.Attach(form);
+                session.Attach(query);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = form.Id, warnings = buildValidation.Warnings });
+            return new JsonResponseMessage(new
+            {
+                success = true,
+                status = "OK",
+                message = "Your form has been successfully published",
+                id = query.Id,
+                warnings = buildValidation.Warnings,
+                _links = new
+                {
+                    rel = "self",
+                    href = $"{ConfigurationManager.BaseUrl}/api/entityquery/{query.Id}"
+                }
+            });
 
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult> Remove(string id)
+        public async Task<HttpResponseMessage> Remove(string id)
         {
             var context = new SphDataContext();
             var form = context.LoadOneFromSources<EntityQuery>(e => e.Id == id);
             if (null == form)
-                return new HttpNotFoundResult("Cannot find form to delete , Id : " + id);
+                return new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new JsonContent("Cannot find form to delete , Id : " + id) };
 
             using (var session = context.OpenSession())
             {
                 session.Delete(form);
                 await session.SubmitChanges("Remove");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully deleted", id = form.Id });
+            return new JsonResponseMessage(new { success = true, status = "OK", message = "Your form has been successfully deleted", id = form.Id });
 
         }
     }

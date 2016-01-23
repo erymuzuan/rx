@@ -3,6 +3,9 @@ using Bespoke.Sph.Web.Hubs;
 using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
+using System.Web.Http.WebHost;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Dependencies;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace Bespoke.Sph.Web.App_Start
@@ -11,6 +14,7 @@ namespace Bespoke.Sph.Web.App_Start
     {
         public void Configuration(IAppBuilder app)
         {
+
             app.MapSignalR();
             app.MapSignalR<MessageConnection>("/signalr_message");
             app.MapSignalR<SolutionConnection>("/signalr_solution");
@@ -18,9 +22,11 @@ namespace Bespoke.Sph.Web.App_Start
 
             var config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
+
+
             app.UseWebApi(config);
 
         }
-        
+
     }
 }

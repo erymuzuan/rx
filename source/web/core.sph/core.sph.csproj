@@ -1106,6 +1106,7 @@
     <Compile Include="Controllers\FormDesignerController.cs" />
     <Compile Include="Controllers\WorkflowDesignerController.cs" />
     <Compile Include="Dependencies\DeveloperService.cs" />
+    <Compile Include="Dependencies\IDeveloperService.cs" />
     <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Filters\RazorScriptStream.cs" />
     <Compile Include="Filters\RazorScriptFilter.cs" />
@@ -1115,6 +1116,7 @@
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\HashTableHelper.cs" />
+    <Compile Include="Helpers\JsonContent.cs" />
     <Compile Include="Helpers\JsonDotNetValueProviderFactory.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Helpers\RawRequestBodyModelBinder.cs" />
