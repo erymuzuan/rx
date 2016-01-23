@@ -233,9 +233,9 @@ namespace Bespoke.Sph.Domain
 
             var links = new List<string>
             {
-                $@"  """"self"""" : {{{{
-                    """"href"""" : """"{{ConfigurationManager.BaseUrl}}/api/{Name
-                    .ToLowerInvariant()}/{{id}}"""" 
+                $@"{{{{
+                    """"rel"""" : """"self"""", 
+                    """"href"""" : """"{{ConfigurationManager.BaseUrl}}/api/{Name.ToLowerInvariant()}/{{id}}"""" 
                 }}}}"
             };
             foreach (var op in this.EntityOperationCollection)
@@ -251,10 +251,12 @@ namespace Bespoke.Sph.Domain
                 var route = op.Route;
                 route = route.StartsWith("~/") ? route.Replace("~/", "") : $"api/{Name.ToLower()}/{route}";
 
-                links.Add($@"  """"{op.Name.ToCamelCase()}"""" : {{{{
+                links.Add($@"  {{{{
                     """"rel"""" : """"{op.Name}"""", 
                     """"href"""" : """"{{ConfigurationManager.BaseUrl}}/{route}"""", 
-                    """"method"""" : """"{http}"""" 
+                    """"method"""" : """"{http}"""" ,
+                    """"desc"""" : """"{op.Note}"""", 
+                    """"doc"""" : """"{{ConfigurationManager.BaseUrl}}/api/docs/{Id}#{op.Name}"""" 
                 }}}}");
             }
             var operations = string.Join(",", links);
@@ -276,11 +278,8 @@ namespace Bespoke.Sph.Domain
                 var esJson = JObject.Parse(esResponseString);
                 
                 var source = esJson.SelectToken(""$._source"");
-                var self = JObject.Parse($@""{{{{
-                                                """"self"""":""""{{ConfigurationManager.BaseUrl}}/api/{Name.ToLowerInvariant()}/{{id}}"""",
-                                                {operations}
-                        }}}}""); 
-                var link = new JProperty(""_links"", self);
+                var links = JArray.Parse($@""[{operations}]""); 
+                var link = new JProperty(""_links"", links);
                 source.Last.AddAfterSelf(link);
                 return Content(source.ToString(), ""application/json; charset=utf-8"");
             }}

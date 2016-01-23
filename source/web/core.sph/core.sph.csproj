@@ -273,6 +273,7 @@
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
     <Compile Include="Api\AggregateController.cs" />
+    <Compile Include="Api\ApiDocumentationController.cs" />
     <Compile Include="Api\IPagingTranslator2.cs" />
     <Compile Include="Api\ApiController.cs" />
     <Compile Include="Api\ListController.cs" />
@@ -1160,6 +1161,7 @@
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
+    <Compile Include="ViewModels\OperationDocumentViewModel.cs" />
     <Compile Include="ViewModels\PartialViewRendererViewModel.cs" />
     <Compile Include="ViewModels\SphIndexViewModel.cs" />
     <Compile Include="ViewModels\ImportDataViewModel.cs" />
@@ -1405,6 +1407,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_ViewStart.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ApiDocumentation\Entity.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Entity.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\CustomForm\Compare.generated.cs">
       <AutoGen>True</AutoGen>
@@ -3310,6 +3317,11 @@
     <Content Include="Views\Shared\EditorTemplates\TabControl.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>TabControl.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\ApiDocumentation\Entity.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Entity.generated.cs</LastGenOutput>
     </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

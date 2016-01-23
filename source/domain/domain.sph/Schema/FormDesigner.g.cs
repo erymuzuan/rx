@@ -5051,6 +5051,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsHttpDelete = "IsHttpDelete";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -5232,6 +5237,31 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isHttpDelete;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
             }
         }
 
