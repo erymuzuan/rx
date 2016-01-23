@@ -1302,6 +1302,7 @@
         "IsHttpPatch": true,
         "IsHttpPost": false,
         "IsHttpDelete": false,
+        "Note" : "PATCH to admit a patient into a ward",
         "WebId": "c9da7b5e-2a70-46a9-9b04-cd962a3bf368"
       }
     ]
