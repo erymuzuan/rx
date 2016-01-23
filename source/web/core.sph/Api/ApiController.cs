@@ -105,6 +105,12 @@ namespace Bespoke.Sph.Web.Api
             return ReadFromSource<EntityView>(filter, page, size);
         }
 
+        [Route("EntityQuery/{id}")]
+        [RxSourceOutputCache(SourceType = typeof(EntityQuery))]
+        public ActionResult GetOneEntityQuery(string id)
+        {
+            return ReadFromSource<EntityQuery>($"Id eq '{id}'", 1, 1);
+        }
         [Route("EntityQuery")]
         [RxSourceOutputCache(SourceType = typeof(EntityQuery))]
         public ActionResult EntityQuery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
@@ -138,7 +144,7 @@ namespace Bespoke.Sph.Web.Api
             return ReadFromSource<ReportDefinition>(filter, page, size, true);
         }
 
-        
+
 
         [Route("Setting")]
         public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
