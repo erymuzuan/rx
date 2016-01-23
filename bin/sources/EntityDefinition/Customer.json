@@ -1052,6 +1052,7 @@
         "IsHttpPatch": false,
         "IsHttpPost": false,
         "IsHttpDelete": false,
+        "Note": null,
         "WebId": "84d65cfd-a054-413f-8ea6-3fe2660a8564"
       },
       {
@@ -1101,6 +1102,7 @@
         "IsHttpPatch": false,
         "IsHttpPost": false,
         "IsHttpDelete": false,
+        "Note": null,
         "WebId": "4d265ce9-c455-4c94-ab0a-97794f203ec8"
       },
       {
@@ -1133,6 +1135,7 @@
         "IsHttpPatch": false,
         "IsHttpPost": false,
         "IsHttpDelete": false,
+        "Note": null,
         "WebId": "31952c83-2fdc-4d33-8360-8ac6750a0cb9"
       },
       {
@@ -1163,6 +1166,7 @@
         "IsHttpPatch": false,
         "IsHttpPost": false,
         "IsHttpDelete": false,
+        "Note": null,
         "WebId": "6ce2606f-d5e0-4365-8e0f-52644cae339a"
       }
     ]
@@ -1178,9 +1182,16 @@
     "IsPublic": true,
     "WebId": null
   },
+  "ServiceContract": {
+    "$type": "Bespoke.Sph.Domain.ServiceContract, domain.sph",
+    "AllowFullSearch": false,
+    "AllowGetById": false,
+    "AllowOdataApi": false,
+    "WebId": null
+  },
   "Name": "Customer",
   "Plural": "Customers",
-  "IconStoreId": "e5a64533-4b4e-4f33-ad30-7fbb73d1ed67",
+  "IconStoreId": "20d0b47f-5c45-4327-ac91-1b78379e7efe",
   "IconClass": "fa fa-users",
   "RecordName": "FullName",
   "IsPublished": true,
@@ -1193,6 +1204,6 @@
   "Id": "customer",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-16T10:49:20.1324355+08:00",
+  "ChangedDate": "2016-01-23T19:32:06.4364383+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }
