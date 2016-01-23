@@ -60,7 +60,6 @@
     <Compile Include="FormDialogSubscriber.cs" />
     <Compile Include="PartialViewSubscriber.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
-    <Compile Include="IisRewriteRuleSubscriber.cs" />
     <Compile Include="EntityDefinitionDeletedSubscriber.cs" />
     <Compile Include="SqlTableSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
