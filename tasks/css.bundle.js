@@ -16,7 +16,7 @@ var files = [
 "/kendo/styles/kendo.dataviz.css",
 "/kendo/styles/kendo.dataviz.metro.css",
 
-"/Content/bootstrap.css",
+"/Content/bootstrap.min.css",
 "/Content/durandal.css",
 "/Content/font-awesome.css",
 "/Content/nprogress.css",
