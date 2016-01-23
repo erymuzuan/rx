@@ -224,7 +224,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                         return;
                     }
 
-                    var arg = $"/config:\"{iisConfig}\" /site:web.{this.Settings.ApplicationName} /trace:verbose";
+                    var arg = $"/config:\"{iisConfig}\" /site:web.{this.Settings.ApplicationName} /trace:error";
                     var info = new ProcessStartInfo
                     {
                         FileName = this.Settings.IisExpressExecutable.TranslatePath(),
