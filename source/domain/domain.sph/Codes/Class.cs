@@ -102,6 +102,10 @@ namespace Bespoke.Sph.Domain.Codes
         {
             this.PropertyCollection.Add(new Property { Code = string.Format(format, args) });
         }
+        public void AddProperty(string code)
+        {
+            this.PropertyCollection.Add(new Property { Code = code });
+        }
         public void AddProperty(string name, Type type)
         {
             this.PropertyCollection.Add(new Property { Name = name, Type = type });

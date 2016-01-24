@@ -197,6 +197,7 @@ namespace domain.test.entities
                 Id = "patients-cache-filter",
                 Entity = "Patient",
                 WebId = "patients-cache-filter",
+                Resource = "patients",
                 CacheFilter = 300
             };
             var sixty = new ConstantField { Type = typeof(DateTime), Value = "1960-01-01" };
@@ -238,6 +239,7 @@ namespace domain.test.entities
                 Route = "~/api/patients/{mrn}/appointments",
                 Id = "appointments-for-patient",
                 Entity = "Appointment",
+                Resource = "appointments",
                 CacheFilter = 300
             };
             query.RouteParameterCollection.Add(new RouteParameter {Type = "string", Name = "mrn"});

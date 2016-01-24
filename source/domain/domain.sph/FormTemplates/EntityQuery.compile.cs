@@ -13,6 +13,7 @@ using System.Web;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Humanizer;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -53,6 +54,7 @@ namespace Bespoke.Sph.Domain
                     .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f.FileName}")
                     .ToArray();
         }
+
         public Class GenerateCode()
         {
             var className = this.Name.ToPascalCase();
@@ -66,12 +68,14 @@ namespace Bespoke.Sph.Domain
             };
 
 
-
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
 
 
             controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
+            controller.AddProperty($"public static readonly string SOURCE_FILE = $\"{{ConfigurationManager.SphSourceDirectory}}\\\\EntityQuery\\\\{Id}.json\";");
+            controller.AddProperty($"public const string CACHE_KEY = \"entity-query:{Id}\";");
+            controller.AddProperty($"public const string ES_QUERY_CACHE_KEY = \"entity-query:es-query:{Id}\";");
             controller.CtorCollection.Add($"public {className}Controller() {{ this.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
 
             controller.MethodCollection.Add(GenerateGetAction());
@@ -80,40 +84,26 @@ namespace Bespoke.Sph.Domain
             return controller;
         }
 
+        public string GetRoute()
+        {
+            if (string.IsNullOrWhiteSpace(this.Resource))
+                this.Resource = this.Entity.Pluralize();
+            return this.Route.StartsWith("~") ? this.Route : $"~/api/{Resource}/{this.Route}";
+            //           Route.StartsWith("~") ? this.Route : $"~/api/{Entity.ToLowerInvariant()}/{this.Route}"
+        }
+
 
         private Method GenerateCountAction()
         {
             var code = new StringBuilder();
-            var route = this.Route.StartsWith("~") ? this.Route : $"~/api/{Entity.ToLowerInvariant()}/{this.Route}";
+            var route = this.GetRoute();
 
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [Route(\"{route}/_count\")]");
             code.AppendLine("       public async Task<ActionResult> GetCountAsync()");
             code.Append("       {");
-            code.Append($@"
-            var eq = CacheManager.Get<EntityQuery>(""entity-query:{Id}"");
-            var sourceFile = $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"";
-            if(null == eq )
-            {{
-                var context = new SphDataContext();
-                eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
-                CacheManager.Insert(""entity-query:{Id}"", eq, sourceFile);
-            }}");
+            code.Append(GenerateGetQueryCode());
 
-            if (this.CacheFilter.HasValue)
-            {
-                code.AppendLine($"   var queryCacheKey = $\"entity-query:filter:{Id}\";");
-                code.AppendLine($"   var query = CacheManager.Get<string>(queryCacheKey);");
-                code.AppendLine("   if(null == query)");
-                code.AppendLine("   {");
-                code.AppendLine("       query = await eq.GenerateEsQueryAsync(1, 20);");
-                code.AppendLine($"       CacheManager.Insert(queryCacheKey, query, TimeSpan.FromSeconds({this.CacheFilter}), sourceFile);");
-                code.AppendLine("   }");
-            }
-            else
-            {
-                code.AppendLine("var query = await eq.GenerateEsQueryAsync(1, 20);");
-            }
             code.Append($@"
             var request = new StringContent(query);
             var url = ""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_count"";
@@ -138,15 +128,41 @@ namespace Bespoke.Sph.Domain
             return new Method { Code = code.ToString() };
         }
 
+        private string GenerateGetQueryCode()
+        {
+            var code = new StringBuilder();
+            code.Append(
+                $@"
+            var eq = CacheManager.Get<EntityQuery>(CACHE_KEY);
+            if(null == eq )
+            {{
+                var context = new SphDataContext();
+                eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
+                CacheManager.Insert(CACHE_KEY, eq, SOURCE_FILE);
+            }}");
+
+
+            code.AppendLine("   var query = CacheManager.Get<string>(ES_QUERY_CACHE_KEY);");
+            code.AppendLine("   if(null == query)");
+            code.AppendLine("   {");
+            code.AppendLine("       query = await eq.GenerateEsQueryAsync(1, 20);");
+            code.AppendLine("   }");
+            code.AppendLine("   if(eq.CacheFilter.HasValue)");
+            code.AppendLine("   {");
+            code.AppendLine(
+                "       CacheManager.Insert(ES_QUERY_CACHE_KEY, query, TimeSpan.FromSeconds(eq.CacheFilter.Value), SOURCE_FILE);");
+            code.AppendLine("   }");
+
+            return code.ToString();
+        }
+
 
         private Method GenerateGetAction()
         {
             var code = new StringBuilder();
+            var route = this.GetRoute();
+            var tokenRoute = route.Replace("~/", "");
 
-            var route = this.Route.StartsWith("~") ? this.Route : $"~/api/{Entity.ToLowerInvariant()}/{this.Route}";
-            var tokenRoute = this.Route.StartsWith("~")
-                ? route.Replace("~/", "")
-                : $"api/{Entity.ToLowerInvariant()}/{this.Route}";
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [Route(\"{route}\")]");
 
@@ -158,40 +174,16 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine($"       public async Task<ActionResult> GetAction({parameters}int page =1, int size=20)");
             code.Append("       {");
-            code.Append($@"
-            var eq = CacheManager.Get<EntityQuery>(""entity-query:{Id}"");
-            var sourceFile = $""{{ConfigurationManager.SphSourceDirectory}}\\EntityQuery\\{Id}.json"";
-            if(null == eq )
-            {{
-                var context = new SphDataContext();
-                eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
-                CacheManager.Insert(""entity-query:{Id}"", eq, sourceFile);
-            }}");
+            code.Append(GenerateGetQueryCode());
 
-            if (this.CacheFilter.HasValue)
-            {
-                code.AppendLine($"   var queryCacheKey = $\"entity-query:es-query:{Id}\";");
-                code.AppendLine($"   var query = CacheManager.Get<string>(queryCacheKey);");
-                code.AppendLine("   if(null == query)");
-                code.AppendLine("   {");
-                code.AppendLine("       query = await eq.GenerateEsQueryAsync(page, size);");
-                code.AppendLine($"       CacheManager.Insert(queryCacheKey, query, TimeSpan.FromSeconds({this.CacheFilter}), sourceFile);");
-                code.AppendLine("   }");
-            }
-            else
-            {
-                code.AppendLine("var query = await eq.GenerateEsQueryAsync(page, size);");
-            }
-
-            code.AppendLine($"  query = query.Replace(\"<<page-from>>\", $\"{{size * (page - 1)}}\");");
-            code.AppendLine($"  query = query.Replace(\"<<page-size>>\", $\"{{size}}\");");
+            code.AppendLine("  query = query.Replace(\"<<page-from>>\", $\"{size * (page - 1)}\");");
+            code.AppendLine("  query = query.Replace(\"<<page-size>>\", $\"{size}\");");
             foreach (var p in this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>())
             {
                 var qs = this.RouteParameterCollection.Single(x => x.Name == p.Expression);
-                if (qs.Type == "DateTime")
-                    code.AppendLine($"  query = query.Replace(\"<<{p.Expression}>>\", $\"\\\"{{{p.Expression}:O}}\\\"\");");
-                else
-                    code.AppendLine($"  query = query.Replace(\"<<{p.Expression}>>\", $\"{{{p.Expression}}}\");");
+                code.AppendLine(qs.Type == "DateTime"
+                    ? $"  query = query.Replace(\"<<{p.Expression}>>\", $\"\\\"{{{p.Expression}:O}}\\\"\");"
+                    : $"  query = query.Replace(\"<<{p.Expression}>>\", $\"{{{p.Expression}}}\");");
             }
             code.Append($@"
             var request = new StringContent(query);

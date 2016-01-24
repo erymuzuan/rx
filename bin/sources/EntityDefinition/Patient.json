@@ -1205,7 +1205,7 @@
           "$values": []
         },
         "Name": "Discharge",
-        "Route": "~/api/patient/{id}/discharge",
+        "Route": "~/api/patients/{id}/discharge",
         "IsHttpPut": false,
         "IsHttpPatch": true,
         "IsHttpPost": false,
@@ -1251,9 +1251,9 @@
           "$values": []
         },
         "Name": "Transfer",
-        "Route": null,
+        "Route": "{id:guid}/transfer",
         "IsHttpPut": false,
-        "IsHttpPatch": false,
+        "IsHttpPatch": true,
         "IsHttpPost": false,
         "IsHttpDelete": false,
         "WebId": "f017a0c7-b152-4cb4-8914-188b182a046a"

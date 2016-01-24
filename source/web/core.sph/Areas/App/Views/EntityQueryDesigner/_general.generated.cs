@@ -92,7 +92,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral("\r\n                   required");
 
-WriteLiteral(" pattern=\"^[a-z][a-z0-9-.]*$\"");
+WriteLiteral(" pattern=\"^(~\\/)?[a-z][a-z0-9-.\\/{}]*$\"");
 
 WriteLiteral(" class=\"form-control\"");
 

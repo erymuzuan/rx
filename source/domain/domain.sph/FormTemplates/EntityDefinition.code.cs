@@ -183,7 +183,7 @@ namespace Bespoke.Sph.Domain
             controller.ImportCollection.Add("System.Net");
             controller.ImportCollection.Add("System.Net.Http");
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
-            controller.AttributeCollection.Add($"[RoutePrefix(\"api/{Name}\")]");
+            controller.AttributeCollection.Add($"[RoutePrefix(\"api/{Plural.ToLowerInvariant()}\")]");
 
 
             controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
@@ -235,7 +235,7 @@ namespace Bespoke.Sph.Domain
             {
                 $@"{{{{
                     """"rel"""" : """"self"""", 
-                    """"href"""" : """"{{ConfigurationManager.BaseUrl}}/api/{Name.ToLowerInvariant()}/{{id}}"""" 
+                    """"href"""" : """"{{ConfigurationManager.BaseUrl}}/api/{Plural.ToLowerInvariant()}/{{id}}"""" 
                 }}}}"
             };
             foreach (var op in this.EntityOperationCollection)
@@ -249,7 +249,7 @@ namespace Bespoke.Sph.Domain
                 if (string.IsNullOrWhiteSpace(http)) continue;
 
                 var route = op.Route;
-                route = route.StartsWith("~/") ? route.Replace("~/", "") : $"api/{Name.ToLower()}/{route}";
+                route = route.StartsWith("~/") ? route.Replace("~/", "") : $"api/{Plural.ToLower()}/{route}";
 
                 links.Add($@"  {{{{
                     """"rel"""" : """"{op.Name}"""", 

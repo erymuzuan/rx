@@ -81,8 +81,7 @@ namespace Bespoke.Sph.Domain
                     var list = from f in esJsonObject.SelectToken(""$.hits.hits"")
                                let webId = f.SelectToken(""_source.WebId"").Value<string>()
                                let id = f.SelectToken(""_id"").Value<string>()
-                               let _type = f.SelectToken(""_type"").Value<string>()
-                               let link = $""\""link\"" :{{ \""href\"" :\""{ConfigurationManager.BaseUrl}/{_type}/{id}\""}}""
+                               let link = $""\""link\"" :{{ \""href\"" :\""{ConfigurationManager.BaseUrl}/api/" + this.Resource + @"/{id}\""}}""
                                select f.SelectToken(""_source"").ToString().Replace($""{webId}\"""",$""{webId}\"","" + link);
 ");
                 return code.ToString();
@@ -98,7 +97,7 @@ namespace Bespoke.Sph.Domain
                 var mb = ed.GetMember(g) as SimpleMember;
                 if (null == mb) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
                 code.AppendLine(
-                    mb.Type == typeof (string)
+                    mb.Type == typeof(string)
                         ? $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
                         : $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
             }
@@ -106,7 +105,7 @@ namespace Bespoke.Sph.Domain
 
             code.Append($@"
                             _links = new {{
-                                self = new {{ href = $""{{ConfigurationManager.BaseUrl}}/api/{Entity.ToLowerInvariant()}/{{id}}"" }}
+                                self = new {{ href = $""{{ConfigurationManager.BaseUrl}}/api/{Resource}/{{id}}"" }}
                             }}
                         }});
 ");

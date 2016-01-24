@@ -7199,6 +7199,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_resource;
+        public const string PropertyNameResource = "Resource";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int? m_cacheFilter;
         public const string PropertyNameCacheFilter = "CacheFilter";
 
@@ -7423,6 +7428,32 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isPublished;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Resource
+        {
+            set
+            {
+                if (String.Equals(m_resource, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameResource, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_resource = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_resource;
             }
         }
 

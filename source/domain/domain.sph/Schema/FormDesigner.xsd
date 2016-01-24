@@ -977,6 +977,7 @@
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
+			<xs:attribute name="Resource" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ServiceContract">
