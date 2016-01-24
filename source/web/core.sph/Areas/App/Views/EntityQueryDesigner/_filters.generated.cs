@@ -140,7 +140,7 @@ WriteLiteral(">Not EndsWith</option>\r\n                </select>\r\n           
 
             
             #line 40 "..\..\Areas\App\Views\EntityQueryDesigner\_filters.cshtml"
-            Write(Html.Partial("_TriggerFieldDropDown", new TypeModel {Path = "Field"}));
+            Write(Html.Partial("_fields", new TypeModel {Path = "Field"}));
 
             
             #line default

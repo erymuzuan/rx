@@ -314,6 +314,7 @@
         "IsHttpPatch": false,
         "IsHttpPost": false,
         "IsHttpDelete": false,
+        "Note": null,
         "WebId": "b2dc31c8-955d-4d54-a9ef-6799e9775d96"
       }
     ]
@@ -329,9 +330,16 @@
     "IsPublic": true,
     "WebId": null
   },
+  "ServiceContract": {
+    "$type": "Bespoke.Sph.Domain.ServiceContract, domain.sph",
+    "AllowFullSearch": false,
+    "AllowGetById": false,
+    "AllowOdataApi": false,
+    "WebId": null
+  },
   "Name": "Appointment",
   "Plural": "Appointments",
-  "IconStoreId": "fe41c06e-2de2-4ddf-9644-256e9f3de7d7",
+  "IconStoreId": "dbcd6706-a08e-4627-b9af-6632dd400c0c",
   "IconClass": "fa fa-clock-o",
   "RecordName": "ReferenceNo",
   "IsPublished": true,
@@ -344,6 +352,6 @@
   "Id": "appointment",
   "CreatedDate": "2015-07-16T18:31:00.9123459+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-18T19:10:00.5117289+08:00",
+  "ChangedDate": "2016-01-24T07:30:34.7822179+08:00",
   "WebId": "3a0cd042-a29f-4d00-add4-768eb28db62d"
 }

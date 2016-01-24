@@ -22,24 +22,26 @@ namespace ASP
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/EntityDefinition/_RuleFieldDropDown.cshtml")]
-    public partial class _Areas_Sph_Views_EntityDefinition__RuleFieldDropDown_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Models.TypeModel>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityQueryDesigner/_fields.cshtml")]
+    public partial class _Areas_App_Views_EntityQueryDesigner__fields_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Models.TypeModel>
     {
-        public _Areas_Sph_Views_EntityDefinition__RuleFieldDropDown_cshtml()
+        public _Areas_App_Views_EntityQueryDesigner__fields_cshtml()
         {
         }
         public override void Execute()
         {
             
-            #line 2 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
+            #line 2 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
   
-    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["rx:EntityQuery:RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             
             #line default
@@ -50,16 +52,18 @@ WriteLiteral(" class=\"btn-group\"");
 
 WriteLiteral(">\r\n    <a");
 
+WriteLiteral(" title=\"Click to specify your value\"");
+
 WriteLiteral(" data-bind=\"with : ");
 
             
-            #line 7 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
-                    Write(Model.Path);
+            #line 7 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+                                                        Write(Model.Path);
 
             
             #line default
             #line hidden
-WriteLiteral(", bootstrapDropDown : {}\"");
+WriteLiteral(", bootstrapDropDown : \'[Select a field]\'\"");
 
 WriteLiteral(" class=\"btn btn-link dropdown\"");
 
@@ -73,11 +77,12 @@ WriteLiteral(" class=\"pull-left\"");
 
 WriteLiteral(" alt=\".\"");
 
-WriteLiteral(" />\r\n        <!-- ko text : Name -->\r\n        <!-- /ko -->\r\n        <span");
+WriteLiteral(" />\r\n        <!-- ko text : Name -->\r\n        <!-- /ko -->\r\n        <!-- ko ifnot" +
+" : Name -->\r\n           Your field\r\n        <!-- /ko -->\r\n        <i");
 
-WriteLiteral(" class=\"caret pull-right\"");
+WriteLiteral(" class=\"fa fa-caret-down\"");
 
-WriteLiteral("></span>\r\n    </a>\r\n    <ul");
+WriteLiteral("></i>\r\n    </a>\r\n    <ul");
 
 WriteLiteral(" class=\"dropdown-menu\"");
 
@@ -86,7 +91,7 @@ WriteLiteral(">\r\n        <li");
 WriteLiteral(" data-bind=\"with : ");
 
             
-            #line 14 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
+            #line 17 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
                          Write(Model.Path);
 
             
@@ -102,7 +107,7 @@ WriteLiteral(" data-bind=\"visible: Name() !== \'+ Field\',unwrapClick: $parent.
 "rent, $data, $parent.");
 
             
-            #line 15 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
+            #line 18 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
                                                                                                                                     Write(Model.Path);
 
             
@@ -117,13 +122,13 @@ WriteLiteral(" class=\"fa fa-edit\"");
 WriteLiteral("></i>\r\n                Edit Field\r\n            </a>\r\n        </li>\r\n\r\n");
 
             
-            #line 21 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
+            #line 24 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 21 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
+            #line 24 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
          foreach (var type in fieldTypes)
         {
 
@@ -137,7 +142,7 @@ WriteLiteral(" class=\"btn btn-link\"");
 WriteLiteral(" data-bind=\"unwrapClick: addField, field : \'");
 
             
-            #line 24 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
+            #line 27 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
                                                                               Write(type);
 
             
@@ -146,34 +151,44 @@ WriteLiteral(" data-bind=\"unwrapClick: addField, field : \'");
 WriteLiteral("\', accessor : $data.");
 
             
-            #line 24 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
+            #line 27 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
                                                                                                        Write(Model.Path);
 
             
             #line default
             #line hidden
-WriteLiteral("\"");
+WriteLiteral(", entity: $root.typeaheadEntity\"");
 
 WriteLiteral(" href=\"#\"");
 
 WriteLiteral(">\r\n                    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1081), Tuple.Create("\"", 1116)
+WriteAttribute("src", Tuple.Create(" src=\"", 1252), Tuple.Create("\"", 1287)
             
-            #line 25 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
-, Tuple.Create(Tuple.Create("", 1087), Tuple.Create<System.Object, System.Int32>($"/images/{type}Field.png"
+            #line 28 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+, Tuple.Create(Tuple.Create("", 1258), Tuple.Create<System.Object, System.Int32>($"/images/{type}Field.png"
             
             #line default
             #line hidden
-, 1087), false)
+, 1258), false)
 );
 
 WriteLiteral(" class=\"pull-left\"");
 
+WriteAttribute("alt", Tuple.Create(" alt=\"", 1306), Tuple.Create("\"", 1317)
+            
+            #line 28 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+    , Tuple.Create(Tuple.Create("", 1312), Tuple.Create<System.Object, System.Int32>(type
+            
+            #line default
+            #line hidden
+, 1312), false)
+);
+
 WriteLiteral("/>\r\n                    + ");
 
             
-            #line 26 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
+            #line 29 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
                  Write(type);
 
             
@@ -182,7 +197,7 @@ WriteLiteral("/>\r\n                    + ");
 WriteLiteral("\r\n                </a>\r\n            </li>\r\n");
 
             
-            #line 29 "..\..\Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml"
+            #line 32 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
         }
 
             

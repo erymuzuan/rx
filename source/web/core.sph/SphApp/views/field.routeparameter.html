@@ -1,0 +1,51 @@
+﻿
+<section class="view-model-modal" id="js-field-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Javascript expression</h3>
+            </div>
+            <div class="modal-body" data-bind="with: field">
+
+                <form class="form-horizontal" id="js-field-dialog-form">
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: Name" 
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" 
+                                   placeholder="Name"
+                                   class="form-control" id="name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expression" class="col-lg-2 control-label">Expression</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: Expression" 
+                                   required
+                                   placeholder="Javascript expression"
+                                   class="form-control" id="expression">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expression" class="col-lg-2 control-label">Default Value</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: DefaultValue" 
+                                   required
+                                   placeholder="Javascript expression"
+                                   class="form-control" id="default-value">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="js-field-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -37,7 +37,7 @@
                     <option value="NotEndsWith">Not EndsWith</option>
                 </select>
             </td>
-            <td> @Html.Partial("_TriggerFieldDropDown", new TypeModel {Path = "Field"})</td>
+            <td> @Html.Partial("_fields", new TypeModel {Path = "Field"})</td>
             <td>
                 <a href="#" data-bind="click : $parent.removeFilter.call($parent,$data)">
                     <span class="glyphicon glyphicon-remove"></span>

@@ -229,5 +229,41 @@ namespace domain.test.entities
             
             File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
         }
+        [Test]
+        public void CompileQueryWithChildren()
+        {
+            var query = new EntityQuery
+            {
+                Name = "Appointment for patient",
+                Route = "~/api/patients/{mrn}/appointments",
+                Id = "appointments-for-patient",
+                Entity = "Appointment",
+                CacheFilter = 300
+            };
+            query.RouteParameterCollection.Add(new RouteParameter {Type = "string", Name = "mrn"});
+
+            var mrnParameter = new RouteParameterField {Expression = "mrn"};
+            query.FilterCollection.Add(new Filter
+            {
+                Field = mrnParameter,
+                Operator = Operator.Eq,
+                Term = "Mrn"
+            });
+
+            query.MemberCollection.AddRange("ReferenceNo", "DateTime", "Doctor", "Location", "Ward");
+
+            var options = new CompilerOptions();
+            var sources = query.GenerateCode();
+            var result = query.Compile(options, sources);
+
+            Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+
+
+            var output = $"{ConfigurationManager.ApplicationName}.EntityQuery.{query.Id}";
+            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
+            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
+            
+            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
+        }
     }
 }

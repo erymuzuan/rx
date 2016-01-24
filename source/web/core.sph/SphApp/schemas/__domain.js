@@ -835,6 +835,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
         StoreInDatabase: ko.observable(),
         StoreInElasticsearch: ko.observable(),
+        ServiceContract: ko.observable(new bespoke.sph.domain.ServiceContract()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1395,6 +1396,7 @@ bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
         IsHttpPatch: ko.observable(false),
         IsHttpPost: ko.observable(false),
         IsHttpDelete: ko.observable(false),
+        Note: ko.observable(""),
         EntityPermissionCollection: ko.observableArray([]),
         Rules: ko.observableArray([]),
         Permissions: ko.observableArray([]),
@@ -1499,45 +1501,6 @@ bespoke.sph.domain.Series = function (optionOrWebid) {
 
     if (bespoke.sph.domain.SeriesPartial) {
         return _(model).extend(new bespoke.sph.domain.SeriesPartial(model));
-    }
-    return model;
-};
-
-
-
-bespoke.sph.domain.SearchDefinition = function (optionOrWebid) {
-
-    var model = {
-        "$type": "Bespoke.Sph.Domain.SearchDefinition, domain.sph",
-        Id: ko.observable("0"),
-        Entity: ko.observable(""),
-        Name: ko.observable(""),
-        IsPublished: ko.observable(false),
-        Route: ko.observable(""),
-        OwnerType: ko.observable('OwnerType'),
-        Owner: ko.observable(""),
-        FilterCollection: ko.observableArray([]),
-        ViewColumnCollection: ko.observableArray([]),
-        SortCollection: ko.observableArray([]),
-        isBusy: ko.observable(false),
-        WebId: ko.observable()
-    };
-    if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
-            if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
-                    model[n](optionOrWebid[n]);
-                }
-            }
-        }
-    }
-    if (optionOrWebid && typeof optionOrWebid === "string") {
-        model.WebId(optionOrWebid);
-    }
-
-
-    if (bespoke.sph.domain.SearchDefinitionPartial) {
-        return _(model).extend(new bespoke.sph.domain.SearchDefinitionPartial(model));
     }
     return model;
 };
@@ -1651,6 +1614,7 @@ bespoke.sph.domain.RouteParameter = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.RouteParameter, domain.sph",
         Name: ko.observable(""),
         Type: ko.observable(""),
+        DefaultValue: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1982,11 +1946,13 @@ bespoke.sph.domain.EntityQuery = function (optionOrWebid) {
         IsReturnSource: ko.observable(""),
         Entity: ko.observable(""),
         Note: ko.observable(""),
+        IsPublished: ko.observable(false),
         FilterCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
         RouteParameterCollection: ko.observableArray([]),
         MemberCollection: ko.observableArray([]),
+        CacheFilter: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2006,6 +1972,38 @@ bespoke.sph.domain.EntityQuery = function (optionOrWebid) {
 
     if (bespoke.sph.domain.EntityQueryPartial) {
         return _(model).extend(new bespoke.sph.domain.EntityQueryPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ServiceContract = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ServiceContract, domain.sph",
+        AllowFullSearch: ko.observable(false),
+        AllowGetById: ko.observable(false),
+        AllowOdataApi: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ServiceContractPartial) {
+        return _(model).extend(new bespoke.sph.domain.ServiceContractPartial(model));
     }
     return model;
 };
@@ -3605,7 +3603,7 @@ bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
 
 
 
-/// <reference path="~/scripts/knockout-3.3.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.4.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -3724,6 +3722,39 @@ bespoke.sph.domain.JavascriptExpressionField = function (optionOrWebid) {
 
     if (bespoke.sph.domain.JavascriptExpressionFieldPartial) {
         return _(v).extend(new bespoke.sph.domain.JavascriptExpressionFieldPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.RouteParameterField = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Field(optionOrWebid);
+
+    v.Expression = ko.observable("");
+
+    v.DefaultValue = ko.observable("");
+
+    v["$type"] = "Bespoke.Sph.Domain.RouteParameterField, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.RouteParameterFieldPartial) {
+        return _(v).extend(new bespoke.sph.domain.RouteParameterFieldPartial(v));
     }
     return v;
 };
@@ -6086,6 +6117,126 @@ bespoke.sph.domain.CatchScope = function (optionOrWebid) {
         return _(v).extend(new bespoke.sph.domain.CatchScopePartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.ReceivePortDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ReceivePortDefinition, domain.sph",
+        Name: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ReceivePortDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.ReceivePortDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ReceivePort = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ReceivePort, domain.sph",
+        Name: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ReceivePortPartial) {
+        return _(model).extend(new bespoke.sph.domain.ReceivePortPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.SendPort = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.SendPort, domain.sph",
+        Name: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SendPortPartial) {
+        return _(model).extend(new bespoke.sph.domain.SendPortPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.SendPortDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.SendPortDefinition, domain.sph",
+        Name: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SendPortDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.SendPortDefinitionPartial(model));
+    }
+    return model;
 };
 
 

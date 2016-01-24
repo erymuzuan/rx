@@ -149,7 +149,14 @@ namespace Bespoke.Sph.Domain
                 : $"api/{Entity.ToLowerInvariant()}/{this.Route}";
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [Route(\"{route}\")]");
-            code.AppendLine("       public async Task<ActionResult> GetAction(int page =1, int size=20)");
+
+            var parameterlist = from r in this.RouteParameterCollection
+                let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
+                let type = r.Type.ToCsharpIdentitfier()
+                select $"{type} {r.Name}{defaultValue},";
+            var parameters = string.Join(" ", parameterlist);
+
+            code.AppendLine($"       public async Task<ActionResult> GetAction({parameters}int page =1, int size=20)");
             code.Append("       {");
             code.Append($@"
             var eq = CacheManager.Get<EntityQuery>(""entity-query:{Id}"");
@@ -174,6 +181,11 @@ namespace Bespoke.Sph.Domain
             else
             {
                 code.AppendLine("var query = await eq.GenerateEsQueryAsync(page, size);");
+            }
+
+            foreach (var p in this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>())
+            {
+                code.AppendLine($"  query = query.Replace(\"<<{p.Expression}>>\", {p.Expression});");
             }
             code.Append($@"
             var request = new StringContent(query);

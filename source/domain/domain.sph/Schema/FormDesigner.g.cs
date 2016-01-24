@@ -6084,6 +6084,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameType = "Type";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_defaultValue;
+        public const string PropertyNameDefaultValue = "DefaultValue";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -6132,6 +6137,31 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_type;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string DefaultValue
+        {
+            set
+            {
+                if (String.Equals(m_defaultValue, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefaultValue, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_defaultValue = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_defaultValue;
             }
         }
 

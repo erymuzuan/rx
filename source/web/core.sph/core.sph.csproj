@@ -352,6 +352,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Areas\App\Views\EntityQueryDesigner\_fields.generated.cs">
+      <DependentUpon>_fields.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\App\Views\PartialViewDesigner\Html1.generated.cs">
       <DependentUpon>Html.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -2011,6 +2016,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Areas\App\Views\EntityQueryDesigner\_fields.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_fields.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
     <EmbeddedResource Include="routes.config.json" />
@@ -2605,6 +2614,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\new.report.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.value.object.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\partial.view.designer.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\field.routeparameter.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -3131,6 +3141,7 @@
     <EmbeddedResource Include="SphApp\views\new.adapter.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.report.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.value.object.definition.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\field.routeparameter.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

@@ -1,14 +1,17 @@
 ﻿@model Bespoke.Sph.Web.Models.TypeModel
 @{
-    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["rx:EntityQuery:RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 }
 
 <div class="btn-group">
-    <a data-bind="with : @Model.Path, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+    <a title="Click to specify your value" data-bind="with : @Model.Path, bootstrapDropDown : '[Select a field]'" class="btn btn-link dropdown" href="#">
         <img data-bind="fieldImage : $type" class="pull-left" alt="." />
         <!-- ko text : Name -->
         <!-- /ko -->
-        <span class="caret pull-right"></span>
+        <!-- ko ifnot : Name -->
+           Your field
+        <!-- /ko -->
+        <i class="fa fa-caret-down"></i>
     </a>
     <ul class="dropdown-menu">
         <li data-bind="with : @Model.Path">
@@ -21,8 +24,8 @@
         @foreach (var type in fieldTypes)
         {
             <li>
-                <a class="btn btn-link" data-bind="unwrapClick: addField, field : '@type', accessor : $data.@Model.Path" href="#">
-                    <img src="@($"/images/{type}Field.png")" class="pull-left"/>
+                <a class="btn btn-link" data-bind="unwrapClick: addField, field : '@type', accessor : $data.@Model.Path, entity: $root.typeaheadEntity" href="#">
+                    <img src="@($"/images/{type}Field.png")" class="pull-left" alt="@type"/>
                     + @type
                 </a>
             </li>

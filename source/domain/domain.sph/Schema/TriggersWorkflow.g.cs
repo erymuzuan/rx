@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +16,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Trigger", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Trigger
     {
 
@@ -69,35 +67,30 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Rule", IsNullable = false)]
         public ObjectCollection<Rule> RuleCollection { get; } = new ObjectCollection<Rule>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<CustomAction> ActionCollection { get; } = new ObjectCollection<CustomAction>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
         public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ExceptionFilter", IsNullable = false)]
         public ObjectCollection<ExceptionFilter> RequeueFilterCollection { get; } = new ObjectCollection<ExceptionFilter>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -124,7 +117,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -151,7 +143,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -178,7 +169,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -205,7 +195,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -232,7 +221,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -259,7 +247,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -286,7 +273,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -313,7 +299,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -345,12 +330,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("AssemblyField", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class AssemblyField
     {
 
         private string m_Location;
-        [XmlAttribute]
         public string Location
         {
             get
@@ -366,7 +349,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_TypeName;
-        [XmlAttribute]
         public string TypeName
         {
             get
@@ -382,7 +364,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Method;
-        [XmlAttribute]
         public string Method
         {
             get
@@ -398,7 +379,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsAsync;
-        [XmlAttribute]
         public bool IsAsync
         {
             get
@@ -414,7 +394,6 @@ namespace Bespoke.Sph.Domain
 
 
         private int m_AsyncTimeout;
-        [XmlAttribute]
         public int AsyncTimeout
         {
             get
@@ -430,7 +409,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_LoadInCurrentAppDomain;
-        [XmlAttribute]
         public bool LoadInCurrentAppDomain
         {
             get
@@ -448,7 +426,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("MethodArg", IsNullable = false)]
         public ObjectCollection<MethodArg> MethodArgCollection { get; } = new ObjectCollection<MethodArg>();
 
 
@@ -460,12 +437,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("JavascriptExpressionField", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class JavascriptExpressionField
     {
 
         private string m_Expression;
-        [XmlAttribute]
         public string Expression
         {
             get
@@ -488,12 +463,51 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FunctionField", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class RouteParameterField
+    {
+
+        private string m_Expression;
+        public string Expression
+        {
+            get
+            {
+                return m_Expression;
+            }
+            set
+            {
+                m_Expression = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_DefaultValue;
+        public string DefaultValue
+        {
+            get
+            {
+                return m_DefaultValue;
+            }
+            set
+            {
+                m_DefaultValue = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     public partial class FunctionField
     {
 
         private string m_Script;
-        [XmlAttribute]
         public string Script
         {
             get
@@ -516,12 +530,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ConstantField", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ConstantField
     {
 
         private string m_TypeName;
-        [XmlAttribute]
         public string TypeName
         {
             get
@@ -544,12 +556,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DocumentField", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DocumentField
     {
 
         private string m_XPath;
-        [XmlAttribute]
         public string XPath
         {
             get
@@ -565,7 +575,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_NamespacePrefix;
-        [XmlAttribute]
         public string NamespacePrefix
         {
             get
@@ -581,7 +590,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_TypeName;
-        [XmlAttribute]
         public string TypeName
         {
             get
@@ -597,7 +605,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Path;
-        [XmlAttribute]
         public string Path
         {
             get
@@ -620,12 +627,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("PropertyChangedField", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class PropertyChangedField
     {
 
         private string m_Path;
-        [XmlAttribute]
         public string Path
         {
             get
@@ -641,7 +646,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_TypeName;
-        [XmlAttribute]
         public string TypeName
         {
             get
@@ -657,7 +661,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_OldValue;
-        [XmlAttribute]
         public string OldValue
         {
             get
@@ -673,7 +676,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_NewValue;
-        [XmlAttribute]
         public string NewValue
         {
             get
@@ -696,7 +698,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Rule", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Rule
     {
 
@@ -792,12 +793,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EmailAction", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EmailAction
     {
 
         private string m_From;
-        [XmlAttribute]
         public string From
         {
             get
@@ -813,7 +812,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_To;
-        [XmlAttribute]
         public string To
         {
             get
@@ -829,7 +827,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_SubjectTemplate;
-        [XmlAttribute]
         public string SubjectTemplate
         {
             get
@@ -845,7 +842,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_BodyTemplate;
-        [XmlAttribute]
         public string BodyTemplate
         {
             get
@@ -861,7 +857,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Bcc;
-        [XmlAttribute]
         public string Bcc
         {
             get
@@ -877,7 +872,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Cc;
-        [XmlAttribute]
         public string Cc
         {
             get
@@ -900,14 +894,12 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SetterAction", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SetterAction
     {
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("SetterActionChild", IsNullable = false)]
         public ObjectCollection<SetterActionChild> SetterActionChildCollection { get; } = new ObjectCollection<SetterActionChild>();
 
 
@@ -919,7 +911,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SetterActionChild", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SetterActionChild
     {
 
@@ -937,7 +928,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -991,7 +981,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("MethodArg", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class MethodArg
     {
 
@@ -1014,7 +1003,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1041,7 +1029,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1095,12 +1082,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("StartWorkflowAction", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class StartWorkflowAction
     {
 
         private string m_WorkflowDefinitionId;
-        [XmlAttribute]
         public string WorkflowDefinitionId
         {
             get
@@ -1116,7 +1101,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Name;
-        [XmlAttribute]
         public string Name
         {
             get
@@ -1132,7 +1116,6 @@ namespace Bespoke.Sph.Domain
 
 
         private int m_Version;
-        [XmlAttribute]
         public int Version
         {
             get
@@ -1150,7 +1133,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("WorkflowTriggerMap", IsNullable = false)]
         public ObjectCollection<WorkflowTriggerMap> WorkflowTriggerMapCollection { get; } = new ObjectCollection<WorkflowTriggerMap>();
 
 
@@ -1162,7 +1144,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("WorkflowTriggerMap", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class WorkflowTriggerMap
     {
 
@@ -1180,7 +1161,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1234,12 +1214,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("AssemblyAction", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class AssemblyAction
     {
 
         private bool m_IsAsyncMethod;
-        [XmlAttribute]
         public bool IsAsyncMethod
         {
             get
@@ -1255,7 +1233,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Assembly;
-        [XmlAttribute]
         public string Assembly
         {
             get
@@ -1271,7 +1248,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_TypeName;
-        [XmlAttribute]
         public string TypeName
         {
             get
@@ -1287,7 +1263,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Method;
-        [XmlAttribute]
         public string Method
         {
             get
@@ -1303,7 +1278,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_ReturnType;
-        [XmlAttribute]
         public string ReturnType
         {
             get
@@ -1319,7 +1293,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsVoid;
-        [XmlAttribute]
         public bool IsVoid
         {
             get
@@ -1335,7 +1308,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsStatic;
-        [XmlAttribute]
         public bool IsStatic
         {
             get
@@ -1353,7 +1325,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("MethodArg", IsNullable = false)]
         public ObjectCollection<MethodArg> MethodArgCollection { get; } = new ObjectCollection<MethodArg>();
 
 
@@ -1365,7 +1336,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("WorkflowDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class WorkflowDefinition
     {
 
@@ -1397,49 +1367,42 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Activity> ActivityCollection { get; } = new ObjectCollection<Activity>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Variable> VariableDefinitionCollection { get; } = new ObjectCollection<Variable>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
         public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("CorrelationSet", IsNullable = false)]
         public ObjectCollection<CorrelationSet> CorrelationSetCollection { get; } = new ObjectCollection<CorrelationSet>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("CorrelationType", IsNullable = false)]
         public ObjectCollection<CorrelationType> CorrelationTypeCollection { get; } = new ObjectCollection<CorrelationType>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("TryScope", IsNullable = false)]
         public ObjectCollection<TryScope> TryScopeCollection { get; } = new ObjectCollection<TryScope>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1466,7 +1429,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1493,7 +1455,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1520,7 +1481,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1547,7 +1507,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1579,7 +1538,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Workflow", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Workflow
     {
 
@@ -1611,14 +1569,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("VariableValue", IsNullable = false)]
         public ObjectCollection<VariableValue> VariableValueCollection { get; } = new ObjectCollection<VariableValue>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1645,7 +1601,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1672,7 +1627,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1699,7 +1653,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1726,7 +1679,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1758,12 +1710,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ScreenActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ScreenActivity
     {
 
         private string m_Title;
-        [XmlAttribute]
         public string Title
         {
             get
@@ -1779,7 +1729,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_ViewVirtualPath;
-        [XmlAttribute]
         public string ViewVirtualPath
         {
             get
@@ -1795,7 +1744,6 @@ namespace Bespoke.Sph.Domain
 
 
         private int m_WorkflowDefinitionId;
-        [XmlAttribute]
         public int WorkflowDefinitionId
         {
             get
@@ -1811,7 +1759,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_CancelMessageSubject;
-        [XmlAttribute]
         public string CancelMessageSubject
         {
             get
@@ -1827,7 +1774,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_InvitationMessageSubject;
-        [XmlAttribute]
         public string InvitationMessageSubject
         {
             get
@@ -1843,7 +1789,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_CancelMessageBody;
-        [XmlAttribute]
         public string CancelMessageBody
         {
             get
@@ -1859,7 +1804,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_InvitationMessageBody;
-        [XmlAttribute]
         public string InvitationMessageBody
         {
             get
@@ -1933,14 +1877,12 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DecisionActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DecisionActivity
     {
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("DecisionBranch", IsNullable = false)]
         public ObjectCollection<DecisionBranch> DecisionBranchCollection { get; } = new ObjectCollection<DecisionBranch>();
 
 
@@ -1952,12 +1894,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DecisionBranch", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DecisionBranch
     {
 
         private bool m_IsDefault;
-        [XmlAttribute]
         public bool IsDefault
         {
             get
@@ -1982,12 +1922,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("NotificationActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class NotificationActivity
     {
 
         private string m_From;
-        [XmlAttribute]
         public string From
         {
             get
@@ -2003,7 +1941,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Subject;
-        [XmlAttribute]
         public string Subject
         {
             get
@@ -2019,7 +1956,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Body;
-        [XmlAttribute]
         public string Body
         {
             get
@@ -2035,7 +1971,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_To;
-        [XmlAttribute]
         public string To
         {
             get
@@ -2051,7 +1986,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_UserName;
-        [XmlAttribute]
         public string UserName
         {
             get
@@ -2067,7 +2001,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Cc;
-        [XmlAttribute]
         public string Cc
         {
             get
@@ -2083,7 +2016,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Bcc;
-        [XmlAttribute]
         public string Bcc
         {
             get
@@ -2099,7 +2031,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsHtmlEmail;
-        [XmlAttribute]
         public bool IsHtmlEmail
         {
             get
@@ -2115,7 +2046,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsMessageSuppressed;
-        [XmlAttribute]
         public bool IsMessageSuppressed
         {
             get
@@ -2142,7 +2072,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SimpleVariable", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SimpleVariable
     {
 
@@ -2154,7 +2083,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ComplexVariable", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ComplexVariable
     {
 
@@ -2167,7 +2095,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("VariableValue", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class VariableValue
     {
 
@@ -2179,7 +2106,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2211,7 +2137,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Page", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Page
     {
 
@@ -2264,7 +2189,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2291,7 +2215,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2318,7 +2241,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2345,7 +2267,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2372,7 +2293,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2399,7 +2319,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2426,7 +2345,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2453,7 +2371,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2507,12 +2424,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EndActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EndActivity
     {
 
         private bool m_IsTerminating;
-        [XmlAttribute]
         public bool IsTerminating
         {
             get
@@ -2535,7 +2450,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Performer", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Performer
     {
 
@@ -2557,7 +2471,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2584,7 +2497,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2611,7 +2523,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public bool IsPublic
@@ -2642,7 +2553,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("WorkflowDesigner", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class WorkflowDesigner
     {
 
@@ -2659,7 +2569,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public int X
@@ -2685,7 +2594,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public int Y
@@ -2716,7 +2624,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SimpleMapping", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SimpleMapping
     {
 
@@ -2728,7 +2635,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FunctoidMapping", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FunctoidMapping
     {
 
@@ -2742,12 +2648,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("CreateEntityActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class CreateEntityActivity
     {
 
         private string m_EntityType;
-        [XmlAttribute]
         public string EntityType
         {
             get
@@ -2763,7 +2667,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_ReturnValuePath;
-        [XmlAttribute]
         public string ReturnValuePath
         {
             get
@@ -2781,7 +2684,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<PropertyMapping> PropertyMappingCollection { get; } = new ObjectCollection<PropertyMapping>();
 
 
@@ -2793,7 +2695,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ExpressionActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ExpressionActivity
     {
 
@@ -2807,12 +2708,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DeleteEntityActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DeleteEntityActivity
     {
 
         private string m_EntityType;
-        [XmlAttribute]
         public string EntityType
         {
             get
@@ -2828,7 +2727,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_EntityIdPath;
-        [XmlAttribute]
         public string EntityIdPath
         {
             get
@@ -2851,12 +2749,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("UpdateEntityActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class UpdateEntityActivity
     {
 
         private string m_EntityType;
-        [XmlAttribute]
         public string EntityType
         {
             get
@@ -2872,7 +2768,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_EntityIdPath;
-        [XmlAttribute]
         public string EntityIdPath
         {
             get
@@ -2888,7 +2783,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_UseVariable;
-        [XmlAttribute]
         public string UseVariable
         {
             get
@@ -2904,7 +2798,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsUsingVariable;
-        [XmlAttribute]
         public bool IsUsingVariable
         {
             get
@@ -2922,7 +2815,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<PropertyMapping> PropertyMappingCollection { get; } = new ObjectCollection<PropertyMapping>();
 
 
@@ -2934,12 +2826,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ScriptFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ScriptFunctoid
     {
 
         private string m_Expression;
-        [XmlAttribute]
         public string Expression
         {
             get
@@ -2962,7 +2852,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ConfirmationOptions", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ConfirmationOptions
     {
 
@@ -2979,7 +2868,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3006,7 +2894,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3038,12 +2925,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ReceiveActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ReceiveActivity
     {
 
         private string m_PortType;
-        [XmlAttribute]
         public string PortType
         {
             get
@@ -3059,7 +2944,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Operation;
-        [XmlAttribute]
         public string Operation
         {
             get
@@ -3075,7 +2959,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_MessagePath;
-        [XmlAttribute]
         public string MessagePath
         {
             get
@@ -3093,21 +2976,18 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> InitializingCorrelationSetCollection { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> FollowingCorrelationSetCollection { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("CorrelationProperty", IsNullable = false)]
         public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection { get; } = new ObjectCollection<CorrelationProperty>();
 
 
@@ -3119,12 +2999,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SendActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SendActivity
     {
 
         private string m_PortType;
-        [XmlAttribute]
         public string PortType
         {
             get
@@ -3140,7 +3018,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Adapter;
-        [XmlAttribute]
         public string Adapter
         {
             get
@@ -3156,7 +3033,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Method;
-        [XmlAttribute]
         public string Method
         {
             get
@@ -3172,7 +3048,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_AdapterAssembly;
-        [XmlAttribute]
         public string AdapterAssembly
         {
             get
@@ -3188,7 +3063,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsSynchronous;
-        [XmlAttribute]
         public bool IsSynchronous
         {
             get
@@ -3204,7 +3078,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_ArgumentPath;
-        [XmlAttribute]
         public string ArgumentPath
         {
             get
@@ -3220,7 +3093,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_ReturnValuePath;
-        [XmlAttribute]
         public string ReturnValuePath
         {
             get
@@ -3238,21 +3110,18 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ExceptionFilter", IsNullable = false)]
         public ObjectCollection<ExceptionFilter> ExceptionFilterCollection { get; } = new ObjectCollection<ExceptionFilter>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> InitializingCorrelationSetCollection { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> FollowingCorrelationSetCollection { get; } = new ObjectCollection<string>();
 
 
@@ -3264,14 +3133,12 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ListenActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ListenActivity
     {
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ListenBranch", IsNullable = false)]
         public ObjectCollection<ListenBranch> ListenBranchCollection { get; } = new ObjectCollection<ListenBranch>();
 
 
@@ -3283,14 +3150,12 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ParallelActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ParallelActivity
     {
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ParallelBranch", IsNullable = false)]
         public ObjectCollection<ParallelBranch> ParallelBranchCollection { get; } = new ObjectCollection<ParallelBranch>();
 
 
@@ -3302,12 +3167,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("JoinActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class JoinActivity
     {
 
         private string m_Placeholder;
-        [XmlAttribute]
         public string Placeholder
         {
             get
@@ -3330,12 +3193,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DelayActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DelayActivity
     {
 
         private string m_Expression;
-        [XmlAttribute]
         public string Expression
         {
             get
@@ -3366,12 +3227,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ThrowActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ThrowActivity
     {
 
         private string m_Message;
-        [XmlAttribute]
         public string Message
         {
             get
@@ -3394,14 +3253,12 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ParallelBranch", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ParallelBranch
     {
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Activity> ActivityCollection { get; } = new ObjectCollection<Activity>();
 
 
@@ -3413,12 +3270,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ListenBranch", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ListenBranch
     {
 
         private bool m_IsWaitingAsync;
-        [XmlAttribute]
         public bool IsWaitingAsync
         {
             get
@@ -3434,7 +3289,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsDestroyed;
-        [XmlAttribute]
         public bool IsDestroyed
         {
             get
@@ -3457,12 +3311,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ClrTypeVariable", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ClrTypeVariable
     {
 
         private string m_Assembly;
-        [XmlAttribute]
         public string Assembly
         {
             get
@@ -3478,7 +3330,6 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_CanInitiateWithDefaultConstructor;
-        [XmlAttribute]
         public bool CanInitiateWithDefaultConstructor
         {
             get
@@ -3501,14 +3352,12 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ScheduledTriggerActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ScheduledTriggerActivity
     {
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("IntervalSchedule", IsNullable = false)]
         public ObjectCollection<IntervalSchedule> IntervalScheduleCollection { get; } = new ObjectCollection<IntervalSchedule>();
 
 
@@ -3521,7 +3370,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Tracker", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Tracker
     {
 
@@ -3538,21 +3386,18 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> ForbiddenActivities { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ExecutedActivity", IsNullable = false)]
         public ObjectCollection<ExecutedActivity> ExecutedActivityCollection { get; } = new ObjectCollection<ExecutedActivity>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3579,7 +3424,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3611,7 +3455,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ExecutedActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ExecutedActivity
     {
 
@@ -3660,7 +3503,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3687,7 +3529,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3714,7 +3555,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3741,7 +3581,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3768,7 +3607,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3795,7 +3633,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3871,7 +3708,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Breakpoint", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Breakpoint
     {
 
@@ -3923,7 +3759,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3950,7 +3785,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3977,7 +3811,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4004,7 +3837,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string ConditionExpression
@@ -4030,7 +3862,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4057,7 +3888,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Label
@@ -4083,7 +3913,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4110,7 +3939,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4137,7 +3965,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string MessageExpression
@@ -4168,7 +3995,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ReferencedAssembly", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ReferencedAssembly
     {
 
@@ -4210,7 +4036,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4237,7 +4062,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4264,7 +4088,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4291,7 +4114,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4318,7 +4140,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4345,7 +4166,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4372,7 +4192,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4404,12 +4223,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("MappingActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class MappingActivity
     {
 
         private string m_MappingDefinition;
-        [XmlAttribute]
         public string MappingDefinition
         {
             get
@@ -4425,7 +4242,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_DestinationType;
-        [XmlAttribute]
         public string DestinationType
         {
             get
@@ -4441,7 +4257,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_OutputPath;
-        [XmlAttribute]
         public string OutputPath
         {
             get
@@ -4459,7 +4274,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("MappingSource", IsNullable = false)]
         public ObjectCollection<MappingSource> MappingSourceCollection { get; } = new ObjectCollection<MappingSource>();
 
 
@@ -4471,7 +4285,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("MappingSource", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class MappingSource
     {
 
@@ -4488,7 +4301,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4515,7 +4327,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4547,7 +4358,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("TransformDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class TransformDefinition
     {
 
@@ -4584,35 +4394,30 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Map> MapCollection { get; } = new ObjectCollection<Map>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Functoid> FunctoidCollection { get; } = new ObjectCollection<Functoid>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("MethodArg", IsNullable = false)]
         public ObjectCollection<MethodArg> InputCollection { get; } = new ObjectCollection<MethodArg>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
         public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4639,7 +4444,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4666,7 +4470,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4693,7 +4496,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4720,7 +4522,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4747,7 +4548,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -4779,12 +4579,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DirectMap", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DirectMap
     {
 
         private string m_Source;
-        [XmlAttribute]
         public string Source
         {
             get
@@ -4800,7 +4598,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_TypeName;
-        [XmlAttribute]
         public string TypeName
         {
             get
@@ -4823,12 +4620,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FunctoidMap", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FunctoidMap
     {
 
         private string m___uuid;
-        [XmlAttribute]
         public string __uuid
         {
             get
@@ -4844,7 +4639,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Functoid;
-        [XmlAttribute]
         public string Functoid
         {
             get
@@ -4867,7 +4661,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("StringConcateFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class StringConcateFunctoid
     {
 
@@ -4879,12 +4672,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ParseBooleanFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ParseBooleanFunctoid
     {
 
         private string m_Format;
-        [XmlAttribute]
         public string Format
         {
             get
@@ -4900,7 +4691,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_SourceField;
-        [XmlAttribute]
         public string SourceField
         {
             get
@@ -4923,12 +4713,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ParseDoubleFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ParseDoubleFunctoid
     {
 
         private string m_Styles;
-        [XmlAttribute]
         public string Styles
         {
             get
@@ -4951,12 +4739,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ParseDecimalFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ParseDecimalFunctoid
     {
 
         private string m_Styles;
-        [XmlAttribute]
         public string Styles
         {
             get
@@ -4979,12 +4765,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ParseInt32Functoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ParseInt32Functoid
     {
 
         private string m_Styles;
-        [XmlAttribute]
         public string Styles
         {
             get
@@ -5007,12 +4791,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ParseDateTimeFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ParseDateTimeFunctoid
     {
 
         private string m_Format;
-        [XmlAttribute]
         public string Format
         {
             get
@@ -5028,7 +4810,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Styles;
-        [XmlAttribute]
         public string Styles
         {
             get
@@ -5044,7 +4825,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_Culture;
-        [XmlAttribute]
         public string Culture
         {
             get
@@ -5067,12 +4847,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FormattingFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormattingFunctoid
     {
 
         private string m_Format;
-        [XmlAttribute]
         public string Format
         {
             get
@@ -5095,7 +4873,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("FunctoidArg", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FunctoidArg
     {
 
@@ -5147,7 +4924,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5174,7 +4950,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5201,7 +4976,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5228,7 +5002,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5255,7 +5028,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5282,7 +5054,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5309,7 +5080,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5336,7 +5106,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Constant
@@ -5362,7 +5131,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Default
@@ -5393,12 +5161,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ConstantFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ConstantFunctoid
     {
 
         private string m_TypeName;
-        [XmlAttribute]
         public string TypeName
         {
             get
@@ -5423,12 +5189,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SourceFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SourceFunctoid
     {
 
         private string m_Field;
-        [XmlAttribute]
         public string Field
         {
             get
@@ -5451,7 +5215,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ExceptionFilter", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ExceptionFilter
     {
 
@@ -5486,7 +5249,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5513,7 +5275,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Filter
@@ -5610,7 +5371,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("CorrelationType", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class CorrelationType
     {
 
@@ -5622,14 +5382,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("CorrelationProperty", IsNullable = false)]
         public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection { get; } = new ObjectCollection<CorrelationProperty>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5661,7 +5419,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("CorrelationSet", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class CorrelationSet
     {
 
@@ -5678,7 +5435,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5705,7 +5461,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5737,7 +5492,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("CorrelationProperty", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class CorrelationProperty
     {
 
@@ -5759,7 +5513,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -5786,7 +5539,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Name
@@ -5812,7 +5564,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Origin
@@ -5843,12 +5594,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ChildWorkflowActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ChildWorkflowActivity
     {
 
         private string m_WorkflowDefinitionId;
-        [XmlAttribute]
         public string WorkflowDefinitionId
         {
             get
@@ -5864,7 +5613,6 @@ namespace Bespoke.Sph.Domain
 
 
         private int m_Version;
-        [XmlAttribute]
         public int Version
         {
             get
@@ -5877,13 +5625,26 @@ namespace Bespoke.Sph.Domain
                 RaisePropertyChanged();
             }
         }
-        
+
+
+        private bool m_IsAsync;
+        public bool IsAsync
+        {
+            get
+            {
+                return m_IsAsync;
+            }
+            set
+            {
+                m_IsAsync = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<Variable> VariableMapCollection { get; } = new ObjectCollection<Variable>();
 
 
@@ -5895,14 +5656,12 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("TryScope", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class TryScope
     {
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("CatchScope", IsNullable = false)]
         public ObjectCollection<CatchScope> CatchScopeCollection { get; } = new ObjectCollection<CatchScope>();
 
 
@@ -5914,12 +5673,10 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("CatchScope", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class CatchScope
     {
 
         private string m_ExceptionType;
-        [XmlAttribute]
         public string ExceptionType
         {
             get
@@ -5935,7 +5692,6 @@ namespace Bespoke.Sph.Domain
 
 
         private string m_ExceptionVar;
-        [XmlAttribute]
         public string ExceptionVar
         {
             get
@@ -5958,7 +5714,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ReceivePortDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ReceivePortDefinition
     {
 
@@ -5970,7 +5725,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6002,7 +5756,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("ReceivePort", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ReceivePort
     {
 
@@ -6014,7 +5767,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6046,7 +5798,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SendPort", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SendPort
     {
 
@@ -6058,7 +5809,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6090,7 +5840,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SendPortDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SendPortDefinition
     {
 
@@ -6102,7 +5851,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -6130,7 +5878,6 @@ namespace Bespoke.Sph.Domain
     }
 
 
-    [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field
     {
 
@@ -6150,7 +5897,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Name
         {
             set
@@ -6172,7 +5918,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Note
         {
             set
@@ -6198,7 +5943,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-    [XmlType("CustomAction", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class CustomAction
     {
 
@@ -6233,7 +5977,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Title
         {
             set
@@ -6255,7 +5998,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public bool IsActive
         {
             set
@@ -6277,7 +6019,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string TriggerId
         {
             set
@@ -6299,7 +6040,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Note
         {
             set
@@ -6321,7 +6061,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public int CustomActionId
         {
             set
@@ -6347,7 +6086,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-    [XmlType("Activity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Activity
     {
 
@@ -6399,7 +6137,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public bool IsInitiator
         {
             set
@@ -6421,7 +6158,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string NextActivityWebId
         {
             set
@@ -6443,7 +6179,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Name
         {
             set
@@ -6465,7 +6200,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string TryScope
         {
             set
@@ -6487,7 +6221,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string CatchScope
         {
             set
@@ -6513,7 +6246,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-    [XmlType("Variable", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Variable
     {
 
@@ -6538,7 +6270,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Name
         {
             set
@@ -6560,7 +6291,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string TypeName
         {
             set
@@ -6582,7 +6312,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string DefaultValue
         {
             set
@@ -6608,7 +6337,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-    [XmlType("PropertyMapping", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class PropertyMapping
     {
 
@@ -6628,7 +6356,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Source
         {
             set
@@ -6650,7 +6377,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Destination
         {
             set
@@ -6676,7 +6402,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-    [XmlType("Functoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Functoid
     {
 
@@ -6714,7 +6439,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("FunctoidArg", IsNullable = false)]
         public ObjectCollection<FunctoidArg> ArgumentCollection { get; } = new ObjectCollection<FunctoidArg>();
 
 
@@ -6723,7 +6447,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Name
         {
             set
@@ -6745,7 +6468,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string OutputTypeName
         {
             set
@@ -6767,7 +6489,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Label
         {
             set
@@ -6789,7 +6510,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Comment
         {
             set
@@ -6811,7 +6531,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public double X
         {
             set
@@ -6833,7 +6552,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public double Y
         {
             set
@@ -6859,7 +6577,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-    [XmlType("Map", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Map
     {
 
@@ -6884,7 +6601,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Destination
         {
             set
@@ -6906,7 +6622,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string SourceTypeName
         {
             set
@@ -6928,7 +6643,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string DestinationTypeName
         {
             set
@@ -6954,7 +6668,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-    [XmlType("Scope", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Scope
     {
 
@@ -6974,7 +6687,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Id
         {
             set
@@ -6996,7 +6708,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        [XmlAttribute]
         public string Name
         {
             set
