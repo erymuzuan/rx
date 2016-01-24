@@ -241,13 +241,29 @@ namespace domain.test.entities
                 CacheFilter = 300
             };
             query.RouteParameterCollection.Add(new RouteParameter {Type = "string", Name = "mrn"});
+            query.RouteParameterCollection.Add(new RouteParameter {Type = "DateTime", Name = "start"});
+            query.RouteParameterCollection.Add(new RouteParameter {Type = "DateTime", Name = "end"});
 
             var mrnParameter = new RouteParameterField {Expression = "mrn"};
+            var start = new RouteParameterField {Expression = "start", DefaultValue = "2016-01-01"};
+            var end = new RouteParameterField {Expression = "end", DefaultValue = "2017-01-01"};
             query.FilterCollection.Add(new Filter
             {
                 Field = mrnParameter,
                 Operator = Operator.Eq,
                 Term = "Mrn"
+            });
+            query.FilterCollection.Add(new Filter
+            {
+                Field = start,
+                Operator = Operator.Ge,
+                Term = "DateTime"
+            });
+            query.FilterCollection.Add(new Filter
+            {
+                Field = end,
+                Operator = Operator.Lt,
+                Term = "DateTime"
             });
 
             query.MemberCollection.AddRange("ReferenceNo", "DateTime", "Doctor", "Location", "Ward");

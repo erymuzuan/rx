@@ -65,13 +65,13 @@ namespace Bespoke.Sph.Domain
                 Namespace = CodeNamespace
             };
 
-            
+
 
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
 
 
-            controller.PropertyCollection.Add(new Property {Name = "CacheManager", Type = typeof(ICacheManager)});
+            controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
             controller.CtorCollection.Add($"public {className}Controller() {{ this.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
 
             controller.MethodCollection.Add(GenerateGetAction());
@@ -151,9 +151,9 @@ namespace Bespoke.Sph.Domain
             code.AppendLine($"       [Route(\"{route}\")]");
 
             var parameterlist = from r in this.RouteParameterCollection
-                let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
-                let type = r.Type.ToCsharpIdentitfier()
-                select $"{type} {r.Name}{defaultValue},";
+                                let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
+                                let type = r.Type.ToCsharpIdentitfier()
+                                select $"{type} {r.Name}{defaultValue},";
             var parameters = string.Join(" ", parameterlist);
 
             code.AppendLine($"       public async Task<ActionResult> GetAction({parameters}int page =1, int size=20)");
@@ -185,7 +185,11 @@ namespace Bespoke.Sph.Domain
 
             foreach (var p in this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>())
             {
-                code.AppendLine($"  query = query.Replace(\"<<{p.Expression}>>\", {p.Expression});");
+                var qs = this.RouteParameterCollection.Single(x => x.Name == p.Expression);
+                if (qs.Type == "DateTime")
+                    code.AppendLine($"  query = query.Replace(\"<<{p.Expression}>>\", $\"\\\"{{{p.Expression}:O}}\\\"\");");
+                else
+                    code.AppendLine($"  query = query.Replace(\"<<{p.Expression}>>\", $\"{{{p.Expression}}}\");");
             }
             code.Append($@"
             var request = new StringContent(query);
@@ -204,7 +208,7 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
             var ed = context.LoadOne<EntityDefinition>(x => x.Name == this.Entity);
             code.Append(this.GenerateListCode(ed));
-      
+
             code.Append($@"
                 var result = new 
                 {{

@@ -70,9 +70,9 @@ namespace Bespoke.Sph.Domain
                         if (DateTime.TryParse(ov, out dv))
                             ov = $"\"{dv:O}\"";
 
-                        if (t.Operator == Operator.Ge)
+                        if (t.Operator == Operator.Ge || t.Operator == Operator.Gt)
                             query.AppendFormat("\"from\":{0}", ov);
-                        if (t.Operator == Operator.Le)
+                        if (t.Operator == Operator.Le || t.Operator == Operator.Lt)
                             query.AppendFormat("\"to\":{0}", ov);
 
                         if (count < filters.Length)
