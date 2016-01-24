@@ -1,14 +1,7 @@
 using System;
-using System.Xml.Serialization;
 
 namespace Bespoke.Sph.Domain
 {
-    [XmlInclude(typeof(DocumentField))]
-    [XmlInclude(typeof(FunctionField))]
-    [XmlInclude(typeof(ConstantField))]
-    [XmlInclude(typeof(JavascriptExpressionField))]
-    [XmlInclude(typeof(PropertyChangedField))]
-    [XmlInclude(typeof(AssemblyField))]
     public partial class Field : DomainObject
     {
         public virtual object GetValue(RuleContext context)
@@ -18,7 +11,7 @@ namespace Bespoke.Sph.Domain
 
         public virtual  string GenerateCode()
         {
-            return string.Format("// NOT IMPLEMENTED => {0}", this.GetType().Name);
+            return $"// NOT IMPLEMENTED => {this.GetType().Name}";
         }
     }
 }

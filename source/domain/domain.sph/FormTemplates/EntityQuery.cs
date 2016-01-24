@@ -53,8 +53,8 @@ namespace Bespoke.Sph.Domain
                 Filter.GenerateElasticSearchFilterDsl(this, this.FilterCollection) + @"
                     }
                 }," +
-                $@"                 ""from"": {size * (page - 1)}," +
-                $@"                 ""size"": {size}" +
+                $@"                 ""from"": <<page-from>>," +
+                $@"                 ""size"": <<page-size>>" +
                 @"  
 " + this.GetFields() + @" 
 

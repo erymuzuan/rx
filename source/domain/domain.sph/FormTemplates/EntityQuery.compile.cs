@@ -170,7 +170,7 @@ namespace Bespoke.Sph.Domain
 
             if (this.CacheFilter.HasValue)
             {
-                code.AppendLine($"   var queryCacheKey = $\"entity-query:filter:{{page}}:{{size}}:{Id}\";");
+                code.AppendLine($"   var queryCacheKey = $\"entity-query:es-query:{Id}\";");
                 code.AppendLine($"   var query = CacheManager.Get<string>(queryCacheKey);");
                 code.AppendLine("   if(null == query)");
                 code.AppendLine("   {");
@@ -183,6 +183,8 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("var query = await eq.GenerateEsQueryAsync(page, size);");
             }
 
+            code.AppendLine($"  query = query.Replace(\"<<page-from>>\", $\"{{size * (page - 1)}}\");");
+            code.AppendLine($"  query = query.Replace(\"<<page-size>>\", $\"{{size}}\");");
             foreach (var p in this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>())
             {
                 var qs = this.RouteParameterCollection.Single(x => x.Name == p.Expression);
