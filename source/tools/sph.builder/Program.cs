@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Mindscape.Raygun4Net;
 using Newtonsoft.Json.Linq;
+using Console = Colorful.Console;
 
 namespace Bespoke.Sph.SourceBuilders
 {
@@ -17,13 +19,15 @@ namespace Bespoke.Sph.SourceBuilders
         static void Main(string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException  ;
-            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            
+            Console.WriteAscii("Reactive Developer 1.8", Color.Aqua);
             '-'.WriteFrame();
-            " ".WriteMessage();
-            "Reactive Developer".WriteMessage();
-            " ".WriteMessage();
-            "Welcome to Rx Developer platform command line build tools".WriteMessage();
-            "This tool will truncate all your system data(sph) and rebuild it from your source folder".WriteMessage();
+            " ".WriteMessage(Color.Bisque);
+            "Reactive Developer".WriteMessage(Color.Cyan);
+            " ".WriteMessage(Color.Cyan);
+            "Welcome to Rx Developer platform command line build tools".WriteMessage(Color.Yellow);
+            "This tool will truncate all your system data(sph) and rebuild it from your source folder".WriteMessage(Color.Red);
 
             '-'.WriteFrame();
             Console.ResetColor();
@@ -68,7 +72,6 @@ namespace Bespoke.Sph.SourceBuilders
         {
             try
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
                 var dll = e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                     .First().Trim();
                 Console.WriteLine($"Loading {e.Name}");
@@ -218,19 +221,19 @@ namespace Bespoke.Sph.SourceBuilders
                 .ToList().ForEach(x => File.Copy(x, $"{folder}\\{Path.GetFileName(x)}", true));
         }
 
-        public static void WriteMessage(this string message)
+        public static void WriteMessage(this string message, Color color)
         {
             var width = Console.BufferWidth - 1;
             var margin = (width - 2 - message.Length) / 2;
 
             if (message.Length >= width)
             {
-                message.Substring(0, width - 10).WriteMessage();
-                message.Substring(width - 10).WriteMessage();
+                message.Substring(0, width - 10).WriteMessage(color);
+                message.Substring(width - 10).WriteMessage(color);
                 return;
             }
 
-            Console.WriteLine(message.Length % 2 == 0 ? "|{0}{1} {0}|" : "|{0}{1}{0}|", new string(' ', margin), message);
+            Console.WriteLine(message.Length % 2 == 0 ? "|{0}{1} {0}|" : "|{0}{1}{0}|", new string(' ', margin), message, color);
         }
         public static void WriteFrame(this char frame)
         {
