@@ -13,13 +13,13 @@ namespace Bespoke.Sph.EmailServiceNotification
             var context = new SphDataContext();
             var email = await context.GetScalarAsync<UserProfile, string>(u => u.UserName == message.UserName, u => u.Email);
             var smtp = new SmtpClient();
-            await smtp.SendMailAsync(this.From ?? "admin@sph.my", email, message.Subject, message.Body);
+            await smtp.SendMailAsync(this.From ?? ConfigurationManager.FromEmailAddress, email, message.Subject, message.Body);
         }
 
         public async Task SendMessageAsync(Message message, string to)
         {
             var smtp = new SmtpClient();
-            await smtp.SendMailAsync(this.From ?? "admin@sph.my", to, message.Subject, message.Body);
+            await smtp.SendMailAsync(this.From ?? ConfigurationManager.FromEmailAddress, to, message.Subject, message.Body);
         }
 
         public IList<INotificationChannel> NotificationChannelCollection { get; } = new List<INotificationChannel>();
