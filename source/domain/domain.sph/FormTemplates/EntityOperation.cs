@@ -129,7 +129,16 @@ namespace Bespoke.Sph.Domain
                 session.Attach(item);
                 await session.SubmitChanges(""{Name}"");
             }}
-            return Json(new {{success = true, status=""OK"", id = item.Id}});");
+            var result = new {{
+                               success = true, 
+                               status=""OK"", 
+                               id = item.Id, 
+                               _link = new {{
+                                    rel = ""self"",
+                                    href = $""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}""
+                                }}
+                            }};
+            return Json(result);");
 
             return patch;
         }
@@ -199,7 +208,17 @@ namespace Bespoke.Sph.Domain
                 session.Attach(item);
                 await session.SubmitChanges(""{Name}"");
             }}
-            return Json(new {{success = true, status=""OK"", id = item.Id, href=""{ed.Name}/"" + item.Id}});");
+
+            var result = new {{
+                               success = true, 
+                               status=""OK"", 
+                               id = item.Id, 
+                               _link = new {{
+                                    rel = ""self"",
+                                    href = $""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}""
+                                }}
+                            }};
+            return Json(result);");
 
             return put;
         }
