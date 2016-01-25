@@ -464,7 +464,9 @@ namespace Bespoke.Sph.Domain
         {
             if (string.IsNullOrWhiteSpace(path)) return string.Empty;
             if (path.Contains("().")) return path;
-            return path.Replace(".", "().");
+            return path.Replace(".", "().")
+                .Replace("$root().","$root.")
+                .Replace(".partial().",".partial.");
         }
 
     }
