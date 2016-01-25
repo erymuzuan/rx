@@ -43,10 +43,12 @@
   "FiredOnOperations": "",
   "ClassName": "PatientPatientTriggerNo1TriggerSubscriber",
   "CodeNamespace": "Bespoke.Sph.TriggerSubscribers",
+  "Icon": "fa fa-bolt",
+  "Url": "trigger.setup/patient-patient-trigger-no-1",
   "CreatedBy": "admin",
   "Id": "patient-patient-trigger-no-1",
   "CreatedDate": "2015-07-22T10:07:48.1250777+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-07-22T10:08:15.434126+08:00",
+  "ChangedDate": "2016-01-24T16:21:52.8508397+08:00",
   "WebId": "f1445372-fae7-40c9-c794-8c609022080c"
 }

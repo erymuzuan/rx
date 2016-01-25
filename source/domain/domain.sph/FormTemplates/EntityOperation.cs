@@ -69,7 +69,7 @@ namespace Bespoke.Sph.Domain
             return Json(new {{success = true, status=""OK"", id = item.Id, 
                       _links = new {{ 
                             rel = ""self"",
-                            href=$""{{ConfigurationManager.BaseUrl}}/api/{ed.Name.ToLowerInvariant()}/{{ item.Id}}""
+                            href=$""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{ item.Id}}""
                         }}
                 }});");
 

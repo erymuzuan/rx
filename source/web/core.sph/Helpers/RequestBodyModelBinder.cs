@@ -20,11 +20,12 @@ namespace Bespoke.Sph.Web.Helpers
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var request = controllerContext.HttpContext.Request;
-            var json =this.GetContentJson(request.InputStream);
+            var text =this.GetContentJson(request.InputStream);
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
-
-            return JsonConvert.DeserializeObject(json,bindingContext.ModelType,setting);
+            if (bindingContext.ModelType == typeof (string))
+                return text;
+            return JsonConvert.DeserializeObject(text,bindingContext.ModelType,setting);
         }
 
         private  string GetContentJson(Stream stream)
