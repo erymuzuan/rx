@@ -268,7 +268,7 @@ namespace domain.test.entities
                 Term = "DateTime"
             });
 
-            query.MemberCollection.AddRange("ReferenceNo", "DateTime", "Doctor", "Location", "Ward");
+            query.MemberCollection.AddRange("Id","ReferenceNo", "DateTime", "Doctor", "Location", "Ward");
 
             var options = new CompilerOptions();
             var sources = query.GenerateCode();

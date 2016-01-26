@@ -1,7 +1,7 @@
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
 objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
 objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
-objectbuilders.app],
+objectbuilders.app, "services/_ko.list"],
 
 function(context, logger, router, system, validation, eximp, dialog, watcher, config, app) {
 
@@ -14,16 +14,18 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         activate = function(entityId) {
             id(entityId);
 
-            var query = String.format("Id eq '{0}'", entityId),
+            var query = String.format("/api/patients/{0}", entityId),
                 tcs = new $.Deferred(),
-                itemTask = context.loadOneAsync("Patient", query),
+                itemTask = $.getJSON(query),
                 formTask = context.loadOneAsync("EntityForm", "Route eq 'patient-details'"),
                 watcherTask = watcher.getIsWatchingAsync("Patient", entityId),
                 i18nTask = $.getJSON("i18n/" + config.lang + "/patient-details");
 
             $.when(itemTask, formTask, watcherTask, i18nTask).done(function(b, f, w, n) {
                 if (b) {
-                    var item = context.toObservable(b);
+                    var c = b[0] || b;
+                    c.$type = "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient";
+                    var item = context.toObservable(c);
                     entity(item);
                 } else {
                     entity(new bespoke.DevV1_patient.domain.Patient(system.guid()));
@@ -168,7 +170,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         },
 
         save = function() {
-            return ();
+            return Task.fromResult(true);
         };
 
     var vm = {
@@ -184,16 +186,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         transfer: transfer,
         admit: admit,
         toolbar: {
-            emailCommand: {
-                entity: "Patient",
-                id: id
-            },
 
-            printCommand: {
-                entity: 'Patient',
-                id: id
-            },
-            removeCommand: remove,
             canExecuteRemoveCommand: ko.computed(function() {
                 return entity().Id();
             }),
