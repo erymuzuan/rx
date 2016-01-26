@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain.diagnostics
     [Export(typeof(IBuildDiagnostics))]
     public sealed class ViewFilterDiagnostics : BuilDiagnostic
     {
-        public override Task<BuildError[]> ValidateErrorsAsync(EntityView view, EntityDefinition entity)
+        public override Task<BuildError[]> ValidateErrorsAsync(EntityQuery view, EntityDefinition entity)
         {
             var paths = entity.GetMembersPath();
             var invalidFilters = from f in view.FilterCollection

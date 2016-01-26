@@ -3753,11 +3753,6 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_query;
-        public const string PropertyNameQuery = "Query";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool m_isPublished;
         public const string PropertyNameIsPublished = "IsPublished";
 
@@ -3797,22 +3792,15 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameDisplayOnDashboard = "DisplayOnDashboard";
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<Filter> FilterCollection { get; } = new ObjectCollection<Filter>();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_query;
+        public const string PropertyNameQuery = "Query";
 
 
         ///<summary>
         /// 
         ///</summary>
         public ObjectCollection<ViewColumn> ViewColumnCollection { get; } = new ObjectCollection<ViewColumn>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
 
 
         ///<summary>
@@ -3996,32 +3984,6 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_note;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string Query
-        {
-            set
-            {
-                if (String.Equals(m_query, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameQuery, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_query = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_query;
             }
         }
 
@@ -4228,6 +4190,32 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_displayOnDashboard;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Query
+        {
+            set
+            {
+                if (String.Equals(m_query, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameQuery, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_query = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_query;
             }
         }
 

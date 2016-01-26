@@ -1,13 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
-using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -83,63 +81,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = true, status = "OK", id = view.Id, message = "Your view has been successfully published" });
         }
 
-        [NoCache]
-        public async Task<ActionResult> Count(string id)
-        {
-            string type;
-            var query = GetElasticsearchQuery(id, out type);
-            if (null == query) return Json(new { hits = new { total = 0 } }, JsonRequestBehavior.AllowGet);
-
-            var request = new StringContent(query);
-            var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{type}/_count";
-
-            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
-            {
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es " + request);
-
-                var responseJson = JObject.Parse(await content.ReadAsStringAsync());
-                var count = responseJson.SelectToken("$.count").Value<int>();
-
-                return Content(count.ToString(), "application/json; charset=utf-8");
-
-            }
-        }
-
-        private string GetElasticsearchQuery(string id, out string type)
-        {
-            string path = $"{ConfigurationManager.SphSourceDirectory}\\EntityView\\{id}.json";
-            var key = $"count-view-{id}";
-            if (!System.IO.File.Exists(path))
-            {
-                type = null;
-                return null;
-            }
-            var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
-            var query = cacheManager.Get<Tuple<string, string>>(key);
-            if (null != query)
-            {
-                type = query.Item1;
-                return query.Item2;
-            }
-
-            var view = path.DeserializeFromJsonFile<EntityView>();
-            type = view.EntityDefinitionId.ToLowerInvariant();
-
-            var json = (@" {
-                ""query"": {
-                    ""filtered"": {
-                        ""filter"":" + Domain.Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection) + @"
-                    }
-                }
-            }").Replace("config.userName", "\"" + User.Identity.Name + "\"");
-
-
-            cacheManager.Insert(key, new Tuple<string, string>(type, json), path);
-
-            return json;
-        }
+ 
+        
 
         [AllowAnonymous]
         [RxSourceOutputCache(SourceType = typeof(EntityView))]

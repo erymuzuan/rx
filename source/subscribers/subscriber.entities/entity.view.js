@@ -23,17 +23,8 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                 return v;
             },
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-            query = ko.observable(),
             activate = function (@Model.Routes) {
-                query({
-                    "query": {
-                        "filtered": {
-                            "filter": @Raw(Model.FilterDsl)
-                        }
-                    },
-                    "sort" : @Raw(Model.SortDsl)
-                });
-                var edQuery = String.format("Name eq '{0}'", '@Model.Definition.Name'),
+                var edQuery = String.format("Name eq '{0}'", "@Model.Definition.Name"),
                   tcs = new $.Deferred(),
                   formsQuery = String.format("EntityDefinitionId eq '@(Model.Definition.Id)' and IsPublished eq true and IsAllowedNewItem eq true"),
                   viewQuery = String.format("EntityDefinitionId eq '@(Model.Definition.Id)'"),
@@ -50,7 +41,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                          return {
                              caption: v.Name(),
                              command: function () {
-                                 window.location = '#' + v.Route() + '/0';
+                                 window.location = "#" + v.Route() + "/0";
                                  return Task.fromResult(0);
                              },
                              icon: v.IconClass()
@@ -108,7 +99,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                     q.query.filtered.filter.bool.must.push(histogram);
                 }
                 if (e.aggregate === "date_histogram") {
-                    logger.error('Filtering by date range is not supported just yet');
+                    logger.error("Filtering by date range is not supported just yet");
                     isBusy(false);
                     return;
                     date_histogram.range[e.field] = {
@@ -150,12 +141,12 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
             },
             clearChartFilter = function(){
                 chartFiltered(false);
-                var link = $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first();
-                link.trigger('click');
+                var link = $("div.k-pager-wrap a.k-link").not("a.k-state-disabled").first();
+                link.trigger("click");
                 if(link.text() === "2")
                 {
                     setTimeout(function(){
-                        $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first().trigger('click');
+                        $("div.k-pager-wrap a.k-link").not("a.k-state-disabled").first().trigger("click");
                     }, 500);
                 }
             };

@@ -51,17 +51,7 @@ namespace Bespoke.Sph.Domain
             return "css : {" + string.Join(",\r\n", f.ToArray()) + "}";
         }
 
-        public string GenerateEsSortDsl()
-        {
-            var f = from s in this.SortCollection
-                    select $"{{\"{s.Path}\":{{\"order\":\"{s.Direction.ToString().ToLowerInvariant()}\"}}}}";
-            return "[" + string.Join(",\r\n", f.ToArray()) + "]";
-        }
-
-        public void AddFilter(string term, Operator @operator, Field field)
-        {
-            this.FilterCollection.Add(new Filter { Field = field, Operator = @operator, Term = term });
-        }
+     
 
         public override string ToString()
         {

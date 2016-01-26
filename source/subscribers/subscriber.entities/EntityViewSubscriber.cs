@@ -33,8 +33,6 @@ namespace subscriber.entities
                 Definition = ed,
                 View = view,
                 Form = form,
-                FilterDsl = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection),
-                SortDsl = view.GenerateEsSortDsl(),
                 Routes = string.Join(",", view.RouteParameterCollection.Select(r => r.Name)),
                 PartialArg = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", partial",
                 PartialPath = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", \"" + view.Partial + "\""

@@ -542,24 +542,10 @@
 	<xs:element name="EntityView" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="FilterCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Filter" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="ViewColumnCollection">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="ViewColumn" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="SortCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Sort" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -585,7 +571,6 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
-			<xs:attribute name="Query" type="xs:string" use="required"/>
 			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 			<xs:attribute name="Visibilty" type="xs:string" use="required"/>
 			<xs:attribute name="TileColour" type="xs:string" use="required"/>
@@ -594,6 +579,7 @@
 			<xs:attribute name="Partial" type="xs:string" use="required"/>
 			<xs:attribute name="Template" type="xs:string" use="optional"/>
 			<xs:attribute name="DisplayOnDashboard" type="xs:boolean" use="required"/>
+			<xs:attribute name="Query" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Filter">

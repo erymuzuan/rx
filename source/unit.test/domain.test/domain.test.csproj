@@ -180,7 +180,7 @@
     <Compile Include="entities\QueryTest.cs" />
     <Compile Include="entities\ServiceContractTest.cs" />
     <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
-    <Compile Include="entities\ViewSortTest.cs" />
+    <Compile Include="entities\QuerySortTest.cs" />
     <Compile Include="razor\RazorEngineTestFixture.cs" />
     <Compile Include="reports\DataGridTestFixture.cs" />
     <Compile Include="reports\FilterValueTestFixture.cs" />
