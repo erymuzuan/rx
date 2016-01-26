@@ -215,7 +215,7 @@ namespace domain.test.entities
                 Term = "Dob"
             });
 
-            query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race", "DeathDate");
+            query.MemberCollection.AddRange("Id","Dob", "FullName", "Gender", "Race", "DeathDate");
 
             var options = new CompilerOptions();
             var sources = query.GenerateCode();

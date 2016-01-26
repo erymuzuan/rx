@@ -96,14 +96,7 @@ namespace Bespoke.Sph.Domain
         {
             var query =
                 @"{
-                ""query"": {
-                    ""filtered"": {
-                        ""filter"":" +
-                Filter.GenerateElasticSearchFilterDsl(this, this.FilterCollection) + @"
-                    }
-                }," +
-                $@"                 ""from"": <<page-from>>," +
-                $@"                 ""size"": <<page-size>>" +
+                    ""filter"":" + Filter.GenerateElasticSearchFilterDsl(this, this.FilterCollection) +
                 @"  
 " + this.GetFields() + @" 
 
@@ -154,7 +147,8 @@ namespace Bespoke.Sph.Domain
 
             code.Append($@"
                             _links = new {{
-                                self = new {{ href = $""{{ConfigurationManager.BaseUrl}}/api/{Resource}/{{id}}"" }}
+                                rel = ""self"",
+                                href = $""{{ConfigurationManager.BaseUrl}}/api/{Resource}/{{id}}""
                             }}
                         }});
 ");

@@ -23,35 +23,13 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                 return v;
             },
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-            activate = function (@Model.Routes) {
-                var edQuery = String.format("Name eq '{0}'", "@Model.Definition.Name"),
-                  tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq '@(Model.Definition.Id)' and IsPublished eq true and IsAllowedNewItem eq true"),
-                  viewQuery = String.format("EntityDefinitionId eq '@(Model.Definition.Id)'"),
-                  edTask = context.loadOneAsync("EntityDefinition", edQuery),
-                  formsTask = context.loadAsync("EntityForm", formsQuery),
-                  viewTask = context.loadOneAsync("EntityView", viewQuery);
-
-
-                $.when(edTask, viewTask, formsTask)
-                 .done(function (b, vw,formsLo) {
-                     entity(b);
-                     view(vw);
-                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
-                         return {
-                             caption: v.Name(),
-                             command: function () {
-                                 window.location = "#" + v.Route() + "/0";
-                                 return Task.fromResult(0);
-                             },
-                             icon: v.IconClass()
-                         };
-                     });
-                     vm.toolbar.commands(formsCommands);
-
+            activate = function (@Model.Routes)
+            {
+                <text></text>
                      @if (!string.IsNullOrWhiteSpace(Model.PartialArg))
                      {
                          <text>
+                            var  tcs = new $.Deferred();
                          if(typeof partial !== "undefined" && typeof partial.activate === "function"){
                              var pt = partial.activate(list);
                              if(typeof pt.done === "function"){
@@ -60,73 +38,13 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                                  tcs.resolve(true);
                              }
                          }
+                         return tcs.promise();
                          </text>
                      }
-                     else
-                     {
-                         @:tcs.resolve(true);
-                       }
-
-                 });
+                     
 
 
 
-                return tcs.promise();
-            },
-            chartSeriesClick = function(e) {
-               
-                isBusy(true);
-                var q = ko.mapping.toJS(query),
-                    cat = {
-                        "term": {
-                        }
-                    },
-                    histogram = {
-                        "range": {
-                        }
-                    },
-                    date_histogram = {
-                        "range": {
-                        }
-                    };
-
-                if (e.aggregate === "histogram") {
-                    histogram.range[e.field] = {
-                        "gte": parseFloat(e.category),
-                        "lt": ( parseFloat(e.category) + e.query.aggs.category.histogram.interval )
-                    };
-
-                    q.query.filtered.filter.bool.must.push(histogram);
-                }
-                if (e.aggregate === "date_histogram") {
-                    logger.error("Filtering by date range is not supported just yet");
-                    isBusy(false);
-                    return;
-                    date_histogram.range[e.field] = {
-                        "gte": parseFloat(e.category),
-                        "lt": ( parseFloat(e.category) + e.query.aggs.category.date_histogram.interval )
-                    };
-
-                    q.query.filtered.filter.bool.must.push(date_histogram);
-                }
-                if(e.aggregate === "term"){  
-                    if(e.category === "<Empty>"){
-                        var missing = {"missing" : { "field" : e.field}};
-                        q.query.filtered.filter.bool.must.push(missing);
-                    }else {
-                        cat.term[e.field] = e.category;
-                        q.query.filtered.filter.bool.must.push(cat);
-                    }
-                }
-
-
-
-                context.searchAsync("@Model.Definition.Name", q)
-                    .done(function (lo) {
-                        list(lo.itemCollection);
-                        chartFiltered(true);
-                        setTimeout(function () { isBusy(false); }, 500);
-                    });
             },
             attached = function (view) {
                 chart.init("@Model.Definition.Name", query, chartSeriesClick, "@Model.View.Id");
@@ -137,17 +55,6 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                         partial.attached(view);
                     }
                     </text>
-                }
-            },
-            clearChartFilter = function(){
-                chartFiltered(false);
-                var link = $("div.k-pager-wrap a.k-link").not("a.k-state-disabled").first();
-                link.trigger("click");
-                if(link.text() === "2")
-                {
-                    setTimeout(function(){
-                        $("div.k-pager-wrap a.k-link").not("a.k-state-disabled").first().trigger("click");
-                    }, 500);
                 }
             };
 

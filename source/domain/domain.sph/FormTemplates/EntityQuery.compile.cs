@@ -172,12 +172,10 @@ namespace Bespoke.Sph.Domain
                                 select $"{type} {r.Name}{defaultValue},";
             var parameters = string.Join(" ", parameterlist);
 
-            code.AppendLine($"       public async Task<ActionResult> GetAction({parameters}int page =1, int size=20)");
+            code.AppendLine($"       public async Task<ActionResult> GetAction({parameters}int page =1, int size=20, string q=\"\")");
             code.Append("       {");
             code.Append(GenerateGetQueryCode());
-
-            code.AppendLine("  query = query.Replace(\"<<page-from>>\", $\"{size * (page - 1)}\");");
-            code.AppendLine("  query = query.Replace(\"<<page-size>>\", $\"{size}\");");
+            
             foreach (var p in this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>())
             {
                 var qs = this.RouteParameterCollection.Single(x => x.Name == p.Expression);
@@ -187,7 +185,8 @@ namespace Bespoke.Sph.Domain
             }
             code.Append($@"
             var request = new StringContent(query);
-            var url = ""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_search"";
+            var url = $""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_search?from={{size * (page - 1)}}&size={{size}}"";
+            if(!string.IsNullOrWhiteSpace(q)) url +=""&q="" + q;
 
             using(var client = new HttpClient{{BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
             {{

@@ -1,41 +1,30 @@
 <h1>Muslimat patients</h1>
 <div class="row">
-    <div class="col-md-8">
-        <button class="btn btn-link pull-right" data-bind="visible: chartFiltered, click: clearChartFilter">
-            <i class="fa fa-times"></i>
-            Clear chart's filter
-        </button>
-        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, map : map, entity : 'Patient', list:list}">
+    <div class="col-md-12">
+
+        <table class="table table-striped" data-bind="queryPaging :{ query: '/api/patients/cache-filter', map : map, list:list}">
             <thead>
                 <tr>
-                    <th>Status</th>
                     <th>Nama</th>
-                    <th>Passport</th>
-                    <th>Id</th>
                     <th>DOB</th>
-                    <th>Age</th>
-                    <th>No. KP</th>
+                    <th>Gender</th>
+                    <th>Race</th>
                     <th>Full Name</th>
-                    <th>Identification No</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach :list">
                 <tr data-bind="">
 
-                    <td data-bind="text:Status"></td>
                     <td data-bind="text:FullName"></td>
-                    <td data-bind="text:PassportNo"></td>
-                    <td data-bind="text:IdentificationNo"></td>
                     <td data-bind="date:Dob"></td>
-                    <td data-bind="text:Age"></td>
-                    <td data-bind="text:IdentificationNo"></td>
+                    <td data-bind="text:Gender"></td>
+                    <td data-bind="text:Race"></td>
                     <td>
-                        <a data-bind="attr : {href:'#patient-details' + '/' + Id, title:'Full Name' }">
+                        <a href="javascript:;" data-bind="attr : {href:'#patient-details' + '/' + Id, title:'Full Name' }">
                             <i class="fa fa-cloud"></i>
                                                         <span data-bind="text:FullName"></span>
                         </a>
                     </td>
-                    <td data-bind="text:IdentificationNo"></td>
 
 
                 </tr>
@@ -44,6 +33,4 @@
         <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
     </div>
 
-    <!-- ko compose : {view : '_chart.panel'}-->
-    <!-- /ko -->
 </div>
