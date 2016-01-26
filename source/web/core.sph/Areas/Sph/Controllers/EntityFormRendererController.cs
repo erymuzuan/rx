@@ -58,7 +58,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
         objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
         objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
-        objectbuilders.app {partialPath}],
+        ""services/_ko.list"", objectbuilders.app {partialPath}],
         function (context, logger, router, system, validation, eximp, dialog, watcher,config,app {partialVariable}) {{
 
             var entity = ko.observable(new {typeCtor}),
@@ -70,16 +70,18 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 activate = function (entityId) {{
                     id(entityId);
 
-                    var query = String.format(""Id eq '{{0}}'"", entityId),
+                    var location = ""/api/{ed.Plural.ToLowerInvariant()}/""+ entityId,
                         tcs = new $.Deferred(),
-                        itemTask = context.loadOneAsync(""{ed.Name}"", query),
+                        itemTask = context.get(location),
                         formTask = context.loadOneAsync(""EntityForm"", ""Route eq '{form.Route}'""),
                         watcherTask = watcher.getIsWatchingAsync(""{ed.Name}"", entityId),
                         i18nTask = $.getJSON(""i18n/"" + config.lang + ""/{form.Route}"");
 
                     $.when(itemTask, formTask, watcherTask, i18nTask).done(function(b,f,w,n) {{
                         if (b) {{
-                            var item = context.toObservable(b);
+                            var c = b[0] || b;
+                            c.$type = ""{ed.CodeNamespace}.{ed.Name}, {ConfigurationManager.ApplicationName}.{ed.Name}"";
+                            var item = context.toObservable(c);
                             entity(item);
                         }}
                         else {{
@@ -195,11 +197,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                         compositionComplete:compositionComplete,
                                         entity: entity,
                                         errors: errors,");
-            foreach (var op in model.EntityDefinition.EntityOperationCollection)
-            {
-                var function = op.Name.ToCamelCase();
-                script.AppendLine($"    {function} : {function},");
-            }
             foreach (
                 var btn in
                     model.Form.FormDesign.FormElementCollection.OfType<Button>()

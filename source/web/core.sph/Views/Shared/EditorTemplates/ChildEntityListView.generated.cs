@@ -89,29 +89,20 @@ WriteLiteral("</h3>\r\n    <table");
 
 WriteLiteral(" class=\"table table-condensed table-striped\"");
 
-WriteLiteral(" data-bind=\"serverPaging :{ query: ");
+WriteLiteral(" data-bind=\"queryPaging :{ query: ");
 
             
             #line 14 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-                                                                                    Write(Html.Raw(Model.Query));
+                                                                                   Write(Html.Raw(Model.Query));
 
             
             #line default
             #line hidden
-WriteLiteral(", entity : \'");
+WriteLiteral(", list: bespoke.getSingletonObservableArray(\'");
 
             
             #line 14 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-                                                                                                                      Write(Model.Entity);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\', list: bespoke.getSingletonObservableArray(\'");
-
-            
-            #line 14 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-                                                                                                                                                                                 Write(guid);
+                                                                                                                                                      Write(guid);
 
             
             #line default
@@ -237,14 +228,14 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("                                    <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1381), Tuple.Create("\"", 1406)
+WriteAttribute("class", Tuple.Create(" class=\"", 1354), Tuple.Create("\"", 1379)
             
             #line 34 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-, Tuple.Create(Tuple.Create("", 1389), Tuple.Create<System.Object, System.Int32>(col.IconCssClass
+, Tuple.Create(Tuple.Create("", 1362), Tuple.Create<System.Object, System.Int32>(col.IconCssClass
             
             #line default
             #line hidden
-, 1389), false)
+, 1362), false)
 );
 
 WriteLiteral("></i>\r\n");
@@ -268,25 +259,25 @@ WriteLiteral("                                ");
             #line hidden
 WriteLiteral("                                    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1607), Tuple.Create("\"", 1645)
-, Tuple.Create(Tuple.Create("", 1613), Tuple.Create("/sph/images/get/", 1613), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 1580), Tuple.Create("\"", 1618)
+, Tuple.Create(Tuple.Create("", 1586), Tuple.Create("/sph/images/get/", 1586), true)
             
             #line 38 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-, Tuple.Create(Tuple.Create("", 1629), Tuple.Create<System.Object, System.Int32>(col.IconStoreId
+, Tuple.Create(Tuple.Create("", 1602), Tuple.Create<System.Object, System.Int32>(col.IconStoreId
             
             #line default
             #line hidden
-, 1629), false)
+, 1602), false)
 );
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 1646), Tuple.Create("\"", 1663)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 1619), Tuple.Create("\"", 1636)
             
             #line 38 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-     , Tuple.Create(Tuple.Create("", 1652), Tuple.Create<System.Object, System.Int32>(col.Header
+     , Tuple.Create(Tuple.Create("", 1625), Tuple.Create<System.Object, System.Int32>(col.Header
             
             #line default
             #line hidden
-, 1652), false)
+, 1625), false)
 );
 
 WriteLiteral(" />\r\n");

@@ -1,7 +1,7 @@
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
 objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
 objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
-objectbuilders.app, "services/_ko.list"],
+    "services/_ko.list", objectbuilders.app],
 
 function(context, logger, router, system, validation, eximp, dialog, watcher, config, app) {
 
@@ -14,9 +14,9 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         activate = function(entityId) {
             id(entityId);
 
-            var query = String.format("/api/patients/{0}", entityId),
+            var location = "/api/patients/" + entityId,
                 tcs = new $.Deferred(),
-                itemTask = $.getJSON(query),
+                itemTask = context.get(location),
                 formTask = context.loadOneAsync("EntityForm", "Route eq 'patient-details'"),
                 watcherTask = watcher.getIsWatchingAsync("Patient", entityId),
                 i18nTask = $.getJSON("i18n/" + config.lang + "/patient-details");
@@ -50,7 +50,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
             var data = ko.mapping.toJSON(entity),
                 tcs = new $.Deferred();
 
-            context.post(data, "/Patient/Register")
+            context.post(data, "/Patient/register")
                 .then(function(result) {
                 if (result.success) {
                     logger.info(result.message);
@@ -68,91 +68,6 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
             });
             return tcs.promise();
         },
-
-        discharge = function() {
-
-            if (!validation.valid()) {
-                return Task.fromResult(false);
-            }
-
-            var data = ko.mapping.toJSON(entity),
-                tcs = new $.Deferred();
-
-            context.post(data, "/Patient/Discharge")
-                .then(function(result) {
-                if (result.success) {
-                    logger.info(result.message);
-                    entity().Id(result.id);
-                    errors.removeAll();
-
-                } else {
-                    errors.removeAll();
-                    _(result.rules).each(function(v) {
-                        errors(v.ValidationErrors);
-                    });
-                    logger.error("There are errors in your entity, !!!");
-                }
-                tcs.resolve(result);
-            });
-            return tcs.promise();
-        },
-
-        transfer = function() {
-
-            if (!validation.valid()) {
-                return Task.fromResult(false);
-            }
-
-            var data = ko.mapping.toJSON(entity),
-                tcs = new $.Deferred();
-
-            context.post(data, "/Patient/Transfer")
-                .then(function(result) {
-                if (result.success) {
-                    logger.info(result.message);
-                    entity().Id(result.id);
-                    errors.removeAll();
-
-                } else {
-                    errors.removeAll();
-                    _(result.rules).each(function(v) {
-                        errors(v.ValidationErrors);
-                    });
-                    logger.error("There are errors in your entity, !!!");
-                }
-                tcs.resolve(result);
-            });
-            return tcs.promise();
-        },
-
-        admit = function() {
-
-            if (!validation.valid()) {
-                return Task.fromResult(false);
-            }
-
-            var data = ko.mapping.toJSON(entity),
-                tcs = new $.Deferred();
-
-            context.post(data, "/Patient/Admit")
-                .then(function(result) {
-                if (result.success) {
-                    logger.info(result.message);
-                    entity().Id(result.id);
-                    errors.removeAll();
-
-                } else {
-                    errors.removeAll();
-                    _(result.rules).each(function(v) {
-                        errors(v.ValidationErrors);
-                    });
-                    logger.error("There are errors in your entity, !!!");
-                }
-                tcs.resolve(result);
-            });
-            return tcs.promise();
-        },
-
         attached = function(view) {
             // validation
             validation.init($('#patient-details-form'), form());
@@ -168,11 +83,16 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                 }
             });
         },
-
-        save = function() {
-            return Task.fromResult(true);
+        saveCommand = function() {
+            return register()
+                .then(function(result) {
+                if (result.success) return app.showMessage("Patient is successfully saved", ["OK"]);
+                else return Task.fromResult(false);
+            })
+                .then(function(result) {
+                if (result) router.navigate("#patient");
+            });
         };
-
     var vm = {
 
         activate: activate,
@@ -181,29 +101,8 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         compositionComplete: compositionComplete,
         entity: entity,
         errors: errors,
-        register: register,
-        discharge: discharge,
-        transfer: transfer,
-        admit: admit,
         toolbar: {
-
-            canExecuteRemoveCommand: ko.computed(function() {
-                return entity().Id();
-            }),
-
-            watchCommand: function() {
-                return watcher.watch("Patient", entity().Id())
-                    .done(function() {
-                    watching(true);
-                });
-            },
-            unwatchCommand: function() {
-                return watcher.unwatch("Patient", entity().Id())
-                    .done(function() {
-                    watching(false);
-                });
-            },
-            watching: watching,
+            saveCommand: saveCommand,
 
         }, // end toolbar
 
