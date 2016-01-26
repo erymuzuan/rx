@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,42 @@ namespace Bespoke.Sph.Domain
 
         public string Icon => "fa fa-search";
         public string Url => $"entity.query.designer/{Id}";
+
+        public Task<EntityQuerySetting> LoadSettingAsync()
+        {
+            var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
+            var key = $"entity-query:setting:{Id}";
+            var setting = cacheManager.Get<EntityQuerySetting>(key);
+            if (null != setting) return Task.FromResult(setting);
+
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{this.Id}.setting.json";
+            if (File.Exists(source))
+            {
+                setting = File.ReadAllText(source).DeserializeFromJson<EntityQuerySetting>();
+            }
+            else
+            {
+                setting = new EntityQuerySetting
+                {
+                    CacheProfile = this.CacheProfile,
+                    CacheFilter = this.CacheFilter,
+                    Performer =  this.Performer
+                };
+            }
+            cacheManager.Insert(key, setting, source);
+
+            return Task.FromResult(setting);
+        }
+        public Task SaveSetttingAsync(EntityQuerySetting setting)
+        {
+            var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
+            var key = $"entity-query:setting:{Id}";
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{this.Id}.setting.json";
+            File.WriteAllText(source,setting.ToJsonString(true));
+            cacheManager.Insert(key, setting, source);
+
+            return Task.FromResult(0);
+        }
 
         public Task<string> GenerateEsQueryAsync(int page = 1, int size = 20)
         {

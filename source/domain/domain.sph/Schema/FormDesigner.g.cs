@@ -7587,6 +7587,155 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class EntityQuerySetting
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_cacheProfile;
+        public const string PropertyNameCacheProfile = "CacheProfile";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_resource;
+        public const string PropertyNameResource = "Resource";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_cacheFilter;
+        public const string PropertyNameCacheFilter = "CacheFilter";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Performer m_performer
+                = new Performer();
+
+        public const string PropertyNamePerformer = "Performer";
+        [DebuggerHidden]
+
+        public Performer Performer
+        {
+            get { return m_performer; }
+            set
+            {
+                m_performer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string CacheProfile
+        {
+            set
+            {
+                if (String.Equals(m_cacheProfile, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCacheProfile, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_cacheProfile = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_cacheProfile;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Resource
+        {
+            set
+            {
+                if (String.Equals(m_resource, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameResource, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_resource = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_resource;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? CacheFilter
+        {
+            set
+            {
+                if (m_cacheFilter == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCacheFilter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_cacheFilter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_cacheFilter; }
+        }
+
+
+    }
+
 
     public partial class FormElement
     {

@@ -142,15 +142,15 @@ namespace Bespoke.Sph.Domain
             }}");
 
 
+            code.AppendLine("   var setting = await eq.LoadSettingAsync();");
             code.AppendLine("   var query = CacheManager.Get<string>(ES_QUERY_CACHE_KEY);");
             code.AppendLine("   if(null == query)");
             code.AppendLine("   {");
             code.AppendLine("       query = await eq.GenerateEsQueryAsync(1, 20);");
             code.AppendLine("   }");
-            code.AppendLine("   if(eq.CacheFilter.HasValue)");
+            code.AppendLine("   if(setting.CacheFilter.HasValue)");
             code.AppendLine("   {");
-            code.AppendLine(
-                "       CacheManager.Insert(ES_QUERY_CACHE_KEY, query, TimeSpan.FromSeconds(eq.CacheFilter.Value), SOURCE_FILE);");
+            code.AppendLine("       CacheManager.Insert(ES_QUERY_CACHE_KEY, query, TimeSpan.FromSeconds(setting.CacheFilter.Value), SOURCE_FILE);");
             code.AppendLine("   }");
 
             return code.ToString();
