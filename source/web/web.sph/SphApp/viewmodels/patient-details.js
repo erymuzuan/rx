@@ -28,15 +28,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                })
                .then(function (n) {
                    i18n = n[0];
+                   if (!entityId || entityId === "0") {
+                       return Task.fromResult({ WebId: system.guid() });
+                   }
                    return context.get("/api/patients/" + entityId);
                }).then(function (b) {
-                   var c = b[0] || b;
-                   c.$type = "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient";
-                   var item = context.toObservable(c);
-                   entity(item);
+                   entity(new bespoke.DevV1_patient.domain.Patient(b[0]||b));
                }, function (e) {
                    if (e.status == 404) {
-                       entity(new bespoke.DevV1_patient.domain.Patient(system.guid()));
+                       app.showMessage("Sorry, but we cannot find any Patient with location : " + "/api/patients/" + entityId, "Rx Developer", ["OK"]);
                    }
                }).always(function () {
                    if (typeof partial !== "undefined" && typeof partial.activate === "function") {
