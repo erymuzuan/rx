@@ -16,6 +16,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         activate = function (entityId) {
             id(entityId);
 
+            var tcs = new $.Deferred();
             return context.loadOneAsync("EntityForm", "Route eq 'patient-details'")
                .then(function (f) {
                    form(f);
@@ -34,9 +35,18 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                    var item = context.toObservable(c);
                    entity(item);
                }, function (e) {
-                   console.error(e);
-                   entity(new bespoke.DevV1_patient.domain.Patient(system.guid()));
+                   if (e.status == 404) {
+                       entity(new bespoke.DevV1_patient.domain.Patient(system.guid()));
+                   }
+               }).always(function () {
+                   if (typeof partial !== "undefined" && typeof partial.activate === "function") {
+                       partial.activate(ko.unwrap(entity)).done(tcs.resolve)
+                       .fail(tcs.reject);
+                   }
+                   tcs.resolve(true);
                });
+
+            return tcs.promise();
 
         },
         register = function () {

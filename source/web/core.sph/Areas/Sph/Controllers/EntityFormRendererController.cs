@@ -58,7 +58,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
         objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
         objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
-        ""services/_ko.list"", objectbuilders.app {partialPath}],
+        objectbuilders.app {partialPath}],
         function (context, logger, router, system, validation, eximp, dialog, watcher,config,app {partialVariable}) {{
 
             var entity = ko.observable(new {typeCtor}),
@@ -70,26 +70,29 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 activate = function (entityId) {{
                     id(entityId);
 
-                    var location = ""/api/{ed.Plural.ToLowerInvariant()}/""+ entityId,
-                        tcs = new $.Deferred(),
-                        itemTask = context.get(location),
-                        formTask = context.loadOneAsync(""EntityForm"", ""Route eq '{form.Route}'""),
-                        watcherTask = watcher.getIsWatchingAsync(""{ed.Name}"", entityId),
-                        i18nTask = $.getJSON(""i18n/"" + config.lang + ""/{form.Route}"");
-
-                    $.when(itemTask, formTask, watcherTask, i18nTask).done(function(b,f,w,n) {{
-                        if (b) {{
-                            var c = b[0] || b;
-                            c.$type = ""{ed.CodeNamespace}.{ed.Name}, {ConfigurationManager.ApplicationName}.{ed.Name}"";
-                            var item = context.toObservable(c);
-                            entity(item);
-                        }}
-                        else {{
-                            entity(new {typeCtor});
-                        }}
-                        form(f);
-                        watching(w);
-                        i18n = n[0];");
+                    return context.loadOneAsync(""EntityForm"", ""Route eq '{form.Route}'"")
+                       .then(function (f) {{
+                           form(f);
+                           return watcher.getIsWatchingAsync(""{ed.Name}"", entityId);
+                       }})
+                       .then(function (w) {{
+                           watching(w);
+                           return $.getJSON(""i18n/"" + config.lang + ""/{form.Route}"");
+                       }})
+                       .then(function (n) {{
+                           i18n = n[0];
+                           return context.get(""/api/{ed.Plural.ToLowerInvariant()}/"" + entityId);
+                       }}).then(function (b) {{
+                           var c = b[0] || b;
+                           c.$type = ""{ed.CodeNamespace}.{ed.Name}, {ConfigurationManager.ApplicationName}.{ed.Name}"";
+                           var item = context.toObservable(c);
+                           entity(item);
+                       }}, function (e) {{
+                           console.error(e);
+                           entity(new {typeCtor});
+                       }});
+            
+                ");
             var hasPartial = !string.IsNullOrWhiteSpace(model.Form.Partial);
             if (hasPartial)
             {
