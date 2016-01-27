@@ -86,8 +86,8 @@
             var id = guid(),
                 tcs = new $.Deferred(),
                 dialog = $(
-                    "<div class=\"modal fade\" id=\"" + id + "\">" +
-                    "   <div class=\"modal-dialog\">" +
+                    "<div class=\"modal\" style=\"z-index:1050\" id=\"" + id + "\">" +
+                    "   <div style=\"z-index:1050\" class=\"modal-dialog\">" +
                     "       <div class=\"modal-content\">" +
                     "           <div class=\"modal-header\">" +
                     "               <button type=\"button\" data-bind=\"click: cancelClick\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>" +

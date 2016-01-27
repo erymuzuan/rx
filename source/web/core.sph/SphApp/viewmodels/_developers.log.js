@@ -110,6 +110,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    var elem = document.getElementById("developers-log-footer");
 		    elem.scrollTop = elem.scrollHeight;
 		},
+		clear = function () {
+		    logs([]);
+		    list([]);
+		    console.clear();
+		},
         cleanup = function () {
             setInterval(function () {
                 var temp = logs(),
@@ -358,14 +363,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        }
 		    });
 
+		    $(document).on("keyup", function (e) {
+		        if (e.shiftKey &e.ctrlKey && (e.keyCode === 76)) {
+		            clear();
+		        }
+		    });
+
 
 		},
 		stop = function () {
 		    ws.close();
-		},
-		clear = function () {
-		    logs([]);
-		    list([]);
 		},
 		showSettingDialog = function () {
 		    require(["viewmodels/output.setting.dialog", "durandal/app"], function (dialog, app2) {
