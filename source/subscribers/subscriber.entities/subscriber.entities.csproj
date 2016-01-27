@@ -97,9 +97,6 @@
     <EmbeddedResource Include="entity.view.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="entity.view.js" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Scripts\jquery-2.2.0.min.map" />

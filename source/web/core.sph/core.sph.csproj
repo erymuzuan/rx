@@ -437,11 +437,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_erroList.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\App\Views\EntityViewDesigner\_filters.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_filters.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Areas\App\Views\EntityViewDesigner\_general.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1855,10 +1850,6 @@
     <Content Include="Areas\App\Views\EntityViewDesigner\_general.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_general.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\EntityViewDesigner\_filters.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_filters.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\App\Views\EntityViewDesigner\_parameters.cshtml">
       <Generator>RazorGenerator</Generator>

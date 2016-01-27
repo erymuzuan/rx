@@ -14,6 +14,7 @@
         function (context, logger, router, system, app) {
 
             var errors = ko.observableArray(),
+                queryOptions = ko.observableArray(),
                 templateOptions = ko.observableArray(),
                 originalEntity = "",
                 warnings = ko.observableArray(),
@@ -26,36 +27,26 @@
                         tcs = new $.Deferred();
 
                     context.getListAsync("ViewTemplate", "Id ne '0'", "Name")
-                    .done(templateOptions);
+                            .done(templateOptions);
 
                     context.loadOneAsync("EntityDefinition", query)
-                        .done(function (b) {
+                        .then(function (b) {
                             entity(b);
                             window.typeaheadEntity = b.Name();
                             if (viewid === "0") {
                                 tcs.resolve(true);
                             }
+                            return context.getListAsync("EntityQuery", "Entity eq '" + ko.unwrap(b.Name) + "'", "Id");
 
-                        });
+                        }).then(queryOptions);
 
-                    if (viewid && viewid !== "0") {
-                        context.loadOneAsync("EntityView", "Id eq '" + viewid + "'")
-                        .done(function (f) {
+                    context.loadOneAsync("EntityView", "Id eq '" + viewid + "'")
+                    .done(function (f) {
 
-                            view(f);
-                            originalEntity = ko.toJSON(view);
-                            tcs.resolve(true);
-                        });
-                    } else {
-
-                        view(new bespoke.sph.domain.EntityView({ WebId: system.guid() }));
-                        view().IconStoreId("sph-img-list");
-
-                        view().Name.subscribe(function (v) {
-                            view().Route(v.toLowerCase().replace(/\W+/g, "-"));
-
-                        });
-                    }
+                        view(f);
+                        originalEntity = ko.toJSON(view);
+                        tcs.resolve(true);
+                    });
                     view().EntityDefinitionId(entityid);
 
                     return tcs.promise();
@@ -218,6 +209,7 @@
             var vm = {
                 warnings: warnings,
                 errors: errors,
+                queryOptions: queryOptions,
                 templateOptions: templateOptions,
                 attached: attached,
                 activate: activate,

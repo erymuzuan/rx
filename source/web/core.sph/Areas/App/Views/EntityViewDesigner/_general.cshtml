@@ -17,6 +17,15 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="view-route" class="col-lg-3 col-md-3 col-sm-2 control-label">Query</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <select required class="form-control" 
+                    data-bind="value: Query, options:$root.queryOptions, optionsCaption: '[Select your query]', tooltip:'Query to point the search to.'" id="view-query">
+                
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
         <label for="view-note" class="col-lg-3 col-md-3 col-sm-2 control-label">Note</label>
         <div class="col-lg-9 col-md-9 col-sm-12">
             <textarea data-bind="value: Note, valueUpdate: 'keyup'"

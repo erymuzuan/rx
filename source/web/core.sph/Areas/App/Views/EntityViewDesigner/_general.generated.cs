@@ -109,6 +109,29 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n        <label");
 
+WriteLiteral(" for=\"view-route\"");
+
+WriteLiteral(" class=\"col-lg-3 col-md-3 col-sm-2 control-label\"");
+
+WriteLiteral(">Query</label>\r\n        <div");
+
+WriteLiteral(" class=\"col-lg-9 col-md-9 col-sm-12\"");
+
+WriteLiteral(">\r\n            <select required");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" \r\n                    data-bind=\"value: Query, options:$root.queryOptions, optio" +
+"nsCaption: \'[Select your query]\', tooltip:\'Query to point the search to.\'\"");
+
+WriteLiteral(" id=\"view-query\"");
+
+WriteLiteral(">\r\n                \r\n            </select>\r\n        </div>\r\n    </div>\r\n    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n        <label");
+
 WriteLiteral(" for=\"view-note\"");
 
 WriteLiteral(" class=\"col-lg-3 col-md-3 col-sm-2 control-label\"");

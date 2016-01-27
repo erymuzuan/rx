@@ -16,12 +16,7 @@
             <li class="active">
                 <a href="#general-ev-panel" data-toggle="tab">General</a>
             </li>
-            <li>
-                <a href="#filters-ev-panel" data-toggle="tab">Filters</a>
-            </li>
-            <li>
-                <a href="#sorts-ev-panel" data-toggle="tab">Sorts</a>
-            </li>
+    
             <li>
                 <a href="#route-parameters-ev-panel" data-toggle="tab">Parameters</a>
             </li>
@@ -37,12 +32,8 @@
             <div id="general-ev-panel" class="tab-pane active">
                 @Html.Partial("_general")
             </div>
-            <div class="tab-pane" id="filters-ev-panel">
-                @Html.Partial("_filters")
-            </div>
-            <div class="tab-pane" id="sorts-ev-panel">
-                @Html.Partial("_sorts")
-            </div>
+            
+       
             <div class="tab-pane" id="cf-ev-panel">
                 @Html.Partial("_conditionalFormatting")
             </div>

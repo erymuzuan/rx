@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -47,12 +48,68 @@ namespace subscriber.entities
             File.WriteAllText(html, markup.Tidy());
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + view.Route.ToLower() + ".js");
-            var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(template.Js, vm);
+            var script = this.GenerateViewModelCode(view, ed);
             var formattedScript = beau.Beautify(script);
             File.WriteAllText(js, formattedScript);
 
 
 
+        }
+
+        private string GenerateViewModelCode(EntityView view, EntityDefinition ed)
+        {
+            var context = new SphDataContext();
+            var query = context.LoadOneFromSources<EntityQuery>(x => x.Id == view.Query);
+            var route = query.Route.StartsWith("~/")?
+                query.Route.Replace("~/","/"):
+                $"/api/{ed.Plural.ToLowerInvariant()}/{query.Route}";
+            var code = new StringBuilder();
+            code.Append(
+                $@"
+
+define([""services/datacontext"", ""services/logger"", ""plugins/router"", ""services/chart"", objectbuilders.config ,""services/_ko.list""],
+    function (context, logger, router, chart,config ) {{
+
+        var isBusy = ko.observable(false),
+            query = ""{route}"",
+            partial = partial || {{}},
+            list = ko.observableArray([]),
+            map = function(v) {{
+                if (typeof partial.map === ""function"") {{
+                    return partial.map(v);
+                }}
+                return v;
+            }},
+            activate = function () {{
+                if (typeof partial.activate === ""function"") {{
+                    return partial.activate(list);
+                }}
+                return true;
+            }},
+            attached = function (view) {{
+                if (typeof partial.attached === ""function"") {{
+                    partial.attached(view);
+                }}
+            }};
+
+        var vm = {{
+            query: query,
+            config: config,
+            isBusy: isBusy,
+            map: map,
+            activate: activate,
+            attached: attached,
+            list: list,
+            toolbar: {{
+                commands: ko.observableArray([])
+            }}
+        }};
+
+        return vm;
+
+    }});");
+
+            return code.ToString();
         }
 
         private ViewTemplate GetDefaultHtmlTemplate()

@@ -104,19 +104,7 @@ WriteLiteral(" href=\"#general-ev-panel\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
-WriteLiteral(">General</a>\r\n            </li>\r\n            <li>\r\n                <a");
-
-WriteLiteral(" href=\"#filters-ev-panel\"");
-
-WriteLiteral(" data-toggle=\"tab\"");
-
-WriteLiteral(">Filters</a>\r\n            </li>\r\n            <li>\r\n                <a");
-
-WriteLiteral(" href=\"#sorts-ev-panel\"");
-
-WriteLiteral(" data-toggle=\"tab\"");
-
-WriteLiteral(">Sorts</a>\r\n            </li>\r\n            <li>\r\n                <a");
+WriteLiteral(">General</a>\r\n            </li>\r\n    \r\n            <li>\r\n                <a");
 
 WriteLiteral(" href=\"#route-parameters-ev-panel\"");
 
@@ -151,47 +139,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 38 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 33 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
            Write(Html.Partial("_general"));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n            </div>\r\n            <div");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(" id=\"filters-ev-panel\"");
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                ");
-
-            
-            #line 41 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
-           Write(Html.Partial("_filters"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n            </div>\r\n            <div");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(" id=\"sorts-ev-panel\"");
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                ");
-
-            
-            #line 44 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
-           Write(Html.Partial("_sorts"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n            </div>\r\n            <div");
+WriteLiteral("\r\n            </div>\r\n            \r\n       \r\n            <div");
 
 WriteLiteral(" class=\"tab-pane\"");
 
@@ -202,7 +156,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 47 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 38 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
            Write(Html.Partial("_conditionalFormatting"));
 
             
@@ -221,7 +175,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 50 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 41 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
            Write(Html.Partial("_performer"));
 
             
@@ -238,7 +192,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 53 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 44 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
            Write(Html.Partial("_parameters"));
 
             
