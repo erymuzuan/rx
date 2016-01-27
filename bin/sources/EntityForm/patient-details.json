@@ -144,7 +144,7 @@
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-            "IsRequired": false,
+            "IsRequired": true,
             "Pattern": null,
             "Mode": "",
             "Message": null,
@@ -873,7 +873,9 @@
   },
   "Rules": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-    "$values": []
+    "$values": [
+      "Dob"
+    ]
   },
   "RouteParameterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
@@ -914,6 +916,6 @@
   "Id": "patient-details",
   "CreatedDate": "2015-05-28T07:43:35.8227123+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-26T18:18:28.5597547+08:00",
+  "ChangedDate": "2016-01-28T06:12:43.6091825+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

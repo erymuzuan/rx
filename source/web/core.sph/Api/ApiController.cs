@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -23,6 +24,12 @@ namespace Bespoke.Sph.Web.Api
     {
         public static readonly string ConnectionString = ConfigurationManager.SqlConnectionString;
 
+        [Route("{type}/0")]
+        public ActionResult NotFound(string type)
+        {
+            this.Response.StatusCode = (int) HttpStatusCode.NotFound;
+            return Json(new {success = false, status = HttpStatusCode.NotFound, message = $"Cannot find any item of type {type} with id 0"}, JsonRequestBehavior.AllowGet);
+        }
         [Route("audittrail")]
         public async Task<ActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

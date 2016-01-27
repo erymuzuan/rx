@@ -66,11 +66,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
                 id = ko.observable(),
+                partial = partial || {{}},
                 i18n = null,
                 activate = function (entityId) {{
                     id(entityId);
-
-                    return context.loadOneAsync(""EntityForm"", ""Route eq '{form.Route}'"")
+                    var tcs = new $.Deferred();
+                    context.loadOneAsync(""EntityForm"", ""Route eq '{form.Route}'"")
                        .then(function (f) {{
                            form(f);
                            return watcher.getIsWatchingAsync(""{ed.Name}"", entityId);
@@ -81,43 +82,30 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                        }})
                        .then(function (n) {{
                            i18n = n[0];
+                            if(!entityId || entityId === ""0""){{
+                                return Task.fromResult({{ WebId: system.guid() }}); 
+                            }}
                            return context.get(""/api/{ed.Plural.ToLowerInvariant()}/"" + entityId);
                        }}).then(function (b) {{
-                           var c = b[0] || b;
-                           c.$type = ""{ed.CodeNamespace}.{ed.Name}, {ConfigurationManager.ApplicationName}.{ed.Name}"";
-                           var item = context.toObservable(c);
-                           entity(item);
+                             entity(new bespoke.{ns}.domain.{ed.Name}(b[0]||b));
                        }}, function (e) {{
-                           console.error(e);
-                           entity(new {typeCtor});
+                         if (e.status == 404) {{
+                            app.showMessage(""Sorry, but we cannot find any {ed.Name} with location : "" + ""/api/{ed.Plural.ToLowerInvariant()}/"" + entityId, ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
+                         }}
+                       }}).always(function () {{
+                           if (typeof partial.activate === ""function"") {{
+                               partial.activate(ko.unwrap(entity))
+                                        .done(tcs.resolve)
+                                        .fail(tcs.reject);
+                           }}
+                           else{{
+                            tcs.resolve(true);
+                           }}
                        }});
+                       return tcs.promise();
             
-                ");
-            var hasPartial = !string.IsNullOrWhiteSpace(model.Form.Partial);
-            if (hasPartial)
-            {
-                script.AppendLine(@"
-                            if(typeof partial.activate === ""function""){
-                                var pt = partial.activate(entity());
-                                if(typeof pt.done === ""function""){
-                                    pt.done(tcs.resolve);
-                                }else{
-                                    tcs.resolve(true);
-                                }
-                            }
-                       ");
-            }
-            else
-            {
-                script.AppendLine("tcs.resolve(true);");
+                }},");
 
-            }
-            script.AppendLine(@"
-                        
-                    });
-
-                    return tcs.promise();
-                },");
 
 
             var operation = ed.EntityOperationCollection.SingleOrDefault(x => x.Name == form.Operation);
@@ -128,7 +116,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             }
             if (model.Form.IsRemoveAvailable)
                 script.AppendLine($@"remove = function {{
-                        return context.sendDelete(""{ed.Name}/{form.DeleteOperation}/"" + ko.unwrap(entity().Id));
+                        return context.sendDelete(""{ed.Plural.ToLowerInvariant()}/{form.DeleteOperation}/"" + ko.unwrap(entity().Id))
+                                       .then(function(result){{
+                                             return app.showMessage(""{form.DeleteOperationSuccessMesage}"",""{ConfigurationManager.ApplicationFullName}"",[""OK""]);
+                                        }})
+                                        .then(function(result){{
+                                             router.navigate(""{form.DeleteOperationSuccessNavigateUrl}"");
+                                        }});
                     }},");
             // end of operation
             script.AppendLine($@"
@@ -139,7 +133,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             script.AppendLine(@"
                     if(typeof partial.attached === ""function""){
                         partial.attached(view);
-                    }", hasPartial);
+                    }");
             script.AppendLine(@"
                 },");
 
@@ -169,7 +163,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     $(""[data-i18n]"").each(function (i, v) {
                         var $label = $(v),
                             text = $label.data(""i18n"");
-                        if (typeof i18n[text] === ""string"") {
+                        if (i18n && typeof i18n[text] === ""string"") {
                             $label.text(i18n[text]);
                         }
                     });
@@ -183,10 +177,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             script.Append(";");
 
             // viewmodel
-            var partialMemberDeclaration = (string.IsNullOrWhiteSpace(model.Form.Partial) ? "" : "partial: partial,");
             script.AppendLine($@"
             var vm = {{
-                 {partialMemberDeclaration}");
+                    partial: partial,");
 
             foreach (var rule in model.Form.Rules)
             {
@@ -245,8 +238,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             if (!string.IsNullOrWhiteSpace(@saveOperation))
             {
                 script.AppendLine("saveCommand : saveCommand,");
-                if (hasPartial)
-                    script.AppendLine(@"canExecuteSaveCommand : ko.computed(function(){
+                script.AppendLine(@"canExecuteSaveCommand : ko.computed(function(){
                         if(typeof partial.canExecuteSaveCommand === ""function""){
                             return partial.canExecuteSaveCommand();
                         }
@@ -311,7 +303,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         private static string GenerateApiOperationCode(EntityDefinition ed, EntityOperation operation, string method)
         {
             var opFunc = operation.Name.ToCamelCase();
-            var route = string.IsNullOrWhiteSpace(operation.Route) ? operation.Name : operation.Route;
+            var route = operation.Route.StartsWith("~/") ? 
+                        operation.Route.Replace("~/", "/") : 
+                        $"/api/{ed.Plural.ToLowerInvariant()}/{operation.Route}";
             return $@"
                 {opFunc} = function(){{
 
@@ -322,21 +316,21 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                      var data = ko.mapping.toJSON(entity),
                         tcs = new $.Deferred();
                       
-                     context.{method}(data, ""/{ed.Name}/{route}"" )
+                     context.{method}(data, ""{route}"" )
+                         .fail(function(response){{ 
+                            var result = response.responseJSON;
+                            errors.removeAll();
+                            _(result.rules).each(function(v){{
+                                errors(v.ValidationErrors);
+                            }});
+                            logger.error(""There are errors in your entity, !!!"");
+                            tcs.resolve(false);
+                         }})
                          .then(function (result) {{
-                             if (result.success) {{
-                                 logger.info(result.message);
-                                 entity().Id(result.id);
-                                 errors.removeAll();
-
-                             }} else {{
-                                 errors.removeAll();
-                                 _(result.rules).each(function(v){{
-                                     errors(v.ValidationErrors);
-                                 }});
-                                 logger.error(""There are errors in your entity, !!!"");
-                             }}
-                             tcs.resolve(result);
+                            logger.info(result.message);
+                            entity().Id(result.id);
+                            errors.removeAll();
+                            tcs.resolve(result);
                          }});
                      return tcs.promise();
                  }},";

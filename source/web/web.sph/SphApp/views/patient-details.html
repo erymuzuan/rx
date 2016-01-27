@@ -14,7 +14,7 @@
 <form class="form-horizontal" data-bind="with : entity" id="patient-details-form">
 <div class="form-group" data-bind="visible:true">
     <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="queryPaging :{ query: '/api/patients/' + ko.unwrap(Mrn) + '/appointments?start=2016-01-01&amp;end=2016-02-29', list: bespoke.getSingletonObservableArray('098abb1c-265c-45ae-844f-7f2a3065954e')}">
+    <table class="table table-condensed table-striped" data-bind="queryPaging :{ query: '/api/patients/' + ko.unwrap(Mrn) + '/appointments?start=2016-01-01&amp;end=2016-02-29', list: bespoke.getSingletonObservableArray('39b41615-de2e-463d-9056-40f5d6731fae')}">
         <thead>
             <tr>
                     <th data-i18n="Doctor">Doctor</th>
@@ -23,7 +23,7 @@
                     <th data-i18n="Ward">Ward</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('098abb1c-265c-45ae-844f-7f2a3065954e')">
+        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('39b41615-de2e-463d-9056-40f5d6731fae')">
             <tr>
                         <td data-bind="text:Doctor"></td>
                         <td data-bind="date:DateTime"></td>
@@ -36,10 +36,11 @@
     <div data-bind="visible:true" class="form-group">
         <label data-i18n="FullName" for="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" class="col-md-4">FullName</label>
         <div class="col-md-8">
-            <input class="form-control input-large"
+            <input required class="form-control input-large"
                    data-bind="value: FullName"
                    maxlength="50"
-                    data-rule-maxlength="50"
+                    data-rule-required="true" 
+ data-rule-maxlength="50"
  data-rule-minlength="5"
                    id="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" type="text" name="FullName" />
         </div>

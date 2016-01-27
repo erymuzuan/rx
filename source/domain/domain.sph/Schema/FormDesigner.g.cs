@@ -2704,6 +2704,16 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_deleteOperationSuccessMesage;
+        public const string PropertyNameDeleteOperationSuccessMesage = "DeleteOperationSuccessMesage";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_deleteOperationSuccessNavigateUrl;
+        public const string PropertyNameDeleteOperationSuccessNavigateUrl = "DeleteOperationSuccessNavigateUrl";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -3432,6 +3442,58 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_deleteOperation;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string DeleteOperationSuccessMesage
+        {
+            set
+            {
+                if (String.Equals(m_deleteOperationSuccessMesage, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDeleteOperationSuccessMesage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_deleteOperationSuccessMesage = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_deleteOperationSuccessMesage;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string DeleteOperationSuccessNavigateUrl
+        {
+            set
+            {
+                if (String.Equals(m_deleteOperationSuccessNavigateUrl, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDeleteOperationSuccessNavigateUrl, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_deleteOperationSuccessNavigateUrl = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_deleteOperationSuccessNavigateUrl;
             }
         }
 
