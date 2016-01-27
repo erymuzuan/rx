@@ -20,6 +20,7 @@ namespace subscriber.entities
         {
             await Task.Delay(2000);
             var context = new SphDataContext();
+            var query = context.LoadOneFromSources<EntityQuery>(x => x.Id == view.Query);
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == view.EntityDefinitionId);
             var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault
                 && f.EntityDefinitionId == view.EntityDefinitionId);
@@ -32,8 +33,10 @@ namespace subscriber.entities
             var vm = new
             {
                 Definition = ed,
+
                 View = view,
                 Form = form,
+                Query = query,
                 Routes = string.Join(",", view.RouteParameterCollection.Select(r => r.Name)),
                 PartialArg = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", partial",
                 PartialPath = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", \"" + view.Partial + "\""
@@ -48,7 +51,8 @@ namespace subscriber.entities
             File.WriteAllText(html, markup.Tidy());
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + view.Route.ToLower() + ".js");
-            var script = this.GenerateViewModelCode(view, ed);
+            var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(template.Js, vm);
+            
             var formattedScript = beau.Beautify(script);
             File.WriteAllText(js, formattedScript);
 
@@ -56,43 +60,42 @@ namespace subscriber.entities
 
         }
 
-        private string GenerateViewModelCode(EntityView view, EntityDefinition ed)
+        private string GenerateDefaultViewModelTemplate()
         {
-            var context = new SphDataContext();
-            var query = context.LoadOneFromSources<EntityQuery>(x => x.Id == view.Query);
-            var route = query.Route.StartsWith("~/")?
-                query.Route.Replace("~/","/"):
-                $"/api/{ed.Plural.ToLowerInvariant()}/{query.Route}";
+          
             var code = new StringBuilder();
             code.Append(
-                $@"
-
+                @"
+@{
+        var query = Model.Query;
+        var route = query.GetLocation();
+}
 define([""services/datacontext"", ""services/logger"", ""plugins/router"", ""services/chart"", objectbuilders.config ,""services/_ko.list""],
-    function (context, logger, router, chart,config ) {{
+    function (context, logger, router, chart,config ) {
 
         var isBusy = ko.observable(false),
-            query = ""{route}"",
-            partial = partial || {{}},
+            query = ""@route"",
+            partial = partial || {},
             list = ko.observableArray([]),
-            map = function(v) {{
-                if (typeof partial.map === ""function"") {{
+            map = function(v) {
+                if (typeof partial.map === ""function"") {
                     return partial.map(v);
-                }}
+                }
                 return v;
-            }},
-            activate = function () {{
-                if (typeof partial.activate === ""function"") {{
+            },
+            activate = function () {
+                if (typeof partial.activate === ""function"") {
                     return partial.activate(list);
-                }}
+                }
                 return true;
-            }},
-            attached = function (view) {{
-                if (typeof partial.attached === ""function"") {{
+            },
+            attached = function (view) {
+                if (typeof partial.attached === ""function"") {
                     partial.attached(view);
-                }}
-            }};
+                }
+            };
 
-        var vm = {{
+        var vm = {
             query: query,
             config: config,
             isBusy: isBusy,
@@ -100,14 +103,14 @@ define([""services/datacontext"", ""services/logger"", ""plugins/router"", ""ser
             activate: activate,
             attached: attached,
             list: list,
-            toolbar: {{
+            toolbar: {
                 commands: ko.observableArray([])
-            }}
-        }};
+            }
+        };
 
         return vm;
 
-    }});");
+    });");
 
             return code.ToString();
         }
@@ -115,7 +118,6 @@ define([""services/datacontext"", ""services/logger"", ""plugins/router"", ""ser
         private ViewTemplate GetDefaultHtmlTemplate()
         {
             string html;
-            string js;
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "subscriber.entities.entity.view.html";
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
@@ -125,16 +127,7 @@ define([""services/datacontext"", ""services/logger"", ""plugins/router"", ""ser
                 html = reader.ReadToEnd();
 
             }
-
-            const string RESOURCE_NAME_JS = "subscriber.entities.entity.view.js";
-            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME_JS))
-            // ReSharper disable once AssignNullToNotNullAttribute
-            using (var reader = new StreamReader(stream))
-            {
-                js = reader.ReadToEnd();
-
-            }
-
+            var js = GenerateDefaultViewModelTemplate();
             return new ViewTemplate(html, js);
         }
 

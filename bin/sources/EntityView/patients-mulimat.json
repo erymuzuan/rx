@@ -2,10 +2,6 @@
   "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
   "Icon": "fa fa-list-ul",
   "Url": "entity.view.designer/patient/patients-mulimat",
-  "FilterCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
-    "$values": []
-  },
   "ViewColumnCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
     "$values": [
@@ -15,67 +11,16 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
-        "Path": "Status",
-        "Header": "Status",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "RouteValueField": null,
-        "WebId": "68c6c000-e6be-49ad-96d1-30d2d30d8579"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
         "Path": "FullName",
         "Header": "Nama",
         "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
+        "IsLinkColumn": true,
+        "FormRoute": "patient-details",
+        "IconCssClass": "fa fa-bookmark",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "RouteValueField": null,
+        "RouteValueField": "Id",
         "WebId": "9cb0b228-37a4-418b-90cd-8326b57b2a0d"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "PassportNo",
-        "Header": "Passport",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "RouteValueField": null,
-        "WebId": "f9c2eb3a-875b-4f14-8ce8-64179e5fc7bd"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "IdentificationNo",
-        "Header": "Id",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "RouteValueField": null,
-        "WebId": "95f4726f-c70d-4a4f-80d8-c754d7a46459"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -100,59 +45,8 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
-        "Path": "Age",
-        "Header": "Age",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "RouteValueField": null,
-        "WebId": "bd61b9bd-7cf1-4e31-bbe1-9e0afebe4d86"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "IdentificationNo",
-        "Header": "No. KP",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "RouteValueField": null,
-        "WebId": "76e9b490-fe52-4854-bb2c-0f0140d2f1b3"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "FullName",
-        "Header": "Full Name",
-        "Sort": "",
-        "IsLinkColumn": true,
-        "FormRoute": "patient-details",
-        "IconCssClass": "fa fa-cloud",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "RouteValueField": "",
-        "WebId": "e9b30ace-9793-466b-ccea-6e3fa826ae35"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "IdentificationNo",
-        "Header": "Identification No",
+        "Path": "Race",
+        "Header": "Race",
         "Sort": "",
         "IsLinkColumn": false,
         "FormRoute": null,
@@ -160,13 +54,9 @@
         "IconStoreId": "",
         "Format": "text:{0}",
         "RouteValueField": "",
-        "WebId": "7db7abbd-f802-4764-e224-d8b188550635"
+        "WebId": "47a1a885-3388-4b89-ea8f-a99f0142fe86"
       }
     ]
-  },
-  "SortCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
-    "$values": []
   },
   "ConditionalFormattingCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
@@ -189,7 +79,6 @@
   "Name": "Muslimat patients",
   "Route": "patients-mulimat",
   "Note": "Women muslim patients",
-  "Query": "",
   "IsPublished": true,
   "Visibilty": "",
   "TileColour": "bgreen",
@@ -198,10 +87,11 @@
   "Partial": null,
   "Template": null,
   "DisplayOnDashboard": true,
+  "Query": "patients-cache-filter",
   "CreatedBy": "admin",
   "Id": "patients-mulimat",
   "CreatedDate": "2015-05-28T07:43:35.8707152+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-28T06:37:30.569024+08:00",
+  "ChangedDate": "2016-01-28T07:40:59.4004211+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }

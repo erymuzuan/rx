@@ -1,57 +1,42 @@
-/// <reference path="Scripts/jquery-2.1.1.intellisense.js" />
-/// <reference path="Scripts/knockout-3.4.0.debug.js" />
-/// <reference path="Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="Scripts/require.js" />
-/// <reference path="Scripts/underscore.js" />
-/// <reference path="Scripts/moment.js" />
-/// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/trigger.workflow.g.js" />
-/// <reference path="../../Scripts/bootstrap.js" />
-
-
-define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config],
+define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config, "services/_ko.list"],
 
 function(context, logger, router, chart, config) {
 
     var isBusy = ko.observable(false),
-        chartFiltered = ko.observable(false),
-        view = ko.observable(),
+        query = "/api/patients/cache-filter",
+        partial = partial || {},
         list = ko.observableArray([]),
         map = function(v) {
-            if (typeof partial !== "undefined" && typeof partial.map === "function") {
+            if (typeof partial.map === "function") {
                 return partial.map(v);
             }
             return v;
         },
-        entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-        activate = function() { < text > < /text>
-                     
-
-
-
-            },
-            attached = function (view) {
-                chart.init("Patient", query, chartSeriesClick, "patients-mulimat");
-            };
-
-        var vm = {
-            config: config,
-            view: view,
-            chart: chart,
-            isBusy: isBusy,
-            map: map,
-            entity: entity,
-            activate: activate,
-            attached: attached,
-            list: list,
-            clearChartFilter:clearChartFilter,
-            chartFiltered:chartFiltered,
-            query: query,
-            toolbar: {
-                commands: ko.observableArray([])
+        activate = function() {
+            if (typeof partial.activate === "function") {
+                return partial.activate(list);
+            }
+            return true;
+        },
+        attached = function(view) {
+            if (typeof partial.attached === "function") {
+                partial.attached(view);
             }
         };
 
-        return vm;
+    var vm = {
+        query: query,
+        config: config,
+        isBusy: isBusy,
+        map: map,
+        activate: activate,
+        attached: attached,
+        list: list,
+        toolbar: {
+            commands: ko.observableArray([])
+        }
+    };
 
-    });
+    return vm;
+
+});

@@ -1,10 +1,8 @@
 ﻿<h1>@Model.View.Name</h1>
 <div class="row">
     <div class="col-md-8">
-        <button class="btn btn-link pull-right" data-bind="visible: chartFiltered, click: clearChartFilter">
-            <i class="fa fa-times"></i>
-            Clear chart's filter
-        </button>
+
+
         <table class="table table-striped" data-bind="queryPaging :{ query: query, map : map, list:list}">
             <thead>
                 <tr>
@@ -51,6 +49,4 @@
         <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
     </div>
 
-    <!-- ko compose : {view : '_chart.panel'}-->
-    <!-- /ko -->
 </div>

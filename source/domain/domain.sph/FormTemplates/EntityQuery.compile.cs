@@ -89,7 +89,12 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(this.Resource))
                 this.Resource = this.Entity.Pluralize();
             return this.Route.StartsWith("~") ? this.Route : $"~/api/{Resource}/{this.Route}";
-            //           Route.StartsWith("~") ? this.Route : $"~/api/{Entity.ToLowerInvariant()}/{this.Route}"
+        }
+        public string GetLocation()
+        {
+            var route = this.GetRoute();
+            if (route.StartsWith("~/")) route = route.Replace("~/", "/");
+            return route;
         }
 
 
