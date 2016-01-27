@@ -2,8 +2,8 @@
 /// <reference path="../durandal/system.js" />
 /// <reference path="../schemassystem.js" />
 /// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="/Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
