@@ -282,12 +282,22 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
             }
         }
-        protected override Task<Class> GeneratePagingSourceCodeAsync()
+        protected override async Task<Class> GeneratePagingSourceCodeAsync()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.Sql2012PagingTranslator.cs";
+            var version = 2012;
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var cmd = new SqlCommand("SELECT SERVERPROPERTY ('ProductVersion')", conn))
+            {
+                await conn.OpenAsync();
+                var result = (await cmd.ExecuteScalarAsync()) as string;
+                var number = Strings.RegexInt32Value(result, @"^(?<version>[0-9]{1,2})\..*?", "version");
+                if (number < 11) version = 2008;
+            }
 
-            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
+            var assembly = Assembly.GetExecutingAssembly();
+            string resourceName = $"Bespoke.Sph.Integrations.Adapters.Sql{version}PagingTranslator.cs";
+
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
             // ReSharper disable AssignNullToNotNullAttribute
             using (var reader = new StreamReader(stream))
             // ReSharper restore AssignNullToNotNullAttribute
@@ -295,7 +305,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
                 var source = new Class(code) { FileName = "SqlPagingTranslator.cs" };
-                return Task.FromResult(source);
+                return source;
 
             }
         }
