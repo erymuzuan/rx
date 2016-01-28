@@ -944,6 +944,8 @@ bespoke.sph.domain.ComplexMember = function (optionOrWebid) {
 
     v.EmptyField = ko.observable("");
 
+    v.TypeName = ko.observable("");
+
     v["$type"] = "Bespoke.Sph.Domain.ComplexMember, domain.sph";
 
 
@@ -1032,6 +1034,8 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         OperationFailureCallback: ko.observable(""),
         OperationMethod: ko.observable(""),
         DeleteOperation: ko.observable(""),
+        DeleteOperationSuccessMesage: ko.observable(""),
+        DeleteOperationSuccessNavigateUrl: ko.observable(""),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
         RouteParameterCollection: ko.observableArray([]),
@@ -1110,7 +1114,6 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         Name: ko.observable(""),
         Route: ko.observable(""),
         Note: ko.observable(""),
-        Query: ko.observable(""),
         IsPublished: ko.observable(false),
         Visibilty: ko.observable(""),
         TileColour: ko.observable(""),
@@ -1119,9 +1122,8 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         Partial: ko.observable(""),
         Template: ko.observable(""),
         DisplayOnDashboard: ko.observable(false),
-        FilterCollection: ko.observableArray([]),
+        Query: ko.observable(""),
         ViewColumnCollection: ko.observableArray([]),
-        SortCollection: ko.observableArray([]),
         ConditionalFormattingCollection: ko.observableArray([]),
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
         RouteParameterCollection: ko.observableArray([]),
@@ -1947,6 +1949,7 @@ bespoke.sph.domain.EntityQuery = function (optionOrWebid) {
         Entity: ko.observable(""),
         Note: ko.observable(""),
         IsPublished: ko.observable(false),
+        Resource: ko.observable(""),
         FilterCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
@@ -2004,6 +2007,40 @@ bespoke.sph.domain.ServiceContract = function (optionOrWebid) {
 
     if (bespoke.sph.domain.ServiceContractPartial) {
         return _(model).extend(new bespoke.sph.domain.ServiceContractPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.EntityQuerySetting = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EntityQuerySetting, domain.sph",
+        CacheProfile: ko.observable(""),
+        Note: ko.observable(""),
+        Resource: ko.observable(""),
+        Performer: ko.observable(new bespoke.sph.domain.Performer()),
+        CacheFilter: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityQuerySettingPartial) {
+        return _(model).extend(new bespoke.sph.domain.EntityQuerySettingPartial(model));
     }
     return model;
 };

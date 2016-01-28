@@ -38,7 +38,6 @@ namespace member.covert
 
         private static void RemoveObsoleteMembersFromComplexObject(JObject member)
         {
-            member.Remove("TypeName");
             member.Remove("IsNullable");
             member.Remove("IsNotIndexed");
             member.Remove("IsAnalyzed");
@@ -65,6 +64,7 @@ namespace member.covert
                 if (typeName == "System.Object, mscorlib")
                 {
                     member["$type"] = "Bespoke.Sph.Domain.ComplexMember, domain.sph";
+                    member["TypeName"] = member["Name"].Value<string>();
                     if (member.Property("AllowMultiple") == null)
                         member.Add(new JProperty("AllowMultiple", false));
                     RemoveObsoleteMembersFromComplexObject(member);
@@ -74,6 +74,7 @@ namespace member.covert
                 if (typeName == "System.Array, mscorlib")
                 {
                     member["$type"] = "Bespoke.Sph.Domain.ComplexMember, domain.sph";
+                    member["TypeName"] = member["Name"].Value<string>().Replace("Collection","");
                     if (member.Property("AllowMultiple") == null)
                         member.Add(new JProperty("AllowMultiple", true));
                     RemoveObsoleteMembersFromComplexObject(member);

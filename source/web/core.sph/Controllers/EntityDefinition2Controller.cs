@@ -123,6 +123,13 @@ namespace Bespoke.Sph.Web.Controllers
             return Content(id.Pluralize());
         }
 
+        [HttpGet]
+        [Route("singular/{id}")]
+        public ActionResult GetSingular(string id)
+        {
+            return Content(id.Singularize(false));
+        }
+
 
         [HttpGet]
         [Route("schema")]

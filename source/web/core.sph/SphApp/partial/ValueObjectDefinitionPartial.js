@@ -6,7 +6,7 @@
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
-bespoke.sph.domain.EntityDefinitionPartial = function () {
+bespoke.sph.domain.ValueObjectDefinitionPartial = function () {
     var system = require("durandal/system"),
         app = require("durandal/app"),
         context = require(objectbuilders.datacontext),
@@ -20,33 +20,6 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
             var self = this;
             return function () {
                 self.MemberCollection.remove(floor);
-            };
-        },
-        addEntityOperation = function () {
-            this.EntityOperationCollection.push(new bespoke.sph.domain.EntityOperation({
-                WebId: system.guid()
-            }));
-        }, save = function () {
-            var self = this;
-            context.post(ko.toJSON(self), "/entity-definition")
-            .then(function (result) {
-                if (result.success) {
-                }
-            });
-        },
-        removeEntityOperation = function (operation) {
-            var self = this;
-            return function () {
-                var tcs = new $.Deferred();
-                app.showMessage("Are you sure you want to remove this operation, this operation cannot be undone and will commit the entire changes to your EntityDefinition", "Reactive Developer", ["Yes", "No"])
-                    .done(function (dialogResult) {
-                        if (dialogResult === "Yes") {
-                            self.EntityOperationCollection.remove(operation);
-                            save.call(self);
-                        }
-                    });
-
-                return tcs.promise();
             };
         },
         editMember = function (member) {
@@ -90,7 +63,7 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                     app.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 self.BusinessRuleCollection.replace(rule, clone);
                             }
                         });
@@ -112,7 +85,7 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                     dialog.init(building.BuildingId(), member.MemberPlanStoreId());
                     app.showDialog(dialog)
                         .done(function (result) {
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 member.MemberPlanStoreId(dialog.spatialStoreId());
                             }
                         });
@@ -122,8 +95,6 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
             };
         };
     return {
-        addEntityOperation: addEntityOperation,
-        removeEntityOperation: removeEntityOperation,
         addMember: addMember,
         editMember: editMember,
         removeMember: removeMember,
