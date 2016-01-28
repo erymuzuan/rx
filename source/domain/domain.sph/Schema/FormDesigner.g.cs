@@ -2531,6 +2531,21 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_TypeName;
+        public string TypeName
+        {
+            get
+            {
+                return m_TypeName;
+            }
+            set
+            {
+                m_TypeName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 

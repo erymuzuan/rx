@@ -456,6 +456,7 @@
 			<xs:complexContent>
 				<xs:extension base="Member">
 					<xs:attribute name="EmptyField" type="xs:string" use="optional"/>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

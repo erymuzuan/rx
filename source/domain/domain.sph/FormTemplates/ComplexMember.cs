@@ -22,17 +22,17 @@ namespace Bespoke.Sph.Domain
 
         public override string GetDefaultValueCode(int count)
         {
+            if (this.AllowMultiple) return null;
             return $"           this.{Name} = new {Name}();";
         }
         
         public override string GeneratedCode(string padding = "      ")
         {
             var code = new StringBuilder();
-            var className = this.Name.Replace("Collection", "");
             if (this.AllowMultiple)
-                code.AppendLine(padding + $"public  ObjectCollection<{className}> {Name} {{ get; }} = new ObjectCollection<{className}>();");
+                code.AppendLine(padding + $"public  ObjectCollection<{TypeName}> {Name} {{ get; }} = new ObjectCollection<{TypeName}>();");
             else
-                code.AppendLine(padding + $"public {Name} {Name} {{ get; set;}}");
+                code.AppendLine(padding + $"public {TypeName} {Name} {{ get; set;}}");
 
             return code.ToString();
 
@@ -41,7 +41,7 @@ namespace Bespoke.Sph.Domain
         {
 
 
-            var @class = new Class { Name = this.Name, BaseClass = nameof(DomainObject), FileName = $"{Name}.cs", Namespace = codeNamespace };
+            var @class = new Class { Name = this.TypeName, BaseClass = nameof(DomainObject), FileName = $"{TypeName}.cs", Namespace = codeNamespace };
             if (null != usingNamespaces)
             {
                 @class.ImportCollection.AddRange(usingNamespaces);
@@ -147,6 +147,14 @@ namespace Bespoke.Sph.Domain
                 select c;
             classes.ToList().ForEach(x => script.AppendLine(x));
             return script.ToString();
+        }
+
+        public void Add(Dictionary<string, Type> dictionary)
+        {
+            foreach (var member in dictionary.Keys)
+            {
+                this.MemberCollection.Add(new SimpleMember {Name = member, Type = dictionary[member]});
+            }
         }
     }
 }

@@ -8,7 +8,8 @@ namespace Bespoke.Sph.Domain
     public static class ConfigurationManager
     {
         public static string ApplicationNameToUpper = ApplicationName.ToUpper();
-        public static string ApplicationName => AppSettings["sph:ApplicationName"] ?? "YOUR_APP";
+        public static string CompanyName => AppSettings["sph:CompanyName"] ?? (GetEnvironmentVariable("CompanyName") ?? "Bespoke");
+        public static string ApplicationName => AppSettings["sph:ApplicationName"] ?? "MyApp";
 
         public static string ApplicationFullName => GetEnvironmentVariable("ApplicationFullName") ?? "Reactive Developer platform showcase";
         public static string FromEmailAddress => GetEnvironmentVariable("FromEmailAddress") ?? "admin@rxdeveloper.com";

@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Domain
                     .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f.FileName}")
                     .ToArray();
         }
-        public string CodeNamespace => $"Bespoke.{ConfigurationManager.ApplicationName}_{this.Id}.Domain";
+        public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.{this.Plural}.Domain";
 
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()
