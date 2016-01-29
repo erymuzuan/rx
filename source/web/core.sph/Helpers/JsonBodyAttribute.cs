@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using System.Web.Http.Validation;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Helpers
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
     public class JsonBodyAttribute : ParameterBindingAttribute
     {
         public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
@@ -23,7 +22,7 @@ namespace Bespoke.Sph.Web.Helpers
                 Formatting = Formatting.Indented
             };
             IEnumerable<MediaTypeFormatter> formatters = parameter.Configuration.Formatters;
-            IBodyModelValidator bodyModelValidator = parameter.Configuration.Services.GetBodyModelValidator();
+            var bodyModelValidator = parameter.Configuration.Services.GetBodyModelValidator();
             var ob = parameter.BindWithFormatter(formatters, bodyModelValidator);
             return ob;
         }

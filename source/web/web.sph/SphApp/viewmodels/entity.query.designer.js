@@ -18,7 +18,7 @@
                             qry.Route(v.toLowerCase().replace(/\W+/g, "-"));
                         });
                         return context.loadOneAsync("EntityDefinition", "Name eq '" + ko.unwrap(qry.Entity) + "'");
-                    }).then(function(b) {
+                    }).then(function (b) {
                         entity(b);
                         window.typeaheadEntity = b.Name();
                     });
@@ -30,19 +30,18 @@
             publish = function () {
 
                 var data = ko.mapping.toJSON(query);
+                return context.post(data, "/entity-query/" + ko.unwrap(query().Id) + "/publish")
+                    .fail(function (response) {
+                        var result = response.responseJSON;
+                        errors(result.Errors);
+                        logger.error("There are errors in your query endpoint, !!!");
 
-                return context.post(data, "/entity-query")
-                    .then(function (result) {
-                        if (result.success) {
-                            logger.info(result.message);
-                            errors.removeAll();
-                            query().IsPublished(true);
-                            originalEntity = ko.toJSON(query);
-                        } else {
-                            errors(result.Errors);
-                            logger.error("There are errors in your entity, !!!");
-                        }
-
+                    })
+                    .done(function (result) {
+                        logger.info(result.message);
+                        errors.removeAll();
+                        query().IsPublished(true);
+                        originalEntity = ko.toJSON(query);
                     });
             },
             save = function () {
@@ -50,7 +49,7 @@
 
                 return context.post(data, "/entity-query")
                     .then(function (result) {
-                        logger.info(result.message);
+                        logger.info("Query endpoint " + result.id + " has been successfully saved");
                         originalEntity = ko.toJSON(query);
                     });
             },

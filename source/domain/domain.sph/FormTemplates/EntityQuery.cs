@@ -26,6 +26,10 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException($"Fail to initialize MEF for EntityQuery.BuildDiagnostics");
 
             var result = new BuildValidationResult();
+
+            if(null == ed)
+                result.Errors.Add(new BuildError(this.WebId, $"Cannot find EntityDefinition:{Entity}"));
+
             var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this, ed));
             var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray());
 

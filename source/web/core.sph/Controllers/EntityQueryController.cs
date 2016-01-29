@@ -70,18 +70,26 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpPost]
-        [Route("publish")]
-        public async Task<HttpResponseMessage> Publish([RequestBody]EntityQuery query)
+        [Route("{id}/publish")]
+        public async Task<HttpResponseMessage> Publish(string id, [JsonBody]EntityQuery query)
         {
             var context = new SphDataContext();
             query.IsPublished = true;
             query.BuildDiagnostics = this.m_developerService.BuildDiagnostics;
 
-            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == query.Entity);
+            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == query.Entity || e.Name == query.Entity);
 
             var buildValidation = await query.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
                 return new HttpResponseMessage((HttpStatusCode)422) { Content = new JsonContent(buildValidation.ToJsonString(true)) };
+
+            var options = new CompilerOptions();
+            var sources = query.GenerateCode(ed);
+            var result = query.Compile(options, sources);
+            if (!result.Result)
+            {
+                return new JsonResponseMessage(HttpStatusCode.Conflict, result);
+            }
 
             using (var session = context.OpenSession())
             {
@@ -92,7 +100,7 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 success = true,
                 status = "OK",
-                message = "Your form has been successfully published",
+                message = "Your query endpoint has been successfully published",
                 id = query.Id,
                 warnings = buildValidation.Warnings,
                 _links = new

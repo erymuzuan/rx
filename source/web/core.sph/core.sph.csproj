@@ -1660,6 +1660,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <EmbeddedResource Include="fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="Images\RouteParameterField.png" />
     <Content Include="Scripts\bootstrap-hover-dropdown.min.js" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\darkblue.css" />
