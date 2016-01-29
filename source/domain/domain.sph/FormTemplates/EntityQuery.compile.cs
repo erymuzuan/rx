@@ -20,6 +20,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class EntityQuery
     {
+        private EntityDefinition m_ed;
         public override string ToString()
         {
             return this.Name;
@@ -55,8 +56,12 @@ namespace Bespoke.Sph.Domain
                     .ToArray();
         }
 
-        public Class GenerateCode()
+        public Class GenerateCode(EntityDefinition ed)
         {
+            if (null == ed)
+                throw new ArgumentNullException(nameof(ed), "Ed cannot be null");
+            m_ed = ed;
+
             var className = this.Name.ToPascalCase();
             var controller = new Class
             {
@@ -151,7 +156,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   var query = CacheManager.Get<string>(ES_QUERY_CACHE_KEY);");
             code.AppendLine("   if(null == query)");
             code.AppendLine("   {");
-            code.AppendLine("       query = await eq.GenerateEsQueryAsync(1, 20);");
+            code.AppendLine("       query = await eq.GenerateEsQueryAsync();");
             code.AppendLine("   }");
             code.AppendLine("   if(setting.CacheFilter.HasValue)");
             code.AppendLine("   {");
@@ -180,7 +185,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine($"       public async Task<ActionResult> GetAction({parameters}int page =1, int size=20, string q=\"\")");
             code.Append("       {");
             code.Append(GenerateGetQueryCode());
-            
+
             foreach (var p in this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>())
             {
                 var qs = this.RouteParameterCollection.Single(x => x.Name == p.Expression);
@@ -202,10 +207,8 @@ namespace Bespoke.Sph.Domain
                 var esResponseString = await esResponseContent.ReadAsStringAsync();
                 var esJsonObject = JObject.Parse(esResponseString);
 ");
-
-            var context = new SphDataContext();
-            var ed = context.LoadOne<EntityDefinition>(x => x.Name == this.Entity);
-            code.Append(this.GenerateListCode(ed));
+            
+            code.Append(this.GenerateListCode());
 
             code.Append($@"
                 var result = new 

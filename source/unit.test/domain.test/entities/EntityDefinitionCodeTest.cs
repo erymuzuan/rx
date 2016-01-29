@@ -87,10 +87,10 @@ namespace domain.test.entities
         [Test]
         public void GenerateCodeBasic()
         {
-            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
+            var ent = new EntityDefinition { Name = "BusinessOppurtunity", Plural = "BusinessOppurtunities", RecordName = "Name" };
             ent.MemberCollection.Add(new SimpleMember
             {
-                Name = "Name2",
+                Name = "Name",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             }); ent.MemberCollection.Add(new SimpleMember

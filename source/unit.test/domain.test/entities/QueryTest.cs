@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
@@ -22,6 +23,7 @@ namespace domain.test.entities
         public void Setup()
         {
             m_efMock = new MockRepository<EntityDefinition>();
+            m_efMock.AddToDictionary("", this.GetFromEmbeddedResource<EntityDefinition>("Patient"));
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
@@ -34,8 +36,9 @@ namespace domain.test.entities
         public void GenerateController()
         {
             var query = new EntityQuery { Name = "All patients", Route = "all-patients", Id = "all-patients", Entity = "Patient", WebId = "all-patients" };
+            var patient = this.GetFromEmbeddedResource<EntityDefinition>(query.Entity);
             var options = new CompilerOptions();
-            var sources = query.GenerateCode();
+            var sources = query.GenerateCode(patient);
             var result = query.Compile(options, sources);
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
@@ -45,6 +48,7 @@ namespace domain.test.entities
         [Test]
         public void CompileQueryWithFunctionFilter()
         {
+            var patient = this.GetFromEmbeddedResource<EntityDefinition>("Patient");
             var query = new EntityQuery
             {
                 Name = "Patients died this week",
@@ -62,7 +66,7 @@ namespace domain.test.entities
             });
 
             var options = new CompilerOptions();
-            var sources = query.GenerateCode();
+            var sources = query.GenerateCode(patient);
             var result = query.Compile(options, sources);
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
@@ -75,23 +79,7 @@ namespace domain.test.entities
 
             File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
         }
-        [Test]
-        public async Task QueryPaging()
-        {
-            var query = new EntityQuery
-            {
-                Name = "Patients Born in 60s",
-                Route = "~/api/patients/born-in-60s",
-                Id = "patients-born-in-60s",
-                Entity = "Patient",
-                WebId = "all-born-in-60s"
-            };
 
-            var json = await query.GenerateEsQueryAsync(5,30);
-            var jo = JObject.Parse(json);
-            Assert.AreEqual(120, jo.SelectToken("$.from").Value<int>(), jo.ToString());
-            Assert.AreEqual(30, jo.SelectToken("$.size").Value<int>(), jo.ToString());
-        }
 
         [Test]
         public async Task QueryFields()
@@ -108,7 +96,7 @@ namespace domain.test.entities
 
             var json = await query.GenerateEsQueryAsync();
             var jo = JObject.Parse(json);
-            Assert.AreEqual(new [] { "Dob", "FullName", "Gender", "Race" }, jo.SelectToken("$.fields").Values<string>().ToArrayString(), jo.ToString());
+            Assert.AreEqual(new[] { "Dob", "FullName", "Gender", "Race" }, jo.SelectToken("$.fields").Values<string>().ToArrayString(), jo.ToString());
         }
 
 
@@ -139,7 +127,7 @@ namespace domain.test.entities
 
             query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race");
 
-            var json = await query.GenerateEsQueryAsync(5,30);
+            var json = await query.GenerateEsQueryAsync();
             var jo = JObject.Parse(json);
             Assert.AreEqual(120, jo.SelectToken("$.from").Value<int>(), jo.ToString());
             Assert.AreEqual(30, jo.SelectToken("$.size").Value<int>(), jo.ToString());
@@ -148,12 +136,13 @@ namespace domain.test.entities
         [Test]
         public void CompileQueryWithFieldsAndFilter()
         {
+            var patient = this.GetFromEmbeddedResource<EntityDefinition>("Patient");
             var query = new EntityQuery
             {
                 Name = "Patients Born in 60s",
                 Route = "~/api/patients/born-in-60s",
                 Id = "patients-born-in-60s",
-                Entity = "Patient",
+                Entity = patient.Name,
                 WebId = "all-born-in-60s"
             };
             var sixty = new ConstantField { Type = typeof(DateTime), Value = "1960-01-01" };
@@ -174,7 +163,7 @@ namespace domain.test.entities
             query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race", "DeathDate");
 
             var options = new CompilerOptions();
-            var sources = query.GenerateCode();
+            var sources = query.GenerateCode(patient);
             var result = query.Compile(options, sources);
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
@@ -183,13 +172,14 @@ namespace domain.test.entities
             var output = $"{ConfigurationManager.ApplicationName}.EntityQuery.{query.Id}";
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
-            
+
             File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
         }
 
         [Test]
         public void CompileQueryWithFieldsAndFilterCacheFilter()
         {
+            var patient = this.GetFromEmbeddedResource<EntityDefinition>("Patient");
             var query = new EntityQuery
             {
                 Name = "Patients with cached filter",
@@ -215,10 +205,10 @@ namespace domain.test.entities
                 Term = "Dob"
             });
 
-            query.MemberCollection.AddRange("Id","Dob", "FullName", "Gender", "Race", "DeathDate");
+            query.MemberCollection.AddRange("Id", "Dob", "FullName", "Gender", "Race", "DeathDate");
 
             var options = new CompilerOptions();
-            var sources = query.GenerateCode();
+            var sources = query.GenerateCode(patient);
             var result = query.Compile(options, sources);
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
@@ -227,12 +217,32 @@ namespace domain.test.entities
             var output = $"{ConfigurationManager.ApplicationName}.EntityQuery.{query.Id}";
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
-            
+
             File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
         }
+
+        private T GetFromEmbeddedResource<T>(string entityDefinitionName) where T : Entity
+        {
+            var assembly = this.GetType().Assembly;
+            var resourceName = $"domain.test.entities.{entityDefinitionName}.json";
+            var stream = assembly.GetManifestResourceStream(resourceName);
+            if (null != stream)
+            {
+                stream.Position = 0;
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    var json = reader.ReadToEnd();
+                    return json.DeserializeFromJson<T>();
+                }
+            }
+
+            return null;
+        }
+
         [Test]
         public void CompileQueryWithChildren()
         {
+            var appointment = this.GetFromEmbeddedResource<EntityDefinition>("Appointment");
             var query = new EntityQuery
             {
                 Name = "Appointment for patient",
@@ -242,13 +252,13 @@ namespace domain.test.entities
                 Resource = "appointments",
                 CacheFilter = 300
             };
-            query.RouteParameterCollection.Add(new RouteParameter {Type = "string", Name = "mrn"});
-            query.RouteParameterCollection.Add(new RouteParameter {Type = "DateTime", Name = "start"});
-            query.RouteParameterCollection.Add(new RouteParameter {Type = "DateTime", Name = "end"});
+            query.RouteParameterCollection.Add(new RouteParameter { Type = "string", Name = "mrn" });
+            query.RouteParameterCollection.Add(new RouteParameter { Type = "DateTime", Name = "start" });
+            query.RouteParameterCollection.Add(new RouteParameter { Type = "DateTime", Name = "end" });
 
-            var mrnParameter = new RouteParameterField {Expression = "mrn"};
-            var start = new RouteParameterField {Expression = "start", DefaultValue = "2016-01-01"};
-            var end = new RouteParameterField {Expression = "end", DefaultValue = "2017-01-01"};
+            var mrnParameter = new RouteParameterField { Expression = "mrn" };
+            var start = new RouteParameterField { Expression = "start", DefaultValue = "2016-01-01" };
+            var end = new RouteParameterField { Expression = "end", DefaultValue = "2017-01-01" };
             query.FilterCollection.Add(new Filter
             {
                 Field = mrnParameter,
@@ -268,10 +278,10 @@ namespace domain.test.entities
                 Term = "DateTime"
             });
 
-            query.MemberCollection.AddRange("Id","ReferenceNo", "DateTime", "Doctor", "Location", "Ward");
+            query.MemberCollection.AddRange("Id", "ReferenceNo", "DateTime", "Doctor", "Location", "Ward");
 
             var options = new CompilerOptions();
-            var sources = query.GenerateCode();
+            var sources = query.GenerateCode(appointment);
             var result = query.Compile(options, sources);
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
@@ -280,7 +290,7 @@ namespace domain.test.entities
             var output = $"{ConfigurationManager.ApplicationName}.EntityQuery.{query.Id}";
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
-            
+
             File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
         }
     }

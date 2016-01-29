@@ -20,9 +20,9 @@ namespace domain.test.businessrules
         [Test]
         public void SimpleRule()
         {
-            var customerDefinition = this.CreatePatientDefinition();
-            dynamic customer = this.CreateInstance(customerDefinition);
-            customer.FullName = "Erymuzuan";
+            var ed = this.CreatePatientDefinition();
+            dynamic patient = this.CreateInstance(ed);
+            patient.FullName = "Erymuzuan";
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -32,9 +32,9 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "A" }
             };
             br.RuleCollection.Add(nameMustContainsA);
-            customerDefinition.BusinessRuleCollection.Add(br);
+            ed.BusinessRuleCollection.Add(br);
 
-            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             foreach (var error in result.ValidationErrors)
             {
                 Console.WriteLine(error);
@@ -49,10 +49,10 @@ namespace domain.test.businessrules
         [Test]
         public void SimpleRuleWithFilter()
         {
-            var customerDefinition = this.CreatePatientDefinition();
-            dynamic customer = this.CreateInstance(customerDefinition);
-            customer.FullName = "Erymuzuan";
-            customer.Gender = "Male";
+            var ed = this.CreatePatientDefinition();
+            dynamic patient = this.CreateInstance(ed);
+            patient.FullName = "Erymuzuan";
+            patient.Gender = "Male";
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -62,7 +62,7 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "A" }
             };
             br.RuleCollection.Add(nameMustContainsA);
-            customerDefinition.BusinessRuleCollection.Add(br);
+            ed.BusinessRuleCollection.Add(br);
 
             br.FilterCollection.Add(new Rule
             {
@@ -71,7 +71,7 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "Male" }
             });
 
-            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             foreach (var error in result.ValidationErrors)
             {
                 Console.WriteLine(error);
@@ -87,10 +87,10 @@ namespace domain.test.businessrules
         [Test]
         public void SimpleRuleWithFilterNotEvaluated()
         {
-            var customerDefinition = this.CreatePatientDefinition();
-            dynamic customer = this.CreateInstance(customerDefinition);
-            customer.FullName = "Siti";
-            customer.Gender = "Female";
+            var ed = this.CreatePatientDefinition();
+            dynamic patient = this.CreateInstance(ed);
+            patient.FullName = "Siti";
+            patient.Gender = "Female";
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -100,7 +100,7 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "A" }
             };
             br.RuleCollection.Add(nameMustContainsA);
-            customerDefinition.BusinessRuleCollection.Add(br);
+            ed.BusinessRuleCollection.Add(br);
 
             br.FilterCollection.Add(new Rule
             {
@@ -109,7 +109,7 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "Male" }
             });
 
-            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             foreach (var error in result.ValidationErrors)
             {
                 Console.WriteLine(error);
@@ -124,10 +124,10 @@ namespace domain.test.businessrules
         [Test]
         public void SimpleRuleWithoutFilter()
         {
-            var customerDefinition = this.CreatePatientDefinition();
-            dynamic customer = this.CreateInstance(customerDefinition);
-            customer.FullName = "Siti";
-            customer.Gender = "Female";
+            var ed = this.CreatePatientDefinition();
+            dynamic patient = this.CreateInstance(ed);
+            patient.FullName = "Siti";
+            patient.Gender = "Female";
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -137,9 +137,9 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "A" }
             };
             br.RuleCollection.Add(nameMustContainsA);
-            customerDefinition.BusinessRuleCollection.Add(br);
+            ed.BusinessRuleCollection.Add(br);
 
-            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             Assert.IsFalse(result.Success);
 
             Assert.AreEqual(1, result.ValidationErrors.Count);
@@ -152,8 +152,8 @@ namespace domain.test.businessrules
         public void TwoRulesOneFail()
         {
 
-            var customerDefinition = this.CreatePatientDefinition();
-            dynamic customer = this.CreateInstance(customerDefinition);
+            var ed = this.CreatePatientDefinition();
+            dynamic patient = this.CreateInstance(ed);
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -174,14 +174,13 @@ namespace domain.test.businessrules
             };
             br2.RuleCollection.Add(nameMustContainsB);
 
+            
+            patient.FullName = "Kelantan";
+            ed.BusinessRuleCollection.Add(br);
+            ed.BusinessRuleCollection.Add(br2);
 
-            customer.Title = "Temp C";
-            customer.FullName = "Kelantan";
-            customerDefinition.BusinessRuleCollection.Add(br);
-            customerDefinition.BusinessRuleCollection.Add(br2);
 
-
-            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             Assert.IsFalse(result.Success);
 
             Assert.AreEqual(1, result.ValidationErrors.Count);
@@ -193,8 +192,8 @@ namespace domain.test.businessrules
         public void TwoRulesAllFail()
         {
 
-            var customerDefinition = this.CreatePatientDefinition();
-            dynamic customer = this.CreateInstance(customerDefinition);
+            var ed = this.CreatePatientDefinition();
+            dynamic patient = this.CreateInstance(ed);
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -214,15 +213,13 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "B" }
             };
             br2.RuleCollection.Add(nameMustContainsB);
+            
+            patient.FullName = "PERLIS";
+            ed.BusinessRuleCollection.Add(br);
+            ed.BusinessRuleCollection.Add(br2);
 
 
-            customer.Title = "Temp C";
-            customer.FullName = "PERLIS";
-            customerDefinition.BusinessRuleCollection.Add(br);
-            customerDefinition.BusinessRuleCollection.Add(br2);
-
-
-            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             Assert.IsFalse(result.Success);
 
             Assert.AreEqual(2, result.ValidationErrors.Count);

@@ -10,6 +10,7 @@ using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using domain.test.reports;
 using domain.test.triggers;
+using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -31,6 +32,11 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
+
+            var cache = new Mock<ICacheManager>();
+            cache.Setup(x => x.Get<EntityQuery>(It.IsAny<string>()))
+                .Returns(new EntityQuery());
+            ObjectBuilder.AddCacheList(cache.Object);
         }
         private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)
         {
@@ -39,10 +45,10 @@ namespace domain.test.entities
                 IsVerbose = verbose,
                 IsDebug = true
             };
-            var core = Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll");
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
+            var core = Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll");
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
             options.ReferencedAssembliesLocation.Add(core);
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
             var destinationCore = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "core.sph.dll");
             File.Copy(core, destinationCore, true);
@@ -65,7 +71,7 @@ namespace domain.test.entities
         }
 
 
-        public EntityDefinition CreatePatientDefinition(string name = "Patient")
+        public EntityDefinition CreatePatientDefinition(string name = "TestingPatient")
         {
             var ent = new EntityDefinition { Name = name, Plural = "Patients", RecordName = "FullName", Id = "patient" };
             ent.MemberCollection.Add(new SimpleMember
@@ -92,13 +98,13 @@ namespace domain.test.entities
                 TypeName = "System.DateTime, mscorlib",
                 IsFilterable = true
             });
-            var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
+            var address = new ComplexMember { Name = "Address", TypeName = "Address"};
             address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
             address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 
-            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new ComplexMember { Name = "ContactCollection", TypeName = "Contact" };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
@@ -325,6 +331,7 @@ namespace domain.test.entities
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
+           
 
             var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
@@ -368,9 +375,7 @@ namespace domain.test.entities
             var repos = AddMockRespository(patientType);
             repos.AddToDictionary(patient.Id, patient);
 
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientReleaseOperationWithSetterController");
-            dynamic controller = Activator.CreateInstance(controllerType);
-
+            var controller = dll.CreateController(patientType.Namespace + ".PatientReleaseOperationWithSetterController");
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
 

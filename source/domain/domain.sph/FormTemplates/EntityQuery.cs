@@ -92,7 +92,7 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(0);
         }
 
-        public Task<string> GenerateEsQueryAsync(int page = 1, int size = 20)
+        public Task<string> GenerateEsQueryAsync()
         {
             var query =
                 @"{
@@ -114,7 +114,7 @@ namespace Bespoke.Sph.Domain
             return fields;
         }
 
-        public string GenerateListCode(EntityDefinition ed)
+        public string GenerateListCode()
         {
             var code = new StringBuilder();
             if (!this.MemberCollection.Any())
@@ -128,7 +128,7 @@ namespace Bespoke.Sph.Domain
 ");
                 return code.ToString();
             }
-
+            
             code.Append(@"
             var list = from f in esJsonObject.SelectToken(""$.hits.hits"")
                         let fields = f.SelectToken(""fields"")
@@ -136,7 +136,7 @@ namespace Bespoke.Sph.Domain
                         select JsonConvert.SerializeObject( new {");
             foreach (var g in this.MemberCollection)
             {
-                var mb = ed.GetMember(g) as SimpleMember;
+                var mb = m_ed.GetMember(g) as SimpleMember;
                 if (null == mb) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
                 code.AppendLine(
                     mb.Type == typeof(string)

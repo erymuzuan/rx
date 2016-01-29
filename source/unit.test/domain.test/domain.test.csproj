@@ -135,6 +135,7 @@
       <HintPath>..\..\..\packages\System.Reflection.Metadata.1.1.0\lib\dotnet5.2\System.Reflection.Metadata.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -181,6 +182,7 @@
     <Compile Include="entities\ServiceContractTest.cs" />
     <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
     <Compile Include="entities\QuerySortTest.cs" />
+    <Compile Include="MvcControllerHelper.cs" />
     <Compile Include="razor\RazorEngineTestFixture.cs" />
     <Compile Include="reports\DataGridTestFixture.cs" />
     <Compile Include="reports\FilterValueTestFixture.cs" />
@@ -231,6 +233,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="entities\Patient.json" />
+    <EmbeddedResource Include="entities\Appointment.json" />
     <None Include="packages.config" />
     <None Include="triggers\assembly.action.json" />
     <None Include="triggers\trigger.json" />
