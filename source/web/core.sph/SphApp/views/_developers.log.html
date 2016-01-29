@@ -115,7 +115,7 @@
                                 </label>
                             </li>
                             <li>
-                                <label class="btn btn-sm btn-default" title="Filter Sql Repository" style="margin-left: 5px;border:none">
+                                <label class="btn btn-sm btn-default" title="Filter Sql Repository" style="margin-left: 5px; border: none">
                                     <input type="checkbox" autocomplete="off" data-bind="checked : logFilter.elasticsearch">
                                     <i class="fa fa-database" style="color: rgb(22, 81, 169)"></i>
                                     SqlRepository
@@ -126,10 +126,16 @@
                         </ul>
                     </div>
 
+                    <label class="btn btn-sm btn-default" style="margin-left: 5px; border: none" data-bind="tooltip: 'Supress logs from being output into browser developers tool console, to supress output from being display in Rx Log, use Output Setting Dialog'">
+                        <input type="checkbox" data-bind="checked : mute" />
+                        <i class="fa fa-volume-off" data-bind="visible : mute"></i>
+                        <i class="fa fa-volume-up" data-bind="visible : !ko.unwrap(mute)"></i>
+                        Mute
+                    </label>
                     <button class="btn btn-default pull-right" style="border: none;" data-bind="click : showSettingDialog" title="Settings">
                         <i class="fa fa-gear"></i>
                     </button>
-                    <input type="text" data-bind="textInput:filterText" placeholder=" filter..."
+                    <input type="text" data-bind="textInput:filterText" placeholder="filter..."
                            style="width: 120px; border: none; background-color: #ffffff; margin: 2px; margin-left: 50px" />
 
                 </div>

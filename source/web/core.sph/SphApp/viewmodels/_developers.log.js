@@ -51,6 +51,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	    "use strict";
 	    var outputLogsSetting = "output.logs.setting",
             isBusy = ko.observable(false),
+            mute = ko.observable(false),
 		    logs = ko.observableArray().extend({ rateLimit: 250 }),
 		    list = ko.observableArray(),
 		    subscribers = ko.observableArray(),
@@ -123,7 +124,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 if (count <= max) {
                     return;
                 }
-                console.log("Running cleaning up..");
+                if (!mute())
+                    console.log("Running cleaning up..");
                 temp.splice(0, count - max);
                 list(temp);
                 scroll();
@@ -203,6 +205,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		        logs.push(new bespoke.sph.domain.LogEntry(model));
 		        scroll();
+
+		        if (mute()) {
+		            return;
+		        }
 		        switch (severity) {
 		            case "Verbose":
 		                console.log(message);
@@ -226,7 +232,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    };
 
 		    ws.onopen = function () {
-		        console.log("* Connection open");
+
+		        if (!mute())
+		            console.log("* Connection open");
 		        logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connection open", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Info" }));
 
 		        ws.send("web logger listener is listening");
@@ -239,7 +247,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		    // when the connection is closed, this method is called
 		    ws.onclose = function () {
-		        console.error("* Connection closed");
+
+		        if (!mute())
+		            console.error("* Connection closed");
 		        logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connection closed", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Warning" }));
 		        scroll();
 		        connected(false);
@@ -258,7 +268,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             clearInterval(refresh);
                             if (tcs.state() !== "resolved") {
                                 start().done(function () {
-                                    console.log("Web socket re-connect!");
+
+                                    if (!mute())
+                                        console.log("Web socket re-connect!");
                                 });
                             }
                             tcs.resolve(true);
@@ -278,7 +290,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		    return $.get("developer-service/environment-variables")
 		        .done(function (result) {
-		            var port = result["RX_" + config.applicationName.toUpperCase() +"_LoggerWebSocketPort"];
+		            var port = result["RX_" + config.applicationName.toUpperCase() + "_LoggerWebSocketPort"];
 		            setting().port(parseInt(port));
 		        });
 		},
@@ -364,7 +376,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    });
 
 		    $(document).on("keyup", function (e) {
-		        if (e.shiftKey &e.ctrlKey && (e.keyCode === 76)) {
+		        if (e.shiftKey & e.ctrlKey && (e.keyCode === 76)) {
 		            clear();
 		        }
 		    });
@@ -453,6 +465,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	    setTimeout(cleanup, 500);
 	    var vm = {
 	        isBusy: isBusy,
+	        mute: mute,
 	        visible: config.roles.indexOf("developers") > -1,
 	        list: list,
 	        subscribers: subscribers,
