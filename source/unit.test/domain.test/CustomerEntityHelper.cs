@@ -41,9 +41,9 @@ namespace domain.test
             };
 
 
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
 
             var codes = ed.GenerateCode();
@@ -54,15 +54,15 @@ namespace domain.test
 
             var dll = $"{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
             var assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + @"\" + dll);
-            var type = assembly.GetType("Bespoke.DevV1_" + ed.Id + ".Domain." + ed.Name);
+            var type = assembly.GetType(ed.TypeName);
             return type;
         }
 
 
         private static void DeployCustomEntity(EntityDefinition ed)
         {
-            var dll = string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, ed.Name);
-            var pdb = string.Format("{0}.{1}.pdb", ConfigurationManager.ApplicationName, ed.Name);
+            var dll = $"{ConfigurationManager.ApplicationName}.{ed.Name}.dll";
+            var pdb = $"{ConfigurationManager.ApplicationName}.{ed.Name}.pdb";
             var dllFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, dll);
             var pdbFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, pdb);
 

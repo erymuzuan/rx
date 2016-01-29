@@ -33,7 +33,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             get
             {
                 if (m_prefetchCount != 1) return m_prefetchCount;
-                var config = ConfigurationManager.AppSettings["sph:PrefetchCount:" + this.QueueName];
+                var config = ConfigurationManager.AppSettings[$"sph:{QueueName}:PrefetchCount"];
                 int count;
                 if (int.TryParse(config, out count))
                     return Convert.ToUInt16(count);
@@ -124,11 +124,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var ed1 = ed;
                 try
                 {
-                    var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
-                    var edTypeName = $"{ed1.CodeNamespace}.{ed1.Name}";
-                    var edType = edAssembly.GetType(edTypeName);
+                    var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed1.Name}");
+                    var edType = edAssembly.GetType(ed.TypeName);
                     if (null == edType)
-                        Console.WriteLine("Cannot create type " + edTypeName);
+                        Console.WriteLine("Cannot create type " + ed.TypeName);
 
                     var reposType = sqlRepositoryType.MakeGenericType(edType);
                     var repository = Activator.CreateInstance(reposType);

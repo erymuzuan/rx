@@ -11,7 +11,7 @@ namespace Bespoke.Sph.ElasticSearch
     public class CustomEntityIndexerSubscriber : Subscriber<Entity>
     {
 
-        public override string QueueName => "custom_entities_es_indexer";
+        public override string QueueName => this.GetType().FullName;
         public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.delete.#" };
 
 

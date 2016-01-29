@@ -8,7 +8,7 @@ namespace domain.test
 
         public static EntityDefinition GetCustomerEntityDefinition(this object textFixture)
         {
-            var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
+            var customerDefinition = File.ReadAllText($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\Customer.json");
             return customerDefinition.DeserializeFromJson<EntityDefinition>();
 
         }

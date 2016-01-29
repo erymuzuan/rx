@@ -33,7 +33,8 @@ namespace Bespoke.Sph.Domain
             var method = methods.Single(m => m.Name == this.Method && m.GetParameters().Length == this.MethodArgCollection.Count);
             var args = method.GetParameters();
             if (args.Length != this.MethodArgCollection.Count)
-                throw new InvalidOperationException(string.Format("Expected {0} args but you had supplied {1} args instead", args.Length, MethodArgCollection.Count));
+                throw new InvalidOperationException(
+                    $"Expected {args.Length} args but you had supplied {MethodArgCollection.Count} args instead");
 
             var temp = new List<object>();
             foreach (var g in args)

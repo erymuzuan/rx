@@ -1,6 +1,8 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "CodeNamespace": "Bespoke.DevV1_customer.Domain",
+  "CodeNamespace": "Bespoke.DevV1.Customers.Domain",
+  "TypeName": "Bespoke.DevV1.Customers.Domain.Customer",
+  "FullTypeName": "Bespoke.DevV1.Customers.Domain.Customer, DevV1.Customer",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -32,6 +34,7 @@
         "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
         "EmptyField": null,
         "TypeName": "Address",
+        "FullName": null,
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -274,6 +277,7 @@
         "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
         "EmptyField": null,
         "TypeName": "Contact",
+        "FullName": null,
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -354,6 +358,7 @@
               "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
               "EmptyField": null,
               "TypeName": "Attachment",
+              "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1204,6 +1209,6 @@
   "Id": "customer",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-23T19:32:06.4364383+08:00",
+  "ChangedDate": "2016-01-29T10:03:01.8946356+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

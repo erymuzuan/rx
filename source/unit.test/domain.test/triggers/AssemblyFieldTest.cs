@@ -12,7 +12,7 @@ namespace domain.test.triggers
         [TestFixtureSetUp]
         public void Setup()
         {
-            System.IO.File.Copy(@"c:\project\work\sph\source\unit.test\assembly.test\bin\Debug\assembly.test.dll",
+            System.IO.File.Copy($@"{ConfigurationManager.Home}\..\source\unit.test\assembly.test\bin\Debug\assembly.test.dll",
                 ConfigurationManager.WebPath + @"\bin\assembly.test.dll", true);
         }
 
