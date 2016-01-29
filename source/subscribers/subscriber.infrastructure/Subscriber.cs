@@ -125,7 +125,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 try
                 {
                     var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
-                    var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed1.Id}.Domain.{ed1.Name}";
+                    var edTypeName = $"{ed1.CodeNamespace}.{ed1.Name}";
                     var edType = edAssembly.GetType(edTypeName);
                     if (null == edType)
                         Console.WriteLine("Cannot create type " + edTypeName);

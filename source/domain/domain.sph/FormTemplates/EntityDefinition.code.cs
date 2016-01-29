@@ -98,6 +98,11 @@ namespace Bespoke.Sph.Domain
                     .ToArray();
         }
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.{this.Plural}.Domain";
+        public string TypeName => $"{CodeNamespace}.{Name}";
+        /// <summary>
+        /// return CodeNamespace.Name, assemblyName
+        /// </summary>
+        public string FullTypeName => $"{CodeNamespace}.{Name}, {ConfigurationManager.ApplicationName}.{Name}";
 
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()
@@ -112,7 +117,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, this.Name);
             script.AppendLine(" var system = require('services/system'),");
             script.AppendLine(" model = {");
-            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.CodeNamespace, this.Name, assemblyName);
+            script.AppendLine($"     $type : ko.observable(\"{CodeNamespace}.{Name}, {assemblyName}\"),");
             script.AppendLine("     Id : ko.observable(\"0\"),");
 
             var members = from item in this.MemberCollection

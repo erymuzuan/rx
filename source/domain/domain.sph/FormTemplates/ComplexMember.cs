@@ -23,9 +23,9 @@ namespace Bespoke.Sph.Domain
         public override string GetDefaultValueCode(int count)
         {
             if (this.AllowMultiple) return null;
-            return $"           this.{Name} = new {Name}();";
+            return $"           this.{Name} = new {TypeName}();";
         }
-        
+
         public override string GeneratedCode(string padding = "      ")
         {
             var code = new StringBuilder();
@@ -71,8 +71,8 @@ namespace Bespoke.Sph.Domain
 
 
             var properties = from m in this.MemberCollection
-                let prop = m.GeneratedCode("   ")
-                select new Property { Code = prop };
+                             let prop = m.GeneratedCode("   ")
+                             select new Property { Code = prop };
             @class.PropertyCollection.ClearAndAddRange(properties);
 
             var childClasses = this.MemberCollection
@@ -97,9 +97,9 @@ namespace Bespoke.Sph.Domain
 
 
             var members = from item in this.MemberCollection
-                let m = item.GenerateJavascriptMember(jns)
-                where !string.IsNullOrWhiteSpace(m)
-                select m;
+                          let m = item.GenerateJavascriptMember(jns)
+                          where !string.IsNullOrWhiteSpace(m)
+                          select m;
             members.ToList().ForEach(m => script.AppendLine(m));
 
             script.AppendFormat(@"
@@ -142,9 +142,9 @@ namespace Bespoke.Sph.Domain
             script.AppendLine("};");
 
             var classes = from m in this.MemberCollection
-                let c = m.GenerateJavascriptClass(jns, csNs, assemblyName)
-                where !string.IsNullOrWhiteSpace(c)
-                select c;
+                          let c = m.GenerateJavascriptClass(jns, csNs, assemblyName)
+                          where !string.IsNullOrWhiteSpace(c)
+                          select c;
             classes.ToList().ForEach(x => script.AppendLine(x));
             return script.ToString();
         }
@@ -153,7 +153,7 @@ namespace Bespoke.Sph.Domain
         {
             foreach (var member in dictionary.Keys)
             {
-                this.MemberCollection.Add(new SimpleMember {Name = member, Type = dictionary[member]});
+                this.MemberCollection.Add(new SimpleMember { Name = member, Type = dictionary[member] });
             }
         }
     }

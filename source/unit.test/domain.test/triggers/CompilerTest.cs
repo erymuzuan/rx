@@ -84,7 +84,7 @@ namespace domain.test.triggers
 
             // try to instantiate the EntityDefinition
             var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
+            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
 
             var edType = assembly.GetType(edTypeName);
             Assert.IsNotNull(edType, edTypeName + " is null in " + result.Output);

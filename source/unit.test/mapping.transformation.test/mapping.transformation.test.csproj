@@ -89,15 +89,19 @@
     <Content Include="DevV1.Customer.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="DevV1.Customer.pdb" />
     <Content Include="DevV1.District.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="DevV1.District.pdb" />
     <Content Include="DevV1.Patient.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="DevV1.Patient.pdb" />
     <Content Include="DevV1.State.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="DevV1.State.pdb" />
     <Content Include="rsc.Driver.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

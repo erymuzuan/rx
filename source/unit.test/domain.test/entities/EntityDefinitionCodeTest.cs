@@ -44,7 +44,7 @@ namespace domain.test.entities
                 IsFilterable = true,
                 DefaultValue = new FunctionField { Script = "new DateTime(2011,5,2)", ScriptEngine = new RoslynScriptEngine() }
             });
-            var address = new ComplexMember { Name = "Address", TypeName = "Address" };
+            var address = new ComplexMember { Name = "Address", TypeName = "Alamat" };
             address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, Type = typeof(string) });
             address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, Type = typeof(string) });
             ent.MemberCollection.Add(address);

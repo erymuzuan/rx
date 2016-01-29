@@ -893,7 +893,7 @@
   "IconClass": "fa fa-credit-card",
   "IconStoreId": "",
   "IsPublished": true,
-  "IsDefault": false,
+  "IsDefault": true,
   "IsWatchAvailable": false,
   "IsEmailAvailable": false,
   "IsPrintAvailable": false,
@@ -912,10 +912,12 @@
   "OperationFailureCallback": null,
   "OperationMethod": "post",
   "DeleteOperation": null,
+  "DeleteOperationSuccessMesage": null,
+  "DeleteOperationSuccessNavigateUrl": null,
   "CreatedBy": "admin",
   "Id": "patient-details",
   "CreatedDate": "2015-05-28T07:43:35.8227123+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-28T06:12:43.6091825+08:00",
+  "ChangedDate": "2016-01-29T08:07:57.2558467+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

@@ -19,7 +19,7 @@ namespace subscriber.entities
 
         public override string QueueName => "ed_es_mapping_gen";
         public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
-        
+
         protected override void OnStart()
         {
             var wc = ConfigurationManager.SphSourceDirectory;
@@ -50,6 +50,10 @@ namespace subscriber.entities
             this.WriteMessage("Starting data migration for " + name);
             var connectionString = ConfigurationManager.SqlConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
+            var ed =
+                $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{name}.json"
+                    .DeserializeFromJsonFile<EntityDefinition>();
+
 
             var taskBuckets = new List<Task>();
 
@@ -67,9 +71,11 @@ namespace subscriber.entities
                         while (reader.Read())
                         {
                             var id = reader.GetString(0);
-                            var json = reader.GetString(1);
+                            var json = reader.GetString(1)
+                                .Replace($"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain", ed.CodeNamespace)
+                                .Replace($"{ed.CodeNamespace}.HomeAddress", $"{ed.CodeNamespace}.CustomHomeAddress");
                             this.WriteMessage("Migrating {0} : {1}", name, id);
-                            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                            var setting = new JsonSerializerSettings ();
                             dynamic ent = JsonConvert.DeserializeObject(json, setting);
                             ent.Id = id;
 
@@ -189,7 +195,7 @@ namespace subscriber.entities
             return ReadAllText(file) == map;
 
         }
-        
+
         private void SaveMap(EntityDefinition item, string map)
         {
             var wc = ConfigurationManager.SphSourceDirectory;

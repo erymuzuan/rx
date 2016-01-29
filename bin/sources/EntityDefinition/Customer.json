@@ -31,7 +31,7 @@
       {
         "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
         "EmptyField": null,
-        "FullName": null,
+        "TypeName": "Address",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -273,7 +273,7 @@
       {
         "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
         "EmptyField": null,
-        "FullName": null,
+        "TypeName": "Contact",
         "PropertyAttribute": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -353,7 +353,7 @@
             {
               "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
               "EmptyField": null,
-              "FullName": null,
+              "TypeName": "Attachment",
               "PropertyAttribute": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",

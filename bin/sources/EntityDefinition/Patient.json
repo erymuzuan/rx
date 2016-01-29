@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "CodeNamespace": "Bespoke.DevV1_patient.Domain",
+  "CodeNamespace": "Bespoke.DevV1.Patients.Domain",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -247,6 +247,7 @@
       {
         "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
         "EmptyField": null,
+        "TypeName": "NextOfKin",
         "FullName": null,
         "PropertyAttribute": null,
         "MemberCollection": {
@@ -386,6 +387,7 @@
       {
         "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
         "EmptyField": null,
+        "TypeName": "CustomHomeAddress",
         "FullName": null,
         "PropertyAttribute": null,
         "MemberCollection": {
@@ -1164,6 +1166,7 @@
         "IsHttpPatch": false,
         "IsHttpPost": true,
         "IsHttpDelete": false,
+        "Note": null,
         "WebId": "2dfe6dc4-2757-4b67-ae7d-7d57e6a2dc0d"
       },
       {
@@ -1210,6 +1213,7 @@
         "IsHttpPatch": true,
         "IsHttpPost": false,
         "IsHttpDelete": false,
+        "Note": null,
         "WebId": "3fd43fb0-ee29-4933-875c-9c2330e81bbe"
       },
       {
@@ -1256,6 +1260,7 @@
         "IsHttpPatch": true,
         "IsHttpPost": false,
         "IsHttpDelete": false,
+        "Note": null,
         "WebId": "f017a0c7-b152-4cb4-8914-188b182a046a"
       },
       {
@@ -1302,7 +1307,7 @@
         "IsHttpPatch": true,
         "IsHttpPost": false,
         "IsHttpDelete": false,
-        "Note" : "PATCH to admit a patient into a ward",
+        "Note": "PATCH to admit a patient into a ward",
         "WebId": "c9da7b5e-2a70-46a9-9b04-cd962a3bf368"
       }
     ]
@@ -1316,6 +1321,13 @@
     "UserProperty": "",
     "Value": null,
     "IsPublic": true,
+    "WebId": null
+  },
+  "ServiceContract": {
+    "$type": "Bespoke.Sph.Domain.ServiceContract, domain.sph",
+    "AllowFullSearch": false,
+    "AllowGetById": false,
+    "AllowOdataApi": false,
     "WebId": null
   },
   "Name": "Patient",
@@ -1333,6 +1345,6 @@
   "Id": "patient",
   "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-14T08:20:58.7140976+08:00",
+  "ChangedDate": "2016-01-29T08:21:14.8003542+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

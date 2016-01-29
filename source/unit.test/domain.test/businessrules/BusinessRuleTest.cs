@@ -238,9 +238,9 @@ namespace domain.test.businessrules
                 IsVerbose = verbose,
                 IsDebug = true
             };
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+            options.AddReference(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
+            options.AddReference(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
 
             var codes = ed.GenerateCode();
@@ -251,7 +251,7 @@ namespace domain.test.businessrules
 
             // try to instantiate the EntityDefinition
             var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
+            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
 
             var edType = assembly.GetType(edTypeName);
             Assert.IsNotNull(edType, edTypeName + " is null");

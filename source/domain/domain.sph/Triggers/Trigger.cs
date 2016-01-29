@@ -106,7 +106,7 @@ namespace Bespoke.Sph.Domain
             var keys = string.Join(",\r\n", routingKeys.Select(s => $"\"{s}\"").ToArray());
 
             var code = new StringBuilder();
-            var edTypeFullName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
+            var edTypeFullName = $"{ed.CodeNamespace}.{ed.Name}";
             code.AppendLine("using " + typeof(Trigger).Namespace + ";");
             code.AppendLine("using " + typeof(Int32).Namespace + ";");
             code.AppendLine("using " + typeof(Task<>).Namespace + ";");

@@ -60,16 +60,19 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomainReflectionOnlyAssemblyResolve;
                 var assembly = Assembly.ReflectionOnlyLoadFrom(dll);
 
-                return assembly.GetTypes()
-                    .Where(t => t.IsMarshalByRef)
-                    .Where(t => !t.IsAbstract)
-                    .Where(t => t.FullName.EndsWith("Subscriber"))
-                    .Select(t => new SubscriberMetadata
-                    {
-                        Assembly = fullFilePath,
-                        FullName = t.FullName,
-                        Name = Path.GetFileNameWithoutExtension(dll),
-                    })
+                return (from t in assembly.GetTypes()
+                        where t.IsMarshalByRef &&
+                        !t.IsAbstract &&
+                        t.FullName.EndsWith("Subscriber")
+                        let count = ConfigurationManager.AppSettings[$"sph:{t.FullName}:Instance"]
+                        let instance = string.IsNullOrWhiteSpace(count) ? 1 : int.Parse(count)
+                        select new SubscriberMetadata
+                        {
+                            Assembly = fullFilePath,
+                            FullName = t.FullName,
+                            Name = Path.GetFileNameWithoutExtension(dll),
+                            Instance = instance
+                        })
                     .ToArray();
 
             }
@@ -100,7 +103,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         static Assembly CurrentDomainReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs e)
         {
             if (!e.Name.StartsWith(ConfigurationManager.ApplicationName)) return Assembly.ReflectionOnlyLoad(e.Name);
-            Console.WriteLine("Fail to load {0}",e.RequestingAssembly.Location);
+            Console.WriteLine("Fail to load {0}", e.RequestingAssembly.Location);
             var dll = Path.Combine(ConfigurationManager.CompilerOutputPath, e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).First() + ".dll");
             Console.WriteLine("Cannot find {0}, now loading from {1}", e.Name, dll);
             return Assembly.ReflectionOnlyLoad(File.ReadAllBytes(dll));

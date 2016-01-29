@@ -85,7 +85,7 @@ namespace Bespoke.Sph.Web.Controllers
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
             var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed.Name);
-            var edTypeName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
+            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
             var edType = edAssembly.GetType(edTypeName);
             if (null == edType)
                 Console.WriteLine("Cannot create type " + edTypeName);

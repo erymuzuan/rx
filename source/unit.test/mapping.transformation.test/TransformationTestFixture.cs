@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -49,15 +50,20 @@ namespace mapping.transformation.test
         {
             if (string.IsNullOrWhiteSpace(typeName))
                 typeName = entity;
-            var name = $"Bespoke.{ConfigurationManager.ApplicationName}_{entity.ToIdFormat()}.Domain.{typeName}";
+            var ed = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{entity}.json".DeserializeFromJsonFile<EntityDefinition>();
+            var name = $"{ed.CodeNamespace}.{typeName}";
             var type = LoadAssembly(entity).GetType(name);
             dynamic instance = Activator.CreateInstance(type);
+            if(null == instance)
+                throw new InvalidOperationException($"Cannot instantiate {type} from {entity}");
             return instance;
         }
 
         private static Assembly LoadAssembly(string entity)
         {
             var assemblyFile = $@".\{ConfigurationManager.ApplicationName}.{entity}.dll";
+            if(!File.Exists(assemblyFile))
+                throw new FileNotFoundException("No dll", assemblyFile);
             return Assembly.LoadFrom(assemblyFile);
         }
 
@@ -65,8 +71,12 @@ namespace mapping.transformation.test
         {
             if (string.IsNullOrWhiteSpace(typeName))
                 typeName = entity;
-            var name = string.Format("Bespoke.{0}_{1}.Domain.{2}, {0}.{3}", ConfigurationManager.ApplicationName, entity.ToIdFormat(), typeName, entity);
-            return name;
+            var ed = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{entity}.json".DeserializeFromJsonFile<EntityDefinition>();
+
+            if (null != ed)
+                return $"{ed.CodeNamespace}.{typeName}, {ConfigurationManager.ApplicationName}.{ed.Name}";
+
+            throw new InvalidOperationException("Cannot find any EntityDefinition name : " + entity);
         }
 
         [TestMethod]

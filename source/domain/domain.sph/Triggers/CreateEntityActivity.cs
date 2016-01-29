@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
             var context = new SphDataContext();
             var ed = context.LoadOne<EntityDefinition>(d => d.Name == this.EntityType);
-            var entityFullName = $"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain.{ed.Name}";
+            var entityFullName = $"{ed.CodeNamespace}.{ed.Name}";
 
             var code = new StringBuilder();
 

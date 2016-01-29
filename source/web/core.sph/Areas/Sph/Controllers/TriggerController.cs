@@ -127,8 +127,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var newItem = trigger.IsNewItem;
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == trigger.Entity);
-            trigger.TypeOf = string.Format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}",
-                ConfigurationManager.ApplicationName, ed.Id, trigger.Entity);
+            trigger.TypeOf = ed.FullTypeName;
 
             if (newItem)
                 trigger.Id = (trigger.Entity + "-" + trigger.Name).ToIdFormat();

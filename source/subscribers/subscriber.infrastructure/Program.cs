@@ -55,24 +55,28 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             Parallel.ForEach(subscribersMetadata, (mt, c) =>
             {
-                this.NotificationService.Write("Starts..." + mt.FullName);
-                try
+                for (var i = 0; i < mt.Instance; i++)
                 {
-                    var worker = StartSubscriber(mt, m_connection);
-                    if (null != worker)
+                    this.NotificationService.Write("Starts..." + mt.FullName);
+                    try
                     {
-                        list.Add(worker);
-                    }
-                    else
-                    {
-                        this.NotificationService.WriteError("Cannot start {0}", mt.FullName);
-                    }
-                }
-                catch (Exception e)
-                {
-                    this.NotificationService.Write(e.ToString());
-                }
 
+                        var worker = StartSubscriber(mt, m_connection);
+                        if (null != worker)
+                        {
+                            list.Add(worker);
+                        }
+                        else
+                        {
+                            this.NotificationService.WriteError("Cannot start {0}", mt.FullName);
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        this.NotificationService.Write(e.ToString());
+                    }
+                }
             });
 
 
