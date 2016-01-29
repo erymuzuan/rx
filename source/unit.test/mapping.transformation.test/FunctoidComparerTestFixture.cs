@@ -13,7 +13,7 @@ namespace mapping.transformation.test
         [TestMethod]
         public void InconsistentResult()
         {
-            var json = File.ReadAllText(@"C:\project\work\sph\source\unit.test\mapping.transformation.test\mmcsb.json");
+            var json = File.ReadAllText($@"{ConfigurationManager.Home}\..\source\unit.test\mapping.transformation.test\mmcsb.json");
             var mapping = json.DeserializeFromJson<TransformDefinition>();
             mapping.FunctoidCollection.Select((x, i) => x.Index = i).ToList().ForEach(x => { });
             mapping.FunctoidCollection.ForEach(x => x.TransformDefinition = mapping);
