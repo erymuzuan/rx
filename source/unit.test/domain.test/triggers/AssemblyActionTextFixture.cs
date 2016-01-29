@@ -138,7 +138,7 @@ namespace domain.test.triggers
             {
                 Title = "Validate Dob",
                 Assembly = "DevV1.Patient",
-                TypeName = dll.GetType("Bespoke.DevV1_patient.Domain.PatientController").FullName,
+                TypeName = dll.GetType("Bespoke.DevV1.Patients.Domain.PatientController").FullName,
                 Method = "Validate",
                 IsAsyncMethod = true
             };
@@ -156,7 +156,7 @@ namespace domain.test.triggers
             action.MethodArgCollection.Add(new MethodArg
             {
                 Name = "item",
-                Type = dll.GetType("Bespoke.DevV1_patient.Domain.Patient"),
+                Type = dll.GetType("Bespoke.DevV1.Patients.Domain.Patient"),
                 ValueProvider = new FunctionField
                 {
                     Name = "item",
@@ -171,11 +171,12 @@ using System;
 
 namespace Dev.SampleTriggers
 {
-  public class SampleActionTrilgger 
+  public class SampleActionTrigger 
   {
     public async Task<object> Validate()
     {
-        var item = new Bespoke.DevV1_patient.Domain.Patient
+        await Task.Delay(500);
+        var item = new Bespoke.DevV1.Patients.Domain.Patient
             {
                 FullName = ""Michael Scumacher"", 
                 Dob = new DateTime(1965,4,6)

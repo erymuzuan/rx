@@ -5,7 +5,8 @@ namespace domain.test.triggers
 {
     internal class MockLdap : IDirectoryService
     {
-        public string CurrentUserName { get { return "test"; } }
+        public string CurrentUserName => "test";
+
         public Task<string[]> GetUserInRolesAsync(string role)
         {
             throw new System.NotImplementedException();

@@ -7,13 +7,17 @@ namespace domain.test.triggers
     [TestFixture]
     class EmailActionTest
     {
-
+        [SetUp]
+        public void Init()
+        {
+           ObjectBuilder.AddCacheList<ILogger>(new Logger()); 
+        }
         [Test]
         public async Task Email()
         {
             var customer = this.GetCustomerInstance();
             customer.FullName = "Mercedes";
-            ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEnging());
+            ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEngine());
             CustomAction email = new EmailAction
             {
                 To = "ruzzaima@@bespoke.com.my",
@@ -34,7 +38,7 @@ namespace domain.test.triggers
             var customer = this.GetCustomerInstance();
             customer.FullName = "Ferarri";
             customer.Contact.Email = "ruzzaima@bespoke.com.my";
-            ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEnging());
+            ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEngine());
             CustomAction email = new EmailAction
             {
                 To ="@Model.Email" ,
