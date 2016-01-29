@@ -6,7 +6,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Validation;
 using Newtonsoft.Json;
 
-namespace Bespoke.Sph.Integrations.Adapters
+namespace Bespoke.Sph.Web.Helpers
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter, Inherited = true, AllowMultiple = false)]
     public class JsonBodyAttribute : ParameterBindingAttribute

@@ -194,13 +194,7 @@
                     <a href="#triggers-tab" data-toggle="tab">Triggers</a>
                 </li>
                 <li>
-                    <a href="#forms-tab" data-toggle="tab">Forms</a>
-                </li>
-                <li>
-                    <a href="#views-tab" data-toggle="tab">Views</a>
-                </li>
-                <li>
-                    <a href="#operations-tab" data-toggle="tab">Operations</a>
+                    <a href="#operations-tab" data-toggle="tab">Endpoints</a>
                 </li>
                 <li>
                     <a href="#premission-tab" data-toggle="tab">Security</a>
@@ -341,120 +335,6 @@
                     <a class="btn btn-link" href="javascript:;" data-bind="click : $root.addTriggerAsync">
                         <i class="fa fa-plus-circle"></i>
                         Add a trigger
-                    </a>
-                </div>
-                <div id="forms-tab" class="tab-pane">
-                    <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityForm', query :'EntityDefinitionId eq \'' + $root.entity().Id() + '\'', list: forms}">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Route</th>
-                                <th>Default</th>
-                                <th>Published</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach :forms">
-                            <tr>
-                                <td>
-                                    <a data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().Id() + '/' + Id()},text: Name"></a>
-                                </td>
-                                <td data-bind="text:Route"></td>
-                                <td>
-                                    <i class="fa fa-check" data-bind="visible:IsDefault"></i>
-                                </td>
-                                <td>
-                                    <i class="fa fa-check" data-bind="visible:IsPublished"></i>
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <a class="btn btn-link" data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().Id() + '/0'}">
-                        <i class="fa fa-plus-circle"></i>
-                        Add a form
-                    </a>
-
-                    <h3>Dialogs</h3>
-                    <table class="table table-striped" data-bind="serverPaging :{entity: 'FormDialog', query :'Entity eq \'' + $root.entity().Id() + '\'', list: dialogs}">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Route</th>
-                                <th>Members' Path</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach :dialogs">
-                            <tr>
-                                <td>
-                                    <a data-bind="attr : {'href':'#/form.dialog.designer/' + $root.entity().Id() + '/' + Id()},text: Title"></a>
-                                </td>
-                                <td data-bind="text:Route"></td>
-                                <td data-bind="text:MemberPath"></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <a class="btn btn-link" data-bind="attr : {'href':'#/form.dialog.designer/' + $root.entity().Id() + '/0'}">
-                        <i class="fa fa-plus-circle"></i>
-                        Add a dialog
-                    </a>
-
-
-                    <h3>Partial Views</h3>
-                    <table class="table table-striped" data-bind="serverPaging :{entity: 'PartialView', query :'Entity eq \'' + $root.entity().Id() + '\'', list: partialViews}">
-                        <thead>
-                            <tr>
-                                <th>Route</th>
-                                <th>Members' Path</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach :partialViews">
-                            <tr>
-                                <td>
-                                    <a data-bind="attr : {'href':'#/partial.view.designer/' + $root.entity().Id() + '/' + Id()},text: Route"></a>
-                                </td>
-                                <td data-bind="text:MemberPath"></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <a class="btn btn-link" data-bind="attr : {'href':'#/partial.view.designer/' + $root.entity().Id() + '/0'}">
-                        <i class="fa fa-plus-circle"></i>
-                        Add a partial view
-                    </a>
-
-
-                </div>
-                <div id="views-tab" class="tab-pane">
-
-                    <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityView', query :'EntityDefinitionId eq \'' + $root.entity().Id() + '\'', list: views}">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Route</th>
-                                <th>Published</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach :views">
-                            <tr>
-                                <td>
-                                    <a data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().Id() + '/' + Id()},text: Name"></a>
-                                </td>
-                                <td data-bind="text:Route"></td>
-                                <td>
-                                    <i class="fa fa-check" data-bind="visible:IsPublished"></i>
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <a class="btn btn-link" data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().Id() + '/0'}">
-                        <i class="fa fa-plus-circle"></i>
-                        Add a view
                     </a>
                 </div>
                 <div id="operations-tab" class="tab-pane" data-bind="with : entity">

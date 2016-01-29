@@ -71,13 +71,22 @@ WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" id=\"query-column-designer\"");
 
-WriteLiteral(" class=\"col-lg-8 col-md-7 col-sm-10 col-xs-12\"");
+WriteLiteral(" class=\"col-lg-5 col-md-5 col-sm-10 col-xs-12\"");
 
-WriteLiteral(">\r\n\r\n\r\n    </div>\r\n    <div");
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" id=\"schema-tree-panel\"");
+
+WriteLiteral(" style=\"overflow-y: scroll\"");
+
+WriteLiteral(" data-bind=\"treeCheckbox : {entity: entity, selectedItems : query().MemberCollect" +
+"ion}\"");
+
+WriteLiteral("></div>\r\n\r\n\r\n    </div>\r\n    <div");
 
 WriteLiteral(" id=\"view-properties-tab\"");
 
-WriteLiteral(" class=\"col-lg-4 col-md-5 col-sm-2 col-xs-12\"");
+WriteLiteral(" class=\"col-lg-7 col-md-7 col-sm-2 col-xs-12\"");
 
 WriteLiteral(">\r\n        <div>\r\n            <a");
 
@@ -144,7 +153,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 35 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 36 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
            Write(Html.Partial("_general"));
 
             
@@ -161,7 +170,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 38 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 39 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
            Write(Html.Partial("_filters"));
 
             
@@ -178,7 +187,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 41 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 42 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
            Write(Html.Partial("_sorts"));
 
             
@@ -197,7 +206,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 44 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 45 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
            Write(Html.Partial("_performer"));
 
             
@@ -214,7 +223,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 47 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 48 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
            Write(Html.Partial("_parameters"));
 
             

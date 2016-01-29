@@ -4,11 +4,12 @@
 <h1 data-bind="with : entity">Query Designer for <span data-bind="text:Plural"></span></h1>
 @Html.Partial("_erroList")
 <div class="row">
-    <div id="query-column-designer" class="col-lg-8 col-md-7 col-sm-10 col-xs-12">
+    <div id="query-column-designer" class="col-lg-5 col-md-5 col-sm-10 col-xs-12">
+        <div id="schema-tree-panel" style="overflow-y: scroll" data-bind="treeCheckbox : {entity: entity, selectedItems : query().MemberCollection}"></div>
 
 
     </div>
-    <div id="view-properties-tab" class="col-lg-4 col-md-5 col-sm-2 col-xs-12">
+    <div id="view-properties-tab" class="col-lg-7 col-md-7 col-sm-2 col-xs-12">
         <div>
             <a class="pull-right" href="javascript:;" id="expand-collapse-property-tabe">Expand</a>
         </div>

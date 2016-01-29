@@ -1,4 +1,4 @@
-﻿define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app],
+﻿define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, "services/_ko.list"],
     function (context, logger, router, system, app) {
 
         var errors = ko.observableArray(),

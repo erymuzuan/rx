@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<HttpResponseMessage> Save([RequestBody]EntityQuery query)
+        public async Task<HttpResponseMessage> Save([JsonBody]EntityQuery query)
         {
             var context = new SphDataContext();
             var baru = string.IsNullOrWhiteSpace(query.Id) || query.Id == "0";
