@@ -850,11 +850,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Areas\Sph\Views\FormDialogRenderer\Script.generated.cs">
-      <DependentUpon>Script.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Areas\Sph\Views\FormDialogRenderer\_ErrorList.generated.cs">
       <DependentUpon>_ErrorList.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -963,6 +958,7 @@
     <Compile Include="Controllers\CustomFormController.scripts.cs" />
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\DataImportController.cs" />
+    <Compile Include="Controllers\OperationEndpointController.cs" />
     <Compile Include="Controllers\QueryEndpointController.cs" />
     <Compile Include="Controllers\FormDialogController.cs" />
     <Compile Include="Controllers\PartialViewController.cs" />
@@ -1034,11 +1030,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Html2ColsWithAuditTrail.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\EntityFormRenderer\Script.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\EntityFormRenderer\_AuditTrailContent.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1782,10 +1773,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html2ColsWithAuditTrail.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\EntityFormRenderer\Script.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Script.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\App\Views\_ViewStart.cshtml" />
     <Content Include="Areas\App\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\App\Views\Shared\EditorTemplates\ImageElement.cshtml">
@@ -1928,10 +1915,6 @@
     <Content Include="Areas\Sph\Views\FormDialogRenderer\Html.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\FormDialogRenderer\Script.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Script.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\App\Views\FormDialogDesigner\_DialogButtons.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -2515,7 +2498,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\email.template.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\document.template.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.permission.dialog.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\entity.operation.details.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\operation.endpoint.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.javascriptexpression.js" />
     <EmbeddedResource Include="SphApp\services\chart.js" />
     <EmbeddedResource Include="SphApp\viewmodels\dev.home.js" />
@@ -2616,7 +2599,7 @@
     <EmbeddedResource Include="SphApp\views\email.template.details.html" />
     <EmbeddedResource Include="SphApp\views\document.template.details.html" />
     <EmbeddedResource Include="SphApp\views\field.permission.dialog.html" />
-    <EmbeddedResource Include="SphApp\views\entity.operation.details.html" />
+    <EmbeddedResource Include="SphApp\views\operation.endpoint.designer.html" />
     <EmbeddedResource Include="SphApp\views\field.javascriptexpression.html" />
     <EmbeddedResource Include="SphApp\views\dev.home.html" />
     <EmbeddedResource Include="SphApp\views\entity.chart.dialog.html" />

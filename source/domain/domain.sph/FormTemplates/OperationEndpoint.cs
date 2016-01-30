@@ -1,16 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class EntityOperation : DomainObject
+    [StoreAsSource(HasDerivedTypes = true)]
+    public partial class OperationEndpoint : Entity, IEntityDefinitionAsset
     {
-        public Task<IEnumerable<BuildError>> ValidateBuildAsync(EntityDefinition ed)
+
+        
+        public async Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)
         {
+            if (null == this.BuildDiagnostics)
+                ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.BuildDiagnostics)
+                throw new InvalidOperationException($"Fail to initialize MEF for {nameof(QueryEndpoint)}.BuildDiagnostics");
+
+            var result = new BuildValidationResult();
             var errors = new ObjectCollection<BuildError>();
             var everybody = this.Permissions.Contains("Everybody");
             var anonymous = this.Permissions.Contains("Anonymous");
@@ -24,9 +35,22 @@ namespace Bespoke.Sph.Domain
             if (anonymous && roles)
                 errors.Add(new BuildError(this.WebId, $"[Operation] \"{this.Name}\" cannot have anonymous and other role set at the same time"));
 
-            return Task.FromResult(errors.AsEnumerable());
+            var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this, ed));
+            var errors2 = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray());
+
+            var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this, ed));
+            var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x.ToArray());
+
+            result.Errors.AddRange(errors);
+            result.Errors.AddRange(errors2);
+            result.Warnings.AddRange(warnings);
+
+
+            result.Result = result.Errors.Count == 0;
+
+            return result;
         }
-        
+
         public Method GeneratePostAction(EntityDefinition ed)
         {
             if (!IsHttpPost) return null;
@@ -274,13 +298,24 @@ namespace Bespoke.Sph.Domain
 
             var code = new StringBuilder();
             // now the setter
-            code.AppendLine($"           var operation = ed.EntityOperationCollection.Single(o => o.WebId == \"{WebId}\");");
+            code.AppendLine($@"           var operation = CacheManager.Get<OperationEndpoint>(""{Id}"");");
+            code.AppendLine("           if(null == operation)");
+            code.AppendLine("           {");
+            code.AppendLine($@"           operation = await context.LoadOneAsync<OperationEndpoint>(x => x.Id ==""{Id}"");");
+            code.AppendLine($@"           CacheManager.Insert<OperationEndpoint>(""{Id}"", operation,$""{{ConfigurationManager.SphSourceDirectory}}\\{nameof(OperationEndpoint)}\\{Id}.json"");");
+            code.AppendLine("           }");
             code.AppendLinf("           var rc = new RuleContext(item);");
             var count = 0;
             foreach (var act in this.SetterActionChildCollection)
             {
                 count++;
                 var member = ed.GetMember(act.Path);
+                var sc = act.Field.GenerateCode();
+                if (!string.IsNullOrWhiteSpace(sc))
+                {
+                    code.AppendLine($"          item.{act.Path} = {sc};");
+                    continue;
+                }
                 code.AppendLine($"           var setter{count} = operation.SetterActionChildCollection.Single(a => a.WebId == \"{act.WebId}\");");
                 code.AppendLine($"           item.{act.Path} = ({member.GetMemberTypeName()})setter{count}.Field.GetValue(rc);");
             }
@@ -330,6 +365,13 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+     
+
+
+        [ImportMany(typeof(IBuildDiagnostics))]
+        [JsonIgnore]
+        [XmlIgnore]
+        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
 
         private string GenerateAuthorizeAttribute()
         {
@@ -346,5 +388,12 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+        public string Icon { get; } = "fa fa-cloud-upload";
+        public string Url { get; } = "operation.endpoint.designer/{id}";
+
+        public void AddRules(string rule)
+        {
+            this.Rules.Add(rule);
+        }
     }
 }

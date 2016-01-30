@@ -5,9 +5,9 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
-                <h3>New Entity Query Dialog</h3>
+                <h3>New Operation Endpoint</h3>
             </div>
-            <div class="modal-body" data-bind="with: query">
+            <div class="modal-body" data-bind="with: endpoint">
 
                 <form class="form-horizontal" id="entoty-query-dialog-form">
                     <div class="form-group">
@@ -15,7 +15,7 @@
                         <div class="col-lg-9">
                             <input type="text" data-bind="value: Name"
                                    required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-                                   placeholder="Query's name"
+                                   placeholder="Endpoint's name"
                                    class="form-control" id="name-input">
                         </div>
                     </div>

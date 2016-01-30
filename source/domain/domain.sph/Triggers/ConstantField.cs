@@ -109,11 +109,11 @@ namespace Bespoke.Sph.Domain
         public override string GenerateCode()
         {
             if (this.Type == typeof (string))
-                return string.Format("\"{0}\"", this.Value);
+                return $"\"{this.Value}\"";
             if (this.Type == typeof (DateTime))
-                return string.Format("DateTime.Parse(\"{0}\")", this.Value);
+                return $"DateTime.Parse(\"{this.Value}\")";
 
-            return string.Format("{0}", this.Value);
+            return $"{this.Value}";
         }
     }
 }

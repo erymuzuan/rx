@@ -61,6 +61,11 @@ namespace Bespoke.Sph.Domain
 
         }
 
+        public override string GenerateCode()
+        {
+            return this.Script;
+        }
+
         private string GenerateCode(RuleContext context)
         {
             var block = this.Script;

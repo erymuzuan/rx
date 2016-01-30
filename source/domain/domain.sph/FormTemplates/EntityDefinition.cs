@@ -161,10 +161,7 @@ namespace Bespoke.Sph.Domain
         {
             if (files.Length == 0)
                 throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, nameof(files));
-            foreach (var cs in files)
-            {
-                Debug.WriteLineIf(options.IsVerbose, cs);
-            }
+           
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {

@@ -108,7 +108,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
 
 
-            var operation = ed.EntityOperationCollection.SingleOrDefault(x => x.Name == form.Operation);
+            var operation = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.Operation);
             if (null != operation)
             {
                 var api = GenerateApiOperationCode(ed, operation, form.OperationMethod);
@@ -300,7 +300,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return script.ToString();
         }
 
-        private static string GenerateApiOperationCode(EntityDefinition ed, EntityOperation operation, string method)
+        private static string GenerateApiOperationCode(EntityDefinition ed, OperationEndpoint operation, string method)
         {
             var opFunc = operation.Name.ToCamelCase();
             var route = operation.Route.StartsWith("~/") ? 

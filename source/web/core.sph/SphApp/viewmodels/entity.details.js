@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -22,6 +22,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             forms = ko.observableArray(),
             dialogs = ko.observableArray(),
             queries = ko.observableArray(),
+            operations = ko.observableArray(),
             partialViews = ko.observableArray(),
             templateOptions = ko.observableArray(),
             valueObjectOptions = ko.observableArray(),
@@ -242,8 +243,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                           }
                       });
             },
-            addEntityQuery = function () {
-                return nis.addEntityQuery(ko.unwrap(entity().Name));
+            addQueryEndpoint = function () {
+                return nis.addQueryEndpoint(ko.unwrap(entity().Name));
+            },
+            addOperationEndpoint = function () {
+                return nis.addOperationEndpoint(ko.unwrap(entity().Name));
             };
 
 
@@ -255,6 +259,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             addTriggerAsync: addTriggerAsync,
             dialogs: dialogs,
             queries: queries,
+            operations: operations,
             partialViews: partialViews,
             forms: forms,
             views: views,
@@ -265,7 +270,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attached: attached,
             entity: entity,
             member: member,
-            addEntityQuery: addEntityQuery,
+            addQueryEndpoint: addQueryEndpoint,
+            addOperationEndpoint: addOperationEndpoint,
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAsync,

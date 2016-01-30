@@ -12,6 +12,7 @@ using domain.test.reports;
 using domain.test.triggers;
 using Moq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace domain.test.entities
@@ -98,7 +99,13 @@ namespace domain.test.entities
                 TypeName = "System.DateTime, mscorlib",
                 IsFilterable = true
             });
-            var address = new ComplexMember { Name = "Address", TypeName = "Address"};
+            ent.MemberCollection.Add(new SimpleMember
+            {
+                Name = "Discharged",
+                TypeName = "System.DateTime, mscorlib",
+                IsFilterable = true
+            });
+            var address = new ComplexMember { Name = "Address", TypeName = "Address" };
             address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
             address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
@@ -121,41 +128,48 @@ namespace domain.test.entities
         }
 
         [Test]
-        public void PostRegister()
+        public async Task PostRegister()
         {
-            var release = new EntityOperation { Name = "Register", IsHttpPost = true, WebId = "abc" };
-            release.Rules.Add("VerifyRegisteredDate");
+            var release = new OperationEndpoint
+            {
+                Name = "Register",
+                Resource = "patients",
+                Entity = "PatientRegistered",
+                IsHttpPost = true,
+                WebId = "abc",
+                Id = "patient-register"
+            };
+            release.AddRules("VerifyRegisteredDate");
 
-            var ed = this.CreatePatientDefinition("PatientRegistered");
-            ed.EntityOperationCollection.Add(release);
-
+            var ed = this.CreatePatientDefinition(release.Entity);
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
 
-            Type patientType = patient.GetType();
-            var dll = patientType.Assembly;
-            foreach (var type in dll.GetTypes())
-            {
-                Console.WriteLine(type);
-            }
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientRegisteredController");
-            Assert.IsNotNull(controllerType);
+            var result = await release.CompileAsync(ed);
+            Assert.IsTrue(result.Result, result.ToString());
 
-            var releaseActionMethodInfo = controllerType.GetMethod("PostRegister");
-            Assert.IsNotNull(releaseActionMethodInfo);
+            var dll = Assembly.LoadFrom(result.Output);
+
+            var controllerType = dll.GetType($"{release.CodeNamespace}.{release.Name}Controller");
+            dynamic controller = Activator.CreateInstance(controllerType);
+
+            var response = await controller.PostRegister(patient);
+            JObject json = JObject.Parse(JsonSerializerService.ToJsonString(response.Data));
+
+            var id = json.SelectToken("$.id").Value<string>();
+            Assert.AreEqual(json.SelectToken("$._links.href").Value<string>(), $"{ConfigurationManager.BaseUrl}/api/patients/" + id);
 
         }
         [Test]
         public void HttpPatchReleaseOperation()
         {
-            var release = new EntityOperation { Name = "Release", IsHttpPatch = true, WebId = "ReleaseWithPatch" };
+            var release = new OperationEndpoint { Name = "Release", IsHttpPatch = true, WebId = "ReleaseWithPatch" };
             release.PatchPathCollection.Add(new PatchSetter { Path = "Status" });
             //release.PatchPathCollection.Add("ClinicalNote");
             release.Rules.Add("VerifyRegisteredDate");
 
 
             var ed = this.CreatePatientDefinition("PatientForRelease");
-            ed.EntityOperationCollection.Add(release);
 
 
             var patient = this.CreateInstance(ed, true);
@@ -178,11 +192,10 @@ namespace domain.test.entities
         [Test]
         public void HttpPutAdmit()
         {
-            var admit = new EntityOperation { Name = "Admit", IsHttpPut = true, WebId = "PutAdmit" };
+            var admit = new OperationEndpoint { Name = "Admit", IsHttpPut = true, WebId = "PutAdmit" };
             admit.PatchPathCollection.Add(new PatchSetter { Path = "Status" });
 
             var ed = this.CreatePatientDefinition("PatientPutAdmit");
-            ed.EntityOperationCollection.Add(admit);
 
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
@@ -206,10 +219,9 @@ namespace domain.test.entities
         [Test]
         public void HttpDelete()
         {
-            var delete = new EntityOperation { Name = "Remove", Route = "", IsHttpDelete = true, WebId = "remove" };
+            var delete = new OperationEndpoint { Name = "Remove", Route = "", IsHttpDelete = true, WebId = "remove" };
 
             var ed = this.CreatePatientDefinition("PatientDelete");
-            ed.EntityOperationCollection.Add(delete);
 
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
@@ -238,13 +250,12 @@ namespace domain.test.entities
         [Test]
         public void HttpDeleteWithRule()
         {
-            var delete = new EntityOperation { Name = "Remove", Route = "", IsHttpDelete = true, WebId = "remove" };
-         
+            var delete = new OperationEndpoint { Name = "Remove", Route = "", IsHttpDelete = true, WebId = "remove" };
+
             const string NAME = "PatientDeleteWithRule";
             var ed = this.CreatePatientDefinition(NAME);
-            ed.EntityOperationCollection.Add(delete);
-            var rule = new BusinessRule {Name = "Cannot delete admitted patient", WebId = "rule01"};
-            rule.RuleCollection.Add(new Rule { Left = new DocumentField {Path = "Status"} , Operator = Operator.Neq, Right = new ConstantField {Value = "Admitter", Type = typeof(string)} });
+            var rule = new BusinessRule { Name = "Cannot delete admitted patient", WebId = "rule01" };
+            rule.RuleCollection.Add(new Rule { Left = new DocumentField { Path = "Status" }, Operator = Operator.Neq, Right = new ConstantField { Value = "Admitter", Type = typeof(string) } });
             ed.BusinessRuleCollection.Add(rule);
             delete.Rules.Add(rule.Name);
 
@@ -290,7 +301,15 @@ namespace domain.test.entities
         [Test]
         public async Task PatchReleaseOperationWithBusinessRule()
         {
-            var release = new EntityOperation { Name = "Release", IsHttpPatch = true, WebId = "1" };
+            var release = new OperationEndpoint
+            {
+                Name = "Release",
+                Resource = "patients",
+                Entity = "PatientWithBusinessRule",
+                Route = "{id:guid}/release-with-business-rule",
+                IsHttpPatch = true,
+                WebId = "1"
+            };
             release.Rules.Add("Must be dead");
             release.Rules.Add("Must be registered");
 
@@ -309,29 +328,34 @@ namespace domain.test.entities
                 Right = new DocumentField { Path = "DeathDateTime" }
             });
 
-            var ed = this.CreatePatientDefinition("PatientWithBusinessRule");
-            ed.EntityOperationCollection.Add(release);
+            var ed = this.CreatePatientDefinition(release.Entity);
             ed.BusinessRuleCollection.Add(mustBeDeadRule);
-            string jsonPath = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ed.Id}.json";
+            string jsonPath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{ed.Id}.json";
+            string oePath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}\\{release.Id}.json";
             File.WriteAllText(jsonPath, ed.ToJsonString(true));
+            File.WriteAllText(oePath, release.ToJsonString(true));
 
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
             patient.Id = Guid.NewGuid().ToString();
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
+
+            var cr = await release.CompileAsync(ed);
+
             Type patientType = patient.GetType();
-            var dll = patientType.Assembly;
+            var oedll = Assembly.LoadFrom(cr.Output);
 
             var repos = AddMockRespository(patientType);
             repos.AddToDictionary(patient.Id, patient);
 
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientWithBusinessRuleController");
+            var controllerType = oedll.GetType($"{release.CodeNamespace}.{release.Name}Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
+            MvcControllerHelper.SetContext(controller);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
-           
+
 
             var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
@@ -343,25 +367,47 @@ namespace domain.test.entities
             Console.WriteLine();
             //Assert.IsFalse(vr.success);
             //Assert.AreEqual(3, vr.rules.Length);
-            if (File.Exists(jsonPath))
-                File.Delete(jsonPath);
+            File.Delete(jsonPath);
+            File.Delete(oePath);
 
         }
         [Test]
         public async Task PatchReleaseOperationWithSetter()
         {
-            var release = new EntityOperation { Name = "Release", IsHttpPatch = true, WebId = Guid.NewGuid().ToString() };
+            var release = new OperationEndpoint
+            {
+                Name = "Release",
+                Id = "test-relase-endpoint-with-setter",
+                Resource = "patients",
+                Entity = "PatientReleaseOperationWithSetter",
+                IsHttpPatch = true,
+                Route = "{id}/release"
+            };
+            release.PatchPathCollection.Add(new PatchSetter { Path = "FullName", IsRequired = true });
+
             var statusSetter = new SetterActionChild
             {
                 Path = "Status",
                 Field = new ConstantField { Type = typeof(string), Value = "Released", Name = "Released" },
                 WebId = Guid.NewGuid().ToString()
             };
-            var ed = this.CreatePatientDefinition("PatientReleaseOperationWithSetter");
-            ed.EntityOperationCollection.Add(release);
             release.SetterActionChildCollection.Add(statusSetter);
-            string jsonPath = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ed.Id}.json";
-            File.WriteAllText(jsonPath, ed.ToJsonString(true));
+
+            var dobSetter = new SetterActionChild
+            {
+                Path = "Discharged",
+                Field = new FunctionField { Script = "item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate", Name = "Dob" },
+                WebId = Guid.NewGuid().ToString()
+            };
+            release.SetterActionChildCollection.Add(dobSetter);
+
+            var ed = this.CreatePatientDefinition(release.Entity);
+            string edPath = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ed.Id}.json";
+            File.WriteAllText(edPath, ed.ToJsonString(true));
+
+
+            var oePath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}\\{release.Id}.json";
+            File.WriteAllText(oePath, release.ToJsonString(true));
 
 
             var patient = this.CreateInstance(ed, true);
@@ -371,13 +417,15 @@ namespace domain.test.entities
 
 
             Type patientType = patient.GetType();
-            var dll = patientType.Assembly;
             var repos = AddMockRespository(patientType);
             repos.AddToDictionary(patient.Id, patient);
 
-            var controller = dll.CreateController(patientType.Namespace + ".PatientReleaseOperationWithSetterController");
-            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
+            var cr = await release.CompileAsync(ed);
+            Assert.IsTrue(cr.Result, cr.ToString());
+            var opDll = Assembly.LoadFrom(cr.Output);
 
+            var controller = opDll.CreateController(release.CodeNamespace + ".ReleaseController");
+            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
             var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
@@ -387,6 +435,9 @@ namespace domain.test.entities
             Assert.IsNotNull(vr);
 
             Assert.AreEqual("Released", patient.Status);
+
+            File.Delete(oePath);
+            File.Delete(edPath);
 
         }
     }

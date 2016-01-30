@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 
 namespace Bespoke.Sph.Domain.Codes
@@ -109,6 +110,17 @@ namespace Bespoke.Sph.Domain.Codes
         public void AddProperty(string name, Type type)
         {
             this.PropertyCollection.Add(new Property { Name = name, Type = type });
+        }
+
+        public string Save(string folder)
+        {
+            var dir = $"{ConfigurationManager.GeneratedSourceDirectory}\\{folder}\\";
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            var file = $"{dir}{FileName}.cs";
+            File.WriteAllText(file, this.GetCode());
+
+            return file;
         }
     }
 }

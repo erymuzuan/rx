@@ -160,8 +160,8 @@
   {
     "role": "developers",
     "groupName": null,
-    "route": "entity.operation.details/:id/:name",
-    "moduleId": "viewmodels/entity.operation.details",
+    "route": "operation.endpoint.designer/:id",
+    "moduleId": "viewmodels/operation.endpoint.designer",
     "title": "Operation",
     "nav": false,
     "icon": "fa fa-gavel",

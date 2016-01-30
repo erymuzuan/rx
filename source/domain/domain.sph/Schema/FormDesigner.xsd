@@ -357,13 +357,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="EntityOperationCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="EntityOperation" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="AuthorizedRoleCollection">
 					<xs:complexType>
 						<xs:sequence>
@@ -401,13 +394,6 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="BusinessRule" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="EntityOperationCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="EntityOperation" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -685,7 +671,7 @@
 			<xs:attribute name="IsReadOnly" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="EntityOperation">
+	<xs:element name="OperationEndpoint">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="EntityPermissionCollection">
@@ -731,6 +717,9 @@
 			<xs:attribute name="IsHttpPost" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsHttpDelete" type="xs:boolean" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="optional"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="Resource" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="SetterActionChild">

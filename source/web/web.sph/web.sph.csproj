@@ -1276,14 +1276,16 @@
     <Content Include="SphApp\services\cultures.my.js" />
     <Content Include="SphApp\services\jsonimportexport.js" />
     <Content Include="SphApp\services\_ko.list.js" />
+    <Content Include="SphApp\viewmodels\new.operation.endpoint.dialog.js" />
     <Content Include="SphApp\viewmodels\query.endpoint.designer.js" />
     <Content Include="SphApp\viewmodels\flatfile-adapter-wizard.js" />
-    <Content Include="SphApp\viewmodels\new.entity.query.dialog.js" />
+    <Content Include="SphApp\viewmodels\new.query.endpoint.dialog.js" />
     <Content Include="SphApp\viewmodels\public.index.js" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
     <Content Include="SphApp\views\entity.get.operation.designer.html" />
     <Content Include="SphApp\views\flatfile-adapter-wizard.html" />
-    <Content Include="SphApp\views\new.entity.query.dialog.html" />
+    <Content Include="SphApp\views\new.operation.endpoint.dialog.html" />
+    <Content Include="SphApp\views\new.query.endpoint.dialog.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

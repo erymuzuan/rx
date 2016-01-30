@@ -830,7 +830,6 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         DashboardTemplate: ko.observable(""),
         MemberCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
-        EntityOperationCollection: ko.observableArray([]),
         AuthorizedRoleCollection: ko.observableArray([]),
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
         StoreInDatabase: ko.observable(),
@@ -869,7 +868,6 @@ bespoke.sph.domain.ValueObjectDefinition = function (optionOrWebid) {
         Name: ko.observable(""),
         MemberCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
-        EntityOperationCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1388,10 +1386,10 @@ bespoke.sph.domain.EntityPermission = function (optionOrWebid) {
 
 
 
-bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
+bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
 
     var model = {
-        "$type": "Bespoke.Sph.Domain.EntityOperation, domain.sph",
+        "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
         Name: ko.observable(""),
         Route: ko.observable(""),
         IsHttpPut: ko.observable(false),
@@ -1399,6 +1397,8 @@ bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
         IsHttpPost: ko.observable(false),
         IsHttpDelete: ko.observable(false),
         Note: ko.observable(""),
+        Entity: ko.observable(""),
+        Resource: ko.observable(""),
         EntityPermissionCollection: ko.observableArray([]),
         Rules: ko.observableArray([]),
         Permissions: ko.observableArray([]),
@@ -1421,8 +1421,8 @@ bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
     }
 
 
-    if (bespoke.sph.domain.EntityOperationPartial) {
-        return _(model).extend(new bespoke.sph.domain.EntityOperationPartial(model));
+    if (bespoke.sph.domain.OperationEndpointPartial) {
+        return _(model).extend(new bespoke.sph.domain.OperationEndpointPartial(model));
     }
     return model;
 };

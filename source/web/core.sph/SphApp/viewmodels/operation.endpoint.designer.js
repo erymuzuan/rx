@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -14,32 +14,19 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             errors = ko.observableArray(),
             roles = ko.observableArray(),
-            operation = ko.observable(new bespoke.sph.domain.EntityOperation()),
+            operation = ko.observable(new bespoke.sph.domain.OperationEndpoint()),
             isBusy = ko.observable(false),
-            activate = function (eid, name) {
-
-
+            activate = function (id) {
                 if (!roles().length) {
                     roles(config.allRoles);
                     roles.splice(0, 0, "Anonymous");
                     roles.splice(0, 0, "Everybody");
                 }
 
-                var query = String.format("Id eq '{0}'", eid),
+                var query = String.format("Id eq '{0}'", id),
                     tcs = new $.Deferred();
-                context.loadOneAsync("EntityDefinition", query)
-                    .done(function (b) {
-                        entity(b);
-                        var o = _(b.EntityOperationCollection()).find(function (v) {
-                            return v.Name() === name;
-                        });
-                        if (!o) {
-                            o = new bespoke.sph.domain.EntityOperation({
-                                WebId: system.guid(),
-                                Name: name
-                            });
-                            entity().EntityOperationCollection.push(o);
-                        }
+                context.loadOneAsync("OperationEndpoint", query)
+                    .done(function (o) {
                         operation(o);
                         tcs.resolve(true);
                     });
@@ -59,14 +46,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/entity-definition")
+                context.post(data, "/api/operation-endpoints")
                     .then(function (result) {
                         tcs.resolve(true);
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
                             entity().Id(result.id);
-                            errors.removeAll();                          
+                            errors.removeAll();
                         } else {
                             errors(result.Errors);
                             logger.error("There are errors in your entity, !!!");
@@ -80,7 +67,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 data = ko.mapping.toJSON(entity);
             isBusy(true);
 
-            context.post(data, "/entity-definition/publish")
+            context.post(data, "/api/operation-endpoints" + ko.unwrap(operation().Id) + "/publish")
                 .then(function (result) {
                     isBusy(false);
                     if (result.success) {

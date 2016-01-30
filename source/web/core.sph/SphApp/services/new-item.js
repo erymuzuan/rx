@@ -117,9 +117,9 @@
                                 router.navigate("#reportdefinition.edit/" + ko.unwrap(ed.Id));
                         });
             },
-            addEntityQuery = function (ed) {
+            addQueryEndpoint = function (ed) {
 
-                return app.showDialog("new.entity.query.dialog", function (dialog) {
+                return app.showDialog("new.query.endpoint.dialog", function (dialog) {
                     dialog.entity(ed);
                 })
                         .then(function (dialog, result) {
@@ -129,7 +129,22 @@
                             return Task.fromResult(0);
                         }).then(function (ed) {
                             if (ed)
-                                router.navigate("#entity.query.designer/" + ko.unwrap(ed.Id));
+                                router.navigate("#query.endpoint.designer/" + ko.unwrap(ed.Id));
+                        });
+            },
+            addOperationEndpoint = function (ed) {
+
+                return app.showDialog("new.operation.endpoint.dialog", function (dialog) {
+                    dialog.entity(ed);
+                })
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("QueryEndpoint", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#operation.endpoint.designer/" + ko.unwrap(ed.Id));
                         });
             };
 
@@ -144,7 +159,8 @@
             addReportDefinitionAsync: addReportDefinitionAsync,
             addTriggerAsync: addTriggerAsync,
             addTransformDefinitionAsync: addTransformDefinitionAsync,
-            addEntityQuery: addEntityQuery,
+            addQueryEndpoint: addQueryEndpoint,
+            addOperationEndpoint: addOperationEndpoint,
             addWorkflowDefinitionAsync: addWorkflowDefinitionAsync
         };
 

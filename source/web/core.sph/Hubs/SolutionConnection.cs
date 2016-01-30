@@ -91,6 +91,7 @@ namespace Bespoke.Sph.Web.Hubs
             solution.itemCollection.AddRange(entities.ToArray());
 
             ExtractSolutionItems<QueryEndpoint>(solution);
+            ExtractSolutionItems<OperationEndpoint>(solution);
             ExtractSolutionItems<EntityForm>(solution);
             ExtractSolutionItems<EntityView>(solution);
             ExtractSolutionItems<Trigger>(solution);
@@ -106,6 +107,7 @@ namespace Bespoke.Sph.Web.Hubs
                 if (folder.Contains("Setting")) continue;
                 if (folder.Contains("EntityDefinition")) continue;
                 if (folder.Contains("EntityForm")) continue;
+                if (folder.Contains(nameof(OperationEndpoint))) continue;
                 if (folder.Contains(nameof(QueryEndpoint))) continue;
                 if (folder.Contains("EntityView")) continue;
                 if (folder.Contains("EntityChart")) continue;
@@ -302,17 +304,6 @@ namespace Bespoke.Sph.Web.Hubs
                     icon = ed.IconClass ?? "fa fa-database",
                     url = "entity.details/" + ed.Id
                 };
-                var ops =
-                    ed.EntityOperationCollection.Select(
-                        x =>
-                            new SolutionItem
-                            {
-                                id = x.Name,
-                                text = x.Name,
-                                icon = "fa fa-keyboard-o",
-                                url = $"entity.operation.details/{ed.Id}/{x.Name}"
-                            });
-                entity.itemCollection.AddRange(ops);
 
                 var rules =
                     ed.BusinessRuleCollection.Select(

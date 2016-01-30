@@ -112,6 +112,19 @@ namespace Bespoke.Sph.Web.Api
             return ReadFromSource<EntityView>(filter, page, size);
         }
 
+        [Route("OperationEndpoint/{id}")]
+        [RxSourceOutputCache(SourceType = typeof(OperationEndpoint))]
+        public ActionResult GetOneOperationEndpoint(string id)
+        {
+            return ReadFromSource<OperationEndpoint>($"Id eq '{id}'", 1, 1);
+        }
+        [Route("OperationEndpoint")]
+        [RxSourceOutputCache(SourceType = typeof(OperationEndpoint))]
+        public ActionResult GetOperationEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return ReadFromSource<OperationEndpoint>(filter, page, size);
+        }
+
         [Route("QueryEndpoint/{id}")]
         [RxSourceOutputCache(SourceType = typeof(QueryEndpoint))]
         public ActionResult GetOneQueryEndpoint(string id)

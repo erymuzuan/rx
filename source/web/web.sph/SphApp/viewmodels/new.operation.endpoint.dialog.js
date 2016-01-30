@@ -5,19 +5,23 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../../../core.sph/SphApp/schemas/__domain.js" />
+/// <reference path="../../../core.sph/SphApp/objectbuilders.js" />
+/// <reference path="../../../core.sph/Scripts/_task.js" />
+/// <reference path="../../../core.sph/Scripts/require.js" />
 
 
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
         var entities = ko.observableArray(),
-            query = ko.observable(new bespoke.sph.domain.QueryEndpoint()),
+            endpoint = ko.observable(new bespoke.sph.domain.OperationEndpoint()),
             entity = ko.observable(),
             id = ko.observable(),
             activate = function () {
-                query(new bespoke.sph.domain.QueryEndpoint({ "Entity": ko.unwrap(entity), "WebId": system.guid() }));
-                query().Name.subscribe(function (v) {
-                    query().Route(v.toLowerCase().replace(/\W+/g, "-"));
+                endpoint(new bespoke.sph.domain.OperationEndpoint({ "Entity": ko.unwrap(entity), "WebId": system.guid() }));
+                endpoint().Name.subscribe(function (v) {
+                    endpoint().Route(v.toLowerCase().replace(/\W+/g, "-"));
                 });
                 return context.getListAsync("EntityDefinition", "Id ne ''", "Name").done(entities);
             },
@@ -26,8 +30,8 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     return Task.fromResult(0);
                 }
 
-                var json = ko.mapping.toJSON(query);
-                return context.post(json, "/entity-query")
+                var json = ko.mapping.toJSON(endpoint);
+                return context.post(json, "/api/operation-endpoints")
                     .then(function (result) {
                         if (result) {
                             id(result.id);
@@ -41,7 +45,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             };
 
         var vm = {
-            query: query,
+            endpoint: endpoint,
             activate: activate,
             okClick: okClick,
             entity: entity,
