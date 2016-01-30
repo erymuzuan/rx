@@ -14,7 +14,7 @@
         function (context, logger, router, system, app) {
 
             var errors = ko.observableArray(),
-                queryOptions = ko.observableArray(),
+                endpointOptions = ko.observableArray(),
                 templateOptions = ko.observableArray(),
                 originalEntity = "",
                 warnings = ko.observableArray(),
@@ -38,24 +38,23 @@
                             }
                             return context.getListAsync("EntityQuery", "Entity eq '" + ko.unwrap(b.Name) + "'", "Id");
 
-                        }).then(queryOptions);
+                        }).then(endpointOptions);
 
                     context.loadOneAsync("EntityView", "Id eq '" + viewid + "'")
                     .done(function (f) {
-
                         view(f);
-                        originalEntity = ko.toJSON(view);
+                        view().EntityDefinitionId(entityid);
                         tcs.resolve(true);
                     });
-                    view().EntityDefinitionId(entityid);
 
                     return tcs.promise();
 
                 },
                 attached = function (vw) {
 
+                    originalEntity = ko.toJSON(view);
                     $(vw).on("click", "#expand-collapse-property-tabe", function () {
-                        if ($(this).text() === "Expand") {
+                        if ($(this).html().indexOf("fa-expand") > -1) {
 
                             $("#view-column-designer")
                                     .removeClass("col-lg-8").addClass("col-lg-4")
@@ -63,7 +62,7 @@
                             $("#view-properties-tab")
                                 .removeClass("col-lg-4").addClass("col-lg-8")
                                 .removeClass("col-md-4").addClass("col-md-8");
-                            $(this).text("Collapse");
+                            $(this).html('<i class="fa fa-compress"></i>');
                         } else {
 
                             $("#view-column-designer")
@@ -72,7 +71,7 @@
                             $("#view-properties-tab")
                                 .removeClass("col-lg-8").addClass("col-lg-4")
                                 .removeClass("col-md-8").addClass("col-md-4");
-                            $(this).text("Expand");
+                            $(this).html('<i class="fa fa-expand"></i>');
                         }
                     });
 
@@ -209,7 +208,7 @@
             var vm = {
                 warnings: warnings,
                 errors: errors,
-                queryOptions: queryOptions,
+                endpointOptions: endpointOptions,
                 templateOptions: templateOptions,
                 attached: attached,
                 activate: activate,

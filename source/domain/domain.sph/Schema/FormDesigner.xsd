@@ -582,7 +582,7 @@
 			<xs:attribute name="Partial" type="xs:string" use="required"/>
 			<xs:attribute name="Template" type="xs:string" use="optional"/>
 			<xs:attribute name="DisplayOnDashboard" type="xs:boolean" use="required"/>
-			<xs:attribute name="Query" type="xs:string" use="required"/>
+			<xs:attribute name="Endpoint" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Filter">

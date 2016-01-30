@@ -3870,8 +3870,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_query;
-        public const string PropertyNameQuery = "Query";
+        private string m_endpoint;
+        public const string PropertyNameEndpoint = "Endpoint";
 
 
         ///<summary>
@@ -4277,22 +4277,22 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
-        public string Query
+        public string Endpoint
         {
             set
             {
-                if (String.Equals(m_query, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameQuery, value);
+                if (String.Equals(m_endpoint, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEndpoint, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_query = value;
+                    m_endpoint = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_query;
+                return m_endpoint;
             }
         }
 

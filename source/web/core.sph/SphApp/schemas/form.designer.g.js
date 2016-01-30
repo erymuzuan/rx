@@ -1122,7 +1122,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         Partial: ko.observable(""),
         Template: ko.observable(""),
         DisplayOnDashboard: ko.observable(false),
-        Query: ko.observable(""),
+        Endpoint: ko.observable(""),
         ViewColumnCollection: ko.observableArray([]),
         ConditionalFormattingCollection: ko.observableArray([]),
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
