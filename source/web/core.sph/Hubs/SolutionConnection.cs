@@ -90,7 +90,7 @@ namespace Bespoke.Sph.Web.Hubs
             var entities = GetEntityDefinition();
             solution.itemCollection.AddRange(entities.ToArray());
 
-            ExtractSolutionItems<EntityQuery>(solution);
+            ExtractSolutionItems<QueryEndpoint>(solution);
             ExtractSolutionItems<EntityForm>(solution);
             ExtractSolutionItems<EntityView>(solution);
             ExtractSolutionItems<Trigger>(solution);

@@ -34,8 +34,8 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
 
             var cache = new Mock<ICacheManager>();
-            cache.Setup(x => x.Get<EntityQuery>(It.IsAny<string>()))
-                .Returns(new EntityQuery());
+            cache.Setup(x => x.Get<QueryEndpoint>(It.IsAny<string>()))
+                .Returns(new QueryEndpoint());
             ObjectBuilder.AddCacheList(cache.Object);
         }
         private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)

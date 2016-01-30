@@ -5,7 +5,7 @@ namespace Bespoke.Sph.Domain.diagnostics
 {
     public class BuilDiagnostic : IBuildDiagnostics
     {
-        public virtual Task<BuildError[]> ValidateErrorsAsync(EntityQuery query, EntityDefinition entity)
+        public virtual Task<BuildError[]> ValidateErrorsAsync(QueryEndpoint endpoint, EntityDefinition entity)
         {
             return Task.FromResult(new BuildError[] {});
         }
@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Domain.diagnostics
             return Task.FromResult(new BuildError[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateWarningsAsync(EntityQuery query, EntityDefinition entity)
+        public virtual Task<BuildError[]> ValidateWarningsAsync(QueryEndpoint endpoint, EntityDefinition entity)
         {
             return Task.FromResult(new BuildError[] { });
         }

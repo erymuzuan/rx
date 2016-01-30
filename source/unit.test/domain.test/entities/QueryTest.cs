@@ -35,7 +35,7 @@ namespace domain.test.entities
         [Test]
         public void GenerateController()
         {
-            var query = new EntityQuery { Name = "All patients", Route = "all-patients", Id = "all-patients", Entity = "Patient", WebId = "all-patients" };
+            var query = new QueryEndpoint { Name = "All patients", Route = "all-patients", Id = "all-patients", Entity = "Patient", WebId = "all-patients" };
             var patient = this.GetFromEmbeddedResource<EntityDefinition>(query.Entity);
             var options = new CompilerOptions();
             var sources = query.GenerateCode(patient);
@@ -49,7 +49,7 @@ namespace domain.test.entities
         public void CompileQueryWithFunctionFilter()
         {
             var patient = this.GetFromEmbeddedResource<EntityDefinition>("Patient");
-            var query = new EntityQuery
+            var query = new QueryEndpoint
             {
                 Name = "Patients died this week",
                 Route = "~/api/patients/patients-died-this-week",
@@ -84,7 +84,7 @@ namespace domain.test.entities
         [Test]
         public async Task QueryFields()
         {
-            var query = new EntityQuery
+            var query = new QueryEndpoint
             {
                 Name = "Patients Born in 60s",
                 Route = "~/api/patients/born-in-60s",
@@ -102,7 +102,7 @@ namespace domain.test.entities
 
         public async Task CompileQueryFieldsAndFilter()
         {
-            var query = new EntityQuery
+            var query = new QueryEndpoint
             {
                 Name = "Patients Born in 60s",
                 Route = "~/api/patients/born-in-60s",
@@ -137,7 +137,7 @@ namespace domain.test.entities
         public void CompileQueryWithFieldsAndFilter()
         {
             var patient = this.GetFromEmbeddedResource<EntityDefinition>("Patient");
-            var query = new EntityQuery
+            var query = new QueryEndpoint
             {
                 Name = "Patients Born in 60s",
                 Route = "~/api/patients/born-in-60s",
@@ -180,7 +180,7 @@ namespace domain.test.entities
         public void CompileQueryWithFieldsAndFilterCacheFilter()
         {
             var patient = this.GetFromEmbeddedResource<EntityDefinition>("Patient");
-            var query = new EntityQuery
+            var query = new QueryEndpoint
             {
                 Name = "Patients with cached filter",
                 Route = "~/api/patients/cache-filter",
@@ -243,7 +243,7 @@ namespace domain.test.entities
         public void CompileQueryWithChildren()
         {
             var appointment = this.GetFromEmbeddedResource<EntityDefinition>("Appointment");
-            var query = new EntityQuery
+            var query = new QueryEndpoint
             {
                 Name = "Appointment for patient",
                 Route = "~/api/patients/{mrn}/appointments",

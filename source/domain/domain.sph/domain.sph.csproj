@@ -219,10 +219,10 @@
     <Compile Include="diagnostics\RouteDiagnostics.cs" />
     <Compile Include="diagnostics\ViewColumnDiagnostics.cs" />
     <Compile Include="diagnostics\ViewConditionalFormattingDiagnostics.cs" />
-    <Compile Include="diagnostics\ViewFilterDiagnostics.cs" />
+    <Compile Include="diagnostics\QueryFilterDiagnostics.cs" />
     <Compile Include="diagnostics\ViewLinkColumnDiagnostics.cs" />
     <Compile Include="diagnostics\ViewPerformerDiagnostics.cs" />
-    <Compile Include="diagnostics\ViewSortDiagnostics.cs" />
+    <Compile Include="diagnostics\QueryEndpointSortDiagnostics.cs" />
     <Compile Include="FormTemplates\Button.cs" />
     <Compile Include="FormTemplates\ChildEntityListView.cs" />
     <Compile Include="FormTemplates\ChildView.cs" />
@@ -236,7 +236,6 @@
     <Compile Include="FormTemplates\DialogButton.cs" />
     <Compile Include="FormTemplates\DownloadLink.cs" />
     <Compile Include="FormTemplates\EntityChart.cs" />
-    <Compile Include="FormTemplates\EntityQuery.compile.cs" />
     <Compile Include="FormTemplates\EntityDefinition.code.cs">
       <DependentUpon>EntityDefinition.cs</DependentUpon>
     </Compile>
@@ -245,7 +244,8 @@
     <Compile Include="FormTemplates\EntityLookupElement.cs" />
     <Compile Include="FormTemplates\EntityOperation.cs" />
     <Compile Include="FormTemplates\EntityPermission.cs" />
-    <Compile Include="FormTemplates\EntityQuery.cs" />
+    <Compile Include="FormTemplates\QueryEndpoint.code.cs" />
+    <Compile Include="FormTemplates\QueryEndpoint.cs" />
     <Compile Include="FormTemplates\EntityQuerySetting.cs" />
     <Compile Include="FormTemplates\EntityView.cs" />
     <Compile Include="FormTemplates\FieldPermission.cs" />

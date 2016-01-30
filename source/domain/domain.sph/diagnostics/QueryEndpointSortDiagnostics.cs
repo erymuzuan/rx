@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain.diagnostics
 {
     [Export(typeof(IBuildDiagnostics))]
-    public sealed class ViewSortDiagnostics : BuilDiagnostic
+    public sealed class QueryEndpointSortDiagnostics : BuilDiagnostic
     {
-        public override Task<BuildError[]> ValidateErrorsAsync(EntityQuery view, EntityDefinition entity)
+        public override Task<BuildError[]> ValidateErrorsAsync(QueryEndpoint endpoint, EntityDefinition entity)
         {
-            var errors = from f in view.SortCollection
+            var errors = from f in endpoint.SortCollection
                 where string.IsNullOrWhiteSpace(f.Path)
                 select new BuildError
                     (
-                    view.WebId,
+                    endpoint.WebId,
                     $"[Sort] : {f.Path} does not have path"
                     );
             return Task.FromResult(errors.ToArray());

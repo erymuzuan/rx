@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource(HasDerivedTypes = true)]
-    public partial class EntityQuery : Entity, IEntityDefinitionAsset
+    public partial class QueryEndpoint : Entity, IEntityDefinitionAsset
     {
 
         [ImportMany(typeof(IBuildDiagnostics))]

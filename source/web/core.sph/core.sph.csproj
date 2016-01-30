@@ -963,7 +963,7 @@
     <Compile Include="Controllers\CustomFormController.scripts.cs" />
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\DataImportController.cs" />
-    <Compile Include="Controllers\EntityQueryController.cs" />
+    <Compile Include="Controllers\QueryEndpointController.cs" />
     <Compile Include="Controllers\FormDialogController.cs" />
     <Compile Include="Controllers\PartialViewController.cs" />
     <Compile Include="Controllers\ValueObjectDefinitionController.cs" />

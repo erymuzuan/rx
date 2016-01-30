@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class EntityQuery
+    public partial class QueryEndpoint
     {
         private EntityDefinition m_ed;
         public override string ToString()
@@ -26,7 +26,7 @@ namespace Bespoke.Sph.Domain
             return this.Name;
         }
         private readonly string[] m_importDirectives =
-      {
+        {
             typeof(Entity).Namespace,
             typeof(Int32).Namespace ,
             typeof(Task<>).Namespace,
@@ -52,8 +52,8 @@ namespace Bespoke.Sph.Domain
                 File.WriteAllText(file, cs.GetCode());
             }
             return sources
-                    .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f.FileName}")
-                    .ToArray();
+                .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f.FileName}")
+                .ToArray();
         }
 
         public Class GenerateCode(EntityDefinition ed)
@@ -177,9 +177,9 @@ namespace Bespoke.Sph.Domain
             code.AppendLine($"       [Route(\"{route}\")]");
 
             var parameterlist = from r in this.RouteParameterCollection
-                                let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
-                                let type = r.Type.ToCsharpIdentitfier()
-                                select $"{type} {r.Name}{defaultValue},";
+                let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
+                let type = r.Type.ToCsharpIdentitfier()
+                select $"{type} {r.Name}{defaultValue},";
             var parameters = string.Join(" ", parameterlist);
 
             code.AppendLine($"       public async Task<ActionResult> GetAction({parameters}int page =1, int size=20, string q=\"\")");
@@ -290,11 +290,11 @@ namespace Bespoke.Sph.Domain
                 };
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
-                             select new BuildError(this.WebId, x.ErrorText)
-                             {
-                                 Line = x.Line,
-                                 FileName = x.FileName
-                             };
+                    select new BuildError(this.WebId, x.ErrorText)
+                    {
+                        Line = x.Line,
+                        FileName = x.FileName
+                    };
                 cr.Errors.AddRange(errors);
                 return cr;
             }

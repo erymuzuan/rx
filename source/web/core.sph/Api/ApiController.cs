@@ -113,16 +113,16 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("EntityQuery/{id}")]
-        [RxSourceOutputCache(SourceType = typeof(EntityQuery))]
+        [RxSourceOutputCache(SourceType = typeof(QueryEndpoint))]
         public ActionResult GetOneEntityQuery(string id)
         {
-            return ReadFromSource<EntityQuery>($"Id eq '{id}'", 1, 1);
+            return ReadFromSource<QueryEndpoint>($"Id eq '{id}'", 1, 1);
         }
         [Route("EntityQuery")]
-        [RxSourceOutputCache(SourceType = typeof(EntityQuery))]
+        [RxSourceOutputCache(SourceType = typeof(QueryEndpoint))]
         public ActionResult EntityQuery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return ReadFromSource<EntityQuery>(filter, page, size);
+            return ReadFromSource<QueryEndpoint>(filter, page, size);
         }
 
         [Route("Message")]

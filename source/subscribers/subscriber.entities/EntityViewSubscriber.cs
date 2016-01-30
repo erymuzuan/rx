@@ -20,7 +20,7 @@ namespace subscriber.entities
         {
             await Task.Delay(2000);
             var context = new SphDataContext();
-            var query = context.LoadOneFromSources<EntityQuery>(x => x.Id == view.Endpoint);
+            var query = context.LoadOneFromSources<QueryEndpoint>(x => x.Id == view.Endpoint);
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == view.EntityDefinitionId);
             var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault
                 && f.EntityDefinitionId == view.EntityDefinitionId);

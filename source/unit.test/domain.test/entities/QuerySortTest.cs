@@ -15,7 +15,7 @@ namespace domain.test.entities
             ed.MemberCollection.Add(new SimpleMember { Name = "Floors", Type = typeof(int) });
 
 
-            var view = new EntityQuery { Name = "All buildings", Route = "all-buildings" };
+            var view = new QueryEndpoint { Name = "All buildings", Route = "all-buildings" };
             view.SortCollection.Add(new Sort { Direction = SortDirection.Asc, Path = "Name" });
             view.SortCollection.Add(new Sort { Direction = SortDirection.Desc, Path = "Floors" });
 
@@ -34,7 +34,7 @@ namespace domain.test.entities
             ed.MemberCollection.Add(new SimpleMember { Name = "CreatedBy", Type = typeof(string) });
 
 
-            var view = new EntityQuery{ Name = "All buildings", Route = "all-buildings" };
+            var view = new QueryEndpoint{ Name = "All buildings", Route = "all-buildings" };
             view.SortCollection.Add(new Sort { Direction = SortDirection.Asc, Path = "Name" });
             view.SortCollection.Add(new Sort { Direction = SortDirection.Desc, Path = "Floors" });
 
@@ -56,7 +56,7 @@ namespace domain.test.entities
             ed.MemberCollection.Add(new SimpleMember { Name = "Created", Type = typeof(DateTime) });
 
 
-            var view = new EntityQuery { Name = "All buildings", Route = "all-buildings" };
+            var view = new QueryEndpoint { Name = "All buildings", Route = "all-buildings" };
             view.SortCollection.Add(new Sort { Direction = SortDirection.Asc, Path = "Name" });
             view.SortCollection.Add(new Sort { Direction = SortDirection.Desc, Path = "Floors" });
 
@@ -78,7 +78,7 @@ namespace domain.test.entities
             ed.MemberCollection.Add(new SimpleMember { Name = "Age", Type = typeof(int) });
 
 
-            var view = new EntityQuery { Name = "All buildings", Route = "all-buildings" };
+            var view = new QueryEndpoint { Name = "All buildings", Route = "all-buildings" };
             view.SortCollection.Add(new Sort { Direction = SortDirection.Asc, Path = "Name" });
             view.SortCollection.Add(new Sort { Direction = SortDirection.Desc, Path = "Floors" });
 
@@ -99,7 +99,7 @@ namespace domain.test.entities
             ed.MemberCollection.Add(new SimpleMember { Name = "Floors", Type = typeof(int) });
 
 
-            var view = new EntityQuery { Name = "Built before 2000", Route = "built-buildings-before-2000" };
+            var view = new QueryEndpoint { Name = "Built before 2000", Route = "built-buildings-before-2000" };
             view.SortCollection.Add(new Sort { Direction = SortDirection.Asc, Path = "Name" });
             view.SortCollection.Add(new Sort { Direction = SortDirection.Desc, Path = "Floors" });
 
