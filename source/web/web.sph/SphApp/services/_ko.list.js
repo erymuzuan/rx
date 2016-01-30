@@ -228,6 +228,7 @@ define([], function () {
                     });
                 },
                 loadJsTree = function () {
+                    entity.MemberCollection.unshift(new bespoke.sph.domain.SimpleMember({Name :"Id", TypeName : "System.String, mscorlib"}));
                     jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
                         return {
                             text: ko.unwrap(v.Name),
