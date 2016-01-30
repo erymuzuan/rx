@@ -30,16 +30,16 @@ namespace ASP
     using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityQueryDesigner/Html.cshtml")]
-    public partial class _Areas_App_Views_EntityQueryDesigner_Html_cshtml : System.Web.Mvc.WebViewPage<dynamic>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/QueryEndpointDesigner/Html.cshtml")]
+    public partial class _Areas_App_Views_QueryEndpointDesigner_Html_cshtml : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public _Areas_App_Views_EntityQueryDesigner_Html_cshtml()
+        public _Areas_App_Views_QueryEndpointDesigner_Html_cshtml()
         {
         }
         public override void Execute()
         {
             
-            #line 1 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 1 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
   
     Layout = null;
 
@@ -57,7 +57,7 @@ WriteLiteral(" data-bind=\"text:Plural\"");
 WriteLiteral("></span></h1>\r\n");
 
             
-            #line 5 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 5 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
 Write(Html.Partial("_erroList"));
 
             
@@ -153,7 +153,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 36 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 36 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_general"));
 
             
@@ -170,7 +170,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 39 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 39 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_filters"));
 
             
@@ -187,7 +187,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 42 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 42 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_sorts"));
 
             
@@ -206,7 +206,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 45 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 45 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_performer"));
 
             
@@ -223,7 +223,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 48 "..\..\Areas\App\Views\EntityQueryDesigner\Html.cshtml"
+            #line 48 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_parameters"));
 
             

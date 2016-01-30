@@ -29,17 +29,17 @@ namespace ASP
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
     
-    #line 1 "..\..\Areas\App\Views\EntityQueryDesigner\_filters.cshtml"
+    #line 1 "..\..\Areas\App\Views\QueryEndpointDesigner\_filters.cshtml"
     using Bespoke.Sph.Web.Models;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityQueryDesigner/_filters.cshtml")]
-    public partial class _Areas_App_Views_EntityQueryDesigner__filters_cshtml : System.Web.Mvc.WebViewPage<dynamic>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/QueryEndpointDesigner/_filters.cshtml")]
+    public partial class _Areas_App_Views_QueryEndpointDesigner__filters_cshtml : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public _Areas_App_Views_EntityQueryDesigner__filters_cshtml()
+        public _Areas_App_Views_QueryEndpointDesigner__filters_cshtml()
         {
         }
         public override void Execute()
@@ -139,7 +139,7 @@ WriteLiteral(">Not EndsWith</option>\r\n                </select>\r\n           
 " <td> ");
 
             
-            #line 40 "..\..\Areas\App\Views\EntityQueryDesigner\_filters.cshtml"
+            #line 40 "..\..\Areas\App\Views\QueryEndpointDesigner\_filters.cshtml"
             Write(Html.Partial("_fields", new TypeModel {Path = "Field"}));
 
             

@@ -118,9 +118,9 @@ namespace Bespoke.Sph.Web.Api
         {
             return ReadFromSource<QueryEndpoint>($"Id eq '{id}'", 1, 1);
         }
-        [Route("EntityQuery")]
+        [Route("QueryEndpoint")]
         [RxSourceOutputCache(SourceType = typeof(QueryEndpoint))]
-        public ActionResult EntityQuery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public ActionResult QueryEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<QueryEndpoint>(filter, page, size);
         }

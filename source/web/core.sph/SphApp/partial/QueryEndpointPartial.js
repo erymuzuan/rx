@@ -6,7 +6,7 @@
 /// <reference path="/SphApp/schemas/form.designer.g.js" />
 
 
-bespoke.sph.domain.EntityQueryPartial = function () {
+bespoke.sph.domain.QueryEndpointPartial = function () {
 
     // Filter
     var system = require("durandal/system"),

@@ -925,7 +925,7 @@
 			<xs:attribute name="Path" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="EntityQuery" bspk:entity="true">
+	<xs:element name="QueryEndpoint" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="FilterCollection">

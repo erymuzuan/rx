@@ -370,7 +370,7 @@
                         Add an operation
                     </a>
                     <h3>Queries</h3>
-                    <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityQuery', query :'Entity eq \'' + $root.entity().Name() + '\'', list: $root.queries}">
+                    <table class="table table-striped" data-bind="serverPaging :{entity: 'QueryEndpoint', query :'Entity eq \'' + $root.entity().Name() + '\'', list: $root.queries}">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -381,7 +381,7 @@
                         <tbody data-bind="foreach :$root.queries">
                             <tr>
                                 <td>
-                                    <a data-bind="attr : {'href':'#/entity.query.designer/' + ko.unwrap(Id)},text: Name"></a>
+                                    <a data-bind="attr : {'href':'#/query.endpoint.designer/' + ko.unwrap(Id)},text: Name"></a>
                                 </td>
                                 <td data-bind="text:Route"></td>
                                 <td></td>

@@ -30,10 +30,10 @@ namespace ASP
     using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityQueryDesigner/_sorts.cshtml")]
-    public partial class _Areas_App_Views_EntityQueryDesigner__sorts_cshtml : System.Web.Mvc.WebViewPage<dynamic>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/QueryEndpointDesigner/_sorts.cshtml")]
+    public partial class _Areas_App_Views_QueryEndpointDesigner__sorts_cshtml : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public _Areas_App_Views_EntityQueryDesigner__sorts_cshtml()
+        public _Areas_App_Views_QueryEndpointDesigner__sorts_cshtml()
         {
         }
         public override void Execute()

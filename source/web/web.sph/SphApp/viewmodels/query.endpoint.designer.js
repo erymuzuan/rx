@@ -5,13 +5,13 @@
             originalEntity = "",
             warnings = ko.observableArray(),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-            query = ko.observable(new bespoke.sph.domain.EntityQuery({ WebId: system.guid() })),
+            query = ko.observable(new bespoke.sph.domain.QueryEndpoint({ WebId: system.guid() })),
             activate = function (id) {
 
 
                 var predicate = String.format("Id eq '{0}'", id);
 
-                return context.loadOneAsync("EntityQuery", predicate)
+                return context.loadOneAsync("QueryEndpoint", predicate)
                     .then(function (qry) {
                         query(qry);
                         qry.Name.subscribe(function (v) {
@@ -30,7 +30,7 @@
             publish = function () {
 
                 var data = ko.mapping.toJSON(query);
-                return context.post(data, "/entity-query/" + ko.unwrap(query().Id) + "/publish")
+                return context.post(data, "/query-endpoints/" + ko.unwrap(query().Id) + "/publish")
                     .fail(function (response) {
                         var result = response.responseJSON;
                         errors(result.Errors);
@@ -47,7 +47,7 @@
             save = function () {
                 var data = ko.mapping.toJSON(query);
 
-                return context.post(data, "/entity-query")
+                return context.post(data, "/query-endpoints")
                     .then(function (result) {
                         logger.info("Query endpoint " + result.id + " has been successfully saved");
                         originalEntity = ko.toJSON(query);

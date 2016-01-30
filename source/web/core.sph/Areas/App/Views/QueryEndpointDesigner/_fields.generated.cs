@@ -30,16 +30,16 @@ namespace ASP
     using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityQueryDesigner/_fields.cshtml")]
-    public partial class _Areas_App_Views_EntityQueryDesigner__fields_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Models.TypeModel>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/QueryEndpointDesigner/_fields.cshtml")]
+    public partial class _Areas_App_Views_QueryEndpointDesigner__fields_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Models.TypeModel>
     {
-        public _Areas_App_Views_EntityQueryDesigner__fields_cshtml()
+        public _Areas_App_Views_QueryEndpointDesigner__fields_cshtml()
         {
         }
         public override void Execute()
         {
             
-            #line 2 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 2 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
   
     var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["rx:EntityQuery:RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -57,7 +57,7 @@ WriteLiteral(" title=\"Click to specify your value\"");
 WriteLiteral(" data-bind=\"with : ");
 
             
-            #line 7 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 7 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
                                                         Write(Model.Path);
 
             
@@ -91,7 +91,7 @@ WriteLiteral(">\r\n        <li");
 WriteLiteral(" data-bind=\"with : ");
 
             
-            #line 17 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 17 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
                          Write(Model.Path);
 
             
@@ -107,7 +107,7 @@ WriteLiteral(" data-bind=\"visible: Name() !== \'+ Field\',unwrapClick: $parent.
 "rent, $data, $parent.");
 
             
-            #line 18 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 18 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
                                                                                                                                     Write(Model.Path);
 
             
@@ -122,13 +122,13 @@ WriteLiteral(" class=\"fa fa-edit\"");
 WriteLiteral("></i>\r\n                Edit Field\r\n            </a>\r\n        </li>\r\n\r\n");
 
             
-            #line 24 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 24 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 24 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 24 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
          foreach (var type in fieldTypes)
         {
 
@@ -142,7 +142,7 @@ WriteLiteral(" class=\"btn btn-link\"");
 WriteLiteral(" data-bind=\"unwrapClick: addField, field : \'");
 
             
-            #line 27 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 27 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
                                                                               Write(type);
 
             
@@ -151,7 +151,7 @@ WriteLiteral(" data-bind=\"unwrapClick: addField, field : \'");
 WriteLiteral("\', accessor : $data.");
 
             
-            #line 27 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 27 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
                                                                                                        Write(Model.Path);
 
             
@@ -165,7 +165,7 @@ WriteLiteral(">\r\n                    <img");
 
 WriteAttribute("src", Tuple.Create(" src=\"", 1252), Tuple.Create("\"", 1287)
             
-            #line 28 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 28 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
 , Tuple.Create(Tuple.Create("", 1258), Tuple.Create<System.Object, System.Int32>($"/images/{type}Field.png"
             
             #line default
@@ -177,7 +177,7 @@ WriteLiteral(" class=\"pull-left\"");
 
 WriteAttribute("alt", Tuple.Create(" alt=\"", 1306), Tuple.Create("\"", 1317)
             
-            #line 28 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 28 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
     , Tuple.Create(Tuple.Create("", 1312), Tuple.Create<System.Object, System.Int32>(type
             
             #line default
@@ -188,7 +188,7 @@ WriteAttribute("alt", Tuple.Create(" alt=\"", 1306), Tuple.Create("\"", 1317)
 WriteLiteral("/>\r\n                    + ");
 
             
-            #line 29 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 29 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
                  Write(type);
 
             
@@ -197,7 +197,7 @@ WriteLiteral("/>\r\n                    + ");
 WriteLiteral("\r\n                </a>\r\n            </li>\r\n");
 
             
-            #line 32 "..\..\Areas\App\Views\EntityQueryDesigner\_fields.cshtml"
+            #line 32 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
         }
 
             

@@ -1,5 +1,5 @@
 {
-  "$type": "Bespoke.Sph.Domain.EntityQuery, domain.sph",
+  "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
   "CodeNamespace": "Bespoke.DevV1.Api",
   "Icon": "fa fa-search",
   "Url": "entity.query.designer/patients-cache-filter",

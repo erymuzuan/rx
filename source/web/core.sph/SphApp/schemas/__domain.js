@@ -1937,10 +1937,10 @@ bespoke.sph.domain.TabPanel = function (optionOrWebid) {
 
 
 
-bespoke.sph.domain.EntityQuery = function (optionOrWebid) {
+bespoke.sph.domain.QueryEndpoint = function (optionOrWebid) {
 
     var model = {
-        "$type": "Bespoke.Sph.Domain.EntityQuery, domain.sph",
+        "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
         Id: ko.observable("0"),
         CacheProfile: ko.observable(""),
         Name: ko.observable(""),
@@ -1973,8 +1973,8 @@ bespoke.sph.domain.EntityQuery = function (optionOrWebid) {
     }
 
 
-    if (bespoke.sph.domain.EntityQueryPartial) {
-        return _(model).extend(new bespoke.sph.domain.EntityQueryPartial(model));
+    if (bespoke.sph.domain.QueryEndpointPartial) {
+        return _(model).extend(new bespoke.sph.domain.QueryEndpointPartial(model));
     }
     return model;
 };
