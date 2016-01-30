@@ -88,7 +88,11 @@ WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" id=\"expand-collapse-property-tabe\"");
 
-WriteLiteral(">Expand</a>\r\n        </div>\r\n        <ul");
+WriteLiteral(">\r\n                <i");
+
+WriteLiteral(" class=\"fa fa-expand\"");
+
+WriteLiteral("></i>\r\n                \r\n            </a>\r\n        </div>\r\n        <ul");
 
 WriteLiteral(" class=\"nav nav-tabs\"");
 
@@ -139,7 +143,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 33 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 36 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
            Write(Html.Partial("_general"));
 
             
@@ -156,7 +160,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 38 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 41 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
            Write(Html.Partial("_conditionalFormatting"));
 
             
@@ -175,7 +179,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 41 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 44 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
            Write(Html.Partial("_performer"));
 
             
@@ -192,7 +196,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 44 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 47 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
            Write(Html.Partial("_parameters"));
 
             
