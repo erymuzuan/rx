@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
-    function (context, logger, router, app) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "services/app"],
+    function (context, logger, router, app, serviceApp) {
 
         var isBusy = ko.observable(false),
             tokens = ko.observableArray(),
@@ -26,6 +26,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     return $.get("custom-token/" + ko.unwrap(v.Id))
                         .done(function (t) {
                             logger.info(t);
+                            serviceApp.prompt("Copy the token now", t);
+                            setTimeout(function() {
+                                var successful = document.execCommand("copy");
+                                var msg = successful ? "successful" : "unsuccessful";
+                                console.log("Copying token was " + msg);
+                            }, 800);
                         });
                 };
                 v.removeToken = function () {
