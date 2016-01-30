@@ -1,4 +1,4 @@
-﻿<h1>Operation : <span data-bind="text:operation().Name"></span> (<span data-bind="text:entity().Name"></span>)</h1>
+﻿<h1>Operation Endpoint: <span data-bind="text:operation().Name"></span> (<span data-bind="text:entity().Name"></span>)</h1>
 
 <div id="error-list" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
@@ -31,7 +31,7 @@
             <label for="operation-route" class="col-lg-2 control-label">Route</label>
             <div class="col-lg-6">
                 <input type="text" data-bind="value: Route, tooltip:'Route is used by web API controller for your URL, it must be lowercase and can only contains digits or a -'"
-                       pattern="^[a-z-][a-z0-9-]*$"
+                       pattern="^(~\/)?[a-z-][a-z0-9-{}\/:\(\)]*$"
                        placeholder="Custom route for your operation, if you leave it blank the default is your operations name in lower case"
                        class="form-control" id="operation-route">
             </div>
