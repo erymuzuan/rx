@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -97,11 +98,15 @@ namespace Bespoke.Sph.Domain
                     .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f.FileName}")
                     .ToArray();
         }
+        [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.{this.Plural}.Domain";
+        [JsonIgnore]
         public string TypeName => $"{CodeNamespace}.{Name}";
+
         /// <summary>
         /// return CodeNamespace.Name, assemblyName
         /// </summary>
+        [JsonIgnore]
         public string FullTypeName => $"{CodeNamespace}.{Name}, {ConfigurationManager.ApplicationName}.{Name}";
 
 
