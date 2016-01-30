@@ -1,6 +1,6 @@
 ﻿@model Bespoke.Sph.Web.Models.TypeModel
 @{
-    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["rx:EntityQuery:RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["rx:QueryEndpoint:RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 }
 
 <div class="btn-group">

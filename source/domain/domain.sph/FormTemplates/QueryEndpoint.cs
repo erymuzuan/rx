@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
             if (null == this.BuildDiagnostics)
                 ObjectBuilder.ComposeMefCatalog(this);
             if (null == this.BuildDiagnostics)
-                throw new InvalidOperationException($"Fail to initialize MEF for EntityQuery.BuildDiagnostics");
+                throw new InvalidOperationException($"Fail to initialize MEF for {nameof(QueryEndpoint)}.BuildDiagnostics");
 
             var result = new BuildValidationResult();
 
@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Domain
         }
 
         public string Icon => "fa fa-search";
-        public string Url => $"entity.query.designer/{Id}";
+        public string Url => $"query.endpoint.designer/{Id}";
 
         public string GenerateEsSortDsl()
         {
@@ -60,21 +60,21 @@ namespace Bespoke.Sph.Domain
             this.FilterCollection.Add(new Filter { Field = field, Operator = @operator, Term = term });
         }
 
-        public Task<EntityQuerySetting> LoadSettingAsync()
+        public Task<QueryEndpointSetting> LoadSettingAsync()
         {
             var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
             var key = $"entity-query:setting:{Id}";
-            var setting = cacheManager.Get<EntityQuerySetting>(key);
+            var setting = cacheManager.Get<QueryEndpointSetting>(key);
             if (null != setting) return Task.FromResult(setting);
 
-            var source = $"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{this.Id}.setting.json";
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{this.Id}.setting.json";
             if (File.Exists(source))
             {
-                setting = File.ReadAllText(source).DeserializeFromJson<EntityQuerySetting>();
+                setting = File.ReadAllText(source).DeserializeFromJson<QueryEndpointSetting>();
             }
             else
             {
-                setting = new EntityQuerySetting
+                setting = new QueryEndpointSetting
                 {
                     CacheProfile = this.CacheProfile,
                     CacheFilter = this.CacheFilter,
@@ -85,11 +85,11 @@ namespace Bespoke.Sph.Domain
 
             return Task.FromResult(setting);
         }
-        public Task SaveSetttingAsync(EntityQuerySetting setting)
+        public Task SaveSetttingAsync(QueryEndpointSetting setting)
         {
             var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
             var key = $"entity-query:setting:{Id}";
-            var source = $"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{this.Id}.setting.json";
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{this.Id}.setting.json";
             File.WriteAllText(source,setting.ToJsonString(true));
             cacheManager.Insert(key, setting, source);
 

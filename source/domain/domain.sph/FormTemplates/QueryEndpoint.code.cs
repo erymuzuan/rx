@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Domain
 
 
             controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
-            controller.AddProperty($"public static readonly string SOURCE_FILE = $\"{{ConfigurationManager.SphSourceDirectory}}\\\\EntityQuery\\\\{Id}.json\";");
+            controller.AddProperty($"public static readonly string SOURCE_FILE = $\"{{ConfigurationManager.SphSourceDirectory}}\\\\{nameof(QueryEndpoint)}\\\\{Id}.json\";");
             controller.AddProperty($"public const string CACHE_KEY = \"entity-query:{Id}\";");
             controller.AddProperty($"public const string ES_QUERY_CACHE_KEY = \"entity-query:es-query:{Id}\";");
             controller.CtorCollection.Add($"public {className}Controller() {{ this.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
@@ -143,11 +143,11 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.Append(
                 $@"
-            var eq = CacheManager.Get<EntityQuery>(CACHE_KEY);
+            var eq = CacheManager.Get<{nameof(QueryEndpoint)}>(CACHE_KEY);
             if(null == eq )
             {{
                 var context = new SphDataContext();
-                eq = await context.LoadOneAsync<EntityQuery>(x => x.Id == ""{Id}"");
+                eq = await context.LoadOneAsync<{nameof(QueryEndpoint)}>(x => x.Id == ""{Id}"");
                 CacheManager.Insert(CACHE_KEY, eq, SOURCE_FILE);
             }}");
 
@@ -243,7 +243,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.EntityQuery.{Id}.dll"),
+                    OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{Id}.dll"),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
@@ -273,7 +273,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
 
-                var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\EntityQuery.{this.Name}";
+                var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{nameof(QueryEndpoint)}.{this.Name}";
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
                 @classes.ToList().ForEach(x =>

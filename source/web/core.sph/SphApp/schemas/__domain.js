@@ -2013,10 +2013,10 @@ bespoke.sph.domain.ServiceContract = function (optionOrWebid) {
 
 
 
-bespoke.sph.domain.EntityQuerySetting = function (optionOrWebid) {
+bespoke.sph.domain.QueryEndpointSetting = function (optionOrWebid) {
 
     var model = {
-        "$type": "Bespoke.Sph.Domain.EntityQuerySetting, domain.sph",
+        "$type": "Bespoke.Sph.Domain.QueryEndpointSetting, domain.sph",
         CacheProfile: ko.observable(""),
         Note: ko.observable(""),
         Resource: ko.observable(""),
@@ -2039,8 +2039,8 @@ bespoke.sph.domain.EntityQuerySetting = function (optionOrWebid) {
     }
 
 
-    if (bespoke.sph.domain.EntityQuerySettingPartial) {
-        return _(model).extend(new bespoke.sph.domain.EntityQuerySettingPartial(model));
+    if (bespoke.sph.domain.QueryEndpointSettingPartial) {
+        return _(model).extend(new bespoke.sph.domain.QueryEndpointSettingPartial(model));
     }
     return model;
 };

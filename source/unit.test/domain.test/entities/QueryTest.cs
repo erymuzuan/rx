@@ -72,12 +72,12 @@ namespace domain.test.entities
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
 
-            var output = $"{ConfigurationManager.ApplicationName}.EntityQuery.{query.Id}";
+            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
 
-            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
+            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
         }
 
 
@@ -169,11 +169,11 @@ namespace domain.test.entities
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
 
-            var output = $"{ConfigurationManager.ApplicationName}.EntityQuery.{query.Id}";
+            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
-            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
+            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
         }
 
         [Test]
@@ -214,11 +214,11 @@ namespace domain.test.entities
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
 
-            var output = $"{ConfigurationManager.ApplicationName}.EntityQuery.{query.Id}";
+            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
-            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
+            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
         }
 
         private T GetFromEmbeddedResource<T>(string entityDefinitionName) where T : Entity
@@ -287,11 +287,11 @@ namespace domain.test.entities
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
 
-            var output = $"{ConfigurationManager.ApplicationName}.EntityQuery.{query.Id}";
+            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
-            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityQuery\\{query.Id}.json", query.ToJsonString(true));
+            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
         }
     }
 }

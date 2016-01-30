@@ -7657,7 +7657,7 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    public partial class EntityQuerySetting
+    public partial class QueryEndpointSetting
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

@@ -106,7 +106,7 @@ namespace Bespoke.Sph.Web.Hubs
                 if (folder.Contains("Setting")) continue;
                 if (folder.Contains("EntityDefinition")) continue;
                 if (folder.Contains("EntityForm")) continue;
-                if (folder.Contains("EntityQuery")) continue;
+                if (folder.Contains(nameof(QueryEndpoint))) continue;
                 if (folder.Contains("EntityView")) continue;
                 if (folder.Contains("EntityChart")) continue;
                 if (folder.Contains("FormDialog")) continue;

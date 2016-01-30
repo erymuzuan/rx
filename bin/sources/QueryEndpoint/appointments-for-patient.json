@@ -1,0 +1,116 @@
+{
+  "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
+  "CodeNamespace": "Bespoke.DevV1.Api",
+  "Icon": "fa fa-search",
+  "Url": "query.endpoint.designer/appointments-for-patient",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "Mrn",
+        "Operator": "Eq",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.RouteParameterField, domain.sph",
+          "Expression": "mrn",
+          "DefaultValue": null,
+          "Name": null,
+          "Note": null,
+          "WebId": null
+        },
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "DateTime",
+        "Operator": "Ge",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.RouteParameterField, domain.sph",
+          "Expression": "start",
+          "DefaultValue": "2016-01-01",
+          "Name": null,
+          "Note": null,
+          "WebId": null
+        },
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "DateTime",
+        "Operator": "Lt",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.RouteParameterField, domain.sph",
+          "Expression": "end",
+          "DefaultValue": "2017-01-01",
+          "Name": null,
+          "Note": null,
+          "WebId": null
+        },
+        "WebId": null
+      }
+    ]
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": null,
+    "Value": null,
+    "IsPublic": false,
+    "WebId": null
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.RouteParameter, domain.sph",
+        "Name": "mrn",
+        "Type": "string",
+        "DefaultValue": null,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.RouteParameter, domain.sph",
+        "Name": "start",
+        "Type": "DateTime",
+        "DefaultValue": null,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.RouteParameter, domain.sph",
+        "Name": "end",
+        "Type": "DateTime",
+        "DefaultValue": null,
+        "WebId": null
+      }
+    ]
+  },
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Id",
+      "ReferenceNo",
+      "DateTime",
+      "Doctor",
+      "Location",
+      "Ward"
+    ]
+  },
+  "CacheProfile": null,
+  "Name": "Appointment for patient",
+  "Route": "~/api/patients/{mrn}/appointments",
+  "IsReturnSource": null,
+  "Entity": "Appointment",
+  "Note": null,
+  "IsPublished": false,
+  "Resource": "appointments",
+  "CacheFilter": 300,
+  "CreatedBy": null,
+  "Id": "appointments-for-patient",
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": null,
+  "ChangedDate": "0001-01-01T00:00:00",
+  "WebId": null
+}

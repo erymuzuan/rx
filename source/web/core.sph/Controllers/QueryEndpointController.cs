@@ -106,7 +106,7 @@ namespace Bespoke.Sph.Web.Controllers
                 _links = new
                 {
                     rel = "self",
-                    href = $"{ConfigurationManager.BaseUrl}/api/entityquery/{endpoint.Id}"
+                    href = $"{ConfigurationManager.BaseUrl}/api/queryendpoint/{endpoint.Id}"
                 }
             });
 

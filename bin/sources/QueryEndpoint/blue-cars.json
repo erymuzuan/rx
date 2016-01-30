@@ -1,0 +1,43 @@
+{
+  "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
+  "CodeNamespace": "Bespoke.DevV1.Api",
+  "Icon": "fa fa-search",
+  "Url": "entity.query.designer/blue-cars",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": null,
+    "Value": null,
+    "IsPublic": false,
+    "WebId": null
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "CacheProfile": null,
+  "Name": "blue cars",
+  "Route": "blue-cars",
+  "IsReturnSource": null,
+  "Entity": "Bus",
+  "Note": "Every blue cars in the world",
+  "IsPublished": false,
+  "CacheFilter": null,
+  "CreatedBy": "DESKTOP-3ELVHLM",
+  "Id": "blue-cars",
+  "CreatedDate": "2016-01-23T08:11:23.5492759+08:00",
+  "ChangedBy": "DESKTOP-3ELVHLM",
+  "ChangedDate": "2016-01-23T08:11:23.5492759+08:00",
+  "WebId": "b04276cf-b1b4-4f73-89eb-7bf807404fdc"
+}

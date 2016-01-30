@@ -2,7 +2,7 @@
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
   "CodeNamespace": "Bespoke.DevV1.Api",
   "Icon": "fa fa-search",
-  "Url": "query.endpoint.designer/patients-cache-filter",
+  "Url": "query.endpoint.designer/patients-born-in-60s",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
     "$values": [
@@ -54,7 +54,6 @@
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": [
-      "Id",
       "Dob",
       "FullName",
       "Gender",
@@ -63,18 +62,18 @@
     ]
   },
   "CacheProfile": null,
-  "Name": "Patients with cached filter",
-  "Route": "~/api/patients/cache-filter",
+  "Name": "Patients Born in 60s",
+  "Route": "~/api/patients/born-in-60s",
   "IsReturnSource": null,
   "Entity": "Patient",
   "Note": null,
   "IsPublished": false,
-  "Resource": "patients",
-  "CacheFilter": 300,
+  "Resource": "Patients",
+  "CacheFilter": null,
   "CreatedBy": null,
-  "Id": "patients-cache-filter",
+  "Id": "patients-born-in-60s",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": null,
   "ChangedDate": "0001-01-01T00:00:00",
-  "WebId": "patients-cache-filter"
+  "WebId": "all-born-in-60s"
 }

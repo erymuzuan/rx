@@ -15,7 +15,9 @@
                     .then(function (qry) {
                         query(qry);
                         qry.Name.subscribe(function (v) {
-                            qry.Route(v.toLowerCase().replace(/\W+/g, "-"));
+                            if (!ko.unwrap(qry.Route)) {
+                                qry.Route(v.toLowerCase().replace(/\W+/g, "-"));
+                            }
                         });
                         return context.loadOneAsync("EntityDefinition", "Name eq '" + ko.unwrap(qry.Entity) + "'");
                     }).then(function (b) {
@@ -24,8 +26,29 @@
                     });
 
             },
-            attached = function () {
+            attached = function (view) {
                 originalEntity = ko.toJSON(query);
+                $(view).on("click", "#expand-collapse-property-tabe", function () {
+                    if ($(this).html().indexOf("fa-expand") > -1) {
+
+                        $("#view-column-designer")
+                                .removeClass("col-lg-8").addClass("col-lg-4")
+                                .removeClass("col-md-8").addClass("col-md-4");
+                        $("#view-properties-tab")
+                            .removeClass("col-lg-4").addClass("col-lg-8")
+                            .removeClass("col-md-4").addClass("col-md-8");
+                        $(this).html('<i class="fa fa-compress"></i>');
+                    } else {
+
+                        $("#view-column-designer")
+                            .removeClass("col-lg-4").addClass("col-lg-8")
+                            .removeClass("col-md-4").addClass("col-md-8");
+                        $("#view-properties-tab")
+                            .removeClass("col-lg-8").addClass("col-lg-4")
+                            .removeClass("col-md-8").addClass("col-md-4");
+                        $(this).html('<i class="fa fa-expand"></i>');
+                    }
+                });
             },
             publish = function () {
 

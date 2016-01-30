@@ -124,7 +124,7 @@
                 })
                         .then(function (dialog, result) {
                             if (result === "OK") {
-                                return checkSource("EntityQuery", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                                return checkSource("QueryEndpoint", "Id eq '" + ko.unwrap(dialog.id) + "'");
                             }
                             return Task.fromResult(0);
                         }).then(function (ed) {

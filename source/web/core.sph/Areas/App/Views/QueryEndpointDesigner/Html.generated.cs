@@ -46,13 +46,13 @@ namespace ASP
             
             #line default
             #line hidden
-WriteLiteral("\r\n<h1");
+WriteLiteral("\r\n<h1><span");
 
-WriteLiteral(" data-bind=\"with : entity\"");
+WriteLiteral(" data-bind=\"text:entity().Plural\"");
 
-WriteLiteral(">Query Designer for <span");
+WriteLiteral("></span> Endpoint : <span");
 
-WriteLiteral(" data-bind=\"text:Plural\"");
+WriteLiteral(" data-bind=\"text:query().Name\"");
 
 WriteLiteral("></span></h1>\r\n");
 
@@ -96,7 +96,11 @@ WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" id=\"expand-collapse-property-tabe\"");
 
-WriteLiteral(">Expand</a>\r\n        </div>\r\n        <ul");
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-expand\"");
+
+WriteLiteral("></i></a>\r\n        </div>\r\n        <ul");
 
 WriteLiteral(" class=\"nav nav-tabs\"");
 

@@ -41,7 +41,7 @@ namespace ASP
             
             #line 2 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
   
-    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["rx:EntityQuery:RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["rx:QueryEndpoint:RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             
             #line default
@@ -163,26 +163,26 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(">\r\n                    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1252), Tuple.Create("\"", 1287)
+WriteAttribute("src", Tuple.Create(" src=\"", 1254), Tuple.Create("\"", 1289)
             
             #line 28 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
-, Tuple.Create(Tuple.Create("", 1258), Tuple.Create<System.Object, System.Int32>($"/images/{type}Field.png"
+, Tuple.Create(Tuple.Create("", 1260), Tuple.Create<System.Object, System.Int32>($"/images/{type}Field.png"
             
             #line default
             #line hidden
-, 1258), false)
+, 1260), false)
 );
 
 WriteLiteral(" class=\"pull-left\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 1306), Tuple.Create("\"", 1317)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 1308), Tuple.Create("\"", 1319)
             
             #line 28 "..\..\Areas\App\Views\QueryEndpointDesigner\_fields.cshtml"
-    , Tuple.Create(Tuple.Create("", 1312), Tuple.Create<System.Object, System.Int32>(type
+    , Tuple.Create(Tuple.Create("", 1314), Tuple.Create<System.Object, System.Int32>(type
             
             #line default
             #line hidden
-, 1312), false)
+, 1314), false)
 );
 
 WriteLiteral("/>\r\n                    + ");

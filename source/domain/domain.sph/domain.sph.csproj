@@ -246,7 +246,7 @@
     <Compile Include="FormTemplates\EntityPermission.cs" />
     <Compile Include="FormTemplates\QueryEndpoint.code.cs" />
     <Compile Include="FormTemplates\QueryEndpoint.cs" />
-    <Compile Include="FormTemplates\EntityQuerySetting.cs" />
+    <Compile Include="FormTemplates\QueryEndpointSetting.cs" />
     <Compile Include="FormTemplates\EntityView.cs" />
     <Compile Include="FormTemplates\FieldPermission.cs" />
     <Compile Include="FormTemplates\FieldValidation.cs" />

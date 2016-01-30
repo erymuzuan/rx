@@ -2,35 +2,21 @@
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
   "CodeNamespace": "Bespoke.DevV1.Api",
   "Icon": "fa fa-search",
-  "Url": "query.endpoint.designer/patients-cache-filter",
+  "Url": "query.endpoint.designer/patients-died-this-week",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "Dob",
+        "Term": "DeathDate",
         "Operator": "Ge",
         "Field": {
-          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-          "TypeName": "System.DateTime, mscorlib",
-          "Value": "1960-01-01T00:00:00",
+          "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+          "CodeNamespace": "ffff07c0c0",
+          "Script": "DateTime.Today.AddDays(-7)",
           "Name": null,
           "Note": null,
-          "WebId": null
-        },
-        "WebId": null
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "Dob",
-        "Operator": "Le",
-        "Field": {
-          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-          "TypeName": "System.DateTime, mscorlib",
-          "Value": "1969-12-31T00:00:00",
-          "Name": null,
-          "Note": null,
-          "WebId": null
+          "WebId": "ff07c0c0d4"
         },
         "WebId": null
       }
@@ -53,28 +39,21 @@
   },
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-    "$values": [
-      "Id",
-      "Dob",
-      "FullName",
-      "Gender",
-      "Race",
-      "DeathDate"
-    ]
+    "$values": []
   },
   "CacheProfile": null,
-  "Name": "Patients with cached filter",
-  "Route": "~/api/patients/cache-filter",
+  "Name": "Patients died this week",
+  "Route": "~/api/patients/patients-died-this-week",
   "IsReturnSource": null,
   "Entity": "Patient",
   "Note": null,
   "IsPublished": false,
-  "Resource": "patients",
-  "CacheFilter": 300,
+  "Resource": "Patients",
+  "CacheFilter": null,
   "CreatedBy": null,
-  "Id": "patients-cache-filter",
+  "Id": "patients-died-this-week",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": null,
   "ChangedDate": "0001-01-01T00:00:00",
-  "WebId": "patients-cache-filter"
+  "WebId": "all-patients"
 }

@@ -976,7 +976,7 @@
 			<xs:attribute name="AllowOdataApi" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="EntityQuerySetting">
+	<xs:element name="QueryEndpointSetting">
 		<xs:complexType>
 			<xs:all>
 				<xs:element ref="Performer"/>

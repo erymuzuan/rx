@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -11,11 +11,11 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
         var entities = ko.observableArray(),
-            query = ko.observable(new bespoke.sph.domain.EntityQuery()),
+            query = ko.observable(new bespoke.sph.domain.QueryEndpoint()),
             entity = ko.observable(),
             id = ko.observable(),
             activate = function () {
-                query(new bespoke.sph.domain.EntityQuery({ "Entity": ko.unwrap(entity), "WebId": system.guid() }));
+                query(new bespoke.sph.domain.QueryEndpoint({ "Entity": ko.unwrap(entity), "WebId": system.guid() }));
                 query().Name.subscribe(function (v) {
                     query().Route(v.toLowerCase().replace(/\W+/g, "-"));
                 });
