@@ -357,3 +357,7 @@ discovery.zen.ping.multicast.enabled: false
 #
 #http.jsonp.enable: true
 script.disable_dynamic: false
+# v2
+#script.groovy.sandbox.enabled: true
+#script.engine.groovy.inline.aggs: on
+#script.engine.groovy.inline.search: on
