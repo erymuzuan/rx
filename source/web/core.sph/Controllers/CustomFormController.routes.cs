@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Authorize(Roles = "developers")]
         public ActionResult GetCustomRoutes()
         {
-            var customRouteConfig = Server.MapPath(CustomRouteConfig);
+            var customRouteConfig = Server.MapPath(CUSTOM_ROUTE_CONFIG);
             if (Exists(customRouteConfig))
             {
                 return File(customRouteConfig, APPLICATION_JSON);
@@ -39,7 +39,7 @@ namespace Bespoke.Sph.Web.Controllers
                 this.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return Json(new { success = false, status = "Not Alllowed", message = "You cannot edit default route" });
             }
-            var customRouteConfig = Server.MapPath(CustomRouteConfig);
+            var customRouteConfig = Server.MapPath(CUSTOM_ROUTE_CONFIG);
             var customJsRoutes = new JsRoute[] { };
             if (Exists(customRouteConfig))
             {
@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
 
             var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var customRouteConfig = Server.MapPath(CustomRouteConfig);
+            var customRouteConfig = Server.MapPath(CUSTOM_ROUTE_CONFIG);
             var customJsRoutes = new JsRoute[] { };
             if (Exists(customRouteConfig))
             {

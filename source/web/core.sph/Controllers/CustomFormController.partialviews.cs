@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("partial-view")]
         public ActionResult SaveCustomPartialView(CustomPartialView view)
         {
-            var config = Server.MapPath(AppDataCustomPartialViewJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_PARTIAL_VIEW_JSON);
             var views = new List<CustomPartialView>();
             if (Exists(config))
                 views = JsonConvert.DeserializeObject<List<CustomPartialView>>(ReadAllText(config), m_settings);
@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Web.Controllers
         public ActionResult DeletePartialView(string name)
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
-            var config = Server.MapPath(AppDataCustomPartialViewJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_PARTIAL_VIEW_JSON);
             var views = new List<CustomPartialView>();
             if (Exists(config))
                 views = JsonConvert.DeserializeObject<List<CustomPartialView>>(ReadAllText(config), m_settings);
@@ -73,7 +73,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("rename/partial-view")]
         public ActionResult RenamePartialView(CustomPartialView view)
         {
-            var config = Server.MapPath(AppDataCustomPartialViewJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_PARTIAL_VIEW_JSON);
             var views = new List<CustomPartialView>();
             if (Exists(config))
                 views = JsonConvert.DeserializeObject<List<CustomPartialView>>(ReadAllText(config), m_settings);
@@ -105,7 +105,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("partial-views")]
         public ActionResult PartialViews()
         {
-            var config = Server.MapPath(AppDataCustomPartialViewJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_PARTIAL_VIEW_JSON);
             return Content(!Exists(config) ? "[]" : ReadAllText(config), APPLICATION_JSON);
         }
 

@@ -8,8 +8,8 @@
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="~/Scripts/_task.js" />
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.config],
-    function (context, logger, router, system, config) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.config, objectbuilders.app],
+    function (context, logger, router, system, config, app) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             errors = ko.observableArray(),
@@ -23,15 +23,18 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     roles.splice(0, 0, "Everybody");
                 }
 
-                var query = String.format("Id eq '{0}'", id),
-                    tcs = new $.Deferred();
-                context.loadOneAsync("OperationEndpoint", query)
-                    .done(function (o) {
+                var query = String.format("Id eq '{0}'", id);
+                return context.loadOneAsync("OperationEndpoint", query)
+                    .then(function (o) {
                         operation(o);
-                        tcs.resolve(true);
+                        return context.loadOneAsync("EntityDefinition", "Name eq '" + ko.unwrap(o.Entity) + "'");
+                    }).then(function (e) {
+                        entity(e);
+                        if (!ko.unwrap(operation().Resource)) {
+                            operation().Resource(ko.unwrap(e.Plural).toLowerCase());
+                        }
                     });
 
-                return tcs.promise();
             },
             attached = function () {
 
@@ -43,7 +46,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 }
 
                 var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(entity);
+                    data = ko.mapping.toJSON(operation);
                 isBusy(true);
 
                 context.post(data, "/api/operation-endpoints")
@@ -64,10 +67,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         publishAsync = function () {
 
             var tcs = new $.Deferred(),
-                data = ko.mapping.toJSON(entity);
+                data = ko.mapping.toJSON(operation);
             isBusy(true);
 
-            context.post(data, "/api/operation-endpoints" + ko.unwrap(operation().Id) + "/publish")
+            context.put(data, "/api/operation-endpoints/" + ko.unwrap(operation().Id) + "/publish")
                 .then(function (result) {
                     isBusy(false);
                     if (result.success) {
@@ -83,7 +86,35 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     entity().IsPublished(true);
                 });
             return tcs.promise();
-        };
+        },
+            removeAsync = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(operation);
+                isBusy(true);
+                app.showMessage("Are you sure you want to permanently remove this Endpoint, this action cannot be undone and will also remove related forms, views, triggers, reports and business rules", "Reactive Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+
+                            context.send(data, "/api/operation-endpoints/" + operation().Id(), "DELETE")
+                                .then(function (result) {
+                                    isBusy(false);
+                                    if (result.success) {
+                                        logger.info(result.message);
+                                        setTimeout(function () {
+                                            window.location = "/sph#entity.details/" + entity().Id();
+                                        }, 2000);
+                                    }
+                                    tcs.resolve(result);
+                                });
+                        } else {
+
+                            tcs.resolve(false);
+                        }
+                    });
+
+                return tcs.promise();
+            };
 
         var vm = {
             errors: errors,
@@ -96,6 +127,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attached: attached,
             toolbar: {
                 saveCommand: save,
+                removeCommand: removeAsync,
                 commands: ko.observableArray([
                             {
                                 command: publishAsync,
@@ -104,7 +136,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                 enable: ko.computed(function () {
                                     return entity().Id() && entity().Id() !== "0";
                                 })
-                            }])
+                            },
+                {
+                    caption: "Clone",
+                    icon: "fa fa-copy",
+                    command: function () {
+                        operation().Name(operation().Name() + " Copy (1)");
+                        operation().Id("0");
+                        return Task.fromResult(0);
+                    }
+                }])
             }
         };
 

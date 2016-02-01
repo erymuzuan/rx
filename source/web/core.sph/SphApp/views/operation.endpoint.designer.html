@@ -36,6 +36,23 @@
                        class="form-control" id="operation-route">
             </div>
         </div>
+
+        <div class="form-group">
+            <label for="operation-route" class="col-lg-2 control-label">Resource</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: Resource, tooltip:'Resource is used to create the Route prefix if your Route is not absolute, normally takes the Entity Plural value'"
+                       pattern="^[a-z-][a-z0-9-]*$"
+                       placeholder=""
+                       class="form-control" id="operation-resource">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endpoint-note" class="col-lg-2 control-label">Note</label>
+            <div class="col-lg-6">
+                <textarea class="form-control" id="endpoint-note" placeholder="Developers Note"></textarea>
+            </div>
+        </div>
         <h3>HTTP Verbs for Web API</h3>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-6">

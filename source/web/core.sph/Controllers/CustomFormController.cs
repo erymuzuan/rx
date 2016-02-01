@@ -24,10 +24,10 @@ namespace Bespoke.Sph.Web.Controllers
     {
 
         readonly JsonSerializerSettings m_settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        public const string CustomRouteConfig = "~/App_Data/routes.config.json";
-        public const string AppDataCustomPartialViewJson = "~/App_Data/custom-partial-view.json";
-        public const string AppDataCustomDialogJson = "~/App_Data/custom-dialog.json";
-        public const string AppDataCustomScriptJson = "~/App_Data/custom-script.json";
+        public const string CUSTOM_ROUTE_CONFIG = "~/App_Data/routes.config.json";
+        public const string APP_DATA_CUSTOM_PARTIAL_VIEW_JSON = "~/App_Data/custom-partial-view.json";
+        public const string APP_DATA_CUSTOM_DIALOG_JSON = "~/App_Data/custom-dialog.json";
+        public const string APP_DATA_CUSTOM_SCRIPT_JSON = "~/App_Data/custom-script.json";
 
         [HttpGet]
         [Route("download")]
@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Web.Controllers
                 Directory.CreateDirectory(serviceFolder);
 
             var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var customRouteConfig = Server.MapPath(CustomRouteConfig);
+            var customRouteConfig = Server.MapPath(CUSTOM_ROUTE_CONFIG);
             if (Exists(customRouteConfig))
             {
                 var json = ReadAllText(customRouteConfig);
@@ -75,7 +75,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             }
 
-            var scriptConfig = Server.MapPath(AppDataCustomScriptJson);
+            var scriptConfig = Server.MapPath(APP_DATA_CUSTOM_SCRIPT_JSON);
             if (Exists(scriptConfig))
             {
                 var scripts = JsonConvert.DeserializeObject<CustomScript[]>(ReadAllText(scriptConfig));
@@ -89,7 +89,7 @@ namespace Bespoke.Sph.Web.Controllers
                 }
             }
 
-            var dialogConfig = Server.MapPath(AppDataCustomDialogJson);
+            var dialogConfig = Server.MapPath(APP_DATA_CUSTOM_DIALOG_JSON);
             if (Exists(dialogConfig))
             {
                 var dialogs = JsonConvert.DeserializeObject<CustomDialog[]>(ReadAllText(dialogConfig));
@@ -107,7 +107,7 @@ namespace Bespoke.Sph.Web.Controllers
                 }
             }
 
-            var viewConfig = Server.MapPath(AppDataCustomPartialViewJson);
+            var viewConfig = Server.MapPath(APP_DATA_CUSTOM_PARTIAL_VIEW_JSON);
             if (Exists(viewConfig))
             {
                 var views = JsonConvert.DeserializeObject<CustomPartialView[]>(ReadAllText(viewConfig));
@@ -200,7 +200,7 @@ namespace Bespoke.Sph.Web.Controllers
                 dlg.HtmlDiff = dlg.GetHtmlDiff(folder);
             }
 
-            var myViewConfig = Server.MapPath(AppDataCustomPartialViewJson);
+            var myViewConfig = Server.MapPath(APP_DATA_CUSTOM_PARTIAL_VIEW_JSON);
             var myViews = new CustomPartialView[] { };
             if (Exists(myViewConfig))
                 myViews = JsonConvert.DeserializeObject<CustomPartialView[]>(ReadAllText(myViewConfig));
@@ -278,7 +278,7 @@ namespace Bespoke.Sph.Web.Controllers
                 {
                     case "partial-view":
                         var vw = new CustomPartialView { Name = Path.GetFileNameWithoutExtension(fullName), UseViewModel = true };
-                        var viewConfig = Server.MapPath(AppDataCustomPartialViewJson);
+                        var viewConfig = Server.MapPath(APP_DATA_CUSTOM_PARTIAL_VIEW_JSON);
                         var views = JsonConvert.DeserializeObject<CustomPartialView[]>(ReadAllText(viewConfig), m_settings)
                             .ToList();
                         if (views.Any(x => x.Name == vw.Name)) break;
@@ -291,7 +291,7 @@ namespace Bespoke.Sph.Web.Controllers
                         var form = importedRoutes.FirstOrDefault(x => x.ModuleId == moduleId);
                         if (null == form) break;
 
-                        var routeConfig = Server.MapPath(CustomRouteConfig);
+                        var routeConfig = Server.MapPath(CUSTOM_ROUTE_CONFIG);
                         var routes = JsonConvert.DeserializeObject<JsRoute[]>(ReadAllText(routeConfig), m_settings)
                             .ToList();
                         if (routes.Any(x => x.ModuleId == form.ModuleId)) break;
@@ -300,7 +300,7 @@ namespace Bespoke.Sph.Web.Controllers
                         break;
                     case "dialog":
                         var dlg = new CustomDialog { Name = Path.GetFileNameWithoutExtension(fullName) };
-                        var dlgConfig = Server.MapPath(AppDataCustomDialogJson);
+                        var dlgConfig = Server.MapPath(APP_DATA_CUSTOM_DIALOG_JSON);
                         var dialogs = JsonConvert.DeserializeObject<CustomDialog[]>(ReadAllText(dlgConfig), m_settings)
                             .ToList();
                         if (dialogs.Any(x => x.Name == dlg.Name)) break;
@@ -309,7 +309,7 @@ namespace Bespoke.Sph.Web.Controllers
                         break;
                     case "script":
                         var sc = new CustomScript { Name = Path.GetFileNameWithoutExtension(fullName) };
-                        var scConfig = Server.MapPath(AppDataCustomScriptJson);
+                        var scConfig = Server.MapPath(APP_DATA_CUSTOM_SCRIPT_JSON);
                         var scripts = JsonConvert.DeserializeObject<CustomScript[]>(ReadAllText(scConfig), m_settings)
                             .ToList();
                         if (scripts.Any(x => x.Name == sc.Name)) break;
@@ -354,7 +354,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         private void ImportAllRoutes(string folder)
         {
-            var customRouteConfig = Server.MapPath(CustomRouteConfig);
+            var customRouteConfig = Server.MapPath(CUSTOM_ROUTE_CONFIG);
             var customJsRoutes = new List<JsRoute>();
             if (Exists(customRouteConfig))
             {
@@ -379,7 +379,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         private void ImportAllDialogs(string folder)
         {
-            var dialogConfig = Server.MapPath(AppDataCustomDialogJson);
+            var dialogConfig = Server.MapPath(APP_DATA_CUSTOM_DIALOG_JSON);
             var dialogs = new List<CustomDialog>();
             if (Exists(dialogConfig))
             {
@@ -403,7 +403,7 @@ namespace Bespoke.Sph.Web.Controllers
         }
         private void ImportAllScripts(string folder)
         {
-            var config = Server.MapPath(AppDataCustomScriptJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_SCRIPT_JSON);
             var scripts = new List<CustomScript>();
             if (Exists(config))
             {
@@ -428,7 +428,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         private void ImportAllViews(string folder)
         {
-            var config = Server.MapPath(AppDataCustomPartialViewJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_PARTIAL_VIEW_JSON);
             var views = new List<CustomPartialView>();
             if (Exists(config))
             {

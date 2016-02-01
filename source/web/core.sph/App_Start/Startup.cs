@@ -3,9 +3,7 @@ using Bespoke.Sph.Web.Hubs;
 using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
-using System.Web.Http.WebHost;
-using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
+using Newtonsoft.Json;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace Bespoke.Sph.Web.App_Start
@@ -21,6 +19,8 @@ namespace Bespoke.Sph.Web.App_Start
             app.MapSignalR<AuditTrailConnection>("/signalr_audittrail");
 
             var config = new HttpConfiguration();
+            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
+            config.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings();
             config.MapHttpAttributeRoutes();
 
 

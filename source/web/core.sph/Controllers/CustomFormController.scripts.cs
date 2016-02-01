@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("script")]
         public ActionResult SaveCustomScript(CustomScript script)
         {
-            var config = Server.MapPath(AppDataCustomScriptJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_SCRIPT_JSON);
             var views = new List<CustomScript>();
             if (Exists(config))
                 views = JsonConvert.DeserializeObject<List<CustomScript>>(ReadAllText(config), m_settings);
@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Web.Controllers
         public ActionResult DeleteScript(string name)
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
-            var config = Server.MapPath(AppDataCustomPartialViewJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_PARTIAL_VIEW_JSON);
             var scripts = new List<CustomScript>();
             if (Exists(config))
                 scripts = JsonConvert.DeserializeObject<List<CustomScript>>(ReadAllText(config), m_settings);
@@ -63,14 +63,14 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("scripts")]
         public ActionResult GetScripts()
         {
-            var config = Server.MapPath(AppDataCustomScriptJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_SCRIPT_JSON);
             return Content(!Exists(config) ? "[]" : ReadAllText(config), APPLICATION_JSON);
         }
         [HttpPost]
         [Route("rename/script")]
         public ActionResult RenameScript(CustomScript view)
         {
-            var config = Server.MapPath(AppDataCustomScriptJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_SCRIPT_JSON);
             var views = new List<CustomScript>();
             if (Exists(config))
                 views = JsonConvert.DeserializeObject<List<CustomScript>>(ReadAllText(config), m_settings);

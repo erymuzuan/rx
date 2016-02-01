@@ -388,8 +388,10 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        public string Icon { get; } = "fa fa-cloud-upload";
-        public string Url { get; } = "operation.endpoint.designer/{id}";
+        [JsonIgnore]
+        string IEntityDefinitionAsset.Icon { get; } = "fa fa-cloud-upload";
+        [JsonIgnore]
+        string IEntityDefinitionAsset.Url { get; } = "operation.endpoint.designer/{id}";
 
         public void AddRules(string rule)
         {

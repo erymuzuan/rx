@@ -80,6 +80,7 @@ namespace Bespoke.Sph.Domain
         }
         private EntityDefinition m_entityDefinition;
         public string CodeNamespace { get; } = $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.IntegrationApis";
+
         private Class GenerateController()
         {
             var controller = new Class

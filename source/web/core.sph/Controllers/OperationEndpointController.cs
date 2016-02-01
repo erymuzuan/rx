@@ -4,24 +4,17 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("api/operation-endpoints")]
-    public class OperationEndpointController : ApiController
+    public class OperationEndpointController : BaseApiController
     {
-        private readonly IDeveloperService m_developerService;
-        public OperationEndpointController()
-        {
-            DeveloperService.Init();
-            m_developerService = ObjectBuilder.GetObject<DeveloperService>();
-        }
-
+       
         [HttpPost]
         [Route("")]
-        public async Task<HttpResponseMessage> Save([JsonBody]OperationEndpoint endpoint)
+        public async Task<IHttpActionResult> Save([JsonBody]OperationEndpoint endpoint)
         {
             var context = new SphDataContext();
             var baru = string.IsNullOrWhiteSpace(endpoint.Id) || endpoint.Id == "0";
@@ -32,25 +25,25 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(endpoint);
                 await session.SubmitChanges("Save");
             }
-            var code = baru ? HttpStatusCode.Created : HttpStatusCode.OK;
-            var location = $"{ConfigurationManager.BaseUrl}/api/entityquery/{endpoint.Id}";
-            var response = new JsonResponseMessage(code, new
+            var location = $"{ConfigurationManager.BaseUrl}/api/operation-endpoints/{endpoint.Id}";
+            var response = new
             {
                 success = true,
                 status = "OK",
                 id = endpoint.Id,
-                _link = new
-                {
-                    rel = "self",
-                    href = location
-                }
-            });
-            response.Headers.Location = new Uri(location);
-            return response;
+                _links = new[]  {
+                    new Link("self", location, "GET") ,
+                    new Link("publish",$"{ConfigurationManager.BaseUrl}/api/operation-endpoints/{endpoint.Id}/publish", "PUT"),
+                    new Link("depublish",$"{ConfigurationManager.BaseUrl}/api/operation-endpoints/{endpoint.Id}/depublish","PUT"),
+                    new Link( "delete", $"{ConfigurationManager.BaseUrl}/api/operation-endpoints/{endpoint.Id}","DELETE")}
+            };
+            if (baru)
+                return Created(new Uri(location), response, true);
+            return Ok(response, true);
         }
-        
 
-        [HttpPost]
+
+        [HttpPut]
         [Route("{id}/depublish")]
         public async Task<HttpResponseMessage> Depublish([RequestBody]OperationEndpoint endpoint, string id)
         {
@@ -67,44 +60,44 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("{id}/publish")]
-        public async Task<HttpResponseMessage> Publish(string id, [JsonBody]OperationEndpoint endpoint)
+        public async Task<IHttpActionResult> Publish(string id, [JsonBody]OperationEndpoint endpoint)
         {
             var context = new SphDataContext();
             endpoint.IsPublished = true;
-            endpoint.BuildDiagnostics = this.m_developerService.BuildDiagnostics;
+            endpoint.BuildDiagnostics = this.DeveloperService.BuildDiagnostics;
 
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == endpoint.Entity || e.Name == endpoint.Entity);
 
             var buildValidation = await endpoint.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
-                return new HttpResponseMessage((HttpStatusCode)422) { Content = new JsonContent(buildValidation.ToJsonString(true)) };
-            
-            var result =await endpoint.CompileAsync(ed);
+                return ResponseMessage(new HttpResponseMessage() {StatusCode = (HttpStatusCode)422,});
+
+            var result = await endpoint.CompileAsync(ed);
             if (!result.Result)
-            {
-                return new JsonResponseMessage(HttpStatusCode.Conflict, result);
-            }
+                return Invalid(result);
+            
 
             using (var session = context.OpenSession())
             {
                 session.Attach(endpoint);
                 await session.SubmitChanges("Publish");
             }
-            return new JsonResponseMessage(new
+            var content = new
             {
                 success = true,
                 status = "OK",
-                message = "Your query endpoint has been successfully published",
+                message = "Your operation endpoint has been successfully published",
                 id = endpoint.Id,
                 warnings = buildValidation.Warnings,
                 _links = new
                 {
                     rel = "self",
-                    href = $"{ConfigurationManager.BaseUrl}/api/OperationEndpoint/{endpoint.Id}"
+                    href = $"{ConfigurationManager.BaseUrl}/api/operation-endpoints/{endpoint.Id}"
                 }
-            });
+            };
+            return Ok(content);
 
         }
 
@@ -115,14 +108,27 @@ namespace Bespoke.Sph.Web.Controllers
             var context = new SphDataContext();
             var form = context.LoadOneFromSources<OperationEndpoint>(e => e.Id == id);
             if (null == form)
-                return new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new JsonContent("Cannot find form to delete , Id : " + id) };
+                return new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new JsonContent("Cannot find endpoint to delete , Id : " + id) };
 
             using (var session = context.OpenSession())
             {
                 session.Delete(form);
                 await session.SubmitChanges("Remove");
             }
-            return new JsonResponseMessage(new { success = true, status = "OK", message = "Your form has been successfully deleted", id = form.Id });
+            return new JsonResponseMessage(new { success = true, status = "OK", message = "Your endpoint has been successfully deleted", id = form.Id });
+
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IHttpActionResult Get(string id)
+        {
+            var context = new SphDataContext();
+            var endpoint = context.LoadOneFromSources<OperationEndpoint>(e => e.Id == id);
+            if (null == endpoint)
+                return NotFound();
+
+            return Ok(endpoint);
 
         }
     }

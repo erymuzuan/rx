@@ -950,6 +950,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomFormController.cs" />
     <Compile Include="Controllers\CustomFormController.dialog.cs" />
@@ -2136,7 +2137,7 @@
     <Content Include="SphApp\partial\EntityChart.js" />
     <Content Include="SphApp\partial\EntityDefinition.js" />
     <Content Include="SphApp\partial\EntityLookupElement.js" />
-    <Content Include="SphApp\partial\EntityOperation.js" />
+    <Content Include="SphApp\partial\OperationEndpointPartial.js" />
     <Content Include="SphApp\partial\ExecutedActivity.js" />
     <Content Include="SphApp\partial\FormElement.js" />
     <Content Include="SphApp\partial\HtmlElement.js" />

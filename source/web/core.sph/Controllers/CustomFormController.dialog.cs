@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Web.Controllers
         public ActionResult DeleteDialog(string name)
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
-            var config = Server.MapPath(AppDataCustomDialogJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_DIALOG_JSON);
             var dialogs = new List<CustomDialog>();
             if (Exists(config))
                 dialogs = JsonConvert.DeserializeObject<List<CustomDialog>>(ReadAllText(config), m_settings);
@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("rename/dialog")]
         public ActionResult RenameDialog(CustomDialog dlg)
         {
-            var config = Server.MapPath(AppDataCustomDialogJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_DIALOG_JSON);
             var dialogs = new List<CustomDialog>();
             if (Exists(config))
                 dialogs = JsonConvert.DeserializeObject<List<CustomDialog>>(ReadAllText(config), m_settings);
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("dialogs")]
         public ActionResult Dialogs()
         {
-            var config = Server.MapPath(AppDataCustomDialogJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_DIALOG_JSON);
             return Content(!Exists(config) ? "[]" : ReadAllText(config), APPLICATION_JSON);
         }
 
@@ -91,7 +91,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("dialog")]
         public ActionResult SaveCustomDialog(CustomDialog dialog)
         {
-            var config = Server.MapPath(AppDataCustomDialogJson);
+            var config = Server.MapPath(APP_DATA_CUSTOM_DIALOG_JSON);
             var dialogs = new List<CustomDialog>();
             if (Exists(config))
             {

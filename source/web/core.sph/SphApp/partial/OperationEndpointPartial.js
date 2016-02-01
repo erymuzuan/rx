@@ -11,7 +11,7 @@
 
 
 
-bespoke.sph.domain.EntityOperationPartial = function () {
+bespoke.sph.domain.OperationEndpointPartial = function () {
 
     var system = require("durandal/system"),
         removeChildAction = function (child) {
