@@ -169,10 +169,17 @@ namespace Bespoke.Sph.Domain
         public Method GeneratePutAction(EntityDefinition ed)
         {
             if (!IsHttpPut) return null;
+            var route = this.Route;
+            if (!this.Route.StartsWith("~/"))
+            {
+                if (!this.Route.Contains("{id"))
+                    route = $"{{id:guid}}/{route}";
+            }
+
 
             var put = new Method { Name = $"Put{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
             put.AttributeCollection.Add("[HttpPut]");
-            put.AttributeCollection.Add($"[Route(\"{Route}/{{id?}}\")]");
+            put.AttributeCollection.Add($"[Route(\"{route}\")]");
 
             var authorize = GenerateAuthorizeAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
@@ -302,7 +309,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           if(null == operation)");
             code.AppendLine("           {");
             code.AppendLine($@"           operation = await context.LoadOneAsync<OperationEndpoint>(x => x.Id ==""{Id}"");");
-            code.AppendLine($@"           CacheManager.Insert<OperationEndpoint>(""{Id}"", operation,$""{{ConfigurationManager.SphSourceDirectory}}\\{nameof(OperationEndpoint)}\\{Id}.json"");");
+            code.AppendLine($@"           CacheManager.Insert<OperationEndpoint>(""{Id}"", operation, EndpointSource);");
             code.AppendLine("           }");
             code.AppendLinf("           var rc = new RuleContext(item);");
             var count = 0;
@@ -327,11 +334,11 @@ namespace Bespoke.Sph.Domain
         private string GetEntityDefinitionCode(EntityDefinition ed)
         {
             var code = new StringBuilder();
-            code.AppendLine($"var ed = CacheManager.Get<EntityDefinition>(\"entity-definition:{ed.Id}\");");
+            code.AppendLine($"var ed = CacheManager.Get<EntityDefinition>(\"{ed.Id}\");");
             code.AppendLine("if(null == ed)");
             code.AppendLine("{");
             code.AppendLine($"   ed = await context.LoadOneAsync<EntityDefinition>(d => d.Id == \"{ed.Id}\");");
-            code.AppendLine($"   CacheManager.Insert(\"entity-definition:{ed.Id}\", ed, $\"{{ConfigurationManager.SphSourceDirectory}}\\\\EntityDefinition\\\\{ed.Id}.json\");");
+            code.AppendLine($"   CacheManager.Insert(\"{ed.Id}\", ed, EntityDefinitionSource);");
             code.AppendLine("}");
             return code.ToString();
 

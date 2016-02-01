@@ -101,6 +101,8 @@ namespace Bespoke.Sph.Domain
 
             controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
             controller.CtorCollection.Add($"public {Name}Controller() {{ this.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
+            controller.AddProperty($@"private readonly static string EntityDefinitionSource = $""{{ConfigurationManager.SphSourceDirectory}}\\{nameof(EntityDefinition)}\\{m_entityDefinition.Id}.json"";");
+            controller.AddProperty($@"private readonly static string EndpointSource = $""{{ConfigurationManager.SphSourceDirectory}}\\{nameof(OperationEndpoint)}\\{Id}.json"";");
 
             if (this.IsHttpPost)
                 controller.MethodCollection.Add(this.GeneratePostAction(m_entityDefinition));

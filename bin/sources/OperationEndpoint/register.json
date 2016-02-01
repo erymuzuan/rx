@@ -1,0 +1,46 @@
+{
+  "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
+  "Icon": "fa fa-cloud-upload",
+  "Url": "operation.endpoint.designer/{id}",
+  "EntityPermissionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Dob"
+    ]
+  },
+  "Permissions": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Everybody"
+    ]
+  },
+  "SetterActionChildCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "PatchPathCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Register",
+  "Route": "",
+  "IsHttpPut": false,
+  "IsHttpPatch": false,
+  "IsHttpPost": true,
+  "IsHttpDelete": false,
+  "Note": "register new patient",
+  "Entity": "Patient",
+  "Resource": "patients",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "register",
+  "CreatedDate": "2016-02-01T07:01:55.3452451+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-02-02T07:27:11.2552278+08:00",
+  "WebId": "41a1ee80-283e-4586-a271-70997ac6479f"
+}

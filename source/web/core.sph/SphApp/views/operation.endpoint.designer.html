@@ -31,7 +31,7 @@
             <label for="operation-route" class="col-lg-2 control-label">Route</label>
             <div class="col-lg-6">
                 <input type="text" data-bind="value: Route, tooltip:'Route is used by web API controller for your URL, it must be lowercase and can only contains digits or a -'"
-                       pattern="^(~\/)?[a-z-][a-z0-9-{}\/:\(\)]*$"
+                       pattern="^(~\/)?[a-z{][a-z0-9-{}\/:\(\)]*$"
                        placeholder="Custom route for your operation, if you leave it blank the default is your operations name in lower case"
                        class="form-control" id="operation-route">
             </div>
@@ -42,7 +42,8 @@
             <div class="col-lg-6">
                 <input type="text" data-bind="value: Resource, tooltip:'Resource is used to create the Route prefix if your Route is not absolute, normally takes the Entity Plural value'"
                        pattern="^[a-z-][a-z0-9-]*$"
-                       placeholder=""
+                       required
+                       placeholder="Resource is name is required, this is used to group a related resource together for you links"
                        class="form-control" id="operation-resource">
             </div>
         </div>

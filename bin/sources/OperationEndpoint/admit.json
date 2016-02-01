@@ -1,0 +1,60 @@
+{
+  "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
+  "Icon": "fa fa-cloud-upload",
+  "Url": "operation.endpoint.designer/{id}",
+  "EntityPermissionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Dob"
+    ]
+  },
+  "Permissions": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Everybody"
+    ]
+  },
+  "SetterActionChildCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+        "Path": "Status",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Admitted",
+          "Name": "Admitted",
+          "Note": "",
+          "WebId": "7beee52d-fe0b-4714-ddce-58dc11f88fb9"
+        },
+        "WebId": "0eb1fb2a-c0b7-46f6-b076-48f1faaf18ba"
+      }
+    ]
+  },
+  "PatchPathCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Admit",
+  "Route": "~/api/patients/{id}/admit",
+  "IsHttpPut": true,
+  "IsHttpPatch": false,
+  "IsHttpPost": false,
+  "IsHttpDelete": false,
+  "Note": "register new patient",
+  "Entity": "Patient",
+  "Resource": "patients",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "admit",
+  "CreatedDate": "2016-02-01T07:01:55.3452451+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-02-02T07:43:00.0163871+08:00",
+  "WebId": "41a1ee80-283e-4586-a271-70997ac6479f"
+}
