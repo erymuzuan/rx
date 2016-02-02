@@ -1,0 +1,76 @@
+{
+  "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
+  "Icon": "fa fa-cloud-upload",
+  "Url": "operation.endpoint.designer/{id}",
+  "EntityPermissionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Dob",
+      "Transfer Ward"
+    ]
+  },
+  "Permissions": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Everybody"
+    ]
+  },
+  "SetterActionChildCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+        "Path": "Status",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Transferred",
+          "Name": "Transferred",
+          "Note": "",
+          "WebId": "7beee52d-fe0b-4714-ddce-58dc11f88fb9"
+        },
+        "WebId": "0eb1fb2a-c0b7-46f6-b076-48f1faaf18ba"
+      }
+    ]
+  },
+  "PatchPathCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "Ward",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "a1dc9f7c-a000-41bd-d7c9-e3c74df3c867"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "DeathDate",
+        "IsRequired": false,
+        "DefaultValue": "new DateTime?()",
+        "WebId": "c80cbb4b-930a-4155-e91e-52cdd0d32d2a"
+      }
+    ]
+  },
+  "Name": "Transfer",
+  "Route": "~/api/patients/{id}/transfer",
+  "IsHttpPut": false,
+  "IsHttpPatch": true,
+  "IsHttpPost": false,
+  "IsHttpDelete": false,
+  "Note": "register new patient",
+  "Entity": "Patient",
+  "Resource": "patients",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "patient-transfer",
+  "CreatedDate": "2016-02-01T07:01:55.3452451+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-02-02T08:24:40.24968+08:00",
+  "WebId": "41a1ee80-283e-4586-a271-70997ac6479f"
+}

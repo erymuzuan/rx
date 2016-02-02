@@ -43,7 +43,7 @@ namespace Bespoke.Sph.Domain.Codes
             var code = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(this.Comment))
                 code.AppendLine("//" + this.Comment);
-            
+
             var args = this.ArgumentCollection.Select(x => x.ToString());
 
             foreach (var attr in this.AttributeCollection)
@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Domain.Codes
             var partialModifier = this.IsPartial ? " partial " : "";
 
             var argSignature = string.Join(",", args);
-            var retType =this.ReturnType == null ? this.ReturnTypeName: this.ReturnType.ToCSharp();
+            var retType = this.ReturnType == null ? this.ReturnTypeName : this.ReturnType.ToCSharp();
             var signature = string.Format("{0} {8}{7}{6}{5}{3}{1} {2}({4})", AccessModifier.ToString().ToLowerInvariant(),
                 retType,
                 this.Name,
@@ -80,6 +80,11 @@ namespace Bespoke.Sph.Domain.Codes
         private readonly StringBuilder m_tempBody = new StringBuilder();
         private string m_body;
 
+        public void Append(string text = null)
+        {
+            if (!string.IsNullOrWhiteSpace(text))
+                m_tempBody.Append(text);
+        }
         public void AppendLine(string line = null)
         {
             if (string.IsNullOrWhiteSpace(line))

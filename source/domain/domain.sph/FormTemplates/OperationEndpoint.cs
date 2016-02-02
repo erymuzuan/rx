@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Domain
     public partial class OperationEndpoint : Entity, IEntityDefinitionAsset
     {
 
-        
+
         public async Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)
         {
             if (null == this.BuildDiagnostics)
@@ -122,7 +122,7 @@ namespace Bespoke.Sph.Domain
             if (this.Rules.Any() || this.SetterActionChildCollection.Any())
                 patch.AppendLine(GetEntityDefinitionCode(ed));
 
-            patch.AppendLine(
+            patch.Append(
                 $@"
             var repos = ObjectBuilder.GetObject<IRepository<{ed.Name}>>();
             var item = await repos.LoadOneAsync(id);
@@ -130,13 +130,33 @@ namespace Bespoke.Sph.Domain
 
             var jo = JObject.Parse(body);");
 
-            foreach (var path in this.PatchPathCollection)
+            patch.AppendLine("");
+            patch.AppendLine("var missingValues = new List<string>();");
+            var count = 0;
+            foreach (var prop in this.PatchPathCollection)
             {
-                var member = ed.GetMember(path.Path);
-                if (null == member) throw new InvalidOperationException($"Cannot find member with path {path}");
-                patch.AppendLine($"            item.{path} = jo.SelectToken(\"$.{path}\").Value<{member.GetMemberTypeName()}>();");
+                count++;
+                var member = ed.GetMember(prop.Path);
+                if (null == member) throw new InvalidOperationException($"Cannot find member with path {prop}");
+                patch.AppendLine($"            var val{count} = jo.SelectToken(\"$.{prop}\");");
+                if (prop.IsRequired)
+                {
+                    patch.AppendLine($"             if(null == val{count})");
+                    patch.AppendLine($"                 missingValues.Add(\"{prop.Path}\");");
+                    patch.AppendLine($"             else");
+                    patch.AppendLine($"                 item.{prop} = val{count}.Value<{member.GetMemberTypeName()}>();");
+                }
+                else
+                {
+                    patch.AppendLine($"      item.{prop} =  null != val{count} ? val{count}.Value<{member.GetMemberTypeName()}>() : {prop.DefaultValue};");
+                }
             }
             patch.AppendLine();
+            patch.AppendLine("      if(missingValues.Count > 0)");
+            patch.AppendLine("      {");
+            patch.AppendLine("          this.Response.StatusCode = 405;");
+            patch.AppendLine("          return Json(new {success = false, missing = missingValues.ToArray()});");
+            patch.AppendLine("      }");
 
             var rules = GenerateRulesCode();
             patch.AppendLine(rules);
@@ -372,7 +392,7 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-     
+
 
 
         [ImportMany(typeof(IBuildDiagnostics))]
