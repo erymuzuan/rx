@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace Bespoke.Sph.Domain
             typeof(Entity).Namespace,
             typeof(Int32).Namespace ,
             typeof(Task<>).Namespace,
+            typeof(List<>).Namespace,
             typeof(Enumerable).Namespace ,
             typeof(XmlAttributeAttribute).Namespace,
             "System.Web.Mvc",
@@ -32,7 +34,7 @@ namespace Bespoke.Sph.Domain
             m_entityDefinition = entityDefinition;
 
             var controller = this.GenerateController();
-            var source = controller.Save($"{nameof(OperationEndpoint)}.{Name}");
+            var source = controller.Save($"{nameof(OperationEndpoint)}.{Entity}.{Name}");
 
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())

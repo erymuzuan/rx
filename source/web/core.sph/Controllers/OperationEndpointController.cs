@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var baru = string.IsNullOrWhiteSpace(endpoint.Id) || endpoint.Id == "0";
-            if (baru) endpoint.Id = endpoint.Name.ToIdFormat();
+            if (baru) endpoint.Id = $"{endpoint.Entity} {endpoint.Name}".ToIdFormat();
 
             using (var session = context.OpenSession())
             {
