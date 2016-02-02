@@ -13,12 +13,7 @@ namespace Bespoke.Sph.Domain.diagnostics
             var performer = view.Performer;
             return await ValidateAsync(view, performer);
         }
-        public override async Task<BuildError[]> ValidateErrorsAsync(EntityDefinition entity)
-        {
-            var performer = entity.Performer;
-            return await ValidateAsync(entity, performer);
-        }
-
+     
         private static async Task<BuildError[]> ValidateAsync(Entity item, Performer performer)
         {
             var context = new SphDataContext();

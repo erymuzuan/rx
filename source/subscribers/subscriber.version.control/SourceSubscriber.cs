@@ -95,16 +95,7 @@ namespace subscriber.version.control
                     await wd.ProcessItem(item as WorkflowDefinition);
                 return;
             }
-
-            if (type == typeof(EntityDefinition))
-            {
-                var ed = new EntityDefinitionSourceProvider();
-                if (header.Crud == CrudOperation.Deleted)
-                    await ed.RemoveItem(item as EntityDefinition);
-                else
-                    await ed.ProcessItem(item as EntityDefinition);
-                return;
-            }
+            
 
             if (type == typeof(EntityView))
             {

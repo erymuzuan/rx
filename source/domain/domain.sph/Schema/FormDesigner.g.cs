@@ -1949,11 +1949,6 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_iconStoreId;
-        public const string PropertyNameIconStoreId = "IconStoreId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_iconClass;
         public const string PropertyNameIconClass = "IconClass";
 
@@ -1969,18 +1964,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isShowOnNavigationBar;
-        public const string PropertyNameIsShowOnNavigationBar = "IsShowOnNavigationBar";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool m_treatDataAsSource;
         public const string PropertyNameTreatDataAsSource = "TreatDataAsSource";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_dashboardTemplate;
-        public const string PropertyNameDashboardTemplate = "DashboardTemplate";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2006,29 +1991,6 @@ namespace Bespoke.Sph.Domain
         ///</summary>
         public ObjectCollection<BusinessRule> BusinessRuleCollection { get; } = new ObjectCollection<BusinessRule>();
 
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<string> AuthorizedRoleCollection { get; } = new ObjectCollection<string>();
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Performer m_performer
-                = new Performer();
-
-        public const string PropertyNamePerformer = "Performer";
-        [DebuggerHidden]
-
-        public Performer Performer
-        {
-            get { return m_performer; }
-            set
-            {
-                m_performer = value;
-                OnPropertyChanged();
-            }
-        }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ServiceContract m_serviceContract
@@ -2095,32 +2057,6 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_plural;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string IconStoreId
-        {
-            set
-            {
-                if (String.Equals(m_iconStoreId, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIconStoreId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_iconStoreId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_iconStoreId;
             }
         }
 
@@ -2208,32 +2144,6 @@ namespace Bespoke.Sph.Domain
         ///</summary>
         [DebuggerHidden]
 
-        [Required]
-        public bool IsShowOnNavigationBar
-        {
-            set
-            {
-                if (m_isShowOnNavigationBar == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsShowOnNavigationBar, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isShowOnNavigationBar = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isShowOnNavigationBar;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
         public bool TreatDataAsSource
         {
             set
@@ -2250,31 +2160,6 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_treatDataAsSource;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public string DashboardTemplate
-        {
-            set
-            {
-                if (String.Equals(m_dashboardTemplate, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameDashboardTemplate, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_dashboardTemplate = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_dashboardTemplate;
             }
         }
 
@@ -7638,97 +7523,55 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_allowFullSearch;
-        public const string PropertyNameAllowFullSearch = "AllowFullSearch";
+        private FullSearchEndpoint m_fullSearchEndpoint
+                = new FullSearchEndpoint();
 
+        public const string PropertyNameFullSearchEndpoint = "FullSearchEndpoint";
+        [DebuggerHidden]
+
+        public FullSearchEndpoint FullSearchEndpoint
+        {
+            get { return m_fullSearchEndpoint; }
+            set
+            {
+                m_fullSearchEndpoint = value;
+                OnPropertyChanged();
+            }
+        }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_allowGetById;
-        public const string PropertyNameAllowGetById = "AllowGetById";
+        private OdataEndpoint m_odataEndpoint
+                = new OdataEndpoint();
 
+        public const string PropertyNameOdataEndpoint = "OdataEndpoint";
+        [DebuggerHidden]
+
+        public OdataEndpoint OdataEndpoint
+        {
+            get { return m_odataEndpoint; }
+            set
+            {
+                m_odataEndpoint = value;
+                OnPropertyChanged();
+            }
+        }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_allowOdataApi;
-        public const string PropertyNameAllowOdataApi = "AllowOdataApi";
+        private EntityResourceEndpoint m_entityResourceEndpoint
+                = new EntityResourceEndpoint();
 
-
-        ///<summary>
-        /// 
-        ///</summary>
+        public const string PropertyNameEntityResourceEndpoint = "EntityResourceEndpoint";
         [DebuggerHidden]
 
-        [Required]
-        public bool AllowFullSearch
+        public EntityResourceEndpoint EntityResourceEndpoint
         {
+            get { return m_entityResourceEndpoint; }
             set
             {
-                if (m_allowFullSearch == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameAllowFullSearch, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_allowFullSearch = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_allowFullSearch;
+                m_entityResourceEndpoint = value;
+                OnPropertyChanged();
             }
         }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public bool AllowGetById
-        {
-            set
-            {
-                if (m_allowGetById == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameAllowGetById, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_allowGetById = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_allowGetById;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public bool AllowOdataApi
-        {
-            set
-            {
-                if (m_allowOdataApi == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameAllowOdataApi, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_allowOdataApi = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_allowOdataApi;
-            }
-        }
-
 
 
     }
@@ -7878,6 +7721,273 @@ namespace Bespoke.Sph.Domain
             }
             get { return m_cacheFilter; }
         }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class EntityResourceEndpoint
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAllowed;
+        public const string PropertyNameIsAllowed = "IsAllowed";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_filterExpression;
+        public const string PropertyNameFilterExpression = "FilterExpression";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Performer m_performer
+                = new Performer();
+
+        public const string PropertyNamePerformer = "Performer";
+        [DebuggerHidden]
+
+        public Performer Performer
+        {
+            get { return m_performer; }
+            set
+            {
+                m_performer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsAllowed
+        {
+            set
+            {
+                if (m_isAllowed == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAllowed, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAllowed = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAllowed;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string FilterExpression
+        {
+            set
+            {
+                if (String.Equals(m_filterExpression, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFilterExpression, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_filterExpression = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_filterExpression;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class FullSearchEndpoint
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAllowed;
+        public const string PropertyNameIsAllowed = "IsAllowed";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Performer m_performer
+                = new Performer();
+
+        public const string PropertyNamePerformer = "Performer";
+        [DebuggerHidden]
+
+        public Performer Performer
+        {
+            get { return m_performer; }
+            set
+            {
+                m_performer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsAllowed
+        {
+            set
+            {
+                if (m_isAllowed == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAllowed, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAllowed = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAllowed;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class OdataEndpoint
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAllowed;
+        public const string PropertyNameIsAllowed = "IsAllowed";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Performer m_performer
+                = new Performer();
+
+        public const string PropertyNamePerformer = "Performer";
+        [DebuggerHidden]
+
+        public Performer Performer
+        {
+            get { return m_performer; }
+            set
+            {
+                m_performer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsAllowed
+        {
+            set
+            {
+                if (m_isAllowed == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAllowed, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAllowed = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAllowed;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class BusinessRuleEndpoint
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAllowed;
+        public const string PropertyNameIsAllowed = "IsAllowed";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Performer m_performer
+                = new Performer();
+
+        public const string PropertyNamePerformer = "Performer";
+        [DebuggerHidden]
+
+        public Performer Performer
+        {
+            get { return m_performer; }
+            set
+            {
+                m_performer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsAllowed
+        {
+            set
+            {
+                if (m_isAllowed == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAllowed, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAllowed = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAllowed;
+            }
+        }
+
 
 
     }

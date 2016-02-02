@@ -223,6 +223,7 @@
     <Compile Include="diagnostics\ViewLinkColumnDiagnostics.cs" />
     <Compile Include="diagnostics\ViewPerformerDiagnostics.cs" />
     <Compile Include="diagnostics\QueryEndpointSortDiagnostics.cs" />
+    <Compile Include="FormTemplates\BusinessRuleEndpoint.cs" />
     <Compile Include="FormTemplates\Button.cs" />
     <Compile Include="FormTemplates\ChildEntityListView.cs" />
     <Compile Include="FormTemplates\ChildView.cs" />
@@ -242,6 +243,9 @@
     <Compile Include="FormTemplates\EntityDefinition.cs" />
     <Compile Include="FormTemplates\EntityForm.cs" />
     <Compile Include="FormTemplates\EntityLookupElement.cs" />
+    <Compile Include="FormTemplates\EntityResourceEndpoint.cs" />
+    <Compile Include="FormTemplates\FullSearchEndpoint.cs" />
+    <Compile Include="FormTemplates\OdataEndpoint.cs" />
     <Compile Include="FormTemplates\OperationEndpoint.code.cs" />
     <Compile Include="FormTemplates\OperationEndpoint.cs" />
     <Compile Include="FormTemplates\EntityPermission.cs" />

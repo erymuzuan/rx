@@ -18,17 +18,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         public async Task<ActionResult> Html()
         {
             var context = new SphDataContext();
-            var entityDefinitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
-            var edRoutes = from t in entityDefinitions
-                           select new JsRoute
-                           {
-                               Title = t.Plural,
-                               Route = $"{t.Name.ToLowerInvariant()}",
-                               Caption = t.Plural,
-                               Icon = t.IconClass,
-                               ModuleId = $"viewmodels/{t.Name.ToLowerInvariant()}",
-                               Nav = t.IsShowOnNavigationBar
-                           };
+     
 
             var vm = new RoleSettingViewModel();
             var roles = Roles.GetAllRoles();
@@ -38,7 +28,6 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
 
             vm.Roles.ClearAndAddRange(roles);
             vm.Routes.ClearAndAddRange(routes);
-            vm.Routes.AddRange(edRoutes);
             return View(vm);
         }
 

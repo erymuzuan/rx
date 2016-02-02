@@ -357,27 +357,16 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="AuthorizedRoleCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Role" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element ref="Performer"/>
 				<xs:element name="StoreInDatabase" type="xs:boolean" nillable="true"/>
 				<xs:element name="StoreInElasticsearch" type="xs:boolean" nillable="true"/>
 				<xs:element ref="ServiceContract"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Plural" type="xs:string" use="required"/>
-			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
 			<xs:attribute name="RecordName" type="xs:string" use="required"/>
 			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsShowOnNavigationBar" type="xs:boolean" use="required"/>
 			<xs:attribute name="TreatDataAsSource" type="xs:boolean" use="optional"/>
-			<xs:attribute name="DashboardTemplate" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ValueObjectDefinition" bspk:entity="true">
@@ -960,9 +949,11 @@
 	</xs:element>
 	<xs:element name="ServiceContract">
 		<xs:complexType>
-			<xs:attribute name="AllowFullSearch" type="xs:boolean" use="required"/>
-			<xs:attribute name="AllowGetById" type="xs:boolean" use="required"/>
-			<xs:attribute name="AllowOdataApi" type="xs:boolean" use="required"/>
+			<xs:all>
+				<xs:element ref="FullSearchEndpoint"/>
+				<xs:element ref="OdataEndpoint"/>
+				<xs:element ref="EntityResourceEndpoint"/>
+			</xs:all>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="QueryEndpointSetting">
@@ -974,6 +965,39 @@
 			<xs:attribute name="CacheProfile" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="Resource" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EntityResourceEndpoint">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Performer"/>
+			</xs:all>
+			<xs:attribute name="IsAllowed" type="xs:boolean" use="required"/>
+			<xs:attribute name="FilterExpression" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FullSearchEndpoint">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Performer"/>
+			</xs:all>
+			<xs:attribute name="IsAllowed" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OdataEndpoint">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Performer"/>
+			</xs:all>
+			<xs:attribute name="IsAllowed" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BusinessRuleEndpoint">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Performer"/>
+			</xs:all>
+			<xs:attribute name="IsAllowed" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="AdapterSourceProvider.cs" />
     <Compile Include="DocumentTemplateSourceProvider.cs" />
-    <Compile Include="EntityDefinitionSourceProvider.cs" />
     <Compile Include="EntityFormSourceProvider.cs" />
     <Compile Include="EntitySourceProvider.cs" />
     <Compile Include="EntityViewSourceProvider.cs" />

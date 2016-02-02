@@ -37,17 +37,10 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             
 
             var reportDefinitions = context.LoadFromSources<ReportDefinition>(t => t.IsActive || (t.IsPrivate && t.CreatedBy == user.UserName));
-            var entityDefinitions = context.LoadFromSources<EntityDefinition>(e => e.IsPublished);
             var views = context.LoadFromSources<EntityView>(e => e.IsPublished);
 
             modules.AddRange(reportDefinitions.Select(a => string.Format("reportdefinition.execute-id.{0}/{0}", a.Id)));
 
-            foreach (var et in entityDefinitions)
-            {
-                var users = await et.Performer.GetUsersAsync(et);
-                if(users.Contains(profile.UserName))
-                    modules.Add(et.Name.ToLowerInvariant());
-            }
 
             foreach (var vw in views)
             {

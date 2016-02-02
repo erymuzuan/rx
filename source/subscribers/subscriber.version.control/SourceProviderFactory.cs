@@ -19,9 +19,6 @@ namespace subscriber.version.control
             if (type == typeof(WorkflowDefinition))
                 return new WorkflowSourceProvider();
 
-            if (type == typeof(EntityDefinition))
-                return new EntityDefinitionSourceProvider();
-
             if (type == typeof(EntityView))
                 return new EntityViewSourceProvider();
 

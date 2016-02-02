@@ -196,9 +196,6 @@
                 <li>
                     <a href="#operations-tab" data-toggle="tab">Endpoints</a>
                 </li>
-                <li>
-                    <a href="#premission-tab" data-toggle="tab">Security</a>
-                </li>
             </ul>
             <div class="tab-content">
                 <div id="general-properties" class="tab-pane active">
@@ -233,31 +230,14 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="icon-storeid" class="col-md-3 control-label">Image</label>
-                            <div class="col-md-6">
-                                <label for="icon-storeid">
-                                    <img data-bind="attr : {src:'/sph/image/Store/' + IconStoreId()}" alt="Logo" />
-                                </label>
-                                <input type="file" data-bind="kendoUpload: {value:IconStoreId, extensions:['.png']}" name="files" class="form-control" id="icon-storeid" />
-                            </div>
-                        </div>
-
+               
                         <div class="form-group">
                             <label for="icon-class" class="col-md-3 control-label">Icon class</label>
                             <div class="col-md-6">
-                                <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="icon-class"></i>
+                                <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }, tooltip:'icon is only used for solution explorer for you to easily identify the correct item'" id="icon-class"></i>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="ev-template" class="col-lg-3 col-md-3  control-label">Template</label>
-                            <div class="col-lg-9 col-md-9">
-                                <select class="form-control" id="ev-template" data-bind="value: DashboardTemplate, options:$root.templateOptions, optionsCaption :'[Select a template]'"></select>
-                                <a href="javascript:;" data-bind="command: $root.publishDashboard, tooltip:'Publish dashboard'">
-                                    <i class="fa fa-gear"></i>
-                                </a>
-                            </div>
-                        </div>
+                 
 
                         <h4>Source for reference data</h4>
                         <div class="form-group">
@@ -385,51 +365,7 @@
                         Add a query
                     </a>
                 </div>
-                <div id="premission-tab" class="tab-pane" data-bind="with : entity">
-                    <form class="form-horizontal" data-bind="with : Performer">
-
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <div class="checkbox">
-                                    <label>
-                                        <input data-bind="checked: $root.entity().IsShowOnNavigationBar" id="show-on-nav-bar" type="checkbox" name="IsShowOnNavigationBar" />
-                                        Show on navigation bar menu
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <div class="checkbox">
-                                    <label>
-                                        <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
-                                        Is Public
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="performer-property" class="col-sm-3 control-label">User Property</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
-                                    <option value="">[Please Select]</option>
-                                    <option value="Roles">Roles</option>
-                                    <option value="UserName">UserName</option>
-                                    <option value="Department">Department</option>
-                                    <option value="Designation">Designation</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="performer-value" class="col-sm-3 control-label">Value</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:IsPublic" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
+           
             </div>
         </div>
     </div>

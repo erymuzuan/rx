@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Web.App_Start
 
         }
 
-        public static async Task<IEnumerable<JsRoute>> GetJsRoutes()
+        public static Task<IEnumerable<JsRoute>> GetJsRoutes()
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
             var user = ad.CurrentUserName;
@@ -83,15 +83,6 @@ namespace Bespoke.Sph.Web.App_Start
 
 
             RegisterCustomEntityDependencies(entityDefinitions);
-
-            // get valid users for ed
-            var edDashboardUserTasks = from ed in entityDefinitions
-                                       let p = ed.Performer
-                                       where p.IsPublic
-                                       || (!string.IsNullOrWhiteSpace(p.UserProperty)
-                                       && !string.IsNullOrWhiteSpace(p.Value))
-                                       select ed.Performer.GetUsersAsync(ed);
-            var edDashboardUsers = await Task.WhenAll(edDashboardUserTasks);
 
             var formRoutes = from t in forms
                              select new JsRoute
@@ -114,26 +105,6 @@ namespace Bespoke.Sph.Web.App_Start
                                  Nav = false
                              };
 
-            var edRoutes = entityDefinitions
-                .Where(t => t.Performer.Validate())
-                .Select((t, i) => new
-                {
-                    Index = i,
-                    Entity = t,
-                    Permission = t.Performer,
-                    Users = edDashboardUsers[i]
-                })
-                .Where(t => t.Permission.IsPublic || t.Users.Contains(user))
-                .Select(t => t.Entity)
-                .Select(t => new JsRoute
-                {
-                    Title = t.Plural,
-                    Route = $"{t.Name.ToLowerInvariant()}",
-                    Caption = t.Plural,
-                    Icon = t.IconClass,
-                    ModuleId = $"viewmodels/{t.Name.ToLowerInvariant()}",
-                    Nav = t.IsShowOnNavigationBar
-                });
 
             var rdlRoutes = from t in reportDefinitions
                             select new JsRoute
@@ -155,9 +126,8 @@ namespace Bespoke.Sph.Web.App_Start
 
             routes.AddRange(viewRoutes);
             routes.AddRange(formRoutes);
-            routes.AddRange(edRoutes);
             routes.AddRange(rdlRoutes);
-            return routes;
+            return Task.FromResult(routes.AsEnumerable());
         }
     }
 }

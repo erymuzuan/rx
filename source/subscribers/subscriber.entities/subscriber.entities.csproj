@@ -55,7 +55,6 @@
     <Compile Include="EntityFormSubscriber.cs" />
     <Compile Include="EntityIndexerMappingSubscriber.cs" />
     <Compile Include="EntityViewSubscriber.cs" />
-    <Compile Include="EntityPageSubscriber.cs" />
     <Compile Include="EntityCodeSubscriber.cs" />
     <Compile Include="FormDialogSubscriber.cs" />
     <Compile Include="PartialViewSubscriber.cs" />

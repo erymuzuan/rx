@@ -144,15 +144,7 @@ namespace Bespoke.Sph.Domain
             var charts = context.LoadFromSources<EntityChart>(f => f.Entity == ed.Name);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-
-            var icon = await store.GetContentAsync(ed.IconStoreId);
-            if (null != icon)
-            {
-                WriteBinaryDocument(path, icon.Id, icon);
-            }
-
             File.WriteAllBytes(Path.Combine(path, "EntityDefinition_" + ed.Id + ".json"), Encoding.UTF8.GetBytes(ed.ToJsonString()));
-
 
             foreach (var form in forms)
             {
