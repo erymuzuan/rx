@@ -105,15 +105,11 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.BusinessRule, domain.sph]], domain.sph",
     "$values": []
   },
-  "EntityOperationCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityOperation, domain.sph]], domain.sph",
-    "$values": []
-  },
   "Name": "Address",
   "CreatedBy": "Me",
   "Id": "address",
-  "CreatedDate": "2016-01-29T15:21:51.6382378+08:00",
+  "CreatedDate": "2016-02-02T15:36:27.7789763+08:00",
   "ChangedBy": "Me",
-  "ChangedDate": "2016-01-29T15:21:51.6382378+08:00",
+  "ChangedDate": "2016-02-02T15:36:27.7789763+08:00",
   "WebId": null
 }

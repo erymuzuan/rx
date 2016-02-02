@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -52,23 +53,50 @@ namespace domain.test.entities
             spouse.Save();
             child.Save();
         }
+
         [Test]
-        public void GenerateGetOneByIdTest()
+        public async Task GenerateGetOneByIdTest()
         {
-            var patient =
-                File.ReadAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\patient.json")
+            var patient = File.ReadAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\patient.json")
                     .DeserializeFromJson<EntityDefinition>();
-            patient.ServiceContract.AllowGetById = true;
+            patient.ServiceContract = new ServiceContract
+            {
+                EntityResourceEndpoint =
+                {
+                    IsAllowed = true,
+                    FilterExpression = ""
+                }
+            };
 
             var options = new CompilerOptions();
             options.ReferencedAssembliesLocation.Add($"{ConfigurationManager.WebPath}\\bin\\System.Web.Mvc.dll");
             options.ReferencedAssembliesLocation.Add($"{ConfigurationManager.WebPath}\\bin\\Newtonsoft.Json.dll");
             options.ReferencedAssembliesLocation.Add($"{ConfigurationManager.WebPath}\\bin\\core.sph.dll");
 
-            var codes = patient.GenerateCode();
-            var sources = patient.SaveSources(codes);
-            var cr = patient.Compile(options, sources);
-            Assert.IsTrue(cr.Result, cr.ToJsonString(true));
+            var cr = await patient.ServiceContract.CompileAsync(patient);
+            Assert.IsTrue(cr.Result, cr.ToString());
+            
+        }
+
+        public async Task GenerateSearc()
+        {
+            var patient = File.ReadAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\patient.json")
+                    .DeserializeFromJson<EntityDefinition>();
+            patient.ServiceContract = new ServiceContract
+            {
+                FullSearchEndpoint = new FullSearchEndpoint
+                {
+                    IsAllowed = true
+                }
+            };
+
+            var options = new CompilerOptions();
+            options.ReferencedAssembliesLocation.Add($"{ConfigurationManager.WebPath}\\bin\\System.Web.Mvc.dll");
+            options.ReferencedAssembliesLocation.Add($"{ConfigurationManager.WebPath}\\bin\\Newtonsoft.Json.dll");
+            options.ReferencedAssembliesLocation.Add($"{ConfigurationManager.WebPath}\\bin\\core.sph.dll");
+
+            var cr = await patient.ServiceContract.CompileAsync(patient);
+            Assert.IsTrue(cr.Result, cr.ToString());
         }
     }
 }
