@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -147,20 +148,37 @@ namespace Bespoke.Sph.Domain
                         ? $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
                         : $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
             }
+            code.Append(this.GenerateComplexMemberFields(this.MemberCollection.ToArray()));
 
+            code.Append($@"
+                            _links = new {{
+                                rel = ""self"",
+                                href = $""{{ConfigurationManager.BaseUrl}}/api/{Resource}/{{id}}""
+                            }}
+                        }});
+");
+            return code.ToString();
+        }
+
+        private string GenerateComplexMemberFields(string[] members)
+        {
+            var code = new StringBuilder();
             var parent = "";
-            var complexFields = this.MemberCollection.Where(x => x.Contains(".")).OrderBy(x => x).ToList();
+            var complexFields = members.Where(x => x.Contains(".")).OrderBy(x => x).ToList();
             foreach (var g in complexFields)
             {
                 var mb = m_ed.GetMember(g) as SimpleMember;
                 if (null == mb) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
-                var paths = g.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-                var cp = paths.First();
+                var paths = g.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                //if (paths.Count > 2)
+                //{
+                //    paths.RemoveAt(paths.Count - 1);
+                //    var similiar = members.Where(x => x.StartsWith(string.Join(".", paths))).ToArray();
+                //    code.Append(this.GenerateComplexMemberFields(similiar));
+                //    continue;
+                //}
 
-                if (paths.Length > 2)
-                {
-                    continue;
-                }
+                var cp = paths.First();
                 var m = paths.Last();
                 if (!string.IsNullOrWhiteSpace(parent) && parent != cp) code.AppendLine("     },");
                 if (parent != cp)
@@ -176,14 +194,6 @@ namespace Bespoke.Sph.Domain
             }
             if (complexFields.Count > 0) code.AppendLine("     },");
 
-
-            code.Append($@"
-                            _links = new {{
-                                rel = ""self"",
-                                href = $""{{ConfigurationManager.BaseUrl}}/api/{Resource}/{{id}}""
-                            }}
-                        }});
-");
             return code.ToString();
         }
     }

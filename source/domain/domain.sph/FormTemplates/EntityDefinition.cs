@@ -225,7 +225,7 @@ namespace Bespoke.Sph.Domain
 
                 var member = this.MemberCollection.SingleOrDefault(a => a.Name == path);
                 if (null != member) return member;
-                throw new InvalidOperationException($"Cannot find a member in {Name} with {path}");
+                throw new InvalidOperationException($"Cannot find a member in \"{Name}\" with path :\"{path}\"");
             }
 
             var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
