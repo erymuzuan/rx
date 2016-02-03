@@ -741,7 +741,7 @@ ko.bindingHandlers.commandWithParameter = {
     init: function (element, valueAccessor) {
         var command = valueAccessor();
         var callback = command.command;
-        var parameter = command.commandParameter;
+        var parameter = command.parameter || command.commandParameter;
 
         var button = $(element);
         var completeText = button.data("complete-text") || button.html();

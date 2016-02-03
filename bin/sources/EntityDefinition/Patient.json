@@ -1191,39 +1191,60 @@
       }
     ]
   },
-  "AuthorizedRoleCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-    "$values": []
-  },
-  "Performer": {
-    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": "",
-    "Value": null,
-    "IsPublic": true,
-    "WebId": null
-  },
   "ServiceContract": {
     "$type": "Bespoke.Sph.Domain.ServiceContract, domain.sph",
-    "AllowFullSearch": false,
-    "AllowGetById": true,
-    "AllowOdataApi": true,
+    "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
+    "FullSearchEndpoint": {
+      "$type": "Bespoke.Sph.Domain.FullSearchEndpoint, domain.sph",
+      "Performer": {
+        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+        "UserProperty": null,
+        "Value": null,
+        "IsPublic": false,
+        "WebId": null
+      },
+      "IsAllowed": true,
+      "WebId": null
+    },
+    "OdataEndpoint": {
+      "$type": "Bespoke.Sph.Domain.OdataEndpoint, domain.sph",
+      "Performer": {
+        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+        "UserProperty": null,
+        "Value": null,
+        "IsPublic": false,
+        "WebId": null
+      },
+      "IsAllowed": true,
+      "WebId": null
+    },
+    "EntityResourceEndpoint": {
+      "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
+      "Performer": {
+        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+        "UserProperty": null,
+        "Value": null,
+        "IsPublic": false,
+        "WebId": null
+      },
+      "IsAllowed": true,
+      "FilterExpression": null,
+      "WebId": null
+    },
     "WebId": null
   },
   "Name": "Patient",
   "Plural": "Patients",
-  "IconStoreId": "1527fe01-e066-4208-bb15-6ddb84330c2b",
   "IconClass": "fa fa-wheelchair",
   "RecordName": "Mrn",
   "IsPublished": true,
-  "IsShowOnNavigationBar": true,
   "TreatDataAsSource": false,
-  "DashboardTemplate": null,
   "StoreInDatabase": null,
   "StoreInElasticsearch": null,
   "CreatedBy": "admin",
   "Id": "patient",
   "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-02T07:59:23.5957401+08:00",
+  "ChangedDate": "2016-02-03T07:58:46.2402985+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }
