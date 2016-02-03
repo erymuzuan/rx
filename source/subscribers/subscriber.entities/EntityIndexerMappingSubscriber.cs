@@ -75,7 +75,7 @@ namespace subscriber.entities
                                 .Replace($"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain", ed.CodeNamespace)
                                 .Replace($"{ed.CodeNamespace}.HomeAddress", $"{ed.CodeNamespace}.CustomHomeAddress");
                             this.WriteMessage("Migrating {0} : {1}", name, id);
-                            var setting = new JsonSerializerSettings ();
+                            var setting = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
                             dynamic ent = JsonConvert.DeserializeObject(json, setting);
                             ent.Id = id;
 
