@@ -2,37 +2,37 @@
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
   "CodeNamespace": "Bespoke.DevV1.Api",
   "Icon": "fa fa-cloud-download",
-  "Url": "query.endpoint.designer/patients-cache-filter",
+  "Url": "query.endpoint.designer/muslim-patients",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "Dob",
-        "Operator": "Ge",
+        "Term": "Status",
+        "Operator": "Eq",
         "Field": {
           "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-          "TypeName": "System.DateTime, mscorlib",
-          "Value": "1960-01-01T00:00:00",
-          "Name": null,
-          "Note": null,
-          "WebId": null
+          "TypeName": "System.String, mscorlib",
+          "Value": "Admitted",
+          "Name": "Admitted",
+          "Note": "",
+          "WebId": "2abd23e5-9e43-46ee-bf00-afeaa3a12117"
         },
-        "WebId": null
+        "WebId": "0c4553a2-b931-4866-868a-d0a1f7123523"
       },
       {
         "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "Dob",
-        "Operator": "Le",
+        "Term": "Religion",
+        "Operator": "Eq",
         "Field": {
           "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-          "TypeName": "System.DateTime, mscorlib",
-          "Value": "1969-12-31T00:00:00",
-          "Name": null,
-          "Note": null,
-          "WebId": null
+          "TypeName": "System.String, mscorlib",
+          "Value": "Islam",
+          "Name": "Islam",
+          "Note": "",
+          "WebId": "7bfee170-3328-4ba7-b40d-dd5002b4c4c4"
         },
-        "WebId": null
+        "WebId": "494ccc00-de87-49d8-e047-ed31da5770be"
       }
     ]
   },
@@ -42,9 +42,9 @@
   },
   "Performer": {
     "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": null,
-    "Value": null,
-    "IsPublic": false,
+    "UserProperty": "",
+    "Value": "",
+    "IsPublic": true,
     "WebId": null
   },
   "RouteParameterCollection": {
@@ -55,31 +55,32 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": [
       "Id",
-      "Dob",
+      "Mrn",
       "FullName",
       "Gender",
+      "Dob",
       "Race",
-      "DeathDate",
+      "RegisteredDate",
+      "Nationality",
       "NextOfKin.FullName",
-      "NextOfKin.Relationship",
+      "HomeAddress.Street",
       "HomeAddress.State",
-      "Wife.Name",
-      "Wife.WorkPlaceAddress.State"
+      "HomeAddress.City"
     ]
   },
-  "CacheProfile": null,
-  "Name": "Patients with cached filter",
-  "Route": "~/api/patients/cache-filter",
-  "IsReturnSource": null,
+  "CacheProfile": "",
+  "Name": "Muslim patients",
+  "Route": "muslim-patients",
+  "IsReturnSource": "",
   "Entity": "Patient",
-  "Note": null,
-  "IsPublished": false,
-  "Resource": "patients",
-  "CacheFilter": 300,
-  "CreatedBy": null,
-  "Id": "patients-cache-filter",
-  "CreatedDate": "0001-01-01T00:00:00",
-  "ChangedBy": null,
-  "ChangedDate": "0001-01-01T00:00:00",
-  "WebId": "patients-cache-filter"
+  "Note": "All admitted Muslim patients",
+  "IsPublished": true,
+  "Resource": "Patients",
+  "CacheFilter": null,
+  "CreatedBy": "admin",
+  "Id": "muslim-patients",
+  "CreatedDate": "2016-02-03T08:22:39.8653848+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-02-03T09:41:28.8167228+08:00",
+  "WebId": "9be2ded4-feb1-456c-8122-5f311169cae1"
 }
