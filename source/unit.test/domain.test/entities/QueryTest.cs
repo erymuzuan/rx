@@ -205,7 +205,8 @@ namespace domain.test.entities
                 Term = "Dob"
             });
 
-            query.MemberCollection.AddRange("Id", "Dob", "FullName", "Gender", "Race", "DeathDate");
+            query.MemberCollection.AddRange("Id", "Dob", "FullName", "Gender", "Race", "DeathDate", "NextOfKin.FullName",
+                "NextOfKin.Relationship", "HomeAddress.State", "Wife.Name", "Wife.WorkPlaceAddress.State");
 
             var options = new CompilerOptions();
             var sources = query.GenerateCode(patient);

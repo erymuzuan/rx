@@ -161,7 +161,7 @@ namespace Bespoke.Sph.Domain
         {
             if (files.Length == 0)
                 throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, nameof(files));
-           
+
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
@@ -237,12 +237,24 @@ namespace Bespoke.Sph.Domain
         private Member GetMember(string path, Member member2)
         {
             if (!path.Contains("."))
-                return member2.MemberCollection.Single(a => a.Name == path);
+            {
+                var vm = member2 as ValueObjectMember;
+                if (null != vm)
+                {
+                    var members = vm.MemberCollection;
+                    var rm1 = members.SingleOrDefault(a => a.Name == path);
+                    if (null == rm1) throw new ArgumentException($"Cannot find any {path} in {Name}.{member2.Name}", nameof(path));
+                    return rm1;
+                }
+                var rm = member2.MemberCollection.SingleOrDefault(a => a.Name == path);
+                if (null == rm) throw new ArgumentException($"Cannot find any {path} in {Name}.{member2.Name}", nameof(path));
+                return rm;
+            }
 
-            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var child = this.GetMember(paths.First(), member2);
-            var gg = path.Remove(0);
-            var nextPath = string.Join(".", gg);
+            paths.RemoveAt(0);
+            var nextPath = string.Join(".", paths);
             return this.GetMember(nextPath, child);
         }
     }

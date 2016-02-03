@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Domain
 
             var result = new BuildValidationResult();
 
-            if(null == ed)
+            if (null == ed)
                 result.Errors.Add(new BuildError(this.WebId, $"Cannot find EntityDefinition:{Entity}"));
 
             var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this, ed));
@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Domain
                 {
                     CacheProfile = this.CacheProfile,
                     CacheFilter = this.CacheFilter,
-                    Performer =  this.Performer
+                    Performer = this.Performer
                 };
             }
             cacheManager.Insert(key, setting, source);
@@ -90,7 +90,7 @@ namespace Bespoke.Sph.Domain
             var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
             var key = $"entity-query:setting:{Id}";
             var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{this.Id}.setting.json";
-            File.WriteAllText(source,setting.ToJsonString(true));
+            File.WriteAllText(source, setting.ToJsonString(true));
             cacheManager.Insert(key, setting, source);
 
             return Task.FromResult(0);
@@ -132,13 +132,13 @@ namespace Bespoke.Sph.Domain
 ");
                 return code.ToString();
             }
-            
+
             code.Append(@"
             var list = from f in esJsonObject.SelectToken(""$.hits.hits"")
                         let fields = f.SelectToken(""fields"")
                         let id = f.SelectToken(""_id"").Value<string>()
                         select JsonConvert.SerializeObject( new {");
-            foreach (var g in this.MemberCollection)
+            foreach (var g in this.MemberCollection.Where(x => !x.Contains(".")))
             {
                 var mb = m_ed.GetMember(g) as SimpleMember;
                 if (null == mb) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
@@ -147,6 +147,34 @@ namespace Bespoke.Sph.Domain
                         ? $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
                         : $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
             }
+
+            var parent = "";
+            var complexFields = this.MemberCollection.Where(x => x.Contains(".")).OrderBy(x => x).ToList();
+            foreach (var g in complexFields)
+            {
+                var mb = m_ed.GetMember(g) as SimpleMember;
+                if (null == mb) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
+                var paths = g.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                var cp = paths.First();
+
+                if (paths.Length > 2)
+                {
+                    continue;
+                }
+                var m = paths.Last();
+                if (!string.IsNullOrWhiteSpace(parent) && parent != cp) code.AppendLine("     },");
+                if (parent != cp)
+                {
+                    code.AppendLine($"          {cp} = new {{");
+                }
+                code.AppendLine(
+                    mb.Type == typeof(string)
+                        ? $"      {m} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
+                        : $"      {m} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
+
+                parent = cp;
+            }
+            if (complexFields.Count > 0) code.AppendLine("     },");
 
 
             code.Append($@"
