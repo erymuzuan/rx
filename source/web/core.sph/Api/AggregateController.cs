@@ -36,6 +36,7 @@ namespace Bespoke.Sph.Web.Api
                 case "formdialog": return GetSystemObjectScalar<FormDialog>(column, filter);
                 case "partialview": return GetSystemObjectScalar<PartialView>(column, filter);
                 case "entitychart": return GetSystemObjectScalar<EntityChart>(column, filter);
+                case "operationendpoint": return GetSystemObjectScalar<OperationEndpoint>(column, filter);
                 case "queryendpoint": return GetSystemObjectScalar<QueryEndpoint>(column, filter);
                 case "trigger": return GetSystemObjectScalar<Trigger>(column, filter);
                 case "adapter": return GetSystemObjectScalar<Adapter>(column, filter);

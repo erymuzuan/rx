@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -18,19 +18,22 @@ define(["plugins/dialog", objectbuilders.datacontext],
             operationOptions = ko.observableArray(),
             operations = ko.observableArray(),
             activate = function () {
-                trigger(new bespoke.sph.domain.Trigger({"IsActive" : true, "Entity" : ko.unwrap(entity)}));
+                trigger(new bespoke.sph.domain.Trigger({ "IsActive": true, "Entity": ko.unwrap(entity) }));
 
                 var actionOptionsTask = $.get("/sph/trigger/actions"),
                     entitiesTask = context.getListAsync("EntityDefinition", "Id ne ''", "Name"),
                     loadOperationOptions = function (ent) {
 
-                        context.loadOneAsync("EntityDefinition", String.format("Name eq '{0}'", ent))
-                            .done(function (ed) {
-                                if (!ed) {
-                                    return;
-                                }
-                                operationOptions(_(ed.EntityOperationCollection()).map(function (v) { return v.Name(); }));
-                            });
+                        return context.loadOneAsync("EntityDefinition", String.format("Name eq '{0}'", ent))
+                         .then(function (ed) {
+                             if (!ed) {
+                                 return Task.fromResult([]);
+                             }
+                             return context.getListAsync("OperationEndpoint", "Entity eq '" + ko.unwrap(ed.Name) + "'", "Name");
+                         })
+                         .then(function (list) {
+                             operationOptions(list);
+                         });
                     };
 
                 if (ko.unwrap(entity)) {

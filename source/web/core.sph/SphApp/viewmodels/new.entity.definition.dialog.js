@@ -23,8 +23,6 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     }
                     window.typeaheadEntity = name;
                 });
-                ed.IconStoreId("sph-img-document");
-
                 entity(ed);
             },
             attached = function () {

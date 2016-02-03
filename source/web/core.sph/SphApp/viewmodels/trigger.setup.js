@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -8,7 +8,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
-
+/// <reference path="~/Scripts/_task.js" />
 define(["services/datacontext", "services/jsonimportexport", "plugins/router", objectbuilders.app, objectbuilders.system, objectbuilders.logger],
     function (context, eximp, router, app, system, logger) {
 
@@ -30,16 +30,16 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                     actionOptionsTask = $.get("/sph/trigger/actions"),
                     entitiesTask = context.getListAsync("EntityDefinition", "Id ne ''", "Name"),
                     loadOperationOptions = function (ent) {
-
-                        context.loadOneAsync("EntityDefinition", String.format("Name eq '{0}'", ent))
-                            .done(function (ed) {
+                        return context.loadOneAsync("EntityDefinition", String.format("Name eq '{0}'", ent))
+                            .then(function (ed) {
                                 if (!ed) {
-                                    return;
+                                    return Task.fromResult([]);
                                 }
-                                operationOptions(_(ed.EntityOperationCollection()).map(function (v) { return v.Name(); }));
-
-
-                            });
+                                return context.getListAsync("OperationEndpoint", "Entity eq '" + ko.unwrap(ed.Name) + "'", "Name");
+                            })
+                        .then(function (list) {
+                            operationOptions(list);
+                        });
                     };
 
                 return $.when(entitiesTask, actionOptionsTask).then(function (list, actions) {
