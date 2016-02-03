@@ -31,7 +31,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 }
 
                 var json = ko.mapping.toJSON(query);
-                return context.post(json, "/entity-query")
+                return context.post(json, "/query-endpoints")
                     .then(function (result) {
                         if (result) {
                             id(result.id);

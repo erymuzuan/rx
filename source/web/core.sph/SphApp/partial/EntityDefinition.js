@@ -6,6 +6,16 @@
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
+bespoke.sph.domain.ServiceContractPartial = function () {
+    var context = require(objectbuilders.datacontext),
+        publish = function (ed) {
+            return context.post(ko.toJSON(ed), "/entity-definition/publish/service-contract");
+        };
+
+    return {
+        publish: publish
+    };
+}
 bespoke.sph.domain.EntityDefinitionPartial = function () {
     var system = require("durandal/system"),
         app = require("durandal/app"),

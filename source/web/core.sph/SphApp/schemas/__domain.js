@@ -821,17 +821,12 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         Id: ko.observable("0"),
         Name: ko.observable(""),
         Plural: ko.observable(""),
-        IconStoreId: ko.observable(""),
         IconClass: ko.observable(""),
         RecordName: ko.observable(""),
         IsPublished: ko.observable(false),
-        IsShowOnNavigationBar: ko.observable(false),
         TreatDataAsSource: ko.observable(false),
-        DashboardTemplate: ko.observable(""),
         MemberCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
-        AuthorizedRoleCollection: ko.observableArray([]),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         StoreInDatabase: ko.observable(),
         StoreInElasticsearch: ko.observable(),
         ServiceContract: ko.observable(new bespoke.sph.domain.ServiceContract()),
@@ -1399,6 +1394,7 @@ bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
         Note: ko.observable(""),
         Entity: ko.observable(""),
         Resource: ko.observable(""),
+        IsPublished: ko.observable(false),
         EntityPermissionCollection: ko.observableArray([]),
         Rules: ko.observableArray([]),
         Permissions: ko.observableArray([]),
@@ -1985,9 +1981,9 @@ bespoke.sph.domain.ServiceContract = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ServiceContract, domain.sph",
-        AllowFullSearch: ko.observable(false),
-        AllowGetById: ko.observable(false),
-        AllowOdataApi: ko.observable(false),
+        FullSearchEndpoint: ko.observable(new bespoke.sph.domain.FullSearchEndpoint()),
+        OdataEndpoint: ko.observable(new bespoke.sph.domain.OdataEndpoint()),
+        EntityResourceEndpoint: ko.observable(new bespoke.sph.domain.EntityResourceEndpoint()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2041,6 +2037,131 @@ bespoke.sph.domain.QueryEndpointSetting = function (optionOrWebid) {
 
     if (bespoke.sph.domain.QueryEndpointSettingPartial) {
         return _(model).extend(new bespoke.sph.domain.QueryEndpointSettingPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.EntityResourceEndpoint = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
+        IsAllowed: ko.observable(false),
+        FilterExpression: ko.observable(""),
+        Performer: ko.observable(new bespoke.sph.domain.Performer()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityResourceEndpointPartial) {
+        return _(model).extend(new bespoke.sph.domain.EntityResourceEndpointPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.FullSearchEndpoint = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FullSearchEndpoint, domain.sph",
+        IsAllowed: ko.observable(false),
+        Performer: ko.observable(new bespoke.sph.domain.Performer()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FullSearchEndpointPartial) {
+        return _(model).extend(new bespoke.sph.domain.FullSearchEndpointPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.OdataEndpoint = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.OdataEndpoint, domain.sph",
+        IsAllowed: ko.observable(false),
+        Performer: ko.observable(new bespoke.sph.domain.Performer()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.OdataEndpointPartial) {
+        return _(model).extend(new bespoke.sph.domain.OdataEndpointPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.BusinessRuleEndpoint = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.BusinessRuleEndpoint, domain.sph",
+        IsAllowed: ko.observable(false),
+        Performer: ko.observable(new bespoke.sph.domain.Performer()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.BusinessRuleEndpointPartial) {
+        return _(model).extend(new bespoke.sph.domain.BusinessRuleEndpointPartial(model));
     }
     return model;
 };

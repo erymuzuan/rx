@@ -321,5 +321,37 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
+
+
+        [HttpPost]
+        [Route("publish/service-contract")]
+        public async Task<ActionResult> PublishServiceContract()
+        {
+            var context = new SphDataContext();
+            var ed = this.GetRequestJson<EntityDefinition>();
+            ed.BuildDiagnostics = ObjectBuilder.GetObject<DeveloperService>().BuildDiagnostics;
+
+            var buildValidation = await ed.ValidateBuildAsync();
+            if (!buildValidation.Result)
+                return Json(buildValidation);
+            var result =await ed.ServiceContract.CompileAsync(ed);
+
+            result.Errors.ForEach(Console.WriteLine);
+            if (!result.Result)
+                return Json(result);
+
+
+
+            ed.IsPublished = true;
+            using (var session = context.OpenSession())
+            {
+                session.Attach(ed);
+                await session.SubmitChanges("Publish");
+            }
+            return Json(new { success = true, status = "OK", message = "Your service contract has been successfully published", id = ed.Id });
+
+
+        }
+
     }
 }

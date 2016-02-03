@@ -230,14 +230,14 @@
                             </div>
                         </div>
 
-               
+
                         <div class="form-group">
                             <label for="icon-class" class="col-md-3 control-label">Icon class</label>
                             <div class="col-md-6">
                                 <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }, tooltip:'icon is only used for solution explorer for you to easily identify the correct item'" id="icon-class"></i>
                             </div>
                         </div>
-                 
+
 
                         <h4>Source for reference data</h4>
                         <div class="form-group">
@@ -317,7 +317,52 @@
                         Add a trigger
                     </a>
                 </div>
-                <div id="operations-tab" class="tab-pane" data-bind="with : entity">
+                <div id="operations-tab" class="tab-pane">
+                    <div data-bind="with : entity">
+                        <form class="form-horizontal" role="form" data-bind="with : ServiceContract">
+                            <div class="form-group" data-bind="with : EntityResourceEndpoint">
+                                <div class="col-md-12">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input data-bind="checked: IsAllowed" id="get-one-endpoint" type="checkbox" name="IsAllowed" />
+                                            Get a resource by Id Endpoint
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" data-bind="with : FullSearchEndpoint">
+                                <div class="col-md-12">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input data-bind="checked: IsAllowed" id="search-endpoint-isallowed" type="checkbox" name="IsAllowed" />
+                                            Search endpoint
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-bind="with : OdataEndpoint">
+                                <div class="col-md-12">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input data-bind="checked: IsAllowed" id="odata-endpoint-isallowed" type="checkbox" name="IsAllowed" />
+                                            Odata endpoint
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <button data-bind="commandWithParameter:{ command : publish, commandParameter : $root.entity}" class="btn btn-default">
+                                        <i class="fa fa-gears"></i>
+                                        Publish Endpoints
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
                     <h3>Operations</h3>
                     <table class="table table-striped" data-bind="serverPaging :{entity: 'OperationEndpoint', query :'Entity eq \'' + $root.entity().Name() + '\'', list: $root.operations}">
                         <thead>
@@ -365,7 +410,7 @@
                         Add a query
                     </a>
                 </div>
-           
+
             </div>
         </div>
     </div>
