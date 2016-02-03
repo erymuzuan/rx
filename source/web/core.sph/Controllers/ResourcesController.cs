@@ -144,10 +144,8 @@ namespace Bespoke.Sph.Web.Controllers
                 id = "theme.matyie.workflow.triggers.css.map";
 
             return GetResource(id, "Content");
-
-
-
         }
+
         public ActionResult Fonts(string id)
         {
             return GetResource(id, "fonts");

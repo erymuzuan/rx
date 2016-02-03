@@ -132,10 +132,86 @@
                                 router.navigate("#query.endpoint.designer/" + ko.unwrap(ed.Id));
                         });
             },
-            addOperationEndpoint = function (ed) {
+            addEntityView = function (entityDefinition) {
+
+                return app.showDialog("new.entity.view.dialog", function (dialog) {
+                    dialog.entity(entityDefinition);
+                })
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("EntityView", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#entity.view.designer/" + ko.unwrap(ed.Id));
+                        });
+            },
+            addEntityForm = function (entityDefinition) {
+
+                var id = "0";
+                return app.showDialog("new.entity.form.dialog", function (dialog) {
+                    dialog.entity(entityDefinition);
+                })
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("EntityForm", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#entity.form.designer/" + ko.unwrap(ed.Id));
+                        });
+            },
+            addOperationEndpoint = function (entityDefinition) {
 
                 return app.showDialog("new.operation.endpoint.dialog", function (dialog) {
-                    dialog.entity(ed);
+                    dialog.entity(entityDefinition);
+                })
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("OperationEndpoint", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#operation.endpoint.designer/" + ko.unwrap(ed.Id));
+                        });
+            },
+            addPartialView = function (entityDefinition) {
+
+                return app.showDialog("new.operation.endpoint.dialog", function (dialog) {
+                    dialog.entity(entityDefinition);
+                })
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("OperationEndpoint", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#operation.endpoint.designer/" + ko.unwrap(ed.Id));
+                        });
+            },
+            addDashboard = function (entityDefinition) {
+
+                return app.showDialog("new.operation.endpoint.dialog", function (dialog) {
+                    dialog.entity(entityDefinition);
+                })
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("OperationEndpoint", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#operation.endpoint.designer/" + ko.unwrap(ed.Id));
+                        });
+            },
+            addDialog = function (entityDefinition) {
+
+                return app.showDialog("new.operation.endpoint.dialog", function (dialog) {
+                    dialog.entity(entityDefinition);
                 })
                         .then(function (dialog, result) {
                             if (result === "OK") {
@@ -160,6 +236,11 @@
             addTriggerAsync: addTriggerAsync,
             addTransformDefinitionAsync: addTransformDefinitionAsync,
             addQueryEndpoint: addQueryEndpoint,
+            addEntityForm: addEntityForm,
+            addEntityView: addEntityView,
+            addDialog: addDialog,
+            addDashboard: addDashboard,
+            addPartialView: addPartialView,
             addOperationEndpoint: addOperationEndpoint,
             addWorkflowDefinitionAsync: addWorkflowDefinitionAsync
         };

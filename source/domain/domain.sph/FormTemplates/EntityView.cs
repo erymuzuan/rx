@@ -66,7 +66,9 @@ namespace Bespoke.Sph.Domain
                    + "/:" + string.Join("/:", this.RouteParameterCollection.Select(r => r.Name));
         }
 
+        [JsonIgnore]
         public string Icon => "fa fa-list-ul";
-        public string Url => $"entity.view.designer/{Entity}/{Id}";
+        [JsonIgnore]
+        public string Url => $"entity.view.designer/{Id}";
     }
 }

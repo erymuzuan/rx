@@ -562,7 +562,7 @@
   {
     "role": "developers",
     "groupName": "Entity",
-    "route": "entity.view.designer/:entityid/:viewid",
+    "route": "entity.view.designer/:id",
     "moduleId": "viewmodels/entity.view.designer",
     "title": "Entity View Designer",
     "nav": false,

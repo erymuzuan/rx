@@ -42,9 +42,9 @@
   },
   "Performer": {
     "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": "",
-    "Value": "",
-    "IsPublic": true,
+    "UserProperty": "Roles",
+    "Value": "developers",
+    "IsPublic": false,
     "WebId": null
   },
   "RouteParameterCollection": {
@@ -75,12 +75,12 @@
   "Entity": "Patient",
   "Note": "All admitted Muslim patients",
   "IsPublished": true,
-  "Resource": "Patients",
+  "Resource": "",
   "CacheFilter": null,
   "CreatedBy": "admin",
   "Id": "muslim-patients",
   "CreatedDate": "2016-02-03T08:22:39.8653848+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-03T09:41:28.8167228+08:00",
+  "ChangedDate": "2016-02-03T11:31:54.3034395+08:00",
   "WebId": "9be2ded4-feb1-456c-8122-5f311169cae1"
 }

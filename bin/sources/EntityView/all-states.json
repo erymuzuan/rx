@@ -1,9 +1,7 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
-  "FilterCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
-    "$values": []
-  },
+  "Icon": "fa fa-list-ul",
+  "Url": "entity.view.designer/state/all-states",
   "ViewColumnCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
     "$values": [
@@ -94,10 +92,6 @@
       }
     ]
   },
-  "SortCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
-    "$values": []
-  },
   "ConditionalFormattingCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
     "$values": []
@@ -119,7 +113,6 @@
   "Name": "All states",
   "Route": "all-states",
   "Note": "",
-  "Query": "",
   "IsPublished": true,
   "Visibilty": "",
   "TileColour": "bblue",
@@ -128,10 +121,11 @@
   "Partial": "partial/all-states",
   "Template": null,
   "DisplayOnDashboard": true,
+  "Endpoint": null,
   "CreatedBy": "admin",
   "Id": "all-states",
   "CreatedDate": "2015-08-22T11:30:40.5695153+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-16T15:40:45.3545401+08:00",
+  "ChangedDate": "2016-02-03T19:06:13.6755613+08:00",
   "WebId": "d889dc66-78df-464a-aec1-4bd8685fd26b"
 }

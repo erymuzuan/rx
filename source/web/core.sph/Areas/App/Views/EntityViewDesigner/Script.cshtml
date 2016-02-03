@@ -20,34 +20,24 @@
                 warnings = ko.observableArray(),
                 entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
                 view = ko.observable(new bespoke.sph.domain.EntityView({ WebId: system.guid() })),
-                activate = function (entityid, viewid) {
+                activate = function (id) {
 
-
-                    var query = String.format("Id eq '{0}'", entityid),
-                        tcs = new $.Deferred();
 
                     context.getListAsync("ViewTemplate", "Id ne '0'", "Name")
                             .done(templateOptions);
 
-                    context.loadOneAsync("EntityDefinition", query)
-                        .then(function (b) {
-                            entity(b);
-                            window.typeaheadEntity = b.Name();
-                            if (viewid === "0") {
-                                tcs.resolve(true);
-                            }
-                            return context.getListAsync("QueryEndpoint", "Entity eq '" + ko.unwrap(b.Name) + "'", "Id");
+                    return context.loadOneAsync("EntityView", "Id eq '" + id + "'")
+                            .then(function (f) {
+                                view(f);
+                                return context.loadOneAsync("EntityDefinition", "Id eq '" + ko.unwrap(f.EntityDefinitionId) + "'");
+                            })
+                            .then(function (b) {
+                                entity(b);
+                                window.typeaheadEntity = b.Name();
+                                return context.getListAsync("QueryEndpoint", "Entity eq '" + ko.unwrap(b.Name) + "'", "Id");
+                            })
+                            .then(endpointOptions);
 
-                        }).then(endpointOptions);
-
-                    context.loadOneAsync("EntityView", "Id eq '" + viewid + "'")
-                    .done(function (f) {
-                        view(f);
-                        view().EntityDefinitionId(entityid);
-                        tcs.resolve(true);
-                    });
-
-                    return tcs.promise();
 
                 },
                 attached = function (vw) {
@@ -86,7 +76,7 @@
 
                     var data = ko.mapping.toJSON(view);
 
-                    return context.post(data, "/Sph/EntityView/Publish")
+                    return context.put(data, "/api/entity-views/" + ko.unwrap(view().Id) + "/publish")
                         .then(function (result) {
                             if (result.success) {
                                 logger.info(result.message);
@@ -110,7 +100,7 @@
 
                     var data = ko.mapping.toJSON(view);
 
-                    return context.post(data, "/Sph/EntityView/Save")
+                    return context.put(data, "/api/entity-views/")
                         .then(function (result) {
                             view().Id(result.id);
                             logger.info(result.message);
@@ -147,7 +137,7 @@
                     app.showMessage("Are you sure you want to delete this view? This action cannot be undone.", "Reactive Developer", ["Yes", "No"])
                         .done(function (dialogResult) {
                             if (dialogResult === "Yes") {
-                                context.send(data, "/Sph/EntityView", "DELETE")
+                                context.send(data, "/api/entity-views/" + ko.unwrap(view().Id) , "DELETE")
                                     .done(function () {
                                         window.location = "/sph#dev.home";
                                     })
@@ -156,8 +146,8 @@
                                         tcs.reject(v);
                                     })
                                     .then(tcs.resolve);
-
                             }
+                            tcs.resolve(false);
                         });
                     return tcs.promise();
                 },
@@ -166,7 +156,7 @@
 
                 var data = ko.mapping.toJSON(view);
 
-                return context.post(data, "/EntityView/Depublish")
+                return context.put(data, "/api/entity-views/" + ko.unwrap(view().Id) + "/depublish")
                      .then(function (result) {
                          if (result.success) {
                              view().IsPublished(false);
@@ -216,7 +206,7 @@
                 view: view,
                 entity: entity,
                 formsQuery: ko.computed(function () {
-                    return String.format("EntityDefinitionId eq '{0}'", entity().Id());
+                    return String.format("EntityDefinitionId eq '{0}'", ko.unwrap(entity().Id));
                 }),
                 toolbar: {
                     commands: ko.observableArray([{

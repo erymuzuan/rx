@@ -826,7 +826,6 @@
     <Compile Include="Areas\Sph\Controllers\EntityChartController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityDefinitionController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
-    <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\Controllers\FormDialogRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\PartialViewRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
@@ -959,6 +958,7 @@
     <Compile Include="Controllers\CustomFormController.scripts.cs" />
     <Compile Include="Controllers\CustomTokenController.cs" />
     <Compile Include="Controllers\DataImportController.cs" />
+    <Compile Include="Controllers\EntityViewController.cs" />
     <Compile Include="Controllers\OperationEndpointController.cs" />
     <Compile Include="Controllers\QueryEndpointController.cs" />
     <Compile Include="Controllers\FormDialogController.cs" />
