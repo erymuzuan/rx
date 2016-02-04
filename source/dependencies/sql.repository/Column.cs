@@ -6,7 +6,7 @@ namespace Bespoke.Sph.SqlRepository
     {
         public override string ToString()
         {
-            return string.Format("[{0}] as {1}({2})", this.Name, this.SqlType, this.Length);
+            return $"[{this.Name}] as {this.SqlType}({this.Length})";
         }
 
         public string Name { get; set; }

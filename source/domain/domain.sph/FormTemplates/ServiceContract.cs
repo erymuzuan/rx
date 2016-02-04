@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Domain
             var setting = cacheManager.Get<ServiceContractSetting>(key);
             if (null != setting) return Task.FromResult(setting);
 
-            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{entity}.service-contract.setting.json";
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ServiceContractSetting)}\\{entity}.service-contract.setting.json";
             setting = File.Exists(source) ? File.ReadAllText(source).DeserializeFromJson<ServiceContractSetting>()
                 : new ServiceContractSetting();
             cacheManager.Insert(key, setting, source);
@@ -39,7 +39,7 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(entity)) throw new ArgumentNullException(nameof(entity), "Please set the Entity name for the Service contract");
             var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
             var key = $"setting:{entity}";
-            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{entity}.service-contract.setting.json";
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ServiceContractSetting)}\\{entity}.service-contract.setting.json";
             File.WriteAllText(source, setting.ToJsonString(true));
             cacheManager.Insert(key, setting, source);
 

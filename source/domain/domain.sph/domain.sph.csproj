@@ -325,6 +325,7 @@
     <Compile Include="IBuildDiagnostics.cs" />
     <Compile Include="ICacheManager.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="IReadonlyRepository.cs" />
     <Compile Include="JsRoute.cs" />
     <Compile Include="JsRouteSetting.cs" />
     <Compile Include="LogEntry.cs" />

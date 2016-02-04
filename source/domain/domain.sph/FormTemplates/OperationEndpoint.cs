@@ -118,21 +118,22 @@ namespace Bespoke.Sph.Domain
             patch.ArgumentCollection.Add(body);
 
 
-            patch.AppendLine("           var context = new SphDataContext();");
-            if (this.Rules.Any() || this.SetterActionChildCollection.Any())
+            var enabledGetEntityDefinition = this.Rules.Any() || this.SetterActionChildCollection.Any();
+            if (enabledGetEntityDefinition)
                 patch.AppendLine(GetEntityDefinitionCode(ed));
 
             patch.Append(
                 $@"
-            var repos = ObjectBuilder.GetObject<IRepository<{ed.Name}>>();
-            var item = await repos.LoadOneAsync(id);
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var lo = await repos.LoadOneAsync(id);
+            var item = lo.Source;
             if(null == item) return HttpNotFound(""Cannot find any {ed.Name} with Id "" + id);
-
-            var jo = JObject.Parse(body);");
             
+            var changedDate = item.ChangedDate;");
+
             patch.Append(this.GenerateConflicDetectionCode());
 
-            patch.AppendLine("");
+            patch.AppendLine("var jo = JObject.Parse(body);");
             patch.AppendLine("var missingValues = new List<string>();");
             var count = 0;
             foreach (var prop in this.PatchPathCollection)
@@ -194,32 +195,6 @@ namespace Bespoke.Sph.Domain
             if (!this.IsConflictDetectionEnabled) return string.Empty;
             var code = new StringBuilder();
 
-            code.Append($@"
-            var url = $""{ConfigurationManager.ApplicationName.ToLower()}/{m_entityDefinition.Name.ToLower()}/{{id}}"";
-            var ed = CacheManager.Get<EntityDefinition>(""{m_entityDefinition.Id}"");
-            if(null == ed)
-            {{
-                ed = EntityDefinitionSource.DeserializeFromJsonFile<EntityDefinition>();
-                CacheManager.Insert(""{m_entityDefinition.Id}"", ed, EntityDefinitionSource);
-            }}
-            var setting = await ed.ServiceContract.LoadSettingAsync(ed.Name);
-            
-            var esResponseString = string.Empty;
-            using(var client = new HttpClient())
-            {{
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.GetAsync(url);
-                if(response.StatusCode == HttpStatusCode.NotFound)
-                    return HttpNotFound(""Cannot find any {m_entityDefinition.Name} with Id "" + id);
-
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception(""Cannot execute query on es "" );
-                esResponseString = await content.ReadAsStringAsync();
-            }}
-            var esJson = JObject.Parse(esResponseString);
-            var version = esJson.SelectToken(""$._version"").Value<string>();
-            var changedDate = esJson.SelectToken(""$._source.ChangedDate"").Value<DateTime>();");
-
             code.Append(
                 $@"        
                 DateTime modifiedSince;    
@@ -232,7 +207,7 @@ namespace Bespoke.Sph.Domain
                     }}
                 }}
                 
-                if (this.Request.Headers[""If-None-Match""] != version)
+                if (this.Request.Headers[""If-None-Match""] != lo.Version)
                 {{
                     this.Response.StatusCode = 409;
                     return Content(""Your message version is in conflict state"",""application/json; charset=utf-8"");
@@ -409,6 +384,7 @@ namespace Bespoke.Sph.Domain
         private string GetEntityDefinitionCode(EntityDefinition ed)
         {
             var code = new StringBuilder();
+            code.AppendLine($"var context = new SphDataContext();");
             code.AppendLine($"var ed = CacheManager.Get<EntityDefinition>(\"{ed.Id}\");");
             code.AppendLine("if(null == ed)");
             code.AppendLine("{");
@@ -430,11 +406,10 @@ namespace Bespoke.Sph.Domain
             {
                 count++;
                 code.AppendLine($@"
-            var rules{count} = ed.BusinessRuleCollection.Where(b => b.Name == ""{rule}"");
-            var result{count} = item.ValidateBusinessRule(rules{count});
-
-            if(!result{1}.Success){{
-                brokenRules.Add(result{count});
+            var @rules{count} = ed.BusinessRuleCollection.Where(b => b.Name == ""{rule}"");
+            var @result{count} = item.ValidateBusinessRule(@rules{count});
+            if(!@result{count}.Success){{
+                brokenRules.Add(@result{count});
             }}
 ");
             }

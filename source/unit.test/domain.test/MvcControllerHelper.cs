@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,11 +11,34 @@ namespace domain.test
 {
     public static class MvcControllerHelper
     {
-        public static HttpContextWrapper SetContext(this Controller controller, string route = "", string queryString = "", string url = "http://localhost:4436/")
+        public class HttpRequest : HttpRequestBase
         {
-            var request = new HttpRequest(route, url, queryString);
-            var response = new HttpResponse(TextWriter.Null);
-            var httpContext = new HttpContextWrapper(new HttpContext(request, response));
+            public HttpRequest()
+            {
+                Headers = new NameValueCollection();
+            }
+            public override NameValueCollection Headers { get; }
+        }
+        public class HttpResponse : HttpResponseBase
+        {
+            public override int StatusCode { get; set; }
+        }
+        public class HttpContext : HttpContextBase
+        {
+            public override HttpRequestBase Request { get; }
+            public override HttpResponseBase Response{ get; }
+
+            public HttpContext(HttpRequestBase request, HttpResponseBase response)
+            {
+                Request = request;
+                Response = response;
+            }
+        }
+        public static HttpContext SetContext(this Controller controller, string route = "", string queryString = "", string url = "http://localhost:4436/")
+        {
+            var request = new HttpRequest();
+            var response = new HttpResponse();
+            var httpContext = new HttpContext(request, response);
             controller.ControllerContext = new ControllerContext(httpContext, new RouteData(), controller);
 
             return httpContext;

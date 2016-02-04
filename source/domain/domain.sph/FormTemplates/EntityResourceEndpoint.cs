@@ -55,22 +55,9 @@ namespace Bespoke.Sph.Domain
                 CacheManager.Insert(""{ed.Id}"", ed, EntityDefinitionSource);
             }}
             var setting = await ed.ServiceContract.LoadSettingAsync(ed.Name);
-            
-            var esResponseString = string.Empty;
-            using(var client = new HttpClient())
-            {{
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.GetAsync(url);
-                if(response.StatusCode == HttpStatusCode.NotFound)
-                    return HttpNotFound(""Cannot find any {ed.Name} with Id "" + id);
-
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception(""Cannot execute query on es "" );
-                esResponseString = await content.ReadAsStringAsync();
-            }}
-            var esJson = JObject.Parse(esResponseString);
-            var version = esJson.SelectToken(""$._version"").Value<string>();
-            var changedDate = esJson.SelectToken(""$._source.ChangedDate"").Value<DateTime>();
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var lo = await repos.LoadOneAsync(id);  
+            if(null == lo.Source) return HttpNotFound(""Cannot find {ed.Name} with Id "" + id);            
 
             var cacheSetting = setting.ResourceEndpointSetting.CachingSetting;
             if(cacheSetting.Expires.HasValue)
@@ -81,28 +68,27 @@ namespace Bespoke.Sph.Domain
                 this.Response.Cache.SetCacheability((HttpCacheability)Enum.Parse(typeof(HttpCacheability), cacheSetting.CacheControl));
 
 
-            this.Response.Cache.SetETag(version);
-            this.Response.AppendHeader(""ETag"", version);
-            this.Response.Cache.SetLastModified(changedDate);
+            this.Response.Cache.SetETag(lo.Version);
+            this.Response.AppendHeader(""ETag"", lo.Version);
+            this.Response.Cache.SetLastModified(lo.Source.ChangedDate);
 
             DateTime modifiedSince;
             if (DateTime.TryParse(this.Request.Headers[""If-Modified-Since""], out modifiedSince))
             {{
-                if(modifiedSince.ToString() == changedDate.ToString())
+                if(modifiedSince.ToString() == lo.Source.ChangedDate.ToString())
                 {{
                     this.Response.StatusCode = 304;
                     return Content(string.Empty,""application/json; charset=utf-8"");                        
                 }}
             }}
                 
-            if (this.Request.Headers[""If-None-Match""] == version)
+            if (this.Request.Headers[""If-None-Match""] == lo.Version)
             {{
                 this.Response.StatusCode = 304;
                 return Content(string.Empty,""application/json; charset=utf-8"");
             }}
                 
-                
-            var source = esJson.SelectToken(""$._source"");
+            var source = JObject.Parse(lo.Json ?? lo.Source.ToJson());    
             var links = JArray.Parse($@""[{operations}]""); 
 
             var link = new JProperty(""_links"", links);

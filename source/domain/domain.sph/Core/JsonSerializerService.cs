@@ -283,6 +283,14 @@ namespace Bespoke.Sph.Domain
             return item;
         }
 
+        public static string ToJson<T>(this T value)
+        {
+            var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            setting.Formatting = Formatting.Indented;
+            return JsonConvert.SerializeObject(value, setting);
+        }
+
 
         /// <summary>
         /// 

@@ -7,6 +7,27 @@ using Bespoke.Sph.Domain;
 
 namespace domain.test.reports
 {
+    class ReadonlyRepository<T> : IReadonlyRepository<T> where T : Entity
+    {
+
+        private readonly Dictionary<string, T> m_dictionary = new Dictionary<string, T>();
+
+        public void AddToDictionary(string query, T data)
+        {
+            m_dictionary.Add(query, data);
+        }
+        public void Clear()
+        {
+            m_dictionary.Clear();
+        }
+
+
+        public Task<LoadData<T>> LoadOneAsync(string id)
+        {
+            var lo = new LoadData<T>(m_dictionary[id], "1");
+            return Task.FromResult(lo);
+        }
+    }
     class MockRepository<T> : IRepository<T> where T : Entity
     {
 

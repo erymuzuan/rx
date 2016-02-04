@@ -288,11 +288,11 @@ namespace domain.test.entities
 
         private dynamic AddMockRespository(Type edType)
         {
-            var mock = typeof(MockRepository<>);
+            var mock = typeof(ReadonlyRepository<>);
             var reposType = mock.MakeGenericType(edType);
             var repository = Activator.CreateInstance(reposType);
 
-            var ff = typeof(IRepository<>).MakeGenericType(edType);
+            var ff = typeof(IReadonlyRepository<>).MakeGenericType(edType);
 
             ObjectBuilder.AddCacheList(ff, repository);
 
@@ -306,10 +306,11 @@ namespace domain.test.entities
             {
                 Name = "SendToMortuary",
                 Resource = "patients",
-                Entity = "PatientWithConflictDetection",
+                Entity = "Patient",
                 Route = "{id:guid}/release-with-conflict-detection",
                 IsHttpPatch = true,
                 WebId = "1",
+                Id = "send-to-moruary",
                 IsConflictDetectionEnabled = true
             };
 
@@ -326,7 +327,6 @@ namespace domain.test.entities
             patient.Id = "0142ae18-a205-4979-9218-39f92b41589e";
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
-
             var cr = await mortuary.CompileAsync(ed);
             Assert.IsTrue(cr.Result, cr.ToString());
 
@@ -342,23 +342,10 @@ namespace domain.test.entities
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
-            context.Request.Headers.Add("If-None-Matched", "45");
-
+            context.Request.Headers.Add("If-None-Match", "45");
             var result = await controller.PatchSendToMortuary(patient.Id, JsonSerializerService.ToJsonString(patient, true));
-            Console.WriteLine("Result type : " + result);
             Assert.IsNotNull(result);
             Assert.AreEqual(409, context.Response.StatusCode);
-
-
-            dynamic vr = result.Data;
-            var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
-            StringAssert.Contains("\"success\": false", ttt);
-            Console.WriteLine();
-            //Assert.IsFalse(vr.success);
-            //Assert.AreEqual(3, vr.rules.Length);
-            File.Delete(jsonPath);
-            File.Delete(oePath);
-
         }
 
         [Test]
