@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
@@ -45,7 +46,6 @@ namespace Bespoke.Sph.Domain
                 }}}}");
             }
             var operations = string.Join(",", links);
-
             code.Append($@"
             var url = $""{ConfigurationManager.ApplicationName.ToLower()}/{ed.Name.ToLower()}/{{id}}"";
 
@@ -61,11 +61,30 @@ namespace Bespoke.Sph.Domain
 
                 var esResponseString = await content.ReadAsStringAsync();
                 var esJson = JObject.Parse(esResponseString);
+                var version = esJson.SelectToken(""$._version"").Value<string>();
+                var changedDate = esJson.SelectToken(""$._source.ChangedDate"").Value<DateTime>();
+
+                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(600));
+                this.Response.Cache.SetETag(version);
+                this.Response.AppendHeader(""ETag"", version);
+                this.Response.Cache.SetLastModified(changedDate);
+
+                DateTime modifiedSince;
+                if (DateTime.TryParse(this.Request.Headers[""If-Modified-Since""], out modifiedSince))
+                {{
+                    if(modifiedSince.ToString() == changedDate.ToString())
+                    {{
+                        this.Response.StatusCode = 304;
+                        return Content(string.Empty,""application/json; charset=utf-8"");
+                    }}
+                }}
                 
                 var source = esJson.SelectToken(""$._source"");
                 var links = JArray.Parse($@""[{operations}]""); 
+
                 var link = new JProperty(""_links"", links);
                 source.Last.AddAfterSelf(link);
+
                 return Content(source.ToString(), ""application/json; charset=utf-8"");
             }}
             ");

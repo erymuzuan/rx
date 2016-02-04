@@ -15,10 +15,10 @@ namespace Bespoke.Sph.Web.Controllers
     {
         private ActionResult GetResource(string id, string folder)
         {
+            
             var contentType = MimeMapping.GetMimeMapping(Path.GetExtension(id) ?? ".txt");
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = $"Bespoke.Sph.Web.{folder}.{id}";
-
             var raw = this.Request.RawUrl;
             if (raw.StartsWith("/~"))
                 raw = raw.Remove(0, 1);
