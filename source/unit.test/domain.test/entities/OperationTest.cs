@@ -97,7 +97,8 @@ namespace domain.test.entities
             {
                 Name = "DeathDateTime",
                 TypeName = "System.DateTime, mscorlib",
-                IsFilterable = true
+                IsFilterable = true,
+                IsNullable = true
             });
             ent.MemberCollection.Add(new SimpleMember
             {
@@ -305,12 +306,14 @@ namespace domain.test.entities
             {
                 Name = "SendToMortuary",
                 Resource = "patients",
-                Entity = "PatientWithConflicDetection",
+                Entity = "PatientWithConflictDetection",
                 Route = "{id:guid}/release-with-conflict-detection",
                 IsHttpPatch = true,
                 WebId = "1",
                 IsConflictDetectionEnabled = true
             };
+
+            mortuary.PatchPathCollection.Add(new PatchSetter { Path = "DeathDateTime", IsRequired = true });
 
             var ed = this.CreatePatientDefinition(mortuary.Entity);
             string jsonPath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{ed.Id}.json";
@@ -320,7 +323,7 @@ namespace domain.test.entities
 
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
-            patient.Id = Guid.NewGuid().ToString();
+            patient.Id = "0142ae18-a205-4979-9218-39f92b41589e";
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
 
@@ -335,16 +338,18 @@ namespace domain.test.entities
 
             var controllerType = oedll.GetType($"{mortuary.CodeNamespace}.{mortuary.Name}Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
-            var response = MvcControllerHelper.SetContext(controller);
+            var context = ((Controller)controller).SetContext();
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
-
+            context.Request.Headers.Add("If-None-Matched", "45");
 
             var result = await controller.PatchSendToMortuary(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
             Assert.IsNotNull(result);
-            Assert.AreEqual(409, response.StatusCode);
+            Assert.AreEqual(409, context.Response.StatusCode);
+
+
             dynamic vr = result.Data;
             var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
             StringAssert.Contains("\"success\": false", ttt);

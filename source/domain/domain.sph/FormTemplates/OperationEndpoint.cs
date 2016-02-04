@@ -193,8 +193,36 @@ namespace Bespoke.Sph.Domain
         {
             if (!this.IsConflictDetectionEnabled) return string.Empty;
             var code = new StringBuilder();
+
+            code.Append($@"
+            var url = $""{ConfigurationManager.ApplicationName.ToLower()}/{m_entityDefinition.Name.ToLower()}/{{id}}"";
+            var ed = CacheManager.Get<EntityDefinition>(""{m_entityDefinition.Id}"");
+            if(null == ed)
+            {{
+                ed = EntityDefinitionSource.DeserializeFromJsonFile<EntityDefinition>();
+                CacheManager.Insert(""{m_entityDefinition.Id}"", ed, EntityDefinitionSource);
+            }}
+            var setting = await ed.ServiceContract.LoadSettingAsync(ed.Name);
+            
+            var esResponseString = string.Empty;
+            using(var client = new HttpClient())
+            {{
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                var response = await client.GetAsync(url);
+                if(response.StatusCode == HttpStatusCode.NotFound)
+                    return HttpNotFound(""Cannot find any {m_entityDefinition.Name} with Id "" + id);
+
+                var content = response.Content as StreamContent;
+                if (null == content) throw new Exception(""Cannot execute query on es "" );
+                esResponseString = await content.ReadAsStringAsync();
+            }}
+            var esJson = JObject.Parse(esResponseString);
+            var version = esJson.SelectToken(""$._version"").Value<string>();
+            var changedDate = esJson.SelectToken(""$._source.ChangedDate"").Value<DateTime>();");
+
             code.Append(
-                $@"            
+                $@"        
+                DateTime modifiedSince;    
                 if (DateTime.TryParse(this.Request.Headers[""If-Modified-Since""], out modifiedSince))
                 {{
                     if(modifiedSince.ToString() != changedDate.ToString())

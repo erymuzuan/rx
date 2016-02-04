@@ -10,22 +10,22 @@ namespace domain.test
 {
     public static class MvcControllerHelper
     {
-        public static HttpResponse SetContext(this Controller controller)
+        public static HttpContextWrapper SetContext(this Controller controller, string route = "", string queryString = "", string url = "http://localhost:4436/")
         {
-            var request = new HttpRequest("", "http://example.com/", "");
+            var request = new HttpRequest(route, url, queryString);
             var response = new HttpResponse(TextWriter.Null);
             var httpContext = new HttpContextWrapper(new HttpContext(request, response));
             controller.ControllerContext = new ControllerContext(httpContext, new RouteData(), controller);
 
-            return response;
+            return httpContext;
         }
 
         public static dynamic CreateController(this Assembly dll, string controllerTypeName)
         {
             var controllerType = dll.GetType(controllerTypeName);
-            if(null == controllerType)
+            if (null == controllerType)
                 throw new ArgumentException("Cannot find the type " + controllerTypeName + " in " + dll);
-            if(!typeof(Controller).IsAssignableFrom(controllerType))
+            if (!typeof(Controller).IsAssignableFrom(controllerType))
                 throw new InvalidOperationException($"{0} is not assignable from System.Web.Mvc.Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
             MvcControllerHelper.SetContext(controller);
