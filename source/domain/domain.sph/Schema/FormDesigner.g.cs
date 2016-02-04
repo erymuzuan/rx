@@ -7992,6 +7992,253 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class ServiceContractSetting
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private ResourceEndpointSetting m_resourceEndpointSetting
+                = new ResourceEndpointSetting();
+
+        public const string PropertyNameResourceEndpointSetting = "ResourceEndpointSetting";
+        [DebuggerHidden]
+
+        public ResourceEndpointSetting ResourceEndpointSetting
+        {
+            get { return m_resourceEndpointSetting; }
+            set
+            {
+                m_resourceEndpointSetting = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private OdataEndpoint m_odataEndpoint
+                = new OdataEndpoint();
+
+        public const string PropertyNameOdataEndpoint = "OdataEndpoint";
+        [DebuggerHidden]
+
+        public OdataEndpoint OdataEndpoint
+        {
+            get { return m_odataEndpoint; }
+            set
+            {
+                m_odataEndpoint = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private SearchEndpointSetting m_searchEndpointSetting
+                = new SearchEndpointSetting();
+
+        public const string PropertyNameSearchEndpointSetting = "SearchEndpointSetting";
+        [DebuggerHidden]
+
+        public SearchEndpointSetting SearchEndpointSetting
+        {
+            get { return m_searchEndpointSetting; }
+            set
+            {
+                m_searchEndpointSetting = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class ResourceEndpointSetting
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private CachingSetting m_cachingSetting
+                = new CachingSetting();
+
+        public const string PropertyNameCachingSetting = "CachingSetting";
+        [DebuggerHidden]
+
+        public CachingSetting CachingSetting
+        {
+            get { return m_cachingSetting; }
+            set
+            {
+                m_cachingSetting = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class SearchEndpointSetting
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private CachingSetting m_cachingSetting
+                = new CachingSetting();
+
+        public const string PropertyNameCachingSetting = "CachingSetting";
+        [DebuggerHidden]
+
+        public CachingSetting CachingSetting
+        {
+            get { return m_cachingSetting; }
+            set
+            {
+                m_cachingSetting = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class OdataEndpointSetting
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private CachingSetting m_cachingSetting
+                = new CachingSetting();
+
+        public const string PropertyNameCachingSetting = "CachingSetting";
+        [DebuggerHidden]
+
+        public CachingSetting CachingSetting
+        {
+            get { return m_cachingSetting; }
+            set
+            {
+                m_cachingSetting = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class CachingSetting
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_cacheControl;
+        public const string PropertyNameCacheControl = "CacheControl";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_noStore;
+        public const string PropertyNameNoStore = "NoStore";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_expires;
+        public const string PropertyNameExpires = "Expires";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string CacheControl
+        {
+            set
+            {
+                if (String.Equals(m_cacheControl, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCacheControl, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_cacheControl = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_cacheControl;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool NoStore
+        {
+            set
+            {
+                if (m_noStore == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNoStore, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_noStore = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_noStore;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? Expires
+        {
+            set
+            {
+                if (m_expires == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameExpires, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_expires = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_expires; }
+        }
+
+
+    }
+
 
     public partial class FormElement
     {

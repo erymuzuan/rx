@@ -1000,4 +1000,43 @@
 			<xs:attribute name="IsAllowed" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ServiceContractSetting">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="ResourceEndpointSetting"/>
+				<xs:element ref="OdataEndpoint"/>
+				<xs:element ref="SearchEndpointSetting"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ResourceEndpointSetting">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="CachingSetting"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SearchEndpointSetting">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="CachingSetting"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OdataEndpointSetting">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="CachingSetting"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CachingSetting">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Expires" type="xs:int" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="CacheControl" type="xs:string" use="required"/>
+			<xs:attribute name="NoStore" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

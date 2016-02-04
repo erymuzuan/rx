@@ -26,6 +26,11 @@ namespace domain.test.entities
             m_ds = new Mock<IDirectoryService>(MockBehavior.Strict);
             ObjectBuilder.AddCacheList(m_ds.Object);
 
+            var cacheManager = new Mock<ICacheManager>();
+            cacheManager.Setup(x => x.Get<ServiceContractSetting>(It.IsAny<string>()))
+                .Returns(new ServiceContractSetting());
+            ObjectBuilder.AddCacheList(cacheManager.Object);
+
             m_vodRepo = new Mock<IRepository<ValueObjectDefinition>>(MockBehavior.Strict);
 
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\";
@@ -57,18 +62,30 @@ namespace domain.test.entities
         [Test]
         public async Task GenerateGetOneByIdTest()
         {
-            var patient  = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
+            var patient = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
             patient.ServiceContract.EntityResourceEndpoint.IsAllowed = true;
-            
+
             var cr = await patient.ServiceContract.CompileAsync(patient);
             Assert.IsTrue(cr.Result, cr.ToString());
-            
+
         }
+        [Test]
+        public async Task SaveSetting()
+        {
+            var patient = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
+            var setting = await patient.ServiceContract.LoadSettingAsync(patient.Name);
+            setting.ResourceEndpointSetting.CachingSetting.CacheControl = "Public";
+            setting.ResourceEndpointSetting.CachingSetting.Expires = 300;
+
+            await patient.ServiceContract.SaveSetttingAsync(setting, patient.Name);
+        }
+
+
         [Test]
         public async Task GenerateSearch()
         {
             var patient = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
-            patient.ServiceContract.FullSearchEndpoint.IsAllowed =true;
+            patient.ServiceContract.FullSearchEndpoint.IsAllowed = true;
             patient.ServiceContract.EntityResourceEndpoint.IsAllowed = true;
             patient.ServiceContract.OdataEndpoint.IsAllowed = true;
 

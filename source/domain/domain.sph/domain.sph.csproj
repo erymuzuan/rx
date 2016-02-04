@@ -305,6 +305,7 @@
     <Compile Include="FormTemplates\SectionFormElement.cs" />
     <Compile Include="FormTemplates\Series.cs" />
     <Compile Include="FormTemplates\ServiceContract.cs" />
+    <Compile Include="FormTemplates\ServiceContractSetting.cs" />
     <Compile Include="FormTemplates\SimpleMember.cs" />
     <Compile Include="FormTemplates\SimpleMember.es.cs" />
     <Compile Include="FormTemplates\Sort.cs" />

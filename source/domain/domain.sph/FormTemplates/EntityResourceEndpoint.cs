@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
@@ -46,8 +45,17 @@ namespace Bespoke.Sph.Domain
                 }}}}");
             }
             var operations = string.Join(",", links);
+            code.Append($@"");
             code.Append($@"
             var url = $""{ConfigurationManager.ApplicationName.ToLower()}/{ed.Name.ToLower()}/{{id}}"";
+            var ed = CacheManager.Get<EntityDefinition>(""{ed.Id}"");
+            if(null == ed)
+            {{
+                ed = EntityDefinitionSource.DeserializeFromJsonFile<EntityDefinition>();
+                CacheManager.Insert(""{ed.Id}"", ed, EntityDefinitionSource);
+            }}
+            var setting = await ed.ServiceContract.LoadSettingAsync(ed.Name);
+            
 
             using(var client = new HttpClient())
             {{
@@ -64,7 +72,15 @@ namespace Bespoke.Sph.Domain
                 var version = esJson.SelectToken(""$._version"").Value<string>();
                 var changedDate = esJson.SelectToken(""$._source.ChangedDate"").Value<DateTime>();
 
-                this.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(600));
+                var cacheSetting = setting.ResourceEndpointSetting.CachingSetting;
+                if(cacheSetting.Expires.HasValue)
+                    this.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(cacheSetting.Expires.Value));
+                if(cacheSetting.NoStore)
+                    this.Response.Cache.SetNoStore();
+                if(!string.IsNullOrWhiteSpace(cacheSetting.CacheControl))
+                    this.Response.Cache.SetCacheability((HttpCacheability)Enum.Parse(typeof(HttpCacheability), cacheSetting.CacheControl));
+
+
                 this.Response.Cache.SetETag(version);
                 this.Response.AppendHeader(""ETag"", version);
                 this.Response.Cache.SetLastModified(changedDate);
@@ -75,9 +91,16 @@ namespace Bespoke.Sph.Domain
                     if(modifiedSince.ToString() == changedDate.ToString())
                     {{
                         this.Response.StatusCode = 304;
-                        return Content(string.Empty,""application/json; charset=utf-8"");
+                        return Content(string.Empty,""application/json; charset=utf-8"");                        
                     }}
                 }}
+                
+                if (this.Request.Headers[""If-None-Match""] == version)
+                {{
+                    this.Response.StatusCode = 304;
+                    return Content(string.Empty,""application/json; charset=utf-8"");
+                }}
+                
                 
                 var source = esJson.SelectToken(""$._source"");
                 var links = JArray.Parse($@""[{operations}]""); 

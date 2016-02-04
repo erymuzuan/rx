@@ -11,7 +11,6 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 
@@ -19,6 +18,34 @@ namespace Bespoke.Sph.Domain
 {
     public partial class ServiceContract : DomainObject
     {
+        public Task<ServiceContractSetting> LoadSettingAsync(string entity)
+        {
+            if (string.IsNullOrWhiteSpace(entity)) throw new ArgumentNullException(nameof(entity), "Please set the Entity name for the Service contract");
+
+            var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
+            var key = $"setting:{entity}";
+            var setting = cacheManager.Get<ServiceContractSetting>(key);
+            if (null != setting) return Task.FromResult(setting);
+
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{entity}.service-contract.setting.json";
+            setting = File.Exists(source) ? File.ReadAllText(source).DeserializeFromJson<ServiceContractSetting>()
+                : new ServiceContractSetting();
+            cacheManager.Insert(key, setting, source);
+
+            return Task.FromResult(setting);
+        }
+        public Task SaveSetttingAsync(ServiceContractSetting setting, string entity)
+        {
+            if (string.IsNullOrWhiteSpace(entity)) throw new ArgumentNullException(nameof(entity), "Please set the Entity name for the Service contract");
+            var cacheManager = ObjectBuilder.GetObject<ICacheManager>();
+            var key = $"setting:{entity}";
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{entity}.service-contract.setting.json";
+            File.WriteAllText(source, setting.ToJsonString(true));
+            cacheManager.Insert(key, setting, source);
+
+            return Task.FromResult(0);
+        }
+
         private readonly string[] m_importDirectives =
        {
             typeof(Entity).Namespace,
@@ -28,6 +55,7 @@ namespace Bespoke.Sph.Domain
             typeof(Enumerable).Namespace ,
             typeof(SqlCommand).Namespace,
             typeof(StringBuilder).Namespace,
+            "System.Web",
             "System.Web.Mvc",
             "Bespoke.Sph.Web.Api",
             "Bespoke.Sph.Web.Helpers"
@@ -38,7 +66,7 @@ namespace Bespoke.Sph.Domain
             m_entityDefinition = entityDefinition;
 
             var controller = this.GenerateController();
-            var source = controller.Save($"{nameof(EntityDefinition)}.{nameof(ServiceContract)}.{m_entityDefinition.Name}.cs");
+            var source = controller.Save($"ServiceContract.{entityDefinition.Name}");
 
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
