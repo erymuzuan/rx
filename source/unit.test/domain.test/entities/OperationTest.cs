@@ -299,6 +299,64 @@ namespace domain.test.entities
         }
 
         [Test]
+        public async Task ConflictDetection()
+        {
+            var mortuary = new OperationEndpoint
+            {
+                Name = "SendToMortuary",
+                Resource = "patients",
+                Entity = "PatientWithConflicDetection",
+                Route = "{id:guid}/release-with-conflict-detection",
+                IsHttpPatch = true,
+                WebId = "1",
+                IsConflictDetectionEnabled = true
+            };
+
+            var ed = this.CreatePatientDefinition(mortuary.Entity);
+            string jsonPath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{ed.Id}.json";
+            string oePath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}\\{mortuary.Id}.json";
+            File.WriteAllText(jsonPath, ed.ToJsonString(true));
+            File.WriteAllText(oePath, mortuary.ToJsonString(true));
+
+            var patient = this.CreateInstance(ed, true);
+            Assert.IsNotNull(patient);
+            patient.Id = Guid.NewGuid().ToString();
+            patient.DeathDateTime = DateTime.Today.AddDays(1);
+
+
+            var cr = await mortuary.CompileAsync(ed);
+            Assert.IsTrue(cr.Result, cr.ToString());
+
+            Type patientType = patient.GetType();
+            var oedll = Assembly.LoadFrom(cr.Output);
+
+            var repos = AddMockRespository(patientType);
+            repos.AddToDictionary(patient.Id, patient);
+
+            var controllerType = oedll.GetType($"{mortuary.CodeNamespace}.{mortuary.Name}Controller");
+            dynamic controller = Activator.CreateInstance(controllerType);
+            var response = MvcControllerHelper.SetContext(controller);
+
+            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
+
+
+
+            var result = await controller.PatchSendToMortuary(patient.Id, JsonSerializerService.ToJsonString(patient, true));
+            Console.WriteLine("Result type : " + result);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(409, response.StatusCode);
+            dynamic vr = result.Data;
+            var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
+            StringAssert.Contains("\"success\": false", ttt);
+            Console.WriteLine();
+            //Assert.IsFalse(vr.success);
+            //Assert.AreEqual(3, vr.rules.Length);
+            File.Delete(jsonPath);
+            File.Delete(oePath);
+
+        }
+
+        [Test]
         public async Task PatchReleaseOperationWithBusinessRule()
         {
             var release = new OperationEndpoint

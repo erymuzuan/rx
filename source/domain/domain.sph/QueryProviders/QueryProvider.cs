@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Domain.QueryProviders {
         IQueryable IQueryProvider.CreateQuery(Expression expression) {
             Type elementType = TypeSystem.GetElementType(expression.Type);
             try {
-                return (IQueryable)Activator.CreateInstance(typeof(Query<>).MakeGenericType(elementType), new object[] { this, expression });
+                return (IQueryable)Activator.CreateInstance(typeof(Query<>).MakeGenericType(elementType), this, expression);
             }
             catch (TargetInvocationException tie) {
                 throw tie.InnerException;
@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Domain.QueryProviders {
 
         public Query(QueryProvider provider) {
             if (provider == null) {
-                throw new ArgumentNullException("provider");
+                throw new ArgumentNullException(nameof(provider));
             }
             this.m_provider = provider;
             this.m_expression = Expression.Constant(this);
@@ -54,29 +54,23 @@ namespace Bespoke.Sph.Domain.QueryProviders {
 
         public Query(QueryProvider provider, Expression expression) {
             if (provider == null) {
-                throw new ArgumentNullException("provider");
+                throw new ArgumentNullException(nameof(provider));
             }
             if (expression == null) {
-                throw new ArgumentNullException("expression");
+                throw new ArgumentNullException(nameof(expression));
             }
             if (!typeof(IQueryable<T>).IsAssignableFrom(expression.Type)) {
-                throw new ArgumentOutOfRangeException("expression");
+                throw new ArgumentOutOfRangeException(nameof(expression));
             }
             this.m_provider = provider; 
             this.m_expression = expression;
         }
 
-        Expression IQueryable.Expression {
-            get { return this.m_expression; }
-        }
+        Expression IQueryable.Expression => this.m_expression;
 
-        Type IQueryable.ElementType {
-            get { return typeof(T); }
-        }
+        Type IQueryable.ElementType => typeof(T);
 
-        IQueryProvider IQueryable.Provider {
-            get { return this.m_provider; }
-        }
+        IQueryProvider IQueryable.Provider => this.m_provider;
 
         public IEnumerator<T> GetEnumerator() {
             return ((IEnumerable<T>)this.m_provider.Execute(this.m_expression)).GetEnumerator();

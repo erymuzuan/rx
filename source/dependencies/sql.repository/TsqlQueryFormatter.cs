@@ -8,9 +8,9 @@ namespace Bespoke.Sph.SqlRepository
 {
     internal class TsqlQueryFormatter : DbExpressionVisitor
     {
-        StringBuilder m_sb;
-        int m_indent = 2;
-        int m_depth;
+        private StringBuilder m_sb;
+        private int m_indent = 2;
+        private int m_depth;
 
         internal string Format(Expression expression)
         {
@@ -68,7 +68,7 @@ namespace Bespoke.Sph.SqlRepository
                 //propertyName = propEx01.Member.Name;
 
                 // property expression is an internal class
-                var ob = string.Format("{0}", expression);
+                var ob = $"{expression}";
                 var cutoff = ob.LastIndexOf("}", StringComparison.Ordinal) + 2;
                 propertyName01 = (ob.Substring(cutoff, ob.Length - cutoff)).Replace(".", "");
             }
@@ -80,7 +80,7 @@ namespace Bespoke.Sph.SqlRepository
             // local collection should do SELECT * FROM Table WHERE Column IN (1,2,3)
             if (m.Method.Name == "Contains" && m.Object == null && m.Arguments.Count == 2)
             {
-                string propertyName01 = GetPropertyName(m.Arguments[1]);
+                var propertyName01 = GetPropertyName(m.Arguments[1]);
                 m_sb.AppendFormat(" [{0}] IN(", propertyName01);
 
                 if (m.Arguments[0].Type == typeof(string[]))
@@ -107,13 +107,13 @@ namespace Bespoke.Sph.SqlRepository
             }
 
             var method = m.Method;
-            string propertyName = GetPropertyName(m.Object);
+            var propertyName = GetPropertyName(m.Object);
 
             switch (method.Name)
             {
                 case "Count":
                 case "Distinct":
-                    m_sb.Append("Fuck count");
+                    m_sb.Append("DISTINCT function is not supported");
                     return m;
                 case "StartsWith":
                     m_sb.Append("(");
@@ -139,7 +139,7 @@ namespace Bespoke.Sph.SqlRepository
                     this.Visit(m.Arguments[0]);
                     m_sb.Append(")");
                     return m;
-                default: throw new NotSupportedException(string.Format("The method '{0}' is not supported", m.Method.Name));
+                default: throw new NotSupportedException($"The method '{m.Method.Name}' is not supported");
 
             }
         }
@@ -156,7 +156,7 @@ namespace Bespoke.Sph.SqlRepository
                     this.Visit(u.Operand);
                     break;
                 default:
-                    throw new NotSupportedException(string.Format("The unary operator '{0}' is not supported", u.NodeType));
+                    throw new NotSupportedException($"The unary operator '{u.NodeType}' is not supported");
             }
             return u;
         }
@@ -215,7 +215,7 @@ namespace Bespoke.Sph.SqlRepository
                     m_sb.Append(" OR ");
                     break;
                 default:
-                    throw new NotSupportedException(string.Format("The binary operator '{0}' is not supported", b.NodeType));
+                    throw new NotSupportedException($"The binary operator '{b.NodeType}' is not supported");
             }
             this.Visit(b.Right);
 
@@ -250,7 +250,7 @@ namespace Bespoke.Sph.SqlRepository
                         m_sb.Append("'");
                         break;
                     case TypeCode.Object:
-                        throw new NotSupportedException(string.Format("The constant for '{0}' is not supported", c.Value));
+                        throw new NotSupportedException($"The constant for '{c.Value}' is not supported");
                     default:
                         m_sb.Append(c.Value);
                         break;

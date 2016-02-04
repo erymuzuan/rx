@@ -5009,6 +5009,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsPublished = "IsPublished";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isConflictDetectionEnabled;
+        public const string PropertyNameIsConflictDetectionEnabled = "IsConflictDetectionEnabled";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -5293,6 +5298,32 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isPublished;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsConflictDetectionEnabled
+        {
+            set
+            {
+                if (m_isConflictDetectionEnabled == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsConflictDetectionEnabled, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isConflictDetectionEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isConflictDetectionEnabled;
             }
         }
 

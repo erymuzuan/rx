@@ -129,6 +129,8 @@ namespace Bespoke.Sph.Domain
             if(null == item) return HttpNotFound(""Cannot find any {ed.Name} with Id "" + id);
 
             var jo = JObject.Parse(body);");
+            
+            patch.Append(this.GenerateConflicDetectionCode());
 
             patch.AppendLine("");
             patch.AppendLine("var missingValues = new List<string>();");
@@ -186,6 +188,31 @@ namespace Bespoke.Sph.Domain
 
             return patch;
         }
+
+        private string GenerateConflicDetectionCode()
+        {
+            if (!this.IsConflictDetectionEnabled) return string.Empty;
+            var code = new StringBuilder();
+            code.Append(
+                $@"            
+                if (DateTime.TryParse(this.Request.Headers[""If-Modified-Since""], out modifiedSince))
+                {{
+                    if(modifiedSince.ToString() != changedDate.ToString())
+                    {{
+                        this.Response.StatusCode = 409;
+                        return Content(string.Empty,""application/json; charset=utf-8"");                        
+                    }}
+                }}
+                
+                if (this.Request.Headers[""If-None-Match""] != version)
+                {{
+                    this.Response.StatusCode = 409;
+                    return Content(""Your message version is in conflict state"",""application/json; charset=utf-8"");
+                }}
+                ");
+            return code.ToString();
+        }
+
         public Method GeneratePutAction(EntityDefinition ed)
         {
             if (!IsHttpPut) return null;

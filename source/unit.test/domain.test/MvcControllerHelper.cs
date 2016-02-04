@@ -10,12 +10,14 @@ namespace domain.test
 {
     public static class MvcControllerHelper
     {
-        public static void SetContext(this Controller controller)
+        public static HttpResponse SetContext(this Controller controller)
         {
             var request = new HttpRequest("", "http://example.com/", "");
             var response = new HttpResponse(TextWriter.Null);
             var httpContext = new HttpContextWrapper(new HttpContext(request, response));
             controller.ControllerContext = new ControllerContext(httpContext, new RouteData(), controller);
+
+            return response;
         }
 
         public static dynamic CreateController(this Assembly dll, string controllerTypeName)

@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Domain
             }}
             var setting = await ed.ServiceContract.LoadSettingAsync(ed.Name);
             
-
+            var esResponseString = string.Empty;
             using(var client = new HttpClient())
             {{
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
@@ -66,50 +66,49 @@ namespace Bespoke.Sph.Domain
 
                 var content = response.Content as StreamContent;
                 if (null == content) throw new Exception(""Cannot execute query on es "" );
+                esResponseString = await content.ReadAsStringAsync();
+            }}
+            var esJson = JObject.Parse(esResponseString);
+            var version = esJson.SelectToken(""$._version"").Value<string>();
+            var changedDate = esJson.SelectToken(""$._source.ChangedDate"").Value<DateTime>();
 
-                var esResponseString = await content.ReadAsStringAsync();
-                var esJson = JObject.Parse(esResponseString);
-                var version = esJson.SelectToken(""$._version"").Value<string>();
-                var changedDate = esJson.SelectToken(""$._source.ChangedDate"").Value<DateTime>();
-
-                var cacheSetting = setting.ResourceEndpointSetting.CachingSetting;
-                if(cacheSetting.Expires.HasValue)
-                    this.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(cacheSetting.Expires.Value));
-                if(cacheSetting.NoStore)
-                    this.Response.Cache.SetNoStore();
-                if(!string.IsNullOrWhiteSpace(cacheSetting.CacheControl))
-                    this.Response.Cache.SetCacheability((HttpCacheability)Enum.Parse(typeof(HttpCacheability), cacheSetting.CacheControl));
+            var cacheSetting = setting.ResourceEndpointSetting.CachingSetting;
+            if(cacheSetting.Expires.HasValue)
+                this.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(cacheSetting.Expires.Value));
+            if(cacheSetting.NoStore)
+                this.Response.Cache.SetNoStore();
+            if(!string.IsNullOrWhiteSpace(cacheSetting.CacheControl))
+                this.Response.Cache.SetCacheability((HttpCacheability)Enum.Parse(typeof(HttpCacheability), cacheSetting.CacheControl));
 
 
-                this.Response.Cache.SetETag(version);
-                this.Response.AppendHeader(""ETag"", version);
-                this.Response.Cache.SetLastModified(changedDate);
+            this.Response.Cache.SetETag(version);
+            this.Response.AppendHeader(""ETag"", version);
+            this.Response.Cache.SetLastModified(changedDate);
 
-                DateTime modifiedSince;
-                if (DateTime.TryParse(this.Request.Headers[""If-Modified-Since""], out modifiedSince))
-                {{
-                    if(modifiedSince.ToString() == changedDate.ToString())
-                    {{
-                        this.Response.StatusCode = 304;
-                        return Content(string.Empty,""application/json; charset=utf-8"");                        
-                    }}
-                }}
-                
-                if (this.Request.Headers[""If-None-Match""] == version)
+            DateTime modifiedSince;
+            if (DateTime.TryParse(this.Request.Headers[""If-Modified-Since""], out modifiedSince))
+            {{
+                if(modifiedSince.ToString() == changedDate.ToString())
                 {{
                     this.Response.StatusCode = 304;
-                    return Content(string.Empty,""application/json; charset=utf-8"");
+                    return Content(string.Empty,""application/json; charset=utf-8"");                        
                 }}
+            }}
+                
+            if (this.Request.Headers[""If-None-Match""] == version)
+            {{
+                this.Response.StatusCode = 304;
+                return Content(string.Empty,""application/json; charset=utf-8"");
+            }}
                 
                 
-                var source = esJson.SelectToken(""$._source"");
-                var links = JArray.Parse($@""[{operations}]""); 
+            var source = esJson.SelectToken(""$._source"");
+            var links = JArray.Parse($@""[{operations}]""); 
 
-                var link = new JProperty(""_links"", links);
-                source.Last.AddAfterSelf(link);
+            var link = new JProperty(""_links"", links);
+            source.Last.AddAfterSelf(link);
 
                 return Content(source.ToString(), ""application/json; charset=utf-8"");
-            }}
             ");
 
 
