@@ -1,81 +1,65 @@
 ﻿using System;
+using System.Collections.Generic;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
-using NUnit.Framework;
+using Xunit;
 
 
 namespace domain.test.triggers
 {
-    [TestFixture]
-    class FunctionFieldTest
+    [Trait("Category", "Fields")]
+    public class FunctionFieldTest
     {
-        [SetUp]
-        public void Setup()
+        public FunctionFieldTest()
         {
-
             var script = new RoslynScriptEngine();
             ObjectBuilder.AddCacheList<IScriptEngine>(script);
         }
 
-        [Test]
-        public void FuctionDateTimeValue()
+        public static IEnumerable<object[]> ScriptRuleContextData
         {
-            var building = new FunctionField { Script = "DateTime.Today", ScriptEngine = new RoslynScriptEngine() };
-
-            var result = building.GetValue(new RuleContext(new Designation()));
-            Assert.AreEqual(DateTime.Today, result);
+            get
+            {
+                yield return new object[] { "DateTime.Today", DateTime.Today };
+                yield return new object[] { "decimal.Zero", 0m};
+            }
         }
 
-        [Test]
-        public void DocumentFieldEqFunction()
+        [Theory]
+        [InlineData("1 + 2 ", 3)]
+        [InlineData("\"Erymuzuan\" + \" Mustapa\" ", "Erymuzuan Mustapa")]
+        [MemberData("ScriptRuleContextData")]
+        public void ScriptRuleContext(string script, object expected)
+        {
+            var building = new FunctionField { Script = script, ScriptEngine = new RoslynScriptEngine() };
+
+            var result = building.GetValue(new RuleContext(new Designation()));
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("CreatedDate", typeof(DateTime), "return DateTime.Today;")]
+        [InlineData("ChangedDate", typeof(DateTime), "DateTime.Today.AddDays(-10)")]
+        [InlineData("Id", typeof(string), "\"abc\"")]
+        [InlineData("CreatedDate", typeof(DateTime), "return item.CreatedDate;")]
+        public void DocumentFieldEqFunction(string member, Type type, string script)
         {
             dynamic customer = this.GetCustomerInstance();
             customer.CreatedDate = DateTime.Today;
+            customer.ChangedDate = DateTime.Today.AddDays(-10);
+            customer.Id = "abc";
 
             var rule = new Rule
             {
-                Left = new DocumentField { Path = "CreatedDate", Type = typeof(DateTime) },
+                Left = new DocumentField { Path = member, Type = type },
                 Operator = Operator.Eq,
-                Right = new FunctionField { Script = "return DateTime.Today;" }
+                Right = new FunctionField { Script = script }
             };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
-        }
-        [Test]
-        public void DocumentFieldEqFunctionExpression()
-        {
-            dynamic customer = this.GetCustomerInstance();
-            customer.CreatedDate = DateTime.Today.AddDays(-2);
-
-            var rule = new Rule
-            {
-                Left = new DocumentField { Path = "CreatedDate", Type = typeof(DateTime) },
-                Operator = Operator.Eq,
-                Right = new FunctionField { Script = "DateTime.Today.AddDays(-2)" }
-            };
-
-            var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [Test]
-        public void DocumentFieldEqFunctionWithItem()
-        {
-            dynamic customer = this.GetCustomerInstance();
-            customer.CreatedDate = DateTime.Today.AddDays(-2);
-            customer.Id = "1";
-            customer.FullName = "Wan Fatimah";
 
-            var rule = new Rule
-            {
-                Left = new DocumentField { Path = "CreatedDate", Type = typeof(DateTime) },
-                Operator = Operator.Eq,
-                Right = new FunctionField { Script = "Console.WriteLine(item.FullName);return item.CreatedDate;" }
-            };
-
-            var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
-        }
     }
 }
