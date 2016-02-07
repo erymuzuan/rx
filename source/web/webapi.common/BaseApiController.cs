@@ -1,6 +1,5 @@
 using System;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Bespoke.Sph.Domain;
@@ -51,9 +50,9 @@ namespace Bespoke.Sph.WebApi
             return new NotFoundTextPlainActionResult(message, this.Request);
         }
 
-        public IHttpActionResult NotModified()
+        public IHttpActionResult NotModified(CacheMetadata cache)
         {
-            return new NotModifiedResult(this.Request);
+            return new NotModifiedResult(this.Request, cache);
         }
         protected IHttpActionResult Invalid(object content)
         {
@@ -73,7 +72,7 @@ namespace Bespoke.Sph.WebApi
             return response;
         }
 
-        protected IHttpActionResult Json(string json, CacheControlHeaderValue cache = null)
+        protected IHttpActionResult Json(string json, CacheMetadata cache = null)
         {
             return new JsonCachedResult(json, cache);
         }

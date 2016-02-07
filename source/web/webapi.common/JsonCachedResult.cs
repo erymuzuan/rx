@@ -10,10 +10,10 @@ namespace Bespoke.Sph.WebApi
     public class JsonCachedResult : IHttpActionResult
     {
         private readonly string m_json;
-        private readonly CacheControlHeaderValue m_cache;
+        private readonly CacheMetadata m_cache;
         private readonly HttpStatusCode m_statusCode;
 
-        public JsonCachedResult(string json, CacheControlHeaderValue cache = null, HttpStatusCode statusCode = HttpStatusCode.OK)
+        public JsonCachedResult(string json, CacheMetadata cache = null, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             m_json = json;
             m_cache = cache;
@@ -27,10 +27,7 @@ namespace Bespoke.Sph.WebApi
                 Content = new StringContent(m_json)
             };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            if (null != m_cache)
-                response.Headers.CacheControl = m_cache;
-            response.Headers.ETag = new EntityTagHeaderValue("");
-            response.Headers.CacheControl.
+            m_cache?.SetMetadata(response);
             return Task.FromResult(response);
         }
     }

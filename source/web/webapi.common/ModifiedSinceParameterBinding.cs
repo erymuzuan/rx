@@ -17,7 +17,10 @@ namespace Bespoke.Sph.WebApi
             HttpActionContext actionContext, CancellationToken cancellationToken)
         {
             var gmt = actionContext.Request.Headers.IfModifiedSince;
-            actionContext.ActionArguments[Descriptor.ParameterName] = gmt;
+            if (gmt.HasValue)
+                actionContext.ActionArguments[Descriptor.ParameterName] = gmt.Value.LocalDateTime;
+            else
+                actionContext.ActionArguments[Descriptor.ParameterName] = null;
 
             var tsc = new TaskCompletionSource<object>();
             tsc.SetResult(null);

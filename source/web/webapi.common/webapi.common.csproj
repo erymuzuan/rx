@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseApiController.cs" />
+    <Compile Include="CacheMetadata.cs" />
     <Compile Include="DeveloperService.cs" />
     <Compile Include="ETag.cs" />
     <Compile Include="FileResult.cs" />
@@ -90,7 +91,13 @@
     <Compile Include="ModifiedSinceAttribute.cs" />
     <Compile Include="ModifiedSinceParameterBinding.cs" />
     <Compile Include="NotFoundTextPlainActionResult.cs" />
+    <Compile Include="NotModifiedResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <OutputFile Include="$(OutputPath)*.*">
+      <Visible>false</Visible>
+    </OutputFile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -103,11 +110,12 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="CopyOutputDirClientAndWeb">
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);CopyOutputDirClientAndWeb
+    </BuildDependsOn>
+  </PropertyGroup>
 </Project>

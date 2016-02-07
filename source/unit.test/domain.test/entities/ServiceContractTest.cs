@@ -5,7 +5,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Moq;
-using NUnit.Framework.Constraints;
 using Xunit;
 
 namespace domain.test.entities

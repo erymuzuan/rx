@@ -8,7 +8,7 @@ namespace Bespoke.Sph.WebApi
     {
         public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
         {
-            if (parameter.ParameterType == typeof(DateTimeOffset?))
+            if (parameter.ParameterType == typeof(DateTime?))
             {
                 return new ModifiedSinceParameterBinding(parameter);
             }

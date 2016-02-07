@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLine("[HttpGet]");
             code.AppendLine("[Route(\"{id:guid}\")]");
-            code.AppendLine("public async Task<IHttpActionResult> GetOneByIdAsync(string id, [IfNoneMatch]ETag etag, [ModifiedSince]DateTimeOffset? modifiedSince)");
+            code.AppendLine("public async Task<IHttpActionResult> GetOneByIdAsync(string id, [IfNoneMatch]ETag etag, [ModifiedSince]DateTime? modifiedSince)");
             code.AppendLine("{");
 
             var links = new List<string>
@@ -60,28 +60,22 @@ namespace Bespoke.Sph.Domain
             if(null == lo.Source) return NotFound(""Cannot find {ed.Name} with Id "" + id);            
 
             var cacheSetting = setting.ResourceEndpointSetting.CachingSetting;
-            var cache = new CacheControlHeaderValue();
-/*
+            var cache = new CacheMetadata{{Etag = lo.Version ,LastModified = lo.Source.ChangedDate }};
+            cache.NoStore = cacheSetting.NoStore;
+            cache.Public = cacheSetting.CacheControl == ""Public"";
+            cache.Private = cacheSetting.CacheControl == ""Private"";
+            cache.Private = cacheSetting.CacheControl == ""Private"";
             if(cacheSetting.Expires.HasValue)
-                cetExpires(DateTime.UtcNow.AddSeconds(cacheSetting.Expires.Value));
-            if(cacheSetting.NoStore)
-                this.Response.Cache.SetNoStore();
-            if(!string.IsNullOrWhiteSpace(cacheSetting.CacheControl))
-                this.Response.Cache.SetCacheability((HttpCacheability)Enum.Parse(typeof(HttpCacheability), cacheSetting.CacheControl));
+                cache.MaxAge = TimeSpan.FromSeconds(cacheSetting.Expires.Value);
 
-
-            this.Response.Cache.SetETag(lo.Version);
-            this.Response.AppendHeader(""ETag"", lo.Version);
-            this.Response.Cache.SetLastModified(lo.Source.ChangedDate);
-*/           
-            if($""{{modifiedSince}}"" == lo.Source.ChangedDate.ToString())
+            if($""{{modifiedSince:s}}"" == lo.Source.ChangedDate.ToString(""s""))
             {{
-                return NotModified();                      
+                return NotModified(cache);                      
             }}           
                 
-            if (etag.Tag == lo.Version)
+            if (etag?.Tag == $""\""{{lo.Version}}\"""")
             {{
-                return NotModified();   
+                return NotModified(cache);   
             }}
                 
             var source = JObject.Parse(lo.Json ?? lo.Source.ToJson());    
@@ -90,7 +84,7 @@ namespace Bespoke.Sph.Domain
             var link = new JProperty(""_links"", links);
             source.Last.AddAfterSelf(link);
 
-            return Json(source.ToString());
+            return Json(source.ToString(), cache);
             ");
 
 
