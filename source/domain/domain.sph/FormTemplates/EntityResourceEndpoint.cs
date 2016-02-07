@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLine("[HttpGet]");
             code.AppendLine("[Route(\"{id:guid}\")]");
-            code.AppendLine("public async Task<ActionResult> GetOneByIdAsync(string id)");
+            code.AppendLine("public async Task<IHttpActionResult> GetOneByIdAsync(string id, [IfNoneMatch]ETag etag, [ModifiedSince]DateTimeOffset? modifiedSince)");
             code.AppendLine("{");
 
             var links = new List<string>
@@ -57,11 +57,13 @@ namespace Bespoke.Sph.Domain
             var setting = await ed.ServiceContract.LoadSettingAsync(ed.Name);
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
             var lo = await repos.LoadOneAsync(id);  
-            if(null == lo.Source) return HttpNotFound(""Cannot find {ed.Name} with Id "" + id);            
+            if(null == lo.Source) return NotFound(""Cannot find {ed.Name} with Id "" + id);            
 
             var cacheSetting = setting.ResourceEndpointSetting.CachingSetting;
+            var cache = new CacheControlHeaderValue();
+/*
             if(cacheSetting.Expires.HasValue)
-                this.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(cacheSetting.Expires.Value));
+                cetExpires(DateTime.UtcNow.AddSeconds(cacheSetting.Expires.Value));
             if(cacheSetting.NoStore)
                 this.Response.Cache.SetNoStore();
             if(!string.IsNullOrWhiteSpace(cacheSetting.CacheControl))
@@ -71,21 +73,15 @@ namespace Bespoke.Sph.Domain
             this.Response.Cache.SetETag(lo.Version);
             this.Response.AppendHeader(""ETag"", lo.Version);
             this.Response.Cache.SetLastModified(lo.Source.ChangedDate);
-
-            DateTime modifiedSince;
-            if (DateTime.TryParse(this.Request.Headers[""If-Modified-Since""], out modifiedSince))
+*/           
+            if($""{{modifiedSince}}"" == lo.Source.ChangedDate.ToString())
             {{
-                if(modifiedSince.ToString() == lo.Source.ChangedDate.ToString())
-                {{
-                    this.Response.StatusCode = 304;
-                    return Content(string.Empty,""application/json; charset=utf-8"");                        
-                }}
-            }}
+                return NotModified();                      
+            }}           
                 
-            if (this.Request.Headers[""If-None-Match""] == lo.Version)
+            if (etag.Tag == lo.Version)
             {{
-                this.Response.StatusCode = 304;
-                return Content(string.Empty,""application/json; charset=utf-8"");
+                return NotModified();   
             }}
                 
             var source = JObject.Parse(lo.Json ?? lo.Source.ToJson());    
@@ -94,7 +90,7 @@ namespace Bespoke.Sph.Domain
             var link = new JProperty(""_links"", links);
             source.Last.AddAfterSelf(link);
 
-                return Content(source.ToString(), ""application/json; charset=utf-8"");
+            return Json(source.ToString());
             ");
 
 

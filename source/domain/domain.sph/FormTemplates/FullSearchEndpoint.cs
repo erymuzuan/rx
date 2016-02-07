@@ -10,12 +10,11 @@ namespace Bespoke.Sph.Domain
             var search = new StringBuilder();
 
             search.AppendLinf("       [Route(\"search\")]");
-            search.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
+            search.AppendLinf("       public async Task<IHttpActionResult> Search([FromBody]string json)");
             search.AppendLine("       {");
-            search.AppendFormat(@"
-            var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
+            search.Append($@"
             var request = new System.Net.Http.StringContent(json);
-            var url = ""{1}/{0}/_search"";
+            var url = ""{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{ed.Name.ToLowerInvariant()}/_search"";
 
             using(var client = new System.Net.Http.HttpClient())
             {{
@@ -23,10 +22,9 @@ namespace Bespoke.Sph.Domain
                 var response = await client.PostAsync(url, request);
                 var content = response.Content as System.Net.Http.StreamContent;
                 if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-                this.Response.ContentType = ""application/json; charset=utf-8"";
-                return Content(await content.ReadAsStringAsync());
+                return Json(await content.ReadAsStringAsync());
             }}
-            ", ed.Name.ToLower(), ConfigurationManager.ApplicationName.ToLower());
+            ");
             search.AppendLine();
             search.AppendLine("       }");
             search.AppendLine();

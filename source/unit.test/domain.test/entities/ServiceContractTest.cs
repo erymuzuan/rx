@@ -5,6 +5,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Moq;
+using NUnit.Framework.Constraints;
 using Xunit;
 
 namespace domain.test.entities
@@ -78,13 +79,15 @@ namespace domain.test.entities
         }
 
 
-        [Fact]
-        public async Task GenerateSearch()
+        [Theory]
+        [InlineData(false, true, false)]
+        [InlineData(true, false, false)]
+        public async Task Compile(bool one, bool search, bool oData)
         {
             var patient = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
-            patient.ServiceContract.FullSearchEndpoint.IsAllowed = true;
-            patient.ServiceContract.EntityResourceEndpoint.IsAllowed = true;
-            patient.ServiceContract.OdataEndpoint.IsAllowed = true;
+            patient.ServiceContract.FullSearchEndpoint.IsAllowed = search;
+            patient.ServiceContract.EntityResourceEndpoint.IsAllowed = one;
+            patient.ServiceContract.OdataEndpoint.IsAllowed = oData;
 
 
             var cr = await patient.ServiceContract.CompileAsync(patient);

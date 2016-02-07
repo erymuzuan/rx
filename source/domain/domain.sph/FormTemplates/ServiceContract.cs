@@ -55,10 +55,8 @@ namespace Bespoke.Sph.Domain
             typeof(Enumerable).Namespace ,
             typeof(SqlCommand).Namespace,
             typeof(StringBuilder).Namespace,
-            "System.Web",
-            "System.Web.Mvc",
-            "Bespoke.Sph.Web.Api",
-            "Bespoke.Sph.Web.Helpers"
+            "System.Web.Http",
+            "Bespoke.Sph.WebApi"
         };
 
         public Task<WorkflowCompilerResult> CompileAsync(EntityDefinition entityDefinition)
@@ -90,8 +88,8 @@ namespace Bespoke.Sph.Domain
                     typeof(SqlCommand),
                     typeof(HttpResponseBase),
                     typeof(ConfigurationManager));
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
+                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll");
+                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\webapi.common.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.CompilerOutputPath + $@"\{ConfigurationManager.ApplicationName}.{m_entityDefinition.Name}.dll");
 
@@ -122,8 +120,8 @@ namespace Bespoke.Sph.Domain
             {
                 Name = $"{m_entityDefinition.Name}ServiceContractController",
                 IsPartial = true,
-                FileName = $"{m_entityDefinition}ServiceContractController.cs",
-                BaseClass = "System.Web.Mvc.Controller",
+                FileName = $"{m_entityDefinition}ServiceContractController",
+                BaseClass = "BaseApiController",
                 Namespace = CodeNamespace
             };
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);

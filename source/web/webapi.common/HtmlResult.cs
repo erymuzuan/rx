@@ -7,6 +7,27 @@ using System.Web.Http;
 
 namespace Bespoke.Sph.WebApi
 {
+    public class NotModifiedResult : IHttpActionResult
+    {
+        private readonly HttpRequestMessage m_request;
+        public NotModifiedResult(HttpRequestMessage request)
+        {
+            m_request = request;
+        }
+
+        public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
+        {
+            if (m_request.Headers.IfNoneMatch.Count == 0 || m_request.Headers.IfModifiedSince == null)
+                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.BadRequest) {Content = new StringContent("Missing If-none-match or If-Modified-Since header") });
+
+
+            var response = new HttpResponseMessage(HttpStatusCode.NotModified)
+            {
+                Content = new StringContent("") 
+            };
+            return Task.FromResult(response);
+        }
+    }
     public class HtmlResult : IHttpActionResult
     {
         private readonly string m_html;

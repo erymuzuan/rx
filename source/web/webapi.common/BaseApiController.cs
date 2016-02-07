@@ -1,6 +1,5 @@
 using System;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Results;
@@ -16,7 +15,6 @@ namespace Bespoke.Sph.WebApi
         {
             WebApi.DeveloperService.Init();
         }
-
         [JsonObject("_link")]
         public class Link
         {
@@ -36,6 +34,10 @@ namespace Bespoke.Sph.WebApi
             public string Href { get; set; }
             [JsonProperty("rel")]
             public string Rel { get; set; }
+            [JsonProperty("note")]
+            public string Note { get; set; }
+            [JsonProperty("doc")]
+            public string Documentation { get; set; }
         }
 
         public IHttpActionResult File(byte[] contents, string mimeType, string contentDisposition = null, int maxAge = 0, HttpStatusCode statusCode = HttpStatusCode.OK)
@@ -47,6 +49,11 @@ namespace Bespoke.Sph.WebApi
         public IHttpActionResult NotFound(string message)
         {
             return new NotFoundTextPlainActionResult(message, this.Request);
+        }
+
+        public IHttpActionResult NotModified()
+        {
+            return new NotModifiedResult(this.Request);
         }
         protected IHttpActionResult Invalid(object content)
         {
@@ -64,6 +71,11 @@ namespace Bespoke.Sph.WebApi
         {
             var response = new JavascriptResult(HttpStatusCode.OK, script);
             return response;
+        }
+
+        protected IHttpActionResult Json(string json, CacheControlHeaderValue cache = null)
+        {
+            return new JsonCachedResult(json, cache);
         }
 
         protected override OkNegotiatedContentResult<T> Ok<T>(T content)

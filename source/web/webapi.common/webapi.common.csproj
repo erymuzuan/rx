@@ -85,7 +85,10 @@
     <Compile Include="InvalidResult.cs" />
     <Compile Include="JavascriptResult.cs" />
     <Compile Include="JsonBodyAttribute.cs" />
+    <Compile Include="JsonCachedResult.cs" />
     <Compile Include="JsonContent.cs" />
+    <Compile Include="ModifiedSinceAttribute.cs" />
+    <Compile Include="ModifiedSinceParameterBinding.cs" />
     <Compile Include="NotFoundTextPlainActionResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
