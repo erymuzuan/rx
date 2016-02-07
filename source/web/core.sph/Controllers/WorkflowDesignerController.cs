@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
@@ -18,11 +19,9 @@ namespace Bespoke.Sph.Web.Controllers
     public class WorkflowDesignerController : BaseApiController
     {
         [Route("toolbox-items")]
-        //[OutputCache(Duration = 300)]
         public HttpResponseMessage GetToolboxItems()
         {
-            var ds = ObjectBuilder.GetObject<IDeveloperService>();
-            var actions = from a in ds.ActivityOptions
+            var actions = from a in this.DeveloperService.ActivityOptions
                           select
                               $@"
 {{
@@ -32,21 +31,27 @@ namespace Bespoke.Sph.Web.Controllers
 }}";
 
 
-            return new JsonResponseMessage("[" + string.Join(",", actions) + "]");
+            var response = new JsonResponseMessage("[" + string.Join(",", actions) + "]");
+            response.Headers.CacheControl = new CacheControlHeaderValue
+            {
+                MaxAge = TimeSpan.FromSeconds(300),
+                Private = false
+            };
+
+            return response;
         }
 
         [Route("icon/{name}.png")]
        // [OutputCache(Duration = 31600, Location = OutputCacheLocation.Any)]
         public HttpResponseMessage GetPngIcon(string name)
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
-            var act = ds.ActionOptions
+            var act = this.DeveloperService.ActionOptions
                 .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
             if (null != act)
             {
                 var png = act.Value.GetPngIcon();
                 if (null != png)
-                    return File(ImageToByte2(act.Value.GetPngIcon()), "image/png");
+                    return File(ImageToByte2(act.Value.GetPngIcon()), "image/png", 300);
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
 
@@ -57,8 +62,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("editor/{name}.{extension:length(2,4)}")]
         public HttpResponseMessage GetDialog(string name, string extension)
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
-            var info = ds.ActivityOptions
+            var info = this.DeveloperService.ActivityOptions
                 .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
             if (null == info) return new HttpResponseMessage(HttpStatusCode.NotFound);
             var response = new HttpResponseMessage(HttpStatusCode.OK);

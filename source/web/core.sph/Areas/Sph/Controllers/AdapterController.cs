@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
-using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 
@@ -14,18 +11,13 @@ namespace Bespoke.Sph.Web.Controllers
 {
     [Authorize(Roles = "developers, administrators")]
     [RoutePrefix("adapter")]
-    public class AdapterController : Controller
+    public class AdapterController : BaseApiController
     {
 
-        static AdapterController()
-        {
-            DeveloperService.Init();
-        }
         [Route("installed-adapters")]
-        public ActionResult InstalledAdapters()
+        public IHttpActionResult InstalledAdapters()
         {
-            var developerService = ObjectBuilder.GetObject<DeveloperService>();
-            var actions = from a in developerService.Adapters
+            var actions = from a in this.DeveloperService.Adapters
                           select
                               $@"
 {{
@@ -34,47 +26,45 @@ namespace Bespoke.Sph.Web.Controllers
 }}";
 
 
-            return Content("[" + string.Join(",", actions) + "]", "application/json", Encoding.UTF8);
+            return Json("[" + string.Join(",", actions) + "]");
 
         }
 
         [Route("{id}")]
         [HttpDelete]
-        public async Task<ActionResult> DeleteAsync(string id)
+        public async Task<IHttpActionResult> DeleteAsync(string id)
         {
             var context = new SphDataContext();
             var ef = await context.LoadOneAsync<Adapter>(x => x.Id == id);
             if (null == ef)
-                return HttpNotFound("Cannot find adapter with id " + id);
+                return NotFound("Cannot find adapter with id " + id);
 
             using (var session = context.OpenSession())
             {
                 session.Delete(ef);
                 await session.SubmitChanges("Delete");
             }
-            return Json(new { success = true, status = "OK", id = ef.Id });
+            return Ok(new { success = true, status = "OK", id = ef.Id });
         }
         [Route("")]
         [HttpDelete]
-        public async Task<ActionResult> DeleteAsync()
+        public async Task<IHttpActionResult> DeleteAsync([JsonBody]Adapter adapter)
         {
-            var ef = this.GetRequestJson<Adapter>();
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Delete(ef);
+                session.Delete(adapter);
                 await session.SubmitChanges("Delete");
             }
-            return Json(new { success = true, status = "OK", id = ef.Id });
+            return Ok(new { success = true, status = "OK", id = adapter.Id });
         }
 
         [Route("")]
         [HttpPost]
-        public async Task<ActionResult> Create()
+        public async Task<IHttpActionResult> Create([JsonBody]Adapter adapter)
         {
-            var adapter = this.GetRequestJson<Adapter>();
             if (null == adapter)
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Cannot deserialize adapter");
+                return BadRequest("Cannot deserialize adapter");
 
             var context = new SphDataContext();
             adapter.Id = adapter.Name.ToIdFormat();
@@ -85,10 +75,8 @@ namespace Bespoke.Sph.Web.Controllers
                 await session.SubmitChanges("Save");
             }
 
-            this.Response.StatusCode = (int)HttpStatusCode.Created;
-            this.Response.StatusDescription = "Created";
 
-            return Json(new
+            var result = new
             {
                 success = true,
                 status = "OK",
@@ -98,18 +86,18 @@ namespace Bespoke.Sph.Web.Controllers
                     rel = "self",
                     href = "adapter/" + adapter.Id
                 }
-            });
+            };
+            return Created($"/api/adapters/{adapter.Id}", result);
         }
 
 
 
         [Route("{id}")]
         [HttpPut]
-        public async Task<ActionResult> Save(string id)
+        public async Task<IHttpActionResult> Save([JsonBody]Adapter adapter, string id)
         {
-            var adapter = this.GetRequestJson<Adapter>();
             if (null == adapter)
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Cannot deserialize adapter");
+                return NotFound("Cannot deserialize adapter");
 
             adapter.Id = id;
             var vr = (await adapter.ValidateAsync()).ToArray();
@@ -119,11 +107,10 @@ namespace Bespoke.Sph.Web.Controllers
             }
 
             var context = new SphDataContext();
-            this.Response.StatusCode = (int)HttpStatusCode.Accepted;
-            if (adapter.IsNewItem)
+            var baru = adapter.IsNewItem;
+            if (baru)
             {
                 adapter.Id = adapter.Name.ToIdFormat();
-                this.Response.StatusCode = (int)HttpStatusCode.Created;
             }
 
             using (var session = context.OpenSession())
@@ -131,7 +118,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(adapter);
                 await session.SubmitChanges("Save");
             }
-            return Json(new
+            var result = new
             {
                 success = true,
                 status = "OK",
@@ -141,27 +128,31 @@ namespace Bespoke.Sph.Web.Controllers
                     rel = "self",
                     href = "adapter/" + adapter.Id
                 }
-            });
+            };
+            if (baru) return Created($"/api/adapters/{adapter.Id}", result);
+            return Ok(result);
         }
 
 
         [Route("designer/{extension}/{jsroute}")]
-        public ActionResult GetDialog(string extension, string jsroute)
+        public IHttpActionResult GetDialog(string extension, string jsroute)
         {
             var lowered = jsroute.ToLowerInvariant();
             if (lowered == "definition.list")
             {
-                if (extension == "js")
-                    return Content(Properties.Resources.AdapterDefinitionListJs, "application/javascript", Encoding.UTF8);
-                if (extension == "html")
-                    return Content(Properties.Resources.AdapterDefinitionListHtml, "text/html", Encoding.UTF8);
+                switch (extension)
+                {
+                    case "js":
+                        return Javascript(Properties.Resources.AdapterDefinitionListJs);
+                    case "html":
+                        return Html(Properties.Resources.AdapterDefinitionListHtml);
+                }
             }
 
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
-            if (null == ds.Adapters)
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "MEF Cannot load adapters metadata");
+            if (null == this.DeveloperService.Adapters)
+                return InternalServerError(new Exception("MEF Cannot load adapters metadata"));
 
-            var routeProviders = ds.Adapters
+            var routeProviders = this.DeveloperService.Adapters
                 .Where(x => null != x.Metadata.RouteTableProvider)
                 .Select(x => Activator.CreateInstance(x.Metadata.RouteTableProvider) as IRouteTableProvider)
                 .Where(x => null != x)
@@ -174,7 +165,7 @@ namespace Bespoke.Sph.Web.Controllers
 
 
             if (null == route)
-                return HttpNotFound("cannot find the route for " + jsroute);
+                return NotFound("cannot find the route for " + jsroute);
 
             var provider = routeProviders
                 .First(x => x.Routes.Any(y => y.ModuleId == route.ModuleId));
@@ -182,10 +173,10 @@ namespace Bespoke.Sph.Web.Controllers
             if (extension == "js")
             {
                 var js = provider.GetEditorViewModel(route);
-                return Content(js, "application/javascript", Encoding.UTF8);
+                return Javascript(js);
             }
             var html = provider.GetEditorView(route);
-            return Content(html, "text/html", Encoding.UTF8);
+            return Html(html);
         }
 
 

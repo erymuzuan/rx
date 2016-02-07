@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Bespoke.Sph.Domain;
@@ -37,13 +38,15 @@ namespace Bespoke.Sph.WebApi
             public string Rel { get; set; }
         }
 
-        public HttpResponseMessage File(byte[] contents, string mimeType)
+        public HttpResponseMessage File(byte[] contents, string mimeType, int maxAge = 0)
         {
             var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new ByteArrayContent(contents)
             };
             response.Content.Headers.Add("Content-Type", mimeType);
+            if (maxAge > 0)
+                response.Headers.CacheControl = new CacheControlHeaderValue { MaxAge = TimeSpan.FromSeconds(maxAge) };
 
             return response;
         }
@@ -56,6 +59,17 @@ namespace Bespoke.Sph.WebApi
         {
             var json = JsonConvert.SerializeObject(content);
             var response = new InvalidResult((HttpStatusCode)422, json);
+            return response;
+        }
+
+        protected IHttpActionResult Html(string html)
+        {
+            var response = new HtmlResult(HttpStatusCode.OK, html);
+            return response;
+        }
+        protected IHttpActionResult Javascript(string script)
+        {
+            var response = new JavascriptResult(HttpStatusCode.OK, script);
             return response;
         }
 

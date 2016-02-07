@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Bespoke.Sph.Web.Helpers
+namespace Bespoke.Sph.WebApi
 {
     public class JsonContent : StringContent
     {

@@ -80,8 +80,12 @@
     <Compile Include="BaseApiController.cs" />
     <Compile Include="DeveloperService.cs" />
     <Compile Include="ETag.cs" />
+    <Compile Include="HtmlResult.cs" />
     <Compile Include="InvalidResult.cs" />
+    <Compile Include="JavascriptResult.cs" />
     <Compile Include="JsonBodyAttribute.cs" />
+    <Compile Include="JsonContent.cs" />
+    <Compile Include="NotFoundTextPlainActionResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1110,7 +1110,6 @@
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\HashTableHelper.cs" />
-    <Compile Include="Helpers\JsonContent.cs" />
     <Compile Include="Helpers\JsonDotNetValueProviderFactory.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Helpers\RawRequestBodyModelBinder.cs" />
