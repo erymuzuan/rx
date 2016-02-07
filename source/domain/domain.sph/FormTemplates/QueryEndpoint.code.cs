@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
             typeof(Task<>).Namespace,
             typeof(Enumerable).Namespace ,
             typeof(JsonConvert).Namespace ,
-            "System.Web.Mvc",
+            "System.Web.Http",
             "System.Net.Http",
             "Bespoke.Sph.Web.Helpers"
         };
@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Domain
                 Name = $"{className}Controller",
                 IsPartial = true,
                 FileName = $"{className}Controller.cs",
-                BaseClass = "Controller",
+                BaseClass = "ApiController",
                 Namespace = CodeNamespace
             };
 
@@ -110,7 +110,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [Route(\"{route}/_count\")]");
-            code.AppendLine("       public async Task<ActionResult> GetCountAsync()");
+            code.AppendLine("       public async Task<IHttpActionResult> GetCountAsync()");
             code.Append("       {");
             code.Append(GenerateGetQueryCode());
 
@@ -129,7 +129,7 @@ namespace Bespoke.Sph.Domain
 
                 var count = esJsonObject.SelectToken(""$.count"").Value<int>();
             ");
-            code.AppendLine("return Content($\"{{\\\"_count\\\":{count}}}\", \"application/json\");");
+            code.AppendLine("return Ok(new {_count = count});");
 
             code.Append("}");
             code.AppendLine();
@@ -182,7 +182,7 @@ namespace Bespoke.Sph.Domain
                 select $"{type} {r.Name}{defaultValue},";
             var parameters = string.Join(" ", parameterlist);
 
-            code.AppendLine($"       public async Task<ActionResult> GetAction({parameters}int page =1, int size=20, string q=\"\")");
+            code.AppendLine($"       public async Task<IHttpActionResult> GetAction({parameters}int page =1, int size=20, string q=\"\")");
             code.Append("       {");
             code.Append(GenerateGetQueryCode());
 
@@ -213,7 +213,7 @@ namespace Bespoke.Sph.Domain
             code.Append($@"
                 var result = new 
                 {{
-                    _results = ""<<list>>"",
+                    _results = list,
                     _count = esJsonObject.SelectToken(""$.hits.total"").Value<int>(),
                     _page = page,
                     _links = new {{
@@ -222,10 +222,8 @@ namespace Bespoke.Sph.Domain
                     }},
                     _size = size
                 }};
-                var resultJson = JsonConvert.SerializeObject(result);
-                var itemsList = string.Join("", "", list);
             
-                return Content(resultJson.Replace(""\""<<list>>\"""",""[""+ itemsList + ""]""), ""application/json"");
+                return Ok(result);
             }}");
             code.AppendLine();
             code.AppendLine("       }");
@@ -269,7 +267,7 @@ namespace Bespoke.Sph.Domain
                     parameters.ReferencedAssemblies.Add(ass);
                 }
 
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll");
+                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
 

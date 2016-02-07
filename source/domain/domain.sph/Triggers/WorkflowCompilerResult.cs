@@ -9,6 +9,7 @@ namespace Bespoke.Sph.Domain
 
         public override string ToString()
         {
+            if (this.Result) return "===== Build: 1 succeeded";
             var message = new StringBuilder();
             message.AppendLine("====================== " + (this.Result ? "Success" : "Failed") + " =====================");
             foreach (var error in Errors)
