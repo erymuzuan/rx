@@ -38,16 +38,9 @@ namespace Bespoke.Sph.WebApi
             public string Rel { get; set; }
         }
 
-        public HttpResponseMessage File(byte[] contents, string mimeType, int maxAge = 0)
+        public IHttpActionResult File(byte[] contents, string mimeType, string contentDisposition = null, int maxAge = 0, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new ByteArrayContent(contents)
-            };
-            response.Content.Headers.Add("Content-Type", mimeType);
-            if (maxAge > 0)
-                response.Headers.CacheControl = new CacheControlHeaderValue { MaxAge = TimeSpan.FromSeconds(maxAge) };
-
+            var response = new FileResult(contents, mimeType, contentDisposition, maxAge, statusCode);
             return response;
         }
 

@@ -2,13 +2,11 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 
@@ -42,8 +40,7 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [Route("icon/{name}.png")]
-       // [OutputCache(Duration = 31600, Location = OutputCacheLocation.Any)]
-        public HttpResponseMessage GetPngIcon(string name)
+        public IHttpActionResult GetPngIcon(string name)
         {
             var act = this.DeveloperService.ActionOptions
                 .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
@@ -51,33 +48,25 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 var png = act.Value.GetPngIcon();
                 if (null != png)
-                    return File(ImageToByte2(act.Value.GetPngIcon()), "image/png", 300);
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                    return File(ImageToByte2(act.Value.GetPngIcon()), "image/png",null,3600);
+                return NotFound();
             }
 
-            return new HttpResponseMessage(HttpStatusCode.NotFound);
+            return NotFound();
 
         }
 
         [Route("editor/{name}.{extension:length(2,4)}")]
-        public HttpResponseMessage GetDialog(string name, string extension)
+        public IHttpActionResult GetDialog(string name, string extension)
         {
             var info = this.DeveloperService.ActivityOptions
                 .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
-            if (null == info) return new HttpResponseMessage(HttpStatusCode.NotFound);
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            if (null == info) return NotFound();
             if (extension == "js")
             {
-                response.Content = new StringContent(info.Value.GetEditorViewModel());
-                response.Headers.Add("Content-Type", "application/javascript");
+                return Javascript(info.Value.GetEditorViewModel());
             }
-            else
-            {
-                response.Content = new StringContent(info.Value.GetEditorView());
-                response.Headers.Add("Content-Type", "text/html");
-            }
-
-            return response;
+            return Html(info.Value.GetEditorView());
         }
 
         public static byte[] ImageToByte2(Bitmap img)

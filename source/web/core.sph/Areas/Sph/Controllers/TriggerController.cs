@@ -1,29 +1,20 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using Bespoke.Sph.Web.Helpers;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     [Authorize(Roles = "administrators,developers")]
-    public class TriggerController : Controller
+    public class TriggerController : BaseApiController
     {
-        static TriggerController()
+        public IHttpActionResult Actions()
         {
-            DeveloperService.Init();
-        }
-
-        public ActionResult Actions()
-        {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
-            var actions = from a in ds.ActionOptions
+            var actions = from a in this.DeveloperService.ActionOptions
                           select
                               $@"
 {{
@@ -32,34 +23,29 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 }}";
 
 
-            return Content($"[{string.Join(",", actions)}]", "application/json", Encoding.UTF8);
+            return Json($"[{string.Join(",", actions)}]");
         }
 
 
-        public ActionResult Action(string id, string type)
+        public IHttpActionResult Action(string id, string type)
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
-            var action = ds.ActionOptions.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
+            var action = this.DeveloperService.ActionOptions.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
                 .ToLowerInvariant() == type.Replace(",", ", ")).Value;
             if (id == "js")
             {
-                this.Response.ContentType = "application/javascript";
                 var js = action.GetEditorViewModel();
-                return Content(js);
+                return Javascript(js);
             }
-            this.Response.ContentType = "text/html";
             var html = action.GetEditorView();
-            return Content(html);
+            return Html(html);
         }
 
 
-        public ActionResult Image(string id)
+        public IHttpActionResult Image(string id)
         {
             var ds = ObjectBuilder.GetObject<DeveloperService>();
             var action = ds.ActionOptions.Single(
                 x => string.Equals(x.Metadata.TypeName, id, StringComparison.InvariantCultureIgnoreCase)).Value;
-
-
 
             using (var stream = new MemoryStream())
             {
@@ -68,14 +54,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 stream.Close();
 
                 var byteArray = stream.ToArray();
-                this.Response.ContentType = "image/png";
                 return File(byteArray, "image/png");
             }
         }
 
-        public async Task<ActionResult> Publish()
+        public async Task<IHttpActionResult> Publish([JsonBody]Trigger trigger)
         {
-            var trigger = this.GetRequestJson<Trigger>();
             if (string.IsNullOrWhiteSpace(trigger.Id)) throw new InvalidOperationException("You cannot publish unsaved trigger");
             trigger.IsActive = true;
             var context = new SphDataContext();
@@ -86,12 +70,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
 
-            return Json(trigger.Id);
+            return Ok();
         }
 
-        public async Task<ActionResult> Depublish()
+        public async Task<IHttpActionResult> Depublish([JsonBody]Trigger trigger)
         {
-            var trigger = this.GetRequestJson<Trigger>();
             trigger.IsActive = false;
             if (string.IsNullOrWhiteSpace(trigger.Id)) throw new InvalidOperationException("You cannot depublish unsaved trigger");
             var context = new SphDataContext();
@@ -105,12 +88,17 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(trigger.Id);
         }
 
-        public async Task<ActionResult> Remove()
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IHttpActionResult> Delete(string id)
         {
-            var trigger = this.GetRequestJson<Trigger>();
+            var context = new SphDataContext();
+            var trigger = await context.LoadOneAsync<Trigger>(x => x.Id == id);
+            if (null == trigger) return NotFound();
+
+
             trigger.IsActive = false;
             if (string.IsNullOrWhiteSpace(trigger.Id)) throw new InvalidOperationException("You cannot depublish unsaved trigger");
-            var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
                 session.Delete(trigger);
@@ -121,16 +109,18 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(trigger.Id);
         }
 
-        public async Task<ActionResult> Save()
+        [HttpPost]
+        [Route("")]
+        public async Task<IHttpActionResult> Save([JsonBody]Trigger trigger)
         {
-            var trigger = this.GetRequestJson<Trigger>();
+            if (null == trigger) return BadRequest("Cannot read trigger from the request body");
 
-            var newItem = trigger.IsNewItem;
+            var baru = trigger.IsNewItem;
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == trigger.Entity);
             trigger.TypeOf = ed.FullTypeName;
 
-            if (newItem)
+            if (baru)
                 trigger.Id = (trigger.Entity + "-" + trigger.Name).ToIdFormat();
             using (var session = context.OpenSession())
             {
@@ -138,20 +128,19 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges("Save");
             }
 
-            if (newItem)
+            if (!baru) return Ok(trigger.Id);
+
+            trigger.ActionCollection.OfType<SetterAction>()
+                .ToList()
+                .ForEach(s => s.TriggerId = trigger.Id);
+
+            using (var session = context.OpenSession())
             {
-                trigger.ActionCollection.OfType<SetterAction>()
-                    .ToList()
-                    .ForEach(s => s.TriggerId = trigger.Id);
-
-                using (var session = context.OpenSession())
-                {
-                    session.Attach(trigger);
-                    await session.SubmitChanges("Submit trigger");
-                }
+                session.Attach(trigger);
+                await session.SubmitChanges("Submit trigger");
             }
+            return Created($"/api/triggers/{trigger.Id}", new { });
 
-            return Json(trigger.Id);
         }
 
     }
