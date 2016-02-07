@@ -189,6 +189,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "powershell-scripts", "power
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticsearch.repository", "source\dependencies\elasticsearch.repository\elasticsearch.repository.csproj", "{9C8CB6CA-65A3-4ED5-98FD-74E241C74451}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webapi.common", "source\web\webapi.common\webapi.common.csproj", "{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -451,6 +453,10 @@ Global
 		{9C8CB6CA-65A3-4ED5-98FD-74E241C74451}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C8CB6CA-65A3-4ED5-98FD-74E241C74451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C8CB6CA-65A3-4ED5-98FD-74E241C74451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -522,5 +528,6 @@ Global
 		{30D10FBA-D93E-4C5A-B7C3-1392F89838D5} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{3D23747E-CA65-4FCD-95CA-CCE10C3095BD} = {5D5FA217-25F5-4EF5-BADA-7691B883E274}
 		{9C8CB6CA-65A3-4ED5-98FD-74E241C74451} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}
 	EndGlobalSection
 EndGlobal

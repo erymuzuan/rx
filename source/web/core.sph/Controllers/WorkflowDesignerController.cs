@@ -2,29 +2,26 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
-using System.Text;
-using System.Web.Mvc;
-using System.Web.UI;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
+using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     [Authorize(Roles = "developers")]
-    [RoutePrefix("wf-designer")]
-    public class WorkflowDesignerController : Controller
+    [RoutePrefix("api-rx/wf-designer")]
+    public class WorkflowDesignerController : BaseApiController
     {
-        static WorkflowDesignerController()
-        {
-            DeveloperService.Init();
-        }
         [Route("toolbox-items")]
-        [OutputCache(Duration = 300)]
-        public ActionResult GetToolboxItems()
+        //[OutputCache(Duration = 300)]
+        public HttpResponseMessage GetToolboxItems()
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var ds = ObjectBuilder.GetObject<IDeveloperService>();
             var actions = from a in ds.ActivityOptions
                           select
                               $@"
@@ -35,12 +32,12 @@ namespace Bespoke.Sph.Web.Controllers
 }}";
 
 
-            return Content("[" + string.Join(",", actions) + "]", "application/json", Encoding.UTF8);
+            return new JsonResponseMessage("[" + string.Join(",", actions) + "]");
         }
 
         [Route("icon/{name}.png")]
-        [OutputCache(Duration = 31600, Location = OutputCacheLocation.Any)]
-        public ActionResult GetPngIcon(string name)
+       // [OutputCache(Duration = 31600, Location = OutputCacheLocation.Any)]
+        public HttpResponseMessage GetPngIcon(string name)
         {
             var ds = ObjectBuilder.GetObject<DeveloperService>();
             var act = ds.ActionOptions
@@ -50,26 +47,33 @@ namespace Bespoke.Sph.Web.Controllers
                 var png = act.Value.GetPngIcon();
                 if (null != png)
                     return File(ImageToByte2(act.Value.GetPngIcon()), "image/png");
-                return HttpNotFound("Cannot find any image for " + name);
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
 
-            return HttpNotFound("Cannot find any activity named " + name);
+            return new HttpResponseMessage(HttpStatusCode.NotFound);
 
         }
+
         [Route("editor/{name}.{extension:length(2,4)}")]
-        public ActionResult GetDialog(string name, string extension)
+        public HttpResponseMessage GetDialog(string name, string extension)
         {
             var ds = ObjectBuilder.GetObject<DeveloperService>();
             var info = ds.ActivityOptions
                 .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
-            if (null != info)
+            if (null == info) return new HttpResponseMessage(HttpStatusCode.NotFound);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            if (extension == "js")
             {
-                if (extension == "js")
-                    return Content(info.Value.GetEditorViewModel(), "application/javascript", Encoding.UTF8);
-                return Content(info.Value.GetEditorView(), "text/html", Encoding.UTF8);
+                response.Content = new StringContent(info.Value.GetEditorViewModel());
+                response.Headers.Add("Content-Type", "application/javascript");
+            }
+            else
+            {
+                response.Content = new StringContent(info.Value.GetEditorView());
+                response.Headers.Add("Content-Type", "text/html");
             }
 
-            return HttpNotFound("Cannot find any activity named " + name);
+            return response;
         }
 
         public static byte[] ImageToByte2(Bitmap img)
@@ -87,46 +91,46 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("assemblies")]
-        public ActionResult GetLoadedAssemblies()
+        public IHttpActionResult GetLoadedAssemblies()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            return Json(assemblies.Select(a => a.GetName().Name).ToArray(), JsonRequestBehavior.AllowGet);
+            return Ok(assemblies.Select(a => a.GetName().Name).ToArray());
         }
 
         [HttpGet]
         [Route("types/{dll}")]
-        public ActionResult GetTypeFromAssembly(string dll)
+        public IHttpActionResult GetTypeFromAssembly(string dll)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var assembly = assemblies.SingleOrDefault(a => a.GetName().Name == dll);
             if (null == assembly)
-                return HttpNotFound("Cannot find assembly with the name " + dll);
+                return NotFound("Cannot find assembly with the name " + dll);
 
-            return Json(assembly.GetTypes()
+            return Ok(assembly.GetTypes()
                 .Where(a => !a.FullName.Contains("<"))
                 .Where(a => !a.FullName.Contains("`"))
-                .Select(a => a.FullName).ToArray(), JsonRequestBehavior.AllowGet);
+                .Select(a => a.FullName).ToArray());
         }
 
         [HttpGet]
         [Route("methods/{dll}/{type}")]
-        public ActionResult GetMethodFromType(string dll, string type)
+        public IHttpActionResult GetMethodFromType(string dll, string type)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var assembly = assemblies.SingleOrDefault(a => a.GetName().Name == dll);
             if (null == assembly)
-                return HttpNotFound("Cannot find assembly with the name " + dll);
+                return NotFound();
 
             var @class = assembly.GetTypes().SingleOrDefault(t => t.FullName == type);
             if (null == @class)
-                return HttpNotFound("Cannot find type with the name " + type + " in " + dll);
+                return NotFound("Cannot find type with the name " + type + " in " + dll);
 
-            return Json(@class.GetMethods(BindingFlags.Instance | BindingFlags.Public)
+            return Ok(@class.GetMethods(BindingFlags.Instance | BindingFlags.Public)
                 .Where(m => !m.IsAbstract)
                 .Where(m => !m.Name.StartsWith("get_"))
                 .Where(m => !m.Name.StartsWith("set_"))
                 .Where(m => m.DeclaringType == @class)
-                .Select(a => a.Name).ToArray(), JsonRequestBehavior.AllowGet);
+                .Select(a => a.Name).ToArray());
         }
 
     }

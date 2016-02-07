@@ -1,43 +1,21 @@
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
 using Newtonsoft.Json;
 
-namespace Bespoke.Sph.Web.Controllers
+namespace Bespoke.Sph.WebApi
 {
-    public class InvalidResult : IHttpActionResult
-    {
-        private readonly string m_message;
-        private readonly HttpStatusCode m_statusCode;
-
-        public InvalidResult(HttpStatusCode statusCode, string message)
-        {
-            m_statusCode = statusCode;
-            m_message = message;
-        }
-
-        public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
-        {
-            HttpResponseMessage response = new HttpResponseMessage(m_statusCode)
-            {
-                Content = new StringContent(m_message)
-            };
-            return Task.FromResult(response);
-        }
-    }
     public abstract class BaseApiController : ApiController
     {
         protected IDeveloperService DeveloperService => ObjectBuilder.GetObject<IDeveloperService>();
         static BaseApiController()
         {
-            Dependencies.DeveloperService.Init();
+            WebApi.DeveloperService.Init();
         }
+
         [JsonObject("_link")]
         public class Link
         {
@@ -59,7 +37,21 @@ namespace Bespoke.Sph.Web.Controllers
             public string Rel { get; set; }
         }
 
+        public HttpResponseMessage File(byte[] contents, string mimeType)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(contents)
+            };
+            response.Content.Headers.Add("Content-Type", mimeType);
 
+            return response;
+        }
+
+        public IHttpActionResult NotFound(string message)
+        {
+            return new NotFoundTextPlainActionResult(message, this.Request);
+        }
         protected IHttpActionResult Invalid(object content)
         {
             var json = JsonConvert.SerializeObject(content);
@@ -67,22 +59,32 @@ namespace Bespoke.Sph.Web.Controllers
             return response;
         }
 
-        protected OkNegotiatedContentResult<T> Ok<T>(T content, bool auto)
+        protected override OkNegotiatedContentResult<T> Ok<T>(T content)
         {
             this.Configuration.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Auto
+                TypeNameHandling = TypeNameHandling.None
             };
             return base.Ok(content);
         }
+        protected OkNegotiatedContentResult<T> Ok<T>(T content, JsonSerializerSettings settings)
+        {
+            this.Configuration.Formatters.JsonFormatter.SerializerSettings = settings;
+            return base.Ok(content);
+        }
 
-        protected CreatedNegotiatedContentResult<T> Created<T>(Uri location, T content, bool auto)
+        protected override CreatedNegotiatedContentResult<T> Created<T>(Uri location, T content)
         {
             this.Configuration.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Auto
+                TypeNameHandling = TypeNameHandling.None
             };
 
+            return base.Created(location, content);
+        }
+        protected CreatedNegotiatedContentResult<T> Created<T>(Uri location, T content, JsonSerializerSettings settings)
+        {
+            this.Configuration.Formatters.JsonFormatter.SerializerSettings = settings;
             return base.Created(location, content);
         }
     }

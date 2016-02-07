@@ -1,8 +1,7 @@
 ﻿using System;
-using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 
-namespace Bespoke.Sph.Web.Dependencies
+namespace Bespoke.Sph.Domain
 {
     public interface IDeveloperService
     {

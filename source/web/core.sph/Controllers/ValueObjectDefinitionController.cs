@@ -2,8 +2,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.Controllers
 {

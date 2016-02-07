@@ -1,7 +1,7 @@
 {
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
   "CodeNamespace": "Bespoke.DevV1.Api",
-  "Icon": "fa fa-search",
+  "Icon": "fa fa-cloud-download",
   "Url": "query.endpoint.designer/patients-died-this-week",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
@@ -12,11 +12,11 @@
         "Operator": "Ge",
         "Field": {
           "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
-          "CodeNamespace": "ffff07c0c0",
+          "CodeNamespace": "ffff265f7b",
           "Script": "DateTime.Today.AddDays(-7)",
           "Name": null,
           "Note": null,
-          "WebId": "ff07c0c0d4"
+          "WebId": "ff265f7b2d"
         },
         "WebId": null
       }

@@ -1,45 +1,47 @@
 ﻿using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Dependencies;
-using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.Controllers
 {
-    [RoutePrefix("entity-form")]
-    public class EntityFormController : BaseController
+    [RoutePrefix("api-rx/entity-forms")]
+    public class EntityFormController : BaseApiController
     {
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> Save()
+        public async Task<IHttpActionResult> Save([JsonBody]EntityForm form)
         {
-            var ef = this.GetRequestJson<EntityForm>();
             var context = new SphDataContext();
-
-            var baru = string.IsNullOrWhiteSpace(ef.Id) || ef.Id == "0";
-            if (baru)ef.Id = ef.Route.ToIdFormat();
+            var baru = string.IsNullOrWhiteSpace(form.Id) || form.Id == "0";
+            if (baru) form.Id = form.Route.ToIdFormat();
 
             using (var session = context.OpenSession())
             {
-                session.Attach(ef);
+                session.Attach(form);
                 await session.SubmitChanges("Save");
             }
-            this.Response.StatusCode = (int)(baru ? HttpStatusCode.Created : HttpStatusCode.OK);
-            return Json(new { success = true, status = "OK", id = ef.Id, location = $"{ConfigurationManager.BaseUrl}/sph#entity.form.designer/{ef.EntityDefinitionId}/{ef.Id}" });
+            var result = new
+            {
+                success = true,
+                status = "OK",
+                id = form.Id
+            };
+            if (baru) return Created("/api/entity-forms/" + form.Id, result);
+            return Ok(result);
         }
 
         [HttpPost]
         [Route("depublish")]
-        public async Task<ActionResult> Depublish()
+        public async Task<IHttpActionResult> Depublish([JsonBody]EntityForm form)
         {
             var context = new SphDataContext();
-            var form = this.GetRequestJson<EntityForm>();
 
             // look for column which points to the form
             var views = context.LoadFromSources<EntityView>(e => e.IsPublished && e.EntityDefinitionId == form.EntityDefinitionId);
-        
+
 
             var violations = (from vw in views
                               where vw.ViewColumnCollection.Any(c => c.IsLinkColumn
@@ -62,11 +64,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("publish")]
-        public async Task<ActionResult> Publish()
+        public async Task<IHttpActionResult> Publish([JsonBody]EntityForm form)
         {
             var ds = ObjectBuilder.GetObject<DeveloperService>();
             var context = new SphDataContext();
-            var form = this.GetRequestJson<EntityForm>();
             form.IsPublished = true;
             form.BuildDiagnostics = ds.BuildDiagnostics;
 
@@ -87,12 +88,12 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult> Remove(string id)
+        public async Task<IHttpActionResult> Remove(string id)
         {
             var context = new SphDataContext();
-            var form =  context.LoadOneFromSources<EntityForm>(e => e.Id == id);
+            var form = context.LoadOneFromSources<EntityForm>(e => e.Id == id);
             if (null == form)
-                return new HttpNotFoundResult("Cannot find form to delete , Id : " + id);
+                return NotFound();
 
             using (var session = context.OpenSession())
             {

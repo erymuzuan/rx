@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -72,7 +71,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("publish")]
         public async Task<ActionResult> Publish()
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var ds = ObjectBuilder.GetObject<IDeveloperService>();
             var context = new SphDataContext();
             var form = this.GetRequestJson<FormDialog>();
             form.IsPublished = true;

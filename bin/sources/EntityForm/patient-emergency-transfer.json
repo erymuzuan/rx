@@ -1,5 +1,7 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
+  "Icon": "fa fa-pencil-square-o",
+  "Url": "entity.form.designer/Patient/patient-emergency-transfer",
   "FormDesign": {
     "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
     "FormElementCollection": {
@@ -186,10 +188,18 @@
   "Partial": null,
   "Caption": null,
   "Layout": " ",
+  "OperationSuccessMesage": null,
+  "OperationSuccessNavigateUrl": null,
+  "OperationSuccessCallback": null,
+  "OperationFailureCallback": null,
+  "OperationMethod": "",
+  "DeleteOperation": null,
+  "DeleteOperationSuccessMesage": null,
+  "DeleteOperationSuccessNavigateUrl": null,
   "CreatedBy": "admin",
   "Id": "patient-emergency-transfer",
   "CreatedDate": "2014-03-28T11:08:09.2038117+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-07-27T16:52:41.4998811+08:00",
+  "ChangedDate": "2016-02-07T10:32:08.0449613+08:00",
   "WebId": "245957b5-d375-48f6-b500-a24380cb48e9"
 }

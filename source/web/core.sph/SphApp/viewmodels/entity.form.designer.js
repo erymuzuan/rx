@@ -38,14 +38,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 context.loadOneAsync("EntityDefinition", query)
                     .done(function (b) {
                         entity(b);
-                        if (formid === "0") {
-                            tcs.resolve(true);
-                        }
-                        var operations = (b.EntityOperationCollection()).map(function (v) {
-                            return v.Name();
-                        });
-                        operationsOption(operations);
 
+
+                        context.getListAsync("OperationEndpoint", "Entity eq '" + ko.unwrap(b.Name) + "'", "Name").done(operationsOption);
                         var collectionMembers = [],
                             findCollectionMembers = function (list) {
                                 _(list).each(function (v) { console.log(ko.unwrap(v.Name) + "->" + ko.unwrap(v.TypeName)); });
@@ -336,7 +331,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 var data = ko.mapping.toJSON(form);
 
-                return context.post(data, "/entity-form/publish")
+                return context.post(data, "/api-rx/entity-forms/publish")
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
@@ -364,11 +359,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(form);
 
-                context.post(data, "/entity-form")
+                context.post(data, "/api-rx/entity-forms")
                     .then(function (result) {
                         if (result.success) {
                             form().Id(result.id);
-                            router.navigate("/entity.form.designer/" + entity().Id() + "/" + form().Id());
                             logger.info("Your form has been successfully saved.");
                             originalEntity = ko.toJSON(form);
                         } else {
@@ -412,7 +406,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 .done(function (dialogResult) {
                     if (dialogResult === "Yes") {
 
-                        context.send(data, "/entity-form/" + form().Id(), "DELETE")
+                        context.send(data, "/api-rx/entity-forms/" + form().Id(), "DELETE")
                             .fail(tcs.reject)
                             .then(function (result) {
                                 if (result.success) {
@@ -437,7 +431,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             var tcs = new $.Deferred(),
                 data = ko.mapping.toJSON(form);
 
-            context.post(data, "/entity-form/depublish")
+            context.post(data, "/api-rx/entity-forms/depublish")
                 .then(function (result) {
                     if (result.success) {
                         logger.info(result.message);

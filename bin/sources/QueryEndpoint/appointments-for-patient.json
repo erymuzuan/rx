@@ -1,7 +1,7 @@
 {
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
   "CodeNamespace": "Bespoke.DevV1.Api",
-  "Icon": "fa fa-search",
+  "Icon": "fa fa-cloud-download",
   "Url": "query.endpoint.designer/appointments-for-patient",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",

@@ -61,7 +61,9 @@ namespace Bespoke.Sph.Domain
             return await renderer.RenderAsync(this);
         }
 
+        [JsonIgnore]
         public string Icon => "fa fa-pencil-square-o";
+        [JsonIgnore]
         public string Url => $"entity.form.designer/{Entity}/{Id}";
     }
 }

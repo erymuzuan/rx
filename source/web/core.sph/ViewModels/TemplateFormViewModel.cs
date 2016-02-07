@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
+using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.ViewModels
 {
@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Web.ViewModels
         {
             get
             {
-                var ds = ObjectBuilder.GetObject<DeveloperService>();
+                var ds = ObjectBuilder.GetObject<IDeveloperService>();
                 var items = ds.ToolboxItems.OrderBy(x => x.Metadata.Order).Select(x => x.Value);
                 return items.ToObjectCollection();
             }

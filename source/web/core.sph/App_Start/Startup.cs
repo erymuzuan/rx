@@ -1,4 +1,5 @@
-﻿using Bespoke.Sph.Web.App_Start;
+﻿using System.Net.Http.Formatting;
+using Bespoke.Sph.Web.App_Start;
 using Bespoke.Sph.Web.Hubs;
 using Microsoft.Owin;
 using Owin;
@@ -20,10 +21,16 @@ namespace Bespoke.Sph.Web.App_Start
 
             var config = new HttpConfiguration();
             config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
-            config.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings();
+            var setting = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.None
+            };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            setting.Formatting = Formatting.Indented;
+
+            config.Formatters.JsonFormatter.SerializerSettings = setting;
             config.MapHttpAttributeRoutes();
-
-
             app.UseWebApi(config);
 
         }

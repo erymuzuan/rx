@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -43,7 +42,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             Func<EntityForm, Task> fr = async f =>
             {
-                f.BuildDiagnostics = ObjectBuilder.GetObject<DeveloperService>().BuildDiagnostics;
+                f.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
                 var t = entities.SingleOrDefault(x => x.Id == f.EntityDefinitionId);
                 var result = await f.ValidateBuildAsync(t);
                 result.Uri = $"entity.form.designer/{f.EntityDefinitionId}/{f.Id}";
@@ -65,7 +64,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             Func<EntityView, Task> vr = async v =>
             {
-                v.BuildDiagnostics = ObjectBuilder.GetObject<DeveloperService>().BuildDiagnostics;
+                v.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
                 var t = entities.SingleOrDefault(x => x.Id == v.EntityDefinitionId);
                 var result = await v.ValidateBuildAsync(t);
                 result.Uri = $"entity.view.designer/{v.EntityDefinitionId}/{v.Id}";

@@ -949,7 +949,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomFormController.cs" />
     <Compile Include="Controllers\CustomFormController.dialog.cs" />
@@ -1102,8 +1101,6 @@
     <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Controllers\FormDesignerController.cs" />
     <Compile Include="Controllers\WorkflowDesignerController.cs" />
-    <Compile Include="Dependencies\DeveloperService.cs" />
-    <Compile Include="Dependencies\IDeveloperService.cs" />
     <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Filters\RazorScriptStream.cs" />
     <Compile Include="Filters\RazorScriptFilter.cs" />
@@ -1113,7 +1110,6 @@
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\HashTableHelper.cs" />
-    <Compile Include="Helpers\JsonBodyAttribute.cs" />
     <Compile Include="Helpers\JsonContent.cs" />
     <Compile Include="Helpers\JsonDotNetValueProviderFactory.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
@@ -3528,6 +3524,10 @@
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\webapi.common\webapi.common.csproj">
+      <Project>{2a396bf5-09bd-4ae9-b6de-cf93aee99d66}</Project>
+      <Name>webapi.common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

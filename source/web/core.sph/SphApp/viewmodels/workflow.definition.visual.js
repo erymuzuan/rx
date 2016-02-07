@@ -28,7 +28,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var query = String.format("Id eq '{0}'", id);
 
 
-                return $.get("/wf-designer/toolbox-items")
+                return $.get("/api-rx/wf-designer/toolbox-items")
                     .then(function (result) {
                         toolboxElements(result);
                         return context.loadOneAsync("WorkflowDefinition", query);

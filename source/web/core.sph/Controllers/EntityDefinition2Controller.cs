@@ -9,7 +9,6 @@ using System.Web;
 using System.Web.ModelBinding;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Humanizer;
@@ -284,7 +283,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
-            ed.BuildDiagnostics = ObjectBuilder.GetObject<DeveloperService>().BuildDiagnostics;
+            ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
 
             var buildValidation = await ed.ValidateBuildAsync();
 
@@ -329,7 +328,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
-            ed.BuildDiagnostics = ObjectBuilder.GetObject<DeveloperService>().BuildDiagnostics;
+            ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
 
             var buildValidation = await ed.ValidateBuildAsync();
             if (!buildValidation.Result)

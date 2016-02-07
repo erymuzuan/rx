@@ -4,20 +4,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Dependencies;
 using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("query-endpoints")]
-    public class QueryEndpointController : ApiController
+    public class QueryEndpointController : BaseApiController
     {
-        private readonly IDeveloperService m_developerService;
-        public QueryEndpointController()
-        {
-            DeveloperService.Init();
-            m_developerService = ObjectBuilder.GetObject<DeveloperService>();
-        }
 
         [HttpPost]
         [Route("")]
@@ -75,7 +69,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             endpoint.IsPublished = true;
-            endpoint.BuildDiagnostics = this.m_developerService.BuildDiagnostics;
+            endpoint.BuildDiagnostics = this.DeveloperService.BuildDiagnostics;
 
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == endpoint.Entity || e.Name == endpoint.Entity);
 

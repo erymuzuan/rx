@@ -324,6 +324,7 @@
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="IBuildDiagnostics.cs" />
     <Compile Include="ICacheManager.cs" />
+    <Compile Include="IDeveloperService.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="IReadonlyRepository.cs" />
     <Compile Include="JsRoute.cs" />

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -38,8 +39,8 @@ namespace Bespoke.Sph.Web.Controllers
                     new Link( "delete", $"{ConfigurationManager.BaseUrl}/api/operation-endpoints/{endpoint.Id}","DELETE")}
             };
             if (baru)
-                return Created(new Uri(location), response, true);
-            return Ok(response, true);
+                return Created(new Uri(location), response);
+            return Ok(response);
         }
 
 

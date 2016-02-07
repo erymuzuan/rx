@@ -12,144 +12,50 @@
 <div class="row">
     <div class="col-sm-8">
 <form class="form-horizontal" data-bind="with : entity" id="patient-details-form">
-<div class="form-group" data-bind="visible:true">
-    <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="queryPaging :{ query: '/api/patients/' + ko.unwrap(Mrn) + '/appointments?start=2016-01-01&amp;end=2016-02-29', list: bespoke.getSingletonObservableArray('39b41615-de2e-463d-9056-40f5d6731fae')}">
-        <thead>
-            <tr>
-                    <th data-i18n="Doctor">Doctor</th>
-                    <th data-i18n="DateTime">DateTime</th>
-                    <th data-i18n="Location">Location</th>
-                    <th data-i18n="Ward">Ward</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('39b41615-de2e-463d-9056-40f5d6731fae')">
-            <tr>
-                        <td data-bind="text:Doctor"></td>
-                        <td data-bind="date:DateTime"></td>
-                        <td data-bind="text:Location"></td>
-                        <td data-bind="text:Ward"></td>
-            </tr>
-        </tbody>
-    </table>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
 </div>
-    <div data-bind="visible:true" class="form-group">
-        <label data-i18n="FullName" for="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" class="col-md-4">FullName</label>
-        <div class="col-md-8">
-            <input required class="form-control input-large"
-                   data-bind="value: FullName"
-                   maxlength="50"
-                    data-rule-required="true" 
- data-rule-maxlength="50"
- data-rule-minlength="5"
-                   id="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" type="text" name="FullName" />
-        </div>
-    </div>
-    <div data-bind="visible:true" class="form-group">
-        <label data-i18n="MyKad" for="d9f52c01-887a-4ae6-a0fd-c83002987323" class="col-md-4">MyKad</label>
-        <div class="col-md-8">
-            <input class="form-control input-large"
-                   data-bind="value: IdentificationNo"
-                   maxlength="14"
-                    data-rule-maxlength="14"
- data-rule-minlength="12"
-                   id="d9f52c01-887a-4ae6-a0fd-c83002987323" type="text" name="IdentificationNo" />
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible : true">
-        <label data-i18n="Dob" for="d1aa9295-8b31-4eec-a357-fe22540040b8" class="col-md-4">Dob</label>
-        <div class="col-md-8">
-            <input class="form-control input-large"
-                   data-bind="kendoDate: Dob, enable :true" id="d1aa9295-8b31-4eec-a357-fe22540040b8" type="text"
-                   name="Dob" />
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible:true">
-        <label data-i18n="Gender" for="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" class="col-md-4">Gender</label>
-        <div class="col-md-8">
-            <select  data-bind="value: Gender, enable :true" id="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" name="Gender" class="input-large form-control">
-                    <option value="Male" data-i18n="Male">Male</option>
-                    <option value="Female" data-i18n="Female">Female</option>
-                    <option value="Inderterminate" data-i18n="Inderterminate">Inderterminate</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible:true">
-        <label data-i18n="Race" for="22dc3ef6-2060-4cb1-9393-228bbd706764" class="col-md-4">Race</label>
-        <div class="col-md-8">
-            <select  data-bind="value: Race, enable :true" id="22dc3ef6-2060-4cb1-9393-228bbd706764" name="Race" class="input-large form-control">
-                    <option value="Malay" data-i18n="Malay">Malay</option>
-                    <option value="Chinese" data-i18n="Chinese">Chinese</option>
-                    <option value="Indian" data-i18n="Indian">Indian</option>
-                    <option value="Others" data-i18n="Others">Others</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible:true">
-        <label data-i18n="Religion" for="205ef0d1-5c5b-4d47-bf76-4c29fafd33fd" class="col-md-4">Religion</label>
-        <div class="col-md-8">
-            <select  data-bind="value: Religion, enable :true" id="205ef0d1-5c5b-4d47-bf76-4c29fafd33fd" name="Religion" class="input-large form-control">
-                    <option value="Islam" data-i18n="Islam">Islam</option>
-                    <option value="Buddhism" data-i18n="Buddhism">Buddhism</option>
-                    <option value="Christianity" data-i18n="Christianity">Christianity</option>
-                    <option value="Hinduism" data-i18n="Hinduism">Hinduism</option>
-                    <option value="Others" data-i18n="Others">Others</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible:true">
-        <label data-i18n="Income" for="910ee6ef-1143-4c9b-b3a5-0da570e8d1f2" class="col-md-4">Income</label>
-        <div class="col-md-8">
-            <input step="0" class="form-control input-large" data-bind="value: Income, visible :true, enable :true"
-                   id="910ee6ef-1143-4c9b-b3a5-0da570e8d1f2" type="number" name="Income" />
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible:true">
-        <label data-i18n="Age" for="b957c5fe-7a6a-4ebc-8fd3-214078641322" class="col-md-4">Age</label>
-        <div class="col-md-8">
-            <input step="0" class="form-control input-large" data-bind="value: Age, visible :true, enable :true"
-                   id="b957c5fe-7a6a-4ebc-8fd3-214078641322" type="number" name="Age" />
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible:true">
-        <label data-i18n="Marital Status" for="3064a912-b562-4e70-bcf2-170b7a872303" class="col-md-4">Marital Status</label>
-        <div class="col-md-8">
-            <select  data-bind="value: MaritalStatus, enable :true" id="3064a912-b562-4e70-bcf2-170b7a872303" name="MaritalStatus" class="input-large form-control">
-                    <option value="Single" data-i18n="Single">Single</option>
-                    <option value="Married" data-i18n="Married">Married</option>
-                    <option value="Divorced" data-i18n="Divorced">Divorced</option>
-                    <option value="Widow" data-i18n="Widow">Widow</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible:true">
-        <label data-i18n="Home Address  State" for="fea66b5a-9ad6-4fed-aa46-7dd4ba5fadff" class="col-md-4">Home Address  State</label>
-        <div class="col-md-8">
-            <select  data-bind=" visible :true,  enable :true, comboBoxLookupOptions : { value: HomeAddress().State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'startswith(Country, \'Ma\') eq true'}" id="fea66b5a-9ad6-4fed-aa46-7dd4ba5fadff" name="HomeAddress.State" class=" form-control">
-            </select>
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible:true">
-        <label data-i18n="Home Address  City" for="28109dd9-5e0a-4309-8bbd-ac89b7d9e040" class="col-md-4">Home Address  City</label>
-        <div class="col-md-8">
-            <select  data-bind="value: HomeAddress().City, enable :true" id="28109dd9-5e0a-4309-8bbd-ac89b7d9e040" name="HomeAddress.City" class=" form-control">
-                    <option value="test" data-i18n="test">test</option>
-                    <option value="t" data-i18n="t">t</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible : true">
-        <label data-i18n="Death Date" for="0ca43c3a-a2f7-42ed-91da-d246e1abc790" class="col-md-4">Death Date</label>
-        <div class="col-md-8">
-            <input class="form-control input-large"
-                   data-bind="kendoDate: DeathDate, enable :true" id="0ca43c3a-a2f7-42ed-91da-d246e1abc790" type="text"
-                   name="DeathDate" />
-        </div>
-    </div>
-<div class="form-group" data-bind="visible:true">
-    <label class="col-md-4">Death Date Time</label>
-    <span class="col-md-8" data-bind="date:{value : DeathDate, format : 'DD/MM/YYYY HH:mm'}"></span>
-</div></form>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<div class="alert alert-danger">
+    <strong>There's no EditorTemplate for FormElement</strong>
+</div>
+<p>
+    <span>WE DON'T KNOW HOW TO DISPLAY FormElement</span>
+    <span>Path : DeathDate</span>
+</p>
+</form>
     </div>
     <div class="col-sm-4">
     </div>
