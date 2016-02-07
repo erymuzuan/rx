@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain
             typeof(JsonConvert).Namespace ,
             "System.Web.Http",
             "System.Net.Http",
-            "Bespoke.Sph.Web.Helpers"
+            "Bespoke.Sph.WebApi"
         };
 
         public string CodeNamespace => $"Bespoke.{ConfigurationManager.ApplicationName}.Api";
@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Domain
                 Name = $"{className}Controller",
                 IsPartial = true,
                 FileName = $"{className}Controller.cs",
-                BaseClass = "ApiController",
+                BaseClass = "BaseApiController",
                 Namespace = CodeNamespace
             };
 
@@ -267,8 +267,8 @@ namespace Bespoke.Sph.Domain
                     parameters.ReferencedAssemblies.Add(ass);
                 }
 
+                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\webapi.common.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
 
                 var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{nameof(QueryEndpoint)}.{this.Name}";
