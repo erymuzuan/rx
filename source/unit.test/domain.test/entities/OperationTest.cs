@@ -13,18 +13,18 @@ using domain.test.triggers;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.entities
 {
-    [TestFixture]
+    [Trait("Category", "Operation endpoints")]
+    [Trait("Category", "Compile")]
     public class OperationTest
     {
-        private MockRepository<EntityDefinition> m_efMock;
+        private readonly MockRepository<EntityDefinition> m_efMock;
         private readonly MockPersistence m_persistence = new MockPersistence();
 
-        [SetUp]
-        public void Setup()
+        public OperationTest()
         {
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
@@ -66,7 +66,7 @@ namespace domain.test.entities
             var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
 
             var edType = assembly.GetType(edTypeName);
-            Assert.IsNotNull(edType, edTypeName + " is null");
+            Assert.NotNull(edType);
 
             return Activator.CreateInstance(edType);
         }
@@ -120,15 +120,16 @@ namespace domain.test.entities
 
         }
 
-        [Test]
+        [Fact]
         public void GeneratePatientTest()
         {
             var ed = this.CreatePatientDefinition();
             var patient = this.CreateInstance(ed, true);
-            Assert.IsNotNull(patient);
+            Assert.NotNull(patient);
         }
 
-        [Test]
+        [Fact]
+        [Trait("Verb", "POST")]
         public async Task PostRegister()
         {
             var release = new OperationEndpoint
@@ -144,10 +145,10 @@ namespace domain.test.entities
 
             var ed = this.CreatePatientDefinition(release.Entity);
             var patient = this.CreateInstance(ed, true);
-            Assert.IsNotNull(patient);
+            Assert.NotNull(patient);
 
             var result = await release.CompileAsync(ed);
-            Assert.IsTrue(result.Result, result.ToString());
+            Assert.True(result.Result, result.ToString());
 
             var dll = Assembly.LoadFrom(result.Output);
 
@@ -158,102 +159,95 @@ namespace domain.test.entities
             JObject json = JObject.Parse(JsonSerializerService.ToJsonString(response.Data));
 
             var id = json.SelectToken("$.id").Value<string>();
-            Assert.AreEqual(json.SelectToken("$._links.href").Value<string>(), $"{ConfigurationManager.BaseUrl}/api/patients/" + id);
+            Assert.Equal(json.SelectToken("$._links.href").Value<string>(), $"{ConfigurationManager.BaseUrl}/api/patients/" + id);
 
         }
-        [Test]
-        public void HttpPatchReleaseOperation()
+        [Fact]
+        [Trait("Verb", "PATCH")]
+        public async Task HttpPatchReleaseOperation()
         {
-            var release = new OperationEndpoint { Name = "Release", IsHttpPatch = true, WebId = "ReleaseWithPatch" };
-            release.PatchPathCollection.Add(new PatchSetter { Path = "Status" });
+            var ed = this.CreatePatientDefinition("PatientForRelease");
+
+            var release = new OperationEndpoint { Name = "Release", Entity =  ed.Name, Resource = "patients", IsHttpPatch = true, WebId = "ReleaseWithPatch" };
+            release.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Released\""});
             //release.PatchPathCollection.Add("ClinicalNote");
             release.Rules.Add("VerifyRegisteredDate");
 
-
-            var ed = this.CreatePatientDefinition("PatientForRelease");
-
+            var cr = await release.CompileAsync(ed);
+            Assert.True(cr.Result, cr.ToString());
 
             var patient = this.CreateInstance(ed, true);
-            Assert.IsNotNull(patient);
+            Assert.NotNull(patient);
 
-            Type patientType = patient.GetType();
-            var dll = patientType.Assembly;
-            foreach (var type in dll.GetTypes())
-            {
-                Console.WriteLine(type);
-            }
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientForReleaseController");
-            Assert.IsNotNull(controllerType);
+            var dll = Assembly.LoadFrom(cr.Output);
+            var controllerType = dll.GetType($"{release.CodeNamespace}.{release.Name}Controller");
+            Assert.NotNull(controllerType);
 
             var releaseActionMethodInfo = controllerType.GetMethod("PatchRelease");
-            Assert.IsNotNull(releaseActionMethodInfo);
+            Assert.NotNull(releaseActionMethodInfo);
 
 
         }
-        [Test]
-        public void HttpPutAdmit()
+        [Fact]
+        [Trait("Verb", "PUT")]
+        public async Task HttpPutAdmit()
         {
-            var admit = new OperationEndpoint { Name = "Admit", IsHttpPut = true, WebId = "PutAdmit" };
-            admit.PatchPathCollection.Add(new PatchSetter { Path = "Status" });
-
             var ed = this.CreatePatientDefinition("PatientPutAdmit");
+            var admit = new OperationEndpoint { Name = "Admit", Entity = ed.Name, Resource = "patients", IsHttpPut = true, WebId = "PutAdmit" };
+            admit.PatchPathCollection.Add(new PatchSetter { Path = "Status" , DefaultValue = "\"Admitted\""});
+
 
             var patient = this.CreateInstance(ed, true);
-            Assert.IsNotNull(patient);
+            Assert.NotNull(patient);
 
-            Type patientType = patient.GetType();
-            var dll = patientType.Assembly;
-            foreach (var type in dll.GetTypes())
-            {
-                Console.WriteLine(type);
-            }
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientPutAdmitController");
-            Assert.IsNotNull(controllerType);
+            var cr = await admit.CompileAsync(ed);
+            Assert.True(cr.Result, cr.ToString());
+            
+            var dll = Assembly.LoadFrom(cr.Output);
+            var controllerType = dll.GetType($"{admit.CodeNamespace}.{admit.Name}Controller");
+            Assert.NotNull(controllerType);
 
-            var releaseActionMethodInfo = controllerType.GetMethod("PutAdmit");
-            Assert.IsNotNull(releaseActionMethodInfo);
+            var releaseActionMethodInfo = controllerType.GetMethod($"Put{admit.Name}");
+            Assert.NotNull(releaseActionMethodInfo);
 
 
         }
 
 
-        [Test]
-        public void HttpDelete()
+        [Fact]
+        [Trait("Verb", "DELETE")]
+        public async  Task HttpDelete()
         {
-            var delete = new OperationEndpoint { Name = "Remove", Route = "", IsHttpDelete = true, WebId = "remove" };
-
+            var delete = new OperationEndpoint { Name = "Remove", Entity = "PatientDelete", Route = "", IsHttpDelete = true, WebId = "remove" };
             var ed = this.CreatePatientDefinition("PatientDelete");
+            
+            var cr =await delete.CompileAsync(ed);
+            Assert.True(cr.Result, cr.ToString());
 
-            var patient = this.CreateInstance(ed, true);
-            Assert.IsNotNull(patient);
 
-            Type patientType = patient.GetType();
-            var dll = patientType.Assembly;
-            foreach (var type in dll.GetTypes())
-            {
-                Console.WriteLine(type);
-            }
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientDeleteController");
-            Assert.IsNotNull(controllerType);
+            var dll = Assembly.LoadFrom(cr.Output);
+            var controllerType = dll.GetType($"{delete.CodeNamespace}.{delete.Name}Controller");
+            Assert.NotNull(controllerType);
 
-            var remove = controllerType.GetMethod("DeleteRemove");
-            Assert.IsNotNull(remove);
+            var remove = controllerType.GetMethod($"Delete{delete.Name}");
+            Assert.NotNull(remove);
 
             var httpDelete = remove.CustomAttributes.SingleOrDefault(x => x.AttributeType == typeof(HttpDeleteAttribute));
-            Assert.IsNotNull(httpDelete);
+            Assert.NotNull(httpDelete);
 
             var parameters = remove.GetParameters();
-            Assert.AreEqual(1, parameters.Length, "DELETE action should only contains 1 parameter{id}");
+            Assert.Equal(1, parameters.Length);
             var id = parameters.Single();
-            Assert.AreEqual("id", id.Name);
-            Assert.AreEqual(typeof(string), id.ParameterType);
+            Assert.Equal("id", id.Name);
+            Assert.Equal(typeof(string), id.ParameterType);
         }
-        [Test]
-        public void HttpDeleteWithRule()
+        [Fact]
+        [Trait("Verb", "DELETE")]
+        public async  Task HttpDeleteWithRule()
         {
-            var delete = new OperationEndpoint { Name = "Remove", Route = "", IsHttpDelete = true, WebId = "remove" };
-
             const string NAME = "PatientDeleteWithRule";
+            var delete = new OperationEndpoint { Name = "Remove", Entity =  NAME, Resource = "patients", Route = "", IsHttpDelete = true, WebId = "remove" };
+
             var ed = this.CreatePatientDefinition(NAME);
             var rule = new BusinessRule { Name = "Cannot delete admitted patient", WebId = "rule01" };
             rule.RuleCollection.Add(new Rule { Left = new DocumentField { Path = "Status" }, Operator = Operator.Neq, Right = new ConstantField { Value = "Admitter", Type = typeof(string) } });
@@ -261,28 +255,27 @@ namespace domain.test.entities
             delete.Rules.Add(rule.Name);
 
             var patient = this.CreateInstance(ed, true);
-            Assert.IsNotNull(patient);
+            Assert.NotNull(patient);
 
-            Type patientType = patient.GetType();
-            var dll = patientType.Assembly;
-            foreach (var type in dll.GetTypes())
-            {
-                Console.WriteLine(type);
-            }
-            var controllerType = dll.GetType($"{patientType.Namespace}.{NAME}Controller");
-            Assert.IsNotNull(controllerType);
+            var cr = await delete.CompileAsync(ed);
+            Assert.True(cr.Result, cr.ToString());
 
-            var remove = controllerType.GetMethod("DeleteRemove");
-            Assert.IsNotNull(remove);
+            var dll = Assembly.LoadFrom(cr.Output);
+
+            var controllerType = dll.GetType($"{delete.CodeNamespace}.{delete.Name}Controller");
+            Assert.NotNull(controllerType);
+
+            var remove = controllerType.GetMethod($"Delete{delete.Name}");
+            Assert.NotNull(remove);
 
             var httpDelete = remove.CustomAttributes.SingleOrDefault(x => x.AttributeType == typeof(HttpDeleteAttribute));
-            Assert.IsNotNull(httpDelete);
+            Assert.NotNull(httpDelete);
 
             var parameters = remove.GetParameters();
-            Assert.AreEqual(1, parameters.Length, "DELETE action should only contains 1 parameter{id}");
+            Assert.Equal(1, parameters.Length);
             var id = parameters.Single();
-            Assert.AreEqual("id", id.Name);
-            Assert.AreEqual(typeof(string), id.ParameterType);
+            Assert.Equal("id", id.Name);
+            Assert.Equal(typeof(string), id.ParameterType);
         }
 
 
@@ -299,7 +292,8 @@ namespace domain.test.entities
             return repository;
         }
 
-        [Test]
+        [Fact]
+        [Trait("Verb", "PATCH")]
         public async Task ConflictDetection()
         {
             var mortuary = new OperationEndpoint
@@ -323,12 +317,12 @@ namespace domain.test.entities
             File.WriteAllText(oePath, mortuary.ToJsonString(true));
 
             var patient = this.CreateInstance(ed, true);
-            Assert.IsNotNull(patient);
+            Assert.NotNull(patient);
             patient.Id = "0142ae18-a205-4979-9218-39f92b41589e";
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
             var cr = await mortuary.CompileAsync(ed);
-            Assert.IsTrue(cr.Result, cr.ToString());
+            Assert.True(cr.Result, cr.ToString());
 
             Type patientType = patient.GetType();
             var oedll = Assembly.LoadFrom(cr.Output);
@@ -344,11 +338,12 @@ namespace domain.test.entities
 
             context.Request.Headers.Add("If-None-Match", "45");
             var result = await controller.PatchSendToMortuary(patient.Id, JsonSerializerService.ToJsonString(patient, true));
-            Assert.IsNotNull(result);
-            Assert.AreEqual(409, context.Response.StatusCode);
+            Assert.NotNull(result);
+            Assert.Equal(409, context.Response.StatusCode);
         }
 
-        [Test]
+        [Fact]
+        [Trait("Verb", "PATCH")]
         public async Task PatchReleaseOperationWithBusinessRule()
         {
             var release = new OperationEndpoint
@@ -386,7 +381,7 @@ namespace domain.test.entities
             File.WriteAllText(oePath, release.ToJsonString(true));
 
             var patient = this.CreateInstance(ed, true);
-            Assert.IsNotNull(patient);
+            Assert.NotNull(patient);
             patient.Id = Guid.NewGuid().ToString();
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
@@ -409,19 +404,20 @@ namespace domain.test.entities
 
             var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
 
             dynamic vr = result.Data;
             var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
-            StringAssert.Contains("\"success\": false", ttt);
+            Assert.Contains("\"success\": false", ttt);
             Console.WriteLine();
             //Assert.IsFalse(vr.success);
-            //Assert.AreEqual(3, vr.rules.Length);
+            //Assert.Equal(3, vr.rules.Length);
             File.Delete(jsonPath);
             File.Delete(oePath);
 
         }
-        [Test]
+        [Fact]
+        [Trait("Verb", "PATCH")]
         public async Task PatchReleaseOperationWithSetter()
         {
             var release = new OperationEndpoint
@@ -461,7 +457,7 @@ namespace domain.test.entities
 
 
             var patient = this.CreateInstance(ed, true);
-            Assert.IsNotNull(patient);
+            Assert.NotNull(patient);
             patient.DeathDateTime = DateTime.Today.AddDays(1);
             patient.Id = Guid.NewGuid().ToString();
 
@@ -471,7 +467,7 @@ namespace domain.test.entities
             repos.AddToDictionary(patient.Id, patient);
 
             var cr = await release.CompileAsync(ed);
-            Assert.IsTrue(cr.Result, cr.ToString());
+            Assert.True(cr.Result, cr.ToString());
             var opDll = Assembly.LoadFrom(cr.Output);
 
             var controller = opDll.CreateController(release.CodeNamespace + ".ReleaseController");
@@ -479,12 +475,12 @@ namespace domain.test.entities
 
             var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
 
             dynamic vr = result.Data;
-            Assert.IsNotNull(vr);
+            Assert.NotNull(vr);
 
-            Assert.AreEqual("Released", patient.Status);
+            Assert.Equal("Released", patient.Status);
 
             File.Delete(oePath);
             File.Delete(edPath);

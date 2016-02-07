@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -65,7 +66,7 @@ namespace domain.test.entities
                         Entity = "Patient",
                         WebId = "all-patients"
                     },
-                new Filter[]
+                new []
                     {
                         new Filter
                         {
@@ -151,8 +152,8 @@ namespace domain.test.entities
 
             var json = await query.GenerateEsQueryAsync();
             var jo = JObject.Parse(json);
-            Assert.Equal(120, jo.SelectToken("$.from").Value<int>());
-            Assert.Equal(30, jo.SelectToken("$.size").Value<int>());
+            var fields = jo.SelectToken("$.fields").Values<string>().ToArray();
+            Assert.Contains("Dob", fields);
         }
 
         [Fact]

@@ -68,9 +68,10 @@ namespace Bespoke.Sph.Domain
             post.ArgumentCollection.Add(body);
 
 
-            post.AppendLine("           var context = new SphDataContext();");
             if (this.Rules.Any() || this.SetterActionChildCollection.Any())
                 post.AppendLine(GetEntityDefinitionCode(ed));
+            else
+                post.AppendLine("           var context = new SphDataContext();");
 
             post.AppendLine("      item.Id = Strings.GenerateId(); ");
 
@@ -121,6 +122,8 @@ namespace Bespoke.Sph.Domain
             var enabledGetEntityDefinition = this.Rules.Any() || this.SetterActionChildCollection.Any();
             if (enabledGetEntityDefinition)
                 patch.AppendLine(GetEntityDefinitionCode(ed));
+            else
+                patch.AppendLine("var context = new SphDataContext();");
 
             patch.Append(
                 $@"
@@ -170,7 +173,6 @@ namespace Bespoke.Sph.Domain
                 patch.AppendLine(setterCode);
 
             patch.AppendLine($@"
-        
             using(var session = context.OpenSession())
             {{
                 session.Attach(item);
@@ -219,10 +221,10 @@ namespace Bespoke.Sph.Domain
         public Method GeneratePutAction(EntityDefinition ed)
         {
             if (!IsHttpPut) return null;
-            var route = this.Route;
-            if (!this.Route.StartsWith("~/"))
+            var route = this.Route ?? "";
+            if (!route.StartsWith("~/"))
             {
-                if (!this.Route.Contains("{id"))
+                if (!route.Contains("{id"))
                     route = $"{{id:guid}}/{route}";
             }
 
@@ -321,11 +323,10 @@ namespace Bespoke.Sph.Domain
                 delete.AttributeCollection.Add(authorize);
 
 
-            delete.AppendLine("           var context = new SphDataContext();");
             delete.AppendLine(
                 $@"
-            var repos = ObjectBuilder.GetObject<IRepository<{ed.Name}>>();
-            var item = await repos.LoadOneAsync(id);
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var item = (await repos.LoadOneAsync(id)).Source;
             if(null == item)
                 return new HttpNotFoundResult();");
 
@@ -335,8 +336,12 @@ namespace Bespoke.Sph.Domain
                 var rules = GenerateRulesCode();
                 delete.AppendLine(rules);
             }
+            else
+            {
+                delete.AppendLine("var context = new SphDataContext();");
+            }
 
-            delete.AppendLine(
+            delete.Append(
               $@"
             using(var session = context.OpenSession())
             {{

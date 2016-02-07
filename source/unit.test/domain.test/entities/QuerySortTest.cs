@@ -1,13 +1,13 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
 using domain.test.triggers;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.entities
 {
     public class QuerySortTest
     {
-        [Test]
+        [Fact]
         public void SimpleSort()
         {
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
@@ -20,10 +20,10 @@ namespace domain.test.entities
             view.SortCollection.Add(new Sort { Direction = SortDirection.Desc, Path = "Floors" });
 
             var sortDsl = view.GenerateEsSortDsl();
-            StringAssert.Contains("{\"Name\":{\"order\":\"asc\"}}", sortDsl);
+            Assert.Contains("{\"Name\":{\"order\":\"asc\"}}", sortDsl);
         }
 
-        [Test]
+        [Fact]
         public void UsingCurrentUser()
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
@@ -44,9 +44,9 @@ namespace domain.test.entities
 
             var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
             Console.WriteLine(filter);
-            StringAssert.Contains("\"CreatedBy\":config.userName", filter);
+            Assert.Contains("\"CreatedBy\":config.userName", filter);
         }
-        [Test]
+        [Fact]
         public void UsingNotFilters()
         {
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
@@ -66,10 +66,10 @@ namespace domain.test.entities
 
             var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
             Console.WriteLine(filter);
-            StringAssert.Contains("\"Floors\":0", filter);
+            Assert.Contains("\"Floors\":0", filter);
         }
 
-        [Test]
+        [Fact]
         public void UsingAndFilters()
         {
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
@@ -87,10 +87,10 @@ namespace domain.test.entities
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
 
             var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
-            StringAssert.Contains("\"Name\":\"KLCC\"", filter);
+            Assert.Contains("\"Name\":\"KLCC\"", filter);
         }
 
-        [Test]
+        [Fact]
         public void UsingDateBinaryFilter()
         {
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
@@ -108,7 +108,7 @@ namespace domain.test.entities
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
 
             var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
-            StringAssert.Contains("\"to\":\"2000-01-01", filter);
+            Assert.Contains("\"to\":\"2000-01-01", filter);
         }
     }
 }

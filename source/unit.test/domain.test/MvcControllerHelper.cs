@@ -22,6 +22,7 @@ namespace domain.test
         public class HttpResponse : HttpResponseBase
         {
             public override int StatusCode { get; set; }
+            public override string StatusDescription { get; set; }
         }
         public class HttpContext : HttpContextBase
         {

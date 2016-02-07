@@ -5,17 +5,14 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.entities
 {
-    [TestFixture]
+    [Trait("Category", "Query endpoints")]
     public class ServiceContractTest
     {
-        private Mock<IRepository<ValueObjectDefinition>> m_vodRepo;
-        private Mock<IDirectoryService> m_ds;
-        [SetUp]
-        public void Init()
+        public ServiceContractTest()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
@@ -23,21 +20,21 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<QueryProvider>(qp);
 
 
-            m_ds = new Mock<IDirectoryService>(MockBehavior.Strict);
-            ObjectBuilder.AddCacheList(m_ds.Object);
+            var ds = new Mock<IDirectoryService>(MockBehavior.Strict);
+            ObjectBuilder.AddCacheList(ds.Object);
 
             var cacheManager = new Mock<ICacheManager>();
             cacheManager.Setup(x => x.Get<ServiceContractSetting>(It.IsAny<string>()))
                 .Returns(new ServiceContractSetting());
             ObjectBuilder.AddCacheList(cacheManager.Object);
 
-            m_vodRepo = new Mock<IRepository<ValueObjectDefinition>>(MockBehavior.Strict);
+            var vodRepo = new Mock<IRepository<ValueObjectDefinition>>(MockBehavior.Strict);
 
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\";
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            ObjectBuilder.AddCacheList(m_vodRepo.Object);
+            ObjectBuilder.AddCacheList(vodRepo.Object);
 
             var address = new ValueObjectDefinition { Name = "Address", Id = "address", ChangedDate = DateTime.Now, ChangedBy = "Me", CreatedBy = "Me", CreatedDate = DateTime.Now };
             address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
@@ -59,17 +56,17 @@ namespace domain.test.entities
             child.Save();
         }
 
-        [Test]
+        [Fact]
         public async Task GenerateGetOneByIdTest()
         {
             var patient = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
             patient.ServiceContract.EntityResourceEndpoint.IsAllowed = true;
 
             var cr = await patient.ServiceContract.CompileAsync(patient);
-            Assert.IsTrue(cr.Result, cr.ToString());
+            Assert.True(cr.Result, cr.ToString());
 
         }
-        [Test]
+        [Fact]
         public async Task SaveSetting()
         {
             var patient = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
@@ -81,7 +78,7 @@ namespace domain.test.entities
         }
 
 
-        [Test]
+        [Fact]
         public async Task GenerateSearch()
         {
             var patient = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
@@ -91,7 +88,7 @@ namespace domain.test.entities
 
 
             var cr = await patient.ServiceContract.CompileAsync(patient);
-            Assert.IsTrue(cr.Result, cr.ToString());
+            Assert.True(cr.Result, cr.ToString());
         }
 
         private static string PatientSourceJson => File.ReadAllText($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\patient.json");

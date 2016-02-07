@@ -5,19 +5,14 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Moq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.entities
 {
-    [TestFixture]
     public class ValueObjectDefinitionCodeTest
     {
-        private Mock<IRepository<ValueObjectDefinition>> m_vodRepo;
-        private Mock<IDirectoryService> m_ds;
-        [SetUp]
-        public void Init()
+        public ValueObjectDefinitionCodeTest()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
@@ -25,16 +20,16 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<QueryProvider>(qp);
 
 
-            m_ds = new Mock<IDirectoryService>(MockBehavior.Strict);
-            ObjectBuilder.AddCacheList(m_ds.Object);
+            var ds = new Mock<IDirectoryService>(MockBehavior.Strict);
+            ObjectBuilder.AddCacheList(ds.Object);
 
-            m_vodRepo = new Mock<IRepository<ValueObjectDefinition>>(MockBehavior.Strict);
+            var vodRepo = new Mock<IRepository<ValueObjectDefinition>>(MockBehavior.Strict);
 
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ValueObjectDefinition)}\\";
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            ObjectBuilder.AddCacheList(m_vodRepo.Object);
+            ObjectBuilder.AddCacheList(vodRepo.Object);
 
             var address = new ValueObjectDefinition { Name = "Address", Id = "address", ChangedDate = DateTime.Now, ChangedBy = "Me", CreatedBy = "Me", CreatedDate = DateTime.Now };
             address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
@@ -56,7 +51,7 @@ namespace domain.test.entities
             child.Save();
         }
 
-        [Test]
+        [Fact]
         public void GenerateCodeBasic()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
@@ -94,9 +89,9 @@ namespace domain.test.entities
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+            options.ReferencedAssembliesLocation.Add($@"{ConfigurationManager.Home}\..\source\web\web.sph\bin\System.Web.Mvc.dll");
+            options.ReferencedAssembliesLocation.Add($@"{ConfigurationManager.Home}\..\source\web\web.sph\bin\core.sph.dll");
+            options.ReferencedAssembliesLocation.Add($@"{ConfigurationManager.Home}\..\source\web\web.sph\bin\Newtonsoft.Json.dll");
 
             var codes = ent.GenerateCode();
             var sources = ent.SaveSources(codes);
@@ -104,12 +99,12 @@ namespace domain.test.entities
             var result = ent.Compile(options, sources);
             result.Errors.ForEach(Console.WriteLine);
 
-            Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+            Assert.True(result.Result, result.ToString());
 
         }
 
 
-        [Test]
+        [Fact]
         public void ElasticsearchMapping()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
@@ -144,7 +139,7 @@ namespace domain.test.entities
             var map = ent.GetElasticsearchMapping();
             var json = JObject.Parse(map);
             var ageType = json.SelectToken("$.customer.properties.Wife.properties.Age.type");
-            Assert.AreEqual(ageType.Value<string>(),"integer");
+            Assert.Equal(ageType.Value<string>(),"integer");
 
 
         }

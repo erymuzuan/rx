@@ -91,7 +91,7 @@ namespace domain.test.triggers
             Assert.IsInstanceOf<DateTime>(cf2.Value);
 
             var cf3 = (ConstantField)trigger.RuleCollection[3].Right;
-            Assert.IsInstanceOf<Decimal>(cf3.Value);
+            Assert.IsInstanceOf<decimal>(cf3.Value);
         }
     }
 }
