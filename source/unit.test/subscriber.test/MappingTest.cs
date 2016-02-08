@@ -8,15 +8,21 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NUnit.Framework;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace subscriber.test
 {
-    [TestFixture]
     public class MappingTest
     {
+        private readonly ITestOutputHelper m_outputHelper;
 
-        [Test]
+        public MappingTest(ITestOutputHelper outputHelper)
+        {
+            m_outputHelper = outputHelper;
+        }
+
+        [Fact]
         public void GenerateColumn()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
@@ -67,47 +73,46 @@ namespace subscriber.test
             address.MemberCollection.Add(locality);
 
             var map = ent.GetElasticsearchMapping();
-            Console.WriteLine(map);
-            StringAssert.Contains("\"type\":", map);
+            m_outputHelper.WriteLine(map);
+            Assert.Contains("\"type\":", map);
 
         }
 
 
-        [Test]
+        [Fact]
         public void MapCustomer()
         {
             var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = customerDefinition.DeserializeFromJson<EntityDefinition>();
 
             var map = ed.GetElasticsearchMapping();
-            Console.WriteLine(map);
-            StringAssert.Contains("\"type\":", map);
+            m_outputHelper.WriteLine(map);
+            Assert.Contains("\"type\":", map);
 
         }
-        [Test]
+        [Fact]
         public async Task CompareCustomerMapping()
         {
             var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = customerDefinition.DeserializeFromJson<EntityDefinition>();
             var map = ed.GetElasticsearchMapping();
 
-            const string URL = "dev/_mapping/customer";
+            string url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/_mapping/customer";
 
             var content = new StringContent(map);
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
 
-                var response = await client.PutAsync(URL, content);
-                Console.WriteLine($"Response status : {response.StatusCode}");
+                var response = await client.PutAsync(url, content);
+                m_outputHelper.WriteLine($"Response status : {response.StatusCode}");
                 while (response.StatusCode != HttpStatusCode.OK)
                 {
-                    Console.WriteLine(response.StatusCode);
-                    Console.WriteLine(@".");
+                    m_outputHelper.WriteLine(response.StatusCode.ToString() + ".");
                     response = await client.PutAsync(ConfigurationManager.ApplicationName.ToLowerInvariant(), new StringContent(""));
 
                 }
-                var existingMapping = (await client.GetStringAsync(URL))
+                var existingMapping = (await client.GetStringAsync(url))
                             .Replace(".0", string.Empty)
                             .Replace(@"""norms"":{""enabled"":false},", string.Empty)
                             .Replace("\"format\":\"dateOptionalTime\",", string.Empty)
@@ -126,30 +131,29 @@ namespace subscriber.test
 
                 dynamic serverMapping = JsonConvert.DeserializeObject(existingMapping);
                 dynamic generatedMapping = JsonConvert.DeserializeObject(mapJson);
-                dynamic sm = serverMapping.dev.mappings.customer.properties;
+                dynamic sm = serverMapping.devv1.mappings.customer.properties;
                 dynamic gm = generatedMapping.customer.properties;
 
                 var count = 0;
                 foreach (var g in gm.Children())
                 {
-                    Console.WriteLine("[{0}]:\t" + g.Name, count++);
+                    m_outputHelper.WriteLine("[{0}]:\t" + g.Name, count++);
                     var g0 = g as JProperty;
                     if (null == g0) continue;
                     var s0 = ((JObject)sm).Children().OfType<JProperty>().SingleOrDefault(h => h.Name == g0.Name);
-                    //Console.WriteLine(c0);
+                    //m_outputHelper.WriteLine(c0);
                     if (g0.ToString().Contains("\"type\": \"object\""))
                     {
-                        Console.Write(@"..");
-                        Console.WriteLine(g0.Children()[0]);
+                        m_outputHelper.WriteLine(@".." + g0.Children()[0]);
                         continue;
                     }
                     dynamic g1 = JObject.Parse(g0.ToString().Replace("\"" + g.Name + "\":", ""));
                     dynamic s1 = JObject.Parse(s0?.ToString().Replace("\"" + g.Name + "\":", ""));
-                    Assert.AreEqual(g1.type, s1.type);
+                    Assert.Equal(g1.type, s1.type);
                     if (g1.ToString() != s1.ToString())
                     {
-                        Console.WriteLine("Generated : " + g1);
-                        Console.WriteLine("Server : " + s1);
+                        m_outputHelper.WriteLine("Generated : " + g1);
+                        m_outputHelper.WriteLine("Server : " + s1);
                     }
 
                     var g1Index = "analyzed";
@@ -170,12 +174,12 @@ namespace subscriber.test
                         s1Index = "not_analyzed";
                     }
 
-                    Assert.AreEqual(g1Index, s1Index);
+                    Assert.Equal(g1Index, s1Index);
                     if (s1.type == "string")
-                        Assert.AreEqual(g1.include_in_all ?? false, s1.include_in_all ?? false);
+                        Assert.Equal(g1.include_in_all ?? false, s1.include_in_all ?? false);
                 }
-                Assert.AreEqual(sm.Count, gm.Count);
-                Assert.AreEqual(sm.CreatedBy, gm.CreatedBy);
+                Assert.Equal(sm.Count, gm.Count);
+                Assert.Equal(sm.CreatedBy, gm.CreatedBy);
             }
 
             //

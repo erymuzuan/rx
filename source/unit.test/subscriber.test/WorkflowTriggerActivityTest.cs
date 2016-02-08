@@ -4,23 +4,21 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.WorkflowTriggerSubscriptions;
 using Humanizer;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace subscriber.test
 {
-    [TestFixture]
     public class WorkflowTriggerActivityTest
     {
-        private Mock<Bespoke.Sph.SubscribersInfrastructure.INotificationService> m_console;
+        private readonly Mock<Bespoke.Sph.SubscribersInfrastructure.INotificationService> m_console;
 
-        [SetUp]
-        public void SetUp()
+        public WorkflowTriggerActivityTest()
         {
             m_console = new Mock<Bespoke.Sph.SubscribersInfrastructure.INotificationService>(MockBehavior.Strict);
             m_console.Setup(x => x.Write(It.IsAny<string>(), It.IsAny<object[]>()))
                 .Callback((string format, object[] f) => Console.WriteLine(format, f));
         }
-        [Test]
+        [Fact]
         public async Task WeeklyTriggerTest()
         {
             var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
@@ -54,7 +52,7 @@ namespace subscriber.test
 
             await sub.Test(wd, null);
         }
-        [Test]
+        [Fact]
         public async Task MonthlyTriggerTest()
         {
             var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
@@ -91,7 +89,7 @@ namespace subscriber.test
         }
 
 
-        [Test]
+        [Fact]
         public async Task DailyTrigger()
         {
             var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")

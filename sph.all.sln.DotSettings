@@ -818,6 +818,22 @@ IsEnabled="{Binding ElementName=$listView$, Path=SelectedItem, Converter={Static
                 entity: $ENTITY$,&#xD;
                 searchButton: $SEARCH_BUTTON$&#xD;
             }"</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Description/@EntryValue">xUnit test returns void</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Field/=TEST/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Field/=TEST/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Scope/=B68999B9D6B43E47A02B22C12A54C3CC/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Scope/=B68999B9D6B43E47A02B22C12A54C3CC/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Scope/=B68999B9D6B43E47A02B22C12A54C3CC/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Shortcut/@EntryValue">fact-void</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=454F039AE25F0946A4B970A1417CA757/Text/@EntryValue">[Fact]&#xD;
+public void $TEST$()&#xD;
+{&#xD;
+	$END$&#xD;
+}</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Field/=ENTITY/@KeyIndexDefined">True</s:Boolean>
@@ -2210,6 +2226,22 @@ define(['plugins/dialog'],&#xD;
 			$END$&#xD;
 		}&#xD;
 	});</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Description/@EntryValue">asynx xUnit test</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Field/=TEST/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Field/=TEST/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Scope/=C3001E7C0DA78E4487072B7E050D86C5/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Scope/=C3001E7C0DA78E4487072B7E050D86C5/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Scope/=C3001E7C0DA78E4487072B7E050D86C5/Type/@EntryValue">InCSharpFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Shortcut/@EntryValue">fact-async</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A31EB5302A115B4DA3A28340CCBE1696/Text/@EntryValue">[Fact]&#xD;
+public async Task $TEST$()&#xD;
+{&#xD;
+	$END$&#xD;
+}</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A334C89806C7EA41A9842AEA755A9DB7/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A334C89806C7EA41A9842AEA755A9DB7/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A334C89806C7EA41A9842AEA755A9DB7/Categories/=Imported_002020_002F11_002F2013/@EntryIndexedValue">Imported 20/11/2013</s:String>
