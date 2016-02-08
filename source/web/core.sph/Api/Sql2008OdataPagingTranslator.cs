@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Bespoke.Sph.Web.Api
 {
-    public class Sql2008PagingTranslator : IPagingTranslator2
+    public class Sql2008OdataPagingTranslator : IOdataPagingProvider
     {
         public string Tranlate(string sql, int page, int size)
         {

@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.Web.Api
 {
-    public class Sql2012PagingTranslator : IPagingTranslator2
+    public class Sql2012OdataPagingTranslator : IOdataPagingProvider
     {
         public string Tranlate(string sql, int page, int size)
         {
