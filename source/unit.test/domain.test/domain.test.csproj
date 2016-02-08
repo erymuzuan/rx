@@ -199,6 +199,7 @@
     <Compile Include="entities\ServiceContractTest.cs" />
     <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
     <Compile Include="entities\QuerySortTest.cs" />
+    <Compile Include="WebApiControllerHelper.cs" />
     <Compile Include="MvcControllerHelper.cs" />
     <Compile Include="razor\RazorEngineTestFixture.cs" />
     <Compile Include="reports\DataGridTestFixture.cs" />
@@ -285,6 +286,10 @@
     <ProjectReference Include="..\..\subscribers\subscriber.infrastructure\subscriber.infrastructure.csproj">
       <Project>{40892CEA-FD47-4C1F-B821-7939776E9B6B}</Project>
       <Name>subscriber.infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\web\webapi.common\webapi.common.csproj">
+      <Project>{2a396bf5-09bd-4ae9-b6de-cf93aee99d66}</Project>
+      <Name>webapi.common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

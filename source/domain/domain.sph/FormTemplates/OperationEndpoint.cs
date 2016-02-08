@@ -118,6 +118,12 @@ namespace Bespoke.Sph.Domain
             body.AttributeCollection.Add("[FromBody]");
             patch.ArgumentCollection.Add(body);
 
+            if (this.IsConflictDetectionEnabled)
+            {
+                patch.ArgumentCollection.Add(new MethodArg {Name = "etag", TypeName = "ETag", AttributeCollection = { "[IfMatch]" } });
+                patch.ArgumentCollection.Add(new MethodArg {Name = "modifiedSince", TypeName = "DateTime?", AttributeCollection = { "[ModifiedSince]" } });
+            }
+
 
             var enabledGetEntityDefinition = this.Rules.Any() || this.SetterActionChildCollection.Any();
             if (enabledGetEntityDefinition)
@@ -198,20 +204,14 @@ namespace Bespoke.Sph.Domain
 
             code.Append(
                 $@"        
-                DateTime modifiedSince;    
-                if (DateTime.TryParse(this.Request.Headers[""If-Modified-Since""], out modifiedSince))
+                if ($""{{modifiedSince:s}}"" != lo.Source.ChangedDate.ToString(""s""))
                 {{
-                    if(modifiedSince.ToString() != changedDate.ToString())
-                    {{
-                        this.Response.StatusCode = 409;
-                        return Content(string.Empty,""application/json; charset=utf-8"");                        
-                    }}
+                    return Invalid(new {{ message =""Your If-Modified-Since header is out of date""}});
                 }}
                 
-                if (this.Request.Headers[""If-None-Match""] != lo.Version)
+                if (etag?.Tag != lo.Version)
                 {{
-                    this.Response.StatusCode = 409;
-                    return Content(""Your message version is in conflict state"",""application/json; charset=utf-8"");
+                    return Invalid(new {{ message =""Your If-Match header is out of date""}});
                 }}
                 ");
             return code.ToString();

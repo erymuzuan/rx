@@ -51,7 +51,7 @@ namespace domain.test
             if (null == controllerType)
                 throw new ArgumentException("Cannot find the type " + controllerTypeName + " in " + dll);
             if (!typeof(Controller).IsAssignableFrom(controllerType))
-                throw new InvalidOperationException($"{0} is not assignable from System.Web.Mvc.Controller");
+                throw new InvalidOperationException($"{controllerType} is not assignable from System.Web.Mvc.Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
             MvcControllerHelper.SetContext(controller);
             return controller;

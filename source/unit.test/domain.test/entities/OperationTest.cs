@@ -8,6 +8,7 @@ using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
+using Bespoke.Sph.WebApi;
 using domain.test.reports;
 using domain.test.triggers;
 using Moq;
@@ -186,8 +187,8 @@ namespace domain.test.entities
         {
             var ed = this.CreatePatientDefinition("PatientForRelease");
 
-            var release = new OperationEndpoint { Name = "Release", Entity =  ed.Name, Resource = "patients", IsHttpPatch = true, WebId = "ReleaseWithPatch" };
-            release.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Released\""});
+            var release = new OperationEndpoint { Name = "Release", Entity = ed.Name, Resource = "patients", IsHttpPatch = true, WebId = "ReleaseWithPatch" };
+            release.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Released\"" });
             //release.PatchPathCollection.Add("ClinicalNote");
             release.Rules.Add("VerifyRegisteredDate");
 
@@ -212,7 +213,7 @@ namespace domain.test.entities
         {
             var ed = this.CreatePatientDefinition("PatientPutAdmit");
             var admit = new OperationEndpoint { Name = "Admit", Entity = ed.Name, Resource = "patients", IsHttpPut = true, WebId = "PutAdmit" };
-            admit.PatchPathCollection.Add(new PatchSetter { Path = "Status" , DefaultValue = "\"Admitted\""});
+            admit.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Admitted\"" });
 
 
             var patient = this.CreateInstance(ed, true);
@@ -220,7 +221,7 @@ namespace domain.test.entities
 
             var cr = await admit.CompileAsync(ed);
             Assert.True(cr.Result, cr.ToString());
-            
+
             var dll = Assembly.LoadFrom(cr.Output);
             var controllerType = dll.GetType($"{admit.CodeNamespace}.{admit.Name}Controller");
             Assert.NotNull(controllerType);
@@ -234,12 +235,12 @@ namespace domain.test.entities
 
         [Fact]
         [Trait("Verb", "DELETE")]
-        public async  Task HttpDelete()
+        public async Task HttpDelete()
         {
             var delete = new OperationEndpoint { Name = "Remove", Entity = "PatientDelete", Route = "", IsHttpDelete = true, WebId = "remove" };
             var ed = this.CreatePatientDefinition("PatientDelete");
-            
-            var cr =await delete.CompileAsync(ed);
+
+            var cr = await delete.CompileAsync(ed);
             Assert.True(cr.Result, cr.ToString());
 
 
@@ -261,10 +262,10 @@ namespace domain.test.entities
         }
         [Fact]
         [Trait("Verb", "DELETE")]
-        public async  Task HttpDeleteWithRule()
+        public async Task HttpDeleteWithRule()
         {
             const string NAME = "PatientDeleteWithRule";
-            var delete = new OperationEndpoint { Name = "Remove", Entity =  NAME, Resource = "patients", Route = "", IsHttpDelete = true, WebId = "remove" };
+            var delete = new OperationEndpoint { Name = "Remove", Entity = NAME, Resource = "patients", Route = "", IsHttpDelete = true, WebId = "remove" };
 
             var ed = this.CreatePatientDefinition(NAME);
             var rule = new BusinessRule { Name = "Cannot delete admitted patient", WebId = "rule01" };
@@ -350,16 +351,13 @@ namespace domain.test.entities
 
             var controllerType = oedll.GetType($"{mortuary.CodeNamespace}.{mortuary.Name}Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
-            throw new NotImplementedException("whoooo");
-           /* var context = ((Controller)controller).SetContext();
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
-            context.Request.Headers.Add("If-None-Match", "45");
-            var result = await controller.PatchSendToMortuary(patient.Id, JsonSerializerService.ToJsonString(patient, true));
+
+            var result = await controller.PatchSendToMortuary(patient.Id, JsonConvert.SerializeObject(patient), new ETag { Tag = "\"45\"" }, null);
             Assert.NotNull(result);
-            Assert.Equal(409, context.Response.StatusCode);
-            */
+            Assert.IsType<InvalidResult>(result);
         }
 
         [Fact]
@@ -416,22 +414,15 @@ namespace domain.test.entities
 
             var controllerType = oedll.GetType($"{release.CodeNamespace}.{release.Name}Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
-            MvcControllerHelper.SetContext(controller);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
-
-
+            
             var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
-            Assert.NotNull(result);
+            Assert.IsType<InvalidResult>(result);
 
-            dynamic vr = result.Data;
-            var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
-            Assert.Contains("\"success\": false", ttt);
-            Console.WriteLine();
-            //Assert.IsFalse(vr.success);
-            //Assert.Equal(3, vr.rules.Length);
+       
             File.Delete(jsonPath);
             File.Delete(oePath);
 
@@ -490,16 +481,13 @@ namespace domain.test.entities
             Assert.True(cr.Result, cr.ToString());
             var opDll = Assembly.LoadFrom(cr.Output);
 
-            var controller = opDll.CreateController(release.CodeNamespace + ".ReleaseController");
+            var controller = opDll.CreateApiController(release.CodeNamespace + ".ReleaseController");
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
             var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
             Assert.NotNull(result);
-
-            dynamic vr = result.Data;
-            Assert.NotNull(vr);
-
+            
             Assert.Equal("Released", patient.Status);
 
             File.Delete(oePath);
