@@ -115,7 +115,7 @@ namespace Bespoke.Sph.Domain
 
             patch.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string) });
             var body = new MethodArg { Name = "body", Type = typeof(string) };
-            body.AttributeCollection.Add("[RequestBody]");
+            body.AttributeCollection.Add("[FromBody]");
             patch.ArgumentCollection.Add(body);
 
 
@@ -130,7 +130,7 @@ namespace Bespoke.Sph.Domain
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
             var lo = await repos.LoadOneAsync(id);
             var item = lo.Source;
-            if(null == item) return HttpNotFound(""Cannot find any {ed.Name} with Id "" + id);
+            if(null == item) return NotFound(""Cannot find any {ed.Name} with Id "" + id);
             
             var changedDate = item.ChangedDate;");
 
@@ -238,7 +238,7 @@ namespace Bespoke.Sph.Domain
 
 
             var body = new MethodArg { Name = "body", Type = typeof(string) };
-            body.AttributeCollection.Add("[RequestBody]");
+            body.AttributeCollection.Add("[FromBody]");
             put.ArgumentCollection.Add(body);
             put.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string), Default = "null" });
 
@@ -251,17 +251,15 @@ namespace Bespoke.Sph.Domain
                 $@"
             var repos = ObjectBuilder.GetObject<IRepository<{ed.Name}>>();
             var item = await repos.LoadOneAsync(id);
-            if(null == item)
+            var baru = null == item;
+            if(baru)
             {{
                 item = body.DeserializeFromJson<{ed.Name}>();
                 if (!string.IsNullOrWhiteSpace(item.Id))
                     item.Id = id ?? System.Guid.NewGuid().ToString();
-                this.Response.StatusCode = (int) System.Net.HttpStatusCode.Created;
             }}
             else
             {{
-                this.Response.StatusCode = (int) System.Net.HttpStatusCode.OK;
-
                 var jo = JObject.Parse(body);
             ");
 
@@ -300,6 +298,7 @@ namespace Bespoke.Sph.Domain
                                     href = $""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}""
                                 }}
                             }};
+            if(baru) return Created( result._link.href, result);
             return Ok(result);");
 
             return put;

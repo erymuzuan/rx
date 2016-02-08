@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -350,7 +350,8 @@ namespace domain.test.entities
 
             var controllerType = oedll.GetType($"{mortuary.CodeNamespace}.{mortuary.Name}Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
-            var context = ((Controller)controller).SetContext();
+            throw new NotImplementedException("whoooo");
+           /* var context = ((Controller)controller).SetContext();
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
@@ -358,6 +359,7 @@ namespace domain.test.entities
             var result = await controller.PatchSendToMortuary(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Assert.NotNull(result);
             Assert.Equal(409, context.Response.StatusCode);
+            */
         }
 
         [Fact]
