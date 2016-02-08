@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="BaseApiController.cs" />
     <Compile Include="CacheMetadata.cs" />
+    <Compile Include="CustomEntityRestSqlTranslator.cs" />
     <Compile Include="DeveloperService.cs" />
     <Compile Include="ETag.cs" />
     <Compile Include="FileResult.cs" />

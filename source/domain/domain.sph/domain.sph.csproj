@@ -326,6 +326,7 @@
     <Compile Include="ICacheManager.cs" />
     <Compile Include="IDeveloperService.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="IOdataPagingProvider.cs" />
     <Compile Include="IReadonlyRepository.cs" />
     <Compile Include="JsRoute.cs" />
     <Compile Include="JsRouteSetting.cs" />

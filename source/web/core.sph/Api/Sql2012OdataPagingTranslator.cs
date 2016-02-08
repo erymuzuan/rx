@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.Api
 {
@@ -10,10 +11,18 @@ namespace Bespoke.Sph.Web.Api
             var skipToken = (page - 1) * size;
             var output = new StringBuilder(sql);
 
-            output.AppendLine();
-            output.AppendFormat("OFFSET {0} ROWS", skipToken);
-            output.AppendLine();
-            output.AppendFormat("FETCH NEXT {0} ROWS ONLY", size);
+            output.AppendLine($"OFFSET {skipToken} ROWS");
+            output.AppendLine($"FETCH NEXT {size} ROWS ONLY");
+
+            return output.ToString();
+        }
+
+        public string SkipTop(string sql, int skip, int top)
+        {
+            var output = new StringBuilder(sql);
+
+            output.AppendLine($"OFFSET {skip} ROWS");
+            output.AppendLine($"FETCH NEXT {top} ROWS ONLY");
 
             return output.ToString();
         }

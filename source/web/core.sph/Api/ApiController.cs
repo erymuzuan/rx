@@ -305,7 +305,7 @@ namespace Bespoke.Sph.Web.Api
                 sql2 += "\r\nORDER BY [Id]";
             }
 
-            var paging = ObjectBuilder.GetObject<IPagingTranslator2>();
+            var paging = ObjectBuilder.GetObject<IOdataPagingProvider>();
             sql2 = paging.Tranlate(sql2, page, size);
             using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql2, conn))

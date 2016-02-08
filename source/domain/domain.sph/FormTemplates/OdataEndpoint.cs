@@ -12,36 +12,40 @@ namespace Bespoke.Sph.Domain
             code.Append($@"        
         [Route("""")]
         [HttpGet]
-        public async Task<ActionResult> OdataApi(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> OdataApi([FromUri(Name = ""$orderby"")]string orderby = null, 
+                                                [FromUri(Name = ""$filter"")]string filter = null,
+                                                [FromUri(Name = ""$top"")]int? top = null, 
+                                                [FromUri(Name = ""$skip"")]int? skip = null, 
+                                                [FromUri(Name = ""page"")]int page = 1, 
+                                                [FromUri(Name = ""size"")]int size = 40, 
+                                                [FromUri(Name = ""$inlinecount"")]string inlinecount = ""none"")
         {{
             const string typeName = ""{ed.Name}"";
             if (size > 200)
                 throw new ArgumentException(""You cannot fetch more than 200 records at once, use page parameter instead"", nameof(size));
 
-
-            var orderby = this.Request.QueryString[""$orderby""];
             var translator = new CustomEntityRestSqlTranslator(null, typeName);
             var sql = translator.Select(filter, orderby);
             var rows = 0;
             var nextPageToken = """";
             var list = await this.ExecuteCustomEntityListAsync(typeName, sql, page, size);
 
-            if (includeTotal || page > 1)
+            if (inlinecount == ""allpages"" || page > 1)
             {{
                 var translator2 = new CustomEntityRestSqlTranslator(""Id"", typeName);
                 var sumSql = translator2.Count(filter);
                 rows = await ExecuteScalarAsync(sumSql);
 
                 if (rows >= list.Count)
-                    nextPageToken = $""/api/{ed.Plural.ToLowerInvariant()}/?filer={{filter}}&includeTotal=true&page={{page}}&size={{size}}"";
+                    nextPageToken = $""/api/{ed.Plural.ToLowerInvariant()}/?$filter={{filter}}&$inlinecount={{inlinecount}}&page={{page + 1}}&size={{size}}"";
 
             }}
 
-            var previousPageToken = $""/api/{ed.Plural.ToLowerInvariant()}/?filter={{filter}}&includeTotal={{includeTotal}}&page={{page}}&size={{size}}"";
+            var previousPageToken = $""/api/{ed.Plural.ToLowerInvariant()}/?$filter={{filter}}&$inlinecount={{inlinecount}}&page={{page - 1}}&size={{size}}"";
             if(page == 1) previousPageToken = null;
             var json = new StringBuilder(""{{"");
             json.AppendLinf(""   \""results\"":[{{0}}],"", string.Join("",\r\n"", list));
-            json.AppendLinf(""   \""rows\"":{{0}},"", rows);
+            json.AppendLinf(""   \""count\"":{{0}},"", rows);
             json.AppendLinf(""   \""page\"":{{0}},"", page);
             json.AppendLinf(""   \""next\"":\""{{0}}\"","", nextPageToken);
             json.AppendLinf(""   \""previous\"":\""{{0}}\"","", previousPageToken);
@@ -49,8 +53,7 @@ namespace Bespoke.Sph.Domain
 
             json.AppendLine(""}}"");
 
-            this.Response.ContentType = ""application/json"";
-            return Content(json.ToString());
+            return Json(json.ToString());
         }}");
 
             return new Method {Code = code.ToString()};
@@ -80,7 +83,7 @@ namespace Bespoke.Sph.Domain
                 sql2 += ""\r\nORDER BY [Id]"";
             }}
 
-            var paging = ObjectBuilder.GetObject<IPagingTranslator2>();
+            var paging = ObjectBuilder.GetObject<IOdataPagingProvider>();
             sql2 = paging.Tranlate(sql2, page, size);
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
             using (var command = new SqlCommand(sql2, conn))

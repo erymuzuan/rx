@@ -55,17 +55,6 @@ namespace domain.test.entities
             spouse.Save();
             child.Save();
         }
-
-        [Fact]
-        public async Task GenerateGetOneByIdTest()
-        {
-            var patient = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
-            patient.ServiceContract.EntityResourceEndpoint.IsAllowed = true;
-
-            var cr = await patient.ServiceContract.CompileAsync(patient);
-            Assert.True(cr.Result, cr.ToString());
-
-        }
         [Fact]
         public async Task SaveSetting()
         {
@@ -81,6 +70,8 @@ namespace domain.test.entities
         [Theory]
         [InlineData(false, true, false)]
         [InlineData(true, false, false)]
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
         public async Task Compile(bool one, bool search, bool oData)
         {
             var patient = PatientSourceJson.DeserializeFromJson<EntityDefinition>();
