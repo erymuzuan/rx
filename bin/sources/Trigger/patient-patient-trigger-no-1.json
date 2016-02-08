@@ -34,9 +34,9 @@
   },
   "Name": "Patient trigger no 1",
   "Entity": "Patient",
-  "TypeOf": "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient",
-  "Note": "no ",
-  "IsActive": false,
+  "TypeOf": "Bespoke.DevV1.Patients.Domain.Patient, DevV1.Patient",
+  "Note": "Simple email message",
+  "IsActive": true,
   "IsFiredOnAdded": true,
   "IsFiredOnDeleted": false,
   "IsFiredOnChanged": false,
@@ -49,6 +49,6 @@
   "Id": "patient-patient-trigger-no-1",
   "CreatedDate": "2015-07-22T10:07:48.1250777+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-24T16:21:52.8508397+08:00",
+  "ChangedDate": "2016-02-08T16:55:50.3264815+08:00",
   "WebId": "f1445372-fae7-40c9-c794-8c609022080c"
 }

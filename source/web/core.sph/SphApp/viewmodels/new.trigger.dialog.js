@@ -20,7 +20,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
             activate = function () {
                 trigger(new bespoke.sph.domain.Trigger({ "IsActive": true, "Entity": ko.unwrap(entity) }));
 
-                var actionOptionsTask = $.get("/sph/trigger/actions"),
+                var actionOptionsTask = $.get("/api/triggers/actions"),
                     entitiesTask = context.getListAsync("EntityDefinition", "Id ne ''", "Name"),
                     loadOperationOptions = function (ent) {
 
@@ -62,7 +62,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
 
                 trigger().FiredOnOperations(operations().join());
                 var json = ko.mapping.toJSON(trigger);
-                return context.post(json, "/trigger/save")
+                return context.post(json, "/api/triggers")
                     .then(function (result) {
                         if (result) {
                             id(result);

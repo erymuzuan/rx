@@ -153,7 +153,8 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(">\r\n\r\n                            <img");
 
-WriteLiteral(" data-bind=\"attr: { src : \'/sph/trigger/image/\' + ko.unwrap($type)}\"");
+WriteLiteral(" data-bind=\"attr: { src : \'/api/triggers/actions/\' + ko.unwrap($type) + \'/image\'}" +
+"\"");
 
 WriteLiteral(" height=\"16\"");
 

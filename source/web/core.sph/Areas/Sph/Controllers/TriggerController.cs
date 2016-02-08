@@ -4,13 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     [Authorize(Roles = "administrators,developers")]
-    [RoutePrefix("api/trigger")]
+    [RoutePrefix("api/triggers")]
     public class TriggerController : BaseApiController
     {
         [HttpGet]
@@ -31,27 +32,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
 
         [HttpGet]
-        [Route("action/{id}/{type}")]
-        public IHttpActionResult Action(string id, string type)
+        [Route("actions/{id}/image")]
+        public IHttpActionResult GetImage(string id)
         {
-            var action = this.DeveloperService.ActionOptions.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
-                .ToLowerInvariant() == type.Replace(",", ", ")).Value;
-            if (id == "js")
-            {
-                var js = action.GetEditorViewModel();
-                return Javascript(js);
-            }
-            var html = action.GetEditorView();
-            return Html(html);
-        }
-
-
-        [HttpGet]
-        [Route("image/{id}")]
-        public IHttpActionResult Image(string id)
-        {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
-            var action = ds.ActionOptions.Single(
+            var action = this.DeveloperService.ActionOptions.Single(
                 x => string.Equals(x.Metadata.TypeName, id, StringComparison.InvariantCultureIgnoreCase)).Value;
 
             using (var stream = new MemoryStream())
@@ -64,6 +48,29 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return File(byteArray, "image/png");
             }
         }
+        [HttpGet]
+        [Route("actions/{type}/viewmodels")]
+        public IHttpActionResult GetActionViewModel(string type)
+        {
+            var action = this.DeveloperService.ActionOptions.SingleOrDefault(x => x.GetTypeName().ToLowerInvariant() == type.Replace(",", ", "));
+            if (null == action) return NotFound($"Cannot find viewmodels for action dialog : {type}");
+
+            var js = action.Value.GetEditorViewModel();
+            return Javascript(js);
+        }
+
+        [HttpGet]
+        [Route("actions/{type}/views")]
+        public IHttpActionResult GetActionViewl(string type)
+        {
+            var action = this.DeveloperService.ActionOptions.SingleOrDefault(x => x.GetTypeName().ToLowerInvariant() == type.Replace(",", ", "));
+            if (null == action) return NotFound($"Cannot find views for action dialog : {type}");
+
+            var html = action.Value.GetEditorView();
+            return Html(html);
+        }
+
+
 
         [HttpPut]
         [Route("{id}/publish")]
@@ -79,7 +86,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
 
-            return Ok();
+            return Ok(new { success = true, status = "OK", message = "Your trigger publishing is ACCEPTEP, please check your output directory" });
         }
 
         [HttpPut]

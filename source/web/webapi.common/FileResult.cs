@@ -31,7 +31,8 @@ namespace Bespoke.Sph.WebApi
                 Content = new ByteArrayContent(m_contents)
             };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(m_mimeType);
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue(m_downloadFileName);
+            if (!string.IsNullOrWhiteSpace(m_downloadFileName))
+                response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue(m_downloadFileName);
             if (m_maxAge > 0)
                 response.Headers.CacheControl = new CacheControlHeaderValue { MaxAge = System.TimeSpan.FromSeconds(m_maxAge) };
             return Task.FromResult(response);

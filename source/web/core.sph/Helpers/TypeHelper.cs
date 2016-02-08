@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Models;
 using Newtonsoft.Json;
 
@@ -10,7 +11,10 @@ namespace Bespoke.Sph.Web.Helpers
 {
     public static class TypeHelper
     {
-
+        public static string GetTypeName(this Lazy<CustomAction, IDesignerMetadata> meta)
+        {
+            return meta.Value?.GetType().GetShortAssemblyQualifiedName();
+        }
         public static string[] GetPropertyPath(Type type)
         {
             var list = new List<string>();

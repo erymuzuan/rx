@@ -27,7 +27,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                 id(id2);
 
                 var query = String.format("Id eq '{0}' ", id()),
-                    actionOptionsTask = $.get("/sph/trigger/actions"),
+                    actionOptionsTask = $.get("/api/triggers/actions"),
                     entitiesTask = context.getListAsync("EntityDefinition", "Id ne ''", "Name"),
                     loadOperationOptions = function (ent) {
                         return context.loadOneAsync("EntityDefinition", String.format("Name eq '{0}'", ent))
@@ -48,12 +48,6 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                     return context.loadOneAsync("Trigger", query);
                 })
                 .then(function (trg) {
-                    if (!trg) {
-
-                        router.navigate("#not.found");
-                        return;
-                    }
-                    originalEntity = ko.toJSON(trg);
                     trigger(trg);
                     typeaheadEntity(trg.Entity());
                     window.typeaheadEntity = trg.Entity();
@@ -70,16 +64,16 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
             },
             attached = function () {
 
+                originalEntity = ko.toJSON(trigger);
             },
             save = function () {
                 trigger().FiredOnOperations(operations().join());
                 var data = ko.mapping.toJSON(trigger);
                 isBusy(true);
 
-                return context.post(data, "/Trigger/Save")
-                    .then(function (result) {
+                return context.post(data, "/api/triggers")
+                    .then(function () {
                         isBusy(false);
-                        trigger().Id(result);
                         originalEntity = ko.toJSON(trigger);
                         logger.info("Your Trigger has been successfully saved");
                     });
@@ -112,10 +106,9 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                 var data = ko.mapping.toJSON(trigger);
                 isBusy(true);
 
-                return context.post(data, "/Trigger/Publish")
-                    .then(function (result) {
+                return context.put(data, "/api/triggers/" + ko.unwrap(trigger().Id) + "/publish")
+                    .then(function () {
                         isBusy(false);
-                        trigger().Id(result);
                         trigger().IsActive(true);
                         originalEntity = ko.toJSON(trigger);
                         logger.info("Your trigger has been succesfully published, and will be added to the exchange shortly");
@@ -126,23 +119,21 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                 var data = ko.mapping.toJSON(trigger);
                 isBusy(true);
 
-                return context.post(data, "/Trigger/Depublish")
-                    .then(function (result) {
+                return context.put(data, "/api/triggers/" + ko.unwrap(trigger().Id) + "/depublish")
+                    .then(function () {
                         isBusy(false);
                         trigger().IsActive(false);
-                        trigger().Id(result);
                         logger.info("Your trigger has been succesfully depublished, and will be removed from the exchange shortly");
                     });
             },
             remove = function () {
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(trigger);
+                var tcs = new $.Deferred();
 
                 app.showMessage("Are you sure you want to remove this trigger, this action cannot be undone", "Rx Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 
-                            context.post(data, "/Trigger/Remove")
+                            context.sendDelete("/api/triggers/" + ko.unwrap(trigger().Id))
                                 .fail(tcs.reject)
                                 .done(function (result) {
                                     isBusy(false);
