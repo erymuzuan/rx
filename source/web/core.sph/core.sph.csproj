@@ -282,7 +282,6 @@
     </Compile>
     <Compile Include="Api\AggregateController.cs" />
     <Compile Include="Api\ApiDocumentationController.cs" />
-    <Compile Include="Api\ApiController.cs" />
     <Compile Include="Api\ListController.cs" />
     <Compile Include="Api\Sql2008OdataPagingTranslator.cs" />
     <Compile Include="Api\Sql2012OdataPagingTranslator.cs" />
@@ -965,6 +964,7 @@
     <Compile Include="Controllers\QueryEndpointController.cs" />
     <Compile Include="Controllers\FormDialogController.cs" />
     <Compile Include="Controllers\PartialViewController.cs" />
+    <Compile Include="Controllers\RxSystemApiController.cs" />
     <Compile Include="Controllers\ValueObjectDefinitionController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />

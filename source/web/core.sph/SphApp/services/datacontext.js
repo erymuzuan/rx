@@ -283,7 +283,7 @@ function (logger, system, ko2) {
             orderby = entityOrOptions.orderby || entityOrOptions.sort;
         }
 
-        var url = "/api/" + encodeURIComponent(entity);
+        var url = "/api/systems/" + encodeURIComponent(entity);
         url += "/?filter=" + encodeURIComponent(query || "");
         url += "&page=" + page;
         url += "&includeTotal=" + includeTotal;
@@ -385,7 +385,7 @@ function (logger, system, ko2) {
             field2 = entityOrOptions.field2;
         }
 
-        var url = "/List/Tuple?";
+        var url = "/api/list/tuple?";
         if (query) {
             url += "filter=" + encodeURIComponent(query) + "&";
         }
@@ -420,7 +420,7 @@ function (logger, system, ko2) {
     }
 
     function getListAsync(entity, query, field) {
-        var url = "/List/?";
+        var url = "/api/list/?";
         if (query) {
             url += "filter=" + encodeURIComponent(query) + "&";
         }
@@ -447,7 +447,7 @@ function (logger, system, ko2) {
 
     }
     function getDistinctAsync(entity, query, field) {
-        var url = "/List/Distinct";
+        var url = "/api/list/distinct";
         url += "?filter=";
         url += encodeURIComponent(query);
         url += "&column=";

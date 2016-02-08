@@ -10,8 +10,11 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     [Authorize(Roles = "administrators,developers")]
+    [RoutePrefix("api/trigger")]
     public class TriggerController : BaseApiController
     {
+        [HttpGet]
+        [Route("actions")]
         public IHttpActionResult Actions()
         {
             var actions = from a in this.DeveloperService.ActionOptions
@@ -27,6 +30,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
 
+        [HttpGet]
+        [Route("action/{id}/{type}")]
         public IHttpActionResult Action(string id, string type)
         {
             var action = this.DeveloperService.ActionOptions.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
@@ -41,6 +46,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
 
+        [HttpGet]
+        [Route("image/{id}")]
         public IHttpActionResult Image(string id)
         {
             var ds = ObjectBuilder.GetObject<DeveloperService>();
@@ -58,9 +65,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
         }
 
-        public async Task<IHttpActionResult> Publish([JsonBody]Trigger trigger)
+        [HttpPut]
+        [Route("{id}/publish")]
+        public async Task<IHttpActionResult> Publish([JsonBody]Trigger trigger, string id)
         {
-            if (string.IsNullOrWhiteSpace(trigger.Id)) throw new InvalidOperationException("You cannot publish unsaved trigger");
+            if (string.IsNullOrWhiteSpace(id)) throw new InvalidOperationException("You cannot publish unsaved trigger");
             trigger.IsActive = true;
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -73,10 +82,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Ok();
         }
 
-        public async Task<IHttpActionResult> Depublish([JsonBody]Trigger trigger)
+        [HttpPut]
+        [Route("{id}/depublish")]
+        public async Task<IHttpActionResult> Depublish([JsonBody]Trigger trigger, string id)
         {
             trigger.IsActive = false;
-            if (string.IsNullOrWhiteSpace(trigger.Id)) throw new InvalidOperationException("You cannot depublish unsaved trigger");
+            if (string.IsNullOrWhiteSpace(id)) throw new InvalidOperationException("You cannot depublish unsaved trigger");
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {

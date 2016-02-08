@@ -43,9 +43,6 @@ namespace Bespoke.Sph.Web.Controllers
             return response;
         }
 
-
-
-
         [HttpPost]
         [Route("{id}/depublish")]
         public async Task<HttpResponseMessage> Depublish([RequestBody]QueryEndpoint endpoint, string id)

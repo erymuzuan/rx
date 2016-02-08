@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Web.Controllers
     {
 
         [Route("installed-adapters")]
+        [HttpGet]
         public IHttpActionResult InstalledAdapters()
         {
             var actions = from a in this.DeveloperService.Adapters
@@ -135,6 +136,7 @@ namespace Bespoke.Sph.Web.Controllers
 
 
         [Route("designer/{extension}/{jsroute}")]
+        [HttpGet]
         public IHttpActionResult GetDialog(string extension, string jsroute)
         {
             var lowered = jsroute.ToLowerInvariant();

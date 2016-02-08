@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
@@ -13,6 +15,33 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(this.Value)) return false;
 
             return true;
+        }
+
+        public string GenerateAuthorizationAttribute()
+        {
+            if (this.UserProperty == "Everybody") return "[Authorize]";
+            if (this.UserProperty == "UserName") return GenerateUserNameAuthorizationAttribute();
+            if (this.UserProperty != "Roles") return null;
+            var code = new StringBuilder();
+
+            var roles = this.Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim())
+                .ToArray();
+            var everybody = roles.Contains("Everybody");
+            var anonymous = roles.Contains("Anonymous");
+            if (everybody)
+                code.AppendLine("       [Authorize]");
+
+            if (!everybody && !anonymous &&
+                string.Join(",", roles.Where(s => s != "Everybody" && s != "Anonymous")).Length > 0)
+                code.AppendLinf("       [Authorize(Roles=\"{0}\")]",
+                    string.Join(",", roles.Where(s => s != "Everybody" && s != "Anonymous")));
+            return code.ToString();
+
+        }
+
+        private string GenerateUserNameAuthorizationAttribute()
+        {
+            return $"       [Authorize(Users=\"{this.Value}\")]";
         }
 
         public async Task<string[]> GetUsersAsync<T>(T item)

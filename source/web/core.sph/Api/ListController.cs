@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Web.Api
     {
         public static readonly string ConnectionString =
             ConfigurationManager.SqlConnectionString;
-
+        [Route("~/api/list")]
         public async Task<ActionResult> Index(string column, string table, string filter)
         {
             // TODO : should get all the one with SaveAsSourceAttribute instead

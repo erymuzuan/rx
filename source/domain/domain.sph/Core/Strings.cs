@@ -339,6 +339,7 @@ namespace Bespoke.Sph.Domain
 
         public static string RegexSingleValue(string input, string pattern, string group)
         {
+            if (string.IsNullOrWhiteSpace(input)) return null;
             const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;
             var matches = Regex.Matches(input, pattern, OPTIONS);
             return matches.Count == 1 ? matches[0].Groups[@group].Value.Trim() : null;

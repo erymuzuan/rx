@@ -99,9 +99,50 @@ namespace domain.test.entities
             File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
         }
 
+        [Theory]
+        [InlineData("Anonymous query", null, null)]
+        [InlineData("Everybody", "Everybody", null)]
+        [InlineData("Designation U32", "Designation", "U32,U54")]
+        [InlineData("Roles Nurse", "Roles", "Nurse")]
+        [InlineData("UserName Ali", "UserName", "Ali")]
+        public async Task CompileWithPerformer(string name, string performer = null, string performerValues = null)
+        {
+            var query = new QueryEndpoint
+            {
+                Name = name,
+                Route = "~/api/patients/" + name.ToIdFormat(),
+                Id = name.ToIdFormat(),
+                Entity = "Patient",
+                WebId = Guid.NewGuid().ToString()
+            };
+            if (!string.IsNullOrWhiteSpace(performer))
+            {
+                query.Performer.UserProperty = performer;
+                query.Performer.Value = performerValues;
+            }
+            else
+            {
+                query.Performer.IsPublic = true;
+            }
+            var ed = GetFromEmbeddedResource<EntityDefinition>("Patient");
+            var result = await query.CompileAsync(ed);
 
-        [Fact]
-        public async Task QueryFields()
+            Assert.True(result.Result, result.ToString());
+
+            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
+            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
+            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
+
+
+            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
+        }
+
+
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData("Roles", "Administrators")]
+        [InlineData("Designation", "Senior Manager")]
+        public async Task QueryFields(string performer, string performerValues)
         {
             var query = new QueryEndpoint
             {
@@ -113,6 +154,7 @@ namespace domain.test.entities
             };
             var fields = new[] { "Dob", "FullName", "Gender", "Race" };
             query.MemberCollection.AddRange(fields);
+
 
             var json = await query.GenerateEsQueryAsync();
             var jo = JObject.Parse(json);

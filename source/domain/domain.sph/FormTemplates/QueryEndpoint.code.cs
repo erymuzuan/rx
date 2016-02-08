@@ -75,8 +75,7 @@ namespace Bespoke.Sph.Domain
 
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
-
-
+            
             controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
             controller.AddProperty($"public static readonly string SOURCE_FILE = $\"{{ConfigurationManager.SphSourceDirectory}}\\\\{nameof(QueryEndpoint)}\\\\{Id}.json\";");
             controller.AddProperty($"public const string CACHE_KEY = \"entity-query:{Id}\";");
@@ -175,11 +174,14 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [Route(\"{route}\")]");
+            var authorization = this.Performer.GenerateAuthorizationAttribute();
+            if (!string.IsNullOrWhiteSpace(authorization))
+                code.Append(authorization);
 
             var parameterlist = from r in this.RouteParameterCollection
-                let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
-                let type = r.Type.ToCsharpIdentitfier()
-                select $"{type} {r.Name}{defaultValue},";
+                                let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
+                                let type = r.Type.ToCsharpIdentitfier()
+                                select $"{type} {r.Name}{defaultValue},";
             var parameters = string.Join(" ", parameterlist);
 
             code.AppendLine($"       public async Task<IHttpActionResult> GetAction({parameters}int page =1, int size=20, string q=\"\")");
@@ -207,13 +209,13 @@ namespace Bespoke.Sph.Domain
                 var esResponseString = await esResponseContent.ReadAsStringAsync();
                 var esJsonObject = JObject.Parse(esResponseString);
 ");
-            
+
             code.Append(this.GenerateListCode());
 
             code.Append($@"
                 var result = new 
                 {{
-                    _results = list,
+                    _results = list.Select(x => JObject.Parse(x)),
                     _count = esJsonObject.SelectToken(""$.hits.total"").Value<int>(),
                     _page = page,
                     _links = new {{
@@ -231,6 +233,14 @@ namespace Bespoke.Sph.Domain
             return new Method { Code = code.ToString() };
         }
 
+        public Task<WorkflowCompilerResult> CompileAsync(EntityDefinition ed)
+        {
+            var options = new CompilerOptions();
+            var sources = this.GenerateCode(ed);
+            var result = this.Compile(options, sources);
+
+            return Task.FromResult(result);
+        }
         public WorkflowCompilerResult Compile(CompilerOptions options, params Class[] @classes)
         {
             if (@classes.Length == 0)
@@ -288,11 +298,11 @@ namespace Bespoke.Sph.Domain
                 };
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
-                    select new BuildError(this.WebId, x.ErrorText)
-                    {
-                        Line = x.Line,
-                        FileName = x.FileName
-                    };
+                             select new BuildError(this.WebId, x.ErrorText)
+                             {
+                                 Line = x.Line,
+                                 FileName = x.FileName
+                             };
                 cr.Errors.AddRange(errors);
                 return cr;
             }

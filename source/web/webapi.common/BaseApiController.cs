@@ -46,18 +46,18 @@ namespace Bespoke.Sph.WebApi
             public string Documentation { get; set; }
         }
 
-        public IHttpActionResult File(byte[] contents, string mimeType, string contentDisposition = null, int maxAge = 0, HttpStatusCode statusCode = HttpStatusCode.OK)
+        protected IHttpActionResult File(byte[] contents, string mimeType, string contentDisposition = null, int maxAge = 0, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             var response = new FileResult(contents, mimeType, contentDisposition, maxAge, statusCode);
             return response;
         }
 
-        public IHttpActionResult NotFound(string message)
+        protected IHttpActionResult NotFound(string message)
         {
             return new NotFoundTextPlainActionResult(message, this.Request);
         }
 
-        public IHttpActionResult NotModified(CacheMetadata cache)
+        protected IHttpActionResult NotModified(CacheMetadata cache)
         {
             return new NotModifiedResult(this.Request, cache);
         }

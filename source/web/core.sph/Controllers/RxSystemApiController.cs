@@ -1,165 +1,163 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.SessionState;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
-using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Properties;
+using Bespoke.Sph.WebApi;
 using LinqToQuerystring;
 using Newtonsoft.Json;
 
-namespace Bespoke.Sph.Web.Api
+namespace Bespoke.Sph.Web.Controllers
 {
-    [SessionState(SessionStateBehavior.Disabled)]
-    [RoutePrefix("api")]
-    public class ApiController : Controller
+    [RoutePrefix("api/systems")]
+    public class RxSystemApiController : BaseApiController
     {
         public static readonly string ConnectionString = ConfigurationManager.SqlConnectionString;
-
+        [HttpGet]
         [Route("{type}/0")]
-        public ActionResult NotFound(string type)
+        public IHttpActionResult NotFound2(string type)
         {
-            this.Response.StatusCode = (int) HttpStatusCode.NotFound;
-            return Json(new {success = false, status = HttpStatusCode.NotFound, message = $"Cannot find any item of type {type} with id 0"}, JsonRequestBehavior.AllowGet);
+            return NotFound($"Cannot find any item of type {type} with id 0");
         }
+        [HttpGet]
         [Route("audittrail")]
-        public async Task<ActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
         }
 
         [Route("adapter")]
-        [RxSourceOutputCache(SourceType = typeof(Adapter))]
-        public ActionResult Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<Adapter>(filter, page, size, true);
         }
 
         [Route("Designation")]
-        [RxSourceOutputCache(SourceType = typeof(Designation))]
-        public ActionResult Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<Designation>(filter, page, size);
         }
 
         [Route("DocumentTemplate")]
-        [RxSourceOutputCache(SourceType = typeof(DocumentTemplate))]
-        public ActionResult DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<DocumentTemplate>(filter, page, size);
         }
 
         [Route("EmailTemplate")]
-        [RxSourceOutputCache(SourceType = typeof(EmailTemplate))]
-        public ActionResult EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EmailTemplate>(filter, page, size);
         }
 
         [Route("ValueObjectDefinition")]
-        [RxSourceOutputCache(SourceType = typeof(ValueObjectDefinition))]
-        public ActionResult ValueObjectDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult ValueObjectDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<ValueObjectDefinition>(filter, page, size);
         }
 
         [Route("EntityDefinition")]
-        [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
-        public ActionResult EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EntityDefinition>(filter, page, size);
         }
 
         [Route("EntityChart")]
-        [RxSourceOutputCache(SourceType = typeof(EntityChart))]
-        public ActionResult EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EntityChart>(filter);
         }
 
         [Route("FormDialog")]
-        [RxSourceOutputCache(SourceType = typeof(FormDialog))]
-        public ActionResult FormDialog(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult FormDialog(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<FormDialog>(filter, page, size, true);
         }
         [Route("PartialView")]
-        [RxSourceOutputCache(SourceType = typeof(PartialView))]
-        public ActionResult PartialView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult PartialView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<PartialView>(filter, page, size, true);
         }
 
         [Route("EntityForm")]
-        [RxSourceOutputCache(SourceType = typeof(EntityForm))]
-        public ActionResult EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EntityForm>(filter, page, size, true);
         }
 
         [Route("EntityView")]
-        [RxSourceOutputCache(SourceType = typeof(EntityView))]
-        public ActionResult EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<EntityView>(filter, page, size);
         }
 
         [Route("OperationEndpoint/{id}")]
-        [RxSourceOutputCache(SourceType = typeof(OperationEndpoint))]
-        public ActionResult GetOneOperationEndpoint(string id)
+        [HttpGet]
+        public IHttpActionResult GetOneOperationEndpoint(string id)
         {
             return ReadFromSource<OperationEndpoint>($"Id eq '{id}'", 1, 1);
         }
         [Route("OperationEndpoint")]
-        [RxSourceOutputCache(SourceType = typeof(OperationEndpoint))]
-        public ActionResult GetOperationEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult GetOperationEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<OperationEndpoint>(filter, page, size);
         }
 
         [Route("QueryEndpoint/{id}")]
-        [RxSourceOutputCache(SourceType = typeof(QueryEndpoint))]
-        public ActionResult GetOneQueryEndpoint(string id)
+        [HttpGet]
+        public IHttpActionResult GetOneQueryEndpoint(string id)
         {
             return ReadFromSource<QueryEndpoint>($"Id eq '{id}'", 1, 1);
         }
         [Route("QueryEndpoint")]
-        [RxSourceOutputCache(SourceType = typeof(QueryEndpoint))]
-        public ActionResult QueryEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult QueryEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<QueryEndpoint>(filter, page, size);
         }
 
         [Route("Message")]
-        public async Task<ActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public async Task<IHttpActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Message>(filter, page, size, includeTotal);
         }
 
         [Route("Page")]
-        [RxSourceOutputCache(SourceType = typeof(Page))]
-        public ActionResult Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<Page>(filter, page, size, includeTotal);
         }
 
         [Route("ReportDelivery")]
-        public async Task<ActionResult> ReportDelivery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public async Task<IHttpActionResult> ReportDelivery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<ReportDelivery>(filter, page, size, includeTotal);
         }
 
         [Route("ReportDefinition")]
-        [RxSourceOutputCache(SourceType = typeof(ReportDefinition))]
-        public ActionResult ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<ReportDefinition>(filter, page, size, true);
         }
@@ -167,14 +165,16 @@ namespace Bespoke.Sph.Web.Api
 
 
         [Route("Setting")]
-        public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public async Task<IHttpActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Setting>(filter, page, size, includeTotal);
         }
 
 
         [Route("Tracker")]
-        public async Task<ActionResult> Tracker(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public async Task<IHttpActionResult> Tracker(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             Action<IEnumerable<Tracker>> process = list =>
             {
@@ -185,68 +185,73 @@ namespace Bespoke.Sph.Web.Api
                     tracker.ExecutedActivityCollection.ClearAndAddRange(sl);
                 }
             };
-            return await ExecuteAsync(filter, page, size, includeTotal, process);
+            return await this.ExecuteAsync(filter, page, size, includeTotal, null, process);
         }
 
 
         [Route("Trigger")]
-        [RxSourceOutputCache(SourceType = typeof(Trigger))]
-        public ActionResult Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<Trigger>(filter, page, size, true);
         }
 
         [Route("UserProfile")]
-        public async Task<ActionResult> UserProfile(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public async Task<IHttpActionResult> UserProfile(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<UserProfile>(filter, page, size, includeTotal);
         }
 
         [Route("Watcher")]
-        public async Task<ActionResult> Watcher(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public async Task<IHttpActionResult> Watcher(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Watcher>(filter, page, size, includeTotal);
         }
 
         [Route("TransformDefinition")]
-        [RxSourceOutputCache(SourceType = typeof(TransformDefinition))]
-        public ActionResult TransformDefinition(string filter = null, int page = 1, int size = 20, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult TransformDefinition(string filter = null, int page = 1, int size = 20, bool includeTotal = false)
         {
             return ReadFromSource<TransformDefinition>(filter, page, size, true);
         }
 
 
         [Route("WorkflowDefinition")]
-        [RxSourceOutputCache(SourceType = typeof(WorkflowDefinition))]
-        public ActionResult WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<WorkflowDefinition>(filter, page, size, true);
         }
 
         [Route("ViewTemplate")]
-        [RxSourceOutputCache(SourceType = typeof(ViewTemplate))]
-        public ActionResult ViewTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public IHttpActionResult ViewTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return ReadFromSource<ViewTemplate>(filter, page, size, true);
         }
 
 
         [Route("Workflow")]
-        public async Task<ActionResult> Workflow(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        [HttpGet]
+        public async Task<IHttpActionResult> Workflow(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Workflow>(filter, page, size, includeTotal);
         }
 
 
 
-        private async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false, Action<IEnumerable<T>> processAction = null) where T : Entity
+        private async Task<IHttpActionResult> ExecuteAsync<T>(
+            [FromUri(Name = "filter")]string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$order")]string orderby = null,
+            Action<IEnumerable<T>> processAction = null) where T : Entity
         {
             if (size > 200)
                 throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, nameof(size));
 
             var typeName = typeof(T).Name;
 
-            var orderby = this.Request.QueryString["$orderby"];
             var translator = new OdataSqlTranslator(null, typeName);
             var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? "Id ne ''" : filter, orderby);
             var rows = 0;
@@ -266,7 +271,7 @@ namespace Bespoke.Sph.Web.Api
             }
 
             string previousPageToken = DateTime.Now.ToShortTimeString();
-            var json = new
+            var result = new
             {
                 results = list.ToArray(),
                 rows,
@@ -280,8 +285,7 @@ namespace Bespoke.Sph.Web.Api
                 TypeNameHandling = TypeNameHandling.Objects
             };
 
-            this.Response.ContentType = "application/json";
-            return Content(JsonConvert.SerializeObject(json, Formatting.None, setting));
+            return Json(JsonConvert.SerializeObject(result, setting));
         }
 
         private async Task<int> ExecuteScalarAsync(string sql)
@@ -329,7 +333,7 @@ namespace Bespoke.Sph.Web.Api
             }
         }
 
-        private ActionResult ReadFromSource<T>(string filter, int page = 1, int size = 20, bool readAllText = false) where T : Entity
+        private IHttpActionResult ReadFromSource<T>(string filter, int page = 1, int size = 20, bool readAllText = false) where T : Entity
         {
             var list = new List<T>();
             var id = Strings.RegexSingleValue(filter, "^Id eq '(?<id>[0-9A-Za-z-_ ]{1,50})'", "id");
@@ -361,7 +365,7 @@ namespace Bespoke.Sph.Web.Api
                 ""size"" : 20
             }}";
 
-            return Content(json, "application/json", Encoding.UTF8);
+            return Json(json);
         }
 
         private static IList<T> IterateFromSource<T>(string filter, int page, int size, string folder, out int rows, bool readAllText = false)

@@ -93,22 +93,17 @@ WriteLiteral(" value=\"\"");
 
 WriteLiteral(">[Please Select]</option>\r\n                <option");
 
+WriteLiteral(" value=\"Everybody\"");
+
+WriteLiteral(">Everybody</option>\r\n                <option");
+
 WriteLiteral(" value=\"Roles\"");
 
 WriteLiteral(">Roles</option>\r\n                <option");
 
 WriteLiteral(" value=\"UserName\"");
 
-WriteLiteral(">UserName</option>\r\n                <option");
-
-WriteLiteral(" value=\"Department\"");
-
-WriteLiteral(">Department</option>\r\n                <option");
-
-WriteLiteral(" value=\"Designation\"");
-
-WriteLiteral(">Designation</option>\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <di" +
-"v");
+WriteLiteral(">UserName</option>\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -130,7 +125,8 @@ WriteLiteral(" class=\"form-control expression-field\"");
 
 WriteLiteral(" id=\"performer-value\"");
 
-WriteLiteral(" data-bind=\"value:Value, disable:IsPublic\"");
+WriteLiteral(" data-bind=\"value:Value, disable:ko.unwrap(IsPublic) || ko.unwrap(UserProperty) =" +
+"== \'Everybody\'\"");
 
 WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n</form>");
 
