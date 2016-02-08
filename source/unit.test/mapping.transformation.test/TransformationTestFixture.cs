@@ -13,7 +13,6 @@ namespace mapping.transformation.test
     public class TransformationTestFixture
     {
         public const string CUSTOMER = "Customer";
-
         public const string PATIENT = "Patient";
 
         [TestInitialize]

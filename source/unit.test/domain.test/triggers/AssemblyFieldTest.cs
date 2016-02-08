@@ -1,22 +1,25 @@
 ﻿using System;
+using System.IO;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.triggers
 {
-    [TestFixture]
     public class AssemblyFieldTest
     {
         public const string ASSEMBLY = "assembly.test";
-        [TestFixtureSetUp]
-        public void Setup()
-        {
-            System.IO.File.Copy($@"{ConfigurationManager.Home}\..\source\unit.test\assembly.test\bin\Debug\assembly.test.dll",
-                ConfigurationManager.WebPath + @"\bin\assembly.test.dll", true);
+        public AssemblyFieldTest()
+        {      var source = $@"{ConfigurationManager.Home}\..\source\unit.test\assembly.test\bin\Debug\assembly.test.dll";
+           
+            var destFileName = $"{ConfigurationManager.WebPath}\\bin\\assembly.test.dll";
+            if (!File.Exists(destFileName))
+            {
+               File.Copy(source,destFileName, false);
+            }
         }
 
-        [Test]
+        [Fact]
         public void GetValueStringWithOneMethodArg()
         {
             var building = new Designation { Name = "A" };
@@ -31,10 +34,10 @@ namespace domain.test.triggers
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "erymuzuan", Type = typeof(string) }, Name = "name" });
 
             var name = af.GetValue(context);
-            Assert.AreEqual("Hello erymuzuan", name);
+            Assert.Equal("Hello erymuzuan", name);
 
         }
-        [Test]
+        [Fact]
         public void GetValueStringWith2MethodArgs()
         {
             var customer = this.GetCustomerInstance();
@@ -50,11 +53,11 @@ namespace domain.test.triggers
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Good morning", Type = typeof(string) }, Name = "greet" });
 
             var name = af.GetValue(context);
-            Assert.AreEqual("Good morning erymuzuan", name);
+            Assert.Equal("Good morning erymuzuan", name);
 
         }
 
-        [Test]
+        [Fact]
         public void GetValueStringWithEntityMethodArg()
         {
             var customer = this.GetCustomerInstance();
@@ -72,12 +75,12 @@ namespace domain.test.triggers
             af.MethodArgCollection.Add(new MethodArg { ValueProvider = field, Name = "customer" });
 
             var name = af.GetValue(context);
-            Assert.AreEqual("Welcome Erymuzuan", name);
+            Assert.Equal("Welcome Erymuzuan", name);
 
         }
 
 
-        [Test]
+        [Fact]
         public void GetAsyncValueString()
         {
             var customer = this.GetCustomerInstance();
@@ -98,10 +101,10 @@ namespace domain.test.triggers
             af.MethodArgCollection.Add(new MethodArg { Type = customer.GetType(), ValueProvider = field, Name = "customer" });
 
             var name = af.GetValue(context);
-            Assert.AreEqual("Welcome Erymuzuan", name);
+            Assert.Equal("Welcome Erymuzuan", name);
 
         }
-        [Test]
+        [Fact]
         public void TaskStringAsyncValueString()
         {
             var customer = this.GetCustomerInstance();
@@ -123,11 +126,11 @@ namespace domain.test.triggers
             af.MethodArgCollection.Add(new MethodArg { Type = customer.GetType(), ValueProvider = field, Name = "customer" });
 
             var name = af.GetValue(context);
-            Assert.AreEqual("Welcome warning Erymuzuan", name);
+            Assert.Equal("Welcome warning Erymuzuan", name);
 
         }
 
-        [Test]
+        [Fact]
         public void GetNullableDateTime()
         {
             var customer = this.GetCustomerInstance();
@@ -146,12 +149,11 @@ namespace domain.test.triggers
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(DateTime), ValueProvider = new ConstantField { Value = "2015-01-01", Type = typeof(DateTime) }, Name = "date" });
 
             var date = af.GetValue(context);
-            Assert.AreEqual(new DateTime(2015, 1, 1), date);
+            Assert.Equal(new DateTime(2015, 1, 1), date);
 
         }
 
-        [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void GetAsyncValueOverloaded()
         {
             var customer = this.GetCustomerInstance();
@@ -172,8 +174,12 @@ namespace domain.test.triggers
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Wwhat... ", Type = typeof(string) }, Name = "warning" });
             af.MethodArgCollection.Add(new MethodArg { Type = customer.GetType(), ValueProvider = field, Name = "customer" });
 
-            var name = af.GetValue(context);
-            Assert.AreEqual("Welcome to  Masjid kampung Bukit Bunga", name);
+            var ioe = Assert.Throws<InvalidOperationException>(() =>
+            {
+                var name = af.GetValue(context);
+                Assert.Equal("Welcome to  Masjid kampung Bukit Bunga", name);
+            });
+            Assert.Equal("This is not yet possible to have overloaded method with same parameters length", ioe.Message);
 
         }
 

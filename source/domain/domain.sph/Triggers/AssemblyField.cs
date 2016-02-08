@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException("Cannot load method " + this.Method + " with these parameters");
 
             if (count > 1)
-                throw new InvalidOperationException("This is not yet possible to have overloaded method with same parameters length ");
+                throw new InvalidOperationException("This is not yet possible to have overloaded method with same parameters length");
 
 
             var method = methods.Single(m => m.Name == this.Method && m.GetParameters().Length == this.MethodArgCollection.Count);
