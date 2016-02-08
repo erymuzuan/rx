@@ -26,6 +26,7 @@ namespace domain.test.entities
         private readonly ITestOutputHelper m_output;
         private readonly MockRepository<EntityDefinition> m_efMock;
         private readonly MockPersistence m_persistence = new MockPersistence();
+        private readonly Mock<ICacheManager> m_cache;
 
         public OperationTest(ITestOutputHelper output)
         {
@@ -38,10 +39,10 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
 
-            var cache = new Mock<ICacheManager>();
-            cache.Setup(x => x.Get<QueryEndpoint>(It.IsAny<string>()))
+            m_cache = new Mock<ICacheManager>();
+            m_cache.Setup(x => x.Get<QueryEndpoint>(It.IsAny<string>()))
                 .Returns(new QueryEndpoint());
-            ObjectBuilder.AddCacheList(cache.Object);
+            ObjectBuilder.AddCacheList(m_cache.Object);
         }
         private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)
         {
@@ -132,36 +133,47 @@ namespace domain.test.entities
             Assert.NotNull(patient);
         }
 
-        [Fact]
+        [Theory]
         [Trait("Verb", "POST")]
-        public async Task PostRegister()
+        [InlineData("Register1", "Anonymous")]
+        [InlineData("Register2", "Everybody")]
+        [InlineData("Register3", "administrators")]
+        [InlineData("Register4", "nurse,medical-assitant")]
+        public async Task PostRegister(string name, string roles)
         {
-            var register = new OperationEndpoint
+            var endpoint = new OperationEndpoint
             {
-                Name = "Register",
+                Name = name,
                 Resource = "patients",
-                Entity = "PatientRegistered",
+                Entity = "Patient" + name,
                 IsHttpPost = true,
                 WebId = "abc",
                 Id = "patient-register"
             };
-            register.AddRules("VerifyRegisteredDate");
+            endpoint.Permissions.AddRange(roles.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
 
-            var ed = this.CreatePatientDefinition(register.Entity);
+            endpoint.AddRules("VerifyRegisteredDate");
+
+            var ed = this.CreatePatientDefinition(endpoint.Entity);
             var patient = this.CreateInstance(ed, true);
             Assert.NotNull(patient);
 
-            var result = await register.CompileAsync(ed);
+            m_cache.Setup(x => x.Get<EntityDefinition>(ed.Id))
+                .Returns(ed);
+
+            var result = await endpoint.CompileAsync(ed);
             Assert.True(result.Result, result.ToString());
 
             try
             {
                 var dll = Assembly.LoadFrom(result.Output);
 
-                var controllerType = dll.GetType($"{register.CodeNamespace}.{register.Name}Controller");
-                dynamic controller = Activator.CreateInstance(controllerType);
+                var controllerType = dll.GetType($"{endpoint.CodeNamespace}.{endpoint.Name}Controller");
+                var action = controllerType.GetMethod("Post" + name);
+                var controller = Activator.CreateInstance(controllerType);
 
-                var response = (await controller.PostRegister(patient));
+                dynamic awaiter = action.Invoke(controller,new object[]{patient});
+                var response = awaiter.Result;
                 PropertyInfo contentProperty = response.GetType().GetProperty("Content");
                 var content = contentProperty.GetValue(response);
                 JObject json = JObject.Parse(JsonConvert.SerializeObject(content));
@@ -417,12 +429,12 @@ namespace domain.test.entities
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
-            
+
             var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
             Assert.IsType<InvalidResult>(result);
 
-       
+
             File.Delete(jsonPath);
             File.Delete(oePath);
 
@@ -487,7 +499,7 @@ namespace domain.test.entities
             var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
             Assert.NotNull(result);
-            
+
             Assert.Equal("Released", patient.Status);
 
             File.Delete(oePath);
