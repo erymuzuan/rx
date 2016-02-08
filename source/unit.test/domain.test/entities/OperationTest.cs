@@ -14,6 +14,7 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace domain.test.entities
 {
@@ -21,11 +22,13 @@ namespace domain.test.entities
     [Trait("Category", "Compile")]
     public class OperationTest
     {
+        private readonly ITestOutputHelper m_output;
         private readonly MockRepository<EntityDefinition> m_efMock;
         private readonly MockPersistence m_persistence = new MockPersistence();
 
-        public OperationTest()
+        public OperationTest(ITestOutputHelper output)
         {
+            m_output = output;
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
@@ -132,7 +135,7 @@ namespace domain.test.entities
         [Trait("Verb", "POST")]
         public async Task PostRegister()
         {
-            var release = new OperationEndpoint
+            var register = new OperationEndpoint
             {
                 Name = "Register",
                 Resource = "patients",
@@ -141,26 +144,41 @@ namespace domain.test.entities
                 WebId = "abc",
                 Id = "patient-register"
             };
-            release.AddRules("VerifyRegisteredDate");
+            register.AddRules("VerifyRegisteredDate");
 
-            var ed = this.CreatePatientDefinition(release.Entity);
+            var ed = this.CreatePatientDefinition(register.Entity);
             var patient = this.CreateInstance(ed, true);
             Assert.NotNull(patient);
 
-            var result = await release.CompileAsync(ed);
+            var result = await register.CompileAsync(ed);
             Assert.True(result.Result, result.ToString());
 
-            var dll = Assembly.LoadFrom(result.Output);
+            try
+            {
+                var dll = Assembly.LoadFrom(result.Output);
 
-            var controllerType = dll.GetType($"{release.CodeNamespace}.{release.Name}Controller");
-            dynamic controller = Activator.CreateInstance(controllerType);
+                var controllerType = dll.GetType($"{register.CodeNamespace}.{register.Name}Controller");
+                dynamic controller = Activator.CreateInstance(controllerType);
 
-            var response = await controller.PostRegister(patient);
-            JObject json = JObject.Parse(JsonSerializerService.ToJsonString(response.Data));
+                var response = (await controller.PostRegister(patient));
+                PropertyInfo contentProperty = response.GetType().GetProperty("Content");
+                var content = contentProperty.GetValue(response);
+                JObject json = JObject.Parse(JsonConvert.SerializeObject(content));
 
-            var id = json.SelectToken("$.id").Value<string>();
-            Assert.Equal(json.SelectToken("$._links.href").Value<string>(), $"{ConfigurationManager.BaseUrl}/api/patients/" + id);
+                var id = json.SelectToken("$.id").Value<string>();
+                Assert.Equal(json.SelectToken("$._links.href").Value<string>(), $"{ConfigurationManager.BaseUrl}/api/patients/" + id);
 
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                m_output.WriteLine(e.ToString());
+                foreach (Exception inner in e.LoaderExceptions)
+                {
+                    m_output.WriteLine(inner.ToString());
+                }
+
+                throw;
+            }
         }
         [Fact]
         [Trait("Verb", "PATCH")]

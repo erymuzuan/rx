@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Domain
         public Method GeneratePostAction(EntityDefinition ed)
         {
             if (!IsHttpPost) return null;
-            var post = new Method { Name = $"Post{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
+            var post = new Method { Name = $"Post{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             post.AttributeCollection.Add("[HttpPost]");
             post.AttributeCollection.Add($"[Route(\"{Route}\")]");
 
@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Domain
 
 
             var body = new MethodArg { Name = "item", TypeName = ed.Name };
-            body.AttributeCollection.Add("[RequestBody]");
+            body.AttributeCollection.Add("[FromBody]");
             post.ArgumentCollection.Add(body);
 
 
@@ -104,7 +104,7 @@ namespace Bespoke.Sph.Domain
         {
             if (!IsHttpPatch) return null;
 
-            var patch = new Method { Name = $"Patch{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
+            var patch = new Method { Name = $"Patch{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             patch.AttributeCollection.Add("[HttpPatch]");
             patch.AttributeCollection.Add($"[Route(\"{Route}\")]");
 
@@ -160,8 +160,7 @@ namespace Bespoke.Sph.Domain
             patch.AppendLine();
             patch.AppendLine("      if(missingValues.Count > 0)");
             patch.AppendLine("      {");
-            patch.AppendLine("          this.Response.StatusCode = 405;");
-            patch.AppendLine("          return Json(new {success = false, missing = missingValues.ToArray()});");
+            patch.AppendLine("          return Invalid((HttpStatusCode)405, missingValues.ToArray());");
             patch.AppendLine("      }");
 
             var rules = GenerateRulesCode();
@@ -229,7 +228,7 @@ namespace Bespoke.Sph.Domain
             }
 
 
-            var put = new Method { Name = $"Put{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
+            var put = new Method { Name = $"Put{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             put.AttributeCollection.Add("[HttpPut]");
             put.AttributeCollection.Add($"[Route(\"{route}\")]");
 
@@ -301,7 +300,7 @@ namespace Bespoke.Sph.Domain
                                     href = $""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}""
                                 }}
                             }};
-            return Json(result);");
+            return Ok(result);");
 
             return put;
         }
@@ -313,7 +312,7 @@ namespace Bespoke.Sph.Domain
 
             var route = !string.IsNullOrWhiteSpace(this.Route) ? $"{this.Route.ToLowerInvariant()}/" : "";
 
-            var delete = new Method { Name = $"Delete{Name}", ReturnTypeName = "Task<ActionResult>", AccessModifier = Modifier.Public };
+            var delete = new Method { Name = $"Delete{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             delete.AttributeCollection.Add("[HttpDelete]");
             delete.AttributeCollection.Add($"[Route(\"{route}{{id}}\")]");
             delete.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string) });
@@ -328,7 +327,7 @@ namespace Bespoke.Sph.Domain
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
             var item = (await repos.LoadOneAsync(id)).Source;
             if(null == item)
-                return new HttpNotFoundResult();");
+                return NotFound();");
 
             if (this.Rules.Any())
             {
@@ -348,8 +347,7 @@ namespace Bespoke.Sph.Domain
                 session.Delete(item);
                 await session.SubmitChanges(""{this.Name}"");
             }}
-            this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.Id}});");
+            return Ok(new {{success = true, status=""OK"", id = item.Id}});");
 
             return delete;
         }
@@ -420,9 +418,7 @@ namespace Bespoke.Sph.Domain
             }
             code.AppendLine("           if( brokenRules.Count > 0) ");
             code.AppendLine("           {");
-            code.AppendLine("               this.Response.StatusDescription = \"Unprocessable Entity\";");
-            code.AppendLine("               this.Response.StatusCode = 422; ");
-            code.AppendLine("               return Json(new {success = false, rules = brokenRules.ToArray()});");
+            code.AppendLine("               return Invalid(brokenRules.ToArray());");
             code.AppendLine("           }");
             return code.ToString();
         }

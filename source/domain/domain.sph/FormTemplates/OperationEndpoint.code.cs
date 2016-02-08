@@ -25,8 +25,8 @@ namespace Bespoke.Sph.Domain
             typeof(List<>).Namespace,
             typeof(Enumerable).Namespace ,
             typeof(XmlAttributeAttribute).Namespace,
-            "System.Web.Mvc",
-            "Bespoke.Sph.Web.Helpers"
+            "System.Web.Http",
+            "Bespoke.Sph.WebApi"
         };
 
         public Task<WorkflowCompilerResult> CompileAsync(EntityDefinition entityDefinition)
@@ -58,8 +58,8 @@ namespace Bespoke.Sph.Domain
                     typeof(XElement),
                     typeof(HttpResponseBase),
                     typeof(ConfigurationManager));
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
+                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll");
+                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\webapi.common.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.CompilerOutputPath + $@"\{ConfigurationManager.ApplicationName}.{Entity}.dll");
 
@@ -89,8 +89,8 @@ namespace Bespoke.Sph.Domain
             {
                 Name = $"{Name}Controller",
                 IsPartial = true,
-                FileName = $"{Name}Controller.cs",
-                BaseClass = "System.Web.Mvc.Controller",
+                FileName = $"{Name}Controller",
+                BaseClass = "BaseApiController",
                 Namespace = CodeNamespace
             };
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);

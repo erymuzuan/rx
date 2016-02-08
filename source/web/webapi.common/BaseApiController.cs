@@ -12,7 +12,14 @@ namespace Bespoke.Sph.WebApi
         protected IDeveloperService DeveloperService => ObjectBuilder.GetObject<IDeveloperService>();
         static BaseApiController()
         {
-            WebApi.DeveloperService.Init();
+            try
+            {
+                WebApi.DeveloperService.Init();
+            }
+            catch (Exception e)
+            {// FOR UNIT TEST
+                Console.WriteLine(e);
+            }
         }
         [JsonObject("_link")]
         public class Link
@@ -54,10 +61,22 @@ namespace Bespoke.Sph.WebApi
         {
             return new NotModifiedResult(this.Request, cache);
         }
+        protected IHttpActionResult Invalid(HttpStatusCode statusCode, object content)
+        {
+            var json = JsonConvert.SerializeObject(content);
+            var response = new InvalidResult(statusCode, json);
+            return response;
+        }
         protected IHttpActionResult Invalid(object content)
         {
             var json = JsonConvert.SerializeObject(content);
             var response = new InvalidResult((HttpStatusCode)422, json);
+            return response;
+        }
+
+        protected IHttpActionResult Invalid(BusinessRule[] brokenRules)
+        {
+            var response = new InvalidResult(this.Request, brokenRules);
             return response;
         }
 
