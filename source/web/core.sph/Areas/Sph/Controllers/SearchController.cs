@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Text;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
 using Humanizer;
@@ -69,11 +70,13 @@ namespace Bespoke.Sph.Web.Controllers
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-
                 var response = await client.PostAsync(url, request);
                 var content = response.Content as StreamContent;
                 if (null == content) throw new Exception("Cannot execute query on es " + request);
                 var json2 = await content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                    throw new SearchException("Cannot execute query for :" + text) { Query = json, Result = json2 };
                 return Json(json2);
 
             }
@@ -108,6 +111,25 @@ namespace Bespoke.Sph.Web.Controllers
             return await Es(wfes, json, false);
         }
 
-    
+
+    }
+
+    public class SearchException : Exception
+    {
+        public string Query { get; set; }
+        public string Result { get; set; }
+        public SearchException(string message) : base(message) { }
+        public SearchException(string message, Exception exception) : base(message, exception)
+        {
+        }
+
+        public override string ToString()
+        {
+            var ex =new StringBuilder();
+            ex.AppendLine(this.Message);
+            ex.AppendLine("Query " + this.Query);
+            ex.AppendLine("Result " + this.Result);
+            return ex.ToString();
+        }
     }
 }

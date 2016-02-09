@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.ExceptionHandling;
@@ -19,22 +20,51 @@ namespace Bespoke.Sph.WebApi
                 // set 403
             }
             /* other exceptions */
-            var id = LogOtherException(ex, context);
+            var entry = LogOtherException(ex, context);
             if (this.IsDebuggingEnabled)
-                context.Result = new LocalExceptionResult(ex);
+                context.Result = new LocalExceptionResult(entry);
             else
-                context.Result = new LocalExceptionResult(id);
+                context.Result = new LocalExceptionResult(entry.Id);
 
             return Task.FromResult(0);
         }
 
 
-        private string LogOtherException(Exception e, ExceptionHandlerContext context)
+        private LogEntry LogOtherException(Exception e, ExceptionHandlerContext context)
         {
-            var logger = ObjectBuilder.GetObject<ILogger>();
             var id = Guid.NewGuid().ToString();
-            logger.Log(new LogEntry(e, new[] { "url", context.Request.RequestUri.ToString() }) { Id = id });
-            return id;
+            var entry = new LogEntry(e, new[] { "url", context.Request.RequestUri.ToString() }) { Id = id };
+            var details = new StringBuilder();
+
+            var type = e.GetType();
+            if (type.GetMethod("ToString").DeclaringType == type)
+            {
+                details.AppendLine("================ EXCEPTION TOSTRING ===================");
+                details.Append(e);
+            }
+
+            details.AppendLine("================ REQUEST DETAILS ===================");
+            details.AppendLine($"{context.Request.Method} {context.Request.RequestUri}");
+            foreach (var header in context.Request.Headers)
+            {
+                details.AppendLine($"{header.Key}: {header.Value.ToString2()}");
+            }
+            details.AppendLine();
+            try
+            {
+                if (null != context.Request.Content)
+                    details.AppendLine(context.Request.Content.ReadAsStringAsync().Result);
+            }
+            catch
+            {
+                // ignored
+            }
+
+            entry.Details += details;
+
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            logger.Log(entry);
+            return entry;
         }
 
         private bool HandleSecurityException(Exception ex)
