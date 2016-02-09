@@ -48,7 +48,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
 
                 var query = String.format("Id eq '{0}'", id);
-                return $.getJSON("transform-definition/design/" + id)
+                return $.getJSON("/api/transform-definitions/" + id + "/designer")
                             .then(function (settingPage) {
                                 if (settingPage) {
                                     var items = _(settingPage).map(function (v) {
@@ -56,7 +56,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                     });
                                     pages(items);
                                 }
-                                return $.get("/transform-definition/functoids");
+                                return $.get("/api/transform-definitions/functoids");
                             })
                             .then(function (list) {
                                 functoidToolboxItems(list.$values);
@@ -77,15 +77,15 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                 }
 
                                 originalEntity = ko.toJSON(td);
-                                return context.get("/transform-definition/json-schema/" + b.OutputTypeName());
+                                return context.get("/api/transform-definitions/" + b.OutputTypeName() + "/json-schema");
 
                             })
                             .then(function (s) {
                                 destinationSchema(s);
                                 if (td().InputTypeName()) {
-                                    return context.get("/transform-definition/json-schema/" + td().InputTypeName());
+                                    return context.get("/api/transform-definitions/" + td().InputTypeName() + "/json-schema");
                                 }
-                                return context.post(ko.toJSON(td), "/transform-definition/json-schema");
+                                return context.post(ko.toJSON(td), "/api/transform-definitions/json-schema");
 
                             })
                             .then(sourceSchema)
@@ -571,9 +571,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
 
 
-                return context.post(pageJson, "/transform-definition/design/" + ko.unwrap(td().Id))
+                return context.post(pageJson, "/api/transform-definitions/" + ko.unwrap(td().Id) + "/designer")
                         .then(function () {
-                            return context.post(data, "/transform-definition");
+                            return context.post(data, "/api/transform-definitions");
                         })
                         .then(function (result) {
                             isBusy(false);
@@ -635,8 +635,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                                 // try build the tree for new item
                                 if (!td1.Id() || td1.Id() === "0") {
-                                    var inTask = context.post(ko.toJSON(td), "/transform-definition/json-schema"),
-                                       outTask = context.get("/transform-definition/json-schema/" + td1.OutputTypeName());
+                                    var inTask = context.post(ko.toJSON(td), "/api/transform-definitions/json-schema"),
+                                       outTask = context.get("/api/transform-definitions/" + td1.OutputTypeName() + "/json-schema");
                                     $.when(inTask, outTask).done(function (input, output) {
                                         sourceSchema(input[0]);
                                         destinationSchema(output[0]);
@@ -652,7 +652,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             },
             validateAsync = function () {
                 var tcs = new $.Deferred();
-                context.post(ko.mapping.toJSON(td), "/transform-definition/validate-fix")
+                context.post(ko.mapping.toJSON(td), "/api/transform-definitions/validate-fix")
                     .done(function (result) {
                         $("i.fa.fa-exclamation-circle.error").remove();
                         if (result.success) {
@@ -675,7 +675,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 return tcs.promise();
             },
             publishAsync = function () {
-                return context.post(ko.mapping.toJSON(td), "/transform-definition/publish")
+                return context.post(ko.mapping.toJSON(td), "/api/transform-definitions/" + td().Id() + "/publish")
                     .done(function (result) {
                         if (result.success) {
                             logger.info(result.message);
@@ -689,7 +689,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
             },
             generatePartialAsync = function () {
-                return context.post(ko.mapping.toJSON(td), "/transform-definition/generate-partial")
+                return context.post(ko.mapping.toJSON(td), "/api/transform-definitions/" + td().Id() +"/generate-partial")
                          .done(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
