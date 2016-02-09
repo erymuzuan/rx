@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
-using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.WebApi;
 using LinqToQuerystring;
 
 namespace Bespoke.Sph.Web.Api
 {
-    [NoCache]
-    public class ListController : Controller
+    [RoutePrefix("api/list")]
+    public class ListController : BaseApiController
     {
-        public static readonly string ConnectionString =
-            ConfigurationManager.SqlConnectionString;
-        [Route("~/api/list")]
-        public async Task<ActionResult> Index(string column, string table, string filter)
+        public static readonly string ConnectionString = ConfigurationManager.SqlConnectionString;
+        [Route("")]
+        [HttpGet]
+        public async Task<IHttpActionResult> Index([FromUri(Name = "column")]string column,
+            [FromUri(Name = "table")]string table,
+            [FromUri(Name = "filter")]string filter = null)
         {
             // TODO : should get all the one with SaveAsSourceAttribute instead
             var type = table.ToLowerInvariant();
@@ -48,60 +49,12 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteListAsync(sql);
         }
 
-        private ActionResult SelectSystemObjectProperty<T>(string column, string filter) where T : Entity
-        {
-            var context = new SphDataContext();
-            if (string.IsNullOrWhiteSpace(filter))
-            {
-                var val2 = context.LoadFromSources<T>()
-                    .AsQueryable()
-                    .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
-                    .SelectMany(d => d.Values)
-                    .Where(v => null != v)
-                    .ToList();
 
-                return Json(val2, JsonRequestBehavior.AllowGet);
-
-            }
-            var val = context.LoadFromSources<T>()
-                .AsQueryable()
-                .LinqToQuerystring($"?$filter={filter}")
-                .AsQueryable()
-                .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
-                .SelectMany(d => d.Values);
-
-            return Json(val, JsonRequestBehavior.AllowGet);
-        }
-
-
-        private ActionResult SelectDistinctSystemObjectProperty<T>(string column, string filter) where T : Entity
-        {
-            var context = new SphDataContext();
-            if (string.IsNullOrWhiteSpace(filter))
-            {
-                var val2 = context.LoadFromSources<T>()
-                    .AsQueryable()
-                    .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
-                    .SelectMany(d => d.Values)
-                    .Where(v => null != v)
-                    .Distinct()
-                    .ToList();
-
-                return Json(val2, JsonRequestBehavior.AllowGet);
-
-            }
-            var val = context.LoadFromSources<T>()
-                .AsQueryable()
-                .LinqToQuerystring($"?$filter={filter}")
-                .AsQueryable()
-                .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
-                .SelectMany(d => d.Values)
-                .Distinct();
-
-            return Json(val, JsonRequestBehavior.AllowGet);
-        }
-
-        public async Task<ActionResult> Distinct(string column, string table, string filter)
+        [Route("distinct")]
+        [HttpGet]
+        public async Task<IHttpActionResult> Distinct([FromUri(Name = "column")]string column,
+            [FromUri(Name = "table")]string table, 
+            [FromUri(Name = "filter")]string filter = null)
         {    
             // TODO : should get all the one with SaveAsSourceAttribute instead
             var type = table.ToLowerInvariant();
@@ -125,7 +78,15 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteListAsync(sql);
         }
 
-        public async Task<ActionResult> Tuple(string table, string filter, string column, string column2, string column3 = "", string column4 = "", string column5 = "")
+        [Route("tuple")]
+        [HttpGet]
+        public async Task<IHttpActionResult> Tuple([FromUri(Name = "table")]string table,
+            [FromUri(Name = "column")]string column, 
+            [FromUri(Name = "column2")]string column2,
+            [FromUri(Name = "filter")]string filter = null,
+            [FromUri(Name = "column3")]string column3 = "",
+            [FromUri(Name = "column4")]string column4 = "",
+            [FromUri(Name = "column5")]string column5 = "")
         {
             var type = table.ToLowerInvariant();
             switch (type)
@@ -164,7 +125,58 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteListTupleAsync(sql);
         }
 
-        private ActionResult SelectTupleFromSource<T>(string filter, string column, string column2, string column3 = "", string column4 = "", string column5 = "") where T : Entity
+        private IHttpActionResult SelectSystemObjectProperty<T>(string column, string filter) where T : Entity
+        {
+            var context = new SphDataContext();
+            if (string.IsNullOrWhiteSpace(filter))
+            {
+                var val2 = context.LoadFromSources<T>()
+                    .AsQueryable()
+                    .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
+                    .SelectMany(d => d.Values)
+                    .Where(v => null != v)
+                    .ToList();
+
+                return Json(val2);
+
+            }
+            var val = context.LoadFromSources<T>()
+                .AsQueryable()
+                .LinqToQuerystring($"?$filter={filter}")
+                .AsQueryable()
+                .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
+                .SelectMany(d => d.Values);
+
+            return Json(val);
+        }
+
+        private IHttpActionResult SelectDistinctSystemObjectProperty<T>(string column, string filter) where T : Entity
+        {
+            var context = new SphDataContext();
+            if (string.IsNullOrWhiteSpace(filter))
+            {
+                var val2 = context.LoadFromSources<T>()
+                    .AsQueryable()
+                    .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
+                    .SelectMany(d => d.Values)
+                    .Where(v => null != v)
+                    .Distinct()
+                    .ToList();
+
+                return Json(val2);
+
+            }
+            var val = context.LoadFromSources<T>()
+                .AsQueryable()
+                .LinqToQuerystring($"?$filter={filter}")
+                .AsQueryable()
+                .LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>($"?$select={column}")
+                .SelectMany(d => d.Values)
+                .Distinct();
+
+            return Json(val);
+        }
+        private IHttpActionResult SelectTupleFromSource<T>(string filter, string column, string column2, string column3 = "", string column4 = "", string column5 = "") where T : Entity
         {
             if (string.IsNullOrWhiteSpace(filter)) filter = "Id ne '0'";
 
@@ -184,19 +196,19 @@ namespace Bespoke.Sph.Web.Api
 
             var tuples = list.LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>(select)
                 .ToList();
-            var results = new ArrayList();
-            foreach (var t in tuples)
-            {
-                var q = new ArrayList();
-                foreach (var k in t.Keys)
-                {
+            //var results = new ArrayList();
+            //foreach (var t in tuples)
+            //{
+            //    var q = new ArrayList();
+            //    foreach (var k in t.Keys)
+            //    {
 
-                }
-            }
-            return Json(tuples, JsonRequestBehavior.AllowGet);
+            //    }
+            //}
+            return Json(tuples);
         }
 
-        private async Task<ActionResult> ExecuteListTuple4Async(string sql)
+        private async Task<IHttpActionResult> ExecuteListTuple4Async(string sql)
         {
             using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql, conn))
@@ -213,11 +225,11 @@ namespace Bespoke.Sph.Web.Api
                     }
                 }
 
-                return Json(result.ToArray(), JsonRequestBehavior.AllowGet);
+                return Json(result.ToArray());
             }
         }
 
-        private async Task<ActionResult> ExecuteListTuple5Async(string sql)
+        private async Task<IHttpActionResult> ExecuteListTuple5Async(string sql)
         {
             using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql, conn))
@@ -234,12 +246,12 @@ namespace Bespoke.Sph.Web.Api
                     }
                 }
 
-                return Json(result.ToArray(), JsonRequestBehavior.AllowGet);
+                return Json(result.ToArray());
             }
         }
 
 
-        private async Task<ActionResult> ExecuteListTupleAsync(string sql)
+        private async Task<IHttpActionResult> ExecuteListTupleAsync(string sql)
         {
             using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql, conn))
@@ -256,10 +268,10 @@ namespace Bespoke.Sph.Web.Api
                     }
                 }
 
-                return Json(result.ToArray(), JsonRequestBehavior.AllowGet);
+                return Json(result.ToArray() );
             }
         }
-        private async Task<ActionResult> ExecuteListTuple3Async(string sql)
+        private async Task<IHttpActionResult> ExecuteListTuple3Async(string sql)
         {
             using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql, conn))
@@ -276,11 +288,11 @@ namespace Bespoke.Sph.Web.Api
                     }
                 }
 
-                return Json(result.ToArray(), JsonRequestBehavior.AllowGet);
+                return Json(result.ToArray());
             }
         }
 
-        private async Task<ActionResult> ExecuteListAsync(string sql)
+        private async Task<IHttpActionResult> ExecuteListAsync(string sql)
         {
             using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql, conn))
@@ -296,7 +308,7 @@ namespace Bespoke.Sph.Web.Api
                     }
                 }
 
-                return Json(result.ToArray(), JsonRequestBehavior.AllowGet);
+                return Json(result.ToArray());
             }
         }
     }
