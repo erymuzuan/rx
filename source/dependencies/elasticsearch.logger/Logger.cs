@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,8 +12,6 @@ namespace Bespoke.Sph.ElasticSearchLogger
     [Export(typeof(ILogger))]
     public class Logger : ILogger
     {
-        private readonly Func<string> m_url = () =>
-            $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sys/log/{Guid.NewGuid()}";
 
         public Severity TraceSwitch { get; set; }
 
@@ -22,29 +19,23 @@ namespace Bespoke.Sph.ElasticSearchLogger
         {
             if ((int)entry.Severity < (int)this.TraceSwitch) return;
 
+            if (string.IsNullOrWhiteSpace(entry.Id))
+                entry.Id = Strings.GenerateId();
+
             var content = GetJsonContent(entry);
-            var url = m_url();
+            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchSystemIndex}/log/{entry.Id}"; 
 
             using (var client = new HttpClient())
             {
                 var response = await client.PutAsync(url, content);
-                Debug.WriteLine("{0}=>{1}",m_url, response.StatusCode);
+                Debug.WriteLine("{0}=>{1}",url, response.StatusCode);
             }
         }
 
 
         public void Log(LogEntry entry)
         {
-            if ((int)entry.Severity < (int)this.TraceSwitch) return;
-
-            var content = GetJsonContent(entry);
-            var url = m_url();
-
-            using (var client = new HttpClient())
-            {
-                var response = client.PutAsync(url, content).Result;
-                Debug.WriteLine("{0}=>{1}", m_url, response.StatusCode);
-            }
+            this.LogAsync(entry).ContinueWith(_=> {});
         }
         private static StringContent GetJsonContent(LogEntry entry)
         {

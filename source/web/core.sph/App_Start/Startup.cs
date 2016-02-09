@@ -4,6 +4,7 @@ using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
 using Microsoft.Owin.Security.Cookies;
 using Newtonsoft.Json;
@@ -40,7 +41,8 @@ namespace Bespoke.Sph.Web.App_Start
             config.MapHttpAttributeRoutes();
 
 
-            config.Services.Replace(typeof(IExceptionHandler), new LoggerExceptionHandler());
+            config.Services.Replace(typeof(IExceptionHandler), ObjectBuilder.GetObject<IExceptionHandler>());
+            config.EnsureInitialized();
 
             app.UseWebApi(config);
 

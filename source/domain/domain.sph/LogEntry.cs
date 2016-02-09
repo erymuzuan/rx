@@ -123,7 +123,7 @@ namespace Bespoke.Sph.Domain
         public string Computer { get; set; }
         public DateTime Time { get; set; }
         public string Message { get; set; }
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string[] Keywords { get; set; }
         public string Details { get; set; }
         public string CallerFilePath { get; set; }
