@@ -26,7 +26,7 @@ namespace Bespoke.Sph.Web.Controllers
         [HttpPost]
         [Authorize]
         [Route("{language}/{resource}")]
-        public ActionResult SaveAsync(string resource, string language,[RawRequestBody] string json)
+        public ActionResult SaveAsync(string resource, string language, [RawRequestBody] string json)
         {
             var file = Server.MapPath(string.Format("~/App_Data/i18n/{1}.{0}.json", language, resource));
 

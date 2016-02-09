@@ -13,7 +13,6 @@ namespace Bespoke.Sph.WebApi
     {
         public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
         {
-
             return new RxEntityParameterBinding(parameter);
         }
     }

@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
             var search = new StringBuilder();
 
             search.AppendLinf("       [Route(\"search\")]");
-            search.AppendLinf("       public async Task<IHttpActionResult> Search([FromBody]string json)");
+            search.AppendLinf("       public async Task<IHttpActionResult> Search([RawBody]string json)");
             search.AppendLine("       {");
             search.Append($@"
             var request = new System.Net.Http.StringContent(json);
