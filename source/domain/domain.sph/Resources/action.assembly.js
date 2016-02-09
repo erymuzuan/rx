@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -18,14 +18,14 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             methodOptions = ko.observableArray(),
             activate = function () {
                 var tcs = new $.Deferred();
-                $.get("/transform-definition/assemblies")
+                $.get("/api/assemblies")
                     .done(function (assemblies) {
                         assemblyOptions(assemblies);
 
                         if (action().Assembly()) {
 
-                            var loadTypesTask = $.get("/transform-definition/types/" + action().Assembly()),
-                                loadMethodTask = $.get("/transform-definition/methods/" + action().Assembly() + "/" + action().TypeName());
+                            var loadTypesTask = $.get("/api/assemblies/" + action().Assembly() + "/types"),
+                                loadMethodTask = $.get("/api/assemblies/methods/" + action().Assembly() + "/" + action().TypeName());
                             $.when(loadTypesTask, loadMethodTask)
                                 .done(function (t1, m1) {
                                     typeOptions(t1[0]);
@@ -43,7 +43,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             },
             attached = function (view) {
                 action().Assembly.subscribe(function (dll) {
-                    $.get("/transform-definition/types/" + dll)
+                    $.get("/api/assemblies/" + dll + "/types")
                    .done(function (classes) {
                        typeOptions(classes);
                    });
@@ -53,7 +53,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                         methodOptions.removeAll();
                         return;
                     }
-                    $.get("/transform-definition/methods/" + action().Assembly() + "/" + type)
+                    $.get("/api/assemblies/" + action().Assembly() + "/" + type + "/methods")
                    .done(function (methods) {
                        methodOptions(methods);
                    });
@@ -74,7 +74,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                     action().MethodArgCollection(args);
                     action().ReturnType(m.RetVal);
 
-                    if(!action().Title()){
+                    if (!action().Title()) {
                         action().Title(method);
                     }
                 });

@@ -1,7 +1,8 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 
 define(['plugins/dialog'],
     function (dialog) {
@@ -13,32 +14,32 @@ define(['plugins/dialog'],
             field = ko.observable(new bespoke.sph.domain.AssemblyField()),
             activate = function () {
                 if (!field().Method()) {
-                    return $.getJSON("/transform-definition/assemblies")
+                    return $.getJSON("/api/assemblies")
                         .done(function (list) {
                             assemblyOptions(list);
                         });
                 }
 
-                return $.getJSON("/transform-definition/assemblies")
+                return $.getJSON("/api/assemblies")
                         .then(function (list) {
                             assemblyOptions(list);
-                            return $.getJSON("/transform-definition/types/" + field().Location());
+                            return $.getJSON("/api/assemblies/" + field().Location() + "/types");
                         }).then(function (types) {
                             typeOptions(types);
-                            return $.getJSON("/transform-definition/methods/" + ko.unwrap(field().Location) + "/" + ko.unwrap(field().TypeName));
+                            return $.getJSON("/api/assemblies/" + ko.unwrap(field().Location) + "/" + ko.unwrap(field().TypeName) + "/methods");
                         }).then(function (methods) {
                             methodOptions(methods);
                         });
             },
             attached = function () {
                 field().Location.subscribe(function (dll) {
-                    $.getJSON("/transform-definition/types/" + dll)
+                    $.getJSON("/api/assemblies/" + dll + "/types")
                         .done(function (types) {
                             typeOptions(types);
                         });
                 });
                 field().TypeName.subscribe(function (type) {
-                    $.getJSON("/transform-definition/methods/" + ko.unwrap(field().Location) + "/" + type)
+                    $.getJSON("/assemblies/" + ko.unwrap(field().Location) + "/" + type + "/methods")
                         .done(function (methods) {
                             methodOptions(methods);
                         });

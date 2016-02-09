@@ -952,6 +952,7 @@
       <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ClrAssembliesController.cs" />
     <Compile Include="Controllers\CustomFormController.cs" />
     <Compile Include="Controllers\CustomFormController.dialog.cs" />
     <Compile Include="Controllers\CustomFormController.partialviews.cs" />

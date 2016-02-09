@@ -22,7 +22,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             activate = function () {
                 td(new bespoke.sph.domain.TransformDefinition());
 
-                return context.get("/transform-definition/assemblies")
+                return context.get("/api/assemblies")
                     .then(function (list) {
                         assemblyOptions(list);
                         var types = [];
@@ -43,14 +43,14 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                         }
                         if (output) {
                             selectedOutputAssembly(/, (.*)/.exec(output)[1]);
-                            return context.get("/transform-definition/types/" + selectedOutputAssembly());
+                            return context.get("/api/assemblies/" + selectedOutputAssembly() + "/types");
                         }
                         return Task.fromResult([]);
 
                     }).then(function (list) {
                         outputTypeOptions(list);
                         if (selectedInputAssembly()) {
-                            return context.get("/transform-definition/types/" + selectedInputAssembly());
+                            return context.get("/api/assemblies/" + selectedInputAssembly() + "/types");
                         }
                         return Task.fromResult([]);
                     })
@@ -99,11 +99,11 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
 
 
                 selectedInputAssembly.subscribe(function (dll) {
-                    return context.get("/transform-definition/types/" + dll)
+                    return context.get("/api/assemblies/" + dll + "/types")
                         .then(inputTypeOptions);
                 });
                 selectedOutputAssembly.subscribe(function (dll) {
-                    return context.get("/transform-definition/types/" + dll)
+                    return context.get("/api/assemblies/" + dll + "/types")
                         .then(outputTypeOptions);
                 });
 
@@ -119,7 +119,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             saveAsync = function (data, ev) {
 
                 var json = ko.mapping.toJSON(td);
-                return context.post(json, "/transform-definition")
+                return context.post(json, "/api/transform-definitions")
                     .then(function (result) {
                         if (result.success) {
                             id(result.id);

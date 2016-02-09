@@ -17,7 +17,7 @@ define(['plugins/dialog', objectbuilders.datacontext, objectbuilders.config],
             activate = function () {
                 var tcs = new $.Deferred();
 
-                $.get("/transform-definition/assemblies")
+                $.get("/api/assemblies")
                     .then(function (lo) {
                         assemblyOptions(lo);
                         tcs.resolve(true);
@@ -28,7 +28,7 @@ define(['plugins/dialog', objectbuilders.datacontext, objectbuilders.config],
             attached = function () {
                 selectedAssembly.subscribe(function (dll) {
 
-                    $.get("/transform-definition/types/" + dll)
+                    $.get("/api/assemblies/" + dll + "/types")
                         .then(function (lo) {
                             var types = _(lo).map(function (v) {
                                 return {

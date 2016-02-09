@@ -77,13 +77,13 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                 }
 
                                 originalEntity = ko.toJSON(td);
-                                return context.get("/api/transform-definitions/" + b.OutputTypeName() + "/json-schema");
+                                return context.get("/api/assemblies/" + b.OutputTypeName() + "/json-schema");
 
                             })
                             .then(function (s) {
                                 destinationSchema(s);
                                 if (td().InputTypeName()) {
-                                    return context.get("/api/transform-definitions/" + td().InputTypeName() + "/json-schema");
+                                    return context.get("/api/assemblies/" + td().InputTypeName() + "/json-schema");
                                 }
                                 return context.post(ko.toJSON(td), "/api/transform-definitions/json-schema");
 
@@ -636,7 +636,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                 // try build the tree for new item
                                 if (!td1.Id() || td1.Id() === "0") {
                                     var inTask = context.post(ko.toJSON(td), "/api/transform-definitions/json-schema"),
-                                       outTask = context.get("/api/transform-definitions/" + td1.OutputTypeName() + "/json-schema");
+                                       outTask = context.get("/api/assemblies/" + td1.OutputTypeName() + "/json-schema");
                                     $.when(inTask, outTask).done(function (input, output) {
                                         sourceSchema(input[0]);
                                         destinationSchema(output[0]);

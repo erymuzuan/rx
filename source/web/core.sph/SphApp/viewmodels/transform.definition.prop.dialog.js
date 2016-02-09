@@ -22,7 +22,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
             td = ko.observable(new bespoke.sph.domain.TransformDefinition()),
             activate = function () {
                 allowMultipleSource(!td().InputTypeName());
-                return context.get("/transform-definition/assemblies")
+                return context.get("/api/assemblies")
                     .then(function (list) {
                         assemblyOptions(list);
                         var types = [];
@@ -43,14 +43,14 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                         }
                         if (output) {
                             selectedOutputAssembly(/, (.*)/.exec(output)[1]);
-                            return context.get("/transform-definition/types/" + selectedOutputAssembly());
+                            return context.get("/api/assemblies/" + selectedOutputAssembly() + "/types");
                         }
                         return Task.fromResult([]);
 
                     }).then(function (list) {
                         outputTypeOptions(list);
                         if (selectedInputAssembly()) {
-                            return context.get("/transform-definition/types/" + selectedInputAssembly());
+                            return context.get("/api/assemblies/" + selectedInputAssembly() + "/types");
                         }
                         return Task.fromResult([]);
                     })
@@ -96,11 +96,11 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
 
 
                 selectedInputAssembly.subscribe(function (dll) {
-                    return context.get("/transform-definition/types/" + dll)
+                    return context.get("/apiassemblies/" + dll + "/types")
                         .then(inputTypeOptions);
                 });
                 selectedOutputAssembly.subscribe(function (dll) {
-                    return context.get("/transform-definition/types/" + dll)
+                    return context.get("/api/assemblies/" + dll + "/types")
                         .then(outputTypeOptions);
                 });
             },
