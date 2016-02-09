@@ -34,7 +34,11 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 .Where(r => !r.Route.Contains("/:"))
                 .Select(r => r.Route)
                 .ToList();
-            
+
+            if (User.IsInRole("developers"))
+                modules.Add("dev.home");
+            if (User.IsInRole("administrators"))
+                modules.Add("management.console");
 
             var reportDefinitions = context.LoadFromSources<ReportDefinition>(t => t.IsActive || (t.IsPrivate && t.CreatedBy == user.UserName));
             var views = context.LoadFromSources<EntityView>(e => e.IsPublished);
