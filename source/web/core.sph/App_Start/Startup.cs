@@ -1,9 +1,9 @@
-﻿using System.Net.Http.Formatting;
-using Bespoke.Sph.Web.App_Start;
+﻿using Bespoke.Sph.Web.App_Start;
 using Bespoke.Sph.Web.Hubs;
 using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
+using Microsoft.Owin.Security.Cookies;
 using Newtonsoft.Json;
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -14,6 +14,11 @@ namespace Bespoke.Sph.Web.App_Start
         public void Configuration(IAppBuilder app)
         {
 
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = "rx.developer",
+                LoginPath = new PathString("/sph/sphaccount/login")
+            });
             app.MapSignalR();
             app.MapSignalR<MessageConnection>("/signalr_message");
             app.MapSignalR<SolutionConnection>("/signalr_solution");
@@ -31,6 +36,7 @@ namespace Bespoke.Sph.Web.App_Start
 
             config.Formatters.JsonFormatter.SerializerSettings = setting;
             config.MapHttpAttributeRoutes();
+
             app.UseWebApi(config);
 
         }
