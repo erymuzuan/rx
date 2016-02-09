@@ -4,38 +4,32 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.Controllers
 {
-    //[Authorize(Roles = "developers")]
-    [RoutePrefix("transform-definition")]
-    public class TransformDefinitionController : Controller
+    [Authorize(Roles = "developers")]
+    [RoutePrefix("api/transform-definitions")]
+    public class TransformDefinitionController : BaseApiController
     {
-        static TransformDefinitionController()
-        {
-            DeveloperService.Init();
-        }
 
         [HttpPost]
         [Route("validate")]
-        public async Task<ActionResult> Validate([RequestBody] TransformDefinition map)
+        public async Task<IHttpActionResult> Validate([JsonBody] TransformDefinition map)
         {
             var erros = await map.ValidateBuildAsync();
             if (!erros.Result)
                 return Json(erros);
 
-            
             return Json(new { success = true, status = "OK", message = "Your map has been successfully validated" });
 
         }
 
         [HttpPost]
         [Route("validate-fix")]
-        public async Task<ActionResult> ValidateFix([RequestBody] TransformDefinition map)
+        public async Task<IHttpActionResult> ValidateFix([JsonBody] TransformDefinition map)
         {
             if (string.IsNullOrWhiteSpace(map.Id))
                 return await Validate(map);
@@ -51,7 +45,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("publish")]
-        public async Task<ActionResult> Publish([RequestBody] TransformDefinition map)
+        public async Task<IHttpActionResult> Publish([JsonBody] TransformDefinition map)
         {
             var erros = await map.ValidateBuildAsync();
             if (!erros.Result)
@@ -62,7 +56,8 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory
             };
-            options.AddReference<Controller>();
+            options.AddReference<ApiController>();
+            options.AddReference<BaseApiController>();
             options.AddReference<TransformDefinitionController>();
             options.AddReference<Newtonsoft.Json.JsonConverter>();
 
@@ -88,8 +83,8 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpPost]
-        [Route("generate-partial")]
-        public ActionResult GeneratePartial([RequestBody] TransformDefinition map)
+        [Route("{id}/generate-partial")]
+        public IHttpActionResult GeneratePartial(string id, [JsonBody] TransformDefinition map)
         {
             string file;
             var partial = map.GeneratePartialCode(out file);
@@ -99,40 +94,42 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("functoids")]
-        public ActionResult GetFunctoids()
+        public IHttpActionResult GetFunctoids()
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
 
-            var list = from f in ds.Functoids
+            var list = from f in this.DeveloperService.Functoids
                        let v = f.Value
                        let g = v.Initialize()
                        orderby f.Metadata.Category
                        select new { designer = f.Metadata, functoid = v };
-            this.Response.ContentType = "application/json";
-            return Content(list.ToJsonString(true));
+            return Json(list.ToJsonString(true));
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> SaveAsync()
+        public async Task<IHttpActionResult> SaveAsync([JsonBody]TransformDefinition map)
         {
-            var ed = this.GetRequestJson<TransformDefinition>();
             var context = new SphDataContext();
-            if (string.IsNullOrWhiteSpace(ed.Name))
+            if (string.IsNullOrWhiteSpace(map.Name))
                 return Json(new { success = false, status = "Not OK", message = "You will need a valid name for your mapping" });
 
-            if (ed.IsNewItem)
+            var baru = map.IsNewItem;
+            if (baru)
             {
-                ed.Id = ed.Name.ToIdFormat();
+                map.Id = map.Name.ToIdFormat();
             }
 
-            ed.FunctoidCollection.RemoveAll(f => null == f);
+            map.FunctoidCollection.RemoveAll(f => null == f);
             using (var session = context.OpenSession())
             {
-                session.Attach(ed);
+                session.Attach(map);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", message = "Your mapping has been successfully saved ", id = ed.Id });
+            var content = new { success = true, status = "OK", message = "Your mapping has been successfully saved ", id = map.Id };
+
+            if (baru)
+                return Created("/api/transform-definitions/" + map.Id, content);
+            return Json(content);
 
 
         }
@@ -189,7 +186,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("assemblies")]
-        public ActionResult Assemblies()
+        public IHttpActionResult Assemblies()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var refAssemblies = (from a in assemblies
@@ -236,12 +233,12 @@ namespace Bespoke.Sph.Web.Controllers
                                                  }).ToArray()
                                  };
 
-            return Json(refAssemblies.Concat(refAssemblies2).OrderBy(x => x.Name).ToArray(), JsonRequestBehavior.AllowGet);
+            return Json(refAssemblies.Concat(refAssemblies2).OrderBy(x => x.Name).ToArray());
         }
 
         [HttpGet]
-        [Route("json-schema/{type}")]
-        public ActionResult Schema(string type)
+        [Route("{type}/json-schema")]
+        public IHttpActionResult Schema(string type)
         {
             var t = Strings.GetType(type);
             if (null == t)
@@ -250,17 +247,17 @@ namespace Bespoke.Sph.Web.Controllers
 
                 ObjectBuilder.GetObject<ILogger>()
                     .Log(new LogEntry(new Exception(message)));
-                return HttpNotFound(message);
+                return NotFound(message);
 
             }
 
             var schema = JsonSerializerService.GetJsonSchemaFromObject(t);
-            return Content(schema.ToString(), "application/json", Encoding.UTF8);
+            return Json(schema.ToString());
         }
 
         [HttpPost]
         [Route("json-schema")]
-        public ActionResult Schema([RequestBody]TransformDefinition map)
+        public IHttpActionResult Schema([JsonBody]TransformDefinition map)
         {
             if (!string.IsNullOrWhiteSpace(map.InputTypeName))
                 return Schema(map.InputTypeName);
@@ -275,12 +272,12 @@ namespace Bespoke.Sph.Web.Controllers
             sb.AppendLine(string.Join(", ", schemes));
             sb.AppendLine("     }");
             sb.AppendLine("}");
-            return Content(sb.ToString(), "application/json", Encoding.UTF8);
+            return Json(sb.ToString());
         }
 
         [HttpGet]
         [Route("types/{dll}")]
-        public ActionResult GetTypes(string dll)
+        public IHttpActionResult GetTypes(string dll)
         {
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -290,7 +287,7 @@ namespace Bespoke.Sph.Web.Controllers
                                 && !Ignores.Any(x => name.Name.StartsWith(x))
                                 select a;
             var assembly = refAssemblies.SingleOrDefault(x => x.GetName().Name == dll);
-            if (null == assembly) return HttpNotFound("Cannot find assembly " + dll);
+            if (null == assembly) return NotFound("Cannot find assembly " + dll);
 
             var types = assembly.GetTypes()
                 .Where(m_typePredicate);
@@ -299,12 +296,12 @@ namespace Bespoke.Sph.Web.Controllers
                 FullName = x.FullName + ", " + dll,
                 TypeName = x.FullName,
                 x.Name
-            }).ToArray(), JsonRequestBehavior.AllowGet);
+            }).ToArray());
         }
 
         [HttpGet]
         [Route("methods/{dll}/{type}")]
-        public ActionResult GetMethods(string dll, string type)
+        public IHttpActionResult GetMethods(string dll, string type)
         {
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -314,11 +311,11 @@ namespace Bespoke.Sph.Web.Controllers
                                 && !Ignores.Any(x => name.Name.StartsWith(x))
                                 select a;
             var assembly = refAssemblies.SingleOrDefault(x => x.GetName().Name == dll);
-            if (null == assembly) return HttpNotFound("Cannot find assembly " + dll);
+            if (null == assembly) return NotFound("Cannot find assembly " + dll);
 
             var clrType = assembly.GetType(type);
             if (null == clrType)
-                return new HttpNotFoundResult("Cannot find " + type + " in " + dll);
+                return NotFound("Cannot find " + type + " in " + dll);
             var methods = clrType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
                 .Where(x => !x.Name.StartsWith("get_"))
                 .Where(x => !x.Name.StartsWith("set_"))
@@ -331,7 +328,7 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(methods.Select(x => new
             {
                 x.Name,
-                Display = $"",
+                Display = "",
                 RetVal = x.ReturnType.FullName,
                 IsAsync = x.ReturnType.FullName.StartsWith("System.Threading.Tasks.Task"),
                 x.IsStatic,
@@ -344,12 +341,12 @@ namespace Bespoke.Sph.Web.Controllers
                     p.IsRetval,
                     p.IsIn
                 })
-            }).ToArray(), JsonRequestBehavior.AllowGet);
+            }).ToArray());
         }
 
         [HttpGet]
         [Route("functoid/{extension}/{type}")]
-        public ActionResult Functoid(string extension, string type)
+        public IHttpActionResult Functoid(string extension, string type)
         {
             var ds = ObjectBuilder.GetObject<DeveloperService>();
             if (null == ds.Functoids) throw new InvalidOperationException("Cannot compose MEF");
@@ -358,31 +355,28 @@ namespace Bespoke.Sph.Web.Controllers
                 .ToLowerInvariant() == type).Value;
             if (extension == "js")
             {
-                this.Response.ContentType = "application/javascript";
                 var js = functoid.GetEditorViewModel();
-                return Content(js);
+                return Javascript(js);
             }
-            this.Response.ContentType = "text/html";
             var html = functoid.GetEditorView();
-            return Content(html);
+            return Html(html);
         }
 
         [HttpGet]
-        [Route("design/{id}")]
-        public ActionResult GetDesigner(string id)
+        [Route("{id}/designer")]
+        public IHttpActionResult GetDesigner(string id)
         {
             var source = $"{ConfigurationManager.SphSourceDirectory}\\TransformDefinition\\{id}.designer";
-            if (!System.IO.File.Exists(source)) return Content("[]", "application/json", Encoding.UTF8);
+            if (!System.IO.File.Exists(source)) return Json("[]");
             var json = System.IO.File.ReadAllText(source);
-            return Content(json, "application/json", Encoding.UTF8);
+            return Json(json);
         }
         [HttpPost]
-        [Route("design/{id}")]
-        public ActionResult SaveDesigner(string id)
+        [Route("{id}/designer")]
+        public IHttpActionResult SaveDesigner(string id, [RawBody]string json)
         {
             var source = $"{ConfigurationManager.SphSourceDirectory}\\TransformDefinition\\{id}.designer";
-            Request.InputStream.Position = 0;
-            System.IO.File.WriteAllText(source, this.GetRequestBody(), Encoding.UTF8);
+            System.IO.File.WriteAllText(source, json, Encoding.UTF8);
             return Json(new { success = true });
         }
     }
