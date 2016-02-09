@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("workflow/{id}/v{version}")]
         public async Task<ActionResult> Workflow(string id, string version, [RawRequestBody]string json)
         {
-            var wfes = $"{id}workflow".Replace("-","");
+            var wfes = $"{id}workflow".Replace("-", "");
             return await Es(wfes, json, false);
         }
 
@@ -94,9 +94,9 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [Route("log")]
-        public async Task<ActionResult> Log()
+        public async Task<ActionResult> Log([RawRequestBody]string body)
         {
-            return await Es("log", this.GetRequestBody());
+            return await Es("log", body);
         }
 
         public async Task<ActionResult> WorkflowDefinition()
