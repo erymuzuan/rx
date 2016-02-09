@@ -23,7 +23,8 @@ namespace Bespoke.Sph.Domain
             this.CallerFilePath = filePath;
             this.CallerMemberName = memberName;
             this.CallerLineNumber = lineNumber;
-
+            this.Computer = Environment.MachineName;
+            this.User = Environment.UserName;
 
             var keywords = new List<string>();
             var details = new StringBuilder();

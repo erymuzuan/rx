@@ -89,6 +89,7 @@
     <Compile Include="JsonBodyAttribute.cs" />
     <Compile Include="JsonCachedResult.cs" />
     <Compile Include="JsonContent.cs" />
+    <Compile Include="LoggerExceptionHandler.cs" />
     <Compile Include="ModifiedSinceAttribute.cs" />
     <Compile Include="ModifiedSinceParameterBinding.cs" />
     <Compile Include="NotFoundTextPlainActionResult.cs" />
