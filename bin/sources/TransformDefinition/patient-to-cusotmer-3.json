@@ -67,13 +67,13 @@
   "TransformDefinitionId": 0,
   "Name": "PatientToCusomer",
   "Description": "",
-  "InputTypeName": "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient",
-  "OutputTypeName": "Bespoke.DevV1_customer.Domain.Customer, DevV1.Customer",
+  "InputTypeName": "Bespoke.DevV1.Patients.Domain.Patient, DevV1.Patient",
+  "OutputTypeName": "Bespoke.DevV1.Customers.Domain.Customer, DevV1.Customer",
   "IsPublished": false,
   "CreatedBy": "admin",
   "Id": "patient-to-cusotmer-3",
   "CreatedDate": "2015-07-16T14:16:47.7723717+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-23T19:30:23.5219034+08:00",
+  "ChangedDate": "2016-02-09T08:18:28.4664892+08:00",
   "WebId": "e54967a0-0d78-4eb3-c6f3-420c702ec66e"
 }
