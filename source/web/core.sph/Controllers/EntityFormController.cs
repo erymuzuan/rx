@@ -10,6 +10,7 @@ namespace Bespoke.Sph.Web.Controllers
     public class EntityFormController : BaseApiController
     {
         [HttpPost]
+        [HttpPut]
         [Route("")]
         public async Task<IHttpActionResult> Save([JsonBody]EntityForm form)
         {

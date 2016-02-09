@@ -331,7 +331,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 var data = ko.mapping.toJSON(form);
 
-                return context.post(data, "/api-rx/entity-forms/publish")
+                return context.post(data, "/api/entity-forms/publish")
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
@@ -359,7 +359,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(form);
 
-                context.post(data, "/api-rx/entity-forms")
+                context.post(data, "/api/entity-forms")
                     .then(function (result) {
                         if (result.success) {
                             form().Id(result.id);
@@ -406,7 +406,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 .done(function (dialogResult) {
                     if (dialogResult === "Yes") {
 
-                        context.send(data, "/api-rx/entity-forms/" + form().Id(), "DELETE")
+                        context.send(data, "/api/entity-forms/" + form().Id(), "DELETE")
                             .fail(tcs.reject)
                             .then(function (result) {
                                 if (result.success) {
@@ -431,7 +431,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             var tcs = new $.Deferred(),
                 data = ko.mapping.toJSON(form);
 
-            context.post(data, "/api-rx/entity-forms/depublish")
+            context.post(data, "/api/entity-forms/depublish")
                 .then(function (result) {
                     if (result.success) {
                         logger.info(result.message);

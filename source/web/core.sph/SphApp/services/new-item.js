@@ -160,7 +160,7 @@
                             return Task.fromResult(0);
                         }).then(function (ed) {
                             if (ed)
-                                router.navigate("#entity.form.designer/" + ko.unwrap(ed.Id));
+                                router.navigate("#entity.form.designer/" + ko.unwrap(ed.EntityDefinitionId) + "/" + ko.unwrap(ed.Id));
                         });
             },
             addOperationEndpoint = function (entityDefinition) {
