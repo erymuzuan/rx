@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Web.Controllers
 
 
 
-            var json = @"
+            var query = @"
                 {
                     ""query"": {
                         ""query_string"": {
@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Web.Controllers
                 }
             ";
 
-            var request = new StringContent(json);
+            var request = new StringContent(query);
             var url = $"{ConfigurationManager.ElasticSearchIndex}/{types}/_search";
 
             using (var client = new HttpClient())
@@ -73,20 +73,20 @@ namespace Bespoke.Sph.Web.Controllers
                 var response = await client.PostAsync(url, request);
                 var content = response.Content as StreamContent;
                 if (null == content) throw new Exception("Cannot execute query on es " + request);
-                var json2 = await content.ReadAsStringAsync();
+                var result = await content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
-                    throw new SearchException("Cannot execute query for :" + text) { Query = json, Result = json2 };
-                return Json(json2);
+                    throw new SearchException("Cannot execute query for :" + text) { Query = query, Result = result };
+                return Json(result);
 
             }
         }
 
         [HttpPost]
         [Route("{type}")]
-        public async Task<IHttpActionResult> Es(string type, [RawBody]string json, [FromUri]bool sys = true)
+        public async Task<IHttpActionResult> Es(string type, [RawBody]string query, [FromUri]bool sys = true)
         {
-            var request = new StringContent(json);
+            var request = new StringContent(query);
             var index = sys ? ConfigurationManager.ElasticSearchSystemIndex : ConfigurationManager.ElasticSearchIndex;
             var url = $"{index}/{type.ToLowerInvariant()}/_search";
 
@@ -95,10 +95,14 @@ namespace Bespoke.Sph.Web.Controllers
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
 
                 var response = await client.PostAsync(url, request);
-                response.EnsureSuccessStatusCode();
                 var content = response.Content as StreamContent;
                 if (null == content) throw new Exception("Cannot execute query on es " + request);
-                return Json(await content.ReadAsStringAsync());
+
+                var result = await content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                    throw new SearchException("Cannot execute query for : " + type ) { Query = query, Result = result };
+
+                return Json(result);
 
             }
         }
