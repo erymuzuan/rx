@@ -7,14 +7,29 @@ using System.Web.Security;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
+using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 using Roles = System.Web.Security.Roles;
 
 namespace Bespoke.Sph.Web.Controllers
 {
+    [Authorize(Roles = "administrators")]
     [RoutePrefix("custom-token")]
     public class CustomTokenController : BaseController
     {
+
+        [HttpGet]
+        [Route("")]
+        public async Task<ActionResult> GetAll(int page = 1, int size = 20)
+        {
+            var repos = ObjectBuilder.GetObject<ITokenRepository>();
+            var lo = await repos.LoadAsync(DateTime.Today, page, size);
+            var tokens = from t in lo.ItemCollection
+                         select t.ToJson();
+            var json = $"[{string.Join(",", tokens)}]";
+
+            return Content(json, "application/json");
+        }
         [HttpPost]
         [Route("")]
         public async Task<ActionResult> GetTokenAsync([RequestBody]GetTokenModel model)
@@ -25,22 +40,20 @@ namespace Bespoke.Sph.Web.Controllers
             if (model.grant_type == "admin" && !User.IsInRole("administrators"))
                 return Json(new { success = false, status = 403, message = "You are not in administrator role" });
 
+
+            var tokenService = ObjectBuilder.GetObject<ITokenService>();
+
             var expiresIn = TimeSpan.FromDays(14).TotalSeconds;
             if (model.expiry != default(DateTime))
                 expiresIn = (model.expiry - DateTime.Now).TotalSeconds;
 
             var id = Strings.GenerateId();
-            var st = new SphSecurityToken
-            {
-                Username = model.username,
-                Issued = DateTime.Now,
-                Expired = DateTime.Now.AddSeconds(expiresIn),
-                Roles = Roles.GetRolesForUser(model.username),
-                Id = id
-            };
+            var context = new SphDataContext();
+            var user = await context.LoadOneAsync<UserProfile>(x => x.UserName == model.username);
+            var roles = Roles.GetRolesForUser(model.username);
 
-            var tokenJson = st.ToJsonString(true);
-            var encryptedToken = (new Encryptor()).Encrypt(tokenJson);
+            var expiry = TimeSpan.FromSeconds(expiresIn);
+            var encryptedToken = await tokenService.CreateTokenAsync(user, roles, expiry);
             var json = string.Format(@"{{
     ""success"": true,
     ""id"":""{5}"",
@@ -51,26 +64,14 @@ namespace Bespoke.Sph.Web.Controllers
     "".issued"":""{2:R}"",
     "".expires"":""{3:R}""
 }}",
-                                                     encryptedToken, Convert.ToInt32(expiresIn),
-                                                     st.Issued,
-                                                     st.Expired,
+                                                     encryptedToken,
+                                                     Convert.ToInt32(expiresIn),
+                                                     DateTime.Now,
+                                                     model.expiry,
                                                      model.username,
                                                      id);
-            var setting = new Setting
-            {
-                UserName = model.username,
-                Key = "Token",
-                Value = tokenJson,
-                Id = id
-            };
-            var context = new SphDataContext();
-            using (var session = context.OpenSession())
-            {
-                session.Attach(setting);
-                await session.SubmitChanges("token");
-            }
-            this.Response.ContentType = "application/json";
-            return Content(json);
+
+            return Content(json, "application/json");
         }
 
         [Authorize(Roles = "administrators")]
@@ -78,10 +79,11 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("{id:guid}")]
         public async Task<ActionResult> GetTokenAsync(string id)
         {
-            var context = new SphDataContext();
-            var setting = await context.LoadOneAsync<Setting>(x => x.Id == id);
+            var repos = ObjectBuilder.GetObject<ITokenRepository>();
+            var token = await repos.LoadOneAsync(id);
+            if (null == token) return HttpNotFound();
 
-            return Content((new Encryptor()).Encrypt(setting.Value));
+            return Content(token.GenerateToken());
         }
 
         [Authorize(Roles = "administrators")]
@@ -89,16 +91,8 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("{id:guid}")]
         public async Task<ActionResult> RemoveTokenAsync(string id)
         {
-            var context = new SphDataContext();
-            var setting = await context.LoadOneAsync<Setting>(x => x.Id == id);
-            if (null == setting)
-                return new HttpNotFoundResult("Cannot find token with id " + id);
-
-            using (var session = context.OpenSession())
-            {
-                session.Delete(setting);
-                await session.SubmitChanges("token");
-            }
+            var repos = ObjectBuilder.GetObject<ITokenRepository>();
+            await repos.RemoveAsync(id);
             return Json(new { success = true, status = 200, message = id + " has been successfully deleted" });
         }
 

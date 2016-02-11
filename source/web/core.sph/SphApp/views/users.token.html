@@ -1,6 +1,6 @@
 ﻿<h1>Security Tokens</h1>
 <div class="row">
-    <table class="table table-striped" data-bind="serverPaging: { entity: 'Setting', list: tokens, query :'Key eq \'Token\'', map: map },filter : {path:'tbody>tr'}">
+    <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}">
         <thead>
             <tr>
                 <th>User</th>
@@ -12,9 +12,9 @@
         </thead>
         <tbody data-bind="foreach: tokens">
             <tr>
-                <td data-bind="text: UserName"></td>
-                <td data-bind="date: token.Issued"></td>
-                <td data-bind="date: token.Expired"></td>
+                <td data-bind="text: user"></td>
+                <td data-bind="date: iat"></td>
+                <td data-bind="date: exp"></td>
                 <td>
                     <a data-toggle="modal" href="#" data-bind="command: viewToken">
                         <i class="fa fa-eye"></i>

@@ -11,6 +11,7 @@ namespace Bespoke.Sph.Domain
         public static string CompanyName => AppSettings["sph:CompanyName"] ?? (GetEnvironmentVariable("CompanyName") ?? "Bespoke");
         public static string ApplicationName => AppSettings["sph:ApplicationName"] ?? "MyApp";
 
+        public static string TokenSecret => GetEnvironmentVariable("TokenSecret") ?? $"{ApplicationName}.{System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Home))}";
         public static string ApplicationFullName => GetEnvironmentVariable("ApplicationFullName") ?? "Reactive Developer platform showcase";
         public static string FromEmailAddress => GetEnvironmentVariable("FromEmailAddress") ?? "admin@rxdeveloper.com";
         public static int StaticFileCache => GetEnvironmentVariableInt32("StaticFileCache", 120);
