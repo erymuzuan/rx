@@ -47,7 +47,6 @@ namespace Bespoke.Sph.Domain
             var operations = string.Join(",", links);
             code.Append($@"");
             code.Append($@"
-            var url = $""{ConfigurationManager.ApplicationName.ToLower()}/{ed.Name.ToLower()}/{{id}}"";
             var ed = CacheManager.Get<EntityDefinition>(""{ed.Id}"");
             if(null == ed)
             {{
