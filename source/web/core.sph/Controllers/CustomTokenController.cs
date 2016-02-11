@@ -42,18 +42,13 @@ namespace Bespoke.Sph.Web.Controllers
 
 
             var tokenService = ObjectBuilder.GetObject<ITokenService>();
-
-            var expiresIn = TimeSpan.FromDays(14).TotalSeconds;
-            if (model.expiry != default(DateTime))
-                expiresIn = (model.expiry - DateTime.Now).TotalSeconds;
-
+            
             var id = Strings.GenerateId();
             var context = new SphDataContext();
             var user = await context.LoadOneAsync<UserProfile>(x => x.UserName == model.username);
             var roles = Roles.GetRolesForUser(model.username);
 
-            var expiry = TimeSpan.FromSeconds(expiresIn);
-            var encryptedToken = await tokenService.CreateTokenAsync(user, roles, expiry);
+            var encryptedToken = await tokenService.CreateTokenAsync(user, roles, model.expiry);
             var json = string.Format(@"{{
     ""success"": true,
     ""id"":""{5}"",
@@ -65,7 +60,7 @@ namespace Bespoke.Sph.Web.Controllers
     "".expires"":""{3:R}""
 }}",
                                                      encryptedToken,
-                                                     Convert.ToInt32(expiresIn),
+                                                     Convert.ToInt32((model.expiry-DateTime.Now).TotalSeconds),
                                                      DateTime.Now,
                                                      model.expiry,
                                                      model.username,

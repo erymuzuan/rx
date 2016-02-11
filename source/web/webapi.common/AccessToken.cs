@@ -12,16 +12,15 @@ namespace Bespoke.Sph.WebApi
             this.WebId = Guid.NewGuid().ToString();
         }
 
-        public AccessToken(UserProfile user, string[] roles, TimeSpan expiry)
+        public AccessToken(UserProfile user, string[] roles, DateTime expiry)
         {
             this.Email = user.Email;
             this.Username = user.UserName;
             this.Subject = user.Id;
             this.Roles = roles;
 
-
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            this.Expiry = Math.Round((DateTime.UtcNow.Add(expiry) - unixEpoch).TotalSeconds);
+            this.Expiry = Math.Round((expiry - unixEpoch).TotalSeconds);
             this.IssueAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
             this.NotBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
 

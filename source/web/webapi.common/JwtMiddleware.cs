@@ -103,7 +103,7 @@ namespace Bespoke.Sph.WebApi
         /// <param name="roles">The users roles</param>
         /// <param name="expiry">The timespan for the token to live</param>
         /// <returns></returns>
-        public async Task<string> CreateTokenAsync(UserProfile user, string[] roles, TimeSpan expiry)
+        public async Task<string> CreateTokenAsync(UserProfile user, string[] roles, DateTime expiry)
         {
             var payload = new AccessToken(user, roles, expiry);
             var token = payload.GenerateToken();

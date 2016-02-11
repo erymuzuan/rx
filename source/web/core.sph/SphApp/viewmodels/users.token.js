@@ -13,33 +13,34 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var isBusy = ko.observable(false),
             tokens = ko.observableArray(),
+            viewToken = function (v) {
+                return $.get("custom-token/" + ko.unwrap(v.WebId))
+                    .done(function (t) {
+                        serviceApp.prompt("Copy the token now", t);
+                        setTimeout(function () {
+                            var successful = document.execCommand("copy");
+                            var msg = successful ? "successful" : "unsuccessful";
+                            console.log("Copying token was " + msg);
+                        }, 800);
+                    });
+            },
+            removeToken = function (v) {
+                return app.showMessage("Are you sure you want to revoke this token, This action cannot be undone", "Reactive Develeoper", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+                            $.ajax({ type: "DELETE", url: "custom-token/" + ko.unwrap(v.WebId) })
+                                    .done(function () {
+                                        logger.info("The token has been succesfully revoked");
+                                        tokens.remove(v);
+                                    });
+                        }
+                    });
+            },
             map = function (v) {
                 v.iat = moment(v.iat).format("YYYY-MM-DD");
                 v.exp = moment(v.exp).format("YYYY-MM-DD");
-                v.viewToken = function () {
-                    return $.get("custom-token/" + ko.unwrap(v.WebId))
-                        .done(function (t) {
-                            logger.info(t);
-                            serviceApp.prompt("Copy the token now", t);
-                            setTimeout(function () {
-                                var successful = document.execCommand("copy");
-                                var msg = successful ? "successful" : "unsuccessful";
-                                console.log("Copying token was " + msg);
-                            }, 800);
-                        });
-                };
-                v.removeToken = function () {
-                    return app.showMessage("Are you sure you want to revoke this token, This action cannot be undone", "Reactive Develeoper", ["Yes", "No"])
-                        .done(function (dialogResult) {
-                            if (dialogResult === "Yes") {
-                                $.ajax({ type: "DELETE", url: "custom-token/" + ko.unwrap(v.WebId) })
-                                        .done(function () {
-                                            logger.info("The token has been succesfully revoked");
-                                            tokens.remove(v);
-                                        });
-                            }
-                        });
-                };
+                v.viewToken = viewToken;
+                v.removeToken = removeToken;
                 return v;
             },
             activate = function () {

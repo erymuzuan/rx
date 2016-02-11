@@ -16,6 +16,6 @@ namespace Bespoke.Sph.WebApi
         /// <param name="roles">The users roles</param>
         /// <param name="expiry">The timespan for the token to live</param>
         /// <returns></returns>
-        Task<string> CreateTokenAsync(UserProfile user, string[] roles, TimeSpan expiry);
+        Task<string> CreateTokenAsync(UserProfile user, string[] roles, DateTime expiry);
     }
 }
