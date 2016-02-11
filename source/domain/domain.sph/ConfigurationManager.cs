@@ -16,8 +16,6 @@ namespace Bespoke.Sph.Domain
         public static string FromEmailAddress => GetEnvironmentVariable("FromEmailAddress") ?? "admin@rxdeveloper.com";
         public static int StaticFileCache => GetEnvironmentVariableInt32("StaticFileCache", 120);
         public static int WorkflowDebuggerPort => GetEnvironmentVariableInt32("WorkflowDebuggerPort", 50518);
-        public static long EsIndexingDelay => GetEnvironmentVariableInt32("EsIndexingDelay", 15000);
-        public static int EsIndexingMaxTry => GetEnvironmentVariableInt32("EsIndexingMaxTry", 3);
         public static long SqlPersistenceDelay => GetEnvironmentVariableInt32("SqlPersistenceDelay", 15000);
         public static int SqlPersistenceMaxTry => GetEnvironmentVariableInt32("SqlPersistenceMaxTry", 3);
         public static bool EnableOfflineForm => GetEnvironmentVariableBoolean("EnableOfflineForm");
@@ -42,9 +40,12 @@ namespace Bespoke.Sph.Domain
         public static int RabbitMqManagementPort => GetEnvironmentVariableInt32("RabbitMqManagementPort", 15672);
         public static string RabbitMqVirtualHost => GetEnvironmentVariable("RabbitMqVirtualHost") ?? ApplicationName;
 
+        public static long EsIndexingDelay => GetEnvironmentVariableInt32("EsIndexingDelay", 15000);
+        public static int EsIndexingMaxTry => GetEnvironmentVariableInt32("EsIndexingMaxTry", 3);
         public static string ElasticSearchSystemIndex => GetEnvironmentVariable("ElasticsearchIndex") ?? ApplicationName.ToLowerInvariant() + "_sys";
         public static string ElasticSearchHost => GetEnvironmentVariable("ElasticSearchHost") ?? "http://localhost:9200";
         public static string ElasticSearchIndex => GetEnvironmentVariable("ElasticSearchIndex") ?? ApplicationName.ToLowerInvariant();
+
         public static string ReportDeliveryExecutable => GetPath("ReportDeliveryExecutable", @"schedulers\scheduler.report.delivery.exe");
         public static string ScheduledTriggerActivityExecutable => GetPath("ScheduledTriggerActivityExecutable", @"schedulers\scheduler.workflow.trigger.exe");
         public static bool EnableWorkflowGetCacheDependency => GetEnvironmentVariableBoolean("EnableWorkflowGetCacheDependency");

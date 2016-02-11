@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -11,12 +9,8 @@ namespace Bespoke.Sph.ElasticSearch
 {
     public class SystemAssetIndexerSubscriber : Subscriber<Entity>
     {
-
         public override string QueueName => "system_asset_es_indexer";
-
-
         public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.delete.#" };
-
 
         protected override async Task ProcessMessage(Entity item, MessageHeaders headers)
         {
@@ -33,7 +27,7 @@ namespace Bespoke.Sph.ElasticSearch
                 return;
             }
 
-            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}_sys/{type.Name.ToLowerInvariant()}/{item.Id}";
+            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchSystemIndex}/{type.Name.ToLowerInvariant()}/{item.Id}";
 
             using (var client = new HttpClient())
             {
@@ -56,8 +50,8 @@ namespace Bespoke.Sph.ElasticSearch
                 catch (HttpRequestException e)
                 {
                     // republish the message to a delayed queue
-                    var delay = ConfigurationManager.SqlPersistenceDelay;
-                    var maxTry = ConfigurationManager.SqlPersistenceMaxTry;
+                    var delay = ConfigurationManager.EsIndexingDelay;
+                    var maxTry = ConfigurationManager.EsIndexingMaxTry;
                     if ((headers.TryCount ?? 0) < maxTry)
                     {
                         var count = (headers.TryCount ?? 0) + 1;
@@ -81,11 +75,7 @@ namespace Bespoke.Sph.ElasticSearch
                 }
 
 
-                if (null != response)
-                {
-                    Debug.Write(".");
-                }
-
+                response?.EnsureSuccessStatusCode();
             }
 
 
