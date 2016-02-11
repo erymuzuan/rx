@@ -115,7 +115,7 @@ namespace Bespoke.Sph.Domain
 
             patch.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string) });
             var body = new MethodArg { Name = "body", Type = typeof(string) };
-            body.AttributeCollection.Add("[FromBody]");
+            body.AttributeCollection.Add("[RawBody]");
             patch.ArgumentCollection.Add(body);
 
             if (this.IsConflictDetectionEnabled)
@@ -238,7 +238,7 @@ namespace Bespoke.Sph.Domain
 
 
             var body = new MethodArg { Name = "body", Type = typeof(string) };
-            body.AttributeCollection.Add("[FromBody]");
+            body.AttributeCollection.Add("[RawBody]");
             put.ArgumentCollection.Add(body);
             put.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string), Default = "null" });
 
