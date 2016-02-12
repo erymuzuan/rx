@@ -172,7 +172,7 @@ namespace domain.test.entities
                 var action = controllerType.GetMethod("Post" + name);
                 var controller = Activator.CreateInstance(controllerType);
 
-                dynamic awaiter = action.Invoke(controller,new object[]{patient});
+                dynamic awaiter = action.Invoke(controller, new object[] { patient });
                 var response = awaiter.Result;
                 PropertyInfo contentProperty = response.GetType().GetProperty("Content");
                 var content = contentProperty.GetValue(response);
@@ -241,6 +241,36 @@ namespace domain.test.entities
             var releaseActionMethodInfo = controllerType.GetMethod($"Put{admit.Name}");
             Assert.NotNull(releaseActionMethodInfo);
 
+        }
+
+        [Fact]
+        [Trait("Verb", "PUT")]
+        [Trait("Category", "BUGS")]
+        [Trait("BUG", "#3357")]
+        public async Task HttpPutAdmitWithFieldSetter()
+        {
+            var ed = this.CreatePatientDefinition("PatientPutAdmitWithSetter");
+            var admit = new OperationEndpoint { Name = "AdmitWithSetter", Entity = ed.Name, Resource = "patients", IsHttpPut = true, WebId = "PutAdmit" };
+            admit.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Admitted\"" });
+
+            admit.SetterActionChildCollection.Add(new SetterActionChild
+            {
+                Path = "Status",
+                Field = new ConstantField { Type = typeof(string), Value = "Admitted" }
+            });
+
+            var patient = this.CreateInstance(ed, true);
+            Assert.NotNull(patient);
+
+            var cr = await admit.CompileAsync(ed);
+            Assert.True(cr.Result, cr.ToString());
+
+            var dll = Assembly.LoadFrom(cr.Output);
+            var controllerType = dll.GetType($"{admit.CodeNamespace}.{admit.Name}Controller");
+            Assert.NotNull(controllerType);
+
+            var releaseActionMethodInfo = controllerType.GetMethod($"Put{admit.Name}");
+            Assert.NotNull(releaseActionMethodInfo);
 
         }
 

@@ -6,7 +6,6 @@ using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
-using Microsoft.Owin.Security.Cookies;
 using Newtonsoft.Json;
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -16,12 +15,6 @@ namespace Bespoke.Sph.Web.App_Start
     {
         public void Configuration(IAppBuilder app)
         {
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationType = "rx.developer",
-                LoginPath = new PathString("/sph/sphaccount/login")
-            });
             app.MapSignalR();
             app.MapSignalR<MessageConnection>("/signalr_message");
             app.MapSignalR<SolutionConnection>("/signalr_solution");

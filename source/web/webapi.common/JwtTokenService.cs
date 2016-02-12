@@ -12,14 +12,10 @@ namespace Bespoke.Sph.WebApi
     public class JwtTokenService : ITokenService
     {
         public ITokenRepository Repository { get; }
-
-
         public JwtTokenService(ITokenRepository repository)
         {
             this.Repository = repository;
         }
-
-
 
         public Task<ClaimsPrincipal> ValidateAsync(string token, bool checkExpiration)
         {

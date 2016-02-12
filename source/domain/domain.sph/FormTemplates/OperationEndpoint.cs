@@ -120,8 +120,8 @@ namespace Bespoke.Sph.Domain
 
             if (this.IsConflictDetectionEnabled)
             {
-                patch.ArgumentCollection.Add(new MethodArg {Name = "etag", TypeName = "ETag", AttributeCollection = { "[IfMatch]" } });
-                patch.ArgumentCollection.Add(new MethodArg {Name = "modifiedSince", TypeName = "DateTime?", AttributeCollection = { "[ModifiedSince]" } });
+                patch.ArgumentCollection.Add(new MethodArg { Name = "etag", TypeName = "ETag", AttributeCollection = { "[IfMatch]" } });
+                patch.ArgumentCollection.Add(new MethodArg { Name = "modifiedSince", TypeName = "DateTime?", AttributeCollection = { "[ModifiedSince]" } });
             }
 
 
@@ -243,9 +243,10 @@ namespace Bespoke.Sph.Domain
             put.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string), Default = "null" });
 
 
-            put.AppendLine("           var context = new SphDataContext();");
             if (this.Rules.Any() || this.SetterActionChildCollection.Any())
                 put.AppendLine(GetEntityDefinitionCode(ed));
+            else
+                put.AppendLine("           var context = new SphDataContext(); ");
 
             put.AppendLine(
                 $@"

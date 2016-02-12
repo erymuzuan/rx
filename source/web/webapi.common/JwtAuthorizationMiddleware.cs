@@ -37,7 +37,8 @@ namespace Bespoke.Sph.WebApi
             if (null != claim)
                 ctx.Request.User = claim;
 
-            await m_next(environment);
+           await m_next(environment);
+       
         }
     }
 }
