@@ -12,8 +12,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
     [Export(typeof(ILogger))]
     public class Logger : ILogger
     {
-
-        public Severity TraceSwitch { get; set; }
+        public Severity TraceSwitch { get; set; } = Severity.Log;
 
         public async Task LogAsync(LogEntry entry)
         {
@@ -23,19 +22,19 @@ namespace Bespoke.Sph.ElasticSearchLogger
                 entry.Id = Strings.GenerateId();
 
             var content = GetJsonContent(entry);
-            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchSystemIndex}/log/{entry.Id}"; 
+            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchSystemIndex}/log/{entry.Id}";
 
             using (var client = new HttpClient())
             {
                 var response = await client.PutAsync(url, content);
-                Debug.WriteLine("{0}=>{1}",url, response.StatusCode);
+                Debug.WriteLine("{0}=>{1}", url, response.StatusCode);
             }
         }
 
 
         public void Log(LogEntry entry)
         {
-            this.LogAsync(entry).ContinueWith(_=> {});
+            this.LogAsync(entry).ContinueWith(_ => { });
         }
         private static StringContent GetJsonContent(LogEntry entry)
         {

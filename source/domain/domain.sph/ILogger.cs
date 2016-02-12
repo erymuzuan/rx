@@ -10,10 +10,10 @@ namespace Bespoke.Sph.Domain
 
     public enum Severity
     {
-        Verbose = 0,
-        Info = 1,
-        Log = 2,
-        Debug = 3,
+        Debug = 0,
+        Verbose = 1,
+        Info = 2,
+        Log = 3,
         Warning = 4,
         Error = 5,
         Critical = 6
