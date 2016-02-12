@@ -60,10 +60,11 @@ namespace Bespoke.Sph.WebApi
                 {"user", this.Username},
                 {"roles", this.Roles},
                 {"email", this.Expiry},
-                {"sub", this.Username},
+                {"sub", this.WebId},
                 {"nbf", this.NotBefore},
                 {"iat", this.IssueAt},
                 {"exp", this.Expiry},
+                {"aud", ConfigurationManager.ApplicationName},
             };
             return JsonWebToken.Encode(payLoad, ConfigurationManager.TokenSecret, JwtHashAlgorithm.HS256);
         }

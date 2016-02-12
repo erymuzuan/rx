@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Owin;
+using Newtonsoft.Json;
 using AppFunc = System.Func<
 System.Collections.Generic.IDictionary<string, object>,
 System.Threading.Tasks.Task
@@ -34,11 +36,19 @@ namespace Bespoke.Sph.WebApi
 
             token = token.Replace("Bearer ", "");
             var claim = await m_tokenService.ValidateAsync(token, true);
-            if (null != claim)
-                ctx.Request.User = claim;
+            if (null == claim)
+            {
+                ctx.Response.ContentType = "application/json";
+                ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                ctx.Response.ReasonPhrase = "Not Authorized";
 
-           await m_next(environment);
-       
+                ctx.Response.Write(JsonConvert.SerializeObject(new {message = "invalid authorization header"}));
+                return;
+            }
+
+            ctx.Request.User = claim;
+            await m_next(environment);
+
         }
     }
 }

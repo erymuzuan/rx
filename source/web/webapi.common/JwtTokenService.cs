@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using JWT;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.WebApi
 {
@@ -17,7 +18,7 @@ namespace Bespoke.Sph.WebApi
             this.Repository = repository;
         }
 
-        public Task<ClaimsPrincipal> ValidateAsync(string token, bool checkExpiration)
+        public async Task<ClaimsPrincipal> ValidateAsync(string token, bool checkExpiration)
         {
             var secret = ConfigurationManager.TokenSecret;
             string json;
@@ -27,21 +28,26 @@ namespace Bespoke.Sph.WebApi
             }
             catch (SignatureVerificationException)
             {
-                return Task.FromResult(default(ClaimsPrincipal));
+                return null;
             }
 
 
-            var settings = new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
+            var settings = new JsonSerializerSettings{ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
+            var jo = JObject.Parse(json);
             var accessToken = JsonConvert.DeserializeObject<AccessToken>(json, settings);
+            accessToken.WebId = jo.SelectToken("$.sub").Value<string>();
 
+            if (null != this.Repository)
+            {
+                var ok = await this.Repository.LoadOneAsync(accessToken.WebId);
+                if(null == ok)
+                    return default(ClaimsPrincipal);
+            }
 
             var validTo = FromUnixTime(accessToken.Expiry);
             if (DateTime.Compare(validTo, DateTime.UtcNow) <= 0)
             {
-                return Task.FromResult(default(ClaimsPrincipal));
+                return null;
             }
 
 
@@ -57,7 +63,7 @@ namespace Bespoke.Sph.WebApi
 
             subject.AddClaims(claims);
             var principal = new ClaimsPrincipal(subject);
-            return Task.FromResult(principal);
+            return principal;
         }
 
         private static DateTime FromUnixTime(long unixTime)
