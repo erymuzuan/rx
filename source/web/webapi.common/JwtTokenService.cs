@@ -5,53 +5,21 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using JWT;
-using Microsoft.Owin;
 using Newtonsoft.Json;
-using Owin;
-using AppFunc = System.Func<
-    System.Collections.Generic.IDictionary<string, object>,
-    System.Threading.Tasks.Task
->;
 
 namespace Bespoke.Sph.WebApi
 {
-    public class JwtMiddleware : ITokenService
+    public class JwtTokenService : ITokenService
     {
-        public ITokenRepository Repository { get; set; } 
-        private readonly AppFunc m_next;
+        public ITokenRepository Repository { get; }
 
-        public JwtMiddleware()
+
+        public JwtTokenService(ITokenRepository repository)
         {
-            
+            this.Repository = repository;
         }
 
-        public void Configure(IAppBuilder app)
-        {
-            app.Use<JwtMiddleware>();
-        }
-        public JwtMiddleware(AppFunc next)
-        {
-            m_next = next;
-        }
 
-        public async Task Invoke(IDictionary<string, object> environment)
-        {
-            var ctx = new OwinContext(environment);
-            var headers = ctx.Request.Headers.GetValues("Authorization");
-            var token = headers?.FirstOrDefault();
-            if (token == null)
-            {
-                await m_next(environment);
-                return;
-            }
-
-            token = token.Replace("Bearer ", "");
-            var claim = await this.ValidateAsync(token, true);
-            if (null != claim)
-                ctx.Request.User = claim;
-            
-            await m_next(environment);
-        }
 
         public Task<ClaimsPrincipal> ValidateAsync(string token, bool checkExpiration)
         {

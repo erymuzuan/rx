@@ -7,8 +7,7 @@ namespace Bespoke.Sph.WebApi
     {
         public static void UseJwt(this IAppBuilder app)
         {
-            var tokenService =(JwtMiddleware) ObjectBuilder.GetObject<ITokenService>();
-            tokenService.Configure(app);
+            app.Use<JwtAuthorizationMiddleware>(ObjectBuilder.GetObject<ITokenService>());
 
         }
     }

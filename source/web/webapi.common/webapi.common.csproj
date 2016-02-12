@@ -126,7 +126,8 @@
     <Compile Include="JsonBodyAttribute.cs" />
     <Compile Include="JsonCachedResult.cs" />
     <Compile Include="JsonContent.cs" />
-    <Compile Include="JwtMiddleware.cs" />
+    <Compile Include="JwtAuthorizationMiddleware.cs" />
+    <Compile Include="JwtTokenService.cs" />
     <Compile Include="LocalExceptionResult.cs" />
     <Compile Include="LoggerExceptionHandler.cs" />
     <Compile Include="ModifiedSinceAttribute.cs" />
