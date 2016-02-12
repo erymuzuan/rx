@@ -14,7 +14,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         var isBusy = ko.observable(false),
             tokens = ko.observableArray(),
             viewToken = function (v) {
-                return $.get("custom-token/" + ko.unwrap(v.WebId))
+                return $.get("/api/auth-tokens/" + ko.unwrap(v.WebId))
                     .done(function (t) {
                         serviceApp.prompt("Copy the token now", t);
                         setTimeout(function () {
@@ -28,7 +28,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return app.showMessage("Are you sure you want to revoke this token, This action cannot be undone", "Reactive Develeoper", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
-                            $.ajax({ type: "DELETE", url: "custom-token/" + ko.unwrap(v.WebId) })
+                            $.ajax({ type: "DELETE", url: "/api/auth-tokens/" + ko.unwrap(v.WebId) })
                                     .done(function () {
                                         logger.info("The token has been succesfully revoked");
                                         tokens.remove(v);
@@ -37,14 +37,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
             },
             map = function (v) {
-                v.iat = moment(v.iat).format("YYYY-MM-DD");
-                v.exp = moment(v.exp).format("YYYY-MM-DD");
+                v.iat = moment(v.iat * 1000).format("YYYY-MM-DD");
+                v.exp = moment(v.exp * 1000).format("YYYY-MM-DD");
                 v.viewToken = viewToken;
                 v.removeToken = removeToken;
                 return v;
             },
             activate = function () {
-                return $.getJSON("/custom-token/")
+                return $.getJSON("api/auth-tokens/")
                     .then(function (list) {
                         var tokenList = _(list).map(map);
                         tokens(tokenList);
@@ -62,20 +62,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             if (result === "OK") {
                                 var tcs = new $.Deferred(),
                                     data = ko.toJSON(dialog.token);
-                                context.post(data, "/custom-token")
+                                context.post(data, "/api/auth-tokens")
                                     .then(function (r) {
-                                        if (r.success) {
-                                            logger.info("The token has been successfully generated " + r.access_token);
-                                            var query = String.format("Id eq '{0}'", r.id);
-                                            context.loadOneAsync("Setting", query)
-                                                .done(function (b) {
-                                                    tokens.push(map(b));
-                                                });
-
-
-                                        } else {
-                                            logger.error(r.message);
-                                        }
+                                        tokens.push(map(r));
+                                        viewToken(r);
                                     });
                                 return tcs.promise();
                             }

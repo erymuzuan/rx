@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Bespoke.Sph.Domain;
 using JWT;
 using Newtonsoft.Json;
@@ -20,34 +21,32 @@ namespace Bespoke.Sph.WebApi
             this.Roles = roles;
 
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            this.Expiry = Math.Round((expiry - unixEpoch).TotalSeconds);
+            this.Expiry = Convert.ToInt32((expiry - unixEpoch).TotalSeconds);
             this.IssueAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
             this.NotBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
 
 
             this.WebId = Guid.NewGuid().ToString();
         }
-        [JsonProperty(PropertyName = "email")]
+        [JsonProperty("email")]
         public string Email { get; set; }
-
-
-        [JsonProperty(PropertyName = "user")]
+        [JsonProperty("user")]
         public string Username { get; set; }
 
-        [JsonProperty(PropertyName = "roles")]
+        [JsonProperty("roles")]
         public string[] Roles { get; set; }
 
-        [JsonProperty(PropertyName = "sub")]
+        [JsonProperty("sub")]
         public string Subject { get; set; }
 
-        [JsonProperty(PropertyName = "nbf")]
+        [JsonProperty("nbf")]
         public double NotBefore { get; set; }
 
-        [JsonProperty(PropertyName = "iat")]
+        [JsonProperty("iat")]
         public double IssueAt { get; set; }
 
-        [JsonProperty(PropertyName = "exp")]
-        public double Expiry { get; set; }
+        [JsonProperty("exp")]
+        public int Expiry { get; set; }
 
         public string ToJson()
         {
@@ -56,7 +55,17 @@ namespace Bespoke.Sph.WebApi
 
         public string GenerateToken()
         {
-            return JsonWebToken.Encode(this, ConfigurationManager.TokenSecret, JwtHashAlgorithm.HS256);
+            var payLoad = new Dictionary<string, object>
+            {
+                {"user", this.Username},
+                {"roles", this.Roles},
+                {"email", this.Expiry},
+                {"sub", this.Username},
+                {"nbf", this.NotBefore},
+                {"iat", this.IssueAt},
+                {"exp", this.Expiry},
+            };
+            return JsonWebToken.Encode(payLoad, ConfigurationManager.TokenSecret, JwtHashAlgorithm.HS256);
         }
     }
 }

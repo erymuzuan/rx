@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
 using Bespoke.Sph.WebApi;
-using Newtonsoft.Json;
 using Roles = System.Web.Security.Roles;
 
 namespace Bespoke.Sph.Web.Controllers
 {
-    [Authorize(Roles = "administrators")]
-    [RoutePrefix("custom-token")]
-    public class CustomTokenController : BaseController
+    [RoutePrefix("api/auth-tokens")]
+    public class CustomTokenController : BaseApiController
     {
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult> GetAll(int page = 1, int size = 20)
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 20)
         {
             var repos = ObjectBuilder.GetObject<ITokenRepository>();
             var lo = await repos.LoadAsync(DateTime.Today, page, size);
@@ -28,11 +27,12 @@ namespace Bespoke.Sph.Web.Controllers
                          select t.ToJson();
             var json = $"[{string.Join(",", tokens)}]";
 
-            return Content(json, "application/json");
+            return Json(json);
         }
+
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> GetTokenAsync([RequestBody]GetTokenModel model)
+        public async Task<IHttpActionResult> CreateTokenAsync([RequestBody]GetTokenModel model)
         {
             if (model.grant_type == "password" && !Membership.ValidateUser(model.username, model.password))
                 return Json(new { success = false, status = 403, message = "Cannot validate your username or password" });
@@ -42,49 +42,35 @@ namespace Bespoke.Sph.Web.Controllers
 
 
             var tokenService = ObjectBuilder.GetObject<ITokenService>();
-            
-            var id = Strings.GenerateId();
+
             var context = new SphDataContext();
             var user = await context.LoadOneAsync<UserProfile>(x => x.UserName == model.username);
             var roles = Roles.GetRolesForUser(model.username);
 
-            var encryptedToken = await tokenService.CreateTokenAsync(user, roles, model.expiry);
-            var json = string.Format(@"{{
-    ""success"": true,
-    ""id"":""{5}"",
-    ""access_token"":""{0}"",
-    ""token_type"":""bearer"",
-    ""expires_in"":{1},
-    ""userName"":""{4}"",
-    "".issued"":""{2:R}"",
-    "".expires"":""{3:R}""
-}}",
-                                                     encryptedToken,
-                                                     Convert.ToInt32((model.expiry-DateTime.Now).TotalSeconds),
-                                                     DateTime.Now,
-                                                     model.expiry,
-                                                     model.username,
-                                                     id);
+            var claim = await tokenService.CreateTokenAsync(user, roles, model.expiry);
+            var token = claim.GenerateToken();
+            var json = claim.ToJson()
+                .Replace("\"WebId\"", $"\"token\":\"{token}\",\r\n\"WebId\"");
 
-            return Content(json, "application/json");
+            return Json(json);
         }
 
         [Authorize(Roles = "administrators")]
         [HttpGet]
         [Route("{id:guid}")]
-        public async Task<ActionResult> GetTokenAsync(string id)
+        public async Task<IHttpActionResult> GetTokenAsync(string id)
         {
             var repos = ObjectBuilder.GetObject<ITokenRepository>();
             var token = await repos.LoadOneAsync(id);
-            if (null == token) return HttpNotFound();
+            if (null == token) return NotFound();
 
-            return Content(token.GenerateToken());
+            return Ok(token.GenerateToken());
         }
 
         [Authorize(Roles = "administrators")]
         [HttpDelete]
         [Route("{id:guid}")]
-        public async Task<ActionResult> RemoveTokenAsync(string id)
+        public async Task<IHttpActionResult> RemoveTokenAsync(string id)
         {
             var repos = ObjectBuilder.GetObject<ITokenRepository>();
             await repos.RemoveAsync(id);
@@ -92,34 +78,37 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [Route("test")]
-        public ActionResult ValidateToken()
+        [HttpGet]
+        public async Task<IHttpActionResult> ValidateToken()
         {
             var headers = this.Request.Headers.GetValues("Authorization");
             if (null == headers)
-                return Json(new { status = 403, message = "No authorization headers" }, JsonRequestBehavior.AllowGet);
+                return Json(new { status = 403, message = "No authorization headers" });
             var token = headers.FirstOrDefault();
             if (null == token)
-                return Json(new { status = 403, message = "No authorization header" }, JsonRequestBehavior.AllowGet);
+                return Json(new { status = 403, message = "No authorization header" });
 
-            try
+            token = token.Replace("Bearer ", "");
+
+            var tokenService = ObjectBuilder.GetObject<ITokenService>();
+            var claim = await tokenService.ValidateAsync(token, true);
+            if (null == claim)
+                return Unauthorized(new AuthenticationHeaderValue("Authorization", "Bearer"));
+            return Json(new
             {
-                var json = (new Encryptor()).Decrypt(token);
-                var st = json.DeserializeFromJson<SphSecurityToken>();
-                return Json(new { status = 200, username = st.Username, expired = st.Expired.ToString("R"), issued = st.Issued.ToString("R") }, JsonRequestBehavior.AllowGet);
-            }
-            catch (CryptographicException)
-            {
-                return Json(new { status = 403, message = "Cannot validate your token" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (JsonReaderException)
-            {
-                return Json(new { status = 403, message = "Cannot validate your token" }, JsonRequestBehavior.AllowGet);
-            }
+                status = true,
+                name = claim.Identity.Name,
+                email = claim.FindFirst(c => c.Type == ClaimTypes.Email).Value,
+                developers = claim.IsInRole("developers"),
+                administrators = claim.IsInRole("administrators")
+            });
+
         }
 
         [Authorize]
-        [Route("auth")]
-        public ActionResult AuthorizedResource()
+        [HttpGet]
+        [Route("test-protected-resource")]
+        public IHttpActionResult AuthorizedResource()
         {
             return Json(new
             {
@@ -127,7 +116,20 @@ namespace Bespoke.Sph.Web.Controllers
                 message = "secret message",
                 username = User.Identity.Name,
                 roles = Roles.GetRolesForUser()
-            }, JsonRequestBehavior.AllowGet);
+            });
+        }
+        [Authorize(Roles = "developers")]
+        [HttpGet]
+        [Route("test-protected-resource/developers")]
+        public IHttpActionResult AuthorizedResourceWithRole()
+        {
+            return Json(new
+            {
+                status = 200,
+                message = "secret message",
+                username = User.Identity.Name,
+                roles = Roles.GetRolesForUser()
+            });
         }
 
     }

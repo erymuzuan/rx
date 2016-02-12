@@ -44,6 +44,8 @@ namespace Bespoke.Sph.Web.App_Start
             config.Services.Replace(typeof(IExceptionHandler), ObjectBuilder.GetObject<IExceptionHandler>());
             config.EnsureInitialized();
 
+            app.UseJwt();
+
             app.UseWebApi(config);
 
         }
