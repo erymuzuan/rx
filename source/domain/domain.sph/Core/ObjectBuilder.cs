@@ -84,7 +84,7 @@ namespace Bespoke.Sph.Domain
                     var name = Path.GetFileName(file) ?? "";
                     if (ignores.Any(name.StartsWith)) continue;
                     loadAssemblyCatalog(file);
-                    logger.Log(new LogEntry { Message = $"Loaded from bin {name}" });
+                    logger.Log(new LogEntry { Message = $"Loaded from bin {name}", Severity = Severity.Debug});
                 }
 
             }
