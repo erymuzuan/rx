@@ -13,9 +13,9 @@ define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
         var list = ko.observableArray(),
             severityOptions = ko.observableArray(),
+            selectedSeverities = ko.observableArray(),
             logId = ko.observable(),
-            severity = ko.observable(),
-            computer = ko.observable(false),
+            selectedComputers = ko.observableArray(),
             timeFrom = ko.observable(moment().subtract(7, "days").format()),
             timeTo = ko.observable(moment().format()),
             isBusy = ko.observable(false),
@@ -46,10 +46,8 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     };
                 context.searchAsync("log", agg)
                  .then(function (result) {
-                     var keys = _(result.aggregations.category.buckets).map(function (v) {
-                         return v.key;
-                     });
-                     tcs.resolve(keys);
+                     var buckets = result.aggregations.category.buckets;
+                     tcs.resolve(buckets);
                  });
 
                 return tcs.promise();
@@ -68,7 +66,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     .then(computerOptions);
             },
             attached = function (view) {
-                $(view).find("form#filter-logs-form").one("submite", function(e) {
+                $(view).find("form#filter-logs-form").one("submite", function (e) {
                     e.preventDefault();
                     searchById();
                 });
@@ -98,21 +96,19 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     ]
                 };
 
-                if (ko.unwrap(computer)) {
+                var computers = ko.unwrap(selectedComputers);
+                if (computers.length > 0) {
                     q.query.bool.must.push({
-                        "term": {
-                            "computer": {
-                                "value": ko.unwrap(computer)
-                            }
+                        "terms": {
+                            "computer": computers
                         }
                     });
                 }
-                if (ko.unwrap(severity)) {
+                var severities = ko.unwrap(selectedSeverities);
+                if (severities.length > 0) {
                     q.query.bool.must.push({
-                        "term": {
-                            "severity": {
-                                "value": ko.unwrap(severity)
-                            }
+                        "terms": {
+                            "severity": severities
                         }
                     });
                 }
@@ -131,8 +127,8 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 query(q);
             };
 
-        computer.subscribe(executeQuery);
-        severity.subscribe(executeQuery);
+        selectedComputers.subscribe(executeQuery, null, "arrayChange");
+        selectedSeverities.subscribe(executeQuery, null, "arrayChange");
         timeFrom.subscribe(executeQuery);
         timeTo.subscribe(executeQuery);
 
@@ -141,12 +137,12 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             logId: logId,
             searchById: searchById,
             openDetails: openDetails,
-            computer: computer,
-            severity: severity,
-            timeFrom: timeFrom,
-            timeTo: timeTo,
             computerOptions: computerOptions,
             severityOptions: severityOptions,
+            selectedComputers: selectedComputers,
+            selectedSeverities: selectedSeverities,
+            timeFrom: timeFrom,
+            timeTo: timeTo,
             query: query,
             list: list,
             isBusy: isBusy,

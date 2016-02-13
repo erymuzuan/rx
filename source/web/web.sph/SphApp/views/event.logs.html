@@ -33,41 +33,55 @@
         <h2>Filter</h2>
         <form id="filter-logs-form" role="form" class="form-horizontal">
             <div class="form-group">
-                <label for="log-time-from" class="col-lg-2 control-label">From</label>
-                <div class="col-lg-6">
+                <label for="log-time-from" class="col-lg-3 control-label">From</label>
+                <div class="col-lg-9">
                     <input type="text" data-bind="kendoDateTime: timeFrom"
                            class="form-control" id="log-time-from">
                 </div>
             </div>
             <div class="form-group">
-                <label for="log-time-to" class="col-lg-2 control-label">To</label>
-                <div class="col-lg-6">
+                <label for="log-time-to" class="col-lg-3 control-label">To</label>
+                <div class="col-lg-9">
                     <input type="text" data-bind="kendoDateTime: timeTo"
                            class="form-control" id="log-time-to">
                 </div>
             </div>
             <div class="form-group">
-                <label for="log-severity" class="col-lg-2 control-label">Severity</label>
-                <div class="col-lg-6"><select class="form-control" id="log-severity" data-bind="value:severity, options: severityOptions, optionsCaption :'[Severity]'"></select>
+                <label  class="col-lg-3 control-label">Severity</label>
+                <div class="col-lg-9">
+                    <!-- ko foreach :severityOptions-->
+                    <label>
+                        <input type="checkbox" data-bind="value:key, checked : $root.selectedSeverities"/>
+                        <!-- ko text: key--> <!-- /ko -->(<!-- ko text: doc_count--><!-- /ko-->)
+                    </label>
+                    <br/>
+                    <!-- /ko-->
+                    <a href="javascript:;" data-bind="click : function(){ $root.selectedSeverities([]);}">Clear</a>
                 </div>
             </div>
             <div class="form-group">
-                <label for="log-computers" class="col-lg-2 control-label">Computer</label>
-                <div class="col-lg-6">
-                    <select class="form-control" id="log-computers" data-bind="value:computer, options: computerOptions, optionsCaption :'[Computer]'">
-                    </select>
+                <label class="col-lg-3 control-label">Computers</label>
+                <div class="col-lg-9">
+                    <!-- ko foreach :computerOptions-->
+                    <label>
+                        <input type="checkbox" data-bind="value:key, checked : $root.selectedComputers"/>
+                        <!-- ko text: key--> <!-- /ko -->(<!-- ko text: doc_count--><!-- /ko-->)
+                    </label>
+                    <br/>
+                    <!-- /ko-->
+                    <a href="javascript:;" data-bind="click : function(){ $root.selectedComputers([]);}">Clear</a>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="log-id" class="col-lg-2 control-label">Log Id</label>
-                <div class="col-lg-8">
+                <label for="log-id" class="col-lg-3 col-md-3 control-label">Log Id</label>
+                <div class="col-lg-7 col-md-10">
                     <input type="text" data-bind="value: logId"
                            placeholder="Load by log id"
                            maxlength="36"
                            class="form-control" id="log-id">
                 </div>
-                <div class="col-lg-2">
+                <div class="col-md-2 col-lg-2">
                     <a href="javascript:;" data-bind="command : searchById, tooltip:'Search log by Id'">
                         <i class="fa fa-search"></i>
                     </a>
