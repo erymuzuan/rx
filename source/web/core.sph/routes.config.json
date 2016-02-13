@@ -403,6 +403,20 @@
     "error": ""
   },
   {
+    "role": "administrators",
+    "groupName": "Admin",
+    "route": "event.logs",
+    "moduleId": "viewmodels/event.logs",
+    "title": "Manage",
+    "nav": false,
+    "icon": "fa fa-clock",
+    "caption": "Event logs",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
     "role": "developers",
     "groupName": "Workflow",
     "route": "workflow.instances.console",

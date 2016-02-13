@@ -13,6 +13,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
     function(context, logger, router) {
 
         var list = ko.observableArray(),
+            severityOptions = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function() {
 
@@ -41,6 +42,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
         var vm = {
             openDetails: openDetails,
+            severityOptions: severityOptions,
             query: query,
             list: list,
             isBusy: isBusy,

@@ -1,0 +1,64 @@
+﻿<div class="row">
+    <h1>Event Logs</h1>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <table class="table table-striped" data-bind="
+               filter :{path:'tbody>tr'},
+            searchPaging: {
+            list :list,
+            query : query,
+            entity : 'Log'
+            }">
+            <thead>
+                <tr>
+                    <th>Date Time</th>
+                    <th>Operation</th>
+                    <th>Severity</th>
+                    <th>Log Source</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :list">
+                <tr>
+                    <td>
+                        <a href="#" data-bind="click : $parent.openDetails, date: { value: time, format:'YYYY-MM-DD HH:mm ss', inputFormat : moment.ISO_8601}"></a>
+                    </td>
+                    <td data-bind="text: (operation || '<No Category>') + ': ' + message"></td>
+                    <td data-bind="text:severity"></td>
+                    <td data-bind="text:log"></td>
+                </tr>
+            </tbody>
+        </table></div>
+    <div class="col-lg-4">
+        <h2>Filter</h2>
+        <form role="form" class="form-horizontal">
+            <div class="form-group">
+                <label for="log-time-from" class="col-lg-2 control-label">From</label>
+                <div class="col-lg-6">
+                    <input type="text" data-bind="kendoDateTime: timeFrom"
+                           class="form-control" id="log-time-from">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="log-time-to" class="col-lg-2 control-label">To</label>
+                <div class="col-lg-6">
+                    <input type="text" data-bind="kendoDateTime: timeTo"
+                           class="form-control" id="log-time-to">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="log-severity" class="col-lg-2 control-label">Severity</label>
+                <div class="col-lg-6"><select class="form-control" id="log-severity" data-bind="value:severity, options: severityOptions, optionsCaption :'[Severity]'"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="log-computers" class="col-lg-2 control-label">Computer</label>
+                <div class="col-lg-6">
+                    <select class="form-control" id="log-computers" data-bind="value:computer, options: computerOptions, optionsCaption :'[Computer]'">
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
