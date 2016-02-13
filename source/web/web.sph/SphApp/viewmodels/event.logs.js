@@ -13,12 +13,22 @@ define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
         var list = ko.observableArray(),
             severityOptions = ko.observableArray(),
+            logId = ko.observable(),
             severity = ko.observable(),
             computer = ko.observable(false),
             timeFrom = ko.observable(moment().subtract(7, "days").format()),
             timeTo = ko.observable(moment().format()),
             isBusy = ko.observable(false),
             computerOptions = ko.observableArray(),
+            openDetails = function (log) {
+                require(["viewmodels/log.details.dialog", "durandal/app"], function (dialog, app2) {
+                    dialog.log(log);
+
+                    app2.showDialog(dialog)
+                        .done(function () { });
+
+                });
+            },
             getKeysAsync = function (field) {
                 var tcs = new $.Deferred(),
                     agg = {
@@ -44,6 +54,12 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                 return tcs.promise();
             },
+            searchById = function () {
+                return $.getJSON("/management-api/logs/" + ko.unwrap(logId))
+                    .done(function (r) {
+                        openDetails(r);
+                    });
+            },
             activate = function () {
 
                 getKeysAsync("severity").done(severityOptions);
@@ -52,18 +68,12 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     .then(computerOptions);
             },
             attached = function (view) {
-
-            },
-            openDetails = function (log) {
-                require(["viewmodels/log.details.dialog", "durandal/app"], function (dialog, app2) {
-                    dialog.log(log);
-
-                    app2.showDialog(dialog)
-                        .done(function () { });
-
+                $(view).find("form#filter-logs-form").one("submite", function(e) {
+                    e.preventDefault();
+                    searchById();
                 });
             },
-            query = {
+            query = ko.observable({
                 "sort": [
                  {
                      "time": {
@@ -71,7 +81,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                      }
                  }
                 ]
-            },
+            }),
             executeQuery = function () {
                 var q = {
                     "query": {
@@ -116,10 +126,9 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         }
                     });
                 }
-                return context.searchAsync("log", q)
-                    .then(function(result) {
-                        list(result.itemCollection);
-                    });
+
+
+                query(q);
             };
 
         computer.subscribe(executeQuery);
@@ -129,6 +138,8 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
 
         var vm = {
+            logId: logId,
+            searchById: searchById,
             openDetails: openDetails,
             computer: computer,
             severity: severity,

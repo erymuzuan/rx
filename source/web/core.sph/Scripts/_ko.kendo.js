@@ -1,7 +1,7 @@
 ﻿/// <reference path="knockout-3.4.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
-/// <reference path="~/Scripts/jquery-2.1.3.intellisense.js" />
+/// <reference path="~/Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="~/Scripts/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
@@ -1028,11 +1028,21 @@ ko.bindingHandlers.searchPaging = {
                         "query": text
                     }
                 };
+                if (q.query.bool) {
+                    q2.filter = q2.filter || {};
+                    q2.filter.bool = q.query.bool;
+                }
                 q2.sort = q.sort;
                 pager.destroy();
                 pager = null;
                 search(q2);
             };
+
+        if (typeof query.subscribe === "function") {
+            query.subscribe(function(q) {
+                search(q, 1, 20);
+            });
+        }
 
         //exposed the search function
         query.search = search;

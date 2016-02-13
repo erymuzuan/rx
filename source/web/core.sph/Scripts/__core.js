@@ -1836,7 +1836,7 @@ ko.bindingHandlers.commandWithParameter = {
     init: function (element, valueAccessor) {
         var command = valueAccessor();
         var callback = command.command;
-        var parameter = command.commandParameter;
+        var parameter = command.parameter || command.commandParameter;
 
         var button = $(element);
         var completeText = button.data("complete-text") || button.html();
@@ -2123,11 +2123,21 @@ ko.bindingHandlers.searchPaging = {
                         "query": text
                     }
                 };
+                if (q.query.bool) {
+                    q2.filter = q2.filter || {};
+                    q2.filter.bool = q.query.bool;
+                }
                 q2.sort = q.sort;
                 pager.destroy();
                 pager = null;
                 search(q2);
             };
+
+        if (typeof query.subscribe === "function") {
+            query.subscribe(function(q) {
+                search(q, 1, 20);
+            });
+        }
 
         //exposed the search function
         query.search = search;

@@ -6,7 +6,7 @@
         <table class="table table-striped" data-bind="
                filter :{path:'tbody>tr'},
             searchPaging: {
-            list :list,
+            list : list,
             query : query,
             entity : 'Log'
             }">
@@ -31,7 +31,7 @@
         </table></div>
     <div class="col-lg-4">
         <h2>Filter</h2>
-        <form role="form" class="form-horizontal">
+        <form id="filter-logs-form" role="form" class="form-horizontal">
             <div class="form-group">
                 <label for="log-time-from" class="col-lg-2 control-label">From</label>
                 <div class="col-lg-6">
@@ -56,6 +56,21 @@
                 <div class="col-lg-6">
                     <select class="form-control" id="log-computers" data-bind="value:computer, options: computerOptions, optionsCaption :'[Computer]'">
                     </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="log-id" class="col-lg-2 control-label">Log Id</label>
+                <div class="col-lg-8">
+                    <input type="text" data-bind="value: logId"
+                           placeholder="Load by log id"
+                           maxlength="36"
+                           class="form-control" id="log-id">
+                </div>
+                <div class="col-lg-2">
+                    <a href="javascript:;" data-bind="command : searchById, tooltip:'Search log by Id'">
+                        <i class="fa fa-search"></i>
+                    </a>
                 </div>
             </div>
         </form>

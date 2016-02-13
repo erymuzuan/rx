@@ -7,6 +7,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using Spring.Objects.Factory;
 
@@ -77,6 +78,31 @@ namespace Bespoke.Sph.Web.Controllers
             var message = System.Text.Encoding.UTF8.GetString(result.Body);
 
             return Json(new { message, routingKey, deathHeader, note = "broken!!!! this will keep the connection until basicReject or ack is called" }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpGet]
+        [Route("logs/{id:guid}")]
+        public async Task<ActionResult> SearchById(string id)
+        {
+            var url = $"{ ConfigurationManager.ElasticSearchSystemIndex}/log/{id}";
+            string responseString;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                var response = await client.GetAsync(url);
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                    return HttpNotFound();
+
+                var content = response.Content as StreamContent;
+                if (null == content) throw new Exception("Cannot execute query on es ");
+                responseString = await content.ReadAsStringAsync();
+
+            }
+            var esJson = JObject.Parse(responseString);
+            var source = esJson.SelectToken("$._source");
+
+            return Content(source.ToString(), "application/json");
 
         }
 
