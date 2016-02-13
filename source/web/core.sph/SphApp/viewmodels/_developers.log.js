@@ -282,7 +282,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		    return tcs.promise();
 		},
+        logDisplaySetting = function(prop, propName) {
+            var key = "developers.log." + propName;
+            prop(localStorage.getItem(key) === "true");
+            prop.subscribe(function (m) {
+                localStorage.setItem(key, m);
+            });
+        },
 		activate = function () {
+
+		    logDisplaySetting(mute, "mute");
+		    logDisplaySetting(info, "info");
+		    logDisplaySetting(debug, "debug");
+		    logDisplaySetting(warning, "warning");
+		    logDisplaySetting(error, "error");
+		    logDisplaySetting(critical, "critical");
+		    logDisplaySetting(verbose, "verbose");
 		    var sj = localStorage.getItem(outputLogsSetting);
 		    if (sj) {
 		        setting(ko.mapping.fromJSON(sj));
