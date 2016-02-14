@@ -62,7 +62,7 @@ WriteLiteral(" src=\"/Scripts/ace/snippets/css.js\"");
 
 WriteLiteral("></script>\r\n<script");
 
-WriteLiteral(" src=\"/Scripts/jquery-2.1.3.min.js\"");
+WriteLiteral(" src=\"/Scripts/jquery-2.2.0.min.js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
