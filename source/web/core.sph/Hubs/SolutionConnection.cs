@@ -164,7 +164,7 @@ namespace Bespoke.Sph.Web.Hubs
                           {
                               id = $"{r.ModuleId}.js",
                               text = $"{name}.js",
-                              icon = "fa fa-text-o",
+                              icon = "fa fa-file-text-o",
                               codeEditor = $"/sphapp/{r.ModuleId}.js"
                           };
             var views = from r in JsonConvert.DeserializeObject<JsRoute[]>(File.ReadAllText(config))
@@ -337,6 +337,11 @@ namespace Bespoke.Sph.Web.Hubs
                 var d = file.DeserializeFromJsonFile<WorkflowDefinition>();
                 return $"workflow.definition.visual/{d.Id}";
             }
+            if (folder == nameof(ValueObjectDefinition))
+            {
+                var d = file.DeserializeFromJsonFile<ValueObjectDefinition>();
+                return $"value.object.details/{d.Id}";
+            }
             if (folder == nameof(Designation))
             {
                 var d = file.DeserializeFromJsonFile<Designation>();
@@ -386,6 +391,7 @@ namespace Bespoke.Sph.Web.Hubs
         {
             switch (name)
             {
+                case nameof(ValueObjectDefinition): return "fa fa-object-ungroup";
                 case nameof(WorkflowDefinition): return "fa fa-code-fork";
                 case nameof(TransformDefinition): return "fa fa-random";
                 case nameof(EntityDefinition): return "fa fa-file-o";
