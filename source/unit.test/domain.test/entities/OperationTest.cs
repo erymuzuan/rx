@@ -171,16 +171,27 @@ namespace domain.test.entities
                 var controllerType = dll.GetType($"{endpoint.CodeNamespace}.{endpoint.Name}Controller");
                 var action = controllerType.GetMethod("Post" + name);
                 var controller = Activator.CreateInstance(controllerType);
+                var bs = controller as BaseApiController;
+                Assert.NotNull(bs);
+                bs.Configuration = new HttpConfiguration();
 
-                dynamic awaiter = action.Invoke(controller, new object[] { patient });
-                var response = awaiter.Result;
-                PropertyInfo contentProperty = response.GetType().GetProperty("Content");
+                var awaiter = (Task<IHttpActionResult>)action.Invoke(controller, new object[] { patient });
+                var response = await awaiter;
+                var contentProperty = response.GetType().GetProperty("Content");
                 var content = contentProperty.GetValue(response);
-                JObject json = JObject.Parse(JsonConvert.SerializeObject(content));
+                var json = JObject.Parse(JsonConvert.SerializeObject(content));
 
                 var id = json.SelectToken("$.id").Value<string>();
-                Assert.Equal(json.SelectToken("$._links.href").Value<string>(), $"{ConfigurationManager.BaseUrl}/api/patients/" + id);
+                var location = json.SelectToken("$._links.href").Value<string>();
+                Assert.Equal(location, $"{ConfigurationManager.BaseUrl}/api/patients/" + id);
 
+
+                // check header location
+                var locProperty = response.GetType().GetProperty("Location");
+                Assert.Equal(location, locProperty.GetValue(response).ToString());
+
+                // 201
+                Assert.Contains("Created", response.GetType().FullName);
             }
             catch (ReflectionTypeLoadException e)
             {

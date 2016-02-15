@@ -91,12 +91,14 @@ namespace Bespoke.Sph.Domain
                 session.Attach(item);
                 await session.SubmitChanges(""{Name}"");
             }}
-            return Json(new {{success = true, status=""OK"", id = item.Id, 
+
+            var result = new {{success = true, status=""OK"", id = item.Id, 
                       _links = new {{ 
                             rel = ""self"",
-                            href=$""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{ item.Id}}""
+                            href=$""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}""
                         }}
-                }});");
+                }};
+            return Created($""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}"", result);");
 
             return post;
         }
