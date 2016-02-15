@@ -65,7 +65,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 return context.post(json, "/api/triggers")
                     .then(function (result) {
                         if (result) {
-                            id(result);
+                            id(result.id);
                             dialog.close(data, "OK");
                         }
                     });

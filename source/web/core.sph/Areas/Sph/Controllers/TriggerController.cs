@@ -157,7 +157,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(trigger);
                 await session.SubmitChanges("Submit trigger");
             }
-            return Created($"/api/triggers/{trigger.Id}", new { });
+            return Created($"/api/triggers/{trigger.Id}", new { id =  trigger.Id});
 
         }
 

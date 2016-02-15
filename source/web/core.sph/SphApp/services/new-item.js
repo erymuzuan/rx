@@ -84,9 +84,9 @@
                                               return checkSource("Trigger", "Id eq '" + ko.unwrap(dialog.id) + "'");
                                           }
                                           return Task.fromResult(0);
-                                      }).then(function (ed) {
-                                          if (ed)
-                                              router.navigate("#trigger.setup/" + ko.unwrap(ed.Id));
+                                      }).then(function (trigger) {
+                                          if (trigger)
+                                              router.navigate("#trigger.setup/" + ko.unwrap(trigger.Id));
                                       });
             },
             addAdapterAsync = function () {
@@ -148,8 +148,6 @@
                         });
             },
             addEntityForm = function (entityDefinition) {
-
-                var id = "0";
                 return app.showDialog("new.entity.form.dialog", function (dialog) {
                     dialog.entity(entityDefinition);
                 })
