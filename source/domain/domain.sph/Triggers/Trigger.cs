@@ -247,8 +247,9 @@ namespace Bespoke.Sph.Domain
             }
 
         }
-
+        [JsonIgnore]
         public string Icon => "fa fa-bolt";
+        [JsonIgnore]
         public string Url => $"trigger.setup/{Id}";
     }
 }

@@ -45,7 +45,9 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
+        [JsonIgnore]
         public string Icon => "fa fa-cloud-download";
+        [JsonIgnore]
         public string Url => $"query.endpoint.designer/{Id}";
 
         public string GenerateEsSortDsl()

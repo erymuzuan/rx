@@ -69,12 +69,15 @@ namespace Bespoke.Sph.Web.Hubs
             if (e.FullPath.Contains("BinaryStores")) return;
             try
             {
-                var solution = GetSolution();
-                solution.changedType = e.ChangeType.ToString();
-                solution.item = new SolutionItem { text = e.Name, id = e.FullPath, changedType = e.ChangeType.ToString() };
+                var item = new SolutionItem
+                {
+                    changedType = e.ChangeType.ToString(),
+                    text = e.Name,
+                    id = e.FullPath
+                };
 
                 var conns = m_connections.ToArray();
-                this.Connection?.Send(conns.ToList(), solution);
+                this.Connection?.Send(conns.ToList(), item);
             }
             catch (Exception exception)
             {
@@ -265,7 +268,7 @@ namespace Bespoke.Sph.Web.Hubs
             }
             return partialViewNode;
         }
-        
+
         private static void ExtractSolutionItems<T>(SolutionItem solution) where T : Entity
         {
             var folder = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}";
