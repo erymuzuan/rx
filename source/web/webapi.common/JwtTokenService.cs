@@ -7,6 +7,7 @@ using Bespoke.Sph.Domain;
 using JWT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Polly;
 
 namespace Bespoke.Sph.WebApi
 {
@@ -21,18 +22,15 @@ namespace Bespoke.Sph.WebApi
         public async Task<ClaimsPrincipal> ValidateAsync(string token, bool checkExpiration)
         {
             var secret = ConfigurationManager.TokenSecret;
-            string json;
-            try
-            {
-                json = JsonWebToken.Decode(token, secret);
-            }
-            catch (SignatureVerificationException)
-            {
-                return null;
-            }
+            var result = Policy.Handle<InvalidOperationException>()
+                .Or<SignatureVerificationException>()
+                .Retry()
+                .ExecuteAndCapture(() => JsonWebToken.Decode(token, secret));
+            if (result.ExceptionType != null) return null;
+            var json = result.Result;
+            
 
-
-            var settings = new JsonSerializerSettings{ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
+            var settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             var jo = JObject.Parse(json);
             var accessToken = JsonConvert.DeserializeObject<AccessToken>(json, settings);
             accessToken.WebId = jo.SelectToken("$.sub").Value<string>();
@@ -40,7 +38,7 @@ namespace Bespoke.Sph.WebApi
             if (null != this.Repository)
             {
                 var ok = await this.Repository.LoadOneAsync(accessToken.WebId);
-                if(null == ok)
+                if (null == ok)
                     return default(ClaimsPrincipal);
             }
 
