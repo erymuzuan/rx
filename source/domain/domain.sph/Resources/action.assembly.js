@@ -9,7 +9,7 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.system],
+define(["services/datacontext", "services/logger", "plugins/dialog", objectbuilders.system],
     function (context, logger, dialog, system) {
 
         var action = ko.observable(new bespoke.sph.domain.AssemblyAction(system.guid())),
@@ -25,7 +25,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                         if (action().Assembly()) {
 
                             var loadTypesTask = $.get("/api/assemblies/" + action().Assembly() + "/types"),
-                                loadMethodTask = $.get("/api/assemblies/methods/" + action().Assembly() + "/" + action().TypeName());
+                                loadMethodTask = $.get("/api/assemblies/" + action().Assembly() + "/types/" + action().TypeName() + "/methods");
                             $.when(loadTypesTask, loadMethodTask)
                                 .done(function (t1, m1) {
                                     typeOptions(t1[0]);
@@ -53,7 +53,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                         methodOptions.removeAll();
                         return;
                     }
-                    $.get("/api/assemblies/" + action().Assembly() + "/" + type + "/methods")
+                    $.get("/api/assemblies/" + action().Assembly() + "/types/" + type + "/methods")
                    .done(function (methods) {
                        methodOptions(methods);
                    });

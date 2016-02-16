@@ -158,7 +158,7 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpGet]
-        [Route("{dll}/{type}/json-schema")]
+        [Route("{dll}/types/{type}/json-schema")]
         public IHttpActionResult Schema(string dll, string type)
         {
             var ct = FindType(dll, type);
@@ -213,11 +213,13 @@ namespace Bespoke.Sph.Web.Controllers
             return assembly?.GetType(type);
         }
         [HttpGet]
-        [Route("{dll}/{type}/methods")]
+        [Route("{dll}/types/{type}/methods")]
         public IHttpActionResult GetMethods(string dll, string type)
         {
             var clrType = FindType(dll, type);
             var methods = clrType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
+                .Where(x => null != x)
+                .Where(x => !string.IsNullOrWhiteSpace(x.Name))
                 .Where(x => !x.Name.StartsWith("get_"))
                 .Where(x => !x.Name.StartsWith("set_"))
                 .Where(x => !x.Name.StartsWith("add_"))
@@ -230,14 +232,16 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 x.Name,
                 Display = "",
-                RetVal = x.ReturnType.FullName,
-                IsAsync = x.ReturnType.FullName.StartsWith("System.Threading.Tasks.Task"),
+                RetVal = x.ReturnType?.FullName,
+                IsAsync = x.ReturnType?.FullName?.StartsWith("System.Threading.Tasks.Task"),
+                x.IsGenericMethod,
+                x.IsGenericMethodDefinition,
                 x.IsStatic,
                 IsVoid = x.ReturnType == typeof(void),
                 Parameters = x.GetParameters().Select(p => new
                 {
                     p.Name,
-                    Type = p.ParameterType.GetShortAssemblyQualifiedName(),
+                    Type = p.ParameterType?.GetShortAssemblyQualifiedName(),
                     p.IsOut,
                     p.IsRetval,
                     p.IsIn

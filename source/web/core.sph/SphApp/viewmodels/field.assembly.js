@@ -26,7 +26,7 @@ define(['plugins/dialog'],
                             return $.getJSON("/api/assemblies/" + field().Location() + "/types");
                         }).then(function (types) {
                             typeOptions(types);
-                            return $.getJSON("/api/assemblies/" + ko.unwrap(field().Location) + "/" + ko.unwrap(field().TypeName) + "/methods");
+                            return $.getJSON("/api/assemblies/" + ko.unwrap(field().Location) + "/types/" + ko.unwrap(field().TypeName) + "/methods");
                         }).then(function (methods) {
                             methodOptions(methods);
                         });
@@ -39,7 +39,7 @@ define(['plugins/dialog'],
                         });
                 });
                 field().TypeName.subscribe(function (type) {
-                    $.getJSON("/assemblies/" + ko.unwrap(field().Location) + "/" + type + "/methods")
+                    $.getJSON("/assemblies/" + ko.unwrap(field().Location) + "/types/" + type + "/methods")
                         .done(function (methods) {
                             methodOptions(methods);
                         });
