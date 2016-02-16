@@ -109,6 +109,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcceptedResult.cs" />
     <Compile Include="AccessToken.cs" />
     <Compile Include="AuthorizationHandler.cs" />
     <Compile Include="BaseApiController.cs" />

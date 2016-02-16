@@ -119,6 +119,16 @@ namespace Bespoke.Sph.WebApi
 
             return base.Created(location, content);
         }
+
+        protected virtual IHttpActionResult Accepted<T>(T data)
+        {
+            return new AcceptedResult(this.Request, data);
+        }
+        protected virtual IHttpActionResult Accepted<T>(string location,T data)
+        {
+            return new AcceptedResult(location, this.Request, data);
+        }
+
         protected CreatedNegotiatedContentResult<T> Created<T>(Uri location, T content, JsonSerializerSettings settings)
         {
             this.Configuration.Formatters.JsonFormatter.SerializerSettings = settings;

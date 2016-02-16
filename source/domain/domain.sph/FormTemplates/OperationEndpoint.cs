@@ -98,7 +98,7 @@ namespace Bespoke.Sph.Domain
                             href=$""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}""
                         }}
                 }};
-            return Created($""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}"", result);");
+            return Accepted($""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}"", result);");
 
             return post;
         }
@@ -128,10 +128,9 @@ namespace Bespoke.Sph.Domain
 
 
             var enabledGetEntityDefinition = this.Rules.Any() || this.SetterActionChildCollection.Any();
-            if (enabledGetEntityDefinition)
-                patch.AppendLine(GetEntityDefinitionCode(ed));
-            else
-                patch.AppendLine("var context = new SphDataContext();");
+            patch.AppendLine(enabledGetEntityDefinition
+                ? GetEntityDefinitionCode(ed)
+                : "var context = new SphDataContext();");
 
             patch.Append(
                 $@"
@@ -157,7 +156,7 @@ namespace Bespoke.Sph.Domain
                 {
                     patch.AppendLine($"             if(null == val{count})");
                     patch.AppendLine($"                 missingValues.Add(\"{prop.Path}\");");
-                    patch.AppendLine($"             else");
+                    patch.AppendLine("             else");
                     patch.AppendLine($"                 item.{prop} = val{count}.Value<{member.GetMemberTypeName()}>();");
                 }
                 else
@@ -194,7 +193,7 @@ namespace Bespoke.Sph.Domain
                                     href = $""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}""
                                 }}
                             }};
-            return Json(result);");
+            return Accepted(result);");
 
             return patch;
         }
@@ -205,16 +204,16 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
 
             code.Append(
-                $@"        
-                if ($""{{modifiedSince:s}}"" != lo.Source.ChangedDate.ToString(""s""))
-                {{
-                    return Invalid(new {{ message =""Your If-Modified-Since header is out of date""}});
-                }}
+                @"        
+                if ($""{modifiedSince:s}"" != lo.Source.ChangedDate.ToString(""s""))
+                {
+                    return Invalid(new { message =""Your If-Modified-Since header is out of date""});
+                }
                 
                 if (etag?.Tag != lo.Version)
-                {{
-                    return Invalid(new {{ message =""Your If-Match header is out of date""}});
-                }}
+                {
+                    return Invalid(new { message =""Your If-Match header is out of date""});
+                }
                 ");
             return code.ToString();
         }
@@ -239,8 +238,8 @@ namespace Bespoke.Sph.Domain
                 put.AttributeCollection.Add(authorize);
 
 
-            var body = new MethodArg { Name = "body", Type = typeof(string) };
-            body.AttributeCollection.Add("[RawBody]");
+            var body = new MethodArg { Name = "item", TypeName = Entity};
+            body.AttributeCollection.Add("[FromBody]");
             put.ArgumentCollection.Add(body);
             put.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string), Default = "null" });
 
@@ -252,28 +251,14 @@ namespace Bespoke.Sph.Domain
 
             put.AppendLine(
                 $@"
-            var repos = ObjectBuilder.GetObject<IRepository<{ed.Name}>>();
-            var item = await repos.LoadOneAsync(id);
-            var baru = null == item;
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var persistentItem = await repos.LoadOneAsync(id);
+            var baru = null == persistentItem;
             if(baru)
             {{
-                item = body.DeserializeFromJson<{ed.Name}>();
                 if (!string.IsNullOrWhiteSpace(item.Id))
                     item.Id = id ?? System.Guid.NewGuid().ToString();
-            }}
-            else
-            {{
-                var jo = JObject.Parse(body);
-            ");
-
-            foreach (var path in this.PatchPathCollection)
-            {
-                var member = ed.GetMember(path.Path);
-                if (null == member) throw new InvalidOperationException($"Cannot find member with path {path}");
-                put.AppendLine($"            item.{path.Path} = jo.SelectToken(\"$.{path}\").Value<{member.GetMemberTypeName()}>();");
-            }
-            put.AppendLine(@"
-            }");
+            }}");
 
             var rules = GenerateRulesCode();
             if (!string.IsNullOrWhiteSpace(rules))
@@ -302,7 +287,7 @@ namespace Bespoke.Sph.Domain
                                 }}
                             }};
             if(baru) return Created( result._link.href, result);
-            return Ok(result);");
+            return Accepted(result);");
 
             return put;
         }
@@ -389,7 +374,7 @@ namespace Bespoke.Sph.Domain
         private string GetEntityDefinitionCode(EntityDefinition ed)
         {
             var code = new StringBuilder();
-            code.AppendLine($"var context = new SphDataContext();");
+            code.AppendLine("var context = new SphDataContext();");
             code.AppendLine($"var ed = CacheManager.Get<EntityDefinition>(\"{ed.Id}\");");
             code.AppendLine("if(null == ed)");
             code.AppendLine("{");

@@ -176,10 +176,8 @@ namespace domain.test.entities
                 bs.Configuration = new HttpConfiguration();
 
                 var awaiter = (Task<IHttpActionResult>)action.Invoke(controller, new object[] { patient });
-                var response = await awaiter;
-                var contentProperty = response.GetType().GetProperty("Content");
-                var content = contentProperty.GetValue(response);
-                var json = JObject.Parse(JsonConvert.SerializeObject(content));
+                var response =(AcceptedResult) await awaiter;
+                var json = JObject.Parse(JsonConvert.SerializeObject(response.Result));
 
                 var id = json.SelectToken("$.id").Value<string>();
                 var location = json.SelectToken("$._links.href").Value<string>();
@@ -187,11 +185,10 @@ namespace domain.test.entities
 
 
                 // check header location
-                var locProperty = response.GetType().GetProperty("Location");
-                Assert.Equal(location, locProperty.GetValue(response).ToString());
+                Assert.Equal(location, response.LocationUri.ToString());
 
-                // 201
-                Assert.Contains("Created", response.GetType().FullName);
+                // 202
+                Assert.Contains("Accepted", response.GetType().FullName);
             }
             catch (ReflectionTypeLoadException e)
             {
