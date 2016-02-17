@@ -15,271 +15,302 @@
 </div>
 
 <div class="row">
-    <form name="entity-operation-detail-form" id="entity-operation-detail-form" class="form-horizontal" data-bind="with : operation">
-
-        <div class="form-group">
-            <label for="name" class="col-md-2 control-label">Name</label>
-            <div class="col-md-6">
-                <input type="text" data-bind="value: Name"
-                       required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
-                       placeholder="Operation name"
-                       class="form-control" id="name">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="operation-route" class="col-lg-2 control-label">Route</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: Route, tooltip:'Route is used by web API controller for your URL, it must be lowercase and can only contains digits or a -'"
-                       pattern="^(~\/)?[a-z{][a-z0-9-{}\/:\(\)]*$"
-                       placeholder="Custom route for your operation, if you leave it blank the default is your operations name in lower case"
-                       class="form-control" id="operation-route">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="operation-route" class="col-lg-2 control-label">Resource</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: Resource, tooltip:'Resource is used to create the Route prefix if your Route is not absolute, normally takes the Entity Plural value'"
-                       pattern="^[a-z-][a-z0-9-]*$"
-                       required
-                       placeholder="Resource is name is required, this is used to group a related resource together for you links"
-                       class="form-control" id="operation-resource">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="endpoint-note" class="col-lg-2 control-label">Note</label>
-            <div class="col-lg-6">
-                <textarea class="form-control" id="endpoint-note" placeholder="Developers Note"></textarea>
-            </div>
-        </div>
-        <h3>HTTP Verbs for Web API</h3>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-6">
-                <div class="checkbox">
-                    <label>
-                        <input data-bind="checked: IsHttpPut" id="IsHttpPut" type="checkbox" name="IsHttpPut" />
-                        HTTP PUT
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-6">
-                <div class="checkbox">
-                    <label>
-                        <input data-bind="checked: IsHttpPost" id="http-post" type="checkbox" name="IsHttpPost" />
-                        HTTP POST
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-6">
-                <div class="checkbox">
-                    <label>
-                        <input data-bind="checked: IsHttpDelete" id="http-delete" type="checkbox" name="IsHttpDelete" />
-                        HTTP DELETE
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-6">
-                <div class="checkbox">
-                    <label>
-                        <input data-bind="checked: IsHttpPatch" id="http-patch" type="checkbox" name="IsHttpPatch" />
-                        HTTP PATCH
-                    </label>
-                </div>
-            </div>
-        </div>
+    <div class="col-md-8 col-sm-12">
+        <form name="entity-operation-detail-form" id="entity-operation-detail-form" class="form-horizontal" data-bind="with : operation">
 
 
-        <div class="form-group" data-bind="visible:IsHttpPatch">
-            <label class="col-md-2">Patch Setters</label>
-            <div class="col-md-9">
-
-                <table id="" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Path</th>
-                            <th>Required</th>
-                            <th>Default Value</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: PatchPathCollection">
-                        <tr>
-                            <td>
-                                <input class="input-setter-path form-control" type="text" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" />
-                            </td>
-                            <td>
-                                <input type="checkbox" class="checkbox-inline" data-bind="checked:IsRequired" />
-                            </td>
-                            <td>
-                                <input type="text" class="form-control" data-bind="value:DefaultValue, disable:IsRequired" />
-                            </td>
-                            <td>
-                                <a href="#" data-bind="click : $parent.removePatchPath.call($parent, $data)"><i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <a class="btn btn-link" data-bind="click: addPatchPath">
-                    <i class="fa fa-plus-circle"></i>
-                    Add a Patch Path
-                </a>
-            </div>
-        </div>
-
-        <h3>Conflict Detection </h3>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-6">
-                <div class="checkbox">
-                    <label>
-                        <input data-bind="checked: IsConflictDetectionEnabled" id="conflict-detection" type="checkbox" name="IsConflictDetectionEnabled" />
-                        Enable conflict detection with <code>if-match</code> and <code>if-modified-since</code> header
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <h3>Business Rules</h3>
-
-        <div class="form-group">
-            <label class="col-md-2">Rules</label>
-            <div class="col-md-6">
-                <ul data-bind="foreach :$root.entity().BusinessRuleCollection" class="nav">
-                    <li class="checkbox">
+            <h3>HTTP Verbs for Web API</h3>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <div class="checkbox">
                         <label>
-                            <input type="checkbox" data-bind="checked : $root.operation().Rules, value: Name" />
-                            <!-- ko text : Name -->
-                            <!-- /ko -->
-
+                            <input data-bind="checked: IsHttpPut" id="IsHttpPut" type="checkbox" name="IsHttpPut" />
+                            HTTP PUT
                         </label>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
-        <h3>SECURITY</h3>
-        <!-- ko with : Performer-->
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <div class="checkbox">
-                    <label>
-                        <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
-                        Is Public
-                    </label>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="performer-property" class="col-sm-2 control-label">User Property</label>
-            <div class="col-sm-6">
-                <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
-                    <option value="">[Please Select]</option>
-                    <option value="Everybody">Everybody</option>
-                    <option value="Roles">Roles</option>
-                    <option value="UserName">UserName</option>
-                </select>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsHttpPost" id="http-post" type="checkbox" name="IsHttpPost" />
+                            HTTP POST
+                        </label>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="performer-value" class="col-sm-2 control-label">Value</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:ko.unwrap(IsPublic) || ko.unwrap(UserProperty) === 'Everybody'" />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsHttpDelete" id="http-delete" type="checkbox" name="IsHttpDelete" />
+                            HTTP DELETE
+                        </label>
+                    </div>
+                </div>
             </div>
-        </div>
-        <!-- /ko-->
 
-        <h3>FIELDS VALUE</h3>
-        <div class="form-group">
-            <label class="col-md-2">Field setters</label>
-            <div class="col-md-9">
-
-                <table id="setter-action-table" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Path</th>
-                            <th>Value</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: SetterActionChildCollection">
-                        <tr>
-                            <td>
-                                <input class="input-setter-path form-control" type="text" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="setter-action-child-path" />
-                            </td>
-                            <td>
-
-                                <div class="btn-group">
-
-                                    <a data-bind="with : Field, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
-                                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
-                                        <!-- ko text : Name -->
-                                        <!-- /ko -->
-                                        <i class="fa fa-caret-down pull-right"></i>
-                                    </a>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsHttpPatch" id="http-patch" type="checkbox" name="IsHttpPatch" />
+                            HTTP PATCH
+                        </label>
+                    </div>
+                </div>
+            </div>
 
 
-                                    <ul class="dropdown-menu">
-                                        <li data-bind="with : Field">
-                                            <a class="btn-add-setter-field" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent,$data)">
-                                                <i class="fa fa-edit"></i>
-                                                Edit Field
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField, field : 'Document', accessor : $data.Field, entity : $root.entity().Id()" href="#">
-                                                <img src="/images/DocumentField.png" class="pull-left" />
-                                                Document Field
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">
-                                                <img src="/images/ConstantField.png" class="pull-left" />
+            <div class="form-group" data-bind="visible:IsHttpPatch">
+                <label class="col-md-2">Patch Setters</label>
+                <div class="col-md-9">
 
-                                                Constant Field
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">
-                                                <img src="/images/FunctionField.png" class="pull-left" />
-                                                Function Field
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="btn-add-assembly-field" data-bind="unwrapClick: addField,field : 'Assembly', accessor : $data.Field" href="#">
-                                                <img src="/images/AssemblyField.png" class="pull-left" />
-                                                Assembly Field
-                                            </a>
-                                        </li>
+                    <table id="" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Path</th>
+                                <th>Required</th>
+                                <th>Default Value</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: PatchPathCollection">
+                            <tr>
+                                <td>
+                                    <input class="input-setter-path form-control" type="text" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" />
+                                </td>
+                                <td>
+                                    <input type="checkbox" class="checkbox-inline" data-bind="checked:IsRequired" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" data-bind="value:DefaultValue, disable:IsRequired" />
+                                </td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removePatchPath.call($parent, $data)"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                                    </ul>
+                    <a class="btn btn-link" data-bind="click: addPatchPath">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a Patch Path
+                    </a>
+                </div>
+            </div>
+
+            <h3>Conflict Detection </h3>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsConflictDetectionEnabled" id="conflict-detection" type="checkbox" name="IsConflictDetectionEnabled" />
+                            Enable conflict detection with <code>if-match</code> and <code>if-modified-since</code> header
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <h3>FIELDS VALUE</h3>
+            <div class="form-group">
+                <label class="col-md-2">Field setters</label>
+                <div class="col-md-9">
+
+                    <table id="setter-action-table" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Path</th>
+                                <th>Value</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: SetterActionChildCollection">
+                            <tr>
+                                <td>
+                                    <input class="input-setter-path form-control" type="text" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="setter-action-child-path" />
+                                </td>
+                                <td>
+
+                                    <div class="btn-group">
+
+                                        <a data-bind="with : Field, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                            <!-- ko text : Name -->
+                                            <!-- /ko -->
+                                            <i class="fa fa-caret-down pull-right"></i>
+                                        </a>
+
+
+                                        <ul class="dropdown-menu">
+                                            <li data-bind="with : Field">
+                                                <a class="btn-add-setter-field" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent,$data)">
+                                                    <i class="fa fa-edit"></i>
+                                                    Edit Field
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField, field : 'Document', accessor : $data.Field, entity : $root.entity().Id()" href="#">
+                                                    <img src="/images/DocumentField.png" class="pull-left" />
+                                                    Document Field
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">
+                                                    <img src="/images/ConstantField.png" class="pull-left" />
+
+                                                    Constant Field
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">
+                                                    <img src="/images/FunctionField.png" class="pull-left" />
+                                                    Function Field
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-assembly-field" data-bind="unwrapClick: addField,field : 'Assembly', accessor : $data.Field" href="#">
+                                                    <img src="/images/AssemblyField.png" class="pull-left" />
+                                                    Assembly Field
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removeChildAction.call($parent, $data)"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <a class="btn btn-link" data-bind="click: addChildAction">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a field
+                    </a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#oe-general" data-toggle="tab">General</a>
+                </li>
+                <li>
+                    <a href="#oe-rules" data-toggle="tab">Business Rules</a>
+                </li>
+                <li>
+                    <a href="#oe-security" data-toggle="tab">Security</a>
+                </li>
+            </ul>
+            <div class="tab-content" data-bind="with : operation">
+                <div id="oe-general" class="tab-pane active">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="name" class="col-md-3 control-label">Name</label>
+                            <div class="col-md-9">
+                                <input type="text" data-bind="value: Name"
+                                       required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                       placeholder="Operation name"
+                                       class="form-control" id="name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="operation-route" class="col-md-3 control-label">Route</label>
+                            <div class="col-md-9">
+                                <input type="text" data-bind="value: Route, tooltip:'Route is used by web API controller for your URL, it must be lowercase and can only contains digits or a -'"
+                                       pattern="^(~\/)?[a-z{][a-z0-9-{}\/:\(\)]*$"
+                                       placeholder="Custom route for your operation, if you leave it blank the default is your operations name in lower case"
+                                       class="form-control" id="operation-route">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="operation-route" class="col-md-3 control-label">Resource</label>
+                            <div class="col-md-9">
+                                <input type="text" data-bind="value: Resource, tooltip:'Resource is used to create the Route prefix if your Route is not absolute, normally takes the Entity Plural value'"
+                                       pattern="^[a-z-][a-z0-9-]*$"
+                                       required
+                                       placeholder="Resource is name is required, this is used to group a related resource together for you links"
+                                       class="form-control" id="operation-resource">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="endpoint-note" class="col-md-3 control-label">Note</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="endpoint-note" placeholder="Developers Note"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="oe-rules" class="tab-pane">
+                    <form class="form-horizontal" role="form">
+
+                        <div class="form-group">
+                            <label class="col-md-3">Rules</label>
+                            <div class="col-md-9">
+                                <ul data-bind="foreach :$root.entity().BusinessRuleCollection" class="nav">
+                                    <li class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-bind="checked : $root.operation().Rules, value: Name" />
+                                            <!-- ko text : Name -->
+                                            <!-- /ko -->
+
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div id="oe-security" class="tab-pane" data-bind="with : Performer">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+                                        Is Public
+                                    </label>
                                 </div>
-                            </td>
-                            <td>
-                                <a href="#" data-bind="click : $parent.removeChildAction.call($parent, $data)"><i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="performer-property" class="col-md-3 control-label">User Property</label>
+                            <div class="col-md-9">
+                                <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
+                                    <option value="">[Please Select]</option>
+                                    <option value="Everybody">Everybody</option>
+                                    <option value="Roles">Roles</option>
+                                    <option value="UserName">UserName</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="performer-value" class="col-md-3 control-label">Value</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:ko.unwrap(IsPublic) || ko.unwrap(UserProperty) === 'Everybody'" />
+                            </div>
+                        </div>
+                    </form>
 
-                <a class="btn btn-link" data-bind="click: addChildAction">
-                    <i class="fa fa-plus-circle"></i>
-                    Add a field
-                </a>
+                </div>
+             
+
             </div>
         </div>
-
-    </form>
+    </div>
 </div>
 
 <div class="row" style="height: 200px;"></div>
