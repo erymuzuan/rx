@@ -143,7 +143,7 @@
                 <div class="checkbox">
                     <label>
                         <input data-bind="checked: IsConflictDetectionEnabled" id="conflict-detection" type="checkbox" name="IsConflictDetectionEnabled" />
-                        Enable conflict detection with <code>if-none-match</code> and <code>if-modified-since</code> header
+                        Enable conflict detection with <code>if-match</code> and <code>if-modified-since</code> header
                     </label>
                 </div>
             </div>
@@ -166,22 +166,40 @@
                 </ul>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-2">Permisssions</label>
-            <div class="col-md-6">
-                <ul data-bind="foreach :$root.roles" class="nav">
-                    <li class="checkbox">
-                        <label>
-                            <input type="checkbox" data-bind="checked : $root.operation().Permissions, value:$data" />
-                            <!-- ko text : $data -->
-                            <!-- /ko -->
 
-                        </label>
-                    </li>
-                </ul>
+
+        <h3>SECURITY</h3>
+        <!-- ko with : Performer-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+                        Is Public
+                    </label>
+                </div>
             </div>
         </div>
+        <div class="form-group">
+            <label for="performer-property" class="col-sm-2 control-label">User Property</label>
+            <div class="col-sm-6">
+                <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
+                    <option value="">[Please Select]</option>
+                    <option value="Everybody">Everybody</option>
+                    <option value="Roles">Roles</option>
+                    <option value="UserName">UserName</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="performer-value" class="col-sm-2 control-label">Value</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:ko.unwrap(IsPublic) || ko.unwrap(UserProperty) === 'Everybody'" />
+            </div>
+        </div>
+        <!-- /ko-->
 
+        <h3>FIELDS VALUE</h3>
         <div class="form-group">
             <label class="col-md-2">Field setters</label>
             <div class="col-md-9">

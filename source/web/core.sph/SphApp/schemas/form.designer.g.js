@@ -1395,11 +1395,12 @@ bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
         Entity: ko.observable(""),
         Resource: ko.observable(""),
         IsPublished: ko.observable(false),
+        IsConflictDetectionEnabled: ko.observable(false),
         EntityPermissionCollection: ko.observableArray([]),
         Rules: ko.observableArray([]),
-        Permissions: ko.observableArray([]),
         SetterActionChildCollection: ko.observableArray([]),
         PatchPathCollection: ko.observableArray([]),
+        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2162,6 +2163,160 @@ bespoke.sph.domain.BusinessRuleEndpoint = function (optionOrWebid) {
 
     if (bespoke.sph.domain.BusinessRuleEndpointPartial) {
         return _(model).extend(new bespoke.sph.domain.BusinessRuleEndpointPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ServiceContractSetting = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ServiceContractSetting, domain.sph",
+        ResourceEndpointSetting: ko.observable(new bespoke.sph.domain.ResourceEndpointSetting()),
+        OdataEndpoint: ko.observable(new bespoke.sph.domain.OdataEndpoint()),
+        SearchEndpointSetting: ko.observable(new bespoke.sph.domain.SearchEndpointSetting()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ServiceContractSettingPartial) {
+        return _(model).extend(new bespoke.sph.domain.ServiceContractSettingPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ResourceEndpointSetting = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ResourceEndpointSetting, domain.sph",
+        CachingSetting: ko.observable(new bespoke.sph.domain.CachingSetting()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ResourceEndpointSettingPartial) {
+        return _(model).extend(new bespoke.sph.domain.ResourceEndpointSettingPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.SearchEndpointSetting = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.SearchEndpointSetting, domain.sph",
+        CachingSetting: ko.observable(new bespoke.sph.domain.CachingSetting()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SearchEndpointSettingPartial) {
+        return _(model).extend(new bespoke.sph.domain.SearchEndpointSettingPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.OdataEndpointSetting = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.OdataEndpointSetting, domain.sph",
+        CachingSetting: ko.observable(new bespoke.sph.domain.CachingSetting()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.OdataEndpointSettingPartial) {
+        return _(model).extend(new bespoke.sph.domain.OdataEndpointSettingPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.CachingSetting = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+        CacheControl: ko.observable(""),
+        NoStore: ko.observable(false),
+        Expires: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CachingSettingPartial) {
+        return _(model).extend(new bespoke.sph.domain.CachingSettingPartial(model));
     }
     return model;
 };

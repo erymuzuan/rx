@@ -22,27 +22,14 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException($"Fail to initialize MEF for {nameof(QueryEndpoint)}.BuildDiagnostics");
 
             var result = new BuildValidationResult();
-            var errors = new ObjectCollection<BuildError>();
-            var everybody = this.Permissions.Contains("Everybody");
-            var anonymous = this.Permissions.Contains("Anonymous");
-            var roles = this.Permissions.Any(s => s != "Everybody" && s != "Anonymous");
-            if (everybody && anonymous)
-                errors.Add(new BuildError(this.WebId, $"[Operation] \"{this.Name}\" cannot have anonymous and everybody at the same time"));
-
-            if (everybody && roles)
-                errors.Add(new BuildError(this.WebId, $"[Operation] \"{this.Name}\" cannot have everybody and other roles at the same time"));
-
-            if (anonymous && roles)
-                errors.Add(new BuildError(this.WebId, $"[Operation] \"{this.Name}\" cannot have anonymous and other role set at the same time"));
 
             var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this, ed));
-            var errors2 = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray());
+            var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray());
 
             var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this, ed));
             var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x.ToArray());
 
             result.Errors.AddRange(errors);
-            result.Errors.AddRange(errors2);
             result.Warnings.AddRange(warnings);
 
 
@@ -58,7 +45,7 @@ namespace Bespoke.Sph.Domain
             post.AttributeCollection.Add("[HttpPost]");
             post.AttributeCollection.Add($"[Route(\"{Route}\")]");
 
-            var authorize = GenerateAuthorizeAttribute();
+            var authorize = this.Performer.GenerateAuthorizationAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
                 post.AttributeCollection.Add(authorize);
 
@@ -110,7 +97,7 @@ namespace Bespoke.Sph.Domain
             patch.AttributeCollection.Add("[HttpPatch]");
             patch.AttributeCollection.Add($"[Route(\"{Route}\")]");
 
-            var authorize = GenerateAuthorizeAttribute();
+            var authorize = this.Performer.GenerateAuthorizationAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
                 patch.AttributeCollection.Add(authorize);
 
@@ -233,7 +220,7 @@ namespace Bespoke.Sph.Domain
             put.AttributeCollection.Add("[HttpPut]");
             put.AttributeCollection.Add($"[Route(\"{route}\")]");
 
-            var authorize = GenerateAuthorizeAttribute();
+            var authorize = this.Performer.GenerateAuthorizationAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
                 put.AttributeCollection.Add(authorize);
 
@@ -304,7 +291,7 @@ namespace Bespoke.Sph.Domain
             delete.AttributeCollection.Add($"[Route(\"{route}{{id}}\")]");
             delete.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string) });
 
-            var authorize = GenerateAuthorizeAttribute();
+            var authorize = this.Performer.GenerateAuthorizationAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
                 delete.AttributeCollection.Add(authorize);
 
@@ -418,20 +405,6 @@ namespace Bespoke.Sph.Domain
         [XmlIgnore]
         public IBuildDiagnostics[] BuildDiagnostics { get; set; }
 
-        private string GenerateAuthorizeAttribute()
-        {
-            var code = new StringBuilder();
-            var everybody = this.Permissions.Contains("Everybody");
-            var anonymous = this.Permissions.Contains("Anonymous");
-            if (everybody)
-                code.AppendLine("       [Authorize]");
-
-            if (!everybody && !anonymous &&
-                string.Join(",", this.Permissions.Where(s => s != "Everybody" && s != "Anonymous")).Length > 0)
-                code.AppendLinf("       [Authorize(Roles=\"{0}\")]",
-                    string.Join(",", this.Permissions.Where(s => s != "Everybody" && s != "Anonymous")));
-            return code.ToString();
-        }
 
         [JsonIgnore]
         string IEntityDefinitionAsset.Icon { get; } = "fa fa-cloud-upload";

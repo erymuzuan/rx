@@ -677,13 +677,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="Permissions">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Permission" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="SetterActionChildCollection">
 					<xs:complexType>
 						<xs:sequence>
@@ -698,6 +691,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="Performer"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="optional"/>

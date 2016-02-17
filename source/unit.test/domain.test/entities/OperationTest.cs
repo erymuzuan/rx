@@ -150,8 +150,11 @@ namespace domain.test.entities
                 WebId = "abc",
                 Id = "patient-register"
             };
-            endpoint.Permissions.AddRange(roles.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
-
+            endpoint.Performer = new Performer
+            {
+                UserProperty = "Roles",
+                Value = roles
+            };
             endpoint.AddRules("VerifyRegisteredDate");
 
             var ed = this.CreatePatientDefinition(endpoint.Entity);

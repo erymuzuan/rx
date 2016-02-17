@@ -5029,12 +5029,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        public ObjectCollection<string> Permissions { get; } = new ObjectCollection<string>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
         public ObjectCollection<SetterActionChild> SetterActionChildCollection { get; } = new ObjectCollection<SetterActionChild>();
 
 
@@ -5043,6 +5037,23 @@ namespace Bespoke.Sph.Domain
         ///</summary>
         public ObjectCollection<PatchSetter> PatchPathCollection { get; } = new ObjectCollection<PatchSetter>();
 
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Performer m_performer
+                = new Performer();
+
+        public const string PropertyNamePerformer = "Performer";
+        [DebuggerHidden]
+
+        public Performer Performer
+        {
+            get { return m_performer; }
+            set
+            {
+                m_performer = value;
+                OnPropertyChanged();
+            }
+        }
 
         ///<summary>
         /// 
