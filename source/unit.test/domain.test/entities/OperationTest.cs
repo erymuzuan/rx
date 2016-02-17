@@ -206,6 +206,9 @@ namespace domain.test.entities
         public async Task HttpPatchReleaseOperation()
         {
             var ed = this.CreatePatientDefinition("PatientForRelease");
+            var patient = this.CreateInstance(ed, true);
+            Assert.NotNull(patient);
+            
 
             var release = new OperationEndpoint { Name = "Release", Entity = ed.Name, Resource = "patients", IsHttpPatch = true, WebId = "ReleaseWithPatch" };
             release.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Released\"" });
@@ -215,8 +218,6 @@ namespace domain.test.entities
             var cr = await release.CompileAsync(ed);
             Assert.True(cr.Result, cr.ToString());
 
-            var patient = this.CreateInstance(ed, true);
-            Assert.NotNull(patient);
 
             var dll = Assembly.LoadFrom(cr.Output);
             var controllerType = dll.GetType($"{release.CodeNamespace}.{release.Name}Controller");
@@ -287,8 +288,12 @@ namespace domain.test.entities
         [Trait("Verb", "DELETE")]
         public async Task HttpDelete()
         {
-            var delete = new OperationEndpoint { Name = "Remove", Entity = "PatientDelete", Route = "", IsHttpDelete = true, WebId = "remove" };
             var ed = this.CreatePatientDefinition("PatientDelete");
+            var patient = this.CreateInstance(ed);
+            Assert.NotNull(patient);
+            
+            var delete = new OperationEndpoint { Name = "Remove", Entity = ed.Name, Route = "", IsHttpDelete = true, WebId = "remove" };
+         
 
             var cr = await delete.CompileAsync(ed);
             Assert.True(cr.Result, cr.ToString());

@@ -435,8 +435,9 @@ namespace Bespoke.Sph.Domain
 
         [JsonIgnore]
         string IEntityDefinitionAsset.Icon { get; } = "fa fa-cloud-upload";
+
         [JsonIgnore]
-        string IEntityDefinitionAsset.Url { get; } = "operation.endpoint.designer/{id}";
+        string IEntityDefinitionAsset.Url => $"operation.endpoint.designer/{Id}";
 
         public void AddRules(string rule)
         {

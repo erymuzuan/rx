@@ -16,6 +16,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             roles = ko.observableArray(),
             operation = ko.observable(new bespoke.sph.domain.OperationEndpoint()),
             isBusy = ko.observable(false),
+            suggetRoute = function(enable) {
+                if (!enable) {
+                    return;
+                }
+                if (ko.unwrap(operation().Route)) {
+                    return;
+                }
+                var route = "{id:guid}/actions/" + ko.unwrap(operation().Name);
+                operation().Route(route.toLocaleLowerCase());
+            },
             activate = function (id) {
                 if (!roles().length) {
                     roles(config.allRoles);
@@ -27,6 +37,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return context.loadOneAsync("OperationEndpoint", query)
                     .then(function (o) {
                         operation(o);
+                        o.IsHttpPut.subscribe(suggetRoute);
+                        o.IsHttpPatch.subscribe(suggetRoute);
                         return context.loadOneAsync("EntityDefinition", "Name eq '" + ko.unwrap(o.Entity) + "'");
                     }).then(function (e) {
                         entity(e);
