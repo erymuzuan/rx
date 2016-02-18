@@ -114,6 +114,18 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
+        public Task<WorkflowCompilerResult> CompileAsync()
+        {
+
+            var options = new CompilerOptions();
+            options.AddReference($@"{ConfigurationManager.WebPath}\bin\webapi.common.dll");
+            options.AddReference(typeof(JsonConvert));
+            options.AddReference(typeof(IHttpActionResult));
+            options.AddReference(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter));
+
+            var cr = this.Compile(options);
+            return Task.FromResult(cr);
+        }
 
         public WorkflowCompilerResult Compile(CompilerOptions options)
         {
@@ -159,6 +171,10 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(RoutePrefixAttribute).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Polly.Context).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(JsonConvert).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(IHttpActionResult).Assembly.Location);
+                options.AddReference(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\webapi.common.dll"));
+
 
                 this.ReferencedAssemblyCollection
                     .Select(u => $"{ConfigurationManager.CompilerOutputPath}\\{Path.GetFileName(u.Location)}")
