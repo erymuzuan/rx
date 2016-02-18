@@ -172,13 +172,14 @@ namespace Bespoke.Sph.Domain
             var @controller = new Class
             {
                 Name = $"{this.WorkflowTypeName}Controller",
-                BaseClass = "Controller",
+                BaseClass = "BaseApiController",
                 FileName = this.WorkflowTypeName + "Controller.cs",
                 Namespace = this.CodeNamespace,
                 IsPartial = true
             };
-            @controller.ImportCollection.Add("System.Web.Mvc");
+            @controller.ImportCollection.Add("System.Web.Http");
             @controller.ImportCollection.Add("System.Net.Http");
+            @controller.ImportCollection.Add("Bespoke.Sph.WebApi");
             @controller.ImportCollection.Add(typeof(Exception).Namespace);
             @controller.ImportCollection.Add(typeof(DomainObject).Namespace);
             @controller.ImportCollection.Add(typeof(Task<>).Namespace);
@@ -199,21 +200,18 @@ namespace Bespoke.Sph.Domain
             // custom schema
             code.AppendLine("       [HttpGet]");
             code.AppendLine("       [Route(\"schemas\")]");
-            code.AppendLinf("       public async Task<ActionResult> Schemas()");
+            code.AppendLinf("       public async Task<IHttpActionResult> Schemas()");
             code.AppendLine("       {");
             code.AppendLine("           var store = ObjectBuilder.GetObject<IBinaryStore>();");
             code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}.{1}\");", this.Id, this.Version);
-            code.AppendLine(@"           WorkflowDefinition wd;
+            code.AppendLine(@"           
+            WorkflowDefinition wd;
             using (var stream = new System.IO.MemoryStream(doc.Content))
             {
                 wd = stream.DeserializeFromJson<WorkflowDefinition>();
-            }
-
-                                        ");
-            code.AppendLinf("           var script = await wd.GenerateCustomXsdJavascriptClassAsync();", this.WebId);
-            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
-
-            code.AppendLine("           return Content(script);");
+            }");
+            code.AppendLine("           var script = await wd.GenerateCustomXsdJavascriptClassAsync();");
+            code.AppendLine("           return Javascript(script);");
             code.AppendLine("       }");
 
             return new Method { Code = code.ToString(), Name = "Schemas" };
@@ -251,22 +249,20 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("//exec:Search");
             code.AppendLine("       [HttpPost]");
             code.AppendLine("       [Route(\"search\")]");
-            code.AppendLinf("       public async Task<ActionResult> Search()");
+            code.AppendLinf("       public async Task<IHttpActionResult> Search([RawBody]string json)");
             code.AppendLine("       {");
-            code.AppendLinf(@"
-            var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
+            code.AppendLine($@"
             var request = new StringContent(json);
-            var url = string.Format(""{{0}}/{{1}}/workflow_{0}_{1}/_search"", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex );
+            var url = $""{{ConfigurationManager.ElasticSearchIndex}}/workflow_{Id}_{Version}/_search"";;
 
-            using(var client = new  HttpClient())
+            using(var client = new  HttpClient{{ BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
             {{
                 var response = await client.PostAsync(url, request);
                 var content = response.Content as StreamContent;
 
                 if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-                return Content(await content.ReadAsStringAsync(),""application/json; charset=utf-8"");
-            }}
-            ", this.Id, this.Version);
+                return Json(await content.ReadAsStringAsync());
+            }}");
 
             code.AppendLine("       }");
 
