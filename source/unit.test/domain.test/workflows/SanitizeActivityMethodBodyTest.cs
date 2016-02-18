@@ -1,43 +1,46 @@
 ﻿using Bespoke.Sph.Domain;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
-    [TestFixture]
     public class SanitizeActivityMethodBodyTest
     {
-        [Test]
+        [Fact]
         public void WithException()
         {
             var join = new ThrowExceptionActivity { Name = "TestAct", WebId = "TestAct" };
             var wd = new WorkflowDefinition { Name = "TestActThrow", Version = 0 };
             var code = wd.SanitizeMethodBody(join);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(code));
-            StringAssert.DoesNotContain("async ", code);
-            StringAssert.DoesNotContain("return ", code);
-            StringAssert.DoesNotContain("result ", code);
-            StringAssert.Contains("var now", code);
+            Assert.NotNull(code);
+            Assert.NotEmpty(code);
+
+            Assert.DoesNotContain("async ", code);
+            Assert.DoesNotContain("return ", code);
+            Assert.DoesNotContain("result ", code);
+            Assert.Contains("var now", code);
         }
 
-        [Test]
+        [Fact]
         public void NormalResult()
         {
             var join = new NormalCodeActivity { Name = "TestAct", WebId = "TestAct" };
             var wd = new WorkflowDefinition { Name = "TestActThrow", Version = 0 };
             var code = wd.SanitizeMethodBody(join);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(code));
-            StringAssert.DoesNotContain("async ", code);
-            StringAssert.Contains("return Task.FromResult(result);", code);
+            Assert.NotNull(code);
+            Assert.NotEmpty(code);
+
+            Assert.DoesNotContain("async ", code);
+            Assert.Contains("return Task.FromResult(result);", code);
         }
-        [Test]
+        [Fact]
         public void NormalAsyncResult()
         {
             var join = new NormalCodeActivity { Name = "TestAct", WebId = "TestAct", IsAsyncMethod = true };
             var wd = new WorkflowDefinition { Name = "TestActThrow", Version = 0 };
             var code = wd.SanitizeMethodBody(join);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(code));
-            StringAssert.Contains("async ", code);
-            StringAssert.Contains("return result;", code);
+            Assert.NotNull(code);
+            Assert.Contains("async ", code);
+            Assert.Contains("return result;", code);
         }
 
         class NormalCodeActivity : Activity

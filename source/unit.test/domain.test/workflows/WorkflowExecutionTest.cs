@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
-    [TestFixture]
     public class WorkflowExecutionTest : WorkflowTestBase
     {
 
-        [Test]
-        public void TriggerSchedule()
+        [Fact]
+        public async Task TriggerSchedule()
         {
             var wd = this.Create("Wf503");
             wd.ActivityCollection.Add(new ScheduledTriggerActivity
@@ -35,13 +34,13 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(send);
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
-            var result = this.Compile(wd, true);
+            var result =await this.CompileAsync(wd, true);
             var wf = this.CreateInstance(wd, result.Output);
-            Assert.IsNotNull(wf);
+            Assert.NotNull(wf);
         }
 
 
-        [Test]
+        [Fact]
         public async Task Listen()
         {
             var wd = this.Create("Wf502");
@@ -76,15 +75,15 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(scree2);
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
-            var result = this.Compile(wd, true);
+            var result = await this.CompileAsync(wd, true);
             var wf = this.CreateInstance(wd, result.Output);
             await wf.StartAsync();
 
             var resultA = await wf.ExecuteAsync("_A_");
-            Assert.AreEqual(new[] { "_B_" }, resultA.NextActivities);
+            Assert.Equal(new[] { "_B_" }, resultA.NextActivities);
         }
 
-        [Test]
+        [Fact]
         public async Task CompileAndRun()
         {
             var wd = this.Create("Wf500");
@@ -160,17 +159,17 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_D_", Name = "habis" });
 
-            var compilerResult = this.Compile(wd);
+            var compilerResult = await this.CompileAsync(wd);
             var wf = this.CreateInstance(wd, compilerResult.Output);
             var execResult = await wf.StartAsync();
             Console.WriteLine(wf);
-            Assert.AreEqual(new[] { "_B_" }, execResult.NextActivities);
+            Assert.Equal(new[] { "_B_" }, execResult.NextActivities);
 
 
 
         }
 
-        [Test]
+        [Fact]
         public async Task EmailFieldExpression()
         {
             var wd = this.Create("Wf501");
@@ -208,11 +207,11 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_END_", Name = "habis" });
 
-            var compile = this.Compile(wd, true);
+            var compile =await this.CompileAsync(wd, true);
             var wf = this.CreateInstance(wd, compile.Output);
             var execResult = await wf.StartAsync();
             Console.WriteLine(execResult);
-            Assert.AreEqual(new[] { "_EMAIL_" }, execResult.NextActivities);
+            Assert.Equal(new[] { "_EMAIL_" }, execResult.NextActivities);
 
 
 

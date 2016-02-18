@@ -3,20 +3,19 @@ using System.IO;
 using System.Linq;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
-    [TestFixture]
     public class ExecuteActivitySortTest
     {
-        [Test]
+        [Fact]
         public void Sort()
         {
             var json = File.ReadAllText(@"c:\project\work\sph\source\unit.test\domain.test\workflows\tracker.json");
             var tracker = JsonConvert.DeserializeObject<Tracker>(json);
-            Assert.IsNotNull(tracker);
-            Assert.AreEqual(6, tracker.ExecutedActivityCollection.Count);
+            Assert.NotNull(tracker);
+            Assert.Equal(6, tracker.ExecutedActivityCollection.Count);
        
             Console.WriteLine("{0}{1}{2}", "Name".PadRight(35), "Initiated".PadRight(20), "Run".PadRight(20));
         
@@ -37,10 +36,10 @@ namespace domain.test.workflows
 
         }
 
-        [Test]
+        [Fact]
         public void SortDate()
         {
-            Assert.AreEqual(1, DateTime.Now.CompareTo(DateTime.Now.AddMilliseconds(-5)));
+            Assert.Equal(1, DateTime.Now.CompareTo(DateTime.Now.AddMilliseconds(-5)));
             
         }
     }

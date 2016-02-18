@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
 using NUnit.Framework;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace domain.test.workflows
 {
     public class DelayActivityExecutionTest : WorkflowTestBase
     {
-        [Test]
+        [Fact]
         public async Task DelayInit()
         {
             var scheduledTask = new List<string>();
@@ -23,21 +25,21 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new ScreenActivity { Name = "Start isi borang", IsInitiator = true, WebId = "A", NextActivityWebId = "B" });
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
-            var result = this.Compile(wd);
+            var result = await this.CompileAsync(wd);
             dynamic wf = this.CreateInstance(wd, result.Output);
             await wf.StartAsync();
 
             var resultA = await wf.ExecuteAsync("A");
-            CollectionAssert.Contains(resultA.NextActivities, "B");
+            Assert.Contains(resultA.NextActivities, "B");
 
             var initB = await wf.InitiateAsyncWaitDelayAsync();//this.GetType().Name, name, unique)
-            Assert.IsNotNullOrEmpty(initB.Correlation);
+            Assert.NotEmpty(initB.Correlation);
             CollectionAssert.Contains(scheduledTask, "Wait Delay");
 
 
         }
 
-        [Test]
+        [Fact]
         public async Task DelayExecute()
         {
             var scheduledTask = new List<string>();
@@ -51,7 +53,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new ScreenActivity { Name = "Start isi borang", IsInitiator = true, WebId = "A", NextActivityWebId = "B" });
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
-            var result = this.Compile(wd);
+            var result =await this.CompileAsync(wd);
             dynamic wf = this.CreateInstance(wd, result.Output);
             await wf.StartAsync();
 
@@ -59,7 +61,7 @@ namespace domain.test.workflows
             CollectionAssert.Contains(resultA.NextActivities, "B");
 
             var initB = await wf.InitiateAsyncWaitDelayAsync();//this.GetType().Name, name, unique
-            Assert.IsNotNullOrEmpty(initB.Correlation);
+            Assert.NotEmpty(initB.Correlation);
             CollectionAssert.Contains(scheduledTask, "Wait Delay");
 
 

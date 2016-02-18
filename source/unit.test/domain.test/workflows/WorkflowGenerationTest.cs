@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
 using Newtonsoft.Json;
-using NUnit.Framework;
+using Xunit;
+
 
 namespace domain.test.workflows
 {
-    [TestFixture]
     public class WorkflowGenerationTest
     {
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
 
-        [SetUp]
+        [Fact]
         public void Init()
         {
             var doc = new BinaryStore
@@ -28,7 +28,7 @@ namespace domain.test.workflows
             ObjectBuilder.AddCacheList(store.Object);
         }
 
-        [Test]
+        [Fact]
         public void GenerateVariableWithDefaultValues()
         {
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "permohonan-tanah-wakaf", SchemaStoreId = m_schemaStoreId };
@@ -51,12 +51,12 @@ namespace domain.test.workflows
             {
                 Console.WriteLine(e.Message);
             }
-            Assert.IsTrue(result.Result);
-            StringAssert.Contains("public class Vehicle", code);
+            Assert.True(result.Result);
+            Assert.Contains("public class Vehicle", code);
 
         }
 
-        [Test]
+        [Fact]
         public void GenerateCsharpClasses()
         {
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "permohonan-tanah-wakaf", SchemaStoreId = m_schemaStoreId };
@@ -72,11 +72,11 @@ namespace domain.test.workflows
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll"));
 
             var code = wd.GenerateXsdCsharpClasses();
-            Assert.IsNotNull(code.SingleOrDefault(x => x.Name == "Vehicle"));
+            Assert.NotNull(code.SingleOrDefault(x => x.Name == "Vehicle"));
 
         }
 
-        [Test]
+        [Fact]
         public async Task GenerateJavascriptClasses()
         {
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "permohonan-tanah-wakaf", SchemaStoreId = m_schemaStoreId };
@@ -92,14 +92,14 @@ namespace domain.test.workflows
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll"));
 
             var script = await wd.GenerateCustomXsdJavascriptClassAsync();
-            Assert.IsNotNull(script);
-            StringAssert.Contains("bespoke.sph.wf.PermohonanTanahWakafWorkflow.Vehicle", script);
+            Assert.NotNull(script);
+            Assert.Contains("bespoke.sph.wf.PermohonanTanahWakafWorkflow.Vehicle", script);
             Console.WriteLine(script);
 
 
         }
 
-        [Test]
+        [Fact]
         public void Compile()
         {
 
@@ -137,21 +137,21 @@ namespace domain.test.workflows
 
             var result = wd.Compile(options);
             result.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(result.Result);
-            Assert.IsTrue(File.Exists(result.Output), "assembly " + result.Output);
+            Assert.True(result.Result);
+            Assert.True(File.Exists(result.Output), "assembly " + result.Output);
 
             var view = apply.GetView(wd);
-            Assert.IsNotNull(view);
+            Assert.NotNull(view);
 
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(result.Output);
-            var wfTypeName = string.Format("{0}.{1}", wd.CodeNamespace, wd.WorkflowTypeName);
+            var wfTypeName = $"{wd.CodeNamespace}.{wd.WorkflowTypeName}";
 
             var wfType = assembly.GetType(wfTypeName);
-            Assert.IsNotNull(wfType, wfTypeName + " is null");
+            Assert.NotNull(wfType);
 
             var wf = Activator.CreateInstance(wfType) as Entity;
-            Assert.IsNotNull(wf);
+            Assert.NotNull(wf);
 
         }
     }

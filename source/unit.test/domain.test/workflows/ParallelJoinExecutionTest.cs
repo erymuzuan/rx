@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
@@ -55,45 +55,45 @@ namespace domain.test.workflows
 
         }
 
-        [Test]
+        [Fact]
         public async Task Join()
         {
             var wd = this.CreateParallelAndJoinWorkflow();
             var br = wd.ValidateBuild();
             br.Errors.ForEach(Console.WriteLine);
 
-            Assert.IsTrue(br.Result);
-            var result = this.Compile(wd);
+            Assert.True(br.Result);
+            var result =await this.CompileAsync(wd);
             var wf = this.CreateInstance(wd, result.Output);
             await wf.StartAsync();
 
             var resultB = await wf.ExecuteAsync("_B_");
-            Assert.IsNotNull(resultB);
-            Assert.AreEqual(new[] { "C0", "C1" }, resultB.NextActivities);
+            Assert.NotNull(resultB);
+            Assert.Equal(new[] { "C0", "C1" }, resultB.NextActivities);
 
             // when 1st of the predessor fired, it should initiate the Join to wait for others
             var resultC0 = await wf.ExecuteAsync("C0");
-            Assert.IsNotNull(resultC0);
-            Assert.AreEqual(new[] { "D" }, resultC0.NextActivities);
+            Assert.NotNull(resultC0);
+            Assert.Equal(new[] { "D" }, resultC0.NextActivities);
 
             // fire C0
             var tracker = await wf.GetTrackerAsync();
-            Assert.IsNotNull(tracker);
-            Assert.IsTrue(tracker.WaitingJoinList.ContainsKey("D"));
-            Assert.AreEqual(new[] { "C0", "C1" }, tracker.WaitingJoinList["D"].ToArray());
-            Assert.IsTrue(tracker.FiredJoinList.ContainsKey("D"));
-            Assert.AreEqual(new[] { "C0" }, tracker.FiredJoinList["D"].ToArray());
+            Assert.NotNull(tracker);
+            Assert.True(tracker.WaitingJoinList.ContainsKey("D"));
+            Assert.Equal(new[] { "C0", "C1" }, tracker.WaitingJoinList["D"].ToArray());
+            Assert.True(tracker.FiredJoinList.ContainsKey("D"));
+            Assert.Equal(new[] { "C0" }, tracker.FiredJoinList["D"].ToArray());
 
             await Task.Delay(500);
             // now execute C1
             var resultC1 = await wf.ExecuteAsync("C1");
-            Assert.IsNotNull(resultC1);
-            Assert.AreEqual(new[] { "D" }, resultC1.NextActivities);
-            CollectionAssert.AreEqual(new[] { "C0", "C1" }, tracker.FiredJoinList["D"].ToArray());
+            Assert.NotNull(resultC1);
+            Assert.Equal(new[] { "D" }, resultC1.NextActivities);
+            Assert.Equal(new[] { "C0", "C1" }, tracker.FiredJoinList["D"].ToArray());
 
         }
 
-        [Test]
+        [Fact]
         public async Task Parallel()
         {
             var wd = this.Create("Wf10");
@@ -119,15 +119,15 @@ namespace domain.test.workflows
             br.Errors.ForEach(Console.WriteLine);
 
 
-            Assert.IsTrue(br.Result);
-            var result = this.Compile(wd, true);
+            Assert.True(br.Result);
+            var result =await this.CompileAsync(wd, true);
             var wf = this.CreateInstance(wd, result.Output);
             await wf.StartAsync();
 
             await Task.Delay(500);
             var resultB = await wf.ExecuteAsync("_B_");
 
-            Assert.IsNotNull(resultB);
+            Assert.NotNull(resultB);
         }
     }
 }

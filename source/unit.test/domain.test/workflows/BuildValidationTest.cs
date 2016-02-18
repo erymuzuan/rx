@@ -1,13 +1,13 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
     public class BuildValidationTest
     {
-        [Test]
+        [Fact]
         public void BuildValidation()
         {
             var wd = new WorkflowDefinition { Name = "3 Is Three" ,SchemaStoreId = Guid.NewGuid().ToString()};
@@ -18,14 +18,14 @@ namespace domain.test.workflows
 
             var result = wd.ValidateBuild();
             Console.WriteLine(result.ToJsonString(Formatting.Indented));
-            Assert.IsFalse(result.Result);
-            Assert.AreEqual(3, result.Errors.Count);
-            Assert.AreEqual("Name must be started with letter.You cannot use symbol or number as first character", result.Errors[0].Message);
-            Assert.AreEqual("[ScreenActivity] : Pohon => 'Nama' does not have path", result.Errors[1].Message);
+            Assert.False(result.Result);
+            Assert.Equal(3, result.Errors.Count);
+            Assert.Equal("Name must be started with letter.You cannot use symbol or number as first character", result.Errors[0].Message);
+            Assert.Equal("[ScreenActivity] : Pohon => 'Nama' does not have path", result.Errors[1].Message);
 
         }
 
-        [Test]
+        [Fact]
         public void BuildValidationMissingWebId()
         {
             var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "123"};
@@ -36,15 +36,15 @@ namespace domain.test.workflows
 
             var result = wd.ValidateBuild();
             Console.WriteLine(result.ToJsonString(Formatting.Indented));
-            Assert.IsFalse(result.Result);
-            Assert.AreEqual(2, result.Errors.Count);
-            StringAssert.Contains("Missing webid", result.Errors[0].ToString());
+            Assert.False(result.Result);
+            Assert.Equal(2, result.Errors.Count);
+            Assert.Contains("Missing webid", result.Errors[0].ToString());
 
         }
 
 
 
-        [Test]
+        [Fact]
         public void BuildValidationDuplicateWebId()
         {
             var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "123"};
@@ -56,9 +56,9 @@ namespace domain.test.workflows
 
             var result = wd.ValidateBuild();
             Console.WriteLine(result.ToJsonString());
-            Assert.IsFalse(result.Result);
-            Assert.AreEqual(2, result.Errors.Count);
-            StringAssert.Contains("Duplicate webid", result.Errors[0].ToString());
+            Assert.False(result.Result);
+            Assert.Equal(2, result.Errors.Count);
+            Assert.Contains("Duplicate webid", result.Errors[0].ToString());
 
         }
 

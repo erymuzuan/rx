@@ -280,13 +280,13 @@ namespace Bespoke.Sph.Domain
             var vm = new Class { Name = ViewModelType, Namespace = wd.CodeNamespace, FileName = ViewModelType + ".cs" };
             vm.AddNamespaceImport(typeof(ScreenActivity));
 
-            vm.AddProperty("       public {0} Instance {{get;set;}}", wd.WorkflowTypeName);
-            vm.AddProperty("       public WorkflowDefinition WorkflowDefinition {{get;set;}}");
-            vm.AddProperty("       public ScreenActivity Screen {{get;set;}}");
-            vm.AddProperty("       public string Controller {{get;set;}}");
-            vm.AddProperty("       public string Namespace {{get;set;}}");
-            vm.AddProperty("       public string SaveAction {{get;set;}}");
-            vm.AddProperty("       public string Correlation {{get;set;}}");
+            vm.AddProperty($"       public {wd.WorkflowTypeName} Instance {{get;set;}}");
+            vm.AddProperty("       public WorkflowDefinition WorkflowDefinition {get;set;}");
+            vm.AddProperty("       public ScreenActivity Screen {get;set;}");
+            vm.AddProperty("       public string Controller {get;set;}");
+            vm.AddProperty("       public string Namespace {get;set;}");
+            vm.AddProperty("       public string SaveAction {get;set;}");
+            vm.AddProperty("       public string Correlation {get;set;}");
             @classes.Add(vm);
             @classes.Add(controller);
 

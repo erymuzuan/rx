@@ -4,17 +4,15 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using domain.test.reports;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
-    [TestFixture]
     public class WorkflowCreateEntityTest
     {
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
 
-        [SetUp]
-        public void Init()
+        public WorkflowCreateEntityTest()
         {
             var doc = new BinaryStore
             {
@@ -50,7 +48,7 @@ namespace domain.test.workflows
         }
 
 
-        [Test]
+        [Fact]
         public void Compile()
         {
 

@@ -113,12 +113,13 @@ namespace Bespoke.Sph.Domain
                 FileName = this.Name + "Controller.cs",
                 Namespace = wd.CodeNamespace,
                 IsPartial = true,
-                BaseClass = "ApiController"
+                BaseClass = "BaseApiController"
             };
             controller.ImportCollection.Add("System.Web.Http");
             controller.ImportCollection.Add("System.Net");
             controller.ImportCollection.Add("System.Net.Http");
             controller.ImportCollection.Add("System.Net.Http.Formatting");
+            controller.ImportCollection.Add("Bespoke.Sph.WebApi");
             controller.ImportCollection.Add(typeof(Exception).Namespace);
             controller.ImportCollection.Add(typeof(DomainObject).Namespace);
             controller.ImportCollection.Add(typeof(Task<>).Namespace);
@@ -135,8 +136,8 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLinf("//exec:{0}", this.WebId);
             code.AppendLine("       [HttpPost]");
-            code.AppendLinf("       [Route(\"{0}\")]", this.Operation.ToIdFormat());
-            code.AppendLine("       public async Task<HttpResponseMessage> " + this.Operation + "([FromBody]" + vt.FullName + " " + variable.Name + ")");
+            code.AppendLine($"      [Route(\"{{correlationId}}{this.Operation.ToIdFormat()}\")]");
+            code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([RawBody]string json, [FromUri]string correlationId)");
             code.AppendLine("       {");
             if (this.FollowingCorrelationSetCollection.Count == 0 && this.IsInitiator)
             {
@@ -152,8 +153,10 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine(this.GenerateCanExecuteCode());
 
+            //JsonConvert.DeserializeObject()
             code.AppendLine();
-            code.AppendLinf("           var result = await wf.{0}Async({1});", this.Name, variable.Name);
+            code.AppendLine($"           var @message = JsonConvert.DeserializeObject<{vt.FullName}>(json);");
+            code.AppendLinf($"           var result = await wf.{Name}Async(@message);");
             code.AppendLinf("           await wf.SaveAsync(\"{0}\", result);", this.WebId);
             // any business rules?            
             code.AppendLine("           var  response = Request.CreateResponse(HttpStatusCode.Accepted, new {success = true, status=\"OK\"} );");
@@ -196,7 +199,7 @@ namespace Bespoke.Sph.Domain
                 var cors = this.CorrelationPropertyCollection.Where(x => x.Name == c1);
                 var valExpression = cors.Select(x => "string.Format(\"{0}\"," + x.Path + ")").ToArray();
 
-                code.AppendLinf("           var cval = string.Join(\";\",new []{{{0}}});", string.Join(",", valExpression));
+                code.AppendLinf("           var cval = string.Join(\";\",new string[]{{{0}}});", string.Join(",", valExpression));
                 code.AppendFormat(@"  
             var url = ConfigurationManager.ElasticSearchIndex + ""/correlationset/"";
             

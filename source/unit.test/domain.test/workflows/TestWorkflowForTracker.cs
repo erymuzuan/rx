@@ -6,7 +6,7 @@ namespace domain.test.workflows
 {
     public class TestWorkflowForTracker : Workflow
     {
-        public async override Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)
+        public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)
         {
             var result = new ActivityExecutionResult
             {

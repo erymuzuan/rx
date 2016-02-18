@@ -11,19 +11,17 @@ using Bespoke.Sph.RoslynScriptEngines;
 using Bespoke.Sph.Templating;
 using domain.test.reports;
 using Moq;
-using Newtonsoft.Json;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
     public class WorkflowTestBase
     {
-        protected Mock<IBinaryStore> BinaryStore { get; private set; }
+        protected Mock<IBinaryStore> BinaryStore { get; }
 
         
-
-        [SetUp]
-        public virtual void Init()
+        
+        public WorkflowTestBase()
         {
             var trackerRepos = new MockRepository<Tracker>();
             trackerRepos.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.Tracker]", new Tracker());
@@ -99,49 +97,37 @@ namespace domain.test.workflows
             return wd;
         }
 
-        protected WorkflowCompilerResult Compile(WorkflowDefinition wd, bool verbose = false, bool
+        protected async Task<WorkflowCompilerResult> CompileAsync(WorkflowDefinition wd, bool verbose = false, bool
             assertError = true)
         {
             this.BinaryStore.Setup(x => x.GetContent("wd-storeid"))
                .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)), Id = "wd-storeid" });
 
             wd.Version = 25;
-            var options = new CompilerOptions
-            {
-                IsDebug = true,
-                SourceCodeDirectory = @"c:\temp\sph",
-                IsVerbose = verbose
-            };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-
-
-            var result = wd.Compile(options);
-            result.Errors.ForEach(Console.WriteLine);
+            var compilerResult =await wd.CompileAsync();
+            compilerResult.Errors.ForEach(Console.WriteLine);
             if (assertError)
-                Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+                Assert.True(compilerResult.Result, compilerResult.ToString());
 
-            return result;
+            return compilerResult;
         }
 
         protected Workflow CreateInstance(WorkflowDefinition wd, string dll)
         {
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(dll);
-            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.Id, wd.Version,
-                wd.WorkflowTypeName);
+            var wfTypeName = $"Bespoke.Sph.Workflows_{wd.Id}_{wd.Version}.{wd.WorkflowTypeName}";
 
             var wfType = assembly.GetType(wfTypeName);
-            Assert.IsNotNull(wfType, wfTypeName + " is null");
+            Assert.NotNull(wfType);
 
             var wf = Activator.CreateInstance(wfType) as Workflow;
-            Assert.IsNotNull(wf);
+            Assert. NotNull(wf);
 
             wf.SerializedDefinitionStoreId = "wd-storeid";
 
             var pemohonProperty = wf.GetType().GetProperty("pemohon");
-            Assert.IsNotNull(pemohonProperty);
+            Assert.NotNull(pemohonProperty);
             dynamic pemohon = pemohonProperty.GetValue(wf);
             pemohon.Age = 28;
 
