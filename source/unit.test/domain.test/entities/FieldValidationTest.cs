@@ -1,28 +1,28 @@
 ﻿using Bespoke.Sph.Domain;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.entities
 {
-    [TestFixture]
+    
     public class FieldValidationTest
     {
-        [Test]
+        [Fact]
         public void ValidateExpression()
         {
             var fv = new FieldValidation
             {
                 Max = 42.5f
             };
-            StringAssert.AreEqualIgnoringCase(" data-rule-max=\"42.5\"\r\n", fv.GetHtmlAttributes());
+            Assert.Equal(" data-rule-max=\"42.5\"\r\n", fv.GetHtmlAttributes());
         }
-        [Test]
+        [Fact]
         public void ValidateMinExpression()
         {
             var fv = new FieldValidation
             {
                 Min = 42.5f
             };
-            StringAssert.AreEqualIgnoringCase(" data-rule-min=\"42.5\"\r\n", fv.GetHtmlAttributes());
+            Assert.NotStrictEqual(" data-rule-min=\"42.5\"\r\n", fv.GetHtmlAttributes());
         }
     }
 }

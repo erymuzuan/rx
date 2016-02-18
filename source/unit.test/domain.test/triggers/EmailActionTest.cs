@@ -1,18 +1,17 @@
 ﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.triggers
 {
-    [TestFixture]
-    class EmailActionTest
+
+    public class EmailActionTest
     {
-        [SetUp]
-        public void Init()
+        public EmailActionTest()
         {
-           ObjectBuilder.AddCacheList<ILogger>(new Logger()); 
+            ObjectBuilder.AddCacheList<ILogger>(new Logger());
         }
-        [Test]
+        [Fact]
         public async Task Email()
         {
             var customer = this.GetCustomerInstance();
@@ -26,13 +25,13 @@ namespace domain.test.triggers
                 BodyTemplate = "What ever"
             };
             if (email.UseAsync)
-              await  email.ExecuteAsync(new RuleContext(customer));
+                await email.ExecuteAsync(new RuleContext(customer));
             else
                 email.Execute(new RuleContext(customer));
 
 
         }
-        [Test]
+        [Fact]
         public async Task EmailWithModel()
         {
             var customer = this.GetCustomerInstance();
@@ -41,7 +40,7 @@ namespace domain.test.triggers
             ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEngine());
             CustomAction email = new EmailAction
             {
-                To ="@Model.Email" ,
+                To = "@Model.Email",
                 SubjectTemplate = "test @Model.FullName",
                 From = "admin@bespoke.com.my",
                 BodyTemplate = "What ever"

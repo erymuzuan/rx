@@ -2,17 +2,18 @@
 using Bespoke.Sph.RoslynScriptEngines;
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.Sph.Domain;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.reports
 {
-    [TestFixture]
+    
     public class SqlCompileTestFixture
     {
         private SqlDataSource m_sql;
-        [SetUp]
-        public void Init()
+
+        public SqlCompileTestFixture()
         {
+            
             m_sql = new SqlDataSource();
             ObjectBuilder.AddCacheList<IReportDataSource>(m_sql);
 
@@ -20,7 +21,7 @@ namespace domain.test.reports
             ObjectBuilder.AddCacheList<IScriptEngine>(roslyn);
         }
 
-        [Test]
+        [Fact]
         public void CompileWithFilter()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -35,10 +36,10 @@ namespace domain.test.reports
             source.ReportFilterCollection.Add(filter);
 
             var sql = compiler.Compile(source);
-            Assert.AreEqual("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] = 'Bukit Bunga'", sql);
+            Assert.Equal("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] = 'Bukit Bunga'", sql);
         }
 
-        [Test]
+        [Fact]
         public void CompileWithSubstringofFilter()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -53,11 +54,11 @@ namespace domain.test.reports
             source.ReportFilterCollection.Add(filter);
 
             var sql = compiler.Compile(source);
-            Assert.AreEqual("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] LIKE '%' + 'Bukit Bunga' + '%'", sql);
+            Assert.Equal("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] LIKE '%' + 'Bukit Bunga' + '%'", sql);
         }
 
 
-        [Test]
+        [Fact]
         public void CompileWithSubstringofFilterAndParameter()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -78,10 +79,10 @@ namespace domain.test.reports
             source.ReportFilterCollection.Add(filter);
 
             var sql = compiler.Compile(source);
-            Assert.AreEqual("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] LIKE '%' + @Location + '%'", sql);
+            Assert.Equal("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] LIKE '%' + @Location + '%'", sql);
         }
 
-        [Test]
+        [Fact]
         public void CompileWithSubstringofFilterAndExpression()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -102,11 +103,11 @@ namespace domain.test.reports
             source.ReportFilterCollection.Add(filter);
 
             var sql = compiler.Compile(source);
-            Assert.AreEqual("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] LIKE '%' + '" + DateTime.Today.ToString("s") + "' + '%'", sql);
+            Assert.Equal("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] LIKE '%' + '" + DateTime.Today.ToString("s") + "' + '%'", sql);
         }
 
 
-        [Test]
+        [Fact]
         public void CompileWithOrderAndFilter()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -121,10 +122,10 @@ namespace domain.test.reports
             source.ReportFilterCollection.Add(filter);
 
             var sql = compiler.Compile(source);
-            Assert.AreEqual("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] = 'Bukit Bunga' ORDER BY [Location] DESC, [LandId] DESC", sql);
+            Assert.Equal("SELECT [LandId], [Json]  FROM [Dev].[Land] WHERE [Location] = 'Bukit Bunga' ORDER BY [Location] DESC, [LandId] DESC", sql);
         }
 
-        [Test]
+        [Fact]
         public void CompileGroup()
         {
 
@@ -137,10 +138,10 @@ namespace domain.test.reports
             source.EntityFieldCollection.Add(id);
 
             var sql = compiler.Compile(source);
-            Assert.AreEqual("SELECT COUNT([LandId]) AS LandId_COUNT , [Location] FROM [Dev].[Land]  GROUP BY [Location]", sql);
+            Assert.Equal("SELECT COUNT([LandId]) AS LandId_COUNT , [Location] FROM [Dev].[Land]  GROUP BY [Location]", sql);
         }
 
-        [Test]
+        [Fact]
         public void Compile2ColumsGroup()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -153,7 +154,7 @@ namespace domain.test.reports
             source.EntityFieldCollection.Add(id);
 
             var sql = compiler.Compile(source);
-            Assert.AreEqual("SELECT COUNT([LandId]) AS LandId_COUNT , [Location], [LotNo] FROM [Dev].[Land]  GROUP BY [Location], [LotNo]", sql);
+            Assert.Equal("SELECT COUNT([LandId]) AS LandId_COUNT , [Location], [LotNo] FROM [Dev].[Land]  GROUP BY [Location], [LotNo]", sql);
         }
 
 

@@ -4,20 +4,19 @@ using System.IO;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.businessrules
 {
-    [TestFixture]
+    
     public class BusinessRuleTest
     {
-        [SetUp]
-        public void Setup()
+        public BusinessRuleTest()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
         }
 
-        [Test]
+        [Fact]
         public void SimpleRule()
         {
             var ed = this.CreatePatientDefinition();
@@ -40,13 +39,13 @@ namespace domain.test.businessrules
                 Console.WriteLine(error);
             }
             Console.WriteLine(result.ValidationErrors);
-            Assert.IsTrue(result.Success);
+            Assert.True(result.Success);
 
-            Assert.AreEqual(0, result.ValidationErrors.Count);
+            Assert.Equal(0, result.ValidationErrors.Count);
 
 
         }
-        [Test]
+        [Fact]
         public void SimpleRuleWithFilter()
         {
             var ed = this.CreatePatientDefinition();
@@ -77,14 +76,14 @@ namespace domain.test.businessrules
                 Console.WriteLine(error);
             }
             Console.WriteLine(result.ValidationErrors);
-            Assert.IsTrue(result.Success);
+            Assert.True(result.Success);
 
-            Assert.AreEqual(0, result.ValidationErrors.Count);
+            Assert.Equal(0, result.ValidationErrors.Count);
 
 
         }
 
-        [Test]
+        [Fact]
         public void SimpleRuleWithFilterNotEvaluated()
         {
             var ed = this.CreatePatientDefinition();
@@ -115,13 +114,13 @@ namespace domain.test.businessrules
                 Console.WriteLine(error);
             }
             Console.WriteLine(result.ValidationErrors);
-            Assert.IsTrue(result.Success);
+            Assert.True(result.Success);
 
-            Assert.AreEqual(0, result.ValidationErrors.Count);
+            Assert.Equal(0, result.ValidationErrors.Count);
 
 
         }
-        [Test]
+        [Fact]
         public void SimpleRuleWithoutFilter()
         {
             var ed = this.CreatePatientDefinition();
@@ -140,15 +139,15 @@ namespace domain.test.businessrules
             ed.BusinessRuleCollection.Add(br);
 
             ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
-            Assert.IsFalse(result.Success);
+            Assert.False(result.Success);
 
-            Assert.AreEqual(1, result.ValidationErrors.Count);
+            Assert.Equal(1, result.ValidationErrors.Count);
 
 
         }
 
 
-        [Test]
+        [Fact]
         public void TwoRulesOneFail()
         {
 
@@ -181,14 +180,14 @@ namespace domain.test.businessrules
 
 
             ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
-            Assert.IsFalse(result.Success);
+            Assert.False(result.Success);
 
-            Assert.AreEqual(1, result.ValidationErrors.Count);
-            Assert.AreEqual(br2.ErrorMessage, result.ValidationErrors[0].Message);
+            Assert.Equal(1, result.ValidationErrors.Count);
+            Assert.Equal(br2.ErrorMessage, result.ValidationErrors[0].Message);
 
 
         }
-        [Test]
+        [Fact]
         public void TwoRulesAllFail()
         {
 
@@ -220,9 +219,9 @@ namespace domain.test.businessrules
 
 
             ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
-            Assert.IsFalse(result.Success);
+            Assert.False(result.Success);
 
-            Assert.AreEqual(2, result.ValidationErrors.Count);
+            Assert.Equal(2, result.ValidationErrors.Count);
 
 
         }
@@ -251,7 +250,7 @@ namespace domain.test.businessrules
             var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
 
             var edType = assembly.GetType(edTypeName);
-            Assert.IsNotNull(edType, edTypeName + " is null");
+            Assert.NotNull(edType);
 
             return Activator.CreateInstance(edType);
         }

@@ -5,23 +5,22 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.SqlReportDataSource;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.reports
 {
-    [TestFixture]
+    
     public class ReportColumnsTestFixture
     {
-        private MockRepository<EntityDefinition> m_efMock;
+        private readonly MockRepository<EntityDefinition> m_efMock;
 
-        [SetUp]
-        public void Init()
+        public ReportColumnsTestFixture()
         {
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
         }
-        [Test]
+        [Fact]
         public async Task GetColumns()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
@@ -55,9 +54,9 @@ namespace domain.test.reports
                 .Where(x => x.IsFilterable)
                 .Select(x => x.Name).ToArray();
 
-            CollectionAssert.Contains(columns, "Name2");
-            CollectionAssert.Contains(columns, "Address.State");
-            CollectionAssert.DoesNotContain(columns, "Title");
+            Assert.Contains( "Name2", columns);
+            Assert.Contains("Address.State", columns);
+            Assert.DoesNotContain("Title", columns);
 
         }
     }

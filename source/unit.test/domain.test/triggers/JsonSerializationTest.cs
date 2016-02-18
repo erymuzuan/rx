@@ -2,30 +2,30 @@
 using System.IO;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
-using NUnit.Framework;
+using Xunit;
 using Newtonsoft.Json;
 
 namespace domain.test.triggers
 {
-    [TestFixture]
-    class JsonSerializationTest
+    
+    public class JsonSerializationTest
     {
 
-        [Test]
+        [Fact]
         public void TrrigerWithAction()
         {
             var json = this.GetTriggerWithActionJson();
             Console.WriteLine(json);
             var trigger = JsonConvert.DeserializeObject<Trigger>(json);
-            Assert.AreEqual(2, trigger.ActionCollection.Count);
+            Assert.Equal(2, trigger.ActionCollection.Count);
         }
-        [Test]
+        [Fact]
         public void TrrigerWithRule()
         {
             var json = this.GetTriggerWithRuleJson();
             Console.WriteLine(json);
             var trigger = JsonConvert.DeserializeObject<Trigger>(json);
-            Assert.AreEqual(1, trigger.RuleCollection.Count);
+            Assert.Equal(1, trigger.RuleCollection.Count);
         }
 
         public string GetTriggerWithRuleJson()
@@ -73,25 +73,25 @@ namespace domain.test.triggers
         }
 
 
-        [Test]
+        [Fact]
         public void Parse()
         {
 
             var json = File.ReadAllText("../../triggers/trigger.json");
 
             var trigger = Trigger.ParseJson(json);
-            Assert.AreEqual("test 0002", trigger.Name);
+            Assert.Equal("test 0002", trigger.Name);
 
-            Assert.IsInstanceOf<DocumentField>(trigger.RuleCollection[0].Left);
+            Assert.IsType<DocumentField>(trigger.RuleCollection[0].Left);
 
             var cf = (ConstantField)trigger.RuleCollection[1].Right;
-            Assert.IsInstanceOf<int>(cf.Value);
+            Assert.IsType<int>(cf.Value);
 
             var cf2 = (ConstantField)trigger.RuleCollection[2].Right;
-            Assert.IsInstanceOf<DateTime>(cf2.Value);
+            Assert.IsType<DateTime>(cf2.Value);
 
             var cf3 = (ConstantField)trigger.RuleCollection[3].Right;
-            Assert.IsInstanceOf<decimal>(cf3.Value);
+            Assert.IsType<decimal>(cf3.Value);
         }
     }
 }

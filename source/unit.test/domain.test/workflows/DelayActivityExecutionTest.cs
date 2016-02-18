@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -34,7 +34,7 @@ namespace domain.test.workflows
 
             var initB = await wf.InitiateAsyncWaitDelayAsync();//this.GetType().Name, name, unique)
             Assert.NotEmpty(initB.Correlation);
-            CollectionAssert.Contains(scheduledTask, "Wait Delay");
+            Assert.Contains( "Wait Delay",scheduledTask);
 
 
         }
@@ -58,15 +58,15 @@ namespace domain.test.workflows
             await wf.StartAsync();
 
             var resultA = await wf.ExecuteAsync("A");
-            CollectionAssert.Contains(resultA.NextActivities, "B");
+            Assert.Contains(resultA.NextActivities, "B");
 
             var initB = await wf.InitiateAsyncWaitDelayAsync();//this.GetType().Name, name, unique
             Assert.NotEmpty(initB.Correlation);
-            CollectionAssert.Contains(scheduledTask, "Wait Delay");
+            Assert.Contains( "Wait Delay",scheduledTask);
 
 
             var resultB = await wf.ExecuteAsync("B", initB.Correlation);
-            CollectionAssert.Contains(resultB.NextActivities, "C");
+            Assert.Contains(resultB.NextActivities, "C");
         }
     }
 }

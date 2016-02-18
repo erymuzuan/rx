@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.triggers
 {
-    [TestFixture]
-    class SetterActionTextFixture
+
+    public class SetterActionTextFixture
     {
-        [Test]
+        [Fact]
         public async Task Setter()
         {
             var persistence = new MockPersistence();
@@ -35,8 +35,8 @@ namespace domain.test.triggers
             await setter.ExecuteAsync(new RuleContext(customer));
 
             dynamic item = persistence.ChangedItems.First();
-            Assert.AreEqual("Wan Fatimah Wan Husain", item.FullName);
-            Assert.AreEqual("erymuzuan", item.PrimaryContact);
+            Assert.Equal("Wan Fatimah Wan Husain", item.FullName);
+            Assert.Equal("erymuzuan", item.PrimaryContact);
 
         }
     }

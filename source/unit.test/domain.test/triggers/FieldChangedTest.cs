@@ -1,12 +1,12 @@
 ﻿using Bespoke.Sph.Domain;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.triggers
 {
-    [TestFixture]
+    
     public class FieldChangedTest
     {
-        [Test]
+        [Fact]
         public void GetValueInt()
         {
             var building = new Designation { Name = "A" };
@@ -25,10 +25,10 @@ namespace domain.test.triggers
             };
             var val = fcf.GetValue(new RuleContext(building) { Log = log });
 
-            Assert.AreEqual(4, val);
+            Assert.Equal(4, val);
         }
 
-        [Test]
+        [Fact]
         public void GetValue()
         {
             var building = new Designation { Name = "A" };
@@ -47,7 +47,7 @@ namespace domain.test.triggers
             };
             var val = fcf.GetValue(new RuleContext(building) { Log = log });
 
-            Assert.AreEqual("B", val);
+            Assert.Equal("B", val);
         }
     }
 }

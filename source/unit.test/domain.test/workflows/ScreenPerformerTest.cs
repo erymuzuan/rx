@@ -6,17 +6,17 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
-    [TestFixture]
+
     public class ScreenPerformerTest
     {
-        private Mock<IRepository<UserProfile>> m_usersRepos;
-        private Mock<IDirectoryService> m_ds;
-        [SetUp]
-        public void Init()
+        private readonly Mock<IRepository<UserProfile>> m_usersRepos;
+        private readonly Mock<IDirectoryService> m_ds;
+
+        public ScreenPerformerTest()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
@@ -41,7 +41,7 @@ namespace domain.test.workflows
             ObjectBuilder.AddCacheList(m_usersRepos.Object);
         }
 
-        [Test]
+        [Fact]
         public async Task UserName()
         {
             var screen = new ScreenActivity
@@ -54,11 +54,11 @@ namespace domain.test.workflows
             };
 
             var users = await screen.GetUsersAsync(null);
-            CollectionAssert.Contains(users, "ima");
+            Assert.Contains("ima", users);
 
         }
 
-        [Test]
+        [Fact]
         public async Task UserNameExpression()
         {
             var screen = new ScreenActivity
@@ -71,11 +71,11 @@ namespace domain.test.workflows
             };
             var wf = new TestWf { CurrentUser = "ima" };
             var users = await screen.GetUsersAsync(wf);
-            CollectionAssert.Contains(users, "ima");
+            Assert.Contains("ima", users);
 
         }
 
-        [Test]
+        [Fact]
         public async Task Department()
         {
             // add ima to the list of person in every department
@@ -93,11 +93,11 @@ namespace domain.test.workflows
             };
 
             var users = await screen.GetUsersAsync(null);
-            CollectionAssert.Contains(users, "ima");
+            Assert.Contains("ima", users);
 
         }
 
-        [Test]
+        [Fact]
         public async Task DepartmentExpression()
         {
             {
@@ -116,12 +116,12 @@ namespace domain.test.workflows
                 };
                 var wf = new TestWf { CurrentUser = "ima" };
                 var users = await screen.GetUsersAsync(wf);
-                CollectionAssert.Contains(users, "ima");
+                Assert.Contains("ima", users);
 
             }
 
         }
-        [Test]
+        [Fact]
         public async Task Designation()
         {
             // add ima to the list of person in every department
@@ -139,11 +139,11 @@ namespace domain.test.workflows
             };
 
             var users = await screen.GetUsersAsync(null);
-            CollectionAssert.Contains(users, "ima");
+            Assert.Contains("ima", users);
 
         }
 
-        [Test]
+        [Fact]
         public async Task DesignationExpression()
         {
             {
@@ -162,12 +162,12 @@ namespace domain.test.workflows
                 };
                 var wf = new TestWf { CurrentDesignation = "Kerani" };
                 var users = await screen.GetUsersAsync(wf);
-                CollectionAssert.Contains(users, "imca");
+                Assert.Contains("imca", users);
 
             }
 
         }
-        [Test]
+        [Fact]
         public async Task Roles()
         {
             m_ds.Setup(x => x.GetUserInRolesAsync("admin"))
@@ -183,11 +183,11 @@ namespace domain.test.workflows
             };
 
             var users = await screen.GetUsersAsync(null);
-            CollectionAssert.Contains(users, "ima");
+            Assert.Contains("ima", users);
 
         }
 
-        [Test]
+        [Fact]
         public async Task RolesExpression()
         {
             m_ds.Setup(x => x.GetUserInRolesAsync("admin"))
@@ -202,7 +202,7 @@ namespace domain.test.workflows
             };
             var wf = new TestWf { CurrentRole = "admin" };
             var users = await screen.GetUsersAsync(wf);
-            CollectionAssert.Contains(users, "ima");
+            Assert.Contains("ima", users);
 
 
 

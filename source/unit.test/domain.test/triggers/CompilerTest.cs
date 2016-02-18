@@ -7,38 +7,37 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using domain.test.reports;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.triggers
 {
-    [TestFixture]
-    public class CompilerTest
+    
+    public class CompilerTest : IDisposable
     {
-        private MockRepository<EntityDefinition> m_efMock;
+        private readonly MockRepository<EntityDefinition> m_efMock;
         public const string ENTITY_DEFINITION_ID = "account123";
         public static readonly string JsonFileName = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\account123.json";
 
-        [SetUp]
-        public void Init()
+        public CompilerTest()
         {
+            
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             if (File.Exists(JsonFileName))
                 File.Delete(JsonFileName);
         }
 
-        [Test]
+        [Fact]
         public async Task Compile()
         {
             var ed = this.CreateAccountDefinition();
             var account = this.CreateInstance(ed);
-            Assert.IsNotNull(account);
+            Assert.NotNull(account);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
@@ -61,7 +60,7 @@ namespace domain.test.triggers
             Console.WriteLine(options.SourceCodeDirectory);
             var result = await trigger.CompileAsync(options);
             result.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(result.Result);
+            Assert.True(result.Result);
         }
 
 
@@ -87,7 +86,7 @@ namespace domain.test.triggers
             var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
 
             var edType = assembly.GetType(edTypeName);
-            Assert.IsNotNull(edType, edTypeName + " is null in " + result.Output);
+            Assert.NotNull(edType);
 
             return Activator.CreateInstance(edType);
         }

@@ -4,14 +4,14 @@ using System.IO;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.entities
 {
-    [TestFixture]
+
     public class EntityDefinitionCodeTest
     {
-        [Test]
+        [Fact]
         public void GenerateRootWithDefaultValues()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
@@ -67,24 +67,24 @@ namespace domain.test.entities
             var result = ent.Compile(options, sources);
             result.Errors.ForEach(Console.WriteLine);
 
-            Assert.IsTrue(result.Result, result.ToString());
+            Assert.True(result.Result, result.ToString());
 
             var dll = AppDomain.CurrentDomain.BaseDirectory + "\\" + Path.GetFileName(result.Output);
             File.Copy(result.Output, dll, true);
 
             var assembly = Assembly.LoadFrom(dll);
             var type = assembly.GetType($"{ent.CodeNamespace}.{ent.Name}");
-            Assert.IsNotNull(type, type.FullName + " is null");
+            Assert.NotNull(type);
 
             dynamic lead = Activator.CreateInstance(type);
-            Assert.AreEqual(1, lead.Rating);
-            Assert.AreEqual(DateTime.Parse("2011-05-02"), lead.RegisteredDate);
+            Assert.Equal(1, lead.Rating);
+            Assert.Equal(DateTime.Parse("2011-05-02"), lead.RegisteredDate);
 
 
         }
 
 
-        [Test]
+        [Fact]
         public void GenerateCodeBasic()
         {
             var ent = new EntityDefinition { Name = "BusinessOppurtunity", Plural = "BusinessOppurtunities", RecordName = "Name" };
@@ -121,13 +121,13 @@ namespace domain.test.entities
             var sources = ent.SaveSources(codes);
 
             var result = ent.Compile(options, sources);
-            Assert.IsTrue(result.Result, result.ToString());
+            Assert.True(result.Result, result.ToString());
 
 
         }
 
 
-        [Test]
+        [Fact]
         public void GetMembersPath()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
@@ -157,10 +157,10 @@ namespace domain.test.entities
 
 
             var paths = ent.GetMembersPath();
-            CollectionAssert.Contains(paths, "Name2");
-            CollectionAssert.Contains(paths, "Address.State");
-            CollectionAssert.Contains(paths, "Contacts.Name");
-            CollectionAssert.Contains(paths, "Contacts.Address.State");
+            Assert.Contains("Name2", paths);
+            Assert.Contains("Address.State", paths);
+            Assert.Contains("Contacts.Name", paths);
+            Assert.Contains("Contacts.Address.State", paths);
 
 
         }

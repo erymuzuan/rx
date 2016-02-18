@@ -7,20 +7,19 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using domain.test.reports;
 using Moq;
-using MySql.Data.MySqlClient;
-using NUnit.Framework;
+using Xunit;
 using sqlserver.adapter.test;
 
 namespace domain.test.workflows
 {
-    [TestFixture]
+    
     public class SendActivityTestFixture
     {
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
 
-        public const string MySQL = "Server=localhost;Database=employees;Uid=root;Pwd=";
-        [SetUp]
-        public void Init()
+        public const string MY_SQL = "Server=localhost;Database=employees;Uid=root;Pwd=";
+
+        public SendActivityTestFixture()
         {
             var doc = new BinaryStore
             {
@@ -36,7 +35,7 @@ namespace domain.test.workflows
         }
 
 
-        [Test]
+        [Fact]
         public async Task SendActivityWithInitializingCorrelationSet()
         {
             var trackerRepository = new MockRepository<Tracker>();
@@ -73,7 +72,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(sendToEmployees);
 
             var code = sendToEmployees.GenerateExecMethodBody(wd);
-            StringAssert.Contains("await adapter.InsertAsync(this.staff);", code);
+            Assert.Contains("await adapter.InsertAsync(this.staff);", code);
 
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
             File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll", true);
@@ -85,7 +84,7 @@ namespace domain.test.workflows
 
             var cr = wd.Compile(options);
             cr.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(cr.Result);
+            Assert.True(cr.Result);
 
             var wfDll = Assembly.LoadFile(cr.Output);
             dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_MysqlInsertEmployeeCrs_0.MysqlInsertEmployeeCrsWorkflow"));
@@ -100,16 +99,16 @@ namespace domain.test.workflows
             wf.WorkflowDefinition = wd;
             wf.Id = Guid.NewGuid().ToString();
 
-            await MySQL.ExecuteMySqlNonQueryAsync("DELETE FROM `employees` WHERE `emp_no` = 784528");
+            await MY_SQL.ExecuteMySqlNonQueryAsync("DELETE FROM `employees` WHERE `emp_no` = 784528");
 
-            Assert.IsNotNull(wf.staff);
+            Assert.NotNull(wf.staff);
             await wf.StartAsync();
         }
 
 
 
 
-        [Test]
+        [Fact]
         public async Task Compile()
         {
 
@@ -133,7 +132,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(sendToEmployees);
 
             var code = sendToEmployees.GenerateExecMethodBody(wd);
-            StringAssert.Contains("await adapter.InsertAsync(this.staff);", code);
+            Assert.Contains("await adapter.InsertAsync(this.staff);", code);
 
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
             File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\DevV1.MySqlSampleTest001.dll", true);
@@ -145,7 +144,7 @@ namespace domain.test.workflows
 
             var cr = wd.Compile(options);
             cr.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(cr.Result);
+            Assert.True(cr.Result);
 
             var wfDll = Assembly.LoadFile(cr.Output);
             dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_MysqlInsertEmployee_0.MysqlInsertEmployeeWorkflow"));
@@ -159,16 +158,16 @@ namespace domain.test.workflows
             wf.staff.hire_date = new DateTime(1995, 5, 21);
 
 
-            await MySQL.ExecuteMySqlNonQueryAsync("DELETE FROM `employees` WHERE `emp_no` = 784528");
+            await MY_SQL.ExecuteMySqlNonQueryAsync("DELETE FROM `employees` WHERE `emp_no` = 784528");
 
-            Assert.IsNotNull(wf.staff);
+            Assert.NotNull(wf.staff);
             await wf.StartAsync();
         }
 
 
 
-        [Test]
-        [ExpectedException(typeof(MySqlException))]
+        [Fact]
+        //[ExpectedException(typeof(MySqlException))]
         public async Task CompileWithRetry()
         {
 
@@ -201,7 +200,7 @@ namespace domain.test.workflows
             sendToEmployees.ExceptionFilterCollection.Add(filter);
 
             var code = sendToEmployees.GenerateExecMethodBody(wd);
-            StringAssert.Contains("await adapter.InsertAsync(this.staff);", code);
+            Assert.Contains("await adapter.InsertAsync(this.staff);", code);
 
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
             File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll", true);
@@ -215,7 +214,7 @@ namespace domain.test.workflows
 
             var cr = wd.Compile(options);
             cr.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(cr.Result);
+            Assert.True(cr.Result);
 
             var wfDll = Assembly.LoadFile(cr.Output);
             dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_MysqlInsertEmployee_0.MysqlInsertEmployeeWorkflow"));
@@ -228,7 +227,7 @@ namespace domain.test.workflows
             wf.staff.birth_date = new DateTime(1970, 2, 1);
             wf.staff.hire_date = new DateTime(1995, 5, 21);
 
-            Assert.IsNotNull(wf.staff);
+            Assert.NotNull(wf.staff);
 
             await wf.StartAsync();
         }

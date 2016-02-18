@@ -3,17 +3,16 @@ using Bespoke.Sph.RoslynScriptEngines;
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.Sph.Domain;
 using domain.test.triggers;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.reports
 {
-    [TestFixture]
+    
     public class FilterValueTestFixture
     {
         private SqlDataSource m_sql;
 
-        [SetUp]
-        public void Init()
+        public FilterValueTestFixture()
         {
             m_sql = new SqlDataSource();
             ObjectBuilder.AddCacheList<IReportDataSource>(m_sql);
@@ -24,26 +23,26 @@ namespace domain.test.reports
         }
 
 
-        [Test]
+        [Fact]
         public void GetEqFilterOperator()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
             var filter = new ReportFilter { FieldName = "Location", Operator = "Eq", Value = "@Location" };
             var op = compiler.GetFilterOperator(filter);
-            Assert.AreEqual("=", op);
+            Assert.Equal("=", op);
 
 
         }
-        [Test]
+        [Fact]
         public void GetSubstringOfFilterOperator()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
             var filter = new ReportFilter { FieldName = "Location", Operator = "Substringof", Value = "@Location" };
             var op = compiler.GetFilterOperator(filter);
-            Assert.AreEqual("LIKE '%' + {0} + '%'", op);
+            Assert.Equal("LIKE '%' + {0} + '%'", op);
         }
 
-        [Test]
+        [Fact]
         public void GetGeFilterOperator()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -54,12 +53,12 @@ namespace domain.test.reports
                 Value = "@Size"
             };
             var op = compiler.GetFilterOperator(filter);
-            Assert.AreEqual(">=", op);
+            Assert.Equal(">=", op);
         }
 
 
 
-        [Test]
+        [Fact]
         public void GetFilterValueFromParameter()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -71,11 +70,11 @@ namespace domain.test.reports
                 Value = "@Location"
             };
             var op = compiler.GetFilterValue(filter);
-            Assert.AreEqual("@Location", op);
+            Assert.Equal("@Location", op);
 
         }
 
-        [Test]
+        [Fact]
         public void GetFilterValueFromConstantString()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -87,21 +86,21 @@ namespace domain.test.reports
                 Value = "Kelantan"
             };
             var op = compiler.GetFilterValue(filter);
-            Assert.AreEqual("'Kelantan'", op);
+            Assert.Equal("'Kelantan'", op);
 
         }
 
-        [Test]
+        [Fact]
         public void GetFilterValueFromConstantBoolean()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
             var filter = new ReportFilter { FieldName = "IsActive", Type = typeof(bool), Operator = "Eq", Value = "false" };
             var val = compiler.GetFilterValue(filter);
-            Assert.AreEqual("0", val);
+            Assert.Equal("0", val);
 
         }
 
-        [Test]
+        [Fact]
         public void GetFilterValueFromConstantDateTime()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -113,11 +112,11 @@ namespace domain.test.reports
                 Value = "2012-01-01"
             };
             var op = compiler.GetFilterValue(filter);
-            Assert.AreEqual("'2012-01-01'", op);
+            Assert.Equal("'2012-01-01'", op);
 
         }
 
-        [Test]
+        [Fact]
         public void GetFilterValueFromExpressionDateTime()
         {
             var compiler = new SqlCompiler(new ReportDefinition());
@@ -129,11 +128,11 @@ namespace domain.test.reports
                 Value = "=DateTime.Today"
             };
             var op = compiler.GetFilterValue(filter);
-            Assert.AreEqual(string.Format("'{0:s}'", DateTime.Today), op);
+            Assert.Equal(string.Format("'{0:s}'", DateTime.Today), op);
 
         }
 
-        [Test]
+        [Fact]
         public void GetFilterValueFromExpressionBoolean()
         {
 
@@ -146,11 +145,11 @@ namespace domain.test.reports
                 Value = "=DateTime.Today.DayOfWeek == DayOfWeek.Friday"
             };
             var op = compiler.GetFilterValue(filter);
-            Assert.AreEqual(DateTime.Today.DayOfWeek == DayOfWeek.Friday ? "1" : "0", op);
+            Assert.Equal(DateTime.Today.DayOfWeek == DayOfWeek.Friday ? "1" : "0", op);
 
         }
 
-        [Test]
+        [Fact]
         public void GetFilterValueFromExpressionString()
         {
 
@@ -163,7 +162,7 @@ namespace domain.test.reports
                 Value = "=@Today.DayOfWeek +  \"-\" + @UserName"
             };
             var op = compiler.GetFilterValue(filter);
-            Assert.AreEqual(string.Format("'{0}'", DateTime.Today.DayOfWeek + "-" + new MockLdap().CurrentUserName), op);
+            Assert.Equal(string.Format("'{0}'", DateTime.Today.DayOfWeek + "-" + new MockLdap().CurrentUserName), op);
 
         }
     }

@@ -11,19 +11,18 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.triggers
 {
-    [TestFixture]
+    
     public class AssemblyActionTextFixture
     {
 
         private MockRepository<EntityDefinition> m_efMock;
         private readonly MockPersistence m_persistence = new MockPersistence();
 
-        [SetUp]
-        public void Init()
+        public AssemblyActionTextFixture()
         {
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
@@ -34,7 +33,7 @@ namespace domain.test.triggers
 
 
 
-        [Test]
+        [Fact]
         public async Task AssemblyActionCompile()
         {
             m_efMock.Clear();
@@ -49,11 +48,11 @@ namespace domain.test.triggers
             var result = await trigger.CompileAsync(options);
             if(!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(result.Result);
+            Assert.True(result.Result, result.ToString());
         }
 
 
-        [Test]
+        [Fact]
         public void ReturnTypeofTask()
         {
             var action = new AssemblyAction
@@ -68,10 +67,10 @@ namespace domain.test.triggers
             action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string), ValueProvider = new ConstantField { Value = "Erymuzuan", Type = typeof(string) } });
             action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
             var code = action.GeneratorCode();
-            StringAssert.DoesNotContain("return response", code);
-            StringAssert.Contains("return 0", code);
+            Assert.DoesNotContain("return response", code);
+            Assert.Contains("return 0", code);
         }
-        [Test]
+        [Fact]
         public void StaticMethod()
         {
             var action = new AssemblyAction
@@ -87,11 +86,11 @@ namespace domain.test.triggers
             action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string), ValueProvider = new ConstantField { Value = "Erymuzuan", Type = typeof(string) } });
             action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
             var code = action.GeneratorCode();
-            StringAssert.DoesNotContain("return response", code);
-            StringAssert.Contains("await Bespoke.Sph.TestObject.Test(", code);
+            Assert.DoesNotContain("return response", code);
+            Assert.Contains("await Bespoke.Sph.TestObject.Test(", code);
         }
 
-        [Test]
+        [Fact]
         public void VoidMethod()
         {
             var action = new AssemblyAction
@@ -106,11 +105,11 @@ namespace domain.test.triggers
             action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string), ValueProvider = new ConstantField { Value = "Erymuzuan", Type = typeof(string) } });
             action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
             var code = action.GeneratorCode();
-            StringAssert.DoesNotContain("return response", code);
-            StringAssert.Contains("return Task.FromResult", code);
+            Assert.DoesNotContain("return response", code);
+            Assert.Contains("return Task.FromResult", code);
         }
 
-        [Test]
+        [Fact]
         public void ReturnTypeofTaskSomething()
         {
             var action = new AssemblyAction
@@ -125,9 +124,9 @@ namespace domain.test.triggers
             action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string) });
             var code = action.GeneratorCode();
 
-            StringAssert.Contains("return response", code);
+            Assert.Contains("return response", code);
         }
-        [Test]
+        [Fact]
         public async Task CallPatientControllerValidate()
         {
             var patientDll = $@"{ConfigurationManager.CompilerOutputPath}\DevV1.Patient.dll";
@@ -191,7 +190,7 @@ namespace Dev.SampleTriggers
             var tree = CSharpSyntaxTree.ParseText(code)
                 ;
             var root = (CompilationUnitSyntax)tree.GetRoot().NormalizeWhitespace(indentation: "  ", elasticTrivia: true);
-            StringAssert.Contains("Validate", root.ToString());
+            Assert.Contains("Validate", root.ToString());
 
 
             var options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
@@ -238,7 +237,7 @@ namespace Dev.SampleTriggers
 
         }
 
-        [Test]
+        [Fact]
         public async Task FormatSimpleCode()
         {
             var ws = new AdhocWorkspace();
@@ -253,7 +252,7 @@ public string Name{get;set;}}";
 
 
             var res = Formatter.Format(tree.GetRoot(), ws);
-            Assert.AreEqual(
+            Assert.Equal(
 @"public class A
 {
     public string Name { get; set; }

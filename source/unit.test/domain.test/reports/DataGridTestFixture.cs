@@ -1,19 +1,18 @@
 ﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.reports
 {
-    [TestFixture]
+    
     public class DataGridTestFixture
     {
-        [SetUp]
-        public void Init()
+        public DataGridTestFixture()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
         }
 
-        [Test]
+        [Fact]
         public void CsharpExpressionColumn()
         {
             var row = new ReportRow();
@@ -37,10 +36,10 @@ namespace domain.test.reports
             var html = column.GenerateHtml(row);
 
 
-            Assert.AreEqual("Berat Canyon - 6.3 KG", html);
+            Assert.Equal("Berat Canyon - 6.3 KG", html);
         }
 
-        [Test]
+        [Fact]
         public void FormatColumn()
         {
             var row = new ReportRow();
@@ -58,10 +57,10 @@ namespace domain.test.reports
             var html = column.GenerateHtml(row);
 
 
-            Assert.AreEqual("RM 25.02", html);
+            Assert.Equal("RM 25.02", html);
         }
 
-        [Test]
+        [Fact]
         public void ColumnValue()
         {
             var row = new ReportRow();
@@ -78,7 +77,7 @@ namespace domain.test.reports
             var html = column.GenerateHtml(row);
 
 
-            Assert.AreEqual("25.02001", html);
+            Assert.Equal("25.02001", html);
         }
 
 

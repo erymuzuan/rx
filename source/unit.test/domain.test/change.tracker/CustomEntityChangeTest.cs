@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.change.tracker
 {
-    [TestFixture]
+    
     public class CustomEntityChangeTest
     {
         private EntityDefinition GetCustomerEntityDefinition()
@@ -25,7 +25,7 @@ namespace domain.test.change.tracker
             return CustomerEntityHelper.CreateCustomerInstance(type);
         }
 
-        [Test]
+        [Fact]
         public void ChangeFullName()
         {
             var c = this.GetCustomerInstance();
@@ -41,10 +41,10 @@ namespace domain.test.change.tracker
                 Console.WriteLine("{0}: {1} -> {2}", change.PropertyName.PadRight(15), change.OldValue, change.NewValue);
             }
 
-            Assert.AreEqual(1, changes.Count(), "Title");
+            Assert.Equal(1, changes.Count());
         }
 
-        [Test]
+        [Fact]
         public void ChangeAddressState()
         {
             var c2 = this.GetCustomerInstance();
@@ -57,14 +57,14 @@ namespace domain.test.change.tracker
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
-            Assert.IsNotNull(changes);
+            Assert.NotNull(changes);
 
             changes.ForEach(Console.WriteLine);
-            Assert.AreEqual(2, changes.Count);
-            Assert.IsTrue(changes.Any(c => c.PropertyName == "Address.State"));
+            Assert.Equal(2, changes.Count);
+            Assert.True(changes.Any(c => c.PropertyName == "Address.State"));
         }
 
-        [Test]
+        [Fact]
         public void PrimitiveCollectionChildItemAdded()
         {
             var c2 = new Designation();
@@ -75,13 +75,13 @@ namespace domain.test.change.tracker
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
-            Assert.IsNotNull(changes);
+            Assert.NotNull(changes);
 
             changes.ForEach(Console.WriteLine);
-            Assert.AreEqual(2, changes.Count);
+            Assert.Equal(2, changes.Count);
         }
 
-        [Test]
+        [Fact]
         public void PrimitiveCollectionItemChanged()
         {
             var c2 = new Designation();
@@ -92,13 +92,13 @@ namespace domain.test.change.tracker
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
-            Assert.IsNotNull(changes);
+            Assert.NotNull(changes);
 
             changes.ForEach(Console.WriteLine);
-            Assert.AreEqual(1, changes.Count);
+            Assert.Equal(1, changes.Count);
         }
 
-        [Test]
+        [Fact]
         public void CollectionChildItemAdded()
         {
             var c2 = this.GetCustomerInstance();
@@ -117,13 +117,13 @@ namespace domain.test.change.tracker
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
-            Assert.IsNotNull(changes);
+            Assert.NotNull(changes);
 
             changes.ForEach(Console.WriteLine);
-            Assert.AreEqual(1, changes.Count);
+            Assert.Equal(1, changes.Count);
         }
 
-        [Test]
+        [Fact]
         public void CollectionItemChanged()
         {
             var assembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.Customer");
@@ -143,14 +143,14 @@ namespace domain.test.change.tracker
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
-            Assert.IsNotNull(changes);
+            Assert.NotNull(changes);
 
             changes.ForEach(Console.WriteLine);
-            Assert.AreEqual(1, changes.Count);
+            Assert.Equal(1, changes.Count);
         }
 
 
-        [Test]
+        [Fact]
         public void NullableStruct()
         {
             var c2 = new LatLng
@@ -164,11 +164,11 @@ namespace domain.test.change.tracker
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1).ToList();
-            Assert.AreEqual(1, changes.Count(), "Elevation");
+            Assert.Equal(1, changes.Count());
             changes.ForEach(Console.WriteLine);
         }
 
-        [Test]
+        [Fact]
         public void DesignationChangeOwnerAddress()
         {
             var c2 = new Designation
@@ -188,12 +188,12 @@ namespace domain.test.change.tracker
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1).ToList();
-            Assert.AreEqual(3, changes.Count(), "Title and owner name");
+            Assert.Equal(3, changes.Count());
             changes.ForEach(System.Console.WriteLine);
-            Assert.IsTrue(changes.Any(c => c.PropertyName == "Owner.Name"));
+            Assert.True(changes.Any(c => c.PropertyName == "Owner.Name"));
         }
 
-        [Test]
+        [Fact]
         public void DesignationChangeOwnerAddedField()
         {
             var c2 = new Designation
@@ -213,9 +213,9 @@ namespace domain.test.change.tracker
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1).ToList();
-            Assert.AreEqual(3, changes.Count(), "Title, owner name, and phone");
+            Assert.Equal(3, changes.Count());
             changes.ForEach(System.Console.WriteLine);
-            Assert.IsTrue(changes.Any(c => c.PropertyName == "Owner.Name"));
+            Assert.True(changes.Any(c => c.PropertyName == "Owner.Name"));
         }
 
     }

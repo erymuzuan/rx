@@ -1,19 +1,18 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.triggers
 {
-    [TestFixture]
-    class RuleTest
+    
+    public class RuleTest
     {
-        [SetUp]
-        public void Init()
+        public RuleTest()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
         }
-        [Test]
+        [Fact]
         public void EndWith()
         {
             var customer = this.GetCustomerInstance();
@@ -25,9 +24,9 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
-        [Test]
+        [Fact]
         public void StartsWith()
         {
             var customer = this.GetCustomerInstance();
@@ -39,10 +38,10 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [Test]
+        [Fact]
         public void Contains()
         {
             var custoemr = this.GetCustomerInstance();
@@ -54,10 +53,10 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(custoemr));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [Test]
+        [Fact]
         public void ConstEqConstString()
         {
             var customer = this.GetCustomerInstance();
@@ -69,10 +68,10 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsFalse(result);
+            Assert.False(result);
         }
 
-        [Test]
+        [Fact]
         public void ConstEqConstString2()
         {
             var customer = this.GetCustomerInstance();
@@ -84,9 +83,9 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
-        [Test]
+        [Fact]
         public void ConstNeqConstString()
         {
             var building = this.GetCustomerInstance();
@@ -98,9 +97,9 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(building));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
-        [Test]
+        [Fact]
         public void ConstNeqConstInteger()
         {
             var customer = this.GetCustomerInstance();
@@ -112,10 +111,10 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [Test]
+        [Fact]
         public void ConstEqConst()
         {
             var customer = this.GetCustomerInstance();
@@ -127,10 +126,10 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [Test]
+        [Fact]
         public void ConstString()
         {
             var customer = this.GetCustomerInstance();
@@ -142,10 +141,10 @@ namespace domain.test.triggers
             };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [Test]
+        [Fact]
         public void NotContainsString()
         {
             var customer = this.GetCustomerInstance();
@@ -157,9 +156,9 @@ namespace domain.test.triggers
             };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
-        [Test]
+        [Fact]
         public void NotContainsStringFalse()
         {
             var customer = this.GetCustomerInstance();
@@ -171,10 +170,10 @@ namespace domain.test.triggers
             };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsFalse(result);
+            Assert.False(result);
         }
 
-        [Test]
+        [Fact]
         public void NotStartsWith()
         {
             var customer = this.GetCustomerInstance();
@@ -186,10 +185,10 @@ namespace domain.test.triggers
             };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [Test]
+        [Fact]
         public void NotEndsWith()
         {
             var customer = this.GetCustomerInstance();
@@ -201,13 +200,13 @@ namespace domain.test.triggers
             };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
 
 
 
-        [Test]
+        [Fact]
         public void ExecuteLinqValueOnDocumentField()
         {
             var script = new RoslynScriptEngine();
@@ -215,14 +214,14 @@ namespace domain.test.triggers
             customer.Revenue = 100m * 10;
             var field = new FunctionField { Script = "item.Revenue", ScriptEngine = script };
             var val = field.GetValue(new RuleContext(customer));
-            Assert.AreEqual(1000m, val);
+            Assert.Equal(1000m, val);
         }
 
 
 
 
 
-        [Test]
+        [Fact]
         public void DocumentFieldEqConst()
         {
             var customer = this.GetCustomerInstance();
@@ -236,14 +235,14 @@ namespace domain.test.triggers
                     Operator = Operator.Eq,
                     Right = new ConstantField { Value = 6 }
                 };
-            Assert.AreEqual(6, doc.GetValue(new RuleContext(customer)));
+            Assert.Equal(6, doc.GetValue(new RuleContext(customer)));
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
 
-        [Test]
+        [Fact]
         public void DocumentFieldLeConst()
         {
             var customer = this.GetCustomerInstance();
@@ -257,10 +256,10 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [Test]
+        [Fact]
         public void DateTimeDocumentFieldLtConst()
         {
             var customer = this.GetCustomerInstance();
@@ -273,9 +272,9 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
-        [Test]
+        [Fact]
         public void DateTimeDocumentFieldEqConst()
         {
             var customer = this.GetCustomerInstance();
@@ -288,10 +287,10 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
 
-        [Test]
+        [Fact]
         public void DocumentFieldLtConst()
         {
             var customer = this.GetCustomerInstance();
@@ -304,7 +303,7 @@ namespace domain.test.triggers
                 };
 
             var result = rule.Execute(new RuleContext(customer));
-            Assert.IsTrue(result);
+            Assert.True(result);
         }
     }
 }
