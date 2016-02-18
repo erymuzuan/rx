@@ -4,17 +4,15 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
-    [TestFixture]
     public class MappingActivityTestFixture
     {
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
-
-        [SetUp]
-        public void Init()
+        
+        public MappingActivityTestFixture()
         {
             var doc = new BinaryStore
             {
@@ -27,7 +25,7 @@ namespace domain.test.workflows
         }
 
 
-        [Test]
+        [Fact]
         public async Task Compile()
         {
 
@@ -56,9 +54,9 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new EndActivity { WebId = "End", Name = "EndWf" });
 
 
-            var adapterPath = $@"C:\project\work\sph\bin\output\{ConfigurationManager.ApplicationName}.Customer.dll";
-            var patientPath = $@"C:\project\work\sph\bin\output\{ConfigurationManager.ApplicationName}.Patient.dll";
-            var mappingPath =$@"C:\project\work\sph\bin\output\{ConfigurationManager.ApplicationName}.PatientToCustomer.dll";
+            var adapterPath = $@"{ConfigurationManager.CompilerOutputPath}\{ConfigurationManager.ApplicationName}.Customer.dll";
+            var patientPath = $@"{ConfigurationManager.CompilerOutputPath}\{ConfigurationManager.ApplicationName}.Patient.dll";
+            var mappingPath =$@"{ConfigurationManager.CompilerOutputPath}\{ConfigurationManager.ApplicationName}.PatientToCustomer.dll";
 
             File.Copy(adapterPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Customer.dll", true);
             File.Copy(patientPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Patient.dll", true);
@@ -67,13 +65,10 @@ namespace domain.test.workflows
             options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Customer.dll");
             options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Patient.dll");
             options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".PatientToCustomer.dll");
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-
+      
             var cr = wd.Compile(options);
             cr.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(cr.Result);
+            Assert.True(cr.Result, cr.ToString());
 
             var wfDll = Assembly.LoadFile(cr.Output);
             dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_PatientToCustomer_0.PatientToCustomerWorkflow"));
@@ -87,12 +82,12 @@ namespace domain.test.workflows
 
 
 
-            Assert.AreNotEqual("Pantani", wf.staff.last_name);
+            Assert.NotEqual("Pantani", wf.staff.last_name);
             await wf.StartAsync();
 
 
-            Assert.AreEqual("Marco", wf.staff.first_name.Trim(), JsonSerializerService.ToJsonString(wf.staff, true));
-            Assert.AreEqual("Pantani", wf.staff.last_name.Trim(), JsonSerializerService.ToJsonString(wf.staff, true));
+            Assert.Equal("Marco", wf.staff.first_name.Trim(), JsonSerializerService.ToJsonString(wf.staff, true));
+            Assert.Equal("Pantani", wf.staff.last_name.Trim(), JsonSerializerService.ToJsonString(wf.staff, true));
         }
 
 
