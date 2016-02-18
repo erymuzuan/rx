@@ -168,3 +168,4 @@ bin/rabbitmq_base/
 *.backup
 /bin/config/applicationhost.config
 /bin/kibana-4.1.4-windows
+source/web/web.sph/Properties/PublishProfiles/bin.pubxml
