@@ -372,26 +372,6 @@
 			<xs:attribute name="Version" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="ScreenActivity">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="Activity">
-					<xs:all>
-						<xs:element ref="FormDesign"/>
-						<xs:element ref="Performer"/>
-						<xs:element ref="ConfirmationOptions"/>
-					</xs:all>
-					<xs:attribute name="Title" type="xs:string" use="required"/>
-					<xs:attribute name="ViewVirtualPath" type="xs:string" use="required"/>
-					<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
-					<xs:attribute name="CancelMessageSubject" type="xs:string" use="required"/>
-					<xs:attribute name="InvitationMessageSubject" type="xs:string" use="required"/>
-					<xs:attribute name="CancelMessageBody" type="xs:string" use="required"/>
-					<xs:attribute name="InvitationMessageBody" type="xs:string" use="required"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="DecisionActivity">
 		<xs:complexType>
 			<xs:complexContent>
@@ -470,21 +450,6 @@
 	<xs:element name="VariableValue">
 		<xs:complexType>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Page" bs:entity="true">
-		<xs:complexType>
-			<xs:all>
-				<xs:element name="Code" type="xs:string"/>
-			</xs:all>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IsRazor" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsPartial" type="xs:boolean" use="required"/>
-			<xs:attribute name="VirtualPath" type="xs:string" use="required"/>
-			<xs:attribute name="Tag" type="xs:string" use="required"/>
-			<xs:attribute name="Version" type="xs:int" use="required"/>
-			<xs:attribute name="Mode" type="xs:string" use="required"/>
-			<xs:attribute name="Extension" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EndActivity">

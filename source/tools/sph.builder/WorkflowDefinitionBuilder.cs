@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -58,44 +55,10 @@ namespace Bespoke.Sph.SourceBuilders
             File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);
 
         }
+        
 
 
-        private async Task<IEnumerable<Page>> GetPublishPagesAsync(WorkflowDefinition wd)
-        {
-            var context = new SphDataContext();
-            if (null == wd) throw new ArgumentNullException(nameof(wd));
-            var screens = wd.ActivityCollection.OfType<ScreenActivity>();
-            var pages = new List<Page>();
-            foreach (var scr in screens)
-            {
-                // copy the previous version pages if there's any
-                var scr1 = scr;
-                var tag = $"wf_{wd.Id}_{scr1.WebId}";
-                var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
-                var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
-                var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
-                var page = new Page
-                {
-                    Code = code,
-                    Name = scr1.Name,
-                    IsPartial = false,
-                    IsRazor = true,
-                    Tag = tag,
-                    Version = wd.Version,
-                    WebId = Guid.NewGuid().ToString(),
-                    VirtualPath = $"~/Views/{wd.WorkflowTypeName}/{scr1.ActionName}.cshtml"
-                };
-                pages.Add(page);
-
-            }
-
-
-            return pages;
-
-        }
-
-
-        public override async Task RestoreAsync(WorkflowDefinition wd)
+        public override Task RestoreAsync(WorkflowDefinition wd)
         {
             Console.WriteLine("Compiling : {0} ", wd.Name);
             try
@@ -110,16 +73,9 @@ namespace Bespoke.Sph.SourceBuilders
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(e.StackTrace);
                 Console.ResetColor();
-                return;
             }
             // save
-            var pages = await GetPublishPagesAsync(wd);
-            var pageBuilder = new Builder<Page>();
-            pageBuilder.Initialize();
-            foreach (var page in pages)
-            {
-                page.Id = (Guid.NewGuid()).ToString();
-            }
+            return Task.FromResult(0);
         }
     }
 }

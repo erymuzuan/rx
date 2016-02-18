@@ -67,7 +67,6 @@
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
     <Compile Include="DebuggerModel.cs" />
-    <Compile Include="PagePublishingSubscriber.cs" />
     <Compile Include="WorkflowInstantTerminatedSubscriber.cs" />
     <Compile Include="WorkflowSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

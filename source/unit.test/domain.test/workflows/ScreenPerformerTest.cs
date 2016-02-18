@@ -44,7 +44,7 @@ namespace domain.test.workflows
         [Fact]
         public async Task UserName()
         {
-            var screen = new ScreenActivity
+            var screen = new ReceiveActivity
             {
                 Performer = new Performer
                 {
@@ -61,7 +61,7 @@ namespace domain.test.workflows
         [Fact]
         public async Task UserNameExpression()
         {
-            var screen = new ScreenActivity
+            var screen = new ReceiveActivity
             {
                 Performer = new Performer
                 {
@@ -83,7 +83,7 @@ namespace domain.test.workflows
                 It.IsAny<Expression<Func<UserProfile, string>>>()))
                 .Returns(Task.FromResult((new[] { "ima" }).AsEnumerable()));
 
-            var screen = new ScreenActivity
+            var screen = new ReceiveActivity
             {
                 Performer = new Performer
                 {
@@ -106,7 +106,7 @@ namespace domain.test.workflows
                     It.IsAny<Expression<Func<UserProfile, string>>>()))
                     .Returns(Task.FromResult((new[] { "ima" }).AsEnumerable()));
 
-                var screen = new ScreenActivity
+                var screen = new ReceiveActivity
                 {
                     Performer = new Performer
                     {
@@ -129,7 +129,7 @@ namespace domain.test.workflows
                 It.IsAny<Expression<Func<UserProfile, string>>>()))
                 .Returns(Task.FromResult((new[] { "ima" }).AsEnumerable()));
 
-            var screen = new ScreenActivity
+            var screen = new ReceiveActivity
             {
                 Performer = new Performer
                 {
@@ -152,7 +152,7 @@ namespace domain.test.workflows
                     It.IsAny<Expression<Func<UserProfile, string>>>()))
                     .Returns(Task.FromResult((new[] { "imca" }).AsEnumerable()));
 
-                var screen = new ScreenActivity
+                var screen = new ReceiveActivity
                 {
                     Performer = new Performer
                     {
@@ -173,7 +173,7 @@ namespace domain.test.workflows
             m_ds.Setup(x => x.GetUserInRolesAsync("admin"))
                 .Returns(Task.FromResult((new[] { "ima" })));
 
-            var screen = new ScreenActivity
+            var screen = new ReceiveActivity
             {
                 Performer = new Performer
                 {
@@ -192,7 +192,7 @@ namespace domain.test.workflows
         {
             m_ds.Setup(x => x.GetUserInRolesAsync("admin"))
                 .Returns(Task.FromResult((new[] { "ima" })));
-            var screen = new ScreenActivity
+            var screen = new ReceiveActivity
             {
                 Performer = new Performer
                 {

@@ -23,42 +23,44 @@ namespace Bespoke.Sph.ElasticSearch
 
         private async Task AddPendingTaskAsync(Tracker item)
         {
-            var context = new SphDataContext();
-            item.Workflow = await context.LoadOneAsync<Workflow>(w => w.Id == item.WorkflowId);
-            await item.Workflow.LoadWorkflowDefinitionAsync();
-            item.WorkflowDefinition = item.Workflow.WorkflowDefinition;
+            await Task.Delay(400);
+            throw new NotImplementedException(" wha" + item);
+            //var context = new SphDataContext();
+            //item.Workflow = await context.LoadOneAsync<Workflow>(w => w.Id == item.WorkflowId);
+            //await item.Workflow.LoadWorkflowDefinitionAsync();
+            //item.WorkflowDefinition = item.Workflow.WorkflowDefinition;
 
-            var pendings = (from w in item.WaitingAsyncList.Keys
-                let act = item.WorkflowDefinition.GetActivity<Activity>(w)
-                let screen = act as ScreenActivity
-                // NOTE : only consider the one with correlation
-                where item.WaitingAsyncList[w].Count > 0
-                select new PendingTask(item.WorkflowId)
-                {
-                    Name = act.Name,
-                    Type = act.GetType().Name,
-                    WebId = act.WebId,
-                    Correlations = item.WaitingAsyncList[w].ToArray()
-                }).ToList();
+            //var pendings = (from w in item.WaitingAsyncList.Keys
+            //    let act = item.WorkflowDefinition.GetActivity<Activity>(w)
+            //    let screen = act as ScreenActivity
+            //    // NOTE : only consider the one with correlation
+            //    where item.WaitingAsyncList[w].Count > 0
+            //    select new PendingTask(item.WorkflowId)
+            //    {
+            //        Name = act.Name,
+            //        Type = act.GetType().Name,
+            //        WebId = act.WebId,
+            //        Correlations = item.WaitingAsyncList[w].ToArray()
+            //    }).ToList();
 
-            pendings.ForEach(async t =>
-            {
-                var screen = item.WorkflowDefinition.ActivityCollection
-                    .OfType<ScreenActivity>()
-                    .SingleOrDefault(a => a.WebId == t.WebId);
-                if (null != screen)
-                    t.Performers = await screen.GetUsersAsync(item.Workflow);
-            });
-            //delete previous pending tasks
-            var url1 = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{"_query?q=WorkflowId:" + item.WorkflowId}";
-            var client1 = new HttpClient();
-            var response1 = await client1.DeleteAsync(url1);
+            //pendings.ForEach(async t =>
+            //{
+            //    var screen = item.WorkflowDefinition.ActivityCollection
+            //        .OfType<ScreenActivity>()
+            //        .SingleOrDefault(a => a.WebId == t.WebId);
+            //    if (null != screen)
+            //        t.Performers = await screen.GetUsersAsync(item.Workflow);
+            //});
+            ////delete previous pending tasks
+            //var url1 = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{"_query?q=WorkflowId:" + item.WorkflowId}";
+            //var client1 = new HttpClient();
+            //var response1 = await client1.DeleteAsync(url1);
 
-            Debug.WriteLine(response1);
-            var tasks = from t in pendings
-                let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{t.WebId}"
-                select this.AddPendingTaskToIndexAsync(id, t);
-            await Task.WhenAll(tasks);
+            //Debug.WriteLine(response1);
+            //var tasks = from t in pendings
+            //    let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{t.WebId}"
+            //    select this.AddPendingTaskToIndexAsync(id, t);
+            //await Task.WhenAll(tasks);
 
         }
 

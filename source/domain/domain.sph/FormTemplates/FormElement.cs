@@ -78,11 +78,7 @@ namespace Bespoke.Sph.Domain
 
 
         }
-
-        public virtual BuildError[] ValidateBuild(WorkflowDefinition wd, ScreenActivity screen)
-        {
-            return new BuildError[]{};
-        }
+        
         public virtual BuildError[] ValidateBuild(EntityDefinition ed)
         {
             return new BuildError[]{};

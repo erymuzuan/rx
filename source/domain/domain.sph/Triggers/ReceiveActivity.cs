@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Domain
     public partial class ReceiveActivity : Activity
     {
         public override bool IsAsync => true;
+        public Performer Performer { get; set; }
 
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
@@ -246,6 +247,11 @@ namespace Bespoke.Sph.Domain
             }
 
             return code.ToString();
+        }
+
+        public Task<IEnumerable<string>> GetUsersAsync(Workflow wf)
+        {
+            throw new NotImplementedException();
         }
     }
 }

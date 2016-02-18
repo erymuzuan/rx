@@ -195,7 +195,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
             },
             connectionClicked = function (conn) {
-                var activities = _(vm.wd().ActivityCollection()),
+                var activities = _(wd().ActivityCollection()),
                     source = activities.find(function (v) { return conn.sourceId === v.WebId(); }),
                     target = activities.find(function (v) { return conn.targetId === v.WebId(); }),
                     message = "Delete connection from " + source.Name() + " to " + target.Name() + "?";

@@ -982,7 +982,6 @@
     <Compile Include="Areas\Sph\Controllers\BaseController.cs" />
     <Compile Include="Areas\Sph\Controllers\BinaryStoreController.cs" />
     <Compile Include="Areas\Sph\Controllers\EditorController.cs" />
-    <Compile Include="Areas\Sph\Controllers\PageController.cs" />
     <Compile Include="Areas\Sph\Controllers\DesignationController.cs" />
     <Compile Include="Areas\Sph\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sph\Controllers\ReportDeliveryController.cs" />
@@ -1004,11 +1003,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Help.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Editor\Page.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Page.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\Editor\_VendorScripts.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1136,7 +1130,6 @@
     </Compile>
     <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\DialogRendererViewModel.cs" />
-    <Compile Include="ViewModels\EditorPageViewModel.cs" />
     <Compile Include="ViewModels\FormRendererViewModel.cs" />
     <Compile Include="ViewModels\GetTokenModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
@@ -1172,7 +1165,6 @@
     <Compile Include="ViewModels\TriggerPathPickerHtmlViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
     <Compile Include="ViewModels\WorkflowDefinitionVisualViewModel.cs" />
-    <Compile Include="ViewModels\WorkflowStartViewModel.cs" />
     <Compile Include="Areas\Sph\Views\SphAccount\ChangePassword.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1628,9 +1620,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="WorkflowHelpers\ScreenActivityVirtualFile.cs" />
-    <Compile Include="WorkflowHelpers\WorkflowScreenActivityPathProvider.cs" />
-    <Compile Include="WorkflowHelpers\WorklowPageCacheDependency.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\form.element.NumberTextBox.png" />
@@ -3340,6 +3329,7 @@
     <Folder Include="Views\RequireJsBundle\" />
     <Folder Include="Views\Solution\" />
     <Folder Include="Views\WorkflowDesigner\" />
+    <Folder Include="WorkflowHelpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SphApp\schemas\_object.xslt">
@@ -3971,14 +3961,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WorkflowDraftHtml.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Editor\Page.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Page.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Page\Compare.cshtml" />
-    <Content Include="Areas\Sph\Views\Page\DiffLine.cshtml" />
-    <Content Include="Areas\Sph\Views\Page\DiffPane.cshtml" />
-    <Content Include="Areas\Sph\Views\Page\Index.cshtml" />
     <Content Include="Areas\Sph\Views\Workflow\InvalidState.cshtml" />
     <Content Include="Areas\Sph\Views\App\DisplayTemplates\DatePickerTime.cshtml">
       <Generator>RazorGenerator</Generator>

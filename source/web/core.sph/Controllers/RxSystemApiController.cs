@@ -140,14 +140,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             return await ExecuteAsync<Message>(filter, page, size, includeTotal);
         }
-
-        [Route("Page")]
-        [HttpGet]
-        public IHttpActionResult Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return ReadFromSource<Page>(filter, page, size, includeTotal);
-        }
-
+        
         [Route("ReportDelivery")]
         [HttpGet]
         public async Task<IHttpActionResult> ReportDelivery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)

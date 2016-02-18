@@ -35,7 +35,7 @@ namespace domain.test.workflows
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string), DefaultValue = "<New application>" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
-            var screen = new ScreenActivity { Name = "Test", WebId = "A", IsInitiator = true, NextActivityWebId = "B" };
+            var screen = new ReceiveActivity { Name = "Test", WebId = "A", IsInitiator = true, NextActivityWebId = "B" };
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
 
@@ -63,7 +63,7 @@ namespace domain.test.workflows
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
-            var screen = new ScreenActivity { Name = "Test", WebId = "A", IsInitiator = true, NextActivityWebId = "B" };
+            var screen = new ReceiveActivity { Name = "Test", WebId = "A", IsInitiator = true, NextActivityWebId = "B" };
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
 
@@ -83,7 +83,7 @@ namespace domain.test.workflows
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
-            var screen = new ScreenActivity { Name = "Test", WebId = "A", IsInitiator = true, NextActivityWebId = "B" };
+            var screen = new ReceiveActivity { Name = "Test", WebId = "A", IsInitiator = true, NextActivityWebId = "B" };
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
 
@@ -100,7 +100,7 @@ namespace domain.test.workflows
         }
 
         [Fact]
-        public void Compile()
+        public async Task Compile()
         {
 
             var wd = new WorkflowDefinition
@@ -114,34 +114,25 @@ namespace domain.test.workflows
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
 
 
-            var apply = new ScreenActivity
+            var apply = new ReceiveActivity
             {
-                Title = "Apply",
-                ViewVirtualPath = "~/Views/Workflows_8_1/pohon.cshtml",
                 WebId = Guid.NewGuid().ToString(),
                 NextActivityWebId = Guid.NewGuid().ToString(),
                 IsInitiator = true,
                 Name = "Starts Screen"
             };
-            apply.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
-            apply.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
             wd.ActivityCollection.Add(apply);
             wd.ActivityCollection.Add(new EndActivity { WebId = apply.NextActivityWebId, Name = "Habis" });
 
             wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
 
-            var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = @"c:\temp\sph" };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.json.dll"));
 
-            var result = wd.Compile(options);
+            var result =await wd.CompileAsync();
             result.Errors.ForEach(Console.WriteLine);
             Assert.True(result.Result);
             Assert.True(File.Exists(result.Output), "assembly " + result.Output);
 
-            var view = apply.GetView(wd);
-            Assert.NotNull(view);
+
 
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(result.Output);

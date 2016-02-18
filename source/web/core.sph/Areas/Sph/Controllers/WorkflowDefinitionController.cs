@@ -18,13 +18,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     [Authorize]
     public class WorkflowDefinitionController : BaseController
     {
-
-        public ActionResult Visual()
-        {
-            var vm = new WorkflowDefinitionVisualViewModel();
-            vm.ToolboxElements.Add(new ScreenActivity());
-            return View(vm);
-        }
+        
 
         public async Task<ActionResult> Import(IEnumerable<HttpPostedFileBase> files)
         {
@@ -142,8 +136,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
             // save
-            var pages = await GetPublishPagesAsync(wd);
-            await this.DeletePreviousPagesAsync(wd);
             //archive the WD
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var archived = new BinaryStore
@@ -155,7 +147,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             };
             await store.DeleteAsync(archived.Id);
             await store.AddAsync(archived);
-            await this.Save("Publish", wd, pages.Cast<Entity>().ToArray());
+            await this.Save("Publish", wd);
 
             return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(result.Output) });
         }
@@ -237,63 +229,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(list.Select(d => new { Path = d }).ToArray(), JsonRequestBehavior.AllowGet);
         }
 
-
-        private async Task DeletePreviousPagesAsync(WorkflowDefinition wd)
-        {
-            var context = new SphDataContext();
-            var pages = new List<Page>();
-            foreach (var act in wd.ActivityCollection.OfType<ScreenActivity>())
-            {
-                var act1 = act;
-                var page = await context.LoadOneAsync<Page>(p =>
-                                p.Version == wd.Version &&
-                                p.Tag == $"wf_{wd.Id}_{act1.WebId}");
-                if (null != page)
-                    pages.Add(page);
-            }
-            using (var session = context.OpenSession())
-            {
-                session.Delete(pages.Cast<Entity>().ToArray());
-                await session.SubmitChanges();
-            }
-        }
-
-        private async Task<IEnumerable<Page>> GetPublishPagesAsync(WorkflowDefinition wd)
-        {
-            var context = new SphDataContext();
-            if (null == wd) throw new ArgumentNullException(nameof(wd));
-            var screens = wd.ActivityCollection.OfType<ScreenActivity>();
-            var pages = new List<Page>();
-            foreach (var scr in screens)
-            {
-                // copy the previous version pages if there's any
-                var scr1 = scr;
-                var tag = $"wf_{wd.Id}_{scr1.WebId}";
-                var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
-                var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
-                var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
-                var page = new Page
-                {
-                    Code = code,
-                    Name = scr1.Name,
-                    IsPartial = false,
-                    IsRazor = true,
-                    Tag = tag,
-                    Version = wd.Version,
-                    WebId = Guid.NewGuid().ToString(),
-                    Id = $"{wd.Id}-{scr1.Name}".ToIdFormat(),
-                    VirtualPath = $"~/Views/{wd.WorkflowTypeName}/{scr1.ActionName}V{wd.Version}.cshtml"
-                };
-
-
-                pages.Add(page);
-
-            }
-
-
-            return pages;
-
-        }
+        
 
         private async Task<string> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
         {

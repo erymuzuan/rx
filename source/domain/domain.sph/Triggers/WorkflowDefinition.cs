@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
             return this.ActivityCollection.OfType<T>().Single(w => w.WebId == webId);
         }
 
-        public async Task<Workflow> InitiateAsync(VariableValue[] values = null, ScreenActivity screen = null)
+        public async Task<Workflow> InitiateAsync(VariableValue[] values = null)
         {
             var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.Id, this.Version, this.CodeNamespace);
             var type = Strings.GetType(typeName);
@@ -46,11 +46,7 @@ namespace Bespoke.Sph.Domain
                     this.SetVariableValue(vv, wf, type);
                 }
 
-
-            if (null != screen)
-            {
-                wf.VariableValueCollection.ClearAndAddRange(values);
-            }
+            
             await wf.ExecuteAsync(initiator.WebId);
             return wf;
         }

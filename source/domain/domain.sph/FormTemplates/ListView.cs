@@ -7,14 +7,6 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "ListView", Order = 13d, FontAwesomeIcon = "list-ul",TypeName = "ListView", Description = "ListView for collection")]
     public partial class ListView : FormElement
     {
-        public override BuildError[] ValidateBuild(WorkflowDefinition wd, ScreenActivity screen)
-        {
-            var errors = new List<BuildError>();
-            if (string.IsNullOrWhiteSpace(this.ChildItemType))
-                errors.Add(new BuildError(screen.WebId, string.Format("[ScreenActivity] -> {1} Child item type cannot be empty for {0}", this.Path, screen.Name)));
-
-            return errors.ToArray();
-        }
 
         public override BuildError[] ValidateBuild(EntityDefinition ed)
         {

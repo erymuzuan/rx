@@ -45,14 +45,6 @@ namespace Bespoke.Sph.Domain
             using (var session = context.OpenSession())
             {
                 session.Attach(wd);
-                foreach (var pf in Directory.GetFiles(folder, "page.*.json"))
-                {
-                    var pageJson = File.ReadAllText(pf);
-                    var page = JsonConvert.DeserializeObject<Page>(pageJson, setting);
-                    page.ChangeWorkflowDefinitionVersion(id, wd.Id);
-
-                    session.Attach(page);
-                }
                 await session.SubmitChanges("Import");
             }
 
@@ -74,19 +66,7 @@ namespace Bespoke.Sph.Domain
             File.WriteAllBytes(Path.Combine(path, wd.SchemaStoreId + ".xsd"), schema.Content);
             File.WriteAllBytes(Path.Combine(path, "wd_" + wd.Id + ".json"), Encoding.UTF8.GetBytes(wd.ToJsonString()));
             // get the screen view
-            foreach (var screen in wd.ActivityCollection.OfType<ScreenActivity>())
-            {
-                var screen1 = screen;
-                var page =
-                    await
-                        context.LoadOneAsync<Page>(
-                            p => p.Version == wd.Version && p.Tag == $"wf_{wd.Id}_{screen1.WebId}");
-                if (null != page)
-                {
-                    File.WriteAllBytes(Path.Combine(path, "page." + page.Id + ".json"), Encoding.UTF8.GetBytes(page.ToJsonString()));
-
-                }
-            }
+          
             if (File.Exists(zip))
                 File.Delete(zip);
             ZipFile.CreateFromDirectory(path, zip);

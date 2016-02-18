@@ -44,7 +44,7 @@ namespace domain.test.workflows
         public async Task Listen()
         {
             var wd = this.Create("Wf502");
-            wd.ActivityCollection.Add(new ScreenActivity { Name = "Starts", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_B_" });
+            wd.ActivityCollection.Add(new ReceiveActivity { Name = "Starts", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_B_" });
 
             var listen = new ListenActivity
             {
@@ -71,7 +71,7 @@ namespace domain.test.workflows
             var delay = new DelayActivity { WebId = "_B21_", NextActivityWebId = "_C_", Name = "Lapse" };
             wd.ActivityCollection.Add(delay);
 
-            var scree2 = new ScreenActivity { WebId = "_B11_", NextActivityWebId = "_C_", Name = "Screen 2" };
+            var scree2 = new ReceiveActivity { WebId = "_B11_", NextActivityWebId = "_C_", Name = "Screen 2" };
             wd.ActivityCollection.Add(scree2);
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
@@ -88,17 +88,14 @@ namespace domain.test.workflows
         {
             var wd = this.Create("Wf500");
 
-            var pohon = new ScreenActivity
+            var pohon = new ReceiveActivity
             {
-                Title = "Pohon",//[A-Z|a-z|.]
                 Name = "Pohon",
-                ViewVirtualPath = "~/Views/Workflows_8_1/pohon.cshtml",
                 WebId = "_A_",
                 IsInitiator = true,
                 NextActivityWebId = "_B_"
             };
-            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
-            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
+
             wd.ActivityCollection.Add(pohon);
 
             var decide = new DecisionActivity
@@ -146,13 +143,11 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(email);
 
 
-            var approval = new ScreenActivity
+            var approval = new ReceiveActivity
             {
-                Title = "Kelulusan",
                 WebId = "_C_",
                 Name = "Kelulusan",
                 NextActivityWebId = "_WA_",
-                ViewVirtualPath = "d"
             };
             wd.ActivityCollection.Add(approval);
 
@@ -174,17 +169,14 @@ namespace domain.test.workflows
         {
             var wd = this.Create("Wf501");
 
-            var pohon = new ScreenActivity
+            var pohon = new ReceiveActivity
             {
-                Title = "Pohon",//[A-Z|a-z|.]
                 Name = "Pohon",
-                ViewVirtualPath = "~/Views/Workflows_8_1/pohon.cshtml",
                 WebId = "_A_",
                 IsInitiator = true,
                 NextActivityWebId = "_EMAIL_"
             };
-            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
-            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
+
             wd.ActivityCollection.Add(pohon);
 
 

@@ -11,8 +11,7 @@ namespace domain.test.workflows
         public void BuildValidation()
         {
             var wd = new WorkflowDefinition { Name = "3 Is Three" ,SchemaStoreId = Guid.NewGuid().ToString()};
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = Guid.NewGuid().ToString(), Performer = new Performer{IsPublic = true}};
-            screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = string.Empty });
+            var screen = new ReceiveActivity { Name = "Pohon", IsInitiator = true, WebId = Guid.NewGuid().ToString()};
             wd.ActivityCollection.Add(screen);
 
 
@@ -29,8 +28,7 @@ namespace domain.test.workflows
         public void BuildValidationMissingWebId()
         {
             var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "123"};
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true , Performer = new Performer{IsPublic = true}};
-            screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
+            var screen = new ReceiveActivity { Name = "Pohon", IsInitiator = true };
             wd.ActivityCollection.Add(screen);
 
 
@@ -48,9 +46,8 @@ namespace domain.test.workflows
         public void BuildValidationDuplicateWebId()
         {
             var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "123"};
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A", NextActivityWebId = "B", Performer = new Performer{IsPublic = true}};
-            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A", NextActivityWebId = "C" , Performer = new Performer{IsPublic = true}};
-            screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
+            var screen = new ReceiveActivity { Name = "Pohon", IsInitiator = true, WebId = "A", NextActivityWebId = "B"};
+            var screen2 = new ReceiveActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A", NextActivityWebId = "C" };
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(screen2);
 

@@ -34,12 +34,11 @@ namespace domain.test.workflows
                 Id = 1.ToString(CultureInfo.CurrentCulture),
                 Name = "Test start screen"
             };
-            wd.ActivityCollection.Add(new ScreenActivity
+            wd.ActivityCollection.Add(new ReceiveActivity
             {
                 IsInitiator = true,
                 Name = "Start screen",
                 WebId = "A",
-                Performer = new Performer { IsPublic = true }
             });
             var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = "1", Id = "0" };
             var tracker = await wf.GetTrackerAsync();
@@ -58,19 +57,17 @@ namespace domain.test.workflows
                 Name = "Test start screen"
             };
 
-            wd.ActivityCollection.Add(new ScreenActivity
+            wd.ActivityCollection.Add(new ReceiveActivity
             {
                 IsInitiator = true,
                 Name = "Start screen",
                 WebId = "A",
-                Performer = new Performer { IsPublic = true },
                 NextActivityWebId = "B"
             });
-            wd.ActivityCollection.Add(new ScreenActivity
+            wd.ActivityCollection.Add(new ReceiveActivity
             {
                 Name = "Start B",
                 WebId = "B",
-                Performer = new Performer { UserProperty = "UserName", Value = "admin" }
             });
 
             var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = "1", Id = "0" };
@@ -96,19 +93,17 @@ namespace domain.test.workflows
                 Name = "Test start screen"
             };
 
-            wd.ActivityCollection.Add(new ScreenActivity
+            wd.ActivityCollection.Add(new ReceiveActivity
             {
                 IsInitiator = true,
                 Name = "Start screen",
                 WebId = "A",
-                Performer = new Performer { IsPublic = true },
                 NextActivityWebId = "B"
             });
-            wd.ActivityCollection.Add(new ScreenActivity
+            wd.ActivityCollection.Add(new ReceiveActivity
             {
                 Name = "Start B",
                 WebId = "B",
-                Performer = new Performer { UserProperty = "UserName", Value = "admin" }
             });
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
@@ -138,19 +133,17 @@ namespace domain.test.workflows
                 Name = "Test start screen"
             };
 
-            wd.ActivityCollection.Add(new ScreenActivity
+            wd.ActivityCollection.Add(new ReceiveActivity
             {
                 IsInitiator = true,
                 Name = "Start screen",
                 WebId = "A",
-                Performer = new Performer { IsPublic = true },
                 NextActivityWebId = "B"
             });
-            var screenB = new ScreenActivity
+            var screenB = new ReceiveActivity
             {
                 Name = "Start B",
-                WebId = "B",
-                Performer = new Performer { UserProperty = "UserName", Value = "admin" }
+                WebId = "B"
             };
             wd.ActivityCollection.Add(screenB);
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });

@@ -150,13 +150,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return View();
         }
-        public async Task<ActionResult> Page(string id)
-        {
-            var context = new SphDataContext();
-            var page = await context.LoadOneAsync<Page>(p => p.Id == id);
-            var vm = new EditorPageViewModel { Page = page };
-            return View(vm);
-        }
+     
 
         [NoCache]
         public ActionResult Snippets(string id)

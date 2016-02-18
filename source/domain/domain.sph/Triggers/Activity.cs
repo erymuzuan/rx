@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
@@ -12,22 +11,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [XmlInclude(typeof(CreateEntityActivity))]
-    [XmlInclude(typeof(DecisionActivity))]
-    [XmlInclude(typeof(DelayActivity))]
-    [XmlInclude(typeof(DeleteEntityActivity))]
-    [XmlInclude(typeof(EndActivity))]
-    [XmlInclude(typeof(ExpressionActivity))]
-    [XmlInclude(typeof(JoinActivity))]
-    [XmlInclude(typeof(ListenActivity))]
-    [XmlInclude(typeof(MappingActivity))]
-    [XmlInclude(typeof(NotificationActivity))]
-    [XmlInclude(typeof(ParallelActivity))]
-    [XmlInclude(typeof(ReceiveActivity))]
-    [XmlInclude(typeof(UpdateEntityActivity))]
-    [XmlInclude(typeof(ScheduledTriggerActivity))]
-    [XmlInclude(typeof(ScreenActivity))]
-    [XmlInclude(typeof(SendActivity))]
+    
     public partial class Activity : DomainObject
     {
         public virtual BuildValidationResult ValidateBuild(WorkflowDefinition wd)
