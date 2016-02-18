@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-        [Route("editor/{name}.{extension:length(2,4)}")]
+        [Route("editor/{extension:length(2,4)}/{name}")]
         public IHttpActionResult GetDialog(string name, string extension)
         {
             var info = this.DeveloperService.ActivityOptions

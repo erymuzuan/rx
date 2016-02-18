@@ -10,7 +10,6 @@ using System.Web.Mvc;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
-using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers

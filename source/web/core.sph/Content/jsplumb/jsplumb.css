@@ -9,10 +9,6 @@
 .toolbox-item {
     margin-bottom: 5px;
 }
-.ScreenActivity {
-    background: no-repeat right top url('/images/ScreenActivity.png');
-}
-
 
 .DecisionActivity {
     background: no-repeat right top url('/images/DecisionActivity.png');
@@ -154,7 +150,6 @@ background-image: url("sph.wf.16.png");
 .activity16-DelayActivity{background-position:0px 0px ; width: 16px ; height: 16px; }
 .activity16-CreateEntityActivity{background-position:-26px 0px ; width: 16px ; height: 16px; }
 .activity16-NotificationActivity{background-position:-52px 0px ; width: 16px ; height: 16px; }
-.activity16-ScreenActivity{background-position:-78px 0px ; width: 16px ; height: 16px; }
 .activity16-DecisionActivity{background-position:-104px 0px ; width: 16px ; height: 16px; }
 .activity16-ListenActivity{background-position:-130px 0px ; width: 16px ; height: 16px; }
 .activity16-ParallelActivity{background-position:-156px 0px ; width: 16px ; height: 16px; }

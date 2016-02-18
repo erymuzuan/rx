@@ -1697,20 +1697,6 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
     return b;
 };
 
-/// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="../../App/durandal/amd/require.js" />
-/// <reference path="../../App/durandal/system.js" />
-
-
-bespoke.sph.domain.ScreenActivityPartial = function () {
-
-    return {
-        isAsync: true,
-        canStart: true
-    };
-};
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />

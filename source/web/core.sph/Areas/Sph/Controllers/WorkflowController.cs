@@ -65,8 +65,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             };
             var json = JsonConvert.SerializeObject(query);
             var request = new StringContent(json);
-            var url = string.Format("{0}/{1}/{2}/_search", ConfigurationManager.ElasticSearchHost,
-                ConfigurationManager.ElasticSearchIndex, "pendingtask");
+            var url =  $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/pendingtask/_search";
 
             var client = new HttpClient();
             var response = await client.PostAsync(url, request);

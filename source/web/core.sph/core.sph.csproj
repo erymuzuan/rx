@@ -294,7 +294,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\App\AppAreaRegistration.cs" />
     <Compile Include="Areas\App\Controllers\ConfigController.cs" />
-    <Compile Include="Areas\App\Controllers\ActivityScreenController.cs" />
     <Compile Include="Areas\App\Controllers\QueryEndpointDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\FormDialogDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\EntityViewDesignerController.cs" />
@@ -309,16 +308,6 @@
     <Compile Include="Areas\App\Controllers\TriggerSetupController.cs" />
     <Compile Include="Areas\App\Controllers\UserProfileController.cs" />
     <Compile Include="Areas\App\Controllers\WorkflowDraftController.cs" />
-    <Compile Include="Areas\App\Views\ActivityScreen\Html.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Html.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\ActivityScreen\Script.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Script.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Areas\App\Views\QueryEndpointDesigner\Html.generated.cs">
       <DependentUpon>Html.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -2143,7 +2132,6 @@
     <Content Include="SphApp\partial\ReportDelivery.js" />
     <Content Include="SphApp\partial\Rule.js" />
     <Content Include="SphApp\partial\ScheduledTriggerActivity.js" />
-    <Content Include="SphApp\partial\ScreenActivity.js" />
     <Content Include="SphApp\partial\SetterAction.js" />
     <Content Include="SphApp\partial\SetterActionChild.js" />
     <Content Include="SphApp\partial\StartWorkflowAction.js" />
@@ -3858,10 +3846,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>BusinessRuleDialog.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\App\Views\ActivityScreen\Html.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Html.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\App\Views\Shared\_Toolbox.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Toolbox.generated.cs</LastGenOutput>
@@ -3870,22 +3854,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_ValidationSetting.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\App\Views\ActivityScreen\Script.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Script.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\AddressElement.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\CheckBox.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\ComboBox.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\DatePicker.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\EmailFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\FormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\HtmlElement.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\NumberTextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\SectionFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\TextAreaElement.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\TextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\WebsiteFormElement.cshtml" />
     <Content Include="Areas\App\Views\Shared\_DesignerContextAction.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_DesignerContextAction.generated.cs</LastGenOutput>
@@ -3946,13 +3914,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_ScreenPerformer.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\Visual.cshtml" />
     <None Include="Scripts\jsPlumb\__bundle.js.bundle" />
     <Content Include="Scripts\jsPlumb\bundle.min.js.map">
       <DependentUpon>__bundle.js.bundle</DependentUpon>
     </Content>
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\ListView.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\FileUploadElement.cshtml" />
     <Content Include="Areas\Sph\Views\App\WorkflowDraftJs.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WorkflowDraftJs.generated.cs</LastGenOutput>
@@ -3966,16 +3931,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DatePickerTime.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\DateTimePicker.cshtml" />
     <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\DateTimePicker.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\TextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\ComboBox.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\ListView.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\Button.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\Button.cshtml" />
     <Content Include="Areas\Sph\Views\Editor\_Toolbar.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Toolbar.generated.cs</LastGenOutput>

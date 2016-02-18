@@ -9,10 +9,6 @@
 .toolbox-item {
     margin-bottom: 5px;
 }
-.ScreenActivity {
-    background: no-repeat right top url('/images/ScreenActivity.png');
-}
-
 
 .DecisionActivity {
     background: no-repeat right top url('/images/DecisionActivity.png');
