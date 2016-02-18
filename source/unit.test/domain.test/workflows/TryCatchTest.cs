@@ -9,16 +9,15 @@ using Bespoke.Sph.Domain.QueryProviders;
 using domain.test.reports;
 using domain.test.triggers;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace domain.test.workflows
 {
-    [TestFixture]
     public class TryCatchTest
     {
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
-        [SetUp]
-        public void Init()
+   
+        public TryCatchTest()
         {
             var doc = new BinaryStore
             {
@@ -40,27 +39,27 @@ namespace domain.test.workflows
 
         }
 
-        [Test]
+        [Fact]
         public async Task ThrowException()
         {
             dynamic wf = CreateWorkflowInstance();
             wf.Status = "A";
 
             ActivityExecutionResult resultA = await wf.ExecuteAsync("B");
-            Assert.AreEqual("F", resultA.NextActivities[0]);
+            Assert.Equal("F", resultA.NextActivities[0]);
 
         }
-        [Test]
+        [Fact]
         public async Task Ok()
         {
             var wf = CreateWorkflowInstance();
             wf.Status = "Something else";
 
             ActivityExecutionResult b = await wf.ExecuteAsync("B");
-            Assert.AreEqual("C", b.NextActivities[0]);
+            Assert.Equal("C", b.NextActivities[0]);
 
         }
-        [Test]
+        [Fact]
         public void SanitizeSingleThrow()
         {
             CompilerOptions options;
@@ -69,18 +68,18 @@ namespace domain.test.workflows
 
             var code = wd.SanitizeMethodBody(b);
             Console.WriteLine(code);
-            StringAssert.DoesNotContain("item", code);
-            StringAssert.DoesNotContain("result", code);
+            Assert.DoesNotContain("item", code);
+            Assert.DoesNotContain("result", code);
 
         }
-        [Test]
+        [Fact]
         public async Task SingleThrow()
         {
             var wf = CreateWorkflowInstance("throw new InvalidOperationException(\"Test One\");");
             wf.Status = "A";
 
             ActivityExecutionResult b = await wf.ExecuteAsync("B");
-            Assert.AreEqual("F", b.NextActivities[0]);
+            Assert.Equal("F", b.NextActivities[0]);
 
         }
 
@@ -91,7 +90,7 @@ namespace domain.test.workflows
 
             var cr = wd.Compile(options);
             cr.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(cr.Result);
+            Assert.True(cr.Result, cr.ToString());
 
             var dll = Assembly.LoadFile(cr.Output);
             var type = dll.GetType(wd.CodeNamespace + "." + wd.WorkflowTypeName);
