@@ -212,6 +212,8 @@ namespace Bespoke.Sph.Web.Controllers
             var assembly = refAssemblies.SingleOrDefault(x => x.GetName().Name == dll);
             return assembly?.GetType(type);
         }
+
+
         [HttpGet]
         [Route("{dll}/types/{type}/methods")]
         public IHttpActionResult GetMethods(string dll, string type)

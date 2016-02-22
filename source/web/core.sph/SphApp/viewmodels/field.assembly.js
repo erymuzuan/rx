@@ -4,7 +4,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 
-define(['plugins/dialog'],
+define(["plugins/dialog"],
     function (dialog) {
 
         var assemblyOptions = ko.observableArray(),
@@ -39,7 +39,7 @@ define(['plugins/dialog'],
                         });
                 });
                 field().TypeName.subscribe(function (type) {
-                    $.getJSON("/assemblies/" + ko.unwrap(field().Location) + "/types/" + type + "/methods")
+                    $.getJSON("/api/assemblies/" + ko.unwrap(field().Location) + "/types/" + type + "/methods")
                         .done(function (methods) {
                             methodOptions(methods);
                         });
