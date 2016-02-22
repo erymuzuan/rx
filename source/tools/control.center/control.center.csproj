@@ -44,10 +44,6 @@
     <StartupObject>Bespoke.Sph.ControlCenter.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ElasticsearchInside, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\elasticsearch-inside.1.7.5\lib\net451\ElasticsearchInside.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.1.27.22784, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\MvvmLightLibs.4.1.27.1\lib\net45\GalaSoft.MvvmLight.Extras.WPF45.dll</HintPath>
