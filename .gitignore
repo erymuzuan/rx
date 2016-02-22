@@ -169,3 +169,4 @@ bin/rabbitmq_base/
 /bin/config/applicationhost.config
 /bin/kibana-4.1.4-windows
 source/web/web.sph/Properties/PublishProfiles/bin.pubxml
+source/web/web.sph/Properties/PublishProfiles/web.pubxml
