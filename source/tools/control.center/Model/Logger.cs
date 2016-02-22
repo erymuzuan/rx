@@ -70,6 +70,7 @@ namespace Bespoke.Sph.ControlCenter.Model
                 // ignored
             }
         }
+      
 
         private static string GetJsonContent(LogEntry entry)
         {
