@@ -163,7 +163,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.Log("Starting SQL Server\r\n");
             main.StartSqlService();
 
-            main.CheckElasticsearch();
+           // main.CheckElasticsearch();
             if (!main.ElasticSearchServiceStarted)
             {
                 this.Log("Starting Elasticsearch\r\n");
