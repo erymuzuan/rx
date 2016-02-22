@@ -13,6 +13,7 @@ using Xunit;
 
 namespace domain.test.workflows
 {
+    [Trait("Categories", "Workflow")]
     public class TryCatchTest
     {
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
