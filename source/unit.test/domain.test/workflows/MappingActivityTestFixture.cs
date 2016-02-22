@@ -5,15 +5,21 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace domain.test.workflows
 {
+    [Trait("Category", "Workflow")]
+    [Trait("Category", "Mapping")]
     public class MappingActivityTestFixture
     {
+        private readonly ITestOutputHelper m_helper;
+
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
         
-        public MappingActivityTestFixture()
+        public MappingActivityTestFixture(ITestOutputHelper helper)
         {
+            m_helper = helper;
             var doc = new BinaryStore
             {
                 Content = File.ReadAllBytes(@".\workflows\PemohonWakaf.xsd")

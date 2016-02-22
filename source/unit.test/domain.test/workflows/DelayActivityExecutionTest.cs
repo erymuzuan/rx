@@ -4,11 +4,10 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
 using Xunit;
-using Xunit;
-using Assert = Xunit.Assert;
 
 namespace domain.test.workflows
 {
+    [Trait("Category", "Workflow")]
     public class DelayActivityExecutionTest : WorkflowTestBase
     {
         [Fact]

@@ -10,6 +10,7 @@ using Xunit.Abstractions;
 
 namespace domain.test.workflows
 {
+    [Trait("Category", "Workflow")]
     public class ReceiveActivityTestFixture
     {
         private readonly ITestOutputHelper m_helper;
@@ -35,10 +36,17 @@ namespace domain.test.workflows
         [Fact]
         public async Task ReceiveAndInitiate()
         {
-            const string PATIENT_TYPE_FULL_NAME = "Bespoke.Dev_patient.Domain.Patient";
+            string patientTypeFullName = $"Bespoke.{ConfigurationManager.ApplicationName}.Patients.Domain.Patient";
             var wd = new WorkflowDefinition { Name = "Receive Register new patient", Id = "receive-register-patient", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
-            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = PATIENT_TYPE_FULL_NAME });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName =patientTypeFullName});
+
+
+            wd.ReferencedAssemblyCollection.Add(new ReferencedAssembly
+            {
+                Name = "Patient",
+                Location = $"{ConfigurationManager.CompilerOutputPath}\\{ConfigurationManager.ApplicationName}.Patient.dll"
+            });
 
             var regiterStaff = new ReceiveActivity
             {
@@ -54,15 +62,7 @@ namespace domain.test.workflows
             // var code = regiterStaff.GenerateExecMethodBody(wd);
             // Assert.Contains("RegisterPatientAsync", code);
 
-            var options = new CompilerOptions();
-            options.AddReference(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-            options.AddReference(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
-            options.AddReference(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter));
-
-            var cr = wd.Compile(options);
+            var cr = await wd.CompileAsync();
             cr.Errors.ForEach(Console.WriteLine);
             Assert.True(cr.Result, cr.ToString());
 
@@ -73,8 +73,8 @@ namespace domain.test.workflows
 
             Assert.NotNull(wf.patient);
 
-            var patientDll = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.GetName().Name == "Dev.Patient");
-            var patientType = patientDll.GetType(PATIENT_TYPE_FULL_NAME);
+            var patientDll = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.GetName().Name == "DevV1.Patient");
+            var patientType = patientDll.GetType(patientTypeFullName);
             Assert.NotNull(patientType);
             dynamic patient = Activator.CreateInstance(patientType);
             patient.Mrn = "784529";
@@ -92,8 +92,8 @@ namespace domain.test.workflows
             var patientDllName = $"{ConfigurationManager.ApplicationName}.Patient";
             var wd = new WorkflowDefinition { Name = "Receive Register new patient", Id = "receive-register-patient", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
-            wd.VariableDefinitionCollection.Add(new ClrTypeVariable { Name = "pesakit", TypeName = $"{patientClassName}, {patientDllName}", CanInitiateWithDefaultConstructor = true, WebId = Strings.GenerateId()});
-            wd.ReferencedAssemblyCollection.Add(new ReferencedAssembly {Location = $"{ConfigurationManager.CompilerOutputPath}\\{ConfigurationManager.ApplicationName}.Patient.dll"});
+            wd.VariableDefinitionCollection.Add(new ClrTypeVariable { Name = "pesakit", TypeName = $"{patientClassName}, {patientDllName}", CanInitiateWithDefaultConstructor = true, WebId = Strings.GenerateId() });
+            wd.ReferencedAssemblyCollection.Add(new ReferencedAssembly { Location = $"{ConfigurationManager.CompilerOutputPath}\\{ConfigurationManager.ApplicationName}.Patient.dll" });
 
             var crt = new CorrelationType { Name = "Mrn" };
             crt.CorrelationPropertyCollection.Add(new CorrelationProperty { Path = "pesakit.Mrn" });
@@ -131,7 +131,7 @@ namespace domain.test.workflows
                 Name = "End"
             };
             wd.ActivityCollection.Add(end);
-            
+
             var cr = await wd.CompileAsync();
             cr.Errors.ForEach(x => m_helper.WriteLine(x.ToString()));
             Assert.True(cr.Result, cr.ToString());
@@ -193,8 +193,8 @@ namespace domain.test.workflows
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = PATIENT_TYPE_FULL_NAME });
 
-            var mrn = new CorrelationType{Name = "mrn"};
-            mrn.CorrelationPropertyCollection.Add(new CorrelationProperty { Name = "mrn", Path = "patient.Mrn"});
+            var mrn = new CorrelationType { Name = "mrn" };
+            mrn.CorrelationPropertyCollection.Add(new CorrelationProperty { Name = "mrn", Path = "patient.Mrn" });
             wd.CorrelationTypeCollection.Add(mrn);
 
             wd.ReferencedAssemblyCollection.Add(new ReferencedAssembly

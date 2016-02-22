@@ -5,6 +5,7 @@ using Xunit;
 
 namespace domain.test.workflows
 {
+    [Trait("Category", "Workflow")]
     public class ParallelJoinExecutionTest : WorkflowTestBase
     {
 
