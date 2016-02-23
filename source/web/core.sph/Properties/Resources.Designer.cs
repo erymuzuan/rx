@@ -61,49 +61,6 @@ namespace Bespoke.Sph.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h1&gt;&lt;i class=&quot;glyphicon glyphicon-hdd&quot;&gt;&lt;/i&gt;Integration Adapters &lt;/h1&gt;
-        ///&lt;div class=&quot;row&quot;&gt;
-        ///
-        ///    &lt;table class=&quot;table table-striped&quot; data-bind=&quot;serverPaging :{entity : &apos;Adapter&apos;, list: adapters}&quot;&gt;
-        ///        &lt;thead&gt;
-        ///            &lt;tr&gt;
-        ///                &lt;th&gt;Name&lt;/th&gt;
-        ///                &lt;th&gt;Type&lt;/th&gt;
-        ///                &lt;th&gt;Description&lt;/th&gt;
-        ///                &lt;th&gt;&lt;/th&gt;
-        ///            &lt;/tr&gt;
-        ///        &lt;/thead&gt;
-        ///        &lt;tbody data-bind=&quot;foreach : adapters&quot;&gt;
-        ///            &lt;tr&gt;
-        ///                &lt;td&gt;
-        ///                    &lt;a href=&quot; [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string AdapterDefinitionListHtml {
-            get {
-                return ResourceManager.GetString("AdapterDefinitionListHtml", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.3.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../Scripts/knockout-3.4.0.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../Scripts/moment.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
-        ////// &lt;reference path=&quot;~/SphApp/schemas/sph.domain.g.js&quot; /&gt;
-        ////// &lt;reference path=&quot;~/SphApp/objectbuilders.js&quot; /&gt;
-        ///
-        ///de [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string AdapterDefinitionListJs {
-            get {
-                return ResourceManager.GetString("AdapterDefinitionListJs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You are not allowed to do more than 200.
         /// </summary>
         internal static string ApiControllerYouAreNotAllowedToDoMoreThan200 {

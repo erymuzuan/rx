@@ -231,8 +231,8 @@
   {
     "role": "developers",
     "groupName": "Workflow",
-    "route": "adapter.definition.list",
-    "moduleId": "viewmodels/adapter.definition.list",
+    "route": "integration.adapter.definition.list",
+    "moduleId": "viewmodels/integration.adapter.definition.list",
     "title": "Adapters",
     "nav": true,
     "icon": "fa fa-database",
@@ -241,7 +241,7 @@
     "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": "",
-    "startPageRoute": "adapter.definition.list"
+    "startPageRoute": "integration.adapter.definition.list"
   },
   {
     "role": "developers",

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
@@ -140,17 +142,7 @@ namespace Bespoke.Sph.Web.Controllers
         public IHttpActionResult GetDialog(string extension, string jsroute)
         {
             var lowered = jsroute.ToLowerInvariant();
-            if (lowered == "definition.list")
-            {
-                switch (extension)
-                {
-                    case "js":
-                        return Javascript(Properties.Resources.AdapterDefinitionListJs);
-                    case "html":
-                        return Html(Properties.Resources.AdapterDefinitionListHtml);
-                }
-            }
-
+            
             if (null == this.DeveloperService.Adapters)
                 return InternalServerError(new Exception("MEF Cannot load adapters metadata"));
 

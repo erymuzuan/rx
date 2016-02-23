@@ -1973,8 +1973,8 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_fields.generated.cs</LastGenOutput>
     </Content>
-    <None Include="Resources\adapter.definition.list.html" />
-    <None Include="Resources\adapter.definition.list.js" />
+    <EmbeddedResource Include="SphApp\views\integration.adapter.definition.list.html" />
+    <EmbeddedResource Include="SphApp\viewmodels\integration.adapter.definition.list.js" />
     <EmbeddedResource Include="routes.config.json" />
     <Content Include="Scripts\almond-custom.js" />
     <Content Include="Scripts\bloodhound.js" />
@@ -3313,6 +3313,7 @@
     <Folder Include="Areas\Sph\Views\TransformDefinition\" />
     <Folder Include="Content\simple-line-icons\fonts\" />
     <Folder Include="Content\uniform\" />
+    <Folder Include="Resources\" />
     <Folder Include="Views\Main\" />
     <Folder Include="Views\RequireJsBundle\" />
     <Folder Include="Views\Solution\" />
