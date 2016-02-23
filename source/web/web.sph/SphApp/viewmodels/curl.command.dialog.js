@@ -50,33 +50,37 @@ define(["plugins/dialog", objectbuilders.config],
                         var model = new bespoke[config.applicationName + "_" + endpoint().Entity().toLowerCase()].domain[endpoint().Entity()]();
                         recurseProperty(model);
 
-                        var json = ko.toJSON(model);
+                        var json = ko.toJSON(model),
+                            port = "RX_" + config.applicationName.toUpperCase() + "_WebsitePort",
+                            contentTypeHeader = " -H \"Content-Type: application/json\"",
+                            url = " http://localhost:" + env[port] + "/api/" + endpoint().Resource() + "/",
+                            body = " -d '" + json + "'";
 
                         var patchText = "curl";
                         patchText += " -X PATCH";
-                        patchText += " -H \"Content-Type: application/json\"";
-                        patchText += " http://localhost:" + env["RX_" + config.applicationName.toUpperCase() + "_WebsitePort"] + "/api/" + endpoint().Resource() + "/" + endpoint().Route();
-                        patchText += " -d '" + json + "'";
+                        patchText += contentTypeHeader;
+                        patchText += url + endpoint().Route();
+                        patchText += body;
                         patch(patchText);
 
                         var postText = "curl";
                         postText += " -X POST";
-                        postText += " -H \"Content-Type: application/json\"";
-                        postText += " http://localhost:" + env["RX_" + config.applicationName.toUpperCase() + "_WebsitePort"] + "/api/" + endpoint().Resource() + "/" + endpoint().Route();
-                        postText += " -d '" + json + "'";
+                        postText += contentTypeHeader;
+                        postText += url + endpoint().Route();
+                        postText += body;
                         post(postText);
 
 
                         var deleteText = "curl";
                         deleteText += " -X DELETE";
-                        deleteText += " http://localhost:" + env["RX_" + config.applicationName.toUpperCase() + "_WebsitePort"] + "/api/" + endpoint().Resource() + "/" + endpoint().Route();
+                        deleteText += url + endpoint().Route();
                         delete1(deleteText);
 
                         var putText = "curl";
                         putText += " -X PUT";
-                        putText += " -H \"Content-Type: application/json\"";
-                        putText += " http://localhost:" + env["RX_" + config.applicationName.toUpperCase() + "_WebsitePort"] + "/api/" + endpoint().Resource() + "/" + endpoint().Route();
-                        putText += " -d '" + json + "'";
+                        putText += contentTypeHeader;
+                        putText += url + endpoint().Route();
+                        putText += body;
                         put(putText);
                     });
 
