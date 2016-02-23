@@ -7,7 +7,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 
-define(['plugins/dialog', objectbuilders.datacontext, objectbuilders.config],
+define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config],
     function (dialog, context, config) {
 
         var entityOptions = ko.observableArray(),

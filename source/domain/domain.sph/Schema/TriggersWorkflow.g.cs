@@ -2857,6 +2857,32 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    public partial class ValueObjectVariable
+    {
+
+        private string m_ValueObjectDefinition;
+        public string ValueObjectDefinition
+        {
+            get
+            {
+                return m_ValueObjectDefinition;
+            }
+            set
+            {
+                m_ValueObjectDefinition = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     public partial class ClrTypeVariable
     {
 

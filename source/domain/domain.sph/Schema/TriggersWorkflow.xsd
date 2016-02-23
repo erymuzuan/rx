@@ -755,6 +755,15 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ValueObjectVariable">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Variable">
+					<xs:attribute name="ValueObjectDefinition" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="ClrTypeVariable">
 		<xs:complexType>
 			<xs:complexContent>

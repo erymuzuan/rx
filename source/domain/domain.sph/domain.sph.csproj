@@ -547,6 +547,7 @@
     <Compile Include="Business\Watcher.cs" />
     <Compile Include="Triggers\TryScope.cs" />
     <Compile Include="Triggers\UpdateEntityActivity.cs" />
+    <Compile Include="Triggers\ValueObjectVariable.cs" />
     <Compile Include="Triggers\Variable.cs" />
     <Compile Include="Triggers\VariableValue.cs" />
     <Compile Include="Triggers\Workflow.cs" />

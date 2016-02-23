@@ -5,9 +5,6 @@ using System.Xml.Serialization;
 
 namespace Bespoke.Sph.Domain
 {
-    [XmlInclude(typeof(SimpleVariable))]
-    [XmlInclude(typeof(ComplexVariable))]
-    [XmlInclude(typeof(ClrTypeVariable))]
     public partial class Variable : DomainObject
     {
         public virtual string GeneratedCode(WorkflowDefinition workflowDefinition)
@@ -18,10 +15,10 @@ namespace Bespoke.Sph.Domain
         public virtual BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             var forbiddenNames = typeof(Workflow).GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(p => p.Name).ToArray();
-            const string pattern = "^[A-Za-z][A-Za-z0-9_]*$";
+            const string PATTERN = "^[A-Za-z][A-Za-z0-9_]*$";
             var result = new BuildValidationResult();
-            var message = string.Format("[Variable] \"{0}\" is not valid identifier", this.Name);
-            var validName = new Regex(pattern);
+            var message = $"[Variable] \"{this.Name}\" is not valid identifier";
+            var validName = new Regex(PATTERN);
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = message });
             if (forbiddenNames.Contains(this.Name))
