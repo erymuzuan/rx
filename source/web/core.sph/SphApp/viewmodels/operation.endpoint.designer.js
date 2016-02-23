@@ -16,7 +16,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             roles = ko.observableArray(),
             operation = ko.observable(new bespoke.sph.domain.OperationEndpoint()),
             isBusy = ko.observable(false),
-            suggetRoute = function(enable) {
+            suggetRoute = function (enable) {
                 if (!enable) {
                     return;
                 }
@@ -126,6 +126,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
 
                 return tcs.promise();
+            },
+            curl = function () {
+
+                require(["viewmodels/curl.command.dialog", "durandal/app"], function (dialog, app2) {
+                    dialog.endpoint(operation());
+                    app2.showDialog(dialog);
+                });
+
+                return Task.fromResult(0);
             };
 
         var vm = {
@@ -149,15 +158,20 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                     return entity().Id() && entity().Id() !== "0";
                                 })
                             },
-                {
-                    caption: "Clone",
-                    icon: "fa fa-copy",
-                    command: function () {
-                        operation().Name(operation().Name() + " Copy (1)");
-                        operation().Id("0");
-                        return Task.fromResult(0);
-                    }
-                }])
+                            {
+                                caption: "Clone",
+                                icon: "fa fa-copy",
+                                command: function () {
+                                    operation().Name(operation().Name() + " Copy (1)");
+                                    operation().Id("0");
+                                    return Task.fromResult(0);
+                                }
+                            },
+                            {
+                                caption: "CURL",
+                                icon: "fa fa-paper-plane",
+                                command: curl
+                            }])
             }
         };
 

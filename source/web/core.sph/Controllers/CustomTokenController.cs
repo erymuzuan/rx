@@ -9,7 +9,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
 using Bespoke.Sph.WebApi;
-using Roles = System.Web.Security.Roles;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -30,6 +29,7 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(json);
         }
 
+        [Authorize(Roles = "administrators,developers")]
         [HttpPost]
         [Route("")]
         public async Task<IHttpActionResult> CreateTokenAsync([RequestBody]GetTokenModel model)
@@ -55,7 +55,7 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(json);
         }
 
-        [Authorize(Roles = "administrators")]
+        [Authorize(Roles = "administrators,developers")]
         [HttpGet]
         [Route("{id:guid}")]
         public async Task<IHttpActionResult> GetTokenAsync(string id)
@@ -67,7 +67,7 @@ namespace Bespoke.Sph.Web.Controllers
             return Ok(token.GenerateToken());
         }
 
-        [Authorize(Roles = "administrators")]
+        [Authorize(Roles = "administrators,developers")]
         [HttpDelete]
         [Route("{id:guid}")]
         public async Task<IHttpActionResult> RemoveTokenAsync(string id)

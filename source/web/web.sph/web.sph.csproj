@@ -1290,6 +1290,7 @@
     <Content Include="SphApp\services\cultures.my.js" />
     <Content Include="SphApp\services\jsonimportexport.js" />
     <Content Include="SphApp\services\_ko.list.js" />
+    <Content Include="SphApp\viewmodels\curl.command.dialog.js" />
     <Content Include="SphApp\viewmodels\endpoints.management.js" />
     <Content Include="SphApp\viewmodels\event.logs.js" />
     <Content Include="SphApp\viewmodels\new.entity.form.dialog.js" />
@@ -1300,6 +1301,7 @@
     <Content Include="SphApp\viewmodels\new.query.endpoint.dialog.js" />
     <Content Include="SphApp\viewmodels\public.index.js" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
+    <Content Include="SphApp\views\curl.command.dialog.html" />
     <Content Include="SphApp\views\endpoints.management.html" />
     <Content Include="SphApp\views\entity.get.operation.designer.html" />
     <Content Include="SphApp\views\event.logs.html" />
