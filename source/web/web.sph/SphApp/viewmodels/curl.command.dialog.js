@@ -47,39 +47,37 @@ define(["plugins/dialog", objectbuilders.config],
 
                 return $.getJSON("/developer-service/environment-variables")
                     .done(function (env) {
+                        var model = new bespoke[config.applicationName + "_" + endpoint().Entity().toLowerCase()].domain[endpoint().Entity()]();
+                        recurseProperty(model);
+
+                        var json = ko.toJSON(model);
+
+                        var patchText = "curl";
+                        patchText += " -X PATCH";
+                        patchText += " -H \"Content-Type: application/json\"";
+                        patchText += " http://localhost:" + env["RX_" + config.applicationName.toUpperCase() + "_WebsitePort"] + "/api/" + endpoint().Resource() + "/" + endpoint().Route();
+                        patchText += " -d '" + json + "'";
+                        patch(patchText);
 
                         var postText = "curl";
                         postText += " -X POST";
                         postText += " -H \"Content-Type: application/json\"";
                         postText += " http://localhost:" + env["RX_" + config.applicationName.toUpperCase() + "_WebsitePort"] + "/api/" + endpoint().Resource() + "/" + endpoint().Route();
-
-                        var model = new bespoke[config.applicationName + "_" + endpoint().Entity().toLowerCase()].domain[endpoint().Entity()]();
-                        if (typeof model.$type !== "undefined") {
-                            delete model.$type;
-                        }
-                        if (typeof model.WebId !== "undefined") {
-                            delete model.WebId;
-                        }
-                        if (typeof model.Id !== "undefined") {
-                            delete model.Id;
-                        }
-
-                        for (var n in model) {
-                            if (model.hasOwnProperty(n)) {
-                                if (typeof model[n] === "function") {
-                                    if (typeof model[n]() === "undefined") {
-                                        model[n]("test");
-                                    } else {
-                                        recurseProperty(model[n]());
-                                    }
-                                }
-                            }
-                        }
-
-                        var json = ko.toJSON(model);
                         postText += " -d '" + json + "'";
-
                         post(postText);
+
+
+                        var deleteText = "curl";
+                        deleteText += " -X DELETE";
+                        deleteText += " http://localhost:" + env["RX_" + config.applicationName.toUpperCase() + "_WebsitePort"] + "/api/" + endpoint().Resource() + "/" + endpoint().Route();
+                        delete1(deleteText);
+
+                        var putText = "curl";
+                        putText += " -X PUT";
+                        putText += " -H \"Content-Type: application/json\"";
+                        putText += " http://localhost:" + env["RX_" + config.applicationName.toUpperCase() + "_WebsitePort"] + "/api/" + endpoint().Resource() + "/" + endpoint().Route();
+                        putText += " -d '" + json + "'";
+                        put(putText);
                     });
 
 
