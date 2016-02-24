@@ -5,14 +5,18 @@ using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace domain.test.businessrules
 {
-    
+    [Trait("Category", "BusinessRule")]
     public class BusinessRuleTest
     {
-        public BusinessRuleTest()
+        private readonly ITestOutputHelper m_outputHelper;
+
+        public BusinessRuleTest(ITestOutputHelper outputHelper)
         {
+            m_outputHelper = outputHelper;
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
         }
 
@@ -33,10 +37,10 @@ namespace domain.test.businessrules
             br.RuleCollection.Add(nameMustContainsA);
             ed.BusinessRuleCollection.Add(br);
 
-            ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
+            var result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             foreach (var error in result.ValidationErrors)
             {
-                Console.WriteLine(error);
+                m_outputHelper.WriteLine(error);
             }
             Console.WriteLine(result.ValidationErrors);
             Assert.True(result.Success);

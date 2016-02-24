@@ -6,6 +6,8 @@ using Xunit;
 
 namespace domain.test.triggers
 {
+    [Trait("Category", "BusinessRule")]
+    [Trait("Field","CustomAssembly")]
     public class AssemblyFieldTest
     {
         public const string ASSEMBLY = "assembly.test";

@@ -15,8 +15,8 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 return ad.CurrentUserName;
             }
         }
-        public DateTime @Today { get { return DateTime.Today; } }
-        public DateTime @Now { get { return DateTime.Now; } }
+        public DateTime @Today => DateTime.Today;
+        public DateTime @Now => DateTime.Now;
 
 
         public string Format(string format, object obj)

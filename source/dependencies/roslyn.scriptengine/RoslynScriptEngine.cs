@@ -48,19 +48,21 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 customScript = itemCustomScript.Script;
 
             var block = script;
-            if (!block.EndsWith(";"))block = $"return {script};";
+            if (!block.EndsWith(";")) block = $"return {script};";
 
 
-            var code = string.Format("using System;\r\n" +
-                                     "using Bespoke.Sph.Domain;\r\n" +
-                                     "using System.Linq;\r\n" +
-                                     "" +
-                                     "public {2} Evaluate()\r\n" +
-                                     "{{\r\n" +
-                                     "var item = Item as {1};\r\n" +
-                                     customScript + "\r\n" +
-                                        "{0}\r\n" +
-                                     "}}", block, arg1.GetType().FullName, typeof(T).FullName);
+            var code = $@"
+using System;
+using Bespoke.Sph.Domain;
+using System.Linq;
+public {typeof(T).ToCSharp()} Evaluate()
+{{
+    if(null == Item)throw new InvalidOperationException(""Item is null"");
+    var item = Item as {arg1.GetType().FullName};
+    if(null == item) throw new Exception(""Cannot cast Item("" + Item.GetType().FullName + "") to [{arg1.GetType().FullName}]"");
+    {customScript}
+    {block}
+}}";
             try
             {
                 session.Execute(code);

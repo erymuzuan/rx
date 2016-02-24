@@ -5,13 +5,15 @@ using Xunit;
 
 namespace domain.test.triggers
 {
-    
+    [Trait("Category", "BusinessRule")]
     public class RuleTest
     {
         public RuleTest()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
         }
+
+        [Trait("Field", "Constant")]
         [Fact]
         public void EndWith()
         {
@@ -26,7 +28,9 @@ namespace domain.test.triggers
             var result = rule.Execute(new RuleContext(customer));
             Assert.True(result);
         }
+
         [Fact]
+        [Trait("Field", "Constant")]
         public void StartsWith()
         {
             var customer = this.GetCustomerInstance();

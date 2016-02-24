@@ -7,7 +7,7 @@ using Xunit;
 
 namespace domain.test.triggers
 {
-    [Trait("Category", "Fields")]
+    [Trait("Category", "BusinessRule")]
     public class FunctionFieldTest
     {
         public FunctionFieldTest()
