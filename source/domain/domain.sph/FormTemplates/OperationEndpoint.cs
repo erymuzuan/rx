@@ -416,5 +416,13 @@ namespace Bespoke.Sph.Domain
         {
             this.Rules.Add(rule);
         }
+
+        public Task<ValidationResult> ValidateAsync<T>(T item, EntityDefinition ed) where T : Entity
+        {
+            var rules = ed.BusinessRuleCollection.Where(x => this.Rules.Contains(x.Name));
+            var result = item.ValidateBusinessRule(rules);
+
+            return Task.FromResult(result);
+        }
     }
 }

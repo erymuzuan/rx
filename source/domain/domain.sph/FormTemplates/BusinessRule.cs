@@ -13,16 +13,16 @@ namespace Bespoke.Sph.Domain
             if (!filter) return result;
 
             var valid = this.RuleCollection.All(r => r.Execute(context));
-            if (!valid)
-            {
-                result.Success = false;
-                result.ValidationErrors.Add(new ValidationError
-                {
-                    Message = this.ErrorMessage,
-                    ErrorLocation = this.ErrorLocation,
+            if (valid) return result;
 
-                });
-            }
+
+            result.Success = false;
+            result.ValidationErrors.Add(new ValidationError
+            {
+                Message = this.ErrorMessage,
+                ErrorLocation = this.ErrorLocation,
+
+            });
             return result;
         }
     }

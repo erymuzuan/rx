@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain
     {
         public override string ToString()
         {
-            return string.Format("{0} {1} {2}", this.Left.Name, this.Operator, this.Right.Name);
+            return $"{this.Left.Name} {this.Operator} {this.Right.Name}";
         }
 
         public bool Execute(RuleContext context)
@@ -24,40 +24,51 @@ namespace Bespoke.Sph.Domain
             var rc = right as IComparable;
             if (null != lc && null != rc)
             {
-                if (Operator == Operator.Eq)
-                    return lc.CompareTo(rc) == 0;
-                if (Operator == Operator.Neq)
-                    return lc.CompareTo(rc) != 0;
-                if (Operator == Operator.Lt)
-                    return lc.CompareTo(rc) < 0;
-                if (Operator == Operator.Le)
-                    return lc.CompareTo(rc) <= 0;
-                if (Operator == Operator.Gt)
-                    return lc.CompareTo(rc) > 0;
-                if (Operator == Operator.Ge)
-                    return lc.CompareTo(rc) >= 0;
-
-
+                switch (Operator)
+                {
+                    case Operator.Eq:
+                        return lc.CompareTo(rc) == 0;
+                    case Operator.Neq:
+                        return lc.CompareTo(rc) != 0;
+                    case Operator.Lt:
+                        return lc.CompareTo(rc) < 0;
+                    case Operator.Le:
+                        return lc.CompareTo(rc) <= 0;
+                    case Operator.Gt:
+                        return lc.CompareTo(rc) > 0;
+                    case Operator.Ge:
+                        return lc.CompareTo(rc) >= 0;
+                    case Operator.Substringof:
+                    case Operator.StartsWith:
+                    case Operator.EndsWith:
+                    case Operator.NotContains:
+                    case Operator.NotStartsWith:
+                    case Operator.NotEndsWith:
+                        break;
+                }
             }
 
             var sl = left as string;
             var sr = right as string;
             if (null != sr && null != sl)
             {
-                if (Operator == Operator.Neq)
-                    return sl != sr;
-                if (Operator == Operator.NotContains)
-                    return !sl.ToLowerInvariant().Contains(sr.ToLowerInvariant());
-                if (Operator == Operator.Substringof)
-                    return sl.ToLowerInvariant().Contains(sr.ToLowerInvariant());
-                if (Operator == Operator.StartsWith)
-                    return sl.ToLowerInvariant().StartsWith(sr.ToLowerInvariant());
-                if (Operator == Operator.NotStartsWith)
-                    return !sl.ToLowerInvariant().StartsWith(sr.ToLowerInvariant());
-                if (Operator == Operator.EndsWith)
-                    return sl.ToLowerInvariant().EndsWith(sr.ToLowerInvariant());
-                if (Operator == Operator.NotEndsWith)
-                    return !sl.ToLowerInvariant().EndsWith(sr.ToLowerInvariant());
+                switch (Operator)
+                {
+                    case Operator.Neq:
+                        return sl != sr;
+                    case Operator.NotContains:
+                        return !sl.ToLowerInvariant().Contains(sr.ToLowerInvariant());
+                    case Operator.Substringof:
+                        return sl.ToLowerInvariant().Contains(sr.ToLowerInvariant());
+                    case Operator.StartsWith:
+                        return sl.ToLowerInvariant().StartsWith(sr.ToLowerInvariant());
+                    case Operator.NotStartsWith:
+                        return !sl.ToLowerInvariant().StartsWith(sr.ToLowerInvariant());
+                    case Operator.EndsWith:
+                        return sl.ToLowerInvariant().EndsWith(sr.ToLowerInvariant());
+                    case Operator.NotEndsWith:
+                        return !sl.ToLowerInvariant().EndsWith(sr.ToLowerInvariant());
+                }
             }
 
             return false;

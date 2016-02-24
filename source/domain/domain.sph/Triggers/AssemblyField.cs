@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
@@ -81,6 +82,16 @@ namespace Bespoke.Sph.Domain
         private object ExecuteInNewAppDomain(RuleContext context)
         {
             throw new NotImplementedException();
+        }
+
+        public override string GenerateAsyncCode()
+        {
+            if(!this.IsAsync)
+                throw new InvalidOperationException("Cannot generate async code for non asynchoronous method, method should return Task or Task<T>");
+          
+            var code = new StringBuilder();
+            code.Append($"var @ = new ");
+            return code.ToString();
         }
     }
 }

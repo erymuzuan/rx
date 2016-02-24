@@ -55,5 +55,10 @@ namespace Bespoke.Sph.Domain
 
             return result;
         }
+
+        public Task<ValidationResult> ValidateBusinessRuleAsync(IEnumerable<BusinessRule> businessRules)
+        {
+            throw new NotImplementedException("Not yet..");
+        }
     }
 }
