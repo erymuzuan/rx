@@ -1,6 +1,6 @@
 ﻿@model Bespoke.Sph.Web.Models.TypeModel
 @{
-    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["rx:TriggerFilter:RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 }
 
 <div class="btn-group">
@@ -30,7 +30,5 @@
                 </a>
             </li>
         }
-
-
     </ul>
 </div>

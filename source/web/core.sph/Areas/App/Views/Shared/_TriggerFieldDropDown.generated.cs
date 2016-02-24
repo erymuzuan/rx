@@ -41,7 +41,7 @@ namespace ASP
             
             #line 2 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
   
-    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["rx:TriggerFilter:RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             
             #line default
@@ -163,26 +163,26 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(">\r\n                    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1237), Tuple.Create("\"", 1272)
+WriteAttribute("src", Tuple.Create(" src=\"", 1254), Tuple.Create("\"", 1289)
             
             #line 28 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
-, Tuple.Create(Tuple.Create("", 1243), Tuple.Create<System.Object, System.Int32>($"/images/{type}Field.png"
+, Tuple.Create(Tuple.Create("", 1260), Tuple.Create<System.Object, System.Int32>($"/images/{type}Field.png"
             
             #line default
             #line hidden
-, 1243), false)
+, 1260), false)
 );
 
 WriteLiteral(" class=\"pull-left\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 1291), Tuple.Create("\"", 1302)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 1308), Tuple.Create("\"", 1319)
             
             #line 28 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
-    , Tuple.Create(Tuple.Create("", 1297), Tuple.Create<System.Object, System.Int32>(type
+    , Tuple.Create(Tuple.Create("", 1314), Tuple.Create<System.Object, System.Int32>(type
             
             #line default
             #line hidden
-, 1297), false)
+, 1314), false)
 );
 
 WriteLiteral("/>\r\n                    + ");
@@ -203,7 +203,7 @@ WriteLiteral("\r\n                </a>\r\n            </li>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n    </ul>\r\n</div>");
+WriteLiteral("    </ul>\r\n</div>");
 
         }
     }
