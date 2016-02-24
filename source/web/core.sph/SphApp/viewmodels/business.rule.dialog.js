@@ -5,24 +5,36 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schema/sph.domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
-    function(context, logger, dialog) {
+define(["services/datacontext", "services/logger", "plugins/dialog"],
+    function (context, logger, dialog) {
 
-        var okClick = function(data, ev) {
+        var rule = ko.observable(new bespoke.sph.domain.BusinessRule()),
+            activate = function () {
+                rule().Name.subscribe(function(n) {
+                    if (!rule().Description()) {
+                        rule().Description(n);
+                    }
+                    if (!rule().ErrorMessage()) {
+                        rule().ErrorMessage(n);
+                    }
+                });
+            },
+            okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
 
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
         var vm = {
-            rule: ko.observable(new bespoke.sph.domain.BusinessRule()),
+            activate: activate,
+            rule: rule,
             okClick: okClick,
             cancelClick: cancelClick
         };

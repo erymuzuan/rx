@@ -108,7 +108,7 @@
                     <div class="checkbox">
                         <label>
                             <input data-bind="checked: IsConflictDetectionEnabled" id="conflict-detection" type="checkbox" name="IsConflictDetectionEnabled" />
-                            Enable conflict detection with <code>if-match</code> and <code>if-modified-since</code> header
+                            Enable conflict detection with <code>if-match</code> or <code>if-modified-since</code> header
                         </label>
                     </div>
                 </div>
@@ -256,19 +256,21 @@
                     <form class="form-horizontal" role="form">
 
                         <div class="form-group">
-                            <label class="col-md-3">Rules</label>
-                            <div class="col-md-9">
-                                <ul data-bind="foreach :$root.entity().BusinessRuleCollection" class="nav">
-                                    <li class="checkbox">
-                                        <label>
-                                            <input type="checkbox" data-bind="checked : $root.operation().Rules, value: Name" />
-                                            <!-- ko text : Name -->
-                                            <!-- /ko -->
+                            <label class="control-label">Apply these rules</label>
 
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <ul data-bind="foreach :$root.entity().BusinessRuleCollection" class="list-group">
+                                <li class="list-group-item">
+                                    <label>
+                                        <input type="checkbox" data-bind="checked : $root.operation().Rules, value: Name"/>
+                                        <!-- ko text : Name -->
+                                        <!-- /ko -->
+                                    </label>
+                                    <p data-bind="text:Description" class="list-group-item-text"></p>
+                                </li>
+                            </ul>
                         </div>
 
                     </form>
@@ -306,7 +308,7 @@
                     </form>
 
                 </div>
-             
+
 
             </div>
         </div>
