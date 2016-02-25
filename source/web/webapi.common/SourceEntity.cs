@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -12,7 +13,7 @@ namespace Bespoke.Sph.WebApi
     /// <summary>
     /// An attribute that get the Entity from a source file and put it in a ICacheManager
     /// </summary>
-    [AttributeUsage( AttributeTargets.Parameter)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     public sealed class SourceEntityAttribute : ParameterBindingAttribute
     {
         private readonly string m_id;
@@ -24,11 +25,16 @@ namespace Bespoke.Sph.WebApi
 
         public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
         {
-            if (parameter.ParameterType.IsAssignableFrom(typeof(Entity)))
+            var entity = typeof(Entity);
+            var storeAsSource = parameter.ParameterType.GetCustomAttribute(typeof(StoreAsSourceAttribute));
+            if(null == storeAsSource)
+                return parameter.BindAsError("Wrong parameter type, Only those type that have StoreAsSourceAttibute");
+
+            if (entity.IsAssignableFrom(parameter.ParameterType))
             {
                 return new SourceEntityParameterBinding(parameter, parameter.ParameterType, m_id);
             }
-            return parameter.BindAsError("Wrong parameter type, only string or byte[]");
+            return parameter.BindAsError("Wrong parameter type, Only that inherits from Entity can be assigned");
         }
     }
 
@@ -55,21 +61,25 @@ namespace Bespoke.Sph.WebApi
             var type = m_type.Name;
             switch (type)
             {
-                case nameof(EntityDefinition):item = this.GetFromCache<EntityDefinition>(m_id);break;
-                case nameof(OperationEndpoint):item = this.GetFromCache<OperationEndpoint>(m_id);break;
-                case nameof(QueryEndpoint):item = this.GetFromCache<QueryEndpoint>(m_id);break;
-                case nameof(Trigger):item = this.GetFromCache<Trigger>(m_id);break;
-                case nameof(WorkflowDefinition):item = this.GetFromCache<WorkflowDefinition>(m_id);break;
-                case nameof(EntityForm):item = this.GetFromCache<EntityForm>(m_id);break;
-                case nameof(EntityView):item = this.GetFromCache<EntityView>(m_id);break;
-                case nameof(EntityChart):item = this.GetFromCache<EntityChart>(m_id);break;
-                case nameof(PartialView):item = this.GetFromCache<PartialView>(m_id);break;
-                case nameof(FormDialog):item = this.GetFromCache<FormDialog>(m_id);break;
-                case nameof(ReportDefinition):item = this.GetFromCache<ReportDefinition>(m_id);break;
-                case nameof(TransformDefinition):item = this.GetFromCache<TransformDefinition>(m_id);break;
-                case nameof(Adapter):item = this.GetFromCache<Adapter>(m_id);break;
+                case nameof(Adapter): item = this.GetFromCache<Adapter>(m_id); break;
+                case nameof(DocumentTemplate): item = this.GetFromCache<DocumentTemplate>(m_id); break;
+                case nameof(EmailTemplate): item = this.GetFromCache<EmailTemplate>(m_id); break;
+                case nameof(EntityChart): item = this.GetFromCache<EntityChart>(m_id); break;
+                case nameof(EntityDefinition): item = this.GetFromCache<EntityDefinition>(m_id); break;
+                case nameof(EntityForm): item = this.GetFromCache<EntityForm>(m_id); break;
+                case nameof(EntityView): item = this.GetFromCache<EntityView>(m_id); break;
+                case nameof(FormDialog): item = this.GetFromCache<FormDialog>(m_id); break;
+                case nameof(PartialView): item = this.GetFromCache<PartialView>(m_id); break;
+                case nameof(OperationEndpoint): item = this.GetFromCache<OperationEndpoint>(m_id); break;
+                case nameof(QueryEndpoint): item = this.GetFromCache<QueryEndpoint>(m_id); break;
+                case nameof(ReportDefinition): item = this.GetFromCache<ReportDefinition>(m_id); break;
+                case nameof(TransformDefinition): item = this.GetFromCache<TransformDefinition>(m_id); break;
+                case nameof(Trigger): item = this.GetFromCache<Trigger>(m_id); break;
+                case nameof(ValueObjectDefinition): item = this.GetFromCache<ValueObjectDefinition>(m_id); break;
+                case nameof(ViewTemplate): item = this.GetFromCache<ViewTemplate>(m_id); break;
+                case nameof(WorkflowDefinition): item = this.GetFromCache<WorkflowDefinition>(m_id); break;
             }
-      
+
 
             actionContext.ActionArguments[Descriptor.ParameterName] = item;
             return tcs.Task;
@@ -90,7 +100,7 @@ namespace Bespoke.Sph.WebApi
             cache.Insert(id, item, file);
 
             return item;
-        } 
+        }
 
         private struct AsyncVoid
         {
