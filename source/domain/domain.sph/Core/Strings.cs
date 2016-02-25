@@ -399,6 +399,8 @@ namespace Bespoke.Sph.Domain
             if (type == typeof(double)) return "double";
             if (type == typeof(short)) return "short";
             if (type == typeof(long)) return "long";
+            if (type == typeof(byte)) return "byte";
+            if (type == typeof(byte[])) return "byte[]";
 
             if (type == typeof(DateTime?)) return "DateTime?";
             if (type == typeof(int?)) return "int?";
@@ -442,6 +444,12 @@ namespace Bespoke.Sph.Domain
             if (val == null) return null;
             if (val == DBNull.Value) return null;
             return (string)val;
+        }
+        public static byte[] ReadNullableByteArray(this object val)
+        {
+            if (val == null) return null;
+            if (val == DBNull.Value) return null;
+            return (byte[])val;
         }
 
         public static string ConvertToUnsecureString(this SecureString securePassword)

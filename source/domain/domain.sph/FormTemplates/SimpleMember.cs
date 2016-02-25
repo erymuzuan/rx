@@ -55,6 +55,7 @@ namespace Bespoke.Sph.Domain
         protected string GetNullable()
         {
             if (!this.IsNullable) return string.Empty;
+            if (typeof(byte[]) == this.Type) return string.Empty;
             if (typeof(string) == this.Type) return string.Empty;
             if (typeof(object) == this.Type) return string.Empty;
             if (typeof(Array) == this.Type) return string.Empty;
