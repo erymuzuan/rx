@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -24,7 +25,7 @@ namespace Bespoke.Sph.WebApi
         {
             m_request = request;
             m_brokenRules = brokenRules;
-            m_statusCode = (HttpStatusCode) 422;
+            m_statusCode = (HttpStatusCode)422;
             m_message = $"You have {brokenRules.Length} business rules broken";
         }
 
@@ -32,8 +33,9 @@ namespace Bespoke.Sph.WebApi
         {
             var response = new HttpResponseMessage(m_statusCode)
             {
-                Content = new StringContent(m_message)
+                Content = new StringContent(m_message) { }
             };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             if (null != m_brokenRules)
             {
                 response.Content = new StringContent(JsonConvert.SerializeObject(m_brokenRules));
