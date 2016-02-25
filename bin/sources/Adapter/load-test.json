@@ -1,0 +1,655 @@
+{
+  "$type": "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter",
+  "OdataTranslator": "OdataSqlTranslator",
+  "Server": "(localdb)\\MSSQLLocalDB",
+  "TrustedConnection": true,
+  "UserId": null,
+  "Password": null,
+  "Database": "LoadTest2010",
+  "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=LoadTest2010;Integrated Security=True;MultipleActiveResultSets=True",
+  "TableColumns": {
+    "$type": "System.Collections.Generic.List`1[[Bespoke.Sph.Integrations.Adapters.SqlTable, sqlserver.adapter]], mscorlib",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Integrations.Adapters.SqlTable, sqlserver.adapter",
+        "Name": "LoadTestRun",
+        "ColumnCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "LoadTest",
+              "IsPrimaryKey": false,
+              "DataType": "image",
+              "IsNullable": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 16
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "LoadTestRunId",
+              "IsPrimaryKey": true,
+              "DataType": "int",
+              "IsNullable": false,
+              "IsComputed": false,
+              "IsIdentity": true,
+              "Length": 4
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "RunDuration",
+              "IsPrimaryKey": false,
+              "DataType": "int",
+              "IsNullable": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 4
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "WarmupTime",
+              "IsPrimaryKey": false,
+              "DataType": "int",
+              "IsNullable": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 4
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "LoadTestSchemaRev",
+              "IsPrimaryKey": false,
+              "DataType": "int",
+              "IsNullable": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 4
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "CooldownTime",
+              "IsPrimaryKey": false,
+              "DataType": "int",
+              "IsNullable": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 4
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "StartTime",
+              "IsPrimaryKey": false,
+              "DataType": "datetime",
+              "IsNullable": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 8
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "EndTime",
+              "IsPrimaryKey": false,
+              "DataType": "datetime",
+              "IsNullable": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 8
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "Comment",
+              "IsPrimaryKey": false,
+              "DataType": "ntext",
+              "IsNullable": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 16
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "IsLocalRun",
+              "IsPrimaryKey": false,
+              "DataType": "bit",
+              "IsNullable": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 1
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "RunId",
+              "IsPrimaryKey": false,
+              "DataType": "char",
+              "IsNullable": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 36
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "LoadTestName",
+              "IsPrimaryKey": false,
+              "DataType": "nvarchar",
+              "IsNullable": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 510
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "Description",
+              "IsPrimaryKey": false,
+              "DataType": "nvarchar",
+              "IsNullable": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 510
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "RunSettingUsed",
+              "IsPrimaryKey": false,
+              "DataType": "nvarchar",
+              "IsNullable": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 64
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "ControllerName",
+              "IsPrimaryKey": false,
+              "DataType": "nvarchar",
+              "IsNullable": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 510
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "Name": "Outcome",
+              "IsPrimaryKey": false,
+              "DataType": "nvarchar",
+              "IsNullable": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "Length": 64
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "OperationDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Tables": {
+    "$type": "Bespoke.Sph.Domain.Api.AdapterTable[], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
+        "Name": "LoadTestRun",
+        "ChildRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ParentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        }
+      }
+    ]
+  },
+  "Schema": "dbo",
+  "CodeNamespace": "DevV1.Adapters.dbo.LoadTest",
+  "TableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+        "Name": "LoadTestRun",
+        "CodeNamespace": "DevV1.Adapters.dbo.LoadTest",
+        "ClassAttribute": null,
+        "WebId": null,
+        "Schema": "dbo",
+        "ParentTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ChildTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Byte[], mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "LoadTest",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "LoadTestRunId",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "RunDuration",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "WarmupTime",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "LoadTestSchemaRev",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "CooldownTime",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "StartTime",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "EndTime",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Comment",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Boolean, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "IsLocalRun",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "RunId",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "LoadTestName",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Description",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "RunSettingUsed",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "ControllerName",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Outcome",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            }
+          ]
+        },
+        "PrimaryKey": {
+          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+          "TypeName": "System.Int32, mscorlib",
+          "IsNullable": false,
+          "IsNotIndexed": false,
+          "IsAnalyzed": false,
+          "IsFilterable": true,
+          "IsExcludeInAll": false,
+          "Boost": 0,
+          "FullName": null,
+          "PropertyAttribute": null,
+          "MemberCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "FieldPermissionCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": "LoadTestRunId",
+          "AllowMultiple": false,
+          "DefaultValue": null,
+          "WebId": null
+        },
+        "PrimaryKeyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "LoadTestRunId"
+          ]
+        }
+      }
+    ]
+  },
+  "Name": "LoadTest",
+  "Description": null,
+  "CreatedBy": "admin",
+  "Id": "load-test",
+  "CreatedDate": "2016-02-25T14:13:33.8344335+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-02-25T15:03:02.4178729+08:00",
+  "WebId": "9ef48bea-1602-4bc9-b4d6-6f8e733b2345"
+}
