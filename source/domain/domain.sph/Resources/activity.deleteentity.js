@@ -1,21 +1,18 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/moment.js" />
-/// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
-/// <reference path="../../Scripts/bootstrap.js" />
+﻿/// <reference path="../../../web/core.sph/scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../../../web/core.sph/scripts/knockout-3.4.0.debug.js" />
+/// <reference path="../../../web/core.sph/SphApp/objectbuilders.js" />
+/// <reference path="../../../web/core.sph/SphApp/schemas/trigger.workflow.g.js" />
+/// <reference path="../../../web/core.sph/Scripts/__core.js" />
+/// <reference path="../../../web/core.sph/Scripts/require.js" />
 
 
-define(['plugins/dialog', objectbuilders.datacontext],
+define(["plugins/dialog", objectbuilders.datacontext],
     function (dialog, context) {
 
         var entities = ko.observableArray(),
             activate = function () {
                 var tcs = new $.Deferred();
-                context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name")
+                context.getListAsync("EntityDefinition", null, "Name")
                     .done(function (list) {
                         entities(list);
                         tcs.resolve(true);
