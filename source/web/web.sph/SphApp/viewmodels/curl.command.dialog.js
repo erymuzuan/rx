@@ -11,8 +11,8 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(["plugins/dialog", objectbuilders.config],
-    function (dialog, config) {
+define(["plugins/dialog", objectbuilders.config, objectbuilders.logger],
+    function (dialog, config, logger) {
 
         var endpoint = ko.observable(new bespoke.sph.domain.OperationEndpoint()),
             post = ko.observable(),
@@ -50,7 +50,8 @@ define(["plugins/dialog", objectbuilders.config],
                         var model = new bespoke[config.applicationName + "_" + endpoint().Entity().toLowerCase()].domain[endpoint().Entity()]();
                         recurseProperty(model);
 
-                        var json = ko.toJSON(model),
+                        var obj = ko.toJS(model),
+                            json = JSON.stringify(obj, null, "\t"),
                             port = "RX_" + config.applicationName.toUpperCase() + "_WebsitePort",
                             contentTypeHeader = " -H \"Content-Type: application/json\"",
                             url = " http://localhost:" + env[port] + "/api/" + endpoint().Resource() + "/",
@@ -86,6 +87,15 @@ define(["plugins/dialog", objectbuilders.config],
 
 
             },
+            attached = function(view) {
+                $(view).find("a.fa-copy").on("click", function() {
+                    var textarea = $(view).find("#" + $(this).data("for"));
+                    textarea.select();
+
+                    var successful = document.execCommand("copy");
+                    logger.info("Curl command copied " + successful);
+                });
+            },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
@@ -98,6 +108,7 @@ define(["plugins/dialog", objectbuilders.config],
 
         var vm = {
             endpoint: endpoint,
+            attached: attached,
             activate: activate,
             okClick: okClick,
             cancelClick: cancelClick,

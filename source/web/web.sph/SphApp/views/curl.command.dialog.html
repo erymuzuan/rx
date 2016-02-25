@@ -10,31 +10,40 @@
             <div class="modal-body">
 
                 <form class="form-horizontal" id="curl-sample-form">
-                  
+
 
                     <div class="form-group" data-bind="visible:endpoint().IsHttpPost">
-                        <label for="endpoint-post" class="col-lg-12 control-label">POST</label>
+
+                        <label for="endpoint-post" class="col-lg-11 control-label">POST</label>
+                        <a class="col-lg-1 pull-right fa fa-copy" data-for="endpoint-post" href="javascript:;" data-bind="tooltip:'copy the CURL command and import in POSTMAN or save it to a file'">
+                        </a>
                         <div class="col-lg-12">
-                            <textarea  readonly="readonly" class="form-control" id="endpoint-post" data-bind="value:post"></textarea>
+                            <textarea rows="10" readonly="readonly" class="form-control" id="endpoint-post" data-bind="value:post"></textarea>
                         </div>
                     </div>
                     <div class="form-group" data-bind="visible:endpoint().IsHttpPut">
                         <label for="endpoint-put" class="col-lg-12 control-label">PUT</label>
+                        <a class="col-lg-1 pull-right fa fa-copy" data-for="endpoint-put" href="javascript:;" data-bind="tooltip:'copy the CURL command and import in POSTMAN or save it to a file'">
+                        </a>
                         <div class="col-lg-12">
-                            <textarea  readonly="readonly" class="form-control" id="endpoint-put" data-bind="value:put"></textarea>
+                            <textarea rows="10" cols="150" readonly="readonly" class="form-control" id="endpoint-put" data-bind="value:put"></textarea>
                         </div>
                     </div>
 
                     <div class="form-group" data-bind="visible:endpoint().IsHttpPatch">
                         <label for="endpoint-patch" class="col-lg-12 control-label">PATCH</label>
+                        <a class="col-lg-1 pull-right fa fa-copy" data-for="endpoint-patch" href="javascript:;" data-bind="tooltip:'copy the CURL command and import in POSTMAN or save it to a file'">
+                        </a>
                         <div class="col-lg-12">
-                            <textarea  readonly="readonly" class="form-control" id="endpoint-patch" data-bind="value:patch"></textarea>
+                            <textarea rows="10" readonly="readonly" class="form-control" id="endpoint-patch" data-bind="value:patch"></textarea>
                         </div>
                     </div>
                     <div class="form-group" data-bind="visible:endpoint().IsHttpDelete">
                         <label for="endpoint-delete" class="col-lg-12 control-label">DELETE</label>
+                        <a class="col-lg-1 pull-right fa fa-copy" data-for="endpoint-delete" href="javascript:;" data-bind="tooltip:'copy the CURL command and import in POSTMAN or save it to a file'">
+                        </a>
                         <div class="col-lg-12">
-                            <textarea  readonly="readonly" class="form-control" id="endpoint-delete" data-bind="value:delete1"></textarea>
+                            <textarea rows="2" readonly="readonly" class="form-control" id="endpoint-delete" data-bind="value:delete1"></textarea>
                         </div>
                     </div>
 
