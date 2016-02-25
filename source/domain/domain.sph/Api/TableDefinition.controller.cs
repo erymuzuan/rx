@@ -16,23 +16,26 @@ namespace Bespoke.Sph.Domain.Api
 
         private Class GenerateController(Adapter adapter)
         {
-            if(null == this.ActionCodeGenerators)
+            if (null == this.ActionCodeGenerators)
                 ObjectBuilder.ComposeMefCatalog(this);
-            if(null == this.ActionCodeGenerators)
+            if (null == this.ActionCodeGenerators)
                 throw new Exception($"Cannot compose MEF for {nameof(TableDefinition)}");
-            
-            var code = new Class {Name = $"{Name}Controller", BaseClass = "ApiController", Namespace = CodeNamespace};
+
+            var code = new Class { Name = $"{Name}Controller", BaseClass = "ApiController", Namespace = CodeNamespace };
             code.AttributeCollection.Add($"   [RoutePrefix(\"api/{Schema.ToLowerInvariant()}/{Name.ToLowerInvariant()}\")]");
             code.ImportCollection.AddRange(ImportDirectives);
 
             var executed = new List<Type>();
-            foreach (var action in this.ActionCodeGenerators)
+            foreach (var generator in this.ActionCodeGenerators)
             {
-                if (executed.Contains(action.GetType())) continue;
-                executed.Add(action.GetType());
-                code.AddMethod(action.GenerateCode(this, adapter));
+                if (executed.Contains(generator.GetType())) continue;
+                executed.Add(generator.GetType());
+
+                var action = generator.GenerateCode(this, adapter);
+                if (!string.IsNullOrWhiteSpace(action))
+                    code.AddMethod(generator.GenerateCode(this, adapter));
             }
-            
+
             return code;
 
         }

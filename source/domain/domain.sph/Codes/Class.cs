@@ -97,11 +97,17 @@ namespace Bespoke.Sph.Domain.Codes
 
         public void AddMethod(string format, params object[] args)
         {
-            this.MethodCollection.Add(new Method { Code = string.Format(format, args) });
+            var code = format;
+            if (args.Length > 0)
+                code = string.Format(format, args);
+            this.MethodCollection.Add(new Method { Code = code });
         }
         public void AddProperty(string format, params object[] args)
         {
-            this.PropertyCollection.Add(new Property { Code = string.Format(format, args) });
+            var code = format;
+            if (args.Length > 0)
+                code = string.Format(format, args);
+            this.PropertyCollection.Add(new Property { Code = code });
         }
         public void AddProperty(string code)
         {

@@ -53,7 +53,8 @@ namespace Bespoke.Sph.Domain.Api
         public IEnumerable<Class> GenerateCode(Adapter adapter)
         {
             var @adapteClass = new Class { Name = Name, BaseClass = nameof(DomainObject), Namespace = this.CodeNamespace };
-
+            @adapteClass.ImportCollection.Add("System");
+            @adapteClass.ImportCollection.Add("Bespoke.Sph.Domain");
             var list = new ObjectCollection<Class> { @adapteClass };
 
             if (!string.IsNullOrWhiteSpace(ClassAttribute))

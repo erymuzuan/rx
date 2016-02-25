@@ -193,7 +193,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 var table = this.TableDefinitionCollection.Single(t => t.Name == at.Name);
                 options.AddReference(typeof(SqlConnection));
 
-                var code = new Class { Name = $"{table}Adapter" };
+                var code = new Class { Name = $"{table}Adapter", Namespace = this.CodeNamespace };
                 code.ImportCollection.AddRange(ImportDirectives);
                 code.ImportCollection.AddRange(namespaces);
 
@@ -391,7 +391,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             foreach (var pk in pks)
             {
 
-                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", {0});", pk.Name);
+                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", {0});", pk.Name.ToCamelCase());
             }
 
 
@@ -462,15 +462,22 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var code = new StringBuilder();
             foreach (var column in columns)
             {
-                if (column.IsNullable && column.GetClrType() != typeof(string))
+
+                if (column.IsNullable)
                 {
-                    code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullable<{1}>();", column.Name,
-                        column.GetCSharpType());
-                    continue;
-                }
-                if (column.IsNullable && column.GetClrType() == typeof(string))
-                {
-                    code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableString();", column.Name);
+                    var type = column.GetClrType();
+                    if (type == typeof(string))
+                    {
+                        code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableString();", column.Name);
+                    }
+                    else if (type == typeof(byte[]))
+                    {
+                        code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableByteArray();", column.Name);
+                    }
+                    else
+                    {
+                        code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullable<{1}>();", column.Name, column.GetCSharpType());
+                    }
                     continue;
                 }
 
@@ -495,7 +502,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         private string GenerateDeleteMethod(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var arguements = pks.Select(k =>k.GenerateParameterCode());
+            var arguements = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");
