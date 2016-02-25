@@ -1165,6 +1165,46 @@
         "ErrorLocation": "",
         "ErrorMessage": "You must specify a transfer ward",
         "WebId": "3378d6d2-1fcb-45ce-bfaf-35d67cf2ad8f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.BusinessRule, domain.sph",
+        "RuleCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+              "Left": {
+                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                "XPath": "",
+                "NamespacePrefix": "",
+                "TypeName": "",
+                "Path": "FullName",
+                "Name": "FullName",
+                "Note": "",
+                "WebId": "1303692b-e346-4c19-e0f7-4a769df8cc25"
+              },
+              "Right": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "test",
+                "Name": "test",
+                "Note": "",
+                "WebId": "c6daa091-4d99-4a66-dd6f-a7bf34242a01"
+              },
+              "Operator": "Neq",
+              "WebId": "1a6760a1-65e7-4852-af29-990b41e1f293"
+            }
+          ]
+        },
+        "FilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Description": "Cannot be test name",
+        "Name": "Cannot be test name",
+        "ErrorLocation": "",
+        "ErrorMessage": "Cannot be test name",
+        "WebId": "11b0bc10-856d-4d75-ad5f-9b1e5c993135"
       }
     ]
   },
@@ -1222,6 +1262,6 @@
   "Id": "patient",
   "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-25T10:25:18.2517088+08:00",
+  "ChangedDate": "2016-02-25T14:08:53.3857305+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }
