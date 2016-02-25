@@ -50,21 +50,26 @@ namespace Bespoke.Sph.Domain
                 post.AttributeCollection.Add(authorize);
 
 
+            var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
+            edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
+            post.ArgumentCollection.Add(edArg);
+
+
+            var endpointArg = new MethodArg { Name = "endpoint", Type = typeof(OperationEndpoint) };
+            endpointArg.AttributeCollection.Add($"[SourceEntity(\"{this.Id}\")]");
+            post.ArgumentCollection.Add(endpointArg);
+
             var body = new MethodArg { Name = "item", TypeName = ed.Name };
             body.AttributeCollection.Add("[FromBody]");
             post.ArgumentCollection.Add(body);
 
 
-            if (this.Rules.Any() || this.SetterActionChildCollection.Any())
-                post.AppendLine(GetEntityDefinitionCode(ed));
-            else
-                post.AppendLine("           var context = new SphDataContext();");
+            post.AppendLine("           var context = new SphDataContext();");
 
             post.AppendLine("      item.Id = Strings.GenerateId(); ");
 
             var rules = GenerateRulesCode();
-            if (!string.IsNullOrWhiteSpace(rules))
-                post.AppendLine(rules);
+            post.AppendLine(rules);
 
 
             var setterCode = GetSetterCode(ed);
@@ -102,6 +107,15 @@ namespace Bespoke.Sph.Domain
                 patch.AttributeCollection.Add(authorize);
 
 
+            var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
+            edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
+            patch.ArgumentCollection.Add(edArg);
+
+
+            var endpointArg = new MethodArg { Name = "endpoint", Type = typeof(OperationEndpoint) };
+            endpointArg.AttributeCollection.Add($"[SourceEntity(\"{this.Id}\")]");
+            patch.ArgumentCollection.Add(endpointArg);
+
             patch.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string) });
             var body = new MethodArg { Name = "body", Type = typeof(string) };
             body.AttributeCollection.Add("[RawBody]");
@@ -113,11 +127,7 @@ namespace Bespoke.Sph.Domain
                 patch.ArgumentCollection.Add(new MethodArg { Name = "modifiedSince", TypeName = "DateTime?", AttributeCollection = { "[ModifiedSince]" } });
             }
 
-
-            var enabledGetEntityDefinition = this.Rules.Any() || this.SetterActionChildCollection.Any();
-            patch.AppendLine(enabledGetEntityDefinition
-                ? GetEntityDefinitionCode(ed)
-                : "var context = new SphDataContext();");
+            patch.AppendLine("var context = new SphDataContext();");
 
             patch.Append(
                 $@"
@@ -224,18 +234,23 @@ namespace Bespoke.Sph.Domain
             if (!string.IsNullOrWhiteSpace(authorize))
                 put.AttributeCollection.Add(authorize);
 
+            var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
+            edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
+            put.ArgumentCollection.Add(edArg);
 
-            var body = new MethodArg { Name = "item", TypeName = Entity};
+
+            var endpointArg = new MethodArg { Name = "endpoint", Type = typeof(OperationEndpoint) };
+            endpointArg.AttributeCollection.Add($"[SourceEntity(\"{this.Id}\")]");
+            put.ArgumentCollection.Add(endpointArg);
+
+
+            var body = new MethodArg { Name = "item", TypeName = Entity };
             body.AttributeCollection.Add("[FromBody]");
             put.ArgumentCollection.Add(body);
             put.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string), Default = "null" });
 
 
-            if (this.Rules.Any() || this.SetterActionChildCollection.Any())
-                put.AppendLine(GetEntityDefinitionCode(ed));
-            else
-                put.AppendLine("           var context = new SphDataContext(); ");
-
+            put.AppendLine("           var context = new SphDataContext(); ");
             put.AppendLine(
                 $@"
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
@@ -248,8 +263,7 @@ namespace Bespoke.Sph.Domain
             }}");
 
             var rules = GenerateRulesCode();
-            if (!string.IsNullOrWhiteSpace(rules))
-                put.AppendLine(rules);
+            put.AppendLine(rules);
 
 
             var setterCode = GetSetterCode(ed);
@@ -286,9 +300,20 @@ namespace Bespoke.Sph.Domain
 
             var route = !string.IsNullOrWhiteSpace(this.Route) ? $"{this.Route.ToLowerInvariant()}/" : "";
 
+
             var delete = new Method { Name = $"Delete{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             delete.AttributeCollection.Add("[HttpDelete]");
             delete.AttributeCollection.Add($"[Route(\"{route}{{id}}\")]");
+
+            var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
+            edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
+            delete.ArgumentCollection.Add(edArg);
+
+
+            var endpointArg = new MethodArg { Name = "endpoint", Type = typeof(OperationEndpoint) };
+            endpointArg.AttributeCollection.Add($"[SourceEntity(\"{this.Id}\")]");
+            delete.ArgumentCollection.Add(endpointArg);
+
             delete.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string) });
 
             var authorize = this.Performer.GenerateAuthorizationAttribute();
@@ -303,16 +328,8 @@ namespace Bespoke.Sph.Domain
             if(null == item)
                 return NotFound();");
 
-            if (this.Rules.Any())
-            {
-                delete.AppendLine(GetEntityDefinitionCode(ed));
-                var rules = GenerateRulesCode();
-                delete.AppendLine(rules);
-            }
-            else
-            {
-                delete.AppendLine("var context = new SphDataContext();");
-            }
+            var rules = GenerateRulesCode();
+            delete.AppendLine(rules);
 
             delete.Append(
               $@"
@@ -332,69 +349,28 @@ namespace Bespoke.Sph.Domain
 
             var code = new StringBuilder();
             // now the setter
-            code.AppendLine($@"           var operation = CacheManager.Get<OperationEndpoint>(""{Id}"");");
-            code.AppendLine("           if(null == operation)");
-            code.AppendLine("           {");
-            code.AppendLine($@"           operation = await context.LoadOneAsync<OperationEndpoint>(x => x.Id ==""{Id}"");");
-            code.AppendLine($@"           CacheManager.Insert<OperationEndpoint>(""{Id}"", operation, EndpointSource);");
-            code.AppendLine("           }");
+
             code.AppendLinf("           var rc = new RuleContext(item);");
             var count = 0;
             foreach (var act in this.SetterActionChildCollection)
             {
                 count++;
-                var member = ed.GetMember(act.Path);
-                var sc = act.Field.GenerateCode();
-                if (!string.IsNullOrWhiteSpace(sc))
-                {
-                    code.AppendLine($"          item.{act.Path} = {sc};");
-                    continue;
-                }
-                code.AppendLine($"           var setter{count} = operation.SetterActionChildCollection.Single(a => a.WebId == \"{act.WebId}\");");
-                code.AppendLine($"           item.{act.Path} = ({member.GetMemberTypeName()})setter{count}.Field.GetValue(rc);");
+                code.AppendLine($"//{act.Field.Name}");
+                code.AppendLine(act.GenerateCode(ed, "item", count));
             }
 
             return code.ToString();
 
         }
 
-        private string GetEntityDefinitionCode(EntityDefinition ed)
-        {
-            var code = new StringBuilder();
-            code.AppendLine("var context = new SphDataContext();");
-            code.AppendLine($"var ed = CacheManager.Get<EntityDefinition>(\"{ed.Id}\");");
-            code.AppendLine("if(null == ed)");
-            code.AppendLine("{");
-            code.AppendLine($"   ed = await context.LoadOneAsync<EntityDefinition>(d => d.Id == \"{ed.Id}\");");
-            code.AppendLine($"   CacheManager.Insert(\"{ed.Id}\", ed, EntityDefinitionSource);");
-            code.AppendLine("}");
-            return code.ToString();
-
-        }
         private string GenerateRulesCode()
         {
-            if (this.Rules.Count == 0) return string.Empty;
-
-            var code = new StringBuilder();
-
-            code.AppendLine("           var brokenRules = new ObjectCollection<ValidationResult>();");
-            var count = 0;
-            foreach (var rule in this.Rules)
-            {
-                count++;
-                code.AppendLine($@"
-            var @rules{count} = ed.BusinessRuleCollection.Where(b => b.Name == ""{rule}"");
-            var @result{count} = item.ValidateBusinessRule(@rules{count});
-            if(!@result{count}.Success){{
-                brokenRules.Add(@result{count});
-            }}
-");
-            }
-            code.AppendLine("           if( brokenRules.Count > 0) ");
-            code.AppendLine("           {");
-            code.AppendLine("               return Invalid(brokenRules.ToArray());");
-            code.AppendLine("           }");
-            return code.ToString();
+            return $@"
+            var businessRuleResult = await endpoint.ValidateAsync<{this.Entity}>(item, ed);
+            if (!businessRuleResult.Success)
+            {{
+                return Invalid(businessRuleResult);
+            }}";
         }
 
 

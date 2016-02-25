@@ -179,7 +179,7 @@ namespace domain.test.entities
                 bs.Configuration = new HttpConfiguration();
 
                 var awaiter = (Task<IHttpActionResult>)action.Invoke(controller, new object[] { patient });
-                var response =(AcceptedResult) await awaiter;
+                var response = (AcceptedResult)await awaiter;
                 var json = JObject.Parse(JsonConvert.SerializeObject(response.Result));
 
                 var id = json.SelectToken("$.id").Value<string>();
@@ -196,7 +196,7 @@ namespace domain.test.entities
             catch (ReflectionTypeLoadException e)
             {
                 m_output.WriteLine(e.ToString());
-                foreach (Exception inner in e.LoaderExceptions)
+                foreach (var inner in e.LoaderExceptions)
                 {
                     m_output.WriteLine(inner.ToString());
                 }
@@ -211,7 +211,7 @@ namespace domain.test.entities
             var ed = this.CreatePatientDefinition("PatientForRelease");
             var patient = this.CreateInstance(ed, true);
             Assert.NotNull(patient);
-            
+
 
             var release = new OperationEndpoint { Name = "Release", Entity = ed.Name, Resource = "patients", IsHttpPatch = true, WebId = "ReleaseWithPatch" };
             release.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Released\"" });
@@ -236,7 +236,7 @@ namespace domain.test.entities
         public async Task HttpPutAdmit()
         {
             var ed = this.CreatePatientDefinition("PatientPutAdmit");
-            var admit = new OperationEndpoint { Name = "Admit", Entity = ed.Name, Resource = "patients", IsHttpPut = true, WebId = "PutAdmit" };
+            var admit = new OperationEndpoint { Name = "Admit", Id = "patient-admit", Entity = ed.Name, Resource = "patients", IsHttpPut = true, WebId = "PutAdmit" };
             admit.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Admitted\"" });
 
 
@@ -268,7 +268,30 @@ namespace domain.test.entities
             admit.SetterActionChildCollection.Add(new SetterActionChild
             {
                 Path = "Status",
-                Field = new ConstantField { Type = typeof(string), Value = "Admitted" }
+                WebId = Strings.GenerateId(),
+                Field = new ConstantField { Type = typeof(string), Value = "Admitted", Name = "Admitted" }
+            });
+            admit.SetterActionChildCollection.Add(new SetterActionChild
+            {
+                Path = "CreatedDate",
+                WebId = Strings.GenerateId(),
+                Field = new FunctionField { Script = "DateTime.Today", Name = "Today" }
+            });
+            admit.SetterActionChildCollection.Add(new SetterActionChild
+            {
+                Path = "ChangedDate",
+                Field = new FunctionField { Script = "return DateTime.Now;", Name = "Now" }
+            });
+            admit.SetterActionChildCollection.Add(new SetterActionChild
+            {
+                Path = "CreatedBy",
+                Field = new FunctionField
+                {
+                    Script = @"
+                await Task.Delay(500);
+                return item.FullName;",
+                    Name = "Current user"
+                }
             });
 
             var patient = this.CreateInstance(ed, true);
@@ -294,9 +317,9 @@ namespace domain.test.entities
             var ed = this.CreatePatientDefinition("PatientDelete");
             var patient = this.CreateInstance(ed);
             Assert.NotNull(patient);
-            
+
             var delete = new OperationEndpoint { Name = "Remove", Entity = ed.Name, Route = "", IsHttpDelete = true, WebId = "remove" };
-         
+
 
             var cr = await delete.CompileAsync(ed);
             Assert.True(cr.Result, cr.ToString());

@@ -136,6 +136,7 @@
     <Compile Include="NotFoundTextPlainActionResult.cs" />
     <Compile Include="NotModifiedResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SourceEntity.cs" />
     <Compile Include="RawBody.cs" />
     <Compile Include="WebApiExtensions.cs" />
   </ItemGroup>
