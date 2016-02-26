@@ -1,8 +1,13 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
 
 namespace Bespoke.Sph.Domain
 {
-    [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "Throw", TypeName = "Throw", Description = "Throw an exception")]
-    public partial class ThrowActivity : Activity { }
+    public partial class ThrowActivity : Activity
+    {
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
+        {
+            throw new Exception("You can use ExpressionActivity to throw an Exception");
+        }
+
+    }
 }
