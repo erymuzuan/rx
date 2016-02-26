@@ -40,7 +40,7 @@ namespace domain.test.businessrules
             var result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             foreach (var error in result.ValidationErrors)
             {
-                m_outputHelper.WriteLine(error);
+                m_outputHelper.WriteLine(error.ToString());
             }
             Console.WriteLine(result.ValidationErrors);
             Assert.True(result.Success);
