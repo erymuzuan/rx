@@ -22,7 +22,7 @@
 
 
                     <div class="form-group">
-                        <label for="mapping-definition" class="col-sm-3 control-label">Mapping Definition</label>
+                        <label for="mapping-definition" class="col-sm-3 control-label">Map</label>
                         <div class="col-sm-9">
                             <select class="form-control" id="mapping-definition" data-bind="value:MappingDefinition,
                                     options: $root.definitionOptions,
@@ -33,23 +33,17 @@
                             </select>
                         </div>
                     </div>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Source</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach : MappingSourceCollection">
-                            <tr>
-                                <td data-bind="text:WebId"></td>
-                                <td>
-                                    <select class="form-control" data-bind="value:Variable, uniqueName : true,
-                                    options: $root.destinationOptions, optionsText: 'Name', optionsValue : 'Name'" required></select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+           
+                    <!-- ko foreach : MappingSourceCollection-->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" data-bind="text:(ko.unwrap(WebId) || 'Input Path'), attr :{'for': 'input-' + ko.unwrap($index)}">LABEL</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" data-bind="value:Variable, uniqueName : true,
+                                    options: $root.destinationOptions, optionsText: 'Name', optionsValue : 'Name',
+                                    attr :{'id': 'input-' + ko.unwrap($index)" required></select>
+                        </div>
+                    </div>
+                    <!-- /ko -->
 
 
                     <div class="form-group">

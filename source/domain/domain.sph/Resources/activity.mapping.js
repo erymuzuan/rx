@@ -1,11 +1,9 @@
-﻿/// <reference path="../Scripts/jquery-2.1.3.intellisense.js" />
-/// <reference path="../Scripts/knockout-3.4.0.debug.js" />
-/// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../Scripts/require.js" />
-/// <reference path="../Scripts/underscore.js" />
-/// <reference path="../Scripts/trigger.workflow.g.js" />
-/// <reference path="../services/datacontext.js" />
-
+﻿/// <reference path="../../../web/core.sph/scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../../../web/core.sph/scripts/knockout-3.4.0.debug.js" />
+/// <reference path="../../../web/core.sph/SphApp/objectbuilders.js" />
+/// <reference path="../../../web/core.sph/SphApp/schemas/trigger.workflow.g.js" />
+/// <reference path="../../../web/core.sph/Scripts/__core.js" />
+/// <reference path="../../../web/core.sph/Scripts/require.js" />
 
 
 define(["services/datacontext", "services/logger", "plugins/dialog",objectbuilders.config],
@@ -21,7 +19,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog",objectbuilde
                     tcs = new $.Deferred();
 
                 if (activity().MappingSourceCollection().length === 0) {
-                    activity().MappingSourceCollection([new bespoke.sph.domain.MappingSource()]);
+                    activity().MappingSourceCollection([new bespoke.sph.domain.MappingSource("Input Path")]);
                 }
 
                 context.getTuplesAsync("TransformDefinition", query, "Id", "Name")
@@ -50,7 +48,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog",objectbuilde
                     context.loadOneAsync("TransformDefinition", "Id eq '" + ko.unwrap(md.Id) + "'")
                         .done(function (td) {
                             if (td.InputTypeName()) {
-                                activity().MappingSourceCollection([new bespoke.sph.domain.MappingSource()]);
+                                activity().MappingSourceCollection([new bespoke.sph.domain.MappingSource("Input Path")]);
                             } else {
                                 var args = _(td.InputCollection()).map(function (v) {
                                     return bespoke.sph.domain.MappingSource({ WebId: ko.unwrap(v.Name) });
