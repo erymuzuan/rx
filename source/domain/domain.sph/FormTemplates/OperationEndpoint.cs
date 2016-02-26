@@ -100,7 +100,7 @@ namespace Bespoke.Sph.Domain
 
             var patch = new Method { Name = $"Patch{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             patch.AttributeCollection.Add("[HttpPatch]");
-            patch.AttributeCollection.Add($"[Route(\"{Route}\")]");
+            patch.AttributeCollection.Add($"[PatchRoute(\"{Route}\")]");
 
             var authorize = this.Performer.GenerateAuthorizationAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
@@ -228,7 +228,7 @@ namespace Bespoke.Sph.Domain
 
             var put = new Method { Name = $"Put{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             put.AttributeCollection.Add("[HttpPut]");
-            put.AttributeCollection.Add($"[Route(\"{route}\")]");
+            put.AttributeCollection.Add($"[PutRoute(\"{route}\")]");
 
             var authorize = this.Performer.GenerateAuthorizationAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
@@ -303,7 +303,7 @@ namespace Bespoke.Sph.Domain
 
             var delete = new Method { Name = $"Delete{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             delete.AttributeCollection.Add("[HttpDelete]");
-            delete.AttributeCollection.Add($"[Route(\"{route}{{id}}\")]");
+            delete.AttributeCollection.Add($"[DeleteRoute(\"{route}{{id}}\")]");
 
             var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
             edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
@@ -333,12 +333,13 @@ namespace Bespoke.Sph.Domain
 
             delete.Append(
               $@"
+            var context = new SphDataContext();
             using(var session = context.OpenSession())
             {{
                 session.Delete(item);
                 await session.SubmitChanges(""{this.Name}"");
             }}
-            return Ok(new {{success = true, status=""OK"", id = item.Id}});");
+            return Accepted(new {{success = true, status=""OK"", id = item.Id}});");
 
             return delete;
         }
