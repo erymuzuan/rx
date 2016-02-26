@@ -42,8 +42,8 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpPost]
-        [Route("publish")]
-        public async Task<IHttpActionResult> Publish([JsonBody] TransformDefinition map)
+        [Route("{id}/publish")]
+        public async Task<IHttpActionResult> Publish([JsonBody] TransformDefinition map, string id)
         {
             var erros = await map.ValidateBuildAsync();
             if (!erros.Result)

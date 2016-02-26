@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
             var code = new StringBuilder();
             code.AppendLine("[HttpGet]");
-            code.AppendLine("[Route(\"{id:guid}\")]");
+            code.AppendLine("[GetRoute(\"{id:guid}\")]");
             code.AppendLine("public async Task<IHttpActionResult> GetOneByIdAsync(string id, [IfNoneMatch]ETag etag, [ModifiedSince]DateTime? modifiedSince)");
             code.AppendLine("{");
 

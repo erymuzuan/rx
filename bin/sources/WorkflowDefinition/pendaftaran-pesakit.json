@@ -791,10 +791,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
-        "Name": "DevV1.Customer",
-        "FullName": "DevV1.Customer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Name": "DevV1.LoadTest",
+        "FullName": "DevV1.LoadTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
         "Version": "0.0.0.0",
-        "Location": "c:\\project\\work\\sph\\source\\web\\web.sph\\bin\\DevV1.Customer.dll",
+        "Location": "E:\\project\\work\\rx\\bin\\\\output\\DevV1.LoadTest.dll",
         "IsGac": false,
         "IsStrongName": false,
         "RuntimeVersion": "v4.0.30319",
@@ -802,10 +802,21 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
-        "Name": "DevV1.LoadTest",
-        "FullName": "DevV1.LoadTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Name": "DevV1.Customer",
+        "FullName": "DevV1.Customer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
         "Version": "0.0.0.0",
-        "Location": "E:\\project\\work\\rx\\bin\\\\output\\DevV1.LoadTest.dll",
+        "Location": "C:\\project\\work\\sph\\bin\\\\output\\DevV1.Customer.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.PatientToCusomer",
+        "FullName": "DevV1.PatientToCusomer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "C:\\project\\work\\sph\\source\\web\\web.sph\\bin\\DevV1.PatientToCusomer.dll",
         "IsGac": false,
         "IsStrongName": false,
         "RuntimeVersion": "v4.0.30319",
@@ -859,6 +870,6 @@
   "Id": "pendaftaran-pesakit",
   "CreatedDate": "2015-11-23T09:15:13.5019851+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-26T08:31:50.8319323+08:00",
+  "ChangedDate": "2016-02-26T12:58:35.8506695+08:00",
   "WebId": "e49fa89f-1fa2-4a92-db9f-1b34dfdf3073"
 }

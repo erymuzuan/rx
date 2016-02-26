@@ -43,7 +43,7 @@ namespace Bespoke.Sph.Domain
             if (!IsHttpPost) return null;
             var post = new Method { Name = $"Post{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             post.AttributeCollection.Add("[HttpPost]");
-            post.AttributeCollection.Add($"[Route(\"{Route}\")]");
+            post.AttributeCollection.Add($"[PostRoute(\"{Route}\")]");
 
             var authorize = this.Performer.GenerateAuthorizationAttribute();
             if (!string.IsNullOrWhiteSpace(authorize))
