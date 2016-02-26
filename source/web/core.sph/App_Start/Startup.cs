@@ -21,6 +21,8 @@ namespace Bespoke.Sph.Web.App_Start
             app.MapSignalR<AuditTrailConnection>("/signalr_audittrail");
 
             var config = new HttpConfiguration();
+            config.MessageHandlers.Add(new MethodOverrideHandler());
+
             config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
             var setting = new JsonSerializerSettings
             {

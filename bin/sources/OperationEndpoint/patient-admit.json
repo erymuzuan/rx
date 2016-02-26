@@ -1,8 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
   "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
-  "Icon": "fa fa-cloud-upload",
-  "Url": "operation.endpoint.designer/{id}",
   "EntityPermissionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
     "$values": []
@@ -10,13 +8,10 @@
   "Rules": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": [
-      "Dob"
-    ]
-  },
-  "Permissions": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-    "$values": [
-      "Everybody"
+      "Dob",
+      "Date of birth cannot be in the future",
+      "ChildMarriage",
+      "Cannot be test name"
     ]
   },
   "SetterActionChildCollection": {
@@ -41,6 +36,13 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
     "$values": []
   },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": false,
+    "WebId": null
+  },
   "Name": "Admit",
   "Route": "~/api/patients/{id}/admit",
   "IsHttpPut": true,
@@ -51,10 +53,11 @@
   "Entity": "Patient",
   "Resource": "patients",
   "IsPublished": true,
+  "IsConflictDetectionEnabled": true,
   "CreatedBy": "admin",
-  "Id": "admit",
+  "Id": "patient-admit",
   "CreatedDate": "2016-02-01T07:01:55.3452451+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-02T07:43:00.0163871+08:00",
+  "ChangedDate": "2016-02-26T08:32:21.8473764+08:00",
   "WebId": "41a1ee80-283e-4586-a271-70997ac6479f"
 }
