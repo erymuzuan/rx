@@ -1,0 +1,42 @@
+{
+  "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
+  "CodeNamespace": "Bespoke.DevV1.Api",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": "",
+    "IsPublic": false,
+    "WebId": null
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "CacheProfile": "",
+  "Name": "allapplicant",
+  "Route": "allapplicant",
+  "IsReturnSource": "",
+  "Entity": "Applicant",
+  "Note": "",
+  "IsPublished": true,
+  "Resource": "Applicants",
+  "CacheFilter": null,
+  "CreatedBy": "admin",
+  "Id": "allapplicant",
+  "CreatedDate": "2016-02-03T16:25:26.3223295+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-02-23T07:54:22.1445978+08:00",
+  "WebId": "9433f343-c36f-4705-d37b-eed76eab4afc"
+}
