@@ -1,14 +1,12 @@
-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
-/// <reference path="../Scripts/knockout-3.4.0.debug.js" />
-/// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../Scripts/require.js" />
-/// <reference path="../Scripts/underscore.js" />
-/// <reference path="../Scripts/moment.js" />
-/// <reference path="../Scripts/t.js" />
-/// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
+﻿/// <reference path="../../../web/core.sph/scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../../../web/core.sph/scripts/knockout-3.4.0.debug.js" />
+/// <reference path="../../../web/core.sph/SphApp/objectbuilders.js" />
+/// <reference path="../../../web/core.sph/SphApp/schemas/trigger.workflow.g.js" />
+/// <reference path="../../../web/core.sph/Scripts/__core.js" />
+/// <reference path="../../../web/core.sph/Scripts/require.js" />
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.config, objectbuilders.system],
+
+define(["services/datacontext", "services/logger", "plugins/dialog", objectbuilders.config, objectbuilders.system],
     function (context, logger, dialog, config, system) {
 
         var methodOptions = ko.observableArray(),
@@ -16,6 +14,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             adapterOptions = ko.observableArray(),
             variableOptions = ko.observableArray(),
             activity = ko.observable(),
+            selectedMethod = ko.observable(),
             wd = ko.observable(),
             isBusy = ko.observable(false),
             activate = function () {
@@ -24,19 +23,31 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                     return ko.unwrap(v.Name);
                 }));
                 var tcs = new $.Deferred();
-                $.get("/wf-designer/assemblies")
+                $.get("/api/assemblies")
                     .done(function (b) {
-                        adapterAssemblyOptions(_(b).filter(function (v) { return v.indexOf(config.applicationName) > -1; }));
+                        var assemblies = _(b).chain()
+                            .filter(function (v) {
+                                return v.Name.indexOf(config.applicationName) > -1;
+                            })
+                            .map(function (v) {
+                                return v.Name;
+                            })
+                            .value();
+
+                        adapterAssemblyOptions(assemblies);
 
                         // for existing activity
                         var act = activity();
                         if (act.AdapterAssembly()) {
-                            var getTypeTask = $.get("/wf-designer/types/" + act.AdapterAssembly()),
-                                getAdapterTask = $.get("/wf-designer/methods/" + act.AdapterAssembly() + "/" + act.Adapter());
+                            var getTypeTask = $.get("/api/assemblies/" + act.AdapterAssembly() + "/types"),
+                                getAdapterTask = $.get("/api/assemblies/" + act.AdapterAssembly() + "/types/" + act.Adapter() + "/methods");
 
                             $.when(getTypeTask, getAdapterTask)
                                .done(function (b1, b2) {
-                                   adapterOptions(b1[0]);
+                                   var adpterTypes = _(b1[0] || b1).map(function (v) {
+                                       return v.TypeName;
+                                   });
+                                   adapterOptions(adpterTypes);
                                    methodOptions(b2[0]);
                                    tcs.resolve(true);
                                });
@@ -48,20 +59,32 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
 
                 return tcs.promise();
             },
-            attached = function (view) {
+            attached = function () {
 
                 activity().AdapterAssembly.subscribe(function (dll) {
-                    $.get("/wf-designer/types/" + dll)
+                    $.get("/api/assemblies/" + dll + "/types")
                    .done(function (b) {
-                       adapterOptions(b);
+                       var adpterTypes = _(b).map(function (v) {
+                           return v.TypeName;
+                       });
+                       adapterOptions(adpterTypes);
                    });
                 });
                 activity().Adapter.subscribe(function (type) {
-                    $.get("/wf-designer/methods/" + activity().AdapterAssembly() + "/" + type)
+                    $.get("/api/assemblies/" + activity().AdapterAssembly() + "/types/" + type + "/methods")
                    .done(function (b) {
                        methodOptions(b);
                    });
                 });
+                selectedMethod.subscribe(function (m) {
+                    var method = (m || { Name: "" }).Name;
+                    activity().Method(method);
+                });
+
+                var sm = methodOptions().find(function(v) {
+                    return v.Name === activity().Method();
+                });
+                selectedMethod(sm);
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
@@ -81,6 +104,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             };
 
         var vm = {
+            selectedMethod: selectedMethod,
             variableOptions: variableOptions,
             adapterAssemblyOptions: adapterAssemblyOptions,
             adapterOptions: adapterOptions,

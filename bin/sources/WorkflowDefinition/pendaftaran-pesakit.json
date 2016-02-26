@@ -6,8 +6,8 @@
       {
         "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
         "PortType": null,
-        "Operation": null,
-        "MessagePath": null,
+        "Operation": "PermohonanPendaftaran",
+        "MessagePath": "Pesakit",
         "InitializingCorrelationSetCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": []
@@ -42,8 +42,8 @@
           "WebId": null
         },
         "IsInitiator": true,
-        "NextActivityWebId": "caa8cf62-09c9-4696-c47c-27dcd8cff9e6",
-        "Name": "Permohonan Pendaftaran",
+        "NextActivityWebId": "4bc3d0f9-a0ba-48ac-bc86-03c5a9e34c71",
+        "Name": "PermohonanPendaftaran",
         "TryScope": null,
         "CatchScope": null,
         "WebId": "0188f17d-c3ae-4e6a-a8bc-89248cc14392"
@@ -164,8 +164,8 @@
         },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 401,
-          "Y": 250,
+          "X": 660,
+          "Y": 348,
           "WebId": null
         },
         "IsInitiator": false,
@@ -178,19 +178,29 @@
       {
         "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
         "PortType": null,
-        "Operation": null,
-        "MessagePath": null,
+        "Operation": "ProcessKelulusan",
+        "MessagePath": "Status",
         "InitializingCorrelationSetCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": []
         },
         "FollowingCorrelationSetCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-          "$values": []
+          "$values": [
+            "mrn"
+          ]
         },
         "CorrelationPropertyCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
-          "$values": []
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+              "Path": "Pesakit.Mrn",
+              "Name": "mrn",
+              "Origin": "mrn",
+              "WebId": "c77eff53-2015-460a-c83d-7532379bc4bf"
+            }
+          ]
         },
         "IsAsync": true,
         "Performer": {
@@ -215,7 +225,7 @@
         },
         "IsInitiator": false,
         "NextActivityWebId": "1074834d-69ef-449d-83b4-76674189c0a5",
-        "Name": "Process Kelulusan",
+        "Name": "ProcessKelulusan",
         "TryScope": null,
         "CatchScope": null,
         "WebId": "d1f7fc67-7efa-45fa-b404-4d72ccb78d3b"
@@ -466,8 +476,8 @@
         },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 401,
-          "Y": 428,
+          "X": 489,
+          "Y": 487,
           "WebId": null
         },
         "IsInitiator": false,
@@ -676,6 +686,48 @@
         "TryScope": null,
         "CatchScope": null,
         "WebId": "0cbb78ed-0d49-4dd0-b152-b456a772a804"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SendActivity, domain.sph",
+        "PortType": null,
+        "Adapter": "DevV1.Adapters.dbo.LoadTest.LoadTestRunAdapter",
+        "Method": "ExecuteScalarAsync",
+        "AdapterAssembly": "DevV1.LoadTest",
+        "IsSynchronous": false,
+        "ArgumentPath": "SqlSelectLoadTestName",
+        "ReturnValuePath": "LoadTestName",
+        "ExceptionFilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Send",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 401,
+          "Y": 211,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "caa8cf62-09c9-4696-c47c-27dcd8cff9e6",
+        "Name": "GetLoadTestName",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "4bc3d0f9-a0ba-48ac-bc86-03c5a9e34c71"
       }
     ]
   },
@@ -687,7 +739,7 @@
         "Assembly": "",
         "CanInitiateWithDefaultConstructor": true,
         "Name": "Pesakit",
-        "TypeName": "Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient",
+        "TypeName": "Bespoke.DevV1.Patients.Domain.Patient, DevV1.Patient",
         "DefaultValue": "",
         "WebId": "54a6a454-b3d6-4bf5-f1bf-71e10b846646"
       },
@@ -696,7 +748,7 @@
         "Assembly": "",
         "CanInitiateWithDefaultConstructor": true,
         "Name": "Pelanggang",
-        "TypeName": "Bespoke.DevV1_customer.Domain.Customer, DevV1.Customer",
+        "TypeName": "Bespoke.DevV1.Customers.Domain.Customer, DevV1.Customer",
         "DefaultValue": "",
         "WebId": "30185aa4-e642-4188-f69d-45dbf9d7e0cb"
       },
@@ -706,6 +758,20 @@
         "TypeName": "System.String, mscorlib",
         "DefaultValue": "Baru",
         "WebId": "36d473d8-4047-4e74-969f-479f3074a8a9"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "SqlSelectLoadTestName",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "SELECT [LoadTestName] FROM dbo.LoadTestRun WHERE [LocadTestRunId] = 1",
+        "WebId": "9ffff894-154c-43a3-f24a-553158807169"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "LoadTestName",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "4c61432c-b6b6-45d5-d681-3738be729cf9"
       }
     ]
   },
@@ -736,10 +802,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
-        "Name": "DevV1.PatientToCustomer2",
-        "FullName": "DevV1.PatientToCustomer2, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Name": "DevV1.LoadTest",
+        "FullName": "DevV1.LoadTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
         "Version": "0.0.0.0",
-        "Location": "c:\\project\\work\\sph\\bin\\output\\DevV1.PatientToCustomer2.dll",
+        "Location": "E:\\project\\work\\rx\\bin\\\\output\\DevV1.LoadTest.dll",
         "IsGac": false,
         "IsStrongName": false,
         "RuntimeVersion": "v4.0.30319",
@@ -749,11 +815,36 @@
   },
   "CorrelationSetCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationSet, domain.sph",
+        "Type": "mrn",
+        "Name": "mrn",
+        "WebId": "dfabc6b1-abf0-47a9-b444-c1379b122e8a"
+      }
+    ]
   },
   "CorrelationTypeCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationType, domain.sph",
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+              "Path": "mrn",
+              "Name": "",
+              "Origin": "",
+              "WebId": "4b63a16a-b6ed-4683-e8ec-a8a3f3d26016"
+            }
+          ]
+        },
+        "Name": "mrn",
+        "WebId": "fd9a98b4-48b7-49ef-fd4a-0de35f7890ac"
+      }
+    ]
   },
   "TryScopeCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TryScope, domain.sph]], domain.sph",
@@ -768,6 +859,6 @@
   "Id": "pendaftaran-pesakit",
   "CreatedDate": "2015-11-23T09:15:13.5019851+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-18T13:14:43.8711708+08:00",
+  "ChangedDate": "2016-02-26T08:08:31.8844333+08:00",
   "WebId": "e49fa89f-1fa2-4a92-db9f-1b34dfdf3073"
 }

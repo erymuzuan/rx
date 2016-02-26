@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
@@ -187,7 +188,7 @@ namespace Bespoke.Sph.Web.Controllers
                                 where a.IsDynamic == false
                                       && !Ignores.Any(x => name.Name.StartsWith(x))
                                 select a;
-            var assembly = refAssemblies.SingleOrDefault(x => x.GetName().Name == dll);
+            var assembly = refAssemblies.FirstOrDefault(x => x.GetName().Name == dll);
             if (null == assembly) return NotFound("Cannot find assembly " + dll);
 
             var types = assembly.GetTypes()
@@ -220,35 +221,37 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var clrType = FindType(dll, type);
             var methods = clrType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
-                .Where(x => null != x)
-                .Where(x => !string.IsNullOrWhiteSpace(x.Name))
-                .Where(x => !x.Name.StartsWith("get_"))
-                .Where(x => !x.Name.StartsWith("set_"))
-                .Where(x => !x.Name.StartsWith("add_"))
-                .Where(x => !x.Name.StartsWith("remove_"))
-                .Where(x => x.DeclaringType != typeof(object))
-                .Where(x => x.DeclaringType != typeof(DomainObject))
-                ;
+                            .Where(x => null != x)
+                            .Where(x => !string.IsNullOrWhiteSpace(x.Name))
+                            .Where(x => !x.Name.StartsWith("get_"))
+                            .Where(x => !x.Name.StartsWith("set_"))
+                            .Where(x => !x.Name.StartsWith("add_"))
+                            .Where(x => !x.Name.StartsWith("remove_"))
+                            .Where(x => x.DeclaringType != typeof(object))
+                            .Where(x => x.DeclaringType != typeof(DomainObject));
+            
 
-            return Json(methods.Select(x => new
-            {
-                x.Name,
-                Display = "",
-                RetVal = x.ReturnType?.FullName,
-                IsAsync = x.ReturnType?.FullName?.StartsWith("System.Threading.Tasks.Task"),
-                x.IsGenericMethod,
-                x.IsGenericMethodDefinition,
-                x.IsStatic,
-                IsVoid = x.ReturnType == typeof(void),
-                Parameters = x.GetParameters().Select(p => new
-                {
-                    p.Name,
-                    Type = p.ParameterType?.GetShortAssemblyQualifiedName(),
-                    p.IsOut,
-                    p.IsRetval,
-                    p.IsIn
-                })
-            }).ToArray());
+            var list = from x in methods
+                       select new
+                       {
+                           x.Name,
+                           RetVal = $"{x.ReturnType}",
+                           IsAsync = x.ReturnType?.BaseType == typeof(Task),
+                           x.IsGenericMethod,
+                           x.IsGenericMethodDefinition,
+                           x.IsStatic,
+                           IsVoid = x.ReturnType == typeof(void),
+                           Parameters = x.GetParameters().Select(p => new
+                           {
+                               p.Name,
+                               Type = $"{p.ParameterType}",//?.GetShortAssemblyQualifiedName(),
+                               p.IsOut,
+                               p.IsRetval,
+                               p.IsIn
+                           })
+                       };
+
+            return Json(list.ToArray());
         }
     }
 }
