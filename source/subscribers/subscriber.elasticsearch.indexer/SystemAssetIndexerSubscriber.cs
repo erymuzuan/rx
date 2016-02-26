@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -15,12 +16,17 @@ namespace Bespoke.Sph.ElasticSearch
 
         protected override async Task ProcessMessage(Entity item, MessageHeaders headers)
         {
+
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(item, setting);
 
             var content = new StringContent(json);
             var type = item.GetType();
             if (!item.IsSystemType()) return;// just custom entity
+            var source = item.GetType().GetCustomAttribute(typeof(StoreAsSourceAttribute));
+            if (null != source) return;
+
+
             if (type == typeof(Tracker))
             {
                 var trackerIndexer = new TrackerIndexer();
@@ -69,6 +75,7 @@ namespace Bespoke.Sph.ElasticSearch
 
         private async Task RequeueMessageAsync(Entity item, MessageHeaders headers, HttpRequestException e, long delay)
         {
+
             var count = (headers.TryCount ?? 0) + 1;
             this.WriteMessage("{0} retry on HttpRequestException : {1}", count.Ordinalize(), e.Message);
 
