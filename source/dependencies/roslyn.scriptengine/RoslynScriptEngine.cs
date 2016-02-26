@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json;
 using Roslyn.Compilers;
 using Roslyn.Scripting.CSharp;
 
@@ -25,11 +26,12 @@ namespace Bespoke.Sph.RoslynScriptEngines
             {
                 var domain = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof(Entity).Assembly.Location);
                 var dll = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof(RoslynScriptEngine).Assembly.Location);
-                var argDll = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, arg1.GetType().Assembly.Location);
+                var argDll = arg1.GetType().Assembly.Location;
 
                 session.Execute("#r \"" + domain + "\"");
                 session.Execute("#r \"" + dll + "\"");
-                session.Execute("#r \"" + argDll + "\"");
+                session.Execute($"#r \"{argDll}\"");
+                session.Execute($"#r \"{typeof(JsonConvert).Assembly.Location}\"");
             }
             catch (Exception e)
             {
@@ -51,6 +53,7 @@ namespace Bespoke.Sph.RoslynScriptEngines
             if (!block.EndsWith(";")) block = $"return {script};";
 
 
+            var argTypeName = arg1.GetType().FullName;
             var code = $@"
 using System;
 using Bespoke.Sph.Domain;
@@ -58,8 +61,13 @@ using System.Linq;
 public {typeof(T).ToCSharp()} Evaluate()
 {{
     if(null == Item)throw new InvalidOperationException(""Item is null"");
-    var item = Item as {arg1.GetType().FullName};
-    if(null == item) throw new Exception(""Cannot cast Item("" + Item.GetType().FullName + "") to [{arg1.GetType().FullName}]"");
+    var item = Item as {argTypeName};
+    if(null == item) 
+    {{
+        var json = item.ToJsonString();
+        item = json.DeserializeFromJson<{argTypeName}>();
+    }};
+    if(null == item) throw new Exception(""Cannot cast Item("" + Item.GetType().FullName + "") to [{argTypeName}]"");
     {customScript}
     {block}
 }}";
