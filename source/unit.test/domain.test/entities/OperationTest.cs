@@ -178,7 +178,7 @@ namespace domain.test.entities
                 Assert.NotNull(bs);
                 bs.Configuration = new HttpConfiguration();
 
-                var awaiter = (Task<IHttpActionResult>)action.Invoke(controller, new object[] { patient });
+                var awaiter = (Task<IHttpActionResult>)action.Invoke(controller, new object[] { ed, endpoint, patient });
                 var response = (AcceptedResult)await awaiter;
                 var json = JObject.Parse(JsonConvert.SerializeObject(response.Result));
 
@@ -335,9 +335,12 @@ namespace domain.test.entities
             var httpDelete = remove.CustomAttributes.SingleOrDefault(x => x.AttributeType == typeof(HttpDeleteAttribute));
             Assert.NotNull(httpDelete);
 
+            var route = remove.CustomAttributes.SingleOrDefault(x => x.AttributeType == typeof(DeleteRouteAttribute));
+            Assert.NotNull(route);
+
             var parameters = remove.GetParameters();
-            Assert.Equal(1, parameters.Length);
-            var id = parameters.Single();
+            Assert.Equal(3, parameters.Length);
+            var id = parameters[2];
             Assert.Equal("id", id.Name);
             Assert.Equal(typeof(string), id.ParameterType);
         }
@@ -346,7 +349,7 @@ namespace domain.test.entities
         public async Task HttpDeleteWithRule()
         {
             const string NAME = "PatientDeleteWithRule";
-            var delete = new OperationEndpoint { Name = "Remove", Entity = NAME, Resource = "patients", Route = "", IsHttpDelete = true, WebId = "remove" };
+            var delete = new OperationEndpoint { Name = "Remove", Id = "patient-remove", Entity = NAME, Resource = "patients", Route = "", IsHttpDelete = true, WebId = "remove" };
 
             var ed = this.CreatePatientDefinition(NAME);
             var rule = new BusinessRule { Name = "Cannot delete admitted patient", WebId = "rule01" };
@@ -372,8 +375,8 @@ namespace domain.test.entities
             Assert.NotNull(httpDelete);
 
             var parameters = remove.GetParameters();
-            Assert.Equal(1, parameters.Length);
-            var id = parameters.Single();
+            Assert.Equal(3, parameters.Length);
+            var id = parameters[2];
             Assert.Equal("id", id.Name);
             Assert.Equal(typeof(string), id.ParameterType);
         }
@@ -432,11 +435,11 @@ namespace domain.test.entities
 
             var controllerType = oedll.GetType($"{mortuary.CodeNamespace}.{mortuary.Name}Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
-
-            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
-
-
-            var result = await controller.PatchSendToMortuary(patient.Id, JsonConvert.SerializeObject(patient), new ETag { Tag = "\"45\"" }, null);
+            
+            var result = await controller.PatchSendToMortuary(
+                ed,
+                mortuary,
+                patient.Id, JsonConvert.SerializeObject(patient), new ETag { Tag = "\"45\"" }, null);
             Assert.NotNull(result);
             Assert.IsType<InvalidResult>(result);
         }
@@ -496,10 +499,10 @@ namespace domain.test.entities
             var controllerType = oedll.GetType($"{release.CodeNamespace}.{release.Name}Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
 
-            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
-
-
-            var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
+            var result = await controller.PatchRelease(
+                ed,
+                release,
+                patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
             Assert.IsType<InvalidResult>(result);
 
@@ -563,9 +566,10 @@ namespace domain.test.entities
             var opDll = Assembly.LoadFrom(cr.Output);
 
             var controller = opDll.CreateApiController(release.CodeNamespace + ".ReleaseController");
-            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
-
-            var result = await controller.PatchRelease(patient.Id, JsonSerializerService.ToJsonString(patient, true));
+            var result = await controller.PatchRelease(
+                ed,
+                release,
+                patient.Id, JsonSerializerService.ToJsonString(patient, true));
             Console.WriteLine("Result type : " + result);
             Assert.NotNull(result);
 
