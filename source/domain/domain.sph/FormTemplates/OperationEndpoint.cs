@@ -254,13 +254,10 @@ namespace Bespoke.Sph.Domain
             put.AppendLine(
                 $@"
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
-            var persistentItem = await repos.LoadOneAsync(id);
-            var baru = null == persistentItem;
-            if(baru)
-            {{
-                if (!string.IsNullOrWhiteSpace(item.Id))
-                    item.Id = id ?? System.Guid.NewGuid().ToString();
-            }}");
+            var lo = await repos.LoadOneAsync(id);
+            var baru = null == lo.Source;
+            item.Id = id ?? System.Guid.NewGuid().ToString();
+            ");
 
             var rules = GenerateRulesCode();
             put.AppendLine(rules);
