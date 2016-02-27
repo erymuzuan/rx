@@ -13,12 +13,14 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public ReadonlyRepository()
         {
-            m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+            if (null == m_client)
+                m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
         }
 
         public ReadonlyRepository(HttpMessageHandler httpMessageHandler, bool disposeHandler)
         {
-            m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+            if (null == m_client)
+                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
         }
 
         public async Task<LoadData<T>> LoadOneAsync(string id)
