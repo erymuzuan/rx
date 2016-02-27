@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
         {
             var code = new StringBuilder();
             code.Append($@"        
-        [Route("""")]
+        [GetRoute("""")]
         [HttpGet]
         public async Task<IHttpActionResult> OdataApi([FromUri(Name = ""$orderby"")]string orderby = null, 
                                                 [FromUri(Name = ""$filter"")]string filter = null,
