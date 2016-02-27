@@ -143,20 +143,21 @@ namespace Bespoke.Sph.ControlCenter
 
         public void SendMessage(string json)
         {
-            m_appServer?.GetAllSessions().Where(x => null != x).ToList().ForEach(x =>
+            this.QueueUserWorkItem(m =>
             {
-                this.QueueUserWorkItem(m =>
+                m_appServer?.GetAllSessions().Where(x => null != x).ToList().ForEach(x =>
                 {
                     try
                     {
                         x?.Send(m);
                     }
-                    catch (Exception e)
+                    catch
                     {
-                        Console.WriteLine(e);
+                        // ignored
                     }
-                }, json);
-            });
+
+                });
+            }, json);
         }
 
         private async void NewMessageReceived(WebSocketSession session, string value)
@@ -186,7 +187,7 @@ namespace Bespoke.Sph.ControlCenter
 
             var outputs = value.Replace("POST /deploy:", "")
                 .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            
+
             Parallel.ForEach(outputs, f =>
             {
                 if (!File.Exists(f)) return;
