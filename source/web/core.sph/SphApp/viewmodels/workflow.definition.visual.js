@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -128,7 +128,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 if (sourceAnchors.length)
                     jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: "BottomCenter", uuid: act.WebId() + "Source" });
 
-
+                console.log("Done initializing activity ", ko.unwrap(act.Name));
 
             },
             autoSave = ko.observable(false),
@@ -383,8 +383,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     }
                 });
 
-
-                originalEntity = ko.toJSON(wd);
+                // TODO - got towait untill all initializeActivity has finished
+                setTimeout(function () {
+                    originalEntity = ko.toJSON(wd);
+                }, 5000);
+                console.log("Doe attached");
             },
             saveAsync = function () {
                 $("div#container-canvas>div.activity").each(function () {
@@ -494,7 +497,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             showError = function (error) {
                 console.log(error);
-                wd().editActivity(_(wd().ActivityCollection()).find(function (v) { return v.WebId() == error.ItemWebId; }))();
+                wd().editActivity(_(wd().ActivityCollection()).find(function (v) { return v.WebId() === error.ItemWebId; }))();
             },
             remove = function () {
                 var tcs = new $.Deferred(),
