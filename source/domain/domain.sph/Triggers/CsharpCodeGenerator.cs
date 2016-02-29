@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
@@ -9,13 +10,15 @@ namespace Bespoke.Sph.Domain
     public class CsharpCodeGenerator
     {
         private readonly XElement m_xsd;
+        private readonly string m_codeNamespace;
         // ReSharper disable InconsistentNaming
         static readonly XNamespace x = "http://www.w3.org/2001/XMLSchema";
         // ReSharper restore InconsistentNaming
 
-        public CsharpCodeGenerator(XElement xsd)
+        public CsharpCodeGenerator(XElement xsd, string codeNamespace)
         {
             m_xsd = xsd;
+            m_codeNamespace = codeNamespace;
         }
 
         public IEnumerable<Class> Generate()
@@ -37,8 +40,6 @@ namespace Bespoke.Sph.Domain
                 .ToList();
             @classes.AddRange(elementClasses);
 
-
-
             return @classes;
         }
 
@@ -55,7 +56,17 @@ namespace Bespoke.Sph.Domain
             }
             if (null == ct) throw new InvalidOperationException("cannot find complextType element in " + elementOrComplexType);
 
-            var @class = new Class { Name = elementOrComplexType, BaseClass = "DomainObject", FileName = elementOrComplexType + ".cs" };
+            var @class = new Class
+            {
+                Name = elementOrComplexType,
+                BaseClass = "DomainObject",
+                Namespace = m_codeNamespace,
+                FileName = elementOrComplexType + ".cs"
+            };
+            @class.AddNamespaceImport(typeof(DateTime));
+            @class.AddNamespaceImport(typeof(DomainObject));
+            @class.AddNamespaceImport(typeof(XmlTypeAttribute));
+
             var name = elementOrComplexType;
             var members = new List<Property>();
             // for extensions
@@ -88,7 +99,7 @@ namespace Bespoke.Sph.Domain
                              {
                                  Name = n,
                                  Type = Strings.GetType(ComplexVariable.GetClrDataType(at)),
-                                 Code =  "      [XmlAttribute]\r\n"
+                                 Code = "      [XmlAttribute]\r\n"
                                          + string.Format("      public {1} {0} {{get;set;}}", n, ComplexVariable.GetClrDataType(at))
                              };
 
@@ -98,40 +109,40 @@ namespace Bespoke.Sph.Domain
             if (null != all)
             {
                 var allElements = from at in all.Elements(x + "element")
-                    where at.Attribute("name") != null
-                          && at.Attribute("type") != null
-                    select new Property
-                    {
-                        Name = at.Attribute("name").Value,
-                        Code =  string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name").Value, ComplexVariable.GetClrDataType(at))
-                    };
+                                  where at.Attribute("name") != null
+                                        && at.Attribute("type") != null
+                                  select new Property
+                                  {
+                                      Name = at.Attribute("name").Value,
+                                      Code = string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name").Value, ComplexVariable.GetClrDataType(at))
+                                  };
                 properties.AddRange(allElements);
 
                 var collectionElements = from at in all.Elements(x + "element")
-                    where at.Attribute("name") != null
-                          && at.Attribute("type") == null
-                    let refElement = at.Descendants(x + "element").First()
-                    let type =
-                        refElement.Attribute("ref") == null
-                            ? refElement.Attribute("type").Value
-                            : refElement.Attribute("ref").Value
-                    select new Property
-                    {
-                        Code = string.Format("      private readonly ObjectCollection<{1}> m_{0} = new ObjectCollection<{1}>();\r\n" +
-                                                              "      public ObjectCollection<{1}> {0} {{get {{ return m_{0};}} }}", at.Attribute("name").Value, type),
-                                                              Name = at.Attribute("name").Value
-                    };
+                                         where at.Attribute("name") != null
+                                               && at.Attribute("type") == null
+                                         let refElement = at.Descendants(x + "element").First()
+                                         let type =
+                                             refElement.Attribute("ref") == null
+                                                 ? refElement.Attribute("type").Value
+                                                 : refElement.Attribute("ref").Value
+                                         select new Property
+                                         {
+                                             Code = string.Format("      private readonly ObjectCollection<{1}> m_{0} = new ObjectCollection<{1}>();\r\n" +
+                                                                                   "      public ObjectCollection<{1}> {0} {{get {{ return m_{0};}} }}", at.Attribute("name").Value, type),
+                                             Name = at.Attribute("name").Value
+                                         };
                 properties.AddRange(collectionElements);
 
                 var refElements = from at in all.Elements(x + "element")
-                    where at.Attribute("ref") != null
-                    let refa = at.Attribute("ref")
-                    select new Property
-                    {
-                        Code = string.Format("      private  {0} m_{0} = new {0}();\r\n" +
-                                             "      public {0} {0}{{get{{ return m_{0};}} set{{ m_{0} = value;}} }}",
-                            refa.Value)
-                    };
+                                  where at.Attribute("ref") != null
+                                  let refa = at.Attribute("ref")
+                                  select new Property
+                                  {
+                                      Code = string.Format("      private  {0} m_{0} = new {0}();\r\n" +
+                                                           "      public {0} {0}{{get{{ return m_{0};}} set{{ m_{0} = value;}} }}",
+                                          refa.Value)
+                                  };
                 properties.AddRange(refElements);
 
             }
