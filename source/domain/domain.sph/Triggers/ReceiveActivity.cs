@@ -114,11 +114,10 @@ namespace Bespoke.Sph.Domain
             // controller
             var controller = new Class
             {
-                Name = $"{this.Name}Controller",
-                FileName = this.Name + "Controller.cs",
+                Name = $"{wd.WorkflowTypeName}Controller",
+                FileName = $"{wd.WorkflowTypeName}Controller.{Name}.cs",
                 Namespace = wd.CodeNamespace,
-                IsPartial = true,
-                BaseClass = "BaseApiController"
+                IsPartial = true
             };
             controller.ImportCollection.Add("System.Web.Http");
             controller.ImportCollection.Add("System.Net");
@@ -130,28 +129,27 @@ namespace Bespoke.Sph.Domain
             controller.ImportCollection.Add(typeof(Task<>).Namespace);
             controller.ImportCollection.Add(typeof(Enumerable).Namespace);
             controller.ImportCollection.Add(typeof(JsonConvert).Namespace);
-            controller.ImportCollection.Add(typeof(MemoryStream).Namespace);
-            controller.AttributeCollection.Add($"  [RoutePrefix(\"{wd.Id}\")]");
-
 
             var vt = Strings.GetType(variable.TypeName);
             var vt2 = vt?.FullName;
-            if (null == vt) vt2 =variable.TypeName;
-
+            if (null == vt) vt2 = variable.TypeName;
 
             var code = new StringBuilder();
             code.AppendLinf("//exec:{0}", this.WebId);
             code.AppendLine("       [HttpPost]");
-            code.AppendLine($"      [Route(\"{{correlationId}}/{this.Operation.ToIdFormat()}\")]");
-            code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([RawBody]string json, [FromUri]string correlationId)");
-            code.AppendLine("       {");
             if (this.FollowingCorrelationSetCollection.Count == 0 && this.IsInitiator)
             {
-                code.AppendLinf("           var wf = new {0}{{Id = Guid.NewGuid().ToString()}};", wd.WorkflowTypeName);
+                code.AppendLine($"      [Route(\"{this.Operation.ToIdFormat()}\")]");
+                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([RawBody]string json)");
+                code.AppendLine("       {");
+                code.AppendLine($"           var wf = new {wd.WorkflowTypeName}{{Id = Guid.NewGuid().ToString()}};");
             }
             else
             {
-                code.AppendLinf("           {0} wf = null;", wd.WorkflowTypeName);
+                code.AppendLine($"      [Route(\"{{correlationId}}/{this.Operation.ToIdFormat()}\")]");
+                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([RawBody]string json, [FromUri]string correlationId)");
+                code.AppendLine("       {");
+                code.AppendLine($"           ${wd.WorkflowTypeName} wf = null;");
                 code.AppendLine(this.GenerateGetInstanceFromCorrelationSet(wd));
             }
             code.AppendLine();
@@ -159,7 +157,6 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine(this.GenerateCanExecuteCode());
 
-            //JsonConvert.DeserializeObject()
             code.AppendLine();
             code.AppendLine($"           var @message = JsonConvert.DeserializeObject<{vt2}>(json);");
             code.AppendLinf($"           var result = await wf.{Name}Async(@message);");
