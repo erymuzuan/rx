@@ -278,7 +278,7 @@ ko.bindingHandlers.typeahead = {
           var  members = new Bloodhound({
                 datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.Path); },
                 queryTokenizer: Bloodhound.tokenizers.nonword,
-                prefetch: "/WorkflowDefinition/GetVariablePath/" + id
+                prefetch: "/api/workflow-definitions/" + id + "/variable-path"
 
             });
         members.initialize();

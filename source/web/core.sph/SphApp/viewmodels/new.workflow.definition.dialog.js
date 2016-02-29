@@ -23,7 +23,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
             saveAsync = function(data) {
 
                 var json = ko.mapping.toJSON(wd);
-                return context.post(json, "/WorkflowDefinition/Save")
+                return context.post(json, "/api/workflow-definitions")
                     .then(function (result) {
                         if (result.success) {
                             id(result.id);
