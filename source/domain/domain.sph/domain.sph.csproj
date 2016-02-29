@@ -559,12 +559,6 @@
     <Compile Include="Triggers\WorkflowDefinition.Roslyn.cs">
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Triggers\WorkflowDefinition.xsd.csharp.cs">
-      <DependentUpon>WorkflowDefinition.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Triggers\WorkflowDefinition.xsd.js.cs">
-      <DependentUpon>WorkflowDefinition.cs</DependentUpon>
-    </Compile>
     <Compile Include="Triggers\WorkflowDefinitionPackage.cs" />
     <Compile Include="Triggers\WorkflowDesigner.cs" />
     <Compile Include="Triggers\WorkflowTriggerMap.cs" />

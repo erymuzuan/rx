@@ -20,6 +20,8 @@ namespace Bespoke.Sph.Domain
     [StoreAsSource(HasDerivedTypes = true)]
     public partial class WorkflowDefinition : Entity
     {
+        private XElement m_customSchema;
+
         public T GetActivity<T>(string webId) where T : Activity
         {
             return this.ActivityCollection.OfType<T>().Single(w => w.WebId == webId);
@@ -268,6 +270,20 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        
 
+        public XElement GetCustomSchema(string id = null)
+        {
+            if (null != m_customSchema) return m_customSchema;
+
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var content = store.GetContent(id ?? this.SchemaStoreId);
+            if (null == content) return null;
+            using (var stream = new MemoryStream(content.Content))
+            {
+                m_customSchema = XElement.Load(stream);
+                return m_customSchema;
+            }
+        }
     }
 }

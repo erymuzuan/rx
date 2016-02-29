@@ -10,10 +10,41 @@ namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition
     {
-      
-        private IEnumerable<Class> GenerateCode()
+
+        public IEnumerable<Class> GenerateCode()
         {
             var @classes = new List<Class>();
+            var wcd = GenerateWorkflowClass();
+            @classes.Add(wcd);
+
+            var activityPartials = from a in this.ActivityCollection
+                let pc = a.GenerateWorkflowPartial(this)
+                where null != pc
+                select pc;
+            @classes.AddRange(activityPartials);
+
+
+            foreach (var @var in this.VariableDefinitionCollection)
+            {
+                var @varClasses = @var.GenerateCustomTypesAsync(this).Result;
+                @classes.AddRange(@varClasses);
+
+            }
+
+            var @accList = from a in this.ActivityCollection
+                           let @acc = a.GeneratedCustomTypeCode(this)
+                           select @acc;
+            @classes.AddRange(@accList.SelectMany(c => c.ToList()));
+
+            // controller
+            var controller = GenerateController();
+            @classes.Add(@controller);
+
+            return @classes;
+        }
+
+        private Class GenerateWorkflowClass()
+        {
             var wcd = new Class
             {
                 Name = this.WorkflowTypeName,
@@ -22,48 +53,91 @@ namespace Bespoke.Sph.Domain
                 FileName = this.WorkflowTypeName + ".cs",
                 IsPartial = true
             };
-            @classes.Add(wcd);
             wcd.ImportCollection.Add(typeof(Entity).Namespace);
-            wcd.ImportCollection.Add(typeof(Int32).Namespace);
+            wcd.ImportCollection.Add(typeof(int).Namespace);
             wcd.ImportCollection.Add(typeof(Task<>).Namespace);
             wcd.ImportCollection.Add(typeof(Enumerable).Namespace);
             wcd.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
             wcd.ImportCollection.Add(typeof(Polly.Policy).Namespace);
             wcd.AttributeCollection.Add("   [EntityType(typeof(Workflow))]");
 
-
-
             var ctor = new StringBuilder();
             // contructor
-            ctor.AppendLine("       public " + this.WorkflowTypeName + "()");
+            ctor.AppendLine($"       public {this.WorkflowTypeName}()");
             ctor.AppendLine("       {");
 
             // default properties
-            ctor.AppendLinf("           this.Name = \"{0}\";", this.Name);
-            ctor.AppendLinf("           this.Version = {0};", this.Version);
-            ctor.AppendLinf("           this.WorkflowDefinitionId = \"{0}\";", this.Id);
+            ctor.AppendLine($"           this.Name = \"{Name}\";");
+            ctor.AppendLine($"           this.Version = {Version};");
+            ctor.AppendLine($"           this.WorkflowDefinitionId = \"{Id}\";");
 
-            foreach (var variable in this.VariableDefinitionCollection.OfType<ComplexVariable>())
+            foreach (var @var in this.VariableDefinitionCollection)
             {
-                ctor.AppendLinf("           this.{0} = new {1}();", variable.Name, variable.TypeName);
-            }
-            foreach (var variable in this.VariableDefinitionCollection.OfType<SimpleVariable>().Where(v => !string.IsNullOrWhiteSpace(v.DefaultValue)))
-            {
-                if (variable.Type == typeof(string))
-                    ctor.AppendLinf("           this.{0} = \"{1}\";", variable.Name, variable.DefaultValue);
-                if (variable.Type == typeof(int))
-                    ctor.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
-                if (variable.Type == typeof(decimal))
-                    ctor.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
-                if (variable.Type == typeof(bool))
-                    ctor.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
-                if (variable.Type == typeof(DateTime))
-                    ctor.AppendLinf("           this.{0} = DateTime.Parse(\"{1}\");", variable.Name, variable.DefaultValue);
+                ctor.AppendLine(@var.GeneratedCtorCode(this));
             }
             ctor.AppendLine("       }");// end contructor
-
             wcd.CtorCollection.Add(ctor.ToString());
 
+            var start = this.GenerateStartMethod();
+            wcd.AddMethod(start);
+
+            var execute = this.GenerateExecuteMethod();
+            wcd.MethodCollection.Add(execute);
+
+
+            // properties for each Variables
+            foreach (var variable in this.VariableDefinitionCollection)
+            {
+                //code.AppendLinf("//variable:{0}", variable.Name);
+                wcd.PropertyCollection.Add(new Property { Code = "       " + variable.GeneratedCode(this) });
+            }
+
+            // activities method
+            foreach (var activity in this.ActivityCollection)
+            {
+                activity.BeforeGenerate(this);
+            }
+
+            foreach (var activity in this.ActivityCollection)
+            {
+                if (activity.IsAsync)
+                    wcd.MethodCollection.Add(new Method { Code = activity.GenerateInitAsyncMethod(this) });
+
+                wcd.MethodCollection.Add(new Method
+                {
+                    Code = this.SanitizeMethodBody(activity),
+                    Comment = "//exec:" + activity.WebId
+                });
+            }
+
+            return wcd;
+        }
+
+        private Class GenerateController()
+        {
+            var @controller = new Class
+            {
+                Name = $"{this.WorkflowTypeName}Controller",
+                BaseClass = "BaseApiController",
+                FileName = this.WorkflowTypeName + "Controller.cs",
+                Namespace = this.CodeNamespace,
+                IsPartial = true
+            };
+            @controller.ImportCollection.Add("System.Web.Http");
+            @controller.ImportCollection.Add("System.Net.Http");
+            @controller.ImportCollection.Add("Bespoke.Sph.WebApi");
+            @controller.ImportCollection.Add(typeof(Exception).Namespace);
+            @controller.ImportCollection.Add(typeof(DomainObject).Namespace);
+            @controller.ImportCollection.Add(typeof(Task<>).Namespace);
+            @controller.AttributeCollection.Add($"     [RoutePrefix(\"wf/{this.Id}/v{this.Version}\")]");
+
+            @controller.MethodCollection.Add(this.GenerateSearchMethod());
+            @controller.MethodCollection.Add(this.GenerateJsSchemasController());
+            return controller;
+        }
+
+        private Method GenerateStartMethod()
+        {
 
             var start = new StringBuilder();
             // start
@@ -73,8 +147,12 @@ namespace Bespoke.Sph.Domain
             start.AppendLinf("           var result =await this.{0}().ConfigureAwait(false);", this.GetInitiatorActivity().MethodName);
             start.AppendLinf("           return result;");
             start.AppendLine("       }");
-            wcd.MethodCollection.Add(new Method { Code = start.ToString() });
 
+            return new Method { Code = start.ToString() };
+        }
+
+        private Method GenerateExecuteMethod()
+        {
             // execute
             var execute = new StringBuilder();
             execute.AppendLine("       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)");
@@ -107,89 +185,8 @@ namespace Bespoke.Sph.Domain
             execute.AppendLine("           await this.SaveAsync(activityId, result).ConfigureAwait(false);");
             execute.AppendLinf("           return result;");
             execute.AppendLine("       }");
-            wcd.MethodCollection.Add(new Method { Code = execute.ToString() });
 
-
-            // properties for each Variables
-            foreach (var variable in this.VariableDefinitionCollection)
-            {
-                //code.AppendLinf("//variable:{0}", variable.Name);
-                wcd.PropertyCollection.Add(new Property { Code = "       " + variable.GeneratedCode(this) });
-            }
-
-            // activities method
-            foreach (var activity in this.ActivityCollection)
-            {
-                activity.BeforeGenerate(this);
-            }
-
-            foreach (var activity in this.ActivityCollection)
-            {
-                if (activity.IsAsync)
-                    wcd.MethodCollection.Add(new Method { Code = activity.GenerateInitAsyncMethod(this) });
-
-
-                wcd.MethodCollection.Add(new Method
-                {
-                    Code = this.SanitizeMethodBody(activity),
-                    Comment = "//exec:" + activity.WebId
-                });
-                if (activity.OtherMethodCollection.Any())
-                {
-                    var actPartial = new Class
-                    {
-                        IsPartial = true,
-                        Name = this.WorkflowTypeName,
-                        Namespace = this.CodeNamespace,
-                        FileName = this.WorkflowTypeName + "." + activity.MethodName.Replace("Async", "") + ".cs"
-                    };
-                    actPartial.ImportCollection.Add(typeof(Entity).Namespace);
-                    actPartial.ImportCollection.Add(typeof(Int32).Namespace);
-                    actPartial.ImportCollection.Add(typeof(Task<>).Namespace);
-                    actPartial.ImportCollection.Add(typeof(Enumerable).Namespace);
-                    actPartial.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
-                    actPartial.MethodCollection.AddRange(activity.OtherMethodCollection);
-                    @classes.Add(actPartial);
-                }
-            }
-
-
-
-
-            var customSchemaCode = this.GenerateXsdCsharpClasses().ToList();
-            customSchemaCode.ForEach(c => c.Namespace = this.CodeNamespace);
-            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DomainObject)));
-            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DateTime)));
-            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(XmlAttributeAttribute)));
-            @classes.AddRange(customSchemaCode);
-
-            var @accList = from a in this.ActivityCollection
-                           let @acc = a.GeneratedCustomTypeCode(this)
-                           select @acc;
-            @classes.AddRange(@accList.SelectMany(c => c.ToList()));
-
-            // controller
-            var @controller = new Class
-            {
-                Name = $"{this.WorkflowTypeName}Controller",
-                BaseClass = "BaseApiController",
-                FileName = this.WorkflowTypeName + "Controller.cs",
-                Namespace = this.CodeNamespace,
-                IsPartial = true
-            };
-            @controller.ImportCollection.Add("System.Web.Http");
-            @controller.ImportCollection.Add("System.Net.Http");
-            @controller.ImportCollection.Add("Bespoke.Sph.WebApi");
-            @controller.ImportCollection.Add(typeof(Exception).Namespace);
-            @controller.ImportCollection.Add(typeof(DomainObject).Namespace);
-            @controller.ImportCollection.Add(typeof(Task<>).Namespace);
-            @controller.AttributeCollection.Add($"     [RoutePrefix(\"wf/{this.Id}/v{this.Version}\")]");
-
-            @controller.MethodCollection.Add(this.GenerateSearchMethod());
-            @controller.MethodCollection.Add(this.GenerateJsSchemasController());
-            @classes.Add(@controller);
-
-            return @classes;
+            return new Method { Code = execute.ToString() };
         }
 
         private Method GenerateJsSchemasController()
@@ -218,28 +215,16 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public Task<string> GenerateCustomXsdJavascriptClassAsync()
+        public async Task<string> GenerateCustomXsdJavascriptClassAsync()
         {
-            var wd = this;
-            var script = new StringBuilder();
-            script.AppendLine("var bespoke = bespoke || {};");
-            script.AppendLine("bespoke.sph = bespoke.sph || {};");
-            script.AppendLine("bespoke.sph.wf = bespoke.sph.wf || {};");
-            script.AppendLine($"bespoke.sph.wf.{wd.WorkflowTypeName} = bespoke.sph.wf.v{wd.Version} || {{}};");
-
-            var xsd = wd.GetCustomSchema();
-
-            var complexTypesElement = xsd.Elements(x + "complexType").ToList();
-            var complexTypeClasses = complexTypesElement.Select(wd.GenerateXsdComplexTypeJavascript).ToList();
-            complexTypeClasses.ForEach(c => script.AppendLine(c));
-
-            var elements = xsd.Elements(x + "element").ToList();
-            var elementClasses = elements.Select(e => wd.GenerateXsdElementJavascript(e, 0, s => complexTypesElement.Single(f => f.Attribute("name").Value == s))).ToList();
-            elementClasses.ForEach(c => script.AppendLine(c));
-
-
-
-            return Task.FromResult(script.ToString());
+            var code = new StringBuilder();
+            foreach (var @var in this.VariableDefinitionCollection)
+            {
+                var script = await @var.GenerateCustomJavascriptAsync(this);
+                if (!string.IsNullOrWhiteSpace(script))
+                    code.AppendLine(script);
+            }
+            return code.ToString();
         }
 
         private Method GenerateSearchMethod()
@@ -269,8 +254,6 @@ namespace Bespoke.Sph.Domain
 
             return new Method { Code = code.ToString(), Name = "Search" };
         }
-
-
-
+        
     }
 }

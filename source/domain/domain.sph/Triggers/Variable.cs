@@ -1,15 +1,33 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
+using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class Variable : DomainObject
     {
-        public virtual string GeneratedCode(WorkflowDefinition workflowDefinition)
+        public virtual string GeneratedCode(WorkflowDefinition wd)
         {
             throw new System.NotImplementedException();
+        }
+        public virtual string GeneratedCtorCode(WorkflowDefinition wd)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual Task<IEnumerable<Class>> GenerateCustomTypesAsync(WorkflowDefinition wd)
+        {
+            var tcs =new TaskCompletionSource<IEnumerable<Class>>();
+            tcs.SetResult(new Class[] {});
+
+            return tcs.Task;
+        }
+        public virtual Task<string> GenerateCustomJavascriptAsync(WorkflowDefinition wd)
+        {
+            return Task.FromResult(default(string));
         }
 
         public virtual BuildValidationResult ValidateBuild(WorkflowDefinition wd)
