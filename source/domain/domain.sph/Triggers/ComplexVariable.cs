@@ -178,14 +178,13 @@ return model;", wd.WorkflowTypeName, name);
 
         public override Task<IEnumerable<Class>> GenerateCustomTypesAsync(WorkflowDefinition wd)
         {
-
-            var gen = new CsharpCodeGenerator(wd.GetCustomSchema());
+            var gen = new CsharpCodeGenerator(wd.GetCustomSchema(), wd.CodeNamespace);
             var classes = gen.Generate();
             return Task.FromResult(classes);
         }
 
         // ReSharper disable InconsistentNaming
-        static readonly XNamespace x = "http://www.w3.org/2001/XMLSchema";
+        private static readonly XNamespace x = "http://www.w3.org/2001/XMLSchema";
         // ReSharper restore InconsistentNaming
 
 
