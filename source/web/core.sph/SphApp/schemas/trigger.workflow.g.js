@@ -1501,6 +1501,37 @@ bespoke.sph.domain.ListenBranch = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.ValueObjectVariable = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Variable(optionOrWebid);
+
+    v.ValueObjectDefinition = ko.observable("");
+
+    v["$type"] = "Bespoke.Sph.Domain.ValueObjectVariable, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ValueObjectVariablePartial) {
+        return _(v).extend(new bespoke.sph.domain.ValueObjectVariablePartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.ClrTypeVariable = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Variable(optionOrWebid);
