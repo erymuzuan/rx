@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 using Humanizer;
 using Newtonsoft.Json;
@@ -26,12 +27,12 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(this.WebId))
                 result.Errors.Add(new BuildError(this.WebId)
                 {
-                    Message = string.Format("[{0}] \"{1}\" Missing webid ", this.GetType().Name, this.Name)
+                    Message = $"[{this.GetType().Name}] \"{this.Name}\" Missing webid "
                 });
             if (wd.ActivityCollection.Count(a => a.WebId == this.WebId) > 1)
                 result.Errors.Add(new BuildError(this.WebId)
                 {
-                    Message = string.Format("[{0}] \"{1}\" Duplicate webid ", this.GetType().Name, this.Name)
+                    Message = $"[{this.GetType().Name}] \"{this.Name}\" Duplicate webid "
                 });
 
             return result;
@@ -44,7 +45,7 @@ namespace Bespoke.Sph.Domain
             {
                 if (string.IsNullOrWhiteSpace(this.Name)) throw new InvalidOperationException("Name is empty for [" + this.GetType().Name + "]");
                 var name = this.Name.Dehumanize().Replace(" ", string.Empty);
-                return string.Format("{0}Async", name);
+                return $"{name}Async";
             }
         }
         public virtual IEnumerable<Class> GeneratedCustomTypeCode(WorkflowDefinition workflowDefinition)
@@ -70,17 +71,32 @@ namespace Bespoke.Sph.Domain
             throw new NotImplementedException();
         }
 
+        public Class GenerateWorkflowPartial(WorkflowDefinition wd)
+        {
+            if (!this.OtherMethodCollection.Any()) return null;
+
+
+            var actPartial = new Class
+            {
+                IsPartial = true,
+                Name = wd.WorkflowTypeName,
+                Namespace = wd.CodeNamespace,
+                FileName = wd.WorkflowTypeName + "." + this.MethodName.Replace("Async", "") + ".cs"
+            };
+            actPartial.ImportCollection.Add(typeof(Entity).Namespace);
+            actPartial.ImportCollection.Add(typeof(int).Namespace);
+            actPartial.ImportCollection.Add(typeof(Task<>).Namespace);
+            actPartial.ImportCollection.Add(typeof(Enumerable).Namespace);
+            actPartial.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
+            actPartial.MethodCollection.AddRange(this.OtherMethodCollection);
+
+            return actPartial;
+        }
 
         /// <summary>
         /// Flags to say that this activity listen to event
         /// </summary>
-        public virtual bool IsAsync
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public virtual bool IsAsync => false;
 
         public virtual void BeforeGenerate(WorkflowDefinition wd)
         {
@@ -124,17 +140,9 @@ namespace Bespoke.Sph.Domain
         /// <summary>
         /// The unique typename for each activity, should be overriden if you wish to have different name to avoid conflict
         /// </summary>
-        public virtual string TypeName
-        {
-            get { return this.GetType().Name.Replace("Activity", ""); }
-        }
+        public virtual string TypeName => this.GetType().Name.Replace("Activity", "");
 
-        private readonly ObjectCollection<Method> m_otherMethodCollection = new ObjectCollection<Method>();
-
-        public ObjectCollection<Method> OtherMethodCollection
-        {
-            get { return m_otherMethodCollection; }
-        }
+        public ObjectCollection<Method> OtherMethodCollection { get; } = new ObjectCollection<Method>();
 
         protected Method AddMethod(StringBuilder code)
         {
