@@ -60,7 +60,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
 
         [HttpGet]
-        [Route("xsd-elements")]
+        [Route("xsd-elements/{id}")]
         public async Task<IHttpActionResult> GetXsdElementName(string id)
         {
             var store = ObjectBuilder.GetObject<IBinaryStore>();
