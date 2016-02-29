@@ -6,20 +6,20 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Mvc;
+using System.Web.Http;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Helpers;
-using Newtonsoft.Json;
+using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
+    [RoutePrefix("api/workflow-definitions")]
     [Authorize]
-    public class WorkflowDefinitionController : BaseController
+    public class WorkflowDefinitionController : BaseApiController
     {
-        
-
-        public async Task<ActionResult> Import(IEnumerable<HttpPostedFileBase> files)
+        [HttpGet]
+        [Route("import")]
+        public async Task<IHttpActionResult> Import(IEnumerable<HttpPostedFileBase> files)
         {
             try
             {
@@ -34,9 +34,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     var packager = new WorkflowDefinitionPackage();
                     var wd = await packager.UnpackAsync(zip);
 
-                    this.Response.ContentType = APPLICATION_JAVASCRIPT;
                     var result = new { success = true, wd };
-                    return Content(result.ToJsonString());
+                    return Javascript(result.ToJsonString());
 
                 }
             }
@@ -50,57 +49,46 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
 
-        public async Task<ActionResult> Export()
+        [HttpPost]
+        [Route("export")]
+        public async Task<IHttpActionResult> Export([JsonBody]WorkflowDefinition wd)
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
             var package = new WorkflowDefinitionPackage();
             var zd = await package.PackAsync(wd);
-            return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.Id }) });
+            return Json(new { success = true, status = "OK", url =$"/binarystore/{zd.Id}"});
         }
 
 
-
-
-        public async Task<ActionResult> GetXsdElementName(string id)
+        [HttpGet]
+        [Route("xsd-elements")]
+        public async Task<IHttpActionResult> GetXsdElementName(string id)
         {
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var content = await store.GetContentAsync(id);
             if (null == content)
-                return HttpNotFound("Cannot find WorkflowDefinition XSD with id " + id);
+                return NotFound("Cannot find WorkflowDefinition XSD with id " + id);
             using (var stream = new MemoryStream(content.Content))
             {
                 var xsd = XElement.Load(stream);
 
                 XNamespace x = "http://www.w3.org/2001/XMLSchema";
                 var elements = xsd.Elements(x + "element").Select(e => e.Attribute("name").Value).ToList();
-                return Json(elements, JsonRequestBehavior.AllowGet);
+                return Json(elements);
 
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult> Compile()
+        [Route("compile")]
+        public async Task<IHttpActionResult> Compile([JsonBody]WorkflowDefinition wd)
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
             var buildValidation = wd.ValidateBuild();
 
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
             await this.Save("Compile", wd);
-
-            var options = new CompilerOptions
-            {
-                SourceCodeDirectory = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, wd.Id)
-            };
-            options.AddReference(typeof(Controller));
-            options.AddReference(typeof(WorkflowDefinitionController));
-            options.AddReference(typeof(JsonConvert));
-
-
-
-            var result = wd.Compile(options);
-
+            var result =await wd.CompileAsync();
             if (!result.Result || !System.IO.File.Exists(result.Output))
             {
                 return Json(new { success = false, version = wd.Version, status = "ERROR", result.Errors });
@@ -110,25 +98,17 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        public async Task<ActionResult> Publish()
+        [HttpPost]
+        [Route("publish")]
+        public async Task<IHttpActionResult> Publish([JsonBody]WorkflowDefinition wd)
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
             var buildValidation = wd.ValidateBuild();
 
             if (!buildValidation.Result)
                 return Json(buildValidation);
+            
 
-
-            // compile , then save
-            var options = new CompilerOptions
-            {
-                SourceCodeDirectory = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, wd.Id)
-            };
-            options.AddReference(typeof(Controller));
-            options.AddReference(typeof(WorkflowDefinitionController));
-            options.AddReference(typeof(JsonConvert));
-
-            var result = wd.Compile(options);
+            var result =await wd.CompileAsync();
             if (!result.Result || !System.IO.File.Exists(result.Output))
             {
                 return Json(new { success = false, version = wd.Version, status = "ERROR", result.Errors });
@@ -151,9 +131,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(result.Output) });
         }
 
-        public async Task<ActionResult> Save()
+        [HttpPost]
+        [Route("")]
+        public async Task<IHttpActionResult> Save([JsonBody]WorkflowDefinition wd)
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
             if (string.IsNullOrWhiteSpace(wd.Name))
                 return Json(new { success = false, status = "Not OK", message = "Name cannot be empty" });
             if (wd.Name.Trim() == "0")
@@ -169,7 +150,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     FileName = "Empty.xsd",
                     WebId = Guid.NewGuid().ToString(),
                     Id = Guid.NewGuid().ToString(),
-                    Content = System.IO.File.ReadAllBytes(Server.MapPath(@"~/App_Data/empty.xsd"))
+                    Content = System.IO.File.ReadAllBytes($@"{ConfigurationManager.WebPath}/App_Data/empty.xsd")
                 };
                 await store.AddAsync(xsd);
                 wd.SchemaStoreId = xsd.Id;
@@ -179,10 +160,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = !string.IsNullOrWhiteSpace(wd.Id), id, status = "OK" });
         }
 
-        public async Task<ActionResult> Remove()
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IHttpActionResult> Remove(string id)
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
             var context = new SphDataContext();
+            var wd = context.LoadOneFromSources<WorkflowDefinition>(x => x.Id == id);
+            if (null == wd) return NotFound();
             using (var session = context.OpenSession())
             {
                 session.Delete(wd);
@@ -192,12 +176,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = true, id = wd.Id, status = "OK" });
         }
 
-        public async Task<ActionResult> GetVariablePath(string id)
+        [HttpGet]
+        [Route("{id}/variable-path")]
+        public async Task<IHttpActionResult> GetVariablePath(string id)
         {
             var context = new SphDataContext();
             var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == id);
             if (null == wd)
-                return HttpNotFound("No WorkflowDefinition is found with the id " + id);
+                return NotFound("No WorkflowDefinition is found with the id " + id);
 
             var list = wd.VariableDefinitionCollection.Select(v => v.Name).ToList();
             var schema = wd.GetCustomSchema();
@@ -225,7 +211,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 }
             }
 
-            return Json(list.Select(d => new { Path = d }).ToArray(), JsonRequestBehavior.AllowGet);
+            return Json(list.Select(d => new { Path = d }).ToArray());
         }
 
         
@@ -256,7 +242,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             "App_Web"
         };
 
-        public ActionResult GetLoadedAssemblies()
+        [HttpGet]
+        [Route("assemblies")]
+        public IHttpActionResult GetLoadedAssemblies()
         {
             var assesmblies = AppDomain.CurrentDomain.GetAssemblies();
             var refAssemblies = (from a in assesmblies
@@ -292,7 +280,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             refAssemblies.AddRange(outputs);
 
-            return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
+            return Json(refAssemblies.ToArray());
         }
 
 
