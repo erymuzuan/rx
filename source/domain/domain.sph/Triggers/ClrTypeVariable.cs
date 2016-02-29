@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -9,19 +8,19 @@ namespace Bespoke.Sph.Domain
     {
         public override string GeneratedCode(WorkflowDefinition workflowDefinition)
         {
-            var code = new StringBuilder();
-            if(null == this.Type)
+            if (null == this.Type)
                 throw new Exception("Cannot find type " + this.TypeName);
+            
+            return $"   public {Type.ToCSharp()} {Name} {{ get; set;}}";
+        }
 
-            code.AppendLinf(this.CanInitiateWithDefaultConstructor ?
-                "   private {0} m_{1} = new {0}();" :
-                "   private {0} m_{1};", this.Type.FullName, this.Name);
-            code.AppendLinf("   public {0} {1}", this.Type.FullName, this.Name);
-            code.AppendLine("   {");
-            code.AppendLinf("       get{{ return m_{0};}}", this.Name);
-            code.AppendLinf("       set{{ m_{0} = value;}}", this.Name);
-            code.AppendLine("   }");
-            return code.ToString();
+        public override string GeneratedCtorCode(WorkflowDefinition wd)
+        {
+            var type = Strings.GetType(this.TypeName);
+            if (this.CanInitiateWithDefaultConstructor)
+                return $" this.{Name} = new {type.FullName}();";
+
+            return string.Empty;
         }
 
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
@@ -30,11 +29,15 @@ namespace Bespoke.Sph.Domain
             if (this.Name.Contains(" "))
             {
                 result.Result = false;
-                result.Errors.Add(new BuildError(this.WebId) { Message =$"[Variable] \"{this.Name}\" cannot contains space "
+                result.Errors.Add(new BuildError(this.WebId)
+                {
+                    Message = $"[Variable] \"{this.Name}\" cannot contains space "
                 });
             }
             if (null == this.Type)
-                result.Errors.Add(new BuildError(this.WebId) { Message =$"[Variable]  cannot find the type \"{this.TypeName}\""
+                result.Errors.Add(new BuildError(this.WebId)
+                {
+                    Message = $"[Variable]  cannot find the type \"{this.TypeName}\""
                 });
 
 
@@ -48,7 +51,7 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return Strings.GetType(this.TypeName);
-                
+
             }
             set
             {
