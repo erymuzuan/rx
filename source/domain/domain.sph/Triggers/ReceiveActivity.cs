@@ -23,26 +23,26 @@ namespace Bespoke.Sph.Domain
             var result = base.ValidateBuild(wd);
 
             if (this.FollowingCorrelationSetCollection.Count > 0 && this.IsInitiator)
-                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity but not both"));
+                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity but not both"));
 
             if (this.FollowingCorrelationSetCollection.Count == 0 && !this.IsInitiator)
-                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity"));
+                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity"));
 
             if (string.IsNullOrWhiteSpace(this.Operation))
-                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => does not have Operation"));
+                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => does not have Operation"));
             if (string.IsNullOrWhiteSpace(this.MessagePath))
-                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => does not have the MessagePath"));
+                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => does not have the MessagePath"));
 
             var variable = wd.VariableDefinitionCollection.SingleOrDefault(x => x.Name == this.MessagePath);
             if (null != variable)
             {
                 var vt = Strings.GetType(variable.TypeName);
                 if (null == vt)
-                    result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => Cannot load the type for {variable.TypeName} in the MesssagePath"));
+                    result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => Cannot load the type for {variable.TypeName} in the MesssagePath"));
             }
             else
             {
-                result.Errors.Add(new BuildError(this.WebId,$"[ReceiveActivity] : {this.Name} => Cannot find variable {this.MessagePath} in the VariableCollection"));
+                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => Cannot find variable {this.MessagePath} in the VariableCollection"));
             }
 
             return result;
@@ -62,12 +62,16 @@ namespace Bespoke.Sph.Domain
 
             var variable = wd.VariableDefinitionCollection.Single(x => x.Name == this.MessagePath);
             var vt = Strings.GetType(variable.TypeName);
-            if (null == vt) throw new InvalidOperationException(variable.TypeName + " is null");
+            var vt2 = vt?.FullName;
+            if (null == vt)
+            {
+                vt2 = variable.TypeName;
+            }
 
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}Async({1} message)", this.Name, vt.FullName);
+            code.AppendLine($"   public async Task<ActivityExecutionResult> {Name}Async({vt2} message)");
             code.AppendLine("   {");
 
-            code.AppendLinf("       this.{0} = message;", this.MessagePath);
+            code.AppendLine($"       this.{MessagePath} = message;");
 
             foreach (var cs in this.InitializingCorrelationSetCollection)
             {
@@ -91,7 +95,7 @@ namespace Bespoke.Sph.Domain
 
 
             var code = new StringBuilder();
-            
+
             code.AppendLine(this.ExecutingCode);
             code.AppendLine("       this.State = \"Ready\";");
             // set the next activity
@@ -131,13 +135,14 @@ namespace Bespoke.Sph.Domain
 
 
             var vt = Strings.GetType(variable.TypeName);
-            if (null == vt) throw new InvalidOperationException(variable.TypeName + " is null");
+            var vt2 = vt?.FullName;
+            if (null == vt) vt2 =variable.TypeName;
 
 
             var code = new StringBuilder();
             code.AppendLinf("//exec:{0}", this.WebId);
             code.AppendLine("       [HttpPost]");
-            code.AppendLine($"      [Route(\"{{correlationId}}{this.Operation.ToIdFormat()}\")]");
+            code.AppendLine($"      [Route(\"{{correlationId}}/{this.Operation.ToIdFormat()}\")]");
             code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([RawBody]string json, [FromUri]string correlationId)");
             code.AppendLine("       {");
             if (this.FollowingCorrelationSetCollection.Count == 0 && this.IsInitiator)
@@ -156,7 +161,7 @@ namespace Bespoke.Sph.Domain
 
             //JsonConvert.DeserializeObject()
             code.AppendLine();
-            code.AppendLine($"           var @message = JsonConvert.DeserializeObject<{vt.FullName}>(json);");
+            code.AppendLine($"           var @message = JsonConvert.DeserializeObject<{vt2}>(json);");
             code.AppendLinf($"           var result = await wf.{Name}Async(@message);");
             code.AppendLinf("           await wf.SaveAsync(\"{0}\", result);", this.WebId);
             // any business rules?            
@@ -188,7 +193,6 @@ namespace Bespoke.Sph.Domain
 
             return code.ToString();
         }
-
 
         private string GenerateGetInstanceFromCorrelationSet(WorkflowDefinition wd)
         {
