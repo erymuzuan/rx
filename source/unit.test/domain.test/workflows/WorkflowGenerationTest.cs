@@ -66,12 +66,8 @@ namespace domain.test.workflows
             var screen = new ReceiveActivity { Name = "Test", WebId = "A", IsInitiator = true, NextActivityWebId = "B" };
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
-
-            var options = new CompilerOptions { IsDebug = true, IsVerbose = false, SourceCodeDirectory = @"c:\temp\sph" };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll"));
-
-            var code = wd.GenerateXsdCsharpClasses();
+            
+            var code = wd.GenerateCode();
             Assert.NotNull(code.SingleOrDefault(x => x.Name == "Vehicle"));
 
         }

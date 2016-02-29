@@ -87,9 +87,9 @@ namespace Bespoke.Sph.Domain
                              select new Property
                              {
                                  Name = n,
-                                 Type = Strings.GetType(WorkflowDefinition.GetClrDataType(at)),
+                                 Type = Strings.GetType(ComplexVariable.GetClrDataType(at)),
                                  Code =  "      [XmlAttribute]\r\n"
-                                         + string.Format("      public {1} {0} {{get;set;}}", n, WorkflowDefinition.GetClrDataType(at))
+                                         + string.Format("      public {1} {0} {{get;set;}}", n, ComplexVariable.GetClrDataType(at))
                              };
 
             properties.AddRange(attributes);
@@ -103,7 +103,7 @@ namespace Bespoke.Sph.Domain
                     select new Property
                     {
                         Name = at.Attribute("name").Value,
-                        Code =  string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name").Value, WorkflowDefinition.GetClrDataType(at))
+                        Code =  string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name").Value, ComplexVariable.GetClrDataType(at))
                     };
                 properties.AddRange(allElements);
 
