@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain
     {
         public override string GeneratedCode(WorkflowDefinition wd)
         {
-            return $"public {this.Type.FullName} {this.Name}{{get;set;}}";
+            return $"public {this.Type.ToCSharp()} {this.Name}{{get;set;}}";
         }
 
         public override string GeneratedCtorCode(WorkflowDefinition wd)

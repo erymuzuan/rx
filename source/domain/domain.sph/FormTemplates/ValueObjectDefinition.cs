@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -15,7 +16,25 @@ namespace Bespoke.Sph.Domain
 
         public BuildValidationResult CanSave()
         {
-            return new BuildValidationResult {Result = true};
+            return new BuildValidationResult { Result = true };
+        }
+
+        public Member AddMember<T>(string name, bool allowMultiple = false, bool nullalbe = true, bool filterable = false, int boost = 1)
+        {
+            var guid = Guid.NewGuid().ToString();
+            var member = new SimpleMember
+            {
+                WebId = guid,
+                Name = name,
+                Type = typeof(T),
+                IsNullable = nullalbe,
+                IsFilterable = filterable,
+                Boost = boost,
+                AllowMultiple = allowMultiple
+            };
+            this.MemberCollection.Add(member);
+
+            return member;
         }
     }
 }
