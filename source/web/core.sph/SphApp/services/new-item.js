@@ -43,7 +43,7 @@
                 return app.showDialog("new.value.object.definition.dialog")
                          .then(function (dialog, result) {
                              if (result === "OK") {
-                                 return checkSource("WorkflowDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                                 return checkSource("ValueObjectDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
                              }
                              return Task.fromResult(0);
                          }).then(function (ed) {
