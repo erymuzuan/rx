@@ -102,6 +102,10 @@ namespace Bespoke.Sph.Domain.Codes
                 code = string.Format(format, args);
             this.MethodCollection.Add(new Method { Code = code });
         }
+        public void AddMethod(Method method)
+        {
+            this.MethodCollection.Add(method);
+        }
         public void AddProperty(string format, params object[] args)
         {
             var code = format;
