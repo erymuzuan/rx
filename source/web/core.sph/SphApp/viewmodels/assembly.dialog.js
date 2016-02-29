@@ -8,7 +8,7 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
+define(["services/datacontext", "services/logger", "plugins/dialog"],
     function (context, logger, dialog) {
 
         var self = this,
@@ -17,14 +17,14 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             activate = function () {
                 selectedAssemblies([]);
                 var tcs = new $.Deferred();
-                $.get('/Sph/WorkflowDefinition/GetLoadedAssemblies').done(assemblies).done(tcs.resolve);
+                $.get("/api/workflow-definitions/assemblies").done(assemblies).done(tcs.resolve);
 
                 return tcs.promise();
             },
             attached = function (view) {
-                $(view).on('click', 'input[type=checkbox]', function () {
+                $(view).on("click", "input[type=checkbox]", function () {
                     var dll = ko.dataFor(this);
-                    if ($(this).is(':checked')) {
+                    if ($(this).is(":checked")) {
                         selectedAssemblies.push(dll);
                     } else {
                         selectedAssemblies.remove(dll);
@@ -39,7 +39,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                 dialog.close(this, "Cancel");
             },
             selectAssembly = function (dll) {
-                vm.assembly(dll);
+                selectAssembly.push(dll);
                 dialog.close(self, "OK");
             };
 

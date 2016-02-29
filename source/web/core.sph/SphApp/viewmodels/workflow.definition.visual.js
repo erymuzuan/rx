@@ -406,7 +406,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var data = ko.mapping.toJSON(wd());
                 isBusy(true);
 
-                return context.post(data, "/WorkflowDefinition/Save")
+                return context.post(data, "/api/workflow-definitions")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -447,7 +447,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(wd);
 
-                context.post(data, "/WorkflowDefinition/Compile")
+                context.post(data, "/api/workflow-definitions/compile")
                     .then(function (result) {
                         compileCompleted(result);
                         tcs.resolve(result);
@@ -459,7 +459,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 isPublishing(true);
                 publishingMessage("Compiling....");
-                return context.post(data, "/WorkflowDefinition/Publish")
+                return context.post(data, "/api/workflow-definitions/publish")
                     .then(function (result) {
                         compileCompleted(result);
                         if (result.success) {
@@ -485,7 +485,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             exportWd = function () {
                 var data = ko.mapping.toJSON(wd);
-                return context.post(data, "/WorkflowDefinition/Export")
+                return context.post(data, "/api/workflow-definitions/export")
                     .then(function (result) {
                         window.location = result.url;
                     });
@@ -500,12 +500,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 wd().editActivity(_(wd().ActivityCollection()).find(function (v) { return v.WebId() === error.ItemWebId; }))();
             },
             remove = function () {
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(wd);
+                var tcs = new $.Deferred();
                 app.showMessage("Are you sure you want delete this workflow definition ", "SPH - Workflow", ["Yes", "No"])
                    .done(function (dr) {
                        if (dr === "Yes") {
-                           context.post(data, "/Sph/WorkflowDefinition/Remove").then(tcs.resolve);
+                           context.sendDelete("/api/workflow-definitions/" + ko.unwrap(wd().Id)).then(tcs.resolve);
                        } else {
                            tcs.resolve(false);
                        }

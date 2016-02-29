@@ -12,7 +12,7 @@
 
 bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         isBusy = ko.observable(false),
         context = require(objectbuilders.datacontext),
         elementNameOptions = ko.observableArray(),
@@ -35,9 +35,9 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         addActivity = function (type) {
             var self = this;
             return function () {
-                var activity = new bespoke.sph.domain[type + 'Activity'](system.guid());
+                var activity = new bespoke.sph.domain[type + "Activity"](system.guid());
 
-                require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/activity." + type.toLowerCase(), "durandal/app"], function (dialog, app2) {
                     dialog.activity(activity);
                     if (typeof dialog.wd === "function") {
                         dialog.wd(self);
@@ -61,7 +61,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     type = ko.unwrap(activity.TypeName);
 
                 isBusy(true);
-                require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/activity." + type.toLowerCase(), "durandal/app"], function (dialog, app2) {
                     dialog.activity(clone);
 
                     if (typeof dialog.wd === "function") {
@@ -70,7 +70,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
                     app2.showDialog(dialog)
                         .done(function (result) {
-                            $('div.modalBlockout,div.modalHost').remove();
+                            $("div.modalBlockout,div.modalHost").remove();
                             if (!result) return;
                             if (result === "OK") {
                                 for (var g in activity) {
@@ -93,9 +93,9 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         addVariable = function (type) {
             var self = this;
             return function () {
-                var variable = new bespoke.sph.domain[type + 'Variable'](system.guid());
+                var variable = new bespoke.sph.domain[type + "Variable"](system.guid());
 
-                require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/variable." + type.toLowerCase(), "durandal/app"], function (dialog, app2) {
                     dialog.variable(variable);
                     if (typeof dialog.wd === "function") {
                         dialog.wd(self);
@@ -120,7 +120,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     pattern = /Bespoke\.Sph\.Domain\.(.*?)Variable,/,
                     type = pattern.exec(variableType)[1];
 
-                require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/variable." + type.toLowerCase(), "durandal/app"], function (dialog, app2) {
                     dialog.variable(clone);
                     if (typeof dialog.wd === "function") {
                         dialog.wd(self);
@@ -154,7 +154,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
             var self = this;
             var correlationType = new bespoke.sph.domain.CorrelationType(system.guid());
 
-            require(['viewmodels/correlation.type.dialog', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/correlation.type.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.correlationType(correlationType);
                 if (typeof dialog.wd === "function") {
                     dialog.wd(self);
@@ -176,7 +176,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
             return function () {
                 var clone = ko.mapping.fromJS(ko.mapping.toJS(correlationType));
 
-                require(['viewmodels/correlation.type.dialog', 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/correlation.type.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.correlationType(clone);
                     if (typeof dialog.wd === "function") {
                         dialog.wd(self);
@@ -210,7 +210,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
             var self = this;
             var correlationSet = new bespoke.sph.domain.CorrelationSet(system.guid());
 
-            require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/correlation.set.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.correlationSet(correlationSet);
                 if (typeof dialog.wd === "function") {
                     dialog.wd(self);
@@ -232,7 +232,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
             return function () {
                 var clone = ko.mapping.fromJS(ko.mapping.toJS(correlationSet));
 
-                require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/correlation.set.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.correlationSet(clone);
                     if (typeof dialog.wd === "function") {
                         dialog.wd(self);
@@ -264,7 +264,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         },
         addReferencedAssembly = function () {
             var self = this;
-            require(['viewmodels/assembly.dialog', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/assembly.dialog", "durandal/app"], function (dialog, app2) {
                 app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
@@ -280,7 +280,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
         },
         editReferencedAssembly = function (dll) {
-            alert('not implemented' + dll);
+            alert("not implemented" + dll);
         },
         removeReferencedAssembly = function (dll) {
             var self = this;
@@ -291,7 +291,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         addTryScope = function () {
             var self = this;
             var tryScope = new bespoke.sph.domain.TryScope(system.guid());
-            require(['viewmodels/try.scope.dialog', 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/try.scope.dialog", "durandal/app"], function (dialog, app2) {
                 dialog.tryScope(tryScope);
                 if (typeof dialog.wd === "function") {
                     dialog.wd(self);
@@ -313,7 +313,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
             return function () {
                 var clone = ko.mapping.fromJS(ko.mapping.toJS(tryScope));
 
-                require(['viewmodels/try.scope.dialog', 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/try.scope.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.tryScope(clone);
                     if (typeof dialog.wd === "function") {
                         dialog.wd(self);
@@ -345,7 +345,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         },
         loadSchema = function (storeId) {
             var id = storeId || this.SchemaStoreId();
-            $.get("/WorkflowDefinition/GetXsdElementName/" + id)
+            $.get("/api/workflow-definitions/xsd-elements/" + id)
                 .then(function (result) {
                     elementNameOptions(result);
                 });
