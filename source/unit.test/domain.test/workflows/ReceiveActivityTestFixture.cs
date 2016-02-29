@@ -138,7 +138,7 @@ namespace domain.test.workflows
             Assert.True(cr.Result, cr.ToString());
 
             var wfDll = Assembly.LoadFile(cr.Output);
-            var wfType = wfDll.GetType("Bespoke.Sph.Workflows_ReceiveRegisterPatient_0.ReceiveRegisterPatientWorkflow");
+            var wfType = wfDll.GetType($"{wd.CodeNamespace}.{wd.WorkflowTypeName}");
             dynamic wf = Activator.CreateInstance(wfType);
 
 
@@ -152,9 +152,9 @@ namespace domain.test.workflows
             patient.FullName = "Adam";
 
             Assert.Equal("".GetType(), typeof(string));
-            Assert.Equal(patient.GetType(), wf.patient.GetType(), "Type should be the same");
+            Assert.Equal(patient.GetType(), wf.pesakit.GetType());
             await wf.RegisterAsync(patient);
-            Assert.Equal(patient.Mrn, wf.patient.Mrn);
+            Assert.Equal(patient.Mrn, wf.pesakit.Mrn);
 
         }
 

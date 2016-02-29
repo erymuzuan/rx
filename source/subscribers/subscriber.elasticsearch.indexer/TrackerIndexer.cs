@@ -9,58 +9,61 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.ElasticSearch
 {
-    public class TrackerIndexer
+    public class TrackerIndexer : IDisposable
     {
+        private readonly HttpClient m_client;
+
+        public TrackerIndexer(HttpClient client)
+        {
+            m_client = client;
+        }
         public async Task ProcessMessage(Tracker item, MessageHeaders headers)
         {
             var tasks = from ea in item.ExecutedActivityCollection
-                let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{ea.ActivityWebId}"
-                let wfid = item.WorkflowId
-                select AddExecutedActivityToIndexAsync(id, ea, headers, wfid);
+                        let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{ea.ActivityWebId}"
+                        let wfid = item.WorkflowId
+                        select AddExecutedActivityToIndexAsync(id, ea, headers, wfid);
             await Task.WhenAll(tasks);
             await AddPendingTaskAsync(item);
         }
 
         private async Task AddPendingTaskAsync(Tracker item)
         {
-            await Task.Delay(400);
-            throw new NotImplementedException(" wha" + item);
-            //var context = new SphDataContext();
-            //item.Workflow = await context.LoadOneAsync<Workflow>(w => w.Id == item.WorkflowId);
-            //await item.Workflow.LoadWorkflowDefinitionAsync();
-            //item.WorkflowDefinition = item.Workflow.WorkflowDefinition;
+            var context = new SphDataContext();
+            item.Workflow = await context.LoadOneAsync<Workflow>(w => w.Id == item.WorkflowId);
+            await item.Workflow.LoadWorkflowDefinitionAsync();
+            item.WorkflowDefinition = item.Workflow.WorkflowDefinition;
 
-            //var pendings = (from w in item.WaitingAsyncList.Keys
-            //    let act = item.WorkflowDefinition.GetActivity<Activity>(w)
-            //    let screen = act as ScreenActivity
-            //    // NOTE : only consider the one with correlation
-            //    where item.WaitingAsyncList[w].Count > 0
-            //    select new PendingTask(item.WorkflowId)
-            //    {
-            //        Name = act.Name,
-            //        Type = act.GetType().Name,
-            //        WebId = act.WebId,
-            //        Correlations = item.WaitingAsyncList[w].ToArray()
-            //    }).ToList();
+            var pendings = (from w in item.WaitingAsyncList.Keys
+                            let act = item.WorkflowDefinition.GetActivity<Activity>(w)
+                            let screen = act as ReceiveActivity
+                            // NOTE : only consider the one with correlation
+                            where item.WaitingAsyncList[w].Count > 0
+                            select new PendingTask(item.WorkflowId)
+                            {
+                                Name = act.Name,
+                                Type = act.GetType().Name,
+                                WebId = act.WebId,
+                                Correlations = item.WaitingAsyncList[w].ToArray()
+                            }).ToList();
 
-            //pendings.ForEach(async t =>
-            //{
-            //    var screen = item.WorkflowDefinition.ActivityCollection
-            //        .OfType<ScreenActivity>()
-            //        .SingleOrDefault(a => a.WebId == t.WebId);
-            //    if (null != screen)
-            //        t.Performers = await screen.GetUsersAsync(item.Workflow);
-            //});
-            ////delete previous pending tasks
-            //var url1 = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{"_query?q=WorkflowId:" + item.WorkflowId}";
-            //var client1 = new HttpClient();
-            //var response1 = await client1.DeleteAsync(url1);
+            pendings.ForEach(async t =>
+            {
+                var screen = item.WorkflowDefinition.ActivityCollection
+                    .OfType<ReceiveActivity>()
+                    .SingleOrDefault(a => a.WebId == t.WebId);
+                if (null != screen)
+                    t.Performers = await screen.GetUsersAsync(item.Workflow);
+            });
+            //delete previous pending tasks
+            var url1 = $"{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{"_query?q=WorkflowId:" + item.WorkflowId}";
+            var response1 = await m_client.DeleteAsync(url1);
 
-            //Debug.WriteLine(response1);
-            //var tasks = from t in pendings
-            //    let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{t.WebId}"
-            //    select this.AddPendingTaskToIndexAsync(id, t);
-            //await Task.WhenAll(tasks);
+            Debug.WriteLine(response1);
+            var tasks = from t in pendings
+                        let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{t.WebId}"
+                        select this.AddPendingTaskToIndexAsync(id, t);
+            await Task.WhenAll(tasks);
 
         }
 
@@ -70,11 +73,8 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(ea, setting);
             var content = new StringContent(json);
 
-
-            var url =$"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{id}";
-            var client = new HttpClient();
-            var response = await client.PutAsync(url, content);
-
+            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{id}";
+            var response = await m_client.PutAsync(url, content);
 
             if (null != response)
             {
@@ -91,29 +91,32 @@ namespace Bespoke.Sph.ElasticSearch
 
             var url = $"{ConfigurationManager.ElasticSearchIndex}/{"activity"}/{id}";
 
-            using (var client = new HttpClient())
+
+            HttpResponseMessage response = null;
+            switch (headers.Crud)
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                HttpResponseMessage response = null;
-                switch (headers.Crud)
-                {
-                    case CrudOperation.Added:
-                        response = await client.PutAsync(url, content);
-                        break;
-                    case CrudOperation.Changed:
-                        response = await client.PostAsync(url, content);
-                        break;
-                    case CrudOperation.Deleted:
-                        response = await client.DeleteAsync(url);
-                        break;
+                case CrudOperation.Added:
+                    response = await m_client.PutAsync(url, content);
+                    break;
+                case CrudOperation.Changed:
+                    response = await m_client.PostAsync(url, content);
+                    break;
+                case CrudOperation.Deleted:
+                    response = await m_client.DeleteAsync(url);
+                    break;
 
-                }
-
-                if (null != response)
-                {
-                    Debug.Write(".");
-                }
             }
+
+            if (null != response)
+            {
+                Debug.Write(".");
+            }
+
+        }
+
+        public void Dispose()
+        {
+            m_client?.Dispose();
         }
     }
 }

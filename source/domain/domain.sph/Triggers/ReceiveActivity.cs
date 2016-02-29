@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
@@ -15,7 +15,6 @@ namespace Bespoke.Sph.Domain
     public partial class ReceiveActivity : Activity
     {
         public override bool IsAsync => true;
-        public Performer Performer { get; set; }
 
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
@@ -143,24 +142,22 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([RawBody]string json)");
                 code.AppendLine("       {");
                 code.AppendLine($"           var wf = new {wd.WorkflowTypeName}{{Id = Guid.NewGuid().ToString()}};");
+                code.AppendLine("            await wf.LoadWorkflowDefinitionAsync();");
             }
             else
             {
                 code.AppendLine($"      [Route(\"{{correlationId}}/{this.Operation.ToIdFormat()}\")]");
                 code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([RawBody]string json, [FromUri]string correlationId)");
                 code.AppendLine("       {");
-                code.AppendLine($"           ${wd.WorkflowTypeName} wf = null;");
-                code.AppendLine(this.GenerateGetInstanceFromCorrelationSet(wd));
+                code.AppendLine($@"           var self = wd.ActivityCollection.OfType<ReceiveActivity>().Single(x => x.WebId == ""{WebId}"")");
+                code.AppendLine($"            var wf = await self.LoadInstanceAsync<{wd.WorkflowTypeName}>(wd, correlationId);");
             }
-            code.AppendLine();
-            code.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
-
             code.AppendLine(this.GenerateCanExecuteCode());
 
             code.AppendLine();
             code.AppendLine($"           var @message = JsonConvert.DeserializeObject<{vt2}>(json);");
             code.AppendLinf($"           var result = await wf.{Name}Async(@message);");
-            code.AppendLinf("           await wf.SaveAsync(\"{0}\", result);", this.WebId);
+            code.AppendLine($"            await wf.SaveAsync(\"{WebId}\", result);");
             // any business rules?            
             code.AppendLine("           var  response = Request.CreateResponse(HttpStatusCode.Accepted, new {success = true, status=\"OK\"} );");
             code.AppendLine("           return response;");
@@ -191,68 +188,146 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        private string GenerateGetInstanceFromCorrelationSet(WorkflowDefinition wd)
-        {
-            var code = new StringBuilder();
-            // get the correlation
-            foreach (var c in this.FollowingCorrelationSetCollection)
-            {
-                var c1 = c;
-                var cors = this.CorrelationPropertyCollection.Where(x => x.Name == c1);
-                var valExpression = cors.Select(x => "string.Format(\"{0}\"," + x.Path + ")").ToArray();
 
-                code.AppendLinf("           var cval = string.Join(\";\",new string[]{{{0}}});", string.Join(",", valExpression));
-                code.AppendFormat(@"  
-            var url = ConfigurationManager.ElasticSearchIndex + ""/correlationset/"";
-            
-            var query = @""{{
-   """"query"""": {{
-      """"filtered"""": {{
-         """"filter"""": {{
-            """"bool"""": {{
-               """"must"""": [
-                  {{
-                     """"term"""": {{
-                        """"wdid"""": """"{0}""""
-                     }}
-                  }},
-                  {{
-                      """"term"""": {{
-                         """"value"""": """""" + cval + @""""""
-                      }}
-                  }},
-                  {{
-                      """"term"""": {{
-                         """"name"""": """"{1}""""
-                      }}
-                  }}
+
+        public override async Task CancelAsync(Workflow wf)
+        {
+            var baseUrl = ConfigurationManager.BaseUrl;
+            var url = $"{ConfigurationManager.BaseUrl}/wf/{wf.WorkflowDefinitionId.ToIdFormat()}/v{wf.Version}/{this.Name.ToIdFormat()}/{wf.Id}";
+            var cmb = this.CancelMessageBody ?? "@Model.Screen.Name task assigned to has been cancelled";
+            var cms = this.CancelMessageSubject ?? "[Sph] @Model.Screen.Name  task is cancelled";
+
+            await SendNotificationToPerformers(wf, baseUrl, url, cms, cmb);
+            var tracker = await wf.GetTrackerAsync();
+
+            tracker.CancelAsyncList(this.WebId);
+            await tracker.SaveAsync();
+        }
+
+        public async Task SendNotificationToPerformers(Workflow wf, string baseUrl, string url, string subjectTemplate, string bodyTemplate)
+        {
+            var context = new SphDataContext();
+
+
+            var model = new { Screen = this, Item = wf, BaseUrl = baseUrl, Url = url };
+            var users = await GetUsersAsync(wf);
+
+            foreach (var user in users)
+            {
+                string user1 = user;
+                var profile = await context.LoadOneAsync<UserProfile>(p => p.UserName == user1);
+                var subject = await this.TransformTemplateAsync(subjectTemplate, model);
+                var body = await this.TransformTemplateAsync(bodyTemplate, model);
+
+                var message = new Message { Subject = subject, UserName = user, Body = body, Id = Strings.GenerateId() };
+                using (var session = context.OpenSession())
+                {
+                    session.Attach(message);
+                    await session.SubmitChanges("Initiate " + this.Name);
+                }
+
+                var ns = ObjectBuilder.GetObject<INotificationService>();
+                await ns.SendMessageAsync(message, profile.Email);
+            }
+        }
+
+        private async Task<string> TransformTemplateAsync(string template, object model)
+        {
+            if (string.IsNullOrWhiteSpace(template)) return string.Empty;
+            if (template.StartsWith("="))
+            {
+                var script = ObjectBuilder.GetObject<IScriptEngine>();
+                return script.Evaluate<string, object>(template.Remove(0, 1), model);
+            }
+            var razor = ObjectBuilder.GetObject<ITemplateEngine>();
+            return await razor.GenerateAsync(template, model);
+        }
+
+        public async Task<string[]> GetUsersAsync(Workflow wf)
+        {
+            var script = ObjectBuilder.GetObject<IScriptEngine>();
+            var context = new SphDataContext();
+            var ad = ObjectBuilder.GetObject<IDirectoryService>();
+
+            var unwrapValue = this.Performer.Value;
+            var scriptingUsed = !string.IsNullOrWhiteSpace(unwrapValue) && unwrapValue.StartsWith("=");
+            if (scriptingUsed)
+                unwrapValue = script.Evaluate<string, Workflow>(unwrapValue.Remove(0, 1), wf);
+
+            var users = new List<string>();
+            switch (this.Performer.UserProperty)
+            {
+                case "UserName":
+                    users.Add(unwrapValue);
+                    break;
+                case "Department":
+                    var list = await context.GetListAsync<UserProfile, string>(
+                        u => u.Department == unwrapValue,
+                        u => u.UserName);
+                    users.AddRange(list);
+                    break;
+                case "Designation":
+                    var list2 = await context.GetListAsync<UserProfile, string>(
+                        u => u.Designation == unwrapValue,
+                        u => u.UserName);
+                    users.AddRange(list2);
+                    break;
+                case "Roles":
+                    var list3 = await ad.GetUserInRolesAsync(unwrapValue);
+                    users.AddRange(list3);
+                    break;
+                default:
+                    throw new Exception("Whoaaa we cannot send invitation to " + this.Performer.UserProperty + " for " +
+                                        this.Name);
+            }
+            return users.ToArray();
+        }
+
+        public async Task<T> LoadInstanceAsync<T>(WorkflowDefinition wd, string correlation) where T : Workflow
+        {
+            var cval = string.Join(";", new string[] { });
+            var url = ConfigurationManager.ElasticSearchIndex + "/correlationset/";
+
+            var query = @"{
+   ""query"": {
+      ""filtered"": {
+         ""filter"": {
+            ""bool"": {
+               ""must"": [
+                  {
+                     ""term"": {
+                        ""wdid"": """ + wd.Id + @"""
+                     }
+                  },
+                  {
+                      ""term"": {
+                         ""value"": """ + cval + @"""
+                      }
+                  },
+                  {
+                      ""term"": {
+                         ""name"": ""mrn""
+                      }
+                  }
                ]
-            }}
-         }}
-      }}
-   }}
-}}"";
+            }
+         }
+      }
+   }
+}";
             using (var client = new HttpClient())
-            {{
+            {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
                 var esresult = await client.PostAsync(url, new StringContent(query));
                 var content = esresult.Content as StreamContent;
                 var json2 = await content.ReadAsStringAsync();
-                var wid = Newtonsoft.Json.Linq.JObject.Parse(json2).SelectToken(""hits.hits[0]._source.wid"");
+                var wid = Newtonsoft.Json.Linq.JObject.Parse(json2).SelectToken("hits.hits[0]._source.wid");
 
                 var context = new SphDataContext();
-                wf = (await context.LoadOneAsync<Workflow>(x => x.Id == wid.ToString())) as {2};              
-            }}
-
-", wd.Id, c, wd.WorkflowTypeName);
+                var instance = (await context.LoadOneAsync<Workflow>(x => x.Id == wid.ToString()));
+                await instance.LoadWorkflowDefinitionAsync();
+                return (T)instance;
             }
-
-            return code.ToString();
-        }
-
-        public Task<IEnumerable<string>> GetUsersAsync(Workflow wf)
-        {
-            throw new NotImplementedException();
         }
     }
 }

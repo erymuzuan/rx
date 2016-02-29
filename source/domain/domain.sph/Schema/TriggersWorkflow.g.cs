@@ -2519,6 +2519,36 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_CancelMessageBody;
+        public string CancelMessageBody
+        {
+            get
+            {
+                return m_CancelMessageBody;
+            }
+            set
+            {
+                m_CancelMessageBody = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_CancelMessageSubject;
+        public string CancelMessageSubject
+        {
+            get
+            {
+                return m_CancelMessageSubject;
+            }
+            set
+            {
+                m_CancelMessageSubject = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -2536,6 +2566,23 @@ namespace Bespoke.Sph.Domain
         ///</summary>
         public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection { get; } = new ObjectCollection<CorrelationProperty>();
 
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Performer m_performer
+                = new Performer();
+
+        public const string PropertyNamePerformer = "Performer";
+        [DebuggerHidden]
+
+        public Performer Performer
+        {
+            get { return m_performer; }
+            set
+            {
+                m_performer = value;
+                OnPropertyChanged();
+            }
+        }
 
 
     }

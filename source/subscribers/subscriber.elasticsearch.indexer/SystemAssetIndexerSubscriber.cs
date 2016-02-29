@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -12,7 +13,14 @@ namespace Bespoke.Sph.ElasticSearch
     {
         public override string QueueName => "system_asset_es_indexer";
         public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.delete.#" };
-        private readonly HttpClient m_client = new HttpClient();
+        private HttpClient m_client;
+        private  TrackerIndexer m_trackerIndexer;
+        protected override void OnStart()
+        {
+            m_client = new HttpClient {BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)};
+            m_trackerIndexer = new TrackerIndexer(m_client);
+            base.OnStart();
+        }
 
         protected override async Task ProcessMessage(Entity item, MessageHeaders headers)
         {
@@ -29,8 +37,7 @@ namespace Bespoke.Sph.ElasticSearch
 
             if (type == typeof(Tracker))
             {
-                var trackerIndexer = new TrackerIndexer();
-                await trackerIndexer.ProcessMessage((Tracker)item, headers);
+                await m_trackerIndexer.ProcessMessage((Tracker)item, headers);
                 return;
             }
 
@@ -85,6 +92,13 @@ namespace Bespoke.Sph.ElasticSearch
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
             await publisher.PublishChanges(headers.Operation, new[] { item }, new AuditTrail[] { }, ph);
+        }
+
+        protected override void OnStop()
+        {
+            m_trackerIndexer?.Dispose();
+            m_client.Dispose();
+            base.OnStop();
         }
     }
 }
