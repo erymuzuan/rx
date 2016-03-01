@@ -423,13 +423,15 @@ ko.bindingHandlers.tree = {
                     selected: true
                 }
             },
-            getNodeMemberType = function(v) {
+            getNodeMemberType = function (v) {
                 var type = ko.unwrap(v.TypeName) || ko.unwrap(v.$type);
                 if (type.indexOf(",") < 0) {
                     type = ko.unwrap(v.$type);
                 }
                 return type;
             },
+            memberNameSubscription = null,
+            memberTypeNameSubscription = null,
             recurseChildMember = function (node) {
                 node.children = _(node.data.MemberCollection()).map(function (v) {
 
@@ -445,7 +447,7 @@ ko.bindingHandlers.tree = {
             },
             loadJsTree = function () {
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
-                    
+
                     return {
                         text: ko.unwrap(v.Name),
                         state: "open",
@@ -456,12 +458,22 @@ ko.bindingHandlers.tree = {
                 _(jsTreeData.children).each(recurseChildMember);
                 $(element)
                     .on("select_node.jstree", function (node, selected) {
+                        if (typeof member !== "function") {
+                            return;
+                        }
+                        if (memberNameSubscription) {
+                            memberNameSubscription.dispose();
+                            memberNameSubscription = null;
+                        }
+
+                        if (memberTypeNameSubscription) {
+                            memberTypeNameSubscription.dispose();
+                            memberTypeNameSubscription = null;
+                        }
+
                         var tag = selected.node.data;
                         if (tag) {
-                            if (!ko.unwrap(member)) {
-                                return;
-                            }
-                            if (typeof member().Name !== "function") {
+                            if (selected.node.type === "default") {
                                 return;
                             }
 
@@ -473,16 +485,22 @@ ko.bindingHandlers.tree = {
                                    parents = _(selected.node.parents).map(function (n) { return ref.get_node(n); }),
                                    valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
                             tag.childOfValueMember(valueMember || false);
+                            if (!tag.childOfValueMember()) {
+                                ref.edit(selected.node);
+                            }
+
                             member(tag);
 
+
                             // subscribe to Name change
-                            member().Name.subscribe(function (name) {
+                            memberNameSubscription = member().Name.subscribe(function (name) {
                                 $(element).jstree(true)
                                     .rename_node(selected.node, name);
+                                console.log("rename " + name);
                             });
                             // type
                             if (typeof member().TypeName === "function") {
-                                member().TypeName.subscribe(function (name) {
+                                memberTypeNameSubscription = member().TypeName.subscribe(function (name) {
                                     $(element).jstree(true)
                                         .set_type(selected.node, name);
                                 });
