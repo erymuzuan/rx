@@ -423,10 +423,17 @@ ko.bindingHandlers.tree = {
                     selected: true
                 }
             },
+            getNodeMemberType = function(v) {
+                var type = ko.unwrap(v.TypeName) || ko.unwrap(v.$type);
+                if (type.indexOf(",") < 0) {
+                    type = ko.unwrap(v.$type);
+                }
+                return type;
+            },
             recurseChildMember = function (node) {
                 node.children = _(node.data.MemberCollection()).map(function (v) {
 
-                    var type = ko.unwrap(v.TypeName) || ko.unwrap(v.$type);
+                    var type = getNodeMemberType(v);
                     return {
                         text: v.Name(),
                         state: "open",
@@ -438,10 +445,11 @@ ko.bindingHandlers.tree = {
             },
             loadJsTree = function () {
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
+                    
                     return {
                         text: ko.unwrap(v.Name),
                         state: "open",
-                        type: ko.unwrap(v.TypeName) || ko.unwrap(v.$type),
+                        type: getNodeMemberType(v),
                         data: v
                     };
                 });
