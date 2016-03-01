@@ -100,21 +100,14 @@ namespace Bespoke.Sph.Domain
                 return m_tracker;
 
             if (string.IsNullOrWhiteSpace(this.Id))
-                return m_tracker = new Tracker
-                {
-                    Workflow = this,
-                    WorkflowDefinition = this.WorkflowDefinition,
-                    WorkflowId = this.Id,
-                    WorkflowDefinitionId = this.WorkflowDefinitionId,
-                    Id = Guid.NewGuid().ToString()
-                };
+                return m_tracker = new Tracker(this.WorkflowDefinition, this);
 
             var context = new SphDataContext();
             m_tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.Id).ConfigureAwait(false)
-                          ??
-                          new Tracker { Id = Guid.NewGuid().ToString(), WorkflowId = this.Id, WorkflowDefinitionId = this.WorkflowDefinitionId };
+                          ?? new Tracker(this.WorkflowDefinition, this);
             m_tracker.Workflow = this;
             m_tracker.WorkflowDefinition = this.WorkflowDefinition;
+
             if (string.IsNullOrWhiteSpace(m_tracker.Id))
                 m_tracker.Init(this, this.WorkflowDefinition);
 
@@ -127,10 +120,7 @@ namespace Bespoke.Sph.Domain
             var tracker = await this.GetTrackerAsync().ConfigureAwait(false);
             var cors = this.WorkflowDefinition.CorrelationSetCollection.Single(x => x.Name == name);
             var cort = this.WorkflowDefinition.CorrelationTypeCollection.Single(x => x.Name == cors.Type);
-
-            // set to the es
-
-
+            
             var id = Guid.NewGuid().ToString();
             var json = JsonConvert.SerializeObject(new
             {

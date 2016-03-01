@@ -33,13 +33,7 @@ namespace Bespoke.Sph.Domain
                 result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => does not have the MessagePath"));
 
             var variable = wd.VariableDefinitionCollection.SingleOrDefault(x => x.Name == this.MessagePath);
-            if (null != variable)
-            {
-                var vt = Strings.GetType(variable.TypeName);
-                if (null == vt)
-                    result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => Cannot load the type for {variable.TypeName} in the MesssagePath"));
-            }
-            else
+            if (null == variable)
             {
                 result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => Cannot find variable {this.MessagePath} in the VariableCollection"));
             }
@@ -139,7 +133,7 @@ namespace Bespoke.Sph.Domain
             if (this.FollowingCorrelationSetCollection.Count == 0 && this.IsInitiator)
             {
                 code.AppendLine($"      [Route(\"{this.Operation.ToIdFormat()}\")]");
-                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([RawBody]string json)");
+                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{vt2} @message)");
                 code.AppendLine("       {");
                 code.AppendLine($"           var wf = new {wd.WorkflowTypeName}{{Id = Guid.NewGuid().ToString()}};");
                 code.AppendLine("            await wf.LoadWorkflowDefinitionAsync();");
@@ -147,16 +141,15 @@ namespace Bespoke.Sph.Domain
             else
             {
                 code.AppendLine($"      [Route(\"{{correlationId}}/{this.Operation.ToIdFormat()}\")]");
-                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([RawBody]string json, [FromUri]string correlationId)");
+                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{vt2} @message, string correlationId)");
                 code.AppendLine("       {");
-                code.AppendLine($@"           var self = wd.ActivityCollection.OfType<ReceiveActivity>().Single(x => x.WebId == ""{WebId}"")");
+                code.AppendLine($@"           var self = wd.ActivityCollection.OfType<ReceiveActivity>().Single(x => x.WebId == ""{WebId}"");");
                 code.AppendLine($"            var wf = await self.LoadInstanceAsync<{wd.WorkflowTypeName}>(wd, correlationId);");
             }
             code.AppendLine(this.GenerateCanExecuteCode());
 
             code.AppendLine();
-            code.AppendLine($"           var @message = JsonConvert.DeserializeObject<{vt2}>(json);");
-            code.AppendLinf($"           var result = await wf.{Name}Async(@message);");
+            code.AppendLinf($"            var result = await wf.{Name}Async(@message);");
             code.AppendLine($"            await wf.SaveAsync(\"{WebId}\", result);");
             // any business rules?            
             code.AppendLine("           var  response = Request.CreateResponse(HttpStatusCode.Accepted, new {success = true, status=\"OK\"} );");
@@ -277,8 +270,8 @@ namespace Bespoke.Sph.Domain
                     users.AddRange(list3);
                     break;
                 default:
-                    throw new Exception("Whoaaa we cannot send invitation to " + this.Performer.UserProperty + " for " +
-                                        this.Name);
+                    throw new Exception(
+                        $"Whoaaa we cannot send invitation to \"{this.Performer.UserProperty}\" for \"{this.Name}\"");
             }
             return users.ToArray();
         }

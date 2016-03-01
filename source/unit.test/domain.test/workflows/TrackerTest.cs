@@ -39,6 +39,7 @@ namespace domain.test.workflows
                 IsInitiator = true,
                 Name = "Start screen",
                 WebId = "A",
+                Performer = new Performer { IsPublic = true }
             });
             var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = "1", Id = "0" };
             var tracker = await wf.GetTrackerAsync();
@@ -62,12 +63,14 @@ namespace domain.test.workflows
                 IsInitiator = true,
                 Name = "Start screen",
                 WebId = "A",
+                Performer = new Performer { IsPublic = true },
                 NextActivityWebId = "B"
             });
             wd.ActivityCollection.Add(new ReceiveActivity
             {
                 Name = "Start B",
                 WebId = "B",
+                Performer = new Performer { UserProperty = "UserName", Value = "admin"}
             });
 
             var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = "1", Id = "0" };
@@ -98,12 +101,14 @@ namespace domain.test.workflows
                 IsInitiator = true,
                 Name = "Start screen",
                 WebId = "A",
+                Performer = new Performer { IsPublic = true },
                 NextActivityWebId = "B"
             });
             wd.ActivityCollection.Add(new ReceiveActivity
             {
                 Name = "Start B",
                 WebId = "B",
+                Performer = new Performer { UserProperty = "UserName", Value = "Admin"}
             });
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
@@ -133,19 +138,22 @@ namespace domain.test.workflows
                 Name = "Test start screen"
             };
 
-            wd.ActivityCollection.Add(new ReceiveActivity
+            var r1 = new ReceiveActivity
             {
                 IsInitiator = true,
                 Name = "Start screen",
                 WebId = "A",
+                Performer = new Performer { IsPublic = true },
                 NextActivityWebId = "B"
-            });
-            var screenB = new ReceiveActivity
+            };
+            wd.ActivityCollection.Add(r1);
+            var r2 = new ReceiveActivity
             {
                 Name = "Start B",
-                WebId = "B"
+                WebId = "B",
+                Performer = new Performer { UserProperty = "UserName", Value = "admin"}
             };
-            wd.ActivityCollection.Add(screenB);
+            wd.ActivityCollection.Add(r2);
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
             var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = "1", Id = "0" };
@@ -159,7 +167,7 @@ namespace domain.test.workflows
             Assert.True(tracker.WaitingAsyncList.ContainsKey("B"));
 
             // now cancel
-            await screenB.CancelAsync(wf);
+            await r2.CancelAsync(wf);
             Assert.DoesNotContain("ABC", tracker.WaitingAsyncList["B"]);
             Assert.False(tracker.CanExecute("B", "1234"));
         }

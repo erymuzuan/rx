@@ -9,6 +9,19 @@ namespace Bespoke.Sph.Domain
 {
     public partial class Tracker : Entity
     {
+        public Tracker()
+        {
+            // default for serializer
+        }
+
+        public Tracker(WorkflowDefinition wd, Workflow wf)
+        {
+            this.WorkflowDefinition = wd;
+            this.Workflow = wf;
+            this.Id = Strings.GenerateId();
+            this.WorkflowId = wf.Id;
+            this.WorkflowDefinitionId = wf.WorkflowDefinitionId;
+        }
         private Dictionary<string, List<string>> m_waitingAsyncList = new Dictionary<string, List<string>>();
 
         [XmlIgnore]
@@ -187,33 +200,32 @@ namespace Bespoke.Sph.Domain
             return true;
         }
 
-        public Task<IEnumerable<PendingTask>> GetPendingTasksAsync()
+        public async Task<IEnumerable<PendingTask>> GetPendingTasksAsync()
         {
-            throw new NotImplementedException();
-            //if (null == this.Workflow) throw new InvalidOperationException("Workflow is null");
-            //if (null == this.WorkflowDefinition) await this.Workflow.LoadWorkflowDefinitionAsync();
-            //this.WorkflowDefinition = this.Workflow.WorkflowDefinition;
+            if (null == this.Workflow) throw new InvalidOperationException("Workflow is null");
+            if (null == this.WorkflowDefinition) await this.Workflow.LoadWorkflowDefinitionAsync();
+            this.WorkflowDefinition = this.Workflow.WorkflowDefinition;
 
-            //var pendings = (from w in this.WaitingAsyncList.Keys
-            //                let act = this.WorkflowDefinition.GetActivity<Activity>(w)
-            //                let screen = act as ScreenActivity
-            //                select new PendingTask(this.WorkflowId)
-            //                {
-            //                    Name = act.Name,
-            //                    Type = act.GetType().Name,
-            //                    WebId = act.WebId,
-            //                    Correlations = this.WaitingAsyncList[w].ToArray()
-            //                }).ToList();
+            var pendings = (from w in this.WaitingAsyncList.Keys
+                            let act = this.WorkflowDefinition.GetActivity<Activity>(w)
+                            let screen = act as ReceiveActivity
+                            select new PendingTask(this.WorkflowId)
+                            {
+                                Name = act.Name,
+                                Type = act.GetType().Name,
+                                WebId = act.WebId,
+                                Correlations = this.WaitingAsyncList[w].ToArray()
+                            }).ToList();
 
-            //pendings.ForEach(async t =>
-            //{
-            //    var screen = this.WorkflowDefinition.ActivityCollection
-            //        .OfType<ScreenActivity>()
-            //        .SingleOrDefault(a => a.WebId == t.WebId);
-            //    if (null != screen)
-            //        t.Performers = await screen.GetUsersAsync(this.Workflow);
-            //});
-            //return pendings;
+            pendings.ForEach(async t =>
+            {
+                var screen = this.WorkflowDefinition.ActivityCollection
+                    .OfType<ReceiveActivity>()
+                    .SingleOrDefault(a => a.WebId == t.WebId);
+                if (null != screen)
+                    t.Performers = await screen.GetUsersAsync(this.Workflow);
+            });
+            return pendings;
         }
 
         public void CancelAsyncList(string activityWebId, string correlation = null)
