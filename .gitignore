@@ -170,3 +170,4 @@ bin/rabbitmq_base/
 /bin/kibana-4.1.4-windows
 source/web/web.sph/Properties/PublishProfiles/bin.pubxml
 source/web/web.sph/Properties/PublishProfiles/web.pubxml
+source/web/core.sph/Scripts/__rx.min.js.map
