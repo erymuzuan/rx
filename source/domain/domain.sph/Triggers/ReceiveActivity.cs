@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
@@ -124,8 +123,8 @@ namespace Bespoke.Sph.Domain
             controller.ImportCollection.Add(typeof(JsonConvert).Namespace);
 
             var vt = Strings.GetType(variable.TypeName);
-            var vt2 = vt?.FullName;
-            if (null == vt) vt2 = variable.TypeName;
+            var messageType = vt?.FullName;
+            if (null == vt) messageType = variable.TypeName;
 
             var code = new StringBuilder();
             code.AppendLinf("//exec:{0}", this.WebId);
@@ -133,18 +132,19 @@ namespace Bespoke.Sph.Domain
             if (this.FollowingCorrelationSetCollection.Count == 0 && this.IsInitiator)
             {
                 code.AppendLine($"      [Route(\"{this.Operation.ToIdFormat()}\")]");
-                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{vt2} @message)");
+                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{messageType} @message)");
                 code.AppendLine("       {");
                 code.AppendLine($"           var wf = new {wd.WorkflowTypeName}{{Id = Guid.NewGuid().ToString()}};");
                 code.AppendLine("            await wf.LoadWorkflowDefinitionAsync();");
             }
             else
             {
-                code.AppendLine($"      [Route(\"{{correlationId}}/{this.Operation.ToIdFormat()}\")]");
-                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{vt2} @message, string correlationId)");
+                var correlationName = string.Join(";", this.FollowingCorrelationSetCollection);
+                code.AppendLine($"      [Route(\"{{correlationValue}}/{this.Operation.ToIdFormat()}\")]");
+                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd, [FromBody]{messageType} @message, string correlationValue)");
                 code.AppendLine("       {");
                 code.AppendLine($@"           var self = wd.ActivityCollection.OfType<ReceiveActivity>().Single(x => x.WebId == ""{WebId}"");");
-                code.AppendLine($"            var wf = await self.LoadInstanceAsync<{wd.WorkflowTypeName}>(wd, correlationId);");
+                code.AppendLine($"            var wf = await self.LoadInstanceAsync<{wd.WorkflowTypeName}>(wd, \"{correlationName}\", correlationValue);");
             }
             code.AppendLine(this.GenerateCanExecuteCode());
 
@@ -155,7 +155,6 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           var  response = Request.CreateResponse(HttpStatusCode.Accepted, new {success = true, status=\"OK\"} );");
             code.AppendLine("           return response;");
             code.AppendLine("       }"); // end SAVE action
-
             controller.MethodCollection.Add(new Method { Code = code.ToString() });
 
 
@@ -171,7 +170,7 @@ namespace Bespoke.Sph.Domain
             if (!this.IsInitiator)
             {
                 code.AppendLinf("           var tracker = await wf.GetTrackerAsync();");
-                code.AppendLinf("           if(!tracker.CanExecute(\"{0}\", \"{0}\" ))", this.WebId);
+                code.AppendLine($"           if(!tracker.CanExecute(\"{WebId}\", \"{WebId}\" ))");
                 code.AppendLine("           {");
                 code.AppendLine("               return Request.CreateResponse(HttpStatusCode.Forbidden); ");
                 code.AppendLine("           }");
@@ -276,51 +275,10 @@ namespace Bespoke.Sph.Domain
             return users.ToArray();
         }
 
-        public async Task<T> LoadInstanceAsync<T>(WorkflowDefinition wd, string correlation) where T : Workflow
+        public async Task<T> LoadInstanceAsync<T>(WorkflowDefinition wd, string correlationName, string correlationValue) where T : Workflow
         {
-            var cval = string.Join(";", new string[] { });
-            var url = ConfigurationManager.ElasticSearchIndex + "/correlationset/";
-
-            var query = @"{
-   ""query"": {
-      ""filtered"": {
-         ""filter"": {
-            ""bool"": {
-               ""must"": [
-                  {
-                     ""term"": {
-                        ""wdid"": """ + wd.Id + @"""
-                     }
-                  },
-                  {
-                      ""term"": {
-                         ""value"": """ + cval + @"""
-                      }
-                  },
-                  {
-                      ""term"": {
-                         ""name"": ""mrn""
-                      }
-                  }
-               ]
-            }
-         }
-      }
-   }
-}";
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var esresult = await client.PostAsync(url, new StringContent(query));
-                var content = esresult.Content as StreamContent;
-                var json2 = await content.ReadAsStringAsync();
-                var wid = Newtonsoft.Json.Linq.JObject.Parse(json2).SelectToken("hits.hits[0]._source.wid");
-
-                var context = new SphDataContext();
-                var instance = (await context.LoadOneAsync<Workflow>(x => x.Id == wid.ToString()));
-                await instance.LoadWorkflowDefinitionAsync();
-                return (T)instance;
-            }
+            var repos = ObjectBuilder.GetObject<ICorrelationRepository>();
+            return await repos.GetInstanceAsync<T>(wd, correlationName, correlationValue);
         }
     }
 }

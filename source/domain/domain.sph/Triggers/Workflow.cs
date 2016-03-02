@@ -118,31 +118,18 @@ namespace Bespoke.Sph.Domain
         public async Task InitializeCorrelationSetAsync(string name, string value)
         {
             var tracker = await this.GetTrackerAsync().ConfigureAwait(false);
-            var cors = this.WorkflowDefinition.CorrelationSetCollection.Single(x => x.Name == name);
-            var cort = this.WorkflowDefinition.CorrelationTypeCollection.Single(x => x.Name == cors.Type);
-            
-            var id = Guid.NewGuid().ToString();
-            var json = JsonConvert.SerializeObject(new
+            var corr = new Correlation
             {
-                wid = this.Id,
-                wdid = this.WorkflowDefinitionId,
-                tracker,
-                id,
-                name = cort.Name,
-                value
-            });
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/{"correlationset"}/{id}";
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.PutAsync(url, new StringContent(json)).ConfigureAwait(false);
-                if (null != response)
-                {
-                    Debug.Write(".");
-                }
-            }
+                WorfklowId = this.Id,
+                WorkflowDefinitionId = this.WorkflowDefinitionId,
+                Tracker = tracker,
+                Name = name,
+                Id = Strings.GenerateId(),
+                Value = value
 
-
+            };
+            var repos = ObjectBuilder.GetObject<ICorrelationRepository>();
+            await repos.SaveInstance(corr);
         }
 
         public async Task LoadWorkflowDefinitionAsync()

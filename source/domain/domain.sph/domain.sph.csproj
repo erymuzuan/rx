@@ -483,6 +483,7 @@
     <Compile Include="Triggers\Field.cs" />
     <Compile Include="Transform\Functoid.cs" />
     <Compile Include="Triggers\FunctoidMapping.cs" />
+    <Compile Include="Triggers\ICorrelationRepository.cs" />
     <Compile Include="Triggers\InitiateActivityResult.cs" />
     <Compile Include="Triggers\ITaskScheduler.cs" />
     <Compile Include="Triggers\JavascriptExpressionField.cs" />
