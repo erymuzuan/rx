@@ -28,7 +28,15 @@ namespace Bespoke.Sph.Domain
             return $"this.{Name} = new {TypeName}();";
         }
 
+        public override async Task<string[]> GetMembersPathAsync(WorkflowDefinition wd)
+        {
+            var context = new SphDataContext();
+            var vod = await context.LoadOneAsync<ValueObjectDefinition>(x => x.Name == this.TypeName);
+            var list = vod.MemberCollection.Select(x => $"{Name}.{x.Name}").ToList();
+            list.AddRange(vod.MemberCollection.Select(x => x.GetMembersPath(this.Name + ".")).SelectMany(x => x.ToArray()));
 
+            return list.ToArray();
+        }
 
         public override Task<IEnumerable<Class>> GenerateCustomTypesAsync(WorkflowDefinition wd)
         {

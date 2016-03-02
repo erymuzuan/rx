@@ -55,7 +55,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var package = new WorkflowDefinitionPackage();
             var zd = await package.PackAsync(wd);
-            return Json(new { success = true, status = "OK", url =$"/binarystore/{zd.Id}"});
+            return Json(new { success = true, status = "OK", url = $"/binarystore/{zd.Id}" });
         }
 
 
@@ -88,7 +88,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return Json(buildValidation);
 
             await this.Save("Compile", wd);
-            var result =await wd.CompileAsync();
+            var result = await wd.CompileAsync();
             if (!result.Result || !System.IO.File.Exists(result.Output))
             {
                 return Json(new { success = false, version = wd.Version, status = "ERROR", result.Errors });
@@ -106,9 +106,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             if (!buildValidation.Result)
                 return Json(buildValidation);
-            
 
-            var result =await wd.CompileAsync();
+
+            var result = await wd.CompileAsync();
             if (!result.Result || !System.IO.File.Exists(result.Output))
             {
                 return Json(new { success = false, version = wd.Version, status = "ERROR", result.Errors });
@@ -185,43 +185,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (null == wd)
                 return NotFound("No WorkflowDefinition is found with the id " + id);
 
-            var list = wd.VariableDefinitionCollection.Select(v => v.Name).ToList();
-            var schema = wd.GetCustomSchema();
-            if (null != schema)
+            var list = new List<string>();
+            foreach (var @var in wd.VariableDefinitionCollection)
             {
-                var xsd = new XsdMetadata(schema);
-                foreach (var v in wd.VariableDefinitionCollection.OfType<ComplexVariable>())
-                {
-                    list.AddRange(xsd.GetMembersPath(v.TypeName).Select(x => v.Name + "." + x));
-                }
+                list.Add(@var.Name);
+                var members = await @var.GetMembersPathAsync(wd);
+                list.AddRange(members);
             }
-
-            foreach (var v in wd.VariableDefinitionCollection.OfType<ClrTypeVariable>())
-            {
-                var v1 = v;
-                var entity = await context.LoadOneAsync<EntityDefinition>(e => e.Name == v1.Type.Name);
-                if (null != entity)
-                {
-                    list.AddRange(entity.GetMembersPath().Select(x => v.Name + "." + x));
-                }
-                else
-                {
-                    var properties = v.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                    list.AddRange(properties.Select(x => v.Name + "." + x.Name));
-                }
-            }
-
             return Json(list.Select(d => new { Path = d }).ToArray());
         }
 
-        
+
 
         private async Task<string> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
         {
             var context = new SphDataContext();
             if (null == wd) throw new ArgumentNullException(nameof(wd));
 
-            if(string.IsNullOrWhiteSpace(wd.Name))
+            if (string.IsNullOrWhiteSpace(wd.Name))
                 throw new InvalidOperationException("Cannot save WorkflowDefinition with empty Name");
 
 

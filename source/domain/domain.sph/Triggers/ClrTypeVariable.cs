@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -42,6 +46,24 @@ namespace Bespoke.Sph.Domain
 
 
             return result;
+        }
+
+        public override async Task<string[]> GetMembersPathAsync(WorkflowDefinition wd)
+        {
+            var context = new SphDataContext();
+            var list = new List<string>();
+            var entity = await context.LoadOneAsync<EntityDefinition>(e => e.Name == this.Type.Name);
+            if (null != entity)
+            {
+                list.AddRange(entity.GetMembersPath().Select(x => this.Name + "." + x));
+            }
+            else
+            {
+                var properties = this.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                list.AddRange(properties.Select(x => this.Name + "." + x.Name));
+            }
+
+            return list.ToArray();
         }
 
         [XmlIgnore]

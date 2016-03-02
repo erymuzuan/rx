@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +34,13 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
+        public override Task<string[]> GetMembersPathAsync(WorkflowDefinition wd)
+        {
+            var schema = wd.GetCustomSchema();
+            var xsd = new XsdMetadata(schema);
+            var list = xsd.GetMembersPath(this.TypeName).Select(e => this.Name + "." + e);
+            return Task.FromResult(list.ToArray());
+        }
 
         private string GenerateXsdComplexTypeJavascript(WorkflowDefinition wd, XElement e, int level = 0)
         {

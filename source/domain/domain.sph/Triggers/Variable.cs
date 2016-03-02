@@ -20,8 +20,8 @@ namespace Bespoke.Sph.Domain
 
         public virtual Task<IEnumerable<Class>> GenerateCustomTypesAsync(WorkflowDefinition wd)
         {
-            var tcs =new TaskCompletionSource<IEnumerable<Class>>();
-            tcs.SetResult(new Class[] {});
+            var tcs = new TaskCompletionSource<IEnumerable<Class>>();
+            tcs.SetResult(new Class[] { });
 
             return tcs.Task;
         }
@@ -40,10 +40,15 @@ namespace Bespoke.Sph.Domain
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = message });
             if (forbiddenNames.Contains(this.Name))
-                result.Errors.Add(new BuildError(this.WebId) { Message = "[Variable] "+this.Name + " is a reserved variable name" });
+                result.Errors.Add(new BuildError(this.WebId) { Message = "[Variable] " + this.Name + " is a reserved variable name" });
 
 
             return result;
+        }
+
+        public virtual Task<string[]> GetMembersPathAsync(WorkflowDefinition wd)
+        {
+            return Task.FromResult(new string[] { });
         }
     }
 }
