@@ -1,0 +1,437 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
+        "PortType": null,
+        "Operation": "SubmitNewQuartersApplication",
+        "MessagePath": "Permohonan",
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "NoKP"
+          ]
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "IsAsync": true,
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": null,
+          "Value": null,
+          "IsPublic": false,
+          "WebId": null
+        },
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Receive",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 462,
+          "Y": 2,
+          "WebId": null
+        },
+        "IsInitiator": true,
+        "NextActivityWebId": "c27e27f2-76c3-4882-cb55-e771452fdc64",
+        "Name": "TerimaPermohonanBaru",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "b170cfb4-c782-416d-b92b-0917b5431d0e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Ada pengesahan baru @Model.Permohonan.NoKp",
+        "Body": "Salam\nAda pengesahan baru @Model.Permohonan.NoKp",
+        "To": "erymuzuan@@gmail.com",
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 184,
+          "Y": 172,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "fd27e0bc-8ac1-45d1-d9f1-b0b377d92017",
+        "Name": "HantarEmailKepadaPegesahan",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "c27e27f2-76c3-4882-cb55-e771452fdc64"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
+        "PortType": null,
+        "Operation": "PengesahanDokumenPermohonan",
+        "MessagePath": "Pengesahan",
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "NoKP"
+          ]
+        },
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+              "Path": "Pengesahan.MyKad",
+              "Name": "NoKP",
+              "Origin": "Permohonan.NoKP",
+              "WebId": "ab38273d-2547-424d-f98f-739347793264"
+            }
+          ]
+        },
+        "IsAsync": true,
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": null,
+          "Value": null,
+          "IsPublic": false,
+          "WebId": null
+        },
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Receive",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 184,
+          "Y": 389,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "5ed65d70-421c-482f-8e5e-fbf9ee7d83bc",
+        "Name": "PengesahanDokumenPermohonan",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "fd27e0bc-8ac1-45d1-d9f1-b0b377d92017"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Email kelulusan untuk",
+        "Body": "Email kelulusan untuk @Model.Mrn",
+        "To": "admin@@bespoke.com.my",
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 184,
+          "Y": 807,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "08749ac0-e998-4ce2-e8dc-5ad0e41d5538",
+        "Name": "EmailKelulusan",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "c008ec5a-9d73-4e02-e418-ae2312399698"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
+        "PortType": null,
+        "Operation": "HantarStatusKelulusan",
+        "MessagePath": "Kelulusan",
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "NoDaftar"
+          ]
+        },
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+              "Path": "Kelulusan.NoDaftar",
+              "Name": "NoDaftar",
+              "Origin": "NoDaftar",
+              "WebId": "3f9d5955-2664-40a8-e67e-3dda07cd0e53"
+            }
+          ]
+        },
+        "IsAsync": true,
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": null,
+          "Value": null,
+          "IsPublic": false,
+          "WebId": null
+        },
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Receive",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 551,
+          "Y": 191,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "0949b141-8c4d-473d-f638-7514dd9895ea",
+        "Name": "Kelulusan",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "08749ac0-e998-4ce2-e8dc-5ad0e41d5538"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
+        "Expression": "Console.WriteLine(\"Bye\");\n",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Expression",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 551,
+          "Y": 449,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "1826a63e-64b9-45f2-a15a-0d8078de8afd",
+        "Name": "Bye",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "0949b141-8c4d-473d-f638-7514dd9895ea"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "End",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 551,
+          "Y": 697,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": null,
+        "Name": "Habis",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "1826a63e-64b9-45f2-a15a-0d8078de8afd"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
+        "Expression": "// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\nvar t1 = DateTime.Now.Ticks;\n\nthis.NoDaftar = (t1 - DateTime.Today.AddHours(DateTime.Now.Hour).Ticks).ToString();\nthis.InitializeCorrelationSetAsync(\"NoDaftar\", this.NoDaftar);",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Expression",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 184,
+          "Y": 591,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "c008ec5a-9d73-4e02-e418-ae2312399698",
+        "Name": "BuatNoDaftar",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "5ed65d70-421c-482f-8e5e-fbf9ee7d83bc"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ValueObjectVariable, domain.sph",
+        "ValueObjectDefinition": "",
+        "Name": "Permohonan",
+        "TypeName": "PermohonanKuarters",
+        "DefaultValue": "",
+        "WebId": "46c0c580-7a02-4748-e14d-335655d57cde"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ValueObjectVariable, domain.sph",
+        "ValueObjectDefinition": "",
+        "Name": "Pengesahan",
+        "TypeName": "PengesahanDokumen",
+        "DefaultValue": "",
+        "WebId": "d78ed4c7-e676-4282-ff5d-0ec438b85242"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ValueObjectVariable, domain.sph",
+        "ValueObjectDefinition": "",
+        "Name": "Kelulusan",
+        "TypeName": "KelulusanKuarters",
+        "DefaultValue": "",
+        "WebId": "54669ab8-d7cc-471c-8e56-723738a0189e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "NoDaftar",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "9334e204-90f2-41f5-fa13-9534c143fca6"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "Pelanggang",
+        "TypeName": "Bespoke.DevV1.Customers.Domain.Customer, DevV1.Customer",
+        "DefaultValue": "",
+        "WebId": "02ca00b0-32d1-4b2c-c04c-f030b50e1b34"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.Customer",
+        "FullName": "DevV1.Customer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "E:\\project\\work\\rx\\source\\web\\web.sph\\bin\\DevV1.Customer.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      }
+    ]
+  },
+  "CorrelationSetCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationSet, domain.sph",
+        "Type": "NoKP",
+        "Name": "NoKP",
+        "WebId": "2cf8a3f5-67e6-47e2-949c-3d01618e98b2"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationSet, domain.sph",
+        "Type": "NoDaftar",
+        "Name": "NoDaftar",
+        "WebId": "8ad01022-66a8-414c-dadc-e9d22a21e554"
+      }
+    ]
+  },
+  "CorrelationTypeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationType, domain.sph",
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+              "Path": "Permohonan.NoKp",
+              "Name": "",
+              "Origin": "",
+              "WebId": "2124aa61-4c42-415a-b075-37ca080717bf"
+            }
+          ]
+        },
+        "Name": "NoKP",
+        "WebId": "0688b8ee-5a6a-4589-ad3e-dd8332af100e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationType, domain.sph",
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+              "Path": "NoDaftar",
+              "Name": "",
+              "Origin": "",
+              "WebId": "36091498-bb4e-4a9d-8b00-a3d941407400"
+            }
+          ]
+        },
+        "Name": "NoDaftar",
+        "WebId": "236b665c-99de-4bdd-da39-d300a3033bba"
+      }
+    ]
+  },
+  "TryScopeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TryScope, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Permohonan Kuarters",
+  "Note": "",
+  "IsActive": false,
+  "SchemaStoreId": "980cc2a9-c30a-4c3f-8592-0c5ef5df707e",
+  "Version": 1,
+  "CreatedBy": "admin",
+  "Id": "permohonan-kuarters",
+  "CreatedDate": "2016-03-01T15:26:07.7855503+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-03-02T08:58:47.2013087+08:00",
+  "WebId": "a72c7612-b699-440c-885e-a1646e026b9d"
+}
