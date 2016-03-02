@@ -36,7 +36,6 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                 selected(null);
                 setTimeout(function () {
                     $("#search-text").focus();
-
                 }, 500);
             },
             okClick = function () {

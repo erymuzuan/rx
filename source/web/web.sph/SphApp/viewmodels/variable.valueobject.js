@@ -21,11 +21,16 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 return context.getListAsync("ValueObjectDefinition", null, "Name")
                     .done(valueObjectDefinitionOptions);
             },
+            attached = function(view) {
+
+                setTimeout(function () {
+                    $("#variable-name").focus();
+                }, 500);
+            },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
-
             },
             cancelClick = function() {
                 dialog.close(this, "Cancel");
@@ -34,6 +39,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
         var vm = {
             valueObjectDefinitionOptions: valueObjectDefinitionOptions,
             activate : activate,
+            attached : attached,
             variable: ko.observable(new bespoke.sph.domain.ValueObjectVariable()),
             okClick: okClick,
             cancelClick: cancelClick
