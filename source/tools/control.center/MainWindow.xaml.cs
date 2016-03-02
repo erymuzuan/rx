@@ -87,6 +87,7 @@ namespace Bespoke.Sph.ControlCenter
         {
             dynamic vm = this.DataContext;
             vm.View = this;
+            ((ViewModelBase)vm).PropertyChanged += PropertyChanged;
             await vm.LoadAsync();
             outputTextBox.Clear();
             vm.TextWriter = new TextBoxStreamWriter(outputTextBox);
@@ -95,7 +96,6 @@ namespace Bespoke.Sph.ControlCenter
             outputTextBox.TextChanged += OutputTextBoxTextChanged;
 
             this.Title += " : " + vm.Settings.ApplicationName;
-            ((ViewModelBase)vm).PropertyChanged += PropertyChanged;
 
         }
 

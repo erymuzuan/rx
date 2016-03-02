@@ -28,11 +28,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.SetupIisCommand();
             this.SetupSqlLocaldbCommand();
             this.SetupRabbitMqCommand();
-
-            StartWebConsoleCommand = new RelayCommand(StartWebConsole, () => !WebConsoleStarted);
-            StopWebConsoleCommand = new RelayCommand(StopWebConsole, () => WebConsoleStarted);
-
-
+            this.SetupWebConsoleCommand();
             this.SetupElasticsearch();
             this.SetupWorkersCommand();
 

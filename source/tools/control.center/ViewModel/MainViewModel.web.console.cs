@@ -7,13 +7,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public RelayCommand StartWebConsoleCommand { get; set; }
         public RelayCommand StopWebConsoleCommand { get; set; }
 
-        public void SetWebConsoleCommand()
+        private void SetupWebConsoleCommand()
         {
             StartWebConsoleCommand = new RelayCommand(StartWebConsole, () => !WebConsoleStarted);
             StopWebConsoleCommand = new RelayCommand(StopWebConsole, () => WebConsoleStarted);
-
         }
-
+        
 
         private void StopWebConsole()
         {
@@ -41,6 +40,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 {
                     WebConsoleServer.Default.StartConsume(this);
                 }
+
+                this.Post(() =>
+                {
+                    StartWebConsoleCommand.RaiseCanExecuteChanged();
+                });
             });
         }
 

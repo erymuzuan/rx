@@ -19,6 +19,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="1" Content="RabbitMQ" FontWeight="Bold"/>
         <Button Grid.Row="0" Grid.Column="2" Content="Start" Command="{Binding StartRabbitMqCommand}"/>
@@ -53,5 +54,9 @@
         <Image Grid.Row="4" Grid.Column="0" Stretch="None" Source="images/run_exc.gif" Visibility="{Binding IisServiceStarted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
         <TextBlock IsEnabled="true" x:Name="webLink" Style="{DynamicResource LinkStyle}" Grid.Row="4" Grid.Column="4"><Hyperlink NavigateUri="http://localhost:15672/" RequestNavigate="NavigateApp"><Run Text="View App"/></Hyperlink></TextBlock>
+
+        <Label Grid.Row="5" Grid.Column="1" Content="Console Logger" FontWeight="Bold"/>
+        <Button Grid.Row="5" Grid.Column="2" Content="Start" Command="{Binding StartWebConsoleCommand}"/>
+        <Button Grid.Row="5" Grid.Column="3" Content="Stop" Command="{Binding StopWebConsoleCommand}"/>
     </Grid>
-    </UserControl>
+</UserControl>
