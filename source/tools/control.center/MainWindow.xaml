@@ -28,7 +28,13 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" x:Name="menu">
             <MenuItem Header="_File">
-                <MenuItem Icon="{StaticResource ImageOpen}" Header="_Open Project Directory" Click="OpenProjectDirectory"/>
+                <MenuItem Header="_Open">
+                    <MenuItem Icon="{StaticResource ImageOpen}" Header="_Project Home" Tag="HOME" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,P"/>
+                    <MenuItem Icon="{StaticResource ImageDriveWeb}" Header="_Web Directory" Tag="WebPath,web" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,W"/>
+                    <MenuItem Icon="{StaticResource ImageDriveWeb}" Header="_Output Directory" Tag="CompilerOutputPath,output" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,O"/>
+                    <MenuItem Icon="{StaticResource ImageDriveWeb}" Header="_Subscribers Directory" Tag="SubscriberPath,subscribers" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,S"/>
+                    <MenuItem Icon="{StaticResource ImageDriveWeb}" Header="_Tools Directory" Tag="ToolsPath,tools" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,T"/>
+                </MenuItem>
                 <MenuItem Icon="{StaticResource CommandPrompt}" Header="_Starts Powershell" Click="StartPowershell"/>
                 <MenuItem Header="E_xit" Click="WindowExit"/>
                 <MenuItem Header="_Force Exit" Click="ForceWindowExit"/>
@@ -46,7 +52,7 @@
         </Menu>
         <Label Grid.Row="1" Content="Reactive Developer Control Center" FontSize="18" FontWeight="Bold"  />
 
-      
+
 
         <GroupBox Header="Service Status" Grid.Row="2" x:Name="controlPanelBox" >
 

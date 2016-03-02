@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.Helpers;
+using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.ViewModel;
 using Microsoft.Win32;
 
@@ -96,6 +97,48 @@ namespace Bespoke.Sph.ControlCenter
             outputTextBox.TextChanged += OutputTextBoxTextChanged;
 
             this.Title += " : " + vm.Settings.ApplicationName;
+            this.KeyDown += MainWindow_KeyDown;
+
+        }
+
+        private bool m_ctrlOFlag;
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            var ctrl = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+            if (!ctrl) return;
+            if (e.Key == Key.O && !m_ctrlOFlag)
+            {
+                m_ctrlOFlag = true;
+                return;
+            }
+            if (!m_ctrlOFlag) return;
+            var setting = "";
+            string defaultValue = null;
+            switch (e.Key)
+            {
+                case Key.W:
+                    setting = "WebPath";
+                    defaultValue = "web";
+                    break;
+                case Key.H:
+                case Key.P: setting = "Home"; break;
+                case Key.T:
+                    setting = "ToolsPath";
+                    defaultValue = "tools";
+                    break;
+                case Key.O:
+                    setting = "CompilerOutputPath";
+                    defaultValue = "output";
+                    break;
+                case Key.S:
+                    setting = "SubscriberPath";
+                    defaultValue = "subscribers";
+                    break;
+                default: m_ctrlOFlag = false; return;
+            }
+            OpenDirectory(setting, defaultValue);
+
+            m_ctrlOFlag = false;
 
         }
 
@@ -218,7 +261,31 @@ namespace Bespoke.Sph.ControlCenter
 
         private void OpenProjectDirectory(object sender, RoutedEventArgs e)
         {
-            Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\"));
+            var tag = (string)((MenuItem)sender).Tag;
+            var tags = tag.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var setting = tags.First();
+            var defaultLocation = tags.Last();
+            OpenDirectory(setting, defaultLocation);
+        }
+        private void OpenDirectory(string settingName, string defaultLocation = null)
+        {
+            try
+            {
+                dynamic vm = this.DataContext;
+                SphSettings settings = vm.Settings;
+                var folder = settings.GetEnvironmentVariable(settingName);
+                if (!Directory.Exists(folder) && null != defaultLocation)
+                {
+                    var home = settings.GetEnvironmentVariable("HOME");
+                    folder = Path.Combine(home, defaultLocation);
+                }
+
+                Process.Start(folder);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
         }
 
         private void StartPowershell(object sender, RoutedEventArgs e)

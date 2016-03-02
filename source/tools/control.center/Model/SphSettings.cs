@@ -387,7 +387,7 @@ namespace Bespoke.Sph.ControlCenter.Model
 
         private string ApplicationNameToUpper => $"{this.ApplicationName}".ToUpper();
 
-        private string GetEnvironmentVariable(string setting)
+        public string GetEnvironmentVariable(string setting)
         {
             var process = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Process);
             if (!string.IsNullOrWhiteSpace(process)) return process;
