@@ -21,7 +21,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 return context.getListAsync("ValueObjectDefinition", null, "Name")
                     .done(valueObjectDefinitionOptions);
             },
-            attached = function(view) {
+            attached = function() {
 
                 setTimeout(function () {
                     $("#variable-name").focus();
