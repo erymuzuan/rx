@@ -1,18 +1,47 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Command;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
 {
-    public partial class MainViewModel 
+    public partial class MainViewModel
     {
         public RelayCommand StartWebConsoleCommand { get; set; }
         public RelayCommand StopWebConsoleCommand { get; set; }
+        public RelayCommand DeployOutputCommand { get; set; }
 
         private void SetupWebConsoleCommand()
         {
             StartWebConsoleCommand = new RelayCommand(StartWebConsole, () => !WebConsoleStarted);
             StopWebConsoleCommand = new RelayCommand(StopWebConsole, () => WebConsoleStarted);
+            DeployOutputCommand = new RelayCommand(DeployOutput, () => WebConsoleServer.Default.CreatedFileCollection.Count > 1);
+            WebConsoleServer.Default.CreatedFileCollection.CollectionChanged += delegate
+            {
+                DeployOutputCommand.RaiseCanExecuteChanged();
+            };
         }
-        
+
+        private void DeployOutput()
+        {
+            this.QueueUserWorkItem(() => { DeployOutputHelper().Wait(); });
+        }
+        private async Task DeployOutputHelper()
+        {     // stop the workers
+            this.StopSphWorkerCommand.Execute(null);
+            await Task.Delay(2500);
+
+            foreach (var f in WebConsoleServer.Default.CreatedFileCollection)
+            {
+                WebConsoleServer.Default.DeployOutput(f);
+            }
+            WebConsoleServer.Default.CreatedFileCollection.Clear();
+            // restart the workers
+            while (!this.StartSphWorkerCommand.CanExecute(null))
+            {
+                await Task.Delay(500);
+            }
+            this.StartSphWorkerCommand.Execute(null);
+        }
+
 
         private void StopWebConsole()
         {

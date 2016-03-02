@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -134,6 +135,7 @@ namespace Bespoke.Sph.ControlCenter
         {
             var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message = $"{e.ChangeType} in output {e.FullPath}", severity = "Info", outputFile = e.FullPath });
             SendMessage(json);
+            this.CreatedFileCollection.Add(e.FullPath);
         }
         private void WriteMessage(string message)
         {
@@ -188,24 +190,8 @@ namespace Bespoke.Sph.ControlCenter
             var outputs = value.Replace("POST /deploy:", "")
                 .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
-            Parallel.ForEach(outputs, f =>
-            {
-                if (!File.Exists(f)) return;
-
-                var fileName = Path.GetFileName(f) ?? "";
-                if (fileName.StartsWith("ff")) return;
-
-                WriteMessage($"Copying {fileName} to subsribers");
-                File.Copy(f, $"{ConfigurationManager.SubscriberPath}\\{fileName}", true);
-
-                if (fileName.StartsWith("subscriber.trigger")) return;
-
-                WriteMessage($"Copying {fileName} to schedulers");
-                File.Copy(f, $"{ConfigurationManager.SchedulerPath}\\{fileName}", true);
-                WriteMessage($"Copying {fileName} to web\\bin");
-                File.Copy(f, $"{ConfigurationManager.WebPath}\\bin\\{fileName}", true);
-                WriteMessage($"Done copying {fileName}");
-            });
+            Parallel.ForEach(outputs, DeployOutput);
+            this.CreatedFileCollection.Clear();
 
             // restart the workers
             while (!m_mainViewModel.StartSphWorkerCommand.CanExecute(null))
@@ -217,6 +203,26 @@ namespace Bespoke.Sph.ControlCenter
 
         }
 
+        public void DeployOutput(string f)
+        {
+            if (!File.Exists(f)) return;
 
+            var fileName = Path.GetFileName(f) ?? "";
+            if (fileName.StartsWith("ff")) return;
+
+            WriteMessage($"Copying {fileName} to subsribers");
+            File.Copy(f, $"{ConfigurationManager.SubscriberPath}\\{fileName}", true);
+
+            if (fileName.StartsWith("subscriber.trigger")) return;
+
+            WriteMessage($"Copying {fileName} to schedulers");
+            File.Copy(f, $"{ConfigurationManager.SchedulerPath}\\{fileName}", true);
+            WriteMessage($"Copying {fileName} to web\\bin");
+            File.Copy(f, $"{ConfigurationManager.WebPath}\\bin\\{fileName}", true);
+            WriteMessage($"Done copying {fileName}");
+
+        }
+
+        public ObservableCollection<string> CreatedFileCollection { get; } = new ObservableCollection<string>();
     }
 }
