@@ -61,15 +61,15 @@ WriteLiteral("\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" data-bind=\"with : entity\"");
+WriteLiteral(" data-bind=\"with : wd\"");
 
-WriteLiteral(">\r\n    <h1>\r\n        Custom entity form:\r\n        <span");
+WriteLiteral(">\r\n    <h1>\r\n        Workflow form:\r\n        <span");
 
 WriteLiteral(" data-bind=\"text:Name\"");
 
 WriteLiteral("></span>\r\n    </h1>\r\n</div>\r\n<div");
 
-WriteLiteral(" id=\"error-list-entity-form\"");
+WriteLiteral(" id=\"error-list-workflow-form\"");
 
 WriteLiteral(" class=\"row\"");
 
@@ -109,7 +109,7 @@ WriteLiteral(" class=\"col-sm-2\"");
 
 WriteLiteral("></div>\r\n    <!-- /ko-->\r\n</div>\r\n<div");
 
-WriteLiteral(" id=\"warning-list-entity-form\"");
+WriteLiteral(" id=\"warning-list-workflow-form\"");
 
 WriteLiteral(" class=\"row\"");
 

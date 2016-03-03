@@ -10,16 +10,16 @@ using Humanizer;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
-    public class EntityFormRendererController : BaseSphController
+    public class WorkflowFormRendererController : BaseSphController
     {
         public async Task<ActionResult> Html(string id)
         {
             var context = new SphDataContext();
-            var form = await context.LoadOneAsync<EntityForm>(f => f.Route == id);
-            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == form.EntityDefinitionId);
+            var form = await context.LoadOneAsync<WorkflowForm>(f => f.Route == id);
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(f => f.Id == form.WorkflowDefinitionId);
 
             var layout = string.IsNullOrWhiteSpace(form.Layout) ? "Html2ColsWithAuditTrail" : form.Layout;
-            var vm = new FormRendererViewModel(ed, form);
+            var vm = new FormRendererViewModel(wd, form, null);
 
             return View(layout, vm);
         }
@@ -28,33 +28,32 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Js(string id)
         {
             var context = new SphDataContext();
-            var form = await context.LoadOneAsync<EntityForm>(f => f.Route == id);
-            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == form.EntityDefinitionId);
+            var form = await context.LoadOneAsync<WorkflowForm>(f => f.Route == id);
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(f => f.Id == form.WorkflowDefinitionId);
 
-            var model = new FormRendererViewModel(ed, form);
 
-            var ns = ConfigurationManager.ApplicationName + "_" + model.EntityDefinition.Id;
-            var typeCtor = $"bespoke.{ns}.domain.{model.EntityDefinition.Name}(system.guid())";
-            var buttonOperations = model.Form.FormDesign.FormElementCollection.OfType<Button>()
+            var ns = ConfigurationManager.ApplicationName + "_" + wd.Id;
+            var typeCtor = $"bespoke.{ns}.domain.{wd.Name}(system.guid())";
+            var buttonOperations = form.FormDesign.FormElementCollection.OfType<Button>()
                 .Where(b => b.IsToolbarItem)
                 .Where(b => !string.IsNullOrWhiteSpace(b.Operation))
                 .Select(b => $"{{ caption :\"{b.Label}\", command : {b.Operation.ToCamelCase()}, icon:\"{b.IconClass}\" }}");
 
-            var commands = model.Form.FormDesign.FormElementCollection.OfType<Button>()
+            var commands = form.FormDesign.FormElementCollection.OfType<Button>()
                 .Where(b => b.IsToolbarItem)
                 .Where(b => !string.IsNullOrWhiteSpace(b.CommandName))
                 .Select(b => $"{{ caption :\"{b.Label}\", command : {b.CommandName}, icon:\"{b.IconClass}\" }}");
             var commandsJs = $"[{string.Join(",", commands.Concat(buttonOperations))}]";
 
 
-            var formId = model.Form.Route + "-form";
-            var saveOperation = model.Form.Operation;
-            var partialPath = string.IsNullOrWhiteSpace(model.Form.Partial) ? string.Empty : ",'" + model.Form.Partial + "'";
-            var partialVariable = string.IsNullOrWhiteSpace(model.Form.Partial) ? string.Empty : ",partial";
+            var formId = form.Route + "-form";
+            var saveOperation = form.Operation;
+            var partialPath = string.IsNullOrWhiteSpace(form.Partial) ? string.Empty : ",'" + form.Partial + "'";
+            var partialVariable = string.IsNullOrWhiteSpace(form.Partial) ? string.Empty : ",partial";
 
             var script = new StringBuilder();
             script.AppendLine(
-               $@"
+                $@"
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
         objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
         objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
@@ -74,7 +73,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     context.loadOneAsync(""EntityForm"", ""Route eq '{form.Route}'"")
                        .then(function (f) {{
                            form(f);
-                           return watcher.getIsWatchingAsync(""{ed.Name}"", entityId);
+                           return watcher.getIsWatchingAsync(""{wd.Name}"", entityId);
                        }})
                        .then(function (w) {{
                            watching(w);
@@ -85,12 +84,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             if(!entityId || entityId === ""0""){{
                                 return Task.fromResult({{ WebId: system.guid() }}); 
                             }}
-                           return context.get(""/api/{ed.Plural.ToLowerInvariant()}/"" + entityId);
+                           return context.get(""/wd/{wd.Id}/v{wd.Version}"" + entityId);
                        }}).then(function (b) {{
-                             entity(new bespoke.{ns}.domain.{ed.Name}(b[0]||b));
+                             entity(new bespoke.{ns}.domain.{wd.Name}(b[0]||b));
                        }}, function (e) {{
                          if (e.status == 404) {{
-                            app.showMessage(""Sorry, but we cannot find any {ed.Name} with location : "" + ""/api/{ed.Plural.ToLowerInvariant()}/"" + entityId, ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
+                            app.showMessage(""Sorry, but we cannot find any {wd.Name} with location : "" + ""/api/{wd.Id}/v{wd.Version}"" + entityId, ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
                          }}
                        }}).always(function () {{
                            if (typeof partial.activate === ""function"") {{
@@ -108,22 +107,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
 
 
-            var operation = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.Operation);
+            var operation = wd.GetActivity<ReceiveActivity>(form.Operation);//.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.Operation);
             if (null != operation)
             {
-                var api = GenerateApiOperationCode(ed, operation, form.OperationMethod);
+                var api = GenerateApiOperationCode(wd, operation, form.OperationMethod);
                 script.Append(api);
             }
-            if (model.Form.IsRemoveAvailable)
-                script.AppendLine($@"remove = function {{
-                        return context.sendDelete(""{ed.Plural.ToLowerInvariant()}/{form.DeleteOperation}/"" + ko.unwrap(entity().Id))
-                                       .then(function(result){{
-                                             return app.showMessage(""{form.DeleteOperationSuccessMesage}"",""{ConfigurationManager.ApplicationFullName}"",[""OK""]);
-                                        }})
-                                        .then(function(result){{
-                                             router.navigate(""{form.DeleteOperationSuccessNavigateUrl}"");
-                                        }});
-                    }},");
             // end of operation
             script.AppendLine($@"
                 attached = function (view) {{
@@ -137,7 +126,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             script.AppendLine(@"
                 },");
 
-            foreach (var rule in model.Form.Rules)
+            foreach (var rule in form.Rules)
             {
                 var function = rule.Dehumanize().ToCamelCase();
                 script.AppendLine($@"
@@ -149,7 +138,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 }},");
             }
 
-            foreach (var btn in model.Form.FormDesign.FormElementCollection.OfType<Button>().Where(x => !string.IsNullOrWhiteSpace(x.CommandName)))
+            foreach (var btn in form.FormDesign.FormElementCollection.OfType<Button>().Where(x => !string.IsNullOrWhiteSpace(x.CommandName)))
             {
                 var function = btn.CommandName;
                 script.AppendLine($@"
@@ -181,7 +170,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             var vm = {
                     partial: partial,");
 
-            foreach (var rule in model.Form.Rules)
+            foreach (var rule in form.Rules)
             {
                 var function = rule.Dehumanize().ToCamelCase();
                 script.AppendLine($"   {function} : {function},");
@@ -195,7 +184,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                         errors: errors,");
             foreach (
                 var btn in
-                    model.Form.FormDesign.FormElementCollection.OfType<Button>()
+                    form.FormDesign.FormElementCollection.OfType<Button>()
                         .Where(b => !string.IsNullOrWhiteSpace(b.CommandName)))
             {
                 script.AppendLine($"   {btn.CommandName} : {btn.CommandName},");
@@ -203,38 +192,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             }
 
             script.AppendLine("     toolbar : {");
-            if (model.Form.IsEmailAvailable)
-                script.AppendLine($@"   emailCommand : {{
-                        entity : ""{model.EntityDefinition.Name}"",
-                        id :id
-                    }},");
-
-            if (model.Form.IsPrintAvailable)
-                script.AppendLine($@"
-                    printCommand :{{
-                        entity : '{model.EntityDefinition.Name}',
-                        id : id
-                    }},");
-            if (model.Form.IsRemoveAvailable)
-                script.AppendLine(@"removeCommand :remove,
-                    canExecuteRemoveCommand : ko.computed(function(){
-                        return entity().Id();
-                    }),");
-            if (model.Form.IsWatchAvailable)
-                script.AppendLine($@"
-                    watchCommand: function() {{
-                        return watcher.watch(""{model.EntityDefinition.Name}"", entity().Id())
-                            .done(function(){{
-                                watching(true);
-                            }});
-                    }},
-                    unwatchCommand: function() {{
-                        return watcher.unwatch(""{model.EntityDefinition.Name}"", entity().Id())
-                            .done(function(){{
-                                watching(false);
-                            }});
-                    }},
-                    watching: watching,");
+      
             if (!string.IsNullOrWhiteSpace(saveOperation))
             {
                 script.AppendLine("saveCommand : saveCommand,");
@@ -259,7 +217,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         }
 
-        private string GetOperationScript(EntityForm form)
+        private string GetOperationScript(WorkflowForm form)
         {
             var script = new StringBuilder();
             script.AppendLine($@"
@@ -300,12 +258,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return script.ToString();
         }
 
-        private static string GenerateApiOperationCode(EntityDefinition ed, OperationEndpoint operation, string method)
+        private static string GenerateApiOperationCode(WorkflowDefinition wd, ReceiveActivity activity, string method)
         {
-            var opFunc = operation.Name.ToCamelCase();
-            var route = operation.Route.StartsWith("~/") ? 
-                        operation.Route.Replace("~/", "/") : 
-                        $"/api/{ed.Plural.ToLowerInvariant()}/{operation.Route}";
+            var opFunc = activity.Name.ToCamelCase();
+            var route = activity.Name.ToIdFormat();
+            route = route.StartsWith("~/") ? 
+                route.Replace("~/", "/") : 
+                $"/wf/{wd.Id}/v{wd.Version}";
             return $@"
                 {opFunc} = function(){{
 

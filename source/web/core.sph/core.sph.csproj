@@ -834,6 +834,27 @@
     <Compile Include="Areas\Sph\Controllers\FormDialogRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\PartialViewRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
+    <Compile Include="Areas\Sph\Controllers\WorkflowFormRendererController.cs" />
+    <Compile Include="Areas\Sph\Views\WorkflowFormRenderer\Html2ColsCustomLeft.generated.cs">
+      <DependentUpon>Html2ColsCustomLeft.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\WorkflowFormRenderer\Html2ColsWithAuditTrail.generated.cs">
+      <DependentUpon>Html2ColsWithAuditTrail.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\WorkflowFormRenderer\_ErrorList.generated.cs">
+      <DependentUpon>_ErrorList.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\WorkflowFormRenderer\_FormContent.generated.cs">
+      <DependentUpon>_FormContent.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\Sph\Views\PartialViewRenderer\Html.generated.cs">
       <DependentUpon>Html.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -2071,6 +2092,22 @@
     <Content Include="Areas\App\Views\WorkflowFormDesigner\Html.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowFormRenderer\_ErrorList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ErrorList.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowFormRenderer\_FormContent.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_FormContent.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowFormRenderer\Html2ColsCustomLeft.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html2ColsCustomLeft.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowFormRenderer\Html2ColsWithAuditTrail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html2ColsWithAuditTrail.generated.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />

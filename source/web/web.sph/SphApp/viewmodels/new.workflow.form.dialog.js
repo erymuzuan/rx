@@ -16,6 +16,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
         var wds = ko.observableArray(),
+            activityOptions = ko.observableArray(),
             form = ko.observable(new bespoke.sph.domain.WorkflowForm(system.guid())),
             wd = ko.observable(),
             id = ko.observable(),
@@ -25,10 +26,21 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     form().Route(v.toLowerCase().replace(/\W+/g, "-"));
                 });
                 form().WorkflowDefinitionId.subscribe(function (v) {
-                    context.getScalarAsync("WorkflowDefinition", "Name eq '" + v + "'", "Id")
-                        .done(form().EntityDefinitionId);
+                    context.loadOneAsync("WorkflowDefinition", "Id eq '" + v + "'").done(function (b) {
+                        if (null == b) {
+                            return;
+                        }
+                        wd(b);
+                        var list = _(ko.unwrap(b.ActivityCollection))
+                            .chain()
+                            .filter(function(x) {
+                                return ko.unwrap(x.$type).indexOf("ReceiveActivity") > -1;
+                            })
+                            .value();
+                        activityOptions(list);
+                    });
                 });
-                return context.getListAsync("WorkflowDefinition", "Id ne ''", "Name").done(wds);
+                return context.getTuplesAsync("WorkflowDefinition", null, "Id", "Name").done(wds);
             },
             okClick = function (data, ev) {
                 if (!bespoke.utils.form.checkValidity(ev.target)) {
@@ -50,6 +62,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             };
 
         var vm = {
+            activityOptions: activityOptions,
             form: form,
             activate: activate,
             okClick: okClick,

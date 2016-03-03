@@ -2,7 +2,7 @@
 @using Bespoke.Sph.Domain
 @model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
 
-<div id="form-designer-toolbox" data-path="Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml">
+<div id="form-designer-toolbox">
     <ul class="nav nav-tabs" data-bind2="filter : {path:'>li'}">
         <li class="active">
             <a href="#form-general2" data-toggle="tab">General</a>
@@ -127,7 +127,7 @@
 
                 <div class="form-group" data-bind="visible:IsPathIsRequired">
                     <label for="form-element-path">Path</label>
-                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="form-element-path" type="text" name="Path"/>
+                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, workflowFormPathIntellisense : { schema : $root.schema}" id="form-element-path" type="text" name="Path"/>
                 </div>
                 <div class="form-group">
                     <label for="form-element-label">Label</label>
@@ -197,8 +197,6 @@
                             typeof(Button),
                             typeof(DownloadLink),
                             typeof(ImageElement),
-                            typeof(ChildEntityListView),
-                            typeof(EntityLookupElement),
                             typeof(FileUploadElement),
                             typeof(TabControl),
                             typeof(ListView)
@@ -224,7 +222,7 @@
 
         <div id="business-rules" class="tab-pane">
             <span>Apply these business rules to the form</span>
-            <ul data-bind="foreach :entity().BusinessRuleCollection" class="nav">
+            <ul data-bind2="foreach :entity().BusinessRuleCollection" class="nav">
                 <li>
                     <label>
                         <input type="checkbox" data-bind="checked : $root.form().Rules, value: Name" />
@@ -241,7 +239,9 @@
                 <div class="form-group">
                     <label for="form-design-operation">Operation</label>
                     <select class="form-control" data-bind="options :$root.operationOptions,
-                            optionsCaption :'[Default - No Operation]',
+                            optionsCaption :'[--SELECT ACTIVITY--]',
+                            optionsValue :'WebId',
+                            optionsText : 'Name',
                             value: Operation" id="form-design-operation" name="FormDesign.Operation"></select>
                 </div>
                 <div class="form-group">

@@ -12,6 +12,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             formElements = ko.observableArray(),
             wdOptions = ko.observableArray(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
+            schema = ko.observable(),
             form = ko.observable(new bespoke.sph.domain.WorkflowForm({ WebId: system.guid() })),
             selectedFormElement = ko.observable(),
             activate = function (wdid, id) {
@@ -37,11 +38,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         var receives = _(b.ActivityCollection()).chain()
                             .filter(function (v) {
                                 return ko.unwrap(v.$type).indexOf("ReceiveActivity") > -1;
-                            })
-                        .map(function(v) {
-                                return ko.unwrap(v.Name);
-                        })
-                       .value();
+                            }).value();
                         operationOptions(receives);
 
                     });
@@ -324,7 +321,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         } else {
                             errors(result.Errors);
                             warnings(result.Warnings);
-                            logger.error("There are errors in your entity, !!!");
+                            logger.error("There are errors in your form, !!!");
                         }
                     });
 
@@ -394,7 +391,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                 if (result.success) {
                                     logger.info(result.message);
                                     errors.removeAll();
-                                    window.location = "/sph#entity.details/" + wd().Id();
+                                    window.location = "/sph#dev.home/";
                                 } else {
                                     logger.error("There are errors in your form, cannot be removed !!");
                                 }
@@ -448,7 +445,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         layoutEditor = null,
         editLayout = function () {
             if (null == layoutEditor || layoutEditor.closed) {
-                layoutEditor = window.open("/sph/editor/file?id=/views/entityformrenderer/" + form().Layout() + ".cshtml", "_blank", "height=600px,width=800px,toolbar=0,location=0");
+                layoutEditor = window.open("/sph/editor/file?id=/views/workflowformrenderer/" + form().Layout() + ".cshtml", "_blank", "height=600px,width=800px,toolbar=0,location=0");
 
             } else {
                 layoutEditor.focus();
@@ -458,7 +455,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         },
             viewSchema = function () {
                 var tcs = new $.Deferred();
-                require(["viewmodels/entity.schema.dialog", "durandal/app"], function (dg, app2) {
+                require(["viewmodels/workflow.schema.dialog", "durandal/app"], function (dg, app2) {
                     dg.entity(wd());
                     app2.showDialog(dg).done(tcs.resolve);
                 });
@@ -508,8 +505,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             selectFormElement: selectFormElement,
             removeFormElement: removeFormElement,
             form: form,
-            entity: wd,
-            entityOptions: wdOptions,
+            wd: wd,
+            schema: schema,
+            wdOptions: wdOptions,
             okClick: okClick,
             cancelClick: cancelClick,
             importCommand: importCommand,

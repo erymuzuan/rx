@@ -1,0 +1,25 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Web.ViewModels.FormRendererViewModel
+@{
+
+    Layout = null;
+    var form = Model.WorkflowForm;
+    var formId = @form.Route + "-form";
+}
+<form class="form-horizontal" data-bind="with : entity" id="@formId">
+    @foreach (var fe in form.FormDesign.FormElementCollection)
+    {
+        var fe1 = fe;
+        fe1.Path = fe1.Path.ConvertJavascriptObjectToFunction();
+        var button = fe1 as Button;
+        if (null != button && button.IsToolbarItem)
+        {
+            // toolbar button
+        }
+        else
+        {
+            @(fe.UseDisplayTemplate ? Html.DisplayFor(f => fe1) : Html.EditorFor(f => fe1))
+        }
+    }
+</form>

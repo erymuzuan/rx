@@ -1,4 +1,11 @@
-﻿ko.bindingHandlers.tree = {
+﻿/// <reference path="~/Scripts/underscore.js" />
+/// <reference path="require.js" />
+/// <reference path="jquery-2.2.0.intellisense.js" />
+/// <reference path="../SphApp/objectbuilders.js" />
+/// <reference path="../SphApp/schemas/form.designer.g.js" />
+/// <reference path="knockout-3.4.0.debug.js" />
+
+ko.bindingHandlers.tree = {
     init: function (element, valueAccessor) {
         var system = require(objectbuilders.system),
             value = valueAccessor(),

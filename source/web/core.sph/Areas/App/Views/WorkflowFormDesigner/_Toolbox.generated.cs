@@ -53,8 +53,6 @@ WriteLiteral("<div");
 
 WriteLiteral(" id=\"form-designer-toolbox\"");
 
-WriteLiteral(" data-path=\"Areas\\App\\Views\\EntityFormDesigner\\_Toolbox.cshtml\"");
-
 WriteLiteral(">\r\n    <ul");
 
 WriteLiteral(" class=\"nav nav-tabs\"");
@@ -455,7 +453,8 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_.]*$\"");
 
-WriteLiteral(" data-bind=\"value: Path, entityTypeaheadPath : $root.entity().Id()\"");
+WriteLiteral(" data-bind=\"value: Path, workflowFormPathIntellisense : { schema : $root.schema}\"" +
+"");
 
 WriteLiteral(" id=\"form-element-path\"");
 
@@ -706,8 +705,6 @@ WriteLiteral(">\r\n");
                             typeof(Button),
                             typeof(DownloadLink),
                             typeof(ImageElement),
-                            typeof(ChildEntityListView),
-                            typeof(EntityLookupElement),
                             typeof(FileUploadElement),
                             typeof(TabControl),
                             typeof(ListView)
@@ -719,13 +716,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 207 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 205 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 207 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 205 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         FormElement fe1 = fe;
@@ -734,14 +731,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 210 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 208 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 210 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 208 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                                                  
 
                     }
@@ -771,7 +768,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 222 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 220 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             
@@ -786,7 +783,7 @@ WriteLiteral(" class=\"tab-pane\"");
 WriteLiteral(">\r\n            <span>Apply these business rules to the form</span>\r\n            <" +
 "ul");
 
-WriteLiteral(" data-bind=\"foreach :entity().BusinessRuleCollection\"");
+WriteLiteral(" data-bind2=\"foreach :entity().BusinessRuleCollection\"");
 
 WriteLiteral(" class=\"nav\"");
 
@@ -823,9 +820,11 @@ WriteLiteral(">Operation</label>\r\n                    <select");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"options :$root.operationOptions,\r\n                            options" +
-"Caption :\'[Default - No Operation]\',\r\n                            value: Operati" +
-"on\"");
+WriteLiteral(@" data-bind=""options :$root.operationOptions,
+                            optionsCaption :'[--SELECT ACTIVITY--]',
+                            optionsValue :'WebId',
+                            optionsText : 'Name',
+                            value: Operation""");
 
 WriteLiteral(" id=\"form-design-operation\"");
 

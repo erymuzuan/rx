@@ -5,13 +5,13 @@
 @{
     Layout = null;
 }
-<div class="row" data-bind="with : entity">
+<div class="row" data-bind="with : wd">
     <h1>
-        Custom entity form:
+        Workflow form:
         <span data-bind="text:Name"></span>
     </h1>
 </div>
-<div id="error-list-entity-form" class="row" data-bind="visible:errors().length">
+<div id="error-list-workflow-form" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
     <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -24,7 +24,7 @@
     <div class="col-sm-2"></div>
     <!-- /ko-->
 </div>
-<div id="warning-list-entity-form" class="row" data-bind="visible:warnings().length">
+<div id="warning-list-workflow-form" class="row" data-bind="visible:warnings().length">
     <!-- ko foreach : warnings -->
     <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-warning">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
