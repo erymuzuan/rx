@@ -8,6 +8,8 @@
         "PortType": null,
         "Operation": "SubmitNewQuartersApplication",
         "MessagePath": "Permohonan",
+        "CancelMessageBody": null,
+        "CancelMessageSubject": null,
         "InitializingCorrelationSetCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": [
@@ -22,7 +24,6 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
           "$values": []
         },
-        "IsAsync": true,
         "Performer": {
           "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
           "UserProperty": null,
@@ -30,6 +31,7 @@
           "IsPublic": false,
           "WebId": null
         },
+        "IsAsync": true,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "TypeName": "Receive",
@@ -69,7 +71,100 @@
         "TypeName": "Notification",
         "OtherMethodCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
-          "$values": []
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformFromHantarEmailKepadaPegesahanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformToHantarEmailKepadaPegesahanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformSubjectHantarEmailKepadaPegesahanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformBodyHantarEmailKepadaPegesahanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            }
+          ]
         },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
@@ -89,6 +184,8 @@
         "PortType": null,
         "Operation": "PengesahanDokumenPermohonan",
         "MessagePath": "Pengesahan",
+        "CancelMessageBody": null,
+        "CancelMessageSubject": null,
         "InitializingCorrelationSetCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": []
@@ -111,7 +208,6 @@
             }
           ]
         },
-        "IsAsync": true,
         "Performer": {
           "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
           "UserProperty": null,
@@ -119,6 +215,7 @@
           "IsPublic": false,
           "WebId": null
         },
+        "IsAsync": true,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "TypeName": "Receive",
@@ -143,7 +240,7 @@
         "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
         "From": "admin@@sph.my",
         "Subject": "Email kelulusan untuk",
-        "Body": "Email kelulusan untuk @Model.Mrn",
+        "Body": "Email kelulusan untuk @Model.NoDaftar",
         "To": "admin@@bespoke.com.my",
         "UserName": null,
         "Cc": null,
@@ -158,7 +255,100 @@
         "TypeName": "Notification",
         "OtherMethodCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
-          "$values": []
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformFromEmailKelulusanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformToEmailKelulusanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformSubjectEmailKelulusanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformBodyEmailKelulusanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            }
+          ]
         },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
@@ -178,6 +368,8 @@
         "PortType": null,
         "Operation": "HantarStatusKelulusan",
         "MessagePath": "Kelulusan",
+        "CancelMessageBody": null,
+        "CancelMessageSubject": null,
         "InitializingCorrelationSetCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": []
@@ -200,7 +392,6 @@
             }
           ]
         },
-        "IsAsync": true,
         "Performer": {
           "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
           "UserProperty": null,
@@ -208,6 +399,7 @@
           "IsPublic": false,
           "WebId": null
         },
+        "IsAsync": true,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "TypeName": "Receive",
@@ -432,6 +624,6 @@
   "Id": "permohonan-kuarters",
   "CreatedDate": "2016-03-01T15:26:07.7855503+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-03-02T08:58:47.2013087+08:00",
+  "ChangedDate": "2016-03-03T08:44:05.7501869+08:00",
   "WebId": "a72c7612-b699-440c-885e-a1646e026b9d"
 }
