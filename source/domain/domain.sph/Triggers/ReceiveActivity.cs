@@ -132,7 +132,7 @@ namespace Bespoke.Sph.Domain
             if (this.FollowingCorrelationSetCollection.Count == 0 && this.IsInitiator)
             {
                 code.AppendLine($"      [Route(\"{this.Operation.ToIdFormat()}\")]");
-                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{messageType} @message)");
+                code.AppendLine($"      public async Task<IHttpActionResult> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{messageType} @message)");
                 code.AppendLine("       {");
                 code.AppendLine($"           var wf = new {wd.WorkflowTypeName}{{Id = Guid.NewGuid().ToString()}};");
                 code.AppendLine("            await wf.LoadWorkflowDefinitionAsync();");
@@ -141,10 +141,14 @@ namespace Bespoke.Sph.Domain
             {
                 var correlationName = string.Join(";", this.FollowingCorrelationSetCollection);
                 code.AppendLine($"      [Route(\"{{correlationValue}}/{this.Operation.ToIdFormat()}\")]");
-                code.AppendLine($"      public async Task<HttpResponseMessage> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd, [FromBody]{messageType} @message, string correlationValue)");
+                code.AppendLine($"      public async Task<IHttpActionResult> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd, [FromBody]{messageType} @message, string correlationValue)");
                 code.AppendLine("       {");
                 code.AppendLine($@"           var self = wd.ActivityCollection.OfType<ReceiveActivity>().Single(x => x.WebId == ""{WebId}"");");
                 code.AppendLine($"            var wf = await self.LoadInstanceAsync<{wd.WorkflowTypeName}>(wd, \"{correlationName}\", correlationValue);");
+                code.AppendLine($"            if( null == wf)");
+                code.AppendLine("            {");
+                code.AppendLine($"                   return NotFound(\"There's no workflow with {correlationName}  value \" + correlationValue);");
+                code.AppendLine("            }");
             }
             code.AppendLine(this.GenerateCanExecuteCode());
 
@@ -152,8 +156,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf($"            var result = await wf.{Name}Async(@message);");
             code.AppendLine($"            await wf.SaveAsync(\"{WebId}\", result);");
             // any business rules?            
-            code.AppendLine("           var  response = Request.CreateResponse(HttpStatusCode.Accepted, new {success = true, status=\"OK\"} );");
-            code.AppendLine("           return response;");
+            code.AppendLine("           return Accepted(new {success = true, status=\"OK\"});");
             code.AppendLine("       }"); // end SAVE action
             controller.MethodCollection.Add(new Method { Code = code.ToString() });
 
@@ -172,7 +175,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("           var tracker = await wf.GetTrackerAsync();");
                 code.AppendLine($"           if(!tracker.CanExecute(\"{WebId}\", \"{WebId}\" ))");
                 code.AppendLine("           {");
-                code.AppendLine("               return Request.CreateResponse(HttpStatusCode.Forbidden); ");
+                code.AppendLine("               return Invalid(HttpStatusCode.Forbidden, new { message = \"This endpoint is not in a valid state\"}); ");
                 code.AppendLine("           }");
 
             }
@@ -268,9 +271,9 @@ namespace Bespoke.Sph.Domain
                     var list3 = await ad.GetUserInRolesAsync(unwrapValue);
                     users.AddRange(list3);
                     break;
-                default:
-                    throw new Exception(
-                        $"Whoaaa we cannot send invitation to \"{this.Performer.UserProperty}\" for \"{this.Name}\"");
+                case "Everybody":
+                case "Anynomous":
+                    break;
             }
             return users.ToArray();
         }

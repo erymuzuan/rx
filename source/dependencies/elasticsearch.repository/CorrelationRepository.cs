@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
-namespace Bespokse.Sph.ElasticsearchRepository
+namespace Bespoke.Sph.ElasticsearchRepository
 {
     public class CorrelationRepository : ICorrelationRepository
     {
@@ -23,16 +23,14 @@ namespace Bespokse.Sph.ElasticsearchRepository
         }
         public async Task<T> GetInstanceAsync<T>(WorkflowDefinition wd, string correlationName, string correlationValue) where T : Workflow
         {
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/correlationset/";
+            var url = $"{ConfigurationManager.ElasticSearchIndex}/correlationset/_search";
             var q = new
             {
-                query = new
+                filter = new
                 {
-                    filtered = new
+                    @bool = new
                     {
-                        @bool = new
-                        {
-                            must = new object[]
+                        must = new object[]
                             {
                                 new
                                 {
@@ -54,9 +52,9 @@ namespace Bespokse.Sph.ElasticsearchRepository
                                     }
                                 }
                             }
-                        }
                     }
                 }
+
             };
             var esresult = await m_client.PostAsync(url, new StringContent(q.ToJson()));
             var content = esresult.Content as StreamContent;
@@ -64,9 +62,10 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
             var json2 = await content.ReadAsStringAsync();
             var wid = Newtonsoft.Json.Linq.JObject.Parse(json2).SelectToken("hits.hits[0]._source.wid");
+            if (null == wid) return default(T);
 
             var context = new SphDataContext();
-            var instance = (await context.LoadOneAsync<Workflow>(x => x.Id == wid.ToString()));
+            var instance = await context.LoadOneAsync<Workflow>(x => x.Id == wid.ToString());
             await instance.LoadWorkflowDefinitionAsync();
             return (T)instance;
 

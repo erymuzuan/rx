@@ -87,8 +87,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var result = from g in versionLogs
                          let version = g.ChangeCollection.Single(c => c.PropertyName == "Version").OldValue
-                         let dll = string.Format("workflows.{0}.{1}.dll", id, version)
-                         select new
+                         let dll = $"workflows.{id}.{version}.dll"
+                select new
                          {
                              Version = version,
                              Running = System.IO.File.Exists(System.IO.Path.Combine(bin, dll)),

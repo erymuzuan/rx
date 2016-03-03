@@ -75,7 +75,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 var tcs = new $.Deferred(),
                     instancesId = _(selectedItems()).map(function (v) {
-                        return v.WorkflowId();
+                        return ko.unwrap(v.Id);
                     }), terminate = function () {
 
                         var data = JSON.stringify({ instancesId: instancesId });
