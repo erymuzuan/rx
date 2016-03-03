@@ -1,4 +1,6 @@
-﻿ls -Filter *.dll.config -Path .\bin -Recurse | Remove-Item
+﻿ls -Filter *.dll.config -Recurse | Remove-Item
+ls -Filter *.vshost.exe.config -Recurse | Remove-Item
+ls -Filter *.vshost.exe.manifest -Recurse | Remove-Item
 ls -Filter *.xml -Path .\subscribers -Recurse | Remove-Item
 ls -Filter *.xml -Path .\control.center -Recurse | Remove-Item
 ls -Filter *.xml -Path .\schedulers -Recurse | Remove-Item
