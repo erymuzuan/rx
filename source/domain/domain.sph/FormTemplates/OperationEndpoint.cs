@@ -284,7 +284,7 @@ namespace Bespoke.Sph.Domain
                                     href = $""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}""
                                 }}
                             }};
-            if(baru) return Created( result._link.href, result);
+            if(baru) return Accepted( result._link.href, result);
             return Accepted(result);");
 
             return put;
