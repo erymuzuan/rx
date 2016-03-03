@@ -48,10 +48,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedCollection, IDictionary<string, object> headers)
         {
-            var ds = ObjectBuilder.GetObject<IDirectoryService>();
-            headers.AddOrReplace("username", ds.CurrentUserName);
             headers.AddOrReplace("operation", operation);
-
             if (!this.IsOpened)
                 InitConnection();
 
@@ -87,10 +84,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
                 return;
             }
 
-
             m_channel.BasicPublish(this.Exchange, ROUTING_KEY, props, body);
-
-
 
         }
 
@@ -98,15 +92,15 @@ namespace Bespoke.Sph.RabbitMqPublisher
         {
             var count = 91;
             if (props.Headers.ContainsKey("sph.trycount"))
-                count = (int) props.Headers["sph.trycount"];
-            Console.WriteLine(@"Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"],count.Ordinalize());
+                count = (int)props.Headers["sph.trycount"];
+            Console.WriteLine(@"Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"], count.Ordinalize());
             const string RETRY_EXCHANGE = "sph.retry.exchange";
             const string RETRY_QUEUE = "sph.retry.queue";
             var delay = (long)props.Headers["sph.delay"]; // in ms
 
             var queueArgs = new Dictionary<string, object> {
                     {"x-dead-letter-exchange", this.Exchange },
-	                {"x-dead-letter-routing-key",routingKey}
+                    {"x-dead-letter-routing-key",routingKey}
                 };
             props.Expiration = delay.ToString(CultureInfo.InvariantCulture);
 
@@ -138,19 +132,13 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         public void Close()
         {
-            if (null != m_connection)
-            {
-                m_connection.Close();
-                m_connection.Dispose();
-                m_connection = null;
-            }
+            m_connection?.Close();
+            m_connection?.Dispose();
+            m_connection = null;
 
-            if (null != m_channel)
-            {
-                m_channel.Close();
-                m_channel.Dispose();
-                m_channel = null;
-            }
+            m_channel?.Close();
+            m_channel?.Dispose();
+            m_channel = null;
         }
 
         private bool IsOpened
@@ -190,7 +178,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
                 var props = m_channel.CreateBasicProperties();
                 props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
-                props.SetPersistent(true);
+                props.Persistent = true;
                 props.ContentType = "application/json";
                 props.Headers = new Dictionary<string, object> { { "operation", operation }, { "crud", action }, { "log", log } };
                 if (null != headers)
