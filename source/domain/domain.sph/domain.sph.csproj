@@ -321,6 +321,7 @@
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\ViewTemplate.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
+    <Compile Include="FormTemplates\WorkflowForm.cs" />
     <Compile Include="IBuildDiagnostics.cs" />
     <Compile Include="ICacheManager.cs" />
     <Compile Include="IDeveloperService.cs" />

@@ -53,9 +53,9 @@ namespace Bespoke.Sph.Web.Api
         [Route("distinct")]
         [HttpGet]
         public async Task<IHttpActionResult> Distinct([FromUri(Name = "column")]string column,
-            [FromUri(Name = "table")]string table, 
+            [FromUri(Name = "table")]string table,
             [FromUri(Name = "filter")]string filter = null)
-        {    
+        {
             // TODO : should get all the one with SaveAsSourceAttribute instead
             var type = table.ToLowerInvariant();
             switch (type)
@@ -81,7 +81,7 @@ namespace Bespoke.Sph.Web.Api
         [Route("tuple")]
         [HttpGet]
         public async Task<IHttpActionResult> Tuple([FromUri(Name = "table")]string table,
-            [FromUri(Name = "column")]string column, 
+            [FromUri(Name = "column")]string column,
             [FromUri(Name = "column2")]string column2,
             [FromUri(Name = "filter")]string filter = null,
             [FromUri(Name = "column3")]string column3 = "",
@@ -91,18 +91,18 @@ namespace Bespoke.Sph.Web.Api
             var type = table.ToLowerInvariant();
             switch (type)
             {
-                case "adapter": return SelectTupleFromSource<Adapter>( filter, column, column2, column3, column4, column5);
-                case "designation": return SelectTupleFromSource<Designation>( filter, column, column2, column3, column4, column5);
-                case "documenttemplate": return SelectTupleFromSource<DocumentTemplate>( filter, column, column2, column3, column4, column5);
-                case "emailtemplate": return SelectTupleFromSource<EmailTemplate>( filter, column, column2, column3, column4, column5);
-                case "entitychart": return SelectTupleFromSource<EntityChart>( filter, column, column2, column3, column4, column5);
-                case "entitydefinition": return SelectTupleFromSource<EntityDefinition>( filter, column, column2, column3, column4, column5);
-                case "entityform": return SelectTupleFromSource<EntityForm>( filter, column, column2, column3, column4, column5);
-                case "entityview": return SelectTupleFromSource<EntityView>( filter, column, column2, column3, column4, column5);
-                case "transformdefinition": return SelectTupleFromSource<TransformDefinition>( filter, column, column2, column3, column4, column5);
-                case "trigger": return SelectTupleFromSource<Trigger>( filter, column, column2, column3, column4, column5);
-                case "viewtemplate": return SelectTupleFromSource<ViewTemplate>( filter, column, column2, column3, column4, column5);
-                case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>( filter, column, column2, column3, column4, column5);
+                case "adapter": return SelectTupleFromSource<Adapter>(filter, column, column2, column3, column4, column5);
+                case "designation": return SelectTupleFromSource<Designation>(filter, column, column2, column3, column4, column5);
+                case "documenttemplate": return SelectTupleFromSource<DocumentTemplate>(filter, column, column2, column3, column4, column5);
+                case "emailtemplate": return SelectTupleFromSource<EmailTemplate>(filter, column, column2, column3, column4, column5);
+                case "entitychart": return SelectTupleFromSource<EntityChart>(filter, column, column2, column3, column4, column5);
+                case "entitydefinition": return SelectTupleFromSource<EntityDefinition>(filter, column, column2, column3, column4, column5);
+                case "entityform": return SelectTupleFromSource<EntityForm>(filter, column, column2, column3, column4, column5);
+                case "entityview": return SelectTupleFromSource<EntityView>(filter, column, column2, column3, column4, column5);
+                case "transformdefinition": return SelectTupleFromSource<TransformDefinition>(filter, column, column2, column3, column4, column5);
+                case "trigger": return SelectTupleFromSource<Trigger>(filter, column, column2, column3, column4, column5);
+                case "viewtemplate": return SelectTupleFromSource<ViewTemplate>(filter, column, column2, column3, column4, column5);
+                case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>(filter, column, column2, column3, column4, column5);
             }
 
             var translator = new OdataSqlTranslator("", table);
@@ -131,7 +131,7 @@ namespace Bespoke.Sph.Web.Api
             [FromUri(Name = "$select")]string columns,
             [FromUri(Name = "$filter")]string filter = null)
         {
-            var cols = columns.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+            var cols = columns.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
             string column1 = cols.First(), column2 = "", column3 = "", column4 = "", column5 = "";
             if (cols.Length > 1)
                 column2 = cols[1];
@@ -141,22 +141,25 @@ namespace Bespoke.Sph.Web.Api
                 column4 = cols[3];
             if (cols.Length > 4)
                 column5 = cols[4];
-          
+
             var type = table.ToLowerInvariant();
             switch (type)
             {
-                case "adapter": return SelectTupleFromSource<Adapter>( filter, column1, column2, column3, column4, column5);
-                case "designation": return SelectTupleFromSource<Designation>( filter, column1, column2, column3, column4, column5);
-                case "documenttemplate": return SelectTupleFromSource<DocumentTemplate>( filter, column1, column2, column3, column4, column5);
-                case "emailtemplate": return SelectTupleFromSource<EmailTemplate>( filter, column1, column2, column3, column4, column5);
-                case "entitychart": return SelectTupleFromSource<EntityChart>( filter, column1, column2, column3, column4, column5);
-                case "entitydefinition": return SelectTupleFromSource<EntityDefinition>( filter, column1, column2, column3, column4, column5);
-                case "entityform": return SelectTupleFromSource<EntityForm>( filter, column1, column2, column3, column4, column5);
-                case "entityview": return SelectTupleFromSource<EntityView>( filter, column1, column2, column3, column4, column5);
-                case "transformdefinition": return SelectTupleFromSource<TransformDefinition>( filter, column1, column2, column3, column4, column5);
-                case "trigger": return SelectTupleFromSource<Trigger>( filter, column1, column2, column3, column4, column5);
-                case "viewtemplate": return SelectTupleFromSource<ViewTemplate>( filter, column1, column2, column3, column4, column5);
-                case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>( filter, column1, column2, column3, column4, column5);
+                case "adapter": return SelectTupleFromSource<Adapter>(filter, column1, column2, column3, column4, column5);
+                case "designation": return SelectTupleFromSource<Designation>(filter, column1, column2, column3, column4, column5);
+                case "documenttemplate": return SelectTupleFromSource<DocumentTemplate>(filter, column1, column2, column3, column4, column5);
+                case "emailtemplate": return SelectTupleFromSource<EmailTemplate>(filter, column1, column2, column3, column4, column5);
+                case "entitychart": return SelectTupleFromSource<EntityChart>(filter, column1, column2, column3, column4, column5);
+                case "entitydefinition": return SelectTupleFromSource<EntityDefinition>(filter, column1, column2, column3, column4, column5);
+                case "entityform": return SelectTupleFromSource<EntityForm>(filter, column1, column2, column3, column4, column5);
+                case "entityview": return SelectTupleFromSource<EntityView>(filter, column1, column2, column3, column4, column5);
+                case "formdialog": return SelectTupleFromSource<FormDialog>(filter, column1, column2, column3, column4, column5);
+                case "partialview": return SelectTupleFromSource<PartialView>(filter, column1, column2, column3, column4, column5);
+                case "transformdefinition": return SelectTupleFromSource<TransformDefinition>(filter, column1, column2, column3, column4, column5);
+                case "trigger": return SelectTupleFromSource<Trigger>(filter, column1, column2, column3, column4, column5);
+                case "viewtemplate": return SelectTupleFromSource<ViewTemplate>(filter, column1, column2, column3, column4, column5);
+                case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>(filter, column1, column2, column3, column4, column5);
+                case "workflowform": return SelectTupleFromSource<WorkflowForm>(filter, column1, column2, column3, column4, column5);
             }
 
             var translator = new OdataSqlTranslator("", table);
@@ -241,11 +244,11 @@ namespace Bespoke.Sph.Web.Api
                 .AsQueryable();
 
             var select = $"?$select={column},{column2}";
-            if(!string.IsNullOrWhiteSpace(column3))
+            if (!string.IsNullOrWhiteSpace(column3))
                 select = $"?$select={column},{column2},{column3}";
-            if(!string.IsNullOrWhiteSpace(column4))
+            if (!string.IsNullOrWhiteSpace(column4))
                 select = $"?$select={column},{column2},{column3},{column4}";
-            if(!string.IsNullOrWhiteSpace(column5))
+            if (!string.IsNullOrWhiteSpace(column5))
                 select = $"?$select={column},{column2},{column3},{column4},{column5}";
 
             var tuples = list.LinqToQuerystring<T, IQueryable<Dictionary<string, object>>>(select)
@@ -322,7 +325,7 @@ namespace Bespoke.Sph.Web.Api
                     }
                 }
 
-                return Json(result.ToArray() );
+                return Json(result.ToArray());
             }
         }
         private async Task<IHttpActionResult> ExecuteListTuple3Async(string sql)

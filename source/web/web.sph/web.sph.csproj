@@ -1293,6 +1293,7 @@
     <Content Include="SphApp\viewmodels\curl.command.dialog.js" />
     <Content Include="SphApp\viewmodels\endpoints.management.js" />
     <Content Include="SphApp\viewmodels\event.logs.js" />
+    <Content Include="SphApp\viewmodels\new.workflow.form.dialog.js" />
     <Content Include="SphApp\viewmodels\new.entity.form.dialog.js" />
     <Content Include="SphApp\viewmodels\new.entity.view.dialog.js" />
     <Content Include="SphApp\viewmodels\new.operation.endpoint.dialog.js" />
@@ -1307,6 +1308,7 @@
     <Content Include="SphApp\views\entity.get.operation.designer.html" />
     <Content Include="SphApp\views\event.logs.html" />
     <Content Include="SphApp\views\flatfile-adapter-wizard.html" />
+    <Content Include="SphApp\views\new.workflow.form.dialog.html" />
     <Content Include="SphApp\views\new.entity.form.dialog.html" />
     <Content Include="SphApp\views\new.entity.view.dialog.html" />
     <Content Include="SphApp\views\new.operation.endpoint.dialog.html" />

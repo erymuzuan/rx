@@ -502,6 +502,38 @@
 			<xs:attribute name="DeleteOperationSuccessNavigateUrl" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="WorkflowForm" bspk:entity="true">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="FormDesign"/>
+				<xs:element name="Rules">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Rule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Route" type="xs:string" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="IsAllowedNewItem" type="xs:boolean" use="required"/>
+			<xs:attribute name="IconClass" type="xs:string" use="required"/>
+			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
+			<xs:attribute name="Operation" type="xs:string" use="required"/>
+			<xs:attribute name="Variable" type="xs:string" use="required"/>
+			<xs:attribute name="Partial" type="xs:string" use="optional"/>
+			<xs:attribute name="Caption" type="xs:string" use="optional"/>
+			<xs:attribute name="Layout" type="xs:string" use="optional"/>
+			<xs:attribute name="OperationSuccessMesage" type="xs:string" use="required"/>
+			<xs:attribute name="OperationSuccessNavigateUrl" type="xs:string" use="required"/>
+			<xs:attribute name="OperationSuccessCallback" type="xs:string" use="required"/>
+			<xs:attribute name="OperationFailureCallback" type="xs:string" use="required"/>
+			<xs:attribute name="OperationMethod" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="FormLayout">
 		<xs:complexType>
 			<xs:all>

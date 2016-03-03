@@ -87,6 +87,12 @@ namespace Bespoke.Sph.Web.Controllers
         {
             return ReadFromSource<FormDialog>(filter, page, size, true);
         }
+        [Route("WorkflowForm")]
+        [HttpGet]
+        public IHttpActionResult WorkflowForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return ReadFromSource<WorkflowForm>(filter, page, size, true);
+        }
         [Route("PartialView")]
         [HttpGet]
         public IHttpActionResult PartialView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)

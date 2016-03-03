@@ -1058,6 +1058,56 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.WorkflowForm = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.WorkflowForm, domain.sph",
+        Id: ko.observable("0"),
+        WorkflowDefinitionId: ko.observable(""),
+        Name: ko.observable(""),
+        Route: ko.observable(""),
+        Note: ko.observable(""),
+        IsAllowedNewItem: ko.observable(false),
+        IconClass: ko.observable(""),
+        IconStoreId: ko.observable(""),
+        Operation: ko.observable(""),
+        Variable: ko.observable(""),
+        Partial: ko.observable(""),
+        Caption: ko.observable(""),
+        Layout: ko.observable(""),
+        OperationSuccessMesage: ko.observable(""),
+        OperationSuccessNavigateUrl: ko.observable(""),
+        OperationSuccessCallback: ko.observable(""),
+        OperationFailureCallback: ko.observable(""),
+        OperationMethod: ko.observable(""),
+        IsPublished: ko.observable(false),
+        FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
+        Rules: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.WorkflowFormPartial) {
+        return _(model).extend(new bespoke.sph.domain.WorkflowFormPartial(model));
+    }
+    return model;
+};
+
+
+
 bespoke.sph.domain.FormLayout = function (optionOrWebid) {
 
     var model = {

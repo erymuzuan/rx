@@ -562,6 +562,20 @@
   {
     "role": "developers",
     "groupName": "Entity",
+    "route": "workflow.form.designer/:wdid/:id",
+    "moduleId": "viewmodels/workflow.form.designer",
+    "title": "Workflow Form Designer",
+    "nav": false,
+    "icon": "fa fa-bug",
+    "caption": "Workflow Form Designer",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  }, 
+  {
+    "role": "developers",
+    "groupName": "Entity",
     "route": "form.dialog.designer/:entityid/:id",
     "moduleId": "viewmodels/form.dialog.designer",
     "title": "Dialog Designer",

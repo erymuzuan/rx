@@ -3394,6 +3394,595 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    public partial class WorkflowForm
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_workflowDefinitionId;
+        public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_route;
+        public const string PropertyNameRoute = "Route";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAllowedNewItem;
+        public const string PropertyNameIsAllowedNewItem = "IsAllowedNewItem";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_iconClass;
+        public const string PropertyNameIconClass = "IconClass";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_iconStoreId;
+        public const string PropertyNameIconStoreId = "IconStoreId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operation;
+        public const string PropertyNameOperation = "Operation";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_variable;
+        public const string PropertyNameVariable = "Variable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_partial;
+        public const string PropertyNamePartial = "Partial";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_caption;
+        public const string PropertyNameCaption = "Caption";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_layout;
+        public const string PropertyNameLayout = "Layout";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationSuccessMesage;
+        public const string PropertyNameOperationSuccessMesage = "OperationSuccessMesage";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationSuccessNavigateUrl;
+        public const string PropertyNameOperationSuccessNavigateUrl = "OperationSuccessNavigateUrl";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationSuccessCallback;
+        public const string PropertyNameOperationSuccessCallback = "OperationSuccessCallback";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationFailureCallback;
+        public const string PropertyNameOperationFailureCallback = "OperationFailureCallback";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operationMethod;
+        public const string PropertyNameOperationMethod = "OperationMethod";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private FormDesign m_formDesign
+                = new FormDesign();
+
+        public const string PropertyNameFormDesign = "FormDesign";
+        [DebuggerHidden]
+
+        public FormDesign FormDesign
+        {
+            get { return m_formDesign; }
+            set
+            {
+                m_formDesign = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<string> Rules { get; } = new ObjectCollection<string>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string WorkflowDefinitionId
+        {
+            set
+            {
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_workflowDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_workflowDefinitionId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Route
+        {
+            set
+            {
+                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_route = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_route;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsAllowedNewItem
+        {
+            set
+            {
+                if (m_isAllowedNewItem == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAllowedNewItem, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAllowedNewItem = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAllowedNewItem;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string IconClass
+        {
+            set
+            {
+                if (String.Equals(m_iconClass, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIconClass, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_iconClass = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_iconClass;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string IconStoreId
+        {
+            set
+            {
+                if (String.Equals(m_iconStoreId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIconStoreId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_iconStoreId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_iconStoreId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Operation
+        {
+            set
+            {
+                if (String.Equals(m_operation, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperation, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operation = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operation;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Variable
+        {
+            set
+            {
+                if (String.Equals(m_variable, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameVariable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_variable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_variable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Partial
+        {
+            set
+            {
+                if (String.Equals(m_partial, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePartial, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_partial = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_partial;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Caption
+        {
+            set
+            {
+                if (String.Equals(m_caption, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCaption, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_caption = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_caption;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Layout
+        {
+            set
+            {
+                if (String.Equals(m_layout, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLayout, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_layout = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_layout;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationSuccessMesage
+        {
+            set
+            {
+                if (String.Equals(m_operationSuccessMesage, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationSuccessMesage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationSuccessMesage = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationSuccessMesage;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationSuccessNavigateUrl
+        {
+            set
+            {
+                if (String.Equals(m_operationSuccessNavigateUrl, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationSuccessNavigateUrl, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationSuccessNavigateUrl = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationSuccessNavigateUrl;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationSuccessCallback
+        {
+            set
+            {
+                if (String.Equals(m_operationSuccessCallback, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationSuccessCallback, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationSuccessCallback = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationSuccessCallback;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationFailureCallback
+        {
+            set
+            {
+                if (String.Equals(m_operationFailureCallback, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationFailureCallback, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationFailureCallback = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationFailureCallback;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string OperationMethod
+        {
+            set
+            {
+                if (String.Equals(m_operationMethod, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperationMethod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operationMethod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operationMethod;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     public partial class FormLayout
     {
 

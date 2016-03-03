@@ -1,0 +1,72 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+@{
+    Layout = null;
+}
+<div class="row" data-bind="with : entity">
+    <h1>
+        Custom entity form:
+        <span data-bind="text:Name"></span>
+    </h1>
+</div>
+<div id="error-list-entity-form" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+    </div>
+    <div class="col-sm-2"></div>
+    <!-- /ko-->
+</div>
+<div id="warning-list-entity-form" class="row" data-bind="visible:warnings().length">
+    <!-- ko foreach : warnings -->
+    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-warning"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+    </div>
+    <div class="col-sm-2"></div>
+    <!-- /ko-->
+</div>
+<div class="row">
+    <!-- left toolbox-->
+    <div class="col-sm-3">
+        @Html.Partial("_Toolbox")
+    </div>
+    <!-- ko with : form -->
+    <div id="screen-activity-designer" class="col-sm-9" data-bind="with: FormDesign">
+        <div id="template-form-designer" class="row">
+            <div class="row" data-bind="with : $root.form" id="toolbar-panel-design">
+                <button class="btn btn-default">
+                    <i class="fa fa-save"></i>
+                    Save
+                </button>
+            </div>
+            <h1 data-bind="text: Name"></h1>
+            <span data-bind="text: Description"></span>
+
+            <form class="form-horizontal">
+                <!--ko foreach:FormElementCollection -->
+                @foreach (var fe in Model.FormElements)
+                {
+                    var fe1 = fe;
+                    @Html.DisplayFor(m => fe1)
+                }
+                <!--/ko-->
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- /ko -->
+</div>

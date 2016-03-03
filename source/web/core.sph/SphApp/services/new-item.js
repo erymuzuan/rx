@@ -147,6 +147,20 @@
                                 router.navigate("#entity.view.designer/" + ko.unwrap(ed.Id));
                         });
             },
+            addWorkflowForm = function (wd) {
+                return app.showDialog("new.workflow.form.dialog", function (dialog) {
+                            dialog.wd(wd);
+                        })
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("WorkflowForm", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (wfrm) {
+                            if (wfrm)
+                                router.navigate("#workflow.form.designer/" + ko.unwrap(wfrm.WorkflowDefinitionId) + "/" + ko.unwrap(wfrm.Id));
+                        });
+            },
             addEntityForm = function (entityDefinition) {
                 return app.showDialog("new.entity.form.dialog", function (dialog) {
                     dialog.entity(entityDefinition);
@@ -234,6 +248,7 @@
             addTriggerAsync: addTriggerAsync,
             addTransformDefinitionAsync: addTransformDefinitionAsync,
             addQueryEndpoint: addQueryEndpoint,
+            addWorkflowForm: addWorkflowForm,
             addEntityForm: addEntityForm,
             addEntityView: addEntityView,
             addDialog: addDialog,
