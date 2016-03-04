@@ -456,10 +456,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         },
             viewSchema = function () {
                 var tcs = new $.Deferred();
-                require(["viewmodels/workflow.schema.dialog", "durandal/app"], function (dg, app2) {
-                    dg.entity(wd());
-                    app2.showDialog(dg).done(tcs.resolve);
-                });
+                var url = "/api/workflow-forms/" + ko.unwrap(form().Id) + "/activities/" + ko.unwrap(form().Operation) + "/vod";
+                $.getJSON(url)
+                    .done(function (vod) {
+                        require(["viewmodels/workflow.schema.dialog", "durandal/app"], function (dg, app2) {
+                            dg.vod(context.toObservable(vod));
+                            app2.showDialog(dg).done(tcs.resolve);
+                        });
+                    });
+
 
                 return tcs.promise();
             },

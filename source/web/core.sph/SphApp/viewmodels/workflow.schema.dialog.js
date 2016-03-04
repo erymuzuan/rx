@@ -5,24 +5,25 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schema/sph.domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 
 
 define(["plugins/dialog", objectbuilders.datacontext],
     function(dialog, context) {
 
         var member = ko.observable(),
-            entityOptions= ko.observableArray(),
-            entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-            entityId = ko.observable(),
+            vodOptions= ko.observableArray(),
+            vod = ko.observable(new bespoke.sph.domain.ValueObjectDefinition()),
+            id = ko.observable(),
             activate = function() {
-                return context.getTuplesAsync("EntityDefinition", "", "Id", "Name")
-                    .done(entityOptions);
+                return context.getTuplesAsync("ValueObjectDefinition", null, "Id", "Name")
+                    .done(vodOptions);
             },
             attached = function() {
-                entityId.subscribe(function(id) {
-                    context.loadOneAsync("EntityDefinition", String.format("Id eq '{0}'", id))
-                        .done(entity);
+                id.subscribe(function(id2) {
+                    context.loadOneAsync("ValueObjectDefinition", String.format("Id eq '{0}'", id2))
+                        .done(vod);
                 });
             },
             okClick = function (data, ev) {
@@ -38,9 +39,9 @@ define(["plugins/dialog", objectbuilders.datacontext],
         var vm = {
             activate: activate,
             attached: attached,
-            entityOptions: entityOptions,
-            entityId: entityId,
-            entity: entity,
+            vodOptions: vodOptions,
+            entityId: id,
+            vod: vod,
             member: member,
             okClick: okClick,
             cancelClick: cancelClick

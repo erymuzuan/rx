@@ -2629,6 +2629,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\value.object.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\form.dialog.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\workflow.form.designer.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.schema.dialog.js" />
     <Content Include="SphApp\viewmodels\environment.variables.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.entity.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.workflow.definition.dialog.js" />
@@ -3157,6 +3158,7 @@
     <EmbeddedResource Include="SphApp\views\prompt.html" />
     <EmbeddedResource Include="SphApp\views\value.object.details.html" />
     <EmbeddedResource Include="SphApp\views\value.object.list.html" />
+    <EmbeddedResource Include="SphApp\views\workflow.schema.dialog.html" />
     <Content Include="SphApp\views\environment.variables.html" />
     <EmbeddedResource Include="SphApp\views\new.entity.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.workflow.definition.dialog.html" />

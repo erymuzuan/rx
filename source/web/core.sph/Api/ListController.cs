@@ -98,11 +98,15 @@ namespace Bespoke.Sph.Web.Api
                 case "entitychart": return SelectTupleFromSource<EntityChart>(filter, column, column2, column3, column4, column5);
                 case "entitydefinition": return SelectTupleFromSource<EntityDefinition>(filter, column, column2, column3, column4, column5);
                 case "entityform": return SelectTupleFromSource<EntityForm>(filter, column, column2, column3, column4, column5);
+                case "formdialog": return SelectTupleFromSource<FormDialog>(filter, column, column2, column3, column4, column5);
+                case "partialview": return SelectTupleFromSource<PartialView>(filter, column, column2, column3, column4, column5);
                 case "entityview": return SelectTupleFromSource<EntityView>(filter, column, column2, column3, column4, column5);
                 case "transformdefinition": return SelectTupleFromSource<TransformDefinition>(filter, column, column2, column3, column4, column5);
                 case "trigger": return SelectTupleFromSource<Trigger>(filter, column, column2, column3, column4, column5);
                 case "viewtemplate": return SelectTupleFromSource<ViewTemplate>(filter, column, column2, column3, column4, column5);
+                case "valueobjectdefinition": return SelectTupleFromSource<ValueObjectDefinition>(filter, column, column2, column3, column4, column5);
                 case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>(filter, column, column2, column3, column4, column5);
+                case "workflowform": return SelectTupleFromSource<WorkflowForm>(filter, column, column2, column3, column4, column5);
             }
 
             var translator = new OdataSqlTranslator("", table);
@@ -160,6 +164,7 @@ namespace Bespoke.Sph.Web.Api
                 case "viewtemplate": return SelectTupleFromSource<ViewTemplate>(filter, column1, column2, column3, column4, column5);
                 case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>(filter, column1, column2, column3, column4, column5);
                 case "workflowform": return SelectTupleFromSource<WorkflowForm>(filter, column1, column2, column3, column4, column5);
+                case "valueobjectdefinition": return SelectTupleFromSource<ValueObjectDefinition>(filter, column1, column2, column3, column4, column5);
             }
 
             var translator = new OdataSqlTranslator("", table);

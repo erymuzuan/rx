@@ -94,7 +94,25 @@ namespace Bespoke.Sph.Web.Controllers
                 return Invalid((HttpStatusCode)409, new { message = $"The [{act.Name}] has not specify a correct MessagePath[{act.MessagePath}]" });
             var schema = await @var.GenerateCustomJavascriptAsync(wd);
             return Json(schema);
+        }
 
+        [HttpGet]
+        [Route("{id}/activities/{webid:guid}/vod")]
+        public async Task<IHttpActionResult> GetFormVod(string id, string webid)
+        {
+            var context = new SphDataContext();
+            var form = await context.LoadOneAsync<WorkflowForm>(x => x.Id == id);
+            if (null == form) return NotFound();
+
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(x => x.Id == form.WorkflowDefinitionId);
+            var act = wd?.GetActivity<ReceiveActivity>(webid);
+            if (null == act) return NotFound();
+
+            var @var = wd.VariableDefinitionCollection.SingleOrDefault(x => x.Name == act.MessagePath) as ValueObjectVariable;
+            if (null == @var)
+                return Invalid((HttpStatusCode)409, new { message = $"The [{act.Name}] has not specify a correct MessagePath[{act.MessagePath}]" });
+            var vod = await context.LoadOneAsync<ValueObjectDefinition>(x => x.Name == @var.TypeName);
+            return Json(vod.ToJsonString(true));
         }
     }
 }
