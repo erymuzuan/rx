@@ -17,11 +17,15 @@ define(['plugins/dialog', objectbuilders.system],
             }
 
         },
+            attached = function (view) {
+                setTimeout(function () { $(view).find("#email-action-title").focus(); }, 500);
+            },
            cancelClick = function () {
                dialog.close(this, "Cancel");
            };
 
         var vm = {
+            attached : attached,
             action: ko.observable(new bespoke.sph.domain.EmailAction(system.guid())),
             okClick: okClick,
             cancelClick: cancelClick

@@ -22,6 +22,9 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                     }
                 });
             },
+            attached = function (view) {
+                setTimeout(function () { $(view).find("#Name").focus(); }, 500);
+            },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
@@ -34,6 +37,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
 
         var vm = {
             activate: activate,
+            attached : attached,
             rule: rule,
             okClick: okClick,
             cancelClick: cancelClick
