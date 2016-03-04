@@ -25,7 +25,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config],
                 return tcs.promise();
 
             },
-            attached = function () {
+            attached = function (view) {
                 selectedAssembly.subscribe(function (dll) {
 
                     $.get("/api/assemblies/" + dll + "/types")
@@ -39,6 +39,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config],
                             entityOptions(types);
                         });
                 });
+                setTimeout(function () { $(view).find("#clr-name").focus(); }, 700);
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {

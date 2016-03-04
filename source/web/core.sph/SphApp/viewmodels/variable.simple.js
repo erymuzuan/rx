@@ -4,7 +4,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="~/Scripts/_utils.js" />
 
-define(['plugins/dialog'],
+define(["plugins/dialog"],
     function (dialog) {
 
         var okClick = function (data, ev) {
@@ -13,11 +13,15 @@ define(['plugins/dialog'],
             }
 
         },
+            attached = function (view) {
+                setTimeout(function () { $(view).find("#variable-name").focus(); }, 500);
+            },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
         var vm = {
+            attached: attached,
             variable: ko.observable(new bespoke.sph.domain.SimpleVariable()),
             okClick: okClick,
             cancelClick: cancelClick
