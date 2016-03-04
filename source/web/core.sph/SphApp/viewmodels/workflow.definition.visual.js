@@ -269,7 +269,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             attached = function (view) {
                 $(view).on("click", "div.activity", function() {
-                    selectedActivity(ko.dataFor(this));
+                    var act = ko.dataFor(this);
+                    _(wd().ActivityCollection()).each(function(v) {
+                        if (typeof v.selected !== "function") {
+                            v.selected = ko.observable(false);
+                        }
+                        v.selected(false);
+                    });
+                    act.selected(true);
+                    selectedActivity(act);
                 });
                 var script = $("<script type=\"text/javascript\" src=\"/Scripts/jsPlumb/bundle.js\"></script>").appendTo("body"),
                     timer = setInterval(function () {

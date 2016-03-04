@@ -227,16 +227,99 @@ bespoke.utils.ServerPager = function (options) {
 
 };
 /// <reference path="jstree.min.js" />
-/// <reference path="jstree.min.js" />
 /// <reference path="typeahead.bundle.js" />
 /// <reference path="knockout-3.4.0.debug.js" />
 /// <reference path="knockout.mapping-latest.debug.js" />
 /// <reference path="../App/services/datacontext.js" />
 /// <reference path="../SphApp/objectbuilders.js" />
+/// <reference path="../SphApp/schemas/trigger.workflow.g.js" />
+/// <reference path="../SphApp/partial/WorkflowDefinition.js" />
 /// <reference path="../App/durandal/amd/text.js" />
-/// <reference path="jquery-2.1.3.intellisense.js" />
+/// <reference path="jquery-2.2.0.intellisense.js" />
 /// <reference path="underscore.js" />
 /// <reference path="require.js" />
+/// <reference path="complete.ly.1.0.1.js" />
+
+
+ko.bindingHandlers.workflowFormPathIntellisense = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var value = valueAccessor(),
+            schema = ko.unwrap(value.schema),
+            allBindings = allBindingsAccessor(),
+            setup = function () {
+                var input = $(element),
+                         div = $("<div></div>").css({
+                             'height': "28px"
+                         });
+                input.hide().before(div);
+
+                var c = completely(div[0], {
+                    fontSize: "12px",
+                    color: "#555;",
+                    fontFamily: "\"Open Sans\", Arial, Helvetica, sans-serif"
+                });
+
+                c.setText(ko.unwrap(allBindings.value));
+                for (var ix in schema) {
+                    if (schema.hasOwnProperty(ix)) {
+                        if (ix === "$type") continue;
+                        if (ix === "addChildItem") continue;
+                        if (ix === "removeChildItem") continue;
+                        if (ix === "Empty") continue;
+                        if (ix === "WebId") continue;
+                        c.options.push("" + ix);
+                    }
+                }
+                c.options.sort();
+
+                var currentObject = schema;
+                c.onChange = function (text) {
+                    if (text.lastIndexOf(".") === text.length - 1) {
+                        c.options = [];
+                        var props = text.split(".");
+
+                        currentObject = schema;
+                        _(props).each(function (v) {
+                            if (v === "") { return; }
+                            currentObject = currentObject[v];
+                        });
+                        console.log("currentObject", currentObject);
+                        for (var i in currentObject) {
+                            if (currentObject.hasOwnProperty(i)) {
+                                if (i === "$type") continue;
+                                if (i === "addChildItem") continue;
+                                if (i === "removeChildItem") continue;
+                                if (i === "Empty") continue;
+                                if (i === "WebId") continue;
+                                c.options.push("" + i);
+                            }
+                        }
+                        c.options.sort();
+                        c.startFrom = text.lastIndexOf(".") + 1;
+                    }
+                    c.repaint();
+                };
+
+                c.repaint();
+                $(c.input)
+                    .attr("autocomplete", "off")
+                    .blur(function () {
+                        allBindings.value($(this).val());
+                    }).parent().find("input")
+                    .css({ "padding": "6px 12px", "height": "28px" });
+
+                if ($(element).prop("required")) {
+                    $(c.input).prop("required", true);
+                }
+
+
+            };
+
+
+        setup();
+    }
+};
+
 
 ko.bindingHandlers.activityClass = {
     init: function (element, valueAccessor) {
@@ -275,12 +358,12 @@ ko.bindingHandlers.typeahead = {
         if (typeof id === "undefined") {
             return;
         }
-          var  members = new Bloodhound({
-                datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.Path); },
-                queryTokenizer: Bloodhound.tokenizers.nonword,
-                prefetch: "/api/workflow-definitions/" + id + "/variable-path"
+        var members = new Bloodhound({
+            datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.Path); },
+            queryTokenizer: Bloodhound.tokenizers.nonword,
+            prefetch: "/api/workflow-definitions/" + id + "/variable-path"
 
-            });
+        });
         members.initialize();
         $(element).typeahead({ highlight: true }, {
             name: "schema_paths" + id,
@@ -319,7 +402,7 @@ ko.bindingHandlers.activityPopover = {
             setTimeout(function () { pop.popover('hide'); }, 5000);
         });
 
-        $(document).on('click', 'a.' + act.WebId(), function (e) {
+        $(document).on("click", "a." + act.WebId(), function (e) {
             e.preventDefault();
             var app = require(objectbuilders.app),
                 link = $(this);
@@ -355,7 +438,7 @@ ko.bindingHandlers.comboBoxLookupOptions = {
 
             //getListAsync
             var promise = ko.unwrap(lookup.valuePath) === ko.unwrap(lookup.displayPath) ?
-                context.getListAsync( ko.unwrap(lookup.entity), query, ko.unwrap(lookup.valuePath)) :
+                context.getListAsync(ko.unwrap(lookup.entity), query, ko.unwrap(lookup.valuePath)) :
                 context.getTuplesAsync({
                     entity: ko.unwrap(lookup.entity),
                     query: query,
@@ -363,39 +446,39 @@ ko.bindingHandlers.comboBoxLookupOptions = {
                     field2: displayPath
                 });
 
-            
-                promise.done(function(list) {
-                    element.options.length = 0;
-                    if (caption) {
-                        element.add(new Option(caption, ""));
+
+            promise.done(function (list) {
+                element.options.length = 0;
+                if (caption) {
+                    element.add(new Option(caption, ""));
+                }
+                _(list).each(function (v) {
+                    if (typeof v === "string") {
+                        element.add(new Option(v, v));
+                        return;
                     }
-                    _(list).each(function (v) {
-                        if (typeof v === "string") {
-                            element.add(new Option(v, v));
-                            return;
-                        }
-                        if (typeof v.Item1 === "string" && typeof v.Item2 === "string") {
-                            element.add(new Option(v.Item2, v.Item1));
-                            return;
-                        }
-                        if (typeof v[valuePath] === "string" && typeof v[displayPath] === "string") {
-                            element.add(new Option(v[valuePath], v[displayPath]));
-                            return;
-                        }
+                    if (typeof v.Item1 === "string" && typeof v.Item2 === "string") {
+                        element.add(new Option(v.Item2, v.Item1));
+                        return;
+                    }
+                    if (typeof v[valuePath] === "string" && typeof v[displayPath] === "string") {
+                        element.add(new Option(v[valuePath], v[displayPath]));
+                        return;
+                    }
+                });
+
+                $select.val(ko.unwrap(value))
+                    .on("change", function () {
+                        value($select.val());
                     });
 
-                    $select.val(ko.unwrap(value))
-                        .on("change", function() {
-                            value($select.val());
-                        });
-
-                });
+            });
         };
         setup(ko.unwrap(lookup.query));
 
         if (typeof lookup.query === "function") {
             if (typeof lookup.query.subscribe === "function") {
-                lookup.query.subscribe(function(v) {
+                lookup.query.subscribe(function (v) {
                     setup(ko.unwrap(v));
                 });
             }
@@ -408,6 +491,13 @@ ko.bindingHandlers.comboBoxLookupOptions = {
     }
 };
 
+
+/// <reference path="~/Scripts/underscore.js" />
+/// <reference path="require.js" />
+/// <reference path="jquery-2.2.0.intellisense.js" />
+/// <reference path="../SphApp/objectbuilders.js" />
+/// <reference path="../SphApp/schemas/form.designer.g.js" />
+/// <reference path="knockout-3.4.0.debug.js" />
 
 ko.bindingHandlers.tree = {
     init: function (element, valueAccessor) {

@@ -27,7 +27,7 @@
 
         <div class="activity w" data-bind="style : {'left': WorkflowDesigner().X() + 'px','top': WorkflowDesigner().Y() + 'px'},
                 attr : {id : WebId},
-                css : {'start-actvity2': IsInitiator() }">
+                css : {'start-actvity2': IsInitiator(), 'selected-activity' : selected }">
             <div data-bind="visible:hasError" class="error">
                 <i class="fa fa-exclamation-circle fa-2x"></i>
             </div>
