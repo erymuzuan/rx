@@ -69,11 +69,11 @@ namespace Bespoke.Sph.Domain
         private string[] CanDelete(IReadOnlyCollection<Member> members, string parent, string parentType = "EntityDefinition")
         {
             var warnings = new List<string>();
-            var ok = members.OfType<ValueObjectMember>().Any(x => x.Name == Name);
+            var ok = members.OfType<ValueObjectMember>().Any(x => x.ValueObjectName == Name);
             if (ok) warnings.Add($"{Name} is referred by {parent} {parentType}");
             foreach (var mb in members.OfType<ComplexMember>())
             {
-                var results = this.CanDelete(mb.MemberCollection, parent);
+                var results = this.CanDelete(mb.MemberCollection, parent, parentType);
                 warnings.AddRange(results);
             }
 

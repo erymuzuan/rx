@@ -6,6 +6,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/_task.js" />
 /// <reference path="../objectbuilders.js" />
@@ -29,10 +30,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .then(function (b) {
                         vod(b);
                         originalEntity = ko.toJSON(b);
+                        errors([]);
 
-                        return context.getListAsync("ValueObjectDefinition", "Name ne '" + ko.unwrap(b.Name) +"'", "Name");
+                        return context.getListAsync("ValueObjectDefinition", "Name ne '" + ko.unwrap(b.Name) + "'", "Name");
                     }).then(function (list) {
-                        
+
                         valueObjectOptions(list);
                     });
 
@@ -41,7 +43,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
             },
             attached = function () {
-             
+
                 var setDesignerHeight = function () {
                     if ($("#schema-tree-panel").length === 0) {
                         return;
@@ -70,7 +72,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         if (result.success) {
                             originalEntity = ko.toJSON(vod);
                             logger.info(result.message);
-                           
+
                             vod().Id(result.id);
                             errors.removeAll();
                         } else {
@@ -125,7 +127,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                         logger.error("There are errors in your schema, !!!");
                                     }
                                     tcs.resolve(result);
+                                })
+                            .fail(function (e) {
+                                var list = _(e.responseJSON).map(function (v) {
+                                    return { Message: v , Code : ""};
                                 });
+                                errors(list);
+                                tcs.resolve(false);
+                            });
                         } else {
 
                             tcs.resolve(false);
