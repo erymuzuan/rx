@@ -79,6 +79,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("{id}/activities/{webid:guid}/schema")]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetFormSchema(string id, string webid)
         {
             var context = new SphDataContext();
