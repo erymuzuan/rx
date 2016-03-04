@@ -1,14 +1,14 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schema/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 
 
-define(['plugins/dialog'],
+define(["plugins/dialog"],
     function (dialog) {
         var activities = ko.observableArray(),
             tryScope = ko.observable(new bespoke.sph.domain.TryScope()),
@@ -25,14 +25,14 @@ define(['plugins/dialog'],
                 drawList();
             },
             attached = function (view) {
-                $(view).on('click', 'input[type=checkbox]', function () {
+                $(view).on("click", "input[type=checkbox]", function () {
 
                     var act = ko.dataFor(this);
                     if (tryScope().Id() === "") {
                         alert("Please enter name for Try Scope before proceed");
                         return false;
                     }
-                    if ($(this).is(':checked')) {
+                    if ($(this).is(":checked")) {
                         act.TryScope(tryScope().Id());
                         $("#" + act.WebId()).css("background-color", "#37c757");
                     } else {
@@ -46,9 +46,10 @@ define(['plugins/dialog'],
                     _(wd().ActivityCollection())
                        .each(function (v) {
                            if (v.TryScope() === tryScope().Id()) {
-                               $("#tsd" + v.WebId()).prop('checked', true);
+                               $("#tsd" + v.WebId()).prop("checked", true);
                            }
                        });
+                    $(view).find("#name").focus();
                 };
                 setTimeout(init, 500);
 
