@@ -279,6 +279,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     act.selected(true);
                     selectedActivity(act);
                 });
+
+                // delete selected element when [delete] key is pressed
+                $(view).on("keyup", "div.selected-activity", function (e) {
+                    if (e.keyCode === 46 && typeof selectedActivity() != "undefined") {
+                        wd().removeActivity(selectedActivity())();
+                    }
+                });
+
                 var script = $("<script type=\"text/javascript\" src=\"/Scripts/jsPlumb/bundle.js\"></script>").appendTo("body"),
                     timer = setInterval(function () {
                         if (window.jsPlumb !== undefined) {
@@ -370,7 +378,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         $("#toolbox-panel").show();
                     }
                 });
-
                 var clipboardItem = null;
                 $(view).on("copy", "div.activity", function (e) {
                     e.preventDefault();
