@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -8,7 +8,7 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 
 
-define(['plugins/dialog'],
+define(["plugins/dialog"],
     function (dialog) {
 
         var tryOptions = ko.observableArray(),
@@ -24,13 +24,13 @@ define(['plugins/dialog'],
                 activities(list);
             },
             attached = function (view) {
-                $(view).on('click', 'input.catch-activities', function () {
+                $(view).on("click", "input.catch-activities", function () {
                     var act = ko.dataFor(this);
                     if (catchScope().Id() === "") {
                         alert("Please enter name for Catch Scope before proceed");
                         return false;
                     }
-                    if ($(this).is(':checked')) {
+                    if ($(this).is(":checked")) {
                         act.CatchScope(catchScope().Id());
                     } else {
                         act.CatchScope(null);
@@ -41,9 +41,10 @@ define(['plugins/dialog'],
                 _(wd().ActivityCollection())
                    .each(function (v) {
                        if (v.CatchScope() === catchScope().Id()) {
-                           $("#csd" + v.WebId()).prop('checked', true);
+                           $("#csd" + v.WebId()).prop("checked", true);
                        }
                    });
+                setTimeout(function () { $("#set-name").focus(); }, 500);
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
