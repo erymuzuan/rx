@@ -1,3 +1,11 @@
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="../../../core.sph/SphApp/schemas/form.designer.g.js" />
+/// <reference path="../../../core.sph/SphApp/objectbuilders.js" />
+/// <reference path="../../../core.sph/Scripts/jstree.min.js" />
+/// <reference path="../../../core.sph/Scripts/complete.ly.1.0.1.js" />
+/// <reference path="../../../core.sph/Scripts/require.js" />
+/// <reference path="../../../core.sph/Scripts/jquery-2.2.0.intellisense.js" />
+
 define([], function () {
 
 
@@ -69,6 +77,85 @@ define([], function () {
 
     };
 
+
+    ko.bindingHandlers.workflowFormPathIntellisense = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            var value = valueAccessor(),
+                schema = ko.unwrap(value.schema),
+                allBindings = allBindingsAccessor(),
+                setup = function () {
+                    var input = $(element),
+                             div = $("<div></div>").css({
+                                 "height": "28px"
+                             });
+                    input.hide().before(div);
+
+                    var c = completely(div[0], {
+                        fontSize: "12px",
+                        color: "#555;",
+                        fontFamily: "\"Open Sans\", Arial, Helvetica, sans-serif"
+                    });
+
+                    c.setText(ko.unwrap(allBindings.value));
+                    for (var ix in schema) {
+                        if (schema.hasOwnProperty(ix)) {
+                            if (ix === "$type") continue;
+                            if (ix === "addChildItem") continue;
+                            if (ix === "removeChildItem") continue;
+                            if (ix === "Empty") continue;
+                            if (ix === "WebId") continue;
+                            c.options.push("" + ix);
+                        }
+                    }
+                    c.options.sort();
+
+                    var currentObject = schema;
+                    c.onChange = function (text) {
+                        if (text.lastIndexOf(".") === text.length - 1) {
+                            c.options = [];
+                            var props = text.split(".");
+
+                            currentObject = schema;
+                            _(props).each(function (v) {
+                                if (v === "") { return; }
+                                currentObject = currentObject[v];
+                            });
+                            console.log("currentObject", currentObject);
+                            for (var i in currentObject) {
+                                if (currentObject.hasOwnProperty(i)) {
+                                    if (i === "$type") continue;
+                                    if (i === "addChildItem") continue;
+                                    if (i === "removeChildItem") continue;
+                                    if (i === "Empty") continue;
+                                    if (i === "WebId") continue;
+                                    c.options.push("" + i);
+                                }
+                            }
+                            c.options.sort();
+                            c.startFrom = text.lastIndexOf(".") + 1;
+                        }
+                        c.repaint();
+                    };
+
+                    c.repaint();
+                    $(c.input)
+                        .attr("autocomplete", "off")
+                        .blur(function () {
+                            allBindings.value($(this).val());
+                        }).parent().find("input")
+                        .css({ "padding": "6px 12px", "height": "28px" });
+
+                    if ($(element).prop("required")) {
+                        $(c.input).prop("required", true);
+                    }
+
+
+                };
+
+
+            setup();
+        }
+    };
 
     ko.bindingHandlers.queryPaging = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -223,12 +310,12 @@ define([], function () {
                             id: parent + v.Name()
                         };
                     });
-                    _(node.children).each(function(n) {
+                    _(node.children).each(function (n) {
                         recurseChildMember(n, parent);
                     });
                 },
                 loadJsTree = function () {
-                    entity.MemberCollection.unshift(new bespoke.sph.domain.SimpleMember({Name :"Id", TypeName : "System.String, mscorlib"}));
+                    entity.MemberCollection.unshift(new bespoke.sph.domain.SimpleMember({ Name: "Id", TypeName: "System.String, mscorlib" }));
                     jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
                         return {
                             text: ko.unwrap(v.Name),
@@ -238,7 +325,7 @@ define([], function () {
                             id: ko.unwrap(v.Name)
                         };
                     });
-                    _(jsTreeData.children).each(function(n) {
+                    _(jsTreeData.children).each(function (n) {
                         recurseChildMember(n, "");
                     });
                     $(element)
@@ -286,7 +373,7 @@ define([], function () {
 
                     var $tree = $(element).jstree(true);
                     $tree.deselect_all();
-                    _(ko.unwrap(selectedItems)).each(function(n) {
+                    _(ko.unwrap(selectedItems)).each(function (n) {
                         var id = n.replace(/\./g, "-"),
                             ref = $tree.get_node(id);
                         if (ref) {
@@ -295,17 +382,17 @@ define([], function () {
                     });
 
                     $(element)
-                        .on("select_node.jstree", function(node, selected) {
+                        .on("select_node.jstree", function (node, selected) {
                             var id = selected.node.id;
                             selectedItems.push(id.replace(/-/g, "."));
                         })
-                        .on("deselect_node.jstree", function(node, selected) {
+                        .on("deselect_node.jstree", function (node, selected) {
                             var id = selected.node.id;
                             selectedItems.remove(id.replace(/-/g, "."));
                         });
 
                 };
-                loadJsTree();
+            loadJsTree();
 
             var to = false;
             $(searchbox).keyup(function () {
@@ -321,5 +408,9 @@ define([], function () {
         }
     };
 
+
+    return {
+        init: function () { }
+    };
 
 });

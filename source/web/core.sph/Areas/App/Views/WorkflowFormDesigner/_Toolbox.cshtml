@@ -20,10 +20,6 @@
             <a href="#fields-validation" data-toggle="tab">Validations</a>
         </li>
 
-        <li>
-            <a href="#business-rules" data-toggle="tab">Business Rules</a>
-        </li>
-
     </ul>
     <div class="tab-content">
         <div id="form-general2" class="tab-pane active" data-bind="with : form">
@@ -220,19 +216,7 @@
             @Html.Partial("_ValidationSetting")
         </div>
 
-        <div id="business-rules" class="tab-pane">
-            <span>Apply these business rules to the form</span>
-            <ul data-bind2="foreach :entity().BusinessRuleCollection" class="nav">
-                <li>
-                    <label>
-                        <input type="checkbox" data-bind="checked : $root.form().Rules, value: Name" />
-                        <!-- ko text : Name -->
-                        <!-- /ko -->
 
-                    </label>
-                </li>
-            </ul>
-        </div>
 
         <div id="operation-tab-item" class="tab-pane"  data-bind="with : form">
             <form role="form">

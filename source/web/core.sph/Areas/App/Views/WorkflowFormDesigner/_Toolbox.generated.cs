@@ -93,13 +93,7 @@ WriteLiteral(" href=\"#fields-validation\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
-WriteLiteral(">Validations</a>\r\n        </li>\r\n\r\n        <li>\r\n            <a");
-
-WriteLiteral(" href=\"#business-rules\"");
-
-WriteLiteral(" data-toggle=\"tab\"");
-
-WriteLiteral(">Business Rules</a>\r\n        </li>\r\n\r\n    </ul>\r\n    <div");
+WriteLiteral(">Validations</a>\r\n        </li>\r\n\r\n    </ul>\r\n    <div");
 
 WriteLiteral(" class=\"tab-content\"");
 
@@ -690,13 +684,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 192 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 188 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 192 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 188 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -716,13 +710,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 205 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 201 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 205 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 201 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         FormElement fe1 = fe;
@@ -731,14 +725,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 208 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 204 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 208 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 204 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
                                                  
 
                     }
@@ -768,35 +762,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 220 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 216 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n        </div>\r\n\r\n        <div");
-
-WriteLiteral(" id=\"business-rules\"");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(">\r\n            <span>Apply these business rules to the form</span>\r\n            <" +
-"ul");
-
-WriteLiteral(" data-bind2=\"foreach :entity().BusinessRuleCollection\"");
-
-WriteLiteral(" class=\"nav\"");
-
-WriteLiteral(">\r\n                <li>\r\n                    <label>\r\n                        <in" +
-"put");
-
-WriteLiteral(" type=\"checkbox\"");
-
-WriteLiteral(" data-bind=\"checked : $root.form().Rules, value: Name\"");
-
-WriteLiteral(" />\r\n                        <!-- ko text : Name -->\r\n                        <!-" +
-"- /ko -->\r\n\r\n                    </label>\r\n                </li>\r\n            </" +
-"ul>\r\n        </div>\r\n\r\n        <div");
+WriteLiteral("\r\n        </div>\r\n\r\n\r\n\r\n        <div");
 
 WriteLiteral(" id=\"operation-tab-item\"");
 

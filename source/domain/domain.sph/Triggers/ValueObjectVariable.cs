@@ -106,6 +106,66 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
+        private string GenerateJavascriptMember(Member member)
+        {
+            var vom = member as ValueObjectMember;
+            if (null != vom)
+            {
+                var vs = new StringBuilder();
+                var context = new SphDataContext();
+                var vod = context.LoadOneFromSources<ValueObjectDefinition>(x => x.Name == vom.ValueObjectName);
+
+                vs.AppendLine(" {");
+
+                var vsMembers = from mb in vod.MemberCollection
+                                let val = this.GenerateJavascriptMember(mb)
+                                let m = $"\"{mb.Name}\":{val},"
+                                where !string.IsNullOrWhiteSpace(m)
+                                select m;
+                vsMembers.ToList().ForEach(m => vs.AppendLine(m));
+                vs.AppendLine("\"WebId\":0");
+                vs.AppendLine(" }");
+
+                return vs.ToString();
+
+            }
+
+            if (member.MemberCollection.Count == 0)
+                return "0";
+
+            var script = new StringBuilder();
+            script.AppendLine(" {");
+            var members = from mb in member.MemberCollection
+                          let val = this.GenerateJavascriptMember(mb)
+                          let m = $"\"{mb.Name}\":{val},"
+                          where !string.IsNullOrWhiteSpace(m)
+                          select m;
+            members.ToList().ForEach(m => script.AppendLine(m));
+            script.AppendLine("\"WebId\":0");
+            script.AppendLine(" }");
+
+            return script.ToString();
+        }
+
+        public override async Task<string> GenerateCustomJavascriptAsync(WorkflowDefinition wd)
+        {
+            var context = new SphDataContext();
+            var vod = await context.LoadOneAsync<ValueObjectDefinition>(x => x.Name == this.TypeName);
+            var script = new StringBuilder();
+
+            script.AppendLine(" {");
+
+            var members = from mb in vod.MemberCollection
+                          let val = this.GenerateJavascriptMember(mb)
+                          let m = $"\"{mb.Name}\":{val},"
+                          where !string.IsNullOrWhiteSpace(m)
+                          select m;
+            members.ToList().ForEach(m => script.AppendLine(m));
+            script.AppendLine("\"WebId\":0");
+            script.AppendLine(" }");
+
+            return script.ToString();
+        }
     }
 
 

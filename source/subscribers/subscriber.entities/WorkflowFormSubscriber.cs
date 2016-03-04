@@ -11,7 +11,7 @@ namespace subscriber.entities
     {
         public override string QueueName => nameof(WorkflowFormSubscriber);
 
-        public override string[] RoutingKeys => new[] { $"{nameof(FormDialog)}.changed.Publish" };
+        public override string[] RoutingKeys => new[] { $"{nameof(WorkflowForm)}.changed.Publish" };
 
         protected override async Task ProcessMessage(WorkflowForm item, MessageHeaders header)
         {

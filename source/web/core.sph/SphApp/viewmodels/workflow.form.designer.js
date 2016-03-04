@@ -1,7 +1,8 @@
 ﻿
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.config],
-    function (context, logger, router, system, app, eximp, dialog, config) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp,
+    objectbuilders.dialog, objectbuilders.config, "services/_ko.list"],
+    function (context, logger, router, system, app, eximp, dialog, config, kolist) {
 
         var errors = ko.observableArray(),
             warnings = ko.observableArray(),
@@ -16,7 +17,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             form = ko.observable(new bespoke.sph.domain.WorkflowForm({ WebId: system.guid() })),
             selectedFormElement = ko.observable(),
             activate = function (wdid, id) {
-
+                kolist.init();
                 var query = String.format("Id eq '{0}'", wdid),
                     tcs = new $.Deferred();
 
@@ -54,22 +55,22 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     layoutOptions(layouts);
                 });
 
-                if (id !== "0") {
-                    context.loadOneAsync("WorkflowForm", "Id eq '" + id + "'")
-                    .done(function (f) {
-                        _(f.FormDesign().FormElementCollection()).each(function (v) {
-                            v.isSelected = ko.observable(false);
-                        });
-                        form(f);
-                        originalEntity = ko.toJSON(form);
-                        tcs.resolve(true);
+                context.loadOneAsync("WorkflowForm", "Id eq '" + id + "'")
+                .done(function (f) {
+                    _(f.FormDesign().FormElementCollection()).each(function (v) {
+                        v.isSelected = ko.observable(false);
                     });
-                } else {
-                    form(new bespoke.sph.domain.WorkflowForm(system.guid()));
-                    setTimeout(function () {
-                        tcs.resolve(true);
-                    }, 500);
-                }
+                    var url = "/api/workflow-forms/" + id + "/activities/" + ko.unwrap(f.Operation) + "/schema";
+                    $.getJSON(url)
+                        .done(function (model) {
+                            schema(model);
+                        });
+                    form(f);
+                    originalEntity = ko.toJSON(form);
+                    tcs.resolve(true);
+                });
+
+
 
                 form().WorkflowDefinitionId(wdid);
 

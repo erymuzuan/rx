@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
@@ -6,6 +7,7 @@ using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/workflow-forms")]
     public class WorkflowFormController : BaseApiController
     {
@@ -72,6 +74,26 @@ namespace Bespoke.Sph.Web.Controllers
                 await session.SubmitChanges("Remove");
             }
             return Json(new { success = true, status = "OK", message = "Your form has been successfully deleted", id = form.Id });
+
+        }
+
+        [HttpGet]
+        [Route("{id}/activities/{webid:guid}/schema")]
+        public async Task<IHttpActionResult> GetFormSchema(string id, string webid)
+        {
+            var context = new SphDataContext();
+            var form = await context.LoadOneAsync<WorkflowForm>(x => x.Id == id);
+            if (null == form) return NotFound();
+
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(x => x.Id == form.WorkflowDefinitionId);
+            var act = wd?.GetActivity<ReceiveActivity>(webid);
+            if (null == act) return NotFound();
+
+            var @var = wd.VariableDefinitionCollection.SingleOrDefault(x => x.Name == act.MessagePath) as ValueObjectVariable;
+            if (null == @var)
+                return Invalid((HttpStatusCode)409, new { message = $"The [{act.Name}] has not specify a correct MessagePath[{act.MessagePath}]" });
+            var schema = await @var.GenerateCustomJavascriptAsync(wd);
+            return Json(schema);
 
         }
     }
