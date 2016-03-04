@@ -36,7 +36,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     return Task.fromResult(0);
                 }
 
-                return context.post(ko.mapping.toJSON(vod), "/value-object-definition")
+                return context.post(ko.mapping.toJSON(vod), "/api/value-object-definition")
                     .done(function (result) {
                         if (result.success) {
                             id(result.id);

@@ -64,7 +64,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var data = ko.mapping.toJSON(vod);
                 isBusy(true);
 
-                return context.post(data, "/value-object-definition")
+                return context.post(data, "/api/value-object-definition")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -107,11 +107,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(vod);
                 isBusy(true);
-                app.showMessage("Are you sure you want to permanently remove this ValueObjectDefinition, this action cannot be undone and will also remove related forms, views, triggers, reports and business rules", "Reactive Developer", ["Yes", "No"])
+                app.showMessage("Are you sure you want to permanently remove this ValueObjectDefinition, this action cannot be undone", "Reactive Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 
-                            context.send(data, "/value-object-definition/" + ko.unwrap(vod().Id), "DELETE")
+                            context.send(data, "/api/value-object-definition/" + ko.unwrap(vod().Id), "DELETE")
                                 .then(function (result) {
                                     isBusy(false);
                                     if (result.success) {

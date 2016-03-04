@@ -1,33 +1,20 @@
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.Controllers
 {
-    [RoutePrefix("value-object-definition")]
-    public class ValueObjectDefinitionController : BaseController
+    [RoutePrefix("api/value-object-definition")]
+    public class ValueObjectDefinitionController : BaseApiController
     {
-        static ValueObjectDefinitionController()
-        {
-            DeveloperService.Init();
-        }
-        public const string ED_SCHEMA = "ed-schema";
-
-        private void DeleteEdSchemaCache()
-        {
-            System.Web.HttpContext.Current.Cache.Remove(ED_SCHEMA);
-        }
-
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> Save()
+        public async Task<IHttpActionResult> Save([JsonBody]ValueObjectDefinition ed)
         {
-            this.DeleteEdSchemaCache();
-            var ed = this.GetRequestJson<ValueObjectDefinition>();
             var context = new SphDataContext();
             var canSave = ed.CanSave();
             if (!canSave.Result)
@@ -51,7 +38,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             }
 
-            
+
 
             using (var session = context.OpenSession())
             {
@@ -63,33 +50,24 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-        
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IHttpActionResult> Delete(string id)
         {
-            this.DeleteEdSchemaCache();
             var context = new SphDataContext();
-            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
-            if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
-
-            var forms = context.LoadFromSources<EntityForm>(f => f.EntityDefinitionId == id);
-            var views = context.LoadFromSources<EntityView>(f => f.EntityDefinitionId == id);
-            var triggers = context.LoadFromSources<Trigger>(f => f.Entity == id);
+            var vod = await context.LoadOneAsync<ValueObjectDefinition>(e => e.Id == id);
+            if (null == vod) return NotFound("Cannot find value object definition to delete, id : " + id);
+            var warnings = await vod.CanDeleteAsync();
+            if (warnings.Any()) return Invalid(HttpStatusCode.Forbidden, warnings);
 
             using (var session = context.OpenSession())
             {
-                session.Delete(ed);
-                session.Delete(forms.Cast<Entity>().ToArray());
-                session.Delete(views.Cast<Entity>().ToArray());
-                session.Delete(triggers.Cast<Entity>().ToArray());
-                // TODO : drop the tables and elastic search mappings
+                session.Delete(vod);
                 await session.SubmitChanges("delete");
             }
-            return Json(new { success = true, status = "OK", message = "Your entity definition has been successfully deleted", id = ed.Id });
+            return Json(new { success = true, status = "OK", message = "Your value object definition has been successfully deleted", id = vod.Id });
 
         }
 
-        
     }
 }
