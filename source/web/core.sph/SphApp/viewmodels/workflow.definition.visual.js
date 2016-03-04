@@ -17,6 +17,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var isBusy = ko.observable(false),
             isPublishing = ko.observable(false),
+            selectedActivity = ko.observable(false),
             originalEntity = "",
             publishingMessage = ko.observable(),
             toolboxElements = ko.observableArray(),
@@ -267,6 +268,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 initializeActivity(act);
             },
             attached = function (view) {
+                $(view).on("click", "div.activity", function() {
+                    selectedActivity(ko.dataFor(this));
+                });
                 var script = $("<script type=\"text/javascript\" src=\"/Scripts/jsPlumb/bundle.js\"></script>").appendTo("body"),
                     timer = setInterval(function () {
                         if (window.jsPlumb !== undefined) {
@@ -556,6 +560,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var vm = {
             publishingMessage: publishingMessage,
+            selectedActivity: selectedActivity,
             isPublishing: isPublishing,
             isBusy: isBusy,
             activate: activate,

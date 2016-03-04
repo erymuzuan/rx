@@ -27,7 +27,6 @@
 
         <div class="activity w" data-bind="style : {'left': WorkflowDesigner().X() + 'px','top': WorkflowDesigner().Y() + 'px'},
                 attr : {id : WebId},
-                activityPopover : $data,
                 css : {'start-actvity2': IsInitiator() }">
             <div data-bind="visible:hasError" class="error">
                 <i class="fa fa-exclamation-circle fa-2x"></i>
@@ -38,17 +37,7 @@
                 <i class="fa fa-power-off fa-2x"></i>
             </div>
 
-            <div style="display: none" class="context-menu">
-                <a class="edit-activity" title="edit acitivity" href="#" data-bind="click: $parent.editActivity.call($parent,$data)">
-                    <i class="fa fa-edit fa-2x"></i>
-                </a>
-                <a class="delete-activity" href="#" title="remove activity" data-bind="click: $parent.removeActivity.call($parent,$data)">
-                    <i class="fa fa-times-circle fa-2x"></i>
-                </a>
-                <a class="start-activity" href="#" title="Set as start activity" data-bind="click: $parent.setStartActivity.call($parent,$data)">
-                    <i class="fa fa-power-off fa-2x"></i>
-                </a>
-            </div>
+
         </div>
 
 
@@ -62,6 +51,9 @@
             <i class="fa fa-times"></i>
         </a>
         <ul class="nav nav-tabs">
+            <li>
+                <a href="#general-wd" data-toggle="tab">General</a>
+            </li>
             <li class="active">
                 <a href="#toolbox" data-toggle="tab">Toolbox</a>
             </li>
@@ -72,13 +64,13 @@
                 <a href="#schemas" data-toggle="tab">Schemas</a>
             </li>
             <li>
-                <a href="#properties" data-toggle="tab">Properties</a>
-            </li>
-            <li>
                 <a href="#assemblies" data-toggle="tab">Referenced Assemblies</a>
             </li>
             <li>
                 <a href="#correlations" data-toggle="tab">Correlations</a>
+            </li>
+            <li>
+                <a href="#properties" data-toggle="tab">Properties</a>
             </li>
             <li>
                 <a href="#exception-handling" data-toggle="tab">Exception Handling</a>
@@ -118,7 +110,7 @@
                 </form>
 
             </div>
-            <div id="properties" class="tab-pane">
+            <div id="general-wd" class="tab-pane">
 
                 <form role="form" id="workflow-definition-detail" data-bind="with: wd">
                     <div class="form-group">
@@ -164,7 +156,7 @@
             </div>
 
             <div id="assemblies" class="tab-pane" data-bind="with : wd">
-   
+
                 <table class="table table-striped table-condensed">
                     <thead>
                         <tr>
@@ -185,7 +177,7 @@
                         </tr>
                     </tbody>
                 </table>
-                
+
                 <a href="#" data-bind="click : addReferencedAssembly" class="btn btn-link">
                     <i class="fa fa-plus-circle"></i>
                     Add an assembly
@@ -195,28 +187,28 @@
             <div id="correlations" class="tab-pane" data-bind="with : wd">
                 <table class="table table-striped table-condensed">
                     <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody data-bind="foreach : CorrelationSetCollection">
-                    <tr>
-                        <td>
+                        <tr>
+                            <td>
 
-                            <a href="#" data-bind="click : $parent.editCorrelationSet.call($parent,$data)">
-                                <!-- ko text: Name-->
-                                <!-- /ko -->
-                            </a>
-                        </td>
-                        <td data-bind="text:Type"></td>
-                        <td>
-                            <a href="#" data-bind="click : $parent.removeCorrelationSet.call($parent,$data)">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </td>
-                    </tr>
+                                <a href="#" data-bind="click : $parent.editCorrelationSet.call($parent,$data)">
+                                    <!-- ko text: Name-->
+                                    <!-- /ko -->
+                                </a>
+                            </td>
+                            <td data-bind="text:Type"></td>
+                            <td>
+                                <a href="#" data-bind="click : $parent.removeCorrelationSet.call($parent,$data)">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -227,27 +219,27 @@
 
                 <table class="table table-striped table-condensed">
                     <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody data-bind="foreach : CorrelationTypeCollection">
-                    <tr>
-                        <td>
-                            <a href="#" data-bind="click : $parent.editCorrelationType.call($parent,$data)">
-                                <!-- ko text: Name-->
-                                <!-- /ko -->
-                            </a>
-                        </td>
-                        <td></td>
-                        <td>
-                            <a href="#" data-bind="click : $parent.removeCorrelationType.call($parent,$data)">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <a href="#" data-bind="click : $parent.editCorrelationType.call($parent,$data)">
+                                    <!-- ko text: Name-->
+                                    <!-- /ko -->
+                                </a>
+                            </td>
+                            <td></td>
+                            <td>
+                                <a href="#" data-bind="click : $parent.removeCorrelationType.call($parent,$data)">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -257,7 +249,7 @@
                 </a>
             </div>
 
-            <div id="exception-handling" class="tab-pane" data-bind="with : wd">                
+            <div id="exception-handling" class="tab-pane" data-bind="with : wd">
 
                 <table class="table table-striped table-condensed">
                     <thead>
@@ -290,6 +282,44 @@
                     Add Try Scope
                 </a>
 
+            </div>
+
+            <div class="tab-pane" id="properties">
+                <form class="form" data-bind="with : $root.selectedActivity">
+                    <div class="form-group">
+                        <label for="selected-activity-type">Type</label>
+                        <input type="text" data-bind="value:$type" readonly="readonly" class="form-control" id="selected-activity-type" placeholder="Activity name......">
+                    </div>
+                    <div class="form-group">
+                        <label for="selected-activity-webid">WebId</label>
+                        <input type="text" data-bind="value:WebId" readonly="readonly" class="form-control" id="selected-activity-webid" placeholder="Web Is is used to identity an activity">
+                    </div>
+                    <div class="form-group">
+                        <label for="selected-activity-try">Try Scope</label>
+                        <input type="text" data-bind="value:TryScope" readonly="readonly" class="form-control" id="selected-activity-try" placeholder="Exception handling, try scope......">
+                    </div>
+                    <div class="form-group">
+                        <label for="selected-activity-catch">Catch</label>
+                        <input type="text" data-bind="value:CatchScope" readonly="readonly" class="form-control" id="selected-activity-catch" placeholder="Exception handling, catch scope.......">
+                    </div>
+                    <div class="form-group">
+                        <label for="selected-activity-name">Name</label>
+                        <input type="text" data-bind="value:Name" class="form-control" id="selected-activity-name" placeholder="Activity name......">
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox" data-bind="tooltip:'Set the activity as the start activity, you could only have one start activiy in a workflow'">
+                            <label>
+                                <input data-bind="checked: IsInitiator" id="selected-activity-is-initiator" type="checkbox" name="IsInitiator" />
+                                IsInitiator
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-link" data-bind="click : $root.wd().editActivity($data)">Edit</button>
+                        <button class="btn btn-link pull-right" data-bind="click : $root.wd().removeActivity($data), tooltip:'Remove the activity from the workflow'">Delete</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

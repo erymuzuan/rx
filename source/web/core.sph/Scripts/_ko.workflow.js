@@ -4,6 +4,8 @@
 /// <reference path="knockout.mapping-latest.debug.js" />
 /// <reference path="../App/services/datacontext.js" />
 /// <reference path="../SphApp/objectbuilders.js" />
+/// <reference path="../SphApp/schemas/trigger.workflow.g.js" />
+/// <reference path="../SphApp/partial/WorkflowDefinition.js" />
 /// <reference path="../App/durandal/amd/text.js" />
 /// <reference path="jquery-2.2.0.intellisense.js" />
 /// <reference path="underscore.js" />
@@ -172,7 +174,7 @@ ko.bindingHandlers.activityPopover = {
             setTimeout(function () { pop.popover('hide'); }, 5000);
         });
 
-        $(document).on('click', 'a.' + act.WebId(), function (e) {
+        $(document).on("click", "a." + act.WebId(), function (e) {
             e.preventDefault();
             var app = require(objectbuilders.app),
                 link = $(this);
