@@ -24,9 +24,13 @@ define(['plugins/dialog'],
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
+            },
+            attached = function(view) {
+                setTimeout(function () { $(view).find("#name").focus(); }, 500);
             };
 
         var vm = {
+            attached: attached,
             activate: activate,
             wd: wd,
             correlationType: correlationType,

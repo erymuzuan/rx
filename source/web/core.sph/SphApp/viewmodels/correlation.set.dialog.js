@@ -8,13 +8,13 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 
 
-define(['plugins/dialog'],
-    function(dialog) {
+define(["plugins/dialog"],
+    function (dialog) {
 
         var typeOptions = ko.observableArray(),
             correlationSet = ko.observable(new bespoke.sph.domain.CorrelationSet()),
             wd = ko.observable(),
-            activate = function() {
+            activate = function () {
                 typeOptions(wd().CorrelationTypeCollection());
             },
             okClick = function (data, ev) {
@@ -22,15 +22,19 @@ define(['plugins/dialog'],
                     dialog.close(this, "OK");
                 }
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
+            },
+            attached = function (view) {
+                setTimeout(function () { $(view).find("#set-name").focus(); }, 500);
             };
 
         var vm = {
+            attached: attached,
             activate: activate,
             wd: wd,
             typeOptions: typeOptions,
-            correlationSet:correlationSet,
+            correlationSet: correlationSet,
             okClick: okClick,
             cancelClick: cancelClick
         };
