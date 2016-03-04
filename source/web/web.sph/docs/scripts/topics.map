@@ -99,7 +99,7 @@
 
   "messaging-action-dialog" : "ActionMessaging.html",
   "startwf-dialog" : "ActionStartWorkflow.md.html",
-  "assembly-action-dialog" : "ActionAssembly.md.html"
+  "assembly-action-dialog" : "ActionAssembly.md.html",
 
   "default": "Overview.html"
 }
