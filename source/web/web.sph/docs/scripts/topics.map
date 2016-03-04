@@ -97,5 +97,7 @@
   "new-transform-definition-dialog": "new.transform.definition.dialog.html",
   "new-workflow-definition-dialog": "new.workflow.definition.dialog.html",
 
+  "messaging-action-dialog" : "ActionMessaging.html",
+
   "default": "Overview.html"
 }
