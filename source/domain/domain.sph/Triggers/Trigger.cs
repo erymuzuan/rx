@@ -223,7 +223,7 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        public string CodeNamespace => string.Format("Bespoke.Sph.TriggerSubscribers");
+        public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.TriggerSubscribers";
 
         private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
         {
