@@ -23,6 +23,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        public async Task<WorkflowCompilerResult> CompileAsync()
+        {
+            var options = new CompilerOptions
+            {
+                IsDebug = true,
+                SourceCodeDirectory = $"{ConfigurationManager.GeneratedSourceDirectory}\\Trigger.{this.Name}"
+            };
+            if (!Directory.Exists(options.SourceCodeDirectory))
+                Directory.CreateDirectory(options.SourceCodeDirectory);
+            return await this.CompileAsync(options);
+        }
         public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
         {
             var code = await this.GenerateCodeAsync();
@@ -108,7 +119,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             var edTypeFullName = $"{ed.CodeNamespace}.{ed.Name}";
             code.AppendLine("using " + typeof(Trigger).Namespace + ";");
-            code.AppendLine("using " + typeof(Int32).Namespace + ";");
+            code.AppendLine("using " + typeof(int).Namespace + ";");
             code.AppendLine("using " + typeof(Task<>).Namespace + ";");
             code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             code.AppendLine("using Bespoke.Sph.SubscribersInfrastructure;");
@@ -131,18 +142,25 @@ namespace Bespoke.Sph.Domain
         {{
             get {{ return new[] {{ {keys} }}; }}
         }}
+        private Trigger m_trigger;
+        protected override void OnStart()
+        {{
+            var context = new SphDataContext();
+            m_trigger = context.LoadOneFromSources<Trigger>(x => x.Id == ""{Id}"");
+        }}
 
 
         protected override async Task ProcessMessage({edTypeFullName} item, MessageHeaders header)
         {{
-            var trigger = @""{this.ToJsonString(true).Replace("\"", "\"\"")}""
-                        .DeserializeFromJson<Trigger>();
+            if(null == m_trigger){{
+                this.WriteMessage(""{Id} trigger cannot be loaded"");
+                return;
+            }}
+            this.WriteMessage(""Running triggers({{0}}) with {{1}} actions and {{2}} rules"", m_trigger.Name,
+                m_trigger.ActionCollection.Count(x => x.IsActive),
+                m_trigger.RuleCollection.Count);
 
-            this.WriteMessage(""Running triggers({{0}}) with {{1}} actions and {{2}} rules"", trigger.Name,
-                trigger.ActionCollection.Count(x => x.IsActive),
-                trigger.RuleCollection.Count);
-
-            foreach (var rule in trigger.RuleCollection)
+            foreach (var rule in m_trigger.RuleCollection)
             {{
                 try
                 {{
@@ -161,7 +179,7 @@ namespace Bespoke.Sph.Domain
             }}
 
 
-            foreach (var customAction in trigger.ActionCollection.Where(a => a.IsActive && !a.UseCode))
+            foreach (var customAction in m_trigger.ActionCollection.Where(a => a.IsActive && !a.UseCode))
             {{
                 this.WriteMessage("" ==== Executing {{0}} ======"", customAction.Title);
                 if (customAction.UseAsync)
@@ -174,11 +192,11 @@ namespace Bespoke.Sph.Domain
         ");
 
 
-            int count = 1;
+            var count = 1;
             foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
             {
                 var method = ca.Title.ToCsharpIdentitfier();
-                code.AppendLine($"           var ca{count} = trigger.ActionCollection.Single(x => x.Title == \"{method}\");");
+                code.AppendLine($"           var ca{count} = m_trigger.ActionCollection.Single(x => x.Title == \"{method}\");");
                 code.AppendLine($"           if(ca{count}.IsActive)");
                 code.AppendLine(ca.UseAsync
                     ? $"               await this.{method}(item);"

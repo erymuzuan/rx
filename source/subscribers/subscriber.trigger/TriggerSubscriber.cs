@@ -30,12 +30,11 @@ namespace Bespoke.Sph.CustomTriggers
             }
 
             this.WriteMessage("Restarting the subscriber, changed detected to {0}", item);
-            var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory };
-            var result = await item.CompileAsync(options);
+            var result = await item.CompileAsync();
             if (!result.Result)
             {
                 this.WriteMessage("Fail to build your Trigger ");
-                result.Errors.ForEach(e => this.WriteError(new Exception(e.Message)));
+                result.Errors.ForEach(e => this.WriteError(new Exception(e.ToString())));
             }
             
         }
