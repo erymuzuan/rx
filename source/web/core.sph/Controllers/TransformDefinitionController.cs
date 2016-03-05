@@ -158,21 +158,32 @@ namespace Bespoke.Sph.Web.Controllers
 
 
         [HttpGet]
-        [Route("functoid/{extension}/{type}")]
-        public IHttpActionResult Functoid(string extension, string type)
+        [Route("functoid/js")]
+        public IHttpActionResult GetFunctoidDesignerViewModel([FromUri]string type)
         {
             var ds = ObjectBuilder.GetObject<DeveloperService>();
             if (null == ds.Functoids) throw new InvalidOperationException("Cannot compose MEF");
 
             var functoid = ds.Functoids.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
                 .ToLowerInvariant() == type).Value;
-            if (extension == "js")
-            {
-                var js = functoid.GetEditorViewModel();
-                return Javascript(js);
-            }
+
+            var js = functoid.GetEditorViewModel();
+            return Javascript(js);
+
+        }
+        [HttpGet]
+        [Route("functoid/html")]
+        public IHttpActionResult GetFunctoidDesignerView([FromUri]string type)
+        {
+            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            if (null == ds.Functoids) throw new InvalidOperationException("Cannot compose MEF");
+
+            var functoid = ds.Functoids.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
+                .ToLowerInvariant() == type).Value;
+
             var html = functoid.GetEditorView();
             return Html(html);
+
         }
 
         [HttpGet]
