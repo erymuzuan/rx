@@ -9,21 +9,14 @@ namespace Bespoke.Sph.Domain
         {
             var search = new StringBuilder();
 
+            search.AppendLinf("       [HttpPost]");
             search.AppendLinf("       [Route(\"search\")]");
-            search.AppendLinf("       public async Task<IHttpActionResult> Search([RawBody]string json)");
+            search.AppendLinf("       public async Task<IHttpActionResult> Search([RawBody]string query)");
             search.AppendLine("       {");
             search.Append($@"
-            var request = new System.Net.Http.StringContent(json);
-            var url = ""{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{ed.Name.ToLowerInvariant()}/_search"";
-
-            using(var client = new System.Net.Http.HttpClient())
-            {{
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as System.Net.Http.StreamContent;
-                if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-                return Json(await content.ReadAsStringAsync());
-            }}
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var response = await repos.SearchAsync(query);
+            return Json(response);
             ");
             search.AppendLine();
             search.AppendLine("       }");

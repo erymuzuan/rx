@@ -27,6 +27,16 @@ namespace domain.test.reports
             var lo = new LoadData<T>(m_dictionary[id], "1");
             return Task.FromResult(lo);
         }
+
+        public Task<LoadData<T>> LoadOneAsync(string field, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> SearchAsync(string query)
+        {
+            throw new NotImplementedException();
+        }
     }
     class MockRepository<T> : IRepository<T> where T : Entity
     {
