@@ -96,6 +96,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) $(SolutionDir)source\web\web.sph\bin\
 copy $(TargetPath) $(SolutionDir)bin\subscribers
+copy $(TargetPath) $(SolutionDir)bin\subscribers.host
 
 copy $(ProjectDir)$(OutDir)$(TargetName).pdb $(SolutionDir)source\web\web.sph\bin\
 copy $(ProjectDir)$(OutDir)$(TargetName).pdb $(SolutionDir)bin\subscribers</PostBuildEvent>

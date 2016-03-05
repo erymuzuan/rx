@@ -46,18 +46,18 @@ namespace Bespoke.Sph.Messaging
             var map = context.LoadOne<TransformDefinition>(x => x.Id == this.OutboundMap);
             var adapter = context.LoadOne<Adapter>(x => x.Name == this.Adapter);
                         
-            code.AppendLinf("var map = new {0}.Integrations.Transforms.{1}();", ConfigurationManager.ApplicationName, map.Name);
+            code.AppendLine($"var map = new {map.CodeNamespace}.{map.Name}();");
             code.AppendLine("var source = await map.TransformAsync(item);");
             if (string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Operation))
             {
-                code.AppendLinf("var adapter = new {0}();", this.AdapterType.FullName);
-                code.AppendLinf("var response = await adapter.{0}(source);", this.Operation);
+                code.AppendLine($"var adapter = new {AdapterType.FullName}();");
+                code.AppendLine($"var response = await adapter.{Operation}(source);");
 
             }
             if (!string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Crud))
             {
-                code.AppendLinf("var adapter = new {0}.Adapters.{1}.{2}Adapter();", ConfigurationManager.ApplicationName, adapter.Schema, this.Table);
-                code.AppendLinf("var response = await adapter.{0}Async(source);", this.Crud);
+                code.AppendLine($"var adapter = new {adapter.CodeNamespace}.{Table}Adapter();");
+                code.AppendLine($"var response = await adapter.{Crud}Async(source);");
             }
             code.AppendLine("return response;");
             return code.ToString();
