@@ -118,18 +118,17 @@ namespace Bespoke.Sph.Domain.Api
             options.AddReference(typeof(System.Data.UpdateStatus));
             options.AddReference(typeof(System.Configuration.ConfigurationManager));
 
-            var sourceFolder = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, this.Name);
+            var sourceFolder = $"{ConfigurationManager.GeneratedSourceDirectory}\\Adapter.{Name}";
             var sources = new List<string>();
 
-            var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}";
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
+            if (!Directory.Exists(sourceFolder))
+                Directory.CreateDirectory(sourceFolder);
 
             foreach (var table in this.Tables)
             {
                 var td = await this.GetSchemaDefinitionAsync(table.Name);
                 td.CodeNamespace = this.CodeNamespace;
-                var es = $"{folder}\\{table}.schema.json";
+                var es = $"{sourceFolder}\\{table}.schema.json";
 
                 if (!options.EmbeddedResourceCollection.Contains(es))
                 {
