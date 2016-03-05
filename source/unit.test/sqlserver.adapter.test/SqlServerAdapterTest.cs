@@ -41,10 +41,12 @@ namespace sqlserver.adapter.test
 
             };
 
-            var bin = ConfigurationManager.WebPath + @"\bin\Dev.AdventureWorksPersons.dll";
+            var app = ConfigurationManager.ApplicationName;
+            var web = ConfigurationManager.WebPath;
+            var bin = $@"{web}\bin\{app}.AdventureWorksPersons.dll";
             if (File.Exists(bin))
                 File.Delete(bin);
-            var pdb = ConfigurationManager.WebPath + @"\bin\Dev.AdventureWorksPersons.pdb";
+            var pdb = $@"{web}\bin\{app}.AdventureWorksPersons.pdb";
             if (File.Exists(pdb))
                 File.Delete(pdb);
         }

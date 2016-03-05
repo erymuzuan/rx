@@ -40,7 +40,7 @@ namespace domain.test.triggers
             var jsonFile = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\Patient.json";
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", 
                 File.ReadAllText(jsonFile).DeserializeFromJson<EntityDefinition>());
-            var json = File.ReadAllText(@"C:\project\work\sph\source\unit.test\domain.test\triggers\assembly.action.json");
+            var json = File.ReadAllText($@"{ConfigurationManager.Home}\..\source\unit.test\domain.test\triggers\assembly.action.json");
             var trigger = json.DeserializeFromJson<Trigger>();
             var code = await trigger.GenerateCodeAsync();
             Console.WriteLine(code);
