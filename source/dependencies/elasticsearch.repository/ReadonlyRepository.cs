@@ -42,6 +42,38 @@ namespace Bespoke.Sph.ElasticsearchRepository
             return new LoadData<T>(item, version) { Json = source.ToString() };
         }
 
+        public async Task<LoadData<T>> LoadOneAsync(string field, string value)
+        {
+            var url = $"{ ConfigurationManager.ApplicationName.ToLower()}/{typeof(T).Name.ToLower()}/_search?q={field}:{value}&version=true";
+            var response = await m_client.GetAsync(url);
+            var content = response.Content as StreamContent;
+            if (null == content) throw new Exception("Cannot execute query on es ");
+            var responseString = await content.ReadAsStringAsync();
+
+            var esJson = JObject.Parse(responseString);
+            var total = esJson.SelectToken("$.hits.total").Value<int>();
+            if(total == 0)
+                return new LoadData<T>(null, null);
+            if (total > 1)
+                throw new InvalidOperationException($"{typeof(T).Name} query returns more than one result - {field}:{value}");
+
+            var source = esJson.SelectToken("$.hits.hits[0]._source");
+            var version = esJson.SelectToken("$.hits.hits[0]._version").Value<string>();
+            var item = source.ToString().DeserializeFromJson<T>();
+
+            return new LoadData<T>(item, version) { Json = source.ToString() };
+        }
+
+        public async Task<string> SearchAsync(string query)
+        {
+            var request = new StringContent(query);
+            var url = $"{ConfigurationManager.ApplicationName.ToLower()}/{typeof(T).Name.ToLower()}/_search";
+            var response = await m_client.PostAsync(url, request);
+            var content = response.Content as StreamContent;
+            if (null == content) throw new Exception("Cannot execute query on es " + request);
+            return (await content.ReadAsStringAsync());
+        }
+
         public void Dispose()
         {
             m_client.Dispose();

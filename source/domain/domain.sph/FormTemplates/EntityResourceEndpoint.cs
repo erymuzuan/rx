@@ -11,8 +11,12 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
             var code = new StringBuilder();
             code.AppendLine("[HttpGet]");
-            code.AppendLine("[GetRoute(\"{id:guid}\")]");
-            code.AppendLine("public async Task<IHttpActionResult> GetOneByIdAsync(string id, [IfNoneMatch]ETag etag, [ModifiedSince]DateTime? modifiedSince)");
+            code.AppendLine("[GetRoute(\"{id}\")]");
+            code.AppendLine("public async Task<IHttpActionResult> GetOneByIdAsync(");
+            code.AppendLine($"                          [SourceEntity(\"{ed.Id}\")]EntityDefinition ed,");
+            code.AppendLine("                           [IfNoneMatch]ETag etag,");
+            code.AppendLine("                           [ModifiedSince]DateTime? modifiedSince,");
+            code.AppendLine("                           string id)");
             code.AppendLine("{");
 
             var links = new List<string>
@@ -45,18 +49,14 @@ namespace Bespoke.Sph.Domain
                 }}}}");
             }
             var operations = string.Join(",", links);
-            code.Append($@"");
             code.Append($@"
-            var ed = CacheManager.Get<EntityDefinition>(""{ed.Id}"");
-            if(null == ed)
-            {{
-                ed = EntityDefinitionSource.DeserializeFromJsonFile<EntityDefinition>();
-                CacheManager.Insert(""{ed.Id}"", ed, EntityDefinitionSource);
-            }}
+          
             var setting = await ed.ServiceContract.LoadSettingAsync(ed.Name);
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
             var lo = await repos.LoadOneAsync(id);  
-            if(null == lo.Source) return NotFound(""Cannot find {ed.Name} with Id "" + id);            
+            if(null == lo.Source) 
+                lo = await repos.LoadOneAsync(""{ed.RecordName}"", id);            
+            if(null == lo.Source) return NotFound(""Cannot find {ed.Name} with Id/{ed.RecordName}:"" + id);            
 
             var cacheSetting = setting.ResourceEndpointSetting.CachingSetting;
             var cache = new CacheMetadata{{Etag = lo.Version ,LastModified = lo.Source.ChangedDate }};

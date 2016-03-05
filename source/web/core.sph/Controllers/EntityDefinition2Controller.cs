@@ -333,7 +333,7 @@ namespace Bespoke.Sph.Web.Controllers
             var buildValidation = await ed.ValidateBuildAsync();
             if (!buildValidation.Result)
                 return Json(buildValidation);
-            var result =await ed.ServiceContract.CompileAsync(ed);
+            var result = await ed.ServiceContract.CompileAsync(ed);
 
             result.Errors.ForEach(Console.WriteLine);
             if (!result.Result)
@@ -345,7 +345,7 @@ namespace Bespoke.Sph.Web.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(ed);
-                await session.SubmitChanges("Publish");
+                await session.SubmitChanges("PublishServiceContract");
             }
             return Json(new { success = true, status = "OK", message = "Your service contract has been successfully published", id = ed.Id });
 
