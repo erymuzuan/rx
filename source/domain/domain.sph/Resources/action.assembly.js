@@ -43,6 +43,9 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
             },
             attached = function (view) {
                 action().Assembly.subscribe(function (dll) {
+                    if (!dll) {
+                        return;
+                    }
                     $.get("/api/assemblies/" + dll + "/types")
                    .done(function (classes) {
                        typeOptions(classes);
@@ -78,11 +81,14 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                         action().Title(method);
                     }
                 });
+
+                action().MethodArgCollection([]);
+                setTimeout(function () {
+                    $(view).find("#assembly-action-title").focus();
+                }, 500);
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-
-
                     dialog.close(this, "OK");
                 }
 
