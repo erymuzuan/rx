@@ -78,6 +78,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             if (string.IsNullOrWhiteSpace(id)) throw new InvalidOperationException("You cannot publish unsaved trigger");
             trigger.IsActive = true;
+
+            var result = await trigger.CompileAsync();
+            if (result.Result)
+                return Json(new {success = false, errors = result.Errors});
+
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -86,7 +91,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
 
-            return Ok(new { success = true, status = "OK", message = "Your trigger publishing is ACCEPTEP, please check your output directory" });
+            return Ok(new { success = true, status = "OK", output = result.Output, message = "Your trigger publishing is ACCEPTEP, please check your output directory" });
         }
 
         [HttpPut]
