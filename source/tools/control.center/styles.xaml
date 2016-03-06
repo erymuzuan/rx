@@ -20,6 +20,7 @@
     
     <Image Source="images/application_osx_terminal.png" x:Key="CommandPrompt" Stretch="None"></Image>
     <Image Source="images/opentype.gif" x:Key="ImageOpen" Stretch="None"></Image>
+    <Image Source="images/application_home.png" x:Key="Home" Stretch="None"></Image>
     <Image Source="images/drive_web.png" x:Key="ImageDriveWeb" Stretch="None"></Image>
     <Image Source="images/update.gif" x:Key="ImageUpdate" Stretch="None"></Image>
     <Image Source="images/help.gif" x:Key="ImageHelp" Stretch="None"></Image>
@@ -27,4 +28,11 @@
     <Image Source="images/control_start.png" x:Key="ControlStart" Stretch="None"></Image>
     <Image Source="images/control_stop.png" x:Key="ControlStop" Stretch="None"></Image>
     <Image Source="images/date_error.png" x:Key="date_error" Stretch="None"></Image>
+    <Image Source="images/email_error.png" x:Key="EmailError" Stretch="None"></Image>
+    <Image Source="images/script_code.png" x:Key="ScriptCode" Stretch="None"></Image>
+    <Image Source="images/script_code.png" x:Key="ScriptCode2" Stretch="None"></Image>
+    <Image Source="images/script_code.png" x:Key="ScriptCode3" Stretch="None"></Image>
+    <Image Source="images/script_code_red.png" x:Key="ScriptCodeRed" Stretch="None"></Image>
+    <Image Source="images/table_gear.png" x:Key="TableGear" Stretch="None"></Image>
+    <Image Source="images/LINQPad.ico_16x16.png" x:Key="LinqPadIcon" Stretch="None"></Image>
 </ResourceDictionary>

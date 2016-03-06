@@ -225,7 +225,7 @@ namespace Bespoke.Sph.ControlCenter
 
         private void RunDeadLetterViewerClicked(object sender, RoutedEventArgs e)
         {
-            var dlv = AppDomain.CurrentDomain.BaseDirectory + "..\\tools\\dead.letter.viewer.exe";
+            var dlv = $"{ConfigurationManager.ToolsPath}\\dead.letter.viewer.exe";
             try
             {
                 Process.Start(dlv);
@@ -304,6 +304,27 @@ namespace Bespoke.Sph.ControlCenter
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Rx Developer", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void EditConfig(object sender, RoutedEventArgs e)
+        {
+            var tag = (string)((MenuItem)sender).Tag;
+            var notepad = $"{ConfigurationManager.Home}\\utils\\n.exe";
+            Process.Start(notepad, tag);
+            
+        }
+
+        private void RunLinqPadClicked(object sender, RoutedEventArgs e)
+        {
+            var dlv = $"{ConfigurationManager.Home}\\utils\\linqpad.exe";
+            try
+            {
+                Process.Start(dlv);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Cannot start dlv in " + dlv, ex);
             }
         }
     }

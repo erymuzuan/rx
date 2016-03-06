@@ -63,8 +63,12 @@ namespace Bespoke.Sph.ControlCenter
 
         public static string SchedulerPath => GetPath("SchedulerPath", "schedulers");
         public static string SubscriberPath => GetPath("SubscriberPath", "subscribers");
+        public static string SubscriberHostPath => GetPath("SubscriberPath", "subscribers.host");
         public static string ToolsPath => GetPath("ToolsPath", "tools");
         public static string WebPath => GetPath("WebPath", "web");
+        public static string WebConfig => WebPath + "\\web.config";
+        public static string WorkerConsoleRunnerConfig => SubscriberHostPath + "\\workers.console.runner.exe.config";
+        public static string SphBuilderConfig => ToolsPath + "\\sph.builder.exe.config";
         public static string DelayActivityExecutable => GetPath("DelayActivityExecutable", @"schedulers\scheduler.delayactivity.exe");
 
         private static string GetPath(string setting, string defaultPath)

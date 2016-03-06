@@ -171,3 +171,4 @@ bin/rabbitmq_base/
 source/web/web.sph/Properties/PublishProfiles/bin.pubxml
 source/web/web.sph/Properties/PublishProfiles/web.pubxml
 source/web/core.sph/Scripts/__rx.min.js.map
+/bin/utils/LINQPad.exe.config

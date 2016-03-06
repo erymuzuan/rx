@@ -343,6 +343,27 @@
   <ItemGroup>
     <Resource Include="images\drive_web.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\email_error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\script_code.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\script_code_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\table_gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\LINQPad.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\LINQPad.ico_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\application_home.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -29,7 +29,7 @@
         <Menu Grid.Row="0" x:Name="menu">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open">
-                    <MenuItem Icon="{StaticResource ImageOpen}" Header="_Project Home" Tag="HOME" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,P"/>
+                    <MenuItem Icon="{StaticResource Home}" Header="_Project Home" Tag="HOME" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,P"/>
                     <MenuItem Icon="{StaticResource ImageDriveWeb}" Header="_Web Directory" Tag="WebPath,web" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,W"/>
                     <MenuItem Icon="{StaticResource ImageDriveWeb}" Header="_Output Directory" Tag="CompilerOutputPath,output" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,O"/>
                     <MenuItem Icon="{StaticResource ImageDriveWeb}" Header="_Subscribers Directory" Tag="SubscriberPath,subscribers" Click="OpenProjectDirectory" InputGestureText="Ctrl+O,S"/>
@@ -39,10 +39,16 @@
                 <MenuItem Header="E_xit" Click="WindowExit"/>
                 <MenuItem Header="_Force Exit" Click="ForceWindowExit"/>
             </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_web.config" Icon="{StaticResource ScriptCode}" Tag="{Binding Source={x:Static uc:ConfigurationManager.WebConfig}}" Click="EditConfig" />
+                <MenuItem Header="_sph.builder.exe.config" Icon="{StaticResource ScriptCode2}" Tag="{Binding Source={x:Static uc:ConfigurationManager.SphBuilderConfig}}" Click="EditConfig" />
+                <MenuItem Header="workers.console.runner.exe.config" Tag="{Binding Source={x:Static uc:ConfigurationManager.WorkerConsoleRunnerConfig}}" Click="EditConfig" />
+            </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem x:Name="topMostMenuItem" Header="Always on top" IsCheckable="True" Checked="TopMostChecked2"  Unchecked="TopMostUnchecked"/>
-                <MenuItem Header="_Settings" Icon="{StaticResource RubyGear}" Click="SettingsClicked"/>
-                <MenuItem Header="_Dead Letter Viewer" ToolTip="Starts Dead Letter Viewere to manage all the rejected messages" Icon="{StaticResource date_error}" Click="RunDeadLetterViewerClicked"/>
+                <MenuItem Header="_Settings" Icon="{StaticResource TableGear}" Click="SettingsClicked"/>
+                <MenuItem Header="_Dead Letter Viewer" ToolTip="Starts Dead Letter Viewere to manage all the rejected messages" Icon="{StaticResource EmailError}" Click="RunDeadLetterViewerClicked"/>
+                <MenuItem Header="LINQPad" ToolTip="Starts LINQPad editor" Click="RunLinqPadClicked" Icon="{StaticResource LinqPadIcon}"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="He_lp" Icon="{StaticResource ImageHelp}" Click="HelpClicked"/>
