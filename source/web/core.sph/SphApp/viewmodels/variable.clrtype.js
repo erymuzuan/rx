@@ -6,7 +6,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
-
+/// <reference path="~/Scripts/_task.js" />
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config],
     function (dialog, context, config) {
 
@@ -15,18 +15,37 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config],
             selectedAssembly = ko.observable(),
             variable = ko.observable(new bespoke.sph.domain.ClrTypeVariable()),
             activate = function () {
-                var tcs = new $.Deferred();
 
-                $.get("/api/assemblies")
-                    .then(function (lo) {
-                        assemblyOptions(lo);
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
+                return $.get("/api/assemblies")
+                       .then(function (lo) {
+                           assemblyOptions(lo);
+                           var typeName = ko.unwrap(variable().TypeName);
+                           selectedAssembly(null);
+
+                           if (typeName) {
+                               var dll = typeName.split(",")[1].trim();
+                               selectedAssembly(dll);
+
+                               return $.get("/api/assemblies/" + dll + "/types")
+                                    .then(function (typeslo) {
+                                        var types = _(typeslo).map(function (v) {
+                                            return {
+                                                displayName: v.Name + " (" + v.FullName + ")",
+                                                fullName: v.FullName
+                                            };
+                                        });
+                                        entityOptions(types);
+                                    });
+                           }
+                           return Task.fromResult(false);
+                       });
 
             },
             attached = function (view) {
                 selectedAssembly.subscribe(function (dll) {
+                    if (!dll) {
+                        return;
+                    }
 
                     $.get("/api/assemblies/" + dll + "/types")
                         .then(function (lo) {
