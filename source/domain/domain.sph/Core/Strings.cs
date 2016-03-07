@@ -188,6 +188,7 @@ namespace Bespoke.Sph.Domain
 
         public static string ToPascalCase(this string text)
         {
+            if (string.IsNullOrWhiteSpace(text)) return string.Empty;
             return string.Join("", text.Split(new[] { '_', ' ', '-', '.', ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Substring(0, 1).ToUpper() + s.Substring(1)).ToArray());
         }
 
