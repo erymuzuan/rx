@@ -8253,6 +8253,23 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private CachingSetting m_cachingSetting
+                = new CachingSetting();
+
+        public const string PropertyNameCachingSetting = "CachingSetting";
+        [DebuggerHidden]
+
+        public CachingSetting CachingSetting
+        {
+            get { return m_cachingSetting; }
+            set
+            {
+                m_cachingSetting = value;
+                OnPropertyChanged();
+            }
+        }
+
         ///<summary>
         /// 
         ///</summary>

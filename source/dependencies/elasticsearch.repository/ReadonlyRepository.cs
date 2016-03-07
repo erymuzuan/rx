@@ -73,6 +73,15 @@ namespace Bespoke.Sph.ElasticsearchRepository
             if (null == content) throw new Exception("Cannot execute query on es " + request);
             return (await content.ReadAsStringAsync());
         }
+        public async Task<string> SearchAsync(string query, string queryString)
+        {
+            var request = new StringContent(query);
+            var url = $"{ConfigurationManager.ApplicationName.ToLower()}/{typeof(T).Name.ToLower()}/_search?" + queryString;
+            var response = await m_client.PostAsync(url, request);
+            var content = response.Content as StreamContent;
+            if (null == content) throw new Exception("Cannot execute query on es " + request);
+            return (await content.ReadAsStringAsync());
+        }
 
         public void Dispose()
         {

@@ -75,7 +75,8 @@ namespace Bespoke.Sph.Domain
 
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
-            
+            controller.ImportCollection.Add(ed.CodeNamespace);
+
             controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
             controller.AddProperty($"public static readonly string SOURCE_FILE = $\"{{ConfigurationManager.SphSourceDirectory}}\\\\{nameof(QueryEndpoint)}\\\\{Id}.json\";");
             controller.AddProperty($"public const string CACHE_KEY = \"entity-query:{Id}\";");
@@ -109,7 +110,9 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [GetRoute(\"{route}/_count\")]");
-            code.AppendLine("       public async Task<IHttpActionResult> GetCountAsync()");
+            code.AppendLine($@"       public async Task<IHttpActionResult> GetCountAsync([SourceEntity(""{Id}"")]QueryEndpoint eq,
+                                                    [IfNoneMatch]ETag etag,
+                                                    [ModifiedSince]DateTime? modifiedSince)");
             code.Append("       {");
             code.Append(GenerateGetQueryCode());
 
@@ -140,17 +143,6 @@ namespace Bespoke.Sph.Domain
         private string GenerateGetQueryCode()
         {
             var code = new StringBuilder();
-            code.Append(
-                $@"
-            var eq = CacheManager.Get<{nameof(QueryEndpoint)}>(CACHE_KEY);
-            if(null == eq )
-            {{
-                var context = new SphDataContext();
-                eq = await context.LoadOneAsync<{nameof(QueryEndpoint)}>(x => x.Id == ""{Id}"");
-                CacheManager.Insert(CACHE_KEY, eq, SOURCE_FILE);
-            }}");
-
-
             code.AppendLine("   var setting = await eq.LoadSettingAsync();");
             code.AppendLine("   var query = CacheManager.Get<string>(ES_QUERY_CACHE_KEY);");
             code.AppendLine("   if(null == query)");
@@ -182,7 +174,9 @@ namespace Bespoke.Sph.Domain
                                 let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
                                 let type = r.Type.ToCsharpIdentitfier()
                                 select $"{type} {r.Name}{defaultValue},";
-            var parameters = string.Join(" ", parameterlist);
+            var parameters = $@"[SourceEntity(""{Id}"")]QueryEndpoint eq,
+                                   [IfNoneMatch]ETag etag,
+                                   [ModifiedSince]DateTime? modifiedSince," + string.Join(" ", parameterlist);
 
             code.AppendLine($"       public async Task<IHttpActionResult> GetAction({parameters}int page =1, int size=20, string q=\"\")");
             code.Append("       {");
@@ -197,26 +191,21 @@ namespace Bespoke.Sph.Domain
             }
             code.Append($@"
             var request = new StringContent(query);
-            var url = $""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_search?from={{size * (page - 1)}}&size={{size}}"";
-            if(!string.IsNullOrWhiteSpace(q)) url +=""&q="" + q;
+            var queryString = $""from={{size * (page - 1)}}&size={{size}}"";
 
-            using(var client = new HttpClient{{BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
-            {{
-                var esResponse = await client.PostAsync(url, request);
-                var esResponseContent = esResponse.Content as StreamContent;
-                if (null == esResponseContent) throw new Exception(""Cannot execute query on es "" + request);
-
-                var esResponseString = await esResponseContent.ReadAsStringAsync();
-                var esJsonObject = JObject.Parse(esResponseString);
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
+            var response = await repos.SearchAsync(query, queryString);
+            var json = JObject.Parse(response);
 ");
 
+            code.Append(this.GenerateCacheCode());
             code.Append(this.GenerateListCode());
 
             code.Append($@"
                 var result = new 
                 {{
                     _results = list.Select(x => JObject.Parse(x)),
-                    _count = esJsonObject.SelectToken(""$.hits.total"").Value<int>(),
+                    _count = json.SelectToken(""$.hits.total"").Value<int>(),
                     _page = page,
                     _links = new {{
                         _next = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
@@ -225,12 +214,30 @@ namespace Bespoke.Sph.Domain
                     _size = size
                 }};
             
-                return Ok(result);
-            }}");
+                return Ok(result, cache);
+            ");
             code.AppendLine();
             code.AppendLine("       }");
             code.AppendLine();
             return new Method { Code = code.ToString() };
+        }
+
+        private string GenerateCacheCode()
+        {
+            var code = new StringBuilder();
+            code.AppendLine("DateTime? lastModified = new DateTime?();");
+            code.AppendLine(@"var count = json.SelectToken(""aggregations.filtered_max_date.doc_count"").Value<int>();");
+            code.AppendLine("if( count > 0)");
+            code.AppendLine(@"  lastModified = json.SelectToken(""aggregations.filtered_max_date.last_changed_date.value_as_string"").Value<DateTime>();");
+            code.AppendLine(@"var hashed = base.GetMd5Hash($""{lastModified}"");");
+            code.AppendLine(@"var cache = new CacheMetadata(hashed, lastModified, setting.CachingSetting);");
+            code.AppendLine(@"  
+            if (lastModified.HasValue && $""{modifiedSince:s}"" == lastModified.Value.ToString(""s""))
+            {
+                return NotModified(cache);
+            }
+            ");
+            return code.ToString();
         }
 
         public Task<WorkflowCompilerResult> CompileAsync(EntityDefinition ed)
@@ -241,10 +248,10 @@ namespace Bespoke.Sph.Domain
 
             return Task.FromResult(result);
         }
-        public WorkflowCompilerResult Compile(CompilerOptions options, params Class[] @classes)
+        public WorkflowCompilerResult Compile(CompilerOptions options, params Class[] classes)
         {
-            if (@classes.Length == 0)
-                throw new ArgumentException(@"No files", nameof(@classes));
+            if (classes.Length == 0)
+                throw new ArgumentException("No files", nameof(classes));
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
@@ -280,16 +287,17 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\webapi.common.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
+                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + $@"\bin\{ConfigurationManager.ApplicationName}.{Entity}.dll");
 
                 var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{nameof(QueryEndpoint)}.{this.Name}";
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
-                @classes.ToList().ForEach(x =>
+                classes.ToList().ForEach(x =>
                 {
                     var file = $"{folder}\\{x.FileName}";
                     File.WriteAllText(file, x.GetCode());
                 });
-                var files = @classes.Select(x => $"{folder}\\{x.FileName}").ToArray();
+                var files = classes.Select(x => $"{folder}\\{x.FileName}").ToArray();
                 var result = provider.CompileAssemblyFromFile(parameters, files);
                 var cr = new WorkflowCompilerResult
                 {

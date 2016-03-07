@@ -1,11 +1,32 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.WebApi
 {
     public class CacheMetadata
     {
+        public CacheMetadata()
+        {
+
+        }
+
+        public CacheMetadata(string etag, DateTime? lastModifiedDate)
+        {
+            Etag = etag;
+            LastModified = lastModifiedDate;
+        }
+        public CacheMetadata(string etag, DateTime? lastModifiedDate, CachingSetting setting)
+        {
+            Etag = etag;
+            LastModified = lastModifiedDate;
+            this.NoStore = setting.NoStore;
+            this.Public = setting.CacheControl == "Public";
+            this.Private = setting.CacheControl == "Private";
+            this.Private = setting.CacheControl == "Private";
+
+        }
         public DateTime? LastModified { get; set; }
         public TimeSpan? MaxAge { get; set; }
         public bool Private { get; set; }

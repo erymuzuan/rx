@@ -137,6 +137,7 @@
     <Compile Include="ModifiedSinceParameterBinding.cs" />
     <Compile Include="NotFoundTextPlainActionResult.cs" />
     <Compile Include="NotModifiedResult.cs" />
+    <Compile Include="OkCachedResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GetOneRouteAttribute.cs" />
     <Compile Include="QueryRouteAttribute.cs" />

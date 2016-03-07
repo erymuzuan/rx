@@ -988,6 +988,7 @@
 			<xs:all>
 				<xs:element ref="Performer"/>
 				<xs:element name="CacheFilter" type="xs:int" nillable="true"/>
+				<xs:element ref="CachingSetting"/>
 			</xs:all>
 			<xs:attribute name="CacheProfile" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>

@@ -100,11 +100,26 @@ namespace Bespoke.Sph.Domain
 
         public Task<string> GenerateEsQueryAsync()
         {
+            var filter = Filter.GenerateElasticSearchFilterDsl(this, this.FilterCollection);
+             var max = @",
+    ""aggs"" : {
+        ""filtered_max_date"" : { 
+              ""filter"" : " + filter + @",
+              ""aggs"": {
+                        ""last_changed_date"": {
+                           ""max"": {
+                              ""field"": ""ChangedDate""
+                            }
+                        }
+               }
+        }
+    }
+";
             var query =
                 @"{
-                    ""filter"":" + Filter.GenerateElasticSearchFilterDsl(this, this.FilterCollection) +
+                    ""filter"":" + filter +
                 @"  
-" + this.GetFields() + @" 
+" + this.GetFields() + max + @" 
 
     }";
 
@@ -126,7 +141,7 @@ namespace Bespoke.Sph.Domain
             if (!this.MemberCollection.Any())
             {
                 code.Append(@" 
-                    var list = from f in esJsonObject.SelectToken(""$.hits.hits"")
+                    var list = from f in json.SelectToken(""$.hits.hits"")
                                let webId = f.SelectToken(""_source.WebId"").Value<string>()
                                let id = f.SelectToken(""_id"").Value<string>()
                                let link = $""\""link\"" :{{ \""href\"" :\""{ConfigurationManager.BaseUrl}/api/" + this.Resource + @"/{id}\""}}""
@@ -136,7 +151,7 @@ namespace Bespoke.Sph.Domain
             }
 
             code.Append(@"
-            var list = from f in esJsonObject.SelectToken(""$.hits.hits"")
+            var list = from f in json.SelectToken(""$.hits.hits"")
                         let fields = f.SelectToken(""fields"")
                         let id = f.SelectToken(""_id"").Value<string>()
                         select JsonConvert.SerializeObject( new {");

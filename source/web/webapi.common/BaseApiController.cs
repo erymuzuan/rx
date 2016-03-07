@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Bespoke.Sph.Domain;
@@ -96,6 +99,16 @@ namespace Bespoke.Sph.WebApi
             return new JsonCachedResult(json, cache);
         }
 
+        // TODO : we should return negotiable result, but for now no cache is added
+        protected IHttpActionResult Ok<T>(T content, CacheMetadata cache)
+        {
+            var setting = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.None
+            };
+            var json = JsonConvert.SerializeObject(content, setting);
+            return new JsonCachedResult(json, cache);
+        }
         protected override OkNegotiatedContentResult<T> Ok<T>(T content)
         {
             this.Configuration.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings
@@ -109,7 +122,16 @@ namespace Bespoke.Sph.WebApi
             this.Configuration.Formatters.JsonFormatter.SerializerSettings = settings;
             return base.Ok(content);
         }
+        protected string GetMd5Hash(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return null;
+            using (var md5Hash = MD5.Create())
+            {
+                var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+                return string.Join("", data.Select(x => x.ToString("x2")));
 
+            }
+        }
         protected override CreatedNegotiatedContentResult<T> Created<T>(Uri location, T content)
         {
             this.Configuration.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings
@@ -124,7 +146,7 @@ namespace Bespoke.Sph.WebApi
         {
             return new AcceptedResult(this.Request, data);
         }
-        protected virtual IHttpActionResult Accepted<T>(string location,T data)
+        protected virtual IHttpActionResult Accepted<T>(string location, T data)
         {
             return new AcceptedResult(location, this.Request, data);
         }
