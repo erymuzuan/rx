@@ -40,7 +40,7 @@
   },
   "Performer": {
     "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": null,
+    "UserProperty": "",
     "Value": null,
     "IsPublic": false,
     "WebId": null
@@ -65,13 +65,13 @@
   "IsReturnSource": null,
   "Entity": "Patient",
   "Note": null,
-  "IsPublished": false,
+  "IsPublished": true,
   "Resource": "Patients",
   "CacheFilter": null,
-  "CreatedBy": null,
+  "CreatedBy": "admin",
   "Id": "patients-born-in-60s",
-  "CreatedDate": "0001-01-01T00:00:00",
-  "ChangedBy": null,
-  "ChangedDate": "0001-01-01T00:00:00",
+  "CreatedDate": "2016-03-07T09:17:24.5721434+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-03-07T09:17:24.5721434+08:00",
   "WebId": "all-born-in-60s"
 }

@@ -108,7 +108,7 @@ namespace Bespoke.Sph.Domain
             var route = this.GetRoute();
 
             code.AppendLine("       [HttpGet]");
-            code.AppendLine($"       [Route(\"{route}/_count\")]");
+            code.AppendLine($"       [GetRoute(\"{route}/_count\")]");
             code.AppendLine("       public async Task<IHttpActionResult> GetCountAsync()");
             code.Append("       {");
             code.Append(GenerateGetQueryCode());
@@ -173,7 +173,7 @@ namespace Bespoke.Sph.Domain
             var tokenRoute = route.Replace("~/", "");
 
             code.AppendLine("       [HttpGet]");
-            code.AppendLine($"       [Route(\"{route}\")]");
+            code.AppendLine($"       [QueryRoute(\"{route}\")]");
             var authorization = this.Performer.GenerateAuthorizationAttribute();
             if (!string.IsNullOrWhiteSpace(authorization))
                 code.Append(authorization);

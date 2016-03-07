@@ -21,12 +21,52 @@
         "Note": "email me",
         "CustomActionId": 0,
         "WebId": "2208536f-e399-4035-99ae-c39d94835cc9"
+      },
+      {
+        "$type": "Bespoke.Sph.Messaging.MessagingAction, trigger.action.messaging",
+        "OutboundMap": "patient-to-load-test-page-detail",
+        "Adapter": "LoadTest",
+        "Operation": null,
+        "Table": "LoadTestPageDetail",
+        "Crud": "Insert",
+        "Retry": 5,
+        "RetryInterval": 5,
+        "RetryIntervalTimeSpan": 1000,
+        "Title": "AddLoadTestPage",
+        "IsActive": true,
+        "TriggerId": "",
+        "Note": "",
+        "CustomActionId": 0,
+        "WebId": "e98ab3fd-bf21-4af9-b130-70abdd5f8c59"
       }
     ]
   },
   "ReferencedAssemblyCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.LoadTest",
+        "FullName": "DevV1.LoadTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "E:\\project\\work\\rx\\source\\web\\web.sph\\bin\\DevV1.LoadTest.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.PatientToLoadTestPageDetail",
+        "FullName": "DevV1.PatientToLoadTestPageDetail, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "E:\\project\\work\\rx\\source\\web\\web.sph\\bin\\DevV1.PatientToLoadTestPageDetail.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      }
+    ]
   },
   "RequeueFilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
@@ -47,6 +87,6 @@
   "Id": "patient-patient-trigger-no-1",
   "CreatedDate": "2015-07-22T10:07:48.1250777+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-17T10:22:53.6116603+08:00",
+  "ChangedDate": "2016-03-05T14:11:08.0317258+08:00",
   "WebId": "f1445372-fae7-40c9-c794-8c609022080c"
 }
