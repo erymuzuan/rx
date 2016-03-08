@@ -20,6 +20,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
             activate = function () {
                 trigger(new bespoke.sph.domain.Trigger({ "IsActive": true, "Entity": ko.unwrap(entity) }));
 
+                operations([]);
                 var actionOptionsTask = $.get("/api/triggers/actions"),
                     entitiesTask = context.getListAsync("EntityDefinition", "Id ne ''", "Name"),
                     loadOperationOptions = function (ent) {
@@ -51,6 +52,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
             attached = function () {
                 setTimeout(function () {
                     $("#name-input").focus();
+                    operations([]);
                 }, 500);
 
             },
