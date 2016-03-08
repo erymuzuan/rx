@@ -33,6 +33,20 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
+        [HttpGet]
+        [Route("{id}/members/{path}")]
+        [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
+        public async Task<ActionResult> GetMembersPath(string id, string path)
+        {
+            var context = new SphDataContext();
+
+            var ed = await context.LoadOneAsync<EntityDefinition>(w => w.Id == id);
+            if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
+            var list = ed.GetMember(path);
+            return Content(list.ToJsonString(true), "application/json");
+
+        }
+
 
 
         [HttpPost]

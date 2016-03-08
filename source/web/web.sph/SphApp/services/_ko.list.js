@@ -6,7 +6,7 @@
 /// <reference path="../../../core.sph/Scripts/require.js" />
 /// <reference path="../../../core.sph/Scripts/jquery-2.2.0.intellisense.js" />
 
-define([], function () {
+define([objectbuilders.datacontext, objectbuilders.logger], function (context, logger) {
 
 
     var intiFilter = function (element, options, search) {
@@ -384,7 +384,15 @@ define([], function () {
                     $(element)
                         .on("select_node.jstree", function (node, selected) {
                             var id = selected.node.id;
-                            selectedItems.push(id.replace(/-/g, "."));
+                            var path = id.replace(/-/g, ".");
+                            $.getJSON("/entity-definition/" + ko.unwrap(entity.Id) + "/members/" + path)
+                                .done(function (member) {
+                                    if (ko.unwrap(member.$type).indexOf("SimpleMember") > -1) {
+                                        selectedItems.push(path);
+                                    } else {
+                                        logger.error("You cannot select comple member or value object");
+                                    }
+                                });
                         })
                         .on("deselect_node.jstree", function (node, selected) {
                             var id = selected.node.id;
