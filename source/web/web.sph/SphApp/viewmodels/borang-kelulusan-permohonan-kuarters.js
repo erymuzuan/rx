@@ -1,8 +1,8 @@
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
-objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
+objectbuilders.system, objectbuilders.validation,
 objectbuilders.dialog, objectbuilders.config, objectbuilders.app],
 
-function(context, logger, router, system, validation, eximp, dialog, config, app) {
+function(context, logger, router, system, validation, dialog, config, app) {
 
     var message = ko.observable(),
         errors = ko.observableArray(),
