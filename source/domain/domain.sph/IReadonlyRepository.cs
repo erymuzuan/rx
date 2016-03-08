@@ -8,6 +8,7 @@ namespace Bespoke.Sph.Domain
         Task<LoadData<T>> LoadOneAsync(string field, string value);
         Task<string> SearchAsync(string query);
         Task<string> SearchAsync(string query, string queryString);
+        Task<int> GetCountAsync(string query, string queryString);
     }
 
     public class LoadData<T> where T : Entity

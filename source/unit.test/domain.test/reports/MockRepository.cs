@@ -42,6 +42,11 @@ namespace domain.test.reports
         {
             throw new NotImplementedException();
         }
+
+        public Task<int> GetCountAsync(string query, string queryString)
+        {
+            throw new NotImplementedException();
+        }
     }
     class MockRepository<T> : IRepository<T> where T : Entity
     {

@@ -117,23 +117,11 @@ namespace Bespoke.Sph.Domain
             code.Append(GenerateGetQueryCode());
 
             code.Append($@"
-            var request = new StringContent(query);
-            var url = ""{ConfigurationManager.ApplicationName.ToLower()}/{this.Entity.ToLower()}/_count"";
-
-            using(var client = new HttpClient{{BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
-            {{
-                var esResponse = await client.PostAsync(url, request);
-                var esResponseContent = esResponse.Content as StreamContent;
-                if (null == esResponseContent) throw new Exception(""Cannot execute query on es "" + request);
-
-                var esResponseString = await esResponseContent.ReadAsStringAsync();
-                var esJsonObject = JObject.Parse(esResponseString);
-
-                var count = esJsonObject.SelectToken(""$.count"").Value<int>();
+                var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
+                var count = await repos.GetCountAsync(query, null);;
             ");
             code.AppendLine("return Ok(new {_count = count});");
-
-            code.Append("}");
+            
             code.AppendLine();
             code.AppendLine("       }");
             code.AppendLine();
