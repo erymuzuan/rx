@@ -1,15 +1,12 @@
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
 objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
-objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
-objectbuilders.app],
+objectbuilders.dialog, objectbuilders.config, objectbuilders.app],
 
-function(context, logger, router, system, validation, eximp, dialog, watcher, config, app) {
+function(context, logger, router, system, validation, eximp, dialog, config, app) {
 
     var message = ko.observable(),
         errors = ko.observableArray(),
-        form = ko.observable(new bespoke.sph.domain.EntityForm()),
-        watching = ko.observable(false),
-        id = ko.observable(),
+        form = ko.observable(new bespoke.sph.domain.WorkflowForm()),
         partial = partial || {},
         i18n = null,
         activate = function(entityId) {
@@ -18,10 +15,6 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
             context.loadOneAsync("EntityForm", "Route eq 'borang-kelulusan-permohonan-kuarters'")
                 .then(function(f) {
                     form(f);
-                    return watcher.getIsWatchingAsync("Permohonan Kuarters", entityId);
-                })
-                .then(function(w) {
-                    watching(w);
                     return $.getJSON("i18n/" + config.lang + "/borang-kelulusan-permohonan-kuarters");
                 })
                 .then(function(n) {
@@ -42,7 +35,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                     })
                 .always(function() {
                 if (typeof partial.activate === "function") {
-                    partial.activate(ko.unwrap(entity))
+                    partial.activate(ko.unwrap(message))
                         .done(tcs.resolve)
                         .fail(tcs.reject);
                 } else {
@@ -106,7 +99,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         partial: partial,
         activate: activate,
         config: config,
-        //attached: attached,
+        attached: attached,
         compositionComplete: compositionComplete,
         message: message,
         errors: errors,
