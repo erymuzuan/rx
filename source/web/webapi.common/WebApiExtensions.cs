@@ -5,9 +5,11 @@ namespace Bespoke.Sph.WebApi
 {
     public static class WebApiExtensions
     {
-        public static void UseJwt(this IAppBuilder app)
+        public static IAppBuilder UseJwt(this IAppBuilder app)
         {
             app.Use<JwtAuthorizationMiddleware>(ObjectBuilder.GetObject<ITokenService>());
+
+            return app;
 
         }
     }

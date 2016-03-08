@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 }
             }
 
-            var customRouteConfig = Server.MapPath(ConfigController.CustomRouteConfig);
+            var customRouteConfig = Server.MapPath(ServicesConfigController.CustomRouteConfig);
             if (System.IO.File.Exists(customRouteConfig))
             {
                 var json = System.IO.File.ReadAllText(customRouteConfig);

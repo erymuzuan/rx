@@ -15,8 +15,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
-    [RoutePrefix("config")]
-    public class ConfigController : BaseAppController
+    public class ServicesConfigController : BaseAppController
     {
         public const string CustomRouteConfig = "~/App_Data/routes.config.json";
         [RazorScriptFilter]

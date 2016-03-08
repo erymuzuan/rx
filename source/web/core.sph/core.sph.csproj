@@ -293,7 +293,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\App\AppAreaRegistration.cs" />
-    <Compile Include="Areas\App\Controllers\ConfigController.cs" />
+    <Compile Include="Areas\App\Controllers\ServicesConfigController.cs" />
     <Compile Include="Areas\App\Controllers\QueryEndpointDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\FormDialogDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\EntityViewDesignerController.cs" />
@@ -1120,7 +1120,6 @@
     </Compile>
     <Compile Include="Controllers\EntityFormController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
-    <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Controllers\FormDesignerController.cs" />
     <Compile Include="Controllers\WorkflowDesignerController.cs" />
     <Compile Include="Controllers\WorkflowFormController.cs" />
@@ -1143,6 +1142,8 @@
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
     <Compile Include="Models\CustomPartialView.cs" />
     <Compile Include="Models\XDeathHeader.cs" />
+    <Compile Include="OwinMiddlewares\MiddlewareExtensions.cs" />
+    <Compile Include="OwinMiddlewares\ResourceMiddleware.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1225,7 +1226,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_Slider.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\App\Views\Config\Index.generated.cs">
+    <Compile Include="Areas\App\Views\ServicesConfig\Index.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
@@ -3633,7 +3634,7 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Register.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\App\Views\Config\Index.cshtml">
+    <Content Include="Areas\App\Views\ServicesConfig\Index.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Index.generated.cs</LastGenOutput>
     </Content>

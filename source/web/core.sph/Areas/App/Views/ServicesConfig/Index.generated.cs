@@ -15,7 +15,7 @@ namespace ASP
     using System.Collections.Generic;
     using System.IO;
     
-    #line 1 "..\..\Areas\App\Views\Config\Index.cshtml"
+    #line 1 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
     using System.Linq;
     
     #line default
@@ -34,29 +34,29 @@ namespace ASP
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
     
-    #line 2 "..\..\Areas\App\Views\Config\Index.cshtml"
+    #line 2 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
     using Newtonsoft.Json;
     
     #line default
     #line hidden
     
-    #line 3 "..\..\Areas\App\Views\Config\Index.cshtml"
+    #line 3 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
     using Newtonsoft.Json.Serialization;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Config/Index.cshtml")]
-    public partial class _Areas_App_Views_Config_Index_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Models.ApplicationConfigurationViewModel>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/ServicesConfig/Index.cshtml")]
+    public partial class _Areas_App_Views_ServicesConfig_Index_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Models.ApplicationConfigurationViewModel>
     {
-        public _Areas_App_Views_Config_Index_cshtml()
+        public _Areas_App_Views_ServicesConfig_Index_cshtml()
         {
         }
         public override void Execute()
         {
             
-            #line 6 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 6 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
   
     Layout = null;
     var settings = new JsonSerializerSettings
@@ -106,7 +106,7 @@ WriteLiteral(@">
             routes = ");
 
             
-            #line 33 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 33 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                 Write(Html.Raw(JsonConvert.SerializeObject(Model.Routes,Formatting.Indented,settings)));
 
             
@@ -115,7 +115,7 @@ WriteLiteral(@">
 WriteLiteral(",\r\n            startModule = \"");
 
             
-            #line 34 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 34 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                       Write(Model.StartModule);
 
             
@@ -125,7 +125,7 @@ WriteLiteral("\";\r\n\r\n\r\n        return {\r\n            debugEnabled: ko.ob
 "     lang : \"");
 
             
-            #line 39 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 39 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                Write(lang);
 
             
@@ -134,7 +134,7 @@ WriteLiteral("\";\r\n\r\n\r\n        return {\r\n            debugEnabled: ko.ob
 WriteLiteral("\",\r\n            imageSettings: imageSettings,\r\n            userName: \"");
 
             
-            #line 41 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 41 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                   Write(User.Identity.Name);
 
             
@@ -143,7 +143,7 @@ WriteLiteral("\",\r\n            imageSettings: imageSettings,\r\n            us
 WriteLiteral("\",\r\n            isAuthenticated : ");
 
             
-            #line 42 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 42 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                           Write(User.Identity.IsAuthenticated.ToString().ToLower());
 
             
@@ -153,7 +153,7 @@ WriteLiteral(",\r\n            routes: routes,\r\n            startModule: start
 "  stateOptions : ");
 
             
-            #line 45 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 45 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                       Write(Html.Raw(Model.StateOptions));
 
             
@@ -162,7 +162,7 @@ WriteLiteral(",\r\n            routes: routes,\r\n            startModule: start
 WriteLiteral(",\r\n            departmentOptions : ");
 
             
-            #line 46 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 46 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                            Write(Html.Raw(Model.DepartmentOptions));
 
             
@@ -171,7 +171,7 @@ WriteLiteral(",\r\n            departmentOptions : ");
 WriteLiteral(",\r\n            applicationFullName :\"");
 
             
-            #line 47 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 47 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                              Write(Model.ApplicationFullName);
 
             
@@ -180,7 +180,7 @@ WriteLiteral(",\r\n            applicationFullName :\"");
 WriteLiteral("\",\r\n            applicationName :\"");
 
             
-            #line 48 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 48 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                          Write(Model.ApplicationName);
 
             
@@ -189,7 +189,7 @@ WriteLiteral("\",\r\n            applicationName :\"");
 WriteLiteral("\",\r\n            roles :[ ");
 
             
-            #line 49 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 49 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                 Write(Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("\"{0}\"", u)))));
 
             
@@ -198,7 +198,7 @@ WriteLiteral("\",\r\n            roles :[ ");
 WriteLiteral("],\r\n            allRoles :[ ");
 
             
-            #line 50 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 50 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                    Write(Html.Raw(string.Join(",", Roles.GetAllRoles().Select(u => string.Format("\"{0}\"", u)))));
 
             
@@ -207,7 +207,7 @@ WriteLiteral("],\r\n            allRoles :[ ");
 WriteLiteral("],\r\n            profile : ");
 
             
-            #line 51 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 51 "..\..\Areas\App\Views\ServicesConfig\Index.cshtml"
                  Write(Html.Raw(JsonConvert.SerializeObject(Model.UserProfile)));
 
             
