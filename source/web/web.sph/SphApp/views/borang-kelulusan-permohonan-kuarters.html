@@ -11,21 +11,24 @@
 </div>
 <div class="row">
     <div class="col-sm-8">
-<form class="form-horizontal" data-bind="with : message" id="borang-kelulusan-permohonan-kuarters-form">
+<form class="form-horizontal" data-bind="with : entity" id="borang-kelulusan-permohonan-kuarters-form">
     <div data-bind="visible:true" class="form-group">
-        <label data-i18n="Alamat Rumah  Postcode" for="7bb660be-0c72-499b-ea4a-4f043811e610" class="col-md-4">Alamat Rumah  Postcode</label>
+        <label data-i18n="No Daftar" for="7bb660be-0c72-499b-ea4a-4f043811e610" class="col-md-4">No Daftar</label>
         <div class="col-md-8">
             <input class="form-control input-large"
-                   data-bind="value: ko.unwrap(AlamatRumah).Postcode"
-                   id="7bb660be-0c72-499b-ea4a-4f043811e610" type="text" name="AlamatRumah.Postcode" />
+                   data-bind="value: NoDaftar"
+                   id="7bb660be-0c72-499b-ea4a-4f043811e610" type="text" name="NoDaftar" />
         </div>
     </div>
-    <div data-bind="visible:true" class="form-group">
-        <label data-i18n="Poskod" for="f2636f7b-82e3-4e08-8fc7-20f1dd734259" class="col-md-4">Poskod</label>
-        <div class="col-md-8">
-            <input class="form-control input-large"
-                   data-bind="value: ko.unwrap(ko.unwrap(Majikan).Alamat).Postcode"
-                   id="f2636f7b-82e3-4e08-8fc7-20f1dd734259" type="text" name="Majikan.Alamat.Postcode" />
+    <div class="form-group" data-bind="visible:true">
+        <div class="col-md-offset-4 col-md-8">
+            <div class="checkbox">
+                <label class="checkbox">
+                    <input data-bind="checked : Lulus, enable :true" id="Lulus" type="checkbox"
+                           name="Lulus"/>
+                    <span data-i18n="Lulus">Lulus</span>
+                </label>
+            </div>
         </div>
     </div>
 </form>

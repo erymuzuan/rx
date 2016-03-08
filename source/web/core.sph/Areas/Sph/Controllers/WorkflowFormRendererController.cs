@@ -55,45 +55,35 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             script.AppendLine(
                 $@"
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
-        objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
-        objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
-        objectbuilders.app {partialPath}],
-        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app {partialVariable}) {{
+        objectbuilders.system, objectbuilders.validation,
+        objectbuilders.dialog, objectbuilders.config, objectbuilders.app {partialPath}],
+        function (context, logger, router, system, validation, dialog, config, app {partialVariable}) {{
 
-            var entity = ko.observable(new {typeCtor}),
+            var message = ko.observable(),
                 errors = ko.observableArray(),
-                form = ko.observable(new bespoke.sph.domain.EntityForm()),
-                watching = ko.observable(false),
-                id = ko.observable(),
+                form = ko.observable(new bespoke.sph.domain.WorkflowForm()),
                 partial = partial || {{}},
                 i18n = null,
-                activate = function (entityId) {{
-                    id(entityId);
+                activate = function () {{
                     var tcs = new $.Deferred();
-                    context.loadOneAsync(""EntityForm"", ""Route eq '{form.Route}'"")
+                    context.loadOneAsync(""WorkflowForm"", ""Route eq '{form.Route}'"")
                        .then(function (f) {{
                            form(f);
-                           return watcher.getIsWatchingAsync(""{wd.Name}"", entityId);
-                       }})
-                       .then(function (w) {{
-                           watching(w);
                            return $.getJSON(""i18n/"" + config.lang + ""/{form.Route}"");
                        }})
                        .then(function (n) {{
                            i18n = n[0];
-                            if(!entityId || entityId === ""0""){{
-                                return Task.fromResult({{ WebId: system.guid() }}); 
-                            }}
-                           return context.get(""/wd/{wd.Id}/v{wd.Version}"" + entityId);
+
+                           return context.get(""api/workflow-forms/{form.Id}/activities/{form.Operation}"");
                        }}).then(function (b) {{
-                             entity(new bespoke.{ns}.domain.{wd.Name}(b[0]||b));
+                             message(ko.mapping.fromJS(b));
                        }}, function (e) {{
                          if (e.status == 404) {{
-                            app.showMessage(""Sorry, but we cannot find any {wd.Name} with location : "" + ""/api/{wd.Id}/v{wd.Version}"" + entityId, ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
+                            app.showMessage(""Sorry, but we cannot find any {wd.Name} with location : "" + ""/api/{wd.Id}/v{wd.Version}"", ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
                          }}
                        }}).always(function () {{
                            if (typeof partial.activate === ""function"") {{
-                               partial.activate(ko.unwrap(entity))
+                               partial.activate(ko.unwrap(message))
                                         .done(tcs.resolve)
                                         .fail(tcs.reject);
                            }}
@@ -107,7 +97,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
 
 
-            var operation = wd.GetActivity<ReceiveActivity>(form.Operation);//.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.Operation);
+            var operation = wd.GetActivity<ReceiveActivity>(form.Operation);
             if (null != operation)
             {
                 var api = GenerateApiOperationCode(wd, operation, form.OperationMethod);
@@ -132,8 +122,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 script.AppendLine($@"
                     {function} = function(){{
 
-                        var data = ko.mapping.toJSON(entity);
-                        return context.post(data, ""/Sph/BusinessRule/Validate?{function}"" );
+                        var data = ko.mapping.toJSON(message);
+                        return context.post(data, ""/api/businessRule/validate?{function}"" );
                         
                 }},");
             }
@@ -180,7 +170,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                         config: config,
                                         attached: attached,
                                         compositionComplete:compositionComplete,
-                                        entity: entity,
+                                        message: message,
                                         errors: errors,");
             foreach (
                 var btn in
@@ -192,7 +182,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             }
 
             script.AppendLine("     toolbar : {");
-      
+
             if (!string.IsNullOrWhiteSpace(saveOperation))
             {
                 script.AppendLine("saveCommand : saveCommand,");
@@ -262,8 +252,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         {
             var opFunc = activity.Name.ToCamelCase();
             var route = activity.Name.ToIdFormat();
-            route = route.StartsWith("~/") ? 
-                route.Replace("~/", "/") : 
+            route = route.StartsWith("~/") ?
+                route.Replace("~/", "/") :
                 $"/wf/{wd.Id}/v{wd.Version}";
             return $@"
                 {opFunc} = function(){{
@@ -272,7 +262,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                          return Task.fromResult(false);
                      }}
 
-                     var data = ko.mapping.toJSON(entity),
+                     var data = ko.mapping.toJSON(message),
                         tcs = new $.Deferred();
                       
                      context.{method}(data, ""{route}"" )
@@ -282,12 +272,11 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             _(result.rules).each(function(v){{
                                 errors(v.ValidationErrors);
                             }});
-                            logger.error(""There are errors in your entity, !!!"");
+                            logger.error(""There are errors in your message, !!!"");
                             tcs.resolve(false);
                          }})
                          .then(function (result) {{
                             logger.info(result.message);
-                            entity().Id(result.id);
                             errors.removeAll();
                             tcs.resolve(result);
                          }});
