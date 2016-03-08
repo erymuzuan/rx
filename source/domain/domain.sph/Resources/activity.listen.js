@@ -1,7 +1,7 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="../Scripts/trigger.workflow.g.js" />
+/// <reference path="../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
@@ -10,10 +10,11 @@
 
 
 
-define(['plugins/dialog'],
+define(["plugins/dialog"],
     function (dialog) {
 
-        var wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
+        var activity = ko.observable(new bespoke.sph.domain.ListenActivity()),
+            wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             asyncActivities = ko.observableArray(),
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
@@ -29,13 +30,16 @@ define(['plugins/dialog'],
 
         wd.subscribe(function (d) {
             var asyncs = _(d.ActivityCollection()).filter(function (v) {
-                return v.isAsync;
+                if (ko.unwrap(v.WebId) === ko.unwrap(activity().WebId)) {
+                    return false;
+                }
+                return ko.unwrap(v.IsAsync);
             });
             asyncActivities(asyncs);
         });
 
         var vm = {
-            activity: ko.observable(new bespoke.sph.domain.ListenActivity()),
+            activity: activity,
             wd: wd,
             asyncActivities: asyncActivities,
             attached: attached,
