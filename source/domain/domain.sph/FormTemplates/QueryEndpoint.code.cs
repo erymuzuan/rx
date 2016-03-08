@@ -112,7 +112,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine($"       [GetRoute(\"{route}/_count\")]");
             code.AppendLine($@"       public async Task<IHttpActionResult> GetCountAsync([SourceEntity(""{Id}"")]QueryEndpoint eq,
                                                     [IfNoneMatch]ETag etag,
-                                                    [ModifiedSince]DateTime? modifiedSince)");
+                                                    [ModifiedSince]ModifiedSinceHeader modifiedSince)");
             code.Append("       {");
             code.Append(GenerateGetQueryCode());
 
@@ -176,7 +176,7 @@ namespace Bespoke.Sph.Domain
                                 select $"{type} {r.Name}{defaultValue},";
             var parameters = $@"[SourceEntity(""{Id}"")]QueryEndpoint eq,
                                    [IfNoneMatch]ETag etag,
-                                   [ModifiedSince]DateTime? modifiedSince," + string.Join(" ", parameterlist);
+                                   [ModifiedSince]ModifiedSinceHeader modifiedSince," + string.Join(" ", parameterlist);
 
             code.AppendLine($"       public async Task<IHttpActionResult> GetAction({parameters}int page =1, int size=20, string q=\"\")");
             code.Append("       {");
@@ -190,7 +190,6 @@ namespace Bespoke.Sph.Domain
                     : $"  query = query.Replace(\"<<{p.Expression}>>\", $\"{{{p.Expression}}}\");");
             }
             code.Append($@"
-            var request = new StringContent(query);
             var queryString = $""from={{size * (page - 1)}}&size={{size}}"";
 
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
@@ -232,7 +231,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine(@"var hashed = base.GetMd5Hash($""{lastModified}"");");
             code.AppendLine(@"var cache = new CacheMetadata(hashed, lastModified, setting.CachingSetting);");
             code.AppendLine(@"  
-            if (lastModified.HasValue && $""{modifiedSince:s}"" == lastModified.Value.ToString(""s""))
+            if (modifiedSince.IsMatch(lastModified) || etag.IsMatch(hashed))
             {
                 return NotModified(cache);
             }

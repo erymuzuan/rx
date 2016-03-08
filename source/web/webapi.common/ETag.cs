@@ -56,7 +56,7 @@ namespace Bespoke.Sph.WebApi
         public override Task ExecuteBindingAsync(ModelMetadataProvider metadataProvider,
             HttpActionContext actionContext, CancellationToken cancellationToken)
         {
-            EntityTagHeaderValue etagHeader = null;
+            EntityTagHeaderValue etagHeader;
             switch (m_match)
             {
                 case ETagMatch.IfNoneMatch:
@@ -73,7 +73,7 @@ namespace Bespoke.Sph.WebApi
             ETag etag = null;
             if (etagHeader != null)
             {
-                etag = new ETag { Tag = etagHeader.Tag };
+                etag = new ETag( etagHeader.Tag );
             }
             actionContext.ActionArguments[Descriptor.ParameterName] = etag;
 
@@ -91,7 +91,33 @@ namespace Bespoke.Sph.WebApi
 
     public class ETag
     {
-        public string Tag { get; set; }
+        public ETag(string tag)
+        {
+            this.Tag = tag;
+
+        }
+        public string Tag { get; }
+
+        public bool IsMatch(string tag)
+        {
+            return string.Equals(tag.Replace("\"",""), this.Tag.Replace("\"",""), StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var tag = $"{obj}";
+            return this.IsMatch(tag);
+        }
+
+        protected bool Equals(ETag other)
+        {
+            return string.Equals(Tag, other.Tag);
+        }
+
+        public override int GetHashCode()
+        {
+            return Tag?.GetHashCode() ?? 0;
+        }
     }
 
 }
