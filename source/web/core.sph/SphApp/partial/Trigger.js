@@ -36,10 +36,16 @@ bespoke.sph.domain.TriggerPartial = function () {
                         clone.Title("");
                     }
                     for (var n in clone) {
-                        if (typeof clone[n] === "function" && n !== "$type") {
-                            var value = clone[n]();
-                            if(typeof  value === "string"){
-                                clone[n]("");
+                        if (clone.hasOwnProperty(n)) {
+                            var obj = clone[n];
+                            if (n === "$type") {
+                                continue;
+                            }
+                            if (ko.isObservable(obj) && typeof obj.destroyAll !== "function") {
+                                obj(null);
+                            }
+                            if (ko.isObservable(obj) && typeof obj.destroyAll === "function") {
+                                obj([]);
                             }
                         }
                     }

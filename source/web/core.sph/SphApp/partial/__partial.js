@@ -1702,7 +1702,7 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
 
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -1714,7 +1714,7 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
 
 bespoke.sph.domain.SetterActionPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         removeChildAction = function (child) {
             var self = this;
             return function() {
@@ -1955,10 +1955,16 @@ bespoke.sph.domain.TriggerPartial = function () {
                         clone.Title("");
                     }
                     for (var n in clone) {
-                        if (typeof clone[n] === "function" && n !== "$type") {
-                            var value = clone[n]();
-                            if(typeof  value === "string"){
-                                clone[n]("");
+                        if (clone.hasOwnProperty(n)) {
+                            var obj = clone[n];
+                            if (n === "$type") {
+                                continue;
+                            }
+                            if (ko.isObservable(obj) && typeof obj.destroyAll !== "function") {
+                                obj(null);
+                            }
+                            if (ko.isObservable(obj) && typeof obj.destroyAll === "function") {
+                                obj([]);
                             }
                         }
                     }
