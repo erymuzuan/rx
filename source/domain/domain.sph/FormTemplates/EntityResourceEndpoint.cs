@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("public async Task<IHttpActionResult> GetOneByIdAsync(");
             code.AppendLine($"                          [SourceEntity(\"{ed.Id}\")]EntityDefinition ed,");
             code.AppendLine("                           [IfNoneMatch]ETag etag,");
-            code.AppendLine("                           [ModifiedSince]DateTime? modifiedSince,");
+            code.AppendLine("                           [ModifiedSince]ModifiedSinceHeader modifiedSince,");
             code.AppendLine("                           string id)");
             code.AppendLine("{");
 
@@ -67,12 +67,7 @@ namespace Bespoke.Sph.Domain
             if(cacheSetting.Expires.HasValue)
                 cache.MaxAge = TimeSpan.FromSeconds(cacheSetting.Expires.Value);
 
-            if($""{{modifiedSince:s}}"" == lo.Source.ChangedDate.ToString(""s""))
-            {{
-                return NotModified(cache);                      
-            }}           
-                
-            if (etag?.Tag == $""\""{{lo.Version}}\"""")
+            if(modifiedSince.IsMatch(lo.Source.ChangedDate) || etag.IsMatch(lo.Version))
             {{
                 return NotModified(cache);   
             }}

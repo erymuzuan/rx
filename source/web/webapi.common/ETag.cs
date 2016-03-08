@@ -70,10 +70,10 @@ namespace Bespoke.Sph.WebApi
                     throw new ArgumentOutOfRangeException();
             }
 
-            ETag etag = null;
+            var etag = new ETag(null);
             if (etagHeader != null)
             {
-                etag = new ETag( etagHeader.Tag );
+                etag = new ETag(etagHeader.Tag);
             }
             actionContext.ActionArguments[Descriptor.ParameterName] = etag;
 
@@ -97,10 +97,13 @@ namespace Bespoke.Sph.WebApi
 
         }
         public string Tag { get; }
+        public bool IsNull => string.IsNullOrWhiteSpace(this.Tag);
 
         public bool IsMatch(string tag)
         {
-            return string.Equals(tag.Replace("\"",""), this.Tag.Replace("\"",""), StringComparison.InvariantCultureIgnoreCase);
+            if (this.IsNull) return false;
+            if (string.IsNullOrWhiteSpace(tag)) return false;
+            return string.Equals(tag.Replace("\"", ""), this.Tag.Replace("\"", ""), StringComparison.InvariantCultureIgnoreCase);
         }
 
         public override bool Equals(object obj)
@@ -111,6 +114,8 @@ namespace Bespoke.Sph.WebApi
 
         protected bool Equals(ETag other)
         {
+            if (this.IsNull) return false;
+            if (other.IsNull) return false;
             return string.Equals(Tag, other.Tag);
         }
 
