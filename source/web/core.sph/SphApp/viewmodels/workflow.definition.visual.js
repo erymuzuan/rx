@@ -268,9 +268,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 initializeActivity(act);
             },
             attached = function (view) {
-                $(view).on("click", "div.activity", function() {
+                $(view).on("click", "div.activity", function () {
                     var act = ko.dataFor(this);
-                    _(wd().ActivityCollection()).each(function(v) {
+                    _(wd().ActivityCollection()).each(function (v) {
                         if (typeof v.selected !== "function") {
                             v.selected = ko.observable(false);
                         }
@@ -520,10 +520,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             remove = function () {
                 var tcs = new $.Deferred();
-                app.showMessage("Are you sure you want delete this workflow definition ", "SPH - Workflow", ["Yes", "No"])
+                app.showMessage("Are you sure you want delete this workflow definition, You will also need to manually remove the dll from subsribers and web\\bin", "SPH - Workflow", ["Yes", "No"])
                    .done(function (dr) {
                        if (dr === "Yes") {
-                           context.sendDelete("/api/workflow-definitions/" + ko.unwrap(wd().Id)).then(tcs.resolve);
+                           context.sendDelete("/api/workflow-definitions/" + ko.unwrap(wd().Id)).then(function () {
+                               tcs.resolve(true);
+                               router.navigate("#dev.home");
+                           });
                        } else {
                            tcs.resolve(false);
                        }

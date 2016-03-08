@@ -167,10 +167,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var context = new SphDataContext();
             var wd = context.LoadOneFromSources<WorkflowDefinition>(x => x.Id == id);
             if (null == wd) return NotFound();
+
+            //TODO : remove all the related assets, like the dll, table , and forms
             using (var session = context.OpenSession())
             {
                 session.Delete(wd);
-                await session.SubmitChanges();
+                await session.SubmitChanges("Delete");
             }
 
             return Json(new { success = true, id = wd.Id, status = "OK" });
