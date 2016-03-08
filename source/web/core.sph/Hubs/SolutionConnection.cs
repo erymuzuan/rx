@@ -345,6 +345,11 @@ namespace Bespoke.Sph.Web.Hubs
                 var d = file.DeserializeFromJsonFile<ValueObjectDefinition>();
                 return $"value.object.details/{d.Id}";
             }
+            if (folder == nameof(WorkflowForm))
+            {
+                var d = file.DeserializeFromJsonFile<WorkflowForm>();
+                return $"workflow.form.designer/{d.WorkflowDefinitionId}/{d.Id}";
+            }
             if (folder == nameof(Designation))
             {
                 var d = file.DeserializeFromJsonFile<Designation>();
