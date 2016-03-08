@@ -31,43 +31,6 @@ namespace Bespoke.Sph.Web.App_Start
 
         }
 
-
-
-        public static void RegisterCustomEntityDependencies(IEnumerable<EntityDefinition> entityDefinitions)
-        {
-            var sqlAssembly = Assembly.Load("sql.repository");
-            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
-
-            foreach (var ed in entityDefinitions)
-            {
-                var ed1 = ed;
-                try
-                {
-                    var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
-                    var edTypeName = $"{ed1.CodeNamespace}.{ed1.Name}";
-                    var edType = edAssembly.GetType(edTypeName);
-                    if (null == edType)
-                        Console.WriteLine("Cannot create type " + edTypeName);
-
-                    var reposType = sqlRepositoryType.MakeGenericType(edType);
-                    var repository = Activator.CreateInstance(reposType);
-
-                    var ff = typeof(IRepository<>).MakeGenericType(edType);
-
-                    ObjectBuilder.AddCacheList(ff, repository);
-                }
-                catch (FileNotFoundException e)
-                {
-                    Debug.WriteLine(e);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e);
-                }
-            }
-
-        }
-
         public static Task<IEnumerable<JsRoute>> GetJsRoutes()
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
@@ -77,13 +40,20 @@ namespace Bespoke.Sph.Web.App_Start
 
             var context = new SphDataContext();
             var reportDefinitions = context.LoadFromSources<ReportDefinition>(rdl => rdl.IsActive || (rdl.IsPrivate && rdl.CreatedBy == user));
-            var entityDefinitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished).ToList();
             var views = context.LoadFromSources<EntityView>(x => x.IsPublished);
             var forms = context.LoadFromSources<EntityForm>(x => x.IsPublished) ;
+            var wfForms = context.LoadFromSources<WorkflowForm>(x => x.IsPublished) ;
 
-
-            RegisterCustomEntityDependencies(entityDefinitions);
-
+            var wfFormsRoutes = from t in wfForms
+                             select new JsRoute
+                             {
+                                 Title = t.Name,
+                                 Route = $"{t.Route.ToLowerInvariant()}/:id",
+                                 Caption = t.Name,
+                                 Icon = t.IconClass,
+                                 ModuleId = $"viewmodels/{t.Route.ToLowerInvariant()}",
+                                 Nav = false
+                             };
             var formRoutes = from t in forms
                              select new JsRoute
                              {
@@ -126,6 +96,7 @@ namespace Bespoke.Sph.Web.App_Start
 
             routes.AddRange(viewRoutes);
             routes.AddRange(formRoutes);
+            routes.AddRange(wfFormsRoutes);
             routes.AddRange(rdlRoutes);
             return Task.FromResult(routes.AsEnumerable());
         }
