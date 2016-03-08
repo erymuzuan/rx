@@ -7,7 +7,6 @@ function(context, logger, router, system, validation, dialog, config, app) {
     var message = ko.observable(),
         errors = ko.observableArray(),
         form = ko.observable(new bespoke.sph.domain.WorkflowForm()),
-        id = ko.observable(),
         partial = partial || {},
         i18n = null,
         activate = function() {
@@ -19,6 +18,7 @@ function(context, logger, router, system, validation, dialog, config, app) {
             })
                 .then(function(n) {
                 i18n = n[0];
+
                 return context.get("api/workflow-forms/borang-kelulusan-permohonan-kuarters/activities/08749ac0-e998-4ce2-e8dc-5ad0e41d5538");
             }).then(function(b) {
                 message(ko.mapping.fromJS(b));
@@ -93,7 +93,7 @@ function(context, logger, router, system, validation, dialog, config, app) {
         config: config,
         attached: attached,
         compositionComplete: compositionComplete,
-        entity: entity,
+        message: message,
         errors: errors,
         toolbar: {
             saveCommand: saveCommand,
