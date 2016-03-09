@@ -220,8 +220,8 @@ namespace Bespoke.Sph.Web.Controllers
                                 .Where(x => typeof(Exception).IsAssignableFrom(x))
                                 .Where(x => x.Name.EndsWith("Exception"))
                                 .Where(x => !x.Name.Contains("+"))
-                                .Where(x => !x.Name.Contains("<"))
-                                .Where(x => !x.Name.Contains(">"))
+                                .Where(x => !x.FullName.Contains("<"))
+                                .Where(x => !x.FullName.Contains(">"))
                                 .Select(x => x.FullName);
                     types.AddRange(list);
 
