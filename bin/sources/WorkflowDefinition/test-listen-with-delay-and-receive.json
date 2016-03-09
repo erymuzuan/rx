@@ -1,0 +1,38 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationSetCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationTypeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "TryScopeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TryScope, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Test Listen with delay and receive",
+  "Note": "",
+  "IsActive": false,
+  "SchemaStoreId": "10799f7e-acfc-465a-a396-f8a9eb6eef21",
+  "Version": 0,
+  "CreatedBy": "admin",
+  "Id": "test-listen-with-delay-and-receive",
+  "CreatedDate": "2016-03-09T14:37:01.7224768+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-03-09T14:37:01.7224768+08:00",
+  "WebId": "4a3f835c-4b17-476f-9a7f-9a52b81a2d57"
+}

@@ -1,0 +1,698 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
+        "PortType": null,
+        "Operation": "Receive0",
+        "MessagePath": "Message",
+        "CancelMessageBody": null,
+        "CancelMessageSubject": null,
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "Text1"
+          ]
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": null,
+          "Value": null,
+          "IsPublic": false,
+          "WebId": null
+        },
+        "IsAsync": true,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Receive",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 503,
+          "Y": 25,
+          "WebId": null
+        },
+        "IsInitiator": true,
+        "NextActivityWebId": "1b0b7468-6b5a-41d3-ccb1-4ec0c6aa4209",
+        "Name": "Receive_0",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "d556c922-43b2-4d36-c246-04d7fb626fb6"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Notification_1",
+        "Body": "Notification_1",
+        "To": "Notification_1@gmail.com",
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformFromNotification1Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformToNotification1Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformSubjectNotification1Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformBodyNotification1Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            }
+          ]
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 503,
+          "Y": 159,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "a66c143a-c86a-4b3b-9b0b-21bc78153aaf",
+        "Name": "Notification_1",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "1b0b7468-6b5a-41d3-ccb1-4ec0c6aa4209"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ListenActivity, domain.sph",
+        "ListenBranchCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ListenBranch, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.ListenBranch, domain.sph",
+              "IsWaitingAsync": false,
+              "IsDestroyed": false,
+              "IsAsync": false,
+              "ExecutedCode": null,
+              "ExecutingCode": null,
+              "TypeName": "ListenBranch",
+              "OtherMethodCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "WorkflowDesigner": {
+                "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+                "X": 0,
+                "Y": 0,
+                "WebId": "28c05578-1030-439c-fd95-a12022306477"
+              },
+              "IsInitiator": false,
+              "NextActivityWebId": "963671b8-c2de-40f5-97eb-481200dc3b01",
+              "Name": "Delay",
+              "TryScope": "",
+              "CatchScope": "",
+              "WebId": "2fff8863-984c-4feb-ac1d-a54e01105685"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.ListenBranch, domain.sph",
+              "IsWaitingAsync": false,
+              "IsDestroyed": false,
+              "IsAsync": false,
+              "ExecutedCode": null,
+              "ExecutingCode": null,
+              "TypeName": "ListenBranch",
+              "OtherMethodCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "WorkflowDesigner": {
+                "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+                "X": 0,
+                "Y": 0,
+                "WebId": null
+              },
+              "IsInitiator": false,
+              "NextActivityWebId": "4d3ee4aa-8fc7-49fc-e9c1-f692809b54c5",
+              "Name": "Receive",
+              "TryScope": "",
+              "CatchScope": "",
+              "WebId": "c946e0bf-32b4-4a35-cb6d-861e0a60daba"
+            }
+          ]
+        },
+        "IsAsync": true,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Listen",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 503,
+          "Y": 303,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": null,
+        "Name": "Listen_2",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "a66c143a-c86a-4b3b-9b0b-21bc78153aaf"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
+        "PortType": null,
+        "Operation": "Receive3",
+        "MessagePath": "Alamat",
+        "CancelMessageBody": null,
+        "CancelMessageSubject": null,
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "Text1"
+          ]
+        },
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+              "Path": "Alamat.Postcode",
+              "Name": "Text1",
+              "Origin": "Message.Text1",
+              "WebId": "f3e26663-c819-45dd-f82b-085dfa85d08e"
+            }
+          ]
+        },
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": null,
+          "Value": null,
+          "IsPublic": false,
+          "WebId": null
+        },
+        "IsAsync": true,
+        "ExecutedCode": "     await this.FireListenTriggerListen2Async(\"4d3ee4aa-8fc7-49fc-e9c1-f692809b54c5\");",
+        "ExecutingCode": null,
+        "TypeName": "Receive",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 930,
+          "Y": 484,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "94f6de93-a9f2-433c-d2c1-2bed1561d75c",
+        "Name": "Receive_3",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "4d3ee4aa-8fc7-49fc-e9c1-f692809b54c5"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DelayActivity, domain.sph",
+        "IsAsync": true,
+        "Expression": null,
+        "Miliseconds": 0,
+        "Seconds": 45,
+        "Hour": 0,
+        "Days": 0,
+        "ExecutedCode": "     await this.FireListenTriggerListen2Async(\"963671b8-c2de-40f5-97eb-481200dc3b01\");",
+        "ExecutingCode": null,
+        "TypeName": "Delay",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 93,
+          "Y": 461,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "70f9609b-404d-47d5-9f0d-88ac6d375e07",
+        "Name": "Delay_4",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "963671b8-c2de-40f5-97eb-481200dc3b01"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Notification_5",
+        "Body": "Notification_5",
+        "To": "Notification_5@gmail.com",
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformFromNotification5Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformToNotification5Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformSubjectNotification5Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformBodyNotification5Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            }
+          ]
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 930,
+          "Y": 710,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "7f9fa018-910c-4797-acd8-735ff5aa3aca",
+        "Name": "Notification_5",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "94f6de93-a9f2-433c-d2c1-2bed1561d75c"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Notification_6",
+        "Body": "Notification_6",
+        "To": "Notification_6@gmail.com",
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformFromNotification6Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformToNotification6Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformSubjectNotification6Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
+              "Comment": null,
+              "AccessModifier": "Internal",
+              "ReturnType": null,
+              "Name": null,
+              "FileName": null,
+              "Code": "   private async Task<string> TransformBodyNotification6Async(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
+              "Body": "",
+              "IsVirtual": false,
+              "IsOverride": false,
+              "IsStatic": false,
+              "ArgumentCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "AttributeCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              },
+              "IsPartial": false,
+              "ReturnTypeName": null
+            }
+          ]
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 92,
+          "Y": 717,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "7f9fa018-910c-4797-acd8-735ff5aa3aca",
+        "Name": "Notification_6",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "70f9609b-404d-47d5-9f0d-88ac6d375e07"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "End",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 536,
+          "Y": 1044,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": null,
+        "Name": "End_7",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "7f9fa018-910c-4797-acd8-735ff5aa3aca"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ValueObjectVariable, domain.sph",
+        "ValueObjectDefinition": "",
+        "Name": "Message",
+        "TypeName": "ListenMessage1",
+        "DefaultValue": "",
+        "WebId": "0735ab6a-f3f3-4204-991a-745f2af4a1ad"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ValueObjectVariable, domain.sph",
+        "ValueObjectDefinition": "",
+        "Name": "Alamat",
+        "TypeName": "Address",
+        "DefaultValue": "",
+        "WebId": "1a272cb5-e307-44fc-eb19-3516b6d5cd68"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationSetCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationSet, domain.sph",
+        "Type": "Text1",
+        "Name": "Text1",
+        "WebId": "f893706c-949f-47b7-8b62-f300fc09d65d"
+      }
+    ]
+  },
+  "CorrelationTypeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationType, domain.sph",
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+              "Path": "Message.Text1",
+              "Name": "",
+              "Origin": "",
+              "WebId": "2dc30b62-2ed5-42b9-9609-51a716e7a845"
+            }
+          ]
+        },
+        "Name": "Text1",
+        "WebId": "cedefef5-6699-4549-aa9f-f19d365b26b6"
+      }
+    ]
+  },
+  "TryScopeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TryScope, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Test listen",
+  "Note": "",
+  "IsActive": false,
+  "SchemaStoreId": "cda44e12-b9fa-4f00-b850-47bb6d6c69b1",
+  "Version": 1,
+  "CreatedBy": "admin",
+  "Id": "test-listen",
+  "CreatedDate": "2016-03-09T14:44:00.2076416+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-03-09T14:51:57.8534296+08:00",
+  "WebId": "d6be71d3-996e-4bf5-9165-1f2dce007138"
+}
