@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Persistence
 
             }
 
-      
+
             if (null != m_channel)
             {
                 m_channel.Close();
@@ -197,7 +197,7 @@ namespace Bespoke.Sph.Persistence
                 var persistence = ObjectBuilder.GetObject<IPersistence>();
                 var so = await persistence.SubmitChanges(entities, deletedItems, null, headers.Username)
                 .ConfigureAwait(false);
-                Debug.Assert(so.IsCompleted, "SQL Persistence should be completed");
+                Debug.Assert(null == so.Exeption, "SQL Persistence should be completed");
 
                 var logsAddedTask = publisher.PublishAdded(operation, logs, headers.GetRawHeaders());
                 var addedTask = publisher.PublishAdded(operation, addedItems, headers.GetRawHeaders());
