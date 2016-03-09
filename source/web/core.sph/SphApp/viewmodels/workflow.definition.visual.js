@@ -278,6 +278,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
                     act.selected(true);
                     selectedActivity(act);
+
+                    $("#toolbox-panel .nav-tabs a[href='#properties']").tab("show");
+
+                    var position = $(this).position(),
+                        margin = 100,
+                        offset = 250,
+                        topPadding = (position.top < margin) ? 0 : position.top - margin;
+                    topPadding = topPadding - offset < 0 ? 0 : topPadding - offset;
+                    $(view).find("#properties").css("padding-top", topPadding);
                 });
 
                 // delete selected element when [delete] key is pressed
