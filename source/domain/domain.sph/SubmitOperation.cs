@@ -11,19 +11,14 @@ namespace Bespoke.Sph.Domain
         {
             Books = new Dictionary<string, string>();
         }
-        private Dictionary<string, string> m_books = new Dictionary<string, string>();
 
         public Exception Exeption { get; set; }
         public int RowsAffected { get; set; }
-        public bool IsFaulted { get { return null != this.Exeption; } }
-        public bool IsCompleted { get { return this.RowsAffected > 0; } }
+        public bool IsFaulted => null != this.Exeption;
+        public bool IsCompleted => this.RowsAffected > 0;
         public string Token { get; set; }
 
-        public Dictionary<string, string> Books
-        {
-            get { return m_books; }
-            set { m_books = value; }
-        }
+        public Dictionary<string, string> Books { get; set; }
 
         public bool Add(string webId, string id)
         {

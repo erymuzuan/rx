@@ -27,7 +27,7 @@ namespace scheduler.delayactivity
             var wf = await context.LoadOneAsync<Workflow>(w => w.Id == instanceId);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", wf.WorkflowDefinitionId, wf.Version));
+            var doc = await store.GetContentAsync($"wd.{wf.WorkflowDefinitionId}.{wf.Version}");
             using (var stream = new MemoryStream(doc.Content))
             {
                 wf.WorkflowDefinition = stream.DeserializeFromJson<WorkflowDefinition>();

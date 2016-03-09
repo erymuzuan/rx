@@ -10,10 +10,7 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Listen", TypeName = "Listen", Description = "Creates a race condition, first one wins")]
     public partial class ListenActivity : Activity
     {
-        public override bool IsAsync
-        {
-            get { return true; }
-        }
+        public override bool IsAsync => true;
 
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
@@ -22,7 +19,7 @@ namespace Bespoke.Sph.Domain
                          where string.IsNullOrWhiteSpace(a.NextActivityWebId)
                          select new BuildError(this.WebId)
                          {
-                             Message = string.Format("[ListenActivity] -> Branch \"{0}\" is missing next activity", a.Name)
+                             Message = $"[ListenActivity] -> Branch \"{a.Name}\" is missing next activity"
                          };
             var errors2 = from a in this.ListenBranchCollection
                           where !string.IsNullOrWhiteSpace(a.NextActivityWebId)
@@ -30,7 +27,7 @@ namespace Bespoke.Sph.Domain
                           where !next.IsAsync
                           select new BuildError(this.WebId)
                           {
-                              Message = string.Format("[ListenActivity] -> Branch \"{0}\" is not an async activity", a.Name)
+                              Message = $"[ListenActivity] -> Branch \"{a.Name}\" is not an async activity"
                           };
 
             result.Errors.AddRange(errors);
