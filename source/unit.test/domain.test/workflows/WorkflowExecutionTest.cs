@@ -34,7 +34,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(send);
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
-            var result =await this.CompileAsync(wd, true);
+            var result = await this.CompileAsync(wd, true);
             var wf = this.CreateInstance(wd, result.Output);
             Assert.NotNull(wf);
         }
@@ -44,7 +44,15 @@ namespace domain.test.workflows
         public async Task Listen()
         {
             var wd = this.Create("Wf502");
-            wd.ActivityCollection.Add(new ReceiveActivity { Name = "Starts", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_B_" });
+            wd.ActivityCollection.Add(new ReceiveActivity
+            {
+                Name = "Starts",
+                Operation = "StartsSubmit",
+                MessagePath = "alamat",
+                IsInitiator = true,
+                WebId = "_A_",
+                NextActivityWebId = "_B_"
+            });
 
             var listen = new ListenActivity
             {
@@ -71,7 +79,7 @@ namespace domain.test.workflows
             var delay = new DelayActivity { WebId = "_B21_", NextActivityWebId = "_C_", Name = "Lapse" };
             wd.ActivityCollection.Add(delay);
 
-            var scree2 = new ReceiveActivity { WebId = "_B11_", NextActivityWebId = "_C_", Name = "Screen 2" };
+            var scree2 = new ReceiveActivity { WebId = "_B11_", Operation = "Screen2", MessagePath = "alamat", NextActivityWebId = "_C_", Name = "Screen 2" };
             wd.ActivityCollection.Add(scree2);
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
@@ -191,7 +199,7 @@ namespace domain.test.workflows
                 UserName = "admin",
                 Name = "Email me",
                 Retry = 5,
-                RetryInterval = 50*1000
+                RetryInterval = 50 * 1000
 
             };
             wd.ActivityCollection.Add(email);
@@ -199,7 +207,7 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_END_", Name = "habis" });
 
-            var compile =await this.CompileAsync(wd, true);
+            var compile = await this.CompileAsync(wd, true);
             var wf = this.CreateInstance(wd, compile.Output);
             var execResult = await wf.StartAsync();
             Console.WriteLine(execResult);
