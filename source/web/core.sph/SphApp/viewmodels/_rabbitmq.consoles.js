@@ -33,7 +33,9 @@ define([objectbuilders.config],
                 return refresh();
             },
             attached = function (view) {
-
+                $(view).on("click", "div.modal-footer>a", function() {
+                    $("div.modal-backdrop").remove();
+                });
             },
             viewQueueDetail = function (q) {
                 return $.get("/management-api/rabbitmq?resource=queues/" + config.applicationName + "/" + q.name)
@@ -44,6 +46,10 @@ define([objectbuilders.config],
                     .then(bindings)
                     .done(function () {
                         $("#queue-detail-dialog").modal("show");
+                        setTimeout(function () {
+                            $("div.modal-backdrop").remove();
+                            $("#rabbitmq-consoles-panel").after($("<div class='modal-backdrop fade in'></div>"));
+                        }, 250);
                     });
             };
 
