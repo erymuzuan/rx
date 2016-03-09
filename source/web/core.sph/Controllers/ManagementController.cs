@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
+using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -46,7 +47,7 @@ namespace Bespoke.Sph.Web.Controllers
             }
             catch (NoSuchObjectDefinitionException ex)
             {
-                return Json(new { success = false, message = ex.Message, status = "No Broker" },JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, message = ex.Message, status = "No Broker" }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -108,6 +109,25 @@ namespace Bespoke.Sph.Web.Controllers
 
 
 
+        [HttpPost]
+        [Route("request-logs/{from}/{to}")]
+        public async Task<ActionResult> SearchRequestLogs(string from, string to, [RawRequestBody]string query)
+        {
+            var url = $"{ ConfigurationManager.ElasticSearchIndex}/request_log/_search";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                var response = await client.PostAsync(url, new StringContent(query));
+                response.EnsureSuccessStatusCode();
+
+                var content = response.Content as StreamContent;
+                if (null == content) throw new Exception("Cannot execute query on es ");
+                var responseString = await content.ReadAsStringAsync();
+                return Content(responseString, "application/json");
+
+            }
+
+        }
 
     }
 }
