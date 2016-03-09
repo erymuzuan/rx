@@ -1142,6 +1142,7 @@
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
     <Compile Include="Models\CustomPartialView.cs" />
     <Compile Include="Models\XDeathHeader.cs" />
+    <Compile Include="OwinMiddlewares\MeteringMiddleware.cs" />
     <Compile Include="OwinMiddlewares\MiddlewareExtensions.cs" />
     <Compile Include="OwinMiddlewares\ResourceMiddleware.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

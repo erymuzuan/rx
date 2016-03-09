@@ -22,34 +22,41 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
         private readonly AppFunc m_next;
         private readonly string m_namespace;
         private readonly bool m_debugging;
+        private readonly Assembly m_assembly;
 
         public ResourceMiddleware(AppFunc next, string @namespace, bool debugging)
         {
             m_next = next;
             m_namespace = @namespace;
             m_debugging = debugging;
+            m_assembly = Assembly.GetExecutingAssembly();
         }
 
         public async Task Invoke(IDictionary<string, object> environment)
         {
             var ctx = new OwinContext(environment);
-            var fileName = ctx.Request.Path.Value.Remove(0, 1).Replace("/", ".");
+            var paths = ctx.Request.Path.Value.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var folder = "";
+            if (paths.Length > 1)
+                folder = "\\" + string.Join("\\", paths.Take(paths.Length - 1));
+            var fileName = paths.Last() ?? "";
 
-            var contentType = MimeMapping.GetMimeMapping(Path.GetExtension(fileName));
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"Bespoke.Sph.Web.{m_namespace}.{fileName}";
+            var contentType = "text/plain";
+            if (!string.IsNullOrWhiteSpace(fileName)) contentType = MimeMapping.GetMimeMapping(Path.GetExtension(fileName));
 
-
-            var file = $"{ConfigurationManager.WebPath}\\{m_namespace.Replace(".", "\\")}\\{fileName}";
+            var file = $"{ConfigurationManager.WebPath}\\{m_namespace}{folder}\\{fileName}";
             if (File.Exists(file))
             {
                 SetStaticFileCacheability(ctx, file, "images\\form.element");
                 var bytes = File.ReadAllBytes(file);
+                ctx.Response.ContentType = contentType;
                 await ctx.Response.WriteAsync(bytes);
                 return;
             }
 
-            var stream = assembly.GetManifestResourceStream(resourceName);
+            var childNamespace = string.Join(".", paths);
+            var resourceName = $"Bespoke.Sph.Web.{m_namespace}.{childNamespace}";
+            var stream = m_assembly.GetManifestResourceStream(resourceName);
             if (null != stream)
             {
                 this.SetCoreResourceCacheability(ctx);
@@ -63,12 +70,12 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
                 }
             }
 
+            if (paths.Length > 1)
+                folder = string.Join("", paths.Take(paths.Length - 1));
 
             if (fileName.EndsWith(".js"))
             {
-                //Console.WriteLine(RouteData);
-                var controller = fileName.Replace("viewmodels.", "")
-                 .Replace(".js", "")
+                var controller = folder.Replace("viewmodels", "") + fileName.Replace(".js", "")
                  .Replace(".", "");
                 var location = $"/app/{controller}/js";
                 ctx.Response.StatusCode = 302;
@@ -79,7 +86,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
 
             if (fileName.EndsWith(".html"))
             {
-                var controller = fileName
+                var controller = folder.Replace("views", "") + fileName
                     .Replace(".html", "")
                     .Replace(".", "");
 

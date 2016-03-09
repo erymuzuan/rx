@@ -22,6 +22,12 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
 
 
         }
+        public static IAppBuilder UseApiMetering(this IAppBuilder app)
+        {
+            app.Use<MeteringMiddleware>();
+            return app;
+
+        }
         public static IAppBuilder UseCoreResource(this IAppBuilder app, bool debug)
         {
             app.Map("/SphApp", cfg =>

@@ -40,6 +40,7 @@ namespace Bespoke.Sph.Web.App_Start
             config.EnsureInitialized();
 
             app.UseJwt()
+                .UseApiMetering()
                 .UseWebApi(config);
 
         }

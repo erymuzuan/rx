@@ -435,11 +435,11 @@ namespace domain.test.entities
 
             var controllerType = oedll.GetType($"{mortuary.CodeNamespace}.{mortuary.Name}Controller");
             dynamic controller = Activator.CreateInstance(controllerType);
-            
+
             var result = await controller.PatchSendToMortuary(
                 ed,
                 mortuary,
-                patient.Id, JsonConvert.SerializeObject(patient), new ETag { Tag = "\"45\"" }, null);
+                patient.Id, JsonConvert.SerializeObject(patient), new ETag("\"45\""), null);
             Assert.NotNull(result);
             Assert.IsType<InvalidResult>(result);
         }
