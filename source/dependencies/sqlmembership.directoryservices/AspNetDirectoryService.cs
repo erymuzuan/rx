@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,6 +11,17 @@ namespace Bespoke.Sph.DirectoryServices
 {
     public class AspNetDirectoryService : IDirectoryService
     {
+        public AspNetDirectoryService()
+        {
+            try
+            {
+                ConfigurationManager.AddConnectionString();
+            }
+            catch (ConfigurationException)
+            {
+                // ignore
+            }
+        }
         public string CurrentUserName
         {
             get
