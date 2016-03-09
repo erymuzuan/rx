@@ -1,5 +1,5 @@
 {
-  "api": {
+  "request_log": {
     "properties": {
       "elapsed": {
         "type": "long"
