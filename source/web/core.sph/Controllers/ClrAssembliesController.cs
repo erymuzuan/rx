@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -201,6 +202,38 @@ namespace Bespoke.Sph.Web.Controllers
             }).ToArray());
         }
 
+        [HttpGet]
+        [Route("types/exceptions")]
+        public IHttpActionResult GetExceptions()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var refAssemblies = from a in assemblies
+                                let name = a.GetName()
+                                where a.IsDynamic == false
+                                select a;
+            var types = new List<string>();
+            foreach (var a in refAssemblies)
+            {
+                try
+                {
+                    var list = a.GetTypes()
+                                .Where(x => typeof(Exception).IsAssignableFrom(x))
+                                .Where(x => x.Name.EndsWith("Exception"))
+                                .Where(x => !x.Name.Contains("+"))
+                                .Where(x => !x.Name.Contains("<"))
+                                .Where(x => !x.Name.Contains(">"))
+                                .Select(x => x.FullName);
+                    types.AddRange(list);
+
+                }
+                catch (Exception)
+                {
+                    //ignore
+                }
+            }
+            return Json(types.OrderBy(x => x).ToArray());
+        }
+
 
         private static Type FindType(string dll, string type)
         {
@@ -229,7 +262,7 @@ namespace Bespoke.Sph.Web.Controllers
                             .Where(x => !x.Name.StartsWith("remove_"))
                             .Where(x => x.DeclaringType != typeof(object))
                             .Where(x => x.DeclaringType != typeof(DomainObject));
-            
+
 
             var list = from x in methods
                        select new

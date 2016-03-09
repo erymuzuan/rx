@@ -23,8 +23,8 @@
                     <div class="form-group">
                         <label for="set-name" class="col-sm-3 control-label">Exception Type</label>
                         <div class="col-sm-9">
-                            <input type="text" data-bind="value: ExceptionType"
-                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                            <input type="text" data-bind="value: ExceptionType, typeaheadExceptions :{}"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_.]*$"
                                    placeholder="Exception Type"
                                    class="form-control">
                         </div>

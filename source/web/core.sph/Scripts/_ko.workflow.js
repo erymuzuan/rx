@@ -147,6 +147,27 @@ ko.bindingHandlers.typeahead = {
             });
     }
 };
+ko.bindingHandlers.typeaheadExceptions = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+
+
+        var allBindings = allBindingsAccessor();
+
+        var exceptions = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            prefetch: "/api/assemblies/types/exceptions"
+        });
+        
+        $(element).typeahead(null, {
+            name: "exceptions",
+            source: exceptions
+        }).on("typeahead:closed", function () {
+            allBindings.value($(this).val());
+        });
+
+    }
+};
 
 
 ko.bindingHandlers.activityPopover = {

@@ -15,6 +15,7 @@ define(["plugins/dialog"],
             catchScope = ko.observable(new bespoke.sph.domain.CatchScope()),
             wd = ko.observable(),
             activities = ko.observableArray(),
+            exceptionsOptions = ko.observableArray(),
             activate = function () {
                 var list = _(wd().ActivityCollection())
                     .filter(function (v) {
@@ -22,6 +23,9 @@ define(["plugins/dialog"],
                         return v.CatchScope() === catchScope().Id() || !v.CatchScope();
                     });
                 activities(list);
+
+                return $.getJSON("/api/assemblies/types/exceptions")
+                    .done(exceptionsOptions);
             },
             attached = function (view) {
                 $(view).on("click", "input.catch-activities", function () {
