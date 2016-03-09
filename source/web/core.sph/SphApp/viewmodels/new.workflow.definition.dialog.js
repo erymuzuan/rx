@@ -13,7 +13,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
         var wd = ko.observable(),
             id = ko.observable(),
             activate = function() {
-                wd(new bespoke.sph.domain.WorkflowDefinition({ "Version": 0 }));
+                wd(new bespoke.sph.domain.WorkflowDefinition({ "Version": 1 }));
             },
             attached = function() {
                 setTimeout(function () {
