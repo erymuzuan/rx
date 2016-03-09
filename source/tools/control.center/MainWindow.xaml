@@ -42,7 +42,7 @@
             <MenuItem Header="_Edit">
                 <MenuItem Header="_web.config" Icon="{StaticResource ScriptCode}" Tag="{Binding Source={x:Static uc:ConfigurationManager.WebConfig}}" Click="EditConfig" />
                 <MenuItem Header="_sph.builder.exe.config" Icon="{StaticResource ScriptCode2}" Tag="{Binding Source={x:Static uc:ConfigurationManager.SphBuilderConfig}}" Click="EditConfig" />
-                <MenuItem Header="workers.console.runner.exe.config" Tag="{Binding Source={x:Static uc:ConfigurationManager.WorkerConsoleRunnerConfig}}" Click="EditConfig" />
+                <MenuItem Header="workers.console.runner.exe.config" Icon="{StaticResource ScriptCode3}" Tag="{Binding Source={x:Static uc:ConfigurationManager.WorkerConsoleRunnerConfig}}" Click="EditConfig" />
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem x:Name="topMostMenuItem" Header="Always on top" IsCheckable="True" Checked="TopMostChecked2"  Unchecked="TopMostUnchecked"/>
