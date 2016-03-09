@@ -1,21 +1,20 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
 namespace scheduler.delayactivity
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            var webId = args[0];
+            var actWebId = args[0];
             var instanceId = args[1];
 
             var program = new Program();
-            program.ExecuteStepAsync(webId, instanceId)
+            program.ExecuteStepAsync(actWebId, instanceId)
                 .Wait();
             var ts = ObjectBuilder.GetObject<ITaskScheduler>();
-            ts.DeleteAsync(new ScheduledActivityExecution {  ActivityId = webId, InstanceId = instanceId })
+            ts.DeleteAsync(new ScheduledActivityExecution {  ActivityId = actWebId, InstanceId = instanceId })
                 .Wait();
 
         }
@@ -25,13 +24,7 @@ namespace scheduler.delayactivity
         {
             var context = new SphDataContext();
             var wf = await context.LoadOneAsync<Workflow>(w => w.Id == instanceId);
-
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var doc = await store.GetContentAsync($"wd.{wf.WorkflowDefinitionId}.{wf.Version}");
-            using (var stream = new MemoryStream(doc.Content))
-            {
-                wf.WorkflowDefinition = stream.DeserializeFromJson<WorkflowDefinition>();
-            }
+            await wf.LoadWorkflowDefinitionAsync();
 
             var result = await wf.ExecuteAsync(webId);
             return result;
