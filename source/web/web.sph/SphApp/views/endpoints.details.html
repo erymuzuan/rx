@@ -1,0 +1,62 @@
+﻿<div class="row">
+    <h1 data-bind="text:'Endpoint details for '+ route()">Endpoint details</h1>
+</div>
+<div class="row" data-bind="with : security">
+    <h2>Security</h2>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsSecurityEnabled" id="enable-secuirty" type="checkbox" name="IsSecurityEnable" />
+                        Enable security
+                    </label>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped" data-bind="visible:IsSecurityEnabled">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Claims Type</th>
+                    <th>Claims Value</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :ClaimCollection">
+                <tr>
+                    <td data-bind="text:$index() + 1"></td>
+                    <td>
+                        <input type="text" class="form-control" data-bind="value:Claim" />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" data-bind="value:Claim" />
+                    </td>
+                    <td>
+                        <a href="javascript:;" data-bind="click : $parent.removeClaim">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="#"  data-bind="visible:IsSecurityEnabled, click : addClaim" class="btn btn-link">
+            <i class="fa fa-plus-circle"></i>
+            Add a Claim
+        </a>
+
+    </form>
+</div>
+<div class="row">
+    <h2>Metering</h2>
+</div>
+<div class="row">
+    <h2>Tranformation</h2>
+</div>
+<div class="row">
+    <h2>Developers Documentation</h2>
+</div>
+<div class="row">
+    <h2>Failure</h2>
+</div>

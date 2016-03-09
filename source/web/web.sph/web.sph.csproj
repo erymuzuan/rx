@@ -1291,6 +1291,7 @@
     <Content Include="SphApp\services\jsonimportexport.js" />
     <Content Include="SphApp\services\_ko.list.js" />
     <Content Include="SphApp\viewmodels\curl.command.dialog.js" />
+    <Content Include="SphApp\viewmodels\endpoints.details.js" />
     <Content Include="SphApp\viewmodels\endpoints.management.js" />
     <Content Include="SphApp\viewmodels\event.logs.js" />
     <Content Include="SphApp\viewmodels\new.workflow.form.dialog.js" />
@@ -1306,6 +1307,7 @@
     <Content Include="SphApp\viewmodels\_api.management.request.list.js" />
     <Content Include="SphApp\viewmodels\_api.management.request.charts.js" />
     <Content Include="SphApp\views\curl.command.dialog.html" />
+    <Content Include="SphApp\views\endpoints.details.html" />
     <Content Include="SphApp\views\endpoints.management.html" />
     <Content Include="SphApp\views\entity.get.operation.designer.html" />
     <Content Include="SphApp\views\event.logs.html" />

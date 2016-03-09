@@ -419,6 +419,20 @@
   {
     "role": "administrators",
     "groupName": "Admin",
+    "route": "endpoints.details/:id",
+    "moduleId": "viewmodels/endpoints.details",
+    "title": "Endpoints Details",
+    "nav": false,
+    "icon": "icon-share",
+    "caption": "Endpoints details",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "administrators",
+    "groupName": "Admin",
     "route": "event.logs",
     "moduleId": "viewmodels/event.logs",
     "title": "Event logs",
