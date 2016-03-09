@@ -102,6 +102,19 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
 
                 return tcs.promise();
+            },
+            openLogs = function (wf) {
+                require(["viewmodels/workflow.activities", "durandal/app"], function (dialog, app2) {
+                    dialog.id(ko.unwrap(wf.Id));
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+
+
+                            }
+                        });
+                });
             };
 
         var vm = {
@@ -113,6 +126,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             results: results,
             query: query,
             wdOptions: wdOptions,
+            openLogs: openLogs,
             selectedItems: selectedItems,
             terminateItems: terminateItems
         };
