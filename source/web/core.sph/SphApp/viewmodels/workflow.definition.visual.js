@@ -18,6 +18,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         var isBusy = ko.observable(false),
             isPublishing = ko.observable(false),
             selectedActivity = ko.observable(false),
+            currentView = null,
             originalEntity = "",
             publishingMessage = ko.observable(),
             toolboxElements = ko.observableArray(),
@@ -25,6 +26,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             isJsPlumbReady = false,
             activate = function (id) {
+                errors([]);
                 isBusy(true);
                 var query = String.format("Id eq '{0}'", id);
 
@@ -268,6 +270,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 initializeActivity(act);
             },
             attached = function (view) {
+                currentView = view;
                 $(view).on("click", "div.activity", function () {
                     var act = ko.dataFor(this);
                     _(wd().ActivityCollection()).each(function (v) {
@@ -544,18 +547,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             },
             reload = function () {
-
-                if (!wd().Id()) {
-                    var tcs = new $.Deferred();
-                    app.showMessage("You have yet to save your work ", "SPH - Workflow", ["OK"])
-                       .done(tcs.resolve);
-
-                    return tcs.promise();
-                }
-                return activate(wd().Id())
+              return activate(wd().Id())
                 .done(function () {
                     $("div.modalHost, div.modalBlockout").remove();
-                });
+                      return attached(currentView);
+                  });
             },
             viewPages = function () {
                 window.location = "#page.list/" + wd().Id();
