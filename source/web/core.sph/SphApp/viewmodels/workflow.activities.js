@@ -10,8 +10,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(["plugins/dialog", "services/datacontext", "services/logger", "plugins/router"],
-    function (dialog, context, logger, router) {
+define(["plugins/dialog", "services/datacontext"],
+    function (dialog, context) {
 
         var isBusy = ko.observable(false),
             id = ko.observable(),
@@ -50,7 +50,7 @@ define(["plugins/dialog", "services/datacontext", "services/logger", "plugins/ro
             attached = function (view) {
                 setTimeout(function () {
                     $(view).find("input.search-query").parent().css("margin-right", "40px");
-                }, 200);
+                }, 100);
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
