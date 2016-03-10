@@ -92,8 +92,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
             };
             // NOTE: different version of elasticsearch does require different query, so we have 1.7.5 is the default and 1.6 is supported version
-            var wid = await ExecuteElasticsearchQueryAsync(q17.ToString()) ??
-                      await ExecuteElasticsearchQueryAsync(q16.ToString());
+            var wid = await ExecuteElasticsearchQueryAsync(q17.ToJson()) ??
+                      await ExecuteElasticsearchQueryAsync(q16.ToJson());
 
             var context = new SphDataContext();
             var instance = await context.LoadOneAsync<Workflow>(x => x.Id == wid.ToString());
