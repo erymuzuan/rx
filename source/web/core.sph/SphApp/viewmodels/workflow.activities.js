@@ -10,7 +10,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(["plugins/dialog","services/datacontext", "services/logger", "plugins/router"],
+define(["plugins/dialog", "services/datacontext", "services/logger", "plugins/router"],
     function (dialog, context, logger, router) {
 
         var isBusy = ko.observable(false),
@@ -34,7 +34,7 @@ define(["plugins/dialog","services/datacontext", "services/logger", "plugins/rou
                 return tcs.promise();
             },
             activate = function () {
-                
+
                 var query = String.format("Id eq '{0}'", id()),
                     tcs = new $.Deferred();
                 context.loadOneAsync("Workflow", query)
@@ -47,8 +47,10 @@ define(["plugins/dialog","services/datacontext", "services/logger", "plugins/rou
                 return tcs.promise();
 
             },
-            attached = function () {
-
+            attached = function (view) {
+                setTimeout(function () {
+                    $(view).find("input.search-query").parent().css("margin-right", "40px");
+                }, 200);
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
