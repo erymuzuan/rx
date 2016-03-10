@@ -59,18 +59,19 @@ namespace Bespoke.Sph.Domain
             foreach (var branch in this.ListenBranchCollection)
             {
                 var act = wd.GetActivity<Activity>(branch.NextActivityWebId);
-                code.AppendLinf("       var initiateTask{0} = this.InitiateAsync{1}();", count, act.MethodName);
+                code.AppendLine($"       var initiateTask{count} = this.InitiateAsync{act.MethodName}();");
                 initiateTasks.Add("initiateTask" + count);
                 count++;
             }
-            code.AppendLinf("       await Task.WhenAll({0});", string.Join(",", initiateTasks));
+            code.AppendLine($"       await Task.WhenAll({string.Join(",", initiateTasks)});");
+            code.AppendLine();
             code.AppendLinf("       var tracker = await this.GetTrackerAsync();");
             count = 1;
             foreach (var branch in this.ListenBranchCollection)
             {
-                code.AppendLinf("       var act{0} = this.GetActivity<Activity>(\"{1}\");", count, branch.NextActivityWebId);
-                code.AppendLinf("       var bc{0} = await  initiateTask{0};", count);
-                code.AppendLinf("       tracker.AddInitiateActivity(act{0}, bc{0}, System.DateTime.Now.AddSeconds(1));", count);
+                code.AppendLine($@"       var act{count} = this.GetActivity<Activity>(""{branch.NextActivityWebId}"");");
+                code.AppendLine($"       var bc{count} = await  initiateTask{count};");
+                code.AppendLine($"       tracker.AddInitiateActivity(act{count}, bc{count}, System.DateTime.Now.AddSeconds(1));");
                 code.AppendLine();
                 count++;
             }
@@ -86,26 +87,22 @@ namespace Bespoke.Sph.Domain
 
 
             // triggered fires
-            code.AppendLinf("   public async Task FireListenTrigger{0}(string webId)", this.MethodName);
+            code.AppendLine($"   private async Task FireListenTrigger{MethodName}(string winningActivityWebId)");
             code.AppendLine("   {");
-            code.AppendLinf("       var self = this.GetActivity<ListenActivity>(\"{0}\");", this.WebId);
-            code.AppendLinf("       var fired = this.GetActivity<Activity>(webId);");
+            code.AppendLine($@"       var self = this.GetActivity<ListenActivity>(""{WebId}"");");
+            code.AppendLine("       var fired = this.GetActivity<Activity>(winningActivityWebId);");
 
-            code.AppendLinf("       var tracker = await this.GetTrackerAsync();");
-            code.AppendLinf("       tracker.AddExecutedActivity(fired);");
+            code.AppendLine("       var tracker = await this.GetTrackerAsync();");
+            code.AppendLine("       tracker.AddExecutedActivity(fired);");
 
             code.AppendLinf(@"      await self.CancelAsync(this);
  
                                     var cancelled = self.ListenBranchCollection
-                                                    .Where(a =>a.NextActivityWebId != webId)
+                                                    .Where(a =>a.NextActivityWebId != winningActivityWebId)
                                                     .Select(a => this.GetActivity<Activity>(a.NextActivityWebId))
                                                     .Select(act => act.CancelAsync(this));");
             code.AppendLinf("       await Task.WhenAll(cancelled);");
 
-            // then execute this fired
-            code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
-            code.AppendLine("       result.NextActivities = new[]{fired.NextActivityWebId};");
-            code.AppendLinf("       await this.SaveAsync(\"{0}\", result);", this.WebId);
 
             code.AppendLine("   }");
 
