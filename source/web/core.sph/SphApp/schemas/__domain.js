@@ -5612,6 +5612,7 @@ bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
         User: ko.observable(""),
         Name: ko.observable(""),
         Type: ko.observable(""),
+        IsCancelled: ko.observable(false),
         Initiated: ko.observable(),
         Run: ko.observable(),
         isBusy: ko.observable(false),
