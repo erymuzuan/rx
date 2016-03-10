@@ -5174,11 +5174,16 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     v.MessagePath = ko.observable("");
 
+    v.CancelMessageBody = ko.observable("");
+
+    v.CancelMessageSubject = ko.observable("");
+
     v["$type"] = "Bespoke.Sph.Domain.ReceiveActivity, domain.sph";
 
     v.InitializingCorrelationSetCollection = ko.observableArray([]);
     v.FollowingCorrelationSetCollection = ko.observableArray([]);
     v.CorrelationPropertyCollection = ko.observableArray([]);
+    v.Performer = ko.observable(new bespoke.sph.domain.Performer());
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -6586,7 +6591,6 @@ bespoke.sph.domain.CustomAction = function (optionOrWebid) {
         IsActive: ko.observable(false),
         TriggerId: ko.observable(""),
         Note: ko.observable(""),
-        CustomActionId: ko.observable(0),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

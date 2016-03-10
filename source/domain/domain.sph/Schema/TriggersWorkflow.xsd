@@ -185,7 +185,6 @@
 		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 		<xs:attribute name="TriggerId" type="xs:string" use="required"/>
 		<xs:attribute name="Note" type="xs:string" use="required"/>
-		<xs:attribute name="CustomActionId" type="xs:int" use="required"/>
 	</xs:complexType>
 	<xs:element name="EmailAction">
 		<xs:complexType>

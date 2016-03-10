@@ -5586,11 +5586,6 @@ namespace Bespoke.Sph.Domain
         private string m_note;
         public const string PropertyNameNote = "Note";
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-
-        private int m_customActionId;
-        public const string PropertyNameCustomActionId = "CustomActionId";
-
 
         // public properties members
 
@@ -5675,27 +5670,6 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_note;
-            }
-        }
-
-
-
-        public int CustomActionId
-        {
-            set
-            {
-                if (m_customActionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameCustomActionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_customActionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_customActionId;
             }
         }
 
