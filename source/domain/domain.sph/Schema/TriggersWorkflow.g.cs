@@ -3108,6 +3108,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isCancelled;
+        public const string PropertyNameIsCancelled = "IsCancelled";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private DateTime? m_initiated;
         public const string PropertyNameInitiated = "Initiated";
 
@@ -3271,6 +3276,31 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_type;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public bool IsCancelled
+        {
+            set
+            {
+                if (m_isCancelled == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsCancelled, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isCancelled = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isCancelled;
             }
         }
 

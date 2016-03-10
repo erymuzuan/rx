@@ -84,7 +84,6 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-
                 session.Attach(this);
                 await session.SubmitChanges("SaveTracker");
             }
@@ -228,7 +227,13 @@ namespace Bespoke.Sph.Domain
             return pendings;
         }
 
-        public void CancelAsyncList(string activityWebId, string correlation = null)
+        /// <summary>
+        /// Remove the activity from waiting list, so it cannot be invoke anymore
+        /// </summary>
+        /// <param name="activityWebId"></param>
+        /// <param name="correlation"></param>
+        /// <param name="cancelStatus">Set the ExecutedActivity cancel status</param>
+        public void CancelAsyncList(string activityWebId, string correlation = null, bool cancelStatus = true)
         {
             if (this.WaitingAsyncList.ContainsKey(activityWebId))
             {
@@ -237,6 +242,9 @@ namespace Bespoke.Sph.Domain
                     this.WaitingAsyncList[activityWebId].Clear();
                 else
                     this.WaitingAsyncList[activityWebId].Remove(correlation);
+
+                var ea = this.ExecutedActivityCollection.SingleOrDefault(x => x.ActivityWebId == activityWebId);
+                if (ea != null) ea.IsCancelled = true;
             }
         }
     }

@@ -832,6 +832,7 @@
 			<xs:attribute name="User" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="IsCancelled" type="xs:boolean" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Breakpoint">
