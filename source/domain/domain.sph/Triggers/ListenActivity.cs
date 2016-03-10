@@ -112,8 +112,7 @@ namespace Bespoke.Sph.Domain
         public override async Task CancelAsync(Workflow wf)
         {
             var tracker = await wf.GetTrackerAsync();
-
-            tracker.CancelAsyncList(this.WebId);
+            tracker.CancelAsyncList(this.WebId, cancelStatus: false);
             await tracker.SaveAsync();
         }
 
