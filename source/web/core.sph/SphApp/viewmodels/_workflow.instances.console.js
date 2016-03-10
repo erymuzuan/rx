@@ -50,8 +50,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
                 return tcs.promise();
             },
-            attached = function () {
-                $("#intance-query-date-range").daterangepicker(
+            attached = function (view) {
+                $(view).find("div.date-range").daterangepicker(
                                        {
                                            ranges: {
                                                'Today': [moment(), moment()],
