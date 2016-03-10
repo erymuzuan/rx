@@ -1,8 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
   "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
-  "Icon": "fa fa-cloud-upload",
-  "Url": "operation.endpoint.designer/{id}",
   "EntityPermissionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
     "$values": []
@@ -12,12 +10,6 @@
     "$values": [
       "Dob",
       "Transfer Ward"
-    ]
-  },
-  "Permissions": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-    "$values": [
-      "Everybody"
     ]
   },
   "SetterActionChildCollection": {
@@ -57,6 +49,13 @@
       }
     ]
   },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": false,
+    "WebId": null
+  },
   "Name": "Transfer",
   "Route": "~/api/patients/{id}/transfer",
   "IsHttpPut": false,
@@ -67,10 +66,11 @@
   "Entity": "Patient",
   "Resource": "patients",
   "IsPublished": true,
+  "IsConflictDetectionEnabled": true,
   "CreatedBy": "admin",
   "Id": "patient-transfer",
   "CreatedDate": "2016-02-01T07:01:55.3452451+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-02T08:24:40.24968+08:00",
+  "ChangedDate": "2016-03-10T16:23:38.4232312+08:00",
   "WebId": "41a1ee80-283e-4586-a271-70997ac6479f"
 }

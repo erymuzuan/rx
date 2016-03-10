@@ -124,7 +124,7 @@ namespace Bespoke.Sph.Domain
             if (this.IsConflictDetectionEnabled)
             {
                 patch.ArgumentCollection.Add(new MethodArg { Name = "etag", TypeName = "ETag", AttributeCollection = { "[IfMatch]" } });
-                patch.ArgumentCollection.Add(new MethodArg { Name = "modifiedSince", TypeName = "DateTime?", AttributeCollection = { "[ModifiedSince]" } });
+                patch.ArgumentCollection.Add(new MethodArg { Name = "modifiedSince", TypeName = "ModifiedSinceHeader", AttributeCollection = { "[ModifiedSince]" } });
             }
 
             patch.AppendLine("var context = new SphDataContext();");
@@ -134,9 +134,7 @@ namespace Bespoke.Sph.Domain
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
             var lo = await repos.LoadOneAsync(id);
             var item = lo.Source;
-            if(null == item) return NotFound(""Cannot find any {ed.Name} with Id "" + id);
-            
-            var changedDate = item.ChangedDate;");
+            if(null == item) return NotFound(""Cannot find any {ed.Name} with Id "" + id);");
 
             patch.Append(this.GenerateConflicDetectionCode());
 
@@ -201,13 +199,8 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
 
             code.Append(
-                @"        
-                if ($""{modifiedSince:s}"" != lo.Source.ChangedDate.ToString(""s""))
-                {
-                    return Invalid(new { message =""Your If-Modified-Since header is out of date""});
-                }
-                
-                if (etag?.Tag != lo.Version)
+                @"               
+                if (!etag.IsMatch(lo.Version, modifiedSince, lo.Source.ChangedDate, false))
                 {
                     return Invalid(new { message =""Your If-Match header is out of date""});
                 }

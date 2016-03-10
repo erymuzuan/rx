@@ -38,28 +38,28 @@ namespace Bespoke.Sph.WebApi
         public bool IsMatch(DateTime dateTime)
         {
             if (!this.Offset.HasValue) return false;
-            var v1 = $"{this.Offset.Value.LocalDateTime:s}";
-            var v2 = dateTime.ToString("s");
-            return v1 == v2;
+            var header = $"{this.Offset.Value.DateTime:s}";
+            var actual = dateTime.ToString("s");
+            return header == actual;
         }
         public bool IsMatch(DateTime? dateTime)
         {
             if (!this.Offset.HasValue) return false;
-            var v1 = $"{this.Offset.Value.DateTime:s}";
+            var header = $"{this.Offset.Value.DateTime:s}";
             if (!dateTime.HasValue) return false;
-            var v2 = dateTime.Value.ToString("s");
-            return v1 == v2;
+            var actual = dateTime.Value.ToString("s");
+            return header == actual;
         }
         public bool IsMatch(string input)
         {
             if (!this.Offset.HasValue) return false;
-            var v1 = $"{this.Offset.Value.LocalDateTime:s}";
+            var header = $"{this.Offset.Value.DateTime:s}";
 
             DateTime dateTime;
             if (DateTime.TryParse(input, out dateTime))
             {
-                var v2 = dateTime.ToString("s");
-                return v1 == v2;
+                var actual = dateTime.ToString("s");
+                return header == actual;
             }
             return false;
         }
