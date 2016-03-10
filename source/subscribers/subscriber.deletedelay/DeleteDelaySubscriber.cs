@@ -7,15 +7,9 @@ namespace subscriber.deletedelay
 {
     public class DeleteDelaySubscriber : Subscriber<Tracker>
     {
-        public override string QueueName
-        {
-            get { return "delete_delay_subscriber"; }
-        }
+        public override string QueueName => "delete_delay_subscriber";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "Tracker.#.DeleteDelayActivity" }; }
-        }
+        public override string[] RoutingKeys => new[] { "Tracker.#.DeleteDelayActivity" };
 
         protected override Task ProcessMessage(Tracker item, MessageHeaders header)
         {
