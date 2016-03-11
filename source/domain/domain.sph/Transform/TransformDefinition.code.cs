@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class TransformDefinition
     {
+        [JsonIgnore]
         public string ClassName => this.Name.ToPascalCase();
+        [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.Integrations.Transforms";
 
         private string GetCodeHeader()

@@ -1,7 +1,5 @@
 {
   "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
-  "ClassName": "PatientToLoadTestPageDetail",
-  "CodeNamespace": "DevV1.Integrations.Transforms",
   "MapCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
     "$values": [
@@ -161,7 +159,7 @@
       {
         "$type": "Bespoke.Sph.Domain.ConstantFunctoid, domain.sph",
         "TypeName": "System.String, mscorlib",
-        "Value": "1.5",
+        "Value": "1.6",
         "ArgumentCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
           "$values": []
@@ -194,6 +192,6 @@
   "Id": "patient-to-load-test-page-detail",
   "CreatedDate": "2016-03-05T09:01:14.2943252+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-03-05T13:41:55.4548204+08:00",
+  "ChangedDate": "2016-03-11T08:40:48.1081637+08:00",
   "WebId": "fcdb4743-5b19-41d0-8e28-5aeb2cb681bb"
 }
