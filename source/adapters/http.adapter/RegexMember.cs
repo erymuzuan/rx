@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -12,7 +13,19 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string Group { get; set; }
         public string DateFormat { get; set; }
         public string NumberFormat { get; set; }
-        public Type Type { get; set; }
+        [JsonIgnore]
+        public Type Type
+        {
+            get
+            {
+                return Strings.GetType(this.TypeName);
+            }
+            set
+            {
+                this.TypeName = value.GetShortAssemblyQualifiedName();
+            }
+        }
+        public string TypeName { get; set; }
         public bool IsNullable { get; set; }
 
         public string FieldName

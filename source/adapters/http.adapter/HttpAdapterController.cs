@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
     [RoutePrefix("httpadapter")]
-    public class HttpAdapterController : ApiController
+    public class HttpAdapterController : BaseApiController
     {
         [Route("operations/{harStoreId}")]
         public async Task<HttpResponseMessage> GetOperations(string harStoreId)
@@ -22,7 +23,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var json = await store.GetContentAsync(harStoreId);
             var temp = Path.GetTempFileName();
-            File.WriteAllBytes(temp, json.Content);
+            System.IO.File.WriteAllBytes(temp, json.Content);
 
             var ha = new HttpAdapter { Har = temp };
             await ha.OpenAsync();
@@ -36,25 +37,17 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         [Route("operation/{id}/{uuid}")]
-        public async Task<HttpResponseMessage> GetOperation(string id, string uuid)
+        public IHttpActionResult GetOperation(string id, string uuid)
         {
             var context = new SphDataContext();
-            var adapters = context.CreateQueryable<Adapter>();
-            var query = adapters.Where(x => x.Id == id);
-            var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault();
-            if (null == ha)
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            var ha = context.LoadOneFromSources<Adapter>(x =>x.Id == id);
+            if (null == ha) return NotFound($"Cannot find HTTP adapter with id :{id}");
 
             var op = ha.OperationDefinitionCollection.SingleOrDefault(o => o.Uuid == uuid);
             if (null == op)
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new JsonContent(op.ToJsonString(), Encoding.UTF8)
-            };
-
-            return response;
+                return NotFound($"No operation with uuid :{uuid} is registered in {id}");
+            
+            return Json(op.ToJsonString());
         }
 
         [Route("publish")]

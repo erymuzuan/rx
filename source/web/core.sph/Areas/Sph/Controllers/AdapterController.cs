@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
@@ -137,7 +135,7 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-        [Route("designer/{extension}/{jsroute}")]
+        [Route("designer/{jsroute}/{extension}")]
         [HttpGet]
         public IHttpActionResult GetDialog(string extension, string jsroute)
         {
