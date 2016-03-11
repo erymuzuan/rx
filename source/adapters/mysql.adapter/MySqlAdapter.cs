@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     [EntityType(typeof(Adapter))]
     [Export("AdapterDesigner", typeof(Adapter))]
-    [DesignerMetadata(Name = "MySql database", PngIcon = "~/images/mysql-24-black.png", RouteTableProvider = typeof(MySqlServerRouteProvider), Route = "adapter.mysql/0")]
+    [DesignerMetadata(Name = "MySql database", PngIcon = "/images/mysql-24-black.png", RouteTableProvider = typeof(MySqlServerRouteProvider), Route = "adapter.mysql/0")]
     public class MySqlAdapter : Adapter
     {
         private string m_connectionString;

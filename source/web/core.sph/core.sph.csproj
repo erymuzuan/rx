@@ -2642,6 +2642,14 @@
     <EmbeddedResource Include="SphApp\viewmodels\new.value.object.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\partial.view.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.routeparameter.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\event.logs.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.entity.form.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.entity.view.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.operation.endpoint.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.query.endpoint.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.workflow.form.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\query.endpoint.designer.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\variable.valueobject.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -3170,6 +3178,13 @@
     <EmbeddedResource Include="SphApp\views\new.report.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.value.object.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\field.routeparameter.html" />
+    <EmbeddedResource Include="SphApp\views\event.logs.html" />
+    <EmbeddedResource Include="SphApp\views\new.entity.form.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\new.entity.view.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\new.operation.endpoint.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\new.query.endpoint.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\new.workflow.form.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\variable.valueobject.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
