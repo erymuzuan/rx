@@ -33,6 +33,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
             await m_next(environment);
             sw.Stop();
 
+            var accepts = context.Request.Accept.ToEmptyString();
             var request = new
             {
                 Elapsed = sw.ElapsedMilliseconds,
@@ -44,7 +45,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
                     PathBase = context.Request.PathBase.ToString(),
                     Host = context.Request.Host.ToString(),
                     context.Request.RemoteIpAddress,
-                    Accepts = context.Request.Accept.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    Accepts = accepts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => x.Trim())
                     .ToArray(),
                     context.Request.CacheControl,
