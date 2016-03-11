@@ -2653,6 +2653,8 @@
     <EmbeddedResource Include="SphApp\viewmodels\new.workflow.form.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\query.endpoint.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\variable.valueobject.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.partial.view.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.form.dialog.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -3188,6 +3190,8 @@
     <EmbeddedResource Include="SphApp\views\new.query.endpoint.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.workflow.form.dialog.html" />
     <EmbeddedResource Include="SphApp\views\variable.valueobject.html" />
+    <EmbeddedResource Include="SphApp\views\new.partial.view.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\new.form.dialog.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

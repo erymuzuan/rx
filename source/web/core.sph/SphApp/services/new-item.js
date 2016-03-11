@@ -149,8 +149,8 @@
             },
             addWorkflowForm = function (wd) {
                 return app.showDialog("new.workflow.form.dialog", function (dialog) {
-                            dialog.wd(wd);
-                        })
+                    dialog.wd(wd);
+                })
                         .then(function (dialog, result) {
                             if (result === "OK") {
                                 return checkSource("WorkflowForm", "Id eq '" + ko.unwrap(dialog.id) + "'");
@@ -192,17 +192,17 @@
             },
             addPartialView = function (entityDefinition) {
 
-                return app.showDialog("new.operation.endpoint.dialog", function (dialog) {
+                return app.showDialog("new.partial.view.dialog", function (dialog) {
                     dialog.entity(entityDefinition);
                 })
                         .then(function (dialog, result) {
                             if (result === "OK") {
-                                return checkSource("OperationEndpoint", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                                return checkSource("PartialView", "Id eq '" + ko.unwrap(dialog.id) + "'");
                             }
                             return Task.fromResult(0);
                         }).then(function (ed) {
                             if (ed)
-                                router.navigate("#operation.endpoint.designer/" + ko.unwrap(ed.Id));
+                                router.navigate("#partial.view.designer/" + ko.unwrap(ed.EntityId) + "/" + ko.unwrap(ed.Id));
                         });
             },
             addDashboard = function (entityDefinition) {
@@ -222,17 +222,17 @@
             },
             addDialog = function (entityDefinition) {
 
-                return app.showDialog("new.operation.endpoint.dialog", function (dialog) {
+                return app.showDialog("new.form.dialog.dialog", function (dialog) {
                     dialog.entity(entityDefinition);
                 })
                         .then(function (dialog, result) {
                             if (result === "OK") {
-                                return checkSource("OperationEndpoint", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                                return checkSource("FormDialog", "Id eq '" + ko.unwrap(dialog.id) + "'");
                             }
                             return Task.fromResult(0);
                         }).then(function (ed) {
                             if (ed)
-                                router.navigate("#operation.endpoint.designer/" + ko.unwrap(ed.Id));
+                                router.navigate("#form.dialog.designer/" + ko.unwrap(ed.Entity) + "/" + ko.unwrap(ed.Id));
                         });
             };
 
