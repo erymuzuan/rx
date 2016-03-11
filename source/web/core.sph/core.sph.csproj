@@ -2168,6 +2168,8 @@
     <EmbeddedResource Include="Scripts\__vendor.dev.min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
+    <EmbeddedResource Include="SphApp\ko\_ko.adapter.http.js" />
+    <EmbeddedResource Include="SphApp\ko\_ko.mapping.js" />
     <Content Include="SphApp\partial\ComplexMemberPartial.js" />
     <Content Include="SphApp\partial\WorkflowFormPartial.js" />
     <Content Include="SphApp\partial\ValueObjectDefinitionPartial.js" />
@@ -2632,6 +2634,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\form.dialog.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\workflow.form.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\workflow.schema.dialog.js" />
+    <EmbeddedResource Include="SphApp\services\_ko.list.js" />
     <Content Include="SphApp\viewmodels\environment.variables.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.entity.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.workflow.definition.dialog.js" />
