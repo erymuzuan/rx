@@ -139,9 +139,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public async Task<IHttpActionResult> Text(string id, string method, [FromUri]string url)
         {
             var context = new SphDataContext();
-            var adapters = context.CreateQueryable<Adapter>();
-            var query = adapters.Where(x => x.Id == id);
-            var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault() as HttpAdapter;
+            var ha = context.LoadOneFromSources<Adapter>(x => x.Id == id) as HttpAdapter;
             if (null == ha)
                 return NotFound();
 

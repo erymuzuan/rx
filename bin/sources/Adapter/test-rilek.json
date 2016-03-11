@@ -2546,7 +2546,32 @@
         },
         "ResponseMemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": []
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": "<tr id=\"item_01SS053513\"> <td><input type=\"checkbox\" name=\"summons\\[\\]\" value=\"70\\.00\\|01SS053513\" class=\"summons\">\n</td> <td>1</td> <td> </td> <td>01SS053513</td> <td>(?<Member_Name>.*?)</td> <td>13 Aug 2006 11:58:00</td> <td>KUALA LIPIS</td> <td>KM 18 JLN LIPIS MERAPOH</td> <td colspan=\"2\" style=\"padding:0;\"> <table border=\"0\" style=\"width:100%;\"> <tbody><tr> <td style=\"border-bottom: none;\"> SPEEDING </td> <td style=\"border-bottom: none; text-align:right;\"> 150.00 / <span style=\"font-weight:bold;\">70.00</span></td> </tr> </tbody></table> </td> <td>14 Aug 2006</td> <td>NO</td> <td>NO</td> <td>NO</td> <td style=\"text-align:right; font-weight:bold;\">70.00</td> </tr>",
+              "Group": "Member_Name",
+              "DateFormat": null,
+              "NumberFormat": null,
+              "Type": null,
+              "IsNullable": false,
+              "FieldName": null,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Member_Name",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "10ab4539-6426-4dd7-a24f-0a7bbd0393b4"
+            }
+          ]
         },
         "Uuid": "3bb367a2-f149-470f-9b85-bc17ca324899"
       },
@@ -3130,6 +3155,6 @@
   "Id": "test-rilek",
   "CreatedDate": "2014-09-19T07:05:37.0869256+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-03-11T10:28:18.1107772+08:00",
+  "ChangedDate": "2016-03-11T11:24:34.9669976+08:00",
   "WebId": "9abbc32f-39c4-48ce-bcef-ab9f1916f35c"
 }

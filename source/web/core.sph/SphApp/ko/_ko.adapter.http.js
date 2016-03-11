@@ -80,6 +80,9 @@
                                             child.Group = ko.observable();
                                             child.DateFormat = ko.observable();
                                             child.NumberFormat = ko.observable();
+                                            child.IsNullable = ko.observable(false);
+                                            child.AllowMultiple = ko.observable(false);
+                                            child.TypeName = ko.observable("System.String, mscorlib");
 
                                             var ref = $(element).jstree(true),
                                                 sel = ref.get_selected();
