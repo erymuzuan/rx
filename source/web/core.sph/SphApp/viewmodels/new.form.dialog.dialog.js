@@ -14,20 +14,25 @@
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
-        var entities = ko.observableArray(),
+        var entityOptions = ko.observableArray(),
             form = ko.observable(new bespoke.sph.domain.FormDialog(system.guid())),
             entity = ko.observable(),
             id = ko.observable(),
             activate = function () {
-                form(new bespoke.sph.domain.FormDialog({ "Entity": ko.unwrap(entity), "WebId": system.guid() }));
-                form().Title.subscribe(function (v) {
+                var dlg = new bespoke.sph.domain.FormDialog({ "Entity": ko.unwrap(entity), "WebId": system.guid() });
+                dlg.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton({ WebId: system.guid(), Text: "OK", IsDefault: true }));
+                dlg.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton({ WebId: system.guid(), Text: "Cancel", IsCancel: true }));
+
+                dlg.Title.subscribe(function (v) {
                     form().Route(v.toLowerCase().replace(/\W+/g, "-"));
                 });
-                form().Entity.subscribe(function (v) {
+                dlg.Entity.subscribe(function (v) {
                     context.getScalarAsync("EntityDefinition", "Name eq '" + v + "'", "Id")
                         .done(form().EntityDefinitionId);
                 });
-                return context.getListAsync("EntityDefinition", "Id ne ''", "Name").done(entities);
+
+                form(dlg);
+                return context.getTuplesAsync("EntityDefinition", null, "Id", "Name").done(entityOptions);
             },
             okClick = function (data, ev) {
                 if (!bespoke.utils.form.checkValidity(ev.target)) {
@@ -46,15 +51,21 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
+            },
+            attached = function(view) {
+                setTimeout(function() {
+                    $(view).find("#name-input").focus();
+                }, 500);
             };
 
         var vm = {
             form: form,
             activate: activate,
+            attached: attached,
             okClick: okClick,
             entity: entity,
             id: id,
-            entities: entities,
+            entityOptions: entityOptions,
             cancelClick: cancelClick
         };
 

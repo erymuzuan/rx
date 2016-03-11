@@ -64,7 +64,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         collectionMemberOptions(collectionMembers);
                     });
 
-         
+
 
                 if (formid !== "0") {
                     context.loadOneAsync("FormDialog", "Id eq '" + formid + "'")
@@ -78,7 +78,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     });
                 } else {
                     var dlg = new bespoke.sph.domain.FormDialog(system.guid());
-                    dlg.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton({WebId : system.guid(), Text: "OK", IsDefault : true}));
+                    dlg.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton({ WebId: system.guid(), Text: "OK", IsDefault: true }));
                     dlg.DialogButtonCollection.push(new bespoke.sph.domain.DialogButton({ WebId: system.guid(), Text: "Cancel", IsCancel: true }));
                     form(dlg);
                     setTimeout(function () {
@@ -310,11 +310,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 var data = ko.mapping.toJSON(form);
 
-                return context.post(data, "/form-dialog/publish")
+                return context.post(data, "/api/form-dialogs/" + ko.unwrap(form().Id) + "/publish")
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
-                            form().Id(result.id);
                             errors.removeAll();
                             warnings(result.warnings);
                             originalEntity = ko.toJSON(form);
@@ -338,11 +337,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(form);
 
-                context.post(data, "/form-dialog")
+                context.post(data, "/api/form-dialogs")
                     .then(function (result) {
                         if (result.success) {
-                            form().Id(result.id);
-                            router.navigate("/form.dialog.designer/" + entity().Id() + "/" + form().Id());
                             logger.info("Your form has been successfully saved.");
                             originalEntity = ko.toJSON(form);
                         } else {
@@ -377,67 +374,67 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             removeAsync = function () {
 
-            var tcs = new $.Deferred(),
-                data = ko.mapping.toJSON(form);
-            app.showMessage("Are you sure you want to permanently remove this form?, this action cannot be undone!!", "Reactive Developer", ["Yes", "No"])
-                .done(function (dialogResult) {
-                    if (dialogResult === "Yes") {
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(form);
+                app.showMessage("Are you sure you want to permanently remove this form?, this action cannot be undone!!", "Reactive Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
 
-                        context.send(data, "/entity-form/" + form().Id(), "DELETE")
-                            .fail(tcs.reject)
-                            .then(function (result) {
-                                if (result.success) {
-                                    logger.info(result.message);
-                                    errors.removeAll();
-                                    window.location = "/sph#entity.details/" + entity().Id();
-                                } else {
-                                    logger.error("There are errors in your form, cannot be removed !!");
-                                }
-                                tcs.resolve(result);
-                            });
-                    } else {
-                        tcs.resolve(false);
+                            context.send(data, "/entity-form/" + form().Id(), "DELETE")
+                                .fail(tcs.reject)
+                                .then(function (result) {
+                                    if (result.success) {
+                                        logger.info(result.message);
+                                        errors.removeAll();
+                                        window.location = "/sph#entity.details/" + entity().Id();
+                                    } else {
+                                        logger.error("There are errors in your form, cannot be removed !!");
+                                    }
+                                    tcs.resolve(result);
+                                });
+                        } else {
+                            tcs.resolve(false);
 
-                    }
-                });
+                        }
+                    });
 
-            return tcs.promise();
-        },
+                return tcs.promise();
+            },
             depublishAsync = function () {
 
-            var tcs = new $.Deferred(),
-                data = ko.mapping.toJSON(form);
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(form);
 
-            context.post(data, "/form-dialog/depublish")
-                .then(function (result) {
-                    if (result.success) {
-                        logger.info(result.message);
-                        errors.removeAll();
-                    } else {
-                        var views = _(result.views).map(function (v) {
-                            return {
-                                Message: v + " view has a link to this form!",
-                                Code: ""
-                            }
-                        });
-                        errors(views);
-                        logger.error("There are errors in your form, depublish those views first to proceed, !!!");
-                    }
-                    tcs.resolve(result);
-                });
-            return tcs.promise();
-        },
+                context.post(data, "/api/form-dialogs/"+ ko.unwrap(form().Id)+"/depublish")
+                    .then(function (result) {
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+                            var views = _(result.views).map(function (v) {
+                                return {
+                                    Message: v + " view has a link to this form!",
+                                    Code: ""
+                                }
+                            });
+                            errors(views);
+                            logger.error("There are errors in your form, depublish those views first to proceed, !!!");
+                        }
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            },
             partialEditor = null,
             editCode = function () {
-            if (null == partialEditor || partialEditor.closed) {
-                var partial = "partial/" + form().Route();
-                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", "_blank", "height=600px,width=800px,toolbar=0,location=0");
-                form().Partial(partial);
-            } else {
-                partialEditor.focus();
-            }
+                if (null == partialEditor || partialEditor.closed) {
+                    var partial = "partial/" + form().Route();
+                    partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", "_blank", "height=600px,width=800px,toolbar=0,location=0");
+                    form().Partial(partial);
+                } else {
+                    partialEditor.focus();
+                }
 
-            return Task.fromResult(true);
+                return Task.fromResult(true);
 
             };
 
