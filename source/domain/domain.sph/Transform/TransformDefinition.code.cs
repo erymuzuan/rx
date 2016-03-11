@@ -13,6 +13,10 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string ClassName => this.Name.ToPascalCase();
         [JsonIgnore]
+        public string FullTypeName => $"{CodeNamespace}.{ClassName}";
+        [JsonIgnore]
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.{Name}";
+        [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.Integrations.Transforms";
 
         private string GetCodeHeader()

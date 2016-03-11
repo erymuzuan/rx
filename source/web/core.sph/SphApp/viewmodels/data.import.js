@@ -1,12 +1,13 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="~/Scripts/_task.js" />
+
 define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
 
@@ -35,9 +36,9 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 return canPreview() && model().map() && model().entity();
             }),
             activate = function () {
-                context.getTuplesAsync("EntityDefinition", "Id ne '0'", "Id", "Name")
+                context.getTuplesAsync("EntityDefinition", null, "Id", "Name")
                     .done(entityOptions);
-                return context.getTuplesAsync("Adapter", "Id ne '0'", "Id", "Name")
+                return context.getTuplesAsync("Adapter", null, "Id", "Name")
                     .done(adapterOptions);
             },
             modelChanged = function () {
@@ -58,7 +59,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
 
                 var filterMapOptions = function (list) {
-                    var filtered = _(list).filter(function(v) {
+                    var filtered = _(list).filter(function (v) {
                         return v.InputTypeName.indexOf(model().table()) > -1 && v.OutputTypeName.indexOf(model().entity()) > -1;
                     });
                     mapOptions(filtered);
@@ -95,9 +96,12 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             },
             attached = function (view) {
                 modelChanged(view);
+                $(view).on("click", "div.modal-footer>button", function () {
+                    $("div.modal-backdrop").remove();
+                });
             },
             preview = function () {
-                return context.post(ko.mapping.toJSON(model), "data-import/preview")
+                return context.post(ko.mapping.toJSON(model), "/api/data-imports/preview")
                      .done(function (lo) {
                          var table = _(tableOptions()).find(function (v) { return v.Name === model().table(); });
                          var thead = "<tr>";
@@ -119,21 +123,24 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                          console.log(lo);
                          $("#preview-panel").modal("show");
+
+                         $("div.modal-backdrop").remove();
+                         $("#data-import-view-panel").after($("<div class='modal-backdrop fade in'></div>"));
                      });
             },
             importData = function () {
-                return context.post(ko.mapping.toJSON(model), "data-import")
+                return context.post(ko.mapping.toJSON(model), "/api/data-imports/" + ko.unwrap(model().Name) + "/execute")
                      .done(function (result) {
                          logger.info(result.message);
                      });
             },
             save = function () {
                 var data = ko.toJSON(model);
-                return context.post(data, "/data-import/save");
+                return context.post(data, "/api/data-imports");
             },
             removeAsync = function () {
                 var data = ko.toJSON(model);
-                return context.send("DELETE", data, "/data-import");
+                return context.send("DELETE", data, "/api/data-imports/" + ko.unwrap(model().Name));
             },
             openSnippet = function () {
                 var tcs = new $.Deferred();

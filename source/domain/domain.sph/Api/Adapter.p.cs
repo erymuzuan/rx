@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -6,7 +7,10 @@ namespace Bespoke.Sph.Domain.Api
     {
         public AdapterTable[] Tables { get; set; }
         public string Schema { get; set; }
+        [JsonIgnore]
         public virtual string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.Adapters.{this.Name.ToPascalCase()}.{this.Schema.ToPascalCase()}";
+        [JsonIgnore]
+        public virtual string AssemblyName => $"{ConfigurationManager.ApplicationName}.{Name}";
         public ObjectCollection<TableDefinition> TableDefinitionCollection { get; } = new ObjectCollection<TableDefinition>();
         public ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
 

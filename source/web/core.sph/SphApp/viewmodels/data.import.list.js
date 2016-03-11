@@ -14,7 +14,7 @@ define(["plugins/dialog"],
         var model = ko.observable(),
             list = ko.observableArray(),
             activate = function () {
-                $.get("/data-import").done(list);
+                $.get("/api/data-imports").done(list);
             },
             attached = function (view) {
                 var checkboxes = $(view).find("i.fa-check");
@@ -24,6 +24,9 @@ define(["plugins/dialog"],
                     var m = ko.dataFor(this);
                     model(m);
                     $(this).find("i.fa-check").show();
+                });
+                $(view).on("click", "div.modal-footer>a", function () {
+                    $("div.modal-backdrop").remove();
                 });
             },
             okClick = function (data, ev) {
