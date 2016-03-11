@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -9,7 +9,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, 'ko/_ko.adapter.http'],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "ko/_ko.adapter.http"],
     function (context, logger, router, system) {
 
         var operation = ko.observable(),
@@ -20,7 +20,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             responseSchema = ko.observable(),
             member = ko.observable(),
             responseMember = ko.observable(), showFieldDialog = function (accessor, field, path, entity) {
-                require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+                require(["viewmodels/" + path, "durandal/app"], function (dialog, app2) {
                     dialog.field(field);
                     if (typeof dialog.entity === "function") {
                         dialog.entity(entity);
@@ -38,8 +38,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 });
             },
         addField = function (accessor, type, entity) {
-            var field = new bespoke.sph.domain[type + 'Field'](system.guid());
-            showFieldDialog(accessor, field, 'field.' + type.toLowerCase(), entity);
+            var field = new bespoke.sph.domain[type + "Field"](system.guid());
+            showFieldDialog(accessor, field, "field." + type.toLowerCase(), entity);
         },
         editField = function (field) {
             var self = this;
@@ -50,7 +50,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     type = pattern.exec(fieldType)[1];
 
 
-                showFieldDialog(self.Field, clone, 'field.' + type.toLowerCase());
+                showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
             };
         },
          removeHeaderDefinition = function (child) {
@@ -91,16 +91,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                     _(operation().RequestMemberCollection()).each(function (v) {
                         if (!ko.unwrap(v.TypeName)) {
-                            v.TypeName('System.String, mscorlib');
+                            v.TypeName("System.String, mscorlib");
                         }
                     });
 
                     requestSchema({
-                        Name: ko.observable('Request'),
+                        Name: ko.observable("Request"),
                         MemberCollection: ko.observableArray(operation().RequestMemberCollection())
                     });
                     responseSchema({
-                        Name: ko.observable('Response'),
+                        Name: ko.observable("Response"),
                         MemberCollection: ko.observableArray(operation().ResponseMemberCollection())
                     });
 
@@ -115,7 +115,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
         },
         pickRegex = function (m) {
-            var w = window.open("/regex.picker.html", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+            var w = window.open("/regex.picker.html", "_blank", "height=600px,width=600px,toolbar=0,location=0");
             if (typeof w.window === "object") {
 
                 w.window.member = m;
@@ -143,7 +143,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             $.ajax({
                 type: "PATCH",
                 data: ko.mapping.toJSON(operation),
-                url: '/httpadapter/' + adapterId(),
+                url: "/httpadapter/" + adapterId() + "/operation",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 error: tcs.reject,

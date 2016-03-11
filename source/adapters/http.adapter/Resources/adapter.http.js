@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -8,7 +8,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
+define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
 
         var adapter = ko.observable(),
@@ -19,39 +19,23 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     tcs = new $.Deferred();
                 context.loadOneAsync("Adapter", query)
                     .done(function (b) {
-                        if (b) {
-                            adapter(b);
-                        } else {
-                            adapter(
-                                {
-                                    $type: "Bespoke.Sph.Integrations.Adapters.HttpAdapter, http.adapter",
-                                    Har: ko.observable(),
-                                    Id: ko.observable("0"),
-                                    BaseAddress: ko.observable(""),
-                                    AuthenticationMode: ko.observable("Form"),
-                                    Schema: ko.observable(),
-                                    Name: ko.observable(),
-                                    Description: ko.observable(),
-                                    OperationDefinitionCollection: ko.observableArray(),
-                                    Timeout: ko.observable(),
-                                    TimeoutInterval: ko.observable()
-                                });
-                            adapter().Har.subscribe(function (har) {
-                                // call the server to get the list of operations
-                                isBusy(true);
-                                if (!har) return;
-                                $.get("/httpadapter/operations/" + har)
-                                    .done(function (results) {
-                                        adapter().OperationDefinitionCollection(results);
-                                        isBusy(false);
-                                    }).fail(function (error) {
+                        b.Har.subscribe(function (har) {
+                            // call the server to get the list of operations
+                            isBusy(true);
+                            if (!har) return;
+                            $.get("/httpadapter/operations/" + har)
+                                .done(function (results) {
+                                    adapter().OperationDefinitionCollection(results);
+                                    isBusy(false);
+                                }).fail(function (error) {
 
-                                        var rs = error.responseJSON || {};
-                                        var message = rs.ExceptionMessage || "";
-                                        logger.error(message);
-                                    });
-                            });
-                        }
+                                    var rs = error.responseJSON || {};
+                                    var message = rs.ExceptionMessage || "";
+                                    logger.error(message);
+                                });
+                        });
+                        adapter(b);
+
                         tcs.resolve(true);
                     });
 
@@ -106,8 +90,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 saveCommand: save,
                 commands: ko.observableArray([
                     {
-                        caption: 'Publish',
-                        icon: 'fa fa-sign-in',
+                        caption: "Publish",
+                        icon: "fa fa-sign-in",
                         command: publish,
                     }
                 ])

@@ -100,13 +100,12 @@ namespace Bespoke.Sph.Integrations.Adapters
             });
         }
 
-        [Route("{id}")]
-        public async Task<HttpResponseMessage> Patch(string id, [JsonBody]HttpOperationDefinition operation)
+        [Route("{id}/operation")]
+        [HttpPatch]
+        public async Task<HttpResponseMessage> UpdateOperation(string id, [JsonBody]HttpOperationDefinition operation)
         {
             var context = new SphDataContext();
-            var adapters = context.CreateQueryable<Adapter>();
-            var query = adapters.Where(x => x.Id == id);
-            var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault();
+            var ha = context.LoadOneFromSources<Adapter>(x => x.Id == id);
             if (null == ha)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
