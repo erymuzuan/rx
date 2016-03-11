@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
            typeof(Entity).Namespace,
-           typeof(Int32).Namespace ,
+           typeof(int).Namespace ,
            typeof(Task<>).Namespace ,
            typeof(Enumerable).Namespace,
            typeof(JsonConvert).Namespace,

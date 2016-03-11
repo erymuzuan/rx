@@ -116,7 +116,6 @@
       <DependentUpon>HttpOperationDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="IHarProcessor.cs" />
-    <Compile Include="JsonBodyAttribute.cs" />
     <Compile Include="JsonContent.cs" />
     <Compile Include="JsonRequestHarProcess.cs">
       <DependentUpon>IHarProcessor.cs</DependentUpon>

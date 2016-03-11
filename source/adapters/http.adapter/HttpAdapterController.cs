@@ -50,8 +50,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             return Json(op.ToJsonString());
         }
 
-        [Route("publish")]
-        public async Task<IHttpActionResult> Publish([JsonBody]HttpAdapter adapter)
+        [HttpPost]
+        [Route("{id}/publish")]
+        public async Task<IHttpActionResult> Publish(string id,[JsonBody]HttpAdapter adapter)
         {
             var validationErrors = (await adapter.ValidateAsync()).ToArray();
             if (validationErrors.Any())
@@ -60,9 +61,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var result = await adapter.CompileAsync();
 
             var context = new SphDataContext();
-            var adapters = context.CreateQueryable<Adapter>();
-            var query = adapters.Where(x => x.Id == adapter.Id);
-            var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault();
+            var ha = context.LoadOneFromSources<Adapter>(x => x.Id == id);
             if (null == ha)
                 return NotFound();
 

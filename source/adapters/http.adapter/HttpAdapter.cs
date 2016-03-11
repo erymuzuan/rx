@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public static readonly string[] ImportDirectives =
         {
     typeof(Entity).Namespace,
-    typeof(Int32).Namespace ,
+    typeof(int).Namespace ,
     typeof(Task<>).Namespace ,
     typeof(Enumerable).Namespace ,
     typeof(IEnumerable<>).Namespace,
@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     typeof(Encoding).Namespace ,
     typeof(CookieContainer).Namespace,
     typeof(XmlAttributeAttribute).Namespace ,
-    "System.Web.Mvc",
+    "System.Web.Http",
     "Bespoke.Sph.Web.Helpers"
 
         };

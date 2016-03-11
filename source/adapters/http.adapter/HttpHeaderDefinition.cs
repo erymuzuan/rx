@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             set
             {
                 m_originalValue = value;
-                RaisePropertyChanged("OriginalValue");
+                RaisePropertyChanged();
             }
         }
 
