@@ -202,7 +202,7 @@
                             return Task.fromResult(0);
                         }).then(function (ed) {
                             if (ed)
-                                router.navigate("#partial.view.designer/" + ko.unwrap(ed.EntityId) + "/" + ko.unwrap(ed.Id));
+                                router.navigate("#partial.view.designer/" + ko.unwrap(ed.Entity) + "/" + ko.unwrap(ed.Id));
                         });
             },
             addDashboard = function (entityDefinition) {

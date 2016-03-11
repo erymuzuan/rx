@@ -61,8 +61,9 @@ namespace Bespoke.Sph.Domain
             return await renderer.RenderAsync(this);
         }
 
-        public string Name => this.Route;
+        [JsonIgnore]
         public string Icon => "fa fa-file-o";
+        [JsonIgnore]
         public string Url => $"partial.view.designer/{Entity}/{Id}";
     }
 }

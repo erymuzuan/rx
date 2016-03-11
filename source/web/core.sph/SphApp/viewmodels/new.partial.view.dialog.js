@@ -14,20 +14,23 @@
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
-        var entities = ko.observableArray(),
+        var entityOptions = ko.observableArray(),
             form = ko.observable(new bespoke.sph.domain.PartialView(system.guid())),
             entity = ko.observable(),
             id = ko.observable(),
             activate = function () {
-                form(new bespoke.sph.domain.PartialView({ "Entity": ko.unwrap(entity), "WebId": system.guid() }));
-                form().Name.subscribe(function (v) {
+                var view = new bespoke.sph.domain.PartialView({ "Entity": ko.unwrap(entity), "WebId": system.guid() });
+
+                view.Name.subscribe(function (v) {
                     form().Route(v.toLowerCase().replace(/\W+/g, "-"));
                 });
-                form().Entity.subscribe(function (v) {
+                view.Entity.subscribe(function (v) {
                     context.getScalarAsync("EntityDefinition", "Name eq '" + v + "'", "Id")
                         .done(form().EntityDefinitionId);
                 });
-                return context.getListAsync("EntityDefinition", "Id ne ''", "Name").done(entities);
+
+                form(view);
+                return context.getTuplesAsync("EntityDefinition", null, "Id", "Name").done(entityOptions);
             },
             okClick = function (data, ev) {
                 if (!bespoke.utils.form.checkValidity(ev.target)) {
@@ -35,7 +38,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 }
 
                 var json = ko.toJSON(form);
-                return context.put(json, "/api/entity-forms")
+                return context.post(json, "/api/partial-views")
                     .then(function (result) {
                         if (result) {
                             id(result.id);
@@ -46,15 +49,21 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
+            },
+            attached = function (view) {
+                setTimeout(function () {
+                    $(view).find("#partial-view-name").focus();
+                }, 500);
             };
 
         var vm = {
             form: form,
             activate: activate,
+            attached: attached,
             okClick: okClick,
             entity: entity,
             id: id,
-            entities: entities,
+            entityOptions: entityOptions,
             cancelClick: cancelClick
         };
 

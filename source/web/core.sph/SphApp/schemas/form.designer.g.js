@@ -1860,6 +1860,7 @@ bespoke.sph.domain.PartialView = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.PartialView, domain.sph",
         Id: ko.observable("0"),
+        Name: ko.observable(""),
         Route: ko.observable(""),
         Entity: ko.observable(""),
         MemberPath: ko.observable(""),
@@ -2069,6 +2070,7 @@ bespoke.sph.domain.QueryEndpointSetting = function (optionOrWebid) {
         Resource: ko.observable(""),
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
         CacheFilter: ko.observable(),
+        CachingSetting: ko.observable(new bespoke.sph.domain.CachingSetting()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

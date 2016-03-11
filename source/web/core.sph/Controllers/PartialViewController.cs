@@ -1,48 +1,57 @@
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     [Authorize]
-    [RoutePrefix("partial-view")]
-    public class PartialViewController : BaseController
+    [RoutePrefix("api/partial-views")]
+    public class PartialViewController : BaseApiController
     {
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> Save()
+        public async Task<IHttpActionResult> Save([JsonBody]PartialView view)
         {
-            var ef = this.GetRequestJson<PartialView>();
             var context = new SphDataContext();
-
-            var baru = string.IsNullOrWhiteSpace(ef.Id) || ef.Id == "0";
-            if (baru) ef.Id = ef.Route.ToIdFormat();
+            var baru = string.IsNullOrWhiteSpace(view.Id) || view.Id == "0";
+            if (baru)
+            {
+                view.Route = view.Name.ToIdFormat();
+                view.Id = view.Name.ToIdFormat();
+            }
 
             using (var session = context.OpenSession())
             {
-                session.Attach(ef);
+                session.Attach(view);
                 await session.SubmitChanges("Save");
             }
-            this.Response.StatusCode = (int)(baru ? HttpStatusCode.Created : HttpStatusCode.OK);
-            return Json(new { success = true, status = "OK", id = ef.Id, location = $"{ConfigurationManager.BaseUrl}/sph#form.dialog.designer/{ef.Entity}/{ef.Id}" });
+            var response =
+                new
+                {
+                    success = true,
+                    status = "OK",
+                    id = view.Id,
+                    location = $"{ConfigurationManager.BaseUrl}/sph#form.dialog.designer/{view.Entity}/{view.Id}"
+                };
+
+            if (baru) return Created(response.location, response);
+            return Ok(response);
         }
         [HttpGet]
         [Route("members/{entity}/{path}")]
-        public async Task<ActionResult> GetMembers()
+        public async Task<IHttpActionResult> GetMembers()
         {
             await Task.Delay(500);
-            return Content("");
+            return Ok("");
         }
 
         [HttpPost]
-        [Route("depublish")]
-        public async Task<ActionResult> Depublish()
+        [Route("{id}/depublish")]
+        public async Task<IHttpActionResult> Depublish(string id, [JsonBody]PartialView form)
         {
             var context = new SphDataContext();
-            var form = this.GetRequestJson<PartialView>();
 
             // look for column which points to the form
             var views = context.LoadFromSources<EntityView>(e => e.IsPublished && e.EntityDefinitionId == form.Entity);
@@ -68,12 +77,11 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpPost]
-        [Route("publish")]
-        public async Task<ActionResult> Publish()
+        [Route("{id}/publish")]
+        public async Task<IHttpActionResult> Publish(string id, [JsonBody]PartialView form)
         {
             var ds = ObjectBuilder.GetObject<IDeveloperService>();
             var context = new SphDataContext();
-            var form = this.GetRequestJson<PartialView>();
             form.IsPublished = true;
             form.BuildDiagnostics = ds.BuildDiagnostics;
 
@@ -94,12 +102,12 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult> Remove(string id)
+        public async Task<IHttpActionResult> Remove(string id)
         {
             var context = new SphDataContext();
             var form = context.LoadOneFromSources<PartialView>(e => e.Id == id);
             if (null == form)
-                return new HttpNotFoundResult("Cannot find form to delete , Id : " + id);
+                return NotFound("Cannot find form to delete , Id : " + id);
 
             using (var session = context.OpenSession())
             {

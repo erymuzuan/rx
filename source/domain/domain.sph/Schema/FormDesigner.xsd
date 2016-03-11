@@ -897,6 +897,7 @@
 			<xs:all>
 				<xs:element ref="FormDesign"/>
 			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="MemberPath" type="xs:string" use="required"/>
