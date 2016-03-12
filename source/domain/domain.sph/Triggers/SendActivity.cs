@@ -49,42 +49,44 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("       await this.InitializeCorrelationSetAsync(\"{0}\", string.Join(\";\",new []{{{1}}}));", cors.Name, string.Join(",", valExpression));
             }
 
-            code.AppendLinf("        var adapter = new {0}();", this.Adapter);
+            code.AppendLine($"        var adapter = new {Adapter}();");
             if (this.ExceptionFilterCollection.Any())
             {
                 foreach (var ef in this.ExceptionFilterCollection)
                 {
                     code.AppendLine("        var tries = 0;");
-                    code.AppendLinf("        while(tries < {0})", ef.MaxRequeue);
+                    code.AppendLine($"        while(tries < {ef.MaxRequeue})");
                     code.AppendLine("        {");
                     code.AppendLine("           if(tries > 0)");
-                    code.AppendLinf("               await Task.Delay({0});", ef.IntervalInMilisecods);
+                    code.AppendLine($"               await Task.Delay({ef.IntervalInMilisecods});");
 
                     code.AppendLine();
                     code.AppendLine("           tries++;");
                     code.AppendLine("           try");
                     code.AppendLine("           {");
                     code.AppendLine("               Console.WriteLine(\"Trying for {0} time\", tries);");
-                    code.AppendLinf("               var result = await adapter.{0}(this.{1});", this.Method, this.ArgumentPath);
+                    code.AppendLine($"               var result = await adapter.{Method}(this.{ArgumentPath});");
                     if (null != vrb)
                     {
-                        code.AppendLinf("               this.{0} =  ({1})result;", this.ReturnValuePath, Strings.GetType(vrb.TypeName).ToCSharp());
+                        var type = Strings.GetType(vrb.TypeName).ToCSharp();
+                        code.AppendLine($"               this.{ReturnValuePath} =  ({type})result;");
                     }
                     code.AppendLinf("               break;");
                     code.AppendLine("           }");
-                    code.AppendLinf("           catch({0} exc)", ef.TypeName);
+                    code.AppendLine($"           catch({ef.TypeName} exc)");
                     code.AppendLine("           {");
-                    code.AppendLinf("               if(tries >={0}) throw;", ef.MaxRequeue);
+                    code.AppendLine($"               if(tries >={ef.MaxRequeue}) throw;");
                     code.AppendLine("           }");
                     code.AppendLine("        }");
                 }
             }
             else
             {
-                code.AppendLinf("        var response = await adapter.{0}(this.{1});", this.Method, this.ArgumentPath);
+                code.AppendLine($"        var response = await adapter.{Method}(this.{ArgumentPath});");
                 if (null != vrb)
                 {
-                    code.AppendLinf("        this.{0} =  ({1})response;", this.ReturnValuePath, Strings.GetType(vrb.TypeName).ToCSharp());
+                    var type = Strings.GetType(vrb.TypeName).ToCSharp();
+                    code.AppendLine($"               this.{ReturnValuePath} =  ({type})response;");
                 }
 
             }
@@ -93,7 +95,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             // set the next activity
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
-            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
+            code.AppendLine($@"       result.NextActivities = new[]{{""{NextActivityWebId}""}};");/* webid*/
 
 
             return code.ToString();
