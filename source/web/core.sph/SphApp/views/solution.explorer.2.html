@@ -1,5 +1,9 @@
 ﻿
-
+<style>
+    div#solution-explorer-panel a.jstree-search {
+        color: #FFBC3D;
+    }
+</style>
 <div>
     <div class="btn-group">
         <a class="btn btn-link dropdown-toggle" data-toggle="drop-down" style="color: white">
@@ -57,31 +61,32 @@
 
             <li role="separator" class="divider"></li>
             <li role="heading" class="header-section">
-                <h3>User Interface</h3></li>
+                <h3>User Interface</h3>
+            </li>
             <li>
                 <a href="javascript:;" data-bind="command:addEntityForm">
                     <i class="fa fa-edit"></i>
                     Form
                 </a>
-            </li> 
+            </li>
             <li>
                 <a href="javascript:;" data-bind="command:addWorkflowForm">
                     <i class="fa fa-code-fork"></i>
                     Workflow Form
                 </a>
-            </li> 
+            </li>
             <li>
                 <a href="javascript:;" data-bind="command:addPartialView">
                     <i class="fa fa-edit"></i>
-                   Partial Form
+                    Partial Form
                 </a>
-            </li> 
+            </li>
             <li>
                 <a href="javascript:;" data-bind="command:addDialog">
                     <i class="fa fa-edit"></i>
-                   Dialog
+                    Dialog
                 </a>
-            </li> 
+            </li>
             <li>
                 <a href="javascript:;" data-bind="command:addEntityView">
                     <i class="fa fa-list-ul"></i>
@@ -130,13 +135,13 @@
         </ul>
     </div>
     <form class="sidebar-search ">
-        <a href="javascript:;" class="remove">
-            <i class="icon-close"></i>
-        </a>
+
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search..." id="search-solution-tree" />
-            <span class="input-group-btn">
-                <a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+            <input type="search" class="form-control" style="width: 210px" placeholder="Search..." id="search-solution-tree" />
+            <span class="input-group-addon">
+                <a href="javascript:;" class="remove">
+                    <i class="fa fa-times"></i>
+                </a>
             </span>
         </div>
     </form>

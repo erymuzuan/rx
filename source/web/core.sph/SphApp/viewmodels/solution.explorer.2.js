@@ -1,13 +1,12 @@
 ﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
-/// <reference path="../../Scripts/jquery.signalR-2.1.2.js" />
+/// <reference path="../../Scripts/jquery.signalR-2.2.0.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
+/// <reference path="../../Scripts/jstree.min.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schema/sph.domain.g.js" />
-/// <reference path="../schemas/form.designer.g.js" />
 
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "services/new-item"],
@@ -84,14 +83,18 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
             });
 
-            //$.jstree.defaults.search.show_only_matches
             var element = document.getElementById("solution-explorer-panel");
             $(element).jstree({
                 'core': {
                     'data': items
                 },
                 "search": {
-                    "show_only_matches": true
+                    "case_sensitive": false,
+                    "show_only_matches": true,
+                    "show_only_matches_children": true,
+                    "search_callback": function (text, node) {
+                        return (node.text.indexOf(text) > -1);
+                    }
                 },
                 "plugins": ["search"]
             });
@@ -100,24 +103,31 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             $(element).delegate("a", "dblclick", click);
 
         },
-        attached = function () {
+        attached = function (view) {
+            var tree = $("#solution-explorer-panel"),
+                searchInput = $("#search-solution-tree");
             solutionExplorerToggleButton = $("#solution-explorer-toggle-button");
             $("#solution-explorer-panel a.jstree-clicked").css("color", "black");
-
-            var to = false;
-            $("#search-solution-tree").keyup(function () {
-                if (to) {
-                    clearTimeout(to);
-                }
-                to = setTimeout(function () {
-                    var v = $("#search-solution-tree").val();
-                    $("#solution-explorer-panel").jstree(true).search(v);
-                }, 250);
+            $(view).on("click", "form.sidebar-search a.remove", function() {
+                tree.jstree("clear_search");
+                searchInput.val("");
             });
+
+            var search = _.debounce(function () {
+                var text = $(this).val();
+
+                if (!text) {
+                    tree.jstree("clear_search");
+                } else {
+                    var f = "\"\"" + text + "\"\"";
+                    console.log(f);
+                    tree.jstree("search",  f);
+                }
+            }, 400);
+            searchInput.keyup(search);
             var connection = $.connection("/signalr_solution");
 
             connection.received(function (data) {
-                console.log(data);
                 createTree(data);
             });
 
