@@ -2382,7 +2382,7 @@ bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph";
 
-    v.VariableMapCollection = ko.observableArray([]);
+    v.PropertyMappingCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {

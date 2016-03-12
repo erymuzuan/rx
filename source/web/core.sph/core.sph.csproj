@@ -2171,6 +2171,7 @@
     <EmbeddedResource Include="SphApp\ko\_ko.adapter.http.js" />
     <EmbeddedResource Include="SphApp\ko\_ko.mapping.js" />
     <Content Include="SphApp\partial\ComplexMemberPartial.js" />
+    <Content Include="SphApp\partial\ChildWorkflowActivity.js" />
     <Content Include="SphApp\partial\WorkflowFormPartial.js" />
     <Content Include="SphApp\partial\ValueObjectDefinitionPartial.js" />
     <Content Include="SphApp\partial\QueryEndpointPartial.js" />

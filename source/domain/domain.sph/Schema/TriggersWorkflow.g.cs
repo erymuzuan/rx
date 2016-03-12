@@ -5294,7 +5294,7 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        public ObjectCollection<Variable> VariableMapCollection { get; } = new ObjectCollection<Variable>();
+        public ObjectCollection<PropertyMapping> PropertyMappingCollection { get; } = new ObjectCollection<PropertyMapping>();
 
 
 

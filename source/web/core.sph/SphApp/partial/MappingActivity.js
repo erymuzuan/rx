@@ -1,18 +1,18 @@
 ﻿/// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="/Scripts/require.js" />
-/// <reference path="/Scripts/jquery-2.1.1.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="/Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
 
 
 bespoke.sph.domain.MappingActivityPartial = function () {
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         addMappingSource = function () {
             var self = this;
-            var mapping = new bespoke.sph.domain['MappingSource'](system.guid());
+            var mapping = new bespoke.sph.domain["MappingSource"](system.guid());
             self.MappingSourceCollection.push(mapping);
 
         },

@@ -36,26 +36,29 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Path</th>
-                                <th>Field</th>
+                                <th>Soure</th>
+                                <th>Destination</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach : VariableMapCollection">
+                        <tbody data-bind="foreach : PropertyMappingCollection">
                             <tr>
                                 <td>
-                                    <input data-bind="value:VariablePath, uniqueName:true, typeahead : $parent.WorkflowDefinitionId()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                                    <input data-bind="value:Source, uniqueName:true, typeahead : $root.wd().Id()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
                                 </td>
                                 <td>
-
+                                    <input data-bind="value:Destination, uniqueName:true, typeahead : $parent.WorkflowDefinitionId()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
                                 </td>
                                 <td>
-                                    <a href="#" data-bind2="click : $parent.removeMapping.call($parent,$data)"><i class="fa fa-times"></i></a>
+                                    <a href="javascript:;" data-bind="click : $parent.removeMapping.call($parent,$data)"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    
+                    <a href="#" data-bind="click : addMapping" class="btn btn-link">
+                        <i class="fa fa-plus-circle"></i>
+                        Add an assembly
+                    </a>
                 </form>
             </div>
             <div class="modal-footer">
