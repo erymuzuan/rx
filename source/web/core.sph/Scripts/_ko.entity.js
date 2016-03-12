@@ -1,6 +1,7 @@
 ﻿/// <reference path="~/Scripts/underscore.js" />
 /// <reference path="require.js" />
 /// <reference path="jquery-2.2.0.intellisense.js" />
+/// <reference path="complete.ly.1.0.1.js" />
 /// <reference path="../SphApp/objectbuilders.js" />
 /// <reference path="../SphApp/schemas/form.designer.g.js" />
 /// <reference path="knockout-3.4.0.debug.js" />
@@ -448,6 +449,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                     $(c.input).prop("required", true);
                 }
 
+                c.hideDropDown();
 
             };
 
