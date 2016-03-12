@@ -1,34 +1,24 @@
-﻿/// <reference path="../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
-/// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
 /// <reference path="../Scripts/underscore.js" />
-/// <reference path="../Scripts/moment.js" />
+/// <reference path="../Scripts/trigger.workflow.g.js" />
+/// <reference path="../Scripts/objectbuilders.js" />
+/// <reference path="../services/datacontext.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config],
-    function (dialog, context, config) {
+define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config, objectbuilders.system],
+    function (dialog, context, config, system) {
 
-        var entityOptions = ko.observableArray(),
+        var wd =ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
+            activity = ko.observable(new bespoke.sph.domain.CreateEntityActivity(system.guid())),
+            entityOptions = ko.observableArray(),
             activate = function () {
-                var query = String.format("IsPublished eq true"),
-                    tcs = new $.Deferred();
-
-                context.loadAsync("EntityDefinition", query)
-                    .then(function (lo) {
-                        var types = _(lo.itemCollection).map(function (v) {
-                            return {
-                                name: v.Name(),
-                                fullName: String.format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}", config.applicationName, v.Id(), v.Name())
-                            };
-                        });
-                        entityOptions(types);
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
+              return  context.getTuplesAsync("EntityDefinition", null, "Id", "Name")
+                    .then(entityOptions);
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
@@ -43,8 +33,8 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config],
         var vm = {
             entityOptions: entityOptions,
             activate: activate,
-            activity: ko.observable(new bespoke.sph.domain.CreateEntityActivity()),
-            wd: ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
+            activity:activity ,
+            wd: wd,
             okClick: okClick,
             cancelClick: cancelClick
         };

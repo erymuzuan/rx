@@ -548,7 +548,7 @@
 							</xs:complexType>
 						</xs:element>
 					</xs:all>
-					<xs:attribute name="EntityType" type="xs:string" use="required"/>
+					<xs:attribute name="Entity" type="xs:string" use="required"/>
 					<xs:attribute name="EntityIdPath" type="xs:string" use="required"/>
 					<xs:attribute name="UseVariable" type="xs:string" use="required"/>
 					<xs:attribute name="IsUsingVariable" type="xs:boolean" use="required"/>

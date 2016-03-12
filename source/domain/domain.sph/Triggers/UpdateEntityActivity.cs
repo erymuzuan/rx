@@ -13,16 +13,11 @@ namespace Bespoke.Sph.Domain
             var result = base.ValidateBuild(wd);
             if (string.IsNullOrWhiteSpace(this.EntityIdPath))
                 result.Errors.Add(new BuildError(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityIdPath is missing"));
-            if (string.IsNullOrWhiteSpace(this.EntityType))
+            if (string.IsNullOrWhiteSpace(this.Entity))
                 result.Errors.Add(new BuildError(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityType is missing"));
 
-            if (!string.IsNullOrWhiteSpace(this.EntityType))
-            {
-                var fullTypeName = this.EntityType;
-                var type = Strings.GetType(fullTypeName);
-                if (null == type) result.Errors.Add(new BuildError(this.WebId, $"[UpdateEntityActivity] -\"{this.Name}\" Cannot load {this.EntityType}"));
-
-            }
+            if (!string.IsNullOrWhiteSpace(this.Entity))
+                result.Errors.Add(new BuildError(this.WebId, $"[UpdateEntityActivity] -\"{this.Name}\" Cannot load {this.Entity}"));
 
             return result;
         }
@@ -30,28 +25,26 @@ namespace Bespoke.Sph.Domain
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
-
-            var fullTypeName = this.EntityType;
-            var type = Strings.GetType(fullTypeName);
-            if (null == type)
-                throw new InvalidOperationException("Cannot load " + this.EntityType);
+            
+            var context = new SphDataContext();
+            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Id == this.Entity);
 
             var code = new StringBuilder();
             
 
             code.AppendLine("       var context = new Bespoke.Sph.Domain.SphDataContext();");
-            if (this.IsUsingVariable)
-                code.AppendLinf("       var item = this.{0};", this.UseVariable);
-            else
-                code.AppendLinf("       var item = await context.LoadOneAsync<{0}>(e => e.{1}Id == {2});", type.FullName, type.Name, this.EntityIdPath);
+            code.AppendLine(this.IsUsingVariable
+                ? $"       var item = this.{UseVariable};"
+                : $"       var item = await context.LoadOneAsync<{ed.FullTypeName}>(e => e.Id == this.{EntityIdPath});");
 
-            code.AppendLinf("if(item.{0}Id == 0)throw new InvalidOperationException(\"{0}Id is 0\");", type.Name);
 
-            code.AppendLinf("       var self = this.WorkflowDefinition.ActivityCollection.OfType<UpdateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
+            code.AppendLine("if(string.IsNullOrWhiteSpace(item.Id))throw new InvalidOperationException(\"Id cannot be null or empty\");");
+
+            code.AppendLine($@"       var self = this.GetActivity<UpdateEntityActivity>(""{WebId}"");");
 
             foreach (var mapping in this.PropertyMappingCollection)
             {
-                code.AppendLinf("           item.{0} = this.{1};", mapping.Destination, mapping.Source);
+                code.AppendLine($"           item.{mapping.Destination} = this.{mapping.Source};");
                 if (mapping is FunctoidMapping)
                     throw new Exception("Functoid mapping is not yet supported");
             }
@@ -63,7 +56,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("      }");
             // set the next activity
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
-            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
+            code.AppendLine($@"       result.NextActivities = new[]{{""{NextActivityWebId}""}};");
             
 
             return code.ToString();

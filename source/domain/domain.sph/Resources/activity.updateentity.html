@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <label for="ue-idpath" class="col-lg-2 control-label">ID Path</label>
                         <div class="col-lg-6">
-                            <input type="text" data-bind="value: EntityIdPath, typeahead : $root.wd().WorkflowDefinitionId()"
+                            <input type="text" data-bind="value: EntityIdPath, typeahead : $root.wd().Id()"
                                    required pattern="^[A-Za-z_][A-Za-z0-9_.]*$"
                                    placeholder="Variable path that points to Id to update"
                                    class="form-control" id="ue-idpath">
@@ -28,10 +28,10 @@
                     <div class="form-group">
                         <label for="ce-entitytype" class="col-lg-2 control-label">Entity</label>
                         <div class="col-lg-6">
-                            <select required class="form-control" id="ce-entitytype" data-bind="value:EntityType,
+                            <select required class="form-control" id="ce-entitytype" data-bind="value:Entity,
                                 options: $root.entityOptions,
-                                optionsText : 'name',
-                                optionsValue :'fullName',
+                                optionsText : 'Name',
+                                optionsValue :'Id',
                                 optionsCaption : '[Select Entity]'"></select>
                         </div>
                     </div>
@@ -51,7 +51,8 @@
                     <div class="form-group" data-bind="visible:IsUsingVariable">
                         <label for="use-variable" class="col-lg-2 control-label">Variable</label>
                         <div class="col-lg-6">
-                            <input type="text" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" id="use-variable" data-bind="value:UseVariable, typeahead : $root.wd().WorkflowDefinitionId()" class="form-control" />
+                            <input type="text" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" id="use-variable"
+                                   data-bind="value:UseVariable, typeahead : $root.wd().Id()" class="form-control" />
                         </div>
                     </div>
 
@@ -69,50 +70,28 @@
                         </div>
                     </div>
 
-
-                    <div class="pull-right">
-                        <div class="btn-group">
-                            <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
-                                Add Property Mapping &nbsp;<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="btn btn-link" data-bind="click: addPropertyMapping('Simple')">
-                                        <i class="fa fa-code"></i>
-                                        Simple Mapping
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="btn btn-link" data-bind="click: addPropertyMapping('Functoid')">
-                                        <i class="fa fa-sitemap"></i>
-                                        Functoid Mapping
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Source</th>
                                 <th>Destination</th>
-                                <th>Functoid</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach :PropertyMappingCollection">
                             <tr>
-                                <td><input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value:Source, uniqueName:true" class="form-control" /></td>
-                                <td><input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value:Destination, uniqueName:true" class="form-control" /></td>
-                                <td>
-                                    <!-- ko if : $data.hasOwnProperty("Functoid") -->
-                                    <input type="text" data-bind="value:Functoid" />
-                                    <!--/ko-->
-                                </td>
+                                <td><input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value:Source, uniqueName:true, typeahead : $root.wd().Id()" class="form-control" /></td>
+                                <td><input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value:Destination, uniqueName:true, entityTypeaheadPath:$parent.Entity" class="form-control" /></td>
+
                                 <td><a data-bind="click : $parent.removePropertyMapping.call($parent,$data)"><i class="fa fa-times"></i></a></td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <a href="#" data-bind="click: addPropertyMapping('Simple')" class="btn btn-link">
+                        <i class="fa fa-plus-circle"></i>
+                        Add property mapping
+                    </a>
                 </form>
             </div>
             <div class="modal-footer">

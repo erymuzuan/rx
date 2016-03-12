@@ -1101,7 +1101,7 @@ bespoke.sph.domain.UpdateEntityActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.EntityType = ko.observable("");
+    v.Entity = ko.observable("");
 
     v.EntityIdPath = ko.observable("");
 

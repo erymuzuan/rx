@@ -2298,16 +2298,16 @@ namespace Bespoke.Sph.Domain
     public partial class UpdateEntityActivity
     {
 
-        private string m_EntityType;
-        public string EntityType
+        private string m_Entity;
+        public string Entity
         {
             get
             {
-                return m_EntityType;
+                return m_Entity;
             }
             set
             {
-                m_EntityType = value;
+                m_Entity = value;
                 RaisePropertyChanged();
             }
         }
