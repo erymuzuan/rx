@@ -1,0 +1,40 @@
+﻿
+<section class="view-model-modal" id="wf-debugger-config-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Debugger Configuration</h3>
+            </div>
+            <div class="modal-body" data-bind="with: config">
+
+                <form class="form-horizontal" id="wf-debugger-config-dialog-form">
+                    <div class="form-group">
+                        <label for="configuration-remote-debugger-host" class="col-lg-3">Host</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: host"
+                                   required
+                                   placeholder="Remote debugger host"
+                                   class="form-control" id="configuration-remote-debugger-host">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="port" class="col-lg-3">Port</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: port"
+                                   required pattern="[0-9]{1,5}"
+                                   placeholder="Port to the Remote Debugger websocket"
+                                   class="form-control" id="port">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="wf-debugger-config-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick"/>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

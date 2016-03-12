@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -10,9 +10,11 @@
 /// <reference path="../partial/Activity.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="~/Scripts/_task.js" />
+
 define(["services/datacontext", "services/logger", "plugins/router", "viewmodels/workflow.jsplumb", "jquery.contextmenu", "jquery.ui.position"],
     function (context, logger, router, jp) {
         var isBusy = ko.observable(false),
+            activity = ko.observableArray(),
             running = ko.observable(false),
             locals = ko.observableArray(),
             breakpoints = ko.observableArray(),
@@ -70,6 +72,38 @@ define(["services/datacontext", "services/logger", "plugins/router", "viewmodels
                     breakpoints.remove(bp);
                 }
             },
+            generateLocals = function (loc) {
+                var list = [];
+                for (var n in loc) {
+                    if (!loc.hasOwnProperty(n)) {
+                        continue;
+                    }
+                    var val = ko.unwrap(loc[n]),
+                        type = typeof val;
+                    if (_(val).isArray()) {
+                        type = "Array";
+                    }
+
+                    var item = {
+                        name: n,
+                        type: type,
+                        value: val
+                    };
+                    if (typeof val === "undefined") { // for null, undefined and other falsey
+                        return list;
+                    }
+                    if (null === val) { // for null, undefined and other falsey
+                        return list;
+                    }
+                    if (_(val).isObject()) {
+                        item.items = generateLocals(val);
+                    }
+                    list.push(item);
+
+                }
+                return list;
+
+            },
             attached = function (view) {
                 jp.attached(view);
                 $(view).on("click", "div.activity", function () {
@@ -110,37 +144,9 @@ define(["services/datacontext", "services/logger", "plugins/router", "viewmodels
                         "delete": { name: "Remove Breakpoint", icon: "circle-o" }
                     }
                 });
-
-            }, generateLocals = function (loc) {
-                var list = [];
-                for (var n in loc) {
-                    if (!loc.hasOwnProperty(n)) {
-                        continue;
-                    }
-                    var val = ko.unwrap(loc[n]),
-                        type = typeof val;
-                    if (_(val).isArray()) {
-                        type = "Array";
-                    }
-
-                    var item = {
-                        name: n,
-                        type: type,
-                        value: val
-                    };
-                    if (typeof val === "undefined") { // for null, undefined and other falsey
-                        return list;
-                    }
-                    if (null === val) { // for null, undefined and other falsey
-                        return list;
-                    }
-                    if (_(val).isObject()) {
-                        item.items = generateLocals(val);
-                    }
-                    list.push(item);
-
-                }
-                return list;
+                $(view).on("click", "div.modal-footer>a", function () {
+                    $("div.modal-backdrop").remove();
+                });
 
             },
             consoleScript = ko.observable(),
@@ -153,8 +159,25 @@ define(["services/datacontext", "services/logger", "plugins/router", "viewmodels
                 ws.send(JSON.stringify(model));
             },
             configure = function () {
-                $('#configuration-remote-debugger').modal();
-                return Task.fromResult(0);
+                var tcs = new $.Deferred();
+                require(["viewmodels/wf.debugger.config.dialog", "durandal/app"],
+                    function (dialog, app2) {
+                        dialog.config({
+                            host : ko.observable(ko.unwrap(host)),
+                            port : ko.observable(ko.unwrap(port))
+                        });
+                        app2.showDialog(dialog)
+                            .done(function (result) {
+                                if (!result) return;
+                                if (result === "OK") {
+                                    host(dialog.config().host());
+                                    port(dialog.config().port());
+
+                                }
+                                tcs.resolve(result);
+                            });
+                    });
+                return tcs.promise();
             },
             start = function () {
                 var tcs = new $.Deferred(),
@@ -203,7 +226,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "viewmodels
 
                 // when the connection is established, this method is called
                 ws.onopen = function () {
-                    logger.info('* Connection open');
+                    logger.info("* Connection open");
 
                     var model = {
                         Operation: "ClearBreakpoint"
@@ -224,7 +247,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "viewmodels
 
                 // when the connection is closed, this method is called
                 ws.onclose = function () {
-                    logger.error('* Connection closed');
+                    logger.error("* Connection closed");
                 };
 
                 return tcs.promise();
@@ -245,10 +268,10 @@ define(["services/datacontext", "services/logger", "plugins/router", "viewmodels
             },
             removeFromWatch = function (local) {
                 watches.remove(local);
-            }, refreshWatch = function (local) {
+            },
+            refreshWatch = function (local) {
                 console.log(local);
             },
-            activity = ko.observableArray(),
             expandObjects = function (loc) {
                 if (!loc.items) return;
                 console.log(loc.items);
