@@ -7,21 +7,15 @@ namespace Bespoke.Sph.WorkflowsExecution
 {
     public class WorkflowInstantTerminatedSubscriber : Subscriber<Workflow>
     {
-        public override string QueueName
-        {
-            get { return "workflow_terminated"; }
-        }
+        public override string QueueName => "workflow_terminated";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "Workflow.changed.Terminate" }; }
-        }
+        public override string[] RoutingKeys => new[] { "Workflow.changed.Terminate" };
 
-        protected async override Task ProcessMessage(Workflow item, MessageHeaders header)
+        protected override async Task ProcessMessage(Workflow item, MessageHeaders header)
         {
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", item.WorkflowDefinitionId, item.Version));
+            var doc = await store.GetContentAsync($"wd.{item.WorkflowDefinitionId}.{item.Version}");
 
             WorkflowDefinition wd;
             using (var stream = new MemoryStream(doc.Content))

@@ -22,15 +22,15 @@ namespace Bespoke.Sph.Domain
 
             code.Append($@"            
             var context = new SphDataContext();
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == {WorkflowDefinitionId});
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == ""{WorkflowDefinitionId}"");
             var variables = new List<VariableValue>();");
             foreach (var map in this.PropertyMappingCollection)
             {
                 code.AppendLine($"variables.Add(new VariableValue{{ Name = {map.Destination}, Value = this.{map.Source} }});");
             }
-            code.AppendLine(@"
+            code.AppendLine($@"
             var wf = await wd.InitiateAsync(variables.ToArray());
-            await wf.StartAsync().ConfigureAwait(false);");
+            await wf.StartAsync(this.Id, ""{WebId}"").ConfigureAwait(false);");
 
             code.AppendLine("       var result = new InitiateActivityResult{ Correlation = Guid.NewGuid().ToString() };");
             code.AppendLine("       return result;");
@@ -55,17 +55,17 @@ namespace Bespoke.Sph.Domain
                 return code.ToString();
 
             }
-            code.Append($@"            
+            code.AppendLine($@"            
             var context = new SphDataContext();
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == {WorkflowDefinitionId});
-            var variables = new List<VariableValue>();");
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == ""{WorkflowDefinitionId}"");
+            var variables = new System.Collections.Generic.List<VariableValue>();");
             foreach (var map in this.PropertyMappingCollection)
             {
-                code.AppendLine($"variables.Add(new VariableValue{{ Name = {map.Destination}, Value = this.{map.Source} }});");
+                code.AppendLine($@"variables.Add(new VariableValue{{ Name = ""{map.Destination}"", Value = this.{map.Source} }});");
             }
-            code.AppendLine($@"
+            code.AppendLine(@"
             var wf = await wd.InitiateAsync(variables.ToArray());
-            await wf.StartAsync(this.Id, {WebId}).ConfigureAwait(false);");
+            await wf.StartAsync().ConfigureAwait(false);");
 
             code.AppendLine("       var result = new ActivityExecutionResult{  Status = ActivityExecutionStatus.Success };");
             code.AppendLine("       result.NextActivities = new string[]{};");

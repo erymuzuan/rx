@@ -95,10 +95,10 @@
                                     <tbody data-bind="foreach : ExecutedPropertyMappingCollection">
                                         <tr>
                                             <td>
-                                                <input data-bind="value:Source, uniqueName:true, typeahead : $root.wd().Id()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                                                <input data-bind="value:Source, uniqueName:true, typeahead : $parent.WorkflowDefinitionId()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
                                             </td>
                                             <td>
-                                                <input data-bind="value:Destination, uniqueName:true, typeahead : $parent.WorkflowDefinitionId()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                                                <input data-bind="value:Destination, uniqueName:true, typeahead : $root.wd().Id()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
                                             </td>
                                             <td>
                                                 <a href="javascript:;" data-bind="click : $parent.removeExecutedMapping.call($parent,$data)"><i class="fa fa-times"></i></a>

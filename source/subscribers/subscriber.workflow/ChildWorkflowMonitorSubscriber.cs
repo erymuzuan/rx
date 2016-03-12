@@ -9,7 +9,7 @@ namespace Bespoke.Sph.WorkflowsExecution
     public class ChildWorkflowMonitorSubscriber : Subscriber<Workflow>
     {
         public override string QueueName => "child_workflow_monitor";
-        public override string[] RoutingKeys => new[] { "Workflow.changed.*" };
+        public override string[] RoutingKeys => new[] { "Workflow.Changed.#" };
         protected override async Task ProcessMessage(Workflow item, MessageHeaders header)
         {
             if (item.State != "Completed") return;
