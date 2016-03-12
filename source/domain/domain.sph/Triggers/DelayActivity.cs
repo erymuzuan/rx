@@ -14,22 +14,23 @@ namespace Bespoke.Sph.Domain
         {
             var result = base.ValidateBuild(wd);
             if(string.IsNullOrWhiteSpace(this.NextActivityWebId))
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[DelayActivity] ->{0} is missing next activity", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId, $"[DelayActivity] ->{this.Name} is missing next activity"));
 
             if (this.Miliseconds + this.Seconds + this.Hour + this.Days == 0 && string.IsNullOrWhiteSpace(this.Expression))
             {
                 result.Errors.Add(new BuildError(this.WebId,
-                    string.Format("[DelayActivity] -\"{0}\" Set the wait time or expression", this.Name)));
+                    $"[DelayActivity] -\"{this.Name}\" Set the wait time or expression"));
             }
             if (this.Miliseconds + this.Seconds + this.Hour + this.Days < 0)
             {
                 result.Errors.Add(new BuildError(this.WebId,
-                    string.Format("[DelayActivity] -\"{0}\" Set the wait time span cannot be back dated", this.Name)));
+                    $"[DelayActivity] -\"{this.Name}\" Set the wait time span cannot be back dated"));
             }
 
             if (this.Miliseconds + this.Seconds + this.Hour + this.Days > 0 && !string.IsNullOrWhiteSpace(this.Expression))
             {
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[DelayActivity] -\"{0}\" Set the wait time OR expression ONLY not both", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,
+                    $"[DelayActivity] -\"{this.Name}\" Set the wait time OR expression ONLY not both"));
             }
             // TODO : validate it's a valid C# expression
             return result;
@@ -89,10 +90,7 @@ namespace Bespoke.Sph.Domain
             await tracker.SaveAsync();
         }
 
-        public override bool IsAsync
-        {
-            get { return true; }
-        }
+        public override bool IsAsync => true;
 
         public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {

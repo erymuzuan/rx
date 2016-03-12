@@ -33,32 +33,90 @@
                         </div>
                     </div>
 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Soure</th>
-                                <th>Destination</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach : PropertyMappingCollection">
-                            <tr>
-                                <td>
-                                    <input data-bind="value:Source, uniqueName:true, typeahead : $root.wd().Id()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
-                                </td>
-                                <td>
-                                    <input data-bind="value:Destination, uniqueName:true, typeahead : $parent.WorkflowDefinitionId()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
-                                </td>
-                                <td>
-                                    <a href="javascript:;" data-bind="click : $parent.removeMapping.call($parent,$data)"><i class="fa fa-times"></i></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <a href="#" data-bind="click : addMapping" class="btn btn-link">
-                        <i class="fa fa-plus-circle"></i>
-                        Add an assembly
-                    </a>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsAsync" id="child-isasync" type="checkbox" name="IsAsync" />
+                                    Starts the child workflow and wait until it's completed
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#starts-properties-map" data-toggle="tab">Starts Mapping</a>
+                            </li>
+                            <li>
+                                <a href="#executed-properties-map" data-toggle="tab">Completed Mapping</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="starts-properties-map" class="tab-pane active">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Soure</th>
+                                            <th>Destination</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach : PropertyMappingCollection">
+                                        <tr>
+                                            <td>
+                                                <input data-bind="value:Source, uniqueName:true, typeahead : $root.wd().Id()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                                            </td>
+                                            <td>
+                                                <input data-bind="value:Destination, uniqueName:true, typeahead : $parent.WorkflowDefinitionId()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                                            </td>
+                                            <td>
+                                                <a href="javascript:;" data-bind="click : $parent.removeMapping.call($parent,$data)"><i class="fa fa-times"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <a href="#" data-bind="click : addMapping" class="btn btn-link">
+                                    <i class="fa fa-plus-circle"></i>
+                                    Add a start mapping
+                                </a>
+                            </div>
+                            <div id="executed-properties-map" class="tab-pane">
+
+                                <table class="table" data-bind="visible:IsAsync">
+                                    <thead>
+                                        <tr>
+                                            <th>Soure</th>
+                                            <th>Destination</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach : ExecutedPropertyMappingCollection">
+                                        <tr>
+                                            <td>
+                                                <input data-bind="value:Source, uniqueName:true, typeahead : $root.wd().Id()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                                            </td>
+                                            <td>
+                                                <input data-bind="value:Destination, uniqueName:true, typeahead : $parent.WorkflowDefinitionId()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                                            </td>
+                                            <td>
+                                                <a href="javascript:;" data-bind="click : $parent.removeExecutedMapping.call($parent,$data)"><i class="fa fa-times"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <a href="#" data-bind="click : addExecutedMapping, visible : IsAsync" class="btn btn-link">
+                                    <i class="fa fa-plus-circle"></i>
+                                    Add completed mapping
+                                </a>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
                 </form>
             </div>
             <div class="modal-footer">

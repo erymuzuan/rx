@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Domain
 
         public async Task<Workflow> InitiateAsync(VariableValue[] values = null)
         {
-            var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.Id, this.Version, this.CodeNamespace);
+            var typeName = $"{this.CodeNamespace}.{this.WorkflowTypeName}, workflows.{this.Id}.{this.Version}";
             var type = Strings.GetType(typeName);
             if (null == type) throw new InvalidOperationException("Cannot instantiate  " + typeName);
 

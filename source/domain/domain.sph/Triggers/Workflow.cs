@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -31,6 +29,14 @@ namespace Bespoke.Sph.Domain
 
         public virtual Task<ActivityExecutionResult> StartAsync()
         {
+            // run the first one and save
+            return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
+        }
+
+        public virtual Task<ActivityExecutionResult> StartAsync(string parentWorkflow, string parentActivity)
+        {
+            ParentWorkflowId = parentWorkflow;
+            ParentActivity = parentActivity;
             // run the first one and save
             return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
         }
@@ -153,6 +159,17 @@ namespace Bespoke.Sph.Domain
                 session.Attach(this);
                 await session.SubmitChanges("Terminate").ConfigureAwait(false);
             }
+        }
+
+        public string ParentWorkflowId { get; set; }
+        public string ParentActivity { get; set; }
+
+        public async Task<Workflow> GetParentWorkflowAsync()
+        {
+            if (string.IsNullOrWhiteSpace(ParentWorkflowId)) return null;
+            if (string.IsNullOrWhiteSpace(ParentActivity)) return null;
+            var context = new SphDataContext();
+            return await context.LoadOneAsync<Workflow>(c => c.Id == ParentWorkflowId);
         }
     }
 }

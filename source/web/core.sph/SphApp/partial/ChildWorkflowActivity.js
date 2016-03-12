@@ -23,9 +23,21 @@ bespoke.sph.domain.ChildWorkflowActivityPartial = function () {
         addMapping = function () {
             var map = new bespoke.sph.domain.PropertyMapping(system.guid());
             this.PropertyMappingCollection.push(map);
+        },
+        removeExecutedMapping = function (map) {
+            var self = this;
+            return function () {
+                self.ExecutedPropertyMappingCollection.remove(map);
+            };
+        },
+        addExecutedMapping = function () {
+            var map = new bespoke.sph.domain.PropertyMapping(system.guid());
+            this.ExecutedPropertyMappingCollection.push(map);
         };
 
     var vm = {
+        addExecutedMapping: addExecutedMapping,
+        removeExecutedMapping: removeExecutedMapping,
         addMapping: addMapping,
         removeMapping: removeMapping
 

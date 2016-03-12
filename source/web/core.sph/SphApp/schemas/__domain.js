@@ -6352,6 +6352,7 @@ bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph";
 
     v.PropertyMappingCollection = ko.observableArray([]);
+    v.ExecutedPropertyMappingCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {

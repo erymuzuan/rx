@@ -5297,6 +5297,12 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<PropertyMapping> PropertyMappingCollection { get; } = new ObjectCollection<PropertyMapping>();
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<PropertyMapping> ExecutedPropertyMappingCollection { get; } = new ObjectCollection<PropertyMapping>();
+
+
 
     }
 
