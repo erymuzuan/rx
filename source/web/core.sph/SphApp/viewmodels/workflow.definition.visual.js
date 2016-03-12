@@ -553,10 +553,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                       return attached(currentView);
                   });
             },
-            viewPages = function () {
-                window.location = "#page.list/" + wd().Id();
-                return Task.fromResult(true, 1500);
-            },
             canDeactivate = function () {
                 var tcs = new $.Deferred();
                 if (originalEntity !== ko.toJSON(wd)) {
@@ -605,11 +601,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 removeCommand: remove,
                 reloadCommand: reload,
                 commands: ko.observableArray([
-                    {
-                        command: viewPages,
-                        caption: "Pages",
-                        icon: "fa fa-code"
-                    },
                     {
                         command: compileAsync,
                         caption: "Build",

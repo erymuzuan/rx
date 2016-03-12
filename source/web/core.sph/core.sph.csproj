@@ -2273,7 +2273,6 @@
     <EmbeddedResource Include="SphApp\viewmodels\ace.goto.line.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.assembly.js" />
     <EmbeddedResource Include="SphApp\viewmodels\page.detail.dialog.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\page.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\page.logs.js" />
     <EmbeddedResource Include="SphApp\viewmodels\schedule.daily.js" />
     <EmbeddedResource Include="SphApp\viewmodels\schedule.monthly.js" />
@@ -2314,7 +2313,6 @@
     <EmbeddedResource Include="SphApp\views\error.message.html" />
     <EmbeddedResource Include="SphApp\views\field.assembly.html" />
     <EmbeddedResource Include="SphApp\views\page.detail.dialog.html" />
-    <EmbeddedResource Include="SphApp\views\page.list.html" />
     <EmbeddedResource Include="SphApp\views\page.logs.html" />
     <EmbeddedResource Include="SphApp\views\schedule.daily.html" />
     <EmbeddedResource Include="SphApp\views\schedule.monthly.html" />

@@ -702,20 +702,6 @@
   {
     "role": "developers",
     "groupName": "Workflow",
-    "route": "page.list/:id",
-    "moduleId": "viewmodels/page.list",
-    "title": "Page list",
-    "nav": false,
-    "icon": "fa fa-code",
-    "caption": "Pages",
-    "settings": null,
-    "isAdminPage": true,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "developers",
-    "groupName": "Workflow",
     "route": "workflow.draft",
     "moduleId": "viewmodels/workflow.draft",
     "title": "Draft Workflow",
