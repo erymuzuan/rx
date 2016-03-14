@@ -238,6 +238,7 @@
     <Content Include="Content\external\prism.css" />
     <Content Include="Content\external\transformation-mapping.css" />
     <Content Include="Content\external\transformation-mapping.min.css" />
+    <EmbeddedResource Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\Simple-Line-Icons.svg" />
     <Content Include="Content\sph.wf.16.png" />
     <Content Include="docs\Action.html">
@@ -360,6 +361,11 @@
     <Content Include="Content\external\MTP_ySUJH_bn48VBG8sNSonF5uFdDttMLvmWuJdhhgs.ttf" />
     <Content Include="Content\external\PRmiXeptR36kaC0GEAetxi8cqLH4MEiSE0ROcU-qHOA.ttf" />
     <Content Include="Content\external\xjAJXh38I15wypJXxuGMBp0EAVxt0G0biEntp43Qt6E.ttf" />
+    <EmbeddedResource Include="Content\fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="Content\fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="Content\fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="Content\fonts\fontawesome-webfont.woff2" />
+    <EmbeddedResource Include="Content\fonts\FontAwesome.otf" />
     <None Include="docs\custom.form.list.md" />
     <Content Include="docs\custom.form.list.html">
       <DependentUpon>custom.form.list.md</DependentUpon>
