@@ -20,8 +20,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             StopIisServiceCommand = new RelayCommand(StopIisService, () => IisServiceStarted && !IsBusy);
             
         }
-
-        
         
 
         private void CheckIisExpress()
@@ -115,20 +113,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void OnIisDataReceived(object sender, DataReceivedEventArgs e)
         {
+
             var message = $"{e.Data}";
-            m_writer?.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, message);
-
-            var severity = message.Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
-            var entry = new LogEntry
-            {
-                Severity = severity,
-                Message = e.Data,
-                Time = DateTime.Now,
-                Log = EventLog.WebServer,
-                Source = "IIS Express"
-            };
-            this.QueueUserWorkItem(this.Logger.Log, entry);
-
             if (message.Contains("IIS Express stopped"))
                 this.StopIisService();
 
@@ -143,13 +129,27 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
                 });
             }
+
+
+            m_writer?.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}");
+
+            var severity = message.Contains("HTTP status 500") ? Severity.Error : Severity.Verbose;
+            var entry = new LogEntry
+            {
+                Severity = severity,
+                Message = e.Data,
+                Time = DateTime.Now,
+                Log = EventLog.WebServer,
+                Source = "IIS Express"
+            };
+            this.QueueUserWorkItem(this.Logger.Log, entry);
         }
 
         private void OnIisErrorReceived(object sender, DataReceivedEventArgs e)
         {
             if (e.Data != null)
             {
-                m_writer?.WriteLine("![{0:HH:mm:ss}] {1}", DateTime.Now, e.Data);
+                m_writer?.WriteLine($"![{DateTime.Now:HH:mm:ss}] {e.Data}");
             }
             this.Logger.Log(new LogEntry
             {
