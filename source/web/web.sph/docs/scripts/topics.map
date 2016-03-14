@@ -6,6 +6,7 @@
   "entity.view.designer": "EntityView.html",
   "query.endpoint.designer": "QueryEndpoint.html",
   "operation.endpoint.designer": "OperationEndpoint.html",
+  "operation-endpoint-dialog": "OperationEndpoint.html",
   "value.object.details": "ValueObjectDefinition.html",
   "entityview": "EntityView.html",
   "entityform": "EntityForm.html",
