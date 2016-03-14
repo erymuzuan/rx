@@ -461,5 +461,43 @@ pre.editor-colors .fold-marker:after,
 }
 </style>
   </head>
-  <body class='markdown-preview'><h1 id="operationendpoint">OperationEndpoint</h1></body>
+  <body class='markdown-preview'><h1 id="operation-endpoint">Operation Endpoint</h1>
+<p><code>REST</code> architectural design guide lines allows HTTP verbs like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code> to be used for <strong>unsafe</strong> request.</p>
+<p>RX Developer allows you to easily creates these HTTP endpoints to send action for your resources.</p>
+<h2 id="put-and-post">PUT and POST</h2>
+<p>The HTTP methods POST and PUT aren&#39;t the HTTP equivalent of the CRUD&#39;s create and update. They both serve a different purpose. It&#39;s quite possible, valid and even preferred in some occasions, to use PUT to create resources, or use POST to update resources.</p>
+<p>Use PUT when you can update a resource completely through a specific resource. For instance, if you know that a book resides at <a href="http://rx-sample.org/books/abc123">http://rx-sample.org/books/abc123</a>, you can PUT a new resource representation of this book directly through a PUT on this URL.</p>
+<p>If you do not know the actual resource location, for instance, when you add a new book, but do not have any idea where to store it, you can POST it to an URL, and let the server decide the actual URL.</p>
+<pre class="editor-colors lang-curl"><div class="line"><span class="text plain null-grammar"><span>PUT&nbsp;/books/abc321&nbsp;HTTP/1.1</span></span></div><div class="line"><span class="text plain null-grammar"><span>{</span></span></div><div class="line"><span class="text plain null-grammar"><span>&nbsp;&nbsp;&quot;title&quot;:&nbsp;&quot;Another&nbsp;day&quot;,</span></span></div><div class="line"><span class="text plain null-grammar"><span>&nbsp;&nbsp;&quot;price&quot;:{</span></span></div><div class="line"><span class="text plain null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&quot;currency&quot;&nbsp;:&nbsp;&quot;USD&quot;,</span></span></div><div class="line"><span class="text plain null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&quot;value&quot;:&nbsp;14.60</span></span></div><div class="line"><span class="text plain null-grammar"><span>&nbsp;&nbsp;}</span></span></div><div class="line"><span class="text plain null-grammar"><span>}</span></span></div></pre>
+<pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>POST&nbsp;/books&nbsp;HTTP/1.1</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>{</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;&nbsp;</span><span class="meta paragraph text"><span>&quot;title&quot;:&nbsp;&quot;Some&nbsp;day&quot;,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&quot;price&quot;:{</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="meta paragraph text"><span>&quot;currency&quot;:&nbsp;&quot;USD&quot;,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&nbsp;&nbsp;&quot;value&quot;:&nbsp;25.00</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;&nbsp;</span><span class="meta paragraph text"><span>}</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>}</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;</span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>HTTP/1.1&nbsp;201&nbsp;Created</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Location:&nbsp;/books/abc123</span></span></span></div></pre><p>As soon as you know the new resource location, you can use PUT again to do updates to the Dooms day book. But as said before: you CAN add new resources through PUT as well. The next example is perfectly valid if your API provides this functionality:</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>PUT&nbsp;/articles/dooms-day&nbsp;HTTP/1.1</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>{</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;&nbsp;</span><span class="meta paragraph text"><span>&quot;title&quot;&nbsp;:&quot;Dooms&nbsp;day&quot;,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&quot;price&quot;:{</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="meta paragraph text"><span>&quot;currency&quot;:&nbsp;&quot;USD&quot;,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&nbsp;&nbsp;&quot;value&quot;:&nbsp;25.00</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;&nbsp;</span><span class="meta paragraph text"><span>}</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>}</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;</span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>HTTP/1.1&nbsp;201&nbsp;Created</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Location:&nbsp;/books/dooms-day</span></span></span></div></pre><p>Here, the client decided on the actual resource URL.</p>
+<h2 id="how-to-create-a-post-operation">How to create a POST Operation</h2>
+<p>Go to your <code>EntityDefinition</code> and select <code>endpoints</code> tab, you click on the <code>Add Operation endpoint</code> button
+<img src="https://lh3.googleusercontent.com/-wja268cSbZQ/VuX4q9YKxtI/AAAAAAAA5u0/E-oaCIoQGaYVX2BhqPIE4XvLoABXGLyIwCCo/s2048-Ic42/%255BUNSET%255D" alt=""></p>
+<p>A dialog will be shown for you
+<img src="https://lh3.googleusercontent.com/-QVdBIZqEAQ0/VuX48vCpJBI/AAAAAAAA5u4/X5qjQAKV-h01aXbXyKXxwa5HeNdYPLRVwCCo/s2048-Ic42/%255BUNSET%255D" alt=""></p>
+<ol>
+<li>Give your endpoint a name, so you could easily identify it later on</li>
+<li>Select the EntityDefinition</li>
+<li>Any note</li>
+</ol>
+<p><img src="https://i.imgur.com/wj6Bh9F.png" alt=""></p>
+<ol>
+<li>Select HTTP POST</li>
+<li>Conflict detection may not be application for HTTP POST, since POST will always creates a new resource. Conflict will only occur when you are updating existing resource which might have been outdated</li>
+<li>Set the fields default value with <code>Setter</code>. Your client might not supply the value to your property in the message body, or you just want to make sure that s property will have the value you set.</li>
+<li>The name of the operation</li>
+<li><code>Route</code>, in this example it&#39;s empty so that the url for this operation is <code>https://your-server-name/api/your-resources-name/</code></li>
+<li><code>Resources</code> to identify your resource names, normally it will take the pluralize of your <code>EntityDefinition</code> name, and lower case it.</li>
+</ol>
+<h2 id="applying-business-rules">Applying business rules</h2>
+<p>You might want to run some validation and business rules against the <code>POST</code> message that you just created. Go to your <code>business rules</code> tab, and select the rules you want. These rules will be evaluated and if any of the rules fails, HTTP status code of 422 will be returned to the client.</p>
+<h2 id="testing-your-endpoint">Testing your endpoint</h2>
+<p>Once it&#39;s publish, the compiled output will be in your output folder, the dll will be named like <code>MyApp.EntityOperation.MyOperationName</code>, now you can deploy it, by click on the deploy tab in Developer Log, or copy it manually to your <code>web\bin</code> folder.</p>
+<p>Now you can use curl command to execute your request, click on the curl command toolbar(1) and copy the code(2)</p>
+<p><img src="https://i.imgur.com/ennw0qw.png" alt=""></p>
+<p>Open your <a href="https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en">POSTMAN</a> and click on the import button (1), from the pop dialog, select Raw Text(2) and click import(3)</p>
+<p><img src="https://i.imgur.com/Ea5LaNB.png" alt=""></p>
+<p>No go to body tab, and you can edit your message payload</p>
+<p><img src="https://i.imgur.com/7K3bWu9.png" alt=""></p></body>
 </html>
