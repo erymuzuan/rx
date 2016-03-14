@@ -1,5 +1,8 @@
 {
   "$type": "Bespoke.Sph.Domain.FormDialog, domain.sph",
+  "Name": "Add or edit home address",
+  "Icon": "fa fa-book",
+  "Url": "form.dialog.designer/patient/add-or-edit-address",
   "FormDesign": {
     "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
     "FormElementCollection": {
@@ -165,6 +168,6 @@
   "Id": "add-or-edit-address",
   "CreatedDate": "2016-01-11T10:24:34.5557344+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-12T17:01:52.4815026+08:00",
+  "ChangedDate": "2016-03-12T07:04:33.4870038+08:00",
   "WebId": "de8aeee4-823d-4c2c-91d2-93c94365cf18"
 }

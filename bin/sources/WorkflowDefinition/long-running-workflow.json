@@ -1,0 +1,209 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": null,
+        "Body": null,
+        "To": null,
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 407,
+          "Y": 443,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "5ef1d8d6-b464-4670-a339-1dd3427ae9c5",
+        "Name": "Notification_0",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "378b5059-4ae1-4c05-bc0b-357f69fa8382"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
+        "Expression": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Expression",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 412,
+          "Y": 169,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "378b5059-4ae1-4c05-bc0b-357f69fa8382",
+        "Name": "Expression_1",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "24fe3482-0e63-4778-f5b0-9a7a4d0944d6"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "End",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 964,
+          "Y": 523,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": null,
+        "Name": "End_2",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "d2dec4df-3824-4b35-9461-f09974a56fa5"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
+        "PortType": null,
+        "Operation": null,
+        "MessagePath": null,
+        "CancelMessageBody": null,
+        "CancelMessageSubject": null,
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": null,
+          "Value": null,
+          "IsPublic": false,
+          "WebId": null
+        },
+        "IsAsync": true,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Receive",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 879,
+          "Y": 329,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "d2dec4df-3824-4b35-9461-f09974a56fa5",
+        "Name": "Receive_3",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "5ef1d8d6-b464-4670-a339-1dd3427ae9c5"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "EmailSubject",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "8b1d03de-91cf-411f-e5e0-b11cf8cc9cd0"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ValueObjectVariable, domain.sph",
+        "ValueObjectDefinition": "",
+        "Name": "Message",
+        "TypeName": "ListenMessage1",
+        "DefaultValue": "",
+        "WebId": "645defff-732d-4495-ded9-7588396d7c2f"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationSetCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationSet, domain.sph",
+        "Type": "Text",
+        "Name": "Text",
+        "WebId": "c515bffa-40d8-44ea-ecdd-0b45414c56cf"
+      }
+    ]
+  },
+  "CorrelationTypeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.CorrelationType, domain.sph",
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+              "Path": "Message.Text1",
+              "Name": "",
+              "Origin": "",
+              "WebId": "cbed959c-725b-46b4-8b16-3733e3710bdc"
+            }
+          ]
+        },
+        "Name": "Text",
+        "WebId": "76e107bf-61c0-48f1-dd6d-d1efbff58d92"
+      }
+    ]
+  },
+  "TryScopeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TryScope, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Long running workflow",
+  "Note": "",
+  "IsActive": false,
+  "SchemaStoreId": "99e9073e-8d53-4e22-a863-7e2746f75e11",
+  "Version": 1,
+  "CreatedBy": "admin",
+  "Id": "long-running-workflow",
+  "CreatedDate": "2016-03-12T16:34:59.6136283+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-03-12T16:40:05.1906505+08:00",
+  "WebId": "1fc8ac0f-c2d5-4c58-8cfa-42d20ee5b2af"
+}

@@ -590,7 +590,7 @@
           "WebId": null
         },
         "IsInitiator": false,
-        "NextActivityWebId": "7f9fa018-910c-4797-acd8-735ff5aa3aca",
+        "NextActivityWebId": "392ff659-32d7-403f-b2c7-7a03e07220f2",
         "Name": "Notification_6",
         "TryScope": null,
         "CatchScope": null,
@@ -609,8 +609,8 @@
         },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 536,
-          "Y": 1044,
+          "X": 724,
+          "Y": 1217,
           "WebId": null
         },
         "IsInitiator": false,
@@ -619,6 +619,127 @@
         "TryScope": null,
         "CatchScope": null,
         "WebId": "7f9fa018-910c-4797-acd8-735ff5aa3aca"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph",
+        "WorkflowDefinitionId": "simple-child-workflow",
+        "Version": 1,
+        "IsAsync": false,
+        "PropertyMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.PropertyMapping, domain.sph",
+              "Source": "Message.Text1",
+              "Destination": "EmailSubject",
+              "WebId": "72e6992a-4079-4b1c-9a1d-423859d0179d"
+            }
+          ]
+        },
+        "ExecutedPropertyMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "ChildWorkflow",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 91,
+          "Y": 899,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "0bc8ed05-540f-486a-fada-888ba987c7f7",
+        "Name": "Execute Simple Child",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "392ff659-32d7-403f-b2c7-7a03e07220f2"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph",
+        "WorkflowDefinitionId": "simple-child-workflow",
+        "Version": 1,
+        "IsAsync": true,
+        "PropertyMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.PropertyMapping, domain.sph",
+              "Source": "Message.Text1",
+              "Destination": "EmailSubject",
+              "WebId": "2ec0fffc-1923-4745-87c5-36f7cdb44b92"
+            }
+          ]
+        },
+        "ExecutedPropertyMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.PropertyMapping, domain.sph",
+              "Source": "SimpleValue",
+              "Destination": "Alamat.State",
+              "WebId": "5589925b-d491-449d-e2b0-4995b261ae4f"
+            }
+          ]
+        },
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "ChildWorkflow",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 89,
+          "Y": 1107,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "9139ac78-6105-403e-d2c4-a4952e3d267b",
+        "Name": "Execute and get value",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "0bc8ed05-540f-486a-fada-888ba987c7f7"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "EchoFromChild",
+        "Body": "EchoFromChild\n@Model.Alamat.State",
+        "To": "EchoFromChild@@gmail.com",
+        "UserName": null,
+        "Cc": null,
+        "Bcc": null,
+        "IsHtmlEmail": false,
+        "IsMessageSuppressed": false,
+        "Retry": null,
+        "RetryInterval": null,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 383,
+          "Y": 1216,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "7f9fa018-910c-4797-acd8-735ff5aa3aca",
+        "Name": "Echo Value From Child",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "9139ac78-6105-403e-d2c4-a4952e3d267b"
       }
     ]
   },
@@ -693,6 +814,6 @@
   "Id": "test-listen",
   "CreatedDate": "2016-03-09T14:44:00.2076416+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-03-09T14:51:57.8534296+08:00",
+  "ChangedDate": "2016-03-12T17:08:55.8384771+08:00",
   "WebId": "d6be71d3-996e-4bf5-9165-1f2dce007138"
 }

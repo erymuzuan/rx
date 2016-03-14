@@ -1,0 +1,37 @@
+{
+  "$type": "Bespoke.Sph.Domain.PartialView, domain.sph",
+  "Icon": "fa fa-file-o",
+  "Url": "partial.view.designer/patient/another-test",
+  "FormDesign": {
+    "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+    "FormElementCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Name": "",
+    "Description": "",
+    "ConfirmationText": "",
+    "ImageStoreId": "",
+    "LabelColLg": null,
+    "LabelColMd": null,
+    "LabelColSm": null,
+    "LabelColXs": null,
+    "InputColLg": null,
+    "InputColMd": null,
+    "InputColSm": null,
+    "InputColXs": null,
+    "WebId": null
+  },
+  "Name": "another test",
+  "Route": "another-test",
+  "Entity": "patient",
+  "MemberPath": "DeathDate",
+  "IsPublished": false,
+  "Note": "test ",
+  "CreatedBy": "admin",
+  "Id": "another-test",
+  "CreatedDate": "2016-03-12T07:35:39.1822787+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-03-12T07:38:01.2562993+08:00",
+  "WebId": "c08ff03f-f04e-4cea-fc15-ce97c81d0c0b"
+}
