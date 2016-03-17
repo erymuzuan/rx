@@ -1,0 +1,32 @@
+{
+  "$type": "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter",
+  "OdataTranslator": "OdataSqlTranslator",
+  "Server": null,
+  "TrustedConnection": false,
+  "UserId": null,
+  "Password": null,
+  "Database": null,
+  "ConnectionString": "Server=;Database=;User Id=;Password=;",
+  "TableColumns": {
+    "$type": "System.Collections.Generic.List`1[[Bespoke.Sph.Integrations.Adapters.SqlTable, sqlserver.adapter]], mscorlib",
+    "$values": []
+  },
+  "OperationDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Tables": null,
+  "Schema": null,
+  "TableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "AnotherLoadTest001",
+  "Description": null,
+  "CreatedBy": "admin",
+  "Id": "another-load-test-001",
+  "CreatedDate": "2016-03-18T06:53:08.9167368+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-03-18T06:53:08.9167368+08:00",
+  "WebId": "0414033c-e452-4914-8987-6a08879597fe"
+}

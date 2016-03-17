@@ -38,8 +38,7 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("\r\n\r\n<!--ko if:ko.unwrap($type) === \"Bespoke.Sph.Domain.ChildEntityListView, domai" +
-"n.sph\" -->\r\n\r\n\r\n<div");
+WriteLiteral("\r\n\r\n\r\n\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -127,7 +126,7 @@ WriteLiteral(">\r\n                    <span");
 WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 
 WriteLiteral("></span>\r\n                </a>\r\n            </td>\r\n        </tr>\r\n    </tbody>\r\n<" +
-"/table>\r\n\r\n<!--/ko-->\r\n");
+"/table>\r\n\r\n");
 
         }
     }

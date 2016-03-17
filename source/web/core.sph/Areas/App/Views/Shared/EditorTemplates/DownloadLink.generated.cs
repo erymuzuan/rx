@@ -38,8 +38,7 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.DownloadLink, domain.sph\" -->" +
-"\r\n<div");
+WriteLiteral("<div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -113,7 +112,7 @@ WriteLiteral("\r\n            class=\"form-control\"");
 
 WriteLiteral(" id=\"dl-template-storeid\"");
 
-WriteLiteral("></select>\r\n\r\n</div>\r\n\r\n\r\n<!--/ko-->\r\n");
+WriteLiteral("></select>\r\n\r\n</div>\r\n\r\n\r\n");
 
         }
     }

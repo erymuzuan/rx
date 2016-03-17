@@ -38,8 +38,7 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.TabControl, domain.sph\" -->\r\n" +
-"    <a");
+WriteLiteral("    <a");
 
 WriteLiteral(" href=\"#\"");
 
@@ -100,7 +99,7 @@ WriteLiteral(">\r\n                <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 
-WriteLiteral("></i>\r\n            </a>\r\n        </div>\r\n    <!-- /ko -->\r\n\r\n\r\n<!--/ko-->\r\n");
+WriteLiteral("></i>\r\n            </a>\r\n        </div>\r\n    <!-- /ko -->\r\n\r\n\r\n");
 
         }
     }

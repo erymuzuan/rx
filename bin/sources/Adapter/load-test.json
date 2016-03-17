@@ -441,7 +441,72 @@
   },
   "OperationDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
+        "WebId": "55d1f62e-a0ad-4101-a5ed-1d711de95bff",
+        "Name": "Prc_GetCategories",
+        "MethodName": "PrcGetCategories",
+        "IsOneWay": false,
+        "IsEvent": false,
+        "RequestDefinition": null,
+        "ResponseDefinition": "Request",
+        "CodeNamespace": "Bespoke.DevV1.Adapters.LoadTest.Dbo",
+        "RequestMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
+              "MaxLength": 0,
+              "Mode": "In",
+              "SqlType": "int",
+              "Position": 1,
+              "Type": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "IsNullable": true,
+              "FullName": "@LoadTestRunId",
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@LoadTestRunId",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "21983ba4-1e5b-4686-9bff-acd1813c70b8"
+            }
+          ]
+        },
+        "ResponseMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+              "SqlDbType": "Int",
+              "Type": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@return_value",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            }
+          ]
+        },
+        "Uuid": "55d1f62e-a0ad-4101-a5ed-1d711de95bff"
+      }
+    ]
   },
   "Tables": {
     "$type": "Bespoke.Sph.Domain.Api.AdapterTable[], domain.sph",
@@ -485,7 +550,6 @@
     ]
   },
   "Schema": "dbo",
-  "CodeNamespace": "Bespoke.DevV1.Adapters.LoadTest.Dbo",
   "TableDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
     "$values": [
@@ -1612,6 +1676,6 @@
   "Id": "load-test",
   "CreatedDate": "2016-02-25T14:13:33.8344335+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-03-11T18:13:18.8107894+08:00",
+  "ChangedDate": "2016-03-18T06:53:39.8375568+08:00",
   "WebId": "9ef48bea-1602-4bc9-b4d6-6f8e733b2345"
 }

@@ -94,6 +94,10 @@
       <Project>{7bf1de5a-3756-4a31-8b82-491c71d263d7}</Project>
       <Name>domain.sph</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\web\webapi.common\webapi.common.csproj">
+      <Project>{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}</Project>
+      <Name>webapi.common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
     [RoutePrefix("sqlserver-adapter")]
-    public class SqlServerAdapterController : ApiController
+    public class SqlServerAdapterController : BaseApiController
     {
         [HttpGet]
         [Route("resource/{resource}")]
@@ -187,19 +188,19 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpGet]
         [Route("sproc-text/{id}/{schema}.{name}")]
-        public async Task<HttpResponseMessage> GetSprocTextAsync(string id, string schema, string name)
+        public async Task<IHttpActionResult> GetSprocTextAsync(string id, string schema, string name)
         {
 
             var context = new SphDataContext();
             var adapter = (await context.LoadOneAsync<Adapter>(a => a.Id == id)) as SqlServerAdapter;
             if (null == adapter)
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return NotFound($"Cannot find any adapter with Id {id}");
 
             var sproc =
                 adapter.OperationDefinitionCollection.OfType<SprocOperationDefinition>()
                     .SingleOrDefault(x => x.Name == name);
             if (null == sproc)
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return NotFound($"Cannot find any sproc with name {name}");
 
             using (var conn = new SqlConnection(adapter.ConnectionString))
             using (var cmd = new SqlCommand("sp_helptext", conn))
@@ -216,7 +217,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                         sb.Append(reader.GetString(0));
                     }
                 }
-                return new HttpResponseMessage { Content = new StringContent(sb.ToString()) };
+                return Ok(sb.ToString());
 
             }
         }

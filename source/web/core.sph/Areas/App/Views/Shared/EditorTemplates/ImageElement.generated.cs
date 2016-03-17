@@ -40,8 +40,7 @@ namespace ASP
         {
 WriteLiteral("\r\n");
 
-WriteLiteral("<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.ImageElement, domain.sph\" -->" +
-"\r\n\r\n<div");
+WriteLiteral("\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -85,7 +84,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"width-height\"");
 
-WriteLiteral(" />\r\n</div>\r\n\r\n\r\n<!--/ko-->\r\n");
+WriteLiteral(" />\r\n</div>\r\n\r\n\r\n");
 
         }
     }

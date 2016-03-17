@@ -133,7 +133,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"FormDesign.Name\"");
 
-WriteLiteral("/>\r\n                </div>\r\n\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -568,7 +568,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Path\"");
 
-WriteLiteral("/>\r\n                </div>\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -771,41 +771,19 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"ElementId\"");
 
-WriteLiteral(" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div" +
-"");
-
-WriteLiteral(" class=\"form-group\"");
-
-WriteLiteral(">\r\n                    <a");
-
-WriteLiteral(" href=\"#toolbox-advanced-settings\"");
-
-WriteLiteral(" data-toggle=\"collapse\"");
-
-WriteLiteral(">\r\n                        <i");
-
-WriteLiteral(" class=\"fa fa-chevron-down\"");
-
-WriteLiteral("></i>\r\n                        Advanced settings\r\n                    </a>\r\n     " +
-"           </div>\r\n                <div");
-
-WriteLiteral(" id=\"toolbox-advanced-settings\"");
-
-WriteLiteral(" class=\"collapse\"");
-
-WriteLiteral(">\r\n");
+WriteLiteral(" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n\r\n");
 
             
-            #line 236 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                    
+            #line 230 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                
             
             #line default
             #line hidden
             
-            #line 236 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                      
-                        var types = new[]
-                        {
+            #line 230 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                  
+                    var types = new[]
+                    {
                             typeof(TextBox),
                             typeof(ComboBox),
                             typeof(Button),
@@ -817,44 +795,124 @@ WriteLiteral(">\r\n");
                             typeof(TabControl),
                             typeof(ListView)
                         };
-                    
+                
             
             #line default
             #line hidden
 WriteLiteral("\r\n");
 
             
-            #line 251 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                    
+            #line 245 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                
             
             #line default
             #line hidden
             
+            #line 245 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                 foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
+                {
+
+                    var feName = "toolbox-advanced-settings"+ fe.GetType().Name;
+                    var typeName = fe.GetType().GetShortAssemblyQualifiedName();
+
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    <!--ko if: ko.unwrap($type) === \"");
+
+            
             #line 251 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                     foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
-                    {
-                        FormElement fe1 = fe;
+                                                Write(typeName);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\" -->\r\n");
+
+WriteLiteral("                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <a");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 13483), Tuple.Create("\"", 13500)
+, Tuple.Create(Tuple.Create("", 13490), Tuple.Create("#", 13490), true)
+            
+            #line 253 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+, Tuple.Create(Tuple.Create("", 13491), Tuple.Create<System.Object, System.Int32>(feName
+            
+            #line default
+            #line hidden
+, 13491), false)
+);
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral(">\r\n                            <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n                            Advanced settings\r\n                        </a" +
+">\r\n                    </div>\r\n");
+
+WriteLiteral("                    <div");
+
+WriteAttribute("id", Tuple.Create(" id=\"", 13720), Tuple.Create("\"", 13733)
+            
+            #line 258 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+, Tuple.Create(Tuple.Create("", 13725), Tuple.Create<System.Object, System.Int32>(fe.Name
+            
+            #line default
+            #line hidden
+, 13725), false)
+);
+
+WriteLiteral(" class=\"collapse\"");
+
+WriteLiteral(">\r\n");
+
+            
+            #line 259 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 254 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                   Write(Html.EditorFor(m => fe1));
+            #line 259 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                          
+
+                            FormElement fe1 = fe;
+                            
+            
+            #line default
+            #line hidden
+            
+            #line 262 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                       Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 254 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                                                 
+            #line 262 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                                                     
+                        
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                    </div>\r\n");
 
-                    }
+WriteLiteral("                    <!-- /ko -->\r\n");
+
+            
+            #line 266 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                            }
 
             
             #line default
             #line hidden
-WriteLiteral("                </div>\r\n\r\n                <a");
+WriteLiteral("\r\n                <a");
 
 WriteLiteral(" data-bind=\"click: $root.removeFormElement\"");
 
@@ -876,7 +934,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 266 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 275 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             
@@ -910,7 +968,7 @@ WriteLiteral(" id=\"operation-tab-item\"");
 
 WriteLiteral(" class=\"tab-pane\"");
 
-WriteLiteral("  data-bind=\"with : form\"");
+WriteLiteral(" data-bind=\"with : form\"");
 
 WriteLiteral(">\r\n            <form");
 

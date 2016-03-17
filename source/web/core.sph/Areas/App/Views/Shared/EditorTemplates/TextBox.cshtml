@@ -1,6 +1,5 @@
 ﻿@model Bespoke.Sph.Domain.TextBox
 
-<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.TextBox, domain.sph" -->
 <div class="form-group">
     <label for="fetb-entity">Autocompletion Entity</label>
     <select id="fetb-entity" class="form-control" data-bind="value: AutoCompletionEntity,
@@ -17,5 +16,3 @@
     <label for="fetb-Query">Autocompletion Query</label>
     <input class="form-control" data-bind="value: AutoCompletionQuery,enable:AutoCompletionEntity()" id="fetb-Query" type="text" name="Query" />
 </div>
-
-<!--/ko-->

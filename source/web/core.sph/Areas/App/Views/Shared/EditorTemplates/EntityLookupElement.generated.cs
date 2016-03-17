@@ -38,8 +38,7 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.EntityLookupElement, domain.s" +
-"ph\" -->\r\n<div");
+WriteLiteral("<div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -155,7 +154,7 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click : editColumns\"");
 
-WriteLiteral(">Edit</a>\r\n</div>\r\n\r\n\r\n\r\n<!--/ko-->\r\n");
+WriteLiteral(">Edit</a>\r\n</div>\r\n\r\n\r\n\r\n");
 
         }
     }

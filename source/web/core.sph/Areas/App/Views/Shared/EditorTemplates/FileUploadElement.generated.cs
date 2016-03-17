@@ -38,8 +38,7 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.FileUploadElement, domain.sph" +
-"\" -->\r\n\r\n<div");
+WriteLiteral("\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -61,7 +60,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"CommandName\"");
 
-WriteLiteral(" />\r\n</div>\r\n\r\n<!--/ko-->\r\n");
+WriteLiteral(" />\r\n</div>\r\n\r\n");
 
         }
     }

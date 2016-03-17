@@ -38,8 +38,7 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.ComboBox, domain.sph\" -->\r\n<a" +
-"");
+WriteLiteral("<a");
 
 WriteLiteral(" href=\"#\"");
 
@@ -161,7 +160,7 @@ WriteLiteral(" class=\"form-control\"");
 WriteLiteral(" data-bind=\"value:Query, tooltip :\'The filter query for the items from entity, if" +
 " you need the query to be dynamically evaluated, check the ComputedQuery\'\"");
 
-WriteLiteral(" />\r\n</div>\r\n\r\n<!-- /ko -->\r\n<!--/ko-->\r\n");
+WriteLiteral(" />\r\n</div>\r\n\r\n<!-- /ko -->\r\n");
 
         }
     }
