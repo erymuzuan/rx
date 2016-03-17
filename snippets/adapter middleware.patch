@@ -1,0 +1,550 @@
+diff --git a/source/adapters/flatfile.adapter/FlatFileAdapterRouteTableProvider.cs b/source/adapters/flatfile.adapter/FlatFileAdapterRouteTableProvider.cs
+index 27a38bb..b74f92f 100644
+--- a/source/adapters/flatfile.adapter/FlatFileAdapterRouteTableProvider.cs
++++ b/source/adapters/flatfile.adapter/FlatFileAdapterRouteTableProvider.cs
+@@ -28,6 +28,11 @@ namespace Bespoke.Sph.Integrations.Adapters
+             return null;
+         }
+ 
++        public string GetResource(string path)
++        {
++            throw new System.NotImplementedException();
++        }
++
+         public IEnumerable<JsRoute> Routes => new[]{
+             new JsRoute
+             {
+diff --git a/source/adapters/sqlserver.adapter/Resources/adapter.sqlserver.sproc.js b/source/adapters/sqlserver.adapter/Resources/adapter.sqlserver.sproc.js
+index 593636a..be7fb07 100644
+--- a/source/adapters/sqlserver.adapter/Resources/adapter.sqlserver.sproc.js
++++ b/source/adapters/sqlserver.adapter/Resources/adapter.sqlserver.sproc.js
+@@ -1,4 +1,4 @@
+-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
++﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
+ /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
+ /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
+ /// <reference path="../Scripts/require.js" />
+@@ -10,7 +10,7 @@
+ /// <reference path="../../../web/web.sph/scripts/prism.js" />
+ 
+ 
+-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, 'adapter.resource/sqlserver-adapter/_ko.adapter.sqlserver'],
++define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "services/adapter.sqlserver._ko"],
+     function (context, logger, router, system) {
+ 
+         var operation = ko.observable(),
+@@ -35,16 +35,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
+ 
+                     _(operation().RequestMemberCollection()).each(function (v) {
+                         if (!ko.unwrap(v.TypeName)) {
+-                            v.TypeName('System.String, mscorlib');
++                            v.TypeName("System.String, mscorlib");
+                         }
+                     });
+ 
+                     requestSchema({
+-                        Name: ko.observable('Request'),
++                        Name: ko.observable("Request"),
+                         MemberCollection: ko.observableArray(operation().RequestMemberCollection())
+                     });
+                     responseSchema({
+-                        Name: ko.observable('Response'),
++                        Name: ko.observable("Response"),
+                         MemberCollection: ko.observableArray(operation().ResponseMemberCollection())
+                     });
+ 
+@@ -57,24 +57,24 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
+                     text(st);
+                 });
+ 
+-            setTimeout(function () {
+-                $.getScript('/scripts/prism.js', function () {
+-                    logger.info("loading syntax highlighter");
+-                });
+-            }, 5000);
+-
+             return tcs.promise();
+ 
+         },
+         attached = function (view) {
+ 
++            setTimeout(function () {
++                $.getScript("/scripts/prism.js", function () {
++                    logger.info("loading syntax highlighter");
++                });
++            }, 5000);
++
+         },
+         save = function () {
+             var tcs = new $.Deferred();
+             $.ajax({
+                 type: "PATCH",
+                 data: ko.mapping.toJSON(operation),
+-                url: '/sqlserver-adapter/sproc/' + adapterId(),
++                url: "/sqlserver-adapter/sproc/" + adapterId(),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 error: tcs.reject,
+diff --git a/source/adapters/sqlserver.adapter/SqlServerAdapterController.cs b/source/adapters/sqlserver.adapter/SqlServerAdapterController.cs
+index e11fc4d..6a18beb 100644
+--- a/source/adapters/sqlserver.adapter/SqlServerAdapterController.cs
++++ b/source/adapters/sqlserver.adapter/SqlServerAdapterController.cs
+@@ -168,7 +168,7 @@ namespace Bespoke.Sph.Integrations.Adapters
+ 
+ 
+         [HttpGet]
+-        [Route("sproc/{id}/{schema}.{name}")]
++        [Route("sproc/{id}/{schema:regex(^[A-Za-z]{1,9}$)}.{name}")]
+         public async Task<HttpResponseMessage> GetSprocAsync(string id, string schema, string name)
+         {
+ 
+diff --git a/source/adapters/sqlserver.adapter/SqlServerAdapterRouteProvider.cs b/source/adapters/sqlserver.adapter/SqlServerAdapterRouteProvider.cs
+index 345f319..a6ec4c9 100644
+--- a/source/adapters/sqlserver.adapter/SqlServerAdapterRouteProvider.cs
++++ b/source/adapters/sqlserver.adapter/SqlServerAdapterRouteProvider.cs
+@@ -6,21 +6,27 @@ namespace Bespoke.Sph.Integrations.Adapters
+ {
+     public class SqlServerAdapterRouteProvider : IRouteTableProvider
+     {
+-        public string GetEditorViewModel(JsRoute route)
+-        {
+-            if (route.ModuleId == "viewmodels/adapter.sqlserver")
+-                return Properties.Resources.SqlServerAdapterJs;
+-            if (route.ModuleId == "viewmodels/adapter.sqlserver.sproc")
+-                return Properties.Resources.SprocJs;
+-            return null;
+-        }
++        public string ResourceName => "sqlserver";
+ 
+-        public string GetEditorView(JsRoute route)
++        public string GetResource(string path)
+         {
+-            if (route.ModuleId == "viewmodels/adapter.sqlserver")
+-                return Properties.Resources.SqlServerAdapterHtml;
+-            if (route.ModuleId == "viewmodels/adapter.sqlserver.sproc")
+-                return Properties.Resources.SprocHtml;
++            switch (path)
++            {
++                case "/services/adapter.sqlserver._ko.js":
++                    return Properties.Resources._ko_adapter_sqlserver;
++                case "/viewmodels/adapter.sqlserver.js":
++                    return Properties.Resources.SqlServerAdapterJs;
++                case "/views/adapter.sqlserver.html":
++                    return Properties.Resources.SqlServerAdapterHtml;
++                case "/viewmodels/adapter.sqlserver.sproc.js":
++                    return Properties.Resources.SprocJs;
++                case "viewmodels/adapter.sqlserver.html":
++                    return Properties.Resources.SqlServerAdapterHtml;
++                case "viewmodels/adapter.sqlserver.js":
++                    return Properties.Resources.SqlServerAdapterJs;
++                case "viewmodels/adapter.sqlserver.sproc.js":
++                    return Properties.Resources.SprocJs;
++            }
+             return null;
+         }
+ 
+diff --git a/source/adapters/sqlserver.adapter/_ko.adapter.sqlserver.js b/source/adapters/sqlserver.adapter/_ko.adapter.sqlserver.js
+index 25aded3..7281a58 100644
+--- a/source/adapters/sqlserver.adapter/_ko.adapter.sqlserver.js
++++ b/source/adapters/sqlserver.adapter/_ko.adapter.sqlserver.js
+@@ -1,4 +1,4 @@
+-﻿define(['knockout'], function(ko) {
++﻿define(["knockout"], function(ko) {
+     ko.bindingHandlers.sprocRequestSchemaTree = {
+         init: function (element, valueAccessor) {
+             var system = require(objectbuilders.system),
+@@ -17,7 +17,7 @@
+                     node.children = _(node.data.MemberCollection()).map(function (v) {
+                         return {
+                             text: v.Name(),
+-                            state: 'open',
++                            state: "open",
+                             type: v.TypeName(),
+                             data: v
+                         };
+@@ -28,14 +28,14 @@
+                     jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
+                         return {
+                             text: v.Name(),
+-                            state: 'open',
++                            state: "open",
+                             type: v.TypeName(),
+                             data: v
+                         };
+                     });
+                     _(jsTreeData.children).each(recurseChildMember);
+                     $(element)
+-                        .on('select_node.jstree', function (node, selected) {
++                        .on("select_node.jstree", function (node, selected) {
+                             if (selected.node.data && typeof selected.node.data.Name === "function") {
+                                 member(selected.node.data);
+ 
+@@ -51,10 +51,10 @@
+                                 });
+                             }
+                         })
+-                        .on('create_node.jstree', function (event, node) {
++                        .on("create_node.jstree", function (event, node) {
+                             console.log(node, "node");
+                         })
+-                        .on('rename_node.jstree', function (ev, node) {
++                        .on("rename_node.jstree", function (ev, node) {
+                             var mb = node.node.data;
+                             mb.Name(node.text);
+                         })
+@@ -75,7 +75,7 @@
+ 
+                                             // now delete the member
+                                             var n = ref.get_selected(true)[0],
+-                                                p = ref.get_node($('#' + n.parent)),
++                                                p = ref.get_node($("#" + n.parent)),
+                                                 parentMember = p.data;
+                                             if (parentMember && typeof parentMember.MemberCollection === "function") {
+                                                 var child = _(parentMember.MemberCollection()).find(function (v) {
+@@ -166,7 +166,7 @@
+                     node.children = _(node.data.MemberCollection()).map(function (v) {
+                         return {
+                             text: v.Name(),
+-                            state: 'open',
++                            state: "open",
+                             type: v.TypeName(),
+                             data: v
+                         };
+@@ -177,14 +177,14 @@
+                     jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
+                         return {
+                             text: v.Name(),
+-                            state: 'open',
++                            state: "open",
+                             type: v.TypeName(),
+                             data: v
+                         };
+                     });
+                     _(jsTreeData.children).each(recurseChildMember);
+                     $(element)
+-                        .on('select_node.jstree', function (node, selected) {
++                        .on("select_node.jstree", function (node, selected) {
+                             if (selected.node.data && typeof selected.node.data.Name === "function") {
+                                 member(selected.node.data);
+ 
+@@ -200,10 +200,10 @@
+                                 });
+                             }
+                         })
+-                        .on('create_node.jstree', function (event, node) {
++                        .on("create_node.jstree", function (event, node) {
+                             console.log(node, "node");
+                         })
+-                        .on('rename_node.jstree', function (ev, node) {
++                        .on("rename_node.jstree", function (ev, node) {
+                             var mb = node.node.data;
+                             mb.Name(node.text);
+                         })
+@@ -219,12 +219,12 @@
+                                     {
+                                         label: "Add result set",
+                                         action: function () {
+-                                            var child = new bespoke.sph.domain.Member({ WebId: system.guid(), TypeName: 'System.Array, mscorlib', Name: name + "Result1Collection" }),
+-                                                parent = $(element).jstree('get_selected', true),
++                                            var child = new bespoke.sph.domain.Member({ WebId: system.guid(), TypeName: "System.Array, mscorlib", Name: name + "Result1Collection" }),
++                                                parent = $(element).jstree("get_selected", true),
+                                                 mb = parent[0].data,
+                                                 newNode = { state: "open", type: "System.Array, mscorlib", text: name + "Result1Collection", data: child };
+ 
+-                                            child.$type = ko.observable('Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter');
++                                            child.$type = ko.observable("Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter");
+                                             child.SqlDbType = ko.observable();
+ 
+ 
+@@ -252,12 +252,12 @@
+                                     {
+                                         label: "Add record",
+                                         action: function () {
+-                                            var child = new bespoke.sph.domain.Member({ WebId: system.guid(), TypeName: 'System.String, mscorlib', Name: 'Member_Name' }),
+-                                                parent = $(element).jstree('get_selected', true),
++                                            var child = new bespoke.sph.domain.Member({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
++                                                parent = $(element).jstree("get_selected", true),
+                                                 mb = parent[0].data,
+-                                                newNode = { state: "open", type: "System.String, mscorlib", text: 'Member_Name', data: child };
++                                                newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
+ 
+-                                            child.$type = ko.observable('Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter');
++                                            child.$type = ko.observable("Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter");
+                                             child.SqlDbType = ko.observable();
+ 
+ 
+@@ -290,7 +290,7 @@
+ 
+                                             // now delete the member
+                                             var n = ref.get_selected(true)[0],
+-                                                p = ref.get_node($('#' + n.parent)),
++                                                p = ref.get_node($("#" + n.parent)),
+                                                 parentMember = p.data;
+                                             if (parentMember && typeof parentMember.MemberCollection === "function") {
+                                                 var child = _(parentMember.MemberCollection()).find(function (v) {
+diff --git a/source/domain/domain.sph/Api/IRouteTableProvider.cs b/source/domain/domain.sph/Api/IRouteTableProvider.cs
+index e71278d..9f15dec 100644
+--- a/source/domain/domain.sph/Api/IRouteTableProvider.cs
++++ b/source/domain/domain.sph/Api/IRouteTableProvider.cs
+@@ -4,8 +4,8 @@ namespace Bespoke.Sph.Domain.Api
+ {
+     public interface IRouteTableProvider
+     {
+-        string GetEditorViewModel(JsRoute route);
+-        string GetEditorView(JsRoute route);
++        string ResourceName { get; }
++        string GetResource(string path);
+         IEnumerable<JsRoute> Routes { get; }
+     }
+ }
+\ No newline at end of file
+diff --git a/source/web/core.sph/App_Start/Startup.cs b/source/web/core.sph/App_Start/Startup.cs
+index f96a19f..f1098d4 100644
+--- a/source/web/core.sph/App_Start/Startup.cs
++++ b/source/web/core.sph/App_Start/Startup.cs
+@@ -16,6 +16,7 @@ namespace Bespoke.Sph.Web.App_Start
+         public void Configuration(IAppBuilder app)
+         {
+             app.RegisterCustomEntityDependencies()
++                .UseAdapterResource(true)
+                 .UseCoreResource(true)
+                 .MapSignalRConnection();
+ 
+diff --git a/source/web/core.sph/Areas/Sph/Controllers/AdapterController.cs b/source/web/core.sph/Areas/Sph/Controllers/AdapterController.cs
+index c933a07..51b6c5a 100644
+--- a/source/web/core.sph/Areas/Sph/Controllers/AdapterController.cs
++++ b/source/web/core.sph/Areas/Sph/Controllers/AdapterController.cs
+@@ -134,43 +134,5 @@ namespace Bespoke.Sph.Web.Controllers
+             return Ok(result);
+         }
+ 
+-
+-        [Route("designer/{jsroute}/{extension}")]
+-        [HttpGet]
+-        public IHttpActionResult GetDialog(string extension, string jsroute)
+-        {
+-            var lowered = jsroute.ToLowerInvariant();
+-            
+-            if (null == this.DeveloperService.Adapters)
+-                return InternalServerError(new Exception("MEF Cannot load adapters metadata"));
+-
+-            var routeProviders = this.DeveloperService.Adapters
+-                .Where(x => null != x.Metadata.RouteTableProvider)
+-                .Select(x => Activator.CreateInstance(x.Metadata.RouteTableProvider) as IRouteTableProvider)
+-                .Where(x => null != x)
+-                .Select(x => x)
+-                .ToList();
+-            var route = routeProviders
+-                .Select(x => x.Routes)
+-                .SelectMany(x => x.ToArray())
+-                .SingleOrDefault(r => r.ModuleId.ToLowerInvariant().Replace("viewmodels/adapter.", "") == lowered);
+-
+-
+-            if (null == route)
+-                return NotFound("cannot find the route for " + jsroute);
+-
+-            var provider = routeProviders
+-                .First(x => x.Routes.Any(y => y.ModuleId == route.ModuleId));
+-
+-            if (extension == "js")
+-            {
+-                var js = provider.GetEditorViewModel(route);
+-                return Javascript(js);
+-            }
+-            var html = provider.GetEditorView(route);
+-            return Html(html);
+-        }
+-
+-
+     }
+ }
+\ No newline at end of file
+diff --git a/source/web/core.sph/OwinMiddlewares/AdapterResourceMiddleware.cs b/source/web/core.sph/OwinMiddlewares/AdapterResourceMiddleware.cs
+new file mode 100644
+index 0000000..8a25d76
+--- /dev/null
++++ b/source/web/core.sph/OwinMiddlewares/AdapterResourceMiddleware.cs
+@@ -0,0 +1,129 @@
++﻿using System;
++using System.Collections.Generic;
++using System.Globalization;
++using System.IO;
++using System.Linq;
++using System.Security.Cryptography;
++using System.Text;
++using System.Threading.Tasks;
++using System.Web;
++using Bespoke.Sph.Domain;
++using Bespoke.Sph.Domain.Api;
++using Microsoft.Owin;
++using AppFunc = System.Func<
++System.Collections.Generic.IDictionary<string, object>,
++System.Threading.Tasks.Task
++>;
++
++namespace Bespoke.Sph.Web.OwinMiddlewares
++{
++    public class AdapterResourceMiddleware
++    {
++        private readonly AppFunc m_next;
++        private readonly bool m_debugging;
++
++        public AdapterResourceMiddleware(AppFunc next, bool debugging)
++        {
++            m_next = next;
++            m_debugging = debugging;
++            WebApi.DeveloperService.Init();
++        }
++
++        public IDeveloperService DeveloperService => ObjectBuilder.GetObject<IDeveloperService>();
++
++        public async Task Invoke(IDictionary<string, object> environment)
++        {
++            var ctx = new OwinContext(environment);
++            if (null == ctx.Request)
++            {
++                await m_next(environment);
++                return;
++            }
++            if (!ctx.Request.Path.HasValue)
++            {
++                await m_next(environment);
++                return;
++            }
++            var path = $"{ctx.Request.Path}".ToLowerInvariant().Replace("/sphapp", "");
++            var adapterResource = path.Contains("services.adapter/")
++                                  || path.Contains("views/adapter.")
++                                  || path.Contains("viewmodels/adapter.")
++                                  || path.Contains("services/adapter.");
++            if (!adapterResource)
++            {
++                await m_next(environment);
++                return;
++            }
++            if (null == this.DeveloperService.Adapters)
++                throw new InvalidOperationException("Cannot get IDev");
++
++
++            var adapterName = Strings.RegexSingleValue(path,
++                @"^/(?<folder>viewmodels|views|services)/adapter\.(?<adapterName>[a-z]{1,50})\..*?$", "adapterName");
++            var routeProviders = this.DeveloperService.Adapters
++                .Where(x => null != x.Metadata.RouteTableProvider)
++                .Select(x => Activator.CreateInstance(x.Metadata.RouteTableProvider) as IRouteTableProvider)
++                .Where(x => null != x)
++                .Select(x => x)
++                .ToList();
++
++            var adapter = routeProviders.SingleOrDefault(x => x.ResourceName == adapterName);
++            if (null == adapter)
++            {
++                await ctx.Response.WriteAsync("Cannot find the adapter for " + adapterName);
++                ctx.Response.StatusCode = 404;
++                return;
++
++            }
++            var resource = adapter.GetResource(path);
++            await ctx.Response.WriteAsync(resource);
++            ctx.Response.ContentType = MimeMapping.GetMimeMapping(path);
++        }
++
++
++
++        private void SetCoreResourceCacheability(IOwinContext context)
++        {
++            if (m_debugging)
++            {
++                context.Response.Expires = DateTime.UtcNow.AddDays(-1);
++                context.Response.Headers.Add("cache-control", new[] { "no-store", "no-cache" });
++                return;
++            }
++            var lastAccessTimeUtc = File.GetLastAccessTimeUtc(($"{ConfigurationManager.WebPath}\\bin\\core.sph.dll"));
++
++            context.Response.Expires = DateTime.UtcNow.AddDays(ConfigurationManager.StaticFileCache);
++            context.Response.Headers.Add("cache-control", new[] { "public" });
++            context.Response.ETag = GetMd5Hash(lastAccessTimeUtc.ToString(CultureInfo.InvariantCulture));
++
++            context.Response.Headers.Add("Last-Modified", new[] { lastAccessTimeUtc.ToString("s") });
++        }
++
++        private void SetStaticFileCacheability(IOwinContext context, string file, params string[] cachePattern)
++        {
++            var cached = cachePattern.Any(file.Contains);
++            if (m_debugging && !cached)
++            {
++                context.Response.Expires = DateTime.UtcNow.AddDays(-1);
++                context.Response.Headers.Add("cache-control", new[] { "no-store", "no-cache" });
++                return;
++            }
++            var lastAccessTimeUtc = File.GetLastAccessTimeUtc(file);
++            context.Response.Expires = DateTime.UtcNow.AddDays(ConfigurationManager.StaticFileCache);
++            context.Response.Headers.Add("cache-control", new[] { "public" });
++            context.Response.ETag = GetMd5Hash(lastAccessTimeUtc.ToString(CultureInfo.InvariantCulture));
++
++            context.Response.Headers.Add("Last-Modified", new[] { lastAccessTimeUtc.ToString("s") });
++        }
++
++        static string GetMd5Hash(string input)
++        {
++            using (var md5Hash = MD5.Create())
++            {
++                var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
++                return string.Join("", data.Select(x => x.ToString("x2")));
++
++            }
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/source/web/core.sph/OwinMiddlewares/MiddlewareExtensions.cs b/source/web/core.sph/OwinMiddlewares/MiddlewareExtensions.cs
+index dc24334..11e2d32 100644
+--- a/source/web/core.sph/OwinMiddlewares/MiddlewareExtensions.cs
++++ b/source/web/core.sph/OwinMiddlewares/MiddlewareExtensions.cs
+@@ -28,6 +28,13 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
+             return app;
+ 
+         }
++
++        public static IAppBuilder UseAdapterResource(this IAppBuilder app, bool debug)
++        {
++            app.Use<AdapterResourceMiddleware>(true);
++            return app;
++        }
++
+         public static IAppBuilder UseCoreResource(this IAppBuilder app, bool debug)
+         {
+             app.Map("/SphApp", cfg =>
+diff --git a/source/web/core.sph/core.sph.csproj b/source/web/core.sph/core.sph.csproj
+index 6fb52d5..8c9f2d8 100644
+--- a/source/web/core.sph/core.sph.csproj
++++ b/source/web/core.sph/core.sph.csproj
+@@ -1144,6 +1144,7 @@
+     <Compile Include="Models\XDeathHeader.cs" />
+     <Compile Include="OwinMiddlewares\MeteringMiddleware.cs" />
+     <Compile Include="OwinMiddlewares\MiddlewareExtensions.cs" />
++    <Compile Include="OwinMiddlewares\AdapterResourceMiddleware.cs" />
+     <Compile Include="OwinMiddlewares\ResourceMiddleware.cs" />
+     <Compile Include="Properties\Resources.Designer.cs">
+       <AutoGen>True</AutoGen>
+diff --git a/source/web/web.sph/Web.config b/source/web/web.sph/Web.config
+index 120cd38..19200cc 100644
+--- a/source/web/web.sph/Web.config
++++ b/source/web/web.sph/Web.config
+@@ -172,18 +172,6 @@
+           <match url="SphApp/views/action\.(.*?).html" />
+           <action type="Rewrite" url="/api/triggers/actions/{R:1}/views" />
+         </rule>
+-        <rule name="adapter.route.js">
+-          <match url="SphApp/viewmodels/adapter\.(.*?).js" />
+-          <action type="Rewrite" url="/adapter/designer/{R:1}/js" />
+-        </rule>
+-        <rule name="adapter.route.html">
+-          <match url="SphApp/views/adapter\.(.*?).html" />
+-          <action type="Rewrite" url="/adapter/designer/{R:1}/html" />
+-        </rule>
+-        <rule name="adapter.resource">
+-          <match url="SphApp/adapter.resource/(.*?)/(.*?)" />
+-          <action type="Rewrite" url="/{R:1}/resource/{R:1}" />
+-        </rule>
+         <rule name="activity.route.editor">
+           <match url="SphApp/(viewmodels|views)/activity\.(.*?)\.(js|html)" ignoreCase="true" />
+           <action type="Rewrite" url="/api-rx/wf-designer/editor/{R:3}/{R:2}" />
