@@ -503,7 +503,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Tooltip\"");
 
-WriteLiteral(" />\r\n                    </div>\r\n\r\n                    <div");
+WriteLiteral("/>\r\n                    </div>\r\n\r\n                    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -523,7 +523,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"HelpText\"");
 
-WriteLiteral(" />\r\n                    </div>\r\n\r\n\r\n                    <div");
+WriteLiteral("/>\r\n                    </div>\r\n\r\n\r\n                    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -543,7 +543,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"CssClass\"");
 
-WriteLiteral(" />\r\n                    </div>\r\n\r\n                    <div");
+WriteLiteral("/>\r\n                    </div>\r\n\r\n                    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -563,7 +563,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Visible\"");
 
-WriteLiteral(" />\r\n                    </div>\r\n                    <div");
+WriteLiteral("/>\r\n                    </div>\r\n                    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -583,7 +583,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Enable\"");
 
-WriteLiteral(" />\r\n                    </div>\r\n\r\n\r\n                    <div");
+WriteLiteral("/>\r\n                    </div>\r\n\r\n\r\n                    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -603,89 +603,18 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"ElementId\"");
 
-WriteLiteral(" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div" +
-"");
+WriteLiteral("/>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n");
 
-WriteLiteral(" class=\"form-group\"");
-
-WriteLiteral(">\r\n                    <a");
-
-WriteLiteral(" href=\"#toolbox-advanced-settings\"");
-
-WriteLiteral(" data-toggle=\"collapse\"");
-
-WriteLiteral(">\r\n                        <i");
-
-WriteLiteral(" class=\"fa fa-chevron-down\"");
-
-WriteLiteral("></i>\r\n                        Advanced settings\r\n                    </a>\r\n     " +
-"           </div>\r\n                <div");
-
-WriteLiteral(" id=\"toolbox-advanced-settings\"");
-
-WriteLiteral(" class=\"collapse\"");
-
-WriteLiteral(">\r\n");
+WriteLiteral("                ");
 
             
-            #line 174 "..\..\Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml"
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 174 "..\..\Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml"
-                      
-                        var types = new[]
-                        {
-                    typeof (TextBox),
-                    typeof (ComboBox),
-                    typeof (Button),
-                    typeof (DownloadLink),
-                    typeof (ImageElement),
-                    typeof (ChildEntityListView),
-                    typeof (EntityLookupElement),
-                    typeof (FileUploadElement),
-                    typeof (ListView)
-                };
-                    
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-            
-            #line 188 "..\..\Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml"
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 188 "..\..\Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml"
-                     foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
-            {
-                FormElement fe1 = fe;
-                        
-            
-            #line default
-            #line hidden
-            
-            #line 191 "..\..\Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml"
-                   Write(Html.EditorFor(m => fe1));
+            #line 167 "..\..\Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml"
+           Write(Html.Partial("_FormElementPropertyAdvancedSetting"));
 
             
             #line default
             #line hidden
-            
-            #line 191 "..\..\Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml"
-                                                 
-
-                    }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                </div>\r\n\r\n                <a");
+WriteLiteral("\r\n\r\n                <a");
 
 WriteLiteral(" data-bind=\"click: $root.removeFormElement\"");
 
@@ -707,7 +636,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 203 "..\..\Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml"
+            #line 176 "..\..\Areas\App\Views\PartialViewDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

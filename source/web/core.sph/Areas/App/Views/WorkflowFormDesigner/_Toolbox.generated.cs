@@ -659,88 +659,18 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"ElementId\"");
 
-WriteLiteral(" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div" +
-"");
+WriteLiteral(" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n");
 
-WriteLiteral(" class=\"form-group\"");
-
-WriteLiteral(">\r\n                    <a");
-
-WriteLiteral(" href=\"#toolbox-advanced-settings\"");
-
-WriteLiteral(" data-toggle=\"collapse\"");
-
-WriteLiteral(">\r\n                        <i");
-
-WriteLiteral(" class=\"fa fa-chevron-down\"");
-
-WriteLiteral("></i>\r\n                        Advanced settings\r\n                    </a>\r\n     " +
-"           </div>\r\n                <div");
-
-WriteLiteral(" id=\"toolbox-advanced-settings\"");
-
-WriteLiteral(" class=\"collapse\"");
-
-WriteLiteral(">\r\n");
+WriteLiteral("                ");
 
             
-            #line 188 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 188 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
-                      
-                        var types = new[]
-                        {
-                            typeof(TextBox),
-                            typeof(ComboBox),
-                            typeof(Button),
-                            typeof(DownloadLink),
-                            typeof(ImageElement),
-                            typeof(FileUploadElement),
-                            typeof(TabControl),
-                            typeof(ListView)
-                        };
-                    
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-            
-            #line 201 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 201 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
-                     foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
-                    {
-                        FormElement fe1 = fe;
-                        
-            
-            #line default
-            #line hidden
-            
-            #line 204 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
-                   Write(Html.EditorFor(m => fe1));
+            #line 181 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+           Write(Html.Partial("_FormElementPropertyAdvancedSetting"));
 
             
             #line default
             #line hidden
-            
-            #line 204 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
-                                                 
-
-                    }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                </div>\r\n\r\n                <a");
+WriteLiteral("\r\n\r\n                <a");
 
 WriteLiteral(" data-bind=\"click: $root.removeFormElement\"");
 
@@ -762,7 +692,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 216 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
+            #line 190 "..\..\Areas\App\Views\WorkflowFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

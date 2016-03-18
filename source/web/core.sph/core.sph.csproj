@@ -307,6 +307,11 @@
     <Compile Include="Areas\App\Controllers\TriggerSetupController.cs" />
     <Compile Include="Areas\App\Controllers\UserProfileController.cs" />
     <Compile Include="Areas\App\Controllers\WorfklowFormDesignerController.cs" />
+    <Compile Include="Areas\App\Views\Shared\_FormElementPropertyAdvancedSetting.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_FormElementPropertyAdvancedSetting.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\WorkflowFormDesigner\Html.generated.cs">
       <DependentUpon>Html.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -2110,6 +2115,10 @@
     <Content Include="Areas\Sph\Views\WorkflowFormRenderer\Html2ColsWithAuditTrail.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html2ColsWithAuditTrail.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\_FormElementPropertyAdvancedSetting.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_FormElementPropertyAdvancedSetting.generated.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
