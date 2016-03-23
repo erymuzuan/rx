@@ -28,34 +28,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
 
         }
-
-        [OutputCache(VaryByParam = "id",Duration = 300)]
-        public async Task<ActionResult> Thumbnail(string id, float height = 150)
-        {
-            if (string.IsNullOrWhiteSpace(id))
-                return Redirect("/images/no-image.png");
-
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var content = await store.GetContentAsync(id);
-            if (null == content)
-                return Redirect("/images/no-image.png");
-
-            var thumbnail = Server.MapPath("~/thumbnails/" + id + content.Extension);
-
-            if (System.IO.File.Exists(thumbnail)) return File(thumbnail, MimeMapping.GetMimeMapping(thumbnail));
-
-            Console.WriteLine("Creating thumbnails... please wait");
-            var file = Path.GetTempFileName() + content.Extension;
-            System.IO.File.WriteAllBytes(file, content.Content);
-
-            var setting = $"height={height};format=jpg;mode=max";
-            var i = new ImageResizer.ImageJob(file, "~/thumbnails/" + id + content.Extension,
-                new ImageResizer.Instructions(setting)) { CreateParentDirectory = true };
-            i.Build();
-            System.IO.File.Delete(file);
-            return File(thumbnail, MimeMapping.GetMimeMapping(thumbnail));
-        }
-
+        
         [OutputCache(CacheProfile = "Long")]
         public ActionResult Index(string id)
         {
