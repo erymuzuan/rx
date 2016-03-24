@@ -190,7 +190,8 @@ WriteLiteral(">\r\n        <label");
 
 WriteLiteral(" class=\"control-label col-sm-2\"");
 
-WriteLiteral(" data-bind=\"tooltip:\'When this operation is invoked, then fire this trigger\'\"");
+WriteLiteral(" data-bind=\"tooltip:\'When this operation is invoked, then it will fire this trigg" +
+"er\'\"");
 
 WriteLiteral(">Operation</label>\r\n        <div");
 
@@ -200,7 +201,7 @@ WriteLiteral(" id=\"operation-options\"");
 
 WriteLiteral(">\r\n            <!-- ko foreach: $root.operationOptions -->\r\n            <div");
 
-WriteLiteral(" class=\"checkbox col-sm-3 checkbox-no-padding-left\"");
+WriteLiteral(" class=\"checkbox checkbox-no-padding-left\"");
 
 WriteLiteral(">\r\n                <label>\r\n                    <input");
 
