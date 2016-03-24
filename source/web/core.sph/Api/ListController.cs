@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteListAsync(sql);
         }
 
-        [Route("tuple")]
+        [GetRoute("tuple")]
         [HttpGet]
         public async Task<IHttpActionResult> Tuple([FromUri(Name = "table")]string table,
             [FromUri(Name = "column")]string column,
@@ -86,7 +86,8 @@ namespace Bespoke.Sph.Web.Api
             [FromUri(Name = "filter")]string filter = null,
             [FromUri(Name = "column3")]string column3 = "",
             [FromUri(Name = "column4")]string column4 = "",
-            [FromUri(Name = "column5")]string column5 = "")
+            [FromUri(Name = "column4")]string column5 = "",
+            [FromUri(Name = "$orderby")]string sort = "")
         {
             var type = table.ToLowerInvariant();
             switch (type)
@@ -109,24 +110,25 @@ namespace Bespoke.Sph.Web.Api
                 case "workflowform": return SelectTupleFromSource<WorkflowForm>(filter, column, column2, column3, column4, column5);
             }
 
+            var orderby = string.IsNullOrWhiteSpace(sort) ? "" : " ORDER BY " + sort;
             var translator = new OdataSqlTranslator("", table);
             if (!string.IsNullOrWhiteSpace(column5))
             {
                 var sql4 = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column}],[{column2}],[{column3}],[{column4}],[{column5}]");
-                return await ExecuteListTuple5Async(sql4);
+                return await ExecuteListTuple5Async(sql4 + orderby);
             }
             if (!string.IsNullOrWhiteSpace(column4))
             {
                 var sql4 = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column}],[{column2}],[{column3}],[{column4}]");
-                return await ExecuteListTuple4Async(sql4);
+                return await ExecuteListTuple4Async(sql4 + orderby);
             }
             if (!string.IsNullOrWhiteSpace(column3))
             {
                 var sql3 = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column}],[{column2}],[{column3}]");
-                return await ExecuteListTuple3Async(sql3);
+                return await ExecuteListTuple3Async(sql3 + orderby);
             }
             var sql = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column}],[{column2}]");
-            return await ExecuteListTupleAsync(sql);
+            return await ExecuteListTupleAsync(sql + orderby);
         }
 
         [Route("{table}")]
@@ -166,7 +168,6 @@ namespace Bespoke.Sph.Web.Api
                 case "workflowform": return SelectTupleFromSource<WorkflowForm>(filter, column1, column2, column3, column4, column5);
                 case "valueobjectdefinition": return SelectTupleFromSource<ValueObjectDefinition>(filter, column1, column2, column3, column4, column5);
             }
-
             var translator = new OdataSqlTranslator("", table);
             if (!string.IsNullOrWhiteSpace(column5))
             {
