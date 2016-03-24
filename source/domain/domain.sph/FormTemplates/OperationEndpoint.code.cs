@@ -12,6 +12,7 @@ using System.Web;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -39,7 +40,7 @@ namespace Bespoke.Sph.Domain
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
-                var output = $"{ConfigurationManager.CompilerOutputPath}\\{ConfigurationManager.ApplicationName}.{nameof(OperationEndpoint)}.{this.Name}.dll";
+                var output = $"{ConfigurationManager.CompilerOutputPath}\\{AssemblyName}";
                 var parameters = new CompilerParameters
                 {
                     OutputAssembly = output,
@@ -81,7 +82,11 @@ namespace Bespoke.Sph.Domain
             }
         }
         private EntityDefinition m_entityDefinition;
-        public string CodeNamespace { get; } = $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.IntegrationApis";
+        [JsonIgnore]
+        public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.IntegrationApis";
+
+        [JsonIgnore]
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.OperationEndpoint.{Entity}.{Name}.dll";
 
         private Class GenerateController()
         {
@@ -117,11 +122,11 @@ namespace Bespoke.Sph.Domain
             if (this.IsHttpDelete)
                 controller.MethodCollection.Add(this.GenerateDeleteAction(m_entityDefinition));
 
-            
+
             return controller;
 
 
         }
-        
+
     }
 }

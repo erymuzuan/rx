@@ -352,12 +352,6 @@ namespace domain.test.entities
 
             Assert.True(result.Result, result.ToString());
 
-
-            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
-
-            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
         }
     }
 }

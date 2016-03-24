@@ -37,7 +37,10 @@ namespace Bespoke.Sph.Domain
             "Bespoke.Sph.WebApi"
         };
 
-        public string CodeNamespace => $"Bespoke.{ConfigurationManager.ApplicationName}.Api";
+        [JsonIgnore]
+        public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.Api";
+        [JsonIgnore]
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Name}.dll";
 
 
         public string[] SaveSources(IEnumerable<Class> classes)
@@ -245,7 +248,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{Id}.dll"),
+                    OutputAssembly = Path.Combine(outputPath, this.AssemblyName),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
@@ -276,7 +279,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + $@"\bin\{ConfigurationManager.ApplicationName}.{Entity}.dll");
 
-                var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{nameof(QueryEndpoint)}.{this.Name}";
+                var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\QueryEndpoint.{Entity}.{this.Name}";
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
                 classes.ToList().ForEach(x =>

@@ -108,7 +108,7 @@ namespace Bespoke.Sph.WebApi
         public bool IsMatch(string tag, ModifiedSinceHeader msh, DateTime lastChangedDate, bool both)
         {
             var etag = this.IsMatch(tag);
-            var since = msh.IsMatch(lastChangedDate);
+            var since = msh?.IsMatch(lastChangedDate) ?? false;
             if (both) return since && etag;
             return since || etag;
         }
