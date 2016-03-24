@@ -1,0 +1,14 @@
+{
+  "$type": "Bespoke.DevV1.States.Domain.State, DevV1.State",
+  "Name": "Kelantan",
+  "Abbreviation": "KEL",
+  "Country": "Malaysia",
+  "FlagStoreId": null,
+  "Area": null,
+  "CreatedBy": "DESKTOP-3ELVHLM",
+  "Id": "Kelantan",
+  "CreatedDate": "2016-03-24T17:44:25.2620217+08:00",
+  "ChangedBy": "DESKTOP-3ELVHLM",
+  "ChangedDate": "2016-03-24T17:44:25.4230426+08:00",
+  "WebId": "c8069699-d84d-42d9-a76b-7f941763af10"
+}

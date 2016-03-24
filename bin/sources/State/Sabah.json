@@ -1,0 +1,14 @@
+{
+  "$type": "Bespoke.DevV1.States.Domain.State, DevV1.State",
+  "Name": "Sabah",
+  "Abbreviation": "SBH",
+  "Country": "Malaysia",
+  "FlagStoreId": null,
+  "Area": null,
+  "CreatedBy": "DESKTOP-3ELVHLM",
+  "Id": "Sabah",
+  "CreatedDate": "2016-03-24T17:45:36.2059289+08:00",
+  "ChangedBy": "DESKTOP-3ELVHLM",
+  "ChangedDate": "2016-03-24T17:45:36.1909283+08:00",
+  "WebId": "f619765a-da01-4e7d-ba23-4c4fcfb3a8cf"
+}

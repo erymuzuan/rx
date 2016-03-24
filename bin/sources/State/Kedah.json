@@ -1,0 +1,14 @@
+{
+  "$type": "Bespoke.DevV1.States.Domain.State, DevV1.State",
+  "Name": "Kedah",
+  "Abbreviation": "KDH",
+  "Country": "Malaysia",
+  "FlagStoreId": null,
+  "Area": null,
+  "CreatedBy": "DESKTOP-3ELVHLM",
+  "Id": "Kedah",
+  "CreatedDate": "2016-03-24T17:45:16.2054158+08:00",
+  "ChangedBy": "DESKTOP-3ELVHLM",
+  "ChangedDate": "2016-03-24T17:45:16.1984152+08:00",
+  "WebId": "d8fd0b7c-b4b9-48bf-b2a3-634525d0e28a"
+}

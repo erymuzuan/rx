@@ -1,0 +1,14 @@
+{
+  "$type": "Bespoke.DevV1.States.Domain.State, DevV1.State",
+  "Name": "Perak",
+  "Abbreviation": "PRK",
+  "Country": "Malaysia",
+  "FlagStoreId": null,
+  "Area": null,
+  "CreatedBy": "DESKTOP-3ELVHLM",
+  "Id": "Perak",
+  "CreatedDate": "2016-03-24T17:45:44.2182253+08:00",
+  "ChangedBy": "DESKTOP-3ELVHLM",
+  "ChangedDate": "2016-03-24T17:45:44.2077263+08:00",
+  "WebId": "4bf6a185-e276-4054-ba41-ed8902cb1181"
+}

@@ -1,6 +1,5 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "CodeNamespace": "Bespoke.DevV1_state.Domain",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -130,85 +129,60 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.BusinessRule, domain.sph]], domain.sph",
     "$values": []
   },
-  "EntityOperationCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityOperation, domain.sph]], domain.sph",
-    "$values": [
-      {
-        "$type": "Bespoke.Sph.Domain.EntityOperation, domain.sph",
-        "EntityPermissionCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Rules": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-          "$values": []
-        },
-        "Permissions": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-          "$values": [
-            "Everybody"
-          ]
-        },
-        "SetterActionChildCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
-              "Path": "Id",
-              "Field": {
-                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
-                "XPath": "",
-                "NamespacePrefix": "",
-                "TypeName": "",
-                "Path": "Name",
-                "Name": "Name",
-                "Note": "",
-                "WebId": "fe878413-e151-4992-8215-4f3446afa8f3"
-              },
-              "WebId": "f635cd03-b98a-47e4-cfa8-9d064b3af4b5"
-            }
-          ]
-        },
-        "PatchPathCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "Save",
-        "Route": "save",
-        "IsHttpPut": true,
-        "IsHttpPatch": false,
-        "IsHttpPost": false,
-        "IsHttpDelete": false,
-        "WebId": "639e654a-a3d8-4907-f999-37a13cbaaef8"
-      }
-    ]
-  },
-  "AuthorizedRoleCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-    "$values": []
-  },
-  "Performer": {
-    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": "Roles",
-    "Value": "developers",
-    "IsPublic": false,
-    "WebId": "get"
+  "ServiceContract": {
+    "$type": "Bespoke.Sph.Domain.ServiceContract, domain.sph",
+    "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
+    "FullSearchEndpoint": {
+      "$type": "Bespoke.Sph.Domain.FullSearchEndpoint, domain.sph",
+      "Performer": {
+        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+        "UserProperty": null,
+        "Value": null,
+        "IsPublic": false,
+        "WebId": null
+      },
+      "IsAllowed": false,
+      "WebId": null
+    },
+    "OdataEndpoint": {
+      "$type": "Bespoke.Sph.Domain.OdataEndpoint, domain.sph",
+      "Performer": {
+        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+        "UserProperty": null,
+        "Value": null,
+        "IsPublic": false,
+        "WebId": null
+      },
+      "IsAllowed": true,
+      "WebId": null
+    },
+    "EntityResourceEndpoint": {
+      "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
+      "Performer": {
+        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+        "UserProperty": null,
+        "Value": null,
+        "IsPublic": false,
+        "WebId": null
+      },
+      "IsAllowed": true,
+      "FilterExpression": null,
+      "WebId": null
+    },
+    "WebId": null
   },
   "Name": "State",
   "Plural": "States",
-  "IconStoreId": "eded294e-92da-4cc8-9d7c-3bb2f8e8e2fe",
   "IconClass": "fa fa-flag",
   "RecordName": "Name",
   "IsPublished": true,
-  "IsShowOnNavigationBar": true,
-  "TreatDataAsSource": false,
-  "DashboardTemplate": null,
+  "TreatDataAsSource": true,
   "StoreInDatabase": null,
   "StoreInElasticsearch": null,
   "CreatedBy": "admin",
   "Id": "state",
   "CreatedDate": "2014-04-19T10:07:12.2060219+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-16T15:43:17.4037012+08:00",
+  "ChangedDate": "2016-03-24T17:37:06.1164772+08:00",
   "WebId": "5d31c43-852d-4a9d-b3be-1fc94d5cea05"
 }

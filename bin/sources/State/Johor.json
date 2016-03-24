@@ -1,0 +1,14 @@
+{
+  "$type": "Bespoke.DevV1.States.Domain.State, DevV1.State",
+  "Name": "Johor",
+  "Abbreviation": "JHR",
+  "Country": "Malaysia",
+  "FlagStoreId": null,
+  "Area": null,
+  "CreatedBy": "DESKTOP-3ELVHLM",
+  "Id": "Johor",
+  "CreatedDate": "2016-03-24T17:45:05.5361334+08:00",
+  "ChangedBy": "DESKTOP-3ELVHLM",
+  "ChangedDate": "2016-03-24T17:45:05.5191338+08:00",
+  "WebId": "f99821c5-3814-4314-a0cc-ca1edfda2c90"
+}

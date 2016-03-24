@@ -1,0 +1,14 @@
+{
+  "$type": "Bespoke.DevV1.States.Domain.State, DevV1.State",
+  "Name": "Sarawak",
+  "Abbreviation": "SWK",
+  "Country": "Malaysia",
+  "FlagStoreId": null,
+  "Area": null,
+  "CreatedBy": "DESKTOP-3ELVHLM",
+  "Id": "Sarawak",
+  "CreatedDate": "2016-03-24T17:45:26.0716826+08:00",
+  "ChangedBy": "DESKTOP-3ELVHLM",
+  "ChangedDate": "2016-03-24T17:45:26.062682+08:00",
+  "WebId": "38597665-9f6e-48e8-95d0-74253cf545f8"
+}
