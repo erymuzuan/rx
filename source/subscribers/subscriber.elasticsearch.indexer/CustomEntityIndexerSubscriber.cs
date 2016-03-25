@@ -12,7 +12,7 @@ namespace Bespoke.Sph.ElasticSearch
     {
 
         public override string QueueName => this.GetType().FullName;
-        public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.delete.#" };
+        public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.deleted.#" };
 
         private readonly HttpClient m_client = new HttpClient();
         protected override async Task ProcessMessage(Entity item, MessageHeaders headers)
