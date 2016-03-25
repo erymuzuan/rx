@@ -62,16 +62,16 @@ WriteLiteral("\r\n<form");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
-WriteLiteral(" data-bind=\"with : entity\"");
+WriteLiteral(" data-bind=\"with : message\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 273), Tuple.Create("\"", 285)
+WriteAttribute("id", Tuple.Create(" id=\"", 274), Tuple.Create("\"", 286)
             
             #line 10 "..\..\Areas\Sph\Views\WorkflowFormRenderer\_FormContent.cshtml"
-, Tuple.Create(Tuple.Create("", 278), Tuple.Create<System.Object, System.Int32>(formId
+, Tuple.Create(Tuple.Create("", 279), Tuple.Create<System.Object, System.Int32>(formId
             
             #line default
             #line hidden
-, 278), false)
+, 279), false)
 );
 
 WriteLiteral(">\r\n");

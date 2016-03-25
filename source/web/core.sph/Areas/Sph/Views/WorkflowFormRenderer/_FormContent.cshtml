@@ -7,7 +7,7 @@
     var form = Model.WorkflowForm;
     var formId = @form.Route + "-form";
 }
-<form class="form-horizontal" data-bind="with : entity" id="@formId">
+<form class="form-horizontal" data-bind="with : message" id="@formId">
     @foreach (var fe in form.FormDesign.FormElementCollection)
     {
         var fe1 = fe;

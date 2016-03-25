@@ -32,8 +32,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var wd = await context.LoadOneAsync<WorkflowDefinition>(f => f.Id == form.WorkflowDefinitionId);
 
 
-            var ns = ConfigurationManager.ApplicationName + "_" + wd.Id;
-            var typeCtor = $"bespoke.{ns}.domain.{wd.Name}(system.guid())";
             var buttonOperations = form.FormDesign.FormElementCollection.OfType<Button>()
                 .Where(b => b.IsToolbarItem)
                 .Where(b => !string.IsNullOrWhiteSpace(b.Operation))
@@ -74,12 +72,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                        .then(function (n) {{
                            i18n = n[0];
 
-                           return context.get(""api/workflow-forms/{form.Id}/activities/{form.Operation}"");
+                           return context.get(""api/workflow-forms/{form.Id}/activities/{form.Operation}/schema"");
                        }}).then(function (b) {{
                              message(ko.mapping.fromJS(b));
                        }}, function (e) {{
                          if (e.status == 404) {{
-                            app.showMessage(""Sorry, but we cannot find any {wd.Name} with location : "" + ""/api/{wd.Id}/v{wd.Version}"", ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
+                            app.showMessage(""Sorry, but we cannot find any {wd.Name} with location : /api/{wd.Id}/v{wd.Version}"", ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
                          }}
                        }}).always(function () {{
                            if (typeof partial.activate === ""function"") {{
@@ -100,8 +98,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             var operation = wd.GetActivity<ReceiveActivity>(form.Operation);
             if (null != operation)
             {
-                var api = GenerateApiOperationCode(wd, operation, form.OperationMethod);
+                var api = GenerateApiOperationCode(wd, operation,form);
                 script.Append(api);
+                script.Append(",");
             }
             // end of operation
             script.AppendLine($@"
@@ -147,12 +146,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         }
                     });
                 }");
-            if (!string.IsNullOrWhiteSpace(form.Operation))
-            {
-                var operationScript = this.GetOperationScript(form);
-                script.Append(",");
-                script.Append(operationScript);
-            }
+       
             script.Append(";");
 
             // viewmodel
@@ -207,22 +201,22 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         }
 
-        private string GetOperationScript(WorkflowForm form)
+        private string GenerateSaveCommand(WorkflowForm form, string operationName)
         {
             var script = new StringBuilder();
-            script.AppendLine($@"
+            script.Append($@"
                 saveCommand = function() {{
-                    return {form.Operation.ToCamelCase()}()");
+                    return {operationName}()");
             if (!string.IsNullOrWhiteSpace(form.OperationSuccessCallback))
             {
-                script.AppendLine($@"  .then(function(result){{
+                script.Append($@".then(function(result){{
                         {form.OperationSuccessCallback}
                         return Task.fromResult(result);
                     }})");
             }
             if (!string.IsNullOrWhiteSpace(form.OperationSuccessMesage))
             {
-                script.AppendLine($@"  .then(function(result){{
+                script.Append($@".then(function(result){{
                           if(result.success)
                                 return app.showMessage(""{form.OperationSuccessMesage}"", [""OK""]);
                             else
@@ -231,13 +225,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             }
             if (!string.IsNullOrWhiteSpace(form.OperationSuccessNavigateUrl))
             {
-                script.AppendLine($@"  .then(function(result){{
+                script.Append($@".then(function(result){{
                         if(result) router.navigate(""{form.OperationSuccessNavigateUrl}"");
                     }})");
             }
             if (!string.IsNullOrWhiteSpace(form.OperationFailureCallback))
             {
-                script.AppendLine($@"  .fail(function(){{
+                script.Append($@".fail(function(){{
                         {form.OperationFailureCallback}
                     }})");
             }
@@ -248,14 +242,16 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return script.ToString();
         }
 
-        private static string GenerateApiOperationCode(WorkflowDefinition wd, ReceiveActivity activity, string method)
+        private string GenerateApiOperationCode(WorkflowDefinition wd, Activity activity, WorkflowForm form)
         {
             var opFunc = activity.Name.ToCamelCase();
             var route = activity.Name.ToIdFormat();
             route = route.StartsWith("~/") ?
                 route.Replace("~/", "/") :
                 $"/wf/{wd.Id}/v{wd.Version}";
-            return $@"
+
+            var script = new StringBuilder();
+            script.Append($@"
                 {opFunc} = function(){{
 
                      if (!validation.valid()) {{
@@ -265,7 +261,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                      var data = ko.mapping.toJSON(message),
                         tcs = new $.Deferred();
                       
-                     context.{method}(data, ""{route}"" )
+                     context.{form.OperationMethod}(data, ""{route}"" )
                          .fail(function(response){{ 
                             var result = response.responseJSON;
                             errors.removeAll();
@@ -281,7 +277,14 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             tcs.resolve(result);
                          }});
                      return tcs.promise();
-                 }},";
+                 }},");
+
+            if (!string.IsNullOrWhiteSpace(form.Operation))
+            {
+                var save = this.GenerateSaveCommand(form, opFunc);
+                script.Append(save);
+            }
+            return script.ToString();
         }
     }
 }

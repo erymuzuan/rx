@@ -19,12 +19,12 @@ function(context, logger, router, system, validation, dialog, config, app) {
                 .then(function(n) {
                 i18n = n[0];
 
-                return context.get("api/workflow-forms/borang-kelulusan-permohonan-kuarters/activities/08749ac0-e998-4ce2-e8dc-5ad0e41d5538");
+                return context.get("api/workflow-forms/borang-kelulusan-permohonan-kuarters/activities/08749ac0-e998-4ce2-e8dc-5ad0e41d5538/schema");
             }).then(function(b) {
                 message(ko.mapping.fromJS(b));
             }, function(e) {
                 if (e.status == 404) {
-                    app.showMessage("Sorry, but we cannot find any Permohonan Kuarters with location : " + "/api/permohonan-kuarters/v1", "Engineering Team Development", ["OK"]);
+                    app.showMessage("Sorry, but we cannot find any Permohonan Kuarters with location : /api/permohonan-kuarters/v1", "Engineering Team Development", ["OK"]);
                 }
             }).always(function() {
                 if (typeof partial.activate === "function") {
@@ -65,6 +65,9 @@ function(context, logger, router, system, validation, dialog, config, app) {
             });
             return tcs.promise();
         },
+        saveCommand = function() {
+            return kelulusan();
+        },
         attached = function(view) {
             // validation
             validation.init($('#borang-kelulusan-permohonan-kuarters-form'), form());
@@ -83,9 +86,6 @@ function(context, logger, router, system, validation, dialog, config, app) {
                     $label.text(i18n[text]);
                 }
             });
-        },
-        saveCommand = function() {
-            return 08749ac0 - e998 - 4ce2 - e8dc - 5ad0e41d5538();
         };
     var vm = {
         partial: partial,
