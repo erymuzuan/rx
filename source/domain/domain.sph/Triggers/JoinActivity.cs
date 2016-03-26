@@ -13,24 +13,26 @@ namespace Bespoke.Sph.Domain
             var predecessors = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId).ToList();
             var result = base.ValidateBuild(wd);
             if (!predecessors.Any())
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[JoinActivity] -> {0} does not have any predecessor", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,
+                    $"[JoinActivity] -> {this.Name} does not have any predecessor"));
             if (predecessors.Count < 2)
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[JoinActivity] -> {0} must have at least 2 predecessors", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,
+                    $"[JoinActivity] -> {this.Name} must have at least 2 predecessors"));
 
             if (predecessors.OfType<EndActivity>().Any())
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[JoinActivity] -> {0} , EndActivity is invalid predecessor", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,
+                    $"[JoinActivity] -> {this.Name} , EndActivity is invalid predecessor"));
             if (predecessors.OfType<DecisionActivity>().Any())
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[JoinActivity] -> {0} , DecisionActivity is invalid predecessor", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,
+                    $"[JoinActivity] -> {this.Name} , DecisionActivity is invalid predecessor"));
             if (predecessors.OfType<ListenActivity>().Any())
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[JoinActivity] -> {0} , ListenActivity is invalid predecessor", this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,
+                    $"[JoinActivity] -> {this.Name} , ListenActivity is invalid predecessor"));
 
             return result;
         }
 
-        public override bool IsAsync
-        {
-            get { return true; }
-        }
+        public override bool IsAsync => true;
 
         public override string GenerateInitAsyncMethod(WorkflowDefinition wd)
         {
@@ -83,7 +85,7 @@ namespace Bespoke.Sph.Domain
             var predecessors = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
             foreach (var act in predecessors)
             {
-                var code = string.Format("   await this.FireJoin{0}(\"{1}\").ConfigureAwait(false);", this.MethodName, act.WebId);
+                var code = $"   await this.FireJoin{this.MethodName}(\"{act.WebId}\").ConfigureAwait(false);";
                 act.ExecutedCode += code;
             }
             // TODO : InitiateAsync once the first one is fired
