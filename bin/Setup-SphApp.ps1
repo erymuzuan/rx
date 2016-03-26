@@ -139,6 +139,17 @@ Get-ChildItem -Filter *.json -Path .\database\mapping `
     Invoke-WebRequest -Method PUT -Uri $mappingUri -InFile $_.FullName -ContentType "application/javascript"
 }
 
+Get-ChildItem -Filter *.template -Path .\database\mapping `
+| %{
+    $templateUri = "_template/" + $_.Name.ToLowerInvariant().Replace(".template", "")
+    $templateContent = Get-Content $_.FullName
+    $templateJson = $templateContent.Replace("<<application_name>>", $esindex);
+
+    Write-Debug "Creating elasticsearch index template for " + $_.Name
+    Invoke-WebRequest -Method PUT -Uri $templateUri -ContentType "application/javascript" -Body $templateJson
+}
+
+
 
 #configs value
 $allConfigs = @("$WorkingCopy\web\web.config"

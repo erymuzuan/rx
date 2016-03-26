@@ -66,7 +66,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
             var setting = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
             var json = JsonConvert.SerializeObject(request, setting);
             var content = new StringContent(json);
-            await m_client.PostAsync($"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/request_log", content);
+            await m_client.PostAsync($"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_logs_{DateTime.Today:yyyyMMdd}/request_log", content);
         }
     }
 }
