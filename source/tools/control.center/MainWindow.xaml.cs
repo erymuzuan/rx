@@ -73,6 +73,18 @@ namespace Bespoke.Sph.ControlCenter
         {
             dynamic vm = this.DataContext;
             if (null == vm) return;
+            if (m_forceExitFlag)
+            {
+                try
+                {
+                    vm.Stop();
+                }
+                catch
+                {
+                    //ignore
+                }
+                return;
+            }
             if (!vm.CanExit())
             {
                 MessageBox.Show("Please stop all the services before exit", Strings.Title,
@@ -84,7 +96,7 @@ namespace Bespoke.Sph.ControlCenter
             vm.Stop();
         }
 
-        async void MainWindowLoaded(object sender, RoutedEventArgs e)
+        private async void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
             dynamic vm = this.DataContext;
             vm.View = this;
@@ -181,8 +193,14 @@ namespace Bespoke.Sph.ControlCenter
             }
         }
 
+        private bool m_forceExitFlag = false;
         private void WindowExit(object sender, RoutedEventArgs e)
         {
+            if (m_forceExitFlag)
+            {
+                this.Close();
+                return;
+            }
             dynamic vm = this.DataContext;
             if (null == vm) return;
             if (!vm.CanExit())
@@ -208,6 +226,7 @@ namespace Bespoke.Sph.ControlCenter
 
                 WebConsoleServer.Default.Stop();
                 WebConsoleServer.Default.StopConsume();
+                m_forceExitFlag = true;
             }
             this.Close();
         }
@@ -312,7 +331,7 @@ namespace Bespoke.Sph.ControlCenter
             var tag = (string)((MenuItem)sender).Tag;
             var notepad = $"{ConfigurationManager.Home}\\utils\\n.exe";
             Process.Start(notepad, tag);
-            
+
         }
 
         private void RunLinqPadClicked(object sender, RoutedEventArgs e)
