@@ -1,17 +1,27 @@
-﻿using System.IO;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Web.Mvc;
-using Bespoke.Sph.Web.Filters;
+using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
+using Microsoft.Owin;
 
 namespace Bespoke.Sph.Web.Controllers
 {
-    [RoutePrefix("requirejs-bundle")]
-    public class RequireJsBundleController : Controller
+    public class RequireJsBundleMiddleware
     {
-        [Route("main")]
-        [RxOutputCache(CacheProfile = "Long")]
-        public ActionResult Index()
+
+        private readonly Func<IDictionary<string, object>, Task> m_next;
+        private readonly bool m_debug;
+
+        public RequireJsBundleMiddleware(Func<IDictionary<string, object>, Task> next, bool debug)
+        {
+            m_next = next;
+            m_debug = debug;
+        }
+
+        public async Task Invoke(IDictionary<string, object> environment)
         {
             var js = new StringBuilder();
             TextJs(js);
@@ -22,8 +32,9 @@ namespace Bespoke.Sph.Web.Controllers
             RxShell(js);
             RxServices(js);
 
-            this.Response.ContentType = "application/javascript";
-            return Content(js.ToString());
+            var ctx = new OwinContext(environment);
+            ctx.Response.ContentType = "application/javascript";
+            await ctx.Response.WriteAsync(js.ToString());
         }
 
         private static void RxShell(StringBuilder js)
@@ -40,10 +51,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         private void RxServices(StringBuilder js)
         {
-            foreach (var file in Directory.GetFiles(Server.MapPath("~/SphApp/services"), "cultures.*"))
+            foreach (var file in Directory.GetFiles(($"{ConfigurationManager.WebPath}/SphApp/services"), "cultures.*"))
             {
-                js.AppendLine(System.IO.File.ReadAllText(file)
-                .Replace("define([",$"define('services/{Path.GetFileNameWithoutExtension(file)}', ["));
+                js.AppendLine(File.ReadAllText(file)
+                    .Replace("define([",$"define('services/{Path.GetFileNameWithoutExtension(file)}', ["));
             }
             
 
@@ -103,7 +114,6 @@ namespace Bespoke.Sph.Web.Controllers
 
         private void MainJs(StringBuilder js)
         {
-            this.Response.ContentType = "application/javascript";
             var main = GetScript("SphApp.main.js")
                 .Replace("define([", "define('main', [");
             js.AppendLine(main);
@@ -135,7 +145,7 @@ namespace Bespoke.Sph.Web.Controllers
             js.AppendLine(durandalViewLocator);
 
             var durandalApp = GetScript("Scripts.durandal.app.js")
-               .Replace("define([", "define(\"durandal/app\", [");
+                .Replace("define([", "define(\"durandal/app\", [");
             js.AppendLine(durandalApp);
 
             var durandalSystem = GetScript("Scripts.durandal.system.js")

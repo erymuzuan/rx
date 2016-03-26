@@ -992,7 +992,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InternationalizationController.cs" />
     <Compile Include="Controllers\MainController.cs" />
-    <Compile Include="Controllers\RequireJsBundleController.cs" />
     <Compile Include="Controllers\ResourceBundleController.cs" />
     <Compile Include="Controllers\SolutionController.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
@@ -1141,6 +1140,7 @@
     <Compile Include="Models\XDeathHeader.cs" />
     <Compile Include="OwinMiddlewares\MeteringMiddleware.cs" />
     <Compile Include="OwinMiddlewares\MiddlewareExtensions.cs" />
+    <Compile Include="OwinMiddlewares\RequireJsBundleMiddleware.cs" />
     <Compile Include="OwinMiddlewares\ResourceMiddleware.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

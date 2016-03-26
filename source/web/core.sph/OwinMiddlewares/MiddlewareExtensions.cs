@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Hubs;
 using Owin;
 
@@ -30,6 +31,8 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
         }
         public static IAppBuilder UseCoreResource(this IAppBuilder app, bool debug)
         {
+            app.Map("/sphapp/main.js", cfg => cfg.Use<RequireJsBundleMiddleware>(debug));
+
             app.Map("/SphApp", cfg =>
             {
                 cfg.Use<ResourceMiddleware>("SphApp", debug);
