@@ -3,7 +3,7 @@
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/_task.js" />
-/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 
 define(["durandal/system", "services/system", "plugins/router", "services/logger", "services/datacontext", objectbuilders.config, objectbuilders.cultures, "viewmodels/messages"],
     function (system, system2, router, logger, context, config, cultures, messagesConfig) {
@@ -64,6 +64,12 @@ define(["durandal/system", "services/system", "plugins/router", "services/logger
                         table.tablesorter();
                         table.prop("sorted", "1");
                         $(this).trigger("click");
+                    }
+                });
+
+                $("body").on("keyup", "div.modal-dialog", function (e) {
+                    if (e.which === 27) {
+                        $("div.modal-header>button.close").trigger("click");
                     }
                 });
 

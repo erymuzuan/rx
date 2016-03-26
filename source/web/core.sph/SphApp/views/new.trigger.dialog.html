@@ -12,8 +12,8 @@
                 <form class="form-horizontal" id="new-trigger-dialog-form">
 
                     <div class="form-group">
-                        <label for="name-input" class="col-sm-2 control-label">Name</label>
-                        <div class="col-sm-9">
+                        <label for="name-input" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-9">
                             <input type="text" data-bind="value: Name"
                                    required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
                                    placeholder="Trigger's name"
@@ -21,36 +21,36 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="Entity" class="col-sm-2 control-label">Entity</label>
-                        <div class="col-sm-9">
+                        <label for="Entity" class="col-lg-2 control-label">Entity</label>
+                        <div class="col-lg-9">
                             <select required class="form-control" data-bind="value: Entity, options: $root.entities, optionsCaption:'[--SELECT TRIGGER ENTITY--]'" id="Entity" name="Entity"></select>
                         </div>
                     </div>
 
 
                     <div class="form-group">
-                        <label for="Note" class="col-sm-2 control-label">Note</label>
-                        <div class="col-sm-9">
+                        <label for="Note" class="col-lg-2 control-label">Note</label>
+                        <div class="col-lg-9">
                             <textarea class="form-control" data-bind="value: Note" id="Note" name="Note"></textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2">CRUD</label>
-                        <div class="col-sm-9">
-                            <div class="checkbox col-sm-3 checkbox-no-padding-left">
+                        <label class="control-label col-lg-2">CRUD</label>
+                        <div class="col-lg-9">
+                            <div class="checkbox col-lg-3 checkbox-no-padding-left">
                                 <label>
                                     <input data-bind="checked: IsFiredOnAdded" id="fired-on-added" type="checkbox" name="IsFiredOnAdded" />
                                     Added
                                 </label>
                             </div>
-                            <div class="checkbox col-sm-4 checkbox-no-padding-left">
+                            <div class="checkbox col-lg-4 checkbox-no-padding-left">
                                 <label>
                                     <input data-bind="checked: IsFiredOnChanged" id="fired-on-changed" type="checkbox" name="IsFireOnChanged" />
                                     Changed
                                 </label>
                             </div>
-                            <div class="checkbox col-sm-4 checkbox-no-padding-left">
+                            <div class="checkbox col-lg-4 checkbox-no-padding-left">
                                 <label>
                                     <input data-bind="checked: IsFiredOnDeleted" id="fire-on-deleted" type="checkbox" name="IsFireOnDeleted" />
                                     Deleted
@@ -60,10 +60,10 @@
                     </div>
 
                     <div class="form-group clear clearfix" style="clear: both">
-                        <label class="control-label col-sm-2" data-bind="tooltip:'When this operation is invoked, then fire this trigger'">Operation</label>
-                        <div class="col-sm-9" id="operation-options">
+                        <label class="control-label col-lg-2" data-bind="tooltip:'When this operation is invoked, then fire this trigger'">Operation</label>
+                        <div class="col-lg-9" id="operation-options">
                             <!-- ko foreach: $root.operationOptions -->
-                            <div class="checkbox col-sm-4 checkbox-no-padding-left">
+                            <div class="checkbox checkbox-no-padding-left">
                                 <label>
                                     <input type="checkbox" data-bind="value:$data, checked: $root.operations" />
                                     <!-- ko text: $data-->

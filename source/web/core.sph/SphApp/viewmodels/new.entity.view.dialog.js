@@ -29,6 +29,11 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 });
                 return context.getListAsync("EntityDefinition", "Id ne ''", "Name").done(entities);
             },
+            attached = function (vw) {
+                setTimeout(function () {
+                    $(vw).find("#name-input").focus();
+                }, 500);
+            },
             okClick = function (data, ev) {
                 if (!bespoke.utils.form.checkValidity(ev.target)) {
                     return Task.fromResult(0);
@@ -51,6 +56,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
         var vm = {
             view: view,
             activate: activate,
+            attached: attached,
             okClick: okClick,
             entity: entity,
             id: id,
