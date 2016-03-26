@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Bespoke.Sph.Domain;
@@ -32,6 +33,9 @@ namespace workers.console.runner
                 Console.WriteLine("Press [ENTER] to continue");
                 Console.ReadLine();
             }
+            // remove files marked for deletion
+            RemoveFilesMarkForDeletion();
+
 
             var port = ParseArg("port") == null ? 5672 : int.Parse(ParseArg("port"));
             ConfigurationManager.AddConnectionString();
@@ -87,7 +91,21 @@ namespace workers.console.runner
             stopFlag.WaitOne();
             return 0;
         }
-        
+
+        private static void RemoveFilesMarkForDeletion()
+        {
+            var mark = $"{ConfigurationManager.SubscriberPath}\\mark.for.delete.txt";
+            if (File.Exists(mark))
+            {
+                var files = File.ReadAllLines(mark).Select(x => $"{ConfigurationManager.SubscriberPath}\\{x}");
+                foreach (var file in files.Where(File.Exists))
+                {
+                    File.Delete(file);
+                }
+                File.Delete(mark);
+            }
+        }
+
         public static string ParseArg(string name)
         {
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

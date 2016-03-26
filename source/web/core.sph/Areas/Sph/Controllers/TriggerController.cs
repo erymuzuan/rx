@@ -81,7 +81,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var result = await trigger.CompileAsync();
             if (result.Result)
-                return Json(new {success = false, errors = result.Errors});
+                return Json(new { success = false, errors = result.Errors });
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -112,7 +112,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [DeleteRoute("{id}")]
         public async Task<IHttpActionResult> Delete(string id)
         {
             var context = new SphDataContext();
@@ -128,8 +128,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges("Depublish");
             }
 
-
-            return Json(trigger.Id);
+            return Json(new { success = true, status = "OK", id });
         }
 
         [HttpPost]
@@ -162,7 +161,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(trigger);
                 await session.SubmitChanges("Submit trigger");
             }
-            return Created($"/api/triggers/{trigger.Id}", new { id =  trigger.Id});
+            return Created($"/api/triggers/{trigger.Id}", new { id = trigger.Id });
 
         }
 

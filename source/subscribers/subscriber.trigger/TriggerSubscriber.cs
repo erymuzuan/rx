@@ -12,7 +12,6 @@ namespace Bespoke.Sph.CustomTriggers
     public class TriggerSubscriber : Subscriber<Trigger>
     {
         public override string QueueName => "trigger_subs";
-
         public override string[] RoutingKeys => new[] { "Trigger.#.Publish", "Trigger.#.Depublish" };
 
         protected override async Task ProcessMessage(Trigger item, MessageHeaders header)
@@ -36,25 +35,13 @@ namespace Bespoke.Sph.CustomTriggers
                 this.WriteMessage("Fail to build your Trigger ");
                 result.Errors.ForEach(e => this.WriteError(new Exception(e.ToString())));
             }
-            
+
         }
 
         private async void DeleteTrigger(Trigger trigger)
         {
-            Thread.Sleep(1000);
-            var dll = Path.Combine(ConfigurationManager.SubscriberPath, $"subscriber.trigger.{trigger.Id}.dll");
-            if (File.Exists(dll))
-                File.Delete(dll);
-            var pdb = Path.Combine(ConfigurationManager.SubscriberPath, $"subscriber.trigger.{trigger.Id}.pdb");
-            if (File.Exists(pdb))
-                File.Delete(pdb);
-
-
-            Thread.Sleep(1000);
-            this.WriteMessage("Deleted the trigger dll");
-
+            this.WriteMessage($"Deleting trigger_subs_{trigger.Id} queue");
             var url = $"http://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}";
-
             var handler = new HttpClientHandler
             {
                 Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword)
@@ -62,14 +49,22 @@ namespace Bespoke.Sph.CustomTriggers
             using (var client = new HttpClient(handler) { BaseAddress = new Uri(url) })
             {
                 this.WriteMessage("Deleting the queue for trigger : " + trigger.Name);
-                var response = await client.DeleteAsync(string.Format("/api/queues/{1}/trigger_subs_{0}", trigger.Id, ConfigurationManager.ApplicationName));
+                var response = await client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/trigger_subs_{trigger.Id}");
                 if (response.StatusCode != HttpStatusCode.NoContent)
                 {
-                    this.WriteError(new Exception(string.Format("Cannot delete queue trigger_subs_{0} for trigger {0}- return code is {1}", trigger.Id, response.StatusCode)));
+                    this.WriteError(new Exception($"Cannot delete queue trigger_subs_{trigger.Id} for trigger {trigger.Id}- return code is {response.StatusCode}"));
                 }
             }
+            this.WriteMessage("mark the trigger dll for deletion");
+            var mark = $"{ConfigurationManager.SubscriberPath}\\mark.for.delete.txt";
+            File.AppendAllLines(mark, new[]
+            {
+                $"subscriber.trigger.{trigger.Id}.dll",
+                $"subscriber.trigger.{trigger.Id}.pdb"
+            });
+
         }
-        
+
 
     }
 }

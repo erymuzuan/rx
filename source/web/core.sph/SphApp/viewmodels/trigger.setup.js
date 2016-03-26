@@ -23,6 +23,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
             entities = ko.observableArray(),
             operationOptions = ko.observableArray(),
             operations = ko.observableArray(),
+            itemDeleted = false,
             activate = function (id2) {
                 id(id2);
 
@@ -79,6 +80,9 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                     });
             },
             canDeactivate = function () {
+                if (itemDeleted) {
+                    return true;
+                }
                 var tcs = new $.Deferred();
                 if (originalEntity !== ko.toJSON(trigger)) {
                     app.showMessage("Save change to the item", "Rx Developer", ["Yes", "No", "Cancel"])
@@ -129,7 +133,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
             remove = function () {
                 var tcs = new $.Deferred();
 
-                app.showMessage("Are you sure you want to remove this trigger, this action cannot be undone", "Rx Developer", ["Yes", "No"])
+                app.showMessage("Are you sure you want to remove this trigger, this action cannot be undone, and you'll need to restart your workers to complete this operation", "Rx Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 
@@ -138,6 +142,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                                 .done(function (result) {
                                     isBusy(false);
                                     trigger().IsActive(false);
+                                    itemDeleted = true;
                                     tcs.resolve(result);
                                     logger.info("Your trigger has been succesfully removed");
                                     window.location = "#trigger.list";
