@@ -1,7 +1,5 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
-  "Icon": "fa fa-list-ul",
-  "Url": "entity.view.designer/patient/patients-mulimat",
   "ViewColumnCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
     "$values": [
@@ -87,11 +85,11 @@
   "Partial": null,
   "Template": null,
   "DisplayOnDashboard": true,
-  "Endpoint": "patients-cache-filter",
+  "Endpoint": "muslim-patients",
   "CreatedBy": "admin",
   "Id": "patients-mulimat",
   "CreatedDate": "2015-05-28T07:43:35.8707152+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-30T08:51:02.7611499+08:00",
+  "ChangedDate": "2016-03-26T08:32:33.6040174+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }

@@ -8,6 +8,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
+using Humanizer;
 using LinqToQuerystring;
 
 namespace Bespoke.Sph.Web.Api
@@ -110,6 +111,21 @@ namespace Bespoke.Sph.Web.Api
                 case "workflowform": return SelectTupleFromSource<WorkflowForm>(filter, column, column2, column3, column4, column5);
             }
 
+            var entity = ObjectBuilder.GetObject<ICacheManager>().Get<EntityDefinition>(table.ToIdFormat());
+            if (null == entity)
+            {
+                var context = new SphDataContext();
+                entity = context.LoadOneFromSources<EntityDefinition>(x => x.Id == table.ToIdFormat());
+                ObjectBuilder.GetObject<ICacheManager>()
+                    .Insert(entity.Id, entity, 60.Minutes(), entity.SourceFile);
+            }
+            var cache = new CacheMetadata();
+            if (entity.TreatDataAsSource)
+            {
+                cache.Public = true;
+                cache.MaxAge = ConfigurationManager.SourceDataCache.Seconds();
+            }
+
             var orderby = string.IsNullOrWhiteSpace(sort) ? "" : " ORDER BY " + sort;
             var translator = new OdataSqlTranslator("", table);
             if (!string.IsNullOrWhiteSpace(column5))
@@ -128,65 +144,9 @@ namespace Bespoke.Sph.Web.Api
                 return await ExecuteListTuple3Async(sql3 + orderby);
             }
             var sql = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column}],[{column2}]");
-            return await ExecuteListTupleAsync(sql + orderby);
+            return await ExecuteListTupleAsync(sql + @orderby, cache);
         }
 
-        [Route("{table}")]
-        [HttpGet]
-        public async Task<IHttpActionResult> Select(string table,
-            [FromUri(Name = "$select")]string columns,
-            [FromUri(Name = "$filter")]string filter = null)
-        {
-            var cols = columns.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
-            string column1 = cols.First(), column2 = "", column3 = "", column4 = "", column5 = "";
-            if (cols.Length > 1)
-                column2 = cols[1];
-            if (cols.Length > 2)
-                column3 = cols[2];
-            if (cols.Length > 3)
-                column4 = cols[3];
-            if (cols.Length > 4)
-                column5 = cols[4];
-
-            var type = table.ToLowerInvariant();
-            switch (type)
-            {
-                case "adapter": return SelectTupleFromSource<Adapter>(filter, column1, column2, column3, column4, column5);
-                case "designation": return SelectTupleFromSource<Designation>(filter, column1, column2, column3, column4, column5);
-                case "documenttemplate": return SelectTupleFromSource<DocumentTemplate>(filter, column1, column2, column3, column4, column5);
-                case "emailtemplate": return SelectTupleFromSource<EmailTemplate>(filter, column1, column2, column3, column4, column5);
-                case "entitychart": return SelectTupleFromSource<EntityChart>(filter, column1, column2, column3, column4, column5);
-                case "entitydefinition": return SelectTupleFromSource<EntityDefinition>(filter, column1, column2, column3, column4, column5);
-                case "entityform": return SelectTupleFromSource<EntityForm>(filter, column1, column2, column3, column4, column5);
-                case "entityview": return SelectTupleFromSource<EntityView>(filter, column1, column2, column3, column4, column5);
-                case "formdialog": return SelectTupleFromSource<FormDialog>(filter, column1, column2, column3, column4, column5);
-                case "partialview": return SelectTupleFromSource<PartialView>(filter, column1, column2, column3, column4, column5);
-                case "transformdefinition": return SelectTupleFromSource<TransformDefinition>(filter, column1, column2, column3, column4, column5);
-                case "trigger": return SelectTupleFromSource<Trigger>(filter, column1, column2, column3, column4, column5);
-                case "viewtemplate": return SelectTupleFromSource<ViewTemplate>(filter, column1, column2, column3, column4, column5);
-                case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>(filter, column1, column2, column3, column4, column5);
-                case "workflowform": return SelectTupleFromSource<WorkflowForm>(filter, column1, column2, column3, column4, column5);
-                case "valueobjectdefinition": return SelectTupleFromSource<ValueObjectDefinition>(filter, column1, column2, column3, column4, column5);
-            }
-            var translator = new OdataSqlTranslator("", table);
-            if (!string.IsNullOrWhiteSpace(column5))
-            {
-                var sql4 = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column1}],[{column2}],[{column3}],[{column4}],[{column5}]");
-                return await ExecuteListTuple5Async(sql4);
-            }
-            if (!string.IsNullOrWhiteSpace(column4))
-            {
-                var sql4 = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column1}],[{column2}],[{column3}],[{column4}]");
-                return await ExecuteListTuple4Async(sql4);
-            }
-            if (!string.IsNullOrWhiteSpace(column3))
-            {
-                var sql3 = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column1}],[{column2}],[{column3}]");
-                return await ExecuteListTuple3Async(sql3);
-            }
-            var sql = translator.Scalar(filter).Replace("SELECT []", $"SELECT [{column1}],[{column2}]");
-            return await ExecuteListTupleAsync(sql);
-        }
 
         private IHttpActionResult SelectSystemObjectProperty<T>(string column, string filter) where T : Entity
         {
@@ -314,7 +274,7 @@ namespace Bespoke.Sph.Web.Api
         }
 
 
-        private async Task<IHttpActionResult> ExecuteListTupleAsync(string sql)
+        private async Task<IHttpActionResult> ExecuteListTupleAsync(string sql, CacheMetadata cache)
         {
             using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql, conn))
@@ -331,7 +291,7 @@ namespace Bespoke.Sph.Web.Api
                     }
                 }
 
-                return Json(result.ToArray());
+                return Json(result.ToArray(), cache);
             }
         }
         private async Task<IHttpActionResult> ExecuteListTuple3Async(string sql)

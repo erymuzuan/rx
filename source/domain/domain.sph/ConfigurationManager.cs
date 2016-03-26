@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Domain
         public static string TokenSecret => GetEnvironmentVariable("TokenSecret") ?? $"{ApplicationName}{Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Home))}";
         public static string ApplicationFullName => GetEnvironmentVariable("ApplicationFullName") ?? "Reactive Developer platform showcase";
         public static string FromEmailAddress => GetEnvironmentVariable("FromEmailAddress") ?? "admin@rxdeveloper.com";
+        public static int SourceDataCache => GetEnvironmentVariableInt32("SourceDataCache", 300);
         public static int StaticFileCache => GetEnvironmentVariableInt32("StaticFileCache", 120);
         public static int WorkflowDebuggerPort => GetEnvironmentVariableInt32("WorkflowDebuggerPort", 50518);
         public static long SqlPersistenceDelay => GetEnvironmentVariableInt32("SqlPersistenceDelay", 15000);

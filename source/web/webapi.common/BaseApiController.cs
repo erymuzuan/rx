@@ -98,6 +98,13 @@ namespace Bespoke.Sph.WebApi
         {
             return new JsonCachedResult(json, cache);
         }
+        protected IHttpActionResult Json<T>(T content, CacheMetadata cache, JsonSerializerSettings settings = null)
+        {
+            if (null == settings)
+                settings = new JsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(content, settings);
+            return new JsonCachedResult(json, cache);
+        }
 
         // TODO : we should return negotiable result, but for now no cache is added
         protected IHttpActionResult Ok<T>(T content, CacheMetadata cache)

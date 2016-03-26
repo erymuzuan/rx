@@ -95,6 +95,8 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.{this.Plural}.Domain";
         [JsonIgnore]
+        public string SourceFile => $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{Id}.json";
+        [JsonIgnore]
         public string TypeName => $"{CodeNamespace}.{Name}";
 
         /// <summary>
