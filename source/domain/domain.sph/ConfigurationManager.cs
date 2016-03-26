@@ -45,6 +45,8 @@ namespace Bespoke.Sph.Domain
         public static string ElasticSearchSystemIndex => GetEnvironmentVariable("ElasticsearchIndex") ?? ApplicationName.ToLowerInvariant() + "_sys";
         public static string ElasticSearchHost => GetEnvironmentVariable("ElasticSearchHost") ?? "http://localhost:9200";
         public static string ElasticSearchIndex => GetEnvironmentVariable("ElasticSearchIndex") ?? ApplicationName.ToLowerInvariant();
+        public static string ElasticsearchLogHost => GetEnvironmentVariable("ElasticsearchLogHost") ?? ElasticSearchHost;
+        public static string RequestLogIndexPattern => GetEnvironmentVariable("RequestLogIndexPattern") ?? "yyyyMMdd";
 
         public static string ReportDeliveryExecutable => GetPath("ReportDeliveryExecutable", @"schedulers\scheduler.report.delivery.exe");
         public static string ScheduledTriggerActivityExecutable => GetPath("ScheduledTriggerActivityExecutable", @"schedulers\scheduler.workflow.trigger.exe");

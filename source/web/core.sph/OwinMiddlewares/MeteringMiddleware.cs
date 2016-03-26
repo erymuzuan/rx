@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
         public MeteringMiddleware(AppFunc next)
         {
             m_next = next;
-            m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+            m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) };
         }
 
         public async Task Invoke(IDictionary<string, object> environment)
@@ -63,10 +63,36 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
                     context.Response.StatusCode
                 }
             };
-            var setting = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var json = JsonConvert.SerializeObject(request, setting);
-            var content = new StringContent(json);
-            await m_client.PostAsync($"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_logs_{DateTime.Today:yyyyMMdd}/request_log", content);
+            try
+            {
+                // TODO : may be use RabbitMQ, no-persistence queue for logging this
+
+                var setting = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+                var json = JsonConvert.SerializeObject(request, setting);
+                var content = new StringContent(json);
+                var index = DateTime.Now.ToString(ConfigurationManager.RequestLogIndexPattern);
+                await m_client.PostAsync($"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_logs_{index}/request_log", content)
+                     .ConfigureAwait(false);
+            }
+            catch
+            {
+                //ignore
+            }
+        }
+    }
+
+    public static class TaskExtension
+    {
+        public static async void FireAndForget(this Task task)
+        {
+            try
+            {
+                await task.ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignore
+            }
         }
     }
 }
