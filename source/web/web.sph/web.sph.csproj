@@ -1194,7 +1194,6 @@
     <Content Include="docs\WorkflowDefinition.HowTo.ExceptionHandling.md" />
     <Content Include="docs\snippets-dialog.md" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />
     <Content Include="images\3.png" />
