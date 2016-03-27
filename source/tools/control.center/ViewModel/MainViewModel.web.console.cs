@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
@@ -20,25 +21,44 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             };
         }
 
-        private void DeployOutput()
+        private async void DeployOutput()
         {
-            this.QueueUserWorkItem(() => { DeployOutputHelper().Wait(); });
+            try
+            {
+                this.IsBusy = true;
+                await DeployOutputHelper();
+            }
+            finally
+            {
+                this.IsBusy = false;
+            }
         }
         private async Task DeployOutputHelper()
         {     // stop the workers
-            this.StopSphWorkerCommand.Execute(null);
-            await Task.Delay(2500);
-
+            this.Log("Stoping worker and give it a 2500 ms break");
+            try
+            {
+                this.StopSphWorker();
+                await Task.Delay(2500);
+            }
+            catch
+            {
+                //ignore
+            }
+            Debug.Assert(this.SphWorkerServiceStarted == false, "Worker should be stopped");
             foreach (var f in WebConsoleServer.Default.CreatedFileCollection)
             {
+                this.Log($"Deploying {f} ...");
                 WebConsoleServer.Default.DeployOutput(f);
             }
             WebConsoleServer.Default.CreatedFileCollection.Clear();
             // restart the workers
+            this.Log("Done...");
             while (!this.StartSphWorkerCommand.CanExecute(null))
             {
                 await Task.Delay(500);
             }
+            this.Log("Stating worker");
             this.StartSphWorkerCommand.Execute(null);
         }
 
