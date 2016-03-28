@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -85,8 +86,16 @@ namespace Bespoke.Sph.ControlCenter
             m_channel = m_connection.CreateModel();
 
             m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
-            var qd = m_channel.QueueDeclare(WebConsoleLogger, false, true, true, null);
-            Console.WriteLine(qd);
+            try
+            {
+                var qd = m_channel.QueueDeclare(WebConsoleLogger, false, true, true, null);
+                Console.WriteLine(qd);
+            }
+            catch 
+            {
+               Debug.Assert(false,@"You have to restart your RabbitMQ broker, to stop the broker, make sure your RABBITMQ_BASE variable is set correctly
+ and use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
+            }
             m_channel.QueueBind(WebConsoleLogger, EXCHANGE_NAME, "logger.#", null);
             m_channel.BasicQos(0, 10, false);
 
