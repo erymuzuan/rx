@@ -169,7 +169,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
         [HttpGet]
-        [Route("sproc/{id}/{schema}.{name}")]
+        [GetRoute("sproc/{id}/{schema}/{name}")]
         public async Task<HttpResponseMessage> GetSprocAsync(string id, string schema, string name)
         {
 
@@ -178,8 +178,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (null == adapter)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-            var sproc =
-                adapter.OperationDefinitionCollection.OfType<SprocOperationDefinition>()
+            var sproc = adapter.OperationDefinitionCollection.OfType<SprocOperationDefinition>()
                     .SingleOrDefault(x => x.Name == name);
             if (null == sproc)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
@@ -187,7 +186,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         [HttpGet]
-        [Route("sproc-text/{id}/{schema}.{name}")]
+        [Route("sproc-text/{id}/{schema}/{name}")]
         public async Task<IHttpActionResult> GetSprocTextAsync(string id, string schema, string name)
         {
 

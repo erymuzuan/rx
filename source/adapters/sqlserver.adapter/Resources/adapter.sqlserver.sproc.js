@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -10,7 +10,7 @@
 /// <reference path="../../../web/web.sph/scripts/prism.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, 'adapter.resource/sqlserver-adapter/_ko.adapter.sqlserver'],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "adapter.resource/sqlserver-adapter/_ko.adapter.sqlserver"],
     function (context, logger, router, system) {
 
         var operation = ko.observable(),
@@ -25,7 +25,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             adapterId(id);
             var tcs = new $.Deferred();
 
-            $.get("/sqlserver-adapter/sproc/" + id + "/" + uuid)
+            $.get("/sqlserver-adapter/sproc/" + id + "/" + uuid.replace(".", "/"))
                 .done(function (op) {
 
                     var op2 = context.toObservable(op);
@@ -34,17 +34,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     operation(op2);
 
                     _(operation().RequestMemberCollection()).each(function (v) {
+                        if (!ko.isObservable(v.TypeName)) {
+                            v.TypeName = ko.observable("System.String, mscorlib");
+                        }
                         if (!ko.unwrap(v.TypeName)) {
-                            v.TypeName('System.String, mscorlib');
+                            v.TypeName("System.String, mscorlib");
                         }
                     });
 
                     requestSchema({
-                        Name: ko.observable('Request'),
+                        Name: ko.observable("Request"),
                         MemberCollection: ko.observableArray(operation().RequestMemberCollection())
                     });
                     responseSchema({
-                        Name: ko.observable('Response'),
+                        Name: ko.observable("Response"),
                         MemberCollection: ko.observableArray(operation().ResponseMemberCollection())
                     });
 
@@ -52,13 +55,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     tcs.resolve(op);
                 });
 
-            $.get("/sqlserver-adapter/sproc-text/" + id + "/" + uuid)
+            $.get("/sqlserver-adapter/sproc-text/" + id + "/" + uuid.replace(".", "/"))
                 .done(function (st) {
                     text(st);
                 });
 
             setTimeout(function () {
-                $.getScript('/scripts/prism.js', function () {
+                $.getScript("/scripts/prism.js", function () {
                     logger.info("loading syntax highlighter");
                 });
             }, 5000);
@@ -74,7 +77,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             $.ajax({
                 type: "PATCH",
                 data: ko.mapping.toJSON(operation),
-                url: '/sqlserver-adapter/sproc/' + adapterId(),
+                url: "/sqlserver-adapter/sproc/" + adapterId(),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 error: tcs.reject,
