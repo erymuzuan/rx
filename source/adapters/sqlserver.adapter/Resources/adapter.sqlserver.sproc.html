@@ -1,4 +1,4 @@
-﻿<link href="/Content/prism.css" rel="stylesheet" />
+﻿<link href="/Content/external/prism.css" rel="stylesheet" />
 
 <h1>Web Page Operation Details</h1>
 <div class="row">
@@ -42,7 +42,6 @@
 <div class="row" id="members-panel">
     <h3>Request Schema Designer</h3>
     <div class="col-sm-8">
-        <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree" value="" />
         <div data-bind="sprocRequestSchemaTree : {entity: requestSchema, selected: member, searchbox: '#search-box-tree' }">
         </div>
     </div>
@@ -84,10 +83,9 @@
     </div>
 </div>
 
-<div class="row" id="members-panel">
+<div class="row" id="response-members-panel">
     <h3>Response Schema Designer</h3>
     <div class="col-sm-8">
-        <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree2" value="" />
         <div data-bind="sprocResponseSchemaTree : {entity: responseSchema, selected: responseMember, searchbox: '#search-box-tree2', name: operation().Name}">
         </div>
     </div>
@@ -100,9 +98,9 @@
                 <input class="form-control" id="member_name2" name="member.name" type="text" required data-bind="value: Name" />
             </div>
 
+            <!-- ko if: $type === 'Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter'-->
             <div class="form-group">
                 <label for="member-type2">Type</label>
-
                 <select class="form-control" id="member-type2" data-bind="value:TypeName">
                     <option value="">[Please Select]</option>
                     <option value="System.String, mscorlib">String</option>
@@ -110,8 +108,6 @@
                     <option value="System.Decimal, mscorlib">Decimal</option>
                     <option value="System.DateTime, mscorlib">DateTime</option>
                     <option value="System.Boolean, mscorlib">Boolean</option>
-                    <option value="System.Object, mscorlib">Complex</option>
-                    <option value="System.Array, mscorlib">Collection</option>
                 </select>
 
             </div>
@@ -121,10 +117,8 @@
                     Nullable
                 </label>
             </div>
-          
 
-
-         
+            <!-- /ko -->
 
 
         </form>
