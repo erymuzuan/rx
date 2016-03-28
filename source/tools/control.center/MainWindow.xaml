@@ -58,6 +58,7 @@
         </Menu>
         <Label Grid.Row="1" Content="Reactive Developer Control Center" FontSize="18" FontWeight="Bold"  />
 
+        <Button Grid.Row="1" HorizontalAlignment="Right" Width="50" Content="Deploy" Command="{Binding DeployOutputCommand}"/>
 
 
         <GroupBox Header="Service Status" Grid.Row="2" x:Name="controlPanelBox" >

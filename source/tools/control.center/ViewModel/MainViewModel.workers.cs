@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
-using System.Management;
-using System.Net;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
-using Bespoke.Sph.ControlCenter.Model;
-using Bespoke.Sph.ControlCenter.Properties;
 using GalaSoft.MvvmLight.Command;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
 {

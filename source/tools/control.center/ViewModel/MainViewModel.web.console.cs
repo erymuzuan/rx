@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using GalaSoft.MvvmLight.Command;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
@@ -38,14 +38,22 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.Log("Stoping worker and give it a 2500 ms break");
             try
             {
-                this.StopSphWorker();
+                if (this.StopSphWorkerCommand.CanExecute(null))
+                    this.StopSphWorker();
                 await Task.Delay(2500);
             }
             catch
             {
                 //ignore
             }
-            Debug.Assert(this.SphWorkerServiceStarted == false, "Worker should be stopped");
+            if (this.SphWorkerServiceStarted)
+            {
+                this.Post(() =>
+                {
+                    MessageBox.Show("Fail to stop worker, please stop the worker manually");
+                });
+                return;
+            }
             foreach (var f in WebConsoleServer.Default.CreatedFileCollection)
             {
                 this.Log($"Deploying {f} ...");
@@ -54,18 +62,22 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             WebConsoleServer.Default.CreatedFileCollection.Clear();
             // restart the workers
             this.Log("Done...");
+            var count = 0;
             while (!this.StartSphWorkerCommand.CanExecute(null))
             {
                 await Task.Delay(500);
+                if (count++ > 50) break;
+                this.Log(".");
             }
             this.Log("Stating worker");
-            this.StartSphWorkerCommand.Execute(null);
+            if (this.StartSphWorkerCommand.CanExecute(null))
+                this.StartSphWorker();
         }
 
 
         private void StopWebConsole()
         {
-            WebConsoleServer.Default.Stop();
+            WebConsoleServer.Default.StopConsume();
             this.WebConsoleStarted = false;
         }
 

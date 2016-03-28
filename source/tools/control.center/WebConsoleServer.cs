@@ -93,8 +93,10 @@ namespace Bespoke.Sph.ControlCenter
             }
             catch 
             {
-               Debug.Assert(false,@"You have to restart your RabbitMQ broker, to stop the broker, make sure your RABBITMQ_BASE variable is set correctly
- and use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
+               Debug.Assert(false,@"You have to restart your RabbitMQ broker.
+To stop the broker :
+Make sure your RABBITMQ_BASE variable is correctly set 
+Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
             }
             m_channel.QueueBind(WebConsoleLogger, EXCHANGE_NAME, "logger.#", null);
             m_channel.BasicQos(0, 10, false);
@@ -113,12 +115,14 @@ namespace Bespoke.Sph.ControlCenter
             if (null != m_consumer)
                 m_consumer.Received -= Received;
 
+            m_channel?.QueueDelete(WebConsoleLogger);
             m_channel?.Close();
             m_channel?.Dispose();
             m_channel = null;
 
             m_connection?.Dispose();
             m_connection = null;
+           
         }
 
         private void Received(object sender, ReceivedMessageArgs e)
@@ -137,6 +141,7 @@ namespace Bespoke.Sph.ControlCenter
             }
             m_appServer?.Stop();
             m_appServer?.Dispose();
+            
             return true;
         }
 
