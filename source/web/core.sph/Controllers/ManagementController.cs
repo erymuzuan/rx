@@ -86,11 +86,11 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("logs/{id:guid}")]
         public async Task<ActionResult> SearchById(string id)
         {
-            var url = $"{ ConfigurationManager.ElasticSearchSystemIndex}/log/{id}";
+            var url = $"{ConfigurationManager.ElasticSearchIndex}_logs/log/{id}";
             string responseString;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost);
                 var response = await client.GetAsync(url);
                 if (response.StatusCode == HttpStatusCode.NotFound)
                     return HttpNotFound();
@@ -113,10 +113,10 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("request-logs/{from}/{to}")]
         public async Task<ActionResult> SearchRequestLogs(string from, string to, [RawRequestBody]string query)
         {
-            var url = $"{ ConfigurationManager.ElasticSearchIndex}/request_log/_search";
+            var url = $"{ ConfigurationManager.ElasticSearchIndex}_logs/request_log/_search";
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost);
                 var response = await client.PostAsync(url, new StringContent(query));
                 response.EnsureSuccessStatusCode();
 
