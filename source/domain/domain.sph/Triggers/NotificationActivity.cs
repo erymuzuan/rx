@@ -43,6 +43,7 @@ namespace Bespoke.Sph.Domain
 
             var code = new StringBuilder();
 
+            code.Append(this.ExecutingCode);
             code.AppendLine("       var logger = ObjectBuilder.GetObject<ILogger>();");
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
             code.AppendLine($"       var act = this.GetActivity<NotificationActivity>(\"{this.WebId}\");");
@@ -123,6 +124,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       }");
 
             code.AppendLine();
+            code.Append(this.ExecutedCode);
 
             return code.ToString();
         }
