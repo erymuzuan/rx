@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -22,51 +22,32 @@ namespace Bespoke.Sph.Domain
             this.WorkflowId = wf.Id;
             this.WorkflowDefinitionId = wf.WorkflowDefinitionId;
         }
-        private Dictionary<string, List<string>> m_waitingAsyncList = new Dictionary<string, List<string>>();
 
-        [XmlIgnore]
+        [JsonIgnore]
+        public Workflow Workflow { get; set; }
         [JsonIgnore]
         public WorkflowDefinition WorkflowDefinition { get; set; }
+        public ConcurrentDictionary<string, List<string>> WaitingAsyncList = new ConcurrentDictionary<string, List<string>>();
+        public ConcurrentDictionary<string, List<string>> WaitingJoinList = new ConcurrentDictionary<string, List<string>>();
+        public ConcurrentDictionary<string, List<string>> FiredJoinList = new ConcurrentDictionary<string, List<string>>();
 
-        private Dictionary<string, List<string>> m_waitingJoinList = new Dictionary<string, List<string>>();
-        public Dictionary<string, List<string>> WaitingJoinList
-        {
-            get { return m_waitingJoinList; }
-            set { m_waitingJoinList = value; }
-        }
-        private Dictionary<string, List<string>> m_firedJoinList = new Dictionary<string, List<string>>();
-        public Dictionary<string, List<string>> FiredJoinList
-        {
-            get { return m_firedJoinList; }
-            set { m_firedJoinList = value; }
-        }
 
         public void AddJoinWaitingList(string join, string predecessor)
         {
-            if (this.WaitingJoinList.ContainsKey(join))
-            {
-                this.WaitingJoinList[join].Add(predecessor);
-                // TODO: also initiate the async activity waiting list, still missing correlation thou, should get one from parallel up top
-                this.WaitingAsyncList.Add(join, new List<string>());
-            }
-            else
-            {
-                this.WaitingJoinList.Add(join, new List<string> { predecessor });
-            }
+            var list = this.WaitingJoinList.GetOrAdd(join, new List<string>());
+            list.Add(predecessor);
+            this.WaitingJoinList.AddOrUpdate(join, list, (k, l) => list);
+
+            // TODO: also initiate the async activity waiting list, still missing correlation thou, should get one from parallel up top
+            this.WaitingAsyncList.TryAdd(join, new List<string>());
 
         }
 
         public void AddFiredJoin(string join, string predecessor)
         {
-
-            if (this.FiredJoinList.ContainsKey(join))
-            {
-                this.FiredJoinList[join].Add(predecessor);
-            }
-            else
-            {
-                this.FiredJoinList.Add(join, new List<string> { predecessor });
-            }
+            var list = this.FiredJoinList.GetOrAdd(join, new List<string>());
+            list.Add(predecessor);
+            this.FiredJoinList.AddOrUpdate(join, list, (k, l) => list);
         }
 
         public bool AllJoinFired(string join)
@@ -89,16 +70,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-
-        public Dictionary<string, List<string>> WaitingAsyncList
-        {
-            get { return m_waitingAsyncList; }
-            set { m_waitingAsyncList = value; }
-        }
-
-        [XmlIgnore]
-        [JsonIgnore]
-        public Workflow Workflow { get; set; }
 
 
         public void Init(Workflow wf, WorkflowDefinition wd)
@@ -135,7 +106,7 @@ namespace Bespoke.Sph.Domain
             }
             else
             {
-                this.WaitingAsyncList.Add(act.WebId, new List<string> { result.Correlation });
+                this.WaitingAsyncList.TryAdd(act.WebId, new List<string> { result.Correlation });
             }
 
 
