@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
             var request = new
             {
                 Elapsed = sw.ElapsedMilliseconds,
-                Time = DateTime.Now,
+                Time = DateTime.Now.ToString("s"),
                 User = context.Request.User.Identity.Name,
                 Request = new
                 {
