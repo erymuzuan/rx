@@ -10,24 +10,19 @@ namespace Bespoke.Sph.Domain
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
-            var predecessors = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId).ToList();
+            var branches = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId).ToList();
             var result = base.ValidateBuild(wd);
-            if (!predecessors.Any())
-                result.Errors.Add(new BuildError(this.WebId,
-                    $"[JoinActivity] -> {this.Name} does not have any predecessor"));
-            if (predecessors.Count < 2)
-                result.Errors.Add(new BuildError(this.WebId,
-                    $"[JoinActivity] -> {this.Name} must have at least 2 predecessors"));
+            if (!branches.Any())
+                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} does not have any predecessor"));
+            if (branches.Count < 2)
+                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} must have at least 2 parallel branches"));
 
-            if (predecessors.OfType<EndActivity>().Any())
-                result.Errors.Add(new BuildError(this.WebId,
-                    $"[JoinActivity] -> {this.Name} , EndActivity is invalid predecessor"));
-            if (predecessors.OfType<DecisionActivity>().Any())
-                result.Errors.Add(new BuildError(this.WebId,
-                    $"[JoinActivity] -> {this.Name} , DecisionActivity is invalid predecessor"));
-            if (predecessors.OfType<ListenActivity>().Any())
-                result.Errors.Add(new BuildError(this.WebId,
-                    $"[JoinActivity] -> {this.Name} , ListenActivity is invalid predecessor"));
+            if (branches.OfType<EndActivity>().Any())
+                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} , EndActivity is invalid branch"));
+            if (branches.OfType<DecisionActivity>().Any())
+                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} , DecisionActivity is invalid branch"));
+            if (branches.OfType<ListenActivity>().Any())
+                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} , ListenActivity is invalid branch"));
 
             return result;
         }
@@ -36,34 +31,34 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateInitAsyncMethod(WorkflowDefinition wd)
         {
-            var predecessors = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
+            var branches = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
             var code = new StringBuilder();
 
-            code.AppendLinf("   public async Task FireJoin{0}(string webid)", this.MethodName);
+            code.AppendLine($"   public async Task FireJoin{MethodName}(string webid)");
             code.AppendLine("   {");
             code.AppendLine("       var tracker = await this.GetTrackerAsync().ConfigureAwait(false);");
-            code.AppendLinf("       if(!tracker.WaitingJoinList.ContainsKey(\"{0}\"))", this.WebId);
+            code.AppendLine($"       if(!tracker.WaitingJoinList.ContainsKey(\"{WebId}\"))");
             code.AppendLine("       {");
-            foreach (var act in predecessors)
+            foreach (var br in branches)
             {
-                code.AppendLinf("           tracker.AddJoinWaitingList(\"{0}\",\"{1}\");", this.WebId, act.WebId);
+                code.AppendLine($"           tracker.AddJoinWaitingList(\"{WebId}\",\"{br.WebId}\");");
             }
             code.AppendLine("       }");
-            code.AppendLinf("       tracker.AddFiredJoin(\"{0}\", webid);", this.WebId);
+            code.AppendLine($"       tracker.AddFiredJoin(\"{WebId}\", webid);");
             code.AppendLine("       await tracker.SaveAsync().ConfigureAwait(false);");
             code.AppendLine();
 
             // TODO : we need the correlation too? I guessed
-            code.AppendLinf("       if(tracker.AllJoinFired(\"{0}\"))", this.WebId);
+            code.AppendLine($"       if(tracker.AllJoinFired(\"{WebId}\"))");
             code.AppendLine("       {");
             code.AppendLine("           Console.WriteLine(\"Everthing is ok\");");
             code.AppendLine("           var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
-            code.AppendLinf("           result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
-            code.AppendLinf("           await this.SaveAsync(\"{0}\", result).ConfigureAwait(false);", this.WebId);
+            code.AppendLine($"           result.NextActivities = new[]{{\"{NextActivityWebId}\"}};");
+            code.AppendLinf($"           await this.SaveAsync(\"{WebId}\", result).ConfigureAwait(false);");
             code.AppendLine("       }");
             code.AppendLine("   }");
 
-            code.AppendLinf("   public Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
+            code.AppendLine($"   public Task<InitiateActivityResult> InitiateAsync{MethodName}()");
             code.AppendLine("   {");
             code.AppendLine("       var result = new InitiateActivityResult{Correlation = Guid.NewGuid().ToString() };");
             code.AppendLine("       return Task.FromResult(result);");
@@ -75,18 +70,16 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
-            return @"throw new System.Exception(""Listen activity is not supposed to be executed directly but through FireListenTrigger"");";
+            return $@"throw new System.Exception(""Join activity is not supposed to be executed directly but through FireJoin{MethodName}"");";
         }
 
         public override void BeforeGenerate(WorkflowDefinition wd)
         {
-            // TODO : insert Executed code for each predecessors
-
-            var predecessors = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
-            foreach (var act in predecessors)
+            // insert Executed code for each branches
+            var branches = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
+            foreach (var act in branches)
             {
-                var code = $"   await this.FireJoin{this.MethodName}(\"{act.WebId}\").ConfigureAwait(false);";
-                act.ExecutedCode += code;
+                act.ExecutedCode = $"   await this.FireJoin{this.MethodName}(\"{act.WebId}\").ConfigureAwait(false);"; ;
             }
             // TODO : InitiateAsync once the first one is fired
         }

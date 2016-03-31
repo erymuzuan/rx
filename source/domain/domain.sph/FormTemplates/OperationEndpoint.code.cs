@@ -87,14 +87,18 @@ namespace Bespoke.Sph.Domain
 
         [JsonIgnore]
         public string AssemblyName => $"{ConfigurationManager.ApplicationName}.OperationEndpoint.{Entity}.{Name}.dll";
+        [JsonIgnore]
+        public string TypeName => $"{Entity}{Name}OperationEndpointController";
+        [JsonIgnore]
+        public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName.Replace(".dll", "")}";
 
         private Class GenerateController()
         {
             var controller = new Class
             {
-                Name = $"{Name}Controller",
+                Name = TypeName,
                 IsPartial = true,
-                FileName = $"{Name}Controller",
+                FileName = TypeName,
                 BaseClass = "BaseApiController",
                 Namespace = CodeNamespace
             };

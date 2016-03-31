@@ -73,7 +73,7 @@ namespace domain.test.workflows
             Assert.NotNull(resultB);
             Assert.Equal(new[] { "C0", "C1" }, resultB.NextActivities);
 
-            // when 1st of the predessor fired, it should initiate the Join to wait for others
+            // when the 1st branch fired, it should initiate the Join to wait for others
             var resultC0 = await wf.ExecuteAsync("C0");
             Assert.NotNull(resultC0);
             Assert.Equal(new[] { "D" }, resultC0.NextActivities);

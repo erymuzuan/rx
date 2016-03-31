@@ -41,6 +41,10 @@ namespace Bespoke.Sph.Domain
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.Api";
         [JsonIgnore]
         public string AssemblyName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Name}.dll";
+        [JsonIgnore]
+        public string TypeName => $"{Entity}{Name.ToPascalCase()}QueryEndpointController";
+        [JsonIgnore]
+        public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName.Replace(".dll", "")}";
 
 
         public string[] SaveSources(IEnumerable<Class> classes)
@@ -68,9 +72,9 @@ namespace Bespoke.Sph.Domain
             var className = this.Name.ToPascalCase();
             var controller = new Class
             {
-                Name = $"{className}Controller",
+                Name = TypeName,
                 IsPartial = true,
-                FileName = $"{className}Controller.cs",
+                FileName = $"{TypeName}.cs",
                 BaseClass = "BaseApiController",
                 Namespace = CodeNamespace
             };

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,6 +14,13 @@ namespace Bespoke.Sph.ElasticSearchLogger
     public class Logger : ILogger
     {
         public Severity TraceSwitch { get; set; } = Severity.Log;
+        private readonly HttpClient m_client;
+
+        public Logger()
+        {
+            if (null == m_client)
+                m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) };
+        }
 
         public async Task LogAsync(LogEntry entry)
         {
@@ -22,16 +30,15 @@ namespace Bespoke.Sph.ElasticSearchLogger
                 entry.Id = Strings.GenerateId();
 
             var content = GetJsonContent(entry);
-            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchSystemIndex}/log/{entry.Id}";
 
-            using (var client = new HttpClient())
-            {
-                var response = await client.PutAsync(url, content);
-                Debug.WriteLine("{0}=>{1}", url, response.StatusCode);
-            }
+            var date = DateTime.Now.ToString(ConfigurationManager.RequestLogIndexPattern);
+            var index = $"{ConfigurationManager.ElasticSearchIndex}_logs_{date}";
+            var url = $"{index}/log/{entry.Id}";
+
+            var response = await m_client.PutAsync(url, content);
+            Debug.WriteLine("{0}=>{1}", url, response.StatusCode);
+
         }
-
-
         public void Log(LogEntry entry)
         {
             this.LogAsync(entry).ContinueWith(_ => { });

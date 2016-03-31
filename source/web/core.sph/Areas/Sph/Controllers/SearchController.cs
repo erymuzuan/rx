@@ -87,12 +87,14 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> Es(string type, [RawBody]string query, [FromUri]bool sys = true)
         {
             var request = new StringContent(query);
+            var log = type == "log" || type == "request_log";
             var index = sys ? ConfigurationManager.ElasticSearchSystemIndex : ConfigurationManager.ElasticSearchIndex;
+            if (log) index = $"{ConfigurationManager.ElasticSearchIndex}_logs";
             var url = $"{index}/{type.ToLowerInvariant()}/_search";
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                client.BaseAddress = new Uri(log ? ConfigurationManager.ElasticsearchLogHost : ConfigurationManager.ElasticSearchHost);
 
                 var response = await client.PostAsync(url, request);
                 var content = response.Content as StreamContent;
@@ -100,7 +102,7 @@ namespace Bespoke.Sph.Web.Controllers
 
                 var result = await content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
-                    throw new SearchException("Cannot execute query for : " + type ) { Query = query, Result = result };
+                    throw new SearchException("Cannot execute query for : " + type) { Query = query, Result = result };
 
                 return Json(result);
 
@@ -129,7 +131,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         public override string ToString()
         {
-            var ex =new StringBuilder();
+            var ex = new StringBuilder();
             ex.AppendLine(this.Message);
             ex.AppendLine("Query " + this.Query);
             ex.AppendLine("Result " + this.Result);

@@ -12,10 +12,10 @@ namespace Bespoke.Sph.Domain
         {
             var result  =  base.ValidateBuild(wd);
             if(string.IsNullOrWhiteSpace(this.NextActivityWebId))
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[ScheduledTriggerActivity] ->{0} is missing NextActivityWebId",this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,$"[ScheduledTriggerActivity] ->{this.Name} is missing NextActivityWebId"));
 
             if(this.IntervalScheduleCollection.Count == 0)
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[ScheduledTriggerActivity] -> {0} is missing triggers",this.Name)));
+                result.Errors.Add(new BuildError(this.WebId,$"[ScheduledTriggerActivity] -> {this.Name} is missing triggers"));
 
             return result;
         }

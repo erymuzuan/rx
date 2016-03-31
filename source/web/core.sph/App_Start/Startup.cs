@@ -7,6 +7,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.OwinMiddlewares;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
+using Thinktecture.IdentityModel.WebApi;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace Bespoke.Sph.Web.App_Start
@@ -15,6 +16,7 @@ namespace Bespoke.Sph.Web.App_Start
     {
         public void Configuration(IAppBuilder app)
         {
+            ObjectBuilder.AddCacheList<IEndpointPermissionRepository>(new EndpointPermissionRepository());
             app.RegisterCustomEntityDependencies()
                 .UseCoreResource(true)
                 .MapSignalRConnection();
@@ -35,9 +37,11 @@ namespace Bespoke.Sph.Web.App_Start
             config.Formatters.JsonFormatter.SerializerSettings = setting;
             config.MapHttpAttributeRoutes();
 
-
+            config.Filters.Add(new ResourceAuthorizeAttribute());
             config.Services.Replace(typeof(IExceptionHandler), ObjectBuilder.GetObject<IExceptionHandler>());
             config.EnsureInitialized();
+
+            app.UseResourceAuthorization(new CustomPolicyAuthorizationManager());
 
             app.UseJwt()
                 .UseApiMetering()
