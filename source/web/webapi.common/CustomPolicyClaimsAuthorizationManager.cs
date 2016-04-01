@@ -8,7 +8,7 @@ namespace Bespoke.Sph.WebApi
 {
     public class CustomPolicyAuthorizationManager : ResourceAuthorizationManager
     {
-        public override Task<bool> CheckAccessAsync(ResourceAuthorizationContext context)
+        public override async Task<bool> CheckAccessAsync(ResourceAuthorizationContext context)
         {
             var action = context.Action.FirstOrDefault(c => c.Type == "action")?.Value;
             var controller = context.Resource.FirstOrDefault(c => c.Type == "controller")?.Value;
@@ -16,17 +16,12 @@ namespace Bespoke.Sph.WebApi
             Console.WriteLine(controller);
 
             var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
-            var setting = repos.Settings.SingleOrDefault(x => x.Controller == controller && x.Action == action);
-            if (null == setting) return Ok();
+            var setting = await repos.FindSettingsAsync(controller, action);
+            if (null == setting) return true;
 
             var subject = context.Principal;
-            if (setting.Claims.Any(clm => subject.HasClaim(x => x.Type == clm.Type && x.Value == clm.Value)))
-            {
-                return Ok();
-            }
-
-
-            return Nok();
+            var authorized = await setting.CheckAccessAsync(subject);
+            return authorized;
         }
     }
 

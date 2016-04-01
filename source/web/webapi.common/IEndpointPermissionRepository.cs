@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.WebApi
 {
     public interface IEndpointPermissionRepository
     {
-        IEnumerable<EndpointPermissonSetting> Settings { get; }
+        Task<EndpointPermissonSetting> FindSettingsAsync(string controller, string action);
     }
 }

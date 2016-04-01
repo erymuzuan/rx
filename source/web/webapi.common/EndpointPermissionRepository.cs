@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.WebApi
 {
@@ -20,5 +22,13 @@ namespace Bespoke.Sph.WebApi
             this.Settings = new List<EndpointPermissonSetting> { ps };
         }
         public IEnumerable<EndpointPermissonSetting> Settings { get; }
+        public Task<EndpointPermissonSetting> FindSettingsAsync(string controller, string action)
+        {
+            var setting = this.Settings.SingleOrDefault(x => x.Controller == controller && x.Action == action) ??
+                          this.Settings.SingleOrDefault(x => x.Controller == controller);
+            if (null == setting)
+                setting = new EndpointPermissonSetting { Controller = controller, Action = action, Claims = new Claim[] { } };
+            return Task.FromResult(setting);
+        }
     }
 }
