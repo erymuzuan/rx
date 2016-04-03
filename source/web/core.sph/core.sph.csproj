@@ -1151,6 +1151,7 @@
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
     <Compile Include="Models\CustomPartialView.cs" />
     <Compile Include="Models\XDeathHeader.cs" />
+    <Compile Include="OwinMiddlewares\CustomPolicyAuthorizationManager.cs" />
     <Compile Include="OwinMiddlewares\MeteringMiddleware.cs" />
     <Compile Include="OwinMiddlewares\MiddlewareExtensions.cs" />
     <Compile Include="OwinMiddlewares\RequireJsBundleMiddleware.cs" />

@@ -39,6 +39,8 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
                 Elapsed = sw.ElapsedMilliseconds,
                 Time = DateTime.Now.ToString("s"),
                 User = context.Request.User.Identity.Name,
+                Controller = context.Get<string>("rx:controller"),
+                Action = context.Get<string>("rx:action"),
                 Request = new
                 {
                     Path = context.Request.Path.ToString(),

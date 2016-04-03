@@ -96,6 +96,14 @@
         "user": {
           "type": "string",
           "index": "not_analyzed"
+        },
+        "controller": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "action": {
+          "type": "string",
+          "index": "not_analyzed"
         }
       }
     },
@@ -479,6 +487,14 @@
         },
         "time": {
           "type": "date"
+        },
+        "user": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "user": {
+          "type": "string",
+          "index": "not_analyzed"
         },
         "user": {
           "type": "string",

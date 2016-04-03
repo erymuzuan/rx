@@ -1,10 +1,11 @@
-﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.WebApi;
 using Thinktecture.IdentityModel.Owin.ResourceAuthorization;
 
-namespace Bespoke.Sph.WebApi
+namespace Bespoke.Sph.Web.OwinMiddlewares
 {
     public class CustomPolicyAuthorizationManager : ResourceAuthorizationManager
     {
@@ -12,8 +13,12 @@ namespace Bespoke.Sph.WebApi
         {
             var action = context.Action.FirstOrDefault(c => c.Type == "action")?.Value;
             var controller = context.Resource.FirstOrDefault(c => c.Type == "controller")?.Value;
-            Console.WriteLine(action);
-            Console.WriteLine(controller);
+            if (null != HttpContext.Current)
+            {
+                var oc = HttpContext.Current.GetOwinContext();
+                oc.Set("rx:controller", controller);
+                oc.Set("rx:action", action);
+            }
 
             var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
             var setting = await repos.FindSettingsAsync(controller, action);
@@ -24,5 +29,4 @@ namespace Bespoke.Sph.WebApi
             return authorized;
         }
     }
-
 }

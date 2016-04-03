@@ -128,7 +128,6 @@
     <Compile Include="BaseApiController.cs" />
     <Compile Include="CacheMetadata.cs" />
     <Compile Include="CustomEntityRestSqlTranslator.cs" />
-    <Compile Include="CustomPolicyClaimsAuthorizationManager.cs" />
     <Compile Include="DeveloperService.cs" />
     <Compile Include="ElasticsearchTokenRespository.cs" />
     <Compile Include="EndpointPermissionRepository.cs" />
