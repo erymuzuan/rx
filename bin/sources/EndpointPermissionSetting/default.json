@@ -1,0 +1,76 @@
+[
+  {
+    "Parent": null,
+    "Controller": null,
+    "Action": null,
+    "Id": null,
+    "Claims": [
+      {
+        "Type": "Role",
+        "Value": "administrators",
+        "Permission": "a",
+        "ValueType": null
+      },
+      {
+        "Type": "Role",
+        "Value": "developers",
+        "Permission": "a",
+        "ValueType": null
+      }
+    ]
+  },
+  {
+    "Parent": "Patient",
+    "Controller": null,
+    "Action": null,
+    "Id": null,
+    "Claims": [
+      {
+        "Type": "Role",
+        "Value": "administrators",
+        "Permission": "a",
+        "ValueType": null
+      },
+      {
+        "Type": "Role",
+        "Value": "developers",
+        "Permission": "a",
+        "ValueType": null
+      },
+      {
+        "Type": "Role",
+        "Value": "medicals",
+        "Permission": "a",
+        "ValueType": null
+      }
+    ]
+  },
+  {
+    "Parent": "Patient",
+    "Controller": "PatientRemoveOperationEndpoint",
+    "Action": "DeleteRemove",
+    "Id": null,
+    "Claims": [
+      {
+        "Type": "Test",
+        "Value": "123",
+        "Permission": null,
+        "ValueType": null
+      }
+    ]
+  },
+  {
+    "Parent": "Patient",
+    "Controller": "PatientServiceContract",
+    "Action": "Search",
+    "Id": null,
+    "Claims": [
+      {
+        "Type": "Subject",
+        "Value": "123",
+        "Permission": "a",
+        "ValueType": null
+      }
+    ]
+  }
+]

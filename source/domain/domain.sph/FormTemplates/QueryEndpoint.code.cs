@@ -42,7 +42,8 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string AssemblyName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Name}.dll";
         [JsonIgnore]
-        public string TypeName => $"{Entity}{Name.ToPascalCase()}QueryEndpointController";
+        public string TypeName => $"{ControllerName}Controller";
+        public string ControllerName => $"{Entity}{Name.ToPascalCase()}QueryEndpoint";
         [JsonIgnore]
         public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName.Replace(".dll", "")}";
 

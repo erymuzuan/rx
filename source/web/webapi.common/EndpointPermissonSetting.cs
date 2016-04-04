@@ -1,11 +1,13 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.WebApi
 {
+    [DebuggerDisplay("{Parent}.{Controller}.{Action}")]
     public class EndpointPermissonSetting
     {
         public EndpointPermissonSetting()

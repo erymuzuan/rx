@@ -14,7 +14,6 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             operationEndpoints = ko.observableArray(),
             queryEndpoints = ko.observableArray(),
             entities = ko.observableArray(),
-            permissions = ko.observableArray(),
             selected = ko.observable(),
             activate = function () {
                 return context.loadAsync("OperationEndpoint")
@@ -28,100 +27,121 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     })
                     .then(function (lo) {
                         entities(lo.itemCollection);
-                        
-                        return $.getJSON("/management-api/endpoint-permissions");
-                    })
-                    .then(permissions);
+                    });
             },
-            singleClick = function (e, data) {
-                selected(data.node.data);
+            findPermission = function(perm){
+                
+            },
+            singleClick = function (e, data) {                
+                var tag = data.node.data;
+                if(!tag){
+                    return;
+                }
+                isBusy(true);
+                
+                var url = "/management-api/endpoint-permissions/";
+                if(tag.parent){
+                    url +="?parent=" + tag.parent;
+                }
+                if(tag.controller){
+                    url +="&controller=" + tag.controller;
+                }
+                
+                if(tag.action){
+                    url +="&action=" + tag.action;
+                }
+                return $.getJSON(url)
+                .done(function(result){
+                    isBusy(false);
+                    var item = ko.mapping.fromJS(result);
+                    item.Parent(tag.parent);
+                    item.Controller(tag.controller);
+                    item.Action(tag.action);
+                    
+                    
+                    selected(item);
+                });
+                
             },
             click = function (e) {
                 e.stopPropagation();
                 var data = selected().node.data;
                 console.log(data);
             },
-            searchPermission = function(parent, controller, action){
-                var perm = _(ko.unwrap(permissions)).find(function(v){
-                            return ko.unwrap(v.Parent) === parent && 
-                                    ko.unwrap(v.Controller) === controller && 
-                                    ko.unwrap(v.Action) === action;
-                        });
-                if(perm){
-                    return perm;
-                }
+            createTag = function(parent, controller, action){
                 return  {
-                    Parent : parent, 
-                    Controller : controller, 
-                    Action : action, 
-                    Claims : ko.observableArray()
+                    parent : ko.unwrap(parent), 
+                    controller : ko.unwrap(controller), 
+                    action : ko.unwrap(action)
                 };
             },
             attached = function (view) {
                 var $panel = $(view).find("#endpoints-tree-panel"),
-                    items = _(ko.unwrap(entities)).map(function (v) {
+                    root = {
+                        parent : "#",
+                        data : createTag(null, null, null),
+                        text : "Default Setting",
+                        icon : "fa fa-share-alt",
+                        state :{
+                            opened : true
+                        },
+                        children : []                        
+                    },
+                    items = [root];
+                    _(ko.unwrap(entities)).each(function (v) {
                         
-                        var perm = _(ko.unwrap(permissions)).find(function(v){
-                            return ko.unwrap(v.Parent) === ko.unwrap(v.Name) && !ko.unwrap(v.Controller) && !ko.unwrap(v.Action);
-                        }) || {
-                                Parent: ko.unwrap(v.Name),
-                                Controller: null,
-                                Action : null,
-                                Claims : ko.observableArray()
+                        var serviceContractController = ko.unwrap(v.Name) + "ServiceContract",
+                            entityNode = {
+                                data: createTag(v.Name),
+                                parent: "root",
+                                text: ko.unwrap(v.Name),
+                                icon: ko.unwrap(v.IconClass),
+                                state :{
+                                    opened : true
+                                },
+                                children: [{
+                                    data : createTag(v.Name, serviceContractController, "Search"),
+                                    text : "Search",
+                                    icon : "fa fa-search"
+                                },{
+                                    data : createTag(ko.unwrap(v.Name), serviceContractController, "GetOneByIdAsync"),
+                                    text : "GetOneByIdAsync",
+                                    icon : "fa fa-file-o"
+                                },{
+                                    data :  createTag(ko.unwrap(v.Name), serviceContractController, "OdataApi"),
+                                    text : "OdataApi",
+                                    icon : "fa fa-database"
+                                }]
                             };
-                        return {
-                            data: perm,
-                            parent: "#",
-                            text: ko.unwrap(v.Name),
-                            icon: ko.unwrap(v.IconClass),
-                            children: [{
-                                data : searchPermission(ko.unwrap(v.Name),ko.unwrap(v.Name) + "ServiceContract", "Search"),
-                                text : "Search",
-                                icon : "fa fa-search"
-                            },{
-                                data : searchPermission(ko.unwrap(v.Name),ko.unwrap(v.Name) + "ServiceContract", "GetOneByIdAsync"),
-                                text : "GetOneByIdAsync",
-                                icon : "fa fa-file-o"
-                            },{
-                                data :  searchPermission(ko.unwrap(v.Name),ko.unwrap(v.Name) + "ServiceContract", "OdataApi"),
-                                text : "OdataApi",
-                                icon : "fa fa-database"
-                            }]
-                        };
+                        
+                        root.children.push(entityNode);
                     });
+                    
                 _(queryEndpoints()).each(function (v) {
-                    var parent = _(items).find(function (k) {
+                    var parent = _(root.children).find(function (k) {
                         return k.text === ko.unwrap(v.Entity);
                     });
                     if (!parent) {
                         return;
-                    }
-                    
+                    }                    
                       
-                    var perm = _(ko.unwrap(permissions)).find(function(v){
-                        return ko.unwrap(v.Parent) === ko.unwrap(v.Entity) && ko.unwrap(v.Controller) && !ko.unwrap(v.Action);
-                    }) || {
-                            Parent: ko.unwrap(v.Name),
-                            Controller: null,
-                            Action : null,
-                            Claims : ko.observableArray()
-                        };
-                            
-                    var q = {
-                        data: perm,
-                        text: ko.unwrap(v.Name),
-                        icon: "fa fa-cubes",
-                        children : []
+     
+                    var qeController = ko.unwrap(v.ControllerName),
+                        q = {
+                            data: createTag(v.Entity, qeController),
+                            text: ko.unwrap(v.Name),
+                            icon: "fa fa-cubes",
+                            children : []
                     };                    
                     parent.children.push(q);
-                    var getOneNode = {
-                        data: perm,
+                    
+                    q.children.push( {
+                        data: createTag(v.Entity, qeController, "GetAction"),
                         text: "GetAction",
                         icon: "fa fa-list"
-                    };
-                    q.children.push(getOneNode);
+                    });
                     q.children.push({
-                        data: perm,
+                        data: createTag(v.Entity, qeController , "GetCount"),
                         text: "GetCount",
                         icon: "fa fa-tachometer"}
                        );
@@ -129,7 +149,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
                 
                 _(operationEndpoints()).each(function (v) {
-                    var parent = _(items).find(function (k) {
+                    var parent = _(root.children).find(function (k) {
                         return k.text === ko.unwrap(v.Entity);
                     });
                     if (!parent) {
@@ -137,31 +157,20 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     }
                     
                       
-                    var perm = _(ko.unwrap(permissions)).find(function(v){
-                        return ko.unwrap(v.Parent) === ko.unwrap(v.Entity) && ko.unwrap(v.Controller) && !ko.unwrap(v.Action);
-                    }) || {
-                            Parent: ko.unwrap(v.Name),
-                            Controller: null,
-                            Action : null,
-                            Claims : ko.observableArray()
-                        };
                             
-                    var q = {
-                        data: {
-                            Parent: ko.unwrap(v.Entity),
-                            Controller: ko.unwrap(),
-                            Action : ko.unwrap(),
-                            Claims: ko.observableArray()
-                        },
-                        text: ko.unwrap(v.Name),
-                        icon: "fa fa-cogs",
-                        children : []
+                    var 
+                    oeController = ko.unwrap(v.Entity) + ko.unwrap(v.Name) + "OperationEndpoint",
+                         q = {
+                            data: createTag(v.Entity, oeController),
+                            text: ko.unwrap(v.Name),
+                            icon: "fa fa-cogs",
+                            children : []
                     };
                     parent.children.push(q);
                     
                     if(ko.unwrap(v.IsHttpPost)){                        
                         var postNode = {
-                            data: perm,
+                            data: createTag(v.Entity, oeController, "Post" + ko.unwrap(v.Name)),
                             text: "HTTP POST",
                             icon: "fa fa-plus"
                         };
@@ -171,7 +180,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     
                     if(ko.unwrap(v.IsHttpPut)){                        
                         var putNode = {
-                            data: perm,
+                            data: createTag(v.Entity, oeController, "Put" + ko.unwrap(v.Name)),
                             text: "HTTP PUT",
                             icon: "fa fa-file-text-o"
                         };
@@ -180,7 +189,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     
                     if(ko.unwrap(v.IsHttpPatch)){                        
                         var patchNode = {
-                            data: perm,
+                            data: createTag(v.Entity, oeController, "Patch" + ko.unwrap(v.Name)),
                             text: "HTTP PATCH",
                             icon: "fa fa-pencil-square"
                         };
@@ -189,7 +198,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                     if(ko.unwrap(v.IsHttpDelete)){                        
                         var deleteNode = {
-                            data: perm,
+                            data: createTag(v.Entity, oeController, "Delete" + ko.unwrap(v.Name)),
                             text: "HTTP DELETE",
                             icon: "fa fa-minus-circle"
                         };
@@ -224,10 +233,9 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     Permission : ko.observable("Inherited allow")
                 });
             },
-            save = function() {
-                var json = ko.toJSON(permissions);
+            save = function() {                
+                var json = ko.toJSON(selected);
                 return context.post(json, "/management-api/endpoint-permissions");
-                
             };
 
         return {
@@ -239,7 +247,14 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             activate: activate,
             attached: attached,
             toolbar : {
-                saveCommand : save
+                saveCommand : save,
+                commands : ko.observableArray([
+                    {
+                        command : function(){},
+                        caption : "Discard changes",
+                        icon : "fa fa-undo"
+                    }
+                ])
             }
         };
     });
