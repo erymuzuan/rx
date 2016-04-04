@@ -58,6 +58,19 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     item.Controller(tag.controller);
                     item.Action(tag.action);
                     
+                    var claimChanged = function(val){
+                        item.IsInherited(false);
+                    };
+                    
+                    item.Claims.subscribe(function(changes){
+                        console.log("changes", changes);
+                        if(changes[0].status === "added"){
+                            changes[0].value.Value.subscribe(claimChanged);
+                            changes[0].value.Type.subscribe(claimChanged);
+                            changes[0].value.Permission.subscribe(claimChanged);
+                        }
+                    }, null, "arrayChange");
+                    
                     
                     selected(item);
                 });
@@ -97,7 +110,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                 text: ko.unwrap(v.Name),
                                 icon: ko.unwrap(v.IconClass),
                                 state :{
-                                    opened : true
+                                    opened : false
                                 },
                                 children: [{
                                     data : createTag(v.Name, serviceContractController, "Search"),
@@ -230,7 +243,8 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 selected().Claims.push({
                     Type : ko.observable(),
                     Value: ko.observable(),
-                    Permission : ko.observable("Inherited allow")
+                    Permission : ko.observable("Inherited allow"),
+                    IsInherited : ko.observable(false)
                 });
             },
             save = function() {                

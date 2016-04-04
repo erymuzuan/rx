@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -147,22 +146,45 @@ namespace Bespoke.Sph.Web.Controllers
             if (!string.IsNullOrWhiteSpace(action))
             {
                 item = settings.SingleOrDefault(x => x.Action == action && x.Controller == controller && x.Parent == parent);
-                if (null == item) item = settings.SingleOrDefault(x => x.Controller == controller && x.Parent == parent && string.IsNullOrWhiteSpace(x.Action));
+                if (null != item)
+                {
+                    item.AddInheritedClaims(settings);
+                    return Json(item, JsonRequestBehavior.AllowGet);
+                }
+
+                item = settings.SingleOrDefault(x => x.Controller == controller && x.Parent == parent && string.IsNullOrWhiteSpace(x.Action));
                 if (null == item) item = settings.SingleOrDefault(x => x.Parent == parent && string.IsNullOrWhiteSpace(x.Controller) && string.IsNullOrWhiteSpace(x.Action))
                         ?? defaultItem;
+                item.AddInheritedClaims(settings);
+                item.MarkInherited();
                 return Json(item, JsonRequestBehavior.AllowGet);
             }
             if (!string.IsNullOrWhiteSpace(controller))
             {
                 item = settings.SingleOrDefault(x => x.Controller == controller && x.Parent == parent && string.IsNullOrWhiteSpace(x.Action));
-                if (null == item) item = settings.SingleOrDefault(x => x.Parent == parent && string.IsNullOrWhiteSpace(x.Controller) && string.IsNullOrWhiteSpace(x.Action))
-                        ?? defaultItem;
+                if (null != item)
+                {
+                    item.AddInheritedClaims(settings);
+                    return Json(item, JsonRequestBehavior.AllowGet);
+                }
+
+                item = settings.SingleOrDefault(x => x.Parent == parent && string.IsNullOrWhiteSpace(x.Controller) && string.IsNullOrWhiteSpace(x.Action))
+                       ?? defaultItem;
+                item.AddInheritedClaims(settings);
+                item.MarkInherited();
                 return Json(item, JsonRequestBehavior.AllowGet);
             }
             if (!string.IsNullOrWhiteSpace(parent))
             {
-                item = settings.SingleOrDefault(x => x.Parent == parent && string.IsNullOrWhiteSpace(x.Controller) && string.IsNullOrWhiteSpace(x.Action))
-                    ?? defaultItem;
+                item = settings.SingleOrDefault(x => x.Parent == parent && string.IsNullOrWhiteSpace(x.Controller) && string.IsNullOrWhiteSpace(x.Action));
+                if (null != item)
+                {
+                    item.AddInheritedClaims(settings);
+                    return Json(item, JsonRequestBehavior.AllowGet);
+                }
+                item = defaultItem;
+             //   item.AddInheritedClaims(settings);
+                item.MarkInherited();
                 return Json(item, JsonRequestBehavior.AllowGet);
             }
 
@@ -176,6 +198,10 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
             var settings = (await repos.LoadAsync()).ToList();
+            var claims = permisson.Claims.ToList();
+            claims.RemoveAll(x => x.Permission.StartsWith("i"));
+            permisson.Claims = claims.ToArray();
+
             settings.RemoveAll(
                 x =>
                     x.Parent == permisson.Parent && x.Controller == permisson.Controller && x.Action == permisson.Action);
