@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Models;
+using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
@@ -127,6 +129,24 @@ namespace Bespoke.Sph.Web.Controllers
 
             }
 
+        }
+
+        [HttpGet]
+        [Route("endpoint-permissions")]
+        public async Task<ActionResult> GetEndpointPermissionSettingsAsync()
+        {
+            var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
+            var settings = await repos.LoadAsync();
+            return Content(settings.ToJson(), "application/json");
+        }
+
+        [HttpPost]
+        [Route("endpoint-permissions")]
+        public async Task<ActionResult> SaveEndpointPermissionSettingsAsync(IEnumerable<EndpointPermissonSetting> settings)
+        {
+            var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
+            await repos.SaveAsync(settings);
+            return Content("{ success:true, status :\"OK\"}", "application/json");
         }
 
     }
