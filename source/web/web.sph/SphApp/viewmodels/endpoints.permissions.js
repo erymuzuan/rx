@@ -248,8 +248,16 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
             },
             save = function() {                
-                var json = ko.toJSON(selected);
-                return context.post(json, "/management-api/endpoint-permissions");
+                var json = ko.toJSON(selected),
+                    tcs = new $.Deferred();
+                context.post(json, "/management-api/endpoint-permissions")
+                    .then(function(e){
+                        tcs.resolve(e);
+                        logger.info("The permission has been successfully saved");
+                    });
+                    
+                
+                return tcs.promise();
             };
 
         return {

@@ -84,13 +84,32 @@
   },
   {
     "Parent": "Patient",
-    "Controller": "PatientServiceContract",
-    "Action": "Search",
+    "Controller": "PatientMuslimPatientsQueryEndpoint",
+    "Action": "GetAction",
     "Id": null,
     "Claims": [
       {
         "Type": "Subject",
         "Value": "750418-03-5247",
+        "Permission": "a",
+        "ValueType": null,
+        "IsInherited": false
+      }
+    ],
+    "IsInherited": false,
+    "HasParent": true,
+    "HasAction": true,
+    "HasController": true
+  },
+  {
+    "Parent": "Patient",
+    "Controller": "PatientServiceContract",
+    "Action": "Search",
+    "Id": null,
+    "Claims": [
+      {
+        "Type": "Email",
+        "Value": "erymuzuan@gmail.com",
         "Permission": "a",
         "ValueType": null,
         "IsInherited": false
@@ -110,25 +129,6 @@
       {
         "Type": "Role",
         "Value": "nurse",
-        "Permission": "a",
-        "ValueType": null,
-        "IsInherited": false
-      }
-    ],
-    "IsInherited": false,
-    "HasParent": true,
-    "HasAction": true,
-    "HasController": true
-  },
-  {
-    "Parent": "Patient",
-    "Controller": "PatientMuslimPatientsQueryEndpoint",
-    "Action": "GetAction",
-    "Id": null,
-    "Claims": [
-      {
-        "Type": "Subject",
-        "Value": "750418-03-5247",
         "Permission": "a",
         "ValueType": null,
         "IsInherited": false

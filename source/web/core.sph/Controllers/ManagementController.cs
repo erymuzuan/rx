@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -138,8 +139,18 @@ namespace Bespoke.Sph.Web.Controllers
             string parent = this.Request.QueryString["parent"],
                 controller = this.Request.QueryString["controller"],
                 action = this.Request.QueryString["action"];
-            var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
-            var settings = (await repos.LoadAsync()).ToList();
+
+            var cache = ObjectBuilder.GetObject<ICacheManager>();
+            var settings = cache.Get<List<EndpointPermissonSetting>>("endpoint-permissions");
+            if (null == settings)
+            {
+                var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
+                settings = (await repos.LoadAsync()).ToList();
+                var source = $"{ConfigurationManager.SphSourceDirectory}\\EndpointPermissionSetting\\default.json";
+                cache.Insert("endpoint-permissions", TimeSpan.FromSeconds(300), source);
+
+            }
+
             var defaultItem = settings.Single(x => x.Parent == null);
             EndpointPermissonSetting item;
 
@@ -183,7 +194,7 @@ namespace Bespoke.Sph.Web.Controllers
                     return Json(item, JsonRequestBehavior.AllowGet);
                 }
                 item = defaultItem;
-             //   item.AddInheritedClaims(settings);
+                //   item.AddInheritedClaims(settings);
                 item.MarkInherited();
                 return Json(item, JsonRequestBehavior.AllowGet);
             }
@@ -207,7 +218,7 @@ namespace Bespoke.Sph.Web.Controllers
                     x.Parent == permisson.Parent && x.Controller == permisson.Controller && x.Action == permisson.Action);
             settings.Add(permisson);
             await repos.SaveAsync(settings);
-            return Content("{ success:true, status :\"OK\"}", "application/json");
+            return Json(new { success = true, status = "OK" });
         }
 
     }
