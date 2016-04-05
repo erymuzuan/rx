@@ -1,13 +1,23 @@
 ﻿<h1>Endpoint permission settings</h1>
+<style>
+    .has-implementation {
+        color: rgb(0, 103, 183)!important;
+        font-weight: bold;
+    }
+
+    i.has-implementation + span {
+        color: red;
+    }
+</style>
 <div class="row">
     <div class="col-lg-4" id="endpoints-tree-panel"></div>
     <div class="col-lg-8">
         <h2>Permission setting</h2>
         <form class="form-horizontal" data-bind="with : selected">
             <!-- ko if : IsInherited -->
-           <div class="alert alert-info">
-               <p>No implementation provided</p>
-           </div>
+            <div class="alert alert-info">
+                <p>No implementation provided</p>
+            </div>
             <!-- /ko -->
             <!-- ko foreach : Claims -->
             <div class="form-group">
@@ -20,7 +30,7 @@
                     </select>
                 </div>
                 <div class="col-lg-4">
-                    <input type="text" required class="form-control" data-bind="value:Value"/>
+                    <input type="text" required class="form-control" data-bind="value:Value" />
                 </div>
                 <div class="col-lg-4">
                     <!-- ko if : IsInherited -->
@@ -30,10 +40,10 @@
                         <option value="a">Allow</option>
                         <option value="a">Deny</option>
                     </select>
-                    
+
                     <!-- /ko -->
                     <!-- ko if : !ko.unwrap(IsInherited) -->
-                     <select class="form-control" data-bind="value:Permission">
+                    <select class="form-control" data-bind="value:Permission">
                         <option value="a">Allow</option>
                         <option value="a">Deny</option>
                     </select>

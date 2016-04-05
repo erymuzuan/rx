@@ -150,6 +150,11 @@ namespace Bespoke.Sph.Web.Controllers
                 cache.Insert("endpoint-permissions", TimeSpan.FromSeconds(300), source);
 
             }
+            if (string.IsNullOrWhiteSpace(parent) && string.IsNullOrWhiteSpace(controller) && string.IsNullOrWhiteSpace(action))
+            {
+                return Json(settings, JsonRequestBehavior.AllowGet);
+            }
+
 
             var defaultItem = settings.Single(x => x.Parent == null);
             EndpointPermissonSetting item;
