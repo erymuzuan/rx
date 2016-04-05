@@ -162,9 +162,6 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [QueryRoute(\"{route}\")]");
-            var authorization = this.Performer.GenerateAuthorizationAttribute();
-            if (!string.IsNullOrWhiteSpace(authorization))
-                code.Append(authorization);
 
             var parameterlist = from r in this.RouteParameterCollection
                                 let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"

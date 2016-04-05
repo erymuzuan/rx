@@ -134,13 +134,7 @@ WriteLiteral(" href=\"#route-parameters-ev-panel\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
-WriteLiteral(">Parameters</a>\r\n            </li>\r\n            <li>\r\n                <a");
-
-WriteLiteral(" href=\"#performer-ev-panel\"");
-
-WriteLiteral(" data-toggle=\"tab\"");
-
-WriteLiteral(">Security</a>\r\n            </li>\r\n\r\n        </ul>\r\n        <div");
+WriteLiteral(">Parameters</a>\r\n            </li>\r\n\r\n        </ul>\r\n        <div");
 
 WriteLiteral(" class=\"tab-content\"");
 
@@ -157,7 +151,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 36 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
+            #line 33 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_general"));
 
             
@@ -174,7 +168,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 39 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
+            #line 36 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_filters"));
 
             
@@ -191,27 +185,8 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 42 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
+            #line 39 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_sorts"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n            </div>\r\n            <div");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(" id=\"performer-ev-panel\"");
-
-WriteLiteral(" data-bind=\"with : Performer\"");
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                ");
-
-            
-            #line 45 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
-           Write(Html.Partial("_performer"));
 
             
             #line default
@@ -227,7 +202,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 48 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
+            #line 42 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_parameters"));
 
             

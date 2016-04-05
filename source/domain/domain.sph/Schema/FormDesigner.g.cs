@@ -5627,23 +5627,6 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<PatchSetter> PatchPathCollection { get; } = new ObjectCollection<PatchSetter>();
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Performer m_performer
-                = new Performer();
-
-        public const string PropertyNamePerformer = "Performer";
-        [DebuggerHidden]
-
-        public Performer Performer
-        {
-            get { return m_performer; }
-            set
-            {
-                m_performer = value;
-                OnPropertyChanged();
-            }
-        }
-
         ///<summary>
         /// 
         ///</summary>
@@ -7914,23 +7897,6 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<Sort> SortCollection { get; } = new ObjectCollection<Sort>();
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Performer m_performer
-                = new Performer();
-
-        public const string PropertyNamePerformer = "Performer";
-        [DebuggerHidden]
-
-        public Performer Performer
-        {
-            get { return m_performer; }
-            set
-            {
-                m_performer = value;
-                OnPropertyChanged();
-            }
-        }
-
         ///<summary>
         /// 
         ///</summary>
@@ -8422,23 +8388,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameFilterExpression = "FilterExpression";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Performer m_performer
-                = new Performer();
-
-        public const string PropertyNamePerformer = "Performer";
-        [DebuggerHidden]
-
-        public Performer Performer
-        {
-            get { return m_performer; }
-            set
-            {
-                m_performer = value;
-                OnPropertyChanged();
-            }
-        }
-
         ///<summary>
         /// 
         ///</summary>
@@ -8507,23 +8456,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsAllowed = "IsAllowed";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Performer m_performer
-                = new Performer();
-
-        public const string PropertyNamePerformer = "Performer";
-        [DebuggerHidden]
-
-        public Performer Performer
-        {
-            get { return m_performer; }
-            set
-            {
-                m_performer = value;
-                OnPropertyChanged();
-            }
-        }
-
         ///<summary>
         /// 
         ///</summary>
@@ -8565,23 +8497,6 @@ namespace Bespoke.Sph.Domain
         private bool m_isAllowed;
         public const string PropertyNameIsAllowed = "IsAllowed";
 
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Performer m_performer
-                = new Performer();
-
-        public const string PropertyNamePerformer = "Performer";
-        [DebuggerHidden]
-
-        public Performer Performer
-        {
-            get { return m_performer; }
-            set
-            {
-                m_performer = value;
-                OnPropertyChanged();
-            }
-        }
 
         ///<summary>
         /// 

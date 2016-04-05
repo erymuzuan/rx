@@ -80,7 +80,6 @@ namespace Bespoke.Sph.Domain
                 {
                     CacheProfile = this.CacheProfile,
                     CacheFilter = this.CacheFilter,
-                    Performer = this.Performer
                 };
             }
             cacheManager.Insert(key, setting, source);

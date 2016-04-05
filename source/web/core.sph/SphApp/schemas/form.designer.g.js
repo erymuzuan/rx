@@ -1450,7 +1450,6 @@ bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
         Rules: ko.observableArray([]),
         SetterActionChildCollection: ko.observableArray([]),
         PatchPathCollection: ko.observableArray([]),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2000,7 +1999,6 @@ bespoke.sph.domain.QueryEndpoint = function (optionOrWebid) {
         Resource: ko.observable(""),
         FilterCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         RouteParameterCollection: ko.observableArray([]),
         MemberCollection: ko.observableArray([]),
         CacheFilter: ko.observable(),
@@ -2102,7 +2100,6 @@ bespoke.sph.domain.EntityResourceEndpoint = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
         IsAllowed: ko.observable(false),
         FilterExpression: ko.observable(""),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2133,7 +2130,6 @@ bespoke.sph.domain.FullSearchEndpoint = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.FullSearchEndpoint, domain.sph",
         IsAllowed: ko.observable(false),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2164,7 +2160,6 @@ bespoke.sph.domain.OdataEndpoint = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.OdataEndpoint, domain.sph",
         IsAllowed: ko.observable(false),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

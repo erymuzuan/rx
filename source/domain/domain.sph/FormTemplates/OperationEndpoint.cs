@@ -44,12 +44,7 @@ namespace Bespoke.Sph.Domain
             var post = new Method { Name = $"Post{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             post.AttributeCollection.Add("[HttpPost]");
             post.AttributeCollection.Add($"[PostRoute(\"{Route}\")]");
-
-            var authorize = this.Performer.GenerateAuthorizationAttribute();
-            if (!string.IsNullOrWhiteSpace(authorize))
-                post.AttributeCollection.Add(authorize);
-
-
+            
             var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
             edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
             post.ArgumentCollection.Add(edArg);
@@ -101,11 +96,6 @@ namespace Bespoke.Sph.Domain
             var patch = new Method { Name = $"Patch{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             patch.AttributeCollection.Add("[HttpPatch]");
             patch.AttributeCollection.Add($"[PatchRoute(\"{Route}\")]");
-
-            var authorize = this.Performer.GenerateAuthorizationAttribute();
-            if (!string.IsNullOrWhiteSpace(authorize))
-                patch.AttributeCollection.Add(authorize);
-
 
             var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
             edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
@@ -223,10 +213,6 @@ namespace Bespoke.Sph.Domain
             put.AttributeCollection.Add("[HttpPut]");
             put.AttributeCollection.Add($"[PutRoute(\"{route}\")]");
 
-            var authorize = this.Performer.GenerateAuthorizationAttribute();
-            if (!string.IsNullOrWhiteSpace(authorize))
-                put.AttributeCollection.Add(authorize);
-
             var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
             edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
             put.ArgumentCollection.Add(edArg);
@@ -305,10 +291,6 @@ namespace Bespoke.Sph.Domain
             delete.ArgumentCollection.Add(endpointArg);
 
             delete.ArgumentCollection.Add(new MethodArg { Name = "id", Type = typeof(string) });
-
-            var authorize = this.Performer.GenerateAuthorizationAttribute();
-            if (!string.IsNullOrWhiteSpace(authorize))
-                delete.AttributeCollection.Add(authorize);
 
 
             delete.AppendLine(

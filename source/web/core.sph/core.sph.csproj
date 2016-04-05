@@ -362,11 +362,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Areas\App\Views\QueryEndpointDesigner\_performer.generated.cs">
-      <DependentUpon>_performer.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Areas\App\Views\QueryEndpointDesigner\_sorts.generated.cs">
       <DependentUpon>_sorts.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -2005,10 +2000,6 @@
     <Content Include="Areas\App\Views\QueryEndpointDesigner\_parameters.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_parameters.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\QueryEndpointDesigner\_performer.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_performer.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\App\Views\QueryEndpointDesigner\_sorts.cshtml">
       <Generator>RazorGenerator</Generator>

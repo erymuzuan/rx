@@ -723,7 +723,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="Performer"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="optional"/>
@@ -948,7 +947,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="Performer"/>
 				<xs:element name="RouteParameterCollection">
 					<xs:complexType>
 						<xs:sequence>
@@ -998,26 +996,17 @@
 	</xs:element>
 	<xs:element name="EntityResourceEndpoint">
 		<xs:complexType>
-			<xs:all>
-				<xs:element ref="Performer"/>
-			</xs:all>
 			<xs:attribute name="IsAllowed" type="xs:boolean" use="required"/>
 			<xs:attribute name="FilterExpression" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FullSearchEndpoint">
 		<xs:complexType>
-			<xs:all>
-				<xs:element ref="Performer"/>
-			</xs:all>
 			<xs:attribute name="IsAllowed" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="OdataEndpoint">
 		<xs:complexType>
-			<xs:all>
-				<xs:element ref="Performer"/>
-			</xs:all>
 			<xs:attribute name="IsAllowed" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>

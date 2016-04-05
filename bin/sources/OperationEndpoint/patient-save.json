@@ -1,6 +1,5 @@
 {
   "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
-  "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
   "EntityPermissionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
     "$values": []
@@ -35,13 +34,6 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
     "$values": []
   },
-  "Performer": {
-    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": "",
-    "Value": "",
-    "IsPublic": true,
-    "WebId": null
-  },
   "Name": "Save",
   "Route": "",
   "IsHttpPut": false,
@@ -57,6 +49,6 @@
   "Id": "patient-save",
   "CreatedDate": "2016-02-25T10:18:20.7808439+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-26T12:46:24.8994802+08:00",
+  "ChangedDate": "2016-04-05T19:19:59.31194+08:00",
   "WebId": "4a47b57e-1007-4f44-f106-3e016b78cb69"
 }
