@@ -5,13 +5,14 @@
 <div class="row">
     <form class="form-inline" data-bind="with : query">
         <div class="form-group">
-            <select class="form-control" id="wd-option" data-bind="value: workflowDefinitionId, options: $root.wdOptions,optionsText:'Name', optionsValue: 'WorkflowDefinitionId'"></select>
+            <select class="form-control" id="wd-option" data-bind="value: workflowDefinitionId, options: $root.wdOptions,optionsText:'Name', optionsValue: 'Id'"></select>
         </div>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Created date time from" data-bind="kendoDateTime:createdDateFrom" />
         </div>
-        <div class="form-group"><input type="text" class="form-control" placeholder="Created date time to" data-bind="kendoDateTime:createdDateEnd" />
-</div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Created date time to" data-bind="kendoDateTime:createdDateEnd" />
+        </div>
         <div class="form-group">
             <select class="form-control" data-bind="value:$root.state">
                 <option>[Select state]</option>
@@ -44,24 +45,24 @@
             <td>
                 <label>
                     <input type="checkbox" data-bind="checkedItems: $root.selectedItems" />
-                    <!-- ko text : WorkflowId -->
+                    <!-- ko text : Id -->
                     <!-- /ko -->
                 </label>
             </td>
             <td>
-                    <i class="fa fa-gears"></i>
-                    <span data-bind="date:{value: CreatedDate, format:'DD/MM/YYYY HH:mm'}"></span>
-             
+                <i class="fa fa-gears"></i>
+                <span data-bind="date:{value: CreatedDate, format:'DD/MM/YYYY HH:mm'}"></span>
+
             </td>
             <td data-bind="date:{value: ChangedDate, format:'DD/MM/YYYY HH:mm'}"></td>
             <td data-bind="text:State"></td>
             <td data-bind="text:CreatedBy"></td>
             <td data-bind="text:ChangedBy"></td>
             <td>
-                <a href="/#" data-bind="attr : {href:'#/workflow.activities/' + WorkflowId()}" title="Activity logs">
+                <a href="javascript:;" data-bind="click : $root.openLogs" title="Activity logs">
                     <i class="fa fa-clock-o fa-2x"></i>
                 </a>
-                <a href="/#" data-bind="attr : {href:'#/workflow.debugger/' + WorkflowDefinitionId()}" title="debug" >
+                <a href="/#" data-bind="attr : {href:'#/workflow.debugger/' + WorkflowDefinitionId()}" title="debug">
                     <i class="fa fa-bug fa-2x"></i>
                 </a>
             </td>

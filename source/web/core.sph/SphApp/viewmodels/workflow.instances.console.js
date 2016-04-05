@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -10,18 +10,28 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.app],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
     function (context, logger, router, app) {
 
         var isBusy = ko.observable(false),
+            query = {
+                state: ko.observable(),
+                workflowDefinitionId: ko.observable(),
+                createdDateFrom: ko.observable(moment().startOf("week").format("DD/MM/YYYY HH:mm")),
+                createdDateEnd: ko.observable()
+
+            },
+            wdOptions = ko.observableArray(),
+            results = ko.observableArray(),
+            selectedItems = ko.observableArray(),
             activate = function () {
-                var query = "Id ne '0'",
+                var q = "Id ne '0'",
                     tcs = new $.Deferred();
 
-                context.loadAsync("WorkflowDefinition", query)
+                context.loadAsync("WorkflowDefinition", q)
                     .then(function (lo) {
                         isBusy(false);
-                        vm.wdOptions(lo.itemCollection);
+                        wdOptions(lo.itemCollection);
                         tcs.resolve(true);
                     });
                 return tcs.promise();
@@ -32,7 +42,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
             }, search = function () {
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(vm.query);
+                var data = ko.mapping.toJSON(query);
                 isBusy(true);
 
                 context.post(data, "/WorkflowMonitor/Search")
@@ -41,16 +51,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         var items = _(result.$values).map(function (v) {
                             return context.toObservable(v, /Bespoke\.Sph\.Workflows.*\.(.*?),/);
                         });
-                        vm.results(items);
+                        results(items);
                         tcs.resolve(items);
-                        vm.selectedItems.removeAll();
+                        selectedItems.removeAll();
                     });
                 return tcs.promise();
             },
             terminateItems = function () {
 
                 var tcs = new $.Deferred(),
-                    instancesId = _(vm.selectedItems()).map(function (v) {
+                    instancesId = _(selectedItems()).map(function (v) {
                         return v.Id();
                     }), terminate = function () {
 
@@ -61,16 +71,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                             .then(function (result) {
                                 isBusy(false);
                                 tcs.resolve(result);
-                                logger.info('Your instances has been succesfully terminated');
-                                
+                                logger.info("Your instances has been succesfully terminated");
+
                                 // refresh
                                 search();
                             });
 
                     };
-                app.showMessage('Are you sure you want terminate these running instances', 'SPH - Workflow', ['Yes', 'No'])
+                app.showMessage("Are you sure you want terminate these running instances", "SPH - Workflow", ["Yes", "No"])
                     .done(function (dr) {
-                        if (dr === 'Yes') {
+                        if (dr === "Yes") {
                             terminate();
                         } else {
                             tcs.resolve(false);
@@ -78,23 +88,31 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     });
 
                 return tcs.promise();
-            };
+            },
+        openLogs = function (wf) {
+            require(["viewmodels/workflow.activities", "durandal/app"], function (dialog, app2) {
+                dialog.id(ko.unwrap(wf.Id));
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+
+
+                        }
+                    });
+            });
+        };
 
         var vm = {
             isBusy: isBusy,
-            query: {
-                state: ko.observable(),
-                workflowDefinitionId: ko.observable(),
-                createdDateFrom: ko.observable(moment().startOf('week').format('DD/MM/YYYY HH:mm')),
-                createdDateEnd: ko.observable()
-
-            },
+            openLogs: openLogs,
+            query: query,
             search: search,
             activate: activate,
             attached: attached,
-            wdOptions: ko.observableArray(),
-            selectedItems: ko.observableArray(),
-            results: ko.observableArray(),
+            wdOptions: wdOptions,
+            selectedItems: selectedItems,
+            results: results,
             terminateItems: terminateItems
         };
 
