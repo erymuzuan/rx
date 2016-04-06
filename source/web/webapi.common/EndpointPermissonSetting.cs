@@ -49,8 +49,13 @@ namespace Bespoke.Sph.WebApi
             if (this.Claims == null) return Task.FromResult(true);
             if (this.Claims.Length == 0) return Task.FromResult(true);
 
-            var claims = this.Claims.Select(x => x.ToClaim()).ToArray();
-            if (claims.Any(clm => subject.HasClaim(x => x.Type == clm.Type && x.Value == clm.Value)))
+            var deniedClaims = this.Claims.Where(x => x.Permission == "d" || x.Permission == "id").Select(x => x.ToClaim()).ToArray();
+            if (deniedClaims.Any(clm => subject.HasClaim(x => x.Type == clm.Type && x.Value == clm.Value)))
+            {
+                return Task.FromResult(false);
+            }
+            var allowedClaims = this.Claims.Where(x => x.Permission == "a" || x.Permission == "ia").Select(x => x.ToClaim()).ToArray();
+            if (allowedClaims.Any(clm => subject.HasClaim(x => x.Type == clm.Type && x.Value == clm.Value)))
             {
                 return Task.FromResult(true);
             }
@@ -59,7 +64,7 @@ namespace Bespoke.Sph.WebApi
             return Task.FromResult(false);
         }
 
-        public void AddInheritedClaims(List<EndpointPermissonSetting> settings)
+        public void AddInheritedClaims(params EndpointPermissonSetting[] settings)
         {
             var list = new List<ClaimSetting>();
             var defaultClaims = settings.Single(x => string.IsNullOrWhiteSpace(x.Parent)
@@ -93,31 +98,24 @@ namespace Bespoke.Sph.WebApi
         public bool HasAction => !string.IsNullOrWhiteSpace(this.Action);
         public bool HasController => !string.IsNullOrWhiteSpace(this.Controller);
 
-    }
-
-    public class ClaimSetting
-    {
-        public ClaimSetting()
+        public void OverrideClaims(params ClaimSetting[] claims)
         {
+            var list = new List<ClaimSetting>();
+            foreach (var c in claims)
+            {
+                var cs = c;
+                var item = list.SingleOrDefault(x => x.Value == cs.Value && x.Type == cs.Type);
+                if (null != item)
+                {
+                    item.Permission = cs.Permission;
+                }
+                else
+                {
+                    list.Add(cs);
+                }
+            }
+            this.Claims = list.ToArray();
 
         }
-
-        public ClaimSetting(Claim claim)
-        {
-            this.Type = claim.Type;
-            this.ValueType = claim.ValueType;
-            this.Value = claim.Value;
-        }
-        public string Type { get; set; }
-        public string Value { get; set; }
-        public string Permission { get; set; }
-
-        public Claim ToClaim()
-        {
-            return new Claim(this.Type, this.Value, this.ValueType);
-        }
-
-        public string ValueType { get; set; }
-        public bool IsInherited { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -141,13 +140,12 @@ namespace Bespoke.Sph.Web.Controllers
                 action = this.Request.QueryString["action"];
 
             var cache = ObjectBuilder.GetObject<ICacheManager>();
-            var settings = cache.Get<List<EndpointPermissonSetting>>("endpoint-permissions");
+            var settings = cache.Get<EndpointPermissonSetting[]>(Constants.ENDPOINT_PERMISSIONS_CACHE_KEY);
             if (null == settings)
             {
                 var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
-                settings = (await repos.LoadAsync()).ToList();
-                var source = $"{ConfigurationManager.SphSourceDirectory}\\EndpointPermissionSetting\\default.json";
-                cache.Insert("endpoint-permissions", TimeSpan.FromSeconds(300), source);
+                settings = (await repos.LoadAsync()).ToArray();
+                cache.Insert(Constants.ENDPOINT_PERMISSIONS_CACHE_KEY, settings, TimeSpan.FromSeconds(300), Constants.PermissionsSettingsSource);
 
             }
             if (string.IsNullOrWhiteSpace(parent) && string.IsNullOrWhiteSpace(controller) && string.IsNullOrWhiteSpace(action))

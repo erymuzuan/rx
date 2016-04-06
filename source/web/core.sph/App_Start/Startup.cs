@@ -24,7 +24,6 @@ namespace Bespoke.Sph.Web.App_Start
         //}
         public void Configuration(IAppBuilder app)
         {
-            ObjectBuilder.AddCacheList<IEndpointPermissionRepository>(new EndpointPermissionRepository());
             app.RegisterCustomEntityDependencies()
                 .UseCoreResource(true)
                 .MapSignalRConnection();
