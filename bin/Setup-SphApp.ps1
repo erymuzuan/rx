@@ -206,6 +206,15 @@ if((Test-Path("C:\temp\sphEmail")) -eq $false)
     mkdir "C:\temp\sphEmail"
 }
 
+# endpoint-permissions
+if((Test-Path(".\sources\EndpointPermissionSetting")) -eq $false)
+{
+    mkdir ".\sources\EndpointPermissionSetting"
+    copy  ".\database\EndpointPermissionSetting\default.json" ".\sources\EndpointPermissionSetting\"   
+}
+
+
+
 
 #asp.net memberships
 Write-Debug "Executing Aspnet membership provider"

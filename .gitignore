@@ -172,3 +172,9 @@ source/web/web.sph/Properties/PublishProfiles/bin.pubxml
 source/web/web.sph/Properties/PublishProfiles/web.pubxml
 source/web/core.sph/Scripts/__rx.min.js.map
 /bin/utils/LINQPad.exe.config
+/bin/sources/WorkflowDefinition/paralleljoinnotify.json
+bin/sources/BinaryStores/081d3fea-c1ca-42e1-9bb8-0f8a127be966.json
+bin/sources/BinaryStores/081d3fea-c1ca-42e1-9bb8-0f8a127be966/
+bin/sources/BinaryStores/wd.paralleljoinnotify.1.json
+bin/sources/BinaryStores/wd.paralleljoinnotify.1/wd.paralleljoinnotify.1.json
+bin/.vscode/
