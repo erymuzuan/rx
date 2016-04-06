@@ -70,7 +70,6 @@ namespace Bespoke.Sph.Domain
                 throw new ArgumentNullException(nameof(ed), "Ed cannot be null");
             m_ed = ed;
 
-            var className = this.Name.ToPascalCase();
             var controller = new Class
             {
                 Name = TypeName,
@@ -89,7 +88,7 @@ namespace Bespoke.Sph.Domain
             controller.AddProperty($"public static readonly string SOURCE_FILE = $\"{{ConfigurationManager.SphSourceDirectory}}\\\\{nameof(QueryEndpoint)}\\\\{Id}.json\";");
             controller.AddProperty($"public const string CACHE_KEY = \"entity-query:{Id}\";");
             controller.AddProperty($"public const string ES_QUERY_CACHE_KEY = \"entity-query:es-query:{Id}\";");
-            controller.CtorCollection.Add($"public {className}Controller() {{ this.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
+            controller.CtorCollection.Add($"public {TypeName}() {{ this.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
 
             controller.MethodCollection.Add(GenerateGetAction());
             controller.MethodCollection.Add(GenerateCountAction());

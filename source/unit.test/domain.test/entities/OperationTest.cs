@@ -148,12 +148,7 @@ namespace domain.test.entities
                 Entity = "Patient" + name,
                 IsHttpPost = true,
                 WebId = "abc",
-                Id = "patient-register",
-                Performer = new Performer
-                {
-                    UserProperty = "Roles",
-                    Value = roles
-                }
+                Id = "patient-register"
             };
             endpoint.AddRules("VerifyRegisteredDate");
 

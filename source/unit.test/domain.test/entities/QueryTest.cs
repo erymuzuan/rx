@@ -91,7 +91,7 @@ namespace domain.test.entities
 
             Assert.True(result.Result, result.ToString());
 
-            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
+            var output = $"{query.AssemblyName}".Replace(".dll","");
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
@@ -100,12 +100,12 @@ namespace domain.test.entities
         }
 
         [Theory]
-        [InlineData("Anonymous query", null, null)]
-        [InlineData("Everybody", "Everybody", null)]
-        [InlineData("Designation U32", "Designation", "U32,U54")]
-        [InlineData("Roles Nurse", "Roles", "Nurse")]
-        [InlineData("UserName Ali", "UserName", "Ali")]
-        public async Task CompileWithPerformer(string name, string performer = null, string performerValues = null)
+        [InlineData("AnonymousQuery")]
+        [InlineData("Everybody")]
+        [InlineData("DesignationU32")]
+        [InlineData("RolesNurse")]
+        [InlineData("UserNameAli")]
+        public async Task CompileWithPerformer(string name)
         {
             var query = new QueryEndpoint
             {
@@ -115,21 +115,12 @@ namespace domain.test.entities
                 Entity = "Patient",
                 WebId = Guid.NewGuid().ToString()
             };
-            if (!string.IsNullOrWhiteSpace(performer))
-            {
-                query.Performer.UserProperty = performer;
-                query.Performer.Value = performerValues;
-            }
-            else
-            {
-                query.Performer.IsPublic = true;
-            }
             var ed = GetFromEmbeddedResource<EntityDefinition>("Patient");
             var result = await query.CompileAsync(ed);
 
             Assert.True(result.Result, result.ToString());
 
-            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
+            var output = $"{query.AssemblyName}".Replace(".dll","");
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
@@ -234,7 +225,7 @@ namespace domain.test.entities
             Assert.True(result.Result, result.ToString());
 
 
-            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
+            var output = $"{query.AssemblyName}".Replace(".dll", "");
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
@@ -280,7 +271,7 @@ namespace domain.test.entities
             Assert.True(result.Result, result.ToString());
 
 
-            var output = $"{ConfigurationManager.ApplicationName}.{nameof(QueryEndpoint)}.{query.Id}";
+            var output = $"{query.AssemblyName}".Replace(".dll", "");
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
