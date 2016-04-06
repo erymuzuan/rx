@@ -166,7 +166,7 @@ namespace domain.test.entities
             {
                 var dll = Assembly.LoadFrom(result.Output);
 
-                var controllerType = dll.GetType($"{endpoint.CodeNamespace}.{endpoint.Name}Controller");
+                var controllerType = dll.GetType($"{endpoint.CodeNamespace}.{endpoint.TypeName}");
                 var action = controllerType.GetMethod("Post" + name);
                 var controller = Activator.CreateInstance(controllerType);
                 var bs = controller as BaseApiController;
@@ -218,7 +218,7 @@ namespace domain.test.entities
 
 
             var dll = Assembly.LoadFrom(cr.Output);
-            var controllerType = dll.GetType($"{release.CodeNamespace}.{release.Name}Controller");
+            var controllerType = dll.GetType($"{release.CodeNamespace}.{release.TypeName}");
             Assert.NotNull(controllerType);
 
             var releaseActionMethodInfo = controllerType.GetMethod("PatchRelease");
@@ -242,7 +242,7 @@ namespace domain.test.entities
             Assert.True(cr.Result, cr.ToString());
 
             var dll = Assembly.LoadFrom(cr.Output);
-            var controllerType = dll.GetType($"{admit.CodeNamespace}.{admit.Name}Controller");
+            var controllerType = dll.GetType($"{admit.CodeNamespace}.{admit.TypeName}");
             Assert.NotNull(controllerType);
 
             var releaseActionMethodInfo = controllerType.GetMethod($"Put{admit.Name}");
@@ -296,7 +296,7 @@ namespace domain.test.entities
             Assert.True(cr.Result, cr.ToString());
 
             var dll = Assembly.LoadFrom(cr.Output);
-            var controllerType = dll.GetType($"{admit.CodeNamespace}.{admit.Name}Controller");
+            var controllerType = dll.GetType($"{admit.CodeNamespace}.{admit.TypeName}");
             Assert.NotNull(controllerType);
 
             var releaseActionMethodInfo = controllerType.GetMethod($"Put{admit.Name}");
@@ -321,7 +321,7 @@ namespace domain.test.entities
 
 
             var dll = Assembly.LoadFrom(cr.Output);
-            var controllerType = dll.GetType($"{delete.CodeNamespace}.{delete.Name}Controller");
+            var controllerType = dll.GetType($"{delete.CodeNamespace}.{delete.TypeName}");
             Assert.NotNull(controllerType);
 
             var remove = controllerType.GetMethod($"Delete{delete.Name}");
@@ -360,7 +360,7 @@ namespace domain.test.entities
 
             var dll = Assembly.LoadFrom(cr.Output);
 
-            var controllerType = dll.GetType($"{delete.CodeNamespace}.{delete.Name}Controller");
+            var controllerType = dll.GetType($"{delete.CodeNamespace}.{delete.TypeName}");
             Assert.NotNull(controllerType);
 
             var remove = controllerType.GetMethod($"Delete{delete.Name}");
@@ -428,7 +428,7 @@ namespace domain.test.entities
             var repos = AddMockRespository(patientType);
             repos.AddToDictionary(patient.Id, patient);
 
-            var controllerType = oedll.GetType($"{mortuary.CodeNamespace}.{mortuary.Name}Controller");
+            var controllerType = oedll.GetType($"{mortuary.CodeNamespace}.{mortuary.TypeName}");
             dynamic controller = Activator.CreateInstance(controllerType);
 
             var result = await controller.PatchSendToMortuary(
@@ -491,7 +491,7 @@ namespace domain.test.entities
             var repos = AddMockRespository(patientType);
             repos.AddToDictionary(patient.Id, patient);
 
-            var controllerType = oedll.GetType($"{release.CodeNamespace}.{release.Name}Controller");
+            var controllerType = oedll.GetType($"{release.CodeNamespace}.{release.TypeName}");
             dynamic controller = Activator.CreateInstance(controllerType);
 
             var result = await controller.PatchRelease(
@@ -560,7 +560,7 @@ namespace domain.test.entities
             Assert.True(cr.Result, cr.ToString());
             var opDll = Assembly.LoadFrom(cr.Output);
 
-            var controller = opDll.CreateApiController(release.CodeNamespace + ".ReleaseController");
+            var controller = opDll.CreateApiController(release.CodeNamespace + "." + release.TypeName);
             var result = await controller.PatchRelease(
                 ed,
                 release,
