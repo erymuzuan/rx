@@ -6,14 +6,14 @@
     "Id": null,
     "Claims": [
       {
-        "Type": "Role",
+        "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
         "Value": "administrators",
         "Permission": "a",
         "ValueType": null,
         "IsInherited": false
       },
       {
-        "Type": "Role",
+        "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
         "Value": "developers",
         "Permission": "a",
         "ValueType": null,
@@ -32,7 +32,7 @@
     "Id": null,
     "Claims": [
       {
-        "Type": "Role",
+        "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
         "Value": "medicals",
         "Permission": "a",
         "ValueType": null,
@@ -70,7 +70,7 @@
     "Id": null,
     "Claims": [
       {
-        "Type": "Role",
+        "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
         "Value": "nurse",
         "Permission": "a",
         "ValueType": null,
@@ -89,7 +89,7 @@
     "Id": null,
     "Claims": [
       {
-        "Type": "Subject",
+        "Type": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
         "Value": "750418-03-5247",
         "Permission": "a",
         "ValueType": null,
@@ -108,7 +108,7 @@
     "Id": null,
     "Claims": [
       {
-        "Type": "Email",
+        "Type": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
         "Value": "erymuzuan@gmail.com",
         "Permission": "a",
         "ValueType": null,
@@ -127,7 +127,7 @@
     "Id": null,
     "Claims": [
       {
-        "Type": "Role",
+        "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
         "Value": "nurse",
         "Permission": "a",
         "ValueType": null,

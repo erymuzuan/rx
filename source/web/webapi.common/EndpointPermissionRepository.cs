@@ -9,22 +9,18 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.WebApi
 {
-    public static class Constants
-    {
-        public const string ENDPOINT_PERMISSIONS_CACHE_KEY = "endpoint-permissions";
-        public static string PermissionsSettingsSource = $"{ConfigurationManager.SphSourceDirectory}\\EndpointPermissionSetting\\default.json";
-        
-    }
     public class EndpointPermissionRepository : IEndpointPermissionRepository
     {
         private List<EndpointPermissonSetting> m_permissionTree;
 
-        public EndpointPermissionRepository()
-        {
-            this.BuildPermissionTree();
-        }
         public Task<EndpointPermissonSetting> FindSettingsAsync(string controller, string action)
         {
+            if (null == m_permissionTree)
+            {
+                var tree = this.BuildPermissionTree();
+                m_permissionTree = new List<EndpointPermissonSetting>(tree);
+            }
+
             var cache = ObjectBuilder.GetObject<ICacheManager>();
             var savedSettings = cache.Get<EndpointPermissonSetting[]>(Constants.ENDPOINT_PERMISSIONS_CACHE_KEY);
             if (null == savedSettings)
@@ -98,24 +94,24 @@ namespace Bespoke.Sph.WebApi
             return Task.FromResult(0);
         }
 
-        private void BuildPermissionTree()
+        private IEnumerable<EndpointPermissonSetting> BuildPermissionTree()
         {
-            m_permissionTree = new List<EndpointPermissonSetting>();
+            var list = new List<EndpointPermissonSetting>();
             var context = new SphDataContext();
             var eds = context.LoadFromSources<EntityDefinition>().ToArray();
             var searches = eds.Where(x => x.ServiceContract.FullSearchEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateSearch);
             var odata = eds.Where(x => x.ServiceContract.OdataEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateSearch);
             var getOneActions = eds.Where(x => x.ServiceContract.EntityResourceEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateSearch);
 
-            m_permissionTree.AddRange(searches);
-            m_permissionTree.AddRange(odata);
-            m_permissionTree.AddRange(getOneActions);
+            list.AddRange(searches);
+            list.AddRange(odata);
+            list.AddRange(getOneActions);
 
             var queries = context.LoadFromSources<QueryEndpoint>().ToArray();
             var getActions = queries.Select(EndpointPermissionFactory.CreateGetAction).ToList();
             var getCounts = queries.Select(EndpointPermissionFactory.CreateGetCount).ToList();
-            m_permissionTree.AddRange(getCounts);
-            m_permissionTree.AddRange(getActions);
+            list.AddRange(getCounts);
+            list.AddRange(getActions);
 
             var operations = context.LoadFromSources<OperationEndpoint>().ToArray();
             var put = operations.Where(x => x.IsHttpPut).Select(EndpointPermissionFactory.CreatePut);
@@ -123,10 +119,11 @@ namespace Bespoke.Sph.WebApi
             var post = operations.Where(x => x.IsHttpPost).Select(EndpointPermissionFactory.CreatePost);
             var patch = operations.Where(x => x.IsHttpPatch).Select(EndpointPermissionFactory.CreatePatch);
 
-            m_permissionTree.AddRange(put);
-            m_permissionTree.AddRange(delete);
-            m_permissionTree.AddRange(post);
-            m_permissionTree.AddRange(patch);
+            list.AddRange(put);
+            list.AddRange(delete);
+            list.AddRange(post);
+            list.AddRange(patch);
+            return list.Where(x => null != x);
 
 
         }

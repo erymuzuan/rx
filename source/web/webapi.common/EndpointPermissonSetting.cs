@@ -50,12 +50,12 @@ namespace Bespoke.Sph.WebApi
             if (this.Claims.Length == 0) return Task.FromResult(true);
 
             var deniedClaims = this.Claims.Where(x => x.Permission == "d" || x.Permission == "id").Select(x => x.ToClaim()).ToArray();
-            if (deniedClaims.Any(clm => subject.HasClaim(x => x.Type == clm.Type && x.Value == clm.Value)))
+            if (deniedClaims.Any(clm => subject.HasClaims2(x => x.Type == clm.Type && x.Value == clm.Value)))
             {
                 return Task.FromResult(false);
             }
             var allowedClaims = this.Claims.Where(x => x.Permission == "a" || x.Permission == "ia").Select(x => x.ToClaim()).ToArray();
-            if (allowedClaims.Any(clm => subject.HasClaim(x => x.Type == clm.Type && x.Value == clm.Value)))
+            if (allowedClaims.Any(clm => subject.HasClaims2(x => x.Type == clm.Type && x.Value == clm.Value)))
             {
                 return Task.FromResult(true);
             }

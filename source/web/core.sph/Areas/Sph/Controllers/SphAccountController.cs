@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
@@ -14,7 +17,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
         public async Task<ActionResult> Logoff()
         {
-            FormsAuthentication.SignOut();
+            HttpContext.GetOwinContext().Authentication.SignOut();
             try
             {
                 var logger = ObjectBuilder.GetObject<ILogger>();
@@ -63,22 +66,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             return View();
         }
-
-        [AllowAnonymous]
-        [HttpPost]
-        public JsonResult JsonLogin(LoginModel model, string returnUrl)
-        {
-            if (ModelState.IsValid)
-            {
-                if (Membership.ValidateUser(model.UserName, model.Password))
-                {
-                    return Json(new { success = true, redirect = returnUrl });
-                }
-                ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            }
-
-            return Json(true);
-        }
+        
 
 
         [AllowAnonymous]
@@ -91,12 +79,22 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var directory = ObjectBuilder.GetObject<IDirectoryService>();
                 if (await directory.AuthenticateAsync(model.UserName, model.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    var identity = new ClaimsIdentity(ConfigurationManager.ApplicationName + "Cookie");
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, model.UserName));
+                    var roles = Roles.GetRolesForUser(model.UserName).Select(x => new Claim(ClaimTypes.Role, x));
+                    identity.AddClaims(roles);
+
+
                     var context = new SphDataContext();
                     var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == model.UserName);
                     await logger.LogAsync(new LogEntry { Log = EventLog.Security });
                     if (null != profile)
                     {
+                        var claims = profile.GetClaims();
+                        identity.AddClaims(claims);
+
+                        HttpContext.GetOwinContext().Authentication.SignIn(identity);
+
                         if (!profile.HasChangedDefaultPassword)
                             return RedirectToAction("ChangePassword");
                         if (returnUrl == "/" ||
@@ -107,6 +105,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                             string.IsNullOrWhiteSpace(returnUrl))
                             return Redirect("/sph#" + profile.StartModule);
                     }
+                    HttpContext.GetOwinContext().Authentication.SignIn(identity);
                     if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
                     return RedirectToAction("Index", "Home", new { area = "Sph" });

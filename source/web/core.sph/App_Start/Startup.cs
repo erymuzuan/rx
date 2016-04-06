@@ -7,6 +7,7 @@ using System.Web.Http.ExceptionHandling;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.OwinMiddlewares;
 using Bespoke.Sph.WebApi;
+using Microsoft.Owin.Security.Cookies;
 using Newtonsoft.Json;
 using Thinktecture.IdentityModel.WebApi;
 
@@ -49,6 +50,12 @@ namespace Bespoke.Sph.Web.App_Start
             config.EnsureInitialized();
 
             app.UseResourceAuthorization(new CustomPolicyAuthorizationManager());
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = ConfigurationManager.ApplicationName + "Cookie",
+                LoginPath = new PathString("/sph/sphaccount/login")
+            });
 
             app.UseJwt()
                 .UseApiMetering()
