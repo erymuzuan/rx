@@ -15,7 +15,7 @@ namespace webapi.common.test
                 Claims = new[] { new ClaimSetting("email", "erymuzuan", "a") }
             };
 
-            eps.OverrideClaims(new ClaimSetting("email", "erymuzuan", "d"));
+            eps.AddParentClaims(new ClaimSetting("email", "erymuzuan", "d"));
             Assert.Equal(1, eps.Claims.Length);
             Assert.Equal("d", eps.Claims[0].Permission);
         }

@@ -27,7 +27,8 @@ namespace Bespoke.Sph.WebApi
             {
                 if (File.Exists(Constants.PermissionsSettingsSource))
                 {
-                    savedSettings = JsonConvert.DeserializeObject<EndpointPermissonSetting[]>(File.ReadAllText(Constants.PermissionsSettingsSource));
+                    var settings = new JsonSerializerSettings { ContractResolver = new ClaimSettingResolver() };
+                    savedSettings = JsonConvert.DeserializeObject<EndpointPermissonSetting[]>(File.ReadAllText(Constants.PermissionsSettingsSource), settings);
                     cache.Insert(Constants.ENDPOINT_PERMISSIONS_CACHE_KEY, savedSettings, TimeSpan.FromSeconds(300), Constants.PermissionsSettingsSource);
                 }
             }
@@ -39,29 +40,29 @@ namespace Bespoke.Sph.WebApi
             var permission = new EndpointPermissonSetting { Controller = controller, Action = action, Claims = root.Claims };
             if (!string.IsNullOrWhiteSpace(parentName))
             {
-                // get the parent claims settings
-                var parentPermission = savedSettings.SingleOrDefault(x => x.Parent == parentName && !x.HasController && !x.HasAction);
-                if (null != parentPermission)
-                {
-                    permission.OverrideClaims(parentPermission.Claims);
-                }
-
-                // get the controller
-                var controllerPermission = savedSettings.SingleOrDefault(
-                        x => x.Parent == parentName && x.Controller == controller && !x.HasAction);
-                if (null != controllerPermission)
-                {
-                    permission.OverrideClaims(controllerPermission.Claims);
-                }
-
                 // get the action permission
                 var actionPermission =
                     savedSettings.SingleOrDefault(
                         x => x.Parent == parentName && x.Controller == controller && x.Action == action);
                 if (null != actionPermission)
                 {
-                    permission.OverrideClaims(actionPermission.Claims);
+                    permission.AddParentClaims(actionPermission.Claims);
                 }
+                // get the controller
+                var controllerPermission = savedSettings.SingleOrDefault(
+                        x => x.Parent == parentName && x.Controller == controller && !x.HasAction);
+                if (null != controllerPermission)
+                {
+                    permission.AddParentClaims(controllerPermission.Claims);
+                }
+                // get the parent claims settings
+                var parentPermission = savedSettings.SingleOrDefault(x => x.Parent == parentName && !x.HasController && !x.HasAction);
+                if (null != parentPermission)
+                {
+                    permission.AddParentClaims(parentPermission.Claims);
+                }
+
+
             }
             return Task.FromResult(permission);
         }
@@ -72,14 +73,15 @@ namespace Bespoke.Sph.WebApi
             {
                 Claims = new[]
                 {
-                    new ClaimSetting(new Claim(ClaimTypes.Role, "administators")) {Permission = "a"},
-                    new ClaimSetting(new Claim(ClaimTypes.Role, "developers")) {Permission = "a"},
+                    new ClaimSetting(new Claim(ClaimTypes.Role, "administators", "a")) ,
+                    new ClaimSetting(new Claim(ClaimTypes.Role, "developers"), "a"),
                 }
             } };
 
             if (File.Exists(Constants.PermissionsSettingsSource))
             {
-                var settings = JsonConvert.DeserializeObject<EndpointPermissonSetting[]>(File.ReadAllText(Constants.PermissionsSettingsSource));
+                var jst = new JsonSerializerSettings { ContractResolver = new ClaimSettingResolver() };
+                var settings = JsonConvert.DeserializeObject<EndpointPermissonSetting[]>(File.ReadAllText(Constants.PermissionsSettingsSource), jst);
                 list.Clear();
                 list.AddRange(settings);
             }

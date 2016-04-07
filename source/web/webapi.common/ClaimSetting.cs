@@ -17,22 +17,50 @@ namespace Bespoke.Sph.WebApi
             this.Permission = permission;
         }
 
-        public ClaimSetting(Claim claim)
+        public ClaimSetting(string type, string value, string permission, bool inherited)
+        {
+            this.Type = type;
+            this.Value = value;
+            this.Permission = permission;
+            this.IsInherited = inherited;
+        }
+
+        public ClaimSetting Clone(bool inherit = false)
+        {
+            var appendInherit = inherit && !this.Permission.StartsWith("i") ? "i" : "";
+            return new ClaimSetting(this.Type, this.Value, appendInherit + this.Permission, inherit);
+        }
+
+        public ClaimSetting(Claim claim, string permission = "d")
         {
             this.Type = claim.Type;
             this.ValueType = claim.ValueType;
             this.Value = claim.Value;
+            this.Permission = permission;
         }
-        public string Type { get; set; }
-        public string Value { get; set; }
-        public string Permission { get; set; }
+        // private setter used by JSON.Net
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
+        public string Type { get; private set; }
+        public string Value { get; private set; }
+        public string Permission { get; private set; }
+        public string ValueType { get; private set; }
+        public bool IsInherited { get; private set; }
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Local
 
         public Claim ToClaim()
         {
             return new Claim(this.Type, this.Value, this.ValueType);
         }
 
-        public string ValueType { get; set; }
-        public bool IsInherited { get; set; }
+
+        /// <summary>
+        /// match the same claim type and value
+        /// </summary>
+        /// <param name="cs"></param>
+        /// <returns></returns>
+        public bool Match(ClaimSetting cs)
+        {
+            return this.Type == cs.Type && this.Value == cs.Value;
+        }
     }
 }

@@ -139,15 +139,9 @@ namespace Bespoke.Sph.Web.Controllers
                 controller = this.Request.QueryString["controller"],
                 action = this.Request.QueryString["action"];
 
-            var cache = ObjectBuilder.GetObject<ICacheManager>();
-            var settings = cache.Get<EndpointPermissonSetting[]>(Constants.ENDPOINT_PERMISSIONS_CACHE_KEY);
-            if (null == settings)
-            {
-                var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
-                settings = (await repos.LoadAsync()).ToArray();
-                cache.Insert(Constants.ENDPOINT_PERMISSIONS_CACHE_KEY, settings, TimeSpan.FromSeconds(300), Constants.PermissionsSettingsSource);
+            var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
+            var settings = (await repos.LoadAsync()).ToArray();
 
-            }
             if (string.IsNullOrWhiteSpace(parent) && string.IsNullOrWhiteSpace(controller) && string.IsNullOrWhiteSpace(action))
             {
                 return Json(settings, JsonRequestBehavior.AllowGet);
@@ -208,12 +202,15 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("endpoint-permissions")]
-        public async Task<ActionResult> SaveEndpointPermissionSettingsAsync(EndpointPermissonSetting permisson)
+        public async Task<ActionResult> SaveEndpointPermissionSettingsAsync()
         {
+            var json = this.GetRequestBody();
+            var permisson = EndpointPermissonSetting.Parse(json);
+
             var repos = ObjectBuilder.GetObject<IEndpointPermissionRepository>();
             var settings = (await repos.LoadAsync()).ToList();
             var claims = permisson.Claims.ToList();
-            claims.RemoveAll(x => x.Permission.StartsWith("i"));
+            claims.RemoveAll(x => x?.Permission?.StartsWith("i") ?? false);
             permisson.Claims = claims.ToArray();
 
             settings.RemoveAll(

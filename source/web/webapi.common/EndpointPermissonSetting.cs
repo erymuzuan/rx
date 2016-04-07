@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.WebApi
 {
@@ -37,11 +38,8 @@ namespace Bespoke.Sph.WebApi
             {
                 this.Claims = Array.Empty<ClaimSetting>();
             }
-            foreach (var c in this.Claims)
-            {
-                c.Permission = "i" + c.Permission;
-                c.IsInherited = true;
-            }
+            var inheritedClaims = this.Claims.Select(x => x.Clone(true));
+            this.Claims = inheritedClaims.ToArray();
         }
 
         public Task<bool> CheckAccessAsync(ClaimsPrincipal subject)
@@ -49,12 +47,12 @@ namespace Bespoke.Sph.WebApi
             if (this.Claims == null) return Task.FromResult(true);
             if (this.Claims.Length == 0) return Task.FromResult(true);
 
-            var deniedClaims = this.Claims.Where(x => x.Permission == "d" || x.Permission == "id").Select(x => x.ToClaim()).ToArray();
+            var deniedClaims = this.Claims.Where(x => x?.Permission?.EndsWith("d") ?? false).Select(x => x.ToClaim()).ToArray();
             if (deniedClaims.Any(clm => subject.HasClaims2(x => x.Type == clm.Type && x.Value == clm.Value)))
             {
                 return Task.FromResult(false);
             }
-            var allowedClaims = this.Claims.Where(x => x.Permission == "a" || x.Permission == "ia").Select(x => x.ToClaim()).ToArray();
+            var allowedClaims = this.Claims.Where(x => x?.Permission?.EndsWith("a") ?? false).Select(x => x.ToClaim()).ToArray();
             if (allowedClaims.Any(clm => subject.HasClaims2(x => x.Type == clm.Type && x.Value == clm.Value)))
             {
                 return Task.FromResult(true);
@@ -66,31 +64,30 @@ namespace Bespoke.Sph.WebApi
 
         public void AddInheritedClaims(params EndpointPermissonSetting[] settings)
         {
-            var list = new List<ClaimSetting>();
+            var originalList = new List<ClaimSetting>();
             var defaultClaims = settings.Single(x => string.IsNullOrWhiteSpace(x.Parent)
                                                      && string.IsNullOrWhiteSpace(x.Controller)
                                                      && string.IsNullOrWhiteSpace(x.Action));
-            list.AddRange(defaultClaims.Claims ?? Array.Empty<ClaimSetting>());
+            originalList.AddRange(defaultClaims.Claims ?? Array.Empty<ClaimSetting>());
 
             if (this.HasAction && this.HasController && this.HasParent)
             {
                 var controller = settings.SingleOrDefault(
                         x => !x.HasAction && x.Controller == this.Controller && x.Parent == this.Parent);
                 if (null != controller)
-                    list.AddRange(controller.Claims ?? Array.Empty<ClaimSetting>());
-
-
+                    originalList.AddRange(controller.Claims ?? Array.Empty<ClaimSetting>());
 
             }
             if (this.HasController && this.HasParent)
             {
                 var parent = settings.SingleOrDefault(x => !x.HasAction && !x.HasController && x.Parent == this.Parent);
                 if (null != parent)
-                    list.AddRange(parent.Claims ?? Array.Empty<ClaimSetting>());
+                    originalList.AddRange(parent.Claims ?? Array.Empty<ClaimSetting>());
             }
-            list.ForEach(x => x.IsInherited = true);
-            list.ForEach(x => x.Permission = "i" + x.Permission);
-            list.AddRange(this.Claims ?? Array.Empty<ClaimSetting>());
+
+            var list = originalList.Select(x => x.Clone(true)).ToList();
+            var temps = (this.Claims ?? Array.Empty<ClaimSetting>()).Where(x => !x.IsInherited);
+            list.AddRange(temps);
             this.Claims = list.ToArray();
         }
 
@@ -98,24 +95,30 @@ namespace Bespoke.Sph.WebApi
         public bool HasAction => !string.IsNullOrWhiteSpace(this.Action);
         public bool HasController => !string.IsNullOrWhiteSpace(this.Controller);
 
-        public void OverrideClaims(params ClaimSetting[] claims)
+        /// <summary>
+        /// Add parent claims to a specified resource
+        /// </summary>
+        /// <param name="claims"></param>
+        public void AddParentClaims(params ClaimSetting[] claims)
         {
             var list = new List<ClaimSetting>();
             foreach (var c in claims)
             {
                 var cs = c;
-                var item = list.SingleOrDefault(x => x.Value == cs.Value && x.Type == cs.Type);
-                if (null != item)
-                {
-                    item.Permission = cs.Permission;
-                }
-                else
+                var item = list.SingleOrDefault(x => x.Match(cs));
+                if (null == item)
                 {
                     list.Add(cs);
                 }
             }
             this.Claims = list.ToArray();
 
+        }
+
+        public static EndpointPermissonSetting Parse(string json)
+        {
+            var jst = new JsonSerializerSettings { ContractResolver = new ClaimSettingResolver() };
+            return JsonConvert.DeserializeObject<EndpointPermissonSetting>(json, jst);
         }
     }
 }

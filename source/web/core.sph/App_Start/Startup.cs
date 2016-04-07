@@ -25,6 +25,18 @@ namespace Bespoke.Sph.Web.App_Start
         //}
         public void Configuration(IAppBuilder app)
         {
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = ConfigurationManager.ApplicationName + "Cookie",
+                LoginPath = new PathString("/sph/sphaccount/login"),
+                CookieHttpOnly = true,
+                ExpireTimeSpan = TimeSpan.FromMinutes(30),
+                LogoutPath = new PathString("/sph/sphaccount/logoff"),
+                SlidingExpiration =  true,
+                ReturnUrlParameter = "returnUrl",
+                CookieName = $".{ConfigurationManager.ApplicationName}.Cookie"
+            });
+
             app.RegisterCustomEntityDependencies()
                 .UseCoreResource(true)
                 .MapSignalRConnection();
@@ -50,12 +62,6 @@ namespace Bespoke.Sph.Web.App_Start
             config.EnsureInitialized();
 
             app.UseResourceAuthorization(new CustomPolicyAuthorizationManager());
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationType = ConfigurationManager.ApplicationName + "Cookie",
-                LoginPath = new PathString("/sph/sphaccount/login")
-            });
 
             app.UseJwt()
                 .UseApiMetering()
