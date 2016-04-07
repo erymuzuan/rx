@@ -437,7 +437,7 @@
     "moduleId": "viewmodels/endpoints.permissions",
     "title": "Endpoints Permissions",
     "nav": true,
-    "icon": "icon-share",
+    "icon": "icon-lock",
     "caption": "Endpoints details",
     "settings": null,
     "isAdminPage": false,

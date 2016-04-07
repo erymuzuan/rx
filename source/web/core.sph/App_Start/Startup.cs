@@ -27,13 +27,14 @@ namespace Bespoke.Sph.Web.App_Start
         {
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
+                // TODO : these login/logout path should be set only for ASP.Net MVC view
+                //LoginPath = new PathString("/sph/sphaccount/login"),
+                //LogoutPath = new PathString("/sph/sphaccount/logoff"),
+                //ReturnUrlParameter = "returnUrl",
                 AuthenticationType = ConfigurationManager.ApplicationName + "Cookie",
-                LoginPath = new PathString("/sph/sphaccount/login"),
                 CookieHttpOnly = true,
                 ExpireTimeSpan = TimeSpan.FromMinutes(30),
-                LogoutPath = new PathString("/sph/sphaccount/logoff"),
                 SlidingExpiration =  true,
-                ReturnUrlParameter = "returnUrl",
                 CookieName = $".{ConfigurationManager.ApplicationName}.Cookie"
             });
 

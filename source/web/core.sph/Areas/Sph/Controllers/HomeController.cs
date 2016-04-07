@@ -6,12 +6,17 @@ using Bespoke.Sph.Web.ViewModels;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
-    [Authorize(Roles = "developers,administrators")]
     public class HomeController : Controller
     {
         [NoCache]
         public async Task<ActionResult> Index()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "SphAccount");
+
+            if (!User.IsInRole("administrators") || !User.IsInRole("developers"))
+                return RedirectToAction("Logoff", "SphAccount");
+
             var context = new SphDataContext();
             var profile = await context.LoadOneAsync<UserProfile>(ua => ua.UserName == User.Identity.Name);
             if (null == profile)
