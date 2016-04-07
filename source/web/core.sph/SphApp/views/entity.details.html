@@ -57,7 +57,7 @@
                     </div>
                     <div class="form-group">
                         <label class="checkbox" data-placement="left" data-bind="tooltip:'Creates database column, to allow API filter and Report filter, Views and search do not use this property'">
-                            <input data-bind="checked: IsFilterable, disable:ko.unwrap(AllowMultiple) || ko.unwrap(childOfValueMember)" id="member-filtered" type="checkbox" name="IsFilterable" />
+                            <input data-bind="checked: IsFilterable, disable:ko.unwrap(AllowMultiple) || ko.unwrap(childOfValueMember)|| !ko.unwrap(allowFilter)" id="member-filtered" type="checkbox" name="IsFilterable" />
                             Can be filtered
                         </label>
                     </div>

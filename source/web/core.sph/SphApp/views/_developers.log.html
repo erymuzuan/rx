@@ -161,14 +161,14 @@
                             <span data-bind="html:message" style="margin-left: 5px"></span>
                             <!--/ko-->
                             <!-- ko if: ko.unwrap(severity) === "Error"-->
-                            <a class="" href="#developers-log-panel" title="View Exception stack trace" data-bind="click : $root.viewStackTrace">
+                            <a class="" href="javascript:;" title="View Exception stack trace" data-bind="click : $root.viewStackTrace">
                                 <i class="fa fa-exclamation-circle" style="color: red"></i>
                                 <span data-bind="text:time" style="margin-left: 5px"></span>
                                 <span data-bind="html:message" style="margin-left: 5px"></span>
                             </a>
                             <!--/ko-->
                             <!-- ko if: ko.unwrap(severity) === "Critical"-->
-                            <a class="" href="#developers-log-panel" title="View Exception stack trace">
+                            <a class="" href="javascript:;">
                                 <i class="fa fa-exclamation-triangle" style="color: red"></i>
                                 <span data-bind="text:time" style="margin-left: 5px"></span>
                                 <span data-bind="html:message" style="margin-left: 5px"></span>

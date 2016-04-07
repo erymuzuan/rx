@@ -1,4 +1,5 @@
 ﻿/// <reference path="~/Scripts/underscore.js" />
+/// <reference path="~/Scripts/jstree.min.js" />
 /// <reference path="require.js" />
 /// <reference path="jquery-2.2.0.intellisense.js" />
 /// <reference path="complete.ly.1.0.1.js" />
@@ -77,11 +78,27 @@ ko.bindingHandlers.tree = {
                             if (typeof tag.childOfValueMember !== "function") {
                                 tag.childOfValueMember = ko.observable(true);
                             }
+                            if (typeof tag.allowFilter !== "function") {
+                                tag.allowFilter = ko.observable(true);
+                            }
 
                             var ref = $(element).jstree(true),
                                    parents = _(selected.node.parents).map(function (n) { return ref.get_node(n); }),
                                    valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
                             tag.childOfValueMember(valueMember || false);
+                            // we also need to disable for collection member
+                            if (!valueMember) {
+
+                                var cm = _(parents).find(function (n) {
+                                        var mb1 = n.data;
+                                     return n.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph" && ko.unwrap(mb1.AllowMultiple);
+                                });
+                                if (cm) {
+                                    tag.allowFilter(false);
+                                }
+                            }
+
+
                             if (!tag.childOfValueMember()) {
                                 ref.edit(selected.node);
                             }
