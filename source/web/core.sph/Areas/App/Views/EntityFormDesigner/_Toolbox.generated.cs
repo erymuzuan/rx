@@ -911,9 +911,9 @@ WriteLiteral(">DELETE Operation</label>\r\n                    <select");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"options :$root.operationsOption,\r\n                            options" +
-"Caption :\'[Select a DELETE operation]\',\r\n                            value: Dele" +
-"teOperation,\r\n                            enable: IsRemoveAvailable\"");
+WriteLiteral(" data-bind=\"options :$root.deleteOperationsOption,\r\n                            o" +
+"ptionsCaption :\'[Select a DELETE operation]\',\r\n                            value" +
+": DeleteOperation,\r\n                            enable: IsRemoveAvailable\"");
 
 WriteLiteral(" id=\"form-design-delete-operation\"");
 

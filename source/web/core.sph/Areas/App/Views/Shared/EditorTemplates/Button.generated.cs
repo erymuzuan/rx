@@ -81,14 +81,164 @@ WriteLiteral(">Operation</label>\r\n    <select");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"options :$root.entity().EntityOperationCollection, optionsText: \'Name" +
-"\', optionsValue : \'Name\', optionsCaption :\'[Use command]\',value: Operation\"");
+WriteLiteral(" data-bind=\"options :$root.operationsOption,\r\n                            options" +
+"Caption :\'[Use command]\',\r\n                            value: Operation\"");
 
 WriteLiteral(" id=\"form-design-operation\"");
 
+WriteLiteral(" name=\"FormDesign.Button.Operation\"");
+
+WriteLiteral("></select>\r\n</div>\r\n\r\n\r\n<!-- /ko -->\r\n<div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n    <label");
+
+WriteLiteral(" for=\"form-design-operation-method\"");
+
+WriteLiteral(">Method</label>\r\n    <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: OperationMethod,enable:Operation\"");
+
+WriteLiteral(" id=\"form-design-operation-method\"");
+
+WriteLiteral(" name=\"FormDesign.OperationMethod\"");
+
+WriteLiteral(">\r\n        <option");
+
+WriteLiteral(" value=\"\"");
+
+WriteLiteral(">[Please select]</option>\r\n        <option");
+
+WriteLiteral(" value=\"post\"");
+
+WriteLiteral(">POST</option>\r\n        <option");
+
+WriteLiteral(" value=\"put\"");
+
+WriteLiteral(">PUT</option>\r\n        <option");
+
+WriteLiteral(" value=\"patch\"");
+
+WriteLiteral(">PATCH</option>\r\n    </select>\r\n</div>\r\n<div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n    <label");
+
+WriteLiteral(" for=\"form-design-delete-operation\"");
+
+WriteLiteral(">DELETE Operation</label>\r\n    <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"options :$root.deleteOperationsOption,\r\n                            o" +
+"ptionsCaption :\'[Select a DELETE operation]\',\r\n                            value" +
+": DeleteOperation\"");
+
+WriteLiteral(" id=\"form-design-delete-operation\"");
+
 WriteLiteral(" name=\"FormDesign.Operation\"");
 
-WriteLiteral("></select>\r\n</div>\r\n\r\n<!-- /ko -->\r\n\r\n<div");
+WriteLiteral("></select>\r\n</div>\r\n<div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n    <label");
+
+WriteLiteral(" for=\"success-message\"");
+
+WriteLiteral(">Success Message</label>\r\n    <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: OperationSuccessMesage, enable:Operation\"");
+
+WriteLiteral("\r\n           placeholder=\"The message to alert user when the operation return suc" +
+"cess\"");
+
+WriteLiteral("\r\n           class=\"form-control\"");
+
+WriteLiteral(" id=\"success-message\"");
+
+WriteLiteral(">\r\n\r\n</div>\r\n<div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n    <label");
+
+WriteLiteral(" for=\"success-url\"");
+
+WriteLiteral(">Then navigate to</label>\r\n    <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: OperationSuccessNavigateUrl, enable:Operation\"");
+
+WriteLiteral("\r\n           placeholder=\"Once the alert is okayed then navigate to this url\"");
+
+WriteLiteral("\r\n           class=\"form-control\"");
+
+WriteLiteral(" id=\"success-url\"");
+
+WriteLiteral(">\r\n</div>\r\n<div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n    <label");
+
+WriteLiteral(" for=\"operation-success-callback\"");
+
+WriteLiteral(">Success Callback</label>\r\n    <textarea");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: OperationSuccessCallback, enable:Operation\"");
+
+WriteLiteral("\r\n              placeholder=\"Execute custom code once the operation successfuly i" +
+"nvoked\"");
+
+WriteLiteral("\r\n              id=\"operation-success-callback\"");
+
+WriteLiteral(" name=\"OperationSuccessCallback\"");
+
+WriteLiteral("></textarea>\r\n    <a");
+
+WriteLiteral(" href=\"#\"");
+
+WriteLiteral(" data-bind=\"click : editOperationSuccessCallback, disable:(ko.unwrap(OperationSuc" +
+"cessMesage) || ko.unwrap(OperationSuccessNavigateUrl))\"");
+
+WriteLiteral(">Edit</a>\r\n</div>\r\n<div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n    <label");
+
+WriteLiteral(" for=\"operation-failure-callback\"");
+
+WriteLiteral(">Failuire Callback</label>\r\n    <textarea");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: OperationFailureCallback, enable:Operation\"");
+
+WriteLiteral("\r\n              placeholder=\"Execute custom code once the operation failed to be " +
+"successfuly invoked\"");
+
+WriteLiteral("\r\n              id=\"operation-failure-callback\"");
+
+WriteLiteral(" name=\"OperationFailureCallback\"");
+
+WriteLiteral("></textarea>\r\n    <a");
+
+WriteLiteral(" href=\"#\"");
+
+WriteLiteral(" data-bind=\"click : editOperationFailureCallback\"");
+
+WriteLiteral(">Edit</a>\r\n</div>\r\n\r\n\r\n\r\n\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 

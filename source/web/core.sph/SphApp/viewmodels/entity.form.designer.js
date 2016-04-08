@@ -7,6 +7,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             warnings = ko.observableArray(),
             originalEntity = "",
             operationsOption = ko.observableArray(),
+            deleteOperationsOption = ko.observableArray(),
             layoutOptions = ko.observableArray(),
             collectionMemberOptions = ko.observableArray(),
             formElements = ko.observableArray(),
@@ -40,7 +41,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         entity(b);
 
 
-                        context.getListAsync("OperationEndpoint", "Entity eq '" + ko.unwrap(b.Name) + "'", "Name").done(operationsOption);
+                        context.getListAsync("OperationEndpoint", "IsHttpDelete eq false and Entity eq '" + ko.unwrap(b.Name) + "'", "Name").done(operationsOption);
+                        context.getListAsync("OperationEndpoint", "IsHttpDelete eq true and Entity eq '" + ko.unwrap(b.Name) + "'", "Name").done(deleteOperationsOption);
                         var collectionMembers = [],
                             findCollectionMembers = function (list) {
                                 _(list).each(function (v) { console.log(ko.unwrap(v.Name) + "->" + ko.unwrap(v.TypeName)); });
@@ -518,6 +520,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             collectionMemberOptions: collectionMemberOptions,
             layoutOptions: layoutOptions,
             operationsOption: operationsOption,
+            deleteOperationsOption: deleteOperationsOption,
             attached: attached,
             activate: activate,
             canDeactivate: canDeactivate,

@@ -95,6 +95,40 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
 
         },
 
+        update = function() {
+
+            if (!validation.valid()) {
+                return Task.fromResult(false);
+            }
+
+            var data = ko.mapping.toJSON(entity),
+                tcs = new $.Deferred();
+
+            context.post(data, "/api/patients/update")
+                .fail(function(response) {
+                var result = response.responseJSON;
+                errors.removeAll();
+                _(result.rules).each(function(v) {
+                    errors(v.ValidationErrors);
+                });
+                logger.error("There are errors in your entity, !!!");
+                tcs.resolve(false);
+            })
+                .then(function(result) {
+                logger.info(result.message);
+                entity().Id(result.id);
+                errors.removeAll();
+                tcs.resolve(result);
+            });
+            return tcs.promise();
+        },
+        postUpdateCommand = function() {
+            return update()
+                .then(function(result) {
+                if (result.success) return app.showMessage("saved....", ["OK"]);
+                else return Task.fromResult(false);
+            });
+        },
         compositionComplete = function() {
             $("[data-i18n]").each(function(i, v) {
                 var $label = $(v),
@@ -123,6 +157,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         compositionComplete: compositionComplete,
         entity: entity,
         errors: errors,
+        postUpdateCommand :postUpdateCommand,
         toolbar: {
             saveCommand: saveCommand,
             canExecuteSaveCommand: ko.computed(function() {

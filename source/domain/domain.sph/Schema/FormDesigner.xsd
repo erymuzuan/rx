@@ -335,6 +335,14 @@
 					<xs:attribute name="CompleteText" type="xs:string" use="optional"/>
 					<xs:attribute name="IconClass" type="xs:string" use="optional"/>
 					<xs:attribute name="IsToolbarItem" type="xs:boolean" use="optional"/>
+					<xs:attribute name="DeleteOperationSuccessNavigateUrl" type="xs:string" use="required"/>
+					<xs:attribute name="DeleteOperationSuccessMesage" type="xs:string" use="required"/>
+					<xs:attribute name="DeleteOperation" type="xs:string" use="optional"/>
+					<xs:attribute name="OperationMethod" type="xs:string" use="required"/>
+					<xs:attribute name="OperationFailureCallback" type="xs:string" use="required"/>
+					<xs:attribute name="OperationSuccessCallback" type="xs:string" use="required"/>
+					<xs:attribute name="OperationSuccessNavigateUrl" type="xs:string" use="required"/>
+					<xs:attribute name="OperationSuccessMesage" type="xs:string" use="required"/>
 					<xs:attribute name="Operation" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>

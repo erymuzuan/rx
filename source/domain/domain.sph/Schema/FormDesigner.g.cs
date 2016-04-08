@@ -1912,6 +1912,126 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_DeleteOperationSuccessNavigateUrl;
+        public string DeleteOperationSuccessNavigateUrl
+        {
+            get
+            {
+                return m_DeleteOperationSuccessNavigateUrl;
+            }
+            set
+            {
+                m_DeleteOperationSuccessNavigateUrl = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_DeleteOperationSuccessMesage;
+        public string DeleteOperationSuccessMesage
+        {
+            get
+            {
+                return m_DeleteOperationSuccessMesage;
+            }
+            set
+            {
+                m_DeleteOperationSuccessMesage = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_DeleteOperation;
+        public string DeleteOperation
+        {
+            get
+            {
+                return m_DeleteOperation;
+            }
+            set
+            {
+                m_DeleteOperation = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_OperationMethod;
+        public string OperationMethod
+        {
+            get
+            {
+                return m_OperationMethod;
+            }
+            set
+            {
+                m_OperationMethod = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_OperationFailureCallback;
+        public string OperationFailureCallback
+        {
+            get
+            {
+                return m_OperationFailureCallback;
+            }
+            set
+            {
+                m_OperationFailureCallback = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_OperationSuccessCallback;
+        public string OperationSuccessCallback
+        {
+            get
+            {
+                return m_OperationSuccessCallback;
+            }
+            set
+            {
+                m_OperationSuccessCallback = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_OperationSuccessNavigateUrl;
+        public string OperationSuccessNavigateUrl
+        {
+            get
+            {
+                return m_OperationSuccessNavigateUrl;
+            }
+            set
+            {
+                m_OperationSuccessNavigateUrl = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_OperationSuccessMesage;
+        public string OperationSuccessMesage
+        {
+            get
+            {
+                return m_OperationSuccessMesage;
+            }
+            set
+            {
+                m_OperationSuccessMesage = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private string m_Operation;
         public string Operation
         {

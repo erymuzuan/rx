@@ -149,13 +149,39 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 }},");
             }
 
-            foreach (var btn in model.Form.FormDesign.FormElementCollection.OfType<Button>().Where(x => !string.IsNullOrWhiteSpace(x.CommandName)))
+            var commandButtons = model.Form.FormDesign.FormElementCollection.OfType<Button>()
+                .Where(x => !string.IsNullOrWhiteSpace(x.CommandName)).ToArray();
+            var operationButtons = model.Form.FormDesign.FormElementCollection.OfType<Button>()
+                .Where(x => x.Operation != form.Operation) // struck out form's operation
+                .Where(x => !string.IsNullOrWhiteSpace(x.Operation)).ToArray();
+            foreach (var btn in commandButtons)
             {
                 var function = btn.CommandName;
                 script.AppendLine($@"
                     {function} = function(){{
                         {btn.Command}
                 }},");
+            }
+
+            foreach (var btn in operationButtons)
+            {
+                var oe =context.LoadOneFromSources<OperationEndpoint>(x => x.Name == btn.Operation && x.Entity == ed.Name);
+                var apiCallScript = GenerateApiOperationCode(ed, oe, btn.OperationMethod);
+                script.Append(apiCallScript);
+                var operationScript = this.GetOperationScript(new EntityForm
+                {
+                    Operation = btn.Operation,
+                    DeleteOperationSuccessNavigateUrl = btn.DeleteOperationSuccessNavigateUrl,
+                    DeleteOperationSuccessMesage = btn.DeleteOperationSuccessMesage,
+                    DeleteOperation = btn.DeleteOperation,
+                    OperationMethod = btn.OperationMethod,
+                    OperationFailureCallback = btn.OperationFailureCallback,
+                    OperationSuccessCallback = btn.OperationSuccessCallback,
+                    OperationSuccessNavigateUrl = btn.DeleteOperationSuccessNavigateUrl,
+                    OperationSuccessMesage = btn.OperationSuccessMesage
+                }, $"{btn.OperationMethod}{btn.Operation}Command".ToCamelCase());
+                script.Append(operationScript);
+                script.Append(",");
             }
 
             script.Append(@"
@@ -195,8 +221,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                         errors: errors,");
             foreach (
                 var btn in
-                    model.Form.FormDesign.FormElementCollection.OfType<Button>()
-                        .Where(b => !string.IsNullOrWhiteSpace(b.CommandName)))
+                    commandButtons)
             {
                 script.AppendLine($"   {btn.CommandName} : {btn.CommandName},");
 
@@ -259,11 +284,11 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         }
 
-        private string GetOperationScript(EntityForm form)
+        private string GetOperationScript(EntityForm form, string functionName = "saveCommand")
         {
             var script = new StringBuilder();
             script.AppendLine($@"
-                saveCommand = function() {{
+                {functionName} = function() {{
                     return {form.Operation.ToCamelCase()}()");
             if (!string.IsNullOrWhiteSpace(form.OperationSuccessCallback))
             {
@@ -303,9 +328,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         private static string GenerateApiOperationCode(EntityDefinition ed, OperationEndpoint operation, string method)
         {
             var opFunc = operation.Name.ToCamelCase();
-            var route = operation.Route.StartsWith("~/") ? 
-                        operation.Route.Replace("~/", "/") : 
+            var route = operation.Route.StartsWith("~/") ?
+                        operation.Route.Replace("~/", "/") :
                         $"/api/{ed.Plural.ToLowerInvariant()}/{operation.Route}";
+            // TODO : replace {id} in route with ko.unwrap(entity().Id)
             return $@"
                 {opFunc} = function(){{
 

@@ -14,7 +14,7 @@
 <form class="form-horizontal" data-bind="with : entity" id="patient-details-form">
 <div class="form-group" data-bind="visible:true">
     <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="queryPaging :{ query: '/api/patients/' + ko.unwrap(Mrn) + '/appointments?start=2016-01-01&amp;end=2016-02-29', list: bespoke.getSingletonObservableArray('024ecd49-98e9-4096-bc26-d73e7caf36fe')}">
+    <table class="table table-condensed table-striped" data-bind="queryPaging :{ query: '/api/patients/' + ko.unwrap(Mrn) + '/appointments?start=2016-01-01&amp;end=2016-02-29', list: bespoke.getSingletonObservableArray('6ffd77c1-268e-4280-8905-dbf88bd840e5')}">
         <thead>
             <tr>
                     <th data-i18n="Doctor">Doctor</th>
@@ -23,7 +23,7 @@
                     <th data-i18n="Ward">Ward</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('024ecd49-98e9-4096-bc26-d73e7caf36fe')">
+        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('6ffd77c1-268e-4280-8905-dbf88bd840e5')">
             <tr>
                         <td data-bind="text:Doctor"></td>
                         <td data-bind="date:DateTime"></td>
@@ -65,6 +65,14 @@
         </div>
     </div>
     <div class="form-group" data-bind="visible:true">
+        <label data-i18n="Age" for="b957c5fe-7a6a-4ebc-8fd3-214078641322" class="col-md-4">Age</label>
+        <div class="col-md-8">
+            <input step="0" class="form-control input-large" data-bind="value: Age, visible :true, enable :true"
+                   id="b957c5fe-7a6a-4ebc-8fd3-214078641322" type="number" name="Age" />
+        </div>
+    </div>
+<button data-bind="command : $root.postUpdateCommand, visible :true, enable: true" class="btn btn-success">Update MyKad and Age</button>
+    <div class="form-group" data-bind="visible:true">
         <label data-i18n="Gender" for="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" class="col-md-4">Gender</label>
         <div class="col-md-8">
             <select  data-bind="value: Gender, enable :true" id="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" name="Gender" class="input-large form-control">
@@ -102,13 +110,6 @@
         <div class="col-md-8">
             <input step="0" class="form-control input-large" data-bind="value: Income, visible :true, enable :true"
                    id="910ee6ef-1143-4c9b-b3a5-0da570e8d1f2" type="number" name="Income" />
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible:true">
-        <label data-i18n="Age" for="b957c5fe-7a6a-4ebc-8fd3-214078641322" class="col-md-4">Age</label>
-        <div class="col-md-8">
-            <input step="0" class="form-control input-large" data-bind="value: Age, visible :true, enable :true"
-                   id="b957c5fe-7a6a-4ebc-8fd3-214078641322" type="number" name="Age" />
         </div>
     </div>
     <div class="form-group" data-bind="visible:true">
