@@ -16,7 +16,7 @@ namespace subscriber.entities
 
         public override string[] RoutingKeys => new[] { "EntityDefinition.deleted.#" };
 
-        protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             await RemoveSqlTablesAsync(item);
             await RemoveElasticSearchMappingsAsync(item);
@@ -44,11 +44,10 @@ namespace subscriber.entities
                 }
             };
 
-            delete(Path.Combine(sourceDirectory + "\\EntityDefinition\\" + item.Name + ".json"));
-            delete(Path.Combine(sourceDirectory + "\\EntityDefinition\\" + item.Name + ".mapping"));
-            delete(Path.Combine(sourceDirectory + "\\EntityDefinition\\" + item.Name + ".png"));
-            delete(Path.Combine(web + "\\SphApp\\viewmodels\\" + item.Name + ".js"));
-            delete(Path.Combine(web + "\\SphApp\\views\\" + item.Name + ".html"));
+            delete(Path.Combine($"{sourceDirectory}\\EntityDefinition\\{item.Id}.json"));
+            delete(Path.Combine($"{sourceDirectory}\\EntityDefinition\\{item.Name}.mapping"));
+            delete(Path.Combine($"{web}\\SphApp\\viewmodels\\{item.Name}.js"));
+            delete(Path.Combine($"{web}\\SphApp\\views\\{item.Name}.html"));
 
             //TODO: the forms, views and triggers - these should include all the views.html and viewmodels.js and partialjs for Form and View
 
@@ -67,8 +66,8 @@ namespace subscriber.entities
             var web = ConfigurationManager.WebPath + "\\bin";
             var subs = ConfigurationManager.SubscriberPath;
             var app = ConfigurationManager.ApplicationName;
-            var pdb = string.Format("{0}.{1}.pdb", app, item.Name);
-            var dll = string.Format("{0}.{1}.dll", app, item.Name);
+            var pdb = $"{app}.{item.Name}.pdb";
+            var dll = $"{app}.{item.Name}.dll";
 
             Action<string> delete = folder =>
             {
@@ -106,7 +105,7 @@ namespace subscriber.entities
 
         private async Task RemoveElasticSearchMappingsAsync(EntityDefinition item)
         {
-            var url = string.Format("{0}/_mapping/{1}", ConfigurationManager.ElasticSearchIndex, item.Name);
+            var url = $"{ConfigurationManager.ElasticSearchIndex}/_mapping/{item.Name}";
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
