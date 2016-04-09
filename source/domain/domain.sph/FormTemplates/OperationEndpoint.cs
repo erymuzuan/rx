@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -152,7 +153,7 @@ namespace Bespoke.Sph.Domain
             patch.AppendLine();
             patch.AppendLine("      if(missingValues.Count > 0)");
             patch.AppendLine("      {");
-            patch.AppendLine("          return Invalid((HttpStatusCode)405, missingValues.ToArray());");
+            patch.AppendLine("          return Invalid((HttpStatusCode)422, missingValues.ToArray());");
             patch.AppendLine("      }");
 
             var rules = GenerateRulesCode();
@@ -192,7 +193,7 @@ namespace Bespoke.Sph.Domain
                 @"               
                 if (!etag.IsMatch(lo.Version, modifiedSince, lo.Source.ChangedDate, false))
                 {
-                    return Invalid(new { message =""Your If-Match header is out of date""});
+                    return Invalid((HttpStatusCode)428, new { message =""This request is required to be conditional;try using 'If-Match'""});
                 }
                 ");
             return code.ToString();
