@@ -68,6 +68,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 id = ko.observable(),
                 partial = partial || {{}},
                 i18n = null,
+                headers = {{}},
                 activate = function (entityId) {{
                     id(entityId);
                     var tcs = new $.Deferred();
@@ -86,7 +87,16 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                 return Task.fromResult({{ WebId: system.guid() }}); 
                             }}
                            return context.get(""/api/{ed.Plural.ToLowerInvariant()}/"" + entityId);
-                       }}).then(function (b) {{
+                       }}).then(function (b,  textStatus, xhr) {{
+                                
+ 				            var etag = xhr.getResponseHeader(""ETag""),
+                                lastModified = xhr.getResponseHeader(""Last-Modified"");
+                            if(etag){{
+                                headers[""If-Match""] = etag;
+                            }}
+                            if(lastModified){{
+                                headers[""If-Modified-Since""] = lastModified;
+                            }}
                              entity(new bespoke.{ns}.domain.{ed.Name}(b[0]||b));
                        }}, function (e) {{
                          if (e.status == 404) {{
@@ -219,12 +229,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                         compositionComplete:compositionComplete,
                                         entity: entity,
                                         errors: errors,");
-            foreach (
-                var btn in
-                    commandButtons)
+            foreach (var btn in commandButtons)
             {
                 script.AppendLine($"   {btn.CommandName} : {btn.CommandName},");
+            }
 
+            foreach (var btn in operationButtons)
+            {
+                var operationCommand = $"{btn.OperationMethod}{btn.Operation}Command".ToCamelCase();
+                script.AppendLine($"   {operationCommand} : {operationCommand},");
             }
 
             script.AppendLine("     toolbar : {");
@@ -330,8 +343,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             var opFunc = operation.Name.ToCamelCase();
             var route = operation.Route.StartsWith("~/") ?
                         operation.Route.Replace("~/", "/") :
-                        $"/api/{ed.Plural.ToLowerInvariant()}/{operation.Route}";
+                        $"/api/{operation.Resource}/{operation.Route}";
             // TODO : replace {id} in route with ko.unwrap(entity().Id)
+            route = route.Replace("{id}", "\" + ko.unwrap(entity().Id) + \"");
             return $@"
                 {opFunc} = function(){{
 
@@ -342,13 +356,19 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                      var data = ko.mapping.toJSON(entity),
                         tcs = new $.Deferred();
                       
-                     context.{method}(data, ""{route}"" )
+                     context.{method}(data, ""{route}"", headers)
                          .fail(function(response){{ 
                             var result = response.responseJSON;
                             errors.removeAll();
-                            _(result.rules).each(function(v){{
-                                errors(v.ValidationErrors);
-                            }});
+                            if(response.status === 428){{
+                                // out of date conflict
+                                logger.error(result.message);
+                            }}
+                            if(response.status === 422 && _(result.rules).isArray()){{                            
+                                _(result.rules).each(function(v){{
+                                    errors(v.ValidationErrors);
+                                }});
+                            }}
                             logger.error(""There are errors in your entity, !!!"");
                             tcs.resolve(false);
                          }})

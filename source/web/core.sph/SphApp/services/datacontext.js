@@ -186,13 +186,14 @@ function (logger, system, ko2) {
 
         return tcs.promise();
     }
-    function post(json, url) {
+    function post(json, url, headers) {
 
 
         var tcs = new $.Deferred();
         $.ajax({
             type: "POST",
             data: json,
+            headers: headers,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -202,13 +203,14 @@ function (logger, system, ko2) {
 
         return tcs.promise();
     }
-    function patch(json, url) {
+    function patch(json, url, headers) {
 
 
         var tcs = new $.Deferred();
         $.ajax({
             type: "PATCH",
             data: json,
+            headers: headers,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -218,13 +220,14 @@ function (logger, system, ko2) {
 
         return tcs.promise();
     }
-    function put(json, url) {
+    function put(json, url, headers) {
 
 
         var tcs = new $.Deferred();
         $.ajax({
             type: "PUT",
             data: json,
+            headers: headers,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -235,10 +238,12 @@ function (logger, system, ko2) {
         return tcs.promise();
     }
 
-    function get(url) {
+    function get(url, cache, headers) {
         var tcs = new $.Deferred();
         $.ajax({
             type: "GET",
+            cache: cache,
+            headers: headers,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",

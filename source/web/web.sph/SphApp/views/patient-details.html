@@ -14,7 +14,7 @@
 <form class="form-horizontal" data-bind="with : entity" id="patient-details-form">
 <div class="form-group" data-bind="visible:true">
     <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="queryPaging :{ query: '/api/patients/' + ko.unwrap(Mrn) + '/appointments?start=2016-01-01&amp;end=2016-02-29', list: bespoke.getSingletonObservableArray('6ffd77c1-268e-4280-8905-dbf88bd840e5')}">
+    <table class="table table-condensed table-striped" data-bind="queryPaging :{ query: '/api/patients/' + ko.unwrap(Mrn) + '/appointments?start=2016-01-01&amp;end=2016-02-29', list: bespoke.getSingletonObservableArray('dc147d6e-c9e7-444e-9d7d-51aa2b13fc1e')}">
         <thead>
             <tr>
                     <th data-i18n="Doctor">Doctor</th>
@@ -23,7 +23,7 @@
                     <th data-i18n="Ward">Ward</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('6ffd77c1-268e-4280-8905-dbf88bd840e5')">
+        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('dc147d6e-c9e7-444e-9d7d-51aa2b13fc1e')">
             <tr>
                         <td data-bind="text:Doctor"></td>
                         <td data-bind="date:DateTime"></td>
@@ -71,7 +71,7 @@
                    id="b957c5fe-7a6a-4ebc-8fd3-214078641322" type="number" name="Age" />
         </div>
     </div>
-<button data-bind="command : $root.postUpdateCommand, visible :true, enable: true" class="btn btn-success">Update MyKad and Age</button>
+<button data-bind="command : $root.patchUpdateCommand, visible :true, enable: true" class="btn btn-success">Update MyKad and Age</button>
     <div class="form-group" data-bind="visible:true">
         <label data-i18n="Gender" for="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" class="col-md-4">Gender</label>
         <div class="col-md-8">

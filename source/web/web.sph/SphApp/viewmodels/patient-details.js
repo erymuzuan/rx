@@ -12,6 +12,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         id = ko.observable(),
         partial = partial || {},
         i18n = null,
+        headers = {},
         activate = function(entityId) {
             id(entityId);
             var tcs = new $.Deferred();
@@ -32,7 +33,16 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                     });
                 }
                 return context.get("/api/patients/" + entityId);
-            }).then(function(b) {
+            }).then(function(b, textStatus, xhr) {
+
+                var etag = xhr.getResponseHeader("ETag"),
+                    lastModified = xhr.getResponseHeader("Last-Modified");
+                if (etag) {
+                    headers["If-Match"] = etag;
+                }
+                if (lastModified) {
+                    headers["If-Modified-Since"] = lastModified;
+                }
                 entity(new bespoke.DevV1_patient.domain.Patient(b[0] || b));
             }, function(e) {
                 if (e.status == 404) {
@@ -60,13 +70,19 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
             var data = ko.mapping.toJSON(entity),
                 tcs = new $.Deferred();
 
-            context.post(data, "/api/patients/")
+            context.post(data, "/api/patients/", headers)
                 .fail(function(response) {
                 var result = response.responseJSON;
                 errors.removeAll();
-                _(result.rules).each(function(v) {
-                    errors(v.ValidationErrors);
-                });
+                if (response.status === 428) {
+                    // out of date conflict
+                    logger.error(result.message);
+                }
+                if (response.status === 422 && _(result.rules).isArray()) {
+                    _(result.rules).each(function(v) {
+                        errors(v.ValidationErrors);
+                    });
+                }
                 logger.error("There are errors in your entity, !!!");
                 tcs.resolve(false);
             })
@@ -104,13 +120,19 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
             var data = ko.mapping.toJSON(entity),
                 tcs = new $.Deferred();
 
-            context.post(data, "/api/patients/update")
+            context.patch(data, "/api/patients/" + ko.unwrap(entity().Id) + "/update", headers)
                 .fail(function(response) {
                 var result = response.responseJSON;
                 errors.removeAll();
-                _(result.rules).each(function(v) {
-                    errors(v.ValidationErrors);
-                });
+                if (response.status === 428) {
+                    // out of date conflict
+                    logger.error(result.message);
+                }
+                if (response.status === 422 && _(result.rules).isArray()) {
+                    _(result.rules).each(function(v) {
+                        errors(v.ValidationErrors);
+                    });
+                }
                 logger.error("There are errors in your entity, !!!");
                 tcs.resolve(false);
             })
@@ -122,7 +144,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
             });
             return tcs.promise();
         },
-        postUpdateCommand = function() {
+        patchUpdateCommand = function() {
             return update()
                 .then(function(result) {
                 if (result.success) return app.showMessage("saved....", ["OK"]);
@@ -157,7 +179,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         compositionComplete: compositionComplete,
         entity: entity,
         errors: errors,
-        postUpdateCommand :postUpdateCommand,
+        patchUpdateCommand: patchUpdateCommand,
         toolbar: {
             saveCommand: saveCommand,
             canExecuteSaveCommand: ko.computed(function() {
