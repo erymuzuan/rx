@@ -1213,37 +1213,16 @@
     "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
     "FullSearchEndpoint": {
       "$type": "Bespoke.Sph.Domain.FullSearchEndpoint, domain.sph",
-      "Performer": {
-        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-        "UserProperty": null,
-        "Value": null,
-        "IsPublic": false,
-        "WebId": null
-      },
       "IsAllowed": true,
       "WebId": null
     },
     "OdataEndpoint": {
       "$type": "Bespoke.Sph.Domain.OdataEndpoint, domain.sph",
-      "Performer": {
-        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-        "UserProperty": null,
-        "Value": null,
-        "IsPublic": false,
-        "WebId": null
-      },
       "IsAllowed": true,
       "WebId": null
     },
     "EntityResourceEndpoint": {
       "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
-      "Performer": {
-        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-        "UserProperty": null,
-        "Value": null,
-        "IsPublic": false,
-        "WebId": null
-      },
       "IsAllowed": true,
       "FilterExpression": null,
       "WebId": null
@@ -1262,6 +1241,6 @@
   "Id": "patient",
   "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-03-07T09:26:54.0282602+08:00",
+  "ChangedDate": "2016-04-08T18:38:53.0596314+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

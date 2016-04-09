@@ -1,0 +1,51 @@
+{
+  "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "EntityPermissionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "SetterActionChildCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "PatchPathCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "Age",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "704ccfd0-65ab-42e0-a2cd-a328f2611888"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "IdentificationNo",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "3e6c1c4c-c325-4775-bbc2-a41e6e054b34"
+      }
+    ]
+  },
+  "Name": "Update",
+  "Route": "{id}/update",
+  "IsHttpPut": false,
+  "IsHttpPatch": true,
+  "IsHttpPost": false,
+  "IsHttpDelete": false,
+  "Note": "",
+  "Entity": "Patient",
+  "Resource": "patients",
+  "IsPublished": true,
+  "IsConflictDetectionEnabled": true,
+  "CreatedBy": "admin",
+  "Id": "patient-update",
+  "CreatedDate": "2016-04-08T18:36:53.5586986+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-04-09T07:37:43.02194+08:00",
+  "WebId": "3b796e98-5be2-448e-b7f8-9fa09b70063e"
+}
