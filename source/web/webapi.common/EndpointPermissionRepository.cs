@@ -62,6 +62,10 @@ namespace Bespoke.Sph.WebApi
                     permission.AddParentClaims(parentPermission.Claims);
                 }
 
+                // get the root claims
+                var rootPermission = savedSettings.Single(x => !x.HasAction && !x.HasController && !x.HasParent);
+                permission.AddParentClaims(rootPermission.Claims);
+
 
             }
             return Task.FromResult(permission);
