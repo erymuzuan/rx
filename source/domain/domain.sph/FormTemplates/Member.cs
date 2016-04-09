@@ -17,6 +17,14 @@ namespace Bespoke.Sph.Domain
         {
             return null;
         }
+        public virtual string GenerateJavascriptContructor(string ns)
+        {
+            return null;
+        }
+        public virtual string GenerateJavascriptInitValue(string ns)
+        {
+            return null;
+        }
         public virtual string GenerateParameterCode()
         {
             return null;

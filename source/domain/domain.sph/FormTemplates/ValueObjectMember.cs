@@ -93,7 +93,28 @@ namespace Bespoke.Sph.Domain
         {
             return this.AllowMultiple
                     ? $"     {Name}: ko.observableArray([]),"
-                    : $"     {Name}: ko.observable(new bespoke.{ns}.domain.{ValueObjectName}()),";
+                    : $"     {Name}: ko.observable(new {this.GenerateJavascriptContructor(ns)}()),";
+        }
+
+        public override string GenerateJavascriptContructor(string ns)
+        {
+            return $"     bespoke.{ns}.domain.{ValueObjectName}";
+        }
+
+        public override string GenerateJavascriptInitValue(string ns)
+        {
+            var ctor = this.GenerateJavascriptContructor(ns);
+            if (this.AllowMultiple)
+            {
+                var code = new StringBuilder();
+                var items = $"{Name}List".ToCamelCase();
+                code.AppendLine($@"var {items} = _(optionOrWebid.{Name}).map(function(v){{");
+                code.AppendLine($@"                 return new {ctor}(v);");
+                code.AppendLine($@"            }});");
+                code.AppendLine($@"model.{Name}({items});");
+                return code.ToString();
+            }
+            return $"model.{Name}(new {ctor}(optionOrWebid.{Name}));";
         }
 
         public override string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
@@ -128,13 +149,21 @@ namespace Bespoke.Sph.Domain
             script.AppendLine(" };");
 
             script.AppendLine(@" 
-             if (optionOrWebid && typeof optionOrWebid === ""object"") {
-                for (var n in optionOrWebid) {
-                    if (typeof model[n] === ""function"") {
-                        model[n](optionOrWebid[n]);
-                    }
-                }
+             if (typeof optionOrWebid === ""object"") {");
+            foreach (var cm in this.MemberCollection)
+            {
+                var initCode = cm.GenerateJavascriptInitValue(jns);
+                if (string.IsNullOrWhiteSpace(initCode)) continue;
+                script.AppendLine($@"
+                if(optionOrWebid.{cm.Name}){{
+                    {initCode}
+                }}");
             }
+
+            script.AppendLine(@"
+            }");
+
+            script.AppendLine(@"
             if (optionOrWebid && typeof optionOrWebid === ""string"") {
                 model.WebId(optionOrWebid);
             }");

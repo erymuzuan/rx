@@ -13,6 +13,12 @@ namespace Bespoke.Sph.Domain
                 $"     {Name}: ko.observableArray([])," :
                 $"     {Name}: ko.observable(),";
         }
+
+        public override string GenerateJavascriptInitValue(string ns)
+        {
+            return $"model.{Name}(optionOrWebid.{Name});";
+        }
+
         public override string GetDefaultValueCode(int count)
         {
             if (null == this.DefaultValue) return null;

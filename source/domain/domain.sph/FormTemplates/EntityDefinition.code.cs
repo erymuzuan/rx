@@ -108,8 +108,8 @@ namespace Bespoke.Sph.Domain
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()
         {
-            var jsNamespace = ConfigurationManager.ApplicationName + "_" + this.Id;
-            var assemblyName = ConfigurationManager.ApplicationName + "." + this.Name;
+            var jsNamespace = $"{ConfigurationManager.ApplicationName}_{this.Name.ToCamelCase()}";
+            var assemblyName = $"{ConfigurationManager.ApplicationName}.{this.Name}";
             var script = new StringBuilder();
             script.AppendLine("var bespoke = bespoke ||{};");
             script.AppendLinf("bespoke.{0} = bespoke.{0} ||{{}};", jsNamespace);
@@ -145,13 +145,22 @@ namespace Bespoke.Sph.Domain
             script.AppendLine(" };");
 
             script.AppendLine(@" 
-             if (optionOrWebid && typeof optionOrWebid === ""object"") {
-                for (var n in optionOrWebid) {
-                    if (typeof model[n] === ""function"") {
-                        model[n](optionOrWebid[n]);
-                    }
-                }
+             if (typeof optionOrWebid === ""object"") {");
+
+            foreach (var cm in this.MemberCollection)
+            {
+                var initCode = cm.GenerateJavascriptInitValue(jsNamespace);
+                if (string.IsNullOrWhiteSpace(initCode)) continue;
+                script.AppendLine($@"
+                if(optionOrWebid.{cm.Name}){{
+                    {initCode}
+                }}");
             }
+
+            script.AppendLine(@"
+            }");
+
+            script.AppendLine(@"
             if (optionOrWebid && typeof optionOrWebid === ""string"") {
                 model.WebId(optionOrWebid);
             }");

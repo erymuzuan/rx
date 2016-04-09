@@ -17,7 +17,28 @@ namespace Bespoke.Sph.Domain
         {
             return this.AllowMultiple ?
                 $"     {Name}: ko.observableArray([])," :
-                $"     {Name}: ko.observable(new bespoke.{ns}.domain.{Name}()),";
+                $"     {Name}: ko.observable(new {this.GenerateJavascriptContructor(ns)}()),";
+        }
+
+        public override string GenerateJavascriptContructor(string ns)
+        {
+            return $"bespoke.{ns}.domain.{TypeName}";
+        }
+
+        public override string GenerateJavascriptInitValue(string ns)
+        {
+            var ctor = this.GenerateJavascriptContructor(ns);
+            if (this.AllowMultiple)
+            {
+                var code = new StringBuilder();
+                var items = $"{Name}List".ToCamelCase();
+                code.AppendLine($@"var {items} = _(optionOrWebid.{Name}).map(function(v){{");
+                code.AppendLine($@"                 return new {ctor}(v);");
+                code.AppendLine($@"            }});");
+                code.AppendLine($@"model.{Name}({items});");
+                return code.ToString();
+            }
+            return $"model.{Name}(new {ctor}(optionOrWebid.{Name}));";
         }
 
         public override string GetDefaultValueCode(int count)
@@ -85,10 +106,8 @@ namespace Bespoke.Sph.Domain
         }
         public override string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
         {
-
-
             var script = new StringBuilder();
-            var name = this.Name.Replace("Collection", "");
+            var name = this.TypeName.Replace("Collection", "");
 
             script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jns, name);
             script.AppendLine(" var model = {");
@@ -119,24 +138,33 @@ namespace Bespoke.Sph.Domain
 
             script.AppendLine(" };");
 
+
             script.AppendLine(@" 
-             if (optionOrWebid && typeof optionOrWebid === ""object"") {
-                for (var n in optionOrWebid) {
-                    if (typeof model[n] === ""function"") {
-                        model[n](optionOrWebid[n]);
-                    }
-                }
+             if (typeof optionOrWebid === ""object"") {");
+            foreach (var cm in this.MemberCollection)
+            {
+                var initCode = cm.GenerateJavascriptInitValue(jns);
+                if (string.IsNullOrWhiteSpace(initCode)) continue;
+                script.AppendLine($@"
+                if(optionOrWebid.{cm.Name}){{
+                    {initCode}
+                }}");
             }
+
+            script.AppendLine(@"
+            }");
+
+            script.AppendLine(@"
             if (optionOrWebid && typeof optionOrWebid === ""string"") {
                 model.WebId(optionOrWebid);
             }");
 
-            script.AppendFormat(@"
+            script.AppendLine($@"
 
-    if (bespoke.{0}.domain.{1}Partial) {{
-        return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
+    if (bespoke.{jns}.domain.{name}Partial) {{
+        return _(model).extend(new bespoke.{jns}.domain.{name}Partial(model));
     }}
-", jns, this.Name.Replace("Collection", string.Empty));
+");
 
             script.AppendLine(" return model;");
             script.AppendLine("};");
