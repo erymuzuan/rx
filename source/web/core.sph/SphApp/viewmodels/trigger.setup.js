@@ -200,7 +200,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                 reloadCommand: reload,
                 removeCommand: remove,
                 canExecuteRemoveCommand: ko.computed(function () {
-                    return trigger().Id();
+                    return ko.unwrap(trigger().Id);
                 }),
                 exportCommand: exportJson,
                 commands: ko.observableArray([
@@ -214,7 +214,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                         caption: "Publish",
                         icon: "fa fa-sign-in",
                         enable: ko.computed(function () {
-                            return trigger().Id();
+                            return ko.unwrap(trigger().Id);
                         })
                     },
                     {
@@ -222,7 +222,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                         caption: "Depublish",
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
-                            return trigger().Id();
+                            return ko.unwrap(trigger().Id);
                         })
                     }
                 ])
