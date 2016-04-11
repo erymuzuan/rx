@@ -88,15 +88,17 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             }}
                            return context.get(""/api/{ed.Plural.ToLowerInvariant()}/"" + entityId);
                        }}).then(function (b,  textStatus, xhr) {{
-                                
- 				            var etag = xhr.getResponseHeader(""ETag""),
-                                lastModified = xhr.getResponseHeader(""Last-Modified"");
-                            if(etag){{
-                                headers[""If-Match""] = etag;
-                            }}
-                            if(lastModified){{
-                                headers[""If-Modified-Since""] = lastModified;
-                            }}
+                            
+                            if(xhr) {{
+ 				                var etag = xhr.getResponseHeader(""ETag""),
+                                    lastModified = xhr.getResponseHeader(""Last-Modified"");
+                                if(etag){{
+                                    headers[""If-Match""] = etag;
+                                }}
+                                if(lastModified){{
+                                    headers[""If-Modified-Since""] = lastModified;
+                                }}
+                            }}    
                              entity(new bespoke.{ns}.domain.{ed.Name}(b[0]||b));
                        }}, function (e) {{
                          if (e.status == 404) {{

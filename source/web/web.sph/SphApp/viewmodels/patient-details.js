@@ -35,13 +35,15 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                 return context.get("/api/patients/" + entityId);
             }).then(function(b, textStatus, xhr) {
 
-                var etag = xhr.getResponseHeader("ETag"),
-                    lastModified = xhr.getResponseHeader("Last-Modified");
-                if (etag) {
-                    headers["If-Match"] = etag;
-                }
-                if (lastModified) {
-                    headers["If-Modified-Since"] = lastModified;
+                if (xhr) {
+                    var etag = xhr.getResponseHeader("ETag"),
+                        lastModified = xhr.getResponseHeader("Last-Modified");
+                    if (etag) {
+                        headers["If-Match"] = etag;
+                    }
+                    if (lastModified) {
+                        headers["If-Modified-Since"] = lastModified;
+                    }
                 }
                 entity(new bespoke.DevV1_patient.domain.Patient(b[0] || b));
             }, function(e) {
