@@ -13,6 +13,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             operationEndpoints = ko.observableArray(),
             queryEndpoints = ko.observableArray(),
             entities = ko.observableArray(),
+            wds = ko.observableArray(),
             permissions = ko.observableArray(),
             selected = ko.observable(),
             activate = function () {
@@ -27,6 +28,10 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     })
                     .then(function (lo) {
                         entities(lo.itemCollection);
+                        return $.getJSON("/management-api/workflow-endpoints");
+                    })
+                    .then(function (lo) {
+                        wds(lo);
                         return $.getJSON("/management-api/endpoint-permissions");
                     }).then(permissions);
             },
@@ -175,6 +180,28 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         };
 
                     root.children.push(entityNode);
+                });
+                _(ko.unwrap(wds)).each(function(v) {
+                    var wdNode = {
+                        data: createTag(v.Name),
+                        parent: "root",
+                        text: ko.unwrap(v.Name),
+                        icon: "fa fa-code-fork",
+                        state: { opened: false },
+                        a_attr : {
+                            "class": hasImplementation(v.Name)
+                        },
+                        children : []
+                    };
+                    _(v.Children).each(function(c) {
+                        var action = {
+                            data: createTag(v.Name, v.Name, c.Action),
+                            text: c.Action,
+                            icon : "fa fa-envelope"
+                        }
+                        wdNode.children.push(action);
+                    });
+                    root.children.push(wdNode);
                 });
 
                 _(queryEndpoints()).each(function (v) {

@@ -132,6 +132,28 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpGet]
+        [Route("workflow-endpoints")]
+        public ActionResult GetWorkflowEndpoints()
+        {
+            var context = new SphDataContext();
+            var wds = context.LoadFromSources<WorkflowDefinition>();
+            var list = from w in wds
+                       let receives = w.ActivityCollection.OfType<ReceiveActivity>().ToArray()
+                       where receives.Length > 0
+                       select new
+                       {
+                           Name = w.WorkflowTypeName,
+                           Children = receives.Select(x => new
+                           {
+                               Name = x.Name,
+                               Action = x.Operation ?? "!!null!!"
+                           }).ToArray()
+                       };
+            var json = JsonConvert.SerializeObject(list);
+            return Content(json, "application/json");
+        }
+
+        [HttpGet]
         [Route("endpoint-permissions")]
         public async Task<ActionResult> GetEndpointPermissionSettingsAsync()
         {
