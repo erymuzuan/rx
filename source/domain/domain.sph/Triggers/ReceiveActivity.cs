@@ -140,9 +140,14 @@ namespace Bespoke.Sph.Domain
             else
             {
                 var correlationName = string.Join(";", this.FollowingCorrelationSetCollection);
-                code.AppendLine($"      [Route(\"{{correlationValue}}/{this.Operation.ToIdFormat()}\")]");
-                code.AppendLine($"      public async Task<IHttpActionResult> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd, [FromBody]{messageType} @message, string correlationValue)");
+                code.AppendLine($"      [Route(\"{this.Operation.ToIdFormat()}\")]");
+                code.AppendLine($"      public async Task<IHttpActionResult> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd, [FromBody]{messageType} @message)");
                 code.AppendLine("       {");
+
+                var valuePath = this.CorrelationPropertyCollection.Where(x => x.Path.Contains("."))
+                    .Select(x => "@message" + x.Path.Remove(0, x.Path.IndexOf(".", StringComparison.Ordinal)))
+                    .ToList();
+                code.AppendLine($@"           string correlationValue = {string.Join(" + \";\" + ", valuePath)};");
                 code.AppendLine($@"           var self = wd.ActivityCollection.OfType<ReceiveActivity>().Single(x => x.WebId == ""{WebId}"");");
                 code.AppendLine($"            var wf = await self.LoadInstanceAsync<{wd.WorkflowTypeName}>(wd, \"{correlationName}\", correlationValue);");
                 code.AppendLine($"            if( null == wf)");
