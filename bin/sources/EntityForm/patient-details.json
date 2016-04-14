@@ -317,7 +317,7 @@
           "OperationMethod": "patch",
           "OperationFailureCallback": null,
           "OperationSuccessCallback": null,
-          "OperationSuccessNavigateUrl": null,
+          "OperationSuccessNavigateUrl": "sph#dev.home",
           "OperationSuccessMesage": "saved....",
           "Operation": "Update",
           "TypeName": "Button",
@@ -955,7 +955,7 @@
   "IsRemoveAvailable": false,
   "IsImportAvailable": false,
   "IsExportAvailable": false,
-  "Operation": "Register",
+  "Operation": null,
   "Entity": "Patient",
   "Partial": null,
   "Caption": null,
@@ -972,6 +972,6 @@
   "Id": "patient-details",
   "CreatedDate": "2015-05-28T07:43:35.8227123+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-09T07:41:17.8564193+08:00",
+  "ChangedDate": "2016-04-14T08:21:46.4321404+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

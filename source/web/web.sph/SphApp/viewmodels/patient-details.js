@@ -63,39 +63,6 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
 
         },
 
-        register = function() {
-
-            if (!validation.valid()) {
-                return Task.fromResult(false);
-            }
-
-            var data = ko.mapping.toJSON(entity),
-                tcs = new $.Deferred();
-
-            context.post(data, "/api/patients/", headers)
-                .fail(function(response) {
-                var result = response.responseJSON;
-                errors.removeAll();
-                if (response.status === 428) {
-                    // out of date conflict
-                    logger.error(result.message);
-                }
-                if (response.status === 422 && _(result.rules).isArray()) {
-                    _(result.rules).each(function(v) {
-                        errors(v.ValidationErrors);
-                    });
-                }
-                logger.error("There are errors in your entity, !!!");
-                tcs.resolve(false);
-            })
-                .then(function(result) {
-                logger.info(result.message);
-                entity().Id(result.id);
-                errors.removeAll();
-                tcs.resolve(result);
-            });
-            return tcs.promise();
-        },
         attached = function(view) {
             // validation
             validation.init($('#patient-details-form'), form());
@@ -151,6 +118,9 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                 .then(function(result) {
                 if (result.success) return app.showMessage("saved....", ["OK"]);
                 else return Task.fromResult(false);
+            })
+                .then(function(result) {
+                if (result) router.navigate("sph#dev.home");
             });
         },
         compositionComplete = function() {
@@ -160,16 +130,6 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                 if (i18n && typeof i18n[text] === "string") {
                     $label.text(i18n[text]);
                 }
-            });
-        },
-        saveCommand = function() {
-            return register()
-                .then(function(result) {
-                if (result.success) return app.showMessage("Patient is successfully saved", ["OK"]);
-                else return Task.fromResult(false);
-            })
-                .then(function(result) {
-                if (result) router.navigate("#patient");
             });
         };
     var vm = {
@@ -183,13 +143,6 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         errors: errors,
         patchUpdateCommand: patchUpdateCommand,
         toolbar: {
-            saveCommand: saveCommand,
-            canExecuteSaveCommand: ko.computed(function() {
-                if (typeof partial.canExecuteSaveCommand === "function") {
-                    return partial.canExecuteSaveCommand();
-                }
-                return true;
-            }),
 
         }, // end toolbar
 
