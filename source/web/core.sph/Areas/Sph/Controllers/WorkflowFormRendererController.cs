@@ -261,7 +261,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                      var data = ko.mapping.toJSON(message),
                         tcs = new $.Deferred();
                       
-                     context.{form.OperationMethod}(data, ""{route}"" )
+                     context.{form.OperationMethod ?? "post"}(data, ""{route}"" )
                          .fail(function(response){{ 
                             var result = response.responseJSON;
                             errors.removeAll();

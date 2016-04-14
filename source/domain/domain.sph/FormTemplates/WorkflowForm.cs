@@ -24,7 +24,12 @@ namespace Bespoke.Sph.Domain
 
             var result = new BuildValidationResult();
             var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this, ed));
-            var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray());
+            var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray()).ToList();
+
+            if(string.IsNullOrWhiteSpace(this.Operation))
+                errors.Add(new BuildError(this.WebId, "Please set the ReceiveActivity endpoint to invoke"));
+            if(string.IsNullOrWhiteSpace(this.OperationMethod))
+                errors.Add(new BuildError(this.WebId, "Please set the ReceiveActivity endpoint HTTP method, normally is a POST"));
 
             var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this, ed));
             var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
