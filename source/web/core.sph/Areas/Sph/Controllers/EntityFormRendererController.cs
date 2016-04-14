@@ -189,7 +189,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     OperationMethod = btn.OperationMethod,
                     OperationFailureCallback = btn.OperationFailureCallback,
                     OperationSuccessCallback = btn.OperationSuccessCallback,
-                    OperationSuccessNavigateUrl = btn.DeleteOperationSuccessNavigateUrl,
+                    OperationSuccessNavigateUrl = btn.OperationSuccessNavigateUrl,
                     OperationSuccessMesage = btn.OperationSuccessMesage
                 }, $"{btn.OperationMethod}{btn.Operation}Command".ToCamelCase());
                 script.Append(operationScript);
