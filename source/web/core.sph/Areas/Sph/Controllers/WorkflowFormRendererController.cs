@@ -98,7 +98,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             var operation = wd.GetActivity<ReceiveActivity>(form.Operation);
             if (null != operation)
             {
-                var api = GenerateApiOperationCode(wd, operation,form);
+                var api = GenerateApiOperationCode(wd, operation, form);
                 script.Append(api);
                 script.Append(",");
             }
@@ -146,7 +146,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         }
                     });
                 }");
-       
+
             script.Append(";");
 
             // viewmodel
@@ -249,6 +249,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             route = route.StartsWith("~/") ?
                 route.Replace("~/", "/") :
                 $"/wf/{wd.Id}/v{wd.Version}";
+            route += "/" + activity.Name.ToIdFormat();
 
             var script = new StringBuilder();
             script.Append($@"
