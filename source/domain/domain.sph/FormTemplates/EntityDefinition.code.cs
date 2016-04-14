@@ -145,7 +145,12 @@ namespace Bespoke.Sph.Domain
             script.AppendLine(" };");
 
             script.AppendLine(@" 
-             if (typeof optionOrWebid === ""object"") {");
+             if (typeof optionOrWebid === ""object"") {
+
+                if(optionOrWebid.Id){
+                    model.Id(optionOrWebid.Id);
+                }");
+
 
             foreach (var cm in this.MemberCollection)
             {
