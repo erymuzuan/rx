@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -8,7 +8,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.system],
+define(["services/datacontext", "services/logger", "plugins/dialog", objectbuilders.system],
     function (context, logger, dialog, system) {
 
         var activity = ko.observable(),
@@ -26,10 +26,10 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                 variableOptions(variables);
             },
             attached = function (view) {
-                $(view).on('change', '#following-sets input[type=checkbox]', function () {
+                $(view).on("change", "#following-sets input[type=checkbox]", function () {
                     var cb = $(this),
                         cs = cb.val(),
-                        checked = cb.is(':checked');
+                        checked = cb.is(":checked");
                     console.log(cs + " is " + checked);
                     if (checked) {
                         // get the correlation property for the set
@@ -52,6 +52,16 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                         activity().CorrelationPropertyCollection.remove(function (v) {
                             return v.Name() === cs;
                         });
+                    }
+                });
+
+                activity().Name.subscribe(function (name) {
+                    if (!activity().Operation()) {
+                        var route = name
+                            .replace(/\W+/g, "-")
+                            .replace(/[A-Z]/g, function (v) { return "-" + v.toLowerCase(); })
+                            .replace(/-/, "");
+                        activity().Operation(route);
                     }
                 });
 

@@ -242,14 +242,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return script.ToString();
         }
 
-        private string GenerateApiOperationCode(WorkflowDefinition wd, Activity activity, WorkflowForm form)
+        private string GenerateApiOperationCode(WorkflowDefinition wd, ReceiveActivity activity, WorkflowForm form)
         {
             var opFunc = activity.Name.ToCamelCase();
-            var route = activity.Name.ToIdFormat();
-            route = route.StartsWith("~/") ?
-                route.Replace("~/", "/") :
-                $"/wf/{wd.Id}/v{wd.Version}";
-            route += "/" + activity.Name.ToIdFormat();
+            var route = $"/wf/{wd.Id}/v{wd.Version}/{activity.Operation}";
 
             var script = new StringBuilder();
             script.Append($@"

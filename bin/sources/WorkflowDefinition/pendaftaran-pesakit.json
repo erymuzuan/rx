@@ -8,6 +8,8 @@
         "PortType": null,
         "Operation": "PermohonanPendaftaran",
         "MessagePath": "Pesakit",
+        "CancelMessageBody": null,
+        "CancelMessageSubject": null,
         "InitializingCorrelationSetCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": []
@@ -20,7 +22,6 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
           "$values": []
         },
-        "IsAsync": true,
         "Performer": {
           "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
           "UserProperty": "",
@@ -28,6 +29,7 @@
           "IsPublic": true,
           "WebId": null
         },
+        "IsAsync": true,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "TypeName": "Receive",
@@ -178,8 +180,10 @@
       {
         "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
         "PortType": null,
-        "Operation": "ProcessKelulusan",
+        "Operation": "process-kelulusan",
         "MessagePath": "Status",
+        "CancelMessageBody": null,
+        "CancelMessageSubject": null,
         "InitializingCorrelationSetCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": []
@@ -202,7 +206,6 @@
             }
           ]
         },
-        "IsAsync": true,
         "Performer": {
           "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
           "UserProperty": "Designation",
@@ -210,6 +213,7 @@
           "IsPublic": false,
           "WebId": null
         },
+        "IsAsync": true,
         "ExecutedCode": "     await this.FireListenTriggerMulaProcessKelulusanAsync(\"d1f7fc67-7efa-45fa-b404-4d72ccb78d3b\");",
         "ExecutingCode": null,
         "TypeName": "Receive",
@@ -870,6 +874,6 @@
   "Id": "pendaftaran-pesakit",
   "CreatedDate": "2015-11-23T09:15:13.5019851+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-26T12:58:35.8506695+08:00",
+  "ChangedDate": "2016-04-14T16:05:28.5602585+08:00",
   "WebId": "e49fa89f-1fa2-4a92-db9f-1b34dfdf3073"
 }

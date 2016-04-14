@@ -131,8 +131,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       [HttpPost]");
             if (this.FollowingCorrelationSetCollection.Count == 0 && this.IsInitiator)
             {
-                code.AppendLine($"      [Route(\"{this.Operation.ToIdFormat()}\")]");
-                code.AppendLine($"      public async Task<IHttpActionResult> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{messageType} @message)");
+                code.AppendLine($"      [Route(\"{this.Operation}\")]");
+                code.AppendLine($"      public async Task<IHttpActionResult> {this.MethodName}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{messageType} @message)");
                 code.AppendLine("       {");
                 code.AppendLine($"           var wf = new {wd.WorkflowTypeName}{{Id = Guid.NewGuid().ToString()}};");
                 code.AppendLine("            await wf.LoadWorkflowDefinitionAsync();");
@@ -140,8 +140,8 @@ namespace Bespoke.Sph.Domain
             else
             {
                 var correlationName = string.Join(";", this.FollowingCorrelationSetCollection);
-                code.AppendLine($"      [Route(\"{this.Operation.ToIdFormat()}\")]");
-                code.AppendLine($"      public async Task<IHttpActionResult> {this.Operation}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd, [FromBody]{messageType} @message)");
+                code.AppendLine($"      [Route(\"{this.Operation}\")]");
+                code.AppendLine($"      public async Task<IHttpActionResult> {this.MethodName}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd, [FromBody]{messageType} @message)");
                 code.AppendLine("       {");
 
                 var valuePath = this.CorrelationPropertyCollection.Where(x => x.Path.Contains("."))

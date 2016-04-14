@@ -145,8 +145,8 @@ namespace Bespoke.Sph.Web.Controllers
                            Name = w.WorkflowTypeName,
                            Children = receives.Select(x => new
                            {
-                               Name = x.Name,
-                               Action = x.Operation ?? "!!null!!"
+                               x.Name,
+                               Action = x.MethodName ?? "!!null!!"
                            }).ToArray()
                        };
             var json = JsonConvert.SerializeObject(list);
