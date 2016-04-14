@@ -997,7 +997,7 @@ WriteLiteral(">\r\n                    <label");
 
 WriteLiteral(" for=\"operation-failure-callback\"");
 
-WriteLiteral(">Failuire Callback</label>\r\n                    <textarea");
+WriteLiteral(">Failure Callback</label>\r\n                    <textarea");
 
 WriteLiteral(" class=\"form-control\"");
 
