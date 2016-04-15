@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -22,11 +22,40 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             tableOptions = ko.observableArray(),
             sprocOptions = ko.observableArray(),
             selectedTables = ko.observableArray(),
+            connect = function (adp) {
+                if (!adp) {
+                    adp = adapter;
+                }
+                if (typeof adp.Database !== "function") {
+                    adp = adapter;
+                }
+                var tcs = new $.Deferred();
+                loadingSchemas(true);
+                loadingDatabases(true);
+                context.post(ko.mapping.toJSON(adp), "mysql-adapter/databases")
+                    .done(function (result) {
+                        loadingSchemas(false);
+                        loadingDatabases(false);
+                        if (result.success) {
+                            connected(true);
+                            databaseOptions(result.databases);
+                            logger.info("You are now connected, please select your database");
+                        } else {
+                            connected(false);
+                            logger.error(result.message);
+                        }
+                        tcs.resolve(result);
+                    });
+
+                return tcs.promise();
+            },
             activate = function (sid) {
-                if (!sid || sid === "0") {
+
+
+                var createNewAdapter = function () {
                     adapter({
                         $type: "Bespoke.Sph.Integrations.Adapters.MySqlAdapter, mysql.adapter",
-                        Id: ko.observable("0"),
+                        Id: ko.observable(sid),
                         Name: ko.observable(),
                         Description: ko.observable(),
                         Server: ko.observable("localhost"),
@@ -37,8 +66,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         OperationDefinitionCollection: ko.observableArray(),
                         Tables: selectedTables
                     });
-
-                    return null;
                 }
 
                 var query = String.format("Id eq '{0}'", sid),
@@ -46,6 +73,17 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 context.loadOneAsync("Adapter", query)
                     .done(function (b) {
+
+
+                        var newItem = !sid || sid === "0" || !ko.unwrap(b.Database) || !ko.unwrap(b.Server);
+                        if (newItem) {
+                            createNewAdapter();
+                            if (ko.unwrap(b.Name)) {
+                                adapter(b);
+                            }
+                            tcs.resolve(true);
+                            return;
+                        }
 
                         var loadSchemaTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/schemas"),
                             loadTablesSprocsTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/objects"),
@@ -56,7 +94,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             schemaOptions(schemaResult[0].schema);
                             databaseOptions(databases.databases);
                             var objects = context.toObservable(result[0]),
-                                tables = _(objects.tables()).map(function (v) {
+                                tables = _(ko.unwrap(objects.tables)).map(function (v) {
                                     return {
                                         name: v,
                                         children: ko.observableArray(),
@@ -65,7 +103,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                     };
                                 });
                             tableOptions(tables);
-                            sprocOptions(objects.sprocs());
+                            sprocOptions(ko.unwrap(objects.sprocs));
 
                             adapter(b);
 
@@ -76,7 +114,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
 
             },
-            attached = function (view) {
+            attached = function () {
                 adapter().Database.subscribe(function (db) {
                     if (!db) {
                         return;
@@ -125,7 +163,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     if (typeof table.busy !== "function") {
                         table = ko.dataFor(checkbox.parents("ul")[0]);
                         var at0 = _(selectedTables()).find(function (v) {
-                            return v.Name == table.name;
+                            return v.Name === table.name;
                         }),
                             child = ko.dataFor(this);
                         if (checkbox.is(":checked")) {
@@ -142,7 +180,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         table.children.removeAll();
 
                         var at = _(selectedTables()).find(function (v) {
-                            return v.Name == table.name;
+                            return v.Name === table.name;
                         });
 
                         selectedTables.remove(at);
@@ -220,33 +258,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 }
 
             },
-            connect = function (adp) {
-                if (!adp) {
-                    adp = adapter;
-                }
-                if (typeof adp.Database !== "function") {
-                    adp = adapter;
-                }
-                var tcs = new $.Deferred();
-                loadingSchemas(true);
-                loadingDatabases(true);
-                context.post(ko.mapping.toJSON(adp), "mysql-adapter/databases")
-                    .done(function (result) {
-                        loadingSchemas(false);
-                        loadingDatabases(false);
-                        if (result.success) {
-                            connected(true);
-                            databaseOptions(result.databases);
-                            logger.info("You are now connected, please select your database");
-                        } else {
-                            connected(false);
-                            logger.error(result.message);
-                        }
-                        tcs.resolve(result);
-                    });
-
-                return tcs.promise();
-            },
             generate = function () {
                 var data = ko.mapping.toJSON(adapter);
                 return context.post(data, "/mysql-adapter/generate");
@@ -275,6 +286,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         if (dialogResult === "Yes") {
                             return context.send(ko.mapping.toJSON(adapter), "adapter", "DELETE");
                         }
+                        return Task.fromResult(0);
                     });
             }
         ;

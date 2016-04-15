@@ -68,7 +68,7 @@ namespace mysql.adpater.test
 
         public dynamic CreateAdapter(string table)
         {
-            var adapterType = m_dll.GetType(string.Format("Dev.Adapters.employees.{0}.{1}Adapter", ADAPTER_NAME, table));
+            var adapterType = m_dll.GetType($"Dev.Adapters.employees.{ADAPTER_NAME}.{table}Adapter");
             dynamic adapter = Activator.CreateInstance(adapterType);
             Assert.IsNotNull(adapter);
 
@@ -77,7 +77,7 @@ namespace mysql.adpater.test
         }
         public dynamic CreateEmployee()
         {
-            var personType = m_dll.GetType(string.Format("Dev.Adapters.employees.{0}.employees", ADAPTER_NAME));
+            var personType = m_dll.GetType($"Dev.Adapters.employees.{ADAPTER_NAME}.employees");
             dynamic prs = Activator.CreateInstance(personType);
             Assert.IsNotNull(prs);
 

@@ -21,8 +21,19 @@ namespace Bespoke.Sph.Integrations.Adapters
     [DesignerMetadata(Name = "MySql database", PngIcon = "/images/mysql-24-black.png", RouteTableProvider = typeof(MySqlServerRouteProvider), Route = "adapter.mysql/0")]
     public class MySqlAdapter : Adapter
     {
-        private string m_connectionString;
+        public MySqlAdapter()
+        {
+            
+        }
 
+        public MySqlAdapter( string database,string server = "localhost", string userId = "root",  string password = null)
+        {
+            this.Database = database;
+            this.Schema = database;
+            this.UserId = userId;
+            this.Password = password;
+            this.Server = server;
+        }
         public override async Task OpenAsync(bool verbose = false)
         {
             this.TableDefinitionCollection.Clear();
@@ -195,10 +206,10 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetSelectOneCommand(TableDefinition table)
         {
             var sql = new StringBuilder("SELECT * FROM ");
-            sql.AppendFormat("`{0}`.`{1}` ", this.Schema, table);
+            sql.Append($"`{Schema}`.`{table}` ");
             sql.AppendLine("WHERE ");
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
-            var parameters = pks.Select(k => string.Format("`{0}` = @{0}", k.Name));
+            var parameters = pks.Select(k => $"`{k.Name}` = @{k.Name}");
 
 
             sql.AppendLine(string.Join(" AND ", parameters));
@@ -220,8 +231,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           {");
             foreach (var pk in pks)
             {
-
-                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", {0});", pk.Name);
+                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{pk.Name}\", {pk.Name.ToCamelCase()});");
             }
 
 
@@ -583,12 +593,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             get
             {
-
-                if (string.IsNullOrWhiteSpace(m_connectionString))
-                    m_connectionString = $"Server={this.Server};Database={this.Database};Uid={this.UserId};Pwd={this.Password};Allow User Variables=true;Allow Zero Datetime=true;";
-                return m_connectionString;
+                return $"Server={this.Server};Database={this.Database};Uid={this.UserId};Pwd={this.Password};Allow User Variables=true;Allow Zero Datetime=true;";
             }
-            set { m_connectionString = value; }
         }
 
         public string Password { get; set; }

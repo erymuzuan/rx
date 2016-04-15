@@ -3,19 +3,16 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Integrations.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace mysql.adpater.test
 {
     [TestClass]
     public class MetadataQueryTextFixture
     {
-        const string ConnectionString = "Server=localhost;Database=employees;Uid=root;Pwd=;";
         [TestMethod]
         public async Task QueryDatabases()
         {
-            var adapter = new MySqlAdapter { ConnectionString = ConnectionString };
+            var adapter = new MySqlAdapter("employees") ;
             var controller = new MySqlAdapterController();
             var response = await controller.GetDatabasesAsync(adapter);
             var content = (JsonContent)response.Content;
@@ -28,11 +25,7 @@ namespace mysql.adpater.test
         [TestMethod]
         public async Task QuerySchemas()
         {
-            var adapter = new MySqlAdapter
-            {
-                ConnectionString = ConnectionString,
-                Database = "employees"
-            };
+            var adapter = new MySqlAdapter("employees");
             var controller = new MySqlAdapterController();
             var response = await controller.GetSchemasAsync(adapter);
             var content = (JsonContent)response.Content;
@@ -46,15 +39,7 @@ namespace mysql.adpater.test
         [TestMethod]
         public async Task QueryTables()
         {
-            var adapter = new MySqlAdapter
-            {
-                ConnectionString = ConnectionString,
-                Schema = "employees",
-                Database = "employees",
-                Server = "localhost",
-                UserId = "root",
-                Password = ""
-            };
+            var adapter = new MySqlAdapter("employees");
             var controller = new MySqlAdapterController();
             var response = await controller.GetObjectsAsync(adapter);
 
@@ -65,15 +50,7 @@ namespace mysql.adpater.test
         [TestMethod]
         public async Task QueryProcedure()
         {
-            var adapter = new MySqlAdapter
-            {
-                ConnectionString = ConnectionString,
-                Schema = "employees",
-                Database = "employees",
-                Server = "localhost",
-                UserId = "root",
-                Password = ""
-            };
+            var adapter = new MySqlAdapter("employees");
             var controller = new MySqlAdapterController();
             var response = await controller.GetObjectsAsync(adapter);
 
