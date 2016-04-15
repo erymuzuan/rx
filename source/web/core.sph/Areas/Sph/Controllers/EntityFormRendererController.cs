@@ -177,7 +177,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             foreach (var btn in operationButtons)
             {
-                var oe =context.LoadOneFromSources<OperationEndpoint>(x => x.Name == btn.Operation && x.Entity == ed.Name);
+                var oe = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == btn.Operation && x.Entity == ed.Name);
                 var apiCallScript = GenerateApiOperationCode(ed, oe, btn.OperationMethod);
                 script.Append(apiCallScript);
                 var operationScript = this.GetOperationScript(new EntityForm
@@ -309,22 +309,30 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             {
                 script.AppendLine($@"  .then(function(result){{
                         {form.OperationSuccessCallback}
-                        return Task.fromResult(result);
                     }})");
             }
-            if (!string.IsNullOrWhiteSpace(form.OperationSuccessMesage))
+
+            var successMessage = form.OperationSuccessMesage;
+            if (!string.IsNullOrWhiteSpace(successMessage))
             {
+                successMessage = successMessage.Trim().StartsWith("=") ? successMessage.Remove(0, 1) : $"\"{successMessage}\"";
                 script.AppendLine($@"  .then(function(result){{
-                          if(result.success)
-                                return app.showMessage(""{form.OperationSuccessMesage}"", [""OK""]);
-                            else
+                          if(result.success) {{
+                                return app.showMessage({successMessage}, [""OK""]);
+                          }}
+                          else {{
                                return Task.fromResult(false);
+                          }}
                     }})");
             }
-            if (!string.IsNullOrWhiteSpace(form.OperationSuccessNavigateUrl))
+            var url = form.OperationSuccessNavigateUrl;
+            if (!string.IsNullOrWhiteSpace(url))
             {
+                url = url.Trim().StartsWith("=") ? url.Remove(0, 1) : $"\"{url}\"";
                 script.AppendLine($@"  .then(function(result){{
-                        if(result) router.navigate(""{form.OperationSuccessNavigateUrl}"");
+                        if(result){{
+                            router.navigate({url});
+                        }}
                     }})");
             }
             if (!string.IsNullOrWhiteSpace(form.OperationFailureCallback))
