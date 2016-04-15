@@ -81,6 +81,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 {
                     var identity = new ClaimsIdentity(ConfigurationManager.ApplicationName + "Cookie");
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, model.UserName));
+                    identity.AddClaim(new Claim(ClaimTypes.Name, model.UserName));
                     var roles = Roles.GetRolesForUser(model.UserName).Select(x => new Claim(ClaimTypes.Role, x));
                     identity.AddClaims(roles);
 
