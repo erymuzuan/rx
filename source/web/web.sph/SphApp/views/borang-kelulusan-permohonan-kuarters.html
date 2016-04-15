@@ -31,6 +31,44 @@
             </div>
         </div>
     </div>
+<div data-bind="visible:true">
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                    <th data-i18n="Issuer">Issuer</th>
+                    <th data-i18n="Note">Note</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :Recommendations">
+            <tr>
+                    <td>
+    <input class="form-control "
+           data-bind="value: Issuer, visible :true, enable :true ,uniqueName:true"
+           type="text"
+           name="Issuer"
+            />
+                    </td>
+                    <td>
+    <input class="form-control "
+           data-bind="value: Note, visible :true, enable :true ,uniqueName:true"
+           type="text"
+           name="Note"
+            />
+                    </td>
+                <td>
+                    <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.Recommendations, $data)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a data-i18n="Recommendations" class="btn btn-link" data-bind="click : addChildItem(Recommendations, bespoke.DevV1.PermohonanKuartersWorkflow.domain.Recommendation)">
+        <i class="fa fa-plus-circle"></i>
+        Recommendations
+    </a>
+</div>
 </form>
     </div>
 </div>

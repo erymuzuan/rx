@@ -366,7 +366,7 @@
       {
         "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
         "PortType": null,
-        "Operation": "HantarStatusKelulusan",
+        "Operation": "hantar-status-kelulusan",
         "MessagePath": "Kelulusan",
         "CancelMessageBody": null,
         "CancelMessageSubject": null,
@@ -624,6 +624,6 @@
   "Id": "permohonan-kuarters",
   "CreatedDate": "2016-03-01T15:26:07.7855503+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-03-04T11:12:40.6855297+08:00",
+  "ChangedDate": "2016-04-15T10:27:35.910011+08:00",
   "WebId": "a72c7612-b699-440c-885e-a1646e026b9d"
 }

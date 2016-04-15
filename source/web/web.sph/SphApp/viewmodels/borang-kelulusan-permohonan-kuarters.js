@@ -19,9 +19,9 @@ function(context, logger, router, system, validation, dialog, config, app) {
                 .then(function(n) {
                 i18n = n[0];
 
-                return context.get("api/workflow-forms/borang-kelulusan-permohonan-kuarters/activities/08749ac0-e998-4ce2-e8dc-5ad0e41d5538/schema");
+                return $.getScript("api/workflow-forms/borang-kelulusan-permohonan-kuarters/activities/08749ac0-e998-4ce2-e8dc-5ad0e41d5538/schema");
             }).then(function(b) {
-                message(ko.mapping.fromJS(b));
+                message(new bespoke.DevV1.PermohonanKuartersWorkflow.domain.KelulusanKuarters());
             }, function(e) {
                 if (e.status == 404) {
                     app.showMessage("Sorry, but we cannot find any Permohonan Kuarters with location : /api/permohonan-kuarters/v1", "Engineering Team Development", ["OK"]);
