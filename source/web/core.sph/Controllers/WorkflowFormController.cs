@@ -95,7 +95,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (null == @var)
                 return Invalid((HttpStatusCode)409, new { message = $"The [{act.Name}] has not specify a correct MessagePath[{act.MessagePath}]" });
             var schema = await @var.GenerateCustomJavascriptAsync(wd);
-            return Json(schema);
+            return Json(schema.Replace("bespoke.bespoke.", "bespoke.").Replace(".domain.domain", ".domain"));
         }
 
         [HttpGet]

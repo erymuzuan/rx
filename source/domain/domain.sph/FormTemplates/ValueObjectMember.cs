@@ -79,10 +79,10 @@ namespace Bespoke.Sph.Domain
 
             if (string.IsNullOrWhiteSpace(this.ValueObjectName))
                 errors.Add(new BuildError(this.WebId) { Message = $"[Member] {Name} has no ValueObjectDefinition defined" });
-            
+
             foreach (var m in this.MemberCollection)
             {
-               var list = m.Validate();
+                var list = m.Validate();
                 errors.AddRange(list);
             }
 
@@ -123,7 +123,8 @@ namespace Bespoke.Sph.Domain
 
             script.AppendLine($"bespoke.{jns}.domain.{ValueObjectName} = function(optionOrWebid){{");
             script.AppendLine(" var model = {");
-            script.AppendLine($"     $type : ko.observable(\"{csNs}.{ValueObjectName}, {assemblyName}\"),");
+            if (!string.IsNullOrWhiteSpace(assemblyName) && !string.IsNullOrWhiteSpace(csNs))
+                script.AppendLine($"     $type : ko.observable(\"{csNs}.{ValueObjectName}, {assemblyName}\"),");
 
             var members = from mb in this.MemberCollection
                           let m = mb.GenerateJavascriptMember(jns)

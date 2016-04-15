@@ -29,6 +29,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var form = await context.LoadOneAsync<WorkflowForm>(f => f.Route == id);
+            if (null == form) return HttpNotFound("Cannot find the form");
             var wd = await context.LoadOneAsync<WorkflowDefinition>(f => f.Id == form.WorkflowDefinitionId);
 
 
@@ -48,6 +49,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var saveOperation = form.Operation;
             var partialPath = string.IsNullOrWhiteSpace(form.Partial) ? string.Empty : ",'" + form.Partial + "'";
             var partialVariable = string.IsNullOrWhiteSpace(form.Partial) ? string.Empty : ",partial";
+
+            var receive = wd.GetActivity<ReceiveActivity>(form.Operation);
+            var vom = wd.VariableDefinitionCollection.OfType<ValueObjectVariable>().Single(x => x.Name == receive.MessagePath);
+           
 
             var script = new StringBuilder();
             script.AppendLine(
@@ -72,9 +77,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                        .then(function (n) {{
                            i18n = n[0];
 
-                           return context.get(""api/workflow-forms/{form.Id}/activities/{form.Operation}/schema"");
+                           return $.getScript(""api/workflow-forms/{form.Id}/activities/{form.Operation}/schema"");
                        }}).then(function (b) {{
-                             message(ko.mapping.fromJS(b));
+                             message(new bespoke.{ConfigurationManager.ApplicationName}.{wd.WorkflowTypeName}.domain.{vom.TypeName}());
                        }}, function (e) {{
                          if (e.status == 404) {{
                             app.showMessage(""Sorry, but we cannot find any {wd.Name} with location : /api/{wd.Id}/v{wd.Version}"", ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);

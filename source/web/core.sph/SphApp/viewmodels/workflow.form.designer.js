@@ -67,8 +67,34 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         });
                     form(f);
                     originalEntity = ko.toJSON(form);
+
+                    var vodUrl = "/api/workflow-forms/" + ko.unwrap(form().Id) + "/activities/" + ko.unwrap(form().Operation) + "/vod";
+                    $.getJSON(vodUrl)
+                        .done(function (b) {
+                            var vod = context.toObservable(b);
+                            // get the AllowMutlipe members
+                            var members = [];
+                            var getAllowMultipleMembers = function (list) {
+                                _(list).each(function (v) {
+                                    if (ko.unwrap(v.AllowMultiple)) {
+                                        members.push(v);
+                                    }
+                                    getAllowMultipleMembers(ko.unwrap(v.MemberCollection));
+                                });
+                            };
+
+                            getAllowMultipleMembers(ko.unwrap(vod.MemberCollection));
+                            var names = _(members).map(function (v) {
+                                return {
+                                    text: ko.unwrap(v.TypeName),
+                                    value: "bespoke." + config.applicationName + "." + ko.unwrap(wd().WorkflowTypeName) + ".domain." + ko.unwrap(v.TypeName)
+                                };
+                            });
+                            collectionMemberOptions(names);
+                        });
                     tcs.resolve(true);
                 });
+
 
 
 

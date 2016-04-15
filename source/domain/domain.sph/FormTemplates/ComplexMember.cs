@@ -111,8 +111,8 @@ namespace Bespoke.Sph.Domain
 
             script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jns, name);
             script.AppendLine(" var model = {");
-            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", csNs, name,
-                assemblyName);
+            if (!string.IsNullOrWhiteSpace(assemblyName) && !string.IsNullOrWhiteSpace(csNs))
+                script.AppendLine($"     $type : ko.observable(\"{csNs}.{name}, {assemblyName}\"),");
 
 
             var members = from item in this.MemberCollection

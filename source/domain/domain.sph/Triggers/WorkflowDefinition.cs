@@ -256,7 +256,6 @@ namespace Bespoke.Sph.Domain
         }
 
         [XmlIgnore]
-        [JsonIgnore]
         public string WorkflowTypeName => (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "Workflow").Replace("WorkflowWorkflow", "Workflow");
 
         [XmlIgnore]

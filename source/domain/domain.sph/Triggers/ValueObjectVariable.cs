@@ -106,62 +106,70 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        private string GenerateJavascriptMember(Member member)
-        {
-            var vom = member as ValueObjectMember;
-            if (null != vom)
-            {
-                var vs = new StringBuilder();
-                var context = new SphDataContext();
-                var vod = context.LoadOneFromSources<ValueObjectDefinition>(x => x.Name == vom.ValueObjectName);
-
-                vs.AppendLine(" {");
-
-                var vsMembers = from mb in vod.MemberCollection
-                                let val = this.GenerateJavascriptMember(mb)
-                                let m = $"\"{mb.Name}\":{val},"
-                                where !string.IsNullOrWhiteSpace(m)
-                                select m;
-                vsMembers.ToList().ForEach(m => vs.AppendLine(m));
-                vs.AppendLine("\"WebId\":0");
-                vs.AppendLine(" }");
-
-                return vs.ToString();
-
-            }
-
-            if (member.MemberCollection.Count == 0)
-                return "0";
-
-            var script = new StringBuilder();
-            script.AppendLine(" {");
-            var members = from mb in member.MemberCollection
-                          let val = this.GenerateJavascriptMember(mb)
-                          let m = $"\"{mb.Name}\":{val},"
-                          where !string.IsNullOrWhiteSpace(m)
-                          select m;
-            members.ToList().ForEach(m => script.AppendLine(m));
-            script.AppendLine("\"WebId\":0");
-            script.AppendLine(" }");
-
-            return script.ToString();
-        }
 
         public override async Task<string> GenerateCustomJavascriptAsync(WorkflowDefinition wd)
         {
+            var jns = $"bespoke.{ConfigurationManager.ApplicationName}.{wd.WorkflowTypeName}.domain";
             var context = new SphDataContext();
             var vod = await context.LoadOneAsync<ValueObjectDefinition>(x => x.Name == this.TypeName);
             var script = new StringBuilder();
+            script.AppendLine($@"
+var bespoke = bespoke ||{{}};
+bespoke.{ConfigurationManager.ApplicationName} = bespoke.{ConfigurationManager.ApplicationName} ||{{}};
+bespoke.{ConfigurationManager.ApplicationName}.{wd.WorkflowTypeName} = bespoke.{ConfigurationManager.ApplicationName}.{wd.WorkflowTypeName} ||{{}};
+{jns} = {jns} ||{{}};
+");
 
-            script.AppendLine(" {");
+            foreach (var member in vod.MemberCollection)
+            {
+                var @class = member.GenerateJavascriptClass($"{ConfigurationManager.ApplicationName}.{wd.WorkflowTypeName}", "", "");
+                if (!string.IsNullOrWhiteSpace(@class))
+                    script.AppendLine(@class);
+            }
 
+            script.AppendLine($@"
+    bespoke.{ConfigurationManager.ApplicationName}.{wd.WorkflowTypeName}.domain.{this.TypeName} = function(optionOrWebid){{");
+            script.AppendLine(@" 
+    var system = require('durandal/system'),
+        model = {");
             var members = from mb in vod.MemberCollection
-                          let val = this.GenerateJavascriptMember(mb)
-                          let m = $"\"{mb.Name}\":{val},"
-                          where !string.IsNullOrWhiteSpace(m)
-                          select m;
+                          let memberDeclare = mb.GenerateJavascriptMember(jns)
+                          where !string.IsNullOrWhiteSpace(memberDeclare)
+                          select memberDeclare;
             members.ToList().ForEach(m => script.AppendLine(m));
-            script.AppendLine("\"WebId\":0");
+            script.AppendLine(@"   
+   addChildItem : function(list, type){
+                        return function(){
+                            list.push(new type(system.guid()));
+                        }
+                    },
+            
+   removeChildItem : function(list, obj){
+                        return function(){
+                            list.remove(obj);
+                        }
+                    }");
+            script.AppendLine(" };");
+
+            script.AppendLine(" if(typeof optionOrWebid === \"object\"){");
+
+            var initCodes = from mb in vod.MemberCollection
+                          let init = mb.GenerateJavascriptInitValue(jns)
+                          where !string.IsNullOrWhiteSpace(init)
+                          select $@"    
+        if(optionOrWebid.{mb.Name}){{
+            {init}
+        }}";
+            initCodes.ToList().ForEach(m => script.AppendLine(m));
+            script.AppendLine(" }");
+
+
+            script.AppendLine($@"   
+    if({jns}.{TypeName}Partial){{    
+        return _(model).extend(new {jns}.{TypeName}Partial(model));
+    }}");
+
+            script.AppendLine(" return model;");
             script.AppendLine(" }");
 
             return script.ToString();
