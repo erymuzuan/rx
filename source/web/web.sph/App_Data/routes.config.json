@@ -26,19 +26,5 @@
     "showWhenLoggedIn": false,
     "isAdminPage": false,
     "startPageRoute": null
-  },
-  {
-    "role": "everybody",
-    "groupName": null,
-    "route": "borang-kelulusan-permohonan-kuarters/:cor",
-    "moduleId": "viewmodels/borang-kelulusan-permohonan-kuarters",
-    "title": "Borang borang kelulusan permohonan kuarters",
-    "nav": true,
-    "icon": "fa fa-pagelines",
-    "caption": "Borang borang kelulusan permohonan kuarters",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "isAdminPage": false,
-    "startPageRoute": null
   }
 ]

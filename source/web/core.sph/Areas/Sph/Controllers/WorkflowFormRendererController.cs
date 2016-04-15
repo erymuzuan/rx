@@ -62,7 +62,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 form = ko.observable(new bespoke.sph.domain.WorkflowForm()),
                 partial = partial || {{}},
                 i18n = null,
-                activate = function () {{
+                activate = function (id) {{
                     var tcs = new $.Deferred();
                     context.loadOneAsync(""WorkflowForm"", ""Route eq '{form.Route}'"")
                        .then(function (f) {{
@@ -81,7 +81,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                          }}
                        }}).always(function () {{
                            if (typeof partial.activate === ""function"") {{
-                               partial.activate(ko.unwrap(message))
+                               partial.activate(ko.unwrap(message, id))
                                         .done(tcs.resolve)
                                         .fail(tcs.reject);
                            }}

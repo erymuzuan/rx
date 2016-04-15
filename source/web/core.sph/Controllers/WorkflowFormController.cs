@@ -50,6 +50,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
+            form.IsPublished = true;
             using (var session = context.OpenSession())
             {
                 session.Attach(form);
