@@ -37,22 +37,22 @@ namespace subscriber.entities
             base.OnStart();
         }
 
-        private async void MigrateData(string name)
+        private async void MigrateData(string eid)
         {
-            await MigrateDataAsync(name);
+            var ed = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{eid}.json"
+                .DeserializeFromJsonFile<EntityDefinition>();
 
+            await MigrateDataAsync(ed);
         }
 
-        public async Task MigrateDataAsync(string name)
+        public async Task MigrateDataAsync(EntityDefinition ed)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
+            var name = ed.Name;
             Console.WriteLine(name);
             this.WriteMessage("Starting data migration for " + name);
             var connectionString = ConfigurationManager.SqlConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
-            var ed =
-                $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{name}.json"
-                    .DeserializeFromJsonFile<EntityDefinition>();
 
 
             var taskBuckets = new List<Task>();
@@ -190,7 +190,7 @@ namespace subscriber.entities
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            var file = Path.Combine(folder, item.Name + ".mapping");
+            var file = Path.Combine(folder, item.Id + ".mapping");
             if (!Exists(file)) return false;
             return ReadAllText(file) == map;
 
@@ -204,19 +204,19 @@ namespace subscriber.entities
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            var file = Path.Combine(folder, item.Name + ".mapping");
+            var file = Path.Combine(folder, item.Id + ".mapping");
             WriteAllText(file, map);
 
 
         }
 
-        private void SaveMigrationMarker(EntityDefinition item)
+        private void SaveMigrationMarker(EntityDefinition ed)
         {
             var wc = ConfigurationManager.SphSourceDirectory;
-            var type = item.GetType();
+            var type = ed.GetType();
             var folder = Path.Combine(wc, type.Name);
 
-            var marker = Path.Combine(folder, item.Name + ".marker");
+            var marker = Path.Combine(folder, ed.Id + ".marker");
             WriteAllText(marker, DateTime.Now.ToString(CultureInfo.InvariantCulture));
         }
     }

@@ -45,7 +45,7 @@ namespace subscriber.entities
             };
 
             delete(Path.Combine($"{sourceDirectory}\\EntityDefinition\\{item.Id}.json"));
-            delete(Path.Combine($"{sourceDirectory}\\EntityDefinition\\{item.Name}.mapping"));
+            delete(Path.Combine($"{sourceDirectory}\\EntityDefinition\\{item.Id}.mapping"));
             delete(Path.Combine($"{web}\\SphApp\\viewmodels\\{item.Name}.js"));
             delete(Path.Combine($"{web}\\SphApp\\views\\{item.Name}.html"));
 
