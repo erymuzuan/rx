@@ -9,7 +9,7 @@ function(context, logger, router, system, validation, dialog, config, app) {
         form = ko.observable(new bespoke.sph.domain.WorkflowForm()),
         partial = partial || {},
         i18n = null,
-        activate = function() {
+        activate = function(id) {
             var tcs = new $.Deferred();
             context.loadOneAsync("WorkflowForm", "Route eq 'borang-kelulusan-permohonan-kuarters'")
                 .then(function(f) {
@@ -28,7 +28,7 @@ function(context, logger, router, system, validation, dialog, config, app) {
                 }
             }).always(function() {
                 if (typeof partial.activate === "function") {
-                    partial.activate(ko.unwrap(message))
+                    partial.activate(ko.unwrap(message, id))
                         .done(tcs.resolve)
                         .fail(tcs.reject);
                 } else {
@@ -48,7 +48,7 @@ function(context, logger, router, system, validation, dialog, config, app) {
             var data = ko.mapping.toJSON(message),
                 tcs = new $.Deferred();
 
-            context.post(data, "/wf/permohonan-kuarters/v1")
+            context.post(data, "/wf/permohonan-kuarters/v1/HantarStatusKelulusan")
                 .fail(function(response) {
                 var result = response.responseJSON;
                 errors.removeAll();
