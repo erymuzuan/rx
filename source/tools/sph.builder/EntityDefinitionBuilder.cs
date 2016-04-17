@@ -140,10 +140,10 @@ namespace Bespoke.Sph.SourceBuilders
 
                 var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification() };
                 await subs.PutMappingAsync(clone);
-                await subs.MigrateDataAsync(ed.Name);
+                await subs.MigrateDataAsync(ed);
             }
 
-            Console.WriteLine("Deploying : {0}", ed.Name);
+            Console.WriteLine(@"Deploying : {0}", ed.Name);
 
         }
 

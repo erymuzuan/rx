@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
                 list.Add(new Claim(ClaimTypes.Email, this.Email));
 
             if (!string.IsNullOrWhiteSpace(this.FullName))
-                list.Add(new Claim(ClaimTypes.Name, this.FullName));
+                list.Add(new Claim(ClaimTypes.GivenName, this.FullName));
 
             return list;
         }
