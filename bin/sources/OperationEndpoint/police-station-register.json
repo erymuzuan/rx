@@ -1,0 +1,36 @@
+{
+  "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "EntityPermissionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "SetterActionChildCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "PatchPathCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Register",
+  "Route": "{id}/register",
+  "IsHttpPut": true,
+  "IsHttpPatch": false,
+  "IsHttpPost": false,
+  "IsHttpDelete": false,
+  "Note": "Sample put",
+  "Entity": "PoliceStation",
+  "Resource": "policestations",
+  "IsPublished": true,
+  "IsConflictDetectionEnabled": true,
+  "CreatedBy": "admin",
+  "Id": "police-station-register",
+  "CreatedDate": "2016-04-18T06:43:31.0160511+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-04-18T06:48:59.0144712+08:00",
+  "WebId": "f5ee5e10-1480-484f-e699-7e93cf3f172e"
+}

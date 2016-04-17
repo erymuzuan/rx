@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -45,7 +44,7 @@ namespace Bespoke.Sph.Domain
             var post = new Method { Name = $"Post{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             post.AttributeCollection.Add("[HttpPost]");
             post.AttributeCollection.Add($"[PostRoute(\"{Route}\")]");
-            
+
             var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
             edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
             post.ArgumentCollection.Add(edArg);
@@ -193,7 +192,7 @@ namespace Bespoke.Sph.Domain
                 @"               
                 if (!etag.IsMatch(lo.Version, modifiedSince, lo.Source.ChangedDate, false))
                 {
-                    return Invalid((HttpStatusCode)428, new { message =""This request is required to be conditional;try using 'If-Match'""});
+                    return Invalid((HttpStatusCode)428, new { message =""This request is required to be conditional;try using 'If-Match', or may be your resource is out of date""});
                 }
                 ");
             return code.ToString();
@@ -223,6 +222,12 @@ namespace Bespoke.Sph.Domain
             endpointArg.AttributeCollection.Add($"[SourceEntity(\"{this.Id}\")]");
             put.ArgumentCollection.Add(endpointArg);
 
+            if (this.IsConflictDetectionEnabled)
+            {
+                put.ArgumentCollection.Add(new MethodArg { Name = "etag", TypeName = "ETag", AttributeCollection = { "[IfMatch]" } });
+                put.ArgumentCollection.Add(new MethodArg { Name = "modifiedSince", TypeName = "ModifiedSinceHeader", AttributeCollection = { "[ModifiedSince]" } });
+            }
+
 
             var body = new MethodArg { Name = "item", TypeName = Entity };
             body.AttributeCollection.Add("[FromBody]");
@@ -238,6 +243,15 @@ namespace Bespoke.Sph.Domain
             var baru = null == lo.Source;
             item.Id = id ?? System.Guid.NewGuid().ToString();
             ");
+
+            if (this.IsConflictDetectionEnabled)
+            {
+                put.AppendLine(@"    
+            if(!baru){");
+                put.Append(this.GenerateConflicDetectionCode());
+                put.AppendLine(@"
+            }");
+            }
 
             var rules = GenerateRulesCode();
             put.AppendLine(rules);
@@ -261,7 +275,7 @@ namespace Bespoke.Sph.Domain
                                id = item.Id, 
                                _link = new {{
                                     rel = ""self"",
-                                    href = $""{{ConfigurationManager.BaseUrl}}/api/{ed.Plural.ToLowerInvariant()}/{{item.Id}}""
+                                    href = $""{{ConfigurationManager.BaseUrl}}/api/{Resource}/{{item.Id}}""
                                 }}
                             }};
             if(baru) return Accepted( result._link.href, result);
