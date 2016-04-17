@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -61,6 +62,25 @@ namespace Bespoke.Sph.WebApi
         public bool Match(ClaimSetting cs)
         {
             return this.Type == cs.Type && this.Value == cs.Value;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var cs = obj as ClaimSetting;
+            return null != cs && this.Equals(cs);
+        }
+
+        protected bool Equals(ClaimSetting other)
+        {
+            return string.Equals(Type, other.Type, StringComparison.InvariantCultureIgnoreCase) && string.Equals(Value, other.Value, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Type != null ? StringComparer.InvariantCultureIgnoreCase.GetHashCode(Type) : 0)*397) ^ (Value != null ? StringComparer.InvariantCultureIgnoreCase.GetHashCode(Value) : 0);
+            }
         }
     }
 }

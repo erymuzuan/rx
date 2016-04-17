@@ -74,21 +74,23 @@ namespace Bespoke.Sph.WebApi
             {
                 var controller = settings.SingleOrDefault(
                         x => !x.HasAction && x.Controller == this.Controller && x.Parent == this.Parent);
-                if (null != controller)
-                    originalList.AddRange(controller.Claims ?? Array.Empty<ClaimSetting>());
+                var claims = controller?.Claims ?? Array.Empty<ClaimSetting>();
+                var diffs = originalList.Except(claims).ToArray();
+                originalList.AddRange(diffs);
 
             }
             if (this.HasController && this.HasParent)
             {
                 var parent = settings.SingleOrDefault(x => !x.HasAction && !x.HasController && x.Parent == this.Parent);
-                if (null != parent)
-                    originalList.AddRange(parent.Claims ?? Array.Empty<ClaimSetting>());
+                var claims = parent?.Claims ?? Array.Empty<ClaimSetting>();
+                var diffs = originalList.Except(claims).ToArray();
+                originalList.AddRange(diffs);
             }
 
             var list = originalList.Select(x => x.Clone(true)).ToList();
-            var temps = (this.Claims ?? Array.Empty<ClaimSetting>()).Where(x => !x.IsInherited);
+            var temps = (this.Claims ?? Array.Empty<ClaimSetting>()).Where(x => !x.IsInherited).Except(list).ToArray();
             list.AddRange(temps);
-            this.Claims = list.ToArray();
+            this.Claims = list.Distinct().ToArray();
         }
 
         public bool HasParent => !string.IsNullOrWhiteSpace(this.Parent);
