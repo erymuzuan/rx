@@ -1,0 +1,51 @@
+﻿<h1>Endpoints Rate Limit &amp; Quota Policy</h1>
+<div class="row">
+    <h2>Policies</h2>
+    <table class="table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>Policy</th>
+            <th>Rate Limit</th>
+            <th>Renewal</th>
+            <th>Quota</th>
+            <th>Renewal</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach :policies">
+        <tr>
+            <td>
+
+                <a href="javascript:;" data-bind="text:Name, click : edit"></a>
+            </td>
+            <td data-bind="text:RateLimit.Calls"></td>
+            <td data-bind="text:RateLimit.RenewalPeriod"></td>
+            <td data-bind="text:Quota.Calls"></td>
+            <td data-bind="text:Quota.RenewalPeriod"></td>
+            <td>
+                <a href="javascript:;">
+
+                    <i class="fa fa-check-circle-o"></i>
+                    Select API
+                </a>
+            </td>
+            <td>
+                <a href="javascript:;">
+                    <i class="fa fa-times"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="javascript:;" data-bind2="click : addClaims, visible : selected">
+        <i class="fa fa-plus-circle"></i>
+        Add a policy
+    </a>
+</div>
+<div class="row">
+    <h2>API</h2>
+</div>
+<div class="row">
+    
+</div>
