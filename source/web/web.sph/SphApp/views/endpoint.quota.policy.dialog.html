@@ -13,9 +13,9 @@
 
                     <div class="form-group">
                         <label for="policy-name" class="col-lg-2 control-label">Name</label>
-                        <div class="col-lg-6">
+                        <div class="col-lg-10">
                             <input type="text" data-bind="value: Name"
-                                   required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
                                    placeholder="Policy Name"
                                    class="form-control" id="policy-name">
                         </div>
@@ -23,10 +23,21 @@
 
                     <h4>Rate Limit</h4>
                     <div class="form-group" data-bind="with : RateLimit">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsUnlimited" id="rate-limit-unlimited" type="checkbox" name="IsUnlimited"/>
+                                    Unlimited
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" data-bind="with : RateLimit">
                         <label for="policy-rate-limit-calls" class="col-lg-2 control-label">Calls</label>
                         <div class="col-lg-6">
-                            <input type="number" data-bind="value: Calls"
-                                   required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                            <input type="text" data-bind="value: Calls, disable : IsUnlimited, tooltip: 'Leave blank to limit the calls by individual endpoint'"
+                                   pattern="^[0-9]{1,20}"
                                    placeholder="Number of calls"
                                    class="form-control" id="policy-rate-limit-calls">
                         </div>
@@ -35,7 +46,7 @@
                         <label for="policy-rate-limit-renewal" class="col-lg-2 control-label">Renewal</label>
                         <div class="col-lg-6">
                             <input type="number" data-bind="value: RenewalPeriod"
-                                   required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   required
                                    placeholder="Renewal Period in seconds"
                                    class="form-control" id="policy-rate-limit-renewal">
                         </div>

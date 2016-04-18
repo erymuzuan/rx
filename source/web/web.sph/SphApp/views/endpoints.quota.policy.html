@@ -16,7 +16,6 @@
         <tbody data-bind="foreach :policies">
         <tr>
             <td>
-
                 <a href="javascript:;" data-bind="text:Name, click : edit"></a>
             </td>
             <td data-bind="text:RateLimit.Calls"></td>
@@ -24,21 +23,21 @@
             <td data-bind="text:Quota.Calls"></td>
             <td data-bind="text:Quota.RenewalPeriod"></td>
             <td>
-                <a href="javascript:;">
-
+                <a href="javascript:;" data-bind="click : selectApi, visible : !ko.unwrap(RateLimit.Calls)">
                     <i class="fa fa-check-circle-o"></i>
                     Select API
                 </a>
             </td>
             <td>
-                <a href="javascript:;">
+                <a href="javascript:;" data-bind="click : $root.removePolicy">
                     <i class="fa fa-times"></i>
+                    Remove Policy
                 </a>
             </td>
         </tr>
         </tbody>
     </table>
-    <a href="javascript:;" data-bind2="click : addClaims, visible : selected">
+    <a href="javascript:;" data-bind="click : $root.addPolicy">
         <i class="fa fa-plus-circle"></i>
         Add a policy
     </a>
