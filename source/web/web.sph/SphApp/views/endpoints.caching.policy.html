@@ -1,2 +1,48 @@
-﻿<div class="row">
+﻿<h1>Endpoints Caching Policy</h1>
+<div class="row">
+    <h2>Policies</h2>
+    <table class="table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>Policy</th>
+            <th>Location</th>
+            <th>Max Size</th>
+            <th>Renewal</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach :policies">
+        <tr>
+            <td>
+                <a href="javascript:;" data-bind="text:Name, click : edit"></a>
+            </td>
+            <td data-bind="text:Location"></td>
+            <td data-bind="text:MaxSize"></td>
+            <td data-bind="text:Duration"></td>
+            <td>
+                <a href="javascript:;" data-bind="click : selectApi">
+                    <i class="fa fa-check-circle-o"></i>
+                    Select API
+                </a>
+            </td>
+            <td>
+                <a href="javascript:;" data-bind="click : $root.removePolicy">
+                    <i class="fa fa-times"></i>
+                    Remove Policy
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="javascript:;" data-bind="click : $root.addPolicy">
+        <i class="fa fa-plus-circle"></i>
+        Add a policy
+    </a>
+</div>
+<div class="row">
+    <h2>API</h2>
+</div>
+<div class="row">
+    
 </div>
