@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="LatLng">
 		<xs:complexType>
@@ -210,4 +210,64 @@
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="QuotaPolicy">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="RateLimit"/>
+				<xs:element ref="QuotaLimit"/>
+				<xs:element ref="BandwidthLimit"/>
+				<xs:element name="EndpointLimitCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="EndpointLimit" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RateLimit">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Calls" type="xs:int" nillable="true"/>
+				<xs:element name="RenewalPeriod" type="TimePeriod"/>
+			</xs:all>
+			<xs:attribute name="IsUnlimited" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="QuotaLimit">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Calls" type="xs:int" nillable="true"/>
+				<xs:element name="RenewalPeriod" type="TimePeriod"/>
+			</xs:all>
+			<xs:attribute name="IsUnlimited" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BandwidthLimit">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Size" type="xs:int" nillable="true"/>
+				<xs:element name="RenewalPeriod" type="TimePeriod"/>
+			</xs:all>
+			<xs:attribute name="IsUnlimited" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EndpointLimit">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Calls" type="xs:int" nillable="true"/>
+				<xs:element name="RenewalPeriod" type="TimePeriod"/>
+			</xs:all>
+			<xs:attribute name="Controller" type="xs:string" use="required"/>
+			<xs:attribute name="Action" type="xs:string" use="required"/>
+			<xs:attribute name="Parent" type="xs:string" use="optional"/>
+			<xs:attribute name="Note" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="TimePeriod">
+		<xs:attribute name="Count" type="xs:int" use="required"/>
+		<xs:attribute name="Unit" type="xs:string" use="required"/>
+	</xs:complexType>
 </xs:schema>

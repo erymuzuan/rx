@@ -41,6 +41,7 @@ namespace Bespoke.Sph.Web.Api
                 case "entitychart": return SelectSystemObjectProperty<EntityChart>(column, filter);
                 case "operationendpoint": return SelectSystemObjectProperty<OperationEndpoint>(column, filter);
                 case "queryendpoint": return SelectSystemObjectProperty<QueryEndpoint>(column, filter);
+                case "quotapolicy": return SelectSystemObjectProperty<QuotaPolicy>(column, filter);
                 case "trigger": return SelectSystemObjectProperty<Trigger>(column, filter);
                 case "adapter": return SelectSystemObjectProperty<Adapter>(column, filter);
                 case "viewtemplate": return SelectSystemObjectProperty<ViewTemplate>(column, filter);

@@ -994,6 +994,7 @@
     <Compile Include="Controllers\QueryEndpointController.cs" />
     <Compile Include="Controllers\FormDialogController.cs" />
     <Compile Include="Controllers\PartialViewController.cs" />
+    <Compile Include="Controllers\QuotaPolicyManagementController.cs" />
     <Compile Include="Controllers\RxSystemApiController.cs" />
     <Compile Include="Controllers\ValueObjectDefinitionController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
@@ -2178,6 +2179,7 @@
     <EmbeddedResource Include="SphApp\ko\_ko.mapping.js" />
     <Content Include="SphApp\partial\ComplexMemberPartial.js" />
     <Content Include="SphApp\partial\ChildWorkflowActivity.js" />
+    <Content Include="SphApp\partial\TimePeriodPartial.js" />
     <Content Include="SphApp\partial\WorkflowFormPartial.js" />
     <Content Include="SphApp\partial\ValueObjectDefinitionPartial.js" />
     <Content Include="SphApp\partial\QueryEndpointPartial.js" />

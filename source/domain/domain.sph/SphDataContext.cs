@@ -19,6 +19,7 @@ namespace Bespoke.Sph.Domain
         public IQueryable<UserProfile> UserProfiles { get; set; }
         public IQueryable<Watcher> Watchers { get; set; }
         public IQueryable<Workflow> Workflows { get; set; }
+        public IQueryable<QuotaPolicy> QuotaPolicies { get; set; }
 
         private readonly QueryProvider m_provider;
         public SphDataContext()
@@ -32,6 +33,7 @@ namespace Bespoke.Sph.Domain
             this.UserProfiles = new Query<UserProfile>(m_provider);
             this.Watchers = new Query<Watcher>(m_provider);
             this.Workflows = new Query<Workflow>(m_provider);
+            this.QuotaPolicies = new Query<QuotaPolicy>(m_provider);
         }
 
         public IQueryable<T> CreateQueryable<T>()

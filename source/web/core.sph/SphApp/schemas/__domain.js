@@ -3349,7 +3349,7 @@ bespoke.sph.domain.IntervalSchedule = function (optionOrWebid) {
 
 
 
-/// <reference path="~/Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.4.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -3957,6 +3957,200 @@ bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
 
     if (bespoke.sph.domain.DocumentTemplatePartial) {
         return _(model).extend(new bespoke.sph.domain.DocumentTemplatePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.QuotaPolicy = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.QuotaPolicy, domain.sph",
+        Name: ko.observable(""),
+        RateLimit: ko.observable(new bespoke.sph.domain.RateLimit()),
+        QuotaLimit: ko.observable(new bespoke.sph.domain.QuotaLimit()),
+        BandwidthLimit: ko.observable(new bespoke.sph.domain.BandwidthLimit()),
+        EndpointLimitCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.QuotaPolicyPartial) {
+        return _(model).extend(new bespoke.sph.domain.QuotaPolicyPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.RateLimit = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.RateLimit, domain.sph",
+        IsUnlimited: ko.observable(false),
+        Calls: ko.observable(),
+        RenewalPeriod: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.RateLimitPartial) {
+        return _(model).extend(new bespoke.sph.domain.RateLimitPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.QuotaLimit = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.QuotaLimit, domain.sph",
+        IsUnlimited: ko.observable(false),
+        Calls: ko.observable(),
+        RenewalPeriod: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.QuotaLimitPartial) {
+        return _(model).extend(new bespoke.sph.domain.QuotaLimitPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.BandwidthLimit = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.BandwidthLimit, domain.sph",
+        IsUnlimited: ko.observable(false),
+        Size: ko.observable(),
+        RenewalPeriod: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.BandwidthLimitPartial) {
+        return _(model).extend(new bespoke.sph.domain.BandwidthLimitPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.EndpointLimit = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EndpointLimit, domain.sph",
+        Controller: ko.observable(""),
+        Action: ko.observable(""),
+        Parent: ko.observable(""),
+        Note: ko.observable(""),
+        Calls: ko.observable(),
+        RenewalPeriod: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EndpointLimitPartial) {
+        return _(model).extend(new bespoke.sph.domain.EndpointLimitPartial(model));
+    }
+    return model;
+};
+
+
+bespoke.sph.domain.TimePeriod = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.TimePeriod, domain.sph",
+        Count: ko.observable(0),
+        Unit: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+    if (bespoke.sph.domain.TimePeriodPartial) {
+        return _(model).extend(new bespoke.sph.domain.TimePeriodPartial(model));
     }
     return model;
 };

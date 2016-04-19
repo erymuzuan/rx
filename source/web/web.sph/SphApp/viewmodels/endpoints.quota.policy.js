@@ -11,8 +11,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var isBusy = ko.observable(false),
             edit = function (policy) {
-                
-                                
+
+
                 var tcs = new $.Deferred(),
                     clone = context.clone(policy);
                 require(["viewmodels/endpoint.quota.policy.dialog", "durandal/app"],
@@ -20,28 +20,31 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         dialog.policy(clone);
                         app2.showDialog(dialog)
                             .done(function (result) {
-                                
+
                                 if (!result) {
                                     tcs.resolve(false);
                                     return;
                                 }
-                                tcs.resolve(result === "OK");
                                 if(result === "OK"){
                                     policy.Name(ko.unwrap(clone.Name));
-                                    
-                                    policy.RateLimit.Calls(ko.unwrap(clone.RateLimit.Calls));
-                                    policy.RateLimit.RenewalPeriod(ko.unwrap(clone.RateLimit.RenewalPeriod));
-                                    
-                                    policy.Quota.Calls(ko.unwrap(clone.Quota.Calls));
-                                    policy.Quota.RenewalPeriod(ko.unwrap(clone.Quota.RenewalPeriod));
-                                    
-                                    policy.Bandwidth.Calls(ko.unwrap(clone.Bandwidth.Calls));
-                                    policy.Bandwidth.RenewalPeriod(ko.unwrap(clone.Bandwidth.RenewalPeriod));
-                                    
-                                } 
+
+                                    policy.RateLimit().Calls(ko.unwrap(clone.RateLimit().Calls));
+                                    policy.RateLimit().RenewalPeriod(ko.unwrap(clone.RateLimit().RenewalPeriod));
+
+                                    policy.QuotaLimit().Calls(ko.unwrap(clone.QuotaLimit().Calls));
+                                    policy.QuotaLimit().RenewalPeriod(ko.unwrap(clone.QuotaLimit().RenewalPeriod));
+
+                                    policy.BandwidthLimit().Size(ko.unwrap(clone.BandwidthLimit().Size));
+                                    policy.BandwidthLimit().RenewalPeriod(ko.unwrap(clone.BandwidthLimit().RenewalPeriod));
+
+                                    context.post(ko.mapping.toJSON(policy), "/api/quota-policies").then(tcs.resolve);
+
+                                }else{
+                                  tcs.resolve(false);
+                                }
                             });
                     });
-                    
+
                     return tcs.promise();
             },
             selectApi = function (policy) {
@@ -58,147 +61,35 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             });
                     });
             },
-            policies = ko.observableArray([
-                {
-                    Name: ko.observable("Free Trial"),
-                    RateLimit: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(10),
-                        RenewalPeriod: ko.observable(600)
-                    },
-                    Quota: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(200),
-                        RenewalPeriod: ko.observable(604800)
-                    },
-                    Bandwidth: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(200),
-                        RenewalPeriod: ko.observable(604800)
-                    }
-                },
-                {
-                    Name: ko.observable("Bronze"),
-                    RateLimit: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(100),
-                        RenewalPeriod: ko.observable(600)
-                    },
-                    Quota: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(2000),
-                        RenewalPeriod: ko.observable(604800)
-                    },
-                    Bandwidth: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(200),
-                        RenewalPeriod: ko.observable(604800)
-                    }
-                },
-                {
-                    Name: ko.observable("Silver"),
-                    RateLimit: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(500),
-                        RenewalPeriod: ko.observable(600)
-                    },
-                    Quota: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(10000),
-                        RenewalPeriod: ko.observable(604800)
-                    },
-                    Bandwidth: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(200),
-                        RenewalPeriod: ko.observable(604800)
-                    }
-                },
-                {
-                    Name: ko.observable("Gold"),
-                    RateLimit: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(500),
-                        RenewalPeriod: ko.observable(600)
-                    },
-                    Quota: {
-                        Calls: ko.observable(10000),
-                        RenewalPeriod: ko.observable(604800)
-                    },
-                    Bandwidth: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(200),
-                        RenewalPeriod: ko.observable(604800)
-                    }
-                },
-                {
-                    Name: ko.observable("Platinum"),
-                    RateLimit: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(5000),
-                        RenewalPeriod: ko.observable(600)
-                    },
-                    Quota: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(100000),
-                        RenewalPeriod: ko.observable(604800)
-                    },
-                    Bandwidth: {
-                        IsUnlimited : ko.observable(false),
-                        Calls: ko.observable(),
-                        RenewalPeriod: ko.observable()
-                    }
-                },
-                {
-                    Name: ko.observable("Unlimited"),
-                    RateLimit: {
-                        IsUnlimited : ko.observable(true),
-                        Calls: ko.observable(),
-                        RenewalPeriod: ko.observable()
-                    },
-                    Quota: {
-                        IsUnlimited : ko.observable(true),
-                        Calls: ko.observable(),
-                        RenewalPeriod: ko.observable()
-                    },
-                    Bandwidth: {
-                        IsUnlimited : ko.observable(true),
-                        Calls: ko.observable(200),
-                        RenewalPeriod: ko.observable(604800)
-                    }
-                }
-            ]),
+            policies = ko.observableArray(),
             selected = ko.observable(false),
             activate = function () {
-                _(policies()).each(function(v) {
-                    v.selectApi = selectApi;
-                    v.edit = edit;
-                });
+
+               return context.loadAsync("QuotaPolicy")
+               .then(function(lo){
+                 policies(lo.itemCollection);
+                 _(policies()).each(function(v) {
+                     v.selectApi = selectApi;
+                     v.edit = edit;
+                 });
+               });
+
             },
             attached = function (view) {
 
             },
             addPolicy = function () {
-                var pc =   {
-                    Name: ko.observable(),
-                    RateLimit: {
-                        Calls: ko.observable(),
-                        RenewalPeriod: ko.observable()
-                    },
-                    Quota: {
-                        Calls: ko.observable(),
-                        RenewalPeriod: ko.observable()
-                    },
-                    Bandwidth: {
-                        Calls: ko.observable(),
-                        RenewalPeriod: ko.observable()
-                    },
-                    edit: edit,
-                    selectApi : selectApi
-                };
+                var pc =  new bespoke.sph.domain.QuotaPolicy();
+                pc.RateLimit().RenewalPeriod = ko.observable(new bespoke.sph.domain.TimePeriod());
+                pc.QuotaLimit().RenewalPeriod = ko.observable(new bespoke.sph.domain.TimePeriod());
+                pc.BandwidthLimit().RenewalPeriod = ko.observable(new bespoke.sph.domain.TimePeriod());
+                pc.selectApi = selectApi;
+                pc.edit = edit;
+
                 edit(pc).done(function(result){
                    if(result){
                        policies.push(pc);
-                   } 
+                   }
                 });
             },
             removePolicy = function (policy) {

@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group" data-bind="with : RateLimit">
                         <label for="policy-rate-limit-calls" class="col-lg-2 control-label">Calls</label>
                         <div class="col-lg-6">
@@ -44,34 +44,52 @@
                     </div>
                     <div class="form-group" data-bind="with : RateLimit">
                         <label for="policy-rate-limit-renewal" class="col-lg-2 control-label">Renewal</label>
-                        <div class="col-lg-6">
-                            <input type="number" data-bind="value: RenewalPeriod"
+                        <div class="col-lg-4" data-bind="with: RenewalPeriod">
+                            <input type="number" data-bind="value: Count"
                                    required
-                                   placeholder="Renewal Period in seconds"
+                                   placeholder="Renewal period count"
                                    class="form-control" id="policy-rate-limit-renewal">
+                        </div>
+                        <div class="col-lg-4" data-bind="with: RenewalPeriod">
+                          <select data-bind="value: Unit" class="form-control">
+                              <option value="Seconds">Seconds</option>
+                              <option value="Minutes">Minutes</option>
+                              <option value="Hours">Hours</option>
+                              <option value="Days">Days</option>
+                              <option value="Weeks">Weeks</option>
+                          </select>
                         </div>
                     </div>
                     <h4>Bandwidth Limit</h4>
-                    <div class="form-group" data-bind="with : Bandwidth">
-                        <label for="policy-Bandwidth-calls" class="col-lg-2 control-label">Size</label>
+                    <div class="form-group" data-bind="with : BandwidthLimit">
+                        <label for="policy-bandwidth-limit-calls" class="col-lg-2 control-label">Size</label>
                         <div class="col-lg-6">
-                            <input type="number" data-bind="value: Calls"
+                            <input type="number" data-bind="value: Size"
                                    required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
                                    placeholder="Size limits in KB"
-                                   class="form-control" id="policy-Bandwidth-calls">
+                                   class="form-control" id="policy-bandwidth-limit-calls">
                         </div>
                     </div>
-                    <div class="form-group" data-bind="with : Bandwidth">
-                        <label for="policy-Bandwidth-renewal" class="col-lg-2 control-label">Renewal</label>
-                        <div class="col-lg-6">
-                            <input type="number" data-bind="value: RenewalPeriod"
-                                   required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
-                                   placeholder="Renewal Period in seconds"
-                                   class="form-control" id="policy-Bandwidth-renewal">
+                    <div class="form-group" data-bind="with : BandwidthLimit">
+                        <label for="policy-bandwidth-limit-renewal" class="col-lg-2 control-label">Renewal</label>
+                        <div class="col-lg-4" data-bind="with: RenewalPeriod">
+                            <input type="number" data-bind="value: Count"
+                                   required
+                                   placeholder="Renewal period count"
+                                   class="form-control" id="policy-bandwidth-limit-renewal">
+                        </div>
+                        <div class="col-lg-4" data-bind="with: RenewalPeriod">
+                          <select data-bind="value: Unit" class="form-control">
+                              <option value="Seconds">Seconds</option>
+                              <option value="Minutes">Minutes</option>
+                              <option value="Hours">Hours</option>
+                              <option value="Days">Days</option>
+                              <option value="Weeks">Weeks</option>
+                          </select>
                         </div>
                     </div>
                     <h4>Quota</h4>
-                    <div class="form-group" data-bind="with : Quota">
+                    <div class="form-group" data-bind="with : QuotaLimit">
                         <label for="policy-quota-calls" class="col-lg-2 control-label">Calls</label>
                         <div class="col-lg-6">
                             <input type="number" data-bind="value: Calls"
@@ -81,13 +99,22 @@
                         </div>
                     </div>
 
-                    <div class="form-group" data-bind="with : Quota">
+                    <div class="form-group" data-bind="with : QuotaLimit">
                         <label for="policy-quota-renewal" class="col-lg-2 control-label">Renewal</label>
-                        <div class="col-lg-6">
-                            <input type="number" data-bind="value: RenewalPeriod"
-                                   required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
-                                   placeholder="Renewal Period in seconds"
-                                   class="form-control" id="policy-quota-renewal">
+                        <div class="col-lg-4" data-bind="with: RenewalPeriod">
+                            <input type="number" data-bind="value: Count"
+                                   required
+                                   placeholder="Renewal period count"
+                                   class="form-control" id="policy-quota-limit-renewal">
+                        </div>
+                        <div class="col-lg-4" data-bind="with: RenewalPeriod">
+                          <select data-bind="value: Unit" class="form-control">
+                              <option value="Seconds">Seconds</option>
+                              <option value="Minutes">Minutes</option>
+                              <option value="Hours">Hours</option>
+                              <option value="Days">Days</option>
+                              <option value="Weeks">Weeks</option>
+                          </select>
                         </div>
                     </div>
                 </form>

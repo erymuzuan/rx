@@ -39,6 +39,7 @@ namespace Bespoke.Sph.Web.Api
                 case "entitychart": return GetSystemObjectScalar<EntityChart>(column, filter);
                 case "operationendpoint": return GetSystemObjectScalar<OperationEndpoint>(column, filter);
                 case "queryendpoint": return GetSystemObjectScalar<QueryEndpoint>(column, filter);
+                case "quotapolicy": return GetSystemObjectScalar<QuotaPolicy>(column, filter);
                 case "trigger": return GetSystemObjectScalar<Trigger>(column, filter);
                 case "adapter": return GetSystemObjectScalar<Adapter>(column, filter);
             }

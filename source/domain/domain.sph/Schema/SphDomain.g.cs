@@ -1,9 +1,9 @@
 ﻿
 using System;
-using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 
 // ReSharper disable InconsistentNaming
@@ -15,7 +15,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("LatLng", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class LatLng
     {
 
@@ -38,7 +37,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -65,7 +63,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -119,7 +116,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Document", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Document
     {
 
@@ -136,14 +132,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("DocumentVersion", IsNullable = false)]
         public ObjectCollection<DocumentVersion> DocumentVersionCollection { get; } = new ObjectCollection<DocumentVersion>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -170,7 +164,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -202,7 +195,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DocumentVersion", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DocumentVersion
     {
 
@@ -234,7 +226,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -261,7 +252,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -288,7 +278,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -315,7 +304,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -342,7 +330,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Note
@@ -373,7 +360,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Owner", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Owner
     {
 
@@ -417,7 +403,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -444,7 +429,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -471,7 +455,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -498,7 +481,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -530,7 +512,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("AuditTrail", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class AuditTrail
     {
 
@@ -562,14 +543,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Change", IsNullable = false)]
         public ObjectCollection<Change> ChangeCollection { get; } = new ObjectCollection<Change>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -596,7 +575,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -623,7 +601,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -650,7 +627,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -677,7 +653,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -709,7 +684,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Change", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Change
     {
 
@@ -736,7 +710,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -763,7 +736,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -790,7 +762,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -817,7 +788,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -849,7 +819,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Organization", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Organization
     {
 
@@ -898,7 +867,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -925,7 +893,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -952,7 +919,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -979,7 +945,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1006,7 +971,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1038,7 +1002,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("UserProfile", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class UserProfile
     {
 
@@ -1100,7 +1063,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1127,7 +1089,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1154,7 +1115,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1181,7 +1141,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1208,7 +1167,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1235,7 +1193,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1262,7 +1219,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1289,7 +1245,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1316,7 +1271,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1343,7 +1297,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1370,7 +1323,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1402,7 +1354,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Setting", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Setting
     {
 
@@ -1426,7 +1377,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1502,7 +1452,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Designation", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Designation
     {
 
@@ -1564,7 +1513,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> RoleCollection { get; } = new ObjectCollection<string>();
 
 
@@ -1588,14 +1536,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
         public ObjectCollection<string> SearchableEntityCollection { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1622,7 +1568,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1649,7 +1594,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1676,7 +1620,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1703,7 +1646,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public bool EnforceStartModule
@@ -1729,7 +1671,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1756,7 +1697,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1783,7 +1723,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1810,7 +1749,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string HelpUri
@@ -1836,7 +1774,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Title
@@ -1862,7 +1799,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public int Option
@@ -1893,7 +1829,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Watcher", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Watcher
     {
 
@@ -1925,7 +1860,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1952,7 +1886,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -1979,7 +1912,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2006,7 +1938,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2033,7 +1964,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2065,7 +1995,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Profile", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Profile
     {
 
@@ -2127,7 +2056,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2154,7 +2082,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2181,7 +2108,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2208,7 +2134,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2235,7 +2160,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2262,7 +2186,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2289,7 +2212,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2316,7 +2238,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2343,7 +2264,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Mobile
@@ -2369,7 +2289,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2396,7 +2315,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2428,7 +2346,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Message", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Message
     {
 
@@ -2455,7 +2372,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2482,7 +2398,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2509,7 +2424,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2536,7 +2450,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2568,7 +2481,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Photo", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Photo
     {
 
@@ -2595,7 +2507,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2622,7 +2533,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2649,7 +2559,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2676,7 +2585,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2708,7 +2616,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Address", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Address
     {
 
@@ -2755,7 +2662,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2782,7 +2688,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Floor
@@ -2808,7 +2713,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Block
@@ -2834,7 +2738,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2861,7 +2764,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2888,7 +2790,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2915,7 +2816,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -2942,7 +2842,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         public string Country
@@ -2973,7 +2872,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("EmailTemplate", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EmailTemplate
     {
 
@@ -3010,7 +2908,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3037,7 +2934,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3064,7 +2960,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3091,7 +2986,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3118,7 +3012,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3145,7 +3038,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3177,7 +3069,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DocumentTemplate", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DocumentTemplate
     {
 
@@ -3209,7 +3100,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3236,7 +3126,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3263,7 +3152,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3290,7 +3178,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3317,7 +3204,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
         [DebuggerHidden]
 
         [Required]
@@ -3343,6 +3229,653 @@ namespace Bespoke.Sph.Domain
 
 
     }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class QuotaPolicy
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private RateLimit m_rateLimit
+                = new RateLimit();
+
+        public const string PropertyNameRateLimit = "RateLimit";
+        [DebuggerHidden]
+
+        public RateLimit RateLimit
+        {
+            get { return m_rateLimit; }
+            set
+            {
+                m_rateLimit = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private QuotaLimit m_quotaLimit
+                = new QuotaLimit();
+
+        public const string PropertyNameQuotaLimit = "QuotaLimit";
+        [DebuggerHidden]
+
+        public QuotaLimit QuotaLimit
+        {
+            get { return m_quotaLimit; }
+            set
+            {
+                m_quotaLimit = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private BandwidthLimit m_bandwidthLimit
+                = new BandwidthLimit();
+
+        public const string PropertyNameBandwidthLimit = "BandwidthLimit";
+        [DebuggerHidden]
+
+        public BandwidthLimit BandwidthLimit
+        {
+            get { return m_bandwidthLimit; }
+            set
+            {
+                m_bandwidthLimit = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<EndpointLimit> EndpointLimitCollection { get; } = new ObjectCollection<EndpointLimit>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class RateLimit
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isUnlimited;
+        public const string PropertyNameIsUnlimited = "IsUnlimited";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_calls;
+        public const string PropertyNameCalls = "Calls";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private TimePeriod m_renewalPeriod;
+        public const string PropertyNameRenewalPeriod = "RenewalPeriod";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsUnlimited
+        {
+            set
+            {
+                if (m_isUnlimited == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsUnlimited, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isUnlimited = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isUnlimited;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? Calls
+        {
+            set
+            {
+                if (m_calls == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCalls, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_calls = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_calls; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public TimePeriod RenewalPeriod
+        {
+            set
+            {
+                if (m_renewalPeriod == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRenewalPeriod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_renewalPeriod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_renewalPeriod; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class QuotaLimit
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isUnlimited;
+        public const string PropertyNameIsUnlimited = "IsUnlimited";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_calls;
+        public const string PropertyNameCalls = "Calls";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private TimePeriod m_renewalPeriod;
+        public const string PropertyNameRenewalPeriod = "RenewalPeriod";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsUnlimited
+        {
+            set
+            {
+                if (m_isUnlimited == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsUnlimited, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isUnlimited = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isUnlimited;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? Calls
+        {
+            set
+            {
+                if (m_calls == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCalls, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_calls = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_calls; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public TimePeriod RenewalPeriod
+        {
+            set
+            {
+                if (m_renewalPeriod == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRenewalPeriod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_renewalPeriod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_renewalPeriod; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class BandwidthLimit
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isUnlimited;
+        public const string PropertyNameIsUnlimited = "IsUnlimited";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_size;
+        public const string PropertyNameSize = "Size";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private TimePeriod m_renewalPeriod;
+        public const string PropertyNameRenewalPeriod = "RenewalPeriod";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsUnlimited
+        {
+            set
+            {
+                if (m_isUnlimited == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsUnlimited, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isUnlimited = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isUnlimited;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? Size
+        {
+            set
+            {
+                if (m_size == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSize, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_size = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_size; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public TimePeriod RenewalPeriod
+        {
+            set
+            {
+                if (m_renewalPeriod == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRenewalPeriod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_renewalPeriod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_renewalPeriod; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class EndpointLimit
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_controller;
+        public const string PropertyNameController = "Controller";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_action;
+        public const string PropertyNameAction = "Action";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_parent;
+        public const string PropertyNameParent = "Parent";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_calls;
+        public const string PropertyNameCalls = "Calls";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private TimePeriod m_renewalPeriod;
+        public const string PropertyNameRenewalPeriod = "RenewalPeriod";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Controller
+        {
+            set
+            {
+                if (String.Equals(m_controller, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameController, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_controller = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_controller;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Action
+        {
+            set
+            {
+                if (String.Equals(m_action, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAction, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_action = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_action;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Parent
+        {
+            set
+            {
+                if (String.Equals(m_parent, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameParent, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_parent = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_parent;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? Calls
+        {
+            set
+            {
+                if (m_calls == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCalls, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_calls = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_calls; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public TimePeriod RenewalPeriod
+        {
+            set
+            {
+                if (m_renewalPeriod == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRenewalPeriod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_renewalPeriod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_renewalPeriod; }
+        }
+
+
+    }
+
+
+    public partial class TimePeriod
+    {
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int m_count;
+        public const string PropertyNameCount = "Count";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_unit;
+        public const string PropertyNameUnit = "Unit";
+
+
+        // public properties members
+
+
+
+        public int Count
+        {
+            set
+            {
+                if (m_count == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCount, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_count = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_count;
+            }
+        }
+
+
+
+        public string Unit
+        {
+            set
+            {
+                if (m_unit == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUnit, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_unit = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_unit;
+            }
+        }
+
+
+
+    }
+
 
 }
 // ReSharper restore InconsistentNaming

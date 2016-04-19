@@ -140,6 +140,13 @@ namespace Bespoke.Sph.Web.Controllers
             return ReadFromSource<QueryEndpoint>(filter, page, size);
         }
 
+        [Route("QuotaPolicy")]
+        [HttpGet]
+        public IHttpActionResult QuotaPolicy(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return ReadFromSource<QuotaPolicy>(filter, page, size);
+        }
+
         [Route("Message")]
         [HttpGet]
         public async Task<IHttpActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)

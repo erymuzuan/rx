@@ -18,12 +18,12 @@
             <td>
                 <a href="javascript:;" data-bind="text:Name, click : edit"></a>
             </td>
-            <td data-bind="text:RateLimit.Calls"></td>
-            <td data-bind="text:RateLimit.RenewalPeriod"></td>
-            <td data-bind="text:Quota.Calls"></td>
-            <td data-bind="text:Quota.RenewalPeriod"></td>
+            <td data-bind="text:RateLimit().Calls"></td>
+            <td data-bind="text:RateLimit().RenewalPeriod().Count() + ' ' + RateLimit().RenewalPeriod().Unit() "></td>
+            <td data-bind="text:QuotaLimit().Calls"></td>
+            <td data-bind="text:QuotaLimit().RenewalPeriod().Count() + ' ' + QuotaLimit().RenewalPeriod().Unit() "></td>
             <td>
-                <a href="javascript:;" data-bind="click : selectApi, visible : !ko.unwrap(RateLimit.Calls)">
+                <a href="javascript:;" data-bind="click : selectApi, visible : !ko.unwrap(RateLimit().Calls)">
                     <i class="fa fa-check-circle-o"></i>
                     Select API
                 </a>
@@ -46,5 +46,5 @@
     <h2>API</h2>
 </div>
 <div class="row">
-    
+
 </div>
