@@ -1,0 +1,110 @@
+{
+  "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "MapCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "emp_no",
+        "TypeName": "",
+        "Destination": "No",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "099322e4-709e-418d-9795-ee73a2e46f58"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "birth_date",
+        "TypeName": "",
+        "Destination": "DateOfBirth",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "9bb8ac0e-5bee-4733-abdc-2b33905684fe"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "first_name",
+        "TypeName": "",
+        "Destination": "FirstName",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "3612103c-1e3b-46a8-ba00-2146d7e2242c"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "last_name",
+        "TypeName": "",
+        "Destination": "LastName",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "075a64b8-53ef-4bef-f8e5-cb91cb408ccf"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "gender",
+        "TypeName": "",
+        "Destination": "Gender",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "79d1d99e-e053-4def-ed22-c065fcd0cbdf"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "hire_date",
+        "TypeName": "",
+        "Destination": "HireDate",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "46447c35-9a8b-4693-f091-2530fd4d45ab"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "82687acc-6103-4348-a14b-d0faaf966fee",
+        "Destination": "Id",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "15cfe4a8-86bf-4a80-e517-e3fa37ef98eb"
+      }
+    ]
+  },
+  "FunctoidCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ScriptFunctoid, domain.sph",
+        "Expression": "System.Guid.NewGuid().ToString()",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Guid",
+        "OutputTypeName": "System.String, mscorlib",
+        "Label": null,
+        "Comment": null,
+        "X": 171.0,
+        "Y": 223.0,
+        "WebId": "82687acc-6103-4348-a14b-d0faaf966fee"
+      }
+    ]
+  },
+  "InputCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "MySqlEmployeesToEmployee",
+  "Description": "Data import from sample mysql employees database to RX",
+  "InputTypeName": "Bespoke.DevV1.Adapters.MySqlEmployee.Employees.employees, DevV1.MySqlEmployee",
+  "OutputTypeName": "Bespoke.DevV1.Employees.Domain.Employee, DevV1.Employee",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "my-sql-employees-to-employee",
+  "CreatedDate": "2016-04-20T05:53:14.5738028+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-04-20T05:56:13.2437972+08:00",
+  "WebId": "de03bd41-7cdf-4929-b5bc-5ebdc61b39dc"
+}

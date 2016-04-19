@@ -5977,7 +5977,6 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
         Id: ko.observable("0"),
-        TransformDefinitionId: ko.observable(0),
         Name: ko.observable(""),
         Description: ko.observable(""),
         InputTypeName: ko.observable(""),

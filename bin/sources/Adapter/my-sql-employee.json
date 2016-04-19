@@ -1,11 +1,11 @@
 {
   "$type": "Bespoke.Sph.Integrations.Adapters.MySqlAdapter, mysql.adapter",
   "OdataTranslator": "OdataSqlTranslator",
-  "ConnectionString": "Server=localhost;Database=epsikometrik;Uid=root;Pwd=;Allow User Variables=true;Allow Zero Datetime=true;",
+  "ConnectionString": "Server=localhost;Database=employees;Uid=root;Pwd=;Allow User Variables=true;Allow Zero Datetime=true;",
   "Password": null,
   "UserId": "root",
   "Server": "localhost",
-  "Database": "epsikometrik",
+  "Database": "employees",
   "OperationDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
     "$values": []
@@ -15,7 +15,75 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
-        "Name": "_kod_agensi",
+        "Name": "employees",
+        "ChildRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+              "Table": "dept_emp",
+              "Constraint": "dept_emp_ibfk_1",
+              "Column": "emp_no",
+              "ForeignColumn": "emp_no"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+              "Table": "dept_manager",
+              "Constraint": "dept_manager_ibfk_1",
+              "Column": "emp_no",
+              "ForeignColumn": "emp_no"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+              "Table": "salaries",
+              "Constraint": "salaries_ibfk_1",
+              "Column": "emp_no",
+              "ForeignColumn": "emp_no"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+              "Table": "titles",
+              "Constraint": "titles_ibfk_1",
+              "Column": "emp_no",
+              "ForeignColumn": "emp_no"
+            }
+          ]
+        },
+        "ParentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        }
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
+        "Name": "departments",
+        "ChildRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+              "Table": "dept_emp",
+              "Constraint": "dept_emp_ibfk_2",
+              "Column": "dept_no",
+              "ForeignColumn": "dept_no"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+              "Table": "dept_manager",
+              "Constraint": "dept_manager_ibfk_2",
+              "Column": "dept_no",
+              "ForeignColumn": "dept_no"
+            }
+          ]
+        },
+        "ParentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        }
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
+        "Name": "dept_emp",
         "ChildRelationCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
           "$values": []
@@ -27,7 +95,31 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
-        "Name": "_kod_negeri",
+        "Name": "dept_manager",
+        "ChildRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ParentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        }
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
+        "Name": "salaries",
+        "ChildRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ParentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        }
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
+        "Name": "titles",
         "ChildRelationCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
           "$values": []
@@ -39,31 +131,132 @@
       }
     ]
   },
-  "Schema": "epsikometrik",
+  "Schema": "employees",
   "TableDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
-        "Name": "_kod_agensi",
+        "Name": "employees",
         "CodeNamespace": null,
         "ClassAttribute": null,
         "WebId": null,
-        "Schema": "epsikometrik",
+        "Schema": "employees",
         "ParentTableCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
           "$values": []
         },
         "ChildTableCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
-          "$values": []
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+              "Name": "dept_emp",
+              "CodeNamespace": null,
+              "ClassAttribute": null,
+              "WebId": null,
+              "Schema": null,
+              "ParentTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "ChildTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "PrimaryKey": null,
+              "PrimaryKeyCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              }
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+              "Name": "dept_manager",
+              "CodeNamespace": null,
+              "ClassAttribute": null,
+              "WebId": null,
+              "Schema": null,
+              "ParentTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "ChildTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "PrimaryKey": null,
+              "PrimaryKeyCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              }
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+              "Name": "salaries",
+              "CodeNamespace": null,
+              "ClassAttribute": null,
+              "WebId": null,
+              "Schema": null,
+              "ParentTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "ChildTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "PrimaryKey": null,
+              "PrimaryKeyCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              }
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+              "Name": "titles",
+              "CodeNamespace": null,
+              "ClassAttribute": null,
+              "WebId": null,
+              "Schema": null,
+              "ParentTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "ChildTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "PrimaryKey": null,
+              "PrimaryKeyCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              }
+            }
+          ]
         },
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
             {
               "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-              "TypeName": "System.String, mscorlib",
+              "TypeName": "System.Int32, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
               "IsAnalyzed": false,
@@ -80,7 +273,31 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
-              "Name": "ID",
+              "Name": "emp_no",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "birth_date",
               "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
@@ -104,7 +321,7 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
-              "Name": "diskripsi",
+              "Name": "first_name",
               "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
@@ -128,7 +345,7 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
-              "Name": "_kod_agensi_kumpulan",
+              "Name": "last_name",
               "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
@@ -152,7 +369,31 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
-              "Name": "_kod_negeri",
+              "Name": "gender",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "hire_date",
               "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
@@ -161,7 +402,7 @@
         },
         "PrimaryKey": {
           "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-          "TypeName": "System.String, mscorlib",
+          "TypeName": "System.Int32, mscorlib",
           "IsNullable": false,
           "IsNotIndexed": false,
           "IsAnalyzed": false,
@@ -178,7 +419,7 @@
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
             "$values": []
           },
-          "Name": "ID",
+          "Name": "emp_no",
           "AllowMultiple": false,
           "DefaultValue": null,
           "WebId": null
@@ -186,17 +427,315 @@
         "PrimaryKeyCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": [
-            "ID"
+            "emp_no"
           ]
         }
       },
       {
         "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
-        "Name": "_kod_negeri",
+        "Name": "departments",
         "CodeNamespace": null,
         "ClassAttribute": null,
         "WebId": null,
-        "Schema": "epsikometrik",
+        "Schema": "employees",
+        "ParentTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ChildTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+              "Name": "dept_emp",
+              "CodeNamespace": null,
+              "ClassAttribute": null,
+              "WebId": null,
+              "Schema": null,
+              "ParentTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "ChildTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "PrimaryKey": null,
+              "PrimaryKeyCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              }
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+              "Name": "dept_manager",
+              "CodeNamespace": null,
+              "ClassAttribute": null,
+              "WebId": null,
+              "Schema": null,
+              "ParentTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "ChildTableCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "PrimaryKey": null,
+              "PrimaryKeyCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                "$values": []
+              }
+            }
+          ]
+        },
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "dept_no",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "dept_name",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            }
+          ]
+        },
+        "PrimaryKey": {
+          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "IsNotIndexed": false,
+          "IsAnalyzed": false,
+          "IsFilterable": true,
+          "IsExcludeInAll": false,
+          "Boost": 0,
+          "FullName": null,
+          "PropertyAttribute": null,
+          "MemberCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "FieldPermissionCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": "dept_no",
+          "AllowMultiple": false,
+          "DefaultValue": null,
+          "WebId": null
+        },
+        "PrimaryKeyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "dept_no"
+          ]
+        }
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+        "Name": "dept_emp",
+        "CodeNamespace": null,
+        "ClassAttribute": null,
+        "WebId": null,
+        "Schema": "employees",
+        "ParentTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ChildTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "emp_no",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "dept_no",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "from_date",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "to_date",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            }
+          ]
+        },
+        "PrimaryKey": {
+          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+          "TypeName": "System.Int32, mscorlib",
+          "IsNullable": false,
+          "IsNotIndexed": false,
+          "IsAnalyzed": false,
+          "IsFilterable": true,
+          "IsExcludeInAll": false,
+          "Boost": 0,
+          "FullName": null,
+          "PropertyAttribute": null,
+          "MemberCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "FieldPermissionCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": "emp_no",
+          "AllowMultiple": false,
+          "DefaultValue": null,
+          "WebId": null
+        },
+        "PrimaryKeyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "emp_no",
+            "dept_no"
+          ]
+        }
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+        "Name": "dept_manager",
+        "CodeNamespace": null,
+        "ClassAttribute": null,
+        "WebId": null,
+        "Schema": "employees",
         "ParentTableCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
           "$values": []
@@ -227,14 +766,14 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
-              "Name": "ID",
+              "Name": "dept_no",
               "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
             },
             {
               "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-              "TypeName": "System.String, mscorlib",
+              "TypeName": "System.Int32, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
               "IsAnalyzed": false,
@@ -251,7 +790,55 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
-              "Name": "diskripsi",
+              "Name": "emp_no",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "from_date",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "to_date",
               "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
@@ -277,7 +864,7 @@
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
             "$values": []
           },
-          "Name": "ID",
+          "Name": "dept_no",
           "AllowMultiple": false,
           "DefaultValue": null,
           "WebId": null
@@ -285,7 +872,305 @@
         "PrimaryKeyCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": [
-            "ID"
+            "dept_no",
+            "emp_no"
+          ]
+        }
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+        "Name": "salaries",
+        "CodeNamespace": null,
+        "ClassAttribute": null,
+        "WebId": null,
+        "Schema": "employees",
+        "ParentTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ChildTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "emp_no",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "salary",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "from_date",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "to_date",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            }
+          ]
+        },
+        "PrimaryKey": {
+          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+          "TypeName": "System.Int32, mscorlib",
+          "IsNullable": false,
+          "IsNotIndexed": false,
+          "IsAnalyzed": false,
+          "IsFilterable": true,
+          "IsExcludeInAll": false,
+          "Boost": 0,
+          "FullName": null,
+          "PropertyAttribute": null,
+          "MemberCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "FieldPermissionCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": "emp_no",
+          "AllowMultiple": false,
+          "DefaultValue": null,
+          "WebId": null
+        },
+        "PrimaryKeyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "emp_no",
+            "from_date"
+          ]
+        }
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+        "Name": "titles",
+        "CodeNamespace": null,
+        "ClassAttribute": null,
+        "WebId": null,
+        "Schema": "employees",
+        "ParentTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ChildTableCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "emp_no",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "title",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "from_date",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "to_date",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            }
+          ]
+        },
+        "PrimaryKey": {
+          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+          "TypeName": "System.Int32, mscorlib",
+          "IsNullable": false,
+          "IsNotIndexed": false,
+          "IsAnalyzed": false,
+          "IsFilterable": true,
+          "IsExcludeInAll": false,
+          "Boost": 0,
+          "FullName": null,
+          "PropertyAttribute": null,
+          "MemberCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "FieldPermissionCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": "emp_no",
+          "AllowMultiple": false,
+          "DefaultValue": null,
+          "WebId": null
+        },
+        "PrimaryKeyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "emp_no",
+            "title",
+            "from_date"
           ]
         }
       }
@@ -297,6 +1182,6 @@
   "Id": "my-sql-employee",
   "CreatedDate": "2016-04-15T11:13:06.4696689+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-15T17:09:43.8762625+08:00",
+  "ChangedDate": "2016-04-20T05:49:12.2183764+08:00",
   "WebId": "e63655a5-c248-4411-a846-2540a64aa3b9"
 }
