@@ -4011,11 +4011,6 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_transformDefinitionId;
-        public const string PropertyNameTransformDefinitionId = "TransformDefinitionId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_name;
         public const string PropertyNameName = "Name";
 
@@ -4062,32 +4057,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public int TransformDefinitionId
-        {
-            set
-            {
-                if (m_transformDefinitionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTransformDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_transformDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_transformDefinitionId;
-            }
-        }
 
 
         ///<summary>

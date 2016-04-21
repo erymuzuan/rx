@@ -24,7 +24,6 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             tableOptions = ko.observableArray(),
             entityOptions = ko.observableArray(),
             mapOptions = ko.observableArray(),
-            previewResult = ko.observableArray(),
             isBusy = ko.observable(false),
             canPreview = ko.computed(function () {
                 return model().adapter()
@@ -59,25 +58,37 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
 
                 var filterMapOptions = function (list) {
-                    var filtered = _(list).filter(function (v) {
-                        return v.InputTypeName.indexOf(model().table()) > -1 && v.OutputTypeName.indexOf(model().entity()) > -1;
-                    });
-                    mapOptions(filtered);
-                };
+                            var filtered = _(list).filter(function (v) {
+                                return v.InputTypeName.indexOf(model().table()) > -1 && v.OutputTypeName.indexOf(model().entity()) > -1;
+                            });
+                            mapOptions(filtered);
+                        },
+                    loadMappings = function(lo) {
+                            var tuples =  _(lo.itemCollection).map(function(v){
+                                return {
+                                    Id : ko.unwrap(v.Id),
+                                    Name : ko.unwrap(v.Name),
+                                    InputTypeName : ko.unwrap(v.InputTypeName),
+                                    OutputTypeName : ko.unwrap(v.OutputTypeName)
+                                }
+                            });
+                           filterMapOptions(tuples); 
+                            
+                        };
                 model().table.subscribe(function (a) {
                     model().sql(String.format("select * from {0} ", a));
                     if (!(a && model().entity())) {
                         return Task.fromResult(0);
                     }
-                    return context.getTuplesAsync("TransformDefinition", "Id ne '0'", "Id", "Name", "InputTypeName", "OutputTypeName")
-                    .done(filterMapOptions);
+                    return context.loadAsync("TransformDefinition")
+                    .done(loadMappings);
                 });
                 model().entity.subscribe(function (a) {
                     if (!(a && model().entity())) {
                         return Task.fromResult(0);
                     }
-                    return context.getTuplesAsync("TransformDefinition", "Id ne '0'", "Id", "Name", "InputTypeName", "OutputTypeName")
-                    .done(filterMapOptions)
+                    return context.loadAsync("TransformDefinition")
+                    .done(loadMappings)
                     .done(function () {
                         model().map(cloned.map);
                     });
@@ -101,32 +112,16 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
             },
             preview = function () {
-                return context.post(ko.mapping.toJSON(model), "/api/data-imports/preview")
-                     .done(function (lo) {
-                         var table = _(tableOptions()).find(function (v) { return v.Name === model().table(); });
-                         var thead = "<tr>";
-                         _(ko.unwrap(table.MemberCollection)).each(function (v) {
-                             thead += "<th>" + v.Name + "</th>";
-                         });
-                         thead += "</tr>";
-                         $("#thead").html(thead);
+                var tcs = new $.Deferred();
+                require(["viewmodels/data.import.result.preview.dialog", "durandal/app"],
+                    function (dialog, app2) {
+                        dialog.model(ko.unwrap(model));
+                        dialog.tableOptions(ko.unwrap(tableOptions));
+                        app2.showDialog(dialog).done(tcs.resolve);
+                    });
 
-                         var tbody = "";
-                         _(lo.ItemCollection).each(function (m) {
-                             tbody += "<tr>";
-                             _(ko.unwrap(table.MemberCollection)).each(function (v) {
-                                 tbody += "  <td>" + m[v.Name] + "</td>\r";
-                             });
-                             tbody += "</tr>\r";
-                         });
-                         $("#tbody").html(tbody);
+                return tcs.promise();
 
-                         console.log(lo);
-                         $("#preview-panel").modal("show");
-
-                         $("div.modal-backdrop").remove();
-                         $("#data-import-view-panel").after($("<div class='modal-backdrop fade in'></div>"));
-                     });
             },
             importData = function () {
                 return context.post(ko.mapping.toJSON(model), "/api/data-imports/" + ko.unwrap(model().Name) + "/execute")
@@ -149,10 +144,33 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     app2.showDialog(dialog)
                         .done(function (result) {
                             if (result === "OK") {
-                                model(ko.mapping.fromJS(dialog.model()));
+                                isBusy(true);
+                                
+                                var md = model(),
+                                    di = dialog.model();
+                                md.adapter(di.adapter);
+                                md.entity(di.entity);
+                                md.sql(di.sql);
+                                md.batchSize(di.batchSize);
+                                md.name(di.name);
+
+
                                 modelChanged();
+
+                                setTimeout(function(){
+                                    md.table(di.table);
+
+                                    setTimeout(function(){
+                                        md.map(di.map);
+                                        tcs.resolve(true);
+                                        isBusy(false);
+                                    },800);
+
+                                },500);
+                            }else{
+                                tcs.resolve(false);
+                                isBusy(false);
                             }
-                            tcs.resolve(true);
                         });
 
                 });
@@ -166,7 +184,6 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             canPreview: canPreview,
             canImport: canImport,
             entityOptions: entityOptions,
-            previewResult: previewResult,
             tableOptions: tableOptions,
             adapterOptions: adapterOptions,
             mapOptions: mapOptions,
