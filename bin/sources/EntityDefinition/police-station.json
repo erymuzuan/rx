@@ -537,6 +537,74 @@
         "AllowMultiple": true,
         "DefaultValue": null,
         "WebId": "572e2797-5898-4546-9c48-649d2b80fb77"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
+        "EmptyField": "",
+        "TypeName": "Bangunan",
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Nama",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "d60a36f8-926c-4d14-c103-7e96e9936b1a"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Luas",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "2f56736e-7331-4542-ff67-c64a93c1f818"
+            }
+          ]
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "SenaraiBangunan",
+        "AllowMultiple": true,
+        "DefaultValue": null,
+        "WebId": "f8409f07-7df4-4db2-890d-f2c69f8318d1"
       }
     ]
   },
@@ -577,6 +645,6 @@
   "Id": "police-station",
   "CreatedDate": "2016-04-09T08:54:04.9571202+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-09T12:27:41.8560428+08:00",
+  "ChangedDate": "2016-04-21T09:42:43.4336896+08:00",
   "WebId": "55f4503f-3d76-41d5-b404-93eed7762124"
 }

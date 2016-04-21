@@ -1,0 +1,37 @@
+{
+  "$type": "Bespoke.Sph.Domain.ReportDefinition, domain.sph",
+  "ReportLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportLayout, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "DataSource": {
+    "$type": "Bespoke.Sph.Domain.DataSource, domain.sph",
+    "ParameterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Parameter, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "ReportFilterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportFilter, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "EntityFieldCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityField, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "EntityName": "Patient",
+    "Query": "",
+    "WebId": null
+  },
+  "Title": "Test",
+  "Category": "test",
+  "IsActive": true,
+  "IsPrivate": false,
+  "IsExportAllowed": false,
+  "Description": "",
+  "CreatedBy": "admin",
+  "Id": "patient-test",
+  "CreatedDate": "2016-04-14T12:35:34.1466063+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-04-14T12:35:34.1466063+08:00",
+  "WebId": "f7a70ece-a4f3-4d16-8797-5ddf04898ee5"
+}
