@@ -140,7 +140,11 @@ namespace Bespoke.Sph.Domain
 
 
             script.AppendLine(@" 
-             if (typeof optionOrWebid === ""object"") {");
+             if (typeof optionOrWebid === ""object"") {
+
+                if(optionOrWebid.WebId){
+                    model.WebId(optionOrWebid.WebId);
+                }");
             foreach (var cm in this.MemberCollection)
             {
                 var initCode = cm.GenerateJavascriptInitValue(jns);

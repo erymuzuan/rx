@@ -149,6 +149,9 @@ namespace Bespoke.Sph.Domain
 
                 if(optionOrWebid.Id){
                     model.Id(optionOrWebid.Id);
+                }
+                if(optionOrWebid.WebId){
+                    model.WebId(optionOrWebid.WebId);
                 }");
 
 
