@@ -166,9 +166,46 @@ namespace Bespoke.Sph.Domain
             controller.MethodCollection.Add(new Method { Code = code.ToString() });
 
 
+            var actionWithWorkflowId = this.GenenerateActionWithWorkflowId(wd, messageType);
+            if (!string.IsNullOrWhiteSpace(actionWithWorkflowId))
+                controller.AddMethod(new Method { Code = actionWithWorkflowId });
             @classes.Add(controller);
 
             return @classes;
+        }
+
+        private string GenenerateActionWithWorkflowId(WorkflowDefinition wd, string messageType)
+        {
+            if (this.IsInitiator)
+            {
+                return string.Empty;
+            }
+            var code = new StringBuilder();
+            code.AppendLinf("//exec:{0}", this.WebId);
+            code.AppendLine("       [HttpPost]");
+            code.AppendLine($"      [Route(\"{{id:guid}}/{this.Operation}\")]");
+            code.AppendLine($"      public async Task<IHttpActionResult> {this.MethodName}(" +
+                            $"string id, " +
+                            $"[FromBody]{messageType} @message)");
+            code.AppendLine("       {");
+
+            code.AppendLine($"            var context = new SphDataContext();");
+            code.AppendLine($"            var wf = (await context.LoadOneAsync<Workflow>(x => x.Id == id)) as {wd.WorkflowTypeName};");
+            code.AppendLine($"            if( null == wf)");
+            code.AppendLine("            {");
+            code.AppendLine($"                   return NotFound(\"There's no workflow with id \" + id);");
+            code.AppendLine("            }");
+            code.AppendLine(this.GenerateCanExecuteCode());
+
+            code.AppendLine();
+            code.AppendLinf($"            var result = await wf.{Name}Async(@message);");
+            code.AppendLine($"            await wf.SaveAsync(\"{WebId}\", result);");
+            // any business rules?            
+            code.AppendLine("           return Accepted(new {success = true, status=\"OK\"});");
+            code.AppendLine("       }"); // end SAVE action
+
+            return code.ToString();
+
         }
 
 
