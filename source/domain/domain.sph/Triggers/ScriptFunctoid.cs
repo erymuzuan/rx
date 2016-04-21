@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Domain
             var block = this.Expression;
             if (!block.Contains("return")) return this.Expression;
 
-            return string.Format("{0}(item)", this.Name);
+            return $"{this.Name}(item)";
         }
 
 
