@@ -265,7 +265,7 @@
   "IconStoreId": "",
   "Operation": "08749ac0-e998-4ce2-e8dc-5ad0e41d5538",
   "Variable": "",
-  "Partial": "",
+  "Partial": "partial/borang-kelulusan-permohonan-kuarters",
   "Caption": "",
   "Layout": " ",
   "OperationSuccessMesage": "",
@@ -278,6 +278,6 @@
   "Id": "borang-kelulusan-permohonan-kuarters",
   "CreatedDate": "2016-03-03T14:33:01.38559+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-15T10:23:52.0502905+08:00",
+  "ChangedDate": "2016-04-22T09:08:03.8262562+08:00",
   "WebId": "3552bbf7-d2c4-402b-b612-f2cc39644ac2"
 }

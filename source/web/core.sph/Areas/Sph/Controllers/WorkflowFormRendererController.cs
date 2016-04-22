@@ -47,7 +47,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var formId = form.Route + "-form";
             var saveOperation = form.Operation;
-            var partialPath = string.IsNullOrWhiteSpace(form.Partial) ? string.Empty : ",'" + form.Partial + "'";
+            var partialPath = string.IsNullOrWhiteSpace(form.Partial) ? string.Empty : $",\"{form.Partial}\"";
             var partialVariable = string.IsNullOrWhiteSpace(form.Partial) ? string.Empty : ",partial";
 
             var receive = wd.GetActivity<ReceiveActivity>(form.Operation);
@@ -67,6 +67,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 form = ko.observable(new bespoke.sph.domain.WorkflowForm()),
                 partial = partial || {{}},
                 i18n = null,
+                wid = null,
                 activate = function (id) {{
                     var tcs = new $.Deferred();
                     context.loadOneAsync(""WorkflowForm"", ""Route eq '{form.Route}'"")
@@ -75,18 +76,23 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                            return $.getJSON(""i18n/"" + config.lang + ""/{form.Route}"");
                        }})
                        .then(function (n) {{
-                           i18n = n[0];
-
-                           return $.getScript(""api/workflow-forms/{form.Id}/activities/{form.Operation}/schema"");
-                       }}).then(function (b) {{
-                             message(new bespoke.{ConfigurationManager.ApplicationName}.{wd.WorkflowTypeName}.domain.{vom.TypeName}());
-                       }}, function (e) {{
-                         if (e.status == 404) {{
-                            app.showMessage(""Sorry, but we cannot find any {wd.Name} with location : /api/{wd.Id}/v{wd.Version}"", ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
-                         }}
-                       }}).always(function () {{
+                                i18n = n[0];
+                                return $.getScript(""api/workflow-forms/{form.Id}/activities/{form.Operation}/schema"");
+                           }}).then(function (b) {{
+                                 message(new bespoke.{ConfigurationManager.ApplicationName}.{wd.WorkflowTypeName}.domain.{vom.TypeName}());
+                                 return context.getCountAsync(""Workflow"", ""Id eq '"" + id + ""'"");
+                           }}, function (e) {{
+                                 if (e.status == 404) {{
+                                    app.showMessage(""Sorry, but we cannot find any {wd.Name} with location : /api/{wd.Id}/v{wd.Version}"", ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
+                                 }}
+                           }})
+                        .then(function(count){{
+                                if(count === 1){{
+                                    wid = id;
+                                }}
+                        }}).always(function () {{
                            if (typeof partial.activate === ""function"") {{
-                               partial.activate(ko.unwrap(message, id))
+                               partial.activate(ko.unwrap(message), id)
                                         .done(tcs.resolve)
                                         .fail(tcs.reject);
                            }}
@@ -250,7 +256,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         private string GenerateApiOperationCode(WorkflowDefinition wd, ReceiveActivity activity, WorkflowForm form)
         {
             var opFunc = activity.Name.ToCamelCase();
-            var route = $"/wf/{wd.Id}/v{wd.Version}/{activity.Operation}";
+            var route = $"/wf/{wd.Id}/v{wd.Version}/\" + id + \"{activity.Operation}";
 
             var script = new StringBuilder();
             script.Append($@"
@@ -261,8 +267,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                      }}
 
                      var data = ko.mapping.toJSON(message),
-                        tcs = new $.Deferred();
-                      
+                        tcs = new $.Deferred(),
+                        id = wid === null ? """" : wid + ""/"";
+
+
                      context.{form.OperationMethod ?? "post"}(data, ""{route}"" )
                          .fail(function(response){{ 
                             var result = response.responseJSON;
