@@ -13,12 +13,7 @@ function(context, logger, router, system, validation, dialog, config, app) {
         activate = function(id) {
             var tcs = new $.Deferred();
 
-            context.loadOneAsync("Workflow", "Id eq '" + id +"'")
-                .then(function(wf){
-                    if(wf){
-                        message(wf.)
-                    }
-                });
+     
 
             context.loadOneAsync("WorkflowForm", "Route eq 'borang-kelulusan-permohonan-kuarters'")
                 .then(function(f) {
@@ -38,7 +33,7 @@ function(context, logger, router, system, validation, dialog, config, app) {
                         }
                 })
                 .then(function(wf){
-                        console.log("FOUND wf ", wf);
+                        console.info("!!!FOUND wf ", ko.toJS(wf));
                         if(wf){
                             wid = id;
                         }
@@ -66,7 +61,7 @@ function(context, logger, router, system, validation, dialog, config, app) {
                 tcs = new $.Deferred(),
                 id = wid === null ? "" : wid + "/";
 
-            context.post(data, "/wf/permohonan-kuarters/v1/" + id + "HantarStatusKelulusan")
+            context.post(data, "/wf/permohonan-kuarters/v1/" + id + "hantar-status-kelulusan")
                 .fail(function(response) {
                     var result = response.responseJSON;
                     errors.removeAll();

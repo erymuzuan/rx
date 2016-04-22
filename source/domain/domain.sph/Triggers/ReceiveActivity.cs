@@ -195,6 +195,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("            {");
             code.AppendLine($"                   return NotFound(\"There's no workflow with id \" + id);");
             code.AppendLine("            }");
+            code.AppendLine($"             await wf.LoadWorkflowDefinitionAsync();");
             code.AppendLine(this.GenerateCanExecuteCode());
 
             code.AppendLine();

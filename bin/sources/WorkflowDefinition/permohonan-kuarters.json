@@ -6,7 +6,7 @@
       {
         "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
         "PortType": null,
-        "Operation": "SubmitNewQuartersApplication",
+        "Operation": "terima-permohonan-baru",
         "MessagePath": "Permohonan",
         "CancelMessageBody": null,
         "CancelMessageSubject": null,
@@ -182,7 +182,7 @@
       {
         "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
         "PortType": null,
-        "Operation": "PengesahanDokumenPermohonan",
+        "Operation": "pengesahan-dokumen-permohonan",
         "MessagePath": "Pengesahan",
         "CancelMessageBody": null,
         "CancelMessageSubject": null,
@@ -625,6 +625,6 @@
   "Id": "permohonan-kuarters",
   "CreatedDate": "2016-03-01T15:26:07.7855503+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-21T09:33:32.9374485+08:00",
+  "ChangedDate": "2016-04-22T07:57:25.4379982+08:00",
   "WebId": "a72c7612-b699-440c-885e-a1646e026b9d"
 }
