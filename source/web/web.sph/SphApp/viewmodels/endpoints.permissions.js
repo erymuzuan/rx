@@ -191,7 +191,21 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         a_attr : {
                             "class": hasImplementation(v.Name)
                         },
-                        children : []
+                        children: [{
+                            data: createTag(v.Name, v.Name, "Search"),
+                            text: "Search",
+                            icon: "fa fa-search"
+                        },
+                        {
+                            data: createTag(v.Name, v.Name, "GetPendingTasksAsync"),
+                            text: "Pending Tasks",
+                            icon: "fa fa-users"
+                        },
+                        {
+                            data: createTag(v.Name, v.Name, "Schemas"),
+                            text: "Javascript schema",
+                            icon: "fa fa-object-ungroup"
+                        }]
                     };
                     _(v.Children).each(function(c) {
                         var action = {

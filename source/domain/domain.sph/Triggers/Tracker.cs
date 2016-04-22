@@ -179,23 +179,24 @@ namespace Bespoke.Sph.Domain
             var pendings = (from w in this.WaitingAsyncList.Keys
                             let act = this.WorkflowDefinition.GetActivity<Activity>(w)
                             let screen = act as ReceiveActivity
-                            select new PendingTask(this.WorkflowId)
+                            select new PendingTask(this.WorkflowId, this.WorkflowDefinitionId)
                             {
-                                Name = act.Name,
+                                ActivityName = act.Name,
                                 Type = act.GetType().Name,
-                                WebId = act.WebId,
-                                Correlations = this.WaitingAsyncList[w].ToArray()
+                                ActivityWebId = act.WebId,
+                                Correlations = this.GetCorrellationSetValues()
                             }).ToList();
-
-            pendings.ForEach(async t =>
-            {
-                var screen = this.WorkflowDefinition.ActivityCollection
-                    .OfType<ReceiveActivity>()
-                    .SingleOrDefault(a => a.WebId == t.WebId);
-                if (null != screen)
-                    t.Performers = await screen.GetUsersAsync(this.Workflow);
-            });
             return pendings;
+        }
+
+        private string[] GetCorrellationSetValues()
+        {
+            var list = new List<string>();
+            if (null != this.Workflow && null != this.WorkflowDefinition)
+            {
+                list.Add("");
+            }
+            return list.ToArray();
         }
 
         /// <summary>

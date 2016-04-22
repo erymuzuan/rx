@@ -13,34 +13,34 @@ namespace Bespoke.Sph.Domain
 
         public IEnumerable<Class> GenerateCode()
         {
-            var @classes = new List<Class>();
+            var classes = new List<Class>();
             var wcd = GenerateWorkflowClass();
-            @classes.Add(wcd);
+            classes.Add(wcd);
 
             var activityPartials = from a in this.ActivityCollection
                 let pc = a.GenerateWorkflowPartial(this)
                 where null != pc
                 select pc;
-            @classes.AddRange(activityPartials);
+            classes.AddRange(activityPartials);
 
 
-            foreach (var @var in this.VariableDefinitionCollection)
+            foreach (var var in this.VariableDefinitionCollection)
             {
-                var @varClasses = @var.GenerateCustomTypesAsync(this).Result;
-                @classes.AddRange(@varClasses);
+                var varClasses = var.GenerateCustomTypesAsync(this).Result;
+                classes.AddRange(varClasses);
 
             }
 
-            var @accList = from a in this.ActivityCollection
-                           let @acc = a.GeneratedCustomTypeCode(this)
-                           select @acc;
-            @classes.AddRange(@accList.SelectMany(c => c.ToList()));
+            var accList = from a in this.ActivityCollection
+                           let acc = a.GeneratedCustomTypeCode(this)
+                           select acc;
+            classes.AddRange(accList.SelectMany(c => c.ToList()));
 
             // controller
             var controller = GenerateController();
-            @classes.Add(@controller);
+            classes.Add(controller);
 
-            return @classes;
+            return classes;
         }
 
         private Class GenerateWorkflowClass()
@@ -71,9 +71,9 @@ namespace Bespoke.Sph.Domain
             ctor.AppendLine($"           this.Version = {Version};");
             ctor.AppendLine($"           this.WorkflowDefinitionId = \"{Id}\";");
 
-            foreach (var @var in this.VariableDefinitionCollection)
+            foreach (var var in this.VariableDefinitionCollection)
             {
-                ctor.AppendLine(@var.GeneratedCtorCode(this));
+                ctor.AppendLine(var.GeneratedCtorCode(this));
             }
             ctor.AppendLine("       }");// end contructor
             wcd.CtorCollection.Add(ctor.ToString());
@@ -115,7 +115,7 @@ namespace Bespoke.Sph.Domain
 
         private Class GenerateController()
         {
-            var @controller = new Class
+            var controller = new Class
             {
                 Name = $"{this.WorkflowTypeName}Controller",
                 BaseClass = "BaseApiController",
@@ -123,16 +123,20 @@ namespace Bespoke.Sph.Domain
                 Namespace = this.CodeNamespace,
                 IsPartial = true
             };
-            @controller.ImportCollection.Add("System.Web.Http");
-            @controller.ImportCollection.Add("System.Net.Http");
-            @controller.ImportCollection.Add("Bespoke.Sph.WebApi");
-            @controller.ImportCollection.Add(typeof(Exception).Namespace);
-            @controller.ImportCollection.Add(typeof(DomainObject).Namespace);
-            @controller.ImportCollection.Add(typeof(Task<>).Namespace);
-            @controller.AttributeCollection.Add($"     [RoutePrefix(\"wf/{this.Id}/v{this.Version}\")]");
+            controller.ImportCollection.Add("System.Web.Http");
+            controller.ImportCollection.Add("System.Net.Http");
+            controller.ImportCollection.Add("Bespoke.Sph.WebApi");
+            controller.ImportCollection.Add(typeof(Exception).Namespace);
+            controller.ImportCollection.Add(typeof(DomainObject).Namespace);
+            controller.ImportCollection.Add(typeof(Task<>).Namespace);
+            controller.ImportCollection.Add(typeof(Enumerable).Namespace);
+            controller.ImportCollection.Add(typeof(Newtonsoft.Json.Linq.JObject).Namespace);
+            controller.AttributeCollection.Add($"     [RoutePrefix(\"wf/{this.Id}/v{this.Version}\")]");
 
-            @controller.MethodCollection.Add(this.GenerateSearchMethod());
-            @controller.MethodCollection.Add(this.GenerateJsSchemasController());
+            controller.MethodCollection.Add(this.GenerateGetPendingTasksMethod());
+            controller.MethodCollection.Add(this.GetFilteredHitsAsyncMethod());
+            controller.MethodCollection.Add(this.GenerateSearchMethod());
+            controller.MethodCollection.Add(this.GenerateJsSchemasController());
             return controller;
         }
 
@@ -227,6 +231,114 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+        private Method GenerateGetPendingTasksMethod()
+        {
+            var code = new StringBuilder();
+
+            code.AppendLinf("//exec:Search");
+            code.AppendLine("       [HttpGet]");
+            code.AppendLine("       [Route(\"{activity:guid}/pendingtasks/{variableName?}/{variableValue?}\")]");
+            code.AppendLinf("       public async Task<IHttpActionResult> GetPendingTasksAsync(string activity, string variableName = \"\", string variableValue = \"\")");
+            code.AppendLine("       {");
+            code.AppendLine($@"
+            var query = $@""{{{{
+                       """"query"""": {{{{
+                          """"bool"""": {{{{
+                             """"must"""": [
+                                {{{{
+                                   """"term"""": {{{{
+                                      """"WorkflowDefinitionId"""": {{{{
+                                         """"value"""": """"{Id}""""
+                                      }}}}
+                                   }}}}
+                                }}}},
+                                {{{{
+                                   """"term"""": {{{{
+                                      """"ActivityWebId"""": {{{{
+                                         """"value"""": """"{{activity}}""""
+                                      }}}}
+                                   }}}}
+                                }}}}
+                             ]
+                          }}}}
+                       }}}},
+                       """"fields"""": [
+                          """"WorkflowId""""
+                       ]
+                    }}}}"";
+            var request = new StringContent(query);
+            var url = $""{{ConfigurationManager.ElasticSearchIndex}}/pendingtask/_search"";;
+
+            using(var client = new  HttpClient{{ BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
+            {{
+                var response = await client.PostAsync(url, request);
+                var content = response.Content as StreamContent;
+
+                if (null == content) throw new Exception(""Cannot execute query on es "" + request);
+                var json = await content.ReadAsStringAsync();
+                var jo = JObject.Parse(json);
+                var hits = jo.SelectToken(""$.hits.hits"").Select(x => x.SelectToken(""fields.WorkflowId"").First.Value<string>()).ToArray();
+                if(string.IsNullOrWhiteSpace(variableName)|| string.IsNullOrWhiteSpace(variableValue)){{
+                    return Ok(hits);
+                }}          
+                // now look for specific workflow with that Id
+                var filteredHits = await GetFilteredHitsAsync(client, hits, variableName, variableValue);
+                return Ok(filteredHits);
+            }}
+");
+
+            code.AppendLine("       }");
+
+            return new Method { Code = code.ToString(), Name = "GetPendingTasksAsync" };
+        }
+
+        private Method GetFilteredHitsAsyncMethod()
+        {
+            var code = new StringBuilder();
+            
+            code.AppendLinf("       private async Task<string[]> GetFilteredHitsAsync(HttpClient client, string[] hits, string variableName , string variableValue )");
+            code.AppendLine("       {");
+            code.AppendLine($@"
+            var query = $@""{{{{
+                       """"query"""": {{{{
+                          """"bool"""": {{{{
+                             """"must"""": [
+                                {{{{
+                                   """"term"""": {{{{
+                                      """"{{variableName}}"""": {{{{
+                                         """"value"""": """"{{variableValue}}""""
+                                      }}}}
+                                   }}}}
+                                }}}}
+                             ]
+                          }}}}
+                       }}}},
+                       """"fields"""": [
+                          """"Id""""
+                       ]
+                    }}}}"";
+            var request = new StringContent(query);
+            var url = $""{{ConfigurationManager.ElasticSearchIndex}}/{this.WorkflowTypeName.ToLowerInvariant()}/_search"";;
+
+           
+            var response = await client.PostAsync(url, request);
+            var content = response.Content as StreamContent;
+
+            if (null == content) throw new Exception(""Cannot execute query on es "" + request);
+            var json = await content.ReadAsStringAsync();
+            var jo = JObject.Parse(json);
+            var hits2 = jo.SelectToken(""$.hits.hits"").Select(x => x.SelectToken(""fields.Id"").First.Value<string>()).ToArray();
+                
+            return hits.Intersect(hits2).ToArray();
+            
+");
+
+            code.AppendLine("       }");
+
+            return new Method { Code = code.ToString(), Name = "GetFilteredHitsAsync" };
+        }
+
+   
         private Method GenerateSearchMethod()
         {
             var code = new StringBuilder();

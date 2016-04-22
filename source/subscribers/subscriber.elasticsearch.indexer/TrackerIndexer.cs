@@ -27,41 +27,34 @@ namespace Bespoke.Sph.ElasticSearch
             await AddPendingTaskAsync(item);
         }
 
-        private async Task AddPendingTaskAsync(Tracker item)
+        private async Task AddPendingTaskAsync(Tracker tracker)
         {
             var context = new SphDataContext();
-            item.Workflow = await context.LoadOneAsync<Workflow>(w => w.Id == item.WorkflowId);
-            await item.Workflow.LoadWorkflowDefinitionAsync();
-            item.WorkflowDefinition = item.Workflow.WorkflowDefinition;
+            tracker.Workflow = await context.LoadOneAsync<Workflow>(w => w.Id == tracker.WorkflowId);
+            await tracker.Workflow.LoadWorkflowDefinitionAsync();
+            tracker.WorkflowDefinition = tracker.Workflow.WorkflowDefinition;
 
-            var pendings = (from w in item.WaitingAsyncList.Keys
-                            let act = item.WorkflowDefinition.GetActivity<Activity>(w)
+            var pendings = (from w in tracker.WaitingAsyncList.Keys
+                            let act = tracker.WorkflowDefinition.GetActivity<Activity>(w)
                             let screen = act as ReceiveActivity
                             // NOTE : only consider the one with correlation
-                            where item.WaitingAsyncList[w].Count > 0
-                            select new PendingTask(item.WorkflowId)
+                            where tracker.WaitingAsyncList[w].Count > 0
+                            select new PendingTask(tracker.WorkflowId, tracker.WorkflowDefinitionId)
                             {
-                                Name = act.Name,
+                                ActivityName = act.Name,
                                 Type = act.GetType().Name,
-                                WebId = act.WebId,
-                                Correlations = item.WaitingAsyncList[w].ToArray()
+                                ActivityWebId = act.WebId,
+                                Correlations = tracker.WaitingAsyncList[w].ToArray()
                             }).ToList();
 
-            pendings.ForEach(async t =>
-            {
-                var screen = item.WorkflowDefinition.ActivityCollection
-                    .OfType<ReceiveActivity>()
-                    .SingleOrDefault(a => a.WebId == t.WebId);
-                if (null != screen)
-                    t.Performers = await screen.GetUsersAsync(item.Workflow);
-            });
+     
             //delete previous pending tasks
-            var url1 = $"{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{"_query?q=WorkflowId:" + item.WorkflowId}";
+            var url1 = $"{ConfigurationManager.ElasticSearchIndex}/pendingtask/{"_query?q=WorkflowId:" + tracker.WorkflowId}";
             var response1 = await m_client.DeleteAsync(url1);
 
             Debug.WriteLine(response1);
             var tasks = from t in pendings
-                        let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{t.WebId}"
+                        let id = $"{tracker.WorkflowDefinitionId}_{tracker.WorkflowId}_{t.ActivityWebId}"
                         select this.AddPendingTaskToIndexAsync(id, t);
             await Task.WhenAll(tasks);
 
@@ -73,7 +66,7 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(ea, setting);
             var content = new StringContent(json);
 
-            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/{"pendingtask"}/{id}";
+            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/pendingtask/{id}";
             var response = await m_client.PutAsync(url, content);
 
             if (null != response)
@@ -89,7 +82,7 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(ea, setting);
             var content = new StringContent(json);
 
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/{"activity"}/{id}";
+            var url = $"{ConfigurationManager.ElasticSearchIndex}/activity/{id}";
 
 
             HttpResponseMessage response = null;
