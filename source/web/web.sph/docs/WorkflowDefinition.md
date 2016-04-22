@@ -1,11 +1,11 @@
-#WorkflowDefinition
-##Overview
+# WorkflowDefinition
+## Overview
 `WorkflowDefinition` represent the core work that your app needs to do, while `EntityDefinition` represents set of data definition for you app.`WorkflowDefinition` is much richer in terms of capabilities and complexities. It used primarily to build a `state-machine` for your application, which could represent a long running process with the ability to be persisted and de-hydrated when the moment comes.
 
 
 
 
-##Variables
+## Variables
 `WorkflowDefinition` is just a simple object with attributes, or fields, but we call them `Variable`. The `Variables` holds the user state of an `instance`.These are normally things that goes into your `ScreenActivity` forms, as well as other states variables such loop counter etc.
 
 `Variables` are the things that your workflow interact with. Lets walk through an example for a workflow to process a referral request for specialist, in a traditional code development, we might write something like
@@ -18,7 +18,7 @@ public class ProcessReferral : Workflow
 
     // a member for the requested specialist
     public string Specialist{set;get;}
-    
+
     //.. other members and methods
 
 
@@ -29,7 +29,7 @@ So all your variables will be written as public field in your `Workflow` class, 
 
 [See more about variables here](Variable.html)
 
-##Activities
+## Activities
 `Variables` to lets you define states for your `Workflow`, and `Activity` is the way you define `Operation` for your `Workflow`. If we were to illustrate a `Workflow` with traditional code approach. This is what we have
 
 ```csharp
@@ -46,7 +46,7 @@ public class ProcessReferral : Workflow
 
     // a member for the specialist response
     public string Response{set;get;}
-    
+
     // The actual workflow
     public void Start()
     {
@@ -67,7 +67,7 @@ public class ProcessReferral : Workflow
 
 
     //.. other members and methods
-    
+
 
 
 }
@@ -97,7 +97,7 @@ There are other aspects in `Activity` execution, what we call it's `Asynchronous
 
 
 
-##Properties
+## Properties
 <table class="table table-condensed table-bordered">
     <thead>
 <tr>
@@ -121,4 +121,6 @@ There are other aspects in `Activity` execution, what we call it's `Asynchronous
 
 
 ## See also
-
+[Pending tasks in workflow](workflow-pending-tasks.html)
+<br/>
+[Workflow form for your ReceiveActivity](workflow-form.html)
