@@ -136,6 +136,7 @@ namespace Bespoke.Sph.Domain
             controller.MethodCollection.Add(this.GenerateGetPendingTasksMethod());
             controller.MethodCollection.Add(this.GetFilteredHitsAsyncMethod());
             controller.MethodCollection.Add(this.GenerateSearchMethod());
+            controller.MethodCollection.Add(this.GenerateGetOneEndpointMethod());
             controller.MethodCollection.Add(this.GenerateJsSchemasController());
             return controller;
         }
@@ -338,7 +339,6 @@ namespace Bespoke.Sph.Domain
             return new Method { Code = code.ToString(), Name = "GetFilteredHitsAsync" };
         }
 
-   
         private Method GenerateSearchMethod()
         {
             var code = new StringBuilder();
@@ -363,6 +363,43 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       }");
 
+
+            return new Method { Code = code.ToString(), Name = "Search" };
+        }
+
+        private Method GenerateGetOneEndpointMethod()
+        {
+            var code = new StringBuilder();
+
+            code.AppendLinf("//exec:GetOneAsync");
+            code.AppendLine("       [HttpGet]");
+            code.AppendLine("       [Route(\"{id:guid}/{path?}\")]");
+            code.AppendLinf("       public async Task<IHttpActionResult> GetOneAsync(string id, string path = \"\")");
+            code.AppendLine("       {");
+            code.AppendLine($@"
+            var url = $""{{ConfigurationManager.ElasticSearchIndex}}/{WorkflowTypeName.ToLowerInvariant()}/{{id}}"";
+
+            using(var client = new  HttpClient{{ BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
+            {{
+                var response = await client.GetAsync(url);
+                if( response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    return NotFound();
+
+                var content = response.Content as StreamContent;
+                var json = await content.ReadAsStringAsync();
+                var jo = JObject.Parse(json);
+                var source = jo.SelectToken(""$._source"");
+
+                var cache = new CacheMetadata {{ 
+                                Etag = jo.SelectToken(""$._version"").Value<string>(), 
+                                LastModified = jo.SelectToken(""$._source.ChangedDate"").Value<DateTime>() 
+                            }};
+                
+                return Json(source.ToString(), cache);
+            }}");
+
+            code.AppendLine("       }");
+            
 
             return new Method { Code = code.ToString(), Name = "Search" };
         }

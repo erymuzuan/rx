@@ -192,6 +192,10 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                             "class": hasImplementation(v.Name)
                         },
                         children: [{
+                            data: createTag(v.Name, v.Name, "GetOneAsync"),
+                            text: "Get by id",
+                            icon: "fa fa-file-o"
+                        },{
                             data: createTag(v.Name, v.Name, "Search"),
                             text: "Search",
                             icon: "fa fa-search"
