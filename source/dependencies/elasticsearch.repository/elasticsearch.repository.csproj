@@ -49,7 +49,7 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CorrelationRepository.cs" />
+    <Compile Include="WorkflowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadonlyRepository.cs" />
   </ItemGroup>

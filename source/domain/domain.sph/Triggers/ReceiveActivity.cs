@@ -100,7 +100,7 @@ namespace Bespoke.Sph.Domain
 
         public override IEnumerable<Class> GeneratedCustomTypeCode(WorkflowDefinition wd)
         {
-            var @classes = new List<Class>();
+            var classes = new List<Class>();
             var variable = wd.VariableDefinitionCollection.Single(x => x.Name == this.MessagePath);
 
             // controller
@@ -150,7 +150,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine($@"           string correlationValue = {string.Join(" + \";\" + ", valuePath)};");
                 code.AppendLine($@"           var self = wd.ActivityCollection.OfType<ReceiveActivity>().Single(x => x.WebId == ""{WebId}"");");
                 code.AppendLine($"            var wf = await self.LoadInstanceAsync<{wd.WorkflowTypeName}>(wd, \"{correlationName}\", correlationValue);");
-                code.AppendLine($"            if( null == wf)");
+                code.AppendLine("            if( null == wf)");
                 code.AppendLine("            {");
                 code.AppendLine($"                   return NotFound(\"There's no workflow with {correlationName}  value \" + correlationValue);");
                 code.AppendLine("            }");
@@ -169,9 +169,9 @@ namespace Bespoke.Sph.Domain
             var actionWithWorkflowId = this.GenenerateActionWithWorkflowId(wd, messageType);
             if (!string.IsNullOrWhiteSpace(actionWithWorkflowId))
                 controller.AddMethod(new Method { Code = actionWithWorkflowId });
-            @classes.Add(controller);
+            classes.Add(controller);
 
-            return @classes;
+            return classes;
         }
 
         private string GenenerateActionWithWorkflowId(WorkflowDefinition wd, string messageType)
@@ -185,17 +185,17 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       [HttpPost]");
             code.AppendLine($"      [Route(\"{{id:guid}}/{this.Operation}\")]");
             code.AppendLine($"      public async Task<IHttpActionResult> {this.MethodName}(" +
-                            $"string id, " +
+                            "string id, " +
                             $"[FromBody]{messageType} @message)");
             code.AppendLine("       {");
 
-            code.AppendLine($"            var context = new SphDataContext();");
+            code.AppendLine("            var context = new SphDataContext();");
             code.AppendLine($"            var wf = (await context.LoadOneAsync<Workflow>(x => x.Id == id)) as {wd.WorkflowTypeName};");
-            code.AppendLine($"            if( null == wf)");
+            code.AppendLine("            if( null == wf)");
             code.AppendLine("            {");
-            code.AppendLine($"                   return NotFound(\"There's no workflow with id \" + id);");
+            code.AppendLine("                   return NotFound(\"There\'s no workflow with id \" + id);");
             code.AppendLine("            }");
-            code.AppendLine($"             await wf.LoadWorkflowDefinitionAsync();");
+            code.AppendLine("             await wf.LoadWorkflowDefinitionAsync();");
             code.AppendLine(this.GenerateCanExecuteCode());
 
             code.AppendLine();
@@ -321,9 +321,9 @@ namespace Bespoke.Sph.Domain
             return users.ToArray();
         }
 
-        public async Task<T> LoadInstanceAsync<T>(WorkflowDefinition wd, string correlationName, string correlationValue) where T : Workflow
+        public async Task<T> LoadInstanceAsync<T>(WorkflowDefinition wd, string correlationName, string correlationValue) where T : Workflow,new()
         {
-            var repos = ObjectBuilder.GetObject<ICorrelationRepository>();
+            var repos = ObjectBuilder.GetObject<IWorkflowService>();
             return await repos.GetInstanceAsync<T>(wd, correlationName, correlationValue);
         }
     }

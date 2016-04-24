@@ -134,8 +134,8 @@ namespace Bespoke.Sph.Domain
                 Value = value
 
             };
-            var repos = ObjectBuilder.GetObject<ICorrelationRepository>();
-            await repos.SaveInstance(corr);
+            var repos = ObjectBuilder.GetObject<IWorkflowService>();
+            await repos.SaveInstanceAsync(corr);
         }
 
         public async Task LoadWorkflowDefinitionAsync()

@@ -134,7 +134,6 @@ namespace Bespoke.Sph.Domain
             controller.AttributeCollection.Add($"     [RoutePrefix(\"wf/{this.Id}/v{this.Version}\")]");
 
             controller.MethodCollection.Add(this.GenerateGetPendingTasksMethod());
-            controller.MethodCollection.Add(this.GetFilteredHitsAsyncMethod());
             controller.MethodCollection.Add(this.GenerateSearchMethod());
             controller.MethodCollection.Add(this.GenerateGetOneEndpointMethod());
             controller.MethodCollection.Add(this.GenerateJsSchemasController());
@@ -238,106 +237,25 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLinf("//exec:Search");
             code.AppendLine("       [HttpGet]");
-            code.AppendLine("       [Route(\"{activity:guid}/pendingtasks/{variableName?}/{variableValue?}\")]");
-            code.AppendLinf("       public async Task<IHttpActionResult> GetPendingTasksAsync(string activity, string variableName = \"\", string variableValue = \"\")");
+            code.AppendLine("       [Route(\"{activity:guid}/pendingtasks\")]");
+            code.AppendLinf("       public async Task<IHttpActionResult> GetPendingTasksAsync(string activity)");
             code.AppendLine("       {");
             code.AppendLine($@"
-            var query = $@""{{{{
-                       """"query"""": {{{{
-                          """"bool"""": {{{{
-                             """"must"""": [
-                                {{{{
-                                   """"term"""": {{{{
-                                      """"WorkflowDefinitionId"""": {{{{
-                                         """"value"""": """"{Id}""""
-                                      }}}}
-                                   }}}}
-                                }}}},
-                                {{{{
-                                   """"term"""": {{{{
-                                      """"ActivityWebId"""": {{{{
-                                         """"value"""": """"{{activity}}""""
-                                      }}}}
-                                   }}}}
-                                }}}}
-                             ]
-                          }}}}
-                       }}}},
-                       """"fields"""": [
-                          """"WorkflowId""""
-                       ]
-                    }}}}"";
-            var request = new StringContent(query);
-            var url = $""{{ConfigurationManager.ElasticSearchIndex}}/pendingtask/_search"";;
-
-            using(var client = new  HttpClient{{ BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
-            {{
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
-
-                if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-                var json = await content.ReadAsStringAsync();
-                var jo = JObject.Parse(json);
-                var hits = jo.SelectToken(""$.hits.hits"").Select(x => x.SelectToken(""fields.WorkflowId"").First.Value<string>()).ToArray();
-                if(string.IsNullOrWhiteSpace(variableName)|| string.IsNullOrWhiteSpace(variableValue)){{
-                    return Ok(hits);
-                }}          
-                // now look for specific workflow with that Id
-                var filteredHits = await GetFilteredHitsAsync(client, hits, variableName, variableValue);
-                return Ok(filteredHits);
-            }}
+                var variables = new System.Collections.Generic.Dictionary<string, object>();
+                foreach (var k in this.Request.GetQueryNameValuePairs())
+                {{ 
+                    variables.Add(k.Key, k.Value);
+                }} 
+                var ws = ObjectBuilder.GetObject<IWorkflowService>();
+                var list = await ws.GetPendingWorkflowsAsync<{WorkflowTypeName}>(activity, variables);
+                return Json(list);
 ");
 
             code.AppendLine("       }");
 
             return new Method { Code = code.ToString(), Name = "GetPendingTasksAsync" };
         }
-
-        private Method GetFilteredHitsAsyncMethod()
-        {
-            var code = new StringBuilder();
-            
-            code.AppendLinf("       private async Task<string[]> GetFilteredHitsAsync(HttpClient client, string[] hits, string variableName , string variableValue )");
-            code.AppendLine("       {");
-            code.AppendLine($@"
-            var query = $@""{{{{
-                       """"query"""": {{{{
-                          """"bool"""": {{{{
-                             """"must"""": [
-                                {{{{
-                                   """"term"""": {{{{
-                                      """"{{variableName}}"""": {{{{
-                                         """"value"""": """"{{variableValue}}""""
-                                      }}}}
-                                   }}}}
-                                }}}}
-                             ]
-                          }}}}
-                       }}}},
-                       """"fields"""": [
-                          """"Id""""
-                       ]
-                    }}}}"";
-            var request = new StringContent(query);
-            var url = $""{{ConfigurationManager.ElasticSearchIndex}}/{this.WorkflowTypeName.ToLowerInvariant()}/_search"";;
-
-           
-            var response = await client.PostAsync(url, request);
-            var content = response.Content as StreamContent;
-
-            if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-            var json = await content.ReadAsStringAsync();
-            var jo = JObject.Parse(json);
-            var hits2 = jo.SelectToken(""$.hits.hits"").Select(x => x.SelectToken(""fields.Id"").First.Value<string>()).ToArray();
-                
-            return hits.Intersect(hits2).ToArray();
-            
-");
-
-            code.AppendLine("       }");
-
-            return new Method { Code = code.ToString(), Name = "GetFilteredHitsAsync" };
-        }
+        
 
         private Method GenerateSearchMethod()
         {
@@ -349,17 +267,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       public async Task<IHttpActionResult> Search([RawBody]string json)");
             code.AppendLine("       {");
             code.AppendLine($@"
-            var request = new StringContent(json);
-            var url = $""{{ConfigurationManager.ElasticSearchIndex}}/workflow_{Id}_{Version}/_search"";;
-
-            using(var client = new  HttpClient{{ BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
-            {{
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
-
-                if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-                return Json(await content.ReadAsStringAsync());
-            }}");
+                var ws = ObjectBuilder.GetObject<IWorkflowService>();
+                var items = await ws.SearchAsync<{WorkflowTypeName}>(json);
+                return Json(items);
+        ");
 
             code.AppendLine("       }");
 
@@ -373,35 +284,22 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLinf("//exec:GetOneAsync");
             code.AppendLine("       [HttpGet]");
-            code.AppendLine("       [Route(\"{id:guid}/{path?}\")]");
-            code.AppendLinf("       public async Task<IHttpActionResult> GetOneAsync(string id, string path = \"\")");
+            code.AppendLine("       [Route(\"{id:guid}\")]");
+            code.AppendLinf("       public async Task<IHttpActionResult> GetOneAsync(string id)");
             code.AppendLine("       {");
             code.AppendLine($@"
-            var url = $""{{ConfigurationManager.ElasticSearchIndex}}/{WorkflowTypeName.ToLowerInvariant()}/{{id}}"";
-
-            using(var client = new  HttpClient{{ BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)}})
-            {{
-                var response = await client.GetAsync(url);
-                if( response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                var ws = ObjectBuilder.GetObject<IWorkflowService>();
+                var item = await ws.GetOneAsync<{WorkflowTypeName}>(id);
+                if(null == item)
                     return NotFound();
+                return Json(item);
 
-                var content = response.Content as StreamContent;
-                var json = await content.ReadAsStringAsync();
-                var jo = JObject.Parse(json);
-                var source = jo.SelectToken(""$._source"");
-
-                var cache = new CacheMetadata {{ 
-                                Etag = jo.SelectToken(""$._version"").Value<string>(), 
-                                LastModified = jo.SelectToken(""$._source.ChangedDate"").Value<DateTime>() 
-                            }};
-                
-                return Json(source.ToString(), cache);
-            }}");
+");
 
             code.AppendLine("       }");
             
 
-            return new Method { Code = code.ToString(), Name = "Search" };
+            return new Method { Code = code.ToString(), Name = "GetOneAsync" };
         }
         
     }

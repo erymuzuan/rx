@@ -404,6 +404,7 @@
     <Compile Include="Triggers\CompilerOptions.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />
     <Compile Include="Triggers\ConfirmationOptions.cs" />
+    <Compile Include="Triggers\Correlation.cs" />
     <Compile Include="Triggers\CorrelationProperty.cs" />
     <Compile Include="Triggers\CorrelationSet.cs" />
     <Compile Include="Triggers\CorrelationType.cs" />
@@ -485,7 +486,7 @@
     <Compile Include="Triggers\Field.cs" />
     <Compile Include="Transform\Functoid.cs" />
     <Compile Include="Triggers\FunctoidMapping.cs" />
-    <Compile Include="Triggers\ICorrelationRepository.cs" />
+    <Compile Include="Triggers\IWorkflowService.cs" />
     <Compile Include="Triggers\InitiateActivityResult.cs" />
     <Compile Include="Triggers\ITaskScheduler.cs" />
     <Compile Include="Triggers\JavascriptExpressionField.cs" />
