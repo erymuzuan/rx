@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.EmailTemplate, domain.sph",
-  "EmailTemplateId": 1,
+  "Id": "1",
   "Entity": "Customer",
   "Name": "General email template",
   "Note": "Customer email template",

@@ -635,7 +635,7 @@
   },
   "Name": "PoliceStation",
   "Plural": "PoliceStations",
-  "IconClass": "fa fa-building-o",
+  "IconClass": "fa fa-university",
   "RecordName": "No",
   "IsPublished": true,
   "TreatDataAsSource": false,
@@ -645,6 +645,6 @@
   "Id": "police-station",
   "CreatedDate": "2016-04-09T08:54:04.9571202+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-22T17:26:05.0030907+08:00",
+  "ChangedDate": "2016-04-25T17:49:02.210691+08:00",
   "WebId": "55f4503f-3d76-41d5-b404-93eed7762124"
 }

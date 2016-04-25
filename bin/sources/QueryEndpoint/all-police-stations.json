@@ -1,0 +1,35 @@
+{
+  "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
+  "ControllerName": "PoliceStationAllPoliceStationsQueryEndpoint",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "CacheProfile": "",
+  "Name": "All police stations",
+  "Route": "all-police-stations",
+  "IsReturnSource": "",
+  "Entity": "PoliceStation",
+  "Note": "",
+  "IsPublished": false,
+  "Resource": "",
+  "CacheFilter": null,
+  "CreatedBy": "admin",
+  "Id": "all-police-stations",
+  "CreatedDate": "2016-04-25T17:24:28.9753064+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-04-25T17:24:34.4703128+08:00",
+  "WebId": "fa022936-b532-46f7-ce51-c6de6f7761a2"
+}
