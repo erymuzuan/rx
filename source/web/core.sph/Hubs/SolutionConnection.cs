@@ -289,7 +289,7 @@ namespace Bespoke.Sph.Web.Hubs
                 var form = (IEntityDefinitionAsset)f.DeserializeFromJsonFile<T>();
                 var parent =
                     solution.itemCollection.SingleOrDefault(
-                        x => x.id.Equals(form.Entity, StringComparison.InvariantCultureIgnoreCase));
+                        x => x.text.Equals(form.Entity, StringComparison.InvariantCultureIgnoreCase));
 
                 parent?.itemCollection.Add(new SolutionItem
                 {
