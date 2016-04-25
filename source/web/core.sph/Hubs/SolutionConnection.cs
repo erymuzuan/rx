@@ -123,19 +123,29 @@ namespace Bespoke.Sph.Web.Hubs
                 {
                     text = Path.GetFileName(folder),
                     id = Path.GetFileName(folder),
-                    icon = GetIcon(Path.GetFileName(folder))
+                    icon = GetIcon(Path.GetFileName(folder), null)
                 };
-                solution.itemCollection.Add(parent);
                 foreach (var f in Directory.GetFiles(folder, "*.json"))
                 {
-                    parent.itemCollection.Add(new SolutionItem
+                    var name = Path.GetFileNameWithoutExtension(f);
+
+                    var jo = JObject.Parse(File.ReadAllText(f));
+                    var node = (jo.SelectToken("$.Name") ?? jo.SelectToken("$.Title")).ToEmptyString();
+                    if (!string.IsNullOrWhiteSpace(node))
+                        name = node;
+                    var item = new SolutionItem
                     {
-                        id = Path.GetFileNameWithoutExtension(f),
-                        text = Path.GetFileNameWithoutExtension(f),
+                        id = "__" + parent.text + "__" + Path.GetFileNameWithoutExtension(f),
+                        text = name,
                         url = GetEditUrl(Path.GetFileName(folder), f),
-                        icon = GetIcon(Path.GetFileName(folder))
-                    });
+                        icon = GetIcon(Path.GetFileName(folder), jo)
+                    };
+                    if (!string.IsNullOrWhiteSpace(item.url))
+                        parent.itemCollection.Add(item);
                 }
+                // TODO : do not include source EntityDefinition
+                if (parent.itemCollection.Count > 0)
+                    solution.itemCollection.Add(parent);
             }
 
             var customRoutes = GetCustomRoutes();
@@ -360,6 +370,20 @@ namespace Bespoke.Sph.Web.Hubs
                 var map = file.DeserializeFromJsonFile<TransformDefinition>();
                 return $"transform.definition.edit/{map.Id}";
             }
+            if (folder == nameof(Adapter))
+            {
+                var jo = JObject.Parse(File.ReadAllText(file));
+                var id = jo.SelectToken("$.Id").ToEmptyString();
+                var type = jo.SelectToken("$.$type").ToEmptyString();
+                if (type == "Bespoke.Sph.Integrations.Adapters.MySqlAdapter, mysql.adapter")
+                    return $"adapter.mysql/{id}";
+                if (type == "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter")
+                    return $"adapter.sqlserver/{id}";
+                if (type == "Bespoke.Sph.Integrations.Adapters.HttpAdapter, http.adapter")
+                    return $"adapter.http/{id}";
+                if (type == "Bespoke.Sph.Integrations.Adapters.OrcaleAdapter, oracle.adapter")
+                    return $"adapter.oracle/{id}";
+            }
             return string.Empty;
         }
 
@@ -395,7 +419,7 @@ namespace Bespoke.Sph.Web.Hubs
             m_watcher = null;
         }
 
-        private string GetIcon(string name)
+        private string GetIcon(string name, JToken jo)
         {
             switch (name)
             {
@@ -403,7 +427,20 @@ namespace Bespoke.Sph.Web.Hubs
                 case nameof(WorkflowDefinition): return "fa fa-code-fork";
                 case nameof(TransformDefinition): return "fa fa-random";
                 case nameof(EntityDefinition): return "fa fa-file-o";
-                case nameof(Adapter): return "fa fa-puzzle-piece";
+                case nameof(Adapter):
+                    if (null != jo)
+                    {
+                        var type = jo.SelectToken("$.$type").ToEmptyString();
+                        if (type == "Bespoke.Sph.Integrations.Adapters.MySqlAdapter, mysql.adapter")
+                            return "fa fa-database";
+                        if (type == "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter")
+                            return "fa fa-windows";
+                        if (type == "Bespoke.Sph.Integrations.Adapters.HttpAdapter, http.adapter")
+                            return "fa fa-html5";
+                        if (type == "Bespoke.Sph.Integrations.Adapters.OrcaleAdapter, oracle.adapter")
+                            return "fa fa-database";
+                    }
+                    return "fa fa-puzzle-piece";
                 case nameof(Designation): return "fa fa-users";
                 case nameof(EmailTemplate): return "fa fa-envelope-o";
                 case nameof(DocumentTemplate): return "fa fa-file-word-o";
