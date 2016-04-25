@@ -2,11 +2,57 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class Filter : DomainObject
     {
+        public Filter()
+        {
+
+        }
+
+        public Filter(string term, object value)
+        {
+            this.Term = term;
+            this.Operator = Operator.Eq;
+            this.Field = new ConstantField
+            {
+                Value = value as string,
+                Type = typeof(string)
+            };
+        }
+        public Filter(string term, Operator op, object value)
+        {
+            this.Term = term;
+            this.Operator = op;
+            this.Field = new ConstantField
+            {
+                Value = value as string,
+                Type = typeof(string)
+            };
+        }
+        public static Filter Parse(string json)
+        {
+            var jo = JObject.Parse(json);
+            var term = jo.SelectToken("$.term").Value<string>();
+            var op1 = jo.SelectToken("$.operator").Value<string>();
+            var op = (Operator)Enum.Parse(typeof(Operator), op1);
+            var valueNode = (JValue)jo.SelectToken("$.value").Value<object>();
+            return new Filter(term, op, valueNode.Value);
+
+        }
+        public static Filter Parse(JToken jo)
+        {
+            var term = jo.SelectToken("$.term").Value<string>();
+            var op1 = jo.SelectToken("$.operator").Value<string>();
+            var op = (Operator)Enum.Parse(typeof(Operator), op1);
+            var valueNode = (JValue)jo.SelectToken("$.value").Value<object>();
+            return new Filter(term, op, valueNode.Value);
+
+        }
+
         public static string GenerateElasticSearchFilterDsl(Entity entity, IEnumerable<Filter> filterCollection)
         {
             var list = new ObjectCollection<Filter>(filterCollection);
@@ -60,7 +106,7 @@ namespace Bespoke.Sph.Domain
                 case Operator.Le:
                 case Operator.Lt:
                     query.AppendLine("                     \"range\":{");
-                    query.AppendFormat("                         \"{0}\":{{", ft.Term);
+                    query.Append($"                         \"{ft.Term}\":{{");
                     var count = 0;
                     foreach (var t in filters)
                     {
@@ -71,9 +117,9 @@ namespace Bespoke.Sph.Domain
                             ov = $"\"{dv:O}\"";
 
                         if (t.Operator == Operator.Ge || t.Operator == Operator.Gt)
-                            query.AppendFormat("\"from\":{0}", ov);
+                            query.Append($"\"from\":{ov}");
                         if (t.Operator == Operator.Le || t.Operator == Operator.Lt)
-                            query.AppendFormat("\"to\":{0}", ov);
+                            query.Append($"\"to\":{ov}");
 
                         if (count < filters.Length)
                             query.Append(",");

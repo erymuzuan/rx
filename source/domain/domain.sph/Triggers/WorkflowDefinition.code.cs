@@ -18,9 +18,9 @@ namespace Bespoke.Sph.Domain
             classes.Add(wcd);
 
             var activityPartials = from a in this.ActivityCollection
-                let pc = a.GenerateWorkflowPartial(this)
-                where null != pc
-                select pc;
+                                   let pc = a.GenerateWorkflowPartial(this)
+                                   where null != pc
+                                   select pc;
             classes.AddRange(activityPartials);
 
 
@@ -32,8 +32,8 @@ namespace Bespoke.Sph.Domain
             }
 
             var accList = from a in this.ActivityCollection
-                           let acc = a.GeneratedCustomTypeCode(this)
-                           select acc;
+                          let acc = a.GeneratedCustomTypeCode(this)
+                          select acc;
             classes.AddRange(accList.SelectMany(c => c.ToList()));
 
             // controller
@@ -235,27 +235,34 @@ namespace Bespoke.Sph.Domain
         {
             var code = new StringBuilder();
 
-            code.AppendLinf("//exec:Search");
+            code.AppendLinf("//exec:GetPendingTasksAsync");
             code.AppendLine("       [HttpGet]");
             code.AppendLine("       [Route(\"{activity:guid}/pendingtasks\")]");
-            code.AppendLinf("       public async Task<IHttpActionResult> GetPendingTasksAsync(string activity)");
+            code.AppendLine("       public async Task<IHttpActionResult> GetPendingTasksAsync(string activity, " +
+                            "[FromUri(Name = \"$select\")]string fields = \"Id\"," +
+                            "[FromUri(Name = \"$size\")]int size = 20," +
+                            "[FromUri(Name = \"$from\")]int @from = 0)"
+                            );
             code.AppendLine("       {");
             code.AppendLine($@"
-                var variables = new System.Collections.Generic.Dictionary<string, object>();
+                var values = fields.Split(new char[] {{','}}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+                var filters = new System.Collections.Generic.List<Filter>();
                 foreach (var k in this.Request.GetQueryNameValuePairs())
                 {{ 
-                    variables.Add(k.Key, k.Value);
+                    if(k.Key.StartsWith(""$""))continue;
+                    filters.Add(new Filter(k.Key, k.Value));
                 }} 
                 var ws = ObjectBuilder.GetObject<IWorkflowService>();
-                var list = await ws.GetPendingWorkflowsAsync<{WorkflowTypeName}>(activity, variables);
-                return Json(list);
+                var lo = await ws.GetPendingWorkflowsAsync<{WorkflowTypeName}>(activity, values, filters, @from, size);
+                return Json(lo);
 ");
 
             code.AppendLine("       }");
+            
 
             return new Method { Code = code.ToString(), Name = "GetPendingTasksAsync" };
         }
-        
+
 
         private Method GenerateSearchMethod()
         {
@@ -265,10 +272,27 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       [HttpPost]");
             code.AppendLine("       [Route(\"search\")]");
             code.AppendLinf("       public async Task<IHttpActionResult> Search([RawBody]string json)");
-            code.AppendLine("       {");
-            code.AppendLine($@"
+            code.Append("           {");
+            code.Append($@"
+                var list = JArray.Parse(json);
+                var filters = list.Select(x => Filter.Parse(x));
+
                 var ws = ObjectBuilder.GetObject<IWorkflowService>();
-                var items = await ws.SearchAsync<{WorkflowTypeName}>(json);
+                var items = await ws.SearchAsync<{WorkflowTypeName}>(filters);
+                return Json(items);
+        ");
+
+            code.AppendLine("       }");
+
+            code.AppendLinf("//exec:Search");
+            code.AppendLine("       [HttpGet]");
+            code.AppendLine("       [Route(\"search\")]");
+            code.AppendLinf("       public async Task<IHttpActionResult> Search()");
+            code.Append("           {");
+            code.Append($@"
+                var filters = this.Request.GetQueryNameValuePairs().Select(x => new Filter(x.Key, x.Value));
+                var ws = ObjectBuilder.GetObject<IWorkflowService>();
+                var items = await ws.SearchAsync<{WorkflowTypeName}>(filters);
                 return Json(items);
         ");
 
@@ -297,10 +321,10 @@ namespace Bespoke.Sph.Domain
 ");
 
             code.AppendLine("       }");
-            
+
 
             return new Method { Code = code.ToString(), Name = "GetOneAsync" };
         }
-        
+
     }
 }

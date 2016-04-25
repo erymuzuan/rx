@@ -503,6 +503,7 @@
     <Compile Include="Triggers\Performer.cs" />
     <Compile Include="Triggers\PropertyChangedField.cs" />
     <Compile Include="Triggers\PropertyMapping.cs" />
+    <Compile Include="Triggers\RawJsonSerializer.cs" />
     <Compile Include="Triggers\ReceiveActivity.cs" />
     <Compile Include="Triggers\ReferencedAssembly.cs" />
     <Compile Include="Triggers\RouteParameterField.cs" />
@@ -565,6 +566,7 @@
     </Compile>
     <Compile Include="Triggers\WorkflowDefinitionPackage.cs" />
     <Compile Include="Triggers\WorkflowDesigner.cs" />
+    <Compile Include="Triggers\WorkflowPresentation.cs" />
     <Compile Include="Triggers\WorkflowTriggerMap.cs" />
     <Compile Include="Triggers\XsdMetadata.cs" />
     <Compile Include="Properties\ActivityHtmlResources.Designer.cs">

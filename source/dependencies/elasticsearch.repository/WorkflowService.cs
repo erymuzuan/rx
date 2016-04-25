@@ -129,11 +129,21 @@ namespace Bespoke.Sph.ElasticsearchRepository
             }
         }
 
-        public async Task<string[]> GetPendingWorkflowsAsync<T>(string activityId, IDictionary<string, object> variables) where T : Workflow, new()
+        public async Task<LoadOperation<WorkflowPresentation>> GetPendingWorkflowsAsync<T>(string activityId, string[] fields,
+            IEnumerable<Filter> predicates, int from = 0, int size = 20) where T : Workflow, new()
         {
-            var t = new T();
-            var wdid = t.WorkflowDefinitionId;
-            var query = $@"{{
+            var wf = new T();
+            var wdid = wf.WorkflowDefinitionId;
+            var list = new List<string>();
+
+            var url = $"{ConfigurationManager.ElasticSearchIndex}/pendingtask/_search";
+
+            const int TASK_PAGE_SIZE = 50;
+            var total = TASK_PAGE_SIZE;
+            var taskFrom = 0;
+            while (taskFrom <= total)
+            {
+                var query = $@"{{
                        ""query"": {{
                           ""bool"": {{
                              ""must"": [
@@ -154,65 +164,95 @@ namespace Bespoke.Sph.ElasticsearchRepository
                              ]
                           }}
                        }},
-                       ""fields"": [
+                       ""_source"": [
                           ""WorkflowId""
-                       ]
-                    }}";
-            var request = new StringContent(query);
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/pendingtask/_search";
+                       ],
+                       ""from"": {taskFrom},
+                       ""size"":{TASK_PAGE_SIZE}
+                    }}
+";
+                var request = new StringContent(query);
+                var response = await m_client.PostAsync(url, request);
+                var content = response.Content as StreamContent;
 
-
-            var response = await m_client.PostAsync(url, request);
-            var content = response.Content as StreamContent;
-
-            if (null == content) throw new Exception("Cannot execute query on es " + request);
-            var json = await content.ReadAsStringAsync();
-            var jo = JObject.Parse(json);
-            var hits = jo.SelectToken("$.hits.hits").Select(x => x.SelectToken("fields.WorkflowId").First.Value<string>()).ToArray();
-            if (null == variables || variables.Count == 0)
-            {
-                return hits;
+                if (null == content) throw new Exception("Cannot execute query on es " + request);
+                var json = await content.ReadAsStringAsync();
+                var jo = JObject.Parse(json);
+                total = jo.SelectToken("$.hits.total").Value<int>();
+                var hits = jo.SelectToken("$.hits.hits").Select(x => x.SelectToken("$._source.WorkflowId").Value<string>());
+                list.AddRange(hits);
+                taskFrom += TASK_PAGE_SIZE;
             }
+
             // now look for specific workflow with that Id
-            var filteredHits = await GetFilteredHitsAsync<T>(hits, variables);
-            return filteredHits;
+            return await GetFilteredHitsAsync<T>(list.ToArray(), predicates, fields, from, size);
 
         }
 
-        private async Task<string[]> GetFilteredHitsAsync<T>(IEnumerable<string> hits, IDictionary<string, object> variables) where T : Workflow
+        private async Task<LoadOperation<WorkflowPresentation>> GetFilteredHitsAsync<T>(IEnumerable<string> hits,
+            IEnumerable<Filter> predicates,
+            IEnumerable<string> fields,
+            int from = 0,
+            int size = 20) where T : Workflow, new()
         {
-            var terms = from v in variables.Keys
-                        select $@"    {{
-                                   ""term"": {{
-                                      ""{v}"": {{
-                                         ""value"": ""{variables[v]}""
-                                      }}
-                                   }}
-                                }}";
+            var wf = new T();
+            var terms = Filter.GetFilterDsl(new T(), predicates.ToArray());
+            // TODO : Make the id field in mapping  as not-analyzed
+            var ids = hits.Select(x => x.Remove(0, x.LastIndexOf("-", StringComparison.Ordinal) + 1))
+                .Select(x => $"\"{x}\"")
+                .ToList();
+
+            // TODO : breaks the id into a chunck of 1024 , and do the request in a while loop
             var query = $@"{{
                        ""query"": {{
                           ""bool"": {{
                              ""must"": [
-                                {string.Join(",", terms)}
+                                {{
+                                    ""terms"":{{
+                                            ""Id"" : [{string.Join(",", ids.Take(1024))}]
+                                        }}
+                                }},
+                                {terms}
                              ]
                           }}
                        }},
-                       ""fields"": [
-                          ""Id""
-                       ]
+                       ""_source"": [{string.Join(",", fields.Select(x => $"\"{x}\""))}],
+                       ""from"": {from},
+                       ""size"":{size}
                     }}";
             var request = new StringContent(query);
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/{typeof(T).Name.ToLowerInvariant()}/_search";
-            
+            var url = $"{ConfigurationManager.ElasticSearchIndex}/{typeof(T).Name.ToLowerInvariant()}/_search?version";
+
             var response = await m_client.PostAsync(url, request);
             var content = response.Content as StreamContent;
 
             if (null == content) throw new Exception("Cannot execute query on es " + request);
             var json = await content.ReadAsStringAsync();
             var jo = JObject.Parse(json);
-            var hits2 = jo.SelectToken("$.hits.hits").Select(x => x.SelectToken("fields.Id").First.Value<string>()).ToArray();
+            var hits2 = jo.SelectToken("$.hits.hits")
+                .Select(x => new
+                {
+                    version = x.SelectToken("$._version").ToString(),
+                    id = x.SelectToken("$._id").Value<string>(),
+                    _source = x.SelectToken("$._source").ToString()
+                })
+                .Select(x => new WorkflowPresentation(x.id, x.version, x._source)
+                {
+                    WorkflowDefinitionId = wf.WorkflowDefinitionId,
+                    WorkflowDefinitionVersion = wf.Version
+                })
+                .ToArray();
 
-            return hits.Intersect(hits2).ToArray();
+            var low = new LoadOperation<WorkflowPresentation>
+            {
+                TotalRows = ids.Count,
+                CurrentPage = (from / size) + 1,
+                PageSize = size
+            };
+            low.ItemCollection.AddRange(hits2);
+
+            return low;
+
         }
 
         public async Task<T> GetOneAsync<T>(string id) where T : Workflow, new()
@@ -237,9 +277,19 @@ namespace Bespoke.Sph.ElasticsearchRepository
             return source.ToString().DeserializeFromJson<T>();
         }
 
-        public async Task<IEnumerable<T>> SearchAsync<T>(string search) where T : Workflow, new()
+        public async Task<IEnumerable<T>> SearchAsync<T>(IEnumerable<Filter> predicates) where T : Workflow, new()
         {
-            var request = new StringContent(search);
+            var terms = Filter.GetFilterDsl(new T(), predicates.ToArray());
+            var query = $@"{{
+                       ""query"": {{
+                          ""bool"": {{
+                             ""must"": [
+                                {string.Join(",", terms)}
+                             ]
+                          }}
+                       }}
+                    }}";
+            var request = new StringContent(query);
             var url = $"{ConfigurationManager.ElasticSearchIndex}/{typeof(T).Name.ToLowerInvariant()}/_search";
 
             var response = await m_client.PostAsync(url, request);
@@ -249,7 +299,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var json = await content.ReadAsStringAsync();
             var jo = JObject.Parse(json);
             var workflows = from source in jo.SelectToken("$.hits.hits")
-                            select source.ToString().DeserializeFromJson<T>();
+                            select source.SelectToken("$._source").ToString().DeserializeFromJson<T>();
             return workflows;
 
         }
