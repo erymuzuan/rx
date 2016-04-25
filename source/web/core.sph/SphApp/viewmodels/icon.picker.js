@@ -21,7 +21,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                 self = this;
                 $(view).on("click", "div.fa-hover>a", function (e) {
                     e.preventDefault();
-                    icon("fa " + $(this).text().replace("(alias)","").trim());
+                    icon("fa fa-" + $(this).text().replace(" (alias)", "").trim());
                     console.log(icon());
                     dialog.close(self, "OK");
 
