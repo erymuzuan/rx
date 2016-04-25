@@ -470,7 +470,7 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
-        "Expression": "// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\nvar t1 = DateTime.Now.Ticks;\n\nthis.NoDaftar = (t1 - DateTime.Today.AddHours(DateTime.Now.Hour).Ticks).ToString();\nthis.InitializeCorrelationSetAsync(\"NoDaftar\", this.NoDaftar);",
+        "Expression": "// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\nvar t1 = DateTime.Now.Ticks;\n\nthis.NoDaftar = (t1 - DateTime.Today.AddHours(DateTime.Now.Hour).Ticks).ToString();\nawait this.InitializeCorrelationSetAsync(\"NoDaftar\", this.NoDaftar);",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
@@ -625,6 +625,6 @@
   "Id": "permohonan-kuarters",
   "CreatedDate": "2016-03-01T15:26:07.7855503+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-24T18:16:15.1059393+08:00",
+  "ChangedDate": "2016-04-25T10:24:53.9216985+08:00",
   "WebId": "a72c7612-b699-440c-885e-a1646e026b9d"
 }

@@ -196,7 +196,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             int size = 20) where T : Workflow, new()
         {
             var wf = new T();
-            var terms = Filter.GetFilterDsl(new T(), predicates.ToArray());
+            var terms = predicates.Select(x => Filter.GetFilterDsl(wf, new[] {x}));
             // TODO : Make the id field in mapping  as not-analyzed
             var ids = hits.Select(x => x.Remove(0, x.LastIndexOf("-", StringComparison.Ordinal) + 1))
                 .Select(x => $"\"{x}\"")
@@ -212,7 +212,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
                                             ""Id"" : [{string.Join(",", ids.Take(1024))}]
                                         }}
                                 }},
-                                {terms}
+                                {string.Join(",", terms)}
                              ]
                           }}
                        }},
@@ -279,7 +279,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<IEnumerable<T>> SearchAsync<T>(IEnumerable<Filter> predicates) where T : Workflow, new()
         {
-            var terms = Filter.GetFilterDsl(new T(), predicates.ToArray());
+            var wf = new T();
+            var terms = predicates.Select(x => Filter.GetFilterDsl(wf, new[] { x }));
             var query = $@"{{
                        ""query"": {{
                           ""bool"": {{
