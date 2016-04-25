@@ -445,6 +445,7 @@ namespace Bespoke.Sph.Web.Hubs
                 case nameof(EmailTemplate): return "fa fa-envelope-o";
                 case nameof(DocumentTemplate): return "fa fa-file-word-o";
                 case nameof(ReportDefinition): return "fa fa-bar-chart-o";
+                case nameof(WorkflowForm): return "fa fa-wpforms";
                 case "CustomForm": return "fa fa-edit";
                 case "PartialView": return "fa fa-code-o";
                 case "CustomScript": return "fa fa-file-o";
