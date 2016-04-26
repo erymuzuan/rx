@@ -125,6 +125,18 @@ ko.bindingHandlers.tree = {
                     .on("create_node.jstree", function (event, node) {
                         console.log(node, "node");
                     })
+                    .on("move_node.jstree", function (e, data) {
+                        var ref =  $(element).jstree(true),
+                        	mbr = data.node.data,
+                            oldParent = ref.get_node(data.old_parent),
+                            oldCollections = oldParent.data.MemberCollection || entity.MemberCollection,
+                            parent = ref.get_node(data.parent),
+                            collection = parent.data.MemberCollection || entity.MemberCollection;
+                        oldCollections.remove(function(v) {
+                            return ko.unwrap(mbr.WebId) === ko.unwrap(v.WebId);
+                        });
+                        collection.splice(data.position,0, mbr);
+                    })
                     .on("rename_node.jstree", function (ev, node) {
                         var mb = node.node.data;
                         mb.Name(node.text);
