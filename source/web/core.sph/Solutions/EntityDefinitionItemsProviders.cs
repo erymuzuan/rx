@@ -14,8 +14,10 @@ namespace Bespoke.Sph.Web.Solutions
             return Task.FromResult(default(SolutionItem));
         }
 
-        protected virtual string Icon => "fa fa-file-o";
-        protected virtual string GetUrl(T item) => "";
+        protected abstract string Icon { get; }
+        protected abstract string GetUrl(T item);
+        protected abstract string GetName(T item);
+        protected abstract string GetEntityDefinitionName(T item);
 
         public Task<IEnumerable<SolutionItem>> GetItemsAsync(SolutionItem parent)
         {
@@ -28,12 +30,11 @@ namespace Bespoke.Sph.Web.Solutions
             if (!Directory.Exists(folder)) return Task.FromResult(empty);
             var list = from f in Directory.GetFiles(folder, "*.json")
                        let item = f.DeserializeFromJsonFile<T>()
-                       let form = (IEntityDefinitionAsset)item
-                       where null != item && null != form && ed.Name == form.Entity
+                       where null != item  && ed.Name == this.GetEntityDefinitionName(item)
                        select new SolutionItem
                        {
-                           id = form.Id,
-                           text = form.Name,
+                           id = item.Id,
+                           text = this.GetName(item),
                            icon = this.Icon,
                            url = this.GetUrl(item)
                        };

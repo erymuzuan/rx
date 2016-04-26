@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource(HasDerivedTypes = true)]
-    public partial class QueryEndpoint : Entity, IEntityDefinitionAsset
+    public partial class QueryEndpoint : Entity
     {
 
         [ImportMany(typeof(IBuildDiagnostics))]
@@ -44,11 +44,7 @@ namespace Bespoke.Sph.Domain
 
             return result;
         }
-
-        [JsonIgnore]
-        public string Icon => "fa fa-cloud-download";
-        [JsonIgnore]
-        public string Url => $"query.endpoint.designer/{Id}";
+        
 
         public string GenerateEsSortDsl()
         {

@@ -8,6 +8,8 @@ namespace Bespoke.Sph.Web.Solutions
     {
         protected override string Icon => "fa fa-bolt";
         protected override string GetUrl(Trigger item) => $"trigger.setup/{item.Id}";
-        
+        protected override string GetName(Trigger item) => item.Name;
+        protected override string GetEntityDefinitionName(Trigger item) => item.Entity;
+
     }
 }

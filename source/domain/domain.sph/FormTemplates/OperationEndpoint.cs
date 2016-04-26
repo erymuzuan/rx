@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource(HasDerivedTypes = true)]
-    public partial class OperationEndpoint : Entity, IEntityDefinitionAsset
+    public partial class OperationEndpoint : Entity
     {
 
 
@@ -368,13 +368,6 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         [XmlIgnore]
         public IBuildDiagnostics[] BuildDiagnostics { get; set; }
-
-
-        [JsonIgnore]
-        string IEntityDefinitionAsset.Icon { get; } = "fa fa-cloud-upload";
-
-        [JsonIgnore]
-        string IEntityDefinitionAsset.Url => $"operation.endpoint.designer/{Id}";
 
         public void AddRules(string rule)
         {

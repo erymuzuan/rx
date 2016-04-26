@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource]
-    public partial class EntityView : Entity, IEntityDefinitionAsset
+    public partial class EntityView : Entity
     {
         [ImportMany(typeof(IBuildDiagnostics))]
         [JsonIgnore]
@@ -65,10 +65,5 @@ namespace Bespoke.Sph.Domain
             return $"{this.Route.ToLowerInvariant()}"
                    + "/:" + string.Join("/:", this.RouteParameterCollection.Select(r => r.Name));
         }
-
-        [JsonIgnore]
-        public string Icon => "fa fa-list-ul";
-        [JsonIgnore]
-        public string Url => $"entity.view.designer/{Id}";
     }
 }

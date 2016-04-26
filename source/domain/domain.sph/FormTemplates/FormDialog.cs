@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource(HasDerivedTypes = true)]
-    public partial class FormDialog : Entity, IEntityDefinitionAsset
+    public partial class FormDialog : Entity
     {
         [ImportMany(typeof(IBuildDiagnostics))]
         [JsonIgnore]
@@ -60,9 +60,6 @@ namespace Bespoke.Sph.Domain
             var renderer = provider.Value;
             return await renderer.RenderAsync(this);
         }
-
-        public string Name => this.Title;
-        public string Icon => "fa fa-book";
-        public string Url => $"form.dialog.designer/{Entity}/{Id}";
+        
     }
 }

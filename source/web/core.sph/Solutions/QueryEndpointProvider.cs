@@ -8,5 +8,7 @@ namespace Bespoke.Sph.Web.Solutions
     {
         protected override string Icon => "fa fa-cloud-download";
         protected override string GetUrl(QueryEndpoint item) => $"query.endpoint.designer/{item.Id}";
+        protected override string GetName(QueryEndpoint item) => item.Name;
+        protected override string GetEntityDefinitionName(QueryEndpoint item) => item.Entity;
     }
 }

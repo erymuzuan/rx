@@ -8,5 +8,7 @@ namespace Bespoke.Sph.Web.Solutions
     {
         protected override string Icon => "fa fa-pencil";
         protected override string GetUrl(OperationEndpoint item) => $"operation.endpoint.designer/{item.Id}";
+        protected override string GetName(OperationEndpoint item) => item.Name;
+        protected override string GetEntityDefinitionName(OperationEndpoint item) => item.Entity;
     }
 }

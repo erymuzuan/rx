@@ -8,5 +8,7 @@ namespace Bespoke.Sph.Web.Solutions
     {
         protected override string Icon => "fa fa-book";
         protected override string GetUrl(FormDialog item) => $"form.dialog.designer/{item.Entity}/{item.Id}";
+        protected override string GetName(FormDialog item) => item.Title;
+        protected override string GetEntityDefinitionName(FormDialog item) => item.Entity;
     }
 }

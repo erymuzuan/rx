@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource(HasDerivedTypes = true)]
-    public partial class PartialView : Entity, IEntityDefinitionAsset
+    public partial class PartialView : Entity
     {
         [ImportMany(typeof(IBuildDiagnostics))]
         [JsonIgnore]
@@ -60,10 +60,6 @@ namespace Bespoke.Sph.Domain
             var renderer = provider.Value;
             return await renderer.RenderAsync(this);
         }
-
-        [JsonIgnore]
-        public string Icon => "fa fa-file-o";
-        [JsonIgnore]
-        public string Url => $"partial.view.designer/{Entity}/{Id}";
+        
     }
 }

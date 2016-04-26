@@ -8,5 +8,7 @@ namespace Bespoke.Sph.Web.Solutions
     {
         protected override string Icon => "fa fa-pencil-square-o";
         protected override string GetUrl(EntityForm item) => $"entity.form.designer/{item.Entity}/{item.Id}";
+        protected override string GetName(EntityForm item) => item.Name;
+        protected override string GetEntityDefinitionName(EntityForm item) => item.Entity;
     }
 }
