@@ -1162,6 +1162,32 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Solutions\AdapterProviders.cs" />
+    <Compile Include="Solutions\CustomDialogSolutionItemProviders.cs" />
+    <Compile Include="Solutions\CustomFormNodeProvider.cs" />
+    <Compile Include="Solutions\CustomScriptNodeProvider.cs" />
+    <Compile Include="Solutions\DesignationProviders.cs" />
+    <Compile Include="Solutions\DocumentTemplateProviders.cs" />
+    <Compile Include="Solutions\EmailTemplateProviders.cs" />
+    <Compile Include="Solutions\EntityDefinitionItemsProviders.cs" />
+    <Compile Include="Solutions\EntityDefinitionNodesProvider.cs" />
+    <Compile Include="Solutions\EntityFormProvider.cs" />
+    <Compile Include="Solutions\EntityViewProvider.cs" />
+    <Compile Include="Solutions\FormDialogProvider.cs" />
+    <Compile Include="Solutions\IItemsProvider.cs" />
+    <Compile Include="Solutions\OperationEndpointProviders.cs" />
+    <Compile Include="Solutions\PartialViewNodeProvider.cs" />
+    <Compile Include="Solutions\PartialViewProvider.cs" />
+    <Compile Include="Solutions\QueryEndpointProvider.cs" />
+    <Compile Include="Solutions\ReportDefinitionProviders.cs" />
+    <Compile Include="Solutions\Solution.cs" />
+    <Compile Include="Solutions\SolutionItem.cs" />
+    <Compile Include="Solutions\SourceAssetProviders.cs" />
+    <Compile Include="Solutions\TransformDefinitionProviders.cs" />
+    <Compile Include="Solutions\TriggerProvider.cs" />
+    <Compile Include="Solutions\ValueObjectDefinitionProviders.cs" />
+    <Compile Include="Solutions\WorkflowDefinitionProviders.cs" />
+    <Compile Include="Solutions\WorkflowFormProviders.cs" />
     <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\DialogRendererViewModel.cs" />
     <Compile Include="ViewModels\FormRendererViewModel.cs" />
