@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/jquery.signalR-2.2.0.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
@@ -61,7 +61,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     createDialog: v.createDialog,
                     createdUrl: v.createdUrl,
                     dialog: v.dialog
-
                 };
                 v.parent = "#";
 
