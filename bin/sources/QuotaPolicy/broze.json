@@ -40,11 +40,11 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EndpointLimit, domain.sph]], domain.sph",
     "$values": []
   },
-  "Name": "Broze",
+  "Name": "Bronze",
   "CreatedBy": "admin",
   "Id": "broze",
   "CreatedDate": "2016-04-19T09:30:31.1102791+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-19T09:30:31.1102791+08:00",
+  "ChangedDate": "2016-04-27T06:54:41.0881156+08:00",
   "WebId": "335191de-8198-4710-b157-4e68986f9b94"
 }
