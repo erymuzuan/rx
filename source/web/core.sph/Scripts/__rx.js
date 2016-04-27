@@ -21676,16 +21676,99 @@ bespoke.utils.ServerPager = function (options) {
 
 };
 /// <reference path="jstree.min.js" />
-/// <reference path="jstree.min.js" />
 /// <reference path="typeahead.bundle.js" />
 /// <reference path="knockout-3.4.0.debug.js" />
 /// <reference path="knockout.mapping-latest.debug.js" />
 /// <reference path="../App/services/datacontext.js" />
 /// <reference path="../SphApp/objectbuilders.js" />
+/// <reference path="../SphApp/schemas/trigger.workflow.g.js" />
+/// <reference path="../SphApp/partial/WorkflowDefinition.js" />
 /// <reference path="../App/durandal/amd/text.js" />
-/// <reference path="jquery-2.1.3.intellisense.js" />
+/// <reference path="jquery-2.2.0.intellisense.js" />
 /// <reference path="underscore.js" />
 /// <reference path="require.js" />
+/// <reference path="complete.ly.1.0.1.js" />
+
+
+ko.bindingHandlers.workflowFormPathIntellisense = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var value = valueAccessor(),
+            schema = ko.unwrap(value.schema),
+            allBindings = allBindingsAccessor(),
+            setup = function () {
+                var input = $(element),
+                         div = $("<div></div>").css({
+                             'height': "28px"
+                         });
+                input.hide().before(div);
+
+                var c = completely(div[0], {
+                    fontSize: "12px",
+                    color: "#555;",
+                    fontFamily: "\"Open Sans\", Arial, Helvetica, sans-serif"
+                });
+
+                c.setText(ko.unwrap(allBindings.value));
+                for (var ix in schema) {
+                    if (schema.hasOwnProperty(ix)) {
+                        if (ix === "$type") continue;
+                        if (ix === "addChildItem") continue;
+                        if (ix === "removeChildItem") continue;
+                        if (ix === "Empty") continue;
+                        if (ix === "WebId") continue;
+                        c.options.push("" + ix);
+                    }
+                }
+                c.options.sort();
+
+                var currentObject = schema;
+                c.onChange = function (text) {
+                    if (text.lastIndexOf(".") === text.length - 1) {
+                        c.options = [];
+                        var props = text.split(".");
+
+                        currentObject = schema;
+                        _(props).each(function (v) {
+                            if (v === "") { return; }
+                            currentObject = currentObject[v];
+                        });
+                        console.log("currentObject", currentObject);
+                        for (var i in currentObject) {
+                            if (currentObject.hasOwnProperty(i)) {
+                                if (i === "$type") continue;
+                                if (i === "addChildItem") continue;
+                                if (i === "removeChildItem") continue;
+                                if (i === "Empty") continue;
+                                if (i === "WebId") continue;
+                                c.options.push("" + i);
+                            }
+                        }
+                        c.options.sort();
+                        c.startFrom = text.lastIndexOf(".") + 1;
+                    }
+                    c.repaint();
+                };
+
+                c.repaint();
+                $(c.input)
+                    .attr("autocomplete", "off")
+                    .blur(function () {
+                        allBindings.value($(this).val());
+                    }).parent().find("input")
+                    .css({ "padding": "6px 12px", "height": "28px" });
+
+                if ($(element).prop("required")) {
+                    $(c.input).prop("required", true);
+                }
+
+
+            };
+
+
+        setup();
+    }
+};
+
 
 ko.bindingHandlers.activityClass = {
     init: function (element, valueAccessor) {
@@ -21724,12 +21807,12 @@ ko.bindingHandlers.typeahead = {
         if (typeof id === "undefined") {
             return;
         }
-          var  members = new Bloodhound({
-                datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.Path); },
-                queryTokenizer: Bloodhound.tokenizers.nonword,
-                prefetch: "/WorkflowDefinition/GetVariablePath/" + id
+        var members = new Bloodhound({
+            datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.Path); },
+            queryTokenizer: Bloodhound.tokenizers.nonword,
+            prefetch: "/api/workflow-definitions/" + id + "/variable-path"
 
-            });
+        });
         members.initialize();
         $(element).typeahead({ highlight: true }, {
             name: "schema_paths" + id,
@@ -21739,6 +21822,27 @@ ko.bindingHandlers.typeahead = {
             .on("typeahead:closed", function () {
                 allBindings.value($(this).val());
             });
+    }
+};
+ko.bindingHandlers.typeaheadExceptions = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+
+
+        var allBindings = allBindingsAccessor();
+
+        var exceptions = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            prefetch: "/api/assemblies/types/exceptions"
+        });
+        
+        $(element).typeahead(null, {
+            name: "exceptions",
+            source: exceptions
+        }).on("typeahead:closed", function () {
+            allBindings.value($(this).val());
+        });
+
     }
 };
 
@@ -21768,7 +21872,7 @@ ko.bindingHandlers.activityPopover = {
             setTimeout(function () { pop.popover('hide'); }, 5000);
         });
 
-        $(document).on('click', 'a.' + act.WebId(), function (e) {
+        $(document).on("click", "a." + act.WebId(), function (e) {
             e.preventDefault();
             var app = require(objectbuilders.app),
                 link = $(this);
@@ -21804,7 +21908,7 @@ ko.bindingHandlers.comboBoxLookupOptions = {
 
             //getListAsync
             var promise = ko.unwrap(lookup.valuePath) === ko.unwrap(lookup.displayPath) ?
-                context.getListAsync( ko.unwrap(lookup.entity), query, ko.unwrap(lookup.valuePath)) :
+                context.getListAsync(ko.unwrap(lookup.entity), query, ko.unwrap(lookup.valuePath)) :
                 context.getTuplesAsync({
                     entity: ko.unwrap(lookup.entity),
                     query: query,
@@ -21812,39 +21916,39 @@ ko.bindingHandlers.comboBoxLookupOptions = {
                     field2: displayPath
                 });
 
-            
-                promise.done(function(list) {
-                    element.options.length = 0;
-                    if (caption) {
-                        element.add(new Option(caption, ""));
+
+            promise.done(function (list) {
+                element.options.length = 0;
+                if (caption) {
+                    element.add(new Option(caption, ""));
+                }
+                _(list).each(function (v) {
+                    if (typeof v === "string") {
+                        element.add(new Option(v, v));
+                        return;
                     }
-                    _(list).each(function (v) {
-                        if (typeof v === "string") {
-                            element.add(new Option(v, v));
-                            return;
-                        }
-                        if (typeof v.Item1 === "string" && typeof v.Item2 === "string") {
-                            element.add(new Option(v.Item2, v.Item1));
-                            return;
-                        }
-                        if (typeof v[valuePath] === "string" && typeof v[displayPath] === "string") {
-                            element.add(new Option(v[valuePath], v[displayPath]));
-                            return;
-                        }
+                    if (typeof v.Item1 === "string" && typeof v.Item2 === "string") {
+                        element.add(new Option(v.Item2, v.Item1));
+                        return;
+                    }
+                    if (typeof v[valuePath] === "string" && typeof v[displayPath] === "string") {
+                        element.add(new Option(v[valuePath], v[displayPath]));
+                        return;
+                    }
+                });
+
+                $select.val(ko.unwrap(value))
+                    .on("change", function () {
+                        value($select.val());
                     });
 
-                    $select.val(ko.unwrap(value))
-                        .on("change", function() {
-                            value($select.val());
-                        });
-
-                });
+            });
         };
         setup(ko.unwrap(lookup.query));
 
         if (typeof lookup.query === "function") {
             if (typeof lookup.query.subscribe === "function") {
-                lookup.query.subscribe(function(v) {
+                lookup.query.subscribe(function (v) {
                     setup(ko.unwrap(v));
                 });
             }
@@ -21857,6 +21961,15 @@ ko.bindingHandlers.comboBoxLookupOptions = {
     }
 };
 
+
+/// <reference path="~/Scripts/underscore.js" />
+/// <reference path="~/Scripts/jstree.min.js" />
+/// <reference path="require.js" />
+/// <reference path="jquery-2.2.0.intellisense.js" />
+/// <reference path="complete.ly.1.0.1.js" />
+/// <reference path="../SphApp/objectbuilders.js" />
+/// <reference path="../SphApp/schemas/form.designer.g.js" />
+/// <reference path="knockout-3.4.0.debug.js" />
 
 ko.bindingHandlers.tree = {
     init: function (element, valueAccessor) {
@@ -21872,10 +21985,19 @@ ko.bindingHandlers.tree = {
                     selected: true
                 }
             },
+            getNodeMemberType = function (v) {
+                var type = ko.unwrap(v.TypeName) || ko.unwrap(v.$type);
+                if (type.indexOf(",") < 0) {
+                    type = ko.unwrap(v.$type);
+                }
+                return type;
+            },
+            memberNameSubscription = null,
+            memberTypeNameSubscription = null,
             recurseChildMember = function (node) {
                 node.children = _(node.data.MemberCollection()).map(function (v) {
 
-                    var type = ko.unwrap(v.TypeName) || ko.unwrap(v.$type);
+                    var type = getNodeMemberType(v);
                     return {
                         text: v.Name(),
                         state: "open",
@@ -21885,45 +22007,84 @@ ko.bindingHandlers.tree = {
                 });
                 _(node.children).each(recurseChildMember);
             },
+            setNodePropertyForChildOfValueObject = function(node, tag) {
+                if (!ko.isObservable(tag.childOfValueMember)) {
+                    tag.childOfValueMember = ko.observable(true);
+                }
+                var ref = $(element).jstree(true),
+                       parents = _(node.parents).map(function (n) { return ref.get_node(n); }),
+                       valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
+                tag.childOfValueMember(valueMember || false);
+            },
             loadJsTree = function () {
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
+
                     return {
                         text: ko.unwrap(v.Name),
                         state: "open",
-                        type: ko.unwrap(v.TypeName) || ko.unwrap(v.$type),
+                        type: getNodeMemberType(v),
                         data: v
                     };
                 });
                 _(jsTreeData.children).each(recurseChildMember);
                 $(element)
                     .on("select_node.jstree", function (node, selected) {
+                        if (typeof member !== "function") {
+                            return;
+                        }
+                        if (memberNameSubscription) {
+                            memberNameSubscription.dispose();
+                            memberNameSubscription = null;
+                        }
+
+                        if (memberTypeNameSubscription) {
+                            memberTypeNameSubscription.dispose();
+                            memberTypeNameSubscription = null;
+                        }
+
                         var tag = selected.node.data;
                         if (tag) {
-                            if (!ko.unwrap(member)) {
-                                return;
-                            }
-                            if (typeof member().Name !== "function") {
+                            if (selected.node.type === "default") {
                                 return;
                             }
 
-                            if (typeof tag.childOfValueMember !== "function") {
+                            if (!ko.isObservable(tag.childOfValueMember)) {
                                 tag.childOfValueMember = ko.observable(true);
+                            }
+                            if (!ko.isObservable(tag.allowFilter)) {
+                                tag.allowFilter = ko.observable(true);
                             }
 
                             var ref = $(element).jstree(true),
                                    parents = _(selected.node.parents).map(function (n) { return ref.get_node(n); }),
                                    valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
                             tag.childOfValueMember(valueMember || false);
-                            member(tag);
+                            // we also need to disable for collection member
+                            if (!valueMember) {
 
+                                var cm = _(parents).find(function (n) {
+                                        var mb1 = n.data;
+                                     return n.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph" && ko.unwrap(mb1.AllowMultiple);
+                                });
+                                if (cm) {
+                                    tag.allowFilter(false);
+                                }
+                            }
+
+
+                            if (!tag.childOfValueMember()) {
+                                ref.edit(selected.node);
+                            }
+                            member(tag);
                             // subscribe to Name change
-                            member().Name.subscribe(function (name) {
+                            memberNameSubscription = member().Name.subscribe(function (name) {
                                 $(element).jstree(true)
                                     .rename_node(selected.node, name);
+                                console.log("rename " + name);
                             });
                             // type
                             if (typeof member().TypeName === "function") {
-                                member().TypeName.subscribe(function (name) {
+                                memberTypeNameSubscription = member().TypeName.subscribe(function (name) {
                                     $(element).jstree(true)
                                         .set_type(selected.node, name);
                                 });
@@ -21934,6 +22095,18 @@ ko.bindingHandlers.tree = {
                     .on("create_node.jstree", function (event, node) {
                         console.log(node, "node");
                     })
+                    .on("move_node.jstree", function (e, data) {
+                        var ref =  $(element).jstree(true),
+                        	mbr = data.node.data,
+                            oldParent = ref.get_node(data.old_parent),
+                            oldCollections = oldParent.data.MemberCollection || entity.MemberCollection,
+                            parent = ref.get_node(data.parent),
+                            collection = parent.data.MemberCollection || entity.MemberCollection;
+                        oldCollections.remove(function(v) {
+                            return ko.unwrap(mbr.WebId) === ko.unwrap(v.WebId);
+                        });
+                        collection.splice(data.position,0, mbr);
+                    })
                     .on("rename_node.jstree", function (ev, node) {
                         var mb = node.node.data;
                         mb.Name(node.text);
@@ -21941,9 +22114,42 @@ ko.bindingHandlers.tree = {
                     .jstree({
                         "core": {
                             "animation": 0,
-                            "check_callback": true,
+                            "check_callback": function (operation, node, nodeParent, nodePosition, more) {
+                                if (operation === "move_node") {
+                                    var mbr = node.data,
+                                        ref = $(element).jstree(true),
+                                        target = ref.get_node(nodeParent);
+                                    if (!mbr) {
+                                        return false;
+                                    }
+                                    if (!target) {
+                                        return false;
+                                    }
+                                    if (!ko.isObservable(mbr.childOfValueMember)) {
+                                        setNodePropertyForChildOfValueObject(node,mbr);
+                                    }
+                                    if (ko.unwrap(mbr.childOfValueMember)) {
+                                        return false;
+                                    }
+                                    if (target.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph") {
+                                        return false;
+                                    }
+
+                                    return true;
+                                }
+                                return true;
+                            },
                             "themes": { "stripes": true },
                             'data': jsTreeData
+                        },
+                        "dnd": {
+                            "is_draggable": function (node) {
+                                var mbr = node.data;
+                                if (mbr && ko.unwrap(mbr.childOfValueMember)) {
+                                    return false;
+                                }
+                                return true;
+                            }
                         },
                         "contextmenu": {
                             "items": function ($node) {
@@ -22275,6 +22481,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                     $(c.input).prop("required", true);
                 }
 
+                c.hideDropDown();
 
             };
 
@@ -24946,6 +25153,56 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.WorkflowForm = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.WorkflowForm, domain.sph",
+        Id: ko.observable("0"),
+        WorkflowDefinitionId: ko.observable(""),
+        Name: ko.observable(""),
+        Route: ko.observable(""),
+        Note: ko.observable(""),
+        IsAllowedNewItem: ko.observable(false),
+        IconClass: ko.observable(""),
+        IconStoreId: ko.observable(""),
+        Operation: ko.observable(""),
+        Variable: ko.observable(""),
+        Partial: ko.observable(""),
+        Caption: ko.observable(""),
+        Layout: ko.observable(""),
+        OperationSuccessMesage: ko.observable(""),
+        OperationSuccessNavigateUrl: ko.observable(""),
+        OperationSuccessCallback: ko.observable(""),
+        OperationFailureCallback: ko.observable(""),
+        OperationMethod: ko.observable(""),
+        IsPublished: ko.observable(false),
+        FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
+        Rules: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.WorkflowFormPartial) {
+        return _(model).extend(new bespoke.sph.domain.WorkflowFormPartial(model));
+    }
+    return model;
+};
+
+
+
 bespoke.sph.domain.FormLayout = function (optionOrWebid) {
 
     var model = {
@@ -25288,7 +25545,6 @@ bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
         Rules: ko.observableArray([]),
         SetterActionChildCollection: ko.observableArray([]),
         PatchPathCollection: ko.observableArray([]),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -25698,6 +25954,7 @@ bespoke.sph.domain.PartialView = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.PartialView, domain.sph",
         Id: ko.observable("0"),
+        Name: ko.observable(""),
         Route: ko.observable(""),
         Entity: ko.observable(""),
         MemberPath: ko.observable(""),
@@ -25837,7 +26094,6 @@ bespoke.sph.domain.QueryEndpoint = function (optionOrWebid) {
         Resource: ko.observable(""),
         FilterCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         RouteParameterCollection: ko.observableArray([]),
         MemberCollection: ko.observableArray([]),
         CacheFilter: ko.observable(),
@@ -25907,6 +26163,7 @@ bespoke.sph.domain.QueryEndpointSetting = function (optionOrWebid) {
         Resource: ko.observable(""),
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
         CacheFilter: ko.observable(),
+        CachingSetting: ko.observable(new bespoke.sph.domain.CachingSetting()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -25938,7 +26195,6 @@ bespoke.sph.domain.EntityResourceEndpoint = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
         IsAllowed: ko.observable(false),
         FilterExpression: ko.observable(""),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -25969,7 +26225,6 @@ bespoke.sph.domain.FullSearchEndpoint = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.FullSearchEndpoint, domain.sph",
         IsAllowed: ko.observable(false),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -26000,7 +26255,6 @@ bespoke.sph.domain.OdataEndpoint = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.OdataEndpoint, domain.sph",
         IsAllowed: ko.observable(false),
-        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -27190,7 +27444,7 @@ bespoke.sph.domain.IntervalSchedule = function (optionOrWebid) {
 
 
 
-/// <reference path="~/Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.4.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -27798,6 +28052,200 @@ bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
 
     if (bespoke.sph.domain.DocumentTemplatePartial) {
         return _(model).extend(new bespoke.sph.domain.DocumentTemplatePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.QuotaPolicy = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.QuotaPolicy, domain.sph",
+        Name: ko.observable(""),
+        RateLimit: ko.observable(new bespoke.sph.domain.RateLimit()),
+        QuotaLimit: ko.observable(new bespoke.sph.domain.QuotaLimit()),
+        BandwidthLimit: ko.observable(new bespoke.sph.domain.BandwidthLimit()),
+        EndpointLimitCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.QuotaPolicyPartial) {
+        return _(model).extend(new bespoke.sph.domain.QuotaPolicyPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.RateLimit = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.RateLimit, domain.sph",
+        IsUnlimited: ko.observable(false),
+        Calls: ko.observable(),
+        RenewalPeriod: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.RateLimitPartial) {
+        return _(model).extend(new bespoke.sph.domain.RateLimitPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.QuotaLimit = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.QuotaLimit, domain.sph",
+        IsUnlimited: ko.observable(false),
+        Calls: ko.observable(),
+        RenewalPeriod: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.QuotaLimitPartial) {
+        return _(model).extend(new bespoke.sph.domain.QuotaLimitPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.BandwidthLimit = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.BandwidthLimit, domain.sph",
+        IsUnlimited: ko.observable(false),
+        Size: ko.observable(),
+        RenewalPeriod: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.BandwidthLimitPartial) {
+        return _(model).extend(new bespoke.sph.domain.BandwidthLimitPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.EndpointLimit = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EndpointLimit, domain.sph",
+        Controller: ko.observable(""),
+        Action: ko.observable(""),
+        Parent: ko.observable(""),
+        Note: ko.observable(""),
+        Calls: ko.observable(),
+        RenewalPeriod: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EndpointLimitPartial) {
+        return _(model).extend(new bespoke.sph.domain.EndpointLimitPartial(model));
+    }
+    return model;
+};
+
+
+bespoke.sph.domain.TimePeriod = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.TimePeriod, domain.sph",
+        Count: ko.observable(0),
+        Unit: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+    if (bespoke.sph.domain.TimePeriodPartial) {
+        return _(model).extend(new bespoke.sph.domain.TimePeriodPartial(model));
     }
     return model;
 };
@@ -28906,7 +29354,7 @@ bespoke.sph.domain.UpdateEntityActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.EntityType = ko.observable("");
+    v.Entity = ko.observable("");
 
     v.EntityIdPath = ko.observable("");
 
@@ -29012,11 +29460,16 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     v.MessagePath = ko.observable("");
 
+    v.CancelMessageBody = ko.observable("");
+
+    v.CancelMessageSubject = ko.observable("");
+
     v["$type"] = "Bespoke.Sph.Domain.ReceiveActivity, domain.sph";
 
     v.InitializingCorrelationSetCollection = ko.observableArray([]);
     v.FollowingCorrelationSetCollection = ko.observableArray([]);
     v.CorrelationPropertyCollection = ko.observableArray([]);
+    v.Performer = ko.observable(new bespoke.sph.domain.Performer());
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -29445,6 +29898,7 @@ bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
         User: ko.observable(""),
         Name: ko.observable(""),
         Type: ko.observable(""),
+        IsCancelled: ko.observable(false),
         Initiated: ko.observable(),
         Run: ko.observable(),
         isBusy: ko.observable(false),
@@ -29618,7 +30072,6 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
         Id: ko.observable("0"),
-        TransformDefinitionId: ko.observable(0),
         Name: ko.observable(""),
         Description: ko.observable(""),
         InputTypeName: ko.observable(""),
@@ -30181,7 +30634,8 @@ bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph";
 
-    v.VariableMapCollection = ko.observableArray([]);
+    v.PropertyMappingCollection = ko.observableArray([]);
+    v.ExecutedPropertyMappingCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -30424,7 +30878,6 @@ bespoke.sph.domain.CustomAction = function (optionOrWebid) {
         IsActive: ko.observable(false),
         TriggerId: ko.observable(""),
         Note: ko.observable(""),
-        CustomActionId: ko.observable(0),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -30846,7 +31299,8 @@ bespoke.sph.domain.IntervalScheduleContainer = function () {
 };
 
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
@@ -30859,14 +31313,16 @@ bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.ActivityPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         hasError = ko.observable(),
         breakpoint = ko.observable(false),
+        selected = ko.observable(false),
         hit = ko.observable(false),
         errors = ko.observableArray();
     return {
         breakpoint: breakpoint,
         hit: hit,
+        selected: selected,
         hasError: hasError,
         errors: errors
     };
@@ -30977,21 +31433,21 @@ bespoke.sph.domain.BusinessRulePartial = function (model) {
     };
 };
 
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
-/// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../../SphApp/schemas/form.designer.g.js" />
 
 bespoke.sph.domain.ButtonPartial = function () {
 
     var editCommand = function () {
         var self = this,
-            w = window.open("/sph/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
             wdw = w.window || w,
             init = function () {
                 wdw.code = ko.unwrap(self.Command);
@@ -31006,13 +31462,63 @@ bespoke.sph.domain.ButtonPartial = function () {
                 };
             };
         if (wdw.attachEvent) { // for ie
-            wdw.attachEvent('onload', init);
+            wdw.attachEvent("onload", init);
         } else {
             init();
         }
-    };
+    },
+        editOperationSuccessCallback = function () {
+            var self = this,
+                w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
+                wdw = w.window || w,
+                init = function () {
+                    wdw.code = ko.unwrap(self.OperationSuccessCallback);
+                    if (!w.code) {
+                        w.code = "//insert your code here";
+                    }
+                    wdw.saved = function (code, close) {
+                        self.OperationSuccessCallback(code);
+                        if (close) {
+                            w.close();
+                        }
+                    };
+                };
+            if (wdw.attachEvent) { // for ie
+                wdw.attachEvent("onload", init);
+            } else {
+                init();
+            }
+        },
+    editOperationFailureCallback = function () {
+        var self = this,
+            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
+            wdw = w.window || w,
+            init = function () {
+                wdw.code = ko.unwrap(self.OperationFailureCallback);
+                if (!w.code) {
+                    w.code = "//insert your code here";
+                }
+                wdw.saved = function (code, close) {
+                    self.OperationFailureCallback(code);
+                    if (close) {
+                        w.close();
+                    }
+                };
+            };
+        if (wdw.attachEvent) { // for ie
+            wdw.attachEvent("onload", init);
+        } else {
+            init();
+        }
+    },
+        canSetSuccessCallback = ko.computed(function () {
+
+        });
     return {
-        editCommand: editCommand
+        editCommand: editCommand,
+        editOperationSuccessCallback: editOperationSuccessCallback,
+        editOperationFailureCallback: editOperationFailureCallback,
+        canSetSuccessCallback: canSetSuccessCallback
     };
 };
 bespoke.sph.domain.CatchScopePartial = function () {
@@ -31087,6 +31593,54 @@ bespoke.sph.domain.ChildEntityListViewPartial = function (model) {
         removeViewColumn: removeViewColumn
     };
 };
+/// <reference path="../objectbuilders.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../durandal/system.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/durandal/system.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+
+
+
+
+bespoke.sph.domain.ChildWorkflowActivityPartial = function () {
+
+    var system = require("durandal/system"),
+        removeMapping = function (map) {
+            var self = this;
+            return function () {
+                self.PropertyMappingCollection.remove(map);
+            };
+        },
+        addMapping = function () {
+            var map = new bespoke.sph.domain.PropertyMapping(system.guid());
+            this.PropertyMappingCollection.push(map);
+        },
+        removeExecutedMapping = function (map) {
+            var self = this;
+            return function () {
+                self.ExecutedPropertyMappingCollection.remove(map);
+            };
+        },
+        addExecutedMapping = function () {
+            var map = new bespoke.sph.domain.PropertyMapping(system.guid());
+            this.ExecutedPropertyMappingCollection.push(map);
+        };
+
+    var vm = {
+        addExecutedMapping: addExecutedMapping,
+        removeExecutedMapping: removeExecutedMapping,
+        addMapping: addMapping,
+        removeMapping: removeMapping
+
+    };
+
+    return vm;
+};
+
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -32068,19 +32622,19 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
 };
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="/Scripts/require.js" />
-/// <reference path="/Scripts/jquery-2.1.1.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="/Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
 
 
 bespoke.sph.domain.MappingActivityPartial = function () {
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         addMappingSource = function () {
             var self = this;
-            var mapping = new bespoke.sph.domain['MappingSource'](system.guid());
+            var mapping = new bespoke.sph.domain["MappingSource"](system.guid());
             self.MappingSourceCollection.push(mapping);
 
         },
@@ -32546,7 +33100,7 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
 
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -32558,7 +33112,7 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
 
 bespoke.sph.domain.SetterActionPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         removeChildAction = function (child) {
             var self = this;
             return function() {
@@ -32710,6 +33264,22 @@ bespoke.sph.domain.TabControlPartial = function (tab) {
         removeItem: removeItem
     };
 };
+/// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../durandal/system.js" />
+/// <reference path="../durandal/amd/require.js" />
+/// <reference path="/Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="/Scripts/require.js" />
+
+bespoke.sph.domain.TimePeriodPartial = function (period) {
+    var toString = function() {
+        return ko.unwrap(period.Count) + " " + ko.unwrap(period.Unit);
+    };
+    return {
+        toString: toString
+    };
+};
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -32799,10 +33369,16 @@ bespoke.sph.domain.TriggerPartial = function () {
                         clone.Title("");
                     }
                     for (var n in clone) {
-                        if (typeof clone[n] === "function" && n !== "$type") {
-                            var value = clone[n]();
-                            if(typeof  value === "string"){
-                                clone[n]("");
+                        if (clone.hasOwnProperty(n)) {
+                            var obj = clone[n];
+                            if (n === "$type") {
+                                continue;
+                            }
+                            if (ko.isObservable(obj) && typeof obj.destroyAll !== "function") {
+                                obj(null);
+                            }
+                            if (ko.isObservable(obj) && typeof obj.destroyAll === "function") {
+                                obj([]);
                             }
                         }
                     }
@@ -33584,6 +34160,72 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 bespoke.sph.domain.WorkflowDesignerPartial = function () {
   
     return {
+    };
+};
+/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/moment.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
+/// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../schemas/form.designer.g.js" />
+
+bespoke.sph.domain.WorkflowFormPartial = function () {
+
+    var editOperationSuccessCallback = function () {
+        var self = this,
+            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
+            wdw = w.window || w,
+            init = function () {
+                wdw.code = ko.unwrap(self.OperationSuccessCallback);
+                if (!w.code) {
+                    w.code = "//insert your code here";
+                }
+                wdw.saved = function (code, close) {
+                    self.OperationSuccessCallback(code);
+                    if (close) {
+                        w.close();
+                    }
+                };
+            };
+        if (wdw.attachEvent) { // for ie
+            wdw.attachEvent("onload", init);
+        } else {
+            init();
+        }
+    },
+    editOperationFailureCallback = function () {
+        var self = this,
+            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
+            wdw = w.window || w,
+            init = function () {
+                wdw.code = ko.unwrap(self.OperationFailureCallback);
+                if (!w.code) {
+                    w.code = "//insert your code here";
+                }
+                wdw.saved = function (code, close) {
+                    self.OperationFailureCallback(code);
+                    if (close) {
+                        w.close();
+                    }
+                };
+            };
+        if (wdw.attachEvent) { // for ie
+            wdw.attachEvent("onload", init);
+        } else {
+            init();
+        }
+    },
+        canSetSuccessCallback = ko.computed(function () {
+
+        });
+    return {
+        editOperationSuccessCallback: editOperationSuccessCallback,
+        editOperationFailureCallback: editOperationFailureCallback,
+        canSetSuccessCallback: canSetSuccessCallback
     };
 };
 /// <reference path="../objectbuilders.js" />

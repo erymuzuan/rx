@@ -558,6 +558,15 @@ ko.bindingHandlers.tree = {
                 });
                 _(node.children).each(recurseChildMember);
             },
+            setNodePropertyForChildOfValueObject = function(node, tag) {
+                if (!ko.isObservable(tag.childOfValueMember)) {
+                    tag.childOfValueMember = ko.observable(true);
+                }
+                var ref = $(element).jstree(true),
+                       parents = _(node.parents).map(function (n) { return ref.get_node(n); }),
+                       valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
+                tag.childOfValueMember(valueMember || false);
+            },
             loadJsTree = function () {
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
 
@@ -590,10 +599,10 @@ ko.bindingHandlers.tree = {
                                 return;
                             }
 
-                            if (typeof tag.childOfValueMember !== "function") {
+                            if (!ko.isObservable(tag.childOfValueMember)) {
                                 tag.childOfValueMember = ko.observable(true);
                             }
-                            if (typeof tag.allowFilter !== "function") {
+                            if (!ko.isObservable(tag.allowFilter)) {
                                 tag.allowFilter = ko.observable(true);
                             }
 
@@ -617,10 +626,7 @@ ko.bindingHandlers.tree = {
                             if (!tag.childOfValueMember()) {
                                 ref.edit(selected.node);
                             }
-
                             member(tag);
-
-
                             // subscribe to Name change
                             memberNameSubscription = member().Name.subscribe(function (name) {
                                 $(element).jstree(true)
@@ -651,8 +657,6 @@ ko.bindingHandlers.tree = {
                             return ko.unwrap(mbr.WebId) === ko.unwrap(v.WebId);
                         });
                         collection.splice(data.position,0, mbr);
-                        console.log(e);
-                        console.log(data);
                     })
                     .on("rename_node.jstree", function (ev, node) {
                         var mb = node.node.data;
@@ -661,9 +665,42 @@ ko.bindingHandlers.tree = {
                     .jstree({
                         "core": {
                             "animation": 0,
-                            "check_callback": true,
+                            "check_callback": function (operation, node, nodeParent, nodePosition, more) {
+                                if (operation === "move_node") {
+                                    var mbr = node.data,
+                                        ref = $(element).jstree(true),
+                                        target = ref.get_node(nodeParent);
+                                    if (!mbr) {
+                                        return false;
+                                    }
+                                    if (!target) {
+                                        return false;
+                                    }
+                                    if (!ko.isObservable(mbr.childOfValueMember)) {
+                                        setNodePropertyForChildOfValueObject(node,mbr);
+                                    }
+                                    if (ko.unwrap(mbr.childOfValueMember)) {
+                                        return false;
+                                    }
+                                    if (target.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph") {
+                                        return false;
+                                    }
+
+                                    return true;
+                                }
+                                return true;
+                            },
                             "themes": { "stripes": true },
                             'data': jsTreeData
+                        },
+                        "dnd": {
+                            "is_draggable": function (node) {
+                                var mbr = node.data;
+                                if (mbr && ko.unwrap(mbr.childOfValueMember)) {
+                                    return false;
+                                }
+                                return true;
+                            }
                         },
                         "contextmenu": {
                             "items": function ($node) {
