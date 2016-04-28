@@ -310,7 +310,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             var script = new StringBuilder();
             script.AppendLine($@"
                 {functionName} = function() {{
-                    return {form.Operation.ToCamelCase()}()");
+                    return {form.Operation.ToCamelCase()}Command()");
             if (!string.IsNullOrWhiteSpace(form.OperationSuccessCallback))
             {
                 script.AppendLine($@"  .then(function(result){{
@@ -363,7 +363,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             // TODO : replace {id} in route with ko.unwrap(entity().Id)
             route = route.Replace("{id}", "\" + ko.unwrap(entity().Id) + \"");
             return $@"
-                {opFunc} = function(){{
+                {opFunc}Command = function(){{
 
                      if (!validation.valid()) {{
                          return Task.fromResult(false);
