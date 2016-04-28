@@ -105,7 +105,7 @@
                 app.showMessage("Are you sure you want to delete this Query? This action cannot be undone.", "Reactive Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
-                            context.sendDelete("/entity-query/" + query().Id())
+                            context.sendDelete("/query-endpoints/" + query().Id())
                                 .done(function () {
                                     window.location = "/sph#dev.home";
                                 })
