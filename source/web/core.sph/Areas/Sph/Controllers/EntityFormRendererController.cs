@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var model = new FormRendererViewModel(ed, form);
 
-            var ns = ConfigurationManager.ApplicationName + "_" + model.EntityDefinition.Id;
+            var ns = ConfigurationManager.ApplicationName + "_" + ed.Name.ToCamelCase();
             var typeCtor = $"bespoke.{ns}.domain.{model.EntityDefinition.Name}(system.guid())";
             var buttonOperations = model.Form.FormDesign.FormElementCollection.OfType<Button>()
                 .Where(b => b.IsToolbarItem)
