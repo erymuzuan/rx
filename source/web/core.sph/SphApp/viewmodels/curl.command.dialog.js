@@ -47,7 +47,13 @@ define(["plugins/dialog", objectbuilders.config, objectbuilders.logger],
 
                 return $.getJSON("/developer-service/environment-variables")
                     .done(function (env) {
-                        var model = new bespoke[config.applicationName + "_" + endpoint().Entity().toLowerCase()].domain[endpoint().Entity()]();
+                        String.prototype.toCamelCase = function () {
+                            return this.replace(/^([A-Z])|\s(\w)/g, function (match, p1, p2, offset) {
+                                if (p2) return p2.toUpperCase();
+                                return p1.toLowerCase();
+                            });
+                        };
+                        var model = new bespoke[config.applicationName + "_" + endpoint().Entity().toCamelCase()].domain[endpoint().Entity()]();
                         recurseProperty(model);
 
                         var obj = ko.toJS(model),

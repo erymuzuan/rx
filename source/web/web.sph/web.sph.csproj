@@ -1293,7 +1293,6 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="SphApp\gulpfile.js" />
     <Content Include="SphApp\services\cultures.my.js" />
-    <Content Include="SphApp\viewmodels\curl.command.dialog.js" />
     <Content Include="SphApp\viewmodels\endpoint.quota.policy.dialog.js" />
     <Content Include="SphApp\viewmodels\endpoints.caching.policy.js" />
     <Content Include="SphApp\viewmodels\endpoints.details.js" />
@@ -1306,7 +1305,6 @@
     <EmbeddedResource Include="SphApp\views\public.index.html" />
     <Content Include="SphApp\viewmodels\_api.management.request.list.js" />
     <Content Include="SphApp\viewmodels\_api.management.request.charts.js" />
-    <Content Include="SphApp\views\curl.command.dialog.html" />
     <Content Include="SphApp\views\endpoint.quota.policy.dialog.html" />
     <Content Include="SphApp\views\endpoints.caching.policy.html" />
     <Content Include="SphApp\views\endpoints.details.html" />
