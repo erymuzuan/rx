@@ -123,12 +123,16 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             var operation = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.Operation);
             if (null != operation)
             {
-                var api = GenerateApiOperationCode(ed, operation, form.OperationMethod);
+                var api = GenerateApiOperationCode(operation, form.OperationMethod);
                 script.Append(api);
             }
             if (model.Form.IsRemoveAvailable)
-                script.AppendLine($@"remove = function {{
-                        return context.sendDelete(""{ed.Plural.ToLowerInvariant()}/{form.DeleteOperation}/"" + ko.unwrap(entity().Id))
+            {
+                var deleteOperation = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.DeleteOperation && x.Entity == form.Entity);
+                var route = !string.IsNullOrWhiteSpace(deleteOperation.Route) ? $"{deleteOperation.Route.ToLowerInvariant()}/" : "";
+                route = $"/api/{deleteOperation.Resource}/{route}/".Replace("//", "/");
+                script.AppendLine($@"remove = function() {{
+                        return context.sendDelete(""{route}"" + ko.unwrap(entity().Id))
                                        .then(function(result){{
                                              return app.showMessage(""{form.DeleteOperationSuccessMesage}"",""{ConfigurationManager.ApplicationFullName}"",[""OK""]);
                                         }})
