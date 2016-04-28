@@ -17,7 +17,8 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> Save([JsonBody]EntityView view)
         {
             var context = new SphDataContext();
-            view.Entity = view.EntityDefinitionId;
+            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Id == view.EntityDefinitionId);
+            view.Entity = ed.Name;
 
             var baru = string.IsNullOrWhiteSpace(view.Id) || view.Id == "0";
             if (baru)
