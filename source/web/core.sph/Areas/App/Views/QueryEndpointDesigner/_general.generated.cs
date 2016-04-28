@@ -90,14 +90,12 @@ WriteLiteral(">\r\n            <input");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral("\r\n                   required");
-
-WriteLiteral(" pattern=\"^(~\\/)?[a-z][a-z0-9-.\\/{}]*$\"");
+WriteLiteral("\r\n                   pattern=\"^(~\\/)?[a-z][a-z0-9-.\\/{}]*$\"");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: Route, tooltip:\'Route is a way the system identify your view v" +
-"ia its URL, must be lower case with - or .\'\"");
+WriteLiteral(" \r\n                   data-bind=\"value: Route, tooltip:\'Route is a way the system" +
+" identify your view via its URL, must be lower case with - or .\'\"");
 
 WriteLiteral("\r\n                   placeholder=\"route url\"");
 
