@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -91,9 +92,9 @@ namespace Bespoke.Sph.ControlCenter
                 var qd = m_channel.QueueDeclare(WebConsoleLogger, false, true, true, null);
                 Console.WriteLine(qd);
             }
-            catch 
+            catch
             {
-               Debug.Assert(false,@"You have to restart your RabbitMQ broker.
+                Debug.Assert(false, @"You have to restart your RabbitMQ broker.
 To stop the broker :
 Make sure your RABBITMQ_BASE variable is correctly set 
 Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
@@ -122,7 +123,7 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
 
             m_connection?.Dispose();
             m_connection = null;
-           
+
         }
 
         private void Received(object sender, ReceivedMessageArgs e)
@@ -141,7 +142,7 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
             }
             m_appServer?.Stop();
             m_appServer?.Dispose();
-            
+
             return true;
         }
 
@@ -178,7 +179,7 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
 
         private async void NewMessageReceived(WebSocketSession session, string value)
         {
-            Console.WriteLine("Getting new message from {0} => {1}", session.SessionID, value);
+            Console.WriteLine($"Getting new message from {session.SessionID} => {value}");
             if (value.StartsWith("POST /bring-to-view:"))
             {
                 m_mainViewModel.Post(() =>
@@ -235,6 +236,15 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
             File.Copy(f, $"{ConfigurationManager.WebPath}\\bin\\{fileName}", true);
             WriteMessage($"Done copying {fileName}");
 
+
+            // NOTE : warmup the webserver so that the web app is still responsive
+            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.BaseUrl) })
+            {
+                WriteMessage("Warming up the webserver");
+                client.GetAsync("/").Wait();
+                client.GetAsync("/").Wait();
+                WriteMessage("Done issue request to the web server");
+            }
         }
 
         public ObservableCollection<string> CreatedFileCollection { get; } = new ObservableCollection<string>();
