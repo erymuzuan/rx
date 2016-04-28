@@ -206,6 +206,7 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
                 .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
             Parallel.ForEach(outputs, DeployOutput);
+            await WarmupWebServerAsync();
             this.CreatedFileCollection.Clear();
 
             // restart the workers
@@ -237,12 +238,16 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
             WriteMessage($"Done copying {fileName}");
 
 
+        }
+
+        public async Task WarmupWebServerAsync()
+        {
             // NOTE : warmup the webserver so that the web app is still responsive
             using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.BaseUrl) })
             {
                 WriteMessage("Warming up the webserver");
-                client.GetAsync("/").Wait();
-                client.GetAsync("/").Wait();
+                await client.GetAsync("/");
+                await client.GetAsync("/");
                 WriteMessage("Done issue request to the web server");
             }
         }
