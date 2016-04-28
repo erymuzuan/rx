@@ -140,6 +140,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                              router.navigate(""{form.DeleteOperationSuccessNavigateUrl}"");
                                         }});
                     }},");
+
+            }
             // end of operation
             script.AppendLine($@"
                 attached = function (view) {{
@@ -182,7 +184,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             foreach (var btn in operationButtons)
             {
                 var oe = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == btn.Operation && x.Entity == ed.Name);
-                var apiCallScript = GenerateApiOperationCode(ed, oe, btn.OperationMethod);
+                var apiCallScript = GenerateApiOperationCode(oe, btn.OperationMethod);
                 script.Append(apiCallScript);
                 var operationScript = this.GetOperationScript(new EntityForm
                 {
@@ -352,7 +354,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return script.ToString();
         }
 
-        private static string GenerateApiOperationCode(EntityDefinition ed, OperationEndpoint operation, string method)
+        private static string GenerateApiOperationCode(OperationEndpoint operation, string method)
         {
             var opFunc = operation.Name.ToCamelCase();
             var route = operation.Route.StartsWith("~/") ?
