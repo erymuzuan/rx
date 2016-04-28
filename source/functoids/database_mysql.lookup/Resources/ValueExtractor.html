@@ -1,0 +1,47 @@
+
+<section class="view-model-modal" id="sql-server--lookup-functoid-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        data-bind="click : cancelClick">
+                    &times;
+                </button>
+                <h3>Key Value Extractor Functoid</h3>
+            </div>
+            <div class="modal-body" data-bind="with:functoid">
+
+                <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="key-name" class="col-lg-2 control-label">Key</label>
+                    <div class="col-lg-6">
+                        <input type="text" data-bind="value: Key"
+                               required
+                               placeholder="Key or the column name"
+                               class="form-control" id="key-name">
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <label for="variable-typename" class="col-lg-2 control-label">Type</label>
+                        <div class="col-lg-9">
+                            <select required class="form-control" id="variable-typename" name="variable-typename" data-bind="value: OutputTypeName">
+                                <option value="System.String, mscorlib">Text</option>
+                                <option value="System.DateTime, mscorlib">Date</option>
+                                <option value="System.Int32, mscorlib">Integer</option>
+                                <option value="System.Decimal, mscorlib">Decimal</option>
+                                <option value="System.Boolean, mscorlib">Boolean</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <input data-dismiss="modal" type="submit" class="btn btn-default"
+                       value="OK" data-bind="click : okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -130,6 +130,12 @@
   <data name="tablevm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tablevm.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="ValueExtractorView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ValueExtractor.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ValueExtractorViewModel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ValueExtractor.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="view" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\view.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

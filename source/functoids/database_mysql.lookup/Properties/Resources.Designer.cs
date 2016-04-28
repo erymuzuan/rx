@@ -164,6 +164,51 @@ namespace Bespoke.Sph.Domain.Functoids.Properties {
         ///                        data-bind=&quot;click : cancelClick&quot;&gt;
         ///                    &amp;times;
         ///                &lt;/button&gt;
+        ///                &lt;h3&gt;Key Value Extractor Functoid&lt;/h3&gt;
+        ///            &lt;/div&gt;
+        ///            &lt;div class=&quot;modal-body&quot; data-bind=&quot;with:functoid [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ValueExtractorView {
+            get {
+                return ResourceManager.GetString("ValueExtractorView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to define([&quot;services/datacontext&quot;, &quot;services/logger&quot;, &quot;plugins/dialog&quot;],
+        ///    function (context, logger, dialog) {
+        ///        var functoid = ko.observable(),
+        ///            okClick = function (data, ev) {
+        ///                dialog.close(this, &quot;OK&quot;);
+        ///
+        ///            },
+        ///            cancelClick = function () {
+        ///                dialog.close(this, &quot;Cancel&quot;);
+        ///            };
+        ///        var vm = {
+        ///            functoid: functoid,
+        ///            okClick: okClick,
+        ///            cancelClick: cancelClick
+        ///        };
+        ///        return [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ValueExtractorViewModel {
+            get {
+                return ResourceManager.GetString("ValueExtractorViewModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///&lt;section class=&quot;view-model-modal&quot; id=&quot;sql-server--lookup-functoid-dialog&quot;&gt;
+        ///    &lt;div class=&quot;modal-dialog&quot;&gt;
+        ///        &lt;div class=&quot;modal-content&quot;&gt;
+        ///
+        ///            &lt;div class=&quot;modal-header&quot;&gt;
+        ///                &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot;
+        ///                        data-bind=&quot;click : cancelClick&quot;&gt;
+        ///                    &amp;times;
+        ///                &lt;/button&gt;
         ///                &lt;h3&gt;SQL Lookup Functoid&lt;/h3&gt;
         ///            &lt;/div&gt;
         ///            &lt;div class=&quot;modal-body&quot; data-bind=&quot;with:functoid&quot;&gt;

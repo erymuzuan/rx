@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DictionaryValueExtractor.cs" />
     <Compile Include="MySQLLookup.cs" />
     <Compile Include="MySqlTable.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -85,6 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\tablevm.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ValueExtractor.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ValueExtractor.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

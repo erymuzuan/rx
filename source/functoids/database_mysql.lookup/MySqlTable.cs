@@ -89,9 +89,15 @@ namespace Bespoke.Sph.Domain
 			{{
 				var val = reader.GetValue(i);
 				if (val is MySqlDateTime)
-				{{
-					val = ((MySqlDateTime)val).Value;
-				}}
+                {{                
+					var dt  = (MySqlDateTime)val;
+					if(dt.IsValidDateTime)
+						val = dt.GetDateTime();
+					else					
+						val =  null;
+                }};
+                if (val == System.DBNull.Value) val = null;
+
 				row.Add(reader.GetName(i), val);
 			}}
 			__result{Index}.Add(row);
