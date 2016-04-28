@@ -905,26 +905,6 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                    <label");
 
-WriteLiteral(" for=\"form-design-delete-operation\"");
-
-WriteLiteral(">DELETE Operation</label>\r\n                    <select");
-
-WriteLiteral(" class=\"form-control\"");
-
-WriteLiteral(" data-bind=\"options :$root.deleteOperationsOption,\r\n                            o" +
-"ptionsCaption :\'[Select a DELETE operation]\',\r\n                            value" +
-": DeleteOperation,\r\n                            enable: IsRemoveAvailable\"");
-
-WriteLiteral(" id=\"form-design-delete-operation\"");
-
-WriteLiteral(" name=\"FormDesign.Operation\"");
-
-WriteLiteral("></select>\r\n                </div>\r\n                <div");
-
-WriteLiteral(" class=\"form-group\"");
-
-WriteLiteral(">\r\n                    <label");
-
 WriteLiteral(" for=\"success-message\"");
 
 WriteLiteral(">Success Message</label>\r\n                    <input");
@@ -1016,8 +996,70 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click : editOperationFailureCallback\"");
 
-WriteLiteral(">Edit</a>\r\n                </div>\r\n\r\n\r\n            </form>\r\n        </div>\r\n    <" +
-"/div>\r\n</div>\r\n");
+WriteLiteral(">Edit</a>\r\n                </div>\r\n                <hr/>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"form-design-delete-operation\"");
+
+WriteLiteral(">DELETE Operation</label>\r\n                    <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"options :$root.deleteOperationsOption,\r\n                            o" +
+"ptionsCaption :\'[Select a DELETE operation]\',\r\n                            value" +
+": DeleteOperation,\r\n                            enable: IsRemoveAvailable\"");
+
+WriteLiteral(" id=\"form-design-delete-operation\"");
+
+WriteLiteral(" name=\"FormDesign.Operation\"");
+
+WriteLiteral("></select>\r\n                </div>\r\n\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"delete-operation-sucess-message\"");
+
+WriteLiteral(">Delete message</label>\r\n                    <div >\r\n                        <inp" +
+"ut");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: DeleteOperationSuccessMesage, enable:DeleteOperation\"");
+
+WriteLiteral("\r\n                               placeholder=\"Delete operation success message\"");
+
+WriteLiteral("\r\n                               class=\"form-control\"");
+
+WriteLiteral(" id=\"delete-operation-sucess-message\"");
+
+WriteLiteral(">\r\n                    </div>\r\n                </div>\r\n\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"delete-operation-success-url\"");
+
+WriteLiteral(">Navigate Url</label>\r\n                    <div>\r\n                        <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: DeleteOperationSuccessNavigateUrl, enable:DeleteOperation\"");
+
+WriteLiteral("\r\n                               placeholder=\"Once the message is dismissed, then" +
+" navigate to this url\"");
+
+WriteLiteral("\r\n                               class=\"form-control\"");
+
+WriteLiteral(" id=\"delete-operation-success-url\"");
+
+WriteLiteral(">\r\n                    </div>\r\n                </div>\r\n\r\n            </form>\r\n   " +
+"     </div>\r\n    </div>\r\n</div>\r\n");
 
         }
     }

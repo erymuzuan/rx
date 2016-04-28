@@ -270,13 +270,6 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="form-design-delete-operation">DELETE Operation</label>
-                    <select class="form-control" data-bind="options :$root.deleteOperationsOption,
-                            optionsCaption :'[Select a DELETE operation]',
-                            value: DeleteOperation,
-                            enable: IsRemoveAvailable" id="form-design-delete-operation" name="FormDesign.Operation"></select>
-                </div>
-                <div class="form-group">
                     <label for="success-message">Success Message</label>
                     <input type="text" data-bind="value: OperationSuccessMesage, enable:Operation"
                            placeholder="The message to alert user when the operation return success"
@@ -303,7 +296,32 @@
                               id="operation-failure-callback" name="OperationFailureCallback"></textarea>
                     <a href="#" data-bind="click : editOperationFailureCallback">Edit</a>
                 </div>
+                <hr/>
+                <div class="form-group">
+                    <label for="form-design-delete-operation">DELETE Operation</label>
+                    <select class="form-control" data-bind="options :$root.deleteOperationsOption,
+                            optionsCaption :'[Select a DELETE operation]',
+                            value: DeleteOperation,
+                            enable: IsRemoveAvailable" id="form-design-delete-operation" name="FormDesign.Operation"></select>
+                </div>
 
+                <div class="form-group">
+                    <label for="delete-operation-sucess-message">Delete message</label>
+                    <div >
+                        <input type="text" data-bind="value: DeleteOperationSuccessMesage, enable:DeleteOperation"
+                               placeholder="Delete operation success message"
+                               class="form-control" id="delete-operation-sucess-message">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="delete-operation-success-url">Navigate Url</label>
+                    <div>
+                        <input type="text" data-bind="value: DeleteOperationSuccessNavigateUrl, enable:DeleteOperation"
+                               placeholder="Once the message is dismissed, then navigate to this url"
+                               class="form-control" id="delete-operation-success-url">
+                    </div>
+                </div>
 
             </form>
         </div>
