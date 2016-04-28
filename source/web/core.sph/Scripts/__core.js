@@ -962,11 +962,19 @@ ko.bindingHandlers.entityTypeaheadPath = {
             allBindings = allBindingsAccessor(),
             idOrName = ko.unwrap(valueAccessor()) || window.typeaheadEntity,
             setup = function (options) {
+                String.prototype.toCamelCase = function() {
+                    return this.replace(/^([A-Z])|\s(\w)/g, function(match, p1, p2, offset) {
+                        if (p2) return p2.toUpperCase();
+                        return p1.toLowerCase();        
+                    });
+                };
+
 
                 var name = options.name || options,
-                    eid = options.id || options;
+                    eid = options.id || options,
+                    camel = name.toCamelCase();
 
-                var ed = ko.toJS(bespoke[config.applicationName + "_" + eid.toLowerCase()].domain[name]());
+                var ed = ko.toJS(bespoke[config.applicationName + "_" + camel].domain[name]());
                 var input = $(element),
                          div = $("<div></div>").css({
                              'height': "28px"
