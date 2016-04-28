@@ -1,0 +1,65 @@
+{
+  "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "EntityPermissionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "SetterActionChildCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "PatchPathCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "Name",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "de158f48-9f44-45e6-ffee-469c5c373a7f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "No",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "593a6dd3-682e-4be3-e0c3-f7d6415672d9"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "Category",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "1328d9a0-a1c9-4128-9594-124b3a136c4b"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "Size",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "f3dfe1c4-1a58-435a-91ae-7259023abef3"
+      }
+    ]
+  },
+  "Name": "UpdateDetails",
+  "Route": "{id}/update-details",
+  "IsHttpPut": false,
+  "IsHttpPatch": true,
+  "IsHttpPost": false,
+  "IsHttpDelete": false,
+  "Note": "",
+  "Entity": "PoliceStation",
+  "Resource": "policestations",
+  "IsPublished": true,
+  "IsConflictDetectionEnabled": true,
+  "CreatedBy": "admin",
+  "Id": "police-station-update-details",
+  "CreatedDate": "2016-04-28T14:01:51.5368382+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-04-28T16:35:46.0135713+08:00",
+  "WebId": "ed32af77-001b-45ef-ca70-47eac9cc1e81"
+}

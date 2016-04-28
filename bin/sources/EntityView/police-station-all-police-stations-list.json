@@ -1,0 +1,112 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+  "ViewColumnCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "No",
+        "Header": "No",
+        "Sort": "",
+        "IsLinkColumn": true,
+        "FormRoute": "police-station-edit-details",
+        "IconCssClass": "fa fa-eyedropper",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "Id",
+        "WebId": "2b56e28e-8d43-44f5-aeff-2ac0093cdc69"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Name",
+        "Header": "Name",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "1a7e3b83-e40b-4b72-92c5-45ebe05bc35d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Category",
+        "Header": "Category",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "617ccc42-e8cc-4819-8b77-33924a2f625b"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Size",
+        "Header": "Size",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "4dcec79a-3da2-475a-e114-032774001542"
+      }
+    ]
+  },
+  "ConditionalFormattingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": "",
+    "IsPublic": true,
+    "WebId": null
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "IconClass": "fa fa-building",
+  "IconStoreId": "76eeb166-6355-412f-8254-5b9922e81e2d",
+  "EntityDefinitionId": "police-station",
+  "Name": "All police stations list",
+  "Route": "all-police-stations-list",
+  "Note": "",
+  "IsPublished": true,
+  "Visibilty": "",
+  "TileColour": "bblue",
+  "CountMessage": "",
+  "Entity": "police-station",
+  "Partial": "",
+  "Template": null,
+  "DisplayOnDashboard": false,
+  "Endpoint": "all-police-stations",
+  "CreatedBy": "admin",
+  "Id": "police-station-all-police-stations-list",
+  "CreatedDate": "2016-04-28T13:42:51.355907+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-04-28T14:12:17.8864137+08:00",
+  "WebId": "552f4918-8551-4d99-abbf-e5de840cab04"
+}
