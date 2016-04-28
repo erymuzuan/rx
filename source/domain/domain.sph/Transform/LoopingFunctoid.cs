@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Domain
             var childType = dd2.DestinationType;
             if (null == childType) throw new InvalidOperationException("The type is not valid for destination child " + dd2.DestinationTypeName);
 
-            code.AppendLinf("var val{0} = from r in item.{1}", this.Index, source.Field);
+            code.AppendLine($"var val{Index} = from r in item.{source.Field}");
 
             var sorted = new List<Functoid>(this.TransformDefinition.FunctoidCollection);
             sorted.Sort(new FunctoidDependencyComparer());
@@ -56,7 +56,7 @@ var styles4 = System.Globalization.NumberStyles.None;
             code.Append(string.Join("\r\n", functoidStatements));
 
 
-            code.AppendLinf("               select new {0} {{", childType.FullName);
+            code.AppendLine($"               select new {childType.FullName} {{");
 
             var directMaps = this.TransformDefinition.MapCollection.OfType<DirectMap>()
                 .Where(d => d.Source.StartsWith(source.Field));
@@ -80,7 +80,7 @@ var styles4 = System.Globalization.NumberStyles.None;
 
 
 
-            code.AppendLinf("dest.{1}.AddRange(val{0});", this.Index, dd2.Destination);
+            code.AppendLine($"dest.{dd2.Destination}.AddRange(val{Index});");
 
 
             return code.ToString();

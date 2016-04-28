@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MySQLLookup.cs" />
+    <Compile Include="MySqlTable.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -78,6 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ConfigViewModel.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tableview.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tablevm.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

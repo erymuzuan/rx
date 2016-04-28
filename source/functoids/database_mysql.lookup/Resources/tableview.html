@@ -1,0 +1,32 @@
+
+<section class="view-model-modal" id="sql-server--lookup-functoid-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        data-bind="click : cancelClick">
+                    &times;
+                </button>
+                <h3>SQL Lookup Functoid</h3>
+            </div>
+            <div class="modal-body" data-bind="with:functoid">
+
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="sql-text" class="col-sm-2 control-label">Sql Text</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="sql-text" placeholder="SQL Statement" data-bind="value: SqlText"></textarea>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <input data-dismiss="modal" type="submit" class="btn btn-default"
+                       value="OK" data-bind="click : okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>
