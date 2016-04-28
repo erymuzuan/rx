@@ -113,10 +113,10 @@ namespace Bespoke.Sph.Domain
         private Method GenerateCountAction()
         {
             var code = new StringBuilder();
-            var route = this.GetRoute();
+            var route =$"{this.GetRoute()}/_count".Replace("//", "/");
 
             code.AppendLine("       [HttpGet]");
-            code.AppendLine($"       [GetRoute(\"{route}/_count\")]");
+            code.AppendLine($"       [GetRoute(\"{route}\")]");
             code.AppendLine($@"       public async Task<IHttpActionResult> GetCountAsync([SourceEntity(""{Id}"")]QueryEndpoint eq,
                                                     [IfNoneMatch]ETag etag,
                                                     [ModifiedSince]ModifiedSinceHeader modifiedSince)");
