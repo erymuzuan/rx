@@ -41,7 +41,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         entity(b);
 
 
-                        context.getListAsync("OperationEndpoint", "IsHttpDelete eq false and Entity eq '" + ko.unwrap(b.Name) + "'", "Name").done(operationsOption);
+                        context.getListAsync("OperationEndpoint", "Entity eq '" + ko.unwrap(b.Name) + "'", "Name").done(operationsOption);
                         context.getListAsync("OperationEndpoint", "IsHttpDelete eq true and Entity eq '" + ko.unwrap(b.Name) + "'", "Name").done(deleteOperationsOption);
                         var collectionMembers = [],
                             findCollectionMembers = function (list) {
