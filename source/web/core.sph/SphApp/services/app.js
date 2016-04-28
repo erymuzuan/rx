@@ -61,7 +61,7 @@
 
             return tcs.promise();
         },
-        prompt = function (label,value, title) {
+        prompt = function (label,value, title, canCopy) {
             var tcs = new $.Deferred();
 
             require(["viewmodels/prompt", "durandal/app"], function (dialog, app2) {
@@ -69,6 +69,7 @@
                 dialog.title(title || "Rx Developer");
                 dialog.label(label);
                 dialog.value(value);
+                dialog.canCopy(canCopy || false);
                 app2.showDialog(dialog)
                     .done(function (result) {
                         if (result === "OK") {

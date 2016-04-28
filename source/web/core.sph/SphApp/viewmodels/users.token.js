@@ -16,12 +16,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             viewToken = function (v) {
                 return $.get("/api/auth-tokens/" + ko.unwrap(v.WebId))
                     .done(function (t) {
-                        serviceApp.prompt("Copy the token now", t);
-                        setTimeout(function () {
-                            var successful = document.execCommand("copy");
-                            var msg = successful ? "successful" : "unsuccessful";
-                            console.log("Copying token was " + msg);
-                        }, 800);
+                        serviceApp.prompt("Copy the token now", t, "Security token", true);
                     });
             },
             removeToken = function (v) {

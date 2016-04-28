@@ -11,9 +11,16 @@
 define(["plugins/dialog"],
     function (dialog) {
 
-        var okClick = function () {
-            dialog.close(this, "OK");
-        },
+        var copy = function () {
+                $("#prompt-value").focus()
+                        .select();
+                document.execCommand("copy");
+            },
+            canCopy = ko.observable(false),
+            value = ko.observable(),
+            okClick = function () {
+                dialog.close(this, "OK");
+            },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
@@ -21,14 +28,15 @@ define(["plugins/dialog"],
                 setTimeout(function () {
                     $("#prompt-value").focus()
                     .select();
-
                 }, 500);
             };
 
         var vm = {
             title: ko.observable("Rx Developer"),
+            copy: copy,
+            canCopy: canCopy,
             label: ko.observable(""),
-            value: ko.observable(""),
+            value: value,
             attached: attached,
             okClick: okClick,
             cancelClick: cancelClick
