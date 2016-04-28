@@ -60,6 +60,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 WebConsoleServer.Default.DeployOutput(f);
             }
             WebConsoleServer.Default.CreatedFileCollection.Clear();
+            await WebConsoleServer.Default.WarmupWebServerAsync();
             // restart the workers
             this.Log("Done...");
             var count = 0;
