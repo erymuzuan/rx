@@ -1,0 +1,58 @@
+<h1 data-i18n="Police station details">Police station details</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+    </div>
+    <div class="col-sm-2"></div>
+    <!-- /ko-->
+</div>
+<div class="row">
+    <div class="col-sm-8">
+<form class="form-horizontal" data-bind="with : entity" id="police-station-details-form">
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Nama" for="2ddc2df6-4f7c-43f4-923e-30aa11d9370f" class="col-md-4">Nama</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Name"
+                   id="2ddc2df6-4f7c-43f4-923e-30aa11d9370f" type="text" name="Name" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="No" for="34c33979-70af-4573-fca5-9b6521ff2d2d" class="col-md-4">No</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: No"
+                   id="34c33979-70af-4573-fca5-9b6521ff2d2d" type="text" name="No" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Size" for="9d154c7b-1273-4593-92e7-0d74d5e4dc11" class="col-md-4">Size</label>
+        <div class="col-md-8">
+            <input required class="form-control input-large"
+                   data-bind="value: Size"
+                   pattern="[0-9]{1,5}"
+                    data-rule-number="true"  data-rule-required="true" 
+ data-rule-min="0"
+ data-rule-max="999999"
+                   id="9d154c7b-1273-4593-92e7-0d74d5e4dc11" type="text" name="Size" />
+        </div>
+    </div>
+    <div class="form-group" data-bind="visible:true">
+        <label data-i18n="Category" for="e6d4a976-7293-487f-9610-3ed7da6ebc43" class="col-md-4">Category</label>
+        <div class="col-md-8">
+            <select  data-bind="value: Category, enable :true" id="e6d4a976-7293-487f-9610-3ed7da6ebc43" name="Category" class="input-large form-control">
+                    <option value="Kampung" data-i18n="Kampung">Kampung</option>
+                    <option value="IPD" data-i18n="IPD">IPD</option>
+                    <option value="IPK" data-i18n="IPK">IPK</option>
+                    <option value="hq" data-i18n="Ibu Pejabat">Ibu Pejabat</option>
+            </select>
+        </div>
+    </div>
+</form>
+    </div>
+    <div class="col-sm-4">
+    </div>
+</div>
