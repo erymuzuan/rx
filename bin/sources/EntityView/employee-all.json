@@ -2,7 +2,93 @@
   "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
   "ViewColumnCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "No",
+        "Header": "No",
+        "Sort": "",
+        "IsLinkColumn": true,
+        "FormRoute": "employee-details",
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "f003d593-959b-462a-f97d-df6a9758f6b8"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "FirstName",
+        "Header": "First Name",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "fd9040d8-83f7-47be-ad98-ca3e759fbac4"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "LastName",
+        "Header": "Last Name",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "e4e91265-f747-4bed-8951-e2e6be776c88"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Gender",
+        "Header": "Gender",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "2203c56b-d9fb-4274-84fe-80e7ba0d5f20"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "HireDate",
+        "Header": "Hire Date",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "date:{0}",
+        "RouteValueField": "",
+        "WebId": "75dd6d1e-9f98-486b-dc51-54a47b605f27"
+      }
+    ]
   },
   "ConditionalFormattingCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
@@ -10,34 +96,34 @@
   },
   "Performer": {
     "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": null,
+    "UserProperty": "",
     "Value": null,
-    "IsPublic": false,
+    "IsPublic": true,
     "WebId": null
   },
   "RouteParameterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
-  "IconClass": null,
-  "IconStoreId": null,
+  "IconClass": "fa fa-users",
+  "IconStoreId": "f16a8649-279d-4cea-9f7b-45c838a7c7c2",
   "EntityDefinitionId": "employee",
   "Name": "All Employees",
   "Route": "employee-all",
   "Note": null,
-  "IsPublished": false,
+  "IsPublished": true,
   "Visibilty": null,
-  "TileColour": null,
+  "TileColour": "bblue",
   "CountMessage": null,
-  "Entity": "Employee",
+  "Entity": "employee",
   "Partial": null,
   "Template": null,
   "DisplayOnDashboard": false,
-  "Endpoint": null,
+  "Endpoint": "all-employees",
   "CreatedBy": "admin",
   "Id": "employee-all",
   "CreatedDate": "2016-04-20T05:35:11.7466965+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-20T05:35:11.7466965+08:00",
+  "ChangedDate": "2016-04-28T07:41:24.0480317+08:00",
   "WebId": "94370d23-d0ce-4965-8c0b-c7ad4503b807"
 }

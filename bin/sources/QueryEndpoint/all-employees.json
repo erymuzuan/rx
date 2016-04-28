@@ -1,0 +1,35 @@
+{
+  "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
+  "ControllerName": "EmployeeAllEmployeesQueryEndpoint",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "CacheProfile": "",
+  "Name": "All employees",
+  "Route": "all-employees",
+  "IsReturnSource": "",
+  "Entity": "Employee",
+  "Note": "",
+  "IsPublished": true,
+  "Resource": "Employees",
+  "CacheFilter": null,
+  "CreatedBy": "admin",
+  "Id": "all-employees",
+  "CreatedDate": "2016-04-28T07:33:55.066372+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-04-28T07:34:05.313604+08:00",
+  "WebId": "2b40eadd-a3ec-4446-8cf1-cbdb8209bd90"
+}

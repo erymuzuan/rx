@@ -526,7 +526,7 @@
     "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
     "FullSearchEndpoint": {
       "$type": "Bespoke.Sph.Domain.FullSearchEndpoint, domain.sph",
-      "IsAllowed": false,
+      "IsAllowed": true,
       "WebId": null
     },
     "OdataEndpoint": {
@@ -536,7 +536,7 @@
     },
     "EntityResourceEndpoint": {
       "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
-      "IsAllowed": false,
+      "IsAllowed": true,
       "FilterExpression": "",
       "WebId": null
     },
@@ -554,6 +554,6 @@
   "Id": "employee",
   "CreatedDate": "2016-04-20T05:35:11.7466965+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-20T05:55:39.7170957+08:00",
+  "ChangedDate": "2016-04-28T07:41:58.5045435+08:00",
   "WebId": "704eb1cc-f982-483b-b26a-2c5ed7d63b15"
 }

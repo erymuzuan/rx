@@ -1,0 +1,30 @@
+<h1>All Employees</h1>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-striped" data-bind="queryPaging :{ query: query, map : map, list:list}">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Gender</th>
+                    <th>Hire Date</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :list">
+                <tr data-bind="">
+                    <td>
+                        <a data-bind="attr : {href:'#employee-details' + '/' + Id, title:'No' }">
+                                                        <span data-bind="text:No"></span>
+                        </a>
+                    </td>
+                    <td data-bind="text:FirstName"></td>
+                    <td data-bind="text:LastName"></td>
+                    <td data-bind="text:Gender"></td>
+                    <td data-bind="date:HireDate"></td>
+                </tr>
+            </tbody>
+        </table>
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
+    </div>
+</div>
