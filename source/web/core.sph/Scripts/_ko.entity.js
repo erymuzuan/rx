@@ -43,7 +43,7 @@ ko.bindingHandlers.tree = {
                 });
                 _(node.children).each(recurseChildMember);
             },
-            setNodePropertyForChildOfValueObject = function(node, tag) {
+            setNodePropertyForChildOfValueObject = function (node, tag) {
                 if (!ko.isObservable(tag.childOfValueMember)) {
                     tag.childOfValueMember = ko.observable(true);
                 }
@@ -99,8 +99,8 @@ ko.bindingHandlers.tree = {
                             if (!valueMember) {
 
                                 var cm = _(parents).find(function (n) {
-                                        var mb1 = n.data;
-                                     return n.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph" && ko.unwrap(mb1.AllowMultiple);
+                                    var mb1 = n.data;
+                                    return n.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph" && ko.unwrap(mb1.AllowMultiple);
                                 });
                                 if (cm) {
                                     tag.allowFilter(false);
@@ -132,16 +132,16 @@ ko.bindingHandlers.tree = {
                         console.log(node, "node");
                     })
                     .on("move_node.jstree", function (e, data) {
-                        var ref =  $(element).jstree(true),
+                        var ref = $(element).jstree(true),
                         	mbr = data.node.data,
                             oldParent = ref.get_node(data.old_parent),
                             oldCollections = oldParent.data.MemberCollection || entity.MemberCollection,
                             parent = ref.get_node(data.parent),
                             collection = parent.data.MemberCollection || entity.MemberCollection;
-                        oldCollections.remove(function(v) {
+                        oldCollections.remove(function (v) {
                             return ko.unwrap(mbr.WebId) === ko.unwrap(v.WebId);
                         });
-                        collection.splice(data.position,0, mbr);
+                        collection.splice(data.position, 0, mbr);
                     })
                     .on("rename_node.jstree", function (ev, node) {
                         var mb = node.node.data;
@@ -162,7 +162,7 @@ ko.bindingHandlers.tree = {
                                         return false;
                                     }
                                     if (!ko.isObservable(mbr.childOfValueMember)) {
-                                        setNodePropertyForChildOfValueObject(node,mbr);
+                                        setNodePropertyForChildOfValueObject(node, mbr);
                                     }
                                     if (ko.unwrap(mbr.childOfValueMember)) {
                                         return false;
@@ -246,6 +246,10 @@ ko.bindingHandlers.tree = {
                                                 } else {
                                                     entity.MemberCollection.push(child);
                                                 }
+                                                child.TypeName.subscribe(function () {
+                                                    // TODO : clear the node children and populate the node according to the value object definition members
+
+                                                });
                                                 return true;
                                             }
                                             return false;
@@ -353,7 +357,7 @@ ko.bindingHandlers.tree = {
                                 "icon": "fa fa-object-ungroup"
                             },
                             "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
-                                "icon": "fa fa-building-o"
+                                "icon": "fa fa-object-group"
                             }
                         },
                         "plugins": ["contextmenu", "dnd", "types", "search"]
@@ -447,10 +451,10 @@ ko.bindingHandlers.entityTypeaheadPath = {
             allBindings = allBindingsAccessor(),
             idOrName = ko.unwrap(valueAccessor()) || window.typeaheadEntity,
             setup = function (options) {
-                String.prototype.toCamelCase = function() {
-                    return this.replace(/^([A-Z])|\s(\w)/g, function(match, p1, p2, offset) {
+                String.prototype.toCamelCase = function () {
+                    return this.replace(/^([A-Z])|\s(\w)/g, function (match, p1, p2, offset) {
                         if (p2) return p2.toUpperCase();
-                        return p1.toLowerCase();        
+                        return p1.toLowerCase();
                     });
                 };
 

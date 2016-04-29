@@ -868,7 +868,7 @@ ko.bindingHandlers.tree = {
                                 "icon": "fa fa-object-ungroup"
                             },
                             "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
-                                "icon": "fa fa-building-o"
+                                "icon": "fa fa-object-group"
                             }
                         },
                         "plugins": ["contextmenu", "dnd", "types", "search"]
