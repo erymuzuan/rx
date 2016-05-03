@@ -6,7 +6,22 @@
   },
   "ActionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.EmailAction, domain.sph",
+        "From": "me@@me.com",
+        "To": "me@@me.com",
+        "SubjectTemplate": "me@@me.com",
+        "BodyTemplate": "me@@me.com",
+        "Bcc": null,
+        "Cc": null,
+        "Title": "me",
+        "IsActive": true,
+        "TriggerId": null,
+        "Note": "email me too",
+        "WebId": "6c99e324-efcf-4340-ac58-7af97efa7440"
+      }
+    ]
   },
   "ReferencedAssemblyCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
@@ -18,19 +33,19 @@
   },
   "Name": "test",
   "Entity": "Customer",
-  "TypeOf": "Bespoke.DevV1_customer.Domain.Customer, DevV1.Customer",
+  "TypeOf": "Bespoke.DevV1.Customers.Domain.Customer, DevV1.Customer",
   "Note": "",
-  "IsActive": false,
+  "IsActive": true,
   "IsFiredOnAdded": true,
   "IsFiredOnDeleted": false,
   "IsFiredOnChanged": false,
   "FiredOnOperations": "PromoteTo",
   "ClassName": "CustomerTestTriggerSubscriber",
-  "CodeNamespace": "Bespoke.Sph.TriggerSubscribers",
-  "CreatedBy": null,
+  "CodeNamespace": "Bespoke.DevV1.TriggerSubscribers",
+  "CreatedBy": "admin",
   "Id": "customer-test",
-  "CreatedDate": "0001-01-01T00:00:00",
+  "CreatedDate": "2016-05-03T11:48:07.6821592+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2015-03-14T17:47:06.1423955+08:00",
+  "ChangedDate": "2016-05-03T11:59:45.2035294+08:00",
   "WebId": "1c4142a3-6c46-44a8-e981-c1697d6ff72a"
 }

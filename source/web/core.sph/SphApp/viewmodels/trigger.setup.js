@@ -109,13 +109,21 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                 trigger().FiredOnOperations(operations().join());
                 var data = ko.mapping.toJSON(trigger);
                 isBusy(true);
+                errors([]);
+                warnings([]);
 
                 return context.put(data, "/api/triggers/" + ko.unwrap(trigger().Id) + "/publish")
-                    .then(function () {
+                    .then(function (result) {
                         isBusy(false);
                         trigger().IsActive(true);
                         originalEntity = ko.toJSON(trigger);
-                        logger.info("Your trigger has been succesfully published, and will be added to the exchange shortly");
+                        if (!result.success) {
+                            errors(result.errors);
+                            warnings(result.warnings);
+                            logger.error(result.message);
+                        } else {
+                            logger.info("Your trigger has been succesfully published, and will be added to the exchange shortly");
+                        }
                     });
             },
             depublishAsync = function () {

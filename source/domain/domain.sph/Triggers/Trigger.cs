@@ -10,12 +10,39 @@ using System.Text;
 using System.Threading.Tasks;
 using Humanizer;
 using Newtonsoft.Json;
+using System.ComponentModel.Composition;
 
 namespace Bespoke.Sph.Domain
 {
     [StoreAsSource(HasDerivedTypes = true)]
     public partial class Trigger : Entity
     {
+        [ImportMany(typeof(IBuildDiagnostics))]
+        [JsonIgnore]
+        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
+
+        public async Task<BuildValidationResult> ValidateBuildAsync()
+        {
+            if (null == this.BuildDiagnostics)
+                ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.BuildDiagnostics)
+                throw new InvalidOperationException($"Fail to initialize MEF for {nameof(EntityForm)}.{nameof(BuildDiagnostics)}");
+
+            var result = new BuildValidationResult();
+            var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this));
+            var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x);
+
+            var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this));
+            var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
+
+            result.Errors.AddRange(errors);
+            result.Warnings.AddRange(warnings);
+            
+            result.Result = result.Errors.Count == 0;
+
+            return result;
+        }
+
         public static Trigger ParseJson(string json)
         {
             var trigger = JsonConvert.DeserializeObject<Trigger>(json);
