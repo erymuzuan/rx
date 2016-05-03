@@ -134,37 +134,16 @@
     "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
     "FullSearchEndpoint": {
       "$type": "Bespoke.Sph.Domain.FullSearchEndpoint, domain.sph",
-      "Performer": {
-        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-        "UserProperty": null,
-        "Value": null,
-        "IsPublic": false,
-        "WebId": null
-      },
       "IsAllowed": false,
       "WebId": null
     },
     "OdataEndpoint": {
       "$type": "Bespoke.Sph.Domain.OdataEndpoint, domain.sph",
-      "Performer": {
-        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-        "UserProperty": null,
-        "Value": null,
-        "IsPublic": false,
-        "WebId": null
-      },
       "IsAllowed": false,
       "WebId": null
     },
     "EntityResourceEndpoint": {
       "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
-      "Performer": {
-        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-        "UserProperty": null,
-        "Value": null,
-        "IsPublic": false,
-        "WebId": null
-      },
       "IsAllowed": false,
       "FilterExpression": null,
       "WebId": null
@@ -183,6 +162,6 @@
   "Id": "district",
   "CreatedDate": "2015-07-16T08:11:23.5545416+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-03-11T18:36:35.2262991+08:00",
+  "ChangedDate": "2016-04-29T09:01:17.8956865+08:00",
   "WebId": "a9b46951-3540-45fd-af99-69e1128dc718"
 }

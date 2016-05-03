@@ -23,14 +23,14 @@
   "IsHttpPost": true,
   "IsHttpDelete": true,
   "Note": "",
-  "Entity": "PoliceStation",
-  "Resource": "police-stations",
+  "Entity": "District",
+  "Resource": "districts",
   "IsPublished": true,
-  "IsConflictDetectionEnabled": false,
+  "IsConflictDetectionEnabled": true,
   "CreatedBy": "admin",
-  "Id": "police-station-default",
-  "CreatedDate": "2016-04-09T12:28:13.0828529+08:00",
+  "Id": "district-default",
+  "CreatedDate": "2016-04-29T08:59:03.1686191+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-29T09:19:13.9904039+08:00",
-  "WebId": "f77c9d01-3022-4a92-d960-c36fbc35f8d3"
+  "ChangedDate": "2016-04-29T09:01:49.3481431+08:00",
+  "WebId": "94e8aed5-39f8-4907-f3da-fa985f6c69d0"
 }
