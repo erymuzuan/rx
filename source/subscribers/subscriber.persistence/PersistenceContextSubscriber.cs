@@ -195,9 +195,8 @@ namespace Bespoke.Sph.Persistence
                 entities.AddRange(logs);
 
                 var persistence = ObjectBuilder.GetObject<IPersistence>();
-                var so = await persistence.SubmitChanges(entities, deletedItems, null, headers.Username)
-                .ConfigureAwait(false);
-                Debug.Assert(null == so.Exeption, "SQL Persistence should be completed");
+                var so = await persistence.SubmitChanges(entities, deletedItems, null, headers.Username).ConfigureAwait(false);
+                Trace.Write($"SQL Persistence should be completed {so.Exeption?.Message}", "SqlException");
 
                 var logsAddedTask = publisher.PublishAdded(operation, logs, headers.GetRawHeaders());
                 var addedTask = publisher.PublishAdded(operation, addedItems, headers.GetRawHeaders());
