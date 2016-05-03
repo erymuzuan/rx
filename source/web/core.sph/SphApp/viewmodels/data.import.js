@@ -161,6 +161,9 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                          progress(0);
                      });
             },
+            requestCancel = function () {
+                return hub.server.requestCancel();
+            },
             save = function () {
                 var data = ko.toJSON(model);
                 return context.post(data, "/api/data-imports");
@@ -185,6 +188,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                 md.sql(di.sql);
                                 md.batchSize(di.batchSize);
                                 md.name(di.name);
+                                md.delayThrottle(di.delayThrottle);
 
 
                                 modelChanged();
@@ -222,6 +226,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             mapOptions: mapOptions,
             preview: preview,
             importData: importData,
+            requestCancel: requestCancel,
             model: model,
             isBusy: isBusy,
             activate: activate,

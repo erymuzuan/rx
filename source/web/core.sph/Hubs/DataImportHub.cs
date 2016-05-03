@@ -11,8 +11,14 @@ namespace Bespoke.Sph.Web.Hubs
     [Authorize(Roles = "developers,administrators")]
     public class DataImportHub : Hub
     {
+        private static bool m_isCancelRequested;
+        public void RequestCancel()
+        {
+            m_isCancelRequested = true;
+        }
         public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<int> progress)
         {
+            m_isCancelRequested = false;
             var context = new SphDataContext();
             var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
             var mapping = await context.LoadOneAsync<TransformDefinition>(x => x.Id == model.Map);
@@ -51,6 +57,8 @@ namespace Bespoke.Sph.Web.Hubs
 
                     progress.Report(rows);
                 }
+                if (m_isCancelRequested)
+                    return new { statusCode = 206, rows, message = $"Stop requested after {rows} rows imported" };
 
                 lo = await tableAdapter.LoadAsync(model.Sql, lo.CurrentPage + 1, model.BatchSize, false);
             }
