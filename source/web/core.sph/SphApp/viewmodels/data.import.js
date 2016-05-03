@@ -13,6 +13,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
 
         var model = ko.observable({
+            delayThrottle : ko.observable(),
             name: ko.observable(),
             adapter: ko.observable(),
             table: ko.observable(),
@@ -27,6 +28,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             tableOptions = ko.observableArray(),
             entityOptions = ko.observableArray(),
             mapOptions = ko.observableArray(),
+            progress = ko.observable(0),
             isBusy = ko.observable(false),
             canPreview = ko.computed(function () {
                 return model().adapter()
@@ -88,7 +90,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                     };
                 model().table.subscribe(function (a) {
-                    model().sql(String.format("select * from {0} ", a));
+                    var sql1 = String.format("select * from {0} ", a),
+                        sql0 = model().sql();
+                    if (sql0.indexOf(a) < -1)
+                        model().sql(sql1);
+
                     if (!(a && model().entity())) {
                         return Task.fromResult(0);
                     }
@@ -122,6 +128,16 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 $(view).on("click", "div.modal-footer>button", function () {
                     $("div.modal-backdrop").remove();
                 });
+                var pb = $("#progressbar"),
+                        label = $(".progress-label");
+                pb.progressbar({
+                    change: function () {
+                        label.text(pb.progressbar("value") + "%");
+                    },
+                    complete: function () {
+                        label.text("Complete!");
+                    }
+                });
 
             },
             preview = function () {
@@ -137,13 +153,16 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
             },
             importData = function () {
+                progress(1);
                 return hub.server.execute(ko.unwrap(model().Name), ko.mapping.toJS(model))
-                        .progress(function (value) {
-                            logger.info("Done " + value);
-                        })
+                        .progress(progress)
                      .done(function (result) {
                          logger.info(result.message);
+                         progress(0);
                      });
+            },
+            requestCancel = function () {
+                return hub.server.requestCancel();
             },
             save = function () {
                 var data = ko.toJSON(model);
@@ -169,6 +188,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                 md.sql(di.sql);
                                 md.batchSize(di.batchSize);
                                 md.name(di.name);
+                                md.delayThrottle(di.delayThrottle);
 
 
                                 modelChanged();
@@ -198,6 +218,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
         var vm = {
             canPreview: canPreview,
+            progress: progress,
             canImport: canImport,
             entityOptions: entityOptions,
             tableOptions: tableOptions,
@@ -205,6 +226,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             mapOptions: mapOptions,
             preview: preview,
             importData: importData,
+            requestCancel: requestCancel,
             model: model,
             isBusy: isBusy,
             activate: activate,

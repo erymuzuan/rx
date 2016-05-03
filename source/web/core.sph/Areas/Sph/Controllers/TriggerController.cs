@@ -6,6 +6,7 @@ using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
+using Humanizer;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
@@ -79,9 +80,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (string.IsNullOrWhiteSpace(id)) throw new InvalidOperationException("You cannot publish unsaved trigger");
             trigger.IsActive = true;
 
-            var result = await trigger.CompileAsync();
-            if (result.Result)
-                return Json(new { success = false, errors = result.Errors });
+
+            var validationResult = await trigger.ValidateBuildAsync();
+            if (!validationResult.Result)
+                return Json(new { success = false, statusCode = 422, message = $"You have { "error".ToQuantity(validationResult.Errors.Count)} in your trigger", errors = validationResult.Errors, warnings = validationResult.Warnings });
+
+            var cr = await trigger.CompileAsync();
+            if (!cr.Result)
+                return Json(new { success = false, errors = cr.Errors });
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -91,7 +97,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
 
-            return Ok(new { success = true, status = "OK", output = result.Output, message = "Your trigger publishing is ACCEPTEP, please check your output directory" });
+            return Ok(new { success = true, status = "OK", output = cr.Output, message = "Your trigger publishing is ACCEPTEP, please check your output directory" });
         }
 
         [HttpPut]
