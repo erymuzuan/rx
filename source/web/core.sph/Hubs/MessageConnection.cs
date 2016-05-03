@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Web.Hubs
             return base.OnDisconnected(request, connectionId, stopCalled);
         }
 
-        async void ListenerChanged(object sender, EntityChangedEventArgs<Message> e)
+        private async void ListenerChanged(object sender, EntityChangedEventArgs<Message> e)
         {
             IList<string> connections;
             if (!m_connections.TryGetValue(e.Item.UserName, out connections)) return;

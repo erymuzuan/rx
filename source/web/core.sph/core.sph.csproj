@@ -1142,6 +1142,7 @@
     <Compile Include="Helpers\RequestBodyModelBinder.cs" />
     <Compile Include="Helpers\WebCacheManager.cs" />
     <Compile Include="Hubs\AuditTrailConnection.cs" />
+    <Compile Include="Hubs\DataImportHub.cs" />
     <Compile Include="Hubs\SolutionConnection.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />

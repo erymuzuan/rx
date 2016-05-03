@@ -3,6 +3,7 @@
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/jquery.signalR-2.2.0.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/form.designer.g.js" />
@@ -20,6 +21,8 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             sql: ko.observable(),
             map: ko.observable()
         }),
+            connection = null,
+            hub = null,
             adapterOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
             entityOptions = ko.observableArray(),
@@ -35,10 +38,19 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 return canPreview() && model().map() && model().entity();
             }),
             activate = function () {
+                console.log(router);
                 context.getTuplesAsync("EntityDefinition", null, "Id", "Name")
                     .done(entityOptions);
-                return context.getTuplesAsync("Adapter", null, "Id", "Name")
+                context.getTuplesAsync("Adapter", null, "Id", "Name")
                     .done(adapterOptions);
+
+                return $.getScript("/signalr/js")
+                            .then(function () {
+                                connection = $.connection.hub;
+                                hub = $.connection.dataImportHub;
+
+                                return connection.start();
+                            });
             },
             modelChanged = function () {
                 var cloned = ko.toJS(model);
@@ -58,23 +70,23 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
 
                 var filterMapOptions = function (list) {
-                            var filtered = _(list).filter(function (v) {
-                                return v.InputTypeName.indexOf(model().table()) > -1 && v.OutputTypeName.indexOf(model().entity()) > -1;
-                            });
-                            mapOptions(filtered);
-                        },
-                    loadMappings = function(lo) {
-                            var tuples =  _(lo.itemCollection).map(function(v){
-                                return {
-                                    Id : ko.unwrap(v.Id),
-                                    Name : ko.unwrap(v.Name),
-                                    InputTypeName : ko.unwrap(v.InputTypeName),
-                                    OutputTypeName : ko.unwrap(v.OutputTypeName)
-                                }
-                            });
-                           filterMapOptions(tuples); 
-                            
-                        };
+                    var filtered = _(list).filter(function (v) {
+                        return v.InputTypeName.indexOf(model().table()) > -1 && v.OutputTypeName.indexOf(model().entity()) > -1;
+                    });
+                    mapOptions(filtered);
+                },
+                    loadMappings = function (lo) {
+                        var tuples = _(lo.itemCollection).map(function (v) {
+                            return {
+                                Id: ko.unwrap(v.Id),
+                                Name: ko.unwrap(v.Name),
+                                InputTypeName: ko.unwrap(v.InputTypeName),
+                                OutputTypeName: ko.unwrap(v.OutputTypeName)
+                            }
+                        });
+                        filterMapOptions(tuples);
+
+                    };
                 model().table.subscribe(function (a) {
                     model().sql(String.format("select * from {0} ", a));
                     if (!(a && model().entity())) {
@@ -110,6 +122,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 $(view).on("click", "div.modal-footer>button", function () {
                     $("div.modal-backdrop").remove();
                 });
+
             },
             preview = function () {
                 var tcs = new $.Deferred();
@@ -124,7 +137,10 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
             },
             importData = function () {
-                return context.post(ko.mapping.toJSON(model), "/api/data-imports/" + ko.unwrap(model().Name) + "/execute")
+                return hub.server.execute(ko.unwrap(model().Name), ko.mapping.toJS(model))
+                        .progress(function (value) {
+                            logger.info("Done " + value);
+                        })
                      .done(function (result) {
                          logger.info(result.message);
                      });
@@ -145,7 +161,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         .done(function (result) {
                             if (result === "OK") {
                                 isBusy(true);
-                                
+
                                 var md = model(),
                                     di = dialog.model();
                                 md.adapter(di.adapter);
@@ -157,17 +173,17 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                                 modelChanged();
 
-                                setTimeout(function(){
+                                setTimeout(function () {
                                     md.table(di.table);
 
-                                    setTimeout(function(){
+                                    setTimeout(function () {
                                         md.map(di.map);
                                         tcs.resolve(true);
                                         isBusy(false);
-                                    },800);
+                                    }, 800);
 
-                                },500);
-                            }else{
+                                }, 500);
+                            } else {
                                 tcs.resolve(false);
                                 isBusy(false);
                             }

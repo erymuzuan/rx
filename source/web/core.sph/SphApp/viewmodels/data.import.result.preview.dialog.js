@@ -1,4 +1,5 @@
 ﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+/// <reference path="../../Scripts/jquery.signalR-2.2.0.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -10,9 +11,11 @@
 
 
 define(["plugins/dialog", objectbuilders.datacontext],
-    function(dialog, context) {
+    function (dialog, context) {
 
         var model = ko.observable(),
+            connection = $.connection.hub,
+            hub = $.connection.dataImportHub,
             tableOptions = ko.observableArray(),
             previewResult = ko.observable(),
             okClick = function (data, ev) {
@@ -21,15 +24,17 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 }
 
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
-            activate = function() {
-
-                return context.post(ko.mapping.toJSON(model), "/api/data-imports/preview")
-                     .done(previewResult);
+            activate = function () {
+                return connection.start()
+                    .then(function () {
+                        return hub.server.preview(ko.mapping.toJS(model));
+                    })
+                     .then(previewResult);
             },
-            attached = function(view) {
+            attached = function (view) {
                 var table = _(tableOptions()).find(function (v) { return v.Name === model().table(); }),
                     thead = "<tr>";
                 _(ko.unwrap(table.MemberCollection)).each(function (v) {
@@ -52,9 +57,9 @@ define(["plugins/dialog", objectbuilders.datacontext],
 
         var vm = {
             activate: activate,
-            attached : attached,
+            attached: attached,
             model: model,
-            tableOptions : tableOptions,
+            tableOptions: tableOptions,
             okClick: okClick,
             cancelClick: cancelClick
         };
