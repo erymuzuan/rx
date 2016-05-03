@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Web.Hubs
     [Authorize(Roles = "developers,administrators")]
     public class DataImportHub : Hub
     {
-        public async Task<object> Execute(IProgress<int> progress, string name, ImportDataViewModel model)
+        public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<int> progress)
         {
             var context = new SphDataContext();
             var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
@@ -46,13 +46,23 @@ namespace Bespoke.Sph.Web.Hubs
                     }
 
                     await session.SubmitChanges("Import");
+                    if (model.DelayThrottle.HasValue)
+                        await Task.Delay(model.DelayThrottle.Value);
+
                     progress.Report(rows);
                 }
 
                 lo = await tableAdapter.LoadAsync(model.Sql, lo.CurrentPage + 1, model.BatchSize, false);
             }
 
-            return new { success = true, rows, message = $"successfully imported {rows}", status = "OK" };
+            return new
+            {
+                statusCode = 200,
+                success = true,
+                rows,
+                message = $"successfully imported {rows}",
+                status = "OK"
+            };
         }
 
         public async Task<object> Preview(ImportDataViewModel model)
@@ -91,10 +101,6 @@ namespace Bespoke.Sph.Web.Hubs
 
             var type = dll.GetType(mapping.FullTypeName);
             return Activator.CreateInstance(type);
-        }
-        public void Dispose()
-        {
-            //
         }
     }
 }

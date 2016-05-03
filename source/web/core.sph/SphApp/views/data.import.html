@@ -4,7 +4,7 @@
         <div class="form-group">
             <label for="import-name" class="col-lg-2 control-label">Name</label>
             <div class="col-lg-6">
-                <input required class="form-control" id="import-name" data-bind="value:model().name" placeholder="Give it a name, so that you can save it" maxlength="255"/>
+                <input required class="form-control" id="import-name" data-bind="value:model().name" placeholder="Give it a name, so that you can save it" maxlength="255" />
             </div>
         </div>
         <div class="form-group">
@@ -60,7 +60,7 @@
                 </button>
             </div>
         </div>
-     
+
         <div class="form-group">
             <label for="entity" class="col-lg-2 control-label">Entity</label>
             <div class="col-lg-6">
@@ -77,19 +77,40 @@
             <div class="col-lg-6">
                 <select class="form-control" id="map" data-bind="value: model().map, options: mapOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your map]'"></select>
             </div>
-
             <div class="col-lg-3">
                 <i class="fa fa-question-circle" data-bind="tooltip:'A TransformDefinition will map your source schema to the selected EntityDefinition schema, if you don\'t have one, you should create one before using this data import utility'"></i>
             </div>
         </div>
+        <div class="form-group">
+            <label for="delay-throttle" class="col-lg-2 control-label">Delay Throttle</label>
+            <div class="col-lg-6">
+                <input type="number" data-bind="value: model().delayThrottle"
+                       step="100" max="5000"
+                       placeholder="Set the delay between batch, increasing the delay will not crunch your processor too much"
+                       class="form-control" id="delay-throttle">
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="submit" class="col-lg-2 control-label">-</label>
             <div class="col-lg-6">
                 <button data-bind="command : importData, enable: canImport" class="btn btn-default" id="submit">
                     <i class="fa fa-database"></i>
                     <span> Start Import</span>
-                   
                 </button>
+            </div>
+        </div>
+
+        <div class="form-group" data-bind="visible:$root.progress">
+            <label for="submit" class="col-lg-2 control-label sr-only">-</label>
+            <div class="col-lg-8">
+                <div class="progress">
+                    <div data-bind="value:$root.progress, attr :{'aria-valuenow' : $root.progress}" id="progressbar"
+                         class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="10" aria-valuemin="0"
+                         aria-valuemax="10000" style="width: 100%">
+                        <span class="label label-info" data-bind="text:$root.progress">45% Complete</span>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
