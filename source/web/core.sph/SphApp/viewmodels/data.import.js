@@ -217,16 +217,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             };
 
         var vm = {
-            canPreview: canPreview,
             progress: progress,
-            canImport: canImport,
             entityOptions: entityOptions,
             tableOptions: tableOptions,
             adapterOptions: adapterOptions,
             mapOptions: mapOptions,
-            preview: preview,
-            importData: importData,
-            requestCancel: requestCancel,
             model: model,
             isBusy: isBusy,
             activate: activate,
@@ -234,7 +229,29 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAsync,
-                openCommand: openSnippet
+                openCommand: openSnippet,
+                commands: ko.observableArray([
+                    {
+                        caption: "Preview",
+                        icon: "fa fa-th-list",
+                        command: preview,
+                        enable : canPreview
+                    },
+                    {
+                        caption: "Starts",
+                        icon: "fa fa-play-circle",
+                        command: importData,
+                        enable : canImport
+                    },
+                    {
+                        caption: "Stop",
+                        icon: "fa fa-stop-circle-o",
+                        command: requestCancel,
+                        enable : ko.computed(function() {
+                            return ko.unwrap(progress) > 0;
+                        })
+                    }
+                ])
             }
         };
 

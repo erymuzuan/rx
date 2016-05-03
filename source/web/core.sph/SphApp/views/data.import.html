@@ -48,18 +48,6 @@
                 <i class="fa fa-question-circle" data-bind="tooltip:'The size of the query result processed at one time, the default is 40, smaller batch size is good for memory but might take a little longer'"></i>
             </div>
         </div>
-        <div class="form-group">
-            <label for="preview" class="col-lg-2 control-label">Preview</label>
-            <div class="col-lg-6">
-                <button data-bind="command : preview, enable: canPreview"
-                        class="btn btn-default" id="preview"
-                        data-toggle="modal" data-target="#preview-panel">
-
-                    <i class="fa fa-eye"></i>
-                    <span>Preview</span>
-                </button>
-            </div>
-        </div>
 
         <div class="form-group">
             <label for="entity" class="col-lg-2 control-label">Entity</label>
@@ -84,7 +72,7 @@
         <div class="form-group">
             <label for="delay-throttle" class="col-lg-2 control-label">Delay Throttle</label>
             <div class="col-lg-6">
-                <input type="number" data-bind="value: model().delayThrottle"
+                <input type="number" data-bind="value: model().delayThrottle, tooltip :'Set the delay between batch, increasing the delay will not crunch your processor too much'"
                        step="100" max="5000"
                        placeholder="Set the delay between batch, increasing the delay will not crunch your processor too much"
                        class="form-control" id="delay-throttle">
@@ -92,7 +80,7 @@
         </div>
 
         <div class="form-group" data-bind="visible:$root.progress">
-            <label for="submit" class="col-lg-2 control-label sr-only">-</label>
+            <label class="col-lg-2 control-label sr-only">-</label>
             <div class="col-lg-6">
                 <div class="progress">
                     <div data-bind="value:$root.progress, attr :{'aria-valuenow' : $root.progress}" id="progressbar"
@@ -102,19 +90,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2">
-                <button data-bind="click : $root.requestCancel" class="btn btn-danger">Stop</button>
-            </div>
+         
         </div>
-        <div class="form-group">
-            <label for="submit" class="col-lg-2 control-label">-</label>
-            <div class="col-lg-6">
-                <button data-bind="command : importData, enable: canImport" class="btn btn-default" id="submit">
-                    <i class="fa fa-database"></i>
-                    <span> Start Import</span>
-                </button>
-            </div>
-        </div>
+ 
 
     </form>
 </div>
