@@ -28,7 +28,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             tableOptions = ko.observableArray(),
             entityOptions = ko.observableArray(),
             mapOptions = ko.observableArray(),
-            progress = ko.observable(0),
+            progress = ko.observable({
+                busy : ko.observable(false),
+                Rows: ko.observable(0),
+                ElasticsearchQueue: {
+                    Name: ko.observable("es.data-import"),
+                    MessagesCount: ko.observable("NA"),
+                    Rate: ko.observable("NA"),
+                    Unacked : ko.observable("NA")
+                },
+                SqlServerQueue: {
+                    Name: ko.observable("es.data-import"),
+                    MessagesCount: ko.observable("NA"),
+                    Rate: ko.observable("NA"),
+                    Unacked : ko.observable("NA")
+                }
+            }),
             isBusy = ko.observable(false),
             canPreview = ko.computed(function () {
                 return model().adapter()
@@ -153,12 +168,21 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
             },
             importData = function () {
-                progress(1);
+                progress().busy(true);
                 return hub.server.execute(ko.unwrap(model().Name), ko.mapping.toJS(model))
-                        .progress(progress)
+                        .progress(function (p) {
+                           if (p.Rows === -1) {
+                               progress().ElasticsearchQueue.MessagesCount(p.ElasticsearchQueue.MessagesCount);
+                               progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
+                               progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
+                               progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
+                           } else {
+                               progress().Rows(p.Rows);
+                           }
+                    })
                      .done(function (result) {
                          logger.info(result.message);
-                         progress(0);
+                         progress().busy(false);
                      });
             },
             requestCancel = function () {
@@ -232,7 +256,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             };
 
         var vm = {
-            progress: progress,
+            progressData: progress,
             entityOptions: entityOptions,
             tableOptions: tableOptions,
             adapterOptions: adapterOptions,
@@ -262,9 +286,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         caption: "Stop",
                         icon: "fa fa-stop-circle-o",
                         command: requestCancel,
-                        enable: ko.computed(function () {
-                            return ko.unwrap(progress) > 0;
-                        })
+                        enable: progress().busy
                     },
                     {
                         caption: "Truncate all data",

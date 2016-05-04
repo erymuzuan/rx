@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.ViewModels;
+using Humanizer;
 using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Web.Hubs
 {
@@ -49,7 +52,32 @@ namespace Bespoke.Sph.Web.Hubs
 
         }
 
-        public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<int> progress)
+        public class Queue
+        {
+            public string Name { get; set; }
+            public int MessagesCount { get; set; }
+            protected double Rate { get; set; }
+
+            public Queue(string name, int count, double rate)
+            {
+                this.Name = name;
+                this.MessagesCount = count;
+                this.Rate = rate;
+
+            }
+        }
+        public class ProgressData
+        {
+            public int Rows { get; set; }
+            public Queue ElasticsearchQueue { get; set; } = new Queue("es.data-import", 0, 0);
+            public Queue SqlServerQueue { get; set; } = new Queue("persistence", 0, 0);
+            public ProgressData(int rows)
+            {
+                Rows = rows;
+            }
+        }
+
+        public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<ProgressData> progress)
         {
             m_isCancelRequested = false;
             var context = new SphDataContext();
@@ -75,6 +103,8 @@ namespace Bespoke.Sph.Web.Hubs
             {
                 {"data-import", true}
             };
+
+            var rabbitTask = GetQueueStatusAsync(progress);
             var lo = await tableAdapter.LoadAsync(model.Sql, 1, model.BatchSize, false);
             while (lo.ItemCollection.Count > 0)
             {
@@ -92,14 +122,14 @@ namespace Bespoke.Sph.Web.Hubs
                     if (model.DelayThrottle.HasValue)
                         await Task.Delay(model.DelayThrottle.Value);
 
-                    progress.Report(rows);
+                    progress.Report(new ProgressData(rows));
                 }
                 if (m_isCancelRequested)
                     return new { statusCode = 206, rows, message = $"Stop requested after {rows} rows imported" };
 
                 lo = await tableAdapter.LoadAsync(model.Sql, lo.CurrentPage + 1, model.BatchSize, false);
             }
-
+            await rabbitTask;
             return new
             {
                 statusCode = 200,
@@ -110,6 +140,35 @@ namespace Bespoke.Sph.Web.Hubs
             };
         }
 
+        private readonly HttpClient m_client = new HttpClient { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}") };
+        private async Task GetQueueStatusAsync(IProgress<ProgressData> progress)
+        {
+            await Task.Delay(5.Seconds());
+            var byteArray = Encoding.ASCII.GetBytes($"{ConfigurationManager.RabbitMqUserName}:{ConfigurationManager.RabbitMqPassword}");
+            m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+            var sql = 1;
+            var es = 1;
+            while (sql > 0 || es > 0)
+            {
+                await Task.Delay(2.Seconds());
+
+                var json = await m_client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/persistence");
+                var jo = JObject.Parse(json);
+                sql = jo.SelectToken("$.messages").Value<int>();
+                var sqlRate = jo.SelectToken("$.messages_details.rate").Value<double>();
+
+                var esjson = await m_client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/es.data-import");
+                var ejo = JObject.Parse(esjson);
+                es = ejo.SelectToken("$.messages").Value<int>();
+                var esRate = ejo.SelectToken("$.messages_details.rate").Value<double>();
+                progress.Report(new ProgressData(-1)
+                {
+                    SqlServerQueue = new Queue("persistence", sql, sqlRate),
+                    ElasticsearchQueue = new Queue("es.data-import", es, esRate)
+                });
+            }
+
+        }
         public async Task<object> Preview(ImportDataViewModel model)
         {
             var context = new SphDataContext();
