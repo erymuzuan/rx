@@ -10,7 +10,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         private readonly ReceivedMessageArgs m_args;
         public const string SPH_TRYCOUNT = "sph.trycount";
-        public const string SPH_DELAY= "sph.delay";
+        public const string SPH_DELAY = "sph.delay";
 
         public MessageHeaders(ReceivedMessageArgs args)
         {
@@ -56,6 +56,177 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 return null;
             }
         }
+
+        public T GetValue<T>(string key)
+        {
+            if (!m_args.Properties.Headers.ContainsKey(key))
+                return default(T);
+            var blob = m_args.Properties.Headers[key];
+            if (null != blob)
+            {
+                if (blob.GetType() == typeof(T))
+                    return (T) blob;
+            }
+
+            var operationBytes = blob as byte[];
+            if (null == operationBytes) return default(T);
+            var sct = ByteToString(operationBytes);
+            if (typeof(T) == typeof(bool))
+            {
+                bool boolValue;
+                if (bool.TryParse(sct, out boolValue))
+                {
+                    object f = boolValue;
+                    return (T) f;
+                }
+            }
+
+            if (typeof(T) == typeof(int))
+            {
+                int val;
+                if (int.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+            if (typeof(T) == typeof(double))
+            {
+                double val;
+                if (double.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+            if (typeof(T) == typeof(decimal))
+            {
+                decimal val;
+                if (decimal.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+            if (typeof(T) == typeof(float))
+            {
+                float val;
+                if (float.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+            if (typeof(T) == typeof(DateTime))
+            {
+                DateTime val;
+                if (DateTime.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+
+            return default(T);
+
+        }
+
+        public T? GetNullableValue<T>(string key) where T: struct 
+        {
+            if (!m_args.Properties.Headers.ContainsKey(key))
+                return new T?();
+            var blob = m_args.Properties.Headers[key];
+            if (null != blob)
+            {
+                if (blob.GetType() == typeof(T))
+                    return (T) blob;
+            }
+
+            var bytes = blob as byte[];
+            if (null == bytes) return default(T);
+            var sct = ByteToString(bytes);
+            if (typeof(T) == typeof(bool))
+            {
+                bool boolValue;
+                if (bool.TryParse(sct, out boolValue))
+                {
+                    object f = boolValue;
+                    return (T) f;
+                }
+            }
+
+            if (typeof(T) == typeof(int))
+            {
+                int val;
+                if (int.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+            if (typeof(T) == typeof(double))
+            {
+                double val;
+                if (double.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+            if (typeof(T) == typeof(decimal))
+            {
+                decimal val;
+                if (decimal.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+            if (typeof(T) == typeof(float))
+            {
+                float val;
+                if (float.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+            if (typeof(T) == typeof(DateTime))
+            {
+                DateTime val;
+                if (DateTime.TryParse(sct, out val))
+                {
+                    object f = val;
+                    return (T) f;
+                }
+            }
+
+            return new T?(); 
+
+        }
+        public bool? LogAuditTrail
+        {
+            get
+            {
+                const string KEY = "log.audit.trail";
+                if (!m_args.Properties.Headers.ContainsKey(KEY))
+                    return null;
+                var blob = m_args.Properties.Headers[KEY];
+                if (blob is bool)
+                    return (bool)blob;
+
+                var operationBytes = blob as byte[];
+                if (null != operationBytes)
+                {
+                    var sct = ByteToString(operationBytes);
+                    bool tryCount;
+                    if (bool.TryParse(sct, out tryCount))
+                        return tryCount;
+                }
+
+                return null;
+            }
+        }
         public int? TryCount
         {
             get
@@ -64,9 +235,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     return null;
                 var blob = m_args.Properties.Headers[SPH_TRYCOUNT];
                 if (blob is int)
-                    return (int) blob;
+                    return (int)blob;
 
-                var operationBytes =  blob as byte[];
+                var operationBytes = blob as byte[];
                 if (null != operationBytes)
                 {
                     var sct = ByteToString(operationBytes);
@@ -86,11 +257,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     return null;
                 var blob = m_args.Properties.Headers[SPH_DELAY];
                 if (blob is int)
-                    return (int) blob;
+                    return (int)blob;
                 if (blob is long)
-                    return (long) blob;
+                    return (long)blob;
 
-                var operationBytes =  blob as byte[];
+                var operationBytes = blob as byte[];
                 if (null != operationBytes)
                 {
                     var sct = ByteToString(operationBytes);

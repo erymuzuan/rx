@@ -6,6 +6,7 @@ namespace Bespoke.Sph.Domain
 {
     public interface IPersistence
     {
+        Task<SubmitOperation> BulkInsertAsync(IEnumerable<Entity> items) ;
         Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session, string user);
         Task<SubmitOperation> SubmitChanges(Entity item, string user);
     }

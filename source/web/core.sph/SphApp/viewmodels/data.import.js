@@ -9,11 +9,11 @@
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="~/Scripts/_task.js" />
 
-define(["services/datacontext", "services/logger", "plugins/router"],
-    function (context, logger, router) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
+    function (context, logger, router, app) {
 
         var model = ko.observable({
-            delayThrottle : ko.observable(),
+            delayThrottle: ko.observable(),
             name: ko.observable(),
             adapter: ko.observable(),
             table: ko.observable(),
@@ -28,7 +28,22 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             tableOptions = ko.observableArray(),
             entityOptions = ko.observableArray(),
             mapOptions = ko.observableArray(),
-            progress = ko.observable(0),
+            progress = ko.observable({
+                busy : ko.observable(false),
+                Rows: ko.observable(0),
+                ElasticsearchQueue: {
+                    Name: ko.observable("es.data-import"),
+                    MessagesCount: ko.observable("NA"),
+                    Rate: ko.observable("NA"),
+                    Unacked : ko.observable("NA")
+                },
+                SqlServerQueue: {
+                    Name: ko.observable("es.data-import"),
+                    MessagesCount: ko.observable("NA"),
+                    Rate: ko.observable("NA"),
+                    Unacked : ko.observable("NA")
+                }
+            }),
             isBusy = ko.observable(false),
             canPreview = ko.computed(function () {
                 return model().adapter()
@@ -153,16 +168,40 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
             },
             importData = function () {
-                progress(1);
+                progress().busy(true);
                 return hub.server.execute(ko.unwrap(model().Name), ko.mapping.toJS(model))
-                        .progress(progress)
+                        .progress(function (p) {
+                           if (p.Rows === -1) {
+                               progress().ElasticsearchQueue.MessagesCount(p.ElasticsearchQueue.MessagesCount);
+                               progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
+                               progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
+                               progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
+                           } else {
+                               progress().Rows(p.Rows);
+                           }
+                    })
                      .done(function (result) {
                          logger.info(result.message);
-                         progress(0);
+                         progress().busy(false);
                      });
             },
             requestCancel = function () {
                 return hub.server.requestCancel();
+            },
+            truncateData = function () {
+                var tcs = new $.Deferred();
+
+                app.showMessage("TRUNCATE all data, you'll lose all the data is SQL and Elasticsearch", "RX Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+                            hub.server.truncateData(ko.unwrap(model().Name), ko.mapping.toJS(model))
+                            .done(tcs.resolve);
+                        } else {
+                            tcs.resolve(false);
+                        }
+                    });
+
+                return tcs.promise();
             },
             save = function () {
                 var data = ko.toJSON(model);
@@ -217,16 +256,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             };
 
         var vm = {
-            canPreview: canPreview,
-            progress: progress,
-            canImport: canImport,
+            progressData: progress,
             entityOptions: entityOptions,
             tableOptions: tableOptions,
             adapterOptions: adapterOptions,
             mapOptions: mapOptions,
-            preview: preview,
-            importData: importData,
-            requestCancel: requestCancel,
             model: model,
             isBusy: isBusy,
             activate: activate,
@@ -234,7 +268,33 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAsync,
-                openCommand: openSnippet
+                openCommand: openSnippet,
+                commands: ko.observableArray([
+                    {
+                        caption: "Preview",
+                        icon: "fa fa-th-list",
+                        command: preview,
+                        enable: canPreview
+                    },
+                    {
+                        caption: "Starts",
+                        icon: "fa fa-play-circle",
+                        command: importData,
+                        enable: canImport
+                    },
+                    {
+                        caption: "Stop",
+                        icon: "fa fa-stop-circle-o",
+                        command: requestCancel,
+                        enable: progress().busy
+                    },
+                    {
+                        caption: "Truncate all data",
+                        icon: "fa fa-trash-o",
+                        command: truncateData,
+                        enable: canImport
+                    }
+                ])
             }
         };
 
