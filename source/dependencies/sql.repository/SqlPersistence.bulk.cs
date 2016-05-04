@@ -99,17 +99,10 @@ namespace Bespoke.Sph.SqlRepository
 
                 if (conn.State == ConnectionState.Closed)
                     await conn.OpenAsync();
-                try
-                {
-                    var rows = await cmd.ExecuteNonQueryAsync();
-                    var so = new SubmitOperation { RowsAffected = rows };
-                    return so;
-                }
-                catch (Exception e)
-                {
-                    ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(e));
-                    throw;
-                }
+                var rows = await cmd.ExecuteNonQueryAsync();
+                var so = new SubmitOperation { RowsAffected = rows };
+                return so;
+          
 
             }
 

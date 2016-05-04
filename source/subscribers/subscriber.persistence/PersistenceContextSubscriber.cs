@@ -11,6 +11,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Humanizer;
 using Newtonsoft.Json.Linq;
+using Polly;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.Persistence
@@ -140,7 +141,7 @@ namespace Bespoke.Sph.Persistence
         {
             Interlocked.Increment(ref m_processing);
             var body = e.Body;
-            var json = await this.DecompressAsync(body);
+            var json = await DecompressAsync(body);
             var headers = new MessageHeaders(e);
             var operation = headers.Operation;
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
@@ -152,8 +153,11 @@ namespace Bespoke.Sph.Persistence
             var persistence = ObjectBuilder.GetObject<IPersistence>();
             if (headers.GetValue<bool>("data-import"))
             {
-                await InsertImportDataAsync(entities.ToArray());
-                m_channel.BasicAck(e.DeliveryTag, false);
+                var bulk = await InsertImportDataAsync(entities.ToArray());
+                if (bulk)
+                    m_channel.BasicAck(e.DeliveryTag, false);
+                else
+                    m_channel.BasicReject(e.DeliveryTag, false);
                 return;
             }
 
@@ -250,14 +254,31 @@ namespace Bespoke.Sph.Persistence
             }
         }
 
-        private static async Task InsertImportDataAsync(Entity[] entities)
+        private async Task<bool> InsertImportDataAsync(Entity[] entities)
         {
             var persistence = ObjectBuilder.GetObject<IPersistence>();
-            await persistence.BulkInsertAsync(entities);
+            try
+            {
+                var policy = Policy.Handle<SqlException>(ex => ex.Message.Contains("deadlocked"))
+                    .WaitAndRetryAsync(3, c => TimeSpan.FromSeconds(5 * c),
+                        (ex, ts) =>
+                        {
+                            this.WriteMessage($"Waiting for retry in {ts.Seconds} seconds : \r\n{ex.Message}");
+                        })
+                    .ExecuteAsync(() => persistence.BulkInsertAsync(entities))
+                    .ConfigureAwait(false);
+                await policy;
+                return true;
+            }
+            catch (Exception e)
+            {
+                ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(e));
+            }
+            return false;
         }
 
 
-        private async Task<string> DecompressAsync(byte[] content)
+        private static async Task<string> DecompressAsync(byte[] content)
         {
             using (var orginalStream = new MemoryStream(content))
             using (var destinationStream = new MemoryStream())

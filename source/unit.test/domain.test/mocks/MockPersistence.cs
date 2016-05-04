@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
@@ -28,13 +27,9 @@ namespace domain.test
 
         public Task<SubmitOperation> SubmitChanges(Entity item, string user)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        private readonly List<Entity> m_changedItems = new List<Entity>();
-        public List<Entity> ChangedItems
-        {
-            get { return m_changedItems; }
-        }
+        public List<Entity> ChangedItems { get; } = new List<Entity>();
     }
 }
