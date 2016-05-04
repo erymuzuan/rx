@@ -248,6 +248,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             addOperationEndpoint = function () {
                 return nis.addOperationEndpoint(ko.unwrap(entity().Name));
+            },
+            truncateData = function () {
+                var tcs = new $.Deferred();
+
+                app.showMessage("TRUNCATE all data, you'll lose all the data is SQL and Elasticsearch", "RX Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+                            context.sendDelete("/entity-definition/" + entity().Name() + "/contents")
+                                .fail(tcs.reject)
+                                .done(tcs.resolve);
+                        } else {
+                            tcs.resolve(false);
+                        }
+                    });
+
+                return tcs.promise();
             };
 
 
@@ -311,6 +327,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             if (!ent) return false;
                             return ko.unwrap(ent.Id) && ko.unwrap(ent.IsPublished);
                         })
+                    },
+                    {
+                        caption: "Truncate all data",
+                        icon: "fa fa-trash-o",
+                        command: truncateData
                     }])
             }
         };
