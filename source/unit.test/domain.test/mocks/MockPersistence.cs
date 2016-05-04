@@ -8,6 +8,13 @@ namespace domain.test
 {
     internal class MockPersistence : IPersistence
     {
+     
+
+        public Task<SubmitOperation> BulkInsertAsync(IEnumerable<Entity> items)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session, string user)
         {
             foreach (var item in addedOrUpdatedItems)

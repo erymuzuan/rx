@@ -11,7 +11,7 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SqlRepository
 {
-    public class SqlPersistence : IPersistence
+    public partial class SqlPersistence : IPersistence
     {
         private readonly string m_connectionString;
 

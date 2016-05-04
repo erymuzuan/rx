@@ -75,6 +75,7 @@
     <Compile Include="Column.cs" />
     <Compile Include="ISqlServerMetadata.cs" />
     <Compile Include="SqlBinaryStore.cs" />
+    <Compile Include="SqlPersistence.bulk.cs" />
     <Compile Include="SqlRepository.aggregate.expression.cs">
       <DependentUpon>SqlRepository.cs</DependentUpon>
     </Compile>

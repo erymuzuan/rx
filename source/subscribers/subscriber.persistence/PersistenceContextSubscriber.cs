@@ -18,12 +18,8 @@ namespace Bespoke.Sph.Persistence
     public class PersistenceContextSubscriber : Subscriber
     {
         public override string QueueName => "persistence";
-
         public override string[] RoutingKeys => new[] { "persistence" };
-
         private TaskCompletionSource<bool> m_stoppingTcs;
-
-
 
         public override void Run(IConnection connection)
         {
@@ -143,7 +139,7 @@ namespace Bespoke.Sph.Persistence
         private async void Received(object sender, ReceivedMessageArgs e)
         {
             Interlocked.Increment(ref m_processing);
-            byte[] body = e.Body;
+            var body = e.Body;
             var json = await this.DecompressAsync(body);
             var headers = new MessageHeaders(e);
             var operation = headers.Operation;
@@ -153,7 +149,13 @@ namespace Bespoke.Sph.Persistence
             var entities = jo.SelectToken("$.attached").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
             var deletedItems = jo.SelectToken("$.deleted").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
 
-
+            var persistence = ObjectBuilder.GetObject<IPersistence>();
+            if (headers.GetValue<bool>("data-import"))
+            {
+                await InsertImportDataAsync(entities.ToArray());
+                m_channel.BasicAck(e.DeliveryTag, false);
+                return;
+            }
 
             try
             {
@@ -166,6 +168,7 @@ namespace Bespoke.Sph.Persistence
                 {
                     this.WriteMessage("Deleting({0}) {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
                 }
+
                 // get changes to items
                 var previous = await GetPreviousItems(entities);
                 var logs = (from r in entities
@@ -194,10 +197,11 @@ namespace Bespoke.Sph.Persistence
                                     select r).ToArray();
                 entities.AddRange(logs);
 
-                var persistence = ObjectBuilder.GetObject<IPersistence>();
+
+
                 var so = await persistence.SubmitChanges(entities, deletedItems, null, headers.Username)
                 .ConfigureAwait(false);
-                Debug.Assert(null == so.Exeption, "SQL Persistence should be completed");
+                Trace.WriteIf(null != so.Exeption, so.Exeption);
 
                 var logsAddedTask = publisher.PublishAdded(operation, logs, headers.GetRawHeaders());
                 var addedTask = publisher.PublishAdded(operation, addedItems, headers.GetRawHeaders());
@@ -244,6 +248,12 @@ namespace Bespoke.Sph.Persistence
             {
                 Interlocked.Decrement(ref m_processing);
             }
+        }
+
+        private static async Task InsertImportDataAsync(Entity[] entities)
+        {
+            var persistence = ObjectBuilder.GetObject<IPersistence>();
+            await persistence.BulkInsertAsync(entities);
         }
 
 
