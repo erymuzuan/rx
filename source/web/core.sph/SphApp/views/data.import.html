@@ -2,17 +2,25 @@
 <div class="row" data-bind="with : progressData">
     <ul class="nav nav-pills" role="tablist" data-bind="visible:busy">
         <li role="presentation" class="active"><a href="javascript:;">Imported Rows <span class="badge" data-bind="text:Rows">42</span></a></li>
-        <li role="presentation" class="active" data-bind="with : SqlServerQueue"><a href="javascript:;">Sql Server Queue<span class="badge" data-bind="text:MessagesCount">3</span></a></li>
-        <li role="presentation" class="active" data-bind="with : ElasticsearchQueue"><a href="javascript:;">
-            Elasticsearch Queue
-            <span class="badge" data-bind="text:MessagesCount">3</span>
+        <li role="presentation" class="active" data-bind="with : SqlServerQueue">
+            <a href="javascript:;">
+                Sql Server Queue
+                <span class="badge" data-bind="text:MessagesCount">3</span>
+                <span class="badge" data-bind="text:ko.unwrap(Rate) + '/s'">3</span>
             </a>
-            </li>
+        </li>
+        <li role="presentation" class="active" data-bind="with : ElasticsearchQueue">
+            <a href="javascript:;">
+                Elasticsearch Queue
+                <span class="badge" data-bind="text:MessagesCount">3</span>
+                <span class="badge" data-bind="text:ko.unwrap(Rate) + '/s'">3</span>
+            </a>
+        </li>
     </ul>
 </div>
 <div class="row" id="data-import-view-panel">
 
-   
+
     <form class="form-horizontal">
         <div class="form-group">
             <label for="import-name" class="col-lg-2 control-label">Name</label>

@@ -17,14 +17,32 @@ namespace Bespoke.Sph.Web.Hubs
     [Authorize(Roles = "developers,administrators")]
     public class DataImportHub : Hub
     {
+
         private static bool m_isCancelRequested;
-        public void RequestCancel()
+        private readonly HttpClient m_client = new HttpClient { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}") };
+
+        public DataImportHub()
+        {
+            var byteArray = Encoding.ASCII.GetBytes($"{ConfigurationManager.RabbitMqUserName}:{ConfigurationManager.RabbitMqPassword}");
+            m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+        }
+
+        public async Task RequestCancel()
         {
             m_isCancelRequested = true;
+            await Task.Delay(5.Seconds());
+            // now purge the queues
+            await m_client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/persistence/contents");
+            await m_client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
         }
 
         public async Task TruncateData(string name, ImportDataViewModel model)
         {
+            // purge the queues
+            await m_client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/persistence/contents");
+            await m_client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
+
+            // delete the elasticsearch
             using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
             {
                 var message = new HttpRequestMessage(HttpMethod.Delete,
@@ -40,6 +58,7 @@ namespace Bespoke.Sph.Web.Hubs
                 await client.SendAsync(message);
             }
 
+            // truncate SQL Table
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
             using (var truncateCommand = new SqlCommand($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{model.Entity}]", conn))
             using (var dbccCommand = new SqlCommand($"DBCC SHRINKDATABASE ({ConfigurationManager.ApplicationName})", conn))
@@ -56,24 +75,57 @@ namespace Bespoke.Sph.Web.Hubs
         {
             public string Name { get; set; }
             public int MessagesCount { get; set; }
-            protected double Rate { get; set; }
+            public double Rate { get; set; }
+            public int Unacked { get; set; }
 
             public Queue(string name, int count, double rate)
             {
                 this.Name = name;
                 this.MessagesCount = count;
                 this.Rate = rate;
+            }
 
+            public Queue(string name, int count, double rate, int unacked)
+            {
+                this.Name = name;
+                this.MessagesCount = count;
+                this.Rate = rate;
+                this.Unacked = unacked;
             }
         }
+
         public class ProgressData
         {
             public int Rows { get; set; }
             public Queue ElasticsearchQueue { get; set; } = new Queue("es.data-import", 0, 0);
             public Queue SqlServerQueue { get; set; } = new Queue("persistence", 0, 0);
+
             public ProgressData(int rows)
             {
                 Rows = rows;
+            }
+
+            public static ProgressData Parse(string es, string sql)
+            {
+                var pd = new ProgressData(-1)
+                {
+                    SqlServerQueue = ParseQueue(sql),
+                    ElasticsearchQueue = ParseQueue(es)
+                };
+
+
+                return pd;
+            }
+            private static Queue ParseQueue(string json)
+            {
+                var jo = JObject.Parse(json);
+                var name = jo.SelectToken("$.name").Value<string>();
+                var messages = jo.SelectToken("$.messages").Value<int>();
+                var deliveries = jo.SelectToken("$.message_stats.deliver_details.rate").Value<double>();
+                var unacked = jo.SelectToken("$.messages_unacknowledged").Value<int>();
+
+                return new Queue(name, messages, deliveries, unacked);
+
             }
         }
 
@@ -140,32 +192,24 @@ namespace Bespoke.Sph.Web.Hubs
             };
         }
 
-        private readonly HttpClient m_client = new HttpClient { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}") };
         private async Task GetQueueStatusAsync(IProgress<ProgressData> progress)
         {
-            await Task.Delay(5.Seconds());
-            var byteArray = Encoding.ASCII.GetBytes($"{ConfigurationManager.RabbitMqUserName}:{ConfigurationManager.RabbitMqPassword}");
-            m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-            var sql = 1;
-            var es = 1;
-            while (sql > 0 || es > 0)
+            var sqlMessages = 1;
+            var esMessages = 1;
+            var count = 10;
+            while ((sqlMessages > 0 || esMessages > 0) || count > 0)
             {
                 await Task.Delay(2.Seconds());
 
-                var json = await m_client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/persistence");
-                var jo = JObject.Parse(json);
-                sql = jo.SelectToken("$.messages").Value<int>();
-                var sqlRate = jo.SelectToken("$.messages_details.rate").Value<double>();
+                var sql = await m_client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/persistence");
+                var es = await m_client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/es.data-import");
+                var pd = ProgressData.Parse(es, sql);
+                progress.Report(pd);
 
-                var esjson = await m_client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/es.data-import");
-                var ejo = JObject.Parse(esjson);
-                es = ejo.SelectToken("$.messages").Value<int>();
-                var esRate = ejo.SelectToken("$.messages_details.rate").Value<double>();
-                progress.Report(new ProgressData(-1)
-                {
-                    SqlServerQueue = new Queue("persistence", sql, sqlRate),
-                    ElasticsearchQueue = new Queue("es.data-import", es, esRate)
-                });
+                sqlMessages = pd.SqlServerQueue.MessagesCount;
+                esMessages = pd.ElasticsearchQueue.MessagesCount;
+
+                count--;
             }
 
         }
