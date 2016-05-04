@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
@@ -16,6 +19,36 @@ namespace Bespoke.Sph.Web.Hubs
         {
             m_isCancelRequested = true;
         }
+
+        public async Task TruncateData(string name, ImportDataViewModel model)
+        {
+            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
+            {
+                var message = new HttpRequestMessage(HttpMethod.Delete,
+                    $"{ConfigurationManager.ElasticSearchIndex}/{model.Entity.ToLowerInvariant()}/_query")
+                {
+                    Content = new StringContent(
+@"{
+   ""query"": {
+      ""match_all"": {}
+   }
+}")
+                };
+                await client.SendAsync(message);
+            }
+
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var truncateCommand = new SqlCommand($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{model.Entity}]", conn))
+            using (var dbccCommand = new SqlCommand($"DBCC SHRINKDATABASE ({ConfigurationManager.ApplicationName})", conn))
+            {
+                await conn.OpenAsync();
+
+                await truncateCommand.ExecuteNonQueryAsync();
+                await dbccCommand.ExecuteNonQueryAsync();
+            }
+
+        }
+
         public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<int> progress)
         {
             m_isCancelRequested = false;
@@ -38,6 +71,10 @@ namespace Bespoke.Sph.Web.Hubs
             };
 
             var rows = 0;
+            var headers = new Dictionary<string, object>
+            {
+                {"data-import", true}
+            };
             var lo = await tableAdapter.LoadAsync(model.Sql, 1, model.BatchSize, false);
             while (lo.ItemCollection.Count > 0)
             {
@@ -51,7 +88,7 @@ namespace Bespoke.Sph.Web.Hubs
                         session.Attach(item);
                     }
 
-                    await session.SubmitChanges("Import");
+                    await session.SubmitChanges("Import", headers);
                     if (model.DelayThrottle.HasValue)
                         await Task.Delay(model.DelayThrottle.Value);
 

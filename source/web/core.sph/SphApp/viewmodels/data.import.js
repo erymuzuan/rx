@@ -9,11 +9,11 @@
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="~/Scripts/_task.js" />
 
-define(["services/datacontext", "services/logger", "plugins/router"],
-    function (context, logger, router) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
+    function (context, logger, router, app) {
 
         var model = ko.observable({
-            delayThrottle : ko.observable(),
+            delayThrottle: ko.observable(),
             name: ko.observable(),
             adapter: ko.observable(),
             table: ko.observable(),
@@ -164,6 +164,21 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             requestCancel = function () {
                 return hub.server.requestCancel();
             },
+            truncateData = function () {
+                var tcs = new $.Deferred();
+
+                app.showMessage("TRUNCATE all data, you'll lose all the data is SQL and Elasticsearch", "RX Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+                            hub.server.truncateData(ko.unwrap(model().Name), ko.mapping.toJS(model))
+                            .done(tcs.resolve);
+                        } else {
+                            tcs.resolve(false);
+                        }
+                    });
+
+                return tcs.promise();
+            },
             save = function () {
                 var data = ko.toJSON(model);
                 return context.post(data, "/api/data-imports");
@@ -235,21 +250,27 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         caption: "Preview",
                         icon: "fa fa-th-list",
                         command: preview,
-                        enable : canPreview
+                        enable: canPreview
                     },
                     {
                         caption: "Starts",
                         icon: "fa fa-play-circle",
                         command: importData,
-                        enable : canImport
+                        enable: canImport
                     },
                     {
                         caption: "Stop",
                         icon: "fa fa-stop-circle-o",
                         command: requestCancel,
-                        enable : ko.computed(function() {
+                        enable: ko.computed(function () {
                             return ko.unwrap(progress) > 0;
                         })
+                    },
+                    {
+                        caption: "Truncate all data",
+                        icon: "fa fa-trash-o",
+                        command: truncateData,
+                        enable: canImport
                     }
                 ])
             }
