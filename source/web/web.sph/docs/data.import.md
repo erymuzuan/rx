@@ -28,6 +28,13 @@ Halt the execution of currently running data import process
 **Beware** This command will permanently delete all your data as defined by your data import `Entity` property. It will TRUNCATE sql table and completely DELETE your Elasticsearch contents for that particular type. It will also PURGE all your data import messages in your queues.
 
 
+## Progress
+![](https://lh3.googleusercontent.com/-7WaSoxIt9vk/VyqhGfuNfmI/AAAAAAAA7yg/yHgncwDlV3AcURClpvd08aHQ6VRyWX4dgCCo/s2048/%255BUNSET%255D)
+
+* Imported rows - the number of rows read from the datasource and successfully submitted to messaging broker
+* Sql Server Queue - The first part is the number of messages still in the queue. For every message there will be `BatchSize` of rows, so if your have 20 messages in your SQL Server queue and your BatchSize is 50, then there are still 1000 rows still yet to be inserted into the SQL Server. The second part is the number of messages processed in one second.
+* Elasticsearch Queue - The first part is the number of messages still in the queue. For every message there will be `BatchSize` of rows, so if your have 20 messages in your Elasticsearch queue and your BatchSize is 50, then there are still 1000 rows still yet to be inserted into the Elasticsearch. The second part is the number of messages processed in one second.
+
 ## General options
 
 #### Name
