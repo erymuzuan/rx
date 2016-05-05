@@ -9,6 +9,12 @@
                 <span class="badge" data-bind="text:ko.unwrap(Rate) + '/s'">3</span>
             </a>
         </li>
+        <li role="presentation" class="active">
+            <a href="javascript:;">
+                Sql Server Rows
+                <span class="badge" data-bind="text:SqlRows">3</span>
+            </a>
+        </li>
         <li role="presentation" class="active" data-bind="with : ElasticsearchQueue">
             <a href="javascript:;">
                 Elasticsearch Queue
@@ -16,90 +22,183 @@
                 <span class="badge" data-bind="text:ko.unwrap(Rate) + '/s'">3</span>
             </a>
         </li>
+        <li role="presentation" class="active">
+            <a href="javascript:;">
+                Elasticsearch Rows
+                <span class="badge" data-bind="text:ElasticsearchRows">3</span>
+            </a>
+        </li>
     </ul>
 </div>
 <div class="row" id="data-import-view-panel">
 
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#data-import-general" data-toggle="tab">General</a>
+            </li>
+            <li>
+                <a href="#data-import-advanced" data-toggle="tab">Advanced Options</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="data-import-general" class="tab-pane active">
 
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label for="import-name" class="col-lg-2 control-label">Name</label>
-            <div class="col-lg-6">
-                <input required class="form-control" id="import-name" data-bind="value:model().name" placeholder="Give it a name, so that you can save it" maxlength="255" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="adapter" class="col-lg-2 control-label">Adapter</label>
-            <div class="col-lg-6">
-                <select required class="form-control" id="adapter" data-bind="value:model().adapter, options: adapterOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your adapter]'"></select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="table" class="col-lg-2 control-label">Table</label>
-            <div class="col-lg-6">
-                <select required class="form-control" id="table" data-bind="value:model().table, options: tableOptions, optionsCaption:'[Select your table]', optionsText:'Name', optionsValue:'Name'"></select>
-            </div>
-        </div>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="import-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input required class="form-control" id="import-name" data-bind="value:model().name" placeholder="Give it a name, so that you can save it" maxlength="255" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="adapter" class="col-lg-2 control-label">Adapter</label>
+                        <div class="col-lg-6">
+                            <select required class="form-control" id="adapter" data-bind="value:model().adapter, options: adapterOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your adapter]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="table" class="col-lg-2 control-label">Table</label>
+                        <div class="col-lg-6">
+                            <select required class="form-control" id="table" data-bind="value:model().table, options: tableOptions, optionsCaption:'[Select your table]', optionsText:'Name', optionsValue:'Name'"></select>
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <label for="sql" class="col-lg-2 control-label">SQL Statement</label>
-            <div class="col-lg-6">
-                <textarea type="text" data-bind="value: model().sql"
-                          required
-                          placeholder="SQL statement for LoadAsync method on your table adapter"
-                          class="form-control" id="sql"></textarea>
+                    <div class="form-group">
+                        <label for="sql" class="col-lg-2 control-label">SQL Statement</label>
+                        <div class="col-lg-6">
+                            <textarea type="text" data-bind="value: model().sql"
+                                      required
+                                      placeholder="SQL statement for LoadAsync method on your table adapter"
+                                      class="form-control" id="sql"></textarea>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <i class="fa fa-question-circle" data-bind="tooltip:'Define your SQL select statement here, you can add a where clause, but the columns must be *, or you could have an error where the column might not be defined'"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="BatchSize" class="col-lg-2 control-label">Batch Size</label>
+                        <div class="col-lg-6">
+                            <input type="number" data-bind="value: model().batchSize"
+                                   required pattern="^[0-9_ ]$"
+                                   max="100"
+                                   step="5"
+                                   min="5"
+                                   placeholder="Batch size"
+                                   class="form-control" id="BatchSize">
+                        </div>
+                        <div class="col-lg-3">
+                            <i class="fa fa-question-circle" data-bind="tooltip:'The size of the query result processed at one time, the default is 40, smaller batch size is good for memory but might take a little longer'"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="entity" class="col-lg-2 control-label">Entity</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="entity" data-bind="value:model().entity, options: entityOptions, optionsCaption:'[Select your destination entity]', optionsText:'Name', optionsValue:'Name'"></select>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <i class="fa fa-question-circle" data-bind="tooltip:'Select a destination EntityDefinition where you want the result to be persist'"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="map" class="col-lg-2 control-label">Map</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="map" data-bind="value: model().map, options: mapOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your map]'"></select>
+                        </div>
+                        <div class="col-lg-3">
+                            <i class="fa fa-question-circle" data-bind="tooltip:'A TransformDefinition will map your source schema to the selected EntityDefinition schema, if you don\'t have one, you should create one before using this data import utility'"></i>
+                        </div>
+                    </div>
+                    
+
+
+                </form>
+            </div>
+            <div id="data-import-advanced" class="tab-pane">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="delay-throttle" class="col-lg-2 control-label">Delay Throttle</label>
+                        <div class="col-lg-6">
+                            <input type="number" data-bind="value: model().delayThrottle, tooltip :'Set the delay between batch, increasing the delay will not crunch your processor too much'"
+                                   step="100" max="5000"
+                                   placeholder="Set the delay between batch, increasing the delay will not crunch your processor too much"
+                                   class="form-control" id="delay-throttle">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: model().ignoreMessaging" id="ignore-messaging" type="checkbox" name="model().ignoreMessaging" />
+                                    Ignore Messaging
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <i class="fa fa-question-circle" data-bind="tooltip:'When you checked this option, the data will be imported directly into RX Developer SQL server and Elasticsearch store, by passing any business rules, Triggers or any AuditTrail'"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sql-retry" class="col-lg-2 control-label">SQL Retry</label>
+                        <div class="col-lg-6">
+                            <input type="number" data-bind="value: model().sqlRetry"
+                                   step="1" max="50"
+                                   class="form-control" id="sql-retry">
+                        </div>
+
+                        <div class="col-lg-3">
+                            <i class="fa fa-question-circle" data-bind="tooltip:'The number if retry should the workers make to INSERT the data, after this number exceeded, the batch will go to the dead letter queue(DLQ)'"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sql-wait" class="col-lg-2 control-label">SQL Wait</label>
+                        <div class="col-lg-6">
+                            <input type="number" data-bind="value: model().sqlWait"
+                                   step="100" max="1000000"
+                                   class="form-control" id="sql-wait">
+                        </div>
+
+                        <div class="col-lg-3">
+                            <i class="fa fa-question-circle" data-bind="tooltip:'The number in milliseconds the worker will wait when the first attempt failed, the subsequent wait will increase exponentially'"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="es-retry" class="col-lg-2 control-label">Elasticsearch Retry</label>
+                        <div class="col-lg-6">
+                            <input type="number" data-bind="value: model().esRetry"
+                                   step="1" max="50"
+                                   class="form-control" id="es-retry">
+                        </div>
+                        <div class="col-lg-3">
+                            <i class="fa fa-question-circle" data-bind="tooltip:'The number if retry should the workers make to PUT the data, after this number exceeded, the batch will go to the dead letter queue(DLQ)'"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="es-wait" class="col-lg-2 control-label">Elasticsearch Wait</label>
+                        <div class="col-lg-6">
+                            <input type="number" data-bind="value: model().esWait"
+                                   step="100" max="1000000"
+                                   class="form-control" id="es-wait">
+                        </div>
+
+                        <div class="col-lg-3">
+                            <i class="fa fa-question-circle" data-bind="tooltip:'The number in milliseconds the worker will wait when the first attempt failed, the subsequent wait will increase exponentially'"></i>
+                        </div>
+                    </div>
+                </form>
+
             </div>
 
-            <div class="col-lg-3">
-                <i class="fa fa-question-circle" data-bind="tooltip:'Define your SQL select statement here, you can add a where clause, but the columns must be *, or you could have an error where the column might not be defined'"></i>
-            </div>
         </div>
-        <div class="form-group">
-            <label for="BatchSize" class="col-lg-2 control-label">Batch Size</label>
-            <div class="col-lg-6">
-                <input type="number" data-bind="value: model().batchSize"
-                       required pattern="^[0-9_ ]$"
-                       max="100"
-                       step="5"
-                       min="5"
-                       placeholder="Batch size"
-                       class="form-control" id="BatchSize">
-            </div>
-            <div class="col-lg-3">
-                <i class="fa fa-question-circle" data-bind="tooltip:'The size of the query result processed at one time, the default is 40, smaller batch size is good for memory but might take a little longer'"></i>
-            </div>
-        </div>
+    </div>
 
-        <div class="form-group">
-            <label for="entity" class="col-lg-2 control-label">Entity</label>
-            <div class="col-lg-6">
-                <select class="form-control" id="entity" data-bind="value:model().entity, options: entityOptions, optionsCaption:'[Select your destination entity]', optionsText:'Name', optionsValue:'Name'"></select>
-            </div>
-
-            <div class="col-lg-3">
-                <i class="fa fa-question-circle" data-bind="tooltip:'Select a destination EntityDefinition where you want the result to be persist'"></i>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="map" class="col-lg-2 control-label">Map</label>
-            <div class="col-lg-6">
-                <select class="form-control" id="map" data-bind="value: model().map, options: mapOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your map]'"></select>
-            </div>
-            <div class="col-lg-3">
-                <i class="fa fa-question-circle" data-bind="tooltip:'A TransformDefinition will map your source schema to the selected EntityDefinition schema, if you don\'t have one, you should create one before using this data import utility'"></i>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="delay-throttle" class="col-lg-2 control-label">Delay Throttle</label>
-            <div class="col-lg-6">
-                <input type="number" data-bind="value: model().delayThrottle, tooltip :'Set the delay between batch, increasing the delay will not crunch your processor too much'"
-                       step="100" max="5000"
-                       placeholder="Set the delay between batch, increasing the delay will not crunch your processor too much"
-                       class="form-control" id="delay-throttle">
-            </div>
-        </div>
-
-    </form>
 </div>
 

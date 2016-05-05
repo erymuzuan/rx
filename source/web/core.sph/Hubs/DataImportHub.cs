@@ -19,12 +19,13 @@ namespace Bespoke.Sph.Web.Hubs
     {
 
         private static bool m_isCancelRequested;
-        private readonly HttpClient m_client = new HttpClient { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}") };
+        private readonly HttpClient m_rabbitManagementHttpClient = new HttpClient { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}") };
+        private readonly HttpClient m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri($"{ConfigurationManager.ElasticSearchHost}") };
 
         public DataImportHub()
         {
             var byteArray = Encoding.ASCII.GetBytes($"{ConfigurationManager.RabbitMqUserName}:{ConfigurationManager.RabbitMqPassword}");
-            m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+            m_rabbitManagementHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
         }
 
         public async Task RequestCancel()
@@ -32,15 +33,15 @@ namespace Bespoke.Sph.Web.Hubs
             m_isCancelRequested = true;
             await Task.Delay(5.Seconds());
             // now purge the queues
-            await m_client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/persistence/contents");
-            await m_client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
+            await m_rabbitManagementHttpClient.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/persistence/contents");
+            await m_rabbitManagementHttpClient.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
         }
 
         public async Task TruncateData(string name, ImportDataViewModel model)
         {
             // purge the queues
-            await m_client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/persistence/contents");
-            await m_client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
+            await m_rabbitManagementHttpClient.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/persistence/contents");
+            await m_rabbitManagementHttpClient.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
 
             // delete the elasticsearch
             using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
@@ -97,6 +98,8 @@ namespace Bespoke.Sph.Web.Hubs
         public class ProgressData
         {
             public int Rows { get; set; }
+            public int ElasticsearchRows { get; set; }
+            public int SqlRows { get; set; }
             public Queue ElasticsearchQueue { get; set; } = new Queue("es.data-import", 0, 0);
             public Queue SqlServerQueue { get; set; } = new Queue("persistence", 0, 0);
 
@@ -132,6 +135,16 @@ namespace Bespoke.Sph.Web.Hubs
         public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<ProgressData> progress)
         {
             m_isCancelRequested = false;
+            var statusTask = UpdateImportStatusAsync(model,progress);
+            var importTask = ImportDataAsync(model, progress);
+
+            await Task.WhenAll(statusTask, importTask);
+            var rows = await importTask;
+            return rows;
+        }
+
+        private async Task<object> ImportDataAsync(ImportDataViewModel model, IProgress<ProgressData> progress)
+        {
             var context = new SphDataContext();
             var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
             var mapping = await context.LoadOneAsync<TransformDefinition>(x => x.Id == model.Map);
@@ -153,10 +166,12 @@ namespace Bespoke.Sph.Web.Hubs
             var rows = 0;
             var headers = new Dictionary<string, object>
             {
-                {"data-import", true}
+                {"data-import", model.IgnoreMessaging},
+                {"sql.retry", model.SqlRetry},
+                {"sql.wait", model.SqlWait},
+                {"es.retry", model.EsRetry},
+                {"es.wait", model.EsWait}
             };
-
-            var rabbitTask = GetQueueStatusAsync(progress);
             var lo = await tableAdapter.LoadAsync(model.Sql, 1, model.BatchSize, false);
             while (lo.ItemCollection.Count > 0)
             {
@@ -181,7 +196,6 @@ namespace Bespoke.Sph.Web.Hubs
 
                 lo = await tableAdapter.LoadAsync(model.Sql, lo.CurrentPage + 1, model.BatchSize, false);
             }
-            await rabbitTask;
             return new
             {
                 statusCode = 200,
@@ -192,26 +206,62 @@ namespace Bespoke.Sph.Web.Hubs
             };
         }
 
-        private async Task GetQueueStatusAsync(IProgress<ProgressData> progress)
+        private async Task UpdateImportStatusAsync(ImportDataViewModel model, IProgress<ProgressData> progress)
         {
             var sqlMessages = 1;
             var esMessages = 1;
             var count = 10;
-            while ((sqlMessages > 0 || esMessages > 0) || count > 0)
+            // wait for 5 consecutives 0 queues for stoping
+            var consecutiveEmptyMessages = 0;
+            while (consecutiveEmptyMessages < 5 || count > 0)
             {
                 await Task.Delay(2.Seconds());
 
-                var sql = await m_client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/persistence");
-                var es = await m_client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/es.data-import");
+                var sqlTask = m_rabbitManagementHttpClient.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/persistence");
+                var esTask = m_rabbitManagementHttpClient.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/es.data-import");
+                var sqlCountTask = GetSqlServerCountAsync(model);
+                var esCountTask = GetElasticsearchCountAsync(model);
+                await Task.WhenAll(sqlTask, esTask);
+                var es = await esTask;
+                var sql = await sqlTask;
+
                 var pd = ProgressData.Parse(es, sql);
+                pd.ElasticsearchRows = await esCountTask;
+                pd.SqlRows = await sqlCountTask;
                 progress.Report(pd);
+
+                // increment consecutiveEmptyMessages, if the previous iteration also yields empty messages in the queue
+                if (sqlMessages == 0 && esMessages == 0)
+                    consecutiveEmptyMessages++;
+                else
+                    consecutiveEmptyMessages = 0;
 
                 sqlMessages = pd.SqlServerQueue.MessagesCount;
                 esMessages = pd.ElasticsearchQueue.MessagesCount;
 
                 count--;
             }
+        }
 
+        private async Task<int> GetElasticsearchCountAsync(ImportDataViewModel model)
+        {
+            var json =await 
+                m_elasticsearchHttpClient.GetStringAsync(
+                    $"{ConfigurationManager.ElasticSearchIndex}/{model.Entity.ToLowerInvariant()}/_count");
+            var jo = JObject.Parse(json);
+            return jo.SelectToken("$.count").Value<int>();
+        }
+        private async Task<int> GetSqlServerCountAsync(ImportDataViewModel model)
+        {
+            var sql = $"SELECT COUNT(*) FROM [{ConfigurationManager.ApplicationName}].[{model.Entity}]";
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                await conn.OpenAsync();
+                var rows =await cmd.ExecuteScalarAsync();
+                if (rows == DBNull.Value) return 0;
+                return (int) rows;
+            }
         }
         public async Task<object> Preview(ImportDataViewModel model)
         {

@@ -20,7 +20,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             batchSize: ko.observable(40),
             entity: ko.observable(),
             sql: ko.observable(),
-            map: ko.observable()
+            sqlRetry: ko.observable(),
+            esRetry: ko.observable(),
+            sqlWait: ko.observable(),
+            esWait: ko.observable(),
+            map: ko.observable(),
+            ignoreMessaging : ko.observable(true)
         }),
             connection = null,
             hub = null,
@@ -31,6 +36,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             progress = ko.observable({
                 busy : ko.observable(false),
                 Rows: ko.observable(0),
+                SqlRows: ko.observable(0),
+                ElasticsearchRows: ko.observable(0),
                 ElasticsearchQueue: {
                     Name: ko.observable("es.data-import"),
                     MessagesCount: ko.observable("NA"),
@@ -176,6 +183,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
                                progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
                                progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
+                               progress().SqlRows(p.SqlRows);
+                               progress().ElasticsearchRows(p.ElasticsearchRows);
                            } else {
                                progress().Rows(p.Rows);
                            }
@@ -228,7 +237,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                 md.batchSize(di.batchSize);
                                 md.name(di.name);
                                 md.delayThrottle(di.delayThrottle);
-
+                                md.sqlRetry(di.sqlRetry);
+                                md.sqlWait(di.sqlWait);
+                                md.esRetry(di.esRetry);
+                                md.esWait(di.esWait);
 
                                 modelChanged();
 
