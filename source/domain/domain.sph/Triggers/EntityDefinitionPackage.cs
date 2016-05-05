@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -11,7 +12,6 @@ namespace Bespoke.Sph.Domain
 {
     public class EntityDefinitionPackage
     {
-
         public async Task<EntityDefinition> UnpackAsync(string zipFile, string folder)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
@@ -24,19 +24,49 @@ namespace Bespoke.Sph.Domain
             var wdJson = File.ReadAllText(edFile);
             var ed = JsonConvert.DeserializeObject<EntityDefinition>(wdJson, setting);
 
-            var logger = ObjectBuilder.GetObject<ILogger>();
-            var views = Directory.GetFiles(folder, "EntityView_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityView>());
-            var forms = Directory.GetFiles(folder, "EntityForm_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityForm>());
-            var triggers = Directory.GetFiles(folder, "Trigger_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<Trigger>());
-            var charts = Directory.GetFiles(folder, "EntityChart_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityChart>());
-            views.Select(x => new LogEntry { Message = $"Deserializing EntityView:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
-            forms.Select(x => new LogEntry { Message = $"Deserializing EntityForm:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
-            triggers.Select(x => new LogEntry { Message = $"Deserializing Trigger:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
-            charts.Select(x => new LogEntry { Message = $"Deserializing Chart:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            var views = Read<EntityView>(folder);
+            var forms = Read<EntityForm>(folder);
+            var triggers = Read<Trigger>(folder);
+            var charts = Read<EntityChart>(folder);
+            var partials = Read<PartialView>(folder);
+            var dialogs = Read<FormDialog>(folder);
+            var queries = Read<QueryEndpoint>(folder);
+            var operations = Read<OperationEndpoint>(folder);
+
+            Log(views);
+            Log(forms);
+            Log(triggers);
+            Log(charts);
+            Log(partials);
+            Log(dialogs);
+            Log(queries);
+            Log(operations);
             await Task.Delay(500);
             return ed;
+        }
+
+        private static void Log<T>(params IEnumerable<T>[] items) where T : Entity
+        {
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            foreach (var list in items)
+            {
+                list.Select(x => new LogEntry
+                {
+                    Message = $"Deserializing {typeof(T).Name}:{x.Id}",
+                    Severity = Severity.Info
+                })
+                    .ToList()
+                    .ForEach(x => logger.Log(x));
+            }
 
         }
+        private static IEnumerable<T> Read<T>(string folder)
+        {
+            var list = Directory.GetFiles(folder, $"{typeof(T).Name}_*.json")
+                .Select(x => File.ReadAllText(x).DeserializeFromJson<T>());
+            return list;
+        }
+
         public async Task<EntityDefinition> ImportAsync(string folder)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
@@ -47,16 +77,23 @@ namespace Bespoke.Sph.Domain
             var wdJson = File.ReadAllText(edFile);
             var ed = JsonConvert.DeserializeObject<EntityDefinition>(wdJson, setting);
 
-            var logger = ObjectBuilder.GetObject<ILogger>();
-            var views = Directory.GetFiles(folder, "EntityView_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityView>()).ToList();
-            var forms = Directory.GetFiles(folder, "EntityForm_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityForm>()).ToList();
-            var charts = Directory.GetFiles(folder, "EntityChart_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<EntityChart>()).ToList();
-            var triggers = Directory.GetFiles(folder, "Trigger_*.json").Select(x => File.ReadAllText(x).DeserializeFromJson<Trigger>()).ToList();
-            views.Select(x => new LogEntry { Message = $"Deserializing EntityView:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
-            forms.Select(x => new LogEntry { Message = $"Deserializing EntityForm:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
-            triggers.Select(x => new LogEntry { Message = $"Deserializing Trigger:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
-            charts.Select(x => new LogEntry { Message = $"Deserializing Chart:{x.Name}", Severity = Severity.Info }).ToList().ForEach(x => logger.Log(x));
+            var views = Read<EntityView>(folder).ToArray();
+            var forms = Read<EntityForm>(folder).ToArray();
+            var triggers = Read<Trigger>(folder).ToArray();
+            var charts = Read<EntityChart>(folder).ToArray();
+            var partials = Read<PartialView>(folder).ToArray();
+            var dialogs = Read<FormDialog>(folder).ToArray();
+            var queries = Read<QueryEndpoint>(folder).ToArray();
+            var operations = Read<OperationEndpoint>(folder).ToArray();
 
+            Log(views);
+            Log(forms);
+            Log(triggers);
+            Log(charts);
+            Log(partials);
+            Log(dialogs);
+            Log(queries);
+            Log(operations);
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -65,6 +102,10 @@ namespace Bespoke.Sph.Domain
                 session.Attach(views.Cast<Entity>().ToArray());
                 session.Attach(triggers.Cast<Entity>().ToArray());
                 session.Attach(charts.Cast<Entity>().ToArray());
+                session.Attach(partials.Cast<Entity>().ToArray());
+                session.Attach(dialogs.Cast<Entity>().ToArray());
+                session.Attach(queries.Cast<Entity>().ToArray());
+                session.Attach(operations.Cast<Entity>().ToArray());
 
                 await session.SubmitChanges("Save").ConfigureAwait(false);
             }
@@ -111,8 +152,6 @@ namespace Bespoke.Sph.Domain
 
         }
 
-
-
         public async Task ImportDataAsync(string folder)
         {
             var context = new SphDataContext();
@@ -126,8 +165,6 @@ namespace Bespoke.Sph.Domain
                 }
             }
         }
-
-
 
         public async Task<string> PackAsync(EntityDefinition ed, bool includeData = false)
         {
@@ -144,6 +181,8 @@ namespace Bespoke.Sph.Domain
             var charts = context.LoadFromSources<EntityChart>(f => f.Entity == ed.Name);
             var queries = context.LoadFromSources<QueryEndpoint>(f => f.Entity == ed.Name);
             var operations = context.LoadFromSources<OperationEndpoint>(f => f.Entity == ed.Name);
+            var dialogs = context.LoadFromSources<FormDialog>(f => f.Entity == ed.Name);
+            var partials = context.LoadFromSources<PartialView>(f => f.Entity == ed.Name);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             File.WriteAllBytes(Path.Combine(path, "EntityDefinition_" + ed.Id + ".json"), Encoding.UTF8.GetBytes(ed.ToJsonString()));
@@ -181,6 +220,22 @@ namespace Bespoke.Sph.Domain
                 {
                     WriteBinaryDocument(path, v.IconStoreId, formIcon);
                 }
+            }
+            foreach (var v in dialogs)
+            {
+                File.WriteAllBytes(Path.Combine(path, $"FormDialog_{v.Id}.json"), Encoding.UTF8.GetBytes(v.ToJsonString(true)));
+
+                Copy(v.Route + ".html", "views", path);
+                Copy(v.Route + ".js", "viewmodels", path);
+                Copy(v.Route + ".js", "partial", path);
+            }
+            foreach (var v in partials)
+            {
+                File.WriteAllBytes(Path.Combine(path, $"PartialView_{v.Id}.json"), Encoding.UTF8.GetBytes(v.ToJsonString(true)));
+
+                Copy(v.Route + ".html", "views", path);
+                Copy(v.Route + ".js", "viewmodels", path);
+                Copy(v.Route + ".js", "partial", path);
             }
             foreach (var t in triggers)
             {
