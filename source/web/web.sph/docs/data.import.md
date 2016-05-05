@@ -34,6 +34,7 @@ Halt the execution of currently running data import process
 * Imported rows - the number of rows read from the datasource and successfully submitted to messaging broker
 * Sql Server Queue - The first part is the number of messages still in the queue. For every message there will be `BatchSize` of rows, so if your have 20 messages in your SQL Server queue and your BatchSize is 50, then there are still 1000 rows still yet to be inserted into the SQL Server. The second part is the number of messages processed in one second.
 * Elasticsearch Queue - The first part is the number of messages still in the queue. For every message there will be `BatchSize` of rows, so if your have 20 messages in your Elasticsearch queue and your BatchSize is 50, then there are still 1000 rows still yet to be inserted into the Elasticsearch. The second part is the number of messages processed in one second.
+* Number of rows available for each SQL Server and Elasticsearch is shown next to the queues. Bear in mind that , if you choose to starts from empty database, i.e. new or you do truncate all data command, these numbers should be the same with total imported rows once the whole process completed.
 
 ## General options
 
