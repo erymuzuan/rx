@@ -27,91 +27,105 @@ namespace Bespoke.Sph.Web.Controllers
         }
         [HttpGet]
         [Route("audittrail")]
-        public async Task<IHttpActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
+            return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal, orderby);
         }
 
         [Route("adapter")]
         [HttpGet]
-        public IHttpActionResult Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<Adapter>(filter, page, size, true);
+            return ReadFromSource<Adapter>(filter, page, size, orderby);
         }
 
         [Route("Designation")]
         [HttpGet]
-        public IHttpActionResult Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<Designation>(filter, page, size);
+            return ReadFromSource<Designation>(filter, page, size, orderby: orderby);
         }
 
         [Route("DocumentTemplate")]
         [HttpGet]
-        public IHttpActionResult DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<DocumentTemplate>(filter, page, size);
+            return ReadFromSource<DocumentTemplate>(filter, page, size, orderby: orderby);
         }
 
         [Route("EmailTemplate")]
         [HttpGet]
-        public IHttpActionResult EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<EmailTemplate>(filter, page, size);
+            return ReadFromSource<EmailTemplate>(filter, page, size, orderby: orderby);
         }
 
         [Route("ValueObjectDefinition")]
         [HttpGet]
-        public IHttpActionResult ValueObjectDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult ValueObjectDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<ValueObjectDefinition>(filter, page, size);
+            return ReadFromSource<ValueObjectDefinition>(filter, page, size, orderby: orderby);
         }
 
         [Route("EntityDefinition")]
         [HttpGet]
-        public IHttpActionResult EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult EntityDefinition(string filter = null, int page = 1, int size = 40,
+            bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<EntityDefinition>(filter, page, size);
+            return ReadFromSource<EntityDefinition>(filter, page, size, orderby: orderby);
         }
 
         [Route("EntityChart")]
         [HttpGet]
-        public IHttpActionResult EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<EntityChart>(filter);
+            return ReadFromSource<EntityChart>(filter, orderby: orderby);
         }
 
         [Route("FormDialog")]
         [HttpGet]
-        public IHttpActionResult FormDialog(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult FormDialog(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<FormDialog>(filter, page, size, true);
+            return ReadFromSource<FormDialog>(filter, page, size, orderby);
         }
         [Route("WorkflowForm")]
         [HttpGet]
-        public IHttpActionResult WorkflowForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult WorkflowForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<WorkflowForm>(filter, page, size, true);
+            return ReadFromSource<WorkflowForm>(filter, page, size, orderby);
         }
         [Route("PartialView")]
         [HttpGet]
-        public IHttpActionResult PartialView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult PartialView(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<PartialView>(filter, page, size, true);
+            return ReadFromSource<PartialView>(filter, page, size, orderby);
         }
 
         [Route("EntityForm")]
         [HttpGet]
-        public IHttpActionResult EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<EntityForm>(filter, page, size, true);
+            return ReadFromSource<EntityForm>(filter, page, size, orderby);
         }
 
         [Route("EntityView")]
         [HttpGet]
-        public IHttpActionResult EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<EntityView>(filter, page, size);
+            return ReadFromSource<EntityView>(filter, page, size, orderby:orderby);
         }
 
         [Route("OperationEndpoint/{id}")]
@@ -122,9 +136,10 @@ namespace Bespoke.Sph.Web.Controllers
         }
         [Route("OperationEndpoint")]
         [HttpGet]
-        public IHttpActionResult GetOperationEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult GetOperationEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<OperationEndpoint>(filter, page, size);
+            return ReadFromSource<OperationEndpoint>(filter, page, size, orderby: orderby);
         }
 
         [Route("QueryEndpoint/{id}")]
@@ -135,44 +150,50 @@ namespace Bespoke.Sph.Web.Controllers
         }
         [Route("QueryEndpoint")]
         [HttpGet]
-        public IHttpActionResult QueryEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult QueryEndpoint(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<QueryEndpoint>(filter, page, size);
+            return ReadFromSource<QueryEndpoint>(filter, page, size, orderby: orderby);
         }
 
         [Route("QuotaPolicy")]
         [HttpGet]
-        public IHttpActionResult QuotaPolicy(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult QuotaPolicy(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<QuotaPolicy>(filter, page, size);
+            return ReadFromSource<QuotaPolicy>(filter, page, size, orderby: orderby);
         }
 
         [Route("Message")]
         [HttpGet]
-        public async Task<IHttpActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
             return await ExecuteAsync<Message>(filter, page, size, includeTotal);
         }
-        
+
         [Route("ReportDelivery")]
         [HttpGet]
-        public async Task<IHttpActionResult> ReportDelivery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> ReportDelivery(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
             return await ExecuteAsync<ReportDelivery>(filter, page, size, includeTotal);
         }
 
         [Route("ReportDefinition")]
         [HttpGet]
-        public IHttpActionResult ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<ReportDefinition>(filter, page, size, true);
+            return ReadFromSource<ReportDefinition>(filter, page, size, orderby);
         }
 
 
 
         [Route("Setting")]
         [HttpGet]
-        public async Task<IHttpActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
             return await ExecuteAsync<Setting>(filter, page, size, includeTotal);
         }
@@ -180,7 +201,8 @@ namespace Bespoke.Sph.Web.Controllers
 
         [Route("Tracker")]
         [HttpGet]
-        public async Task<IHttpActionResult> Tracker(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> Tracker(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
             Action<IEnumerable<Tracker>> process = list =>
             {
@@ -197,51 +219,61 @@ namespace Bespoke.Sph.Web.Controllers
 
         [Route("Trigger")]
         [HttpGet]
-        public IHttpActionResult Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<Trigger>(filter, page, size, true);
+            return ReadFromSource<Trigger>(filter, page, size, orderby);
         }
 
         [Route("UserProfile")]
         [HttpGet]
-        public async Task<IHttpActionResult> UserProfile(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> UserProfile(string filter = null, int page = 1, int size = 40,
+            bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
             return await ExecuteAsync<UserProfile>(filter, page, size, includeTotal);
         }
 
         [Route("Watcher")]
         [HttpGet]
-        public async Task<IHttpActionResult> Watcher(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> Watcher(string filter = null, int page = 1, int size = 40,
+            bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
             return await ExecuteAsync<Watcher>(filter, page, size, includeTotal);
         }
 
         [Route("TransformDefinition")]
         [HttpGet]
-        public IHttpActionResult TransformDefinition(string filter = null, int page = 1, int size = 20, bool includeTotal = false)
+        public IHttpActionResult TransformDefinition(string filter = null, int page = 1, int size = 20, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<TransformDefinition>(filter, page, size, true);
+            return ReadFromSource<TransformDefinition>(filter, page, size, orderby);
         }
 
 
         [Route("WorkflowDefinition")]
         [HttpGet]
-        public IHttpActionResult WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult WorkflowDefinition(string filter = null, int page = 1, int size = 40,
+            bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<WorkflowDefinition>(filter, page, size, true);
+            return ReadFromSource<WorkflowDefinition>(filter, page, size, orderby);
         }
 
         [Route("ViewTemplate")]
         [HttpGet]
-        public IHttpActionResult ViewTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public IHttpActionResult ViewTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<ViewTemplate>(filter, page, size, true);
+            return ReadFromSource<ViewTemplate>(filter, page, size, orderby);
         }
 
 
         [Route("Workflow")]
         [HttpGet]
-        public async Task<IHttpActionResult> Workflow(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<IHttpActionResult> Workflow(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
         {
             return await ExecuteAsync<Workflow>(filter, page, size, includeTotal);
         }
@@ -339,7 +371,7 @@ namespace Bespoke.Sph.Web.Controllers
             }
         }
 
-        private IHttpActionResult ReadFromSource<T>(string filter, int page = 1, int size = 20, bool readAllText = false) where T : Entity
+        private IHttpActionResult ReadFromSource<T>(string filter, int page = 1, int size = 20, string orderby = null) where T : Entity
         {
             var list = new List<T>();
             var id = Strings.RegexSingleValue(filter, "^Id eq '(?<id>[0-9A-Za-z-_ ]{1,50})'", "id");
@@ -350,17 +382,17 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 if (string.IsNullOrWhiteSpace(id))
                 {
-                    var sources = IterateFromSource<T>(filter, page, size, folder, out rows, readAllText).ToList();
+                    var sources = IterateFromSource<T>(filter, page, size, folder, out rows, orderby).ToList();
                     list.AddRange(sources);
                 }
                 else
                 {
-                    var item = ReadOneFromSource<T>(id, readAllText);
+                    var item = ReadOneFromSource<T>(id);
                     if (null != item) list.Add(item);
                 }
             }
 
-            var jsonList = list.Select(x => x.ToJsonString(true));
+            var jsonList = list.Select(x => x.ToJsonString(true)).ToArray();
             var json = $@"
             {{
                 ""results"" : [{  string.Join(",", jsonList)}],
@@ -374,51 +406,68 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(json);
         }
 
-        private static IList<T> IterateFromSource<T>(string filter, int page, int size, string folder, out int rows, bool readAllText = false)
+        private static IList<T> IterateFromSource<T>(string filter, int page, int size, string folder, out int rows, string orderby = null)
             where T : Entity
         {
             List<T> list;
             var files = Directory.GetFiles(folder, "*.json");
+            var sort = string.IsNullOrWhiteSpace(orderby) ? "" : "$orderby=" + orderby;
             if (string.IsNullOrWhiteSpace(filter) || filter == "Id ne '0'")
             {
-                list = files
-                    .Skip((page - 1) * size)
-                    .Take(size)
-                    .Select(f => f.DeserializeFromJsonFile<T>())
-                    .ToList();
+                if (!string.IsNullOrWhiteSpace(sort))
+                {
+                    list = files
+                        .Select(f => f.DeserializeFromJsonFile<T>())
+                        .AsQueryable()
+                        .LinqToQuerystring(sort)
+                        .Skip((page - 1) * size)
+                        .Take(size)
+                        .ToList();
+                }
+                else
+                {
+                    // NOTE : if no sorting and no filter, DO NOT read every files
+                    list = files
+                        .Skip((page - 1) * size)
+                        .Take(size)
+                        .ToArray()
+                        .Select(f => f.DeserializeFromJsonFile<T>())
+                        .ToList();
+                }
                 rows = files.Length;
+                return list;
             }
-            else
-            {
-                filter = filter
-                    .Replace("IsPublished eq 1", "IsPublished eq true")
-                    .Replace("IsPublished eq 0", "IsPublished eq false")
-                    .Replace("IsAllowedNewItem eq 1", "IsAllowedNewItem eq true")
-                    .Replace("IsAllowedNewItem eq 0", "IsAllowedNewItem eq false")
-                    .Replace("IsDashboardItem eq 1", "IsDashboardItem eq true")
-                    .Replace("IsDashboardItem eq 0", "IsDashboardItem eq false")
-                    .Replace("IsDefault eq 1", "IsDefault eq true")
-                    .Replace("IsDefault eq 0", "IsDefault eq false")
-                    .Replace("IsActive eq 1", "IsActive eq true")
-                    .Replace("IsActive eq 0", "IsActive eq false")
-                    .Replace("IsPrivate eq 1", "IsPrivate eq true")
-                    .Replace("IsPrivate eq 0", "IsPrivate eq false")
-                    .Replace(" OR ", " or ")
-                    .Replace("[DataSource.EntityName]", "DataSource/EntityName")
-                    ;
-                var filtered = files.Select(f => f.DeserializeFromJsonFile<T>())
-                    .AsQueryable()
-                    .LinqToQuerystring("?$filter=" + filter)
-                    .ToList();
-                list = filtered.Skip((page - 1) * size)
-                    .Take(size)
-                    .ToList();
-                rows = filtered.Count;
-            }
+
+            // TODO : too many replace, creates unecessary string copies
+            filter = filter
+                .Replace("IsPublished eq 1", "IsPublished eq true")
+                .Replace("IsPublished eq 0", "IsPublished eq false")
+                .Replace("IsAllowedNewItem eq 1", "IsAllowedNewItem eq true")
+                .Replace("IsAllowedNewItem eq 0", "IsAllowedNewItem eq false")
+                .Replace("IsDashboardItem eq 1", "IsDashboardItem eq true")
+                .Replace("IsDashboardItem eq 0", "IsDashboardItem eq false")
+                .Replace("IsDefault eq 1", "IsDefault eq true")
+                .Replace("IsDefault eq 0", "IsDefault eq false")
+                .Replace("IsActive eq 1", "IsActive eq true")
+                .Replace("IsActive eq 0", "IsActive eq false")
+                .Replace("IsPrivate eq 1", "IsPrivate eq true")
+                .Replace("IsPrivate eq 0", "IsPrivate eq false")
+                .Replace(" OR ", " or ")
+                .Replace("[DataSource.EntityName]", "DataSource/EntityName")
+                ;
+
+            var filtered = files.Select(f => f.DeserializeFromJsonFile<T>())
+                .AsQueryable()
+                .LinqToQuerystring("?$filter=" + filter + sort)
+                .ToList();
+            list = filtered.Skip((page - 1) * size)
+                .Take(size)
+                .ToList();
+            rows = filtered.Count;
             return list;
         }
 
-        private T ReadOneFromSource<T>(string id, bool readAllText = false) where T : Entity
+        private T ReadOneFromSource<T>(string id) where T : Entity
         {
             string folder = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
             var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{id}.json";
