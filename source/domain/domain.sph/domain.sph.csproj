@@ -245,6 +245,7 @@
     <Compile Include="FormTemplates\EntityLookupElement.cs" />
     <Compile Include="FormTemplates\EntityResourceEndpoint.cs" />
     <Compile Include="FormTemplates\FullSearchEndpoint.cs" />
+    <Compile Include="FormTemplates\ICompilationUnit.cs" />
     <Compile Include="FormTemplates\OdataEndpoint.cs" />
     <Compile Include="FormTemplates\OperationEndpoint.code.cs" />
     <Compile Include="FormTemplates\OperationEndpoint.cs" />

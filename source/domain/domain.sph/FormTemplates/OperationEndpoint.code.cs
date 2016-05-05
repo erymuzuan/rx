@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class OperationEndpoint
+    public partial class OperationEndpoint : ICompilationUnit
     {
         private readonly string[] m_importDirectives =
        {
@@ -87,6 +87,8 @@ namespace Bespoke.Sph.Domain
 
         [JsonIgnore]
         public string AssemblyName => $"{ConfigurationManager.ApplicationName}.OperationEndpoint.{Entity}.{Name}.dll";
+        [JsonIgnore]
+        public string PdbName => $"{ConfigurationManager.ApplicationName}.OperationEndpoint.{Entity}.{Name}.pdb";
         [JsonIgnore]
         public string TypeName => $"{Entity}{Name}OperationEndpointController";
         [JsonIgnore]
