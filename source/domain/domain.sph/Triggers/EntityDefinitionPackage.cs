@@ -142,6 +142,8 @@ namespace Bespoke.Sph.Domain
             var views = context.LoadFromSources<EntityView>(f => f.EntityDefinitionId == ed.Id);
             var triggers = context.LoadFromSources<Trigger>(f => f.Entity == ed.Name);
             var charts = context.LoadFromSources<EntityChart>(f => f.Entity == ed.Name);
+            var queries = context.LoadFromSources<QueryEndpoint>(f => f.Entity == ed.Name);
+            var operations = context.LoadFromSources<OperationEndpoint>(f => f.Entity == ed.Name);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             File.WriteAllBytes(Path.Combine(path, "EntityDefinition_" + ed.Id + ".json"), Encoding.UTF8.GetBytes(ed.ToJsonString()));
@@ -193,6 +195,36 @@ namespace Bespoke.Sph.Domain
                 if (File.Exists(triggerPdb))
                 {
                     File.Copy(triggerPdb, $"{path}\\{Path.GetFileName(triggerPdb)}");
+                }
+            }
+            foreach (var t in queries)
+            {
+                File.WriteAllBytes(Path.Combine(path, $"QueryEndpoint{t.Id}.json"), Encoding.UTF8.GetBytes(t.ToJsonString(true)));
+                var dll = $"{ConfigurationManager.CompilerOutputPath}\\{t.AssemblyName}";
+                var pdb2 = $"{ConfigurationManager.CompilerOutputPath}\\{t.PdbName}";
+                if (File.Exists(dll))
+                {
+                    File.Copy(dll, $"{path}\\{Path.GetFileName(dll)}");
+                }
+
+                if (File.Exists(pdb2))
+                {
+                    File.Copy(pdb2, $"{path}\\{Path.GetFileName(pdb2)}");
+                }
+            }
+            foreach (var t in operations)
+            {
+                File.WriteAllBytes(Path.Combine(path, $"OperationEndpoint{t.Id}.json"), Encoding.UTF8.GetBytes(t.ToJsonString(true)));
+                var dll = $"{ConfigurationManager.CompilerOutputPath}\\{t.AssemblyName}";
+                var pdb2 = $"{ConfigurationManager.CompilerOutputPath}\\{t.PdbName}";
+                if (File.Exists(dll))
+                {
+                    File.Copy(dll, $"{path}\\{Path.GetFileName(dll)}");
+                }
+
+                if (File.Exists(pdb2))
+                {
+                    File.Copy(pdb2, $"{path}\\{Path.GetFileName(pdb2)}");
                 }
             }
             foreach (var t in charts)
