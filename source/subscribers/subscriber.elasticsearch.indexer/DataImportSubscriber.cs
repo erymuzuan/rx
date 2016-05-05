@@ -11,6 +11,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Polly;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.ElasticSearch
@@ -112,6 +113,8 @@ namespace Bespoke.Sph.ElasticSearch
                 m_channel.BasicAck(e.DeliveryTag, false);
                 return;
             }
+            var retry = headers.GetNullableValue<int>("es.retry") ?? 5;
+            var wait = headers.GetNullableValue<int>("es.wait") ?? 1000;
 
             try
             {
@@ -126,7 +129,9 @@ namespace Bespoke.Sph.ElasticSearch
                 var tasks = from item in entities
                             let url = $"{ConfigurationManager.ElasticSearchIndex}/{item.Type}/{item.Id}"
                             let content = new StringContent(item.JsonPayload)
-                            select m_client.PutAsync(url, content);
+                            select Policy.Handle<Exception>()
+                                .WaitAndRetryAsync(retry, t => TimeSpan.FromMilliseconds(wait * t))
+                                .ExecuteAsync(() => m_client.PutAsync(url, content));
                 await Task.WhenAll(tasks);
 
                 m_channel.BasicAck(e.DeliveryTag, false);

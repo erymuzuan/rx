@@ -153,7 +153,9 @@ namespace Bespoke.Sph.Persistence
             var persistence = ObjectBuilder.GetObject<IPersistence>();
             if (headers.GetValue<bool>("data-import"))
             {
-                var bulk = await InsertImportDataAsync(entities.ToArray());
+                var retry = headers.GetNullableValue<int>("sql.retry") ?? 5;
+                var wait = headers.GetNullableValue<int>("sql.wait") ?? 2500;
+                var bulk = await InsertImportDataAsync(entities.ToArray(), retry, wait);
                 if (bulk)
                     m_channel.BasicAck(e.DeliveryTag, false);
                 else
@@ -254,13 +256,13 @@ namespace Bespoke.Sph.Persistence
             }
         }
 
-        private async Task<bool> InsertImportDataAsync(Entity[] entities)
+        private async Task<bool> InsertImportDataAsync(Entity[] entities, int retry, int wait)
         {
             var persistence = ObjectBuilder.GetObject<IPersistence>();
             try
             {
                 var policy = Policy.Handle<SqlException>(ex => ex.Message.Contains("deadlocked"))
-                    .WaitAndRetryAsync(3, c => TimeSpan.FromSeconds(5 * c),
+                    .WaitAndRetryAsync(retry, c => TimeSpan.FromMilliseconds(wait * c),
                         (ex, ts) =>
                         {
                             this.WriteMessage($"Waiting for retry in {ts.Seconds} seconds : \r\n{ex.Message}");
