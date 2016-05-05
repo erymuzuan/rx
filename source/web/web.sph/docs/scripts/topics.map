@@ -102,6 +102,7 @@
   "messaging-action-dialog" : "ActionMessaging.html",
   "startwf-dialog" : "ActionStartWorkflow.md.html",
   "assembly-action-dialog" : "ActionAssembly.md.html",
+  "data.import" : "data.import.md.html",
 
   "default": "Overview.html"
 }
