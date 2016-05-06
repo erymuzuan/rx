@@ -30,8 +30,8 @@ namespace Bespoke.Sph.Domain
         public override async Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             var errors = (await base.ValidateAsync()).ToList();
-            if(string.IsNullOrWhiteSpace(this.Name))
-                errors.Add("Name","Script's name cannot be empty", this.WebId);
+            if (string.IsNullOrWhiteSpace(this.Name))
+                errors.Add("Name", "Script's name cannot be empty", this.WebId);
             return errors;
         }
 
@@ -39,11 +39,16 @@ namespace Bespoke.Sph.Domain
         {
             var block = this.Expression;
             if (!block.Contains("return")) return string.Empty;
-            
+
             var code = new StringBuilder();
             code.AppendLine();
             code.AppendLine();
-            code.AppendLinf("               Func<{{SOURCE_TYPE}}, {1}> {0} = d =>", this.Name, this.OutputType.ToCSharp());
+
+            var asyncLambda = this.Expression.Contains("await ");
+            code.AppendLine(asyncLambda
+                ? $"               Func<{{SOURCE_TYPE}}, Task<{this.OutputType.ToCSharp()}>> {Name} = async (d) =>"
+                : $"               Func<{{SOURCE_TYPE}}, {this.OutputType.ToCSharp()}> {Name} = d =>");
+
             code.AppendLine("                                           {");
             code.AppendLine("                                               " + this.Expression);
             code.AppendLine("                                           };");
@@ -52,11 +57,12 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateAssignmentCode()
         {
-            if(string.IsNullOrWhiteSpace(this.Name))throw new InvalidOperationException("Name cannot be empty");
+            if (string.IsNullOrWhiteSpace(this.Name)) throw new InvalidOperationException("Name cannot be empty");
             var block = this.Expression;
             if (!block.Contains("return")) return this.Expression;
 
-            return $"{this.Name}(item)";
+            var asyncLambda = this.Expression.Contains("await ");
+            return asyncLambda ? $"await {this.Name}(item)" : $"{this.Name}(item)";
         }
 
 
@@ -120,7 +126,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                     <div class=""form-group"">
                         <label for=""script-functoid-name"" class=""col-lg-2 control-label"">Name</label>
                         <div class=""col-lg-9"">
-                            <input required class=""form-control"" data-bind=""value: Name"" id=""script-functoid-name"" type=""text"" name=""script-functoid-name"" />
+                            <input required class=""form-control"" data-bind=""value: Name"" pattern=""^[A-Za-z_][A-Za-z0-9_]*$"" id=""script-functoid-name"" type=""text"" name=""script-functoid-name"" />
                         </div>
                     </div>
                     <div class=""form-group"">
@@ -173,7 +179,7 @@ return new DateTime(2015,1,1);
 </section>
 ";
         }
-    
+
 
     }
 }
