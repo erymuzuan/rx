@@ -65,6 +65,15 @@
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "9b84e830-b161-449c-f2cd-36103dceae11"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "d1478c6b-9abe-4c64-9856-59ca9e7972e5",
+        "Destination": "WebId",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "7eaa6778-9497-4c15-9081-0b83f52d8cb8"
       }
     ]
   },
@@ -127,6 +136,21 @@
         "X": 0.0,
         "Y": 0.0,
         "WebId": "0c7289fe-c3b4-43c0-b59b-984fd0431b64"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ScriptFunctoid, domain.sph",
+        "Expression": "// simulate some database calls\nawait Task.Delay(500);\n\nif(item.emp_no % 775 == 0 ){\n    throw new Exception(\"Error for every 75th row on \" + item.emp_no);\n}\n\nreturn item.emp_no.ToString();",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "GetEmpNoAndError",
+        "OutputTypeName": "System.String, mscorlib",
+        "Label": null,
+        "Comment": null,
+        "X": 101.0,
+        "Y": 382.0,
+        "WebId": "d1478c6b-9abe-4c64-9856-59ca9e7972e5"
       }
     ]
   },
@@ -159,6 +183,6 @@
   "Id": "my-sql-employees-to-employee",
   "CreatedDate": "2016-04-20T05:53:14.5738028+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-28T10:42:55.5708186+08:00",
+  "ChangedDate": "2016-05-06T17:48:21.8606933+08:00",
   "WebId": "de03bd41-7cdf-4929-b5bc-5ebdc61b39dc"
 }
