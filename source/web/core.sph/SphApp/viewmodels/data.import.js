@@ -177,22 +177,31 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             importData = function () {
                 progress().busy(true);
                 return hub.server.execute(ko.unwrap(model().Name), ko.mapping.toJS(model))
+                        .fail(function(e) {
+                            logger.error(e);
+                        })
                         .progress(function (p) {
-                           if (p.Rows === -1) {
-                               progress().ElasticsearchQueue.MessagesCount(p.ElasticsearchQueue.MessagesCount);
-                               progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
-                               progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
-                               progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
-                               progress().SqlRows(p.SqlRows);
-                               progress().ElasticsearchRows(p.ElasticsearchRows);
-                           } else {
-                               progress().Rows(p.Rows);
-                           }
+
+                            if (p.Exception) {
+                                logger.error(p.Exception.Message);
+                                return;
+                            }
+
+                            if (p.Rows === -1) {
+                                progress().ElasticsearchQueue.MessagesCount(p.ElasticsearchQueue.MessagesCount);
+                                progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
+                                progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
+                                progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
+                                progress().SqlRows(p.SqlRows);
+                                progress().ElasticsearchRows(p.ElasticsearchRows);
+                            } else {
+                                progress().Rows(p.Rows);
+                            }
                     })
-                     .done(function (result) {
-                         logger.info(result.message);
-                         progress().busy(false);
-                     });
+                    .done(function (result) {
+                                logger.info(result.message);
+                                progress().busy(false);
+                            });
             },
             requestCancel = function () {
                 return hub.server.requestCancel();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -10,6 +11,7 @@ using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.ViewModels;
 using Humanizer;
 using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Web.Hubs
@@ -97,15 +99,25 @@ namespace Bespoke.Sph.Web.Hubs
 
         public class ProgressData
         {
+            public Exception Exception { get; set; }
+            public object Data { get; set; }
             public int Rows { get; set; }
             public int ElasticsearchRows { get; set; }
             public int SqlRows { get; set; }
+            [JsonIgnore]
+            public TimeSpan Elapsed { set; get; }
+            public string TotalTime => this.Elapsed.Humanize();
             public Queue ElasticsearchQueue { get; set; } = new Queue("es.data-import", 0, 0);
             public Queue SqlServerQueue { get; set; } = new Queue("persistence", 0, 0);
 
             public ProgressData(int rows)
             {
                 Rows = rows;
+            }
+            public ProgressData(Exception exception, object data)
+            {
+                Exception = exception;
+                Data = data;
             }
 
             public static ProgressData Parse(string es, string sql)
@@ -134,16 +146,24 @@ namespace Bespoke.Sph.Web.Hubs
 
         public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<ProgressData> progress)
         {
+            var sw = new Stopwatch();
+            sw.Start();
             m_isCancelRequested = false;
-            var statusTask = UpdateImportStatusAsync(model,progress);
-            var importTask = ImportDataAsync(model, progress);
-
+            var statusTask = UpdateImportStatusAsync(model, sw, progress);
+            var importTask = ImportDataAsync(model, sw, progress);
             await Task.WhenAll(statusTask, importTask);
+            sw.Stop();
             var rows = await importTask;
             return rows;
         }
 
-        private async Task<object> ImportDataAsync(ImportDataViewModel model, IProgress<ProgressData> progress)
+        public class MapResult
+        {
+            public dynamic Result { get; set; }
+            public bool HasError { get; set; }
+            public Exception Error { get; set; }
+        }
+        private async Task<object> ImportDataAsync(ImportDataViewModel model, Stopwatch sw, IProgress<ProgressData> progress)
         {
             var context = new SphDataContext();
             var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
@@ -177,19 +197,26 @@ namespace Bespoke.Sph.Web.Hubs
             {
                 using (var session = context.OpenSession())
                 {
+                    var tasks = new List<Task<MapResult>>();
                     foreach (var source in lo.ItemCollection)
                     {
                         rows++;
-                        var item = await map.TransformAsync(source);
-                        Console.WriteLine("ENT_ID:" + item.Id);
-                        session.Attach(item);
+                        var task = this.TransformAsync(map, source, model, progress);
+                        tasks.Add(task);
                     }
+                    var results = await Task.WhenAll(tasks);
+                    var entities = results.Where(x => !x.HasError)
+                            .Select(x => x.Result)
+                            .Cast<Entity>()
+                            .ToArray();
+                    session.Attach(entities);
 
                     await session.SubmitChanges("Import", headers);
                     if (model.DelayThrottle.HasValue)
                         await Task.Delay(model.DelayThrottle.Value);
 
-                    progress.Report(new ProgressData(rows));
+                    var pd = new ProgressData(rows) { Elapsed = sw.Elapsed };
+                    progress.Report(pd);
                 }
                 if (m_isCancelRequested)
                     return new { statusCode = 206, rows, message = $"Stop requested after {rows} rows imported" };
@@ -206,7 +233,43 @@ namespace Bespoke.Sph.Web.Hubs
             };
         }
 
-        private async Task UpdateImportStatusAsync(ImportDataViewModel model, IProgress<ProgressData> progress)
+        private async Task<MapResult> TransformAsync(dynamic map, dynamic source, ImportDataViewModel model, IProgress<ProgressData> progress)
+        {
+            var setting = new JsonSerializerSettings {Formatting = Formatting.Indented};
+            var retryCount = 0;
+            while (retryCount < 5)
+            {
+                try
+                {
+                    var dest0 = await map.TransformAsync(source);
+                    return new MapResult { Result = dest0 };
+                }
+                catch (Exception ex)
+                {
+                    if (retryCount >= 4)
+                    {
+                        var log = new LogEntry(ex);
+                        progress.Report(new ProgressData(ex, source));
+                        var id = $"{DateTime.Now:yyyyMMdd.HHmmss.fff}.{Guid.NewGuid().ToString().Substring(0, 4)}";
+                        var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{model.Name}";
+                        if (!System.IO.Directory.Exists(folder))
+                            System.IO.Directory.CreateDirectory(folder);
+                        System.IO.File.WriteAllText($"{folder}\\{id}.data", JsonConvert.SerializeObject(source,setting));
+                        System.IO.File.WriteAllText($"{folder}\\{id}.error", log.ToString());
+                        return new MapResult
+                        {
+                            Error = ex,
+                            HasError = true
+                        };
+                    }
+                }
+                retryCount++;
+            }
+            var dest = map.TransformAsync(source);
+            return new MapResult { Result = dest };
+        }
+
+        private async Task UpdateImportStatusAsync(ImportDataViewModel model, Stopwatch sw, IProgress<ProgressData> progress)
         {
             var sqlMessages = 1;
             var esMessages = 1;
@@ -226,6 +289,7 @@ namespace Bespoke.Sph.Web.Hubs
                 var sql = await sqlTask;
 
                 var pd = ProgressData.Parse(es, sql);
+                pd.Elapsed = sw.Elapsed;
                 pd.ElasticsearchRows = await esCountTask;
                 pd.SqlRows = await sqlCountTask;
                 progress.Report(pd);
@@ -234,6 +298,8 @@ namespace Bespoke.Sph.Web.Hubs
                 if (sqlMessages == 0 && esMessages == 0)
                     consecutiveEmptyMessages++;
                 else
+                    consecutiveEmptyMessages = 0;
+                if (pd.ElasticsearchQueue.Rate > 0 || pd.SqlServerQueue.Rate > 0)
                     consecutiveEmptyMessages = 0;
 
                 sqlMessages = pd.SqlServerQueue.MessagesCount;
@@ -245,7 +311,7 @@ namespace Bespoke.Sph.Web.Hubs
 
         private async Task<int> GetElasticsearchCountAsync(ImportDataViewModel model)
         {
-            var json =await 
+            var json = await
                 m_elasticsearchHttpClient.GetStringAsync(
                     $"{ConfigurationManager.ElasticSearchIndex}/{model.Entity.ToLowerInvariant()}/_count");
             var jo = JObject.Parse(json);
@@ -258,9 +324,9 @@ namespace Bespoke.Sph.Web.Hubs
             using (var cmd = new SqlCommand(sql, conn))
             {
                 await conn.OpenAsync();
-                var rows =await cmd.ExecuteScalarAsync();
+                var rows = await cmd.ExecuteScalarAsync();
                 if (rows == DBNull.Value) return 0;
-                return (int) rows;
+                return (int)rows;
             }
         }
         public async Task<object> Preview(ImportDataViewModel model)
