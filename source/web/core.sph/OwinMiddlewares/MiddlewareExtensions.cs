@@ -6,6 +6,7 @@ using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Hubs;
+using Microsoft.AspNet.SignalR;
 using Owin;
 
 namespace Bespoke.Sph.Web.OwinMiddlewares
@@ -14,6 +15,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
     {
         public static IAppBuilder MapSignalRConnection(this IAppBuilder app)
         {
+            GlobalHost.HubPipeline.AddModule(new ErrorHandlingPipelineModule());
             app.MapSignalR();
             app.MapSignalR<MessageConnection>("/signalr_message");
             app.MapSignalR<SolutionConnection>("/signalr_solution");
