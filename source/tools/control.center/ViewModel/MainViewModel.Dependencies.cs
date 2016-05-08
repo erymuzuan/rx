@@ -136,6 +136,28 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private bool m_sphWorkerServiceStarted;
         private bool m_isBusy;
+        private string m_busyMessage;
+
+        public string BusyMessage
+        {
+            get { return m_busyMessage; }
+            set
+            {
+                m_busyMessage = value;
+                RaisePropertyChanged("BusyMessage");
+            }
+        }
+
+        public void StartBusy(string message)
+        {
+            this.BusyMessage = message;
+            this.IsBusy = true;
+        }
+        public void StopBusy()
+        {
+            this.IsBusy = false;
+            this.BusyMessage = "";
+        }
 
         public bool IsBusy
         {

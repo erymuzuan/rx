@@ -83,7 +83,7 @@
         </Grid>
 
 
-        <telerik:RadBusyIndicator Grid.Row="2" Grid.Column="0" IsBusy="{Binding IsBusy}" BusyContent="Please wait..." d:IsHidden="True" />
+        <telerik:RadBusyIndicator Grid.Row="2" Grid.Column="0" IsBusy="{Binding IsBusy}" BusyContent="{Binding BusyMessage}" d:IsHidden="True" />
 
     </Grid>
 </Window>

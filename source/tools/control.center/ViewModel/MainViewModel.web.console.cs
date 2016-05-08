@@ -33,8 +33,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 this.IsBusy = false;
             }
         }
+
+
         private async Task DeployOutputHelper()
         {     // stop the workers
+
             this.Log("Stoping worker and give it a 2500 ms break");
             try
             {
@@ -54,9 +57,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 });
                 return;
             }
+            this.StartBusy("Starting to deploy output to subscribers and web");
+            
             foreach (var f in WebConsoleServer.Default.CreatedFileCollection)
             {
-                this.Log($"Deploying {f} ...");
+                this.Log(this.BusyMessage = $"Deploying {f} ...");
                 WebConsoleServer.Default.DeployOutput(f);
             }
             WebConsoleServer.Default.CreatedFileCollection.Clear();
@@ -73,6 +78,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.Log("Stating worker");
             if (this.StartSphWorkerCommand.CanExecute(null))
                 this.StartSphWorker();
+            this.StopBusy();
         }
 
 
