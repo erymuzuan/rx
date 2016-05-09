@@ -115,25 +115,27 @@
                         url: "/sph/editor/save",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        error: function(){
+                        error: function () {
                             alert("error");
                         },
-                        success: function(){
+                        success: function () {
                             isBusy(false);
                         }
                     });
 
                 },
                 saveAndClose = function () {
-
                     save().done(function () {
+                        if (window.saved) {
+                            window.saved(editor.getValue(), true);
+                        }
                         window.close();
                     });
 
                 },
                 copiedText = "",
                 copy = function () {
-                  copiedText =  editor.getCopyText();
+                    copiedText = editor.getCopyText();
                 },
                 paste = function () {
                     editor.getSession().insert(copiedText);

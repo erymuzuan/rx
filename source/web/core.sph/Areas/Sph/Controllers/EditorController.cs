@@ -76,7 +76,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 case ".css":
                     mode = "css";
                     break;
+                case ".error":
+                    mode = "text";
+                    break;
                 case ".js":
+                case ".data":
                     mode = "javascript";
                     break;
                 default:
