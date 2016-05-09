@@ -1,15 +1,17 @@
-
-<table class="table table-striped table-condensed" data-bind="with : parentRoot">
+<table class="table table-striped table-condensed table-hover" data-bind="with : parentRoot">
     <thead>
     <tr id="error-rows-header">
+        <th>#</th>
         <th>Data</th>
         <th>Error Message</th>
     </tr>
     </thead>
     <tbody id="error-rows-body" data-bind="foreach :errorRows">
     <tr>
+        <td data-bind="text: (($index() + 1) + ($root.currentPage() - 1) * $root.currentPageSize())"></td>
         <td>
-            <a href="javascript:;" data-bind="click : $root.viewData, text:JSON.stringify(Data).substring(0,100) + '....', tooltip: ErrorId">
+            <a href="javascript:;"
+               data-bind="click : $root.viewData, text:JSON.stringify(Data).substring(0,100) + '....', tooltip: ErrorId">
 
             </a>
         </td>
@@ -29,3 +31,4 @@
     </tr>
     </tbody>
 </table>
+<div id="pager"></div>

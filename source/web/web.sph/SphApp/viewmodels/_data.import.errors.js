@@ -13,14 +13,106 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var isBusy = ko.observable(false),
             parentRoot = ko.observable(),
+            totalRows = ko.observable(0),
+            pager = null,
+            currentPage = ko.observable(1),
+            currentPageSize = ko.observable(10),
+            changed = function(page,size){
+                if(!pager){
+                    return;
+                }
+                currentPage(page);
+                currentPageSize(size);
+                var skip = (page - 1) * size,
+                    take = size,
+                    model = parentRoot().model().name();
+
+                $.getJSON("/api/data-imports/" + model + "/errors?$skip=" + skip + "&$take=" + take)
+                    .done(function(result){
+                        parentRoot().errorRows(result.items);
+                    });
+            },
             activate = function (root) {
                 parentRoot(ko.unwrap(root));
-                parentRoot().model().name.subscribe(function(model){
-                    $.getJSON("/api/data-imports/" + model + "/errors")
-                        .done(parentRoot().errorRows);
+            },
+            createPager = function(element){
+                if(pager && typeof pager.destroy === "function"){
+                    pager.destroy();
+                }
+                var options = {},
+                    count = ko.unwrap(totalRows),
+                    sizes =  [10, 20, 50],
+                    defaultSize = 10,
+                    self2 = this,
+                    rows = _.range(count),
+                    pagerDataSource = new kendo.data.DataSource({
+                        data: rows,
+                        pageSize: defaultSize
+                    });
+                if (options.hidden) {
+                    return self2;
+                }
+
+                pager = element.kendoPager({
+                    dataSource: pagerDataSource,
+                    pageSizes: sizes
+                }).data("kendoPager");
+                pager.page(1);
+                pager.bind("change", function () {
+                    if (changed) {
+                        changed(pager.page(), pager.pageSize());
+                    }
                 });
+
+                self2.update = function (count2) {
+                    rows = [];
+                    for (var j = 0; j < count2 ; j++) {
+                        rows[j] = j;
+                    }
+                    setTimeout(function () {
+                        pagerDataSource.data(rows);
+                    }, 500);
+                };
+                self2.destroy = function () {
+                    pager.destroy();
+                    element.empty();
+                };
+
+                self2.pageSize = function (size) {
+                    if (size) {
+                        pager.pageSize(size);
+                    }
+                    return pager.pageSize();
+                };
+                self2.page = function (pg) {
+                    if (pg) {
+                        pager.page(pg);
+                    }
+                    return pager.page();
+                };
+
+                var dropdownlist = $(element).find("select").data("kendoDropDownList");
+                dropdownlist.bind("change", function () {
+                    try {
+                        changed(1, parseInt(this.value()));
+                    } catch (e) {
+
+                    }
+                });
+
             },
             attached = function (view) {
+
+                var element = $(view).find("#pager");
+                parentRoot().model().name.subscribe(function(model){
+                    $.getJSON("/api/data-imports/" + model + "/errors?$take=10&$skip=0")
+                        .done(function(result){
+                            parentRoot().errorRows(result.items);
+                            totalRows(result.total);
+                            createPager(element);
+                        });
+                });
+
             },
             viewData = function (row) {
                 var params = [
@@ -55,6 +147,20 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                 .done(function(){
                                     parentRoot().errorRows.remove(row);
                                     tcs.resolve(row);
+
+                                    //
+                                    pager.destroy();
+                                    var skip = (currentPage() - 1) * currentPageSize(),
+                                        take = currentPageSize(),
+                                        model = parentRoot().model().name(),
+                                        element = $("#pager");
+                                    $.getJSON("/api/data-imports/" + model + "/errors?$take=" + take + "&$skip=" + skip)
+                                        .done(function(result){
+                                            parentRoot().errorRows(result.items);
+                                            totalRows(result.total);
+                                            createPager(element);
+                                            changed(currentPage(), currentPageSize());
+                                        });
                                 });
 
                         } else {
@@ -70,6 +176,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var vm = {
             isBusy: isBusy,
+            currentPageSize :currentPageSize,
+            currentPage:currentPage,
             parentRoot: parentRoot,
             ignoreRow : ignoreRow,
             activate: activate,

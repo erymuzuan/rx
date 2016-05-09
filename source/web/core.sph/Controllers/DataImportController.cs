@@ -61,10 +61,8 @@ namespace Bespoke.Sph.Web.Controllers
             if (!System.IO.Directory.Exists(folder))
                 System.IO.Directory.CreateDirectory(folder);
 
-            var files = System.IO.Directory.GetFiles(folder, "*.data")
-                .Take(take)
-                .Skip(skip);
-            var rows = from f in files
+            var files = System.IO.Directory.GetFiles(folder, "*.data");
+            var rows = from f in files.Skip(skip).Take(take)
                 let id = System.IO.Path.GetFileNameWithoutExtension(f)
                 let errorFile = $"{folder}\\{id}.error"
                 let data = System.IO.File.ReadAllText(f)
@@ -85,9 +83,12 @@ namespace Bespoke.Sph.Web.Controllers
 }}";
 
             var sb = new StringBuilder();
-            sb.Append("[");
+            sb.Append(@"{ 
+""items"" : [");
             sb.Append(string.Join(",", rows));
-            sb.Append("]");
+            sb.Append($@"],
+                ""total"" : {files.Length}
+}}");
 
             return Json(sb.ToString());
         }
