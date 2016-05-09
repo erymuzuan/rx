@@ -206,6 +206,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         progress().busy(false);
                     });
             },
+            ignoreRow = function(row) {
+                return hub.server.ignoreRow(row.ErrorId);
+            },
             importOneRow = function (row) {
                 return hub.server.importOneRow(row.ErrorId, ko.mapping.toJS(model), JSON.stringify(row.Data))
                         .fail(function (e) {
@@ -291,6 +294,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         var vm = {
             progressData: progress,
             importOneRow: importOneRow,
+            ignoreRow: ignoreRow,
             entityOptions: entityOptions,
             tableOptions: tableOptions,
             adapterOptions: adapterOptions,

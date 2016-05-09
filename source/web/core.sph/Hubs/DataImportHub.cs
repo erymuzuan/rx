@@ -146,6 +146,19 @@ namespace Bespoke.Sph.Web.Hubs
             }
         }
 
+        public void IgnoreRow(string errorId)
+        {
+            var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports";
+
+            var dataFile = $"{folder}\\{errorId}.data";
+            if (System.IO.File.Exists(dataFile))
+                System.IO.File.Delete(dataFile);
+            var errorFile = $"{folder}\\{errorId}.error";
+            if (System.IO.File.Exists(errorFile))
+                System.IO.File.Delete(errorFile);
+
+        }
+
         public async Task<object> ImportOneRow(string errorId, ImportDataViewModel model, string json)
         {
             var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports";
@@ -214,7 +227,7 @@ namespace Bespoke.Sph.Web.Hubs
             {
                 statusCode = 200,
                 success = true,
-                message = $"successfully imported",
+                message = "successfully imported",
                 status = "OK"
             };
         }
