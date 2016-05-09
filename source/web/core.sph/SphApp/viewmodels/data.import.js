@@ -37,6 +37,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             progress = ko.observable({
                 busy: ko.observable(false),
                 Rows: ko.observable(0),
+                errors: ko.observable(0),
                 SqlRows: ko.observable(0),
                 ElasticsearchRows: ko.observable(0),
                 ElasticsearchQueue: {
@@ -185,8 +186,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         .progress(function (p) {
 
                             if (p.Exception) {
-                                logger.error(p.Exception.Message);
-                                errorRows.push(p);
+                                progress().errors(progress().errors() + 1);
+                                console.error(p.Exception.Message);
+                                // do paging
+                                if (errorRows().length < 20) {
+                                    errorRows.push(p);
+                                }
                                 return;
                             }
 
@@ -206,7 +211,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         progress().busy(false);
                     });
             },
-            ignoreRow = function(row) {
+            ignoreRow = function (row) {
                 return hub.server.ignoreRow(row.ErrorId);
             },
             importOneRow = function (row) {

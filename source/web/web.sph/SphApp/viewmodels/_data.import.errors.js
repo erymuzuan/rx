@@ -15,9 +15,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             parentRoot = ko.observable(),
             activate = function (root) {
                 parentRoot(ko.unwrap(root));
+                parentRoot().model().name.subscribe(function(model){
+                    $.getJSON("/api/data-imports/" + model + "/errors")
+                        .done(parentRoot().errorRows);
+                });
             },
             attached = function (view) {
-
             },
             viewData = function (row) {
                 var params = [
