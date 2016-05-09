@@ -41,6 +41,9 @@
             <li>
                 <a href="#data-import-advanced" data-toggle="tab">Advanced Options</a>
             </li>
+            <li>
+                <a href="#data-import-errors" data-toggle="tab">Errors</a>
+            </li>
         </ul>
         <div class="tab-content">
             <div id="data-import-general" class="tab-pane active">
@@ -196,6 +199,10 @@
                     </div>
                 </form>
 
+            </div>
+            <div id="data-import-errors" class="tab-pane">
+                <!-- ko compose : {model : 'viewmodels/_data.import.errors', activationData :$root }-->
+                <!--/ko-->
             </div>
 
         </div>

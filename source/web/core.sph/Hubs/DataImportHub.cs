@@ -101,6 +101,7 @@ namespace Bespoke.Sph.Web.Hubs
         {
             public Exception Exception { get; set; }
             public object Data { get; set; }
+            public string ErrorId { get; set; }
             public int Rows { get; set; }
             public int ElasticsearchRows { get; set; }
             public int SqlRows { get; set; }
@@ -114,10 +115,11 @@ namespace Bespoke.Sph.Web.Hubs
             {
                 Rows = rows;
             }
-            public ProgressData(Exception exception, object data)
+            public ProgressData(Exception exception, object data, string errorId)
             {
                 Exception = exception;
                 Data = data;
+                ErrorId = errorId;
             }
 
             public static ProgressData Parse(string es, string sql)
@@ -144,6 +146,79 @@ namespace Bespoke.Sph.Web.Hubs
             }
         }
 
+        public async Task<object> ImportOneRow(string errorId, ImportDataViewModel model, string json)
+        {
+            var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports";
+            var context = new SphDataContext();
+            var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
+            var mapping = await context.LoadOneAsync<TransformDefinition>(x => x.Id == model.Map);
+
+            dynamic tableAdapter = GetTableAdapterInstance(model, adapter);
+            if (null == tableAdapter) return new
+            {
+                statusCode = 404,
+                message = $"{adapter.AssemblyName}.dll does not exist, you may have to build your adapter before it could be used"
+            };
+
+            dynamic map = GetMapInstance(mapping);
+            if (null == map) return new
+            {
+                statusCode = 404,
+                message = $"{mapping.AssemblyName}.dll in web\\bin does not exist, you may have to build your TransformDefinition before it could be used"
+            };
+
+            var headers = new Dictionary<string, object>
+            {
+                {"data-import", model.IgnoreMessaging},
+                {"sql.retry", model.SqlRetry},
+                {"sql.wait", model.SqlWait},
+                {"es.retry", model.EsRetry},
+                {"es.wait", model.EsWait}
+            };
+            using (var session = context.OpenSession())
+            {
+                var type = GetSourceType(model, adapter);
+                dynamic source = JsonConvert.DeserializeObject(json, type);
+                try
+                {
+                    // TODO : try catch
+                    var item = await map.TransformAsync(source);
+                    session.Attach(item);
+                    await session.SubmitChanges("Import", headers);
+                }
+                catch (Exception e)
+                {
+                    var log = new LogEntry(e);
+                    System.IO.File.WriteAllText($"{folder}\\{errorId}.error", log.ToString());
+                    return new
+                    {
+                        statusCode = 500,
+                        success = false,
+                        message = e.Message,
+                        stackTrace = e.StackTrace,
+                        type = e.GetType().FullName,
+                        status = "Not OK"
+                    };
+
+                }
+            }
+
+            var dataFile = $"{folder}\\{errorId}.data";
+            if (System.IO.File.Exists(dataFile))
+                System.IO.File.Delete(dataFile);
+            var errorFile = $"{folder}\\{errorId}.error";
+            if (System.IO.File.Exists(errorFile))
+                System.IO.File.Delete(errorFile);
+
+            return new
+            {
+                statusCode = 200,
+                success = true,
+                message = $"successfully imported",
+                status = "OK"
+            };
+        }
+
         public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<ProgressData> progress)
         {
             var sw = new Stopwatch();
@@ -162,6 +237,7 @@ namespace Bespoke.Sph.Web.Hubs
             public dynamic Result { get; set; }
             public bool HasError { get; set; }
             public Exception Error { get; set; }
+            public string ErrorId { get; set; }
         }
         private async Task<object> ImportDataAsync(ImportDataViewModel model, Stopwatch sw, IProgress<ProgressData> progress)
         {
@@ -235,7 +311,7 @@ namespace Bespoke.Sph.Web.Hubs
 
         private async Task<MapResult> TransformAsync(dynamic map, dynamic source, ImportDataViewModel model, IProgress<ProgressData> progress)
         {
-            var setting = new JsonSerializerSettings {Formatting = Formatting.Indented};
+            var setting = new JsonSerializerSettings { Formatting = Formatting.Indented };
             var retryCount = 0;
             while (retryCount < 5)
             {
@@ -249,17 +325,19 @@ namespace Bespoke.Sph.Web.Hubs
                     if (retryCount >= 4)
                     {
                         var log = new LogEntry(ex);
-                        progress.Report(new ProgressData(ex, source));
                         var id = $"{DateTime.Now:yyyyMMdd.HHmmss.fff}.{Guid.NewGuid().ToString().Substring(0, 4)}";
-                        var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{model.Name}";
+                        var errorId = $"{model.Name.ToIdFormat()}/{id}";
+                        progress.Report(new ProgressData(ex, source, errorId));
+                        var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\";
                         if (!System.IO.Directory.Exists(folder))
                             System.IO.Directory.CreateDirectory(folder);
-                        System.IO.File.WriteAllText($"{folder}\\{id}.data", JsonConvert.SerializeObject(source,setting));
-                        System.IO.File.WriteAllText($"{folder}\\{id}.error", log.ToString());
+                        System.IO.File.WriteAllText($"{folder}\\{errorId}.data", JsonConvert.SerializeObject(source, setting));
+                        System.IO.File.WriteAllText($"{folder}\\{errorId}.error", log.ToString());
                         return new MapResult
                         {
                             Error = ex,
-                            HasError = true
+                            HasError = true,
+                            ErrorId = errorId
                         };
                     }
                 }
@@ -346,6 +424,16 @@ namespace Bespoke.Sph.Web.Hubs
 
         }
 
+        private Type GetSourceType(ImportDataViewModel model, Adapter adapter)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            var dll = assemblies.SingleOrDefault(x => x.GetName().Name == adapter.AssemblyName);
+            if (null == dll) return null;
+            var sourceTypeName = $"{adapter.CodeNamespace}.{model.Table}";
+            var sourceType = dll.GetType(sourceTypeName);
+            return sourceType;
+        }
         private object GetTableAdapterInstance(ImportDataViewModel model, Adapter adapter)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();

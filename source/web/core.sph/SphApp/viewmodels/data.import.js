@@ -25,16 +25,17 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             sqlWait: ko.observable(),
             esWait: ko.observable(),
             map: ko.observable(),
-            ignoreMessaging : ko.observable(true)
+            ignoreMessaging: ko.observable(true)
         }),
             connection = null,
             hub = null,
+            errorRows = ko.observableArray(),
             adapterOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
             entityOptions = ko.observableArray(),
             mapOptions = ko.observableArray(),
             progress = ko.observable({
-                busy : ko.observable(false),
+                busy: ko.observable(false),
                 Rows: ko.observable(0),
                 SqlRows: ko.observable(0),
                 ElasticsearchRows: ko.observable(0),
@@ -42,13 +43,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     Name: ko.observable("es.data-import"),
                     MessagesCount: ko.observable("NA"),
                     Rate: ko.observable("NA"),
-                    Unacked : ko.observable("NA")
+                    Unacked: ko.observable("NA")
                 },
                 SqlServerQueue: {
                     Name: ko.observable("es.data-import"),
                     MessagesCount: ko.observable("NA"),
                     Rate: ko.observable("NA"),
-                    Unacked : ko.observable("NA")
+                    Unacked: ko.observable("NA")
                 }
             }),
             isBusy = ko.observable(false),
@@ -176,14 +177,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             importData = function () {
                 progress().busy(true);
+                errorRows([]);
                 return hub.server.execute(ko.unwrap(model().Name), ko.mapping.toJS(model))
-                        .fail(function(e) {
+                        .fail(function (e) {
                             logger.error(e);
                         })
                         .progress(function (p) {
 
                             if (p.Exception) {
                                 logger.error(p.Exception.Message);
+                                errorRows.push(p);
                                 return;
                             }
 
@@ -197,11 +200,20 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             } else {
                                 progress().Rows(p.Rows);
                             }
-                    })
+                        })
                     .done(function (result) {
-                                logger.info(result.message);
-                                progress().busy(false);
-                            });
+                        logger.info(result.message);
+                        progress().busy(false);
+                    });
+            },
+            importOneRow = function (row) {
+                return hub.server.importOneRow(row.ErrorId, ko.mapping.toJS(model), JSON.stringify(row.Data))
+                        .fail(function (e) {
+                            logger.error(e);
+                        })
+                    .done(function (result) {
+                        logger.info(result.message);
+                    });
             },
             requestCancel = function () {
                 return hub.server.requestCancel();
@@ -278,6 +290,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var vm = {
             progressData: progress,
+            importOneRow: importOneRow,
             entityOptions: entityOptions,
             tableOptions: tableOptions,
             adapterOptions: adapterOptions,
@@ -286,6 +299,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             isBusy: isBusy,
             activate: activate,
             attached: attached,
+            errorRows: errorRows,
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAsync,

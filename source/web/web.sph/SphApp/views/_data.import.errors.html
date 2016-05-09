@@ -1,0 +1,25 @@
+
+<table class="table table-striped table-condensed" data-bind="with : parentRoot">
+    <thead>
+    <tr id="error-rows-header">
+        <th>Data</th>
+        <th>Error Message</th>
+    </tr>
+    </thead>
+    <tbody id="error-rows-body" data-bind="foreach :errorRows">
+    <tr>
+        <td>
+            <a href="javascript:;" data-bind="click : $root.viewData, text:JSON.stringify(Data).substring(0,100) + '....', tooltip: ErrorId">
+
+            </a>
+        </td>
+        <td>
+            <a href="javascript:;" data-bind="click : $root.viewException">
+                <i class="fa fa-clipboard"></i>
+                <!-- ko text: Exception.Message-->
+                <!-- /ko -->
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
