@@ -90,3 +90,28 @@ The number in milliseconds the worker will wait when the first attempt failed, t
 The wait will be `n * wait`, where n is number of attempts, so if you set the wait at 1500 milliseconds, when the first failure happened it will wait for 1500 milliseconds before attempting another retry, but if the second retry also failed, it will wait for 3000 milliseconds( 2 * 1500 milliseconds) before attempting another retry.. and so and so on
 
 If leave blank, the default figure is 1000 milliseconds
+
+
+## Error handling
+
+When you are importing lots of data, chance is, there might be some data which cannot be transformed correctly and the final output doesn't fit the SQL schema defined in your `EntityDefinition`.
+
+Rx Developer allow you to edit and continue your import process, with a few steps.
+
+The first kind of error that could happen is the mapping error, where your source could not be transformed successfully to the your `Entity` type using the `TransformDefinition` supplied.  There are various reason why this could happened for example
+* Your `TransformDefinition` do not expecting the kind of input format you had designed.
+* Your source field could be null
+* Your source field could be different type than the one defined in your `TransformDefinition`
+
+When a mapping error occured, the data will be rejected and it will be written to disk in your `/web/App_Data/data-imports/<data-import-definition-id>` folder. There will 2 file types
+
+* .data extension, is the raw data in json format
+* .error is the actual error details that happened during transformation, Clik on error details, and the `Exception` will be logged to your console.(use F12 to open your browser's developers tool)
+
+If you could view the `.error` file to view the error detail, that can help you to make decision on what to do next. You have 2 options to fix these errors
+
+1. Change your `TransformDefinition` and recompile
+2. Change the data, and re submit. To change the data, click on **Data** column, your raw json will be presented, click `Save and close` will resubmit your data.
+
+
+or you could ignore the data by choosing **ignore this row** button. This will delete those files and your data will not be part of your import anymore.
