@@ -182,13 +182,13 @@
         "OutputTypeName": null,
         "Label": null,
         "Comment": null,
-        "X": 121.0,
-        "Y": 203.0,
+        "X": 11.0,
+        "Y": 288.0,
         "WebId": "a844b099-19ab-4772-9d66-92070f5a9daf"
       },
       {
         "$type": "Bespoke.Sph.Domain.MySqlLookup, database.lookup.mysql",
-        "DefaultValue": "NA",
+        "DefaultValue": "0",
         "SqlText": "SELECT  emp_no from dept_manager\nwhere dept_no = @value1\nORDER BY to_date DESC\nLIMIT 1;\n",
         "ArgumentCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
@@ -214,7 +214,7 @@
               "Label": null,
               "Comment": null,
               "IsOptional": true,
-              "Functoid": "040cf102-a7d9-498f-875c-46e9c53cc9d1",
+              "Functoid": "f289f8f2-671e-4352-f079-3c27e09e616b",
               "Constant": null,
               "Default": null,
               "WebId": null
@@ -261,7 +261,7 @@
           ]
         },
         "Name": null,
-        "OutputTypeName": "System.String, mscorlib",
+        "OutputTypeName": "System.Int32, mscorlib",
         "Label": null,
         "Comment": null,
         "X": 372.0,
@@ -346,8 +346,8 @@
         "OutputTypeName": "System.String, mscorlib",
         "Label": null,
         "Comment": null,
-        "X": 138.0,
-        "Y": 395.0,
+        "X": 212.0,
+        "Y": 315.0,
         "WebId": "040cf102-a7d9-498f-875c-46e9c53cc9d1"
       },
       {
@@ -406,6 +406,90 @@
         "X": 483.0,
         "Y": 250.0,
         "WebId": "f6aabe53-d996-43f9-e435-966f08b4773f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.MySqlLookup, database.lookup.mysql",
+        "DefaultValue": "0",
+        "SqlText": "SELECT `dept_no` from dept_emp\nWHERE emp_no = @value1\nORDER BY to_date DESC\nLIMIT 1;",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "connection",
+              "TypeName": "System.String, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": false,
+              "Functoid": "a844b099-19ab-4772-9d66-92070f5a9daf",
+              "Constant": null,
+              "Default": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "value1",
+              "TypeName": "System.String, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": true,
+              "Functoid": "a4b52eda-58fc-4ba2-a746-533ccd4a7741",
+              "Constant": null,
+              "Default": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "value2",
+              "TypeName": "System.String, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": true,
+              "Functoid": null,
+              "Constant": null,
+              "Default": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "value3",
+              "TypeName": "System.String, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": true,
+              "Functoid": null,
+              "Constant": null,
+              "Default": null,
+              "WebId": null
+            }
+          ]
+        },
+        "Name": null,
+        "OutputTypeName": "System.String, mscorlib",
+        "Label": null,
+        "Comment": null,
+        "X": 166.0,
+        "Y": 111.0,
+        "WebId": "f289f8f2-671e-4352-f079-3c27e09e616b"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SourceFunctoid, domain.sph",
+        "Field": "emp_no",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "",
+        "OutputTypeName": "",
+        "Label": "",
+        "Comment": "",
+        "X": 0.0,
+        "Y": 0.0,
+        "WebId": "a4b52eda-58fc-4ba2-a746-533ccd4a7741"
       }
     ]
   },
@@ -438,6 +522,6 @@
   "Id": "my-sql-employees-to-employee",
   "CreatedDate": "2016-04-20T05:53:14.5738028+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-05-11T09:58:37.3831923+08:00",
+  "ChangedDate": "2016-05-11T11:39:51.6392257+08:00",
   "WebId": "de03bd41-7cdf-4929-b5bc-5ebdc61b39dc"
 }
