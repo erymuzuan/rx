@@ -141,7 +141,7 @@ namespace Bespoke.Sph.Domain
         /// The unique typename for each activity, should be overriden if you wish to have different name to avoid conflict
         /// </summary>
         public virtual string TypeName => this.GetType().Name.Replace("Activity", "");
-
+        [JsonIgnore]
         public ObjectCollection<Method> OtherMethodCollection { get; } = new ObjectCollection<Method>();
 
         protected Method AddMethod(StringBuilder code)

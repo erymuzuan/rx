@@ -13,7 +13,8 @@ namespace Bespoke.Sph.Domain.Codes
         public string Name { get; set; }
         public string FileName { get; set; }
         public string Code { get; set; }
-
+        [JsonIgnore]
+        public CodeExpression BodyExpression => CodeExpression.Load(this.Body);
         public string Body
         {
             get
@@ -50,7 +51,7 @@ namespace Bespoke.Sph.Domain.Codes
             {
                 code.AppendLine(attr);
             }
-            var asyncModifier = this.Body.Contains("await ") ? "async " : "";
+            var asyncModifier = this.BodyExpression.HasAsyncAwait ? "async " : "";
             var overrideModifier = this.IsOverride ? "override " : "";
             var staticModifier = this.IsStatic ? "static " : "";
             var virtualModifier = this.IsStatic ? "static " : "";

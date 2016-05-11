@@ -1,9 +1,12 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Bespoke.Sph.Domain.Codes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.Domain
 {
@@ -75,14 +78,33 @@ namespace Bespoke.Sph.Domain
                 VersionStamp.Default, "formatter", "formatter", LanguageNames.CSharp);
             var project = ws.AddProject(info);
             var tree = CSharpSyntaxTree.ParseText(code);
-            project.AddDocument("formatted", tree.GetText());
-            
+            var doc = project.AddDocument("formatted", tree.GetText());
+            Debug.WriteLine("What do we do with doc " + doc);
             var res = Microsoft.CodeAnalysis.Formatting.Formatter.Format(tree.GetRoot(), ws);
             return res.ToFullString();
         }
         public static string FormatCode(this StringBuilder code)
         {
             return code.ToString().FormatCode();
+        }
+
+        public static bool HasAsyncAwaitExpression(this CodeExpression expression)
+        {
+            if (expression.IsEmpty) return false;
+            var code = $@"var expression = @""
+public object Evaluate(object item)
+{{
+	{expression}
+}}
+""; ";
+            var snippet = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code);
+            var root = (CompilationUnitSyntax)snippet.GetRoot();
+            var nodes = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+                .Single(x => x.Identifier.Text == "Evaluate")
+                .Body
+                .Statements;
+
+            return nodes.SelectMany(x => x.DescendantNodes()).OfType<AwaitExpressionSyntax>().Any();
         }
     }
 }

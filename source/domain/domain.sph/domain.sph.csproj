@@ -194,6 +194,7 @@
     <Compile Include="Business\EmailTemplate.cs" />
     <Compile Include="Business\Photo.cs" />
     <Compile Include="Codes\Class.cs" />
+    <Compile Include="Codes\CodeExpression.cs" />
     <Compile Include="Codes\Method.cs" />
     <Compile Include="Codes\Property.cs" />
     <Compile Include="Compilers\CompilerHelper.cs" />
