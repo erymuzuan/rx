@@ -139,7 +139,7 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ScriptFunctoid, domain.sph",
-        "Expression": "// simulate some database calls\nawait Task.Delay(500);\n\nif(item.emp_no % 775 == 0 ){\n    throw new Exception(\"Error for every 75th row on \" + item.emp_no);\n}\n\nreturn item.emp_no.ToString();",
+        "Expression": "// simulate some database calls\nawait Task.Delay(500);\n\nif(item.emp_no % 775 == 0 && item.first_name.Length <= 5 ){\n    throw new Exception(\"Error for every 775th row on \" + item.emp_no  + \" and first_name is less than 5 chars\");\n}\n\nreturn item.emp_no.ToString();",
         "ArgumentCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
           "$values": []
@@ -183,6 +183,6 @@
   "Id": "my-sql-employees-to-employee",
   "CreatedDate": "2016-04-20T05:53:14.5738028+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-05-06T17:48:21.8606933+08:00",
+  "ChangedDate": "2016-05-09T19:26:47.8474894+08:00",
   "WebId": "de03bd41-7cdf-4929-b5bc-5ebdc61b39dc"
 }
