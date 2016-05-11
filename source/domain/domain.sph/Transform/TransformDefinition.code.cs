@@ -201,7 +201,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("               this.AfterTransform(item, dest);");
 
-            if (code.ToString().Contains("await "))
+            if (CodeExpression.Load(code).HasAsyncAwait)
                 code.AppendLinf("               return dest;");
             else
             {

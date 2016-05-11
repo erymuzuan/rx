@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -44,7 +45,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             code.AppendLine();
 
-            var asyncLambda = this.Expression.Contains("await ");
+            var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait;
             code.AppendLine(asyncLambda
                 ? $"               Func<{{SOURCE_TYPE}}, Task<{this.OutputType.ToCSharp()}>> {Name} = async (d) =>"
                 : $"               Func<{{SOURCE_TYPE}}, {this.OutputType.ToCSharp()}> {Name} = d =>");
@@ -55,13 +56,17 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+
+
+
+
         public override string GenerateAssignmentCode()
         {
             if (string.IsNullOrWhiteSpace(this.Name)) throw new InvalidOperationException("Name cannot be empty");
             var block = this.Expression;
             if (!block.Contains("return")) return this.Expression;
 
-            var asyncLambda = this.Expression.Contains("await ");
+            var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait;
             return asyncLambda ? $"await {this.Name}(item)" : $"{this.Name}(item)";
         }
 
