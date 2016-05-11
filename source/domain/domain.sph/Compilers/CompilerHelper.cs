@@ -90,6 +90,7 @@ namespace Bespoke.Sph.Domain
 
         public static bool HasAsyncAwaitExpression(this CodeExpression expression)
         {
+            if (expression.IsEmpty) return false;
             var code = $@"var expression = @""
 public object Evaluate(object item)
 {{
