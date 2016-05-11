@@ -138,23 +138,23 @@ namespace Bespoke.Sph.Domain
         public string GenerateTransformCode()
         {
             const string GAP = "               ";
-            var code = new StringBuilder();
+            var methodDeclaration = new StringBuilder();
 
             var args = "";
             if (!string.IsNullOrWhiteSpace(this.InputTypeName))
                 args = $"{this.InputType.FullName} item";
             if (this.InputCollection.Count > 0)
             {
-                code.AppendLine(" class Input");
-                code.AppendLine("{");
+                methodDeclaration.AppendLine(" class Input");
+                methodDeclaration.AppendLine("{");
                 foreach (var input in this.InputCollection)
                 {
                     var type = Strings.GetType(input.TypeName);
                     if (null == type) continue;
-                    code.AppendLinf(" public {0} {1} {{ get; set; }}", type.FullName, input.Name);
+                    methodDeclaration.AppendLinf(" public {0} {1} {{ get; set; }}", type.FullName, input.Name);
                 }
-                code.AppendLine("   ");
-                code.AppendLine("}");
+                methodDeclaration.AppendLine("   ");
+                methodDeclaration.AppendLine("}");
                 var list = from p in this.InputCollection
                            let type = Strings.GetType(p.TypeName)
                            where null != type
@@ -168,8 +168,10 @@ namespace Bespoke.Sph.Domain
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
             this.MapCollection.ForEach(x => x.TransformDefinition = this);
 
-            code.AppendLine($"           public async Task<{this.OutputType.FullName}> TransformAsync({args})");
-            code.AppendLine("           {");
+            methodDeclaration.AppendLine($"           public async Task<{this.OutputType.FullName}> TransformAsync({args})");
+            methodDeclaration.AppendLine("           {");
+
+            var code = new StringBuilder();
             if (this.InputCollection.Count > 0)
             {
                 code.AppendLinf(" var item = new {0}.Input();", this.Name);
@@ -209,27 +211,29 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("               return Task.FromResult(dest);");
             }
 
-            code.AppendLine("           }");
+            methodDeclaration.Append(code);
+
+            methodDeclaration.AppendLine("           }");
 
             // partial method
             if (this.InputCollection.Count > 0)
             {
-                code.AppendLine($"partial void BeforeTransform(Input item,{this.OutputType.FullName} destination);");
-                code.AppendLine($"partial void AfterTransform(Input item,{this.OutputType.FullName} destination);");
+                methodDeclaration.AppendLine($"partial void BeforeTransform(Input item,{this.OutputType.FullName} destination);");
+                methodDeclaration.AppendLine($"partial void AfterTransform(Input item,{this.OutputType.FullName} destination);");
             }
             else
             {
-                code.AppendLine($"partial void BeforeTransform({this.InputType.FullName} item,{this.OutputType.FullName} destination);");
-                code.AppendLine($"partial void AfterTransform({this.InputType.FullName} item,{this.OutputType.FullName} destination);");
+                methodDeclaration.AppendLine($"partial void BeforeTransform({this.InputType.FullName} item,{this.OutputType.FullName} destination);");
+                methodDeclaration.AppendLine($"partial void AfterTransform({this.InputType.FullName} item,{this.OutputType.FullName} destination);");
             }
 
             if (!string.IsNullOrWhiteSpace(this.InputTypeName))
-                code.Replace("{SOURCE_TYPE}", this.InputType.FullName);
+                methodDeclaration.Replace("{SOURCE_TYPE}", this.InputType.FullName);
             else
-                code.Replace("{SOURCE_TYPE}", this.Name + ".Input");
+                methodDeclaration.Replace("{SOURCE_TYPE}", this.Name + ".Input");
 
-            code.Replace("{DEST_TYPE}", this.OutputType.FullName);
-            return code.ToString();
+            methodDeclaration.Replace("{DEST_TYPE}", this.OutputType.FullName);
+            return methodDeclaration.ToString();
         }
 
         public string GenerateTransformToArrayCode()
