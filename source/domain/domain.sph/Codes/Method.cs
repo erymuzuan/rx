@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Domain.Codes
         public string Name { get; set; }
         public string FileName { get; set; }
         public string Code { get; set; }
-
+        [JsonIgnore]
         public CodeExpression BodyExpression => CodeExpression.Load(this.Body);
         public string Body
         {

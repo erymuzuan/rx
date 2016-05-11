@@ -1,4 +1,5 @@
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Codes
 {
@@ -24,7 +25,9 @@ namespace Bespoke.Sph.Domain.Codes
         {
             return m_expression;
         }
-
+        [JsonIgnore]
         public bool HasAsyncAwait => this.HasAsyncAwaitExpression();
+        [JsonIgnore]
+        public bool IsEmpty => string.IsNullOrWhiteSpace(m_expression);
     }
 }
