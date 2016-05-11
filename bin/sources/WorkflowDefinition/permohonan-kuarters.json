@@ -71,100 +71,7 @@
         "TypeName": "Notification",
         "OtherMethodCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
-              "Comment": null,
-              "AccessModifier": "Internal",
-              "ReturnType": null,
-              "Name": null,
-              "FileName": null,
-              "Code": "   private async Task<string> TransformFromHantarEmailKepadaPegesahanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
-              "Body": "",
-              "IsVirtual": false,
-              "IsOverride": false,
-              "IsStatic": false,
-              "ArgumentCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "AttributeCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-                "$values": []
-              },
-              "IsPartial": false,
-              "ReturnTypeName": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
-              "Comment": null,
-              "AccessModifier": "Internal",
-              "ReturnType": null,
-              "Name": null,
-              "FileName": null,
-              "Code": "   private async Task<string> TransformToHantarEmailKepadaPegesahanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
-              "Body": "",
-              "IsVirtual": false,
-              "IsOverride": false,
-              "IsStatic": false,
-              "ArgumentCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "AttributeCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-                "$values": []
-              },
-              "IsPartial": false,
-              "ReturnTypeName": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
-              "Comment": null,
-              "AccessModifier": "Internal",
-              "ReturnType": null,
-              "Name": null,
-              "FileName": null,
-              "Code": "   private async Task<string> TransformSubjectHantarEmailKepadaPegesahanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
-              "Body": "",
-              "IsVirtual": false,
-              "IsOverride": false,
-              "IsStatic": false,
-              "ArgumentCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "AttributeCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-                "$values": []
-              },
-              "IsPartial": false,
-              "ReturnTypeName": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
-              "Comment": null,
-              "AccessModifier": "Internal",
-              "ReturnType": null,
-              "Name": null,
-              "FileName": null,
-              "Code": "   private async Task<string> TransformBodyHantarEmailKepadaPegesahanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
-              "Body": "",
-              "IsVirtual": false,
-              "IsOverride": false,
-              "IsStatic": false,
-              "ArgumentCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "AttributeCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-                "$values": []
-              },
-              "IsPartial": false,
-              "ReturnTypeName": null
-            }
-          ]
+          "$values": []
         },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
@@ -255,100 +162,7 @@
         "TypeName": "Notification",
         "OtherMethodCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
-              "Comment": null,
-              "AccessModifier": "Internal",
-              "ReturnType": null,
-              "Name": null,
-              "FileName": null,
-              "Code": "   private async Task<string> TransformFromEmailKelulusanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
-              "Body": "",
-              "IsVirtual": false,
-              "IsOverride": false,
-              "IsStatic": false,
-              "ArgumentCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "AttributeCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-                "$values": []
-              },
-              "IsPartial": false,
-              "ReturnTypeName": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
-              "Comment": null,
-              "AccessModifier": "Internal",
-              "ReturnType": null,
-              "Name": null,
-              "FileName": null,
-              "Code": "   private async Task<string> TransformToEmailKelulusanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
-              "Body": "",
-              "IsVirtual": false,
-              "IsOverride": false,
-              "IsStatic": false,
-              "ArgumentCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "AttributeCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-                "$values": []
-              },
-              "IsPartial": false,
-              "ReturnTypeName": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
-              "Comment": null,
-              "AccessModifier": "Internal",
-              "ReturnType": null,
-              "Name": null,
-              "FileName": null,
-              "Code": "   private async Task<string> TransformSubjectEmailKelulusanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
-              "Body": "",
-              "IsVirtual": false,
-              "IsOverride": false,
-              "IsStatic": false,
-              "ArgumentCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "AttributeCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-                "$values": []
-              },
-              "IsPartial": false,
-              "ReturnTypeName": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Codes.Method, domain.sph",
-              "Comment": null,
-              "AccessModifier": "Internal",
-              "ReturnType": null,
-              "Name": null,
-              "FileName": null,
-              "Code": "   private async Task<string> TransformBodyEmailKelulusanAsync(string template)\r\n   {\r\n\r\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\r\n            return await razor.GenerateAsync(template, this).ConfigureAwait(false);   }\r\n",
-              "Body": "",
-              "IsVirtual": false,
-              "IsOverride": false,
-              "IsStatic": false,
-              "ArgumentCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "AttributeCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-                "$values": []
-              },
-              "IsPartial": false,
-              "ReturnTypeName": null
-            }
-          ]
+          "$values": []
         },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
@@ -625,6 +439,6 @@
   "Id": "permohonan-kuarters",
   "CreatedDate": "2016-03-01T15:26:07.7855503+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-25T10:24:53.9216985+08:00",
+  "ChangedDate": "2016-05-11T08:51:07.1484406+08:00",
   "WebId": "a72c7612-b699-440c-885e-a1646e026b9d"
 }
