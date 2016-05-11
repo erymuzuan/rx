@@ -49,6 +49,8 @@ namespace Bespoke.Sph.Domain
             Func<string, string> evalValue = key =>
             {
                 var assignmentCode = string.Empty;
+                if (null == this[key]) return assignmentCode;
+
                 if (null != this[key].GetFunctoid(this.TransformDefinition))
                     assignmentCode = this[key].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode();
                 return assignmentCode;
@@ -64,7 +66,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("object __result{0} = null;", this.Index);
             code.AppendLinf("var __connectionString{0} =  @{1};", this.Index, connection);
 
-            code.AppendLinf("const string __text{0} = \"{1}\";", this.Index, this.SqlText);
+            code.AppendLinf("const string __text{0} = @\"{1}\";", this.Index, this.SqlText);
 
 
             code.AppendLinf("using(var __conn = new {1}(__connectionString{0}))", this.Index, typeof(MySqlConnection).FullName);
