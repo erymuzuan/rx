@@ -514,6 +514,54 @@
         "AllowMultiple": true,
         "DefaultValue": null,
         "WebId": "85b9bca3-becb-412f-af29-cdc50ad38dcb"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Manager",
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": "a23fd380-3ae4-450a-c871-054fb3e69be1"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Deparment",
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": "a312eef7-a268-465d-dc98-f80fec57bde7"
       }
     ]
   },
@@ -554,6 +602,6 @@
   "Id": "employee",
   "CreatedDate": "2016-04-20T05:35:11.7466965+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-28T07:41:58.5045435+08:00",
+  "ChangedDate": "2016-05-11T09:04:13.9345685+08:00",
   "WebId": "704eb1cc-f982-483b-b26a-2c5ed7d63b15"
 }

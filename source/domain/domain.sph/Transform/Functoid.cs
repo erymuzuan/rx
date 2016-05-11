@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Domain
         }
         public virtual string GenerateAssignmentCode()
         {
-            return string.Format("// NOT IMPLEMENTED => {0}", this.GetType().Name);
+            return $"// NOT IMPLEMENTED => {this.GetType().Name}";
         }
 
 
