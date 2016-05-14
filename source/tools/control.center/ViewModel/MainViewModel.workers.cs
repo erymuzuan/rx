@@ -15,11 +15,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public void SetupWorkersCommand()
         {
-            
-
             StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted && RabbitMqServiceStarted && SqlServiceStarted);
             StopSphWorkerCommand = new RelayCommand(StopSphWorker, () => SphWorkerServiceStarted && !IsBusy);
-
         }
 
         private Process m_sphWorkerProcess;
@@ -44,7 +41,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StartSphWorker()
         {
-            this.IsBusy = true;
+            this.StartBusy("Starting subsribers host...");
             Log("SPH Worker...[STARTING]");
             var f = string.Join(@"\", this.Settings.Home, "subscribers.host", "workers.console.runner.exe");
 
@@ -62,9 +59,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     WindowStyle = ProcessWindowStyle.Hidden,
 
                 };
-
-
-
+                
                 m_sphWorkerProcess = Process.Start(workerInfo);
                 if (null == m_sphWorkerProcess) throw new InvalidOperationException("Cannot start subscriber worker");
                 m_sphWorkerProcess.StandardInput.AutoFlush = true;
@@ -77,7 +72,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             catch (Exception ex)
             {
-                this.IsBusy = false;
+                this.StopBusy();
                 var message = ex.Message + "\r\n" + ex.StackTrace.ToString(CultureInfo.InvariantCulture);
                 Log(message);
                 this.Post(() =>

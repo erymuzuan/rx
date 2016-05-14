@@ -62,7 +62,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public async void StartRabbitMqService()
         {
             this.RabbitMqServiceStarting = true;
-            this.IsBusy = true;
+            this.StartBusy("Starting RabbitMq broker ...");
             Log("RabbitMQ...[STARTING]");
             try
             {

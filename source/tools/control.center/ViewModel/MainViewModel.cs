@@ -47,6 +47,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public async Task LoadAsync()
         {
             this.IsBusy = true;
+            this.BusyMessage = "Please wait while we take care few things....";
 
 
             this.Settings = SphSettings.Load();

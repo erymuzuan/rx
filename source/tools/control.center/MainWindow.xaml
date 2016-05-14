@@ -18,6 +18,13 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <DataTemplate x:Key="BusyContentDataTemplate">
+            <StackPanel Orientation="Horizontal"
+                DataContext="{Binding DataContext, ElementName=radBusyIndicator}">
+                <TextBlock Text="{Binding BusyMessage}"
+                   FontWeight="Bold" />
+            </StackPanel>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -83,7 +90,13 @@
         </Grid>
 
 
-        <telerik:RadBusyIndicator Grid.Row="2" Grid.Column="0" IsBusy="{Binding IsBusy}" BusyContent="{Binding BusyMessage}" d:IsHidden="True" />
+        <telerik:RadBusyIndicator Grid.Row="2" Grid.Column="0" IsBusy="{Binding IsBusy}"
+                                  x:Name="radBusyIndicator"
+                          BusyContentTemplate="{StaticResource BusyContentDataTemplate}"
+                          d:IsHidden="True">
+           
+            
+        </telerik:RadBusyIndicator>
 
     </Grid>
 </Window>

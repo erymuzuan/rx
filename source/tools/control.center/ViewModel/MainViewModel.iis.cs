@@ -41,7 +41,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void StartIisService()
         {
             Log("IIS Service...[INITIATING]");
-            this.IsBusy = true;
+            this.StartBusy("Starting IIS Express...");
             this.QueueUserWorkItem(() =>
             {
                 try

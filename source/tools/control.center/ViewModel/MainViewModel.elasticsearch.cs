@@ -29,7 +29,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public void StartElasticsearch()
         {
-            this.IsBusy = true;
+            this.StartBusy("Starting elasticsearch...");
             this.QueueUserWorkItem(StartElasticsearchHelper);
         }
 

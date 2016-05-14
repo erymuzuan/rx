@@ -136,7 +136,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private bool m_sphWorkerServiceStarted;
         private bool m_isBusy;
-        private string m_busyMessage;
+        private string m_busyMessage = "Please wait.....";
 
         public string BusyMessage
         {
@@ -144,7 +144,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_busyMessage = value;
-                RaisePropertyChanged("BusyMessage");
+                OnPropertyChanged();
             }
         }
 
@@ -167,6 +167,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 m_isBusy = value;
                 OnPropertyChanged();
                 this.StopSphWorkerCommand.RaiseCanExecuteChanged();
+                if (!value)
+                    this.BusyMessage = "Please wait...";//reset wait message
             }
         }
         public bool SphWorkerServiceStarted
@@ -243,6 +245,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             get { return m_sphWorkersStatus; }
         }
-        
+
     }
 }
