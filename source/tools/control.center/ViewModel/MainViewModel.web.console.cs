@@ -61,10 +61,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             
             foreach (var f in WebConsoleServer.Default.CreatedFileCollection)
             {
-                this.Log(this.BusyMessage = $"Deploying {f} ...");
+                this.Log(this.BusyMessage = $"Deploying {System.IO.Path.GetFileName(f)} ...");
                 WebConsoleServer.Default.DeployOutput(f);
             }
             WebConsoleServer.Default.CreatedFileCollection.Clear();
+            this.Log(this.BusyMessage = $"Issuing empty request to {ConfigurationManager.BaseUrl} ...");
             await WebConsoleServer.Default.WarmupWebServerAsync();
             // restart the workers
             this.Log("Done...");

@@ -221,6 +221,7 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
 
         public void DeployOutput(string f)
         {
+            m_mainViewModel?.StartBusy($"Deploying {System.IO.Path.GetFileName(f)} ..");
             if (!File.Exists(f)) return;
 
             var fileName = Path.GetFileName(f) ?? "";
@@ -236,7 +237,7 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
             WriteMessage($"Copying {fileName} to web\\bin");
             File.Copy(f, $"{ConfigurationManager.WebPath}\\bin\\{fileName}", true);
             WriteMessage($"Done copying {fileName}");
-
+            m_mainViewModel?.StopBusy();
 
         }
 
@@ -246,9 +247,11 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
             using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.BaseUrl) })
             {
                 WriteMessage("Warming up the webserver");
+                m_mainViewModel?.StartBusy("Warming up the webserver");
                 await client.GetAsync("/");
                 await client.GetAsync("/");
                 WriteMessage("Done issue request to the web server");
+                m_mainViewModel?.StopBusy();
             }
         }
 

@@ -41,7 +41,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StartSphWorker()
         {
-            this.StartBusy("Starting subsribers host...");
+            this.StartBusy("Starting subscribers host...");
             Log("SPH Worker...[STARTING]");
             var f = string.Join(@"\", this.Settings.Home, "subscribers.host", "workers.console.runner.exe");
 
