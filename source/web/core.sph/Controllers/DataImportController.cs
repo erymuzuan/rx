@@ -93,6 +93,30 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(sb.ToString());
         }
 
+        [HttpGet]
+        [Route("{model}/histories")]
+        public IHttpActionResult GetHistoryList(string model, [FromUri(Name = "$take")]int take = 20, [FromUri(Name = "$skip")]int skip = 0)
+        {
+            var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\history\\";
+            if (!System.IO.Directory.Exists(folder))
+                System.IO.Directory.CreateDirectory(folder);
+
+            var files = System.IO.Directory.GetFiles(folder, $"{model.ToIdFormat()}-*.log");
+            var logs = from f in files.Skip(skip).Take(take)
+                orderby f descending 
+                select System.IO.File.ReadAllText(f);
+
+            var sb = new StringBuilder();
+            sb.AppendLine("{");
+            sb.AppendLine("\"items\" : [");
+            sb.AppendLine(string.Join(",", logs));
+            sb.AppendLine("],");
+            sb.AppendLine($"\"total\":{files.Length}");
+            sb.Append("}");
+
+            return Json(sb.ToString());
+        }
+
 
     }
 }

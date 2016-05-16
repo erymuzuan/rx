@@ -237,12 +237,86 @@ namespace Bespoke.Sph.Web.Hubs
             var sw = new Stopwatch();
             sw.Start();
             m_isCancelRequested = false;
+
+            var log = new DataImportHistory(model);
+            await log.InitializeAsync(model, this);
+
+
             var statusTask = UpdateImportStatusAsync(model, sw, progress);
             var importTask = ImportDataAsync(model, sw, progress);
             await Task.WhenAll(statusTask, importTask);
             sw.Stop();
-            var rows = await importTask;
-            return rows;
+            dynamic result = await importTask;
+
+            await log.FinalizeAsync(model, result, this);
+            await log.SaveAsync();
+
+            return result;
+        }
+
+        public class DataImportHistory
+        {
+            public DataImportHistory(ImportDataViewModel model)
+            {
+                this.Name = model.Name;
+                this.DateTime = DateTime.Now;
+            }
+
+            public DataImportHistory()
+            {
+
+            }
+            [JsonProperty("name")]
+            public string Name { get; set; }
+            [JsonProperty("dateTime")]
+            public DateTime DateTime { get; set; }
+            [JsonProperty("rows")]
+            public int RowsRead { get; set; }
+            [JsonProperty("errors")]
+            public int Errors { get; set; }
+            [JsonProperty("page")]
+            public int PageNumber { get; set; }
+            [JsonProperty("size")]
+            public int PageSize { get; set; }
+            [JsonProperty("sqlBefore")]
+            public int SqlServerRowsBefore { get; set; }
+            [JsonProperty("sqlAfter")]
+            public int SqlServerRowsAfter { get; set; }
+            [JsonProperty("elasticsearchBefore")]
+            public int ElasticsearchBefore { get; set; }
+            [JsonProperty("elasticsearchAfter")]
+            public int ElasticsearchAfter { get; set; }
+
+            public Task SaveAsync()
+            {
+                System.IO.File.WriteAllText($"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\history\\{this.Name.ToIdFormat()}-{this.DateTime:yyyyMMdd.HHmmss}.log", this.ToJson());
+                return Task.FromResult(0);
+            }
+
+            public async Task InitializeAsync(ImportDataViewModel model, DataImportHub hub)
+            {
+                var sqlTask = hub.GetSqlServerCountAsync(model);
+                var esTask = hub.GetElasticsearchCountAsync(model);
+                await Task.WhenAll(sqlTask, esTask);
+
+                this.SqlServerRowsBefore = await sqlTask;
+                this.ElasticsearchBefore = await esTask;
+
+            }
+            public async Task FinalizeAsync(ImportDataViewModel model, dynamic result, DataImportHub hub)
+            {
+                var sqlTask = hub.GetSqlServerCountAsync(model);
+                var esTask = hub.GetElasticsearchCountAsync(model);
+                await Task.WhenAll(sqlTask, esTask);
+
+                this.RowsRead = result.rows;
+                this.Errors = result.errors;
+                this.PageNumber = result.page;
+                this.PageSize = model.BatchSize;
+                this.SqlServerRowsAfter = await sqlTask;
+                this.ElasticsearchAfter = await esTask;
+
+            }
         }
 
         public class MapResult
@@ -273,6 +347,7 @@ namespace Bespoke.Sph.Web.Hubs
             };
 
             var rows = 0;
+            var errors = 0;
             var headers = new Dictionary<string, object>
             {
                 {"data-import", model.IgnoreMessaging},
@@ -300,6 +375,8 @@ namespace Bespoke.Sph.Web.Hubs
                             .ToArray();
                     session.Attach(entities);
 
+                    errors += results.Count(x => x.HasError);
+
                     await session.SubmitChanges("Import", headers);
                     if (model.DelayThrottle.HasValue)
                         await Task.Delay(model.DelayThrottle.Value);
@@ -308,7 +385,7 @@ namespace Bespoke.Sph.Web.Hubs
                     progress.Report(pd);
                 }
                 if (m_isCancelRequested)
-                    return new { statusCode = 206, rows, message = $"Stop requested after {rows} rows imported" };
+                    return new { statusCode = 206, rows, errors, page = lo.CurrentPage, message = $"Stop requested after {rows} rows imported" };
 
                 lo = await tableAdapter.LoadAsync(model.Sql, lo.CurrentPage + 1, model.BatchSize, false);
             }
@@ -317,6 +394,8 @@ namespace Bespoke.Sph.Web.Hubs
                 statusCode = 200,
                 success = true,
                 rows,
+                errors,
+                page = lo.CurrentPage,
                 message = $"successfully imported {rows}",
                 status = "OK"
             };

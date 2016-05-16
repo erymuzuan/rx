@@ -1306,6 +1306,8 @@
     <EmbeddedResource Include="SphApp\views\public.index.html" />
     <Content Include="SphApp\viewmodels\_api.management.request.list.js" />
     <Content Include="SphApp\viewmodels\_api.management.request.charts.js" />
+    <Content Include="SphApp\viewmodels\_data.import.errors.js" />
+    <Content Include="SphApp\viewmodels\_data.import.history.js" />
     <Content Include="SphApp\views\endpoint.quota.policy.dialog.html" />
     <Content Include="SphApp\views\endpoints.caching.policy.html" />
     <Content Include="SphApp\views\endpoints.details.html" />
@@ -1316,6 +1318,8 @@
     <Content Include="SphApp\views\flatfile-adapter-wizard.html" />
     <Content Include="SphApp\views\_api.management.request.list.html" />
     <Content Include="SphApp\views\_api.management.request.charts.html" />
+    <Content Include="SphApp\views\_data.import.errors.html" />
+    <Content Include="SphApp\views\_data.import.history.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

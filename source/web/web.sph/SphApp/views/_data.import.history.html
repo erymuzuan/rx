@@ -1,0 +1,33 @@
+﻿<table class="table table-condensed table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Time</th>
+            <th>Rows</th>
+            <th>Errors</th>
+            <th>SQL Server Rows Before</th>
+            <th>SQL Server Rows After</th>
+            <th>Elasticsearch count before</th>
+            <th>Elasticsearch count after</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :logs">
+    <tr>
+        <td data-bind="date:{value: dateTime, format:'DD MMM YYYY HH:mm'}"></td>
+        <td data-bind="text:rows"></td>
+        <td data-bind="text:errors"></td>
+        <td data-bind="text:sqlBefore"></td>
+        <td data-bind="text:sqlAfter"></td>
+        <td data-bind="text:elasticsearchBefore"></td>
+        <td data-bind="text:elasticsearchAfter"></td>
+        <td>
+            <button data-bind="command : $root.resume" class="btn btn-default">
+                <i class="fa fa-play-circle"></i>
+                Resume
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<div id="history-pager"></div>
