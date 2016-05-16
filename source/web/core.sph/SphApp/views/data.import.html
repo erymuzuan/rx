@@ -1,7 +1,13 @@
 ﻿<h2>Data import utility</h2>
 <div class="row" data-bind="with : progressData">
     <ul class="nav nav-pills" role="tablist">
-        <li role="presentation" class="active"><a href="javascript:;">Imported Rows <span class="badge" data-bind="text:Rows">42</span></a></li>
+        <li role="presentation" class="active">
+            <a href="javascript:;">
+                Imported Rows
+                <span class="label label-success" data-bind="text:Rows">42</span>
+                <span class="label-danger label" data-bind="text:errors, tooltip: 'The number of rows failed to be transformed into the target entity using the TransformDefinition provided, use errors tab to edit and resubmit the rows'">42</span>
+            </a>
+        </li>
         <li role="presentation" class="active" data-bind="with : SqlServerQueue">
             <a href="javascript:;">
                 Sql Server Queue
@@ -30,7 +36,7 @@
         </li>
     </ul>
 </div>
-<br/>
+<br />
 <div class="row" id="data-import-view-panel">
 
     <div class="tabbable">
@@ -43,6 +49,9 @@
             </li>
             <li>
                 <a href="#data-import-errors" data-toggle="tab">Errors</a>
+            </li>
+            <li>
+                <a href="#data-import-history" data-toggle="tab">History</a>
             </li>
         </ul>
         <div class="tab-content">
@@ -117,7 +126,7 @@
                             <i class="fa fa-question-circle" data-bind="tooltip:'A TransformDefinition will map your source schema to the selected EntityDefinition schema, if you don\'t have one, you should create one before using this data import utility'"></i>
                         </div>
                     </div>
-                    
+
 
 
                 </form>
@@ -202,6 +211,11 @@
             </div>
             <div id="data-import-errors" class="tab-pane">
                 <!-- ko compose : {model : 'viewmodels/_data.import.errors', activationData :$root }-->
+                <!--/ko-->
+            </div>
+
+            <div id="data-import-history" class="tab-pane">
+                <!-- ko compose : {model : 'viewmodels/_data.import.history', activationData :$root }-->
                 <!--/ko-->
             </div>
 
