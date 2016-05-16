@@ -1,0 +1,36 @@
+{
+  "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "EntityPermissionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "SetterActionChildCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "PatchPathCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Default",
+  "Route": "",
+  "IsHttpPut": true,
+  "IsHttpPatch": false,
+  "IsHttpPost": true,
+  "IsHttpDelete": true,
+  "Note": "",
+  "Entity": "Country",
+  "Resource": "countries",
+  "IsPublished": true,
+  "IsConflictDetectionEnabled": true,
+  "CreatedBy": "admin",
+  "Id": "country-default",
+  "CreatedDate": "2016-05-14T09:58:37.4442337+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-05-14T09:59:09.5515209+08:00",
+  "WebId": "e0c69333-3d45-45c4-b9b1-7bcabeb082fb"
+}

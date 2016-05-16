@@ -54,30 +54,6 @@
       {
         "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": true,
-        "IsExcludeInAll": false,
-        "Boost": 0,
-        "FullName": null,
-        "PropertyAttribute": null,
-        "MemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "FieldPermissionCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "Country",
-        "AllowMultiple": false,
-        "DefaultValue": null,
-        "WebId": "51d0a90b-90a0-484d-99a6-3e0af1e57237"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-        "TypeName": "System.String, mscorlib",
         "IsNullable": true,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
@@ -187,7 +163,7 @@
     },
     "OdataEndpoint": {
       "$type": "Bespoke.Sph.Domain.OdataEndpoint, domain.sph",
-      "IsAllowed": true,
+      "IsAllowed": false,
       "WebId": null
     },
     "EntityResourceEndpoint": {
@@ -198,18 +174,18 @@
     },
     "WebId": null
   },
-  "Name": "State",
-  "Plural": "States",
-  "IconClass": "fa fa-flag",
+  "Name": "Country",
+  "Plural": "Countries",
+  "IconClass": "fa fa-flag-checkered",
   "RecordName": "Name",
   "IsPublished": true,
   "TreatDataAsSource": true,
   "StoreInDatabase": null,
   "StoreInElasticsearch": null,
   "CreatedBy": "admin",
-  "Id": "state",
+  "Id": "country",
   "CreatedDate": "2014-04-19T10:07:12.2060219+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-05-05T20:45:48.3494725+08:00",
+  "ChangedDate": "2016-05-14T13:07:36.4673128+08:00",
   "WebId": "5d31c43-852d-4a9d-b3be-1fc94d5cea05"
 }

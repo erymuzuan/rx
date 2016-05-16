@@ -29,19 +29,19 @@ namespace Bespoke.Sph.SqlRepository
         }
         public async Task UpdateAsync(T item)
         {
-            var sql = string.Format("UPDATE [{0}].[{1}] SET" +
-                                    " [Wkt] = @Wkt," +
-                                    " [Path] = @Path," +
-                                    " [EncodedWkt] = @EncodedWkt" +
-                                    " WHERE [{1}Id] = @Id",
-                                    "Sph",
-                                    typeof(T).Name);
+            var sql = $@"
+UPDATE [Sph].[{typeof(T).Name}] 
+SET 
+    [Wkt] = @Wkt, 
+    [Path] = @Path, 
+    [EncodedWkt] = @EncodedWkt 
+WHERE [Id] = @Id";
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
-                
+
                 var geog = SQLSpatialTools.Functions.MakeValidGeographyFromText(item.Wkt, SRID);
 
                 cmd.Parameters.AddWithValue("@Wkt", item.Wkt);
@@ -50,15 +50,12 @@ namespace Bespoke.Sph.SqlRepository
 
                 cmd.Parameters.AddWithValue("@EncodedWkt", item.EncodedWkt);
                 cmd.Parameters.AddWithValue("@Id", item.Id);
-                
+
                 await conn.OpenAsync();
                 var rows = await cmd.ExecuteNonQueryAsync();
                 if (rows != 1)
                     throw new InvalidOperationException("Cannot find the row " + item);
-
-
             }
-
         }
 
         public async Task<string> GetEncodedPathAsync(Expression<Func<T, bool>> predicate)
@@ -125,7 +122,7 @@ namespace Bespoke.Sph.SqlRepository
             var sql = new StringBuilder("SELECT ");
             sql.AppendFormat(" [{1}Id], [Json], [EncodedWkt] FROM [{0}].[{1}] ", "Sph", typeof(T).Name);
             sql.AppendFormat(" WHERE geography::STPolyFromText('POLYGON((");
-            sql.Append(string.Join(",", points.ToArrayString()));
+            sql.JoinAndAppend(points);
             sql.Append("))', 4326)");
             sql.Append(".STIntersects([Path]) = 1");
 
