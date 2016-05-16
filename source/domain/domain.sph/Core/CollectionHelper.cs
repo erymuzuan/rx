@@ -96,9 +96,14 @@ namespace Bespoke.Sph.Domain
             return list.Select(t => t.ToString()).ToArray();
         }
 
-        public static string ToString2<T>(this IEnumerable<T> list)
+        public static string JoinString<T>(this IEnumerable<T> list, 
+            string separator =",",
+            Func<T, string> projection = null )
         {
-            return string.Join(",", list.Select(t => t.ToString()).ToArray());
+            if (null == projection)
+                projection = x => $"x";
+
+            return string.Join(separator, list.Select(projection).ToArray());
 
         }
 
@@ -110,8 +115,8 @@ namespace Bespoke.Sph.Domain
             // for string
             if (typeof(T) == typeof(string))
             {
-                var os = currentList.OrderBy(c => c).ToString2();
-                var cs = changedList.OrderBy(c => c).ToString2();
+                var os = currentList.OrderBy(c => c).JoinString();
+                var cs = changedList.OrderBy(c => c).JoinString();
 
                 if (!string.Equals(os, cs, StringComparison.InvariantCultureIgnoreCase))
                 {

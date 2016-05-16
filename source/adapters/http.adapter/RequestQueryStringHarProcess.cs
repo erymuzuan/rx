@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -35,7 +36,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                     var uri = new Uri(url);
                     op.Url = uri.AbsolutePath;
 
-                    op.RequestRouting = op.Url + "?" + string.Join("&", kvps.ToArray());
+                    op.RequestRouting = $"{op.Url}?{kvps.JoinString("&")}";
                 }
 
 

@@ -1,0 +1,43 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+  "ViewColumnCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ConditionalFormattingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": null,
+    "Value": null,
+    "IsPublic": false,
+    "WebId": null
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "IconClass": null,
+  "IconStoreId": null,
+  "EntityDefinitionId": "country",
+  "Name": "All Countries",
+  "Route": "country-all",
+  "Note": null,
+  "IsPublished": false,
+  "Visibilty": null,
+  "TileColour": null,
+  "CountMessage": null,
+  "Entity": "Country",
+  "Partial": null,
+  "Template": null,
+  "DisplayOnDashboard": false,
+  "Endpoint": null,
+  "CreatedBy": "admin",
+  "Id": "country-all",
+  "CreatedDate": "2016-05-05T20:46:29.3973003+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-05-05T20:46:29.3973003+08:00",
+  "WebId": "3a62ceb5-09a3-4066-82dc-51de85f7607b"
+}

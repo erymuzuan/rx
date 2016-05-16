@@ -37,7 +37,7 @@ namespace subscriber.entities
                 View = view,
                 Form = form,
                 Query = query,
-                Routes = string.Join(",", view.RouteParameterCollection.Select(r => r.Name)),
+                Routes = view.RouteParameterCollection.JoinString(",", x => x.Name),
                 PartialArg = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", partial",
                 PartialPath = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", \"" + view.Partial + "\""
             };
@@ -52,7 +52,7 @@ namespace subscriber.entities
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + view.Route.ToLower() + ".js");
             var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(template.Js, vm);
-            
+
             var formattedScript = beau.Beautify(script);
             File.WriteAllText(js, formattedScript);
 
@@ -62,7 +62,7 @@ namespace subscriber.entities
 
         private string GenerateDefaultViewModelTemplate()
         {
-          
+
             var code = new StringBuilder();
             code.Append(
                 @"

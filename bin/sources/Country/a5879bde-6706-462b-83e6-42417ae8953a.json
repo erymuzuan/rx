@@ -1,0 +1,15 @@
+{
+  "$type": "Bespoke.DevV1.Countries.Domain.Country, DevV1.Country",
+  "Name": "Malaysia",
+  "Abbreviation": "MY",
+  "FlagStoreId": null,
+  "Area": null,
+  "Size": null,
+  "Population": 30000000,
+  "CreatedBy": "admin",
+  "Id": "a5879bde-6706-462b-83e6-42417ae8953a",
+  "CreatedDate": "2016-05-14T10:03:07.1259881+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-05-14T10:03:07.1214875+08:00",
+  "WebId": "cda68ba3-9dd5-4dcf-bc9e-5a304acbf83e"
+}

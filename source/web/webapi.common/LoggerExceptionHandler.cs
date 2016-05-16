@@ -47,7 +47,7 @@ namespace Bespoke.Sph.WebApi
             details.AppendLine($"{context.Request.Method} {context.Request.RequestUri}");
             foreach (var header in context.Request.Headers)
             {
-                details.AppendLine($"{header.Key}: {header.Value.ToString2()}");
+                details.AppendLine($"{header.Key}: {header.Value.JoinString()}");
             }
             details.AppendLine();
             try

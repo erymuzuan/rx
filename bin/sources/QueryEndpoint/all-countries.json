@@ -1,0 +1,42 @@
+{
+  "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
+  "ControllerName": "CountryAllCountriesQueryEndpoint",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
+        "Path": "Name",
+        "Direction": "Asc",
+        "WebId": "3189d938-ab2e-4707-c829-75c81cd74743"
+      }
+    ]
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "CacheProfile": "",
+  "Name": "All countries",
+  "Route": "",
+  "IsReturnSource": "",
+  "Entity": "Country",
+  "Note": "",
+  "IsPublished": true,
+  "Resource": "Countries",
+  "CacheFilter": null,
+  "CreatedBy": "admin",
+  "Id": "all-countries",
+  "CreatedDate": "2016-05-14T10:00:09.0150413+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-05-14T10:00:35.3408373+08:00",
+  "WebId": "3e50eff9-cd5b-4cca-d552-5ff52764e811"
+}
