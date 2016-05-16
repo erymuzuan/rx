@@ -38,70 +38,15 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 parentRoot(ko.unwrap(root));
             },
             createPager = function(element){
-                if(pager && typeof pager.destroy === "function"){
-                    pager.destroy();
-                }
-                var options = {},
-                    count = ko.unwrap(totalRows),
-                    sizes =  [10, 20, 50],
-                    defaultSize = 10,
-                    self2 = this,
-                    rows = _.range(count),
-                    pagerDataSource = new kendo.data.DataSource({
-                        data: rows,
-                        pageSize: defaultSize
-                    });
-                if (options.hidden) {
-                    return self2;
-                }
 
-                pager = element.kendoPager({
-                    dataSource: pagerDataSource,
-                    pageSizes: sizes
-                }).data("kendoPager");
-                pager.page(1);
-                pager.bind("change", function () {
-                    if (changed) {
-                        changed(pager.page(), pager.pageSize());
-                    }
-                });
-
-                self2.update = function (count2) {
-                    rows = [];
-                    for (var j = 0; j < count2 ; j++) {
-                        rows[j] = j;
-                    }
-                    setTimeout(function () {
-                        pagerDataSource.data(rows);
-                    }, 500);
-                };
-                self2.destroy = function () {
-                    pager.destroy();
-                    element.empty();
-                };
-
-                self2.pageSize = function (size) {
-                    if (size) {
-                        pager.pageSize(size);
-                    }
-                    return pager.pageSize();
-                };
-                self2.page = function (pg) {
-                    if (pg) {
-                        pager.page(pg);
-                    }
-                    return pager.page();
-                };
-
-                var dropdownlist = $(element).find("select").data("kendoDropDownList");
-                dropdownlist.bind("change", function () {
-                    try {
-                        changed(1, parseInt(this.value()));
-                    } catch (e) {
-
-                    }
-                });
-
+                var options = {
+                        element :element,
+                        changed : changed,
+                        count : ko.unwrap(totalRows),
+                        sizes : [10, 20, 50],
+                        defaultSize : 10
+                    };
+                pager = new bespoke.utils.ServerPager(options);
             },
             attached = function (view) {
                 var element = $(view).find("#history-pager");
