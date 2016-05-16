@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
-                var source = new Class(code) {FileName = "OraclePagingTranslator.cs"};
+                var source = new Class(code) { FileName = "OraclePagingTranslator.cs" };
                 return Task.FromResult(source);
 
             }
@@ -307,7 +307,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var code = new Class { Name = "Column", Namespace = CodeNamespace };
             code.ImportCollection.AddRange(ImportDirectoves);
             code.ImportCollection.Add(typeof(ParameterDirection).Namespace);
-            
+
             code.CtorCollection.Add("public Column(){ this.Direction = ParameterDirection.Input; }");
             code.AddProperty("Name", typeof(string));
             code.AddProperty("IsPrimaryKey", typeof(bool));
@@ -599,11 +599,10 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetSelectOneCommand(TableDefinition table)
         {
             var sql = new StringBuilder("SELECT * FROM ");
-            sql.AppendFormat("{0}.{1} ", this.Schema, table);
+            sql.Append($"{this.Schema}.{table} ");
             sql.AppendLine("WHERE");
 
-            var predicate = table.PrimaryKeyCollection.Select(k => k + " = :" + k);
-            sql.AppendLine(string.Join(" AND ", predicate));
+            sql.JoinAndAppendLine(table.PrimaryKeyCollection, " AND ", x => $"{x} = :{x}");
 
             return sql.ToString();
         }
