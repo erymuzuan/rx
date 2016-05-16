@@ -232,6 +232,28 @@ namespace Bespoke.Sph.Web.Hubs
             };
         }
 
+        public async Task<object> Resume(string name, DataImportHistory log, IProgress<ProgressData> progress)
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+            m_isCancelRequested = false;
+
+            var modelPath = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{log.Name}.json";
+            var json = System.IO.File.ReadAllText(modelPath);
+            var model = JsonConvert.DeserializeObject<ImportDataViewModel>(json);
+
+            var statusTask = UpdateImportStatusAsync(model, sw, progress);
+            var importTask = ImportDataAsync(model, sw, progress, log.PageNumber + 1, log.RowsRead, log.Errors);
+            await Task.WhenAll(statusTask, importTask);
+            sw.Stop();
+            dynamic result = await importTask;
+
+            await log.FinalizeAsync(model, result, this);
+            await log.SaveAsync();
+
+            return result;
+        }
+
         public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<ProgressData> progress)
         {
             var sw = new Stopwatch();
@@ -240,7 +262,6 @@ namespace Bespoke.Sph.Web.Hubs
 
             var log = new DataImportHistory(model);
             await log.InitializeAsync(model, this);
-
 
             var statusTask = UpdateImportStatusAsync(model, sw, progress);
             var importTask = ImportDataAsync(model, sw, progress);
@@ -326,7 +347,7 @@ namespace Bespoke.Sph.Web.Hubs
             public Exception Error { get; set; }
             public string ErrorId { get; set; }
         }
-        private async Task<object> ImportDataAsync(ImportDataViewModel model, Stopwatch sw, IProgress<ProgressData> progress)
+        private async Task<object> ImportDataAsync(ImportDataViewModel model, Stopwatch sw, IProgress<ProgressData> progress, int page = 1, int initialRows = 0, int initialErrors = 0)
         {
             var context = new SphDataContext();
             var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
@@ -346,8 +367,8 @@ namespace Bespoke.Sph.Web.Hubs
                 message = $"{mapping.AssemblyName}.dll in web\\bin does not exist, you may have to build your TransformDefinition before it could be used"
             };
 
-            var rows = 0;
-            var errors = 0;
+            var rows = initialRows;
+            var errors = initialErrors;
             var headers = new Dictionary<string, object>
             {
                 {"data-import", model.IgnoreMessaging},
@@ -356,7 +377,7 @@ namespace Bespoke.Sph.Web.Hubs
                 {"es.retry", model.EsRetry},
                 {"es.wait", model.EsWait}
             };
-            var lo = await tableAdapter.LoadAsync(model.Sql, 1, model.BatchSize, false);
+            var lo = await tableAdapter.LoadAsync(model.Sql, page, model.BatchSize, false);
             while (lo.ItemCollection.Count > 0)
             {
                 using (var session = context.OpenSession())

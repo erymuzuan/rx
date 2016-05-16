@@ -61,7 +61,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     && model().batchSize();
             }),
             canImport = ko.computed(function () {
-                return canPreview() && model().map() && model().entity();
+                return canPreview()
+                    && model().map()
+                    && model().entity()
+                    && !progress().busy();
             }),
             activate = function () {
                 console.log(router);
@@ -211,6 +214,41 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         progress().busy(false);
                     });
             },
+            resume = function (log) {
+                progress().busy(true);
+                errorRows([]);
+                return hub.server.resume(ko.unwrap(model().Name), log)
+                        .fail(function (e) {
+                            logger.error(e);
+                        })
+                        .progress(function (p) {
+
+                            if (p.Exception) {
+                                progress().errors(progress().errors() + 1);
+                                console.error(p.Exception.Message);
+                                // do paging
+                                if (errorRows().length < 20) {
+                                    errorRows.push(p);
+                                }
+                                return;
+                            }
+
+                            if (p.Rows === -1) {
+                                progress().ElasticsearchQueue.MessagesCount(p.ElasticsearchQueue.MessagesCount);
+                                progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
+                                progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
+                                progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
+                                progress().SqlRows(p.SqlRows);
+                                progress().ElasticsearchRows(p.ElasticsearchRows);
+                            } else {
+                                progress().Rows(p.Rows);
+                            }
+                        })
+                    .done(function (result) {
+                        logger.info(result.message);
+                        progress().busy(false);
+                    });
+            },
             ignoreRow = function (row) {
                 return hub.server.ignoreRow(row.ErrorId);
             },
@@ -298,6 +336,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var vm = {
             progressData: progress,
+            resume: resume,
             importOneRow: importOneRow,
             ignoreRow: ignoreRow,
             entityOptions: entityOptions,

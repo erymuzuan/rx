@@ -12,7 +12,7 @@
     </thead>
     <tbody data-bind="foreach :logs">
     <tr>
-        <td data-bind="date:{value: dateTime, format:'DD MMM YYYY HH:mm'}"></td>
+        <td data-bind="date:{value: dateTime, format:'DD/MM/YYYY HH:mm'}"></td>
         <td data-bind="text:rows"></td>
         <td data-bind="text:errors"></td>
         <td data-bind="text:sqlBefore"></td>
@@ -20,7 +20,7 @@
         <td data-bind="text:elasticsearchBefore"></td>
         <td data-bind="text:elasticsearchAfter"></td>
         <td>
-            <button data-bind="command : $root.resume" class="btn btn-default">
+            <button data-bind="command : $root.resume, disable:$root.parentRoot().progressData().busy" class="btn btn-default">
                 <i class="fa fa-play-circle"></i>
                 Resume
             </button>

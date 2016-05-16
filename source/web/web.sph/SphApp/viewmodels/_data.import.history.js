@@ -36,6 +36,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             },
             activate = function (root) {
                 parentRoot(ko.unwrap(root));
+                parentRoot().progressData().busy.subscribe(function(busy){
+                    if(!ko.unwrap(busy) && pager){
+                        changed(1, currentPageSize());
+                    }
+                });
             },
             createPager = function(element){
 
@@ -61,12 +66,16 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             },
             resume = function (item) {
                 console.log(item);
-                return Task.fromResult(true);
+                return parentRoot().resume(item)
+                    .done(function(){
+                        changed(1, currentPageSize());
+                    });
             };
 
         var vm = {
             logs: logs,
             isBusy: isBusy,
+            parentRoot :parentRoot,
             activate: activate,
             attached: attached,
             resume : resume
