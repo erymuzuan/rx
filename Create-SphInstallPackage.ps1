@@ -202,6 +202,7 @@ foreach($ucon in $rubbishConfigs)
         Remove-Item $ucon
     }
 }
+ls -Path "$output\elasticsearch\logs" -Filter *.* | Remove-Item
 
 #iis express and config
 mkdir $output\config
