@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -228,7 +228,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 }
 
             },
-          
+
             generate = function () {
 
                 var data = ko.mapping.toJSON(adapter);
@@ -268,14 +268,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
             },
             removeAdapter = function () {
-
-                return app.showMessage("Are you sure you want to permanently remove this adapter", "Reactive Developer", ["Yes", "No"])
+                var tcs = new $.Deferred();
+                app.showMessage("Are you sure you want to permanently remove this adapter", "Reactive Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
-                            return context.send(ko.mapping.toJSON(adapter), "adapter", "DELETE");
+                            context.send(ko.mapping.toJSON(adapter), "adapter", "DELETE")
+                            .done(function () {
+                                router.navigate("#dev.home");
+                                tcs.resolve(dialogResult);
+                            });
+                        } else {
+                            tcs.resolve(dialogResult);
                         }
-                        return Task.fromResult(0);
+
                     });
+
+                return tcs.promise();
             }
         ;
 
