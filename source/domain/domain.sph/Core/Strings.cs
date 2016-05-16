@@ -252,6 +252,29 @@ namespace Bespoke.Sph.Domain
                 text.AppendLine(value);
             return text;
         }
+
+        public static StringBuilder JoinAndAppend<T>(this StringBuilder text,
+            IEnumerable<T> list,
+            string seperator = ",",
+            Func<T, string> projection = null)
+        {
+            if (null == projection)
+                projection = x => $"{x}";
+
+            var line = string.Join(seperator, list.Select(projection));
+            return text.Append(line);
+        }
+        public static StringBuilder JoinAndAppendLine<T>(this StringBuilder text,
+            IEnumerable<T> list,
+            string seperator = ",",
+            Func<T, string> projection = null)
+        {
+            if (null == projection)
+                projection = x => $"{x}";
+
+            var line = string.Join(seperator, list.Select(projection));
+            return text.AppendLine(line);
+        }
         //public static bool IsEqual<T>(this T? value, T? value2) where T : struct ,IConvertible
         //{
         //    if (!typeof(T).IsEnum)
@@ -475,8 +498,8 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(path)) return string.Empty;
             if (path.Contains("().")) return path;
             return path.Replace(".", "().")
-                .Replace("$root().","$root.")
-                .Replace(".partial().",".partial.");
+                .Replace("$root().", "$root.")
+                .Replace(".partial().", ".partial.");
         }
 
     }
