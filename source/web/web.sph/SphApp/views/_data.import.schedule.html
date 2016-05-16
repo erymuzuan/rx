@@ -1,0 +1,54 @@
+﻿<table class="table table-condensed table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Interval</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :schedules">
+    <tr>
+        <td data-bind="text:title"></td>
+        <td data-bind="text:interval"></td>
+        <td>
+            <button data-bind="click : $root.removeItem" class="btn btn-default">
+                <i class="fa fa-times-circle"></i>
+                Remove
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div id="action-panel" class="pull-right">
+    <div class="btn-group">
+        <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+            Add Action &nbsp;<span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a class="btn btn-link" data-bind="click: addIntervalSchedule('Daily')">
+                    <i class="fa fa-clock-o"></i>
+                    Daily
+                </a>
+            </li>
+            <li>
+                <a class="btn btn-link" data-bind="click: addIntervalSchedule('Weekly')">
+                    <i class="fa fa-th-list"></i>
+                    Weekly
+                </a>
+            </li>
+
+            <li>
+                <a class="btn btn-link" data-bind="click: addIntervalSchedule('Monthly')">
+                    <i class="fa fa-calendar-o"></i>
+                    Monthly
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+
+<div id="schedules-pager"></div>

@@ -53,6 +53,9 @@
             <li>
                 <a href="#data-import-history" data-toggle="tab">History</a>
             </li>
+            <li>
+                <a href="#data-import-schedule" data-toggle="tab">Scheduled Tasks</a>
+            </li>
         </ul>
         <div class="tab-content">
             <div id="data-import-general" class="tab-pane active">
@@ -216,6 +219,10 @@
 
             <div id="data-import-history" class="tab-pane">
                 <!-- ko compose : {model : 'viewmodels/_data.import.history', activationData :$root }-->
+                <!--/ko-->
+            </div>
+            <div id="data-import-schedule" class="tab-pane">
+                <!-- ko compose : {model : 'viewmodels/_data.import.schedule', activationData :$root }-->
                 <!--/ko-->
             </div>
 
