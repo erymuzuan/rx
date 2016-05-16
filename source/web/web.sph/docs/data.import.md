@@ -29,9 +29,9 @@ Halt the execution of currently running data import process
 
 
 ## Progress
-![](https://lh3.googleusercontent.com/-7WaSoxIt9vk/VyqhGfuNfmI/AAAAAAAA7yg/yHgncwDlV3AcURClpvd08aHQ6VRyWX4dgCCo/s2048/%255BUNSET%255D)
+![](https://lh3.googleusercontent.com/-gbNnfs9mEV4/Vzk7F6MzsHI/AAAAAAAA8ME/jyrLXJMJvMQgKMmwENM8FBKx2bvTgvtFQCCo/s2048/%255BUNSET%255D)
 
-* Imported rows - the number of rows read from the datasource and successfully submitted to messaging broker
+* Imported rows - the number of rows read from the datasource and successfully submitted to messaging broker, the number in red is the row count where there error when mapping couldn't be carried out successfully. Please refer to the Error tab to see the individual rows.
 * Sql Server Queue - The first part is the number of messages still in the queue. For every message there will be `BatchSize` of rows, so if your have 20 messages in your SQL Server queue and your BatchSize is 50, then there are still 1000 rows still yet to be inserted into the SQL Server. The second part is the number of messages processed in one second.
 * Elasticsearch Queue - The first part is the number of messages still in the queue. For every message there will be `BatchSize` of rows, so if your have 20 messages in your Elasticsearch queue and your BatchSize is 50, then there are still 1000 rows still yet to be inserted into the Elasticsearch. The second part is the number of messages processed in one second.
 * Number of rows available for each SQL Server and Elasticsearch is shown next to the queues. Bear in mind that , if you choose to starts from empty database, i.e. new or you do truncate all data command, these numbers should be the same with total imported rows once the whole process completed.
@@ -115,3 +115,9 @@ If you could view the `.error` file to view the error detail, that can help you 
 
 
 or you could ignore the data by choosing **ignore this row** button. This will delete those files and your data will not be part of your import anymore.
+
+## History and resume
+
+All data import execution will be logged and stored in a file located in your `\web\App_Data\data-imports\history` folder. The file format will always be `<data-import-id>-<timestamp>.log`
+
+You can always resume your data import execution if there are more unread rows in the datasource.
