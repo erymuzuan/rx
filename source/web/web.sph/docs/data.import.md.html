@@ -410,9 +410,9 @@ pre.editor-colors .markdown .link .string.title,
 <h4 id="truncate-all-data">Truncate all data</h4>
 <p><strong>Beware</strong> This command will permanently delete all your data as defined by your data import <code>Entity</code> property. It will TRUNCATE sql table and completely DELETE your Elasticsearch contents for that particular type. It will also PURGE all your data import messages in your queues.</p>
 <h2 id="progress">Progress</h2>
-<p><img src="https://lh3.googleusercontent.com/-7WaSoxIt9vk/VyqhGfuNfmI/AAAAAAAA7yg/yHgncwDlV3AcURClpvd08aHQ6VRyWX4dgCCo/s2048/%255BUNSET%255D" alt=""></p>
+<p><img src="https://lh3.googleusercontent.com/-gbNnfs9mEV4/Vzk7F6MzsHI/AAAAAAAA8ME/jyrLXJMJvMQgKMmwENM8FBKx2bvTgvtFQCCo/s2048/%255BUNSET%255D" alt=""></p>
 <ul>
-<li>Imported rows - the number of rows read from the datasource and successfully submitted to messaging broker</li>
+<li>Imported rows - the number of rows read from the datasource and successfully submitted to messaging broker, the number in red is the row count where there error when mapping couldn&#39;t be carried out successfully. Please refer to the Error tab to see the individual rows.</li>
 <li>Sql Server Queue - The first part is the number of messages still in the queue. For every message there will be <code>BatchSize</code> of rows, so if your have 20 messages in your SQL Server queue and your BatchSize is 50, then there are still 1000 rows still yet to be inserted into the SQL Server. The second part is the number of messages processed in one second.</li>
 <li>Elasticsearch Queue - The first part is the number of messages still in the queue. For every message there will be <code>BatchSize</code> of rows, so if your have 20 messages in your Elasticsearch queue and your BatchSize is 50, then there are still 1000 rows still yet to be inserted into the Elasticsearch. The second part is the number of messages processed in one second.</li>
 <li>Number of rows available for each SQL Server and Elasticsearch is shown next to the queues. Bear in mind that , if you choose to starts from empty database, i.e. new or you do truncate all data command, these numbers should be the same with total imported rows once the whole process completed.</li>
@@ -469,5 +469,8 @@ pre.editor-colors .markdown .link .string.title,
 <li>Change your <code>TransformDefinition</code> and recompile</li>
 <li>Change the data, and re submit. To change the data, click on <strong>Data</strong> column, your raw json will be presented, click <code>Save and close</code> will resubmit your data.</li>
 </ol>
-<p>or you could ignore the data by choosing <strong>ignore this row</strong> button. This will delete those files and your data will not be part of your import anymore.</p></body>
+<p>or you could ignore the data by choosing <strong>ignore this row</strong> button. This will delete those files and your data will not be part of your import anymore.</p>
+<h2 id="history-and-resume">History and resume</h2>
+<p>All data import execution will be logged and stored in a file located in your <code>\web\App_Data\data-imports\history</code> folder. The file format will always be <code>&lt;data-import-id&gt;-&lt;timestamp&gt;.log</code></p>
+<p>You can always resume your data import execution if there are more unread rows in the datasource.</p></body>
 </html>
