@@ -243,15 +243,26 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
 
         public async Task WarmupWebServerAsync()
         {
-            // NOTE : warmup the webserver so that the web app is still responsive
-            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.BaseUrl) })
+            WriteMessage("Warming up the webserver");
+            m_mainViewModel?.StartBusy("Warming up the webserver");
+            try
             {
-                WriteMessage("Warming up the webserver");
-                m_mainViewModel?.StartBusy("Warming up the webserver");
-                await client.GetAsync("/");
-                await client.GetAsync("/");
+                using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.BaseUrl) })
+                {
+                    await client.GetAsync("/");
+                    await client.GetAsync("/");
+                }
+            }
+            catch (TaskCanceledException e)
+            {
+                WriteMessage(nameof(TaskCanceledException));
+                WriteMessage(e.Message);
+            }
+            finally
+            {
                 WriteMessage("Done issue request to the web server");
                 m_mainViewModel?.StopBusy();
+
             }
         }
 
