@@ -10,7 +10,6 @@ namespace Bespoke.Sph.ReportDeliverySubscriptions
     public class ReportDeliverySubscriber : Subscriber<ReportDelivery>
     {
         private readonly string m_executable;
-
         public ReportDeliverySubscriber(string executable)
         {
             m_executable = executable;
@@ -21,23 +20,16 @@ namespace Bespoke.Sph.ReportDeliverySubscriptions
             
         }
 
-        public override string QueueName
-        {
-            get { return "report_delivery_scheduler"; }
-        }
-
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "ReportDelivery.#" }; }
-        }
+        public override string QueueName => "report_delivery_scheduler";
+        public override string[] RoutingKeys => new[] { "ReportDelivery.#" };
 
         protected override Task ProcessMessage(ReportDelivery item, MessageHeaders header)
         {
             var emptyTask = Task.FromResult(0);
-            var path = this.GetPath(item);
+            var path = GetPath(item);
 
             // delete if exist
-            this.Delete(path);
+            Delete(path);
             if (!item.IsActive) return emptyTask;
 
             this.WriteMessage("Creating scheduler for " + item.Title);
@@ -52,7 +44,7 @@ namespace Bespoke.Sph.ReportDeliverySubscriptions
                     var trigger = t.GeTrigger();
                     td.Triggers.Add(trigger);
                 }
-                var action = new ExecAction(this.Executable, string.Format("{0}", item.Id))
+                var action = new ExecAction(this.Executable, $"{item.Id}")
                 {
                     WorkingDirectory = System.IO.Path.GetDirectoryName(this.Executable)
                 };
@@ -62,7 +54,7 @@ namespace Bespoke.Sph.ReportDeliverySubscriptions
             }
         }
 
-        private void Delete(string path)
+        private static void Delete(string path)
         {
             using (var ts = new TaskService())
             {
@@ -73,20 +65,11 @@ namespace Bespoke.Sph.ReportDeliverySubscriptions
 
         }
 
-        public string Executable
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(m_executable))
-                    return ConfigurationManager.ReportDeliveryExecutable;
+        public string Executable => string.IsNullOrWhiteSpace(m_executable) ? ConfigurationManager.ReportDeliveryExecutable : m_executable;
 
-                return m_executable;
-            }
-        }
-
-        private string GetPath(ReportDelivery item)
+        private static string GetPath(ReportDelivery item)
         {
-            var guid = string.Format("rd_{0}_{1}", item.Id, item.ReportDefinitionId);
+            var guid = $"rd_{item.Id}_{item.ReportDefinitionId}";
             var path = @"Bespoke\" + guid.Replace(" ", string.Empty);
             return path;
 
