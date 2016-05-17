@@ -232,13 +232,13 @@ namespace Bespoke.Sph.Web.Hubs
             };
         }
 
-        public async Task<object> Resume(string name, DataImportHistory log, IProgress<ProgressData> progress)
+        public async Task<object> Resume(string id, DataImportHistory log, IProgress<ProgressData> progress)
         {
             var sw = new Stopwatch();
             sw.Start();
             m_isCancelRequested = false;
 
-            var modelPath = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{log.Name}.json";
+            var modelPath = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{log.Name.ToIdFormat()}.json";
             var json = System.IO.File.ReadAllText(modelPath);
             var model = JsonConvert.DeserializeObject<ImportDataViewModel>(json);
 
