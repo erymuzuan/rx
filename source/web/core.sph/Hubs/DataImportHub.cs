@@ -137,9 +137,9 @@ namespace Bespoke.Sph.Web.Hubs
             {
                 var jo = JObject.Parse(json);
                 var name = jo.SelectToken("$.name").Value<string>();
-                var messages = jo.SelectToken("$.messages").Value<int>();
-                var deliveries = jo.SelectToken("$.message_stats.deliver_details.rate").Value<double>();
-                var unacked = jo.SelectToken("$.messages_unacknowledged").Value<int>();
+                var messages = jo.SelectToken("$.messages")?.Value<int>() ?? 0;
+                var deliveries = jo.SelectToken("$.message_stats.deliver_details.rate")?.Value<double>() ?? 0;
+                var unacked = jo.SelectToken("$.messages_unacknowledged")?.Value<int>() ?? 0;
 
                 return new Queue(name, messages, deliveries, unacked);
 
@@ -238,7 +238,7 @@ namespace Bespoke.Sph.Web.Hubs
             sw.Start();
             m_isCancelRequested = false;
 
-            var modelPath = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{log.Name}.json";
+            var modelPath = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{log.Id}.json";
             var json = System.IO.File.ReadAllText(modelPath);
             var model = JsonConvert.DeserializeObject<ImportDataViewModel>(json);
 
@@ -280,6 +280,7 @@ namespace Bespoke.Sph.Web.Hubs
             public DataImportHistory(ImportDataViewModel model)
             {
                 this.Name = model.Name;
+                this.Id = model.Id ?? model.Name.ToIdFormat();
                 this.DateTime = DateTime.Now;
             }
 
@@ -287,6 +288,8 @@ namespace Bespoke.Sph.Web.Hubs
             {
 
             }
+            [JsonProperty("id")]
+            public string Id { get; set; }
             [JsonProperty("name")]
             public string Name { get; set; }
             [JsonProperty("dateTime")]
