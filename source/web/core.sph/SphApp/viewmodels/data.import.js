@@ -118,12 +118,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                     };
                 model().table.subscribe(function (a) {
+                    if (!a) {
+                        return Task.fromResult(0);
+                    }
                     var sql1 = String.format("select * from {0} ", a),
-                        sql0 = model().sql();
-                    if (sql0.indexOf(a) < -1)
+                        sql0 = model().sql() || "";
+                    if (sql0.indexOf(a) <= -1)
                         model().sql(sql1);
 
-                    if (!(a && model().entity())) {
+                    if (!(model().entity())) {
                         return Task.fromResult(0);
                     }
                     return context.loadAsync("TransformDefinition")
