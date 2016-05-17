@@ -71,13 +71,13 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("using(var __cmd = new {1}(__text{0},__conn))", this.Index, typeof(SqlCommand).FullName);
             code.AppendLine("{");
             if (this.SqlText.Contains("@value1"))
-                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value1\"," + value1 + ");");
+                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value1\"," + value1 + ".ToDbNull());");
             if (this.SqlText.Contains("@value2"))
-                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value2\"," + value2 + ");");
+                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value2\"," + value2 + ".ToDbNull());");
             if (this.SqlText.Contains("@value3"))
-                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value3\"," + value3 + ");");
+                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value3\"," + value3 + ".ToDbNull());");
             if (this.SqlText.Contains("@value4"))
-                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value4\"," + value4 + ");");
+                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value4\"," + value4 + ".ToDbNull());");
 
 
             code.AppendLine("       await __conn.OpenAsync();");
@@ -85,7 +85,7 @@ namespace Bespoke.Sph.Domain
 
             var defaultValue = this.DefaultValue;
             if (this.OutputTypeName == "System.String, mscorlib")
-                defaultValue = string.Format("\"{0}\"", this.DefaultValue);
+                defaultValue = $"\"{this.DefaultValue}\"";
 
             code.AppendLinf("       if(__result{0} == DBNull.Value || null == __result{0}) __result{0} = {1};", this.Index, defaultValue);
 
