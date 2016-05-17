@@ -12,73 +12,42 @@
 define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
 
-        var schedules = ko.observableArray(),
+        var schedule = ko.observable(new bespoke.sph.domain.IntervalScheduleContainer()),
             parentRoot = ko.observable(),
-            totalRows = ko.observable(0),
-            pager = null,
-            currentPage = ko.observable(1),
-            currentPageSize = ko.observable(10),
             isBusy = ko.observable(false),
-            changed = function(page,size){
-                if(!pager){
-                    return;
-                }
-                currentPage(page);
-                currentPageSize(size);
-                var skip = (page - 1) * size,
-                    take = size,
-                    model = parentRoot().model().name();
-
-                $.getJSON("/api/data-imports/" + model + "/schedules?$skip=" + skip + "&$take=" + take)
-                    .done(function(result){
-                        logs(result.items);
-                    });
-            },
             activate = function (root) {
                 parentRoot(ko.unwrap(root));
-                parentRoot().progressData().busy.subscribe(function(busy){
-                    if(!ko.unwrap(busy) && pager){
-                        changed(1, currentPageSize());
-                    }
-                });
-            },
-            createPager = function(element){
+                var model = parentRoot().model(),
+                    item =  _(model).extend(new bespoke.sph.domain.IntervalScheduleContainer(model));
+                if(!ko.isObservable(item.IntervalScheduleCollection)){
+                    item.IntervalScheduleCollection = ko.observableArray();
+                }
+                schedule(item);
 
-                var options = {
-                        element :element,
-                        changed : changed,
-                        count : ko.unwrap(totalRows),
-                        sizes : [10, 20, 50],
-                        defaultSize : 10
-                    };
-                pager = new bespoke.utils.ServerPager(options);
-            },
-            attached = function (view) {
-                var element = $(view).find("#schedules-pager");
-                parentRoot().model().name.subscribe(function(model){
-                    $.getJSON("/api/data-imports/" + model + "/schedules?$take=10&$skip=0")
+
+                parentRoot().model().id.subscribe(function(id){
+                    $.getJSON("/api/data-imports/" + id + "/schedules")
                         .done(function(result){
-                            logs(result.items);
-                            totalRows(result.total);
-                            createPager(element);
+                            var list = _(result).map(function(v){
+                                return context.toObservable(v);
+                            });
+                            item.IntervalScheduleCollection(list);
                         });
                 });
             },
-            addNewSchedule = function () {
-
+            attached = function (view) {
             },
             removeItem = function(item){
 
             };
 
         var vm = {
-            schedules: schedules,
             isBusy: isBusy,
             parentRoot :parentRoot,
             activate: activate,
             attached: attached,
             removeItem : removeItem,
-            addNewSchedule : addNewSchedule
+            schedule: schedule
         };
 
         return vm;

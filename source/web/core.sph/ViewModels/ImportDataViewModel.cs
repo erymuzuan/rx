@@ -1,7 +1,10 @@
+using Bespoke.Sph.Domain;
+
 namespace Bespoke.Sph.Web.ViewModels
 {
     public class ImportDataViewModel
     {
+        private string m_id;
         public string Name { get; set; }
         public string Adapter { get; set; }
         public string Map { get; set; }
@@ -15,5 +18,16 @@ namespace Bespoke.Sph.Web.ViewModels
         public int? EsRetry { get; set; }
         public int? EsWait { get; set; }
         public bool IgnoreMessaging { get; set; }
+
+        public string Id
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(m_id))
+                    m_id = this.Name.ToIdFormat();
+                return m_id;
+            }
+            set { m_id = value; }
+        }
     }
 }

@@ -14,6 +14,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var model = ko.observable({
             delayThrottle: ko.observable(),
+            id: ko.observable(),
             name: ko.observable(),
             adapter: ko.observable(),
             table: ko.observable(),
@@ -280,12 +281,18 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             },
             save = function () {
-                var data = ko.toJSON(model);
-                return context.post(data, "/api/data-imports");
+                var data = ko.toJSON(model),
+                    schedules = ko.toJSON(model().IntervalScheduleCollection),
+                    id = ko.unwrap(model().id);
+                return context.post(data, "/api/data-imports")
+                    .then(function() {
+                        return context.post(schedules,
+                            "/api/data-imports/" + id + "/schedules");
+                    });
             },
             removeAsync = function () {
                 var data = ko.toJSON(model);
-                return context.send("DELETE", data, "/api/data-imports/" + ko.unwrap(model().Name));
+                return context.send("DELETE", data, "/api/data-imports/" + ko.unwrap(model().Id));
             },
             openSnippet = function () {
                 var tcs = new $.Deferred();
@@ -302,6 +309,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                 md.entity(di.entity);
                                 md.sql(di.sql);
                                 md.batchSize(di.batchSize);
+                                md.id(di.id);
                                 md.name(di.name);
                                 md.delayThrottle(di.delayThrottle);
                                 md.sqlRetry(di.sqlRetry);
