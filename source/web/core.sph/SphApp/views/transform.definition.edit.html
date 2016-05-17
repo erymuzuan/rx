@@ -85,6 +85,13 @@
         <!-- ko if : Code -->
         <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
         <!-- /ko-->
+        <!-- ko if : FileName -->
+        <br/>
+        <a href="javascript:;" data-bind="click : $root.viewFile">
+            <span class="small" data-bind="text:FileName"></span>(<span class="small" data-bind="text:Line"></span>)
+        </a>
+        <!-- /ko-->
+
     </div>
     <div class="col-md-2"></div>
     <!-- /ko-->

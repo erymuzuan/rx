@@ -49,8 +49,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         [NoCache]
         public ActionResult Code(string id)
         {
-            var file = Server.MapPath(id);
+            var file = id;
+            if (!Path.IsPathRooted(id))
+                file = Server.MapPath(id);
             this.LogFileContent(file);
+            file = id;
 
             if (!Exists(file))
                 WriteAllText(file, "");
@@ -154,7 +157,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return View();
         }
-     
+
 
         [NoCache]
         public ActionResult Snippets(string id)

@@ -650,6 +650,17 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                 return tcs.promise();
             },
+            viewFile = function (e) {
+                var params = [
+                           "height=" + screen.height,
+                           "width=" + screen.width,
+                           "toolbar=0",
+                           "location=0",
+                           "fullscreen=yes"
+                                ].join(","),
+                    editor = window.open("/sph/editor/file?id=" + e.FileName.replace(/\\/g,"/") + "&line=" + e.Line, "_blank", params);
+                    editor.moveTo(0, 0);
+            },
             validateAsync = function () {
                 var tcs = new $.Deferred();
                 context.post(ko.mapping.toJSON(td), "/api/transform-definitions/validate-fix")
@@ -689,7 +700,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
             },
             generatePartialAsync = function () {
-                return context.post(ko.mapping.toJSON(td), "/api/transform-definitions/" + td().Id() +"/generate-partial")
+                return context.post(ko.mapping.toJSON(td), "/api/transform-definitions/" + td().Id() + "/generate-partial")
                          .done(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
@@ -956,6 +967,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
         var vm = {
             isBusy: isBusy,
             errors: errors,
+            viewFile: viewFile,
             functoids: functoids,
             functoidToolboxItems: functoidToolboxItems,
             activate: activate,
