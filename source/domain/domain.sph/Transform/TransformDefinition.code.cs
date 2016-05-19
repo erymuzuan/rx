@@ -167,8 +167,6 @@ namespace Bespoke.Sph.Domain
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
             this.MapCollection.ForEach(x => x.TransformDefinition = this);
 
-            methodDeclaration.AppendLine($"           public async Task<{this.OutputType.FullName}> TransformAsync({args})");
-            methodDeclaration.AppendLine("           {");
 
             var code = new StringBuilder();
             if (this.InputCollection.Count > 0)
@@ -202,14 +200,13 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("               this.AfterTransform(item, dest);");
 
-            if (CodeExpression.Load(code).HasAsyncAwait)
-                code.AppendLinf("               return dest;");
-            else
-            {
-                code.Replace("public async Task<", "public Task<");
-                code.AppendLinf("               return Task.FromResult(dest);");
-            }
+            var asyncCode = CodeExpression.Load(code).HasAsyncAwait;
+            code.AppendLinf(asyncCode ? 
+                "               return dest;" : 
+                "               return Task.FromResult(dest);");
 
+            methodDeclaration.AppendLine($"           public{ (asyncCode? " async" : "") } Task<{this.OutputType.FullName}> TransformAsync({args})");
+            methodDeclaration.AppendLine("           {");
             methodDeclaration.Append(code);
 
             methodDeclaration.AppendLine("           }");
