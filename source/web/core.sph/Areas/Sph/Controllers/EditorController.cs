@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var path = file;
             if (!file.Contains(":"))
-                Server.MapPath(file);
+                path = Server.MapPath(file);
             this.LogFileContent(path);
 
             WriteAllText(path, code);

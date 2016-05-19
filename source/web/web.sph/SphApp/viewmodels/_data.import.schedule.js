@@ -29,6 +29,9 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     $.getJSON("/api/data-imports/" + id + "/schedules")
                         .done(function(result){
                             var list = _(result).map(function(v){
+                                v.TruncateData = true;
+                                v.NotifyOnError = true;
+                                v.NotifyOnSuccess = true;
                                 return context.toObservable(v);
                             });
                             item.IntervalScheduleCollection(list);
