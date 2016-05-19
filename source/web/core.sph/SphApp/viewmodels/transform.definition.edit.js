@@ -651,6 +651,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 return tcs.promise();
             },
             viewFile = function (e) {
+                var file = e.FileName || e,
+                    line = e.Line || 1;
                 var params = [
                            "height=" + screen.height,
                            "width=" + screen.width,
@@ -658,7 +660,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                            "location=0",
                            "fullscreen=yes"
                                 ].join(","),
-                    editor = window.open("/sph/editor/file?id=" + e.FileName.replace(/\\/g,"/") + "&line=" + e.Line, "_blank", params);
+                    editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g,"/") + "&line=" + line, "_blank", params);
                     editor.moveTo(0, 0);
             },
             validateAsync = function () {
@@ -707,7 +709,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                              } else {
                                  logger.error("You already have the partial code define, in " + result.message);
                              }
-                         });
+                        viewFile(result.file);
+                    });
             },
             addPage = function () {
                 return app2.prompt("Give your page a name", "Page " + (pages().length + 1))

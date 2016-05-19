@@ -103,12 +103,13 @@ namespace Bespoke.Sph.Domain
                 };
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
-                             select new BuildError(this.WebId, x.ErrorText)
+                             let code = File.ReadAllText(x.FileName)
+                             select new BuildError(x.ErrorText, x.Line, code)
                              {
                                  Line = x.Line,
                                  FileName = x.FileName
                              };
-                cr.Errors.AddRange(errors);
+                cr.Errors.AddRange(errors.Distinct(new BuildErrorComparer()));
                 return Task.FromResult(cr);
 
             }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bespoke.Sph.Domain
 {
@@ -16,6 +18,27 @@ namespace Bespoke.Sph.Domain
         {
             this.ItemWebId = webid;
             this.Message = message;
+        }
+        public BuildError(string message, int line, string text)
+        {
+            this.Message = message;
+            var code = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
+                .Take(line + 2)
+                .ToArray();
+            this.Code = $@"
+{line - 2}:    {code[line - 3]}
+{line - 1}:    {code[line - 2]}
+{line}:    {code[line - 1]}
+{line + 1}:    {code[line]}
+{line + 2}:    {code[line + 1]}
+";
+            for (var i = line - 3; i >= 0; i--)
+            {
+                var id = Strings.RegexSingleValue(code[i].Trim(), "^//([A-Za-z0-9_]{0,25}):([A-Za-z0-9_]{0,25}):(?<id>.*?)$", "id");
+                if (string.IsNullOrWhiteSpace(id)) continue;
+                this.ItemWebId = id;
+                break;
+            }
         }
         public string Message { get; set; }
         public string Code { get; set; }
@@ -37,7 +60,7 @@ namespace Bespoke.Sph.Domain
         {
             return x.ItemWebId == y.ItemWebId &&
                 x.Message == y.Message &&
-                x.Code == y.Code &&
+                x.Line == y.Line &&
                 x.FileName == y.FileName;
         }
 
@@ -45,7 +68,7 @@ namespace Bespoke.Sph.Domain
         {
             return obj.ItemWebId.GetHashCode() ^
                 obj.Message.GetHashCode() ^
-                obj.Code.GetHashCode() ^
+                obj.Line.GetHashCode() ^
                 obj.FileName.GetHashCode();
         }
     }

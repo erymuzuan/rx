@@ -115,38 +115,38 @@
                         url: "/sph/editor/save",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        error: function () {
+                        error: function() {
                             alert("error");
                         },
-                        success: function () {
+                        success: function() {
                             isBusy(false);
                         }
                     });
 
                 },
-                saveAndClose = function () {
+                saveAndClose = function() {
                     save().done(function () {
-                        if (window.saved) {
-                            window.saved(editor.getValue(), true);
-                        }
-                        window.close();
-                    });
+                            if (window.saved) {
+                                window.saved(editor.getValue(), true);
+                            }
+                            window.close();
+                        });
 
                 },
                 copiedText = "",
-                copy = function () {
+                copy = function() {
                     copiedText = editor.getCopyText();
                 },
-                paste = function () {
+                paste = function() {
                     editor.getSession().insert(copiedText);
                 },
-                search = function () {
+                search = function() {
 
                 },
-                open = function () {
+                open = function() {
 
                 },
-                gotoLine = function (number) {
+                gotoLine = function(number) {
 
                 },
                 vm = {
@@ -160,16 +160,16 @@
                     gotoLine: gotoLine,
                     snippets: ko.observableArray(),
                     logs: ko.observableArray(),
-                    openSnippetEditor: function () {
+                    openSnippetEditor: function() {
                         require(['viewmodels/snippets.dialog'], function (dialog) {
-                            app.showModal(dialog)
-                                .done(function () {
+                                app.showModal(dialog)
+                                    .done(function() {
 
-                                });
-                            setTimeout(function () {
-                                $('div.modal-backdrop').remove();
+                                    });
+                                setTimeout(function() {
+                                        $('div.modal-backdrop').remove();
                             }, 500);
-                        });
+                            });
                     }
 
                 };
@@ -178,25 +178,29 @@
 
 
             $('#theme').change(function () {
-                editor.setTheme("ace/theme/" + $(this).val());
-                $.post('/Editor/SaveSetting', { 'ace-theme': $(this).val() });
-            });
+                    editor.setTheme("ace/theme/" + $(this).val());
+                    $.post('/Editor/SaveSetting', { 'ace-theme': $(this).val() });
+                });
             $('#font-size').change(function () {
-                $('#editor').css("font-size", $(this).val() + "px");
-                $.post('/Editor/SaveSetting', { 'ace-font-size': $(this).val() });
-            });
+                    $('#editor').css("font-size", $(this).val() + "px");
+                    $.post('/Editor/SaveSetting', { 'ace-font-size': $(this).val() });
+                });
             $('#snippets-list').on('click', 'a', function () {
-                var snp = ko.dataFor(this);
-                editor.insert(snp.code);
-            });
+                        var snp = ko.dataFor(this);
+                        editor.insert(snp.code);
+                    });
 
             // let it run
+            @{
+                var line = Request.QueryString["line"] ?? "1";
+            }
+
             $.get('/sph/editor/code?id=@Model.File').done(function (text) {
                 editor.setValue(text);
-                editor.gotoLine(1);
+                editor.gotoLine(@line);
 
             });
-            editor.gotoLine(1);
+            editor.gotoLine(@line);
 
             $.get('/sph/editor/snippets/@mode').done(function (snippets) {
                 vm.snippets(snippets);

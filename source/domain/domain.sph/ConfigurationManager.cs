@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Domain
         {
             var val = GetEnvironmentVariable(setting);
             if (Path.IsPathRooted(val)) return val;
-            return Home + @"\" + defaultPath;
+            return (Home + @"\" + defaultPath).Replace("\\\\", "\\");
         }
         private static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
         {

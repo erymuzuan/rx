@@ -221,7 +221,7 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
 
         public void DeployOutput(string f)
         {
-            m_mainViewModel?.StartBusy($"Deploying {System.IO.Path.GetFileName(f)} ..");
+            m_mainViewModel?.StartBusy($"Deploying {Path.GetFileName(f)} ..");
             if (!File.Exists(f)) return;
 
             var fileName = Path.GetFileName(f) ?? "";

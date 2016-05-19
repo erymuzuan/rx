@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -50,10 +49,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult Code(string id)
         {
             var file = id;
-            if (!Path.IsPathRooted(id))
+            if (!id.Contains(":"))
                 file = Server.MapPath(id);
             this.LogFileContent(file);
-            file = id;
 
             if (!Exists(file))
                 WriteAllText(file, "");
