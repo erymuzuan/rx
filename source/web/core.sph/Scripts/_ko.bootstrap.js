@@ -41,8 +41,10 @@ ko.bindingHandlers.bootstrapDropDown = {
 
 ko.bindingHandlers.tooltip = {
     init: function (element, valueAccesor) {
-        var text = ko.unwrap(valueAccesor());
-        $(element).tooltip({ title: text });
+        var optionOrText = ko.unwrap(valueAccesor()),
+            placement = optionOrText.tooltipPlacement || "top",
+            text = optionOrText.tooltip || optionOrText;
+        $(element).tooltip({ title: text, placement: placement });
     }
 };
 

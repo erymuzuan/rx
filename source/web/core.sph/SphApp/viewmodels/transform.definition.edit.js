@@ -1014,13 +1014,16 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             return true;
                         }),
                         caption: "Publish",
+                        tooltip: "Generate and compile your TrasnformDefinition",
+                        tooltipPlacement: "bottom",
                         icon: "fa fa-sign-out"
                     },
                     {
                         command: generatePartialAsync,
-                        caption: "Generate Partial",
+                        caption: "Edit Partial",
                         icon: "fa fa-code",
                         tooltip: "Generate C# partial code for before and after transform custom code",
+                        tooltipPlacement : "bottom",
                         enable: ko.computed(function () {
                             if (ko.unwrap(td().Id) === "0") {
                                 return false;

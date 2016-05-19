@@ -16,9 +16,8 @@
             <ul class="dropdown-menu">
                 <!-- ko foreach: commands-->
                 <li>
-                    <a class="btn btn-link pull-left" data-bind="command: command" href="#">
+                    <a class="btn btn-link pull-left" data-bind="command: command, tooltip : $data" href="#">
                         <i data-bind="attr: { 'class': icon }"></i>
-
                         <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
                     </a>
                 </li>
@@ -142,19 +141,19 @@
 
         <!-- ko if: typeof visible === "undefined" && typeof enable === "undefined"-->
         <button class="btn btn-default" data-bind="command: command">
-            <i data-bind=" attr: { 'class': icon }"></i>
+            <i data-bind="attr: { 'class': icon }"></i>
             <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof visible === "function"-->
         <button class="btn btn-default" data-bind="command: command, visible: visible">
-            <i data-bind=" attr: { 'class': icon }"></i>
+            <i data-bind="attr: { 'class': icon }"></i>
             <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof enable === "function"-->
-        <button class="btn btn-default" data-bind="command: command, enable: enable">
-            <i data-bind=" attr: { 'class': icon }"></i>
+        <button class="btn btn-default" data-bind="command: command, enable: enable, tooltip : $data">
+            <i data-bind="attr: { 'class': icon }"></i>
             <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
@@ -184,13 +183,13 @@
 
         <!-- ko if: typeof visible === "undefined"-->
         <button class="btn btn-default" data-bind="click: command">
-            <i data-bind=" attr: { 'class': icon }"></i>
+            <i data-bind="attr: { 'class': icon }"></i>
             <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
         <!-- ko if: typeof visible === "function"-->
         <button class="btn btn-default" data-bind="click: command, visible: visible">
-            <i data-bind=" attr: { 'class': icon }"></i>
+            <i data-bind="attr: { 'class': icon }"></i>
             <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
