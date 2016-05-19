@@ -1,8 +1,8 @@
 {
   "$type": "Bespoke.Sph.Integrations.Adapters.MySqlAdapter, mysql.adapter",
   "OdataTranslator": "OdataSqlTranslator",
-  "ConnectionString": "Server=localhost;Database=employees;Uid=root;Pwd=;Allow User Variables=true;Allow Zero Datetime=true;",
-  "Password": null,
+  "ConnectionString": "Server=localhost;Database=employees;Uid=root;Pwd=123456;Allow User Variables=true;Allow Zero Datetime=true;",
+  "Password": "123456",
   "UserId": "root",
   "Server": "localhost",
   "Database": "employees",
@@ -749,30 +749,6 @@
           "$values": [
             {
               "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-              "TypeName": "System.String, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": true,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "FullName": null,
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "dept_no",
-              "AllowMultiple": false,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "TypeName": "System.Int32, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
@@ -791,6 +767,30 @@
                 "$values": []
               },
               "Name": "emp_no",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "dept_no",
               "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
@@ -847,7 +847,7 @@
         },
         "PrimaryKey": {
           "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-          "TypeName": "System.String, mscorlib",
+          "TypeName": "System.Int32, mscorlib",
           "IsNullable": false,
           "IsNotIndexed": false,
           "IsAnalyzed": false,
@@ -864,7 +864,7 @@
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
             "$values": []
           },
-          "Name": "dept_no",
+          "Name": "emp_no",
           "AllowMultiple": false,
           "DefaultValue": null,
           "WebId": null
@@ -872,8 +872,8 @@
         "PrimaryKeyCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": [
-            "dept_no",
-            "emp_no"
+            "emp_no",
+            "dept_no"
           ]
         }
       },
@@ -1182,6 +1182,6 @@
   "Id": "my-sql-employee",
   "CreatedDate": "2016-04-15T11:13:06.4696689+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-20T05:49:12.2183764+08:00",
+  "ChangedDate": "2016-05-17T10:22:30.3325911+08:00",
   "WebId": "e63655a5-c248-4411-a846-2540a64aa3b9"
 }
