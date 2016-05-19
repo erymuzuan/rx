@@ -688,6 +688,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 return tcs.promise();
             },
             publishAsync = function () {
+                $("i.error").remove();
                 return context.post(ko.mapping.toJSON(td), "/api/transform-definitions/" + td().Id() + "/publish")
                     .done(function (result) {
                         if (result.success) {
@@ -697,6 +698,10 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         } else {
                             errors(result.Errors);
                             logger.error("There are errors in your map, !!!");
+
+                            _(result.Errors).each(function (v) {
+                                $("#" + v.ItemWebId + " div.toolbox-item").append("<i class=\"fa fa-exclamation-circle error\"></i>");
+                            });
                         }
                     });
 

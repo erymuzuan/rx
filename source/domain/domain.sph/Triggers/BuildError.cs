@@ -24,6 +24,7 @@ namespace Bespoke.Sph.Domain
             this.Message = message;
             var code = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
                 .Take(line + 2)
+                .Concat(new []{"","",""})
                 .ToArray();
             this.Code = $@"
 {line - 2}:    {code[line - 3]}
@@ -32,7 +33,7 @@ namespace Bespoke.Sph.Domain
 {line + 1}:    {code[line]}
 {line + 2}:    {code[line + 1]}
 ";
-            for (var i = line - 3; i >= 0; i--)
+            for (var i = line; i >= 0; i--)
             {
                 var id = Strings.RegexSingleValue(code[i].Trim(), "^//([A-Za-z0-9_]{0,25}):([A-Za-z0-9_]{0,25}):(?<id>.*?)$", "id");
                 if (string.IsNullOrWhiteSpace(id)) continue;

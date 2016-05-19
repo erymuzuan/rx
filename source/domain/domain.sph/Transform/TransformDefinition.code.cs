@@ -194,8 +194,9 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
 
             var mappingCodes = from m in this.MapCollection
-                               select GAP + m.GenerateCode() + "\r\n";
-            code.AppendLine(string.Concat(mappingCodes.ToArray()));
+                               select $@"{GAP}//NoName:Map:{m.WebId}
+{GAP}{m.GenerateCode()}";
+            code.JoinAndAppendLine(mappingCodes,"\r\n");
             code.AppendLine();
 
             code.AppendLine("               this.AfterTransform(item, dest);");
