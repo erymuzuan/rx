@@ -245,55 +245,89 @@ WriteLiteral("\',\r\n                        code: editor.getValue()\r\n        
 "               type: \"POST\",\r\n                        data: data,\r\n             " +
 "           url: \"/sph/editor/save\",\r\n                        contentType: \"appli" +
 "cation/json; charset=utf-8\",\r\n                        dataType: \"json\",\r\n       " +
-"                 error: function () {\r\n                            alert(\"error\"" +
-");\r\n                        },\r\n                        success: function () {\r\n" +
-"                            isBusy(false);\r\n                        }\r\n         " +
-"           });\r\n\r\n                },\r\n                saveAndClose = function ()" +
-" {\r\n                    save().done(function () {\r\n                        if (w" +
-"indow.saved) {\r\n                            window.saved(editor.getValue(), true" +
-");\r\n                        }\r\n                        window.close();\r\n        " +
-"            });\r\n\r\n                },\r\n                copiedText = \"\",\r\n       " +
-"         copy = function () {\r\n                    copiedText = editor.getCopyTe" +
-"xt();\r\n                },\r\n                paste = function () {\r\n              " +
-"      editor.getSession().insert(copiedText);\r\n                },\r\n             " +
-"   search = function () {\r\n\r\n                },\r\n                open = function" +
-" () {\r\n\r\n                },\r\n                gotoLine = function (number) {\r\n\r\n " +
-"               },\r\n                vm = {\r\n                    paste: paste,\r\n  " +
-"                  searchText: ko.observable(),\r\n                    open: open,\r" +
-"\n                    copy: copy,\r\n                    save: save,\r\n             " +
-"       search: search,\r\n                    saveAndClose: saveAndClose,\r\n       " +
-"             gotoLine: gotoLine,\r\n                    snippets: ko.observableArr" +
-"ay(),\r\n                    logs: ko.observableArray(),\r\n                    open" +
-"SnippetEditor: function () {\r\n                        require([\'viewmodels/snipp" +
-"ets.dialog\'], function (dialog) {\r\n                            app.showModal(dia" +
-"log)\r\n                                .done(function () {\r\n\r\n                   " +
-"             });\r\n                            setTimeout(function () {\r\n        " +
-"                        $(\'div.modal-backdrop\').remove();\r\n                     " +
-"       }, 500);\r\n                        });\r\n                    }\r\n\r\n         " +
-"       };\r\n            ko.applyBindings(vm, document.getElementById(\'header-navb" +
-"ar\'));\r\n\r\n\r\n\r\n            $(\'#theme\').change(function () {\r\n                edit" +
-"or.setTheme(\"ace/theme/\" + $(this).val());\r\n                $.post(\'/Editor/Save" +
-"Setting\', { \'ace-theme\': $(this).val() });\r\n            });\r\n            $(\'#fon" +
-"t-size\').change(function () {\r\n                $(\'#editor\').css(\"font-size\", $(t" +
-"his).val() + \"px\");\r\n                $.post(\'/Editor/SaveSetting\', { \'ace-font-s" +
-"ize\': $(this).val() });\r\n            });\r\n            $(\'#snippets-list\').on(\'cl" +
-"ick\', \'a\', function () {\r\n                var snp = ko.dataFor(this);\r\n         " +
-"       editor.insert(snp.code);\r\n            });\r\n\r\n            // let it run\r\n " +
-"           $.get(\'/sph/editor/code?id=");
+"                 error: function() {\r\n                            alert(\"error\")" +
+";\r\n                        },\r\n                        success: function() {\r\n  " +
+"                          isBusy(false);\r\n                        }\r\n           " +
+"         });\r\n\r\n                },\r\n                saveAndClose = function() {\r" +
+"\n                    save().done(function () {\r\n                            if (" +
+"window.saved) {\r\n                                window.saved(editor.getValue()," +
+" true);\r\n                            }\r\n                            window.close" +
+"();\r\n                        });\r\n\r\n                },\r\n                copiedTe" +
+"xt = \"\",\r\n                copy = function() {\r\n                    copiedText = " +
+"editor.getCopyText();\r\n                },\r\n                paste = function() {\r" +
+"\n                    editor.getSession().insert(copiedText);\r\n                }," +
+"\r\n                search = function() {\r\n\r\n                },\r\n                o" +
+"pen = function() {\r\n\r\n                },\r\n                gotoLine = function(nu" +
+"mber) {\r\n\r\n                },\r\n                vm = {\r\n                    paste" +
+": paste,\r\n                    searchText: ko.observable(),\r\n                    " +
+"open: open,\r\n                    copy: copy,\r\n                    save: save,\r\n " +
+"                   search: search,\r\n                    saveAndClose: saveAndClo" +
+"se,\r\n                    gotoLine: gotoLine,\r\n                    snippets: ko.o" +
+"bservableArray(),\r\n                    logs: ko.observableArray(),\r\n            " +
+"        openSnippetEditor: function() {\r\n                        require([\'viewm" +
+"odels/snippets.dialog\'], function (dialog) {\r\n                                ap" +
+"p.showModal(dialog)\r\n                                    .done(function() {\r\n\r\n " +
+"                                   });\r\n                                setTimeo" +
+"ut(function() {\r\n                                        $(\'div.modal-backdrop\')" +
+".remove();\r\n                            }, 500);\r\n                            })" +
+";\r\n                    }\r\n\r\n                };\r\n            ko.applyBindings(vm," +
+" document.getElementById(\'header-navbar\'));\r\n\r\n\r\n\r\n            $(\'#theme\').chang" +
+"e(function () {\r\n                    editor.setTheme(\"ace/theme/\" + $(this).val(" +
+"));\r\n                    $.post(\'/Editor/SaveSetting\', { \'ace-theme\': $(this).va" +
+"l() });\r\n                });\r\n            $(\'#font-size\').change(function () {\r\n" +
+"                    $(\'#editor\').css(\"font-size\", $(this).val() + \"px\");\r\n      " +
+"              $.post(\'/Editor/SaveSetting\', { \'ace-font-size\': $(this).val() });" +
+"\r\n                });\r\n            $(\'#snippets-list\').on(\'click\', \'a\', function" +
+" () {\r\n                        var snp = ko.dataFor(this);\r\n                    " +
+"    editor.insert(snp.code);\r\n                    });\r\n\r\n            // let it r" +
+"un\r\n");
 
             
             #line 194 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            
+            
+            #line default
+            #line hidden
+            
+            #line 194 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+              
+                var line = Request.QueryString["line"] ?? "1";
+            
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n            $.get(\'/sph/editor/code?id=");
+
+            
+            #line 198 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                   Write(Model.File);
 
             
             #line default
             #line hidden
 WriteLiteral("\').done(function (text) {\r\n                editor.setValue(text);\r\n              " +
-"  editor.gotoLine(1);\r\n\r\n            });\r\n            editor.gotoLine(1);\r\n\r\n   " +
-"         $.get(\'/sph/editor/snippets/");
+"  editor.gotoLine(");
 
             
-            #line 201 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 200 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+                           Write(line);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(");\r\n\r\n            });\r\n            editor.gotoLine(");
+
+            
+            #line 203 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+                       Write(line);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(");\r\n\r\n            $.get(\'/sph/editor/snippets/");
+
+            
+            #line 205 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                    Write(mode);
 
             
@@ -304,7 +338,7 @@ WriteLiteral("\').done(function (snippets) {\r\n                vm.snippets(snip
 "            ace.config.loadModule(\"ace/snippets/");
 
             
-            #line 206 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+            #line 210 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                                Write(mode);
 
             

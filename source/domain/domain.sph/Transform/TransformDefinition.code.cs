@@ -73,7 +73,6 @@ namespace Bespoke.Sph.Domain
                 Body = "",
                 AccessModifier = Modifier.Private
 
-
             });
             partial.MethodCollection[0].ArgumentCollection.Add(new MethodArg
             {

@@ -125,6 +125,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     editor = window.open("/sph/editor/file?id=/App_Data/data-imports/" + row.ErrorId + ".data", "_blank", params);
                     editor.moveTo(0, 0);
 
+                // #3967
+                editor.window.onload = function(){
+                    $(editor.window.document).find("a[data-bind='click : saveAndClose']")
+                        .html("<i style=\"margin-right: 5px\" class=\"fa fa-play\"></i> Save &amp; Execute");
+
+                    $(editor.window.document).find("a[data-bind='click : function(){ window.close();}']")
+                        .html("<i style=\"margin-right: 5px\" class=\"fa fa-times\"></i> Close");
+                };
                 editor.window.saved = function (code, close) {
                     console.log(code, "resend");
                     if (close) {

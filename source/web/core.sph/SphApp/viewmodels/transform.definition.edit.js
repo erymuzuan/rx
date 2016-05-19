@@ -650,6 +650,19 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                 return tcs.promise();
             },
+            viewFile = function (e) {
+                var file = e.FileName || e,
+                    line = e.Line || 1;
+                var params = [
+                           "height=" + screen.height,
+                           "width=" + screen.width,
+                           "toolbar=0",
+                           "location=0",
+                           "fullscreen=yes"
+                                ].join(","),
+                    editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g,"/") + "&line=" + line, "_blank", params);
+                    editor.moveTo(0, 0);
+            },
             validateAsync = function () {
                 var tcs = new $.Deferred();
                 context.post(ko.mapping.toJSON(td), "/api/transform-definitions/validate-fix")
@@ -689,14 +702,15 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
             },
             generatePartialAsync = function () {
-                return context.post(ko.mapping.toJSON(td), "/api/transform-definitions/" + td().Id() +"/generate-partial")
+                return context.post(ko.mapping.toJSON(td), "/api/transform-definitions/" + td().Id() + "/generate-partial")
                          .done(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
                              } else {
                                  logger.error("You already have the partial code define, in " + result.message);
                              }
-                         });
+                        viewFile(result.file);
+                    });
             },
             addPage = function () {
                 return app2.prompt("Give your page a name", "Page " + (pages().length + 1))
@@ -956,6 +970,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
         var vm = {
             isBusy: isBusy,
             errors: errors,
+            viewFile: viewFile,
             functoids: functoids,
             functoidToolboxItems: functoidToolboxItems,
             activate: activate,

@@ -86,7 +86,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             string file;
             var partial = map.GeneratePartialCode(out file);
-            return Json(new { success = partial, status = "OK", message = $"Your partial code is successfuly generated {file}", id = map.Id });
+            return Json(new { success = partial, status = "OK", file, message = $"Your partial code is successfuly generated {file}", id = map.Id });
 
         }
 
