@@ -18,6 +18,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
             hub = $.connection.dataImportHub,
             tableOptions = ko.observableArray(),
             previewResult = ko.observable(),
+            error = ko.observable(),
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
@@ -28,13 +29,28 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 dialog.close(this, "Cancel");
             },
             activate = function () {
+                previewResult(null);
+                error(null);
+
                 return connection.start()
                     .then(function () {
                         return hub.server.preview(ko.mapping.toJS(model));
                     })
-                     .then(previewResult);
+                     .then(function(result) {
+                         if (!result.ItemCollection) {
+                             error(result);
+                             return;
+                         } else {
+                             previewResult(result);
+                         }
+                    });
             },
             attached = function (view) {
+
+                if (ko.unwrap(error)) {
+                    return;
+                }
+               
                 var table = _(tableOptions()).find(function (v) { return v.Name === model().table(); }),
                     thead = "<tr>";
                 _(ko.unwrap(table.MemberCollection)).each(function (v) {
@@ -57,6 +73,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
 
         var vm = {
             activate: activate,
+            error: error,
             attached: attached,
             model: model,
             tableOptions: tableOptions,

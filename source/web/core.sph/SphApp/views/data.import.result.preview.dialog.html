@@ -7,7 +7,15 @@
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
                 <h3>Data import result preview</h3>
             </div>
-            <div class="modal-body" style="max-height: 400px;overflow-y: scroll">
+            <div class="modal-body" style="max-height: 400px; overflow-y: scroll">
+                <!-- ko if : error() -->
+                <div data-bind="with : error">
+                    <div class="alert alert-danger" role="alert">
+                        <strong data-bind="text:Message"></strong>
+                    </div>
+                    <pre data-bind="text:Details"></pre>
+                </div>
+                <!-- /ko -->
                 <table class="table table-condensed table-striped">
                     <thead id="thead"></thead>
                     <tbody id="tbody"></tbody>

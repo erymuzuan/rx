@@ -522,18 +522,25 @@ namespace Bespoke.Sph.Web.Hubs
         }
         public async Task<object> Preview(ImportDataViewModel model)
         {
-            var context = new SphDataContext();
-            var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
-
-            dynamic tableAdapter = GetTableAdapterInstance(model, adapter);
-            if (null == tableAdapter) return new
+            try
             {
-                statusCode = 404,
-                message = $"{adapter.AssemblyName}.dll does not exist, you may have to build your adapter before it could be used"
-            };
+                var context = new SphDataContext();
+                var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
 
-            var lo = await tableAdapter.LoadAsync(model.Sql);
-            return lo;
+                dynamic tableAdapter = GetTableAdapterInstance(model, adapter);
+                if (null == tableAdapter) return new
+                {
+                    statusCode = 404,
+                    message = $"{adapter.AssemblyName}.dll does not exist, you may have to build your adapter before it could be used"
+                };
+
+                var lo = await tableAdapter.LoadAsync(model.Sql);
+                return lo;
+            }
+            catch (Exception e)
+            {
+                return new LogEntry(e);
+            }
 
         }
 
