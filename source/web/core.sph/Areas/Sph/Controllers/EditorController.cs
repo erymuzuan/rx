@@ -38,10 +38,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public ActionResult Save(string file, string code)
         {
-            var filed = Server.MapPath(file);
-            this.LogFileContent(filed);
+            var path = file;
+            if (!file.Contains(":"))
+                Server.MapPath(file);
+            this.LogFileContent(path);
 
-            WriteAllText(filed, code);
+            WriteAllText(path, code);
             return Json(new { success = true, status = "OK" });
         }
 
