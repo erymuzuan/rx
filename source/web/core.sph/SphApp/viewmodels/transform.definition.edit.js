@@ -659,9 +659,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                            "toolbar=0",
                            "location=0",
                            "fullscreen=yes"
-                                ].join(","),
-                    editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g,"/") + "&line=" + line, "_blank", params);
-                    editor.moveTo(0, 0);
+                ].join(","),
+                    editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
+                editor.moveTo(0, 0);
             },
             validateAsync = function () {
                 var tcs = new $.Deferred();
@@ -714,8 +714,45 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                              } else {
                                  logger.error("You already have the partial code define, in " + result.message);
                              }
-                        viewFile(result.file);
+                             viewFile(result.file);
+                         });
+            },
+            testTransform = function () {
+                var uri = "/api/transform-definitions/" + td().Id() + "/execute-test";
+                return context.post(ko.toJSON(td), uri)
+                        .done(function (result) {
+                            var w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes");
+                            if (typeof input === "string") {
+                                w.window.code = result;
+                            } else {
+                                w.window.code = JSON.stringify(result, null, "\t");
+                            }
+                        }).fail(function (e) {
+                            console.log(e);
+                            logger.error(e.responseText);
+                        });
+            },
+            editTestInput = function () {
+
+                var tcs = new $.Deferred(),
+                    uri = "/api/transform-definitions/" + td().Id() + "/test-input";
+                $.get(uri)
+                    .done(function (input) {
+                        var w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes");
+                        if (typeof input === "string") {
+                            w.window.code = input;
+                        } else {
+                            w.window.code = JSON.stringify(input, null, "\t");
+                        }
+                        w.window.saved = function (code, close) {
+                            context.post(code, uri).done(tcs.resolve);
+                            if (close) {
+                                w.close();
+                            }
+                            tcs.resolve(true);
+                        };
                     });
+                return tcs.promise();
             },
             addPage = function () {
                 return app2.prompt("Give your page a name", "Page " + (pages().length + 1))
@@ -991,6 +1028,28 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             pages: pages,
             toolbar: {
                 saveCommand: save,
+                groupCommands: [
+                    {
+                        caption: "Test",
+                        commands: [
+
+                    {
+                        command: testTransform,
+                        caption: "Test Mapping",
+                        icon: "fa fa-play",
+                        tooltip: "Test the generated mapping",
+                        tooltipPlacement: "bottom"
+                    },
+                    {
+                        command: editTestInput,
+                        caption: "Edit test input",
+                        icon: "fa fa-plus",
+                        tooltip: "Edit json representation of the test input",
+                        tooltipPlacement: "bottom"
+                    }
+                        ]
+                    }
+                ],
                 commands: ko.observableArray([
                     {
                         command: editProp,
@@ -1023,7 +1082,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         caption: "Edit Partial",
                         icon: "fa fa-code",
                         tooltip: "Generate C# partial code for before and after transform custom code",
-                        tooltipPlacement : "bottom",
+                        tooltipPlacement: "bottom",
                         enable: ko.computed(function () {
                             if (ko.unwrap(td().Id) === "0") {
                                 return false;

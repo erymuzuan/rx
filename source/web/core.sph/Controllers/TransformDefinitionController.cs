@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -57,7 +58,7 @@ namespace Bespoke.Sph.Web.Controllers
             options.AddReference<ApiController>();
             options.AddReference<BaseApiController>();
             options.AddReference<TransformDefinitionController>();
-            options.AddReference<Newtonsoft.Json.JsonConverter>();
+            options.AddReference<JsonConverter>();
 
             var codes = map.GenerateCode();
             var sources = map.SaveSources(codes);
@@ -87,6 +88,72 @@ namespace Bespoke.Sph.Web.Controllers
             string file;
             var partial = map.GeneratePartialCode(out file);
             return Json(new { success = partial, status = "OK", file, message = $"Your partial code is successfuly generated {file}", id = map.Id });
+
+        }
+        [HttpPost]
+        [Route("{id}/test-input")]
+        public IHttpActionResult SaveTestInput(string id, [RawBody] string input)
+        {
+            string file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{id}.test";
+            System.IO.File.WriteAllText(file, input);
+            return Json(new { success = true, status = "OK", file, message = $"Your test input is successfuly generated {file}" });
+
+        }
+
+        [HttpPost]
+        [Route("{id}/execute-test")]
+        public  async Task<IHttpActionResult> ExecuteMappingTest(string id, [JsonBody]TransformDefinition mapDefinition)
+        {
+            string file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{id}.test"; var context = new SphDataContext();
+            if (!System.IO.File.Exists(file))
+                return NotFound("You have yet to create an input for the test map");
+
+            var inputType = Type.GetType(mapDefinition.InputTypeName);
+            if (null == inputType)
+                return NotFound($"Cannot instantiate input type : {mapDefinition.InputTypeName}");
+
+            var mapType = Type.GetType($"{mapDefinition.FullTypeName}, {mapDefinition.AssemblyName}");
+            if (null == mapType)
+                return NotFound($"Cannot load your mapping type: {mapDefinition.FullTypeName} from {mapDefinition.AssemblyName}.dll");
+            var json = System.IO.File.ReadAllText(file);
+            dynamic input = JsonConvert.DeserializeObject(json, inputType);
+            dynamic mapping = Activator.CreateInstance(mapType);
+
+            try
+            {
+                dynamic output = await mapping.TransformAsync(input);
+                var oj = JsonConvert.SerializeObject(output);
+                return Json(oj);
+            }
+            catch (Exception e)
+            {
+                var logger = ObjectBuilder.GetObject<ILogger>();
+                var entry = new LogEntry(e);
+                logger.Log(entry);
+                return Json(entry);
+            }
+
+        }
+
+        [HttpGet]
+        [Route("{id}/test-input")]
+        public IHttpActionResult GetTestInput(string id)
+        {
+            string file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{id}.test";
+            if (System.IO.File.Exists(file))
+                return Json(System.IO.File.ReadAllText(file));
+
+            var context = new SphDataContext();
+            var map = context.LoadOneFromSources<TransformDefinition>(x => x.Id == id);
+
+            var type = Type.GetType(map.InputTypeName);
+            if (null == type)
+                return NotFound("Cannot instantiate type " + map.InputTypeName);
+
+            var input = Activator.CreateInstance(type);
+            var json = JsonConvert.SerializeObject(input);
+
+            return Json(json);
 
         }
 

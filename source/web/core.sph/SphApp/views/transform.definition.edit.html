@@ -100,7 +100,7 @@
 
 <div class="row">
     <div class="col-lg-2">
-        <h3 data-bind="with : td">Source(<span data-bind="text:InputTypeName"></span>)</h3>
+        <h3 data-bind="with : td"><span data-bind="attr:{title:InputTypeName}">Source</span></h3>
         <a href="#" data-bind="visible:!sourceSchema(), click : editProp" style="margin-top: 50px">
             <br />
             <br />
@@ -115,7 +115,7 @@
     </div>
     <div class="col-lg-6" data-bind="with: td">
         <div>
-            <ul data-bind="foreach: $root.pages" class="nav nav-pills">
+            <ul data-bind="foreach: $root.pages" class="nav nav-tabs">
                 <li role="presentation" data-bind="css: {'active' : active}">
                     <a href="#" data-bind="text:name, click : $root.changePage"></a>
                 </li>
@@ -141,7 +141,7 @@
         </div>
     </div>
     <div class="col-lg-2">
-        <h3 data-bind="with : td">Destination(<span data-bind="text:OutputTypeName"></span>)</h3>
+        <h3 data-bind="with : td"><span data-bind="attr:{title:OutputTypeName}">Destination</span></h3>
         <a href="#" data-bind="visible:!destinationSchema(), click : editProp" style="margin-top: 50px">
             <br />
             <br />
