@@ -38,3 +38,16 @@ From the toolbar you can click `Edit Properties`
 
 
  Go to [Mapping Configuration](TransformDefinitionConfiguration.html)
+
+
+## Testing your mapping
+
+It takes a lot of time to get your mapping right, Rx Developer makes it easier by providing you with a simple to use test runner for your `TransformDefinition`. Go to the test menu to create a sample input
+![](https://lh3.googleusercontent.com/-VwwfrgN0-rU/Vz5hZ1B35dI/AAAAAAAA8Mk/RvHfhIht_AM5lLxVPry9Rh8hbn_hKhZPwCCo/s2048/%255BUNSET%255D)
+
+1. Click on the `Edit test input` drop down menu, where you'll be presented with a default implementation of your input
+2. Edit your input definition as you see fit.
+3. Click `Save & Close`
+4. Now you can begin test, by clicking on the `Test Mapping` drop down menu.
+5. You'll be presented with the output , if test pass
+6. An exception details will be presented if an Exception is thrown during the mapping process
