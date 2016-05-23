@@ -1172,6 +1172,7 @@
     <Compile Include="Solutions\CustomDialogSolutionItemProviders.cs" />
     <Compile Include="Solutions\CustomFormNodeProvider.cs" />
     <Compile Include="Solutions\CustomScriptNodeProvider.cs" />
+    <Compile Include="Solutions\DataTransferDefinitionProviders.cs" />
     <Compile Include="Solutions\DesignationProviders.cs" />
     <Compile Include="Solutions\DocumentTemplateProviders.cs" />
     <Compile Include="Solutions\EmailTemplateProviders.cs" />
