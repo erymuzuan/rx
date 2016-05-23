@@ -195,6 +195,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webapi.common.test", "sourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scheduler.data.import", "source\scheduler\scheduler.data.import\scheduler.data.import.csproj", "{77023784-B68A-4FC4-A5B7-0A27488AB5BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.data.transfer", "source\subscribers\subscriber.data.transfer\subscriber.data.transfer.csproj", "{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -469,6 +471,10 @@ Global
 		{77023784-B68A-4FC4-A5B7-0A27488AB5BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77023784-B68A-4FC4-A5B7-0A27488AB5BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77023784-B68A-4FC4-A5B7-0A27488AB5BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -543,5 +549,6 @@ Global
 		{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}
 		{4EC2F6A7-6936-4EB1-8A8E-EF3B0B157997} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{77023784-B68A-4FC4-A5B7-0A27488AB5BF} = {3AE34720-8DD6-4332-9DF7-9E16A79B94A1}
+		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 	EndGlobalSection
 EndGlobal
