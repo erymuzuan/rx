@@ -40,7 +40,7 @@ namespace scheduler.data.import
 
             var file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(DataTransferDefinition)}\\{id}.json";
             if (!File.Exists(file)) return;
-            var json = File.ReadAllText(file);
+            var model = file.DeserializeFromJsonFile<DataTransferDefinition>();
             var container = new CookieContainer();
             GetCookie(username, password, container);
             var connection = new HubConnection(ConfigurationManager.BaseUrl) { CookieContainer = container };
@@ -52,14 +52,51 @@ namespace scheduler.data.import
                 await hubProxy.Invoke("truncateData");
             try
             {
-                var preview = await hubProxy.Invoke<object>("preview", json);
-                Console.WriteLine(preview);
-                await hubProxy.Invoke<ProgressData>("execute", p => { }, json);
+                var preview = (await hubProxy.Invoke<object>("preview", model) as JObject);
+                var details = preview?.SelectToken("$.Details")?.Value<string>();
+                if (!string.IsNullOrWhiteSpace(details))
+                {
+                    await NotifyErrorAsync(details, id);
+                    return;
+                }
+
+                var rows = 0;
+                var sqlMessages = 0;
+                var sqlRate = 0d;
+                var sqlRows = 0;
+                var esMessages = 0;
+                var esRate = 0d;
+                var esRows = 0;
+                Action<ProgressData> progress = p =>
+                {
+                    if (p.Rows > 0)
+                        rows = p.Rows;
+
+                    if (p.SqlServerQueue.MessagesCount > 0)
+                        sqlMessages = p.SqlServerQueue.MessagesCount;
+                    if (p.SqlServerQueue.Rate > 0d)
+                        sqlRate = p.SqlServerQueue.Rate;
+                    if (p.SqlRows > 0)
+                        sqlRows = p.SqlRows;
+                    if (p.ElasticsearchQueue.MessagesCount > 0)
+                        esMessages = p.ElasticsearchQueue.MessagesCount;
+                    if (p.ElasticsearchQueue.Rate > 0)
+                        esRate = p.ElasticsearchQueue.Rate;
+                    if (p.ElasticsearchRows > 0)
+                        esRows = p.ElasticsearchRows;
+                    Console.Write($"\rRows : {rows}\tSQL : {sqlMessages}/{sqlRate}({sqlRows})\t ES: {esMessages}/{esRate}({esRows})                                                 ");
+
+                };
+                //hubProxy.Observe()
+                var result = await hubProxy.Invoke<object, ProgressData>("execute", progress, new object[] { id, model });
+                Console.WriteLine(result);
                 if (notificationOnSuccess)
                     await NotifySuccessAsync(id);
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.GetType().FullName);
+                Console.WriteLine(e.Message);
                 if (notificationOnError)
                 {
                     await NotifyErrorAsync(e, id);
@@ -87,6 +124,16 @@ Your scheduled data transfer was successfuly executed on {DateTime.Now}";
             var to = ConfigurationManager.AppSettings["EmailTo"] ?? "admin@bespoke.com.my";
             var subject = $"Data transfer Error for {id}";
             var body = GetExceptionBody(exception);
+
+            await smtp.SendMailAsync(@from, to, subject, body);
+        }
+        private static async Task NotifyErrorAsync(string exception, string id)
+        {
+            var smtp = new SmtpClient();
+            var @from = ConfigurationManager.AppSettings["EmailFrom"] ?? "data-transfer-scheduler@bespoke.com.my";
+            var to = ConfigurationManager.AppSettings["EmailTo"] ?? "admin@bespoke.com.my";
+            var subject = $"Data transfer preview error for {id}";
+            var body = exception;
 
             await smtp.SendMailAsync(@from, to, subject, body);
         }
@@ -155,7 +202,7 @@ Your scheduled data transfer was successfuly executed on {DateTime.Now}";
 
             using (var response = (HttpWebResponse)request.GetResponse())
             {
-                Console.WriteLine(response.StatusCode);
+                Console.WriteLine($"Login status : {response.StatusCode}");
             }
 
         }
@@ -189,6 +236,10 @@ Your scheduled data transfer was successfuly executed on {DateTime.Now}";
         public Queue ElasticsearchQueue { get; set; } = new Queue("es.data-import", 0, 0);
         public Queue SqlServerQueue { get; set; } = new Queue("persistence", 0, 0);
 
+        public ProgressData()
+        {
+
+        }
         public ProgressData(int rows)
         {
             Rows = rows;

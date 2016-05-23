@@ -51,7 +51,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
                     return;
                 }
                
-                var table = _(tableOptions()).find(function (v) { return v.Name === model().table(); }),
+                var table = _(tableOptions()).find(function (v) { return v.Name === model().Table(); }),
                     thead = "<tr>";
                 _(ko.unwrap(table.MemberCollection)).each(function (v) {
                     thead += "<th>" + v.Name + "</th>";
