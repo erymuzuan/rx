@@ -50,6 +50,7 @@ namespace Bespoke.Sph.Domain
         public static string RequestLogIndexPattern => GetEnvironmentVariable("RequestLogIndexPattern") ?? "yyyyMMdd";
 
         public static string ReportDeliveryExecutable => GetPath("ReportDeliveryExecutable", @"schedulers\scheduler.report.delivery.exe");
+        public static string ScheduledDataTransferExecutable => GetPath("ScheduledDataTransferExecutable", @"schedulers\scheduler.data.import.exe");
         public static string ScheduledTriggerActivityExecutable => GetPath("ScheduledTriggerActivityExecutable", @"schedulers\scheduler.workflow.trigger.exe");
         public static bool EnableWorkflowGetCacheDependency => GetEnvironmentVariableBoolean("EnableWorkflowGetCacheDependency");
 
