@@ -60,30 +60,30 @@
         <div class="tab-content">
             <div id="data-import-general" class="tab-pane active">
 
-                <form class="form-horizontal">
+                <form class="form-horizontal" data-bind="with:model">
                     <div class="form-group">
                         <label for="import-name" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-6">
-                            <input required class="form-control" id="import-name" data-bind="value:model().name" placeholder="Give it a name, so that you can save it" maxlength="255" />
+                            <input required class="form-control" id="import-name" data-bind="value:Name" placeholder="Give it a name, so that you can save it" maxlength="255" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="adapter" class="col-lg-2 control-label">Adapter</label>
                         <div class="col-lg-6">
-                            <select required class="form-control" id="adapter" data-bind="value:model().adapter, options: adapterOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your adapter]'"></select>
+                            <select required class="form-control" id="adapter" data-bind="value:InboundAdapter, options: $root.adapterOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your adapter]'"></select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="table" class="col-lg-2 control-label">Table</label>
                         <div class="col-lg-6">
-                            <select required class="form-control" id="table" data-bind="value:model().table, options: tableOptions, optionsCaption:'[Select your table]', optionsText:'Name', optionsValue:'Name'"></select>
+                            <select required class="form-control" id="table" data-bind="value:Table, options: $root.tableOptions, optionsCaption:'[Select your table]', optionsText:'Name', optionsValue:'Name'"></select>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="sql" class="col-lg-2 control-label">SQL Statement</label>
                         <div class="col-lg-6">
-                            <textarea type="text" data-bind="value: model().sql"
+                            <textarea type="text" data-bind="value: SelectStatement"
                                       required
                                       placeholder="SQL statement for LoadAsync method on your table adapter"
                                       class="form-control" id="sql"></textarea>
@@ -96,7 +96,7 @@
                     <div class="form-group">
                         <label for="BatchSize" class="col-lg-2 control-label">Batch Size</label>
                         <div class="col-lg-6">
-                            <input type="number" data-bind="value: model().batchSize"
+                            <input type="number" data-bind="value: BatchSize"
                                    required pattern="^[0-9_ ]$"
                                    max="100"
                                    step="5"
@@ -112,7 +112,7 @@
                     <div class="form-group">
                         <label for="entity" class="col-lg-2 control-label">Entity</label>
                         <div class="col-lg-6">
-                            <select class="form-control" id="entity" data-bind="value:model().entity, options: entityOptions, optionsCaption:'[Select your destination entity]', optionsText:'Name', optionsValue:'Name'"></select>
+                            <select class="form-control" id="entity" data-bind="value:Entity, options: $root.entityOptions, optionsCaption:'[Select your destination entity]', optionsText:'Name', optionsValue:'Name'"></select>
                         </div>
 
                         <div class="col-lg-3">
@@ -123,7 +123,7 @@
                     <div class="form-group">
                         <label for="map" class="col-lg-2 control-label">Map</label>
                         <div class="col-lg-6">
-                            <select class="form-control" id="map" data-bind="value: model().map, options: mapOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your map]'"></select>
+                            <select class="form-control" id="map" data-bind="value: InboundMap, options: $root.mapOptions, optionsValue:'Id', optionsText:'Name', optionsCaption:'[Select your map]'"></select>
                         </div>
                         <div class="col-lg-3">
                             <i class="fa fa-question-circle" data-bind="tooltip:'A TransformDefinition will map your source schema to the selected EntityDefinition schema, if you don\'t have one, you should create one before using this data import utility'"></i>
@@ -135,11 +135,11 @@
                 </form>
             </div>
             <div id="data-import-advanced" class="tab-pane">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" data-bind="with:model">
                     <div class="form-group">
                         <label for="delay-throttle" class="col-lg-2 control-label">Delay Throttle</label>
                         <div class="col-lg-6">
-                            <input type="number" data-bind="value: model().delayThrottle, tooltip :'Set the delay between batch, increasing the delay will not crunch your processor too much'"
+                            <input type="number" data-bind="value: DelayThrottle, tooltip :'Set the delay between batch, increasing the delay will not crunch your processor too much'"
                                    step="100" max="5000"
                                    placeholder="Set the delay between batch, increasing the delay will not crunch your processor too much"
                                    class="form-control" id="delay-throttle">
@@ -149,7 +149,7 @@
                         <div class="col-md-offset-2 col-md-6">
                             <div class="checkbox">
                                 <label>
-                                    <input data-bind="checked: model().ignoreMessaging" id="ignore-messaging" type="checkbox" name="model().ignoreMessaging" />
+                                    <input data-bind="checked: IgnoreMessaging" id="ignore-messaging" type="checkbox" name="model().ignoreMessaging" />
                                     Ignore Messaging
                                 </label>
                             </div>
@@ -162,7 +162,7 @@
                     <div class="form-group">
                         <label for="sql-retry" class="col-lg-2 control-label">SQL Retry</label>
                         <div class="col-lg-6">
-                            <input type="number" data-bind="value: model().sqlRetry"
+                            <input type="number" data-bind="value: SqlRetry"
                                    step="1" max="50"
                                    class="form-control" id="sql-retry">
                         </div>
@@ -175,7 +175,7 @@
                     <div class="form-group">
                         <label for="sql-wait" class="col-lg-2 control-label">SQL Wait</label>
                         <div class="col-lg-6">
-                            <input type="number" data-bind="value: model().sqlWait"
+                            <input type="number" data-bind="value: SqlWait"
                                    step="100" max="1000000"
                                    class="form-control" id="sql-wait">
                         </div>
@@ -188,7 +188,7 @@
                     <div class="form-group">
                         <label for="es-retry" class="col-lg-2 control-label">Elasticsearch Retry</label>
                         <div class="col-lg-6">
-                            <input type="number" data-bind="value: model().esRetry"
+                            <input type="number" data-bind="value: EsRetry"
                                    step="1" max="50"
                                    class="form-control" id="es-retry">
                         </div>
@@ -200,7 +200,7 @@
                     <div class="form-group">
                         <label for="es-wait" class="col-lg-2 control-label">Elasticsearch Wait</label>
                         <div class="col-lg-6">
-                            <input type="number" data-bind="value: model().esWait"
+                            <input type="number" data-bind="value: EsWait"
                                    step="100" max="1000000"
                                    class="form-control" id="es-wait">
                         </div>

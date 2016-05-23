@@ -1,12 +1,11 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.ViewModels;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -16,44 +15,18 @@ namespace Bespoke.Sph.Web.Controllers
     {
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Save(ImportDataViewModel model)
+        public async Task<IHttpActionResult> Save(DataTransferDefinition model)
         {
-            var folder = ($"{ConfigurationManager.WebPath}/App_Data/data-imports/");
-            if (!System.IO.Directory.Exists(folder))
-                System.IO.Directory.CreateDirectory(folder);
+            if (model.IsNewItem)
+                model.Id = model.Name.ToIdFormat();
 
-
-            var setting = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var json = JsonConvert.SerializeObject(model, Formatting.Indented, setting);
-            System.IO.File.WriteAllText($"{ConfigurationManager.WebPath}/App_Data/data-imports/{model.Id}.json", json);
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(model);
+                await session.SubmitChanges();
+            }
             return Json(new { });
-        }
-        [HttpPost]
-        [Route("{id}/schedules")]
-        public IHttpActionResult SaveSchedules(string id, IntervalSchedule[] schedules)
-        {
-            var folder = ($"{ConfigurationManager.WebPath}/App_Data/data-imports/");
-            if (!System.IO.Directory.Exists(folder))
-                System.IO.Directory.CreateDirectory(folder);
-
-            var json = "[" + schedules.JoinString(",", x => x.ToJsonString(true)) + "]";
-            System.IO.File.WriteAllText($"{ConfigurationManager.WebPath}/App_Data/data-imports/{id}.schedules.json", json);
-            return Json(new { });
-        }
-
-        [HttpGet]
-        [Route("{id}/schedules")]
-        public IHttpActionResult GetSchedules(string id)
-        {
-            var folder = ($"{ConfigurationManager.WebPath}/App_Data/data-imports/");
-            if (!System.IO.Directory.Exists(folder))
-                System.IO.Directory.CreateDirectory(folder);
-
-
-            var file = $"{ConfigurationManager.WebPath}/App_Data/data-imports/{id}.schedules.json";
-            var json = "[]";
-            if (System.IO.File.Exists(file)) json = System.IO.File.ReadAllText(file);
-            return Json(json);
         }
 
         [HttpDelete]
@@ -66,21 +39,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             return Json(new { });
         }
-
-        [HttpGet]
-        [Route("")]
-        public IHttpActionResult List()
-        {
-            var folder = $"{ConfigurationManager.WebPath}/App_Data/data-imports/";
-            if (!System.IO.Directory.Exists(folder))
-                System.IO.Directory.CreateDirectory(folder);
-
-            var files = from f in System.IO.Directory.GetFiles(folder, "*.json")
-                        where !f.EndsWith(".schedules.json")
-                        select System.IO.File.ReadAllText(f);
-
-            return Json("[" + string.Join(",", files.ToArray()) + "]");
-        }
+        
         [HttpGet]
         [Route("{model}/errors")]
         public IHttpActionResult ErrorList(string model, [FromUri(Name = "$take")]int take = 20, [FromUri(Name = "$skip")]int skip = 0)

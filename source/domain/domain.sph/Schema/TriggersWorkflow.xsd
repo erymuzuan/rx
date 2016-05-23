@@ -1181,4 +1181,45 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="DataTransferDefinition">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="DelayThrottle" type="xs:int" nillable="true"/>
+				<xs:element name="SqlRetry" type="xs:int" nillable="true"/>
+				<xs:element name="SqlWait" type="xs:int" nillable="true"/>
+				<xs:element name="EsRetry" type="xs:int" nillable="true"/>
+				<xs:element name="EsWait" type="xs:int" nillable="true"/>
+				<xs:element name="IntervalScheduleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="IntervalSchedule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ScheduledDataTransferCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ScheduledDataTransfer" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="InboundAdapter" type="xs:string" use="required"/>
+			<xs:attribute name="InboundMap" type="xs:string" use="required"/>
+			<xs:attribute name="SelectStatement" type="xs:string" use="required"/>
+			<xs:attribute name="Table" type="xs:string" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="BatchSize" type="xs:int" use="required"/>
+			<xs:attribute name="IgnoreMessaging" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ScheduledDataTransfer">
+		<xs:complexType>
+			<xs:attribute name="ScheduleWebId" type="xs:string" use="required"/>
+			<xs:attribute name="NotifyOnError" type="xs:boolean" use="required"/>
+			<xs:attribute name="NotifyOnSuccess" type="xs:boolean" use="required"/>
+			<xs:attribute name="TruncateData" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

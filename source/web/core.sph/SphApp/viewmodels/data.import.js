@@ -6,28 +6,13 @@
 /// <reference path="../../Scripts/jquery.signalR-2.2.0.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="~/Scripts/_task.js" />
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
     function (context, logger, router, app) {
 
-        var model = ko.observable({
-            delayThrottle: ko.observable(),
-            id: ko.observable(),
-            name: ko.observable(),
-            adapter: ko.observable(),
-            table: ko.observable(),
-            batchSize: ko.observable(40),
-            entity: ko.observable(),
-            sql: ko.observable(),
-            sqlRetry: ko.observable(),
-            esRetry: ko.observable(),
-            sqlWait: ko.observable(),
-            esWait: ko.observable(),
-            map: ko.observable(),
-            ignoreMessaging: ko.observable(true)
-        }),
+        var model = ko.observable(new bespoke.sph.domain.DataTransferDefinition()),
             connection = null,
             hub = null,
             errorRows = ko.observableArray(),
@@ -56,111 +41,135 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             }),
             isBusy = ko.observable(false),
             canPreview = ko.computed(function () {
-                return model().adapter()
-                    && model().table()
-                    && model().sql()
-                    && model().batchSize();
+                return model().InboundAdapter()
+                    && model().Table()
+                    && model().SelectStatement()
+                    && model().BatchSize();
             }),
             canImport = ko.computed(function () {
                 return canPreview()
-                    && model().map()
-                    && model().entity()
+                    && model().InboundMap()
+                    && model().Entity()
                     && !progress().busy();
             }),
-            activate = function () {
+            filterMapOptions = function (list) {
+                var filtered = _(list).filter(function (v) {
+                    return v.InputTypeName.indexOf(model().Table()) > -1 && v.OutputTypeName.indexOf(model().Entity()) > -1;
+                });
+                mapOptions(filtered);
+            },
+            loadMappings = function (lo) {
+                var tuples = _(lo.itemCollection).map(function (v) {
+                    return {
+                        Id: ko.unwrap(v.Id),
+                        Name: ko.unwrap(v.Name),
+                        InputTypeName: ko.unwrap(v.InputTypeName),
+                        OutputTypeName: ko.unwrap(v.OutputTypeName)
+                    }
+                });
+                filterMapOptions(tuples);
+
+            },
+            activate = function (id) {
                 console.log(router);
                 context.getTuplesAsync("EntityDefinition", null, "Id", "Name")
                     .done(entityOptions);
                 context.getTuplesAsync("Adapter", null, "Id", "Name")
                     .done(adapterOptions);
 
-                return $.getScript("/signalr/js")
-                            .then(function () {
-                                connection = $.connection.hub;
-                                hub = $.connection.dataImportHub;
+                var temp = new bespoke.sph.domain.DataTransferDefinition();
+                return context.loadOneAsync("DataTransferDefinition", "Id eq '" + id + "'")
+                    .then(function (b) {
+                        if (b) {
+                            temp = b;
+                            return context.loadOneAsync("Adapter", String.format("Id eq '{0}'", ko.unwrap(b.InboundAdapter)));
+                        }
+                        return Task.fromResult(false);
 
-                                return connection.start();
-                            });
+                    })
+                    .then(function (adp) {
+                        if (adp) {
+                            tableOptions(adp.TableDefinitionCollection().map(ko.mapping.toJS));
+                            return context.loadAsync("TransformDefinition");
+                        }
+                        return Task.fromResult(false);
+
+                    })
+                    .then(function (mappingResult) {
+                        if (mappingResult) {
+                            loadMappings(mappingResult);
+                        }
+                        model(temp);
+                        return $.getScript("/signalr/js");
+                    })
+                    .then(function () {
+                        connection = $.connection.hub;
+                        hub = $.connection.dataImportHub;
+
+                        return connection.start();
+                    });
             },
             modelChanged = function () {
                 var cloned = ko.toJS(model);
 
-                model().adapter.subscribe(function (a) {
+                model().InboundAdapter.subscribe(function (a) {
                     if (!a) {
                         return;
                     }
                     isBusy(true);
                     context.loadOneAsync("Adapter", String.format("Id eq '{0}'", a))
-                    .done(function (adp) {
-                        tableOptions(adp.TableDefinitionCollection().map(ko.mapping.toJS));
-                        isBusy(false);
+                        .done(function (adp) {
+                            tableOptions(adp.TableDefinitionCollection().map(ko.mapping.toJS));
+                            isBusy(false);
 
-                        model().table(cloned.table);
-                    });
+                            model().Table(cloned.Table);
+                        });
                 });
 
-                var filterMapOptions = function (list) {
-                    var filtered = _(list).filter(function (v) {
-                        return v.InputTypeName.indexOf(model().table()) > -1 && v.OutputTypeName.indexOf(model().entity()) > -1;
-                    });
-                    mapOptions(filtered);
-                },
-                    loadMappings = function (lo) {
-                        var tuples = _(lo.itemCollection).map(function (v) {
-                            return {
-                                Id: ko.unwrap(v.Id),
-                                Name: ko.unwrap(v.Name),
-                                InputTypeName: ko.unwrap(v.InputTypeName),
-                                OutputTypeName: ko.unwrap(v.OutputTypeName)
-                            }
-                        });
-                        filterMapOptions(tuples);
-
-                    };
-                model().table.subscribe(function (a) {
+                model().Table.subscribe(function (a) {
                     if (!a) {
                         return Task.fromResult(0);
                     }
                     var sql1 = String.format("select * from {0} ", a),
-                        sql0 = model().sql() || "";
+                        sql0 = model().SelectStatement() || "";
                     if (sql0.indexOf(a) <= -1)
-                        model().sql(sql1);
+                        model().SelectStatement(sql1);
 
-                    if (!(model().entity())) {
+                    if (!(model().Entity())) {
                         return Task.fromResult(0);
                     }
                     return context.loadAsync("TransformDefinition")
-                    .done(loadMappings);
+                        .done(loadMappings);
                 });
-                model().entity.subscribe(function (a) {
-                    if (!(a && model().entity())) {
+                model().Entity.subscribe(function (a) {
+                    if (!(a && model().Entity())) {
                         return Task.fromResult(0);
                     }
                     return context.loadAsync("TransformDefinition")
-                    .done(loadMappings)
-                    .done(function () {
-                        model().map(cloned.map);
-                    });
+                        .done(loadMappings)
+                        .done(function () {
+                            model().InboundMap(cloned.InboundMap);
+                        });
                 });
 
-                if (cloned.table) {
-                    model().adapter("");
-                    model().adapter(cloned.adapter);
-                    model().table(cloned.table);
+                if (cloned.Table) {
+                    model().InboundAdapter("");
+                    model().InboundAdapter(cloned.InboundAdapter);
+                    model().Table(cloned.Table);
                 }
-                if (cloned.map) {
-                    model().entity("");
-                    model().entity(cloned.entity);
-                    model().map(cloned.map);
+                if (cloned.InboundMap) {
+                    model().Entity("");
+                    model().Entity(cloned.Entity);
+                    model().InboundMap(cloned.InboundMap);
                 }
             },
             attached = function (view) {
-                modelChanged(view);
+                modelChanged();
                 $(view).on("click", "div.modal-footer>button", function () {
                     $("div.modal-backdrop").remove();
                 });
                 var pb = $("#progressbar"),
-                        label = $(".progress-label");
+                    label = $(".progress-label");
                 pb.progressbar({
                     change: function () {
                         label.text(pb.progressbar("value") + "%");
@@ -186,33 +195,33 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             importData = function () {
                 progress().busy(true);
                 errorRows([]);
-                return hub.server.execute(ko.unwrap(model().Name), ko.mapping.toJS(model))
-                        .fail(function (e) {
-                            logger.error(e);
-                        })
-                        .progress(function (p) {
+                return hub.server.execute(ko.unwrap(model().Id), ko.mapping.toJS(model))
+                    .fail(function (e) {
+                        logger.error(e);
+                    })
+                    .progress(function (p) {
 
-                            if (p.Exception) {
-                                progress().errors(progress().errors() + 1);
-                                console.error(p.Exception.Message);
-                                // do paging
-                                if (errorRows().length < 20) {
-                                    errorRows.push(p);
-                                }
-                                return;
+                        if (p.Exception) {
+                            progress().errors(progress().errors() + 1);
+                            console.error(p.Exception.Message);
+                            // do paging
+                            if (errorRows().length < 20) {
+                                errorRows.push(p);
                             }
+                            return;
+                        }
 
-                            if (p.Rows === -1) {
-                                progress().ElasticsearchQueue.MessagesCount(p.ElasticsearchQueue.MessagesCount);
-                                progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
-                                progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
-                                progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
-                                progress().SqlRows(p.SqlRows);
-                                progress().ElasticsearchRows(p.ElasticsearchRows);
-                            } else {
-                                progress().Rows(p.Rows);
-                            }
-                        })
+                        if (p.Rows === -1) {
+                            progress().ElasticsearchQueue.MessagesCount(p.ElasticsearchQueue.MessagesCount);
+                            progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
+                            progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
+                            progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
+                            progress().SqlRows(p.SqlRows);
+                            progress().ElasticsearchRows(p.ElasticsearchRows);
+                        } else {
+                            progress().Rows(p.Rows);
+                        }
+                    })
                     .done(function (result) {
                         logger.info(result.message);
                         progress().busy(false);
@@ -222,32 +231,32 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 progress().busy(true);
                 errorRows([]);
                 return hub.server.resume(ko.unwrap(model().Name), log)
-                        .fail(function (e) {
-                            logger.error(e);
-                        })
-                        .progress(function (p) {
+                    .fail(function (e) {
+                        logger.error(e);
+                    })
+                    .progress(function (p) {
 
-                            if (p.Exception) {
-                                progress().errors(progress().errors() + 1);
-                                console.error(p.Exception.Message);
-                                // do paging
-                                if (errorRows().length < 20) {
-                                    errorRows.push(p);
-                                }
-                                return;
+                        if (p.Exception) {
+                            progress().errors(progress().errors() + 1);
+                            console.error(p.Exception.Message);
+                            // do paging
+                            if (errorRows().length < 20) {
+                                errorRows.push(p);
                             }
+                            return;
+                        }
 
-                            if (p.Rows === -1) {
-                                progress().ElasticsearchQueue.MessagesCount(p.ElasticsearchQueue.MessagesCount);
-                                progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
-                                progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
-                                progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
-                                progress().SqlRows(p.SqlRows);
-                                progress().ElasticsearchRows(p.ElasticsearchRows);
-                            } else {
-                                progress().Rows(p.Rows);
-                            }
-                        })
+                        if (p.Rows === -1) {
+                            progress().ElasticsearchQueue.MessagesCount(p.ElasticsearchQueue.MessagesCount);
+                            progress().ElasticsearchQueue.Rate(p.ElasticsearchQueue.Rate);
+                            progress().SqlServerQueue.MessagesCount(p.SqlServerQueue.MessagesCount);
+                            progress().SqlServerQueue.Rate(p.SqlServerQueue.Rate);
+                            progress().SqlRows(p.SqlRows);
+                            progress().ElasticsearchRows(p.ElasticsearchRows);
+                        } else {
+                            progress().Rows(p.Rows);
+                        }
+                    })
                     .done(function (result) {
                         logger.info(result.message);
                         progress().busy(false);
@@ -258,9 +267,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             importOneRow = function (row) {
                 return hub.server.importOneRow(row.ErrorId, ko.mapping.toJS(model), JSON.stringify(row.Data))
-                        .fail(function (e) {
-                            logger.error(e);
-                        })
+                    .fail(function (e) {
+                        logger.error(e);
+                    })
                     .done(function (result) {
                         logger.info(result.message);
                     });
@@ -275,7 +284,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
                             hub.server.truncateData(ko.unwrap(model().Name), ko.mapping.toJS(model))
-                            .done(tcs.resolve);
+                                .done(tcs.resolve);
                         } else {
                             tcs.resolve(false);
                         }
@@ -284,65 +293,18 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             },
             save = function () {
-                var data = ko.toJSON(model),
-                    schedules = ko.toJSON(model().IntervalScheduleCollection),
-                    id = ko.unwrap(model().id);
-                return context.post(data, "/api/data-imports")
-                    .then(function() {
-                        return context.post(schedules,
-                            "/api/data-imports/" + id + "/schedules");
+                var schedules = ko.unwrap(model().IntervalScheduleCollection),
+                    list = _(schedules).map(function (v) {
+                        return v.Metadata;
                     });
+                model().ScheduledDataTransferCollection(list);
+
+                var data = ko.toJSON(model);
+                return context.post(data, "/api/data-imports");
             },
             removeAsync = function () {
                 var data = ko.toJSON(model);
                 return context.send("DELETE", data, "/api/data-imports/" + ko.unwrap(model().Id));
-            },
-            openSnippet = function () {
-                var tcs = new $.Deferred();
-
-                require(["viewmodels/data.import.list", "durandal/app"], function (dialog, app2) {
-                    app2.showDialog(dialog)
-                        .done(function (result) {
-                            if (result === "OK") {
-                                isBusy(true);
-
-                                var md = model(),
-                                    di = dialog.model();
-                                md.adapter(di.adapter);
-                                md.entity(di.entity);
-                                md.sql(di.sql);
-                                md.batchSize(di.batchSize);
-                                md.id(di.id);
-                                md.name(di.name);
-                                md.delayThrottle(di.delayThrottle);
-                                md.sqlRetry(di.sqlRetry);
-                                md.sqlWait(di.sqlWait);
-                                md.esRetry(di.esRetry);
-                                md.esWait(di.esWait);
-
-                                modelChanged();
-
-                                setTimeout(function () {
-                                    md.table(di.table);
-
-                                    setTimeout(function () {
-                                        md.map(di.map);
-                                        tcs.resolve(true);
-                                        isBusy(false);
-                                    }, 800);
-
-                                }, 500);
-                            } else {
-                                tcs.resolve(false);
-                                isBusy(false);
-                            }
-                        });
-
-                });
-
-
-                return tcs.promise();
-
             };
 
         var vm = {
@@ -362,7 +324,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAsync,
-                openCommand: openSnippet,
                 commands: ko.observableArray([
                     {
                         caption: "Preview",

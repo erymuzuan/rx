@@ -55,8 +55,8 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             },
             attached = function (view) {
                 var element = $(view).find("#history-pager");
-                parentRoot().model().name.subscribe(function(model){
-                    $.getJSON("/api/data-imports/" + model + "/histories?$take=10&$skip=0")
+                parentRoot().model.subscribe(function(model){
+                    $.getJSON("/api/data-imports/" + ko.unwrap(model.Id) + "/histories?$take=10&$skip=0")
                         .done(function(result){
                             logs(result.items);
                             totalRows(result.total);

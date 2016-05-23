@@ -1218,7 +1218,6 @@
     <Compile Include="ViewModels\OperationDocumentViewModel.cs" />
     <Compile Include="ViewModels\PartialViewRendererViewModel.cs" />
     <Compile Include="ViewModels\SphIndexViewModel.cs" />
-    <Compile Include="ViewModels\ImportDataViewModel.cs" />
     <Compile Include="ViewModels\JsTestViewModel.cs" />
     <Compile Include="ViewModels\PageCompareViewModel.cs" />
     <Compile Include="ViewModels\PrintViewModel.cs" />

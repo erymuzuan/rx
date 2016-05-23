@@ -2588,6 +2588,83 @@ bespoke.sph.domain.SendPortDefinition = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.DataTransferDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.DataTransferDefinition, domain.sph",
+        Name: ko.observable(""),
+        InboundAdapter: ko.observable(""),
+        InboundMap: ko.observable(""),
+        SelectStatement: ko.observable(""),
+        Table: ko.observable(""),
+        Entity: ko.observable(""),
+        BatchSize: ko.observable(0),
+        IgnoreMessaging: ko.observable(false),
+        DelayThrottle: ko.observable(),
+        SqlRetry: ko.observable(),
+        SqlWait: ko.observable(),
+        EsRetry: ko.observable(),
+        EsWait: ko.observable(),
+        IntervalScheduleCollection: ko.observableArray([]),
+        ScheduledDataTransferCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DataTransferDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.DataTransferDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ScheduledDataTransfer = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ScheduledDataTransfer, domain.sph",
+        ScheduleWebId: ko.observable(""),
+        NotifyOnError: ko.observable(false),
+        NotifyOnSuccess: ko.observable(false),
+        TruncateData: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ScheduledDataTransferPartial) {
+        return _(model).extend(new bespoke.sph.domain.ScheduledDataTransferPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {

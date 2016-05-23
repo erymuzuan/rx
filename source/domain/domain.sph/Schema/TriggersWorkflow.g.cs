@@ -5501,6 +5501,552 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class DataTransferDefinition
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_inboundAdapter;
+        public const string PropertyNameInboundAdapter = "InboundAdapter";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_inboundMap;
+        public const string PropertyNameInboundMap = "InboundMap";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_selectStatement;
+        public const string PropertyNameSelectStatement = "SelectStatement";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_table;
+        public const string PropertyNameTable = "Table";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_batchSize;
+        public const string PropertyNameBatchSize = "BatchSize";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_ignoreMessaging;
+        public const string PropertyNameIgnoreMessaging = "IgnoreMessaging";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_delayThrottle;
+        public const string PropertyNameDelayThrottle = "DelayThrottle";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_sqlRetry;
+        public const string PropertyNameSqlRetry = "SqlRetry";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_sqlWait;
+        public const string PropertyNameSqlWait = "SqlWait";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_esRetry;
+        public const string PropertyNameEsRetry = "EsRetry";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_esWait;
+        public const string PropertyNameEsWait = "EsWait";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<IntervalSchedule> IntervalScheduleCollection { get; } = new ObjectCollection<IntervalSchedule>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<ScheduledDataTransfer> ScheduledDataTransferCollection { get; } = new ObjectCollection<ScheduledDataTransfer>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string InboundAdapter
+        {
+            set
+            {
+                if (String.Equals(m_inboundAdapter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInboundAdapter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inboundAdapter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_inboundAdapter;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string InboundMap
+        {
+            set
+            {
+                if (String.Equals(m_inboundMap, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInboundMap, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inboundMap = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_inboundMap;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string SelectStatement
+        {
+            set
+            {
+                if (String.Equals(m_selectStatement, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSelectStatement, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_selectStatement = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_selectStatement;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Table
+        {
+            set
+            {
+                if (String.Equals(m_table, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_table = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_table;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public int BatchSize
+        {
+            set
+            {
+                if (m_batchSize == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBatchSize, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_batchSize = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_batchSize;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IgnoreMessaging
+        {
+            set
+            {
+                if (m_ignoreMessaging == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIgnoreMessaging, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_ignoreMessaging = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_ignoreMessaging;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? DelayThrottle
+        {
+            set
+            {
+                if (m_delayThrottle == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDelayThrottle, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_delayThrottle = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_delayThrottle; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? SqlRetry
+        {
+            set
+            {
+                if (m_sqlRetry == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSqlRetry, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sqlRetry = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_sqlRetry; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? SqlWait
+        {
+            set
+            {
+                if (m_sqlWait == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSqlWait, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sqlWait = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_sqlWait; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? EsRetry
+        {
+            set
+            {
+                if (m_esRetry == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEsRetry, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_esRetry = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_esRetry; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? EsWait
+        {
+            set
+            {
+                if (m_esWait == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEsWait, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_esWait = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_esWait; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class ScheduledDataTransfer
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_scheduleWebId;
+        public const string PropertyNameScheduleWebId = "ScheduleWebId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_notifyOnError;
+        public const string PropertyNameNotifyOnError = "NotifyOnError";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_notifyOnSuccess;
+        public const string PropertyNameNotifyOnSuccess = "NotifyOnSuccess";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_truncateData;
+        public const string PropertyNameTruncateData = "TruncateData";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string ScheduleWebId
+        {
+            set
+            {
+                if (String.Equals(m_scheduleWebId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameScheduleWebId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_scheduleWebId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_scheduleWebId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool NotifyOnError
+        {
+            set
+            {
+                if (m_notifyOnError == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNotifyOnError, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_notifyOnError = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_notifyOnError;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool NotifyOnSuccess
+        {
+            set
+            {
+                if (m_notifyOnSuccess == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNotifyOnSuccess, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_notifyOnSuccess = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_notifyOnSuccess;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool TruncateData
+        {
+            set
+            {
+                if (m_truncateData == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTruncateData, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_truncateData = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_truncateData;
+            }
+        }
+
+
+
+    }
+
 
     public partial class Field
     {

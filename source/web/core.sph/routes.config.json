@@ -144,10 +144,10 @@
   {
     "role": "administrators",
     "groupName": "Settings",
-    "route": "data.import",
+    "route": "data.import/:id",
     "moduleId": "viewmodels/data.import",
     "title": "Data import",
-    "nav": true,
+    "nav": false,
     "icon": "fa fa-database",
     "caption": "Data Import",
     "settings": {

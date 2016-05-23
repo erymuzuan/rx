@@ -15,6 +15,24 @@ define(["services/datacontext", "services/logger", "plugins/router"],
         var schedule = ko.observable(new bespoke.sph.domain.IntervalScheduleContainer()),
             parentRoot = ko.observable(),
             isBusy = ko.observable(false),
+            mapScheduleMetadata = function(model){
+                var list = ko.unwrap(model.IntervalScheduleCollection),
+                    properties = ko.unwrap(model.ScheduledDataTransferCollection);
+                _(list).each(function(v){
+                    var metadata = _(properties).find(function(x){
+                        return ko.unwrap(v.WebId) === ko.unwrap(x.ScheduleWebId);
+                    }) || new bespoke.sph.domain.ScheduledDataTransfer({ScheduleWebId: ko.unwrap(v.WebId)});
+
+                    v.Metadata = metadata;
+                });
+            },
+            scheduleAdded = function(changes){
+                _(changes).each(function(v){
+                    if(v.status === "added"){
+                        v.value.Metadata = new bespoke.sph.domain.ScheduledDataTransfer({ScheduleWebId: ko.unwrap(v.value.WebId)});
+                    }
+                });
+            },
             activate = function (root) {
                 parentRoot(ko.unwrap(root));
                 var model = parentRoot().model(),
@@ -22,23 +40,15 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 if(!ko.isObservable(item.IntervalScheduleCollection)){
                     item.IntervalScheduleCollection = ko.observableArray();
                 }
+                mapScheduleMetadata(item);
                 schedule(item);
-
-
-                parentRoot().model().id.subscribe(function(id){
-                    $.getJSON("/api/data-imports/" + id + "/schedules")
-                        .done(function(result){
-                            var list = _(result).map(function(v){
-                                v.TruncateData = true;
-                                v.NotifyOnError = true;
-                                v.NotifyOnSuccess = true;
-                                return context.toObservable(v);
-                            });
-                            item.IntervalScheduleCollection(list);
-                        });
-                });
+                item.IntervalScheduleCollection.subscribe(scheduleAdded, null, "arrayChange");
             },
             attached = function (view) {
+                parentRoot().model.subscribe(function(model){
+                    model.IntervalScheduleCollection.subscribe(scheduleAdded, null, "arrayChange");
+                });
+
             },
             removeItem = function(item){
 

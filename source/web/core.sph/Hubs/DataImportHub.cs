@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
-using Bespoke.Sph.Web.ViewModels;
 using Humanizer;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
@@ -39,7 +38,7 @@ namespace Bespoke.Sph.Web.Hubs
             await m_rabbitManagementHttpClient.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
         }
 
-        public async Task TruncateData(string name, ImportDataViewModel model)
+        public async Task TruncateData(string name, DataTransferDefinition model)
         {
             // purge the queues
             await m_rabbitManagementHttpClient.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/persistence/contents");
@@ -159,12 +158,12 @@ namespace Bespoke.Sph.Web.Hubs
 
         }
 
-        public async Task<object> ImportOneRow(string errorId, ImportDataViewModel model, string json)
+        public async Task<object> ImportOneRow(string errorId, DataTransferDefinition model, string json)
         {
             var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports";
             var context = new SphDataContext();
-            var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
-            var mapping = await context.LoadOneAsync<TransformDefinition>(x => x.Id == model.Map);
+            var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.InboundAdapter);
+            var mapping = await context.LoadOneAsync<TransformDefinition>(x => x.Id == model.InboundMap);
 
             dynamic tableAdapter = GetTableAdapterInstance(model, adapter);
             if (null == tableAdapter) return new
@@ -240,7 +239,7 @@ namespace Bespoke.Sph.Web.Hubs
 
             var modelPath = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{log.Name.ToIdFormat()}.json";
             var json = System.IO.File.ReadAllText(modelPath);
-            var model = JsonConvert.DeserializeObject<ImportDataViewModel>(json);
+            var model = JsonConvert.DeserializeObject<DataTransferDefinition>(json);
 
             var statusTask = UpdateImportStatusAsync(model, sw, progress);
             var importTask = ImportDataAsync(model, sw, progress, log.PageNumber + 1, log.RowsRead, log.Errors);
@@ -254,7 +253,7 @@ namespace Bespoke.Sph.Web.Hubs
             return result;
         }
 
-        public async Task<object> Execute(string name, ImportDataViewModel model, IProgress<ProgressData> progress)
+        public async Task<object> Execute(string name, DataTransferDefinition model, IProgress<ProgressData> progress)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -277,7 +276,7 @@ namespace Bespoke.Sph.Web.Hubs
 
         public class DataImportHistory
         {
-            public DataImportHistory(ImportDataViewModel model)
+            public DataImportHistory(DataTransferDefinition model)
             {
                 this.Name = model.Name;
                 this.DateTime = DateTime.Now;
@@ -314,7 +313,7 @@ namespace Bespoke.Sph.Web.Hubs
                 return Task.FromResult(0);
             }
 
-            public async Task InitializeAsync(ImportDataViewModel model, DataImportHub hub)
+            public async Task InitializeAsync(DataTransferDefinition model, DataImportHub hub)
             {
                 var sqlTask = hub.GetSqlServerCountAsync(model);
                 var esTask = hub.GetElasticsearchCountAsync(model);
@@ -324,7 +323,7 @@ namespace Bespoke.Sph.Web.Hubs
                 this.ElasticsearchBefore = await esTask;
 
             }
-            public async Task FinalizeAsync(ImportDataViewModel model, dynamic result, DataImportHub hub)
+            public async Task FinalizeAsync(DataTransferDefinition model, dynamic result, DataImportHub hub)
             {
                 var sqlTask = hub.GetSqlServerCountAsync(model);
                 var esTask = hub.GetElasticsearchCountAsync(model);
@@ -347,11 +346,11 @@ namespace Bespoke.Sph.Web.Hubs
             public Exception Error { get; set; }
             public string ErrorId { get; set; }
         }
-        private async Task<object> ImportDataAsync(ImportDataViewModel model, Stopwatch sw, IProgress<ProgressData> progress, int page = 1, int initialRows = 0, int initialErrors = 0)
+        private async Task<object> ImportDataAsync(DataTransferDefinition model, Stopwatch sw, IProgress<ProgressData> progress, int page = 1, int initialRows = 0, int initialErrors = 0)
         {
             var context = new SphDataContext();
-            var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
-            var mapping = await context.LoadOneAsync<TransformDefinition>(x => x.Id == model.Map);
+            var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.InboundAdapter);
+            var mapping = await context.LoadOneAsync<TransformDefinition>(x => x.Id == model.InboundMap);
 
             dynamic tableAdapter = GetTableAdapterInstance(model, adapter);
             if (null == tableAdapter) return new
@@ -377,7 +376,7 @@ namespace Bespoke.Sph.Web.Hubs
                 {"es.retry", model.EsRetry},
                 {"es.wait", model.EsWait}
             };
-            var lo = await tableAdapter.LoadAsync(model.Sql, page, model.BatchSize, false);
+            var lo = await tableAdapter.LoadAsync(model.SelectStatement, page, model.BatchSize, false);
             while (lo.ItemCollection.Count > 0)
             {
                 using (var session = context.OpenSession())
@@ -408,7 +407,7 @@ namespace Bespoke.Sph.Web.Hubs
                 if (m_isCancelRequested)
                     return new { statusCode = 206, rows, errors, page = lo.CurrentPage, message = $"Stop requested after {rows} rows imported" };
 
-                lo = await tableAdapter.LoadAsync(model.Sql, lo.CurrentPage + 1, model.BatchSize, false);
+                lo = await tableAdapter.LoadAsync(model.SelectStatement, lo.CurrentPage + 1, model.BatchSize, false);
             }
             return new
             {
@@ -422,7 +421,7 @@ namespace Bespoke.Sph.Web.Hubs
             };
         }
 
-        private async Task<MapResult> TransformAsync(dynamic map, dynamic source, ImportDataViewModel model, IProgress<ProgressData> progress)
+        private async Task<MapResult> TransformAsync(dynamic map, dynamic source, DataTransferDefinition model, IProgress<ProgressData> progress)
         {
             var setting = new JsonSerializerSettings { Formatting = Formatting.Indented };
             var retryCount = 0;
@@ -460,7 +459,7 @@ namespace Bespoke.Sph.Web.Hubs
             return new MapResult { Result = dest };
         }
 
-        private async Task UpdateImportStatusAsync(ImportDataViewModel model, Stopwatch sw, IProgress<ProgressData> progress)
+        private async Task UpdateImportStatusAsync(DataTransferDefinition model, Stopwatch sw, IProgress<ProgressData> progress)
         {
             var sqlMessages = 1;
             var esMessages = 1;
@@ -500,7 +499,7 @@ namespace Bespoke.Sph.Web.Hubs
             }
         }
 
-        private async Task<int> GetElasticsearchCountAsync(ImportDataViewModel model)
+        private async Task<int> GetElasticsearchCountAsync(DataTransferDefinition model)
         {
             var json = await
                 m_elasticsearchHttpClient.GetStringAsync(
@@ -508,7 +507,7 @@ namespace Bespoke.Sph.Web.Hubs
             var jo = JObject.Parse(json);
             return jo.SelectToken("$.count").Value<int>();
         }
-        private async Task<int> GetSqlServerCountAsync(ImportDataViewModel model)
+        private async Task<int> GetSqlServerCountAsync(DataTransferDefinition model)
         {
             var sql = $"SELECT COUNT(*) FROM [{ConfigurationManager.ApplicationName}].[{model.Entity}]";
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
@@ -520,12 +519,12 @@ namespace Bespoke.Sph.Web.Hubs
                 return (int)rows;
             }
         }
-        public async Task<object> Preview(ImportDataViewModel model)
+        public async Task<object> Preview(DataTransferDefinition model)
         {
             try
             {
                 var context = new SphDataContext();
-                var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.Adapter);
+                var adapter = await context.LoadOneAsync<Adapter>(x => x.Id == model.InboundAdapter);
 
                 dynamic tableAdapter = GetTableAdapterInstance(model, adapter);
                 if (null == tableAdapter) return new
@@ -534,7 +533,7 @@ namespace Bespoke.Sph.Web.Hubs
                     message = $"{adapter.AssemblyName}.dll does not exist, you may have to build your adapter before it could be used"
                 };
 
-                var lo = await tableAdapter.LoadAsync(model.Sql);
+                var lo = await tableAdapter.LoadAsync(model.SelectStatement);
                 return lo;
             }
             catch (Exception e)
@@ -544,7 +543,7 @@ namespace Bespoke.Sph.Web.Hubs
 
         }
 
-        private Type GetSourceType(ImportDataViewModel model, Adapter adapter)
+        private Type GetSourceType(DataTransferDefinition model, Adapter adapter)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -554,7 +553,7 @@ namespace Bespoke.Sph.Web.Hubs
             var sourceType = dll.GetType(sourceTypeName);
             return sourceType;
         }
-        private object GetTableAdapterInstance(ImportDataViewModel model, Adapter adapter)
+        private object GetTableAdapterInstance(DataTransferDefinition model, Adapter adapter)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 

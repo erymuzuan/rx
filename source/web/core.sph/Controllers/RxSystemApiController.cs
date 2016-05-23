@@ -41,6 +41,13 @@ namespace Bespoke.Sph.Web.Controllers
             return ReadFromSource<Adapter>(filter, page, size, orderby);
         }
 
+        [Route("DataTransferDefinition")]
+        [HttpGet]
+        public IHttpActionResult DataTransferDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
+        {
+            return ReadFromSource<DataTransferDefinition>(filter, page, size, orderby: orderby);
+        }
         [Route("Designation")]
         [HttpGet]
         public IHttpActionResult Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false,

@@ -104,8 +104,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attached = function (view) {
 
                 var element = $(view).find("#pager");
-                parentRoot().model().name.subscribe(function(model){
-                    $.getJSON("/api/data-imports/" + model + "/errors?$take=10&$skip=0")
+                parentRoot().model.subscribe(function(model){
+                    $.getJSON("/api/data-imports/" + ko.unwrap(model.Id) + "/errors?$take=10&$skip=0")
                         .done(function(result){
                             parentRoot().errorRows(result.items);
                             totalRows(result.total);

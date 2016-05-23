@@ -22,13 +22,13 @@
             <input type="checkbox" name="IsEnabled" data-bind="checked:IsEnabled" />
         </td>
         <td>
-            <input type="checkbox" name="truncate-data" data-bind="checked:TruncateData" />
+            <input type="checkbox" name="truncate-data" data-bind="checked:Metadata.TruncateData" />
         </td>
         <td>
-            <input type="checkbox" name="notify-on-error" data-bind="checked:NotifyOnError" />
+            <input type="checkbox" name="notify-on-error" data-bind="checked: Metadata.NotifyOnError" />
         </td>
         <td>
-            <input type="checkbox" name="notify-on-success" data-bind="checked:NotifyOnSuccess" />
+            <input type="checkbox" name="notify-on-success" data-bind="checked:Metadata.NotifyOnSuccess" />
         </td>
         <td>
             <a href="#" data-bind="click : $parent.removeIntervalSchedule.call($parent,$data)"><i class="fa fa-times"></i></a>
