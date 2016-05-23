@@ -54,7 +54,7 @@ namespace Bespoke.Sph.WindowsTaskScheduler
 
                 // one time trigger
                 td.Triggers.Add(new TimeTrigger(dateTime));
-                var action = new ExecAction(this.Executable, string.Format("{0} {1}", info.ActivityId, info.InstanceId))
+                var action = new ExecAction(this.Executable, $"{info.ActivityId} {info.InstanceId}")
                 {
                     WorkingDirectory = System.IO.Path.GetDirectoryName(this.Executable)
                 };
@@ -94,7 +94,7 @@ namespace Bespoke.Sph.WindowsTaskScheduler
 
         private static string GetPath(ScheduledActivityExecution info)
         {
-            var guid = string.Format("DELAY_{0}_{1}", info.InstanceId, info.ActivityId);
+            var guid = $"DELAY_{info.InstanceId}_{info.ActivityId}";
             var path = guid.Replace(" ", string.Empty);
             return path;
         }

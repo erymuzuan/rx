@@ -20,15 +20,9 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
             m_executable = executable;
         }
 
-        public override string QueueName
-        {
-            get { return "workflow_scheduler_trigger"; }
-        }
+        public override string QueueName => "workflow_scheduler_trigger";
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] { "WorkflowDefinition.#.Publish" }; }
-        }
+        public override string[] RoutingKeys => new[] { "WorkflowDefinition.#.Publish" };
 
         protected override Task ProcessMessage(WorkflowDefinition item, MessageHeaders header)
         {
@@ -55,7 +49,7 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
                     var trigger = t.GeTrigger();
                     td.Triggers.Add(trigger);
                 }
-                var action = new ExecAction(this.Executable, string.Format("{0} {1}", start.WebId, item.Id))
+                var action = new ExecAction(this.Executable, $"{start.WebId} {item.Id}")
                             {
                                 WorkingDirectory = System.IO.Path.GetDirectoryName(this.Executable)
                             };
