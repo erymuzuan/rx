@@ -5,11 +5,10 @@ using System.Net;
 using System.Net.Mail;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Humanizer;
 using Microsoft.AspNet.SignalR.Client;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace scheduler.data.import
@@ -30,10 +29,26 @@ namespace scheduler.data.import
                 Console.ReadLine();
             }
             if (null == args) return;
-            StartAsync(id, notificationOnSuccess, notificationOnError, truncateData).Wait();
+            var stopFlag = new AutoResetEvent(false);
+            var cts = new CancellationTokenSource();
+            Console.CancelKeyPress += (s, ce) =>
+            {
+                Console.WriteLine();
+                Console.WriteLine($"[{DateTime.Now:T}]Processing your cancellation request..");
+                // 1300 885 055 sunlife
+                cts.Cancel();
+                ce.Cancel = true;
+            };
+            StartAsync(id, notificationOnSuccess, notificationOnError, truncateData, cts.Token, stopFlag)
+                .ContinueWith(_ =>
+            {
+                stopFlag.Set();
+            }, cts.Token);
+
+            stopFlag.WaitOne();
         }
 
-        private static async Task StartAsync(string id, bool notificationOnSuccess, bool notificationOnError, bool truncateData)
+        private static async Task StartAsync(string id, bool notificationOnSuccess, bool notificationOnError, bool truncateData, CancellationToken cst, AutoResetEvent flag)
         {
             var username = ConfigurationManager.AppSettings["username"] ?? "admin";
             var password = ConfigurationManager.AppSettings["password"] ?? "123456";
@@ -48,8 +63,6 @@ namespace scheduler.data.import
             var hubProxy = connection.CreateHubProxy("DataImportHub");
             await connection.Start();
 
-            if (truncateData)
-                await hubProxy.Invoke("truncateData");
             try
             {
                 var preview = (await hubProxy.Invoke<object>("preview", model) as JObject);
@@ -57,9 +70,18 @@ namespace scheduler.data.import
                 if (!string.IsNullOrWhiteSpace(details))
                 {
                     await NotifyErrorAsync(details, id);
+                    flag.Set();
                     return;
                 }
 
+                if (truncateData)
+                {
+                    Console.WriteLine();
+                    Console.Write($"\r[{DateTime.Now:T}]Please wait.. while we truncate the data....");
+                    await hubProxy.Invoke("truncateData", id, model);
+                    Console.Write($"\r[{DateTime.Now:T}]Done truncate data .........................");
+                    Console.WriteLine();
+                }
                 var rows = 0;
                 var sqlMessages = 0;
                 var sqlRate = 0d;
@@ -67,11 +89,10 @@ namespace scheduler.data.import
                 var esMessages = 0;
                 var esRate = 0d;
                 var esRows = 0;
-                Action<ProgressData> progress = p =>
+                Action<ProgressData> progress = async p =>
                 {
                     if (p.Rows > 0)
                         rows = p.Rows;
-
                     if (p.SqlServerQueue.MessagesCount > 0)
                         sqlMessages = p.SqlServerQueue.MessagesCount;
                     if (p.SqlServerQueue.Rate > 0d)
@@ -84,14 +105,23 @@ namespace scheduler.data.import
                         esRate = p.ElasticsearchQueue.Rate;
                     if (p.ElasticsearchRows > 0)
                         esRows = p.ElasticsearchRows;
-                    Console.Write($"\rRows : {rows}\tSQL : {sqlMessages}/{sqlRate}({sqlRows})\t ES: {esMessages}/{esRate}({esRows})                                                 ");
+                    Console.Write($"\r{DateTime.Now:T}Rows : {rows}\tSQL : {sqlMessages}/{sqlRate}({sqlRows})\t ES: {esMessages}/{esRate}({esRows})                                                 ");
+
+                    if (cst.IsCancellationRequested)
+                    {
+                        await hubProxy.Invoke("requestCancel");
+                    }
 
                 };
                 //hubProxy.Observe()
-                var result = await hubProxy.Invoke<object, ProgressData>("execute", progress, new object[] { id, model });
+                var result = await hubProxy.Invoke<object, ProgressData>("execute", progress, id, model);
+                Console.WriteLine();
+                Console.WriteLine($@"{DateTime.Now:T}Done processing data transfer....");
                 Console.WriteLine(result);
                 if (notificationOnSuccess)
                     await NotifySuccessAsync(id);
+
+                flag.Set();
             }
             catch (Exception e)
             {
@@ -101,6 +131,7 @@ namespace scheduler.data.import
                 {
                     await NotifyErrorAsync(e, id);
                 }
+                flag.Set();
             }
 
         }
@@ -134,6 +165,9 @@ Your scheduled data transfer was successfuly executed on {DateTime.Now}";
             var to = ConfigurationManager.AppSettings["EmailTo"] ?? "admin@bespoke.com.my";
             var subject = $"Data transfer preview error for {id}";
             var body = exception;
+
+            Console.WriteLine(subject);
+            Console.WriteLine(body);
 
             await smtp.SendMailAsync(@from, to, subject, body);
         }
@@ -222,80 +256,4 @@ Your scheduled data transfer was successfuly executed on {DateTime.Now}";
             return null != val;
         }
     }
-    public class ProgressData
-    {
-        public Exception Exception { get; set; }
-        public object Data { get; set; }
-        public string ErrorId { get; set; }
-        public int Rows { get; set; }
-        public int ElasticsearchRows { get; set; }
-        public int SqlRows { get; set; }
-        [JsonIgnore]
-        public TimeSpan Elapsed { set; get; }
-        public string TotalTime => this.Elapsed.Humanize();
-        public Queue ElasticsearchQueue { get; set; } = new Queue("es.data-import", 0, 0);
-        public Queue SqlServerQueue { get; set; } = new Queue("persistence", 0, 0);
-
-        public ProgressData()
-        {
-
-        }
-        public ProgressData(int rows)
-        {
-            Rows = rows;
-        }
-        public ProgressData(Exception exception, object data, string errorId)
-        {
-            Exception = exception;
-            Data = data;
-            ErrorId = errorId;
-        }
-
-        public static ProgressData Parse(string es, string sql)
-        {
-            var pd = new ProgressData(-1)
-            {
-                SqlServerQueue = ParseQueue(sql),
-                ElasticsearchQueue = ParseQueue(es)
-            };
-
-
-            return pd;
-        }
-        private static Queue ParseQueue(string json)
-        {
-            var jo = JObject.Parse(json);
-            var name = jo.SelectToken("$.name").Value<string>();
-            var messages = jo.SelectToken("$.messages").Value<int>();
-            var deliveries = jo.SelectToken("$.message_stats.deliver_details.rate").Value<double>();
-            var unacked = jo.SelectToken("$.messages_unacknowledged").Value<int>();
-
-            return new Queue(name, messages, deliveries, unacked);
-
-        }
-    }
-
-    public class Queue
-    {
-        public string Name { get; set; }
-        public int MessagesCount { get; set; }
-        public double Rate { get; set; }
-        public int Unacked { get; set; }
-
-        public Queue(string name, int count, double rate)
-        {
-            this.Name = name;
-            this.MessagesCount = count;
-            this.Rate = rate;
-        }
-
-        public Queue(string name, int count, double rate, int unacked)
-        {
-            this.Name = name;
-            this.MessagesCount = count;
-            this.Rate = rate;
-            this.Unacked = unacked;
-        }
-    }
-
 }
