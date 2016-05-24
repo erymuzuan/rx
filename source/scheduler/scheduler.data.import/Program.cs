@@ -34,7 +34,7 @@ namespace scheduler.data.import
             Console.CancelKeyPress += (s, ce) =>
             {
                 Console.WriteLine();
-                Console.WriteLine($"[{DateTime.Now:T}]Processing your cancellation request..");
+                Console.WriteLine($"[{DateTime.Now:T}] Processing your cancellation request..");
                 // 1300 885 055 sunlife
                 cts.Cancel();
                 ce.Cancel = true;
@@ -77,9 +77,9 @@ namespace scheduler.data.import
                 if (truncateData)
                 {
                     Console.WriteLine();
-                    Console.Write($"\r[{DateTime.Now:T}]Please wait.. while we truncate the data....");
+                    Console.Write($"\r[{DateTime.Now:T}] Please wait.. while we truncate the data....");
                     await hubProxy.Invoke("truncateData", id, model);
-                    Console.Write($"\r[{DateTime.Now:T}]Done truncate data .........................");
+                    Console.Write($"\r[{DateTime.Now:T}] Done truncate data .........................");
                     Console.WriteLine();
                 }
                 var rows = 0;
@@ -105,7 +105,7 @@ namespace scheduler.data.import
                         esRate = p.ElasticsearchQueue.Rate;
                     if (p.ElasticsearchRows > 0)
                         esRows = p.ElasticsearchRows;
-                    Console.Write($"\r{DateTime.Now:T}Rows : {rows}\tSQL : {sqlMessages}/{sqlRate}({sqlRows})\t ES: {esMessages}/{esRate}({esRows})                                                 ");
+                    Console.Write($"\r[{DateTime.Now:T}] Rows : {rows}\tSQL : {sqlMessages}/{sqlRate}({sqlRows})\t ES: {esMessages}/{esRate}({esRows})                                                 ");
 
                     if (cst.IsCancellationRequested)
                     {
@@ -116,7 +116,7 @@ namespace scheduler.data.import
                 //hubProxy.Observe()
                 var result = await hubProxy.Invoke<object, ProgressData>("execute", progress, id, model);
                 Console.WriteLine();
-                Console.WriteLine($@"{DateTime.Now:T}Done processing data transfer....");
+                Console.WriteLine($@"[{DateTime.Now:T}] Done processing data transfer....");
                 Console.WriteLine(result);
                 if (notificationOnSuccess)
                     await NotifySuccessAsync(id);
