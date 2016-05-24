@@ -234,10 +234,25 @@
                             if (ed)
                                 router.navigate("#form.dialog.designer/" + ko.unwrap(ed.Entity) + "/" + ko.unwrap(ed.Id));
                         });
+            },
+            addDataTransferDefinition = function(dtd){
+                return app.showDialog("new.data.transfer.definition.dialog", function (dialog) {
+                        dialog.dtd(dtd);
+                    })
+                    .then(function (dialog, result) {
+                        if (result === "OK") {
+                            return checkSource("DataTransferDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                        }
+                        return Task.fromResult(0);
+                    }).then(function (ed) {
+                        if (ed)
+                            router.navigate("#data.import/" + ko.unwrap(ed.Id));
+                    });
             };
 
         var vm = {
             addCustomFormAsync: customForm.addNew,
+            addDataTransferDefinition: addDataTransferDefinition,
             addCustomDialogAsync: customDialog.addNewDialog,
             addPartialViewAsync: partialView.addNewPartialView,
             addCustomScriptAsync: customScript.addNew,

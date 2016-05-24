@@ -77,7 +77,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 context.getTuplesAsync("Adapter", null, "Id", "Name")
                     .done(adapterOptions);
 
-                var temp = new bespoke.sph.domain.DataTransferDefinition();
+                var temp = new bespoke.sph.domain.DataTransferDefinition({ IgnoreMessaging :true});
                 return context.loadOneAsync("DataTransferDefinition", "Id eq '" + id + "'")
                     .then(function (b) {
                         if (b) {

@@ -26,7 +26,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(model);
                 await session.SubmitChanges();
             }
-            return Json(new { });
+            return Json(new { id = model.Id, success = true, status = "OK", href = $"/api/system/DataTransferDefinition/{model.Id}" });
         }
 
         [HttpDelete]
@@ -39,7 +39,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             return Json(new { });
         }
-        
+
         [HttpGet]
         [Route("{model}/errors")]
         public IHttpActionResult ErrorList(string model, [FromUri(Name = "$take")]int take = 20, [FromUri(Name = "$skip")]int skip = 0)
