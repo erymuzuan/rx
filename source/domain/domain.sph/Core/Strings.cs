@@ -443,8 +443,14 @@ namespace Bespoke.Sph.Domain
             if (null != t) return t;
 
             var splits = typeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-            string path = $"{ConfigurationManager.CompilerOutputPath}\\{splits.Last().Trim()}.dll";
-            if (!File.Exists(path)) return null;
+            var typeName1 = splits.FirstOrDefault().ToEmptyString().Trim();
+            var assemblyName = splits.LastOrDefault().ToEmptyString().Trim();
+            string path = $"{ConfigurationManager.CompilerOutputPath}\\{assemblyName}.dll";
+            if (!File.Exists(path))
+            {
+                var system = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.FullName.StartsWith($"{assemblyName},"));
+                return system?.GetType(typeName1);
+            }
 
             var dll = System.Reflection.Assembly.LoadFile(path);
             t = dll.GetType(splits.First().Trim());
@@ -459,7 +465,7 @@ namespace Bespoke.Sph.Domain
         public static T? ReadNullable<T>(this object val) where T : struct
         {
             if (val == null) return default(T);
-            Console.WriteLine("{0} -> {1}", val.GetType(), val);
+            Console.WriteLine($"{val.GetType()} -> {val}");
             if (val == DBNull.Value) return default(T);
             return (T)val;
         }
@@ -468,6 +474,12 @@ namespace Bespoke.Sph.Domain
             if (val == null) return null;
             if (val == DBNull.Value) return null;
             return (string)val;
+        }
+        public static System.Xml.XmlDocument ReadNullableXmlDocument(this object val)
+        {
+            if (val == null) return null;
+            if (val == DBNull.Value) return null;
+            return (System.Xml.XmlDocument)val;
         }
         public static byte[] ReadNullableByteArray(this object val)
         {
