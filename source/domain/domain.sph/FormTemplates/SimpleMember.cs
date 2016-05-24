@@ -65,6 +65,7 @@ namespace Bespoke.Sph.Domain
             if (typeof(string) == this.Type) return string.Empty;
             if (typeof(object) == this.Type) return string.Empty;
             if (typeof(Array) == this.Type) return string.Empty;
+            if (this.Type.IsClass) return string.Empty;
             return "?";
         }
 
