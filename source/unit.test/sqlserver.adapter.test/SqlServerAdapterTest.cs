@@ -55,7 +55,7 @@ namespace sqlserver.adapter.test
         private static Assembly m_dll;
         public async Task CompileAsync()
         {
-            var bin = ConfigurationManager.WebPath + @"\bin\Dev.AdventureWorksPersons.dll";
+            var bin = $@"{ConfigurationManager.WebPath}\bin\{ConfigurationManager.ApplicationName}.AdventureWorksPersons.dll";
             if (File.Exists(bin))
             {
                 m_dll = Assembly.LoadFile(bin);
@@ -63,7 +63,7 @@ namespace sqlserver.adapter.test
             }
 
             await m_sql.OpenAsync();
-
+            m_sql.TableDefinitionCollection.ForEach(x => x.ActionCodeGenerators = new ControllerAction[] {});
             var result = await m_sql.CompileAsync();
             m_dll = Assembly.LoadFile(result.Output);
             File.Copy(result.Output, bin, true);
@@ -73,9 +73,9 @@ namespace sqlserver.adapter.test
         }
 
 
-        private dynamic CreatePerson()
+        private static dynamic CreatePerson()
         {
-            var personType = m_dll.GetType("Dev.Adapters.Person." + ADAPTER_NAME + ".Person");
+            var personType = m_dll.GetType($"{ConfigurationManager.ApplicationName}.Adapters.Person.{ADAPTER_NAME}.Person");
             dynamic prs = Activator.CreateInstance(personType);
             Assert.IsNotNull(prs);
             prs.PersonType = "EM";
@@ -95,7 +95,7 @@ namespace sqlserver.adapter.test
         public async Task AdapterInsert()
         {
             await this.CompileAsync();
-            var prs = this.CreatePerson();
+            var prs = CreatePerson();
             m_sql.ExecuteNonQuery("INSERT INTO Person.BusinessEntity(rowguid, ModifiedDate) VALUES(@rowguid, @ModifiedDate)",
                 new SqlParameter("@rowguid", prs.rowguid),
                 new SqlParameter("@ModifiedDate", DateTime.Now));
@@ -109,7 +109,7 @@ namespace sqlserver.adapter.test
 
         private dynamic GetAdapter()
         {
-            var adapterType = m_dll.GetType("Dev.Adapters.Person." + ADAPTER_NAME + ".PersonAdapter");
+            var adapterType = m_dll.GetType($"{ConfigurationManager.ApplicationName}.Adapters.Person.{ADAPTER_NAME}.PersonAdapter");
             Assert.IsNotNull(adapterType);
             dynamic adapter = Activator.CreateInstance(adapterType);
             return adapter;
@@ -151,7 +151,7 @@ namespace sqlserver.adapter.test
         public async Task HttpPostInsert()
         {
             await this.CompileAsync();
-            dynamic prs = this.CreatePerson();
+            dynamic prs = CreatePerson();
 
             prs.FirstName = Guid.NewGuid().ToString().Substring(0, 8);
             prs.rowguid = Guid.NewGuid();
@@ -182,7 +182,7 @@ namespace sqlserver.adapter.test
         {
 
             await this.CompileAsync();
-            dynamic prs = this.CreatePerson();
+            dynamic prs = CreatePerson();
             prs.BusinessEntityID = m_sql.GetDatabaseScalarValue<int>("SELECT MAX(BusinessEntityID) FROM [Person].[Person]");
             // HTTP API - update
             prs.LastName = "muhammad";

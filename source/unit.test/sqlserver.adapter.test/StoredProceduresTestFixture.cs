@@ -31,7 +31,7 @@ namespace sqlserver.adapter.test
                 Name = "CmrcProductsByCategory",
             };
 
-            var categoryID = new SprocParameter
+            var categoryId = new SprocParameter
             {
                 Name = "@CategoryID",
                 Type = typeof(int),
@@ -40,7 +40,7 @@ namespace sqlserver.adapter.test
                 MaxLength = null
             };
 
-            productByCategory.RequestMemberCollection.Add(categoryID);
+            productByCategory.RequestMemberCollection.Add(categoryId);
 
 
 
@@ -86,13 +86,13 @@ namespace sqlserver.adapter.test
             Assert.AreEqual(true, cr.Result);
 
             var dll = Assembly.LoadFile(cr.Output);
-            dynamic commerce = dll.CreateInstance(string.Format("Dev.Adapters.{0}.{1}.{1}", adapter.Schema, adapter.Name));
+            dynamic commerce = dll.CreateInstance(($"{ConfigurationManager.ApplicationName}.Adapters.{adapter.Schema}.{adapter.Name}.{adapter.Name}"));
             Assert.IsNotNull(commerce);
             commerce.ConnectionString = @"server=(localdb)\ProjectsV12;database=Commerce;trusted_connection=yes";
             dynamic request =
-                dll.CreateInstance($"Dev.Adapters.{adapter.Schema}.{adapter.Name}.{productByCategory.MethodName.ToCsharpIdentitfier()}Request");
+                dll.CreateInstance($"{ConfigurationManager.ApplicationName}.Adapters.{adapter.Schema}.{adapter.Name}.{productByCategory.MethodName.ToCsharpIdentitfier()}Request");
             Assert.IsNotNull(request);
-            request.@CategoryID = 14;
+            request.CategoryID = 14;
 
 
             var response = await commerce.CmrcProductsByCategoryAsync(request);
@@ -122,7 +122,7 @@ namespace sqlserver.adapter.test
                 Name = "uspUpdateEmployeePersonalInfo",
             };
 
-            var businessEntityID = new SprocParameter
+            var businessEntityId = new SprocParameter
             {
                 Name = "@BusinessEntityID",
                 Type = typeof(int),
@@ -130,7 +130,7 @@ namespace sqlserver.adapter.test
                 Position = 5,
                 MaxLength = null
             };
-            var nationalIDNumber = new SprocParameter
+            var nationalIdNumber = new SprocParameter
             {
                 Name = "@NationalIDNumber",
                 Type = typeof(string),
@@ -162,8 +162,8 @@ namespace sqlserver.adapter.test
                 Position = 5,
                 MaxLength = null
             };
-            uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(businessEntityID);
-            uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(nationalIDNumber);
+            uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(businessEntityId);
+            uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(nationalIdNumber);
             uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(birthDate);
             uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(maritalStatus);
             uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(gender);
@@ -192,23 +192,22 @@ namespace sqlserver.adapter.test
             Assert.AreEqual(true, cr.Result);
 
             var dll = Assembly.LoadFile(cr.Output);
-            dynamic adw = dll.CreateInstance(string.Format("Dev.Adapters.{0}.{1}.{1}", adapter.Schema, adapter.Name));
+            dynamic adw = dll.CreateInstance($"{ConfigurationManager.ApplicationName}.Adapters.{adapter.Schema}.{adapter.Name}.{adapter.Name}");
             Assert.IsNotNull(adw);
             adw.ConnectionString = @"server=(localdb)\ProjectsV12;database=AdventureWorks;trusted_connection=yes";
             dynamic request =
-                dll.CreateInstance(string.Format("Dev.Adapters.{0}.{2}.{1}Request", adapter.Schema,
-                    uspUpdateEmployeePersonalInfo.MethodName.ToCsharpIdentitfier(), ADAPTER_NAME));
+                dll.CreateInstance(($"{ConfigurationManager.ApplicationName}.Adapters.{adapter.Schema}.{ADAPTER_NAME}.{uspUpdateEmployeePersonalInfo.MethodName.ToCsharpIdentitfier()}Request"));
             Assert.IsNotNull(request);
-            request.@BusinessEntityID = 102;
-            request.@NationalIDNumber = "360868122";
-            request.@BirthDate = new DateTime(1977, 11, 26);
-            request.@MaritalStatus = "S";
-            request.@Gender = "M";
+            request.BusinessEntityID = 102;
+            request.NationalIDNumber = "360868122";
+            request.BirthDate = new DateTime(1977, 11, 26);
+            request.MaritalStatus = "S";
+            request.Gender = "M";
 
 
             var response = await adw.UspUpdateEmployeePersonalInfoAsync(request);
 
-            Assert.AreEqual(DateTime.Today, response.@ModifiedDate.Date);
+            Assert.AreEqual(DateTime.Today, response.ModifiedDate.Date);
 
 
         }
