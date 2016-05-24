@@ -470,6 +470,10 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                     {
                         code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableString();", column.Name);
                     }
+                    else if (type == typeof(System.Xml.XmlDocument))
+                    {
+                        code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableXmlDocument();", column.Name);
+                    }
                     else if (type == typeof(byte[]))
                     {
                         code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableByteArray();", column.Name);
