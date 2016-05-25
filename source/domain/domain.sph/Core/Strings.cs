@@ -459,6 +459,10 @@ namespace Bespoke.Sph.Domain
         }
         public static object ToDbNull(this object value)
         {
+            var xml = value as XmlDocument;
+            if (null != xml)
+                return xml.OuterXml;
+
             return value ?? DBNull.Value;
         }
 

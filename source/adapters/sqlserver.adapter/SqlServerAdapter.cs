@@ -312,6 +312,9 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         private string GenerateUpdateMethod(TableDefinition table)
         {
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var primaryKeyNames = pks.Select(x => x.Name).ToArray();
+
             var name = table.Name;
             var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
             var code = new StringBuilder();
@@ -321,7 +324,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
             code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetUpdateCommand(table));
             code.AppendLine("           {");
-            foreach (var col in columns.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
+            foreach (var col in columns.Where(c => !c.IsIdentity).Where(c => !c.IsComputed).Where(c => !primaryKeyNames.Contains(c.Name)))
             {
                 var nullable = col.IsNullable ? ".ToDbNull()" : "";
                 code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{col.Name}\", item.{col.Name}{nullable});");
@@ -556,21 +559,21 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         public string GetUpdateCommand(TableDefinition table)
         {
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
-            var parameters = pks.Select(m => string.Format("[{0}] = @{0}", m.Name));
-            var columns = TableColumns.Single(x => x.Name == table.Name).ColumnCollection;
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var primaryKeyNames = pks.Select(x => x.Name).ToArray();
+            var columns = TableColumns.Single(x => x.Name == table.Name).ColumnCollection.Where(x => !primaryKeyNames.Contains(x.Name));
             var sql = new StringBuilder("UPDATE  ");
-            sql.AppendFormat("[{0}].[{1}] SET ", this.Schema, table);
+            sql.Append($"[{this.Schema}].[{table}] SET ");
 
             var cols = columns
                 .Where(c => !c.IsIdentity)
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
-            sql.AppendLine(string.Join(",\r\n", cols.Select(c => string.Format("[{0}] = @{0}", c)).ToArray()));
+            sql.JoinAndAppendLine(cols, ",\r\n", c => $"[{c}] = @{c}");
             sql.AppendLine(" WHERE ");
 
-            sql.AppendLine(string.Join(", ", parameters));
+            sql.JoinAndAppendLine(pks, ",", x => $"[{x.Name}] = @{x.Name}");
 
             return sql.ToString();
 
@@ -578,7 +581,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         public string GetInsertCommand(TableDefinition table)
         {
             var sql = new StringBuilder("INSERT INTO ");
-            sql.AppendFormat("[{0}].[{1}] (", this.Schema, table);
+            sql.Append($"[{this.Schema}].[{table}] (");
 
 
             var cols = TableColumns.Single(x => x.Name == table.Name).ColumnCollection
