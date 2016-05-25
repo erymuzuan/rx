@@ -24,6 +24,8 @@ namespace Bespoke.Sph.Web.Solutions
                 icon = this.Icon
             };
             var folder = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}";
+            if (!Directory.Exists(folder)) return Task.FromResult(parent);
+
             foreach (var f in Directory.GetFiles(folder, "*.json"))
             {
                 var item = f.DeserializeFromJsonFile<T>();
