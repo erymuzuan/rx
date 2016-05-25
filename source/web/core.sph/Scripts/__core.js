@@ -2432,7 +2432,9 @@ ko.bindingHandlers.tooltip = {
         var optionOrText = ko.unwrap(valueAccesor()),
             placement = optionOrText.tooltipPlacement || "top",
             text = optionOrText.tooltip || optionOrText;
-        $(element).tooltip({ title: text, placement: placement });
+        if (typeof text === "string") {
+            $(element).tooltip({ title: text, placement: placement });
+        }
     }
 };
 
