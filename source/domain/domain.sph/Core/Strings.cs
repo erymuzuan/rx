@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace Bespoke.Sph.Domain
 {
@@ -479,7 +480,17 @@ namespace Bespoke.Sph.Domain
         {
             if (val == null) return null;
             if (val == DBNull.Value) return null;
-            return (System.Xml.XmlDocument)val;
+            var xml = val as XmlDocument;
+            if (null != xml) return xml;
+
+            var text = val as string;
+            if (null != text)
+            {
+                var xd = new XmlDocument();
+                xd.LoadXml(text);
+                return xd;
+            }
+            return null;
         }
         public static byte[] ReadNullableByteArray(this object val)
         {
