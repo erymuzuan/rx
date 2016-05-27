@@ -183,6 +183,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 }
             });
 
+            setTimeout(function(){
+                var height = $("body").height() - 100;
+                tree.css({
+                    "max-height": height,
+                    "overflow-y": "auto"
+
+                });
+            },500);
+
+
 
         };
 
