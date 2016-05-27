@@ -54,6 +54,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 return;
             }
+            if(solution.changedType === "Deleted"){
+                var ref = $("#solution-explorer-panel").jstree(true),
+                    node = ref.get_node($("#" + solution.id)),
+                    deleted = ref.delete_node(node);
+                console.log("Node " + solution.id + " deleted : " + deleted, node);
+            }
             if (!solution.itemCollection) {
                 return;
             }
@@ -91,6 +97,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             var element = document.getElementById("solution-explorer-panel");
             $(element).jstree({
                 'core': {
+                    'check_callback': true,
                     'data': items
                 },
                 "search": {

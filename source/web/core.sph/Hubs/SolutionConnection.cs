@@ -47,11 +47,12 @@ namespace Bespoke.Sph.Web.Hubs
             if (e.FullPath.Contains("BinaryStores")) return;
             try
             {
+                var directory = Directory.GetParent(e.FullPath).Name;
                 var item = new SolutionItem
                 {
                     changedType = e.ChangeType.ToString(),
                     text = e.Name,
-                    id = e.FullPath
+                    id = $"__{directory}__{Path.GetFileNameWithoutExtension(e.FullPath)}",
                 };
 
                 var conns = m_connections.ToArray();
