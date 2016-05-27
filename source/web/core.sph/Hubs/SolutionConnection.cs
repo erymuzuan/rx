@@ -80,7 +80,7 @@ namespace Bespoke.Sph.Web.Hubs
                 var items = provider.GetItemsAsync(null).Result;
                 solution.AddItems(items.ToArray());
             }
-            
+
             foreach (var provider in providers)
             {
                 var item = provider.GetItemAsync().Result;
@@ -98,18 +98,26 @@ namespace Bespoke.Sph.Web.Hubs
 
             return solution;
         }
-        
+
         protected override Task OnConnected(IRequest request, string connectionId)
         {
             var developer = request?.User?.IsInRole("developers");
             if (developer ?? false)
             {
-                m_connections.Add(connectionId);
-                return Connection.Send(connectionId, GetSolution());
+                try
+                {
+                    m_connections.Add(connectionId);
+                    return Connection.Send(connectionId, GetSolution());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return Connection.Send(connectionId, new LogEntry(e));
+                }
             }
             return Task.FromResult(0);
         }
-        
+
         public void Dispose()
         {
             if (null != m_watcher)

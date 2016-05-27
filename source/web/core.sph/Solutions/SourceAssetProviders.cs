@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Web.Solutions
                 var item = f.DeserializeFromJsonFile<T>();
                 var node = new SolutionItem
                 {
-                    id = "__" + typeof(T).Name + "__" + Path.GetFileNameWithoutExtension(f),
+                    id = $"__{typeof(T).Name}__{Path.GetFileNameWithoutExtension(f)}",
                     text = GetName(item),
                     url = GetEditUrl(item),
                     icon = GetIcon(item)

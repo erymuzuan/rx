@@ -9,8 +9,8 @@
 /// <reference path="../services/datacontext.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "services/new-item"],
-  function (context, logger, router, system, newItemService) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "services/new-item", "services/app"],
+  function (context, logger, router, system, newItemService, app) {
       "use strict";
       var triggers = ko.observableArray(),
         selected = ko.observable(),
@@ -48,6 +48,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         },
         createTree = function (solution) {
+            if (solution.Exception) {
+                logger.error(solution.Message);
+                app.showMessage(solution.Details, "Error loading your solution",["OK"], { pre: true, alert : { "class" : "danger", "icon" :"warning", "text": solution.Message} });
+
+                return;
+            }
             if (!solution.itemCollection) {
                 return;
             }
@@ -107,7 +113,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 searchInput = $("#search-solution-tree");
             solutionExplorerToggleButton = $("#solution-explorer-toggle-button");
             $("#solution-explorer-panel a.jstree-clicked").css("color", "black");
-            $(view).on("click", "form.sidebar-search a.remove", function() {
+            $(view).on("click", "form.sidebar-search a.remove", function () {
                 tree.jstree("clear_search");
                 searchInput.val("");
             });
@@ -120,7 +126,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 } else {
                     var f = "\"\"" + text + "\"\"";
                     console.log(f);
-                    tree.jstree("search",  f);
+                    tree.jstree("search", f);
                 }
             }, 400);
             searchInput.keyup(search);

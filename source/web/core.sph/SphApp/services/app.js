@@ -1,10 +1,10 @@
 ﻿define(function () {
     var guid = function () {
-            return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-                var r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        },
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    },
         showDialog2 = function (moduleId, activate) {
             var tcs = new $.Deferred();
             require(["viewmodels/" + moduleId, "durandal/app"], function (dialog, app2) {
@@ -12,7 +12,7 @@
                     activate(dialog);
                 }
                 app2.showDialog(dialog)
-                    .done(function(result) {
+                    .done(function (result) {
                         tcs.resolve(dialog, result);
                     });
             });
@@ -61,7 +61,7 @@
 
             return tcs.promise();
         },
-        prompt = function (label,value, title, canCopy) {
+        prompt = function (label, value, title, canCopy) {
             var tcs = new $.Deferred();
 
             require(["viewmodels/prompt", "durandal/app"], function (dialog, app2) {
@@ -83,10 +83,13 @@
             return tcs.promise();
 
         },
-        showMessage = function (message, title, options) {
+        showMessage = function (message, title, buttons, options) {
             var id = guid(),
                 tcs = new $.Deferred(),
-                dialog = $(
+                alert = options.alert || {},
+                alertDiv = "<div class=\"alert alert-" + alert.class + "\" role=\"alert\">\r\n  <i class=\"fa fa-" + alert.icon +"\"></i>\r\n" + alert.text+"</div>",
+                body = "               <p class=\"message\" data-bind=\"html: message\"></p>",
+                html1 =
                     "<div class=\"modal\" style=\"z-index:1050\" id=\"" + id + "\">" +
                     "   <div style=\"z-index:1050\" class=\"modal-dialog\">" +
                     "       <div class=\"modal-content\">" +
@@ -94,21 +97,28 @@
                     "               <button type=\"button\" data-bind=\"click: cancelClick\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>" +
                     "               <h4 class=\"modal-title\" data-bind=\"html: title\"></h3>" +
                     "           </div>" +
-                    "           <div class=\"modal-body\">" +
-                    "               <p class=\"message\" data-bind=\"html: message\"></p>" +
-                    "           </div>" +
-                    "           <div class=\"modal-footer\" data-bind=\"foreach: options\">" +
+                    "           <div class=\"modal-body\">",
+                html2 = "           </div>" +
+                    "           <div class=\"modal-footer\" data-bind=\"foreach: buttons\">" +
                     "               <button class=\"btn btn-default\" data-bind=\"click: function () { $parent.selectOption($data); }, html: $data, css: { autofocus: $index() == 0 }\"></button>" +
                     "           </div>" +
                     "       </div>" +
                     "   </div>" +
-                    "</div>");
+                    "</div>";
 
+            if (options.pre) {
+                body = "               <pre class=\"message\" data-bind=\"html: message\"></pre>";
+            }
+            if (alert.class && alert.icon && alert.text) {
+                body = alertDiv + body;
+            }
+
+            var dialog = $(html1  + body + html2);
             dialog.appendTo("body");
             var vm = {
                 message: message,
                 title: title,
-                options: options,
+                buttons: buttons || ["OK"],
                 selectOption: function (result) {
                     tcs.resolve(result);
                     dialog.modal("hide");
