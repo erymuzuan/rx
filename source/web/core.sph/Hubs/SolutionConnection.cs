@@ -55,7 +55,10 @@ namespace Bespoke.Sph.Web.Hubs
                     id = $"__{directory}__{Path.GetFileNameWithoutExtension(e.FullPath)}"
                 };
 
-                if (e.ChangeType == WatcherChangeTypes.Created && null != this.ItemsProviders)
+                var hasItem = e.ChangeType == WatcherChangeTypes.Created ||
+                    e.ChangeType == WatcherChangeTypes.Changed;
+
+                if (hasItem && null != this.ItemsProviders)
                 {
                     var tasks = this.ItemsProviders.Select(x => x.GetItemAsync(e.FullPath));
                     var items = Task.WhenAll(tasks).Result;

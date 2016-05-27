@@ -11,7 +11,26 @@ namespace Bespoke.Sph.Web.Solutions
     {
         public Task<SolutionItem> GetItemAsync(string file)
         {
-            return Task.FromResult(default(SolutionItem));
+            var parent = Directory.GetParent(file).Name;
+            if (parent != typeof(T).Name) return Task.FromResult(default(SolutionItem));
+            dynamic item = this.GetSolutionItem(file);
+            if (null == item) return Task.FromResult(default(SolutionItem));
+            var node = new SolutionItem
+            {
+                id = $"__{typeof(T).Name}__{Path.GetFileNameWithoutExtension(file)}",
+                text = this.GetName(item),
+                url = this.GetUrl(item),
+                icon = this.Icon,
+                type = parent
+            };
+            return Task.FromResult(node);
+        }
+
+        protected virtual T GetSolutionItem(string file)
+        {
+            if (!File.Exists(file)) return default(T);
+            var item = file.DeserializeFromJsonFile<T>();
+            return item;
         }
         public Task<SolutionItem> GetItemAsync()
         {
@@ -34,10 +53,10 @@ namespace Bespoke.Sph.Web.Solutions
             if (!Directory.Exists(folder)) return Task.FromResult(empty);
             var list = from f in Directory.GetFiles(folder, "*.json")
                        let item = f.DeserializeFromJsonFile<T>()
-                       where null != item  && ed.Name == this.GetEntityDefinitionName(item)
+                       where null != item && ed.Name == this.GetEntityDefinitionName(item)
                        select new SolutionItem
                        {
-                           id = item.Id,
+                           id = $"__{typeof(T).Name}__{item.Id}",
                            text = this.GetName(item),
                            icon = this.Icon,
                            url = this.GetUrl(item)

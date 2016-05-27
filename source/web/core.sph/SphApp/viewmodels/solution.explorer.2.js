@@ -78,6 +78,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 console.log("Created new node " + solution.id + " created : ", itemNode);
             }
 
+
+            if(solution.changedType === "Changed"){
+                var k = solution,
+                    ref = $("#solution-explorer-panel").jstree(true),
+                    node = ref.get_node($("#" + k.id));
+
+                ref.rename_node(node, solution.text);
+                console.log("Rename node " + solution.id + " : ", node);
+            }
+
             if (!solution.itemCollection) {
                 return;
             }

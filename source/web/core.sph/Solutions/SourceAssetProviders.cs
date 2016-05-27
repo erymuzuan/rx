@@ -11,7 +11,6 @@ namespace Bespoke.Sph.Web.Solutions
     {
         public Task<SolutionItem> GetItemAsync(string file)
         {
-
             var parent = Directory.GetParent(file).Name;
             if (parent != typeof(T).Name) return Task.FromResult(default(SolutionItem));
             var item = this.GetSolutionItem(file);
