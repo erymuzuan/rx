@@ -9,9 +9,32 @@ namespace Bespoke.Sph.Web.Solutions
 {
     public abstract class SourceAssetProviders<T> : IItemsProvider where T : Entity
     {
+        public Task<SolutionItem> GetItemAsync(string file)
+        {
 
-        protected abstract  string Icon { get; }
-        protected abstract string GetIcon(T item); 
+            var parent = Directory.GetParent(file).Name;
+            if (parent != typeof(T).Name) return Task.FromResult(default(SolutionItem));
+            var item = this.GetSolutionItem(file);
+            if (null == item) return Task.FromResult(default(SolutionItem));
+            var node = new SolutionItem
+            {
+                id = $"__{typeof(T).Name}__{Path.GetFileNameWithoutExtension(file)}",
+                text = GetName(item),
+                url = GetEditUrl(item),
+                icon = GetIcon(item),
+                type = parent
+
+            };
+            return Task.FromResult(node);
+        }
+
+        protected virtual T GetSolutionItem(string file)
+        {
+            var item = file.DeserializeFromJsonFile<T>();
+            return item;
+        }
+        protected abstract string Icon { get; }
+        protected abstract string GetIcon(T item);
         protected abstract string GetEditUrl(T item);
         protected abstract string GetName(T item);
 
@@ -46,6 +69,6 @@ namespace Bespoke.Sph.Web.Solutions
         {
             return Task.FromResult(Array.Empty<SolutionItem>().AsEnumerable());
         }
-        
+
     }
 }

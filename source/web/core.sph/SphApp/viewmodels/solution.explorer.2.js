@@ -60,6 +60,24 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     deleted = ref.delete_node(node);
                 console.log("Node " + solution.id + " deleted : " + deleted, node);
             }
+            if(solution.changedType === "Created"){
+                var k = solution,
+                    ref = $("#solution-explorer-panel").jstree(true),
+                    parent = ref.get_node($("#" + solution.type)),
+                    data =  {
+                        id: k.id,
+                        text: k.text,
+                        url: k.url,
+                        createDialog: k.createDialog,
+                        createdUrl: k.createdUrl,
+                        dialog: k.dialog,
+                        codeEditor: k.codeEditor
+                    },
+                    node =  { id : k.id, parent : k.type, icon : k.icon, state: "open", text: k.text, data: data},
+                    itemNode = ref.create_node(parent, node);
+                console.log("Created new node " + solution.id + " created : ", itemNode);
+            }
+
             if (!solution.itemCollection) {
                 return;
             }

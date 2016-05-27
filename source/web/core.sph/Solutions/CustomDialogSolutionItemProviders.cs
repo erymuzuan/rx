@@ -12,6 +12,11 @@ namespace Bespoke.Sph.Web.Solutions
     [Export(typeof(IItemsProvider))]
     public class CustomDialogSolutionItemProviders : IItemsProvider
     {
+        public Task<SolutionItem> GetItemAsync(string file)
+        {
+            return Task.FromResult(default(SolutionItem));
+        }
+
         public Task<SolutionItem> GetItemAsync()
         {
             var dialogNode = new SolutionItem

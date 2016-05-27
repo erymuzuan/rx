@@ -12,6 +12,10 @@ namespace Bespoke.Sph.Web.Solutions
     [Export(typeof(IItemsProvider))]
     public class CustomFormNodeProvider : IItemsProvider
     {
+        public Task<SolutionItem> GetItemAsync(string file)
+        {
+            return Task.FromResult(default(SolutionItem));
+        }
         public Task<SolutionItem> GetItemAsync()
         {
             var node = new SolutionItem { id = "custom.forms", text = "Custom Forms", icon = "fa fa-edit" };

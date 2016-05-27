@@ -9,8 +9,10 @@ namespace Bespoke.Sph.Web.Solutions
     [Export(typeof(IItemsProvider))]
     public class AdapterProviders : SourceAssetProviders<Adapter>
     {
+
         [ImportMany("AdapterDesigner", typeof(Adapter), AllowRecomposition = true)]
         public Lazy<Adapter, IDesignerMetadata>[] Adapters { get; set; }
+
 
         protected override string Icon => "fa fa-puzzle-piece";
         protected override string GetIcon(Adapter d)

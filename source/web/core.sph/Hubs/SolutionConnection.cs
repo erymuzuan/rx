@@ -52,15 +52,27 @@ namespace Bespoke.Sph.Web.Hubs
                 {
                     changedType = e.ChangeType.ToString(),
                     text = e.Name,
-                    id = $"__{directory}__{Path.GetFileNameWithoutExtension(e.FullPath)}",
+                    id = $"__{directory}__{Path.GetFileNameWithoutExtension(e.FullPath)}"
                 };
+
+                if (e.ChangeType == WatcherChangeTypes.Created && null != this.ItemsProviders)
+                {
+                    var tasks = this.ItemsProviders.Select(x => x.GetItemAsync(e.FullPath));
+                    var items = Task.WhenAll(tasks).Result;
+                    item = items.FirstOrDefault(x => null != x);
+                    if (null != item)
+                    {
+                        item.changedType = e.ChangeType.ToString();
+                    }
+
+                }
 
                 var conns = m_connections.ToArray();
                 this.Connection?.Send(conns.ToList(), item);
             }
             catch (Exception exception)
             {
-                this.Connection?.Broadcast(exception);
+                this.Connection?.Broadcast(new LogEntry(exception));
             }
 
         }

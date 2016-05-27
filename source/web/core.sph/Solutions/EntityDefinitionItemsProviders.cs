@@ -9,6 +9,10 @@ namespace Bespoke.Sph.Web.Solutions
 {
     public abstract class EntityDefinitionItemsProviders<T> : IItemsProvider where T : Entity
     {
+        public Task<SolutionItem> GetItemAsync(string file)
+        {
+            return Task.FromResult(default(SolutionItem));
+        }
         public Task<SolutionItem> GetItemAsync()
         {
             return Task.FromResult(default(SolutionItem));

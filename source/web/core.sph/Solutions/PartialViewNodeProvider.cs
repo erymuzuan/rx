@@ -12,6 +12,10 @@ namespace Bespoke.Sph.Web.Solutions
     [Export(typeof(IItemsProvider))]
     public class PartialViewNodeProvider : IItemsProvider
     {
+        public Task<SolutionItem> GetItemAsync(string file)
+        {
+            return Task.FromResult(default(SolutionItem));
+        }
         public Task<SolutionItem> GetItemAsync()
         {
 

@@ -10,6 +10,10 @@ namespace Bespoke.Sph.Web.Solutions
     [Export(typeof(IItemsProvider))]
     public class EntityDefinitionNodesProvider : IItemsProvider
     {
+        public Task<SolutionItem> GetItemAsync(string file)
+        {
+            return Task.FromResult(default(SolutionItem));
+        }
         public Task<SolutionItem> GetItemAsync()
         {
             return Task.FromResult(default(SolutionItem));
