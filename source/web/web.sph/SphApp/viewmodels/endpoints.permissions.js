@@ -261,19 +261,19 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                 icon: "fa fa-plus"
                             },
                                 {
-                                    data: createTag(v.Name, table, "Update"),
+                                    data: createTag(v.Name, table, "Save"),
                                     text: "Update",
                                     icon: "fa fa-edit"
                                 },
                                 {
-                                    data: createTag(v.Name, table, "LoadOneAsync"),
+                                    data: createTag(v.Name, table, "Get"),
                                     text: "Load One",
-                                    icon: "fa fa-users"
+                                    icon: "fa fa-file-text"
                                 },
                                 {
-                                    data: createTag(v.Name, table, "LoadAsync"),
+                                    data: createTag(v.Name, table, "List"),
                                     text: "Load",
-                                    icon: "fa fa-object-ungroup"
+                                    icon: "fa fa-table"
                                 }]
                         }
                         wdNode.children.push(action);
