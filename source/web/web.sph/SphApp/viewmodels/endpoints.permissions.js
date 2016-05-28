@@ -417,6 +417,20 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                 $panel.on("select_node.jstree", singleClick);
                 $panel.delegate("a", "dblclick", click);
+
+                var setDesignerHeight = function () {
+                    if ($panel.length === 0) {
+                        return;
+                    }
+
+                    var dev = $("#developers-log-panel").height(),
+                        top = $panel.offset().top,
+                        height = dev + top + 50;
+                    $panel.css("max-height", $(window).height() - height);
+
+                };
+                $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
+                setDesignerHeight();
             },
             addClaims = function () {
                 selected().Claims.push({
