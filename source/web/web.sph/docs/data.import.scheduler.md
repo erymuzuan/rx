@@ -21,3 +21,32 @@ There things that you can customize how your data import execution behave by mod
 2. `password` - The password for the user.
 3. `EmailFrom` - Email address where all the emails will be sent from.
 4. `EmailTo` - Email addresses where all the emails will be sent to.
+
+You should also modify the `system.net` setting in the `config` file to reflect your actual SMTP setting
+
+```xml
+<system.net>
+<mailSettings>
+  <smtp deliveryMethod="SpecifiedPickupDirectory">
+    <specifiedPickupDirectory pickupDirectoryLocation="C:\temp\sphEmail" />
+  </smtp>
+</mailSettings>
+</system.net>
+```
+You should change the deliveryMethod to `Network` and specify the appropriate SMTP
+
+```xml
+<configuration>
+  <system.net>
+    <mailSettings>
+      <smtp deliveryMethod="network" deliveryFormat="SevenBit"  from="ben@contoso.com">
+        <network
+          host="localhost"
+          port="25"
+          defaultCredentials="true"
+        />
+      </smtp>
+    </mailSettings>
+  </system.net>
+</configuration>
+```

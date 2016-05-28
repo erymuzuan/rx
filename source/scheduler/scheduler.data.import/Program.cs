@@ -29,36 +29,48 @@ namespace scheduler.data.import
             using (var reader = new StreamReader(stream, Encoding.UTF8))
             {
                 var text = reader.ReadToEnd();
-                var lines = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                var lines = text.Split(new[] { "\r\n" }, StringSplitOptions.None);
                 foreach (var line in lines)
                 {
+                    if (line.StartsWith("###"))
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine(line.Replace("#", ""), Color.Brown);
+                        Console.WriteLine(new string('=', line.Length), Color.Brown);
+                        continue;
+                    }
                     if (line.StartsWith("##"))
                     {
+                        Console.WriteLine();
+                        Console.WriteLine();
                         Console.WriteLine(line.Replace("#", ""), Color.Crimson);
                         Console.WriteLine(new string('=', line.Length), Color.Crimson);
                         continue;
                     }
                     if (line.StartsWith("#"))
                     {
-                        Console.WriteLine(line.Replace("#", ""), Color.Green);
-                        Console.WriteLine(new string('*', line.Length), Color.Green);
+                        Console.WriteAscii(line.Replace("#", ""), Color.GreenYellow);
+                        continue;
+                    }
+
+                    if (line.ToEmptyString().Trim() == "```")
+                    {
+                        Console.WriteLine(line.Replace("```", "[end-code]"), Color.GreenYellow);
+                        continue;
+                    }
+
+                    if (line.StartsWith("```"))
+                    {
+                        System.Console.WriteLine();
+                        Console.WriteLine(line.Replace("```", "[start-code] "), Color.GreenYellow);
                         continue;
                     }
 
                     const string PATTERN = "`(?<a>.*?)`";
-                    var codes2 = Strings.RegexValues(line, PATTERN, "a");
-                    var sb = new StringBuilder(line);
-                    var count = 0;
-                    foreach (var s in codes2)
-                    {
-                        count++;
-                        sb.Replace($"`{s}`", $"{{{count}}}");
-                    }
-
-
-                    var codes = from a in codes2
-                                select new Formatter(a, Color.BlueViolet);
-                    Console.WriteLineFormatted(sb.ToString(), Color.AliceBlue, codes.ToArray());
+                    var css = new StyleSheet(Color.White);
+                    css.AddStyle(PATTERN, Color.MediumSlateBlue, m => m.Replace("`", ""));
+                    Console.WriteLineStyled(line, css);
                 }
             }
         }
