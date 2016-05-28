@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Models;
@@ -148,6 +149,25 @@ namespace Bespoke.Sph.Web.Controllers
                                x.Name,
                                Action = x.MethodName ?? "!!null!!"
                            }).ToArray()
+                       };
+            var json = JsonConvert.SerializeObject(list);
+            return Content(json, "application/json");
+        }
+
+        [HttpGet]
+        [Route("adapter-endpoints")]
+        public ActionResult GetAdapterEndpoints()
+        {
+            var context = new SphDataContext();
+            var adapters = context.LoadFromSources<Adapter>();
+            var list = from w in adapters
+                       let tables = w.TableDefinitionCollection.Select(x => x.Name)
+                       let ops = w.OperationDefinitionCollection.Select(x => x.Name)
+                       select new
+                       {
+                           w.Name,
+                           Operations = ops.ToArray(),
+                           Tables = tables.ToArray()
                        };
             var json = JsonConvert.SerializeObject(list);
             return Content(json, "application/json");

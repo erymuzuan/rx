@@ -14,6 +14,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             queryEndpoints = ko.observableArray(),
             entities = ko.observableArray(),
             wds = ko.observableArray(),
+            adapters = ko.observableArray(),
             permissions = ko.observableArray(),
             selected = ko.observable(),
             activate = function () {
@@ -32,8 +33,14 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     })
                     .then(function (lo) {
                         wds(lo);
+                        return $.getJSON("/management-api/adapter-endpoints");
+
+                    })
+                    .then(function (results) {
+                        adapters(results);
                         return $.getJSON("/management-api/endpoint-permissions");
-                    }).then(permissions);
+                    })
+                    .then(permissions);
             },
             singleClick = function (e, data) {
                 var tag = data.node.data;
@@ -54,42 +61,42 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     url += "&action=" + tag.action;
                 }
                 return $.getJSON(url)
-                .done(function (result) {
-                    isBusy(false);
-                    var item = ko.mapping.fromJS(result);
-                    // if no parent, controller and action is set, the api will return all settings
-                    if (_(result).isArray()) {
-                        var defaultItem = _(result).find(function(v) {
-                            return !v.Parent && !v.Controller && !v.Action;
-                        });
-                        item = ko.mapping.fromJS(defaultItem);
-                    }
-                    if (ko.isObservable(item.Parent)) {
-                        item.Parent(tag.parent);
-                    }
-                    if (ko.isObservable(item.Controller)) {
-                        item.Controller(tag.controller);
-                    }
-                    if (ko.isObservable(item.Action)) {
-                        item.Action(tag.action);
-                    }
-
-                    var claimChanged = function (val) {
-                        item.IsInherited(false);
-                    };
-
-                    item.Claims.subscribe(function (changes) {
-                        console.log("changes", changes);
-                        if (changes[0].status === "added") {
-                            changes[0].value.Value.subscribe(claimChanged);
-                            changes[0].value.Type.subscribe(claimChanged);
-                            changes[0].value.Permission.subscribe(claimChanged);
+                    .done(function (result) {
+                        isBusy(false);
+                        var item = ko.mapping.fromJS(result);
+                        // if no parent, controller and action is set, the api will return all settings
+                        if (_(result).isArray()) {
+                            var defaultItem = _(result).find(function (v) {
+                                return !v.Parent && !v.Controller && !v.Action;
+                            });
+                            item = ko.mapping.fromJS(defaultItem);
                         }
-                    }, null, "arrayChange");
+                        if (ko.isObservable(item.Parent)) {
+                            item.Parent(tag.parent);
+                        }
+                        if (ko.isObservable(item.Controller)) {
+                            item.Controller(tag.controller);
+                        }
+                        if (ko.isObservable(item.Action)) {
+                            item.Action(tag.action);
+                        }
+
+                        var claimChanged = function (val) {
+                            item.IsInherited(false);
+                        };
+
+                        item.Claims.subscribe(function (changes) {
+                            console.log("changes", changes);
+                            if (changes[0].status === "added") {
+                                changes[0].value.Value.subscribe(claimChanged);
+                                changes[0].value.Type.subscribe(claimChanged);
+                                changes[0].value.Permission.subscribe(claimChanged);
+                            }
+                        }, null, "arrayChange");
 
 
-                    selected(item);
-                });
+                        selected(item);
+                    });
 
             },
             click = function (e) {
@@ -136,7 +143,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         icon: "fa fa-share-alt",
                         state: {
                             opened: true,
-                            selected : true
+                            selected: true
                         },
                         children: []
                     },
@@ -152,7 +159,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                             state: {
                                 opened: false
                             },
-                            a_attr : {
+                            a_attr: {
                                 "class": hasImplementation(v.Name)
                             },
                             children: [{
@@ -161,14 +168,14 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                 a_attr: {
                                     "class": hasImplementation(v.Name, serviceContractController, "Search")
                                 },
-                                icon: "fa fa-search" 
+                                icon: "fa fa-search"
                             }, {
                                 data: createTag(ko.unwrap(v.Name), serviceContractController, "GetOneByIdAsync"),
                                 text: "GetOneByIdAsync",
                                 a_attr: {
                                     "class": hasImplementation(ko.unwrap(v.Name), serviceContractController, "GetOneByIdAsync")
                                 },
-                                icon: "fa fa-file-o" 
+                                icon: "fa fa-file-o"
                             }, {
                                 data: createTag(ko.unwrap(v.Name), serviceContractController, "OdataApi"),
                                 text: "OdataApi",
@@ -181,41 +188,93 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                     root.children.push(entityNode);
                 });
-                _(ko.unwrap(wds)).each(function(v) {
+                _(ko.unwrap(wds)).each(function (v) {
                     var wdNode = {
                         data: createTag(v.Name),
                         parent: "root",
                         text: ko.unwrap(v.Name),
                         icon: "fa fa-code-fork",
-                        state: { opened: false },
-                        a_attr : {
+                        state: {opened: false},
+                        a_attr: {
                             "class": hasImplementation(v.Name)
                         },
                         children: [{
                             data: createTag(v.Name, v.Name, "GetOneAsync"),
                             text: "Get by id",
                             icon: "fa fa-file-o"
-                        },{
+                        }, {
                             data: createTag(v.Name, v.Name, "Search"),
                             text: "Search",
                             icon: "fa fa-search"
                         },
-                        {
-                            data: createTag(v.Name, v.Name, "GetPendingTasksAsync"),
-                            text: "Pending Tasks",
-                            icon: "fa fa-users"
-                        },
-                        {
-                            data: createTag(v.Name, v.Name, "Schemas"),
-                            text: "Javascript schema",
-                            icon: "fa fa-object-ungroup"
-                        }]
+                            {
+                                data: createTag(v.Name, v.Name, "GetPendingTasksAsync"),
+                                text: "Pending Tasks",
+                                icon: "fa fa-users"
+                            },
+                            {
+                                data: createTag(v.Name, v.Name, "Schemas"),
+                                text: "Javascript schema",
+                                icon: "fa fa-object-ungroup"
+                            }]
                     };
-                    _(v.Children).each(function(c) {
+                    _(v.Children).each(function (c) {
                         var action = {
                             data: createTag(v.Name, v.Name, c.Action),
                             text: c.Action,
-                            icon : "fa fa-envelope"
+                            icon: "fa fa-envelope"
+                        }
+                        wdNode.children.push(action);
+                    });
+                    root.children.push(wdNode);
+                });
+
+
+                _(ko.unwrap(adapters)).each(function (v) {
+                    var wdNode = {
+                        data: createTag(v.Name),
+                        parent: "root",
+                        text: ko.unwrap(v.Name),
+                        icon: "fa fa-database",
+                        state: {opened: false},
+                        a_attr: {
+                            "class": hasImplementation(v.Name)
+                        },
+                        children: []
+                    };
+                    _(v.Operations).each(function (op) {
+                        var action = {
+                            data: createTag(v.Name, v.Name, op),
+                            text: op,
+                            icon: "fa fa-bolt"
+                        }
+                        wdNode.children.push(action);
+                    });
+                    _(v.Tables).each(function (table) {
+                        var action = {
+                            data: createTag(v.Name, table, null),
+                            text: table,
+                            icon: "fa fa-list",
+                            children: [{
+                                data: createTag(v.Name, table, "Insert"),
+                                text: "Insert",
+                                icon: "fa fa-plus"
+                            },
+                                {
+                                    data: createTag(v.Name, table, "Update"),
+                                    text: "Update",
+                                    icon: "fa fa-edit"
+                                },
+                                {
+                                    data: createTag(v.Name, table, "LoadOneAsync"),
+                                    text: "Load One",
+                                    icon: "fa fa-users"
+                                },
+                                {
+                                    data: createTag(v.Name, table, "LoadAsync"),
+                                    text: "Load",
+                                    icon: "fa fa-object-ungroup"
+                                }]
                         }
                         wdNode.children.push(action);
                     });
@@ -252,14 +311,14 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         icon: "fa fa-list"
                     });
                     q.children.push({
-                        data: createTag(v.Entity, qeController, "GetCount"),
-                        text: "GetCount",
-                        a_attr: {
-                            "class": hasImplementation(v.Entity, qeController, "GetCount")
-                        },
-                        icon: "fa fa-tachometer" 
-                    }
-                       );
+                            data: createTag(v.Entity, qeController, "GetCount"),
+                            text: "GetCount",
+                            a_attr: {
+                                "class": hasImplementation(v.Entity, qeController, "GetCount")
+                            },
+                            icon: "fa fa-tachometer"
+                        }
+                    );
 
                 });
 
@@ -272,18 +331,17 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     }
 
 
-
                     var
-                    oeController = ko.unwrap(v.Entity) + ko.unwrap(v.Name) + "OperationEndpoint",
-                         q = {
-                             data: createTag(v.Entity, oeController),
-                             text: ko.unwrap(v.Name),
-                             a_attr: {
-                                 "class": hasImplementation(v.Entity, oeController)
-                             },
-                             icon: "fa fa-cogs",
-                             children: []
-                         };
+                        oeController = ko.unwrap(v.Entity) + ko.unwrap(v.Name) + "OperationEndpoint",
+                        q = {
+                            data: createTag(v.Entity, oeController),
+                            text: ko.unwrap(v.Name),
+                            a_attr: {
+                                "class": hasImplementation(v.Entity, oeController)
+                            },
+                            icon: "fa fa-cogs",
+                            children: []
+                        };
                     parent.children.push(q);
 
                     if (ko.unwrap(v.IsHttpPost)) {
@@ -294,7 +352,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                 a_attr: {
                                     "class": hasImplementation(v.Entity, oeController, postAction)
                                 },
-                                icon: "fa fa-plus" 
+                                icon: "fa fa-plus"
                             };
                         q.children.push(postNode);
                     }
@@ -308,7 +366,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                 a_attr: {
                                     "class": hasImplementation(v.Entity, oeController, putAction)
                                 },
-                                icon: "fa fa-file-text-o" 
+                                icon: "fa fa-file-text-o"
                             };
                         q.children.push(putNode);
                     }
@@ -334,7 +392,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                 a_attr: {
                                     "class": hasImplementation(v.Entity, oeController, deleteAction)
                                 },
-                                icon: "fa fa-minus-circle" 
+                                icon: "fa fa-minus-circle"
                             };
                         q.children.push(deleteNode);
                     }
@@ -393,7 +451,8 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 saveCommand: save,
                 commands: ko.observableArray([
                     {
-                        command: function () { },
+                        command: function () {
+                        },
                         caption: "Discard changes",
                         icon: "fa fa-undo"
                     }
