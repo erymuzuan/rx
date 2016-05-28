@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,13 +9,59 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Colorful;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json.Linq;
+using Console = Colorful.Console;
 
 namespace scheduler.data.import
 {
     internal class Program
     {
+        private static void ShowHelp()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            const string HELP_MD = "scheduler.data.import.data.import.scheduler.md";
+            var stream = assembly.GetManifestResourceStream(HELP_MD);
+            if (null == stream) return;
+            stream.Position = 0;
+            using (var reader = new StreamReader(stream, Encoding.UTF8))
+            {
+                var text = reader.ReadToEnd();
+                var lines = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                foreach (var line in lines)
+                {
+                    if (line.StartsWith("##"))
+                    {
+                        Console.WriteLine(line.Replace("#", ""), Color.Crimson);
+                        Console.WriteLine(new string('=', line.Length), Color.Crimson);
+                        continue;
+                    }
+                    if (line.StartsWith("#"))
+                    {
+                        Console.WriteLine(line.Replace("#", ""), Color.Green);
+                        Console.WriteLine(new string('*', line.Length), Color.Green);
+                        continue;
+                    }
+
+                    const string PATTERN = "`(?<a>.*?)`";
+                    var codes2 = Strings.RegexValues(line, PATTERN, "a");
+                    var sb = new StringBuilder(line);
+                    var count = 0;
+                    foreach (var s in codes2)
+                    {
+                        count++;
+                        sb.Replace($"`{s}`", $"{{{count}}}");
+                    }
+
+
+                    var codes = from a in codes2
+                                select new Formatter(a, Color.BlueViolet);
+                    Console.WriteLineFormatted(sb.ToString(), Color.AliceBlue, codes.ToArray());
+                }
+            }
+        }
         static void Main(string[] args)
         {
             var id = args.FirstOrDefault();
@@ -54,7 +101,11 @@ namespace scheduler.data.import
             var password = ConfigurationManager.AppSettings["password"] ?? "123456";
 
             var file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(DataTransferDefinition)}\\{id}.json";
-            if (!File.Exists(file)) return;
+            if (!File.Exists(file))
+            {
+                ShowHelp();
+                return;
+            }
             var model = file.DeserializeFromJsonFile<DataTransferDefinition>();
             var container = new CookieContainer();
             GetCookie(username, password, container);

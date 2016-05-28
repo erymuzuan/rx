@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Colorful.Console, Version=1.0.5.0, Culture=neutral, PublicKeyToken=cc1f2a0d977b1e28, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Colorful.Console.1.0.5\lib\net461\Colorful.Console.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Humanizer, Version=1.37.7.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Humanizer.1.37.7\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
       <Private>True</Private>
@@ -47,6 +51,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,6 +67,9 @@
     <Compile Include="Queue.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\..\web\web.sph\docs\data.import.scheduler.md">
+      <Link>data.import.scheduler.md</Link>
+    </EmbeddedResource>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>

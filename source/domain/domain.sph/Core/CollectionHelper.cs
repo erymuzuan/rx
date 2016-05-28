@@ -101,7 +101,7 @@ namespace Bespoke.Sph.Domain
             Func<T, string> projection = null )
         {
             if (null == projection)
-                projection = x => $"x";
+                projection = x => $"{x}";
 
             return string.Join(separator, list.Select(projection).ToArray());
 
