@@ -230,7 +230,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             resume = function (log) {
                 progress().busy(true);
                 errorRows([]);
-                return hub.server.resume(ko.unwrap(model().Name), log)
+                return hub.server.resume(ko.unwrap(model().Id), log)
                     .fail(function (e) {
                         logger.error(e);
                     })

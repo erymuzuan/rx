@@ -236,10 +236,9 @@ namespace Bespoke.Sph.Web.Hubs
             var sw = new Stopwatch();
             sw.Start();
             m_isCancelRequested = false;
-
-            var modelPath = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{log.Name.ToIdFormat()}.json";
-            var json = System.IO.File.ReadAllText(modelPath);
-            var model = JsonConvert.DeserializeObject<DataTransferDefinition>(json);
+            
+            var context = new SphDataContext();
+            var model = context.LoadOneFromSources<DataTransferDefinition>(x => x.Id == id);
 
             var statusTask = UpdateImportStatusAsync(model, sw, progress);
             var importTask = ImportDataAsync(model, sw, progress, log.PageNumber + 1, log.RowsRead, log.Errors);
