@@ -32,6 +32,7 @@
     <Image Source="images/script_code.png" x:Key="ScriptCode" Stretch="None"></Image>
     <Image Source="images/script_code.png" x:Key="ScriptCode2" Stretch="None"></Image>
     <Image Source="images/script_code.png" x:Key="ScriptCode3" Stretch="None"></Image>
+    <Image Source="images/script_code.png" x:Key="ScriptCode4" Stretch="None"></Image>
     <Image Source="images/script_code_red.png" x:Key="ScriptCodeRed" Stretch="None"></Image>
     <Image Source="images/table_gear.png" x:Key="TableGear" Stretch="None"></Image>
     <Image Source="images/LINQPad.ico_16x16.png" x:Key="LinqPadIcon" Stretch="None"></Image>
