@@ -102,16 +102,17 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
             },
             attached = function (view) {
-
-                var element = $(view).find("#pager");
-                parentRoot().model.subscribe(function(model){
+                var element = $(view).find("#pager"),
+                    loadErrors = function(model){
                     $.getJSON("/api/data-imports/" + ko.unwrap(model.Id) + "/errors?$take=10&$skip=0")
                         .done(function(result){
                             parentRoot().errorRows(result.items);
                             totalRows(result.total);
                             createPager(element);
                         });
-                });
+                };
+                parentRoot().model.subscribe(loadErrors);
+                loadErrors(ko.unwrap(parentRoot().model));
 
             },
             viewData = function (row) {
@@ -160,7 +161,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                     pager.destroy();
                                     var skip = (currentPage() - 1) * currentPageSize(),
                                         take = currentPageSize(),
-                                        model = parentRoot().model().name(),
+                                        model = parentRoot().model().Id(),
                                         element = $("#pager");
                                     $.getJSON("/api/data-imports/" + model + "/errors?$take=" + take + "&$skip=" + skip)
                                         .done(function(result){

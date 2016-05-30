@@ -41,17 +41,17 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpGet]
-        [Route("{model}/errors")]
-        public IHttpActionResult ErrorList(string model, [FromUri(Name = "$take")]int take = 20, [FromUri(Name = "$skip")]int skip = 0)
+        [Route("{id}/errors")]
+        public IHttpActionResult ErrorList(string id, [FromUri(Name = "$take")]int take = 20, [FromUri(Name = "$skip")]int skip = 0)
         {
-            var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{model.ToIdFormat()}";
+            var folder = $"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{id.ToIdFormat()}";
             if (!System.IO.Directory.Exists(folder))
                 System.IO.Directory.CreateDirectory(folder);
 
             var files = System.IO.Directory.GetFiles(folder, "*.data");
             var rows = from f in files.Skip(skip).Take(take)
-                       let id = System.IO.Path.GetFileNameWithoutExtension(f)
-                       let errorFile = $"{folder}\\{id}.error"
+                       let errorId = System.IO.Path.GetFileNameWithoutExtension(f)
+                       let errorFile = $"{folder}\\{errorId}.error"
                        let data = System.IO.File.ReadAllText(f)
                        let error = System.IO.File.ReadAllText(errorFile)
                        let lines = error.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Web.Controllers
                        })
                        select $@"
 {{
-    ""ErrorId"" : ""{model.ToIdFormat()}/{id}"",
+    ""ErrorId"" : ""{id.ToIdFormat()}/{errorId}"",
     ""Data"" : {data},
     ""Exception"" : {errorJson}
 }}";
