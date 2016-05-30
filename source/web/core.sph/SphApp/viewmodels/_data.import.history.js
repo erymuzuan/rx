@@ -27,7 +27,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 currentPageSize(size);
                 var skip = (page - 1) * size,
                     take = size,
-                    model = parentRoot().model().name();
+                    model = parentRoot().model().Id();
 
                 $.getJSON("/api/data-imports/" + model + "/histories?$skip=" + skip + "&$take=" + take)
                     .done(function(result){
@@ -54,15 +54,17 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 pager = new bespoke.utils.ServerPager(options);
             },
             attached = function (view) {
-                var element = $(view).find("#history-pager");
-                parentRoot().model.subscribe(function(model){
-                    $.getJSON("/api/data-imports/" + ko.unwrap(model.Id) + "/histories?$take=10&$skip=0")
-                        .done(function(result){
-                            logs(result.items);
-                            totalRows(result.total);
-                            createPager(element);
-                        });
-                });
+                var element = $(view).find("#history-pager"),
+                    loadLogs = function (model) {
+                        $.getJSON("/api/data-imports/" + ko.unwrap(model.Id) + "/histories?$take=10&$skip=0")
+                            .done(function (result) {
+                                logs(result.items);
+                                totalRows(result.total);
+                                createPager(element);
+                            });
+                    };
+                parentRoot().model.subscribe(loadLogs);
+                loadLogs(ko.unwrap(parentRoot().model));
             },
             resume = function (item) {
                 console.log(item);

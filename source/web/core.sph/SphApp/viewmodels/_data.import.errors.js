@@ -25,7 +25,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 currentPageSize(size);
                 var skip = (page - 1) * size,
                     take = size,
-                    model = parentRoot().model().name();
+                    model = parentRoot().model().Id();
 
                 $.getJSON("/api/data-imports/" + model + "/errors?$skip=" + skip + "&$take=" + take)
                     .done(function(result){
