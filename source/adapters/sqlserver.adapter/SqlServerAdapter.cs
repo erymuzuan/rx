@@ -326,6 +326,12 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine("           {");
             foreach (var col in columns.Where(c => !c.IsIdentity).Where(c => !c.IsComputed).Where(c => !primaryKeyNames.Contains(c.Name)))
             {
+                var type = col.DataType.GetClrType();
+                if (type == typeof(System.Xml.XmlDocument) && !col.IsNullable)
+                {
+                    code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{col.Name}\", item.{col.Name}.OuterXml);");
+                    continue;
+                }
                 var nullable = col.IsNullable ? ".ToDbNull()" : "";
                 code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{col.Name}\", item.{col.Name}{nullable});");
             }
@@ -465,10 +471,10 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var code = new StringBuilder();
             foreach (var column in columns)
             {
+                var type = column.GetClrType();
 
                 if (column.IsNullable)
                 {
-                    var type = column.GetClrType();
                     if (type == typeof(string))
                     {
                         code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableString();", column.Name);
@@ -488,7 +494,17 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                     continue;
                 }
 
-                code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
+                if (type == typeof(System.Xml.XmlDocument))
+                {
+                    code.AppendLine($@"                         var xml{column.Name} = new System.Xml.XmlDocument();
+                                                                xml{column.Name}.LoadXml((string)reader[""{column.Name}""]);");
+                    code.AppendLine($"                          item.{column.Name} = xml{column.Name};");
+
+                }
+                else
+                {
+                    code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
+                }
             }
 
             return code.ToString();
