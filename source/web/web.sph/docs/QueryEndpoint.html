@@ -434,6 +434,18 @@ pre.editor-colors .fold-marker:after,
 .source.java-properties .meta.key-pair > .punctuation {
   color: #abb2bf;
 }
+.source.js .keyword.operator {
+  color: #56b6c2;
+}
+.source.js .keyword.operator.delete,
+.source.js .keyword.operator.in,
+.source.js .keyword.operator.of,
+.source.js .keyword.operator.instanceof,
+.source.js .keyword.operator.new,
+.source.js .keyword.operator.typeof,
+.source.js .keyword.operator.void {
+  color: #c678dd;
+}
 .source.json .meta.structure.dictionary.json > .string.quoted.json {
   color: #e06c75;
 }
@@ -461,5 +473,30 @@ pre.editor-colors .fold-marker:after,
 }
 </style>
   </head>
-  <body class='markdown-preview'><h1 id="query-endpoint">Query Endpoint</h1></body>
+  <body class='markdown-preview' data-use-github-style><h1 id="query-endpoint">Query Endpoint</h1>
+<p><code>QueryEndpoint</code> allows you to create a <code>GET</code> HTTP API to your data source. Among the things that could be done with <code>QueryEndpoint</code> are</p>
+<ul>
+<li>Caching</li>
+<li>HTTP headers for <code>E-Tag</code> and <code>Last-Modified-Date</code></li>
+</ul>
+<h2 id="fields-selection">Fields selection</h2>
+<p>If you need to return all the fields, do not check any items in the tree, but if your <code>QueryEndpoint</code> needs to return just a number of specified fields, then you could select those fields.</p>
+<p><strong>Note :</strong> You&#39;re not allowed to select the root, or any parent of a <code>ComplexMember</code> or <code>ValueObjectMember</code>.</p>
+<h2 id="general-properties">General Properties</h2>
+<ul>
+<li>Name - <code>Endpoint</code> name for easy identification</li>
+<li>Route - HTTP routing for your Endpoint, you have few options here<ol>
+<li>Absolute route - If you prepend the route with a <code>~</code>, then it will be come absolute route, e.g. <code>~/api/patients/my-patients-list</code>, then it could be accessed via <code>http://&lt;BaseUrl&gt;/api/patients/my-patients-list</code></li>
+<li>Named route - if you put a valid values <code>([a-z09-])</code>, then your endpoint will be <code>http://&lt;BaseUrl&gt;/api/&lt;entity-plural&gt;/&lt;route-name&gt;</code>, e.g. <code>http://www.sample.com/api/patients/my-patients</code></li>
+<li>Empty route - When you leave the value blank, it will create an endpoint with the following url <code>http://&lt;BaseUrl&gt;/api/&lt;entity-plural&gt;</code>. <strong>Note-</strong> this option may create a conflict with your <code>ServiceContract</code> Odata endpoint.</li>
+</ol>
+</li>
+</ul>
+<h2 id="filters">Filters</h2>
+<p>Create predicates to your queries, for example you want to create a <code>QueryEndpoint</code> that returns all female patients. Thus your <code>QueryEndpoint</code> should contains a filter for <code>Gender == &quot;Female&quot;</code>.</p>
+<ul>
+<li>Term is the field name you want to Filters</li>
+<li>Operator - how do you want it be evaluated</li>
+<li>Value - You have few options, you can refer to <a href="field.html">Field</a></li>
+</ul></body>
 </html>
