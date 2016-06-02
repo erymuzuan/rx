@@ -6,17 +6,23 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using System;
+using System.ComponentModel.Composition;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Integrations.Adapters.Properties;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
     public partial class SqlServerAdapter : Adapter
     {
+        [JsonIgnore]
+        [ImportMany("SqlColumn", typeof(SqlColumn), AllowRecomposition = true)]
+        public Lazy<SqlColumn, IColumnGeneratorMetadata>[] ColumnGenerators { get; set; }
+
 
         public override string OdataTranslator => "OdataSqlTranslator";
 
@@ -64,6 +70,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         AND s.name = @Schema
         AND o.Name = @Table
         AND t.name <> N'sysname'
+        AND t.is_user_defined= 0
     ORDER 
         BY o.type";
 
@@ -79,7 +86,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 var columns = new ObjectCollection<SqlColumn>();
 
                 var updateCommand = new StringBuilder("UPDATE ");
-                updateCommand.AppendFormat("[{0}].[{1}] SET", this.Schema, table.Name);
+                updateCommand.Append($"[{this.Schema}].[{table.Name}] SET");
 
                 using (var conn = new SqlConnection(ConnectionString))
                 using (var cmd = new SqlCommand(PkSql, conn))
@@ -112,31 +119,28 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                                 WriteTableHeader(reader);
                             }
                             first = false;
-                            var col = new SqlColumn
-                            {
-                                Name = reader.GetString(1),
-                                DataType = reader.GetString(2),
-                                Length = reader.GetInt16(3),
-                                IsNullable = reader.GetBoolean(4),
-                                IsIdentity = reader.GetBoolean(5),
-                                IsComputed = reader.GetBoolean(6)
-                            };
-                            col.IsPrimaryKey = td.PrimaryKeyCollection.Contains(col.Name);
-                            if (null != col.GetClrType())
-                                columns.Add(col);
+                            var mt = ColumnMetadata.Read(reader, td);
+
+                            if (null == this.ColumnGenerators)
+                                ObjectBuilder.ComposeMefCatalog(this);
+                            var scores = (from g in this.ColumnGenerators
+                                          let s = g.Metadata.GetScore(mt)
+                                          where s >= 0
+                                          orderby s descending
+                                          select g).ToList();
+                            var generator = scores.FirstOrDefault();
+                            if (null == generator)
+                                throw new InvalidOperationException($"Cannot find column generator for {mt}");
+                            var col = generator.Value.Initialize(mt);
+
+                            columns.Add(col);
 
                         }
                     }
                 }
 
                 var members = from c in columns
-                              select new SimpleMember
-                              {
-                                  Name = c.Name,
-                                  IsNullable = c.IsNullable,
-                                  IsFilterable = true,
-                                  Type = c.GetClrType()
-                              };
+                              select c.GetMember();
                 td.MemberCollection.AddRange(members);
 
                 if (TableColumns.Any(x => x.Name == table.Name))
@@ -153,9 +157,9 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             }
         }
 
-        private static void WriteTableHeader(SqlDataReader reader)
+        private static void WriteTableHeader(IDataRecord reader)
         {
-            for (int i = 0; i < reader.FieldCount; i++)
+            for (var i = 0; i < reader.FieldCount; i++)
             {
                 Console.Write(Resources.Format15Tab, reader.GetName(i));
             }
@@ -170,7 +174,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         public static readonly string[] ImportDirectives =
         {
                typeof(Entity).Namespace ,
-               typeof(Int32).Namespace ,
+               typeof(int).Namespace ,
                typeof(Task<>).Namespace ,
                typeof(Enumerable).Namespace ,
                typeof(IEnumerable<>).Namespace,
@@ -312,9 +316,6 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         private string GenerateUpdateMethod(TableDefinition table)
         {
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var primaryKeyNames = pks.Select(x => x.Name).ToArray();
-
             var name = table.Name;
             var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
             var code = new StringBuilder();
@@ -324,16 +325,11 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
             code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetUpdateCommand(table));
             code.AppendLine("           {");
-            foreach (var col in columns.Where(c => !c.IsIdentity).Where(c => !c.IsComputed).Where(c => !primaryKeyNames.Contains(c.Name)))
+            foreach (var col in columns.Where(c => c.CanWrite && !c.IsPrimaryKey))
             {
-                var type = col.DataType.GetClrType();
-                if (type == typeof(System.Xml.XmlDocument) && !col.IsNullable)
-                {
-                    code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{col.Name}\", item.{col.Name}.OuterXml);");
-                    continue;
-                }
-                var nullable = col.IsNullable ? ".ToDbNull()" : "";
-                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{col.Name}\", item.{col.Name}{nullable});");
+                var parameterCode = col.GenerateUpdateParameterValue();
+                if (!string.IsNullOrWhiteSpace(parameterCode))
+                    code.AppendLine(parameterCode);
             }
 
             // WHERE clause is in the primary key
@@ -370,7 +366,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         public string GetSelectOneCommand(TableDefinition table)
         {
             var sql = new StringBuilder("SELECT * FROM ");
-            sql.AppendFormat("{0}.{1} ", this.Schema, table);
+            sql.Append($"{this.Schema}.{table} ");
             sql.AppendLine("WHERE ");
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
             var parameters = pks.Select(k => string.Format("[{0}] = @{0}", k.Name));
@@ -469,43 +465,11 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
             var code = new StringBuilder();
-            foreach (var column in columns)
-            {
-                var type = column.GetClrType();
-
-                if (column.IsNullable)
-                {
-                    if (type == typeof(string))
-                    {
-                        code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableString();", column.Name);
-                    }
-                    else if (type == typeof(System.Xml.XmlDocument))
-                    {
-                        code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableXmlDocument();", column.Name);
-                    }
-                    else if (type == typeof(byte[]))
-                    {
-                        code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableByteArray();", column.Name);
-                    }
-                    else
-                    {
-                        code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullable<{1}>();", column.Name, column.GetCSharpType());
-                    }
-                    continue;
-                }
-
-                if (type == typeof(System.Xml.XmlDocument))
-                {
-                    code.AppendLine($@"                         var xml{column.Name} = new System.Xml.XmlDocument();
-                                                                xml{column.Name}.LoadXml((string)reader[""{column.Name}""]);");
-                    code.AppendLine($"                          item.{column.Name} = xml{column.Name};");
-
-                }
-                else
-                {
-                    code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
-                }
-            }
+            var readCodes = from c in columns
+                            let rc = c.GenerateReadCode()
+                            where !string.IsNullOrWhiteSpace(rc)
+                            select rc;
+            code.JoinAndAppendLine(readCodes, "\r\n");
 
             return code.ToString();
         }
@@ -515,7 +479,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(k => string.Format("[{0}] = @{0}", k.Name));
             var sql = new StringBuilder("DELETE FROM ");
-            sql.AppendFormat("[{0}].[{1}] ", this.Schema, table);
+            sql.Append($"[{this.Schema}].[{table}] ");
             sql.AppendLine("WHERE");
             sql.AppendLine(string.Join(" AND ", parameters));
 
@@ -560,10 +524,11 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
             code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetInsertCommand(table));
             code.AppendLine("           {");
-            foreach (var col in columns.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
+            foreach (var col in columns)
             {
-                var nullable = col.IsNullable ? ".ToDbNull()" : "";
-                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", item.{0}{1});", col.Name, nullable);
+                var parameterCode = col.GenerateUpdateParameterValue();
+                if (!string.IsNullOrWhiteSpace(parameterCode))
+                    code.AppendLine(parameterCode);
             }
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
@@ -582,8 +547,8 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             sql.Append($"[{this.Schema}].[{table}] SET ");
 
             var cols = columns
-                .Where(c => !c.IsIdentity)
-                .Where(c => !c.IsComputed)
+                .Where(c => c.CanWrite)
+                .Where(c => !c.IsPrimaryKey)
                 .Select(c => c.Name)
                 .ToArray();
             sql.JoinAndAppendLine(cols, ",\r\n", c => $"[{c}] = @{c}");
@@ -598,17 +563,14 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var sql = new StringBuilder("INSERT INTO ");
             sql.Append($"[{this.Schema}].[{table}] (");
-
-
+            
             var cols = TableColumns.Single(x => x.Name == table.Name).ColumnCollection
-                .Where(c => !c.IsIdentity)
-                .Where(c => !c.IsComputed)
-                .Select(c => c.Name)
+                .Where(c => c.CanWrite)
                 .ToArray();
-            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "[" + c + "]").ToArray()));
+            sql.JoinAndAppendLine(cols, ",\r\n", c => $"[{c.Name}]");
             sql.AppendLine(")");
             sql.AppendLine("VALUES(");
-            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "@" + c).ToArray()));
+            sql.JoinAndAppendLine(cols, ",\r\n", c => $"@{c.Name}");
             sql.AppendLine(")");
 
             return sql.ToString();
