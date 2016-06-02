@@ -48,44 +48,44 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         },
         createTree = function (solution) {
+            if (!solution) {
+                return;
+            }
             if (solution.Exception) {
                 logger.error(solution.Message);
                 app.showMessage(solution.Details, "Error loading your solution",["OK"], { pre: true, alert : { "class" : "danger", "icon" :"warning", "text": solution.Message} });
 
                 return;
             }
+
+            var tree =  $("#solution-explorer-panel").jstree(true);
             if(solution.changedType === "Deleted"){
-                var ref = $("#solution-explorer-panel").jstree(true),
-                    node = ref.get_node($("#" + solution.id)),
-                    deleted = ref.delete_node(node);
-                console.log("Node " + solution.id + " deleted : " + deleted, node);
+                var deletedNode = tree.get_node($("#" + solution.id)),
+                    deleted = tree.delete_node(deletedNode);
+                console.log("Node " + solution.id + " deleted : " + deleted, deletedNode);
             }
             if(solution.changedType === "Created"){
-                var k = solution,
-                    ref = $("#solution-explorer-panel").jstree(true),
-                    parent = ref.get_node($("#" + solution.type)),
+                var parent = tree.get_node($("#" + solution.type)),
                     data =  {
-                        id: k.id,
-                        text: k.text,
-                        url: k.url,
-                        createDialog: k.createDialog,
-                        createdUrl: k.createdUrl,
-                        dialog: k.dialog,
-                        codeEditor: k.codeEditor
+                        id: solution.id,
+                        text: solution.text,
+                        url: solution.url,
+                        createDialog: solution.createDialog,
+                        createdUrl: solution.createdUrl,
+                        dialog: solution.dialog,
+                        codeEditor: solution.codeEditor
                     },
-                    node =  { id : k.id, parent : k.type, icon : k.icon, state: "open", text: k.text, data: data},
-                    itemNode = ref.create_node(parent, node);
+                    nn = { id: solution.id, parent: solution.type, icon: solution.icon, state: "open", text: solution.text, data: data },
+                    itemNode = tree.create_node(parent, nn);
                 console.log("Created new node " + solution.id + " created : ", itemNode);
             }
 
 
             if(solution.changedType === "Changed"){
-                var k = solution,
-                    ref = $("#solution-explorer-panel").jstree(true),
-                    node = ref.get_node($("#" + k.id));
+                var changedNode = tree.get_node($("#" + solution.id));
 
-                ref.rename_node(node, solution.text);
-                console.log("Rename node " + solution.id + " : ", node);
+                tree.rename_node(changedNode, solution.text);
+                console.log("Rename node " + solution.id + " : ", changedNode);
             }
 
             if (!solution.itemCollection) {
