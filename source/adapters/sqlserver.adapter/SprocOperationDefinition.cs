@@ -9,7 +9,6 @@ using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Domain.Codes;
-using Bespoke.Sph.Integrations.Adapters.Properties;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -43,20 +42,20 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
             code.AppendLinf("               var response = new {0}Response();", this.MethodName.ToCsharpIdentitfier());
-            foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
+            foreach (var m in this.ResponseMemberCollection)
             {
-                if (m.Type == typeof(Array))
+                var cm = m as ComplexMember;
+                if (null != cm && cm.AllowMultiple)
                 {
                     code.AppendLinf("               using(var reader = await cmd.ExecuteReaderAsync())");
                     code.AppendLine("               {");
                     code.AppendLine("                   while(await reader.ReadAsync())");
                     code.AppendLine("                   {");
-                    code.AppendLinf("                       var item = new {0}();", m.Name.Replace("Collection", ""));
+                    code.AppendLine($"                       var item = new {cm.TypeName}();");
                     foreach (var rm in m.MemberCollection.OfType<SprocResultMember>())
                     {
 
-                        code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", rm.Name,
-                            rm.Type.ToCSharp());
+                        code.AppendLine($"                       item.{rm.Name} = ({rm.Type.ToCSharp()})reader[\"{rm.Name}\"];");
                     }
                     code.AppendLinf("                       response.{0}.Add(item);", m.Name);
                     code.AppendLine("                   }");
@@ -64,8 +63,9 @@ namespace Bespoke.Sph.Integrations.Adapters
                     continue;
                 }
                 if (m.Name == "@return_value") continue;
-                code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name,
-                    m.Type.ToCSharp());
+                var srm = m as SprocResultMember;
+                if (null != srm)
+                    code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name, srm.Type.ToCSharp());
             }
 
             code.AppendLine("               return response;");
@@ -89,9 +89,8 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public override IEnumerable<Class> GenerateRequestCode()
         {
-
-
-            var @class = new Class { Name = this.Name.ToCsharpIdentitfier() + "Response", BaseClass = nameof(DomainObject), Namespace = CodeNamespace };
+            var @class = new Class { Name = this.Name.ToCsharpIdentitfier() + "Request", BaseClass = nameof(DomainObject), Namespace = CodeNamespace };
+            @class.AddNamespaceImport<DateTime, DomainObject>();
             var sources = new ObjectCollection<Class> { @class };
 
             var properties = from m in this.RequestMemberCollection
@@ -128,18 +127,19 @@ namespace Bespoke.Sph.Integrations.Adapters
         public override IEnumerable<Class> GenerateResponseCode()
         {
             var @class = new Class { Name = this.Name.ToCsharpIdentitfier() + "Response", BaseClass = nameof(DomainObject), Namespace = CodeNamespace };
+            @class.AddNamespaceImport<DateTime, DomainObject>();
             var sources = new ObjectCollection<Class> { @class };
 
-            var properties = from m in this.ResponseMemberCollection.OfType<SprocResultMember>()
+            var properties = from m in this.ResponseMemberCollection
                              select new Property { Code = m.GeneratedCode("   ") };
             @class.PropertyCollection.ClearAndAddRange(properties);
 
 
-            var otherClasses =   this.ResponseMemberCollection
+            var otherClasses = this.ResponseMemberCollection
                             .Select(m => m.GeneratedCustomClass(this.CodeNamespace, m_importDirectives))
                             .SelectMany(x => x.ToArray());
             sources.AddRange(otherClasses);
-            
+
             return sources;
         }
 

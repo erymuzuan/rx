@@ -68,7 +68,7 @@ define(["knockout"], function (ko) {
                             "core": {
                                 "animation": 0,
                                 "check_callback": true,
-                                "themes": { "stripes": true },
+                                "themes": {"stripes": true},
                                 'data': jsTreeData
                             },
                             "contextmenu": {
@@ -217,7 +217,7 @@ define(["knockout"], function (ko) {
                             "core": {
                                 "animation": 0,
                                 "check_callback": true,
-                                "themes": { "stripes": true },
+                                "themes": {"stripes": true},
                                 'data': jsTreeData
                             },
                             "contextmenu": {
@@ -226,14 +226,20 @@ define(["knockout"], function (ko) {
                                         label: "Add result set",
                                         action: function () {
                                             var text = name + "Result1",
-                                                child = new bespoke.sph.domain.ComplexMember({ WebId: system.guid(), AllowMultiple: true, Name: text }),
+                                                child = new bespoke.sph.domain.ComplexMember({
+                                                    WebId: system.guid(),
+                                                    AllowMultiple: true,
+                                                    TypeName: text,
+                                                    Name: text
+                                                }),
                                                 parent = $(element).jstree("get_selected", true),
                                                 mb = parent[0].data,
-                                                newNode = { state: "open", type: "ComplexMember", text: text, data: child };
-
-                                            child.$type = ko.observable("Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter");
-                                            child.SqlDbType = ko.observable();
-
+                                                newNode = {
+                                                    state: "open",
+                                                    type: "ComplexMember",
+                                                    text: text,
+                                                    data: child
+                                                };
 
                                             var ref = $(element).jstree(true),
                                                 sel = ref.get_selected();
@@ -260,15 +266,21 @@ define(["knockout"], function (ko) {
                                         label: "Add record",
                                         action: function () {
                                             var child = {
-                                                WebId: system.guid(),
-                                                $type: "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                                                TypeName: ko.observable("System.String, mscorlib"),
-                                                Name: ko.observable("Member_Name"),
-                                                SqlDbType: ko.observable()
-                                            },
+                                                    $type: "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                                                    WebId: system.guid(),
+                                                    TypeName: ko.observable("System.String, mscorlib"),
+                                                    Name: ko.observable("Member_Name"),
+                                                    SqlDbType: ko.observable(),
+                                                    IsNullable: ko.observable(false)
+                                                },
                                                 parent = $(element).jstree("get_selected", true),
                                                 mb = parent[0].data,
-                                                newNode = { state: "open", type: ko.unwrap(child.TypeName), text: ko.unwrap(child.Name), data: child };
+                                                newNode = {
+                                                    state: "open",
+                                                    type: ko.unwrap(child.TypeName),
+                                                    text: ko.unwrap(child.Name),
+                                                    data: child
+                                                };
 
 
                                             var ref = $(element).jstree(true),
@@ -304,7 +316,7 @@ define(["knockout"], function (ko) {
                                                 parentMember = p.data;
                                             if (parentMember && typeof parentMember.MemberCollection === "function") {
                                                 var child = _(parentMember.MemberCollection()).find(function (v) {
-                                                    return v.WebId() === n.data.WebId();
+                                                    return ko.unwrap(v.WebId) === ko.unwrap(n.data.WebId);
                                                 });
                                                 parentMember.MemberCollection.remove(child);
                                             } else {

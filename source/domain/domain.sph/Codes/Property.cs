@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Bespoke.Sph.Domain.Codes
 {
+    [DebuggerDisplay("{Code}")]
     public class Property
     {
         public Type Type { get; set; }

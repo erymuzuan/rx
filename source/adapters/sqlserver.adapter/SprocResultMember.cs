@@ -1,14 +1,11 @@
-using System;
 using System.Data;
 using Bespoke.Sph.Domain;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class SprocResultMember : Member
+    public class SprocResultMember : SimpleMember
     {
         private SqlDbType m_sqlDbType;
-
         public SqlDbType SqlDbType
         {
             get
@@ -17,20 +14,6 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             set { m_sqlDbType = value; }
         }
-
-        public string TypeName { get; set; }
-        public bool IsNullable { get; set; }
-        [JsonIgnore]
-        public Type Type
-        {
-            get
-            {
-                return Strings.GetType(this.TypeName);
-            }
-            set
-            {
-                this.TypeName = value.GetShortAssemblyQualifiedName();
-            }
-        }
+        
     }
 }

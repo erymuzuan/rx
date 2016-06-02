@@ -327,7 +327,7 @@ order by ORDINAL_POSITION";
 
         [HttpPost]
         [Route("generate")]
-        public async Task<HttpResponseMessage> GenerateAsync([FromBody]SqlServerAdapter adapter)
+        public async Task<HttpResponseMessage> GenerateAsync([JsonBody]SqlServerAdapter adapter)
         {
             if (null == adapter.Tables || 0 == adapter.Tables.Length)
             {

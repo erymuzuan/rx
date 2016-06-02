@@ -98,7 +98,7 @@
                 <input class="form-control" id="member_name2" name="member.name" type="text" required data-bind="value: Name" />
             </div>
 
-            <!-- ko if: $type === 'Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter'-->
+            <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter'-->
             <div class="form-group">
                 <label for="member-type2">Type</label>
                 <select class="form-control" id="member-type2" data-bind="value:TypeName">
@@ -116,6 +116,15 @@
                     <input data-bind="checked: IsNullable" id="member-nullable" type="checkbox" name="IsNullable" />
                     Nullable
                 </label>
+            </div>
+
+            <!-- /ko -->
+
+
+            <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.ComplexMember, domain.sph'-->
+            <div class="form-group">
+                <label for="complex-type-name">Type Name</label>
+                <input class="form-control" id="complex-type-name" name="member.name" type="text" required data-bind="value: TypeName" />
             </div>
 
             <!-- /ko -->

@@ -215,8 +215,10 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
             }
 
-            var code2 = new Class { Name = Name, Namespace = CodeNamespace };
-            code2.AddProperty("      public string ConnectionString{set;get;}");
+            var adapterClass = new Class { Name = Name, Namespace = CodeNamespace };
+            adapterClass.AddNamespaceImport<DateTime, DomainObject, SqlConnection, CommandType>();
+            adapterClass.AddNamespaceImport<Task>();
+            adapterClass.AddProperty("      public string ConnectionString{set;get;}");
 
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
@@ -228,7 +230,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 addedActions.Add(methodName);
 
                 //
-                code2.AddMethod(op.GenerateActionCode(this, methodName));
+                adapterClass.AddMethod(op.GenerateActionCode(this, methodName));
 
                 var requestSources = op.GenerateRequestCode();
                 sources.AddRange(requestSources);
@@ -236,9 +238,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 var responseSources = op.GenerateResponseCode();
                 sources.AddRange(responseSources);
             }
-
-
-
+            sources.Add(adapterClass);
 
             return Task.FromResult(sources.AsEnumerable());
         }
@@ -563,7 +563,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var sql = new StringBuilder("INSERT INTO ");
             sql.Append($"[{this.Schema}].[{table}] (");
-            
+
             var cols = TableColumns.Single(x => x.Name == table.Name).ColumnCollection
                 .Where(c => c.CanWrite)
                 .ToArray();

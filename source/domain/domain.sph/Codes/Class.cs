@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
 namespace Bespoke.Sph.Domain.Codes
 {
+    [DebuggerDisplay("{Name}, Properties:{PropertyCollection.Count}, Methods : {MethodCollection.Count}")]
     public class Class
     {
         public Class()
@@ -43,9 +45,35 @@ namespace Bespoke.Sph.Domain.Codes
 
         public bool IsPartial { get; set; }
 
-        public void AddNamespaceImport(Type type)
+        public void AddNamespaceImport(params Type[] types)
         {
-            this.ImportCollection.Add(type.Namespace);
+            foreach (var type in types)
+            {
+                if (!this.ImportCollection.Contains(type.Name))
+                    this.ImportCollection.Add(type.Namespace);
+            }
+        }
+        public void AddNamespaceImport<T, T2>()
+        {
+            var types = new[] {typeof(T), typeof(T2)};
+            AddNamespaceImport(types);
+        }
+        public void AddNamespaceImport<T, T2, T3>()
+        {
+            var types = new[] {typeof(T), typeof(T2), typeof(T3)};
+            AddNamespaceImport(types);
+        }
+        public void AddNamespaceImport<T, T2, T3, T4>()
+        {
+            var types = new[] {typeof(T), typeof(T2), typeof(T3), typeof(T4)};
+            AddNamespaceImport(types);
+        }
+        public void AddNamespaceImport<T>()
+        {
+            var type = typeof(T);
+            if (!this.ImportCollection.Contains(type.Name))
+                this.ImportCollection.Add(type.Namespace);
+
         }
 
         public string GetCode()
