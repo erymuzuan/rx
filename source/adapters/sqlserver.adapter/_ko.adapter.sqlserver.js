@@ -181,10 +181,12 @@ define(["knockout"], function (ko) {
                 },
                 loadJsTree = function () {
                     jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
+
+                        var icon = ko.unwrap(v.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph" ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(v.TypeName);
                         return {
                             text: v.Name(),
                             state: "open",
-                            type: v.TypeName(),
+                            type: icon,
                             data: v
                         };
                     });
@@ -236,7 +238,7 @@ define(["knockout"], function (ko) {
                                                 mb = parent[0].data,
                                                 newNode = {
                                                     state: "open",
-                                                    type: "ComplexMember",
+                                                    type: ko.unwrap(child.$type),
                                                     text: text,
                                                     data: child
                                                 };
@@ -363,6 +365,9 @@ define(["knockout"], function (ko) {
                                     "icon": "fa fa-building-o"
                                 },
                                 "ComplexMember": {
+                                    "icon": "glyphicon glyphicon-list"
+                                },
+                                "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
                                     "icon": "glyphicon glyphicon-list"
                                 }
                             },
