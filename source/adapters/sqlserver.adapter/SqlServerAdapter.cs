@@ -218,7 +218,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var adapterClass = new Class { Name = Name, Namespace = CodeNamespace };
             adapterClass.AddNamespaceImport<DateTime, DomainObject, SqlConnection, CommandType>();
             adapterClass.AddNamespaceImport<Task>();
-            adapterClass.AddProperty("      public string ConnectionString{set;get;}");
+            adapterClass.AddProperty(this.GenerateConnectionStringProperty());
 
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
