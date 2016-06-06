@@ -8,7 +8,6 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class TableDefinition
     {
-
         [ImportMany(typeof(ControllerAction))]
         [JsonIgnore]
         public ControllerAction[] ActionCodeGenerators { get; set; }
@@ -21,7 +20,7 @@ namespace Bespoke.Sph.Domain.Api
                 throw new Exception($"Cannot compose MEF for {nameof(TableDefinition)}");
 
             var code = new Class { Name = $"{Name}Controller", BaseClass = "BaseApiController", Namespace = CodeNamespace };
-            code.AttributeCollection.Add($"   [RoutePrefix(\"api/{adapter.Id}/{Schema.ToIdFormat()}/{Name.ToIdFormat()}\")]");
+            code.AttributeCollection.Add($"   [RoutePrefix(\"{adapter.RoutePrefix}/{Name.ToIdFormat()}\")]");
             code.ImportCollection.AddRange(ImportDirectives);
 
             var executed = new List<Type>();

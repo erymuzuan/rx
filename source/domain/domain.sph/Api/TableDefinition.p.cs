@@ -4,6 +4,7 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class TableDefinition
     {
+
         public string Schema { get; set; }
 
         public ObjectCollection<TableDefinition> ParentTableCollection { get; } = new ObjectCollection<TableDefinition>();

@@ -222,7 +222,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             adapterClass.AddProperty(this.GenerateConnectionStringProperty());
 
             var webApi = new Class { Name = $"{Name}Controller", BaseClass = "BaseApiController", Namespace = CodeNamespace };
-            webApi.AttributeCollection.Add($@"[RoutePrefix(""api/{Id}"")]");
+            webApi.AttributeCollection.Add($@"[RoutePrefix(""{RoutePrefix}"")]");
             webApi.AddNamespaceImport<DateTime, DomainObject, Task, BaseApiController>();
             webApi.AddNamespaceImport<System.Web.Http.IHttpActionResult>();
 
