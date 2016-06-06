@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Domain.Api
                 throw new Exception($"Cannot compose MEF for {nameof(TableDefinition)}");
 
             var code = new Class { Name = $"{Name}Controller", BaseClass = "BaseApiController", Namespace = CodeNamespace };
-            code.AttributeCollection.Add($"   [RoutePrefix(\"api/{Schema.ToLowerInvariant()}/{Name.ToLowerInvariant()}\")]");
+            code.AttributeCollection.Add($"   [RoutePrefix(\"api/{adapter.Id}/{Schema.ToIdFormat()}/{Name.ToIdFormat()}\")]");
             code.ImportCollection.AddRange(ImportDirectives);
 
             var executed = new List<Type>();
