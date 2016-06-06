@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain.Api
                 select this.GenerateChildListAction(table, adapter, c);
             lines.ToList().ForEach(l => code.AppendLine(l));
 
-            Console.WriteLine("ChildListActionCode for {0} with {1} child tables", table.Name, table.ChildTableCollection.Count);
+            Console.WriteLine($"ChildListActionCode for {table.Name} with {table.ChildTableCollection.Count} child tables");
 
             return code.ToString();
         }
