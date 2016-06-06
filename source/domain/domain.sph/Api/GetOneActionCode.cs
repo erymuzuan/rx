@@ -12,6 +12,7 @@ namespace Bespoke.Sph.Domain.Api
 
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
+            if (table.PrimaryKeyCollection.Count == 0) return null;
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var routeConstraint = pks.Select(m => "{" + m.Name.ToCamelCase() + this.GetRouteConstraint(m) + "}");
             var arguments = pks.Select(m => m.GenerateParameterCode());
@@ -31,9 +32,10 @@ namespace Bespoke.Sph.Domain.Api
             if(null == item)
                 return NotFound();
             var json = JsonConvert.SerializeObject(item);
-            var jo = JObject.Parse(json);
+            // TODO : insert a __links proeprty for hypermedia
+            // var jo = JObject.Parse(json);
             
-            return Json(jo.ToString());
+            return Json(json);
 ", table.Name, string.Join(",", parameters));
             code.AppendLine();
             code.AppendLine("       }");
