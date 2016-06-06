@@ -28,6 +28,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         public List<SqlTable> TableColumns { get; } = new List<SqlTable>();
-        public new ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
+        public override ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
     }
 }

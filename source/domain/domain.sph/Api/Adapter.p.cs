@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain.Api
         [JsonIgnore]
         public virtual string AssemblyName => $"{ConfigurationManager.ApplicationName}.{Name}";
         public ObjectCollection<TableDefinition> TableDefinitionCollection { get; } = new ObjectCollection<TableDefinition>();
-        public ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
+        public virtual ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
 
         [XmlAttribute]
         public string Name { get; set; }

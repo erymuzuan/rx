@@ -589,13 +589,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public override string OdataTranslator => "OdataSqlTranslator";
 
-        public string ConnectionString
-        {
-            get
-            {
-                return $"Server={this.Server};Database={this.Database};Uid={this.UserId};Pwd={this.Password};Allow User Variables=true;Allow Zero Datetime=true;";
-            }
-        }
+        public string ConnectionString => $"Server={this.Server};Database={this.Database};Uid={this.UserId};Pwd={this.Password};Allow User Variables=true;Allow Zero Datetime=true;";
 
         public string Password { get; set; }
         public string UserId { get; set; }
@@ -603,6 +597,6 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public string Database { get; set; }
 
-        public new ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
+        public override ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
     }
 }
