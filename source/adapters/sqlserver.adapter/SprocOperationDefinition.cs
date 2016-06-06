@@ -15,6 +15,23 @@ namespace Bespoke.Sph.Integrations.Adapters
     public class SprocOperationDefinition : OperationDefinition
     {
 
+        public string GenerateApiCode(SqlServerAdapter adapter)
+        {
+            var code = new StringBuilder();
+            var action = this.MethodName.ToCsharpIdentitfier();
+            code.AppendLine("[HttpPost]");
+            code.AppendLine($@"[Route(""{this.MethodName.ToIdFormat()}"")]");
+            code.AppendLine($"public async Task<IHttpActionResult> {action}([FromBody]{action}Request  request)");
+            code.AppendLine("{");
+
+            code.AppendLine($@"
+                                var adapter = new {adapter.Name}();
+                                var response = await adapter.{action}Async(request);
+                                return Ok(response);");
+            code.AppendLine("}");
+            return code.ToString();
+        }
+
         public string GenerateActionCode(SqlServerAdapter adapter, string methodName)
         {
             var code = new StringBuilder();

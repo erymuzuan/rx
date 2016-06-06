@@ -13,6 +13,7 @@ using System.Text;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Integrations.Adapters.Properties;
+using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -220,6 +221,12 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             adapterClass.AddNamespaceImport<Task>();
             adapterClass.AddProperty(this.GenerateConnectionStringProperty());
 
+            var webApi = new Class { Name = $"{Name}Controller", BaseClass = "BaseApiController", Namespace = CodeNamespace };
+            webApi.AttributeCollection.Add($@"[RoutePrefix(""api/{Id}"")]");
+            webApi.AddNamespaceImport<DateTime, DomainObject, Task, BaseApiController>();
+            webApi.AddNamespaceImport<System.Web.Http.IHttpActionResult>();
+
+
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
             {
@@ -228,7 +235,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
                 if (addedActions.Contains(methodName)) continue;
                 addedActions.Add(methodName);
-
+                webApi.AddMethod(op.GenerateApiCode(this));
                 //
                 adapterClass.AddMethod(op.GenerateActionCode(this, methodName));
 
@@ -239,6 +246,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 sources.AddRange(responseSources);
             }
             sources.Add(adapterClass);
+            sources.Add(webApi);
 
             return Task.FromResult(sources.AsEnumerable());
         }
@@ -524,7 +532,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             if (hasSingleIdentityPrimaryKey)
             {
                 code.AppendLine($"       public async Task<{primaryKeyIdentityColumns[0].ClrType.ToCSharp()}> InsertAsync({name} item)");
-                sql +="; SELECT Scope_Identity()";
+                sql += "; SELECT Scope_Identity()";
             }
             else
                 code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
@@ -554,7 +562,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
             code.AppendLine("       }");
 
-            
+
             return code.ToString();
         }
 
@@ -592,7 +600,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             sql.AppendLine("VALUES(");
             sql.JoinAndAppendLine(cols, ",\r\n\t", c => $"@{c.Name}");
             sql.Append(")");
-            
+
 
             return sql.ToString();
 
