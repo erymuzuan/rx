@@ -9,18 +9,24 @@ namespace Bespoke.Sph.Domain.Api
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             var code = new StringBuilder();
+            var url =$@"{{ConfigurationManager.BaseUrl}}/api/{table.Schema}/{table.Name}/{{item.{table.PrimaryKey?.Name}}}";
+            if(null == table.PrimaryKey)
+                url = $@"{{ConfigurationManager.BaseUrl}}/api/{table.Schema}/{table.Name}";
+
             // insert
             code.AppendLine("       [Route(\"\")]");
             code.AppendLinf("       [HttpPost]");
-            code.AppendLinf("       public async Task<HttpResponseMessage> Insert([FromBody]{0} item)", table.Name);
+            code.AppendLinf("       public async Task<IHttpActionResult> Insert([FromBody]{0} item)", table.Name);
             code.AppendLine("       {");
-            code.AppendFormat(@"
+            code.Append(
+                $@"
             if(null == item) throw new ArgumentNullException(""item"");
-            var context = new {0}Adapter();
+            var context = new {table.Name}Adapter();
             await context.InsertAsync(item);
-            var  response = Request.CreateResponse(HttpStatusCode.Accepted,new {{success = true, status=""OK"", item}} );
-            return response;", table.Name);
+            return Created(new Uri($""{url}""), item);
+            ");
             code.AppendLine();
+            
             code.AppendLine("       }");
 
             return code.ToString();

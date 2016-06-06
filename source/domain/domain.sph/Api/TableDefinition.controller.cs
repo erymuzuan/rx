@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Text;
 using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
@@ -21,7 +20,7 @@ namespace Bespoke.Sph.Domain.Api
             if (null == this.ActionCodeGenerators)
                 throw new Exception($"Cannot compose MEF for {nameof(TableDefinition)}");
 
-            var code = new Class { Name = $"{Name}Controller", BaseClass = "ApiController", Namespace = CodeNamespace };
+            var code = new Class { Name = $"{Name}Controller", BaseClass = "BaseApiController", Namespace = CodeNamespace };
             code.AttributeCollection.Add($"   [RoutePrefix(\"api/{Schema.ToLowerInvariant()}/{Name.ToLowerInvariant()}\")]");
             code.ImportCollection.AddRange(ImportDirectives);
 

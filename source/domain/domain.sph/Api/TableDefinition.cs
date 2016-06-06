@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Domain.Api
@@ -39,13 +40,15 @@ namespace Bespoke.Sph.Domain.Api
             typeof(Task<>).Namespace ,
             typeof(Enumerable).Namespace ,
             typeof(JsonConvert).Namespace ,
+            typeof(JObject).Namespace ,
             typeof(CamelCasePropertyNamesContractResolver).Namespace ,
             typeof(StringEnumConverter).Namespace ,
             typeof(XmlAttributeAttribute).Namespace ,
             typeof(MediaTypeFormatter).Namespace,
             "System.Web.Http",
             "System.Net",
-            "System.Net.Http"
+            "System.Net.Http",
+            "Bespoke.Sph.WebApi"
 };
 
 

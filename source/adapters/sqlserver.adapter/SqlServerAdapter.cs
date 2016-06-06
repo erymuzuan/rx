@@ -518,11 +518,22 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var name = table.Name;
             var code = new StringBuilder();
             var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
-            code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
+            var primaryKeyIdentityColumns = columns.Where(x => x.IsPrimaryKey && x.IsIdentity).ToList();
+            var sql = this.GetInsertCommand(table);
+            var hasSingleIdentityPrimaryKey = primaryKeyIdentityColumns.Count == 1;
+            if (hasSingleIdentityPrimaryKey)
+            {
+                code.AppendLine($"       public async Task<{primaryKeyIdentityColumns[0].ClrType.ToCSharp()}> InsertAsync({name} item)");
+                sql +="; SELECT Scope_Identity()";
+            }
+            else
+                code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
+
             code.AppendLine("       {");
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetInsertCommand(table));
+
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", sql);
             code.AppendLine("           {");
             foreach (var col in columns)
             {
@@ -531,10 +542,19 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                     code.AppendLine(parameterCode);
             }
             code.AppendLine("               await conn.OpenAsync();");
-            code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
+            if (hasSingleIdentityPrimaryKey)
+                code.AppendLine($@"
+                var scopeIdentity = await cmd.ExecuteScalarAsync();     
+                item.{primaryKeyIdentityColumns[0].Name} = Convert.To{primaryKeyIdentityColumns[0].ClrType.Name}(scopeIdentity);
+                return item.{primaryKeyIdentityColumns[0].Name};");
+            else
+                code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
+
             code.AppendLine("           }");
 
             code.AppendLine("       }");
+
+            
             return code.ToString();
         }
 
@@ -567,11 +587,12 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var cols = TableColumns.Single(x => x.Name == table.Name).ColumnCollection
                 .Where(c => c.CanWrite)
                 .ToArray();
-            sql.JoinAndAppendLine(cols, ",\r\n", c => $"[{c.Name}]");
+            sql.JoinAndAppendLine(cols, ",\r\n\t", c => $"[{c.Name}]");
             sql.AppendLine(")");
             sql.AppendLine("VALUES(");
-            sql.JoinAndAppendLine(cols, ",\r\n", c => $"@{c.Name}");
-            sql.AppendLine(")");
+            sql.JoinAndAppendLine(cols, ",\r\n\t", c => $"@{c.Name}");
+            sql.Append(")");
+            
 
             return sql.ToString();
 
