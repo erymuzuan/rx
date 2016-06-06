@@ -150,41 +150,51 @@ namespace Bespoke.Sph.Domain
 
         public static string ToIdFormat(this string text)
         {
-            return text.SplitCamelCase().Replace(".", "-")
-                .Replace("_", "-")
-                .Replace(",", "-")
-                .Replace("'", "-")
-                .Replace(";", "-")
-                .Replace(":", "-")
-                .Replace("~", "-")
-                .Replace("`", "-")
-                .Replace("!", "-")
-                .Replace("@", "-")
-                .Replace("#", "-")
-                .Replace("$", "-")
-                .Replace("%", "-")
-                .Replace("^", "-")
-                .Replace("&", "-")
-                .Replace("*", "-")
-                .Replace("(", "-")
-                .Replace(")", "-")
-                .Replace("+", "-")
-                .Replace("=", "-")
-                .Replace("{", "-")
-                .Replace("[", "-")
-                .Replace("}", "-")
-                .Replace("]", "-")
-                .Replace("|", "-")
-                .Replace("\\", "-")
-                .Replace(" ", "-")
-                .Replace("\"", "-")
-                .Replace("/", "-")
-                .Replace("?", "-")
-                .Replace("--", "-")
-                .Replace("--", "-")
-                .Replace("--", "-")
-                .ToLowerInvariant()
-                ;
+            var camel = text.SplitCamelCase();
+            var sb = new StringBuilder(camel);
+            var norms = new[]
+            {
+                ".",
+                "-",
+                "_",
+                ",",
+                "'",
+                ";",
+                ":",
+                "~",
+                "`",
+                "!",
+                "@",
+                "#",
+                "$",
+                "%",
+                "^",
+                "&",
+                "*",
+                "(",
+                ")",
+                "+",
+                "=",
+                "{",
+                "[",
+                "}",
+                "]",
+                "|",
+                "\\",
+                " ",
+                "\"",
+                "/",
+                "?",
+                "--",
+                "--",
+                "--",
+            };
+            foreach (var norm in norms)
+            {
+                sb.Replace(norm, "-");
+            }
+            
+            return sb.ToString().ToLowerInvariant();
         }
 
         public static string ToPascalCase(this string text)
