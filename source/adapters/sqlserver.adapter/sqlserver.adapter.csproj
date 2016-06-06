@@ -66,10 +66,11 @@
     <Compile Include="Columns\ComputedColumn.cs" />
     <Compile Include="Columns\IdentityColumn.cs" />
     <Compile Include="Columns\Int16Column.cs" />
-    <Compile Include="Columns\IntAndSmallIntColumn.cs" />
+    <Compile Include="Columns\Int32Column.cs" />
     <Compile Include="Columns\NonNullableColumn.cs" />
     <Compile Include="Columns\NullableBinaryColumn.cs" />
     <Compile Include="Columns\NullableColumn.cs" />
+    <Compile Include="Columns\NullableInt16Column.cs" />
     <Compile Include="Columns\NullableIntAndSmallIntColumn.cs" />
     <Compile Include="Columns\NullableInt64Column.cs" />
     <Compile Include="Columns\NullableStringColumn.cs" />
