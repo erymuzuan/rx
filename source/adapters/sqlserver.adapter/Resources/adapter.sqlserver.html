@@ -16,9 +16,12 @@
         <div class="form-group">
             <label class="col-sm-3" for="name">Name</label>
             <div class="col-sm-9">
-                <input class="form-control" type="text" id="name" required placeholder="Adapter name" data-bind="value:Name" />
+                <input class="form-control" type="text" id="name" required placeholder="Adapter name"
+                       pattern="^[A-Z][A-Za-z0-9_]*$"
+                       data-bind="value:Name"/>
             </div>
         </div>
+
         <div class="form-group">
             <label class="col-sm-3" for="description">Description</label>
             <div class="col-sm-9">

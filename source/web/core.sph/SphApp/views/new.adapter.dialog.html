@@ -55,9 +55,10 @@
                     <div class="form-group">
                         <label for="adapter-name" class="col-lg-4 control-label">Name</label>
                         <div class="col-lg-8">
-                            <input type="text" data-bind="value: name"
-                                   required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
-                                   placeholder="Adapter name"
+                            <input type="text" data-bind="value: name, tooltip: 'Must be in PascalCase'"
+                                   required pattern="^[A-Z][A-Za-z0-9_]*$"
+                                   placeholder="Adapter name, must be in Pascal case"
+                                   
                                    class="form-control" id="adapter-name">
                         </div>
                     </div>
