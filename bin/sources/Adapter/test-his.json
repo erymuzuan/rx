@@ -17,64 +17,100 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IdentityColumn, sqlserver.adapter",
+              "CanWrite": false,
               "Name": "Id",
-              "IsPrimaryKey": true,
-              "DataType": "int",
+              "SqlType": "Int",
+              "ClrType": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "IsNullable": false,
-              "IsComputed": false,
+              "Length": 4,
               "IsIdentity": true,
-              "Length": 4
-            },
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
-              "Name": "Dob",
-              "IsPrimaryKey": false,
-              "DataType": "smalldatetime",
-              "IsNullable": false,
               "IsComputed": false,
-              "IsIdentity": false,
-              "Length": 4
+              "IsPrimaryKey": true
             },
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
-              "Name": "Income",
-              "IsPrimaryKey": false,
-              "DataType": "decimal",
-              "IsNullable": false,
-              "IsComputed": false,
-              "IsIdentity": false,
-              "Length": 9
-            },
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
+              "ClrType": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "Name": "Name",
-              "IsPrimaryKey": false,
-              "DataType": "varchar",
+              "CanWrite": true,
+              "SqlType": "VarChar",
               "IsNullable": false,
-              "IsComputed": false,
+              "Length": 255,
               "IsIdentity": false,
-              "Length": 255
+              "IsComputed": false,
+              "IsPrimaryKey": false
             },
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
+              "ClrType": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "Name": "Mrn",
-              "IsPrimaryKey": false,
-              "DataType": "varchar",
+              "CanWrite": true,
+              "SqlType": "VarChar",
               "IsNullable": false,
-              "IsComputed": false,
+              "Length": 255,
               "IsIdentity": false,
-              "Length": 255
+              "IsComputed": false,
+              "IsPrimaryKey": false
             },
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
+              "ClrType": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "Name": "Gender",
-              "IsPrimaryKey": false,
-              "DataType": "varchar",
+              "CanWrite": true,
+              "SqlType": "VarChar",
               "IsNullable": false,
-              "IsComputed": false,
+              "Length": 255,
               "IsIdentity": false,
-              "Length": 255
+              "IsComputed": false,
+              "IsPrimaryKey": false
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NonNullableColumn, sqlserver.adapter",
+              "Name": "Income",
+              "CanWrite": true,
+              "SqlType": "Decimal",
+              "ClrType": "System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "IsNullable": false,
+              "Length": 9,
+              "IsIdentity": false,
+              "IsComputed": false,
+              "IsPrimaryKey": false
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NonNullableColumn, sqlserver.adapter",
+              "Name": "Dob",
+              "CanWrite": true,
+              "SqlType": "SmallDateTime",
+              "ClrType": "System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "IsNullable": false,
+              "Length": 4,
+              "IsIdentity": false,
+              "IsComputed": false,
+              "IsPrimaryKey": false
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableIntAndSmallIntColumn, sqlserver.adapter",
+              "ClrType": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "Name": "Age",
+              "CanWrite": true,
+              "SqlType": "SmallInt",
+              "IsNullable": true,
+              "Length": 2,
+              "IsIdentity": false,
+              "IsComputed": false,
+              "IsPrimaryKey": false
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableInt64Column, sqlserver.adapter",
+              "ClrType": "System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "Name": "Nrid",
+              "CanWrite": true,
+              "SqlType": "BigInt",
+              "IsNullable": true,
+              "Length": 8,
+              "IsIdentity": false,
+              "IsComputed": false,
+              "IsPrimaryKey": false
             }
           ]
         }
@@ -86,24 +122,28 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IdentityColumn, sqlserver.adapter",
+              "CanWrite": false,
               "Name": "Id",
-              "IsPrimaryKey": true,
-              "DataType": "int",
+              "SqlType": "Int",
+              "ClrType": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "IsNullable": false,
-              "IsComputed": false,
+              "Length": 4,
               "IsIdentity": true,
-              "Length": 4
+              "IsComputed": false,
+              "IsPrimaryKey": true
             },
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
+              "ClrType": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "Name": "Name",
-              "IsPrimaryKey": false,
-              "DataType": "varchar",
+              "CanWrite": true,
+              "SqlType": "VarChar",
               "IsNullable": false,
-              "IsComputed": false,
+              "Length": 255,
               "IsIdentity": false,
-              "Length": 255
+              "IsComputed": false,
+              "IsPrimaryKey": false
             }
           ]
         }
@@ -115,24 +155,28 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IntAndSmallIntColumn, sqlserver.adapter",
+              "ClrType": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "Name": "PatientId",
-              "IsPrimaryKey": false,
-              "DataType": "int",
+              "CanWrite": true,
+              "SqlType": "Int",
               "IsNullable": false,
-              "IsComputed": false,
+              "Length": 4,
               "IsIdentity": false,
-              "Length": 4
+              "IsComputed": false,
+              "IsPrimaryKey": false
             },
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IntAndSmallIntColumn, sqlserver.adapter",
+              "ClrType": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "Name": "DepartmentId",
-              "IsPrimaryKey": false,
-              "DataType": "int",
+              "CanWrite": true,
+              "SqlType": "Int",
               "IsNullable": false,
-              "IsComputed": false,
+              "Length": 4,
               "IsIdentity": false,
-              "Length": 4
+              "IsComputed": false,
+              "IsPrimaryKey": false
             }
           ]
         }
@@ -141,7 +185,153 @@
   },
   "OperationDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
+        "WebId": "95e463ab-5205-4ea8-9d9d-d5505dfd11ca",
+        "Name": "GetPatientsByGender",
+        "MethodName": "GetPatientsByGender",
+        "IsOneWay": false,
+        "IsEvent": false,
+        "RequestDefinition": null,
+        "ResponseDefinition": "Request",
+        "CodeNamespace": "Bespoke.DevV1.Adapters.TestHIS.Dbo",
+        "RequestMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
+              "MaxLength": 255,
+              "Mode": "In",
+              "SqlType": "varchar",
+              "Position": 1,
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": "@Gender",
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@Gender",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "d940c4cc-2c57-4d59-834a-a3f5f598fc59"
+            }
+          ]
+        },
+        "ResponseMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+              "SqlDbType": "Int",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@return_value",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
+              "EmptyField": "",
+              "TypeName": "GetPatientsByGenderResult1",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": [
+                  {
+                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                    "SqlDbType": "VarChar",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Name",
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "7cd3a38a-df1f-455f-9af0-d932fbb7b782"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                    "SqlDbType": "VarChar",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Mrn",
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "50a474e9-5542-4645-fdbb-baa62fe2c4ed"
+                  }
+                ]
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "GetPatientsByGenderResult1",
+              "AllowMultiple": true,
+              "DefaultValue": null,
+              "WebId": "aa863f08-696d-4a41-873b-6a77b7d2df90"
+            }
+          ]
+        },
+        "Uuid": "95e463ab-5205-4ea8-9d9d-d5505dfd11ca"
+      }
+    ]
   },
   "Tables": {
     "$type": "Bespoke.Sph.Domain.Api.AdapterTable[], domain.sph",
@@ -185,14 +375,13 @@
     ]
   },
   "Schema": "dbo",
-  "CodeNamespace": "DevV1.Adapters.dbo.TestHIS",
   "TableDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
         "Name": "Patient",
-        "CodeNamespace": "DevV1.Adapters.dbo.TestHIS",
+        "CodeNamespace": "Bespoke.DevV1.Adapters.TestHIS.Dbo",
         "ClassAttribute": null,
         "WebId": null,
         "Schema": "dbo",
@@ -208,7 +397,14 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -220,64 +416,19 @@
                 "$values": []
               },
               "Name": "Id",
-              "TypeName": "System.Int32, mscorlib",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+              "TypeName": "System.String, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
               "IsAnalyzed": false,
               "IsFilterable": true,
               "IsExcludeInAll": false,
               "Boost": 0,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "Dob",
-              "TypeName": "System.DateTime, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": true,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-              "FullName": null,
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "Income",
-              "TypeName": "System.Decimal, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": true,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -289,6 +440,12 @@
                 "$values": []
               },
               "Name": "Name",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
               "TypeName": "System.String, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
@@ -296,11 +453,6 @@
               "IsFilterable": true,
               "IsExcludeInAll": false,
               "Boost": 0,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -312,6 +464,12 @@
                 "$values": []
               },
               "Name": "Mrn",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
               "TypeName": "System.String, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
@@ -319,11 +477,6 @@
               "IsFilterable": true,
               "IsExcludeInAll": false,
               "Boost": 0,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -335,20 +488,117 @@
                 "$values": []
               },
               "Name": "Gender",
-              "TypeName": "System.String, mscorlib",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+              "TypeName": "System.Decimal, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
               "IsAnalyzed": false,
               "IsFilterable": true,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Income",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Dob",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Age",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+              "TypeName": "System.Int64, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Nrid",
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
             }
           ]
         },
         "PrimaryKey": {
-          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+          "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+          "TypeName": "System.Int32, mscorlib",
+          "IsNullable": false,
+          "IsNotIndexed": false,
+          "IsAnalyzed": false,
+          "IsFilterable": true,
+          "IsExcludeInAll": false,
+          "Boost": 0,
           "FullName": null,
           "PropertyAttribute": null,
           "MemberCollection": {
@@ -360,13 +610,7 @@
             "$values": []
           },
           "Name": "Id",
-          "TypeName": "System.Int32, mscorlib",
-          "IsNullable": false,
-          "IsNotIndexed": false,
-          "IsAnalyzed": false,
-          "IsFilterable": true,
-          "IsExcludeInAll": false,
-          "Boost": 0,
+          "AllowMultiple": false,
           "DefaultValue": null,
           "WebId": null
         },
@@ -380,7 +624,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
         "Name": "Department",
-        "CodeNamespace": "DevV1.Adapters.dbo.TestHIS",
+        "CodeNamespace": "Bespoke.DevV1.Adapters.TestHIS.Dbo",
         "ClassAttribute": null,
         "WebId": null,
         "Schema": "dbo",
@@ -396,7 +640,14 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -408,18 +659,19 @@
                 "$values": []
               },
               "Name": "Id",
-              "TypeName": "System.Int32, mscorlib",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+              "TypeName": "System.String, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
               "IsAnalyzed": false,
               "IsFilterable": true,
               "IsExcludeInAll": false,
               "Boost": 0,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -431,20 +683,21 @@
                 "$values": []
               },
               "Name": "Name",
-              "TypeName": "System.String, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": true,
-              "IsExcludeInAll": false,
-              "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
             }
           ]
         },
         "PrimaryKey": {
-          "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+          "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+          "TypeName": "System.Int32, mscorlib",
+          "IsNullable": false,
+          "IsNotIndexed": false,
+          "IsAnalyzed": false,
+          "IsFilterable": true,
+          "IsExcludeInAll": false,
+          "Boost": 0,
           "FullName": null,
           "PropertyAttribute": null,
           "MemberCollection": {
@@ -456,13 +709,7 @@
             "$values": []
           },
           "Name": "Id",
-          "TypeName": "System.Int32, mscorlib",
-          "IsNullable": false,
-          "IsNotIndexed": false,
-          "IsAnalyzed": false,
-          "IsFilterable": true,
-          "IsExcludeInAll": false,
-          "Boost": 0,
+          "AllowMultiple": false,
           "DefaultValue": null,
           "WebId": null
         },
@@ -476,7 +723,7 @@
       {
         "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
         "Name": "PatientDepartment",
-        "CodeNamespace": "DevV1.Adapters.dbo.TestHIS",
+        "CodeNamespace": "Bespoke.DevV1.Adapters.TestHIS.Dbo",
         "ClassAttribute": null,
         "WebId": null,
         "Schema": "dbo",
@@ -492,7 +739,14 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": true,
+              "IsExcludeInAll": false,
+              "Boost": 0,
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -504,6 +758,12 @@
                 "$values": []
               },
               "Name": "PatientId",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
               "TypeName": "System.Int32, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
@@ -511,11 +771,6 @@
               "IsFilterable": true,
               "IsExcludeInAll": false,
               "Boost": 0,
-              "DefaultValue": null,
-              "WebId": null
-            },
-            {
-              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -527,13 +782,7 @@
                 "$values": []
               },
               "Name": "DepartmentId",
-              "TypeName": "System.Int32, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": true,
-              "IsExcludeInAll": false,
-              "Boost": 0,
+              "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": null
             }
@@ -553,6 +802,6 @@
   "Id": "test-his",
   "CreatedDate": "2015-10-22T08:23:01.0046044+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-01-01T14:50:20.2680949+08:00",
+  "ChangedDate": "2016-06-07T06:35:55.107934+08:00",
   "WebId": "09ed38d2-5e4f-499b-8cf7-2c9af00d294b"
 }
