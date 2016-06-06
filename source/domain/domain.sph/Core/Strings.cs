@@ -193,7 +193,7 @@ namespace Bespoke.Sph.Domain
             {
                 sb.Replace(norm, "-");
             }
-            
+
             return sb.ToString().ToLowerInvariant();
         }
 
@@ -345,6 +345,12 @@ namespace Bespoke.Sph.Domain
         public static string ToEmptyString(this object value)
         {
             return null == value ? string.Empty : $"{value}";
+        }
+        public static string ToString<T>(this IEnumerable<T> list, string seperator = ",", Func<T, string> projection = null)
+        {
+            if (null == projection)
+                projection = x => $"{x}";
+            return string.Join(seperator, list.Select(projection));
         }
 
         public static DateTime? RegexDateTimeValue(string input, string pattern, string group, params string[] formats)
