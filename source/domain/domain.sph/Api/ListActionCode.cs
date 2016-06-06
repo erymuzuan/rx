@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Domain.Api
                 size,
                 results = lo.ItemCollection.ToArray()
             }};
-            return json;
+            return Ok(json);
             ", adapter.OdataTranslator, table.Name, pk, table.Schema, table.Name.ToLowerInvariant(), table.Schema.ToLowerInvariant());
 
 
