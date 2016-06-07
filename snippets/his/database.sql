@@ -32,6 +32,29 @@ CREATE TABLE [PatientDepartment]
 	,[DepartmentId] INT NOT NULL
 )
 
+
+GO
+CREATE TABLE [dbo].[Ward] (
+    [Id]       UNIQUEIDENTIFIER NOT NULL,
+    [Name]     NVARCHAR (50)    NULL,
+    [Block]    NVARCHAR (50)    NULL,
+    [Capacity] SMALLINT         NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+)
+GO
+
+CREATE TABLE [dbo].[Doctor]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Name] NVARCHAR(50) NULL, 
+    [Designation] NVARCHAR(50) NULL, 
+    [Age] SMALLINT NULL, 
+    [Version] ROWVERSION NOT NULL, 
+    [Department] INT NOT NULL, 
+    CONSTRAINT [FK_Doctor_ToDepartment] FOREIGN KEY ([Department]) REFERENCES [Department]([Id])
+)
+
+
 GO
 CREATE TABLE [dbo].[TransactionQueue] (
     [Id]        INT           IDENTITY (1, 1) NOT NULL,
