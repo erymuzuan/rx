@@ -155,7 +155,7 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Integrations.Adapters.SqlColumn, sqlserver.adapter]], domain.sph",
           "$values": [
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IntAndSmallIntColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.Int32Column, sqlserver.adapter",
               "ClrType": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "Name": "PatientId",
               "CanWrite": true,
@@ -167,7 +167,7 @@
               "IsPrimaryKey": false
             },
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IntAndSmallIntColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.Int32Column, sqlserver.adapter",
               "ClrType": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
               "Name": "DepartmentId",
               "CanWrite": true,
