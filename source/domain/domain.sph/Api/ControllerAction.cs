@@ -11,6 +11,7 @@ namespace Bespoke.Sph.Domain.Api
             var type = sm.Type;
             if (type == typeof(string)) return string.Empty;
             if (type == typeof(short)) return ":int";
+            if (type == typeof(Guid)) return ":guid";
             return ":" + type.ToCSharp();
         }
 
