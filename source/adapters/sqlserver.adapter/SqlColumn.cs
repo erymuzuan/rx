@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public override string ToString()
         {
-            return new ColumnMetadata(this).ToString();
+            return new ColumnMetadata(this) + " // - " + this.GetType().FullName;
         }
     }
 
