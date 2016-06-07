@@ -63,7 +63,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        host: ko.observable("localhost"),
 		        iis: {
 		            excludeStatusCodes: ko.observableArray(["101"]),
-		            excludeWhenContains: ko.observable("/signalr_")
+		            excludeWhenContains: ko.observable("/signalr_;Field.png;IncrementMessages;WriteFragment;BufferType;CompletionExpected;BufferType;No of Buffers;WriteCompletedInline;Action = 0;")
 		        }
 		    }),
 		    filterText = ko.observable("").extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 300 } }),
