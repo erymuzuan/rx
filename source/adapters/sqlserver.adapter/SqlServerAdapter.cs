@@ -582,7 +582,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             sql.JoinAndAppendLine(cols, ",\r\n", c => $"[{c}] = @{c}");
             sql.AppendLine(" WHERE ");
 
-            sql.JoinAndAppendLine(pks, ",", x => $"[{x.Name}] = @{x.Name}");
+            sql.JoinAndAppendLine(pks, "\r\nAND\t\r\n", x => $"[{x.Name}] = @{x.Name}");
 
             return sql.ToString();
 
