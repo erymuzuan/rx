@@ -9,11 +9,11 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     public class NullableTinyIntColumn : SqlColumn
     {
         public override SqlDbType SqlType => SqlDbType.TinyInt;
-        public override Type ClrType => typeof(short);
+        public override Type ClrType => typeof(byte);
 
         public override string GenerateReadCode()
         {
-            return $"item.{this.Name} = reader[\"{this.Name}\"].ReadNullable<short>();";
+            return $"item.{this.Name} = reader[\"{this.Name}\"].ReadNullable<byte>();";
         }
     }
 }

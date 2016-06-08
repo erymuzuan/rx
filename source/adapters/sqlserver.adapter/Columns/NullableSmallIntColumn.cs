@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
 {
     [Export("SqlColumn", typeof(SqlColumn))]
     [ColumnGeneratorMetadata(IncludeTypes = new[] { SqlDbType.SmallInt }, IsNullable = ThreeWayBoolean.True)]
-    public class NullableInt16Column : NullableColumn
+    public class NullableSmallIntColumn : NullableColumn
     {
         public override Type ClrType => typeof(short);
     }

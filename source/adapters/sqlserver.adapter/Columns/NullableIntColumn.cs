@@ -5,8 +5,8 @@ using System.Data;
 namespace Bespoke.Sph.Integrations.Adapters.Columns
 {
     [Export("SqlColumn", typeof(SqlColumn))]
-    [ColumnGeneratorMetadata(IncludeTypes = new[] { SqlDbType.Int }, IsNullable = ThreeWayBoolean.False)]
-    public class Int32Column : NonNullableColumn
+    [ColumnGeneratorMetadata(IncludeTypes = new[] { SqlDbType.Int }, IsNullable = ThreeWayBoolean.True)]
+    public class NullableIntColumn : NullableColumn
     {
         public override Type ClrType => typeof(int);
     }
