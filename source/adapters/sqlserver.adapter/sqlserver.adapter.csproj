@@ -80,6 +80,7 @@
     <Compile Include="Columns\NullableStringColumn.cs" />
     <Compile Include="Columns\NullableTinyIntColumn.cs" />
     <Compile Include="Columns\NullableXmlColumn.cs" />
+    <Compile Include="Columns\RowVersionColumn.cs" />
     <Compile Include="Columns\StringColumn.cs" />
     <Compile Include="Columns\XmlColumn.cs" />
     <Compile Include="IColumnGeneratorMetadata.cs" />
