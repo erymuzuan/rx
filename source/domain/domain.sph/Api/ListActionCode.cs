@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       [Route(\"\")]");
             code.AppendLine("       [HttpGet]");
             code.AppendLinf(
-                "       public async Task<object> List(string filter = null, int page = 1, int size = 40, bool includeTotal = false, string orderby = null)");
+                "       public async Task<IHttpActionResult> List(string filter = null, int page = 1, int size = 40, bool includeTotal = false, string orderby = null)");
             code.AppendLine("       {");
             var pk = table.PrimaryKey == null ? "" : table.PrimaryKey.Name;
             code.Append($@"
