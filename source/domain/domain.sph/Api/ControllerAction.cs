@@ -18,10 +18,13 @@ namespace Bespoke.Sph.Domain.Api
         public virtual string ActionName => string.Empty;
         public virtual bool IsAsync => false;
         public virtual string Route => null;
+        public virtual HypermediaLink GetHypermediaLink(Adapter adapter, TableDefinition table)
+        {
+            return null;
+        }
         public virtual Type ReturnType => typeof(string);
         public abstract string GenerateCode(TableDefinition table, Adapter adapter);
 
-       
 
     }
 }

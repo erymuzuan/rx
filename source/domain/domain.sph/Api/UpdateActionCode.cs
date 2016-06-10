@@ -49,5 +49,20 @@ namespace Bespoke.Sph.Domain.Api
 
             return code.ToString();
         }
+
+
+        public override HypermediaLink GetHypermediaLink(Adapter adapter, TableDefinition table)
+        {
+            if (table.PrimaryKeyCollection.Count == 0) return null;
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var parameters = pks.Select(m => m.Name.ToCamelCase()).ToArray();
+            return new HypermediaLink
+            {
+                Rel = "update",
+                Method = "PUT",
+                Href = $"{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{parameters.ToString("/", x => $"{{{x}}}")}",
+                Description = "Issue an UPDATE command"
+            };
+        }
     }
 }
