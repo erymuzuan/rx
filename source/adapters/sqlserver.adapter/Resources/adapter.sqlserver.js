@@ -204,32 +204,34 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 
 
-                if (ko.unwrap(adapter().Id) && ko.unwrap(adapter().Id) !== "0") {
-                    // check the sproc
-                    _(adapter().OperationDefinitionCollection()).each(function (v) {
-                        var chb = $("input[name=sproc-" + ko.unwrap(v.Name) + "]");
-                        chb.prop("checked", true);
-                    });
+                // check the sproc
+                _(adapter().OperationDefinitionCollection()).each(function (v) {
+                    var chb = $("input[name=sproc-" + ko.unwrap(v.Name) + "]");
+                    chb.prop("checked", true);
+                });
 
-                    // trigger the checks for each selected table
-                    _(adapter().Tables()).each(function (v) {
-                        var chb = $("input[name=table-" + ko.unwrap(v.Name) + "]"),
-                            table = ko.dataFor(chb[0]);
-                        chb.trigger("click");
-                        // do it for the child
-                        var it = setInterval(function () {
-                            if (!table.busy()) {
-                                _(v.ChildRelationCollection()).each(function (ct) {
-                                    console.log("child ", ko.unwrap(ct.Table));
-                                    $("input[name=child-" + ko.unwrap(v.Name) + "-" + ko.unwrap(ct.Table) + "]").trigger("click");
-                                });
-                                clearInterval(it);
-                            }
-                        }, 200);
+                // trigger the checks for each selected table
+                _(adapter().Tables()).each(function (v) {
+                    var chb = $("input[name=table-" + ko.unwrap(v.Name) + "]"),
+                        table = ko.dataFor(chb[0]);
+                    chb.trigger("click");
+                    table.versionColumn(ko.unwrap(v.VersionColumn));
+                    table.modifiedDateColumn(ko.unwrap(v.ModifiedDateColumn));
 
-                    });
-                    adapter().Tables = selectedTables();
-                }
+                    // do it for the child
+                    var it = setInterval(function () {
+                        if (!table.busy()) {
+                            _(v.ChildRelationCollection()).each(function (ct) {
+                                console.log("child ", ko.unwrap(ct.Table));
+                                $("input[name=child-" + ko.unwrap(v.Name) + "-" + ko.unwrap(ct.Table) + "]").trigger("click");
+                            });
+                            clearInterval(it);
+                        }
+                    }, 200);
+
+                });
+                adapter().Tables = selectedTables();
+
 
             },
             generate = function () {
