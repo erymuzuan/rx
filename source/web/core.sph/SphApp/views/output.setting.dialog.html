@@ -32,9 +32,8 @@
                     <h4>IIS</h4>
                     <div class="form-group">
                         <label for="exclude-contains" class="col-lg-2 control-label">Exclude all contains</label>
-                        <div class="col-lg-6">
-                            <input type="text" data-bind="textInput : iis.excludeWhenContains"
-                                   placeholder=";(semicolon) seperated list of words to be filtered out from web server logs"
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="textInput : iis.excludeWhenContains, tooltip:';(semicolon) seperated list of words to be filtered out from web server logs'"
                                    class="form-control" id="exclude-contains">
                         </div>
                     </div>

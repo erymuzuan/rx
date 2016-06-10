@@ -21,6 +21,8 @@ namespace Bespoke.Sph.Domain.Api
         public TableDefinition(AdapterTable table)
         {
             this.Name = table.Name;
+            this.VersionColumn = table.VersionColumn;
+            this.ModifiedDateColumn = table.ModifiedDateColumn;
             var tables = from a in table.ChildRelationCollection
                          select new TableDefinition
                          {
@@ -56,22 +58,24 @@ namespace Bespoke.Sph.Domain.Api
         public IEnumerable<Class> GenerateCode(Adapter adapter)
         {
             var @adapteClass = new Class { Name = Name, BaseClass = nameof(DomainObject), Namespace = this.CodeNamespace };
-            @adapteClass.ImportCollection.Add("System");
-            @adapteClass.ImportCollection.Add("Bespoke.Sph.Domain");
+            @adapteClass.AddNamespaceImport<System.DateTime>();
+            @adapteClass.AddNamespaceImport<DomainObject>();
             var list = new ObjectCollection<Class> { @adapteClass };
 
             if (!string.IsNullOrWhiteSpace(ClassAttribute))
                 @adapteClass.AttributeCollection.Add(ClassAttribute);
-            
+
 
             var pk = "\"\"";
             if (null != this.PrimaryKey)
                 pk = this.PrimaryKey.Name;
             var toString = $"public override string ToString(){{ return \"{Name}:\" + {pk};}}";
-            @adapteClass.MethodCollection.Add(new Method {Code = toString});
+            @adapteClass.MethodCollection.Add(new Method { Code = toString });
 
 
-            var properties = this.MemberCollection.Select(x => new Property {Code = x.GeneratedCode("   ")});
+            var properties = this.MemberCollection.Select(x => new Property { Code = x.GeneratedCode() }).ToList();
+            
+
             @adapteClass.PropertyCollection.AddRange(properties);
 
             var otherClasses = this.MemberCollection.Select(

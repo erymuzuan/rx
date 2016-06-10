@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bespoke.Sph.Domain.Api
 {
-    [Export(typeof (ControllerAction))]
+    [Export(typeof(ControllerAction))]
     public class DeleteActionCode : ControllerAction
     {
         public override string GenerateCode(TableDefinition table, Adapter adapter)
@@ -32,6 +32,21 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine();
             code.AppendLine("       }");
             return code.ToString();
+        }
+
+        public override HypermediaLink GetHypermediaLink(Adapter adapter, TableDefinition table)
+        {
+            if (table.PrimaryKeyCollection.Count == 0) return null;
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var parameters = pks.Select(m => m.Name.ToCamelCase()).ToArray();
+            return new HypermediaLink
+            {
+                Rel = "delete",
+                Method = "DELETE",
+                Href = $"{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{parameters.ToString("/", x => $"{{{x}}}")}",
+                Description = "Issue a DELETE command to your table"
+            };
+
         }
     }
 }

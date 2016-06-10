@@ -33,39 +33,37 @@ namespace Bespoke.Sph.Domain.Api
             var filter =string.Join(" AND ", pks.Select(k => k.Name + " = \" + " + k.Name.ToCamelCase() + "+\""));
 
 
-
-            code.AppendFormat("       [Route(\"{{{0}}}/{1}\")]", string.Join("/", routes), child.Name);
+            code.Append($"       [Route(\"{{{string.Join("/", routes)}}}/{child.Name}\")]");
             code.AppendLine();
-            code.AppendFormat(
-                "       public async Task<object> Get{0}By{1}({2}, int page = 1, int size = 40, bool includeTotal = false)",
-                child.Name, table.Name, string.Join(",",args));
+            code.Append(
+                $"       public async Task<IHttpActionResult> Get{child.Name}By{table.Name}({string.Join(",", args)}, int page = 1, int size = 40, bool includeTotal = false)");
             code.AppendLine("       {");
 
 
-            code.AppendFormat(@"
+            code.Append($@"
            if (size > 200)
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
-            var filter = ""WHERE {5}"";
-            var translator = new {0}<{1}>(null,""{1}"" ){{Schema = ""{2}""}};
-            var sql = ""SELECT * FROM {2}.{1} WHERE {5}"";
+            var filter = ""WHERE {filter}"";
+            var translator = new {adapter.OdataTranslator}<{child.Name}>(null,""{child.Name}"" ){{Schema = ""{child.Schema}""}};
+            var sql = ""SELECT * FROM {child.Schema}.{child.Name} WHERE {filter}"";
             var count = 0;
 
-            var context = new {1}Adapter();
+            var context = new {child.Name}Adapter();
             var nextPageToken = string.Empty;
             var lo = await context.LoadAsync(sql, page, size);
             if (includeTotal || page > 1)
             {{
-                var translator2 = new {0}<{1}>(null, ""{1}""){{Schema = ""{2}""}};
+                var translator2 = new {adapter.OdataTranslator}<{child.Name}>(null, ""{child.Name}""){{Schema = ""{child.Schema}""}};
                 var countSql = translator2.Count(filter);
                 count = await context.ExecuteScalarAsync<int>(countSql);
 
                 if (count >= lo.ItemCollection.Count())
                     nextPageToken = string.Format(
-                        ""/api/{6}/{{0}}/{3}/?includeTotal=true&page={{1}}&size={{2}}"", {7}, page + 1, size);
+                        ""/api/{table.Name}/{{0}}/{child.Name.ToLowerInvariant()}/?includeTotal=true&page={{1}}&size={{2}}"", {string.Join(",", parameters)}, page + 1, size);
             }}
 
-            string previousPageToken = string.Format(""/api/{4}/{3}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page - 1, size);
+            string previousPageToken = string.Format(""/api/{child.Schema.ToLowerInvariant()}/{child.Name.ToLowerInvariant()}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page - 1, size);
             if(page == 1)
                 previousPageToken = null;
             var json = new
@@ -78,10 +76,7 @@ namespace Bespoke.Sph.Domain.Api
                 results = lo.ItemCollection.ToArray()
             }};
             return json;
-            ", adapter.OdataTranslator, child.Name, child.Schema, child.Name.ToLowerInvariant(),
-             child.Schema.ToLowerInvariant(),
-             filter, table.Name,
-             string.Join(",", parameters));
+            ");
 
 
             code.AppendLine();

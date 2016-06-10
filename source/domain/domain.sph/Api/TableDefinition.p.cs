@@ -4,6 +4,7 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class TableDefinition
     {
+
         public string Schema { get; set; }
 
         public ObjectCollection<TableDefinition> ParentTableCollection { get; } = new ObjectCollection<TableDefinition>();
@@ -14,7 +15,6 @@ namespace Bespoke.Sph.Domain.Api
 
         public Member PrimaryKey
         {
-
             get { return this.MemberCollection.FirstOrDefault(a => this.PrimaryKeyCollection.Contains(a.Name)); }
         }
 
@@ -24,5 +24,9 @@ namespace Bespoke.Sph.Domain.Api
         {
             return this.Name;
         }
+
+        public string VersionColumn { get; set; }
+        public string ModifiedDateColumn { get; set; }
+
     }
 }

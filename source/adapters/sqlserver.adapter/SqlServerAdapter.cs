@@ -83,7 +83,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             foreach (var table in this.Tables)
             {
 
-                var td = new TableDefinition { Name = table.Name, Schema = this.Schema };
+                var td = new TableDefinition(table) { Name = table.Name, Schema = this.Schema };
                 var columns = new ObjectCollection<SqlColumn>();
 
                 var updateCommand = new StringBuilder("UPDATE ");
@@ -132,7 +132,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                             var generator = scores.FirstOrDefault();
                             if (null == generator)
                                 throw new InvalidOperationException($"Cannot find column generator for {mt}");
-                            var col = generator.Value.Initialize(mt);
+                            var col = generator.Value.Initialize(mt,td);
 
                             columns.Add(col);
 
@@ -141,7 +141,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 }
 
                 var members = from c in columns
-                              select c.GetMember();
+                              select c.GetMember(td);
                 td.MemberCollection.AddRange(members);
 
                 if (TableColumns.Any(x => x.Name == table.Name))
@@ -222,7 +222,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             adapterClass.AddProperty(this.GenerateConnectionStringProperty());
 
             var webApi = new Class { Name = $"{Name}Controller", BaseClass = "BaseApiController", Namespace = CodeNamespace };
-            webApi.AttributeCollection.Add($@"[RoutePrefix(""api/{Id}"")]");
+            webApi.AttributeCollection.Add($@"[RoutePrefix(""{RoutePrefix}"")]");
             webApi.AddNamespaceImport<DateTime, DomainObject, Task, BaseApiController>();
             webApi.AddNamespaceImport<System.Web.Http.IHttpActionResult>();
 
@@ -582,7 +582,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             sql.JoinAndAppendLine(cols, ",\r\n", c => $"[{c}] = @{c}");
             sql.AppendLine(" WHERE ");
 
-            sql.JoinAndAppendLine(pks, ",", x => $"[{x.Name}] = @{x.Name}");
+            sql.JoinAndAppendLine(pks, "\r\nAND\t\r\n", x => $"[{x.Name}] = @{x.Name}");
 
             return sql.ToString();
 

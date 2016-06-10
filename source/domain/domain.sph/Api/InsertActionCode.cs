@@ -9,9 +9,9 @@ namespace Bespoke.Sph.Domain.Api
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             var code = new StringBuilder();
-            var url =$@"{{ConfigurationManager.BaseUrl}}/api/{table.Schema}/{table.Name}/{{item.{table.PrimaryKey?.Name}}}";
+            var url =$@"{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{{item.{table.PrimaryKey?.Name}}}";
             if(null == table.PrimaryKey)
-                url = $@"{{ConfigurationManager.BaseUrl}}/api/{table.Schema}/{table.Name}";
+                url = $@"{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}";
 
             // insert
             code.AppendLine("       [Route(\"\")]");

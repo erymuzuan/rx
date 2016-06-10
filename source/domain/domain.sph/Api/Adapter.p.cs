@@ -5,6 +5,8 @@ namespace Bespoke.Sph.Domain.Api
 {
     public abstract partial class Adapter : Entity
     {
+        [JsonIgnore]
+        public string RoutePrefix => $"api/{Id}/{Schema.ToIdFormat()}";
         public AdapterTable[] Tables { get; set; }
         public string Schema { get; set; }
         [JsonIgnore]

@@ -58,15 +58,8 @@ namespace Bespoke.Sph.Domain
                 lo = await repos.LoadOneAsync(""{ed.RecordName}"", id);            
             if(null == lo.Source) return NotFound(""Cannot find {ed.Name} with Id/{ed.RecordName}:"" + id);            
 
-            var cacheSetting = setting.ResourceEndpointSetting.CachingSetting;
-            var cache = new CacheMetadata{{Etag = lo.Version ,LastModified = lo.Source.ChangedDate }};
-            cache.NoStore = cacheSetting.NoStore;
-            cache.Public = cacheSetting.CacheControl == ""Public"";
-            cache.Private = cacheSetting.CacheControl == ""Private"";
-            cache.Private = cacheSetting.CacheControl == ""Private"";
-            if(cacheSetting.Expires.HasValue)
-                cache.MaxAge = TimeSpan.FromSeconds(cacheSetting.Expires.Value);
-
+            var cache = new CacheMetadata(lo.Version, lo.Source.ChangedDate, setting.ResourceEndpointSetting.CachingSetting);
+           
             if(modifiedSince.IsMatch(lo.Source.ChangedDate) || etag.IsMatch(lo.Version))
             {{
                 return NotModified(cache);   

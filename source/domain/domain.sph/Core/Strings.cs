@@ -150,41 +150,51 @@ namespace Bespoke.Sph.Domain
 
         public static string ToIdFormat(this string text)
         {
-            return text.SplitCamelCase().Replace(".", "-")
-                .Replace("_", "-")
-                .Replace(",", "-")
-                .Replace("'", "-")
-                .Replace(";", "-")
-                .Replace(":", "-")
-                .Replace("~", "-")
-                .Replace("`", "-")
-                .Replace("!", "-")
-                .Replace("@", "-")
-                .Replace("#", "-")
-                .Replace("$", "-")
-                .Replace("%", "-")
-                .Replace("^", "-")
-                .Replace("&", "-")
-                .Replace("*", "-")
-                .Replace("(", "-")
-                .Replace(")", "-")
-                .Replace("+", "-")
-                .Replace("=", "-")
-                .Replace("{", "-")
-                .Replace("[", "-")
-                .Replace("}", "-")
-                .Replace("]", "-")
-                .Replace("|", "-")
-                .Replace("\\", "-")
-                .Replace(" ", "-")
-                .Replace("\"", "-")
-                .Replace("/", "-")
-                .Replace("?", "-")
-                .Replace("--", "-")
-                .Replace("--", "-")
-                .Replace("--", "-")
-                .ToLowerInvariant()
-                ;
+            var camel = text.SplitCamelCase();
+            var sb = new StringBuilder(camel);
+            var norms = new[]
+            {
+                ".",
+                "-",
+                "_",
+                ",",
+                "'",
+                ";",
+                ":",
+                "~",
+                "`",
+                "!",
+                "@",
+                "#",
+                "$",
+                "%",
+                "^",
+                "&",
+                "*",
+                "(",
+                ")",
+                "+",
+                "=",
+                "{",
+                "[",
+                "}",
+                "]",
+                "|",
+                "\\",
+                " ",
+                "\"",
+                "/",
+                "?",
+                "--",
+                "--",
+                "--",
+            };
+            foreach (var norm in norms)
+            {
+                sb.Replace(norm, "-");
+            }
+
+            return sb.ToString().ToLowerInvariant();
         }
 
         public static string ToPascalCase(this string text)
@@ -192,7 +202,21 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(text)) return string.Empty;
             return string.Join("", text.Split(new[] { '_', ' ', '-', '.', ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Substring(0, 1).ToUpper() + s.Substring(1)).ToArray());
         }
-
+        public static string TimeStampToString(this byte[] tstamp)
+        {
+            var val = GetTimeStampValue(tstamp);
+            return "0x" + val.ToString("X").PadLeft(16, '0');
+        }
+        private static long GetTimeStampValue(byte[] tstamp)
+        {
+            if (tstamp == null || tstamp.Length == 0)
+                throw new ArgumentNullException(nameof(tstamp));
+            var buffer = new byte[tstamp.Length];
+            tstamp.CopyTo(buffer, 0);
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(buffer);
+            return BitConverter.ToInt64(buffer, 0);
+        }
 
         private static IEnumerable<char> ToCamelCaseHelper(this string text)
         {
@@ -335,6 +359,12 @@ namespace Bespoke.Sph.Domain
         public static string ToEmptyString(this object value)
         {
             return null == value ? string.Empty : $"{value}";
+        }
+        public static string ToString<T>(this IEnumerable<T> list, string seperator = ",", Func<T, string> projection = null)
+        {
+            if (null == projection)
+                projection = x => $"{x}";
+            return string.Join(seperator, list.Select(projection));
         }
 
         public static DateTime? RegexDateTimeValue(string input, string pattern, string group, params string[] formats)

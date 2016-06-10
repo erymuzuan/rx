@@ -73,10 +73,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             databaseOptions(databases.databases);
                             var tables = _(result[0].tables).map(function (v) {
                                 return {
-                                    name: v,
+                                    name: v.name,
                                     children: ko.observableArray(),
                                     selectedChildren: ko.observableArray(),
-                                    busy: ko.observable(false)
+                                    busy: ko.observable(false),
+                                    versionColumn: ko.observable(),
+                                    versionColumnOptions: ko.observableArray(v.rowVersionColumnOptions),
+                                    modifiedDateColumn: ko.observable(),
+                                    modifiedDateColumnOptions: ko.observableArray(v.modifiedDateColumnOptions)
                                 };
                             });
                             tableOptions(tables);
@@ -228,8 +232,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 }
 
             },
-
             generate = function () {
+
+                _(ko.unwrap(selectedTables)).each(function (v) {
+                    var opt = _(tableOptions()).find(function (x) {
+                        return ko.unwrap(v.Name) === ko.unwrap(x.name);
+                    });
+                    v.VersionColumn = ko.unwrap(opt.versionColumn);
+                    v.ModifiedDateColumn = ko.unwrap(opt.modifiedDateColumn);
+                });
+                adapter().Tables = selectedTables();
 
                 var data = ko.mapping.toJSON(adapter);
                 isBusy(true);
@@ -248,14 +260,23 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             save = function () {
 
+                // load the table
+                _(ko.unwrap(selectedTables)).each(function (v) {
+                    var opt = _(tableOptions()).find(function (x) {
+                        return ko.unwrap(v.Name) === ko.unwrap(x.name);
+                    });
+                    v.VersionColumn = ko.unwrap(opt.versionColumn);
+                    v.ModifiedDateColumn = ko.unwrap(opt.modifiedDateColumn);
+                });
+                adapter().Tables = selectedTables();
                 var data = ko.mapping.toJSON(adapter);
                 isBusy(true);
+
 
                 return context.put(data, "/adapter/" + ko.unwrap(adapter().Id))
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
-                            adapter().Id(result.id);
                             errors.removeAll();
                             logger.info("Your Sql Server adapter has been saved");
 
@@ -284,6 +305,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
 
                 return tcs.promise();
+            },
+            editTable = function (table) {
+                console.log(table);
             }
         ;
 
@@ -297,6 +321,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             isBusy: isBusy,
             activate: activate,
             attached: attached,
+            editTable: editTable,
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAdapter,

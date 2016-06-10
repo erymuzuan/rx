@@ -5,10 +5,9 @@ using System.Data;
 namespace Bespoke.Sph.Integrations.Adapters.Columns
 {
     [Export("SqlColumn", typeof(SqlColumn))]
-    [ColumnGeneratorMetadata(IncludeTypes = new[] { SqlDbType.TinyInt }, IsNullable = ThreeWayBoolean.False)]
-    public class TinyIntColumn : NonNullableColumn
+    [ColumnGeneratorMetadata(IncludeTypes = new[] { SqlDbType.SmallInt }, IsNullable = ThreeWayBoolean.True)]
+    public class NullableSmallIntColumn : NullableColumn
     {
-        public override SqlDbType SqlType => SqlDbType.TinyInt;
         public override Type ClrType => typeof(short);
     }
 }

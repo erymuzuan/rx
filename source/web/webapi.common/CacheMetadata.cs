@@ -12,6 +12,16 @@ namespace Bespoke.Sph.WebApi
 
         }
 
+        public CacheMetadata(CachingSetting cacheSetting)
+        {
+            this.NoStore = cacheSetting.NoStore;
+            this.Public = cacheSetting.CacheControl == "Public";
+            this.Private = cacheSetting.CacheControl == "Private";
+            this.Private = cacheSetting.CacheControl == "Private";
+            if (cacheSetting.Expires.HasValue)
+                this.MaxAge = TimeSpan.FromSeconds(cacheSetting.Expires.Value);
+        }
+
         public CacheMetadata(string etag, DateTime? lastModifiedDate)
         {
             Etag = etag;
@@ -25,6 +35,8 @@ namespace Bespoke.Sph.WebApi
             this.Public = setting.CacheControl == "Public";
             this.Private = setting.CacheControl == "Private";
             this.Private = setting.CacheControl == "Private";
+            if (setting.Expires.HasValue)
+                this.MaxAge = TimeSpan.FromSeconds(setting.Expires.Value);
 
         }
         public DateTime? LastModified { get; set; }

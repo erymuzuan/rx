@@ -1,7 +1,7 @@
 using System;
 using Bespoke.Sph.Domain;
 using System.Data;
-using System.Text;
+using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -16,6 +16,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         public bool IsIdentity { get; set; }
         public bool IsComputed { get; set; }
         public bool IsPrimaryKey { get; set; }
+        public bool IsVersion { get; set; }
+        public bool IsModifiedDate { get; set; }
 
         public virtual string GenerateUpdateParameterValue(string commandName = "cmd")
         {
@@ -28,15 +30,17 @@ namespace Bespoke.Sph.Integrations.Adapters
             return $"item.{Name} = ({ClrType.ToCSharp()})reader[\"{Name}\"];";
         }
 
-        public virtual Member GetMember()
+        public virtual Member GetMember(TableDefinition td)
         {
             return new ColumnMember(this)
             {
-                Type = this.ClrType
+                Type = this.ClrType,
+                IsVersion = td.VersionColumn == this.Name,
+                IsModifiedDate = td.ModifiedDateColumn == this.Name
             };
         }
 
-        public virtual SqlColumn Initialize(ColumnMetadata mt)
+        public virtual SqlColumn Initialize(ColumnMetadata mt, TableDefinition td)
         {
             var col = this.JsonClone();
             col.Name = mt.Name;
@@ -46,39 +50,18 @@ namespace Bespoke.Sph.Integrations.Adapters
             col.IsComputed = mt.IsComputed;
             col.Length = mt.Length;
             col.IsPrimaryKey = mt.IsPrimaryKey;
+            col.IsVersion = td.VersionColumn == col.Name;
+            col.IsModifiedDate = td.ModifiedDateColumn == col.Name;
 
             return col;
         }
 
         public override string ToString()
         {
-            return new ColumnMetadata(this).ToString();
+            return new ColumnMetadata(this) + " // - " + this.GetType().FullName;
         }
     }
 
-    public class ColumnMember : SimpleMember
-    {
-        private readonly SqlColumn m_column;
-
-        public ColumnMember(){}
-
-        public ColumnMember(SqlColumn column)
-        {
-            m_column = column;
-            Name = column.Name;
-            IsNullable = column.IsNullable;
-            IsFilterable = true;
-        }
-
-        public override string GeneratedCode(string padding = "      ")
-        {
-            var code = new StringBuilder();
-            if (null != m_column)
-                code.AppendLine(padding + $"//{m_column}");
-            code.AppendLine(padding + $"public {this.GetCsharpType()}{this.GetNullable()} {Name} {{ get; set; }}");
-            return code.ToString();
-        }
-    }
     public class SqlTable
     {
         public string Name { get; set; }

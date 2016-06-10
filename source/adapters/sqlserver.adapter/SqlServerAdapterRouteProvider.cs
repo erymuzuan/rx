@@ -8,19 +8,25 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         public string GetEditorViewModel(JsRoute route)
         {
-            if (route.ModuleId == "viewmodels/adapter.sqlserver")
-                return Properties.Resources.SqlServerAdapterJs;
-            if (route.ModuleId == "viewmodels/adapter.sqlserver.sproc")
-                return Properties.Resources.SprocJs;
+            switch (route.ModuleId)
+            {
+                case "viewmodels/adapter.sqlserver":
+                    return Properties.Resources.SqlServerAdapterJs;
+                case "viewmodels/adapter.sqlserver.sproc":
+                    return Properties.Resources.SprocJs;
+            }
             return null;
         }
 
         public string GetEditorView(JsRoute route)
         {
-            if (route.ModuleId == "viewmodels/adapter.sqlserver")
-                return Properties.Resources.SqlServerAdapterHtml;
-            if (route.ModuleId == "viewmodels/adapter.sqlserver.sproc")
-                return Properties.Resources.SprocHtml;
+            switch (route.ModuleId)
+            {
+                case "viewmodels/adapter.sqlserver":
+                    return Properties.Resources.SqlServerAdapterHtml;
+                case "viewmodels/adapter.sqlserver.sproc":
+                    return Properties.Resources.SprocHtml;
+            }
             return null;
         }
 
