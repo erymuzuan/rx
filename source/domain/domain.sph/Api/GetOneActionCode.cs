@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
@@ -61,14 +60,14 @@ var cache = new CacheMetadata(version, item.{table.ModifiedDateColumn});
            ");
             if (version && !modifiedDate)
                 code.Append(
-                    $@"
+                    @"
 var cache = new CacheMetadata(version, null);
            ");
 
             if (!version && modifiedDate)
                 code.Append(
                     $@"
-var cache = new CacheMetadata(null, item.{table.ModifiedDateColumn}.ToString());
+var cache = new CacheMetadata(null, item.{table.ModifiedDateColumn});
            ");
 
 
@@ -81,11 +80,11 @@ var cache = new CacheMetadata(null, item.{table.ModifiedDateColumn}.ToString());
             }}");
             if (version)
                 code.Append(
-                    $@"
+                    @"
             if(etag.IsMatch(version))
-            {{
+            {
                 return NotModified(cache);   
-            }}");
+            }");
 
             if(null == this.ActionCodeGenerators)
                 ObjectBuilder.ComposeMefCatalog(this);

@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain.Api
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
             var translator = new {adapter.OdataTranslator}<{table.Name}>(null,""{table.Name}"" ){{Schema = ""{table.Schema}""}};
-            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? ""{pk} gt 0"" : filter, orderby);
+            var sql = translator.Select(filter, orderby);
             var count = 0;
 
             var context = new {table.Name}Adapter();

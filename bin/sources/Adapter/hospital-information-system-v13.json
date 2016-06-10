@@ -140,7 +140,7 @@
               "IsComputed": false,
               "IsPrimaryKey": false,
               "IsVersion": false,
-              "IsModifiedDate": true
+              "IsModifiedDate": false
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.RowVersionColumn, sqlserver.adapter",
@@ -340,7 +340,7 @@
               "IsComputed": false,
               "IsPrimaryKey": false,
               "IsVersion": false,
-              "IsModifiedDate": false
+              "IsModifiedDate": true
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.RowVersionColumn, sqlserver.adapter",
@@ -372,7 +372,7 @@
         "$type": "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
         "Name": "Patient",
         "VersionColumn": "Version",
-        "ModifiedDateColumn": "ModifiedDate",
+        "ModifiedDateColumn": null,
         "ChildRelationCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
           "$values": []
@@ -400,7 +400,7 @@
         "$type": "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
         "Name": "Ward",
         "VersionColumn": null,
-        "ModifiedDateColumn": null,
+        "ModifiedDateColumn": "ModifiedDate",
         "ChildRelationCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
           "$values": []
@@ -645,7 +645,7 @@
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
               "IsVersion": false,
-              "IsModifiedDate": true,
+              "IsModifiedDate": false,
               "TypeName": "System.DateTime, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
@@ -729,7 +729,7 @@
           ]
         },
         "VersionColumn": "Version",
-        "ModifiedDateColumn": "ModifiedDate"
+        "ModifiedDateColumn": null
       },
       {
         "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
@@ -1093,7 +1093,7 @@
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.ColumnMember, sqlserver.adapter",
               "IsVersion": false,
-              "IsModifiedDate": false,
+              "IsModifiedDate": true,
               "TypeName": "System.DateTime, mscorlib",
               "IsNullable": false,
               "IsNotIndexed": false,
@@ -1177,7 +1177,7 @@
           ]
         },
         "VersionColumn": null,
-        "ModifiedDateColumn": null
+        "ModifiedDateColumn": "ModifiedDate"
       }
     ]
   },
@@ -1187,6 +1187,6 @@
   "Id": "hospital-information-system-v13",
   "CreatedDate": "2016-06-10T06:47:07.7587211+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-10T09:45:23.2154948+08:00",
+  "ChangedDate": "2016-06-10T16:01:41.1207003+08:00",
   "WebId": "8b0e96b4-ce81-43f7-b8e9-e245379a69ff"
 }
