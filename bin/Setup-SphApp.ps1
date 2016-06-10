@@ -155,6 +155,7 @@ Get-ChildItem -Filter *.template -Path .\database\mapping `
 #configs value
 $allConfigs = @("$WorkingCopy\web\web.config"
 , "$WorkingCopy\schedulers\scheduler.delayactivity.exe.config"
+, "$WorkingCopy\schedulers\scheduler.data.import.exe.config"
 , "$WorkingCopy\schedulers\scheduler.workflow.trigger.exe.config"
 , "$WorkingCopy\subscribers.host\workers.console.runner.exe.config"
 , "$WorkingCopy\subscribers.host\workers.windowsservice.runner.exe.config"
