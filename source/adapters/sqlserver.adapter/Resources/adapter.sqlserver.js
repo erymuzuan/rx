@@ -137,15 +137,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     // when children is selected
                     if (typeof table.busy !== "function") {
                         table = ko.dataFor(checkbox.parents("ul")[0]);
-                        var at0 = _(selectedTables()).find(function (v) {
+                        var parent = _(selectedTables()).find(function (v) {
                             return v.Name === table.name;
                         }),
-                            child = ko.dataFor(this);
+                        child = ko.dataFor(this);
                         if (checkbox.is(":checked")) {
-                            at0.ChildRelationCollection.push(child);
+                            parent.ChildRelationCollection.push(child);
                         } else {
-                            var ct = _(at0.ChildRelationCollection()).find(function (v) { return v.Name === child.Name; });
+                            var ct = _(parent.ChildRelationCollection()).find(function (v) { return v.Table === child.Table; });
                             table.selectedChildren.remove(ct);
+                            parent.ChildRelationCollection.remove(ct);
                         }
                         return;
                     }
@@ -201,8 +202,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     }
 
                 });
-
-
 
                 // check the sproc
                 _(adapter().OperationDefinitionCollection()).each(function (v) {
