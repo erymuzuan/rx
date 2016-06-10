@@ -26,7 +26,7 @@ namespace Bespoke.Sph.Domain.Api
         }
 
         public string VersionColumn { get; set; }
-        public string LastModifiedColumn { get; set; }
+        public string ModifiedDateColumn { get; set; }
 
     }
 }

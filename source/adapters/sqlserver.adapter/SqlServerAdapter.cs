@@ -83,7 +83,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             foreach (var table in this.Tables)
             {
 
-                var td = new TableDefinition { Name = table.Name, Schema = this.Schema };
+                var td = new TableDefinition(table) { Name = table.Name, Schema = this.Schema };
                 var columns = new ObjectCollection<SqlColumn>();
 
                 var updateCommand = new StringBuilder("UPDATE ");
@@ -132,7 +132,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                             var generator = scores.FirstOrDefault();
                             if (null == generator)
                                 throw new InvalidOperationException($"Cannot find column generator for {mt}");
-                            var col = generator.Value.Initialize(mt);
+                            var col = generator.Value.Initialize(mt,td);
 
                             columns.Add(col);
 
@@ -141,7 +141,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 }
 
                 var members = from c in columns
-                              select c.GetMember();
+                              select c.GetMember(td);
                 td.MemberCollection.AddRange(members);
 
                 if (TableColumns.Any(x => x.Name == table.Name))

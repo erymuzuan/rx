@@ -202,7 +202,21 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(text)) return string.Empty;
             return string.Join("", text.Split(new[] { '_', ' ', '-', '.', ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Substring(0, 1).ToUpper() + s.Substring(1)).ToArray());
         }
-
+        public static string TimeStampToString(this byte[] tstamp)
+        {
+            var val = GetTimeStampValue(tstamp);
+            return "0x" + val.ToString("X").PadLeft(16, '0');
+        }
+        private static long GetTimeStampValue(byte[] tstamp)
+        {
+            if (tstamp == null || tstamp.Length == 0)
+                throw new ArgumentNullException(nameof(tstamp));
+            var buffer = new byte[tstamp.Length];
+            tstamp.CopyTo(buffer, 0);
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(buffer);
+            return BitConverter.ToInt64(buffer, 0);
+        }
 
         private static IEnumerable<char> ToCamelCaseHelper(this string text)
         {

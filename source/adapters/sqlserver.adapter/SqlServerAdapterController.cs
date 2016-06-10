@@ -12,6 +12,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -79,8 +80,9 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpPost]
         [Route("objects")]
-        public async Task<HttpResponseMessage> GetDatabaseOjectsAsync([FromBody]SqlServerAdapter adapter)
+        public async Task<IHttpActionResult> GetDatabaseOjectsAsync([FromBody]SqlServerAdapter adapter)
         {
+            var vm = new DatabaseObjectsViewModel();
             using (var conn = new SqlConnection(adapter.ConnectionString))
             using (var cmd = new SqlCommand("SELECT schema_id FROM sys.schemas WHERE [name] = @Schema", conn))
             {
@@ -88,7 +90,6 @@ namespace Bespoke.Sph.Integrations.Adapters
                 await conn.OpenAsync();
                 var schemaId = (int)(await cmd.ExecuteScalarAsync());
 
-                var tables = new List<string>();
                 using (var tableCommand = new SqlCommand("SELECT * FROM sys.all_objects WHERE [schema_id] = @schema_id AND [type] = 'U'", conn))
                 {
                     tableCommand.Parameters.AddWithValue("@schema_id", schemaId);
@@ -96,7 +97,40 @@ namespace Bespoke.Sph.Integrations.Adapters
                     {
                         while (await reader.ReadAsync())
                         {
-                            tables.Add(reader.GetString(0));
+                            var table = new DatabaseObjectsViewModel.TableObjectViewModel { Name = reader.GetString(0) };
+                            vm.Add(table);
+                        }
+                    }
+                }
+                using (var columnCommand = new SqlCommand(@"
+SELECT 
+         o.name as 'Table'
+        ,c.name as 'Column'
+        ,t.name as 'Type' 
+    FROM 
+        sys.objects o INNER JOIN sys.all_columns c
+        ON c.object_id = o.object_id
+        INNER JOIN sys.types t 
+        ON c.system_type_id = t.system_type_id
+        INNER JOIN sys.schemas s
+        ON s.schema_id = o.schema_id
+    WHERE 
+        o.type = 'U'
+        AND s.name = @schema
+        AND t.name <> N'sysname'
+        AND t.is_user_defined= 0
+		AND c.is_nullable = 0
+		AND t.name IN ('smalldatetime', 'datetime','datetime2', 'rowversion', 'timestamp')
+    ORDER 
+        BY o.type", conn))
+                {
+                    columnCommand.Parameters.AddWithValue("@schema", adapter.Schema);
+                    using (var reader = await columnCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var table = vm.Tables.SingleOrDefault(x => x.Name == (string)reader["Table"]);
+                            table?.AddColumn((string)reader["Column"], (string)reader["Type"]);
                         }
                     }
                 }
@@ -106,17 +140,16 @@ namespace Bespoke.Sph.Integrations.Adapters
                     spocCommand.Parameters.AddWithValue("@schema_id", schemaId);
                     using (var reader = await spocCommand.ExecuteReaderAsync())
                     {
-                        var sprocs = new List<SprocOperationDefinition>();
                         while (await reader.ReadAsync())
                         {
                             var sp = await this.GetStoreProcedureAsync(adapter, reader.GetString(0));
-                            sprocs.Add(sp);
+                            vm.Add(sp);
                         }
-                        var json = $"{{ \"sprocs\" :[{string.Join(",\r\n", sprocs.Select(x => x.ToJsonString()))}], \"tables\" :[{string.Join(",", tables.Select(x => "\"" + x + "\""))}], \"success\" :true, \"status\" : \"OK\" }}";
-                        var response = new JsonResponseMessage(json);
-                        return response;
+
                     }
                 }
+
+                return Json(vm, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
 
             }
         }
@@ -320,7 +353,7 @@ order by ORDINAL_POSITION";
                 session.Attach(sa);
                 await session.SubmitChanges();
             }
-            
+
 
             return Ok(new { success = true, status = "OK", uuid = operation.Uuid });
         }
@@ -360,5 +393,43 @@ order by ORDINAL_POSITION";
 
 
 
+    }
+
+    public class DatabaseObjectsViewModel
+    {
+        public void Add(SprocOperationDefinition sproc)
+        {
+            this.Sprocs.Add(sproc);
+        }
+        public void Add(TableObjectViewModel table)
+        {
+            this.Tables.Add(table);
+        }
+        public IList<SprocOperationDefinition> Sprocs { get; set; } = new List<SprocOperationDefinition>();
+        public IList<TableObjectViewModel> Tables { get; set; } = new List<TableObjectViewModel>();
+        public class TableObjectViewModel
+        {
+            public string Name { get; set; }
+            public IList<string> RowVersionColumnOptions { get; set; } = new List<string>();
+            public IList<string> ModifiedDateColumnOptions { get; set; } = new List<string>();
+
+            public void AddColumn(string name, string type)
+            {
+                switch (type)
+                {
+                    case "datetime":
+                    case "smalldatetime":
+                    case "datetime2":
+                        this.ModifiedDateColumnOptions.Add(name);
+                        break;
+                    case "rowversion":
+                    case "timestamp":
+                        this.RowVersionColumnOptions.Add(name);
+                        break;
+                    default: throw new Exception($"Column {name} with type {type} is not supported");
+                }
+
+            }
+        }
     }
 }

@@ -1,21 +1,17 @@
-﻿namespace Bespoke.Sph.Domain.Api
+﻿using System.Diagnostics;
+
+namespace Bespoke.Sph.Domain.Api
 {
+    [DebuggerDisplay("{Name} version:{VersionColumn}, modified: {ModifiedDateColumn}")]
     public class AdapterTable
     {
         public string Name { get; set; }
-        private readonly ObjectCollection<TableRelation> m_childRelations = new ObjectCollection<TableRelation>();
-        private readonly ObjectCollection<TableRelation> m_parentRelations = new ObjectCollection<TableRelation>();
+        public string VersionColumn { get; set; }
+        public string ModifiedDateColumn { get; set; }
 
-        public ObjectCollection<TableRelation> ChildRelationCollection
-        {
-            get { return m_childRelations; }
-        }
+        public ObjectCollection<TableRelation> ChildRelationCollection { get; } = new ObjectCollection<TableRelation>();
 
-
-        public ObjectCollection<TableRelation> ParentCollection
-        {
-            get { return m_parentRelations; }
-        }
+        public ObjectCollection<TableRelation> ParentCollection { get; } = new ObjectCollection<TableRelation>();
 
         public override string ToString()
         {

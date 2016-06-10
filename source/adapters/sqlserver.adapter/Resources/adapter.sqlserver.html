@@ -5,41 +5,61 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <i class="fa fa-exclamation"></i>
         <span data-bind="text:Message"></span>
-        
+
     </div>
     <div class="col-md-2"></div>
     <!-- /ko-->
 </div>
 
-<div class="row" >
+<div class="row">
     <div class="col-md-9 col-lg-9">
         <form class="form-horizontal" data-bind="with : adapter">
 
             <h3>Database objects</h3>
 
             <div class="form-group">
-                <label class="col-sm-3 col-lg-3">Tables</label>
-                <div class="col-sm-8 col-lg-8">
-                    <ul data-bind="filter : {path:'li'},foreach :$root.tableOptions" id="table-options-panel" class="nav nav-stacked">
-                        <li>
-                            <label>
-                                <input type="checkbox" data-bind="attr : {'name':'table-' + name}" />
-                                <!-- ko text: name -->
-                                <!-- /ko -->
-                            </label>
-                            <i class="fa fa-spinner fa-spin" data-bind="visible:busy"></i>
-                            <ul data-bind="visible:children().length > 0, foreach :children" class="nav nav-stacked" style="margin-left: 40px">
-                                <li>
-                                    <label>
-                                        <input type="checkbox" data-bind="attr : {'name':'child-' + $parent.name + '-' + Table}" />
-                                        <!-- ko text: Table -->
-                                        <!-- /ko -->
-                                    </label>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+
+                <table id="table-options-panel" class="table table-condensed table-striped table-hover" data-bind="filter: {path: 'label'}">
+                    <thead>
+                        <tr>
+                            <th>Table</th>
+                            <th>Row Version/Timestamp Column</th>
+                            <th>Last Modified Date Column</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach :$root.tableOptions">
+                        <tr>
+                            <td>
+                                <label>
+                                    <input type="checkbox" data-bind="attr : {'name':'table-' + name}" />
+                                    <!-- ko text: name -->
+                                    <!-- /ko --> 
+                                </label>
+                                <i class="fa fa-spinner fa-spin" data-bind="visible:busy"></i>
+                                <ul data-bind="visible:children().length > 0, foreach :children" class="nav nav-stacked" style="margin-left: 40px">
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" data-bind="attr : {'name':'child-' + $parent.name + '-' + Table}" />
+                                            <!-- ko text: Table -->
+                                            <!-- /ko -->
+
+                                        </label>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <select class="form-control" data-bind="value:versionColumn, options:versionColumnOptions, optionsCaption: ''">
+                                    
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" data-bind="value:modifiedDateColumn, options:modifiedDateColumnOptions, optionsCaption: ''"></select></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
             <div class="form-group" data-bind="visible:ko.unwrap($root.sprocOptions).length > 0">
                 <label class="col-sm-3 col-lg-3">Stored Procedures</label>
@@ -47,11 +67,11 @@
                     <ul data-bind="filter : {path:'li'},foreach :$root.sprocOptions" id="sproc-option-panel" class="nav nav-stacked">
                         <li>
                             <label>
-                                <input type="checkbox" data-bind="attr : {'name':'sproc-' + ko.unwrap(Name)}" />
-                                <!-- ko text: Name-->
+                                <input type="checkbox" data-bind="attr : {'name':'sproc-' + ko.unwrap(name)}" />
+                                <!-- ko text: name-->
                                 <!-- /ko -->
                                 &nbsp;
-                                <a href="#sproc-option-panel" data-bind="attr : {'href':'/sph#adapter.sqlserver.sproc/' + ko.unwrap($root.adapter().Id) +'/' + ko.unwrap($root.adapter().Schema) + '.' + ko.unwrap(Name)},
+                                <a href="javascript:;" data-bind="attr : {'href':'/sph#adapter.sqlserver.sproc/' + ko.unwrap($root.adapter().Id) +'/' + ko.unwrap($root.adapter().Schema) + '.' + ko.unwrap(name)},
     visible: ko.unwrap($root.adapter().Id) !== '0'">
                                     <i class="fa fa-edit"></i>
                                 </a>

@@ -65,9 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColumnGeneratorMetadata.cs" />
+    <Compile Include="ColumnMember.cs" />
     <Compile Include="ColumnMetadata.cs" />
     <Compile Include="Columns\BinaryColumn.cs" />
     <Compile Include="Columns\ComputedColumn.cs" />
+    <Compile Include="Columns\DateTimeColumn.cs" />
     <Compile Include="Columns\IdentityColumn.cs" />
     <Compile Include="Columns\IntColumn.cs" />
     <Compile Include="Columns\NonNullableColumn.cs" />
