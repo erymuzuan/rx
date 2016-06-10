@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain.Api
 
             var code = new StringBuilder();
             var lines = from c in table.ChildTableCollection
-                select this.GenerateChildListAction(table, adapter, c);
+                        select this.GenerateChildListAction(table, adapter, c);
             lines.ToList().ForEach(l => code.AppendLine(l));
 
             Console.WriteLine($"ChildListActionCode for {table.Name} with {table.ChildTableCollection.Count} child tables");
@@ -26,12 +26,21 @@ namespace Bespoke.Sph.Domain.Api
 
         private string GenerateChildListAction(TableDefinition table, Adapter adapter, TableDefinition child)
         {
+            if (null == table.PrimaryKey) return string.Empty;
+
+            var parentTable = adapter.Tables.SingleOrDefault(x => x.Name == table.Name);
+            var fk = parentTable?.ChildRelationCollection.SingleOrDefault(x => x.Table == child.Name);
+
+            if (null == fk) return string.Empty;
+
             var code = new StringBuilder();
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(k => k.Name.ToCamelCase()).ToArray();
             var routes = pks.Select(k => k.Name.ToCamelCase() + this.GetRouteConstraint(k));
             var args = pks.Select(k => k.GenerateParameterCode());
-            var filter =string.Join(" AND ", pks.Select(k => k.Name + " = \" + " + k.Name.ToCamelCase() + "+\""));
+
+            var delimiter = (new[]{"int","double", "float", "short","long", "byte", "single", "decimal"}).Contains(table.PrimaryKey.GetMemberTypeName()) ? "" : "'";
+            var filter = $"[{fk.Column}] = {delimiter}{{{table.PrimaryKey.Name.ToCamelCase()}}}{delimiter}";
 
 
             var resources = child.Name.Pluralize().ToIdFormat();
@@ -46,9 +55,9 @@ namespace Bespoke.Sph.Domain.Api
            if (size > 200)
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
-            var filter = ""WHERE {filter}"";
+            var filter = $""WHERE {filter}"";
             var translator = new {adapter.OdataTranslator}<{child.Name}>(null,""{child.Name}"" ){{Schema = ""{table.Schema}""}};
-            var sql = ""SELECT * FROM {child.Schema}.{child.Name} WHERE {filter}"";
+            var sql = $""SELECT * FROM {child.Schema}.{child.Name} WHERE {filter}"";
             var count = 0;
 
             var context = new {child.Name}Adapter();
@@ -61,10 +70,10 @@ namespace Bespoke.Sph.Domain.Api
                 count = await context.ExecuteScalarAsync<int>(countSql);
 
                 if (count >= lo.ItemCollection.Count())
-                    nextPageToken = $""/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{parameters.ToString(",")}/{resources}/?includeTotal=true&page={{page + 1}}&size={{size}}"";
+                    nextPageToken = $""/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{{{parameters.ToString(",")}}}/{resources}/?includeTotal=true&page={{page + 1}}&size={{size}}"";
             }}
 
-            string previousPageToken = $""/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{parameters.ToString(",")}/{resources}/?filer={{filter}}&includeTotal=true&page={{page - 1}}&size={{size}}"";
+            string previousPageToken = $""/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{{{parameters.ToString(",")}}}/{resources}/?filer={{filter}}&includeTotal=true&page={{page - 1}}&size={{size}}"";
             if(page == 1)
                 previousPageToken = null;
             var json = new
