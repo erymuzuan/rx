@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using Humanizer;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -27,16 +28,17 @@ namespace Bespoke.Sph.Domain.Api
         {
             var code = new StringBuilder();
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var parameters = pks.Select(k => k.Name.ToCamelCase());
+            var parameters = pks.Select(k => k.Name.ToCamelCase()).ToArray();
             var routes = pks.Select(k => k.Name.ToCamelCase() + this.GetRouteConstraint(k));
             var args = pks.Select(k => k.GenerateParameterCode());
             var filter =string.Join(" AND ", pks.Select(k => k.Name + " = \" + " + k.Name.ToCamelCase() + "+\""));
 
 
-            code.Append($"       [Route(\"{{{string.Join("/", routes)}}}/{child.Name}\")]");
+            var resources = child.Name.Pluralize().ToIdFormat();
+            code.Append($"       [Route(\"{{{string.Join("/", routes)}}}/{resources}\")]");
             code.AppendLine();
             code.Append(
-                $"       public async Task<IHttpActionResult> Get{child.Name}By{table.Name}({string.Join(",", args)}, int page = 1, int size = 40, bool includeTotal = false)");
+                $"       public async Task<IHttpActionResult> Get{child.Name.Pluralize()}By{table.Name}({string.Join(",", args)}, int page = 1, int size = 40, bool includeTotal = false)");
             code.AppendLine("       {");
 
 
@@ -45,7 +47,7 @@ namespace Bespoke.Sph.Domain.Api
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
             var filter = ""WHERE {filter}"";
-            var translator = new {adapter.OdataTranslator}<{child.Name}>(null,""{child.Name}"" ){{Schema = ""{child.Schema}""}};
+            var translator = new {adapter.OdataTranslator}<{child.Name}>(null,""{child.Name}"" ){{Schema = ""{table.Schema}""}};
             var sql = ""SELECT * FROM {child.Schema}.{child.Name} WHERE {filter}"";
             var count = 0;
 
@@ -54,16 +56,15 @@ namespace Bespoke.Sph.Domain.Api
             var lo = await context.LoadAsync(sql, page, size);
             if (includeTotal || page > 1)
             {{
-                var translator2 = new {adapter.OdataTranslator}<{child.Name}>(null, ""{child.Name}""){{Schema = ""{child.Schema}""}};
+                var translator2 = new {adapter.OdataTranslator}<{child.Name}>(null, ""{child.Name}""){{Schema = ""{table.Schema}""}};
                 var countSql = translator2.Count(filter);
                 count = await context.ExecuteScalarAsync<int>(countSql);
 
                 if (count >= lo.ItemCollection.Count())
-                    nextPageToken = string.Format(
-                        ""/api/{table.Name}/{{0}}/{child.Name.ToLowerInvariant()}/?includeTotal=true&page={{1}}&size={{2}}"", {string.Join(",", parameters)}, page + 1, size);
+                    nextPageToken = $""/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{parameters.ToString(",")}/{resources}/?includeTotal=true&page={{page + 1}}&size={{size}}"";
             }}
 
-            string previousPageToken = string.Format(""/api/{child.Schema.ToLowerInvariant()}/{child.Name.ToLowerInvariant()}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page - 1, size);
+            string previousPageToken = $""/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{parameters.ToString(",")}/{resources}/?filer={{filter}}&includeTotal=true&page={{page - 1}}&size={{size}}"";
             if(page == 1)
                 previousPageToken = null;
             var json = new
@@ -75,7 +76,7 @@ namespace Bespoke.Sph.Domain.Api
                 size,
                 results = lo.ItemCollection.ToArray()
             }};
-            return json;
+            return Json(json);
             ");
 
 
