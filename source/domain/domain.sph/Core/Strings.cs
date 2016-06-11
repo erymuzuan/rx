@@ -510,7 +510,7 @@ namespace Bespoke.Sph.Domain
             if (val == DBNull.Value) return null;
             return (string)val;
         }
-        public static System.Xml.XmlDocument ReadNullableXmlDocument(this object val)
+        public static XmlDocument ReadNullableXmlDocument(this object val)
         {
             if (val == null) return null;
             if (val == DBNull.Value) return null;
