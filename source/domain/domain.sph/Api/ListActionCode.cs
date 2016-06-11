@@ -14,7 +14,6 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLinf(
                 "       public async Task<IHttpActionResult> List(string filter = null, int page = 1, int size = 40, bool includeTotal = false, string orderby = null)");
             code.AppendLine("       {");
-            var pk = table.PrimaryKey == null ? "" : table.PrimaryKey.Name;
             code.Append($@"
            if (size > 200)
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
@@ -25,15 +24,32 @@ namespace Bespoke.Sph.Domain.Api
 
             var context = new {table.Name}Adapter();
             var nextPageToken = string.Empty;
-            var lo = await context.LoadAsync(sql, page, size);
+            
+            var loResult = await Policy.Handle<Exception>()
+	                                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
+	                                .ExecuteAndCaptureAsync(async() => await context.LoadAsync(sql, page, size));
+
+	        if(null != loResult.FinalException)
+		        throw loResult.FinalException;
+            var lo = loResult.Result;
+
+
             if (includeTotal || page > 1)
             {{
                 var translator2 = new {adapter.OdataTranslator}<{table.Name}>(null, ""{table.Name}""){{Schema = ""{table.Schema}""}};
                 var countSql = translator2.Count(filter);
-                count = await context.ExecuteScalarAsync<int>(countSql);
 
-                if (count >= lo.ItemCollection.Count())
+                var countResult = await Policy.Handle<Exception>()
+	                                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
+	                                .ExecuteAndCaptureAsync(async() => await context.ExecuteScalarAsync<int>(countSql));
+
+	            if(null != countResult.FinalException)
+		            throw countResult.FinalException;
+                count = countResult.Result;
+                if (count > lo.ItemCollection.Count())
                     nextPageToken = $""{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/?filter={{filter}}&includeTotal=true&page={{page + 1}}&size={{size}}"";
+                else
+                    nextPageToken = null;
             }}
 
             var previousPageToken = $""{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/?filter={{filter}}&includeTotal=true&page={{page - 1}}&size={{size}}"";
