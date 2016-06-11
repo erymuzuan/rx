@@ -145,10 +145,8 @@ SELECT
                             var sp = await this.GetStoreProcedureAsync(adapter, reader.GetString(0));
                             vm.Add(sp);
                         }
-
                     }
                 }
-
                 return Json(vm, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
 
             }

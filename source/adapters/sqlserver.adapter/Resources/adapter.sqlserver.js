@@ -85,8 +85,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                 };
                             });
                             tableOptions(tables);
-                            sprocOptions(result[0].sprocs);
-
+                            var sprocs = _(result[0].sprocs).map(function (v) {
+                                var sp = {
+                                    $type: "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
+                                    checked: ko.observable(false)
+                                };
+                                return _(sp).extend(v);
+                            });
+                            sprocOptions(sprocs);
                             adapter(b);
 
                             tcs.resolve(true);
@@ -177,7 +183,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     context.post(ko.mapping.toJSON(adapter), "sqlserver-adapter/children/" + table.name)
                         .done(function (result) {
                             _(result.children)
-                                .each(function(v) {
+                                .each(function (v) {
                                     v.checked = ko.observable(false);
                                 });
                             table.children(result.children);
@@ -194,24 +200,49 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     var sproc = ko.dataFor(this),
                         checkbox = $(this);
 
-                    if (checkbox.is(":checked")) {
-                        adapter().OperationDefinitionCollection.push(sproc);
-                    } else {
+                    // remove any matching, duplicate sprocs
+                    var sproc2 = _(adapter().OperationDefinitionCollection()).find(function (v) {
+                        var name1 = ko.unwrap(v.Name) || ko.unwrap(v.name),
+                            name2 = ko.unwrap(sproc.Name) || ko.unwrap(sproc.name);
+                        return name1 === name2;
+                    });
 
-                        var sproc2 = _(adapter().OperationDefinitionCollection()).find(function (v) {
-                            return ko.unwrap(v.Name) === ko.unwrap(sproc.Name);
-                        });
+                    if (checkbox.is(":checked")) {
+                        // fix the @return_value
+                        var return_value = ko.unwrap(sproc.ResponseMemberCollection || sproc.responseMemberCollection)[0],
+                            withType =  _({$type : "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter"})
+                                    .extend(return_value);
+                        if(ko.isObservable(sproc.ResponseMemberCollection)){
+                            sproc.ResponseMemberCollection.replace(return_value, withType);
+                        }
+                        if(sproc.responseMemberCollection){
+                            sproc.responseMemberCollection.splice(0,1, withType);
+                        }
+                        if (!sproc2) {
+                            adapter().OperationDefinitionCollection.push(sproc);
+                        }
+                    } else {
                         if (sproc2) {
                             adapter().OperationDefinitionCollection.remove(sproc2);
                         }
                     }
-
                 });
 
                 // check the sproc
                 _(adapter().OperationDefinitionCollection()).each(function (v) {
-                    var chb = $("input[name=sproc-" + ko.unwrap(v.Name) + "]");
-                    chb.prop("checked", true);
+                    var chb = $("input[name=sproc-" + ko.unwrap(v.Name) + "]"),
+                        findOneInOptions = _(sprocOptions()).find(function(o){
+                                var name1 = ko.unwrap(v.Name) || ko.unwrap(v.name),
+                                    name2 = ko.unwrap(o.Name) || ko.unwrap(o.name);
+                                return name1 === name2;
+
+                        });
+                    // we have to find one that match this sproc in options and replace it,
+                    // just to make sure when user check and uncheck the checkbox, the same object is still there
+                    v.checked = ko.observable(true);
+                    v.name = v.Name;
+                    sprocOptions.replace(findOneInOptions, v);
+                    chb.trigger("click");
                 });
 
                 // trigger the checks for each selected table
