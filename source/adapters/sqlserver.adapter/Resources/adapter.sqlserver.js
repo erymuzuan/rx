@@ -90,6 +90,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                     $type: "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
                                     checked: ko.observable(false)
                                 };
+                                if(v.requestMemberCollection){
+                                   var members =  _(v.requestMemberCollection).map(function(k){
+                                       var bp = {$type : "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter"};
+                                       return _(bp).extend(k);
+                                   });
+                                   v.requestMemberCollection = members;
+                                }
                                 return _(sp).extend(v);
                             });
                             sprocOptions(sprocs);
