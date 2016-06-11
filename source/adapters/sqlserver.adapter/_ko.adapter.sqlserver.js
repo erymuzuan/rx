@@ -403,6 +403,9 @@ define(["knockout"], function (ko) {
                                 "ComplexMember": {
                                     "icon": "glyphicon glyphicon-list"
                                 },
+                                "System.Xml.XmlDocument, System.Xml": {
+                                    "icon": "fa fa-code"
+                                },
                                 "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
                                     "icon": "glyphicon glyphicon-list"
                                 }
