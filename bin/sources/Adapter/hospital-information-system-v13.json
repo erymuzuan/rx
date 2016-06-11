@@ -741,6 +741,81 @@
                     "AllowMultiple": false,
                     "DefaultValue": null,
                     "WebId": "a20d8f37-d2b5-4b39-f7bd-6a614922755f"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                    "SqlDbType": "VarChar",
+                    "TypeName": "System.Byte, mscorlib",
+                    "IsNullable": true,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Age",
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "6a87711d-dba7-4ec8-c522-f0a8b40fe137"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                    "SqlDbType": "VarChar",
+                    "TypeName": "System.Xml.XmlDocument, System.Xml",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Address",
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "691f54dc-8297-4848-bee7-6062a74f3c35"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                    "SqlDbType": "VarChar",
+                    "TypeName": "System.Xml.XmlDocument, System.Xml",
+                    "IsNullable": true,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "AdditionalInfo",
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "648328d4-4d99-4c08-d4d9-a5baf13e645b"
                   }
                 ]
               },
@@ -2092,6 +2167,6 @@
   "Id": "hospital-information-system-v13",
   "CreatedDate": "2016-06-10T06:47:07.7587211+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-12T06:12:37.9437388+08:00",
+  "ChangedDate": "2016-06-12T07:17:45.1370273+08:00",
   "WebId": "8b0e96b4-ce81-43f7-b8e9-e245379a69ff"
 }
