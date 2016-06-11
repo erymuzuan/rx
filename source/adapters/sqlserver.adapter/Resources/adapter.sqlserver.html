@@ -32,29 +32,31 @@
                         <tr>
                             <td>
                                 <label>
-                                    <input type="checkbox" data-bind="attr : {'name':'table-' + name}" />
+                                    <input type="checkbox" data-bind="attr : {'name':'table-' + name}, checked: checked" />
                                     <!-- ko text: name -->
-                                    <!-- /ko --> 
+                                    <!-- /ko -->
                                 </label>
                                 <i class="fa fa-spinner fa-spin" data-bind="visible:busy"></i>
-                                <ul data-bind="visible:children().length > 0, foreach :children" class="nav nav-stacked" style="margin-left: 40px">
-                                    <li>
+                                <ul data-bind="visible:children().length > 0, foreach :children" class="nav nav-stacked" style="margin-left: 40px; margin-top: 10px">
+                                    <li style="height: 35px">
                                         <label>
-                                            <input type="checkbox" data-bind="attr : {'name':'child-' + $parent.name + '-' + Table}" />
+                                            <input type="checkbox" data-bind="attr : {'name':'child-' + $parent.name + '-' + Table}, checked: checked"/>
                                             <!-- ko text: Table -->
                                             <!-- /ko -->
-
                                         </label>
+                                        <select data-bind="enable:checked" class="form-control pull-right" style="width: 90px; display: inline">
+                                            <option value="OneToMany">1 - &infin;</option>
+                                            <option value="OneToOne">1 - 1</option>
+                                        </select>
                                     </li>
                                 </ul>
                             </td>
                             <td>
-                                <select class="form-control" data-bind="value:versionColumn, options:versionColumnOptions, optionsCaption: ''">
-                                    
-                                </select>
+                                <select class="form-control" data-bind="enable:checked, value:versionColumn, options:versionColumnOptions, optionsCaption: ''"></select>
                             </td>
                             <td>
-                                <select class="form-control" data-bind="value:modifiedDateColumn, options:modifiedDateColumnOptions, optionsCaption: ''"></select></td>
+                                <select class="form-control" data-bind="enable:checked, value:modifiedDateColumn, options:modifiedDateColumnOptions, optionsCaption: ''"></select>
+                            </td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -102,75 +104,55 @@
             <div class="tab-content">
                 <div id="general-tab" class="tab-pane active">
 
-                    <form class="form-horizontal" data-bind="with:adapter">
-                        <h3>Adapter property</h3>
+                    <form data-bind="with:adapter">
                         <div class="form-group">
-                            <label class="col-sm-3 col-lg-3" for="name">Name</label>
-                            <div class="col-sm-8 col-lg-8">
-                                <input class="form-control" type="text" id="name" required placeholder="Adapter name"
-                                       pattern="^[A-Z][A-Za-z0-9_]*$"
-                                       data-bind="value:Name" />
-                            </div>
+                            <label for="name">Name</label>
+                            <input class="form-control" type="text" id="name" required placeholder="Adapter name"
+                                   pattern="^[A-Z][A-Za-z0-9_]*$"
+                                   data-bind="value:Name" />
+
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 col-lg-3" for="description">Description</label>
-                            <div class="col-sm-8 col-lg-8">
-                                <textarea class="form-control" type="text" id="description" placeholder="Developers note" data-bind="value: Description"></textarea>
-                            </div>
+                            <label for="description">Description</label>
+                            <textarea class="form-control" type="text" id="description" placeholder="Developers note" data-bind="value: Description"></textarea>
+
                         </div>
 
                     </form>
                 </div>
                 <div id="connection-tab" class="tab-pane">
-                    <form class="form-horizontal" data-bind="with : adapter">
+                    <form data-bind="with : adapter">
                         <div class="form-group">
-                            <label class="col-sm-3 col-lg-3" for="server">Server</label>
-                            <div class="col-sm-8 col-lg-8">
-                                <input class="form-control" type="text" id="server" required placeholder="SQL Server name instance" data-bind="value:Server" />
-                            </div>
+                            <label for="server">Server</label>
+                            <input class="form-control" type="text" id="server" required placeholder="SQL Server name instance" data-bind="value:Server" />
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 col-lg-3" for="trusted">Trusted Connection</label>
-                            <div class="col-sm-8 col-lg-8 checkbox">
-                                <input type="checkbox" id="trusted" placeholder="SQL Server name instance" data-bind="checked:TrustedConnection" />
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class="col-sm-3 col-lg-3" for="userid">UserId</label>
-                            <div class="col-sm-8 col-lg-8">
-                                <input class="form-control" type="text" id="userid" required placeholder="UserId if connection using SQL authentication" data-bind="value:UserId, disable:TrustedConnection " />
-                            </div>
-                        </div>
-
-
-
-                        <div class="form-group">
-                            <label class="col-sm-3 col-lg-3" for="password">Password</label>
-                            <div class="col-sm-8 col-lg-8">
-                                <input class="form-control" type="password" id="password" required placeholder="Password if connection using SQL authentication" data-bind="value:Password, disable:TrustedConnection" />
-                            </div>
-                        </div>
-
-
-
-                        <div class="form-group">
-                            <label class="col-sm-3 col-lg-3" for="database">Database</label>
-                            <div class="col-sm-8 col-lg-8">
-                                <select class="form-control" id="database" required
-                                        data-bind="value:Database, options: $root.databaseOptions, optionsCaption:'[Select a database]'"></select>
-                            </div>
+                            <label for="trusted">Trusted Connection</label>
+                            <input type="checkbox" id="trusted" placeholder="SQL Server name instance" data-bind="checked:TrustedConnection"/>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 col-lg-3" for="schema-option">Schema</label>
-                            <div class="col-sm-8 col-lg-8">
-                                <select class="form-control" id="schema-option" required
-                                        data-bind="value:Schema, options: $root.schemaOptions, optionsCaption:'[Select a schema]'"></select>
-                            </div>
+                            <label for="userid">UserId</label>
+                            <input class="form-control" type="text" id="userid" required placeholder="UserId if connection using SQL authentication" data-bind="value:UserId, disable:TrustedConnection " />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input class="form-control" type="password" id="password" required placeholder="Password if connection using SQL authentication" data-bind="value:Password, disable:TrustedConnection" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="database">Database</label>
+                            <select class="form-control" id="database" required
+                                    data-bind="value:Database, options: $root.databaseOptions, optionsCaption:'[Select a database]'"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="schema-option">Schema</label>
+                            <select class="form-control" id="schema-option" required
+                                    data-bind="value:Schema, options: $root.schemaOptions, optionsCaption:'[Select a schema]'"></select>
                         </div>
 
                     </form>

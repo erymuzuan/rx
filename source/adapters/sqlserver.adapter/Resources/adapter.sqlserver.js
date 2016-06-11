@@ -77,6 +77,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                     children: ko.observableArray(),
                                     selectedChildren: ko.observableArray(),
                                     busy: ko.observable(false),
+                                    checked: ko.observable(false),
                                     versionColumn: ko.observable(),
                                     versionColumnOptions: ko.observableArray(v.rowVersionColumnOptions),
                                     modifiedDateColumn: ko.observable(),
@@ -175,6 +176,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     table.busy(true);
                     context.post(ko.mapping.toJSON(adapter), "sqlserver-adapter/children/" + table.name)
                         .done(function (result) {
+                            _(result.children)
+                                .each(function(v) {
+                                    v.checked = ko.observable(false);
+                                });
                             table.children(result.children);
                             table.busy(false);
                         });
