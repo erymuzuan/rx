@@ -14,9 +14,17 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public class SprocOperationDefinition : OperationDefinition
     {
+        /// <summary>
+        /// When the sproc is safe and idempotent , we could use GET
+        /// </summary>
+        public bool UseHttpGet { get; set; }
 
         public string GenerateApiCode(SqlServerAdapter adapter)
         {
+            if (this.UseHttpGet)
+            {
+                return GenerateGetApiCode(adapter);
+            }
             var code = new StringBuilder();
             var action = this.MethodName.ToCsharpIdentitfier();
             code.AppendLine("[HttpPost]");
@@ -32,10 +40,34 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
+        private string GenerateGetApiCode(SqlServerAdapter adapter)
+        {
+            var code = new StringBuilder();
+            var action = this.MethodName.ToCsharpIdentitfier();
+            var parameters = this.RequestMemberCollection.ToString(", ", x => $@"[FromUri(Name=""{x.Name}"")]" + x.GenerateParameterCode());
+            var routesParamters = this.RequestMemberCollection.ToString("/", x => "{" + x.Name + "}");
+
+            code.AppendLine("[HttpGet]");
+            code.AppendLine($@"[Route(""{this.MethodName.ToIdFormat()}/{routesParamters}"")]");
+            code.AppendLine($"public async Task<IHttpActionResult> {action}({parameters})");
+            code.AppendLine("{");
+
+            code.AppendLine($"   var request = new {action}Request();");
+            var values = this.RequestMemberCollection.ToString("\r\n", x => $"request.{x.Name} = {x.Name.ToCamelCase()};");
+            code.AppendLine(values);
+
+            code.AppendLine($@"
+                                var adapter = new {adapter.Name}();
+                                var response = await adapter.{action}Async(request);
+                                return Ok(response);");
+            code.AppendLine("}");
+            return code.ToString();
+        }
+
         public string GenerateActionCode(SqlServerAdapter adapter, string methodName)
         {
             var code = new StringBuilder();
-            code.AppendLine(CreateMethodCode(adapter));
+            code.AppendLine(CreateMethodCode());
 
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
@@ -92,7 +124,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        private string CreateMethodCode(SqlServerAdapter adapter)
+        private string CreateMethodCode()
         {
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)",
