@@ -101,11 +101,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                     code.AppendLine("                   while(await reader.ReadAsync())");
                     code.AppendLine("                   {");
                     code.AppendLine($"                       var item = new {cm.TypeName}();");
-                    foreach (var rm in m.MemberCollection.OfType<SprocResultMember>())
-                    {
-
-                        code.AppendLine($"                       item.{rm.Name} = ({rm.Type.ToCSharp()})reader[\"{rm.Name}\"];");
-                    }
+                    var readerCodes = m.MemberCollection.OfType<SprocResultMember>()
+                                    .Select(x => x.GenerateReaderCode())
+                                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                                    .ToString("\r\n");
+                    code.AppendLine(readerCodes);
                     code.AppendLinf("                       response.{0}.Add(item);", m.Name);
                     code.AppendLine("                   }");
                     code.AppendLine("               }");
@@ -175,7 +175,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public override IEnumerable<Class> GenerateResponseCode()
         {
-            var @class = new Class { Name = this.Name.ToCsharpIdentitfier() + "Response", BaseClass = nameof(DomainObject), Namespace = CodeNamespace };
+            var @class = new Class { Name = this.Name.ToCsharpIdentitfier() + "Response", Namespace = CodeNamespace };
             @class.AddNamespaceImport<DateTime, DomainObject>();
             var sources = new ObjectCollection<Class> { @class };
 

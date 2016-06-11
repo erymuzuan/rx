@@ -349,12 +349,48 @@ define(["knockout"], function (ko) {
                                     "icon": "glyphicon glyphicon-calendar",
                                     "valid_children": []
                                 },
+                                "System.DateTimeOffset, mscorlib": {
+                                    "icon": "fa fa-hourglass-o",
+                                    "valid_children": []
+                                },
+                                "System.TimeSpan, mscorlib": {
+                                    "icon": "fa fa-clock-o",
+                                    "valid_children": []
+                                },
+                                "System.Int16, mscorlib": {
+                                    "icon": "fa fa-sort-numeric-asc",
+                                    "valid_children": []
+                                },
                                 "System.Int32, mscorlib": {
                                     "icon": "fa fa-sort-numeric-asc",
                                     "valid_children": []
                                 },
+                                "System.Int64, mscorlib": {
+                                    "icon": "fa fa-sort-numeric-asc",
+                                    "valid_children": []
+                                },
+                                "System.Byte, mscorlib": {
+                                    "icon": "fa fa-sort-numeric-asc",
+                                    "valid_children": []
+                                },
+                                "System.Byte[], mscorlib": {
+                                    "icon": "fa fa-picture-o",
+                                    "valid_children": []
+                                },
                                 "System.Decimal, mscorlib": {
                                     "icon": "glyphicon glyphicon-usd",
+                                    "valid_children": []
+                                },
+                                "System.Double, mscorlib": {
+                                    "icon": "fa fa-gg",
+                                    "valid_children": []
+                                },
+                                "System.Guid, mscorlib": {
+                                    "icon": "fa fa-glide",
+                                    "valid_children": []
+                                },
+                                "System.Single, mscorlib": {
+                                    "icon": "fa fa-eur",
                                     "valid_children": []
                                 },
                                 "System.Boolean, mscorlib": {
