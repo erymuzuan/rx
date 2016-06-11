@@ -610,7 +610,154 @@
   },
   "OperationDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
+        "UseHttpGet": true,
+        "WebId": "d2cd90e1-0e54-47d5-a101-e24dffb9b4ce",
+        "Name": "GetPatientsByGender",
+        "MethodName": "GetPatientsByGender",
+        "IsOneWay": false,
+        "IsEvent": false,
+        "RequestDefinition": null,
+        "ResponseDefinition": "Request",
+        "CodeNamespace": "Bespoke.DevV1.Adapters.HospitalInformationSystemV13.Dbo",
+        "RequestMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
+              "MaxLength": 255,
+              "Mode": "In",
+              "SqlType": "varchar",
+              "Position": 1,
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": "@Gender",
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@Gender",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "6b013bb3-e907-42ae-9b4a-501d447ab16f"
+            }
+          ]
+        },
+        "ResponseMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+              "SqlDbType": "Int",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@return_value",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
+              "EmptyField": "",
+              "TypeName": "GetPatientsByGenderResult1",
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": [
+                  {
+                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                    "SqlDbType": "VarChar",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Mrn",
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "8e6f72e5-d986-494a-d7d0-e87557f87c95"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                    "SqlDbType": "VarChar",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Name",
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "a20d8f37-d2b5-4b39-f7bd-6a614922755f"
+                  }
+                ]
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "GetPatientsByGenderResult1",
+              "AllowMultiple": true,
+              "DefaultValue": null,
+              "WebId": "e196bb06-faef-42b8-d4d2-8b374d97b001"
+            }
+          ]
+        },
+        "Uuid": "d2cd90e1-0e54-47d5-a101-e24dffb9b4ce"
+      }
+    ]
   },
   "Tables": {
     "$type": "Bespoke.Sph.Domain.Api.AdapterTable[], domain.sph",
@@ -664,15 +811,7 @@
         "ModifiedDateColumn": "ModifiedDate",
         "ChildRelationCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
-              "Table": "Doctor",
-              "Constraint": "FK_Doctor_ToDepartment",
-              "Column": "Department",
-              "ForeignColumn": "Id"
-            }
-          ]
+          "$values": []
         },
         "ParentCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
@@ -1799,35 +1938,7 @@
         },
         "ChildTableCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
-              "Name": "Doctor",
-              "CodeNamespace": null,
-              "ClassAttribute": null,
-              "WebId": null,
-              "Schema": null,
-              "ParentTableCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "ChildTableCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "PrimaryKey": null,
-              "PrimaryKeyCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-                "$values": []
-              },
-              "VersionColumn": null,
-              "ModifiedDateColumn": null
-            }
-          ]
+          "$values": []
         },
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -1981,6 +2092,6 @@
   "Id": "hospital-information-system-v13",
   "CreatedDate": "2016-06-10T06:47:07.7587211+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-11T08:57:02.6889993+08:00",
+  "ChangedDate": "2016-06-12T06:12:37.9437388+08:00",
   "WebId": "8b0e96b4-ce81-43f7-b8e9-e245379a69ff"
 }
