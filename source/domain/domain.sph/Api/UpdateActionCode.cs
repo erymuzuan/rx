@@ -34,14 +34,19 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       {");
             code.AppendLine(
                 $@"
-            if(null == item) throw new ArgumentNullException(""item"");
-            var context = new {table
-                    .Name}Adapter();
-            var exist = await context.LoadOneAsync({string.Join(",", parameters)});
+            if(null == item) throw new ArgumentNullException(nameof(item));
+            var context = new {table.Name}Adapter();
+            var loadResult = await Policy.Handle<Exception>()
+	                    .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
+	                    .ExecuteAndCaptureAsync(async() => await context.LoadOneAsync({parameters.ToString(",")}));
 
+	        if(null != loadResult.FinalException)
+		        throw loadResult.FinalException;
+
+            var exist = loadResult.Result;
             if(null == exist)
                 return NotFound();");
-
+            
             if (version)
             {
                 code.Append(
@@ -69,8 +74,12 @@ namespace Bespoke.Sph.Domain.Api
             }
 
             code.AppendLine($@"
+            var result = await Policy.Handle<Exception>()
+	                                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
+	                                .ExecuteAndCaptureAsync(async() => await context.UpdateAsync(item));
 
-            await context.UpdateAsync(item);
+	        if(null != result.FinalException)
+		        throw result.FinalException;
 
             return Ok();");
             code.AppendLine("       }");

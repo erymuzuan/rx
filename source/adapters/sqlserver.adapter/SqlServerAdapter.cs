@@ -327,7 +327,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var name = table.Name;
             var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<object> UpdateAsync({0} item)", name);
+            code.AppendLinf("       public async Task<int> UpdateAsync({0} item)", name);
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
@@ -535,7 +535,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 sql += "; SELECT Scope_Identity()";
             }
             else
-                code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
+                code.AppendLinf("       public async Task<int> InsertAsync({0} item)", name);
 
             code.AppendLine("       {");
 

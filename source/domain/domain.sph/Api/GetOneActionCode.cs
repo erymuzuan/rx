@@ -41,8 +41,14 @@ namespace Bespoke.Sph.Domain.Api
             code.Append(
                 $@"
             var context = new {table.Name}Adapter();
-            var item = await context.LoadOneAsync({string
-                    .Join(",", parameters)});
+	        var result = await Policy.Handle<Exception>()
+	                                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
+	                                .ExecuteAndCaptureAsync(async() => await context.LoadOneAsync({parameters.ToString(",")}) );
+
+	        if(null != result.FinalException)
+		        throw result.FinalException;
+
+            var item = result.Result;
 
             if(null == item)
                 return NotFound();

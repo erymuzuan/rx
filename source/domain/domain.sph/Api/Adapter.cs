@@ -117,6 +117,7 @@ namespace Bespoke.Sph.Domain.Api
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
             options.AddReference(typeof(System.Data.UpdateStatus));
+            options.AddReference(typeof(Polly.PolicyResult));
             options.AddReference(typeof(System.Configuration.ConfigurationManager));
 
             var sourceFolder = $"{ConfigurationManager.GeneratedSourceDirectory}\\Adapter.{Name}";
