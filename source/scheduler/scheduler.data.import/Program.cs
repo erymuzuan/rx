@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Colorful;
+using Humanizer;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json.Linq;
 using Console = Colorful.Console;
@@ -205,10 +206,18 @@ namespace scheduler.data.import
             var @from = ConfigurationManager.AppSettings["EmailFrom"] ?? "data-transfer-scheduler@bespoke.com.my";
             var to = ConfigurationManager.AppSettings["EmailTo"] ?? "admin@bespoke.com.my";
             var subject = $"Data transfer was successful - {id}";
-            var body = $@"
-Your scheduled data transfer was successfuly executed on {DateTime.Now}";
+            var body = new StringBuilder();
+            body.Append($@"
+Your scheduled data transfer was successfuly executed on {DateTime.Now}");
+            body.AppendLine();
+            body.AppendLine();
 
-            await smtp.SendMailAsync(@from, to, subject, body);
+            var errors = Directory.GetFiles($"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{id}", "*.error");
+            body.AppendLine($" There are {"row".ToQuantity(errors.Length)} that were not successfully transformed and transfered.");
+            body.AppendLine();
+            body.AppendLine($" You can modify and resubmit the data at {ConfigurationManager.BaseUrl}/sph#data.import/{id}");
+
+            await smtp.SendMailAsync(@from, to, subject, body.ToString());
         }
 
         private static async Task NotifyErrorAsync(Exception exception, string id)
