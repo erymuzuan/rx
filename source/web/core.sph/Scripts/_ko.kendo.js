@@ -590,6 +590,7 @@ ko.bindingHandlers.field = {
     init: function () {
     }
 };
+
 ko.bindingHandlers.unwrapClick = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var action = valueAccessor(),
@@ -664,8 +665,6 @@ ko.bindingHandlers.stringArrayAutoComplete = {
 
 };
 
-
-
 ko.bindingHandlers.pathAutoComplete = {
     init: function (element, valueAccessor) {
         var command = valueAccessor();
@@ -739,27 +738,62 @@ ko.bindingHandlers.pathAutoComplete = {
 
 ko.bindingHandlers.commandWithParameter = {
     init: function (element, valueAccessor) {
-        var command = valueAccessor();
-        var callback = command.command;
-        var parameter = command.parameter || command.commandParameter;
+        var command = valueAccessor(),
+            callback = command.command,
+            parameter = command.parameter || command.commandParameter,
+            button = $(element),
+            inputValue = button.dataval();
 
-        var button = $(element);
-        var completeText = button.data("complete-text") || button.html();
+            
+        var $spinner = $("<i class='fa fa-spin fa-circle-o-notch'></i>").hide(),
+            $warning = $("<i class='fa fa-warning' style='color:red'></i>").hide();
+        button.append($spinner);
+        button.append($warning);
+
         button.click(function (e) {
             e.preventDefault();
-            callback(parameter)
-                .then(function () {
-                    button.button("complete");
-                    if (button.get(0).tagName === "BUTTON" || button.get(0).tagName === "A") {
-                        button.html(completeText);
-                    } else {
-                        button.val(completeText);
-                    }
+               if (this.form) {
+                if (!this.form.checkValidity()) return;
+            }
+            $spinner.show();
+            $warning.hide();
 
+            callback(parameter)
+                .fail(function (err, o, message) {
+                    button
+                       .button("complete")
+                       .prop("disabled", false)
+                       .val(inputValue)
+                       .removeClass("btn-disabled");
+                    $spinner.hide();
+                    $warning.show();
+                    if (err.status === 404) {
+                        logger.error(message);
+                        logger.error(err.statusText);
+                        return;
+                    }
+                    if (err.responseText) {
+                        logger.error(err.responseText);
+                        console.error(err.responseText);
+                    }
+                    if (err.responseJSON) {
+                        logger.error(JSON.stringify(err.responseJSON));
+                        console.error(err.responseJson);
+                    }
+                })
+                .done(function () {
+                    button
+                        .button("complete")
+                        .prop("disabled", false)
+                        .val(inputValue)
+                        .removeClass("btn-disabled");
+                    $spinner.hide();
                 });
             if (button.data("loading-text")) {
                 button.button("loading");
             }
+            button.addClass("btn-disabled").prop("disabled", true);
+
         });
     }
 
