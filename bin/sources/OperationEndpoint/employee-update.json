@@ -1,0 +1,58 @@
+{
+  "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "EntityPermissionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "SetterActionChildCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "PatchPathCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "FirstName",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "a689a9d1-bd8a-47e9-f81a-5eaf76d402ae"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "LastName",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "7f6019cb-9d5d-429a-ea42-3d3b70b11b92"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.PatchSetter, domain.sph",
+        "Path": "Gender",
+        "IsRequired": true,
+        "DefaultValue": "",
+        "WebId": "70169b16-bd91-4055-d1d9-34b9bb121917"
+      }
+    ]
+  },
+  "Name": "Update",
+  "Route": "{id}/update",
+  "IsHttpPut": false,
+  "IsHttpPatch": true,
+  "IsHttpPost": false,
+  "IsHttpDelete": false,
+  "Note": "",
+  "Entity": "Employee",
+  "Resource": "employees",
+  "IsPublished": true,
+  "IsConflictDetectionEnabled": true,
+  "CreatedBy": "admin",
+  "Id": "employee-update",
+  "CreatedDate": "2016-06-12T10:36:31.5414469+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-06-12T10:53:56.5740432+08:00",
+  "WebId": "2e6deddc-d4f8-4a06-d172-1e13e40f1a30"
+}
