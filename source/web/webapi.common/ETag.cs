@@ -112,6 +112,13 @@ namespace Bespoke.Sph.WebApi
             if (both) return since && etag;
             return since || etag;
         }
+        public bool IsMatch(string tag, UnmodifiedSinceHeader unmodifiedSince, DateTime lastChangedDate, bool both)
+        {
+            var etag = this.IsMatch(tag);
+            var since = unmodifiedSince?.IsMatch(lastChangedDate) ?? false;
+            if (both) return since && etag;
+            return since || etag;
+        }
 
         public override bool Equals(object obj)
         {

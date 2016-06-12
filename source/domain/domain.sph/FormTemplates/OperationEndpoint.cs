@@ -114,7 +114,7 @@ namespace Bespoke.Sph.Domain
             if (this.IsConflictDetectionEnabled)
             {
                 patch.ArgumentCollection.Add(new MethodArg { Name = "etag", TypeName = "ETag", AttributeCollection = { "[IfMatch]" } });
-                patch.ArgumentCollection.Add(new MethodArg { Name = "modifiedSince", TypeName = "ModifiedSinceHeader", AttributeCollection = { "[ModifiedSince]" } });
+                patch.ArgumentCollection.Add(new MethodArg { Name = "unmodifiedSince", TypeName = "UnmodifiedSinceHeader", AttributeCollection = { "[UnmodifiedSince]" } });
             }
 
             patch.AppendLine("var context = new SphDataContext();");
@@ -190,9 +190,9 @@ namespace Bespoke.Sph.Domain
 
             code.Append(
                 @"               
-                if (!etag.IsMatch(lo.Version, modifiedSince, lo.Source.ChangedDate, false))
+                if (!etag.IsMatch(lo.Version, unmodifiedSince, lo.Source.ChangedDate, false))
                 {
-                    return Invalid((HttpStatusCode)428, new { message =""This request is required to be conditional;try using 'If-Match', or may be your resource is out of date""});
+                    return Invalid((HttpStatusCode)428, new { message =""This request is required to be conditional;try using 'If-Match' or 'If-Unmodified-Since', or may be your resource is out of date""});
                 }
                 ");
             return code.ToString();
@@ -225,7 +225,7 @@ namespace Bespoke.Sph.Domain
             if (this.IsConflictDetectionEnabled)
             {
                 put.ArgumentCollection.Add(new MethodArg { Name = "etag", TypeName = "ETag", AttributeCollection = { "[IfMatch]" } });
-                put.ArgumentCollection.Add(new MethodArg { Name = "modifiedSince", TypeName = "ModifiedSinceHeader", AttributeCollection = { "[ModifiedSince]" } });
+                put.ArgumentCollection.Add(new MethodArg { Name = "unmodifiedSince", TypeName = "UnmodifiedSinceHeader", AttributeCollection = { "[UnmodifiedSince]" } });
             }
 
 
