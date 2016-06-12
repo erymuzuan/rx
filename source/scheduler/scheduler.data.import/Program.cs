@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -153,6 +154,9 @@ namespace scheduler.data.import
                 var esMessages = 0;
                 var esRate = 0d;
                 var esRows = 0;
+                var finalProgress = new ProgressData();
+                var sw = new Stopwatch();
+                sw.Start();
                 Action<ProgressData> progress = async p =>
                 {
                     if (p.Rows > 0)
@@ -175,6 +179,7 @@ namespace scheduler.data.import
                     {
                         await hubProxy.Invoke("requestCancel");
                     }
+                    finalProgress.Merge(p);
 
                 };
                 //hubProxy.Observe()
@@ -182,9 +187,11 @@ namespace scheduler.data.import
                 Console.WriteLine();
                 Console.WriteLine($@"[{DateTime.Now:T}] Done processing data transfer....");
                 Console.WriteLine(result);
+                finalProgress.Elapsed = sw.Elapsed;
                 if (notificationOnSuccess)
-                    await NotifySuccessAsync(id);
+                    await NotifySuccessAsync(id, finalProgress);
 
+                sw.Stop();
                 flag.Set();
             }
             catch (Exception e)
@@ -200,22 +207,33 @@ namespace scheduler.data.import
 
         }
 
-        private static async Task NotifySuccessAsync(string id)
+        private static async Task NotifySuccessAsync(string id, ProgressData finalProgress)
         {
             var smtp = new SmtpClient();
             var @from = ConfigurationManager.AppSettings["EmailFrom"] ?? "data-transfer-scheduler@bespoke.com.my";
             var to = ConfigurationManager.AppSettings["EmailTo"] ?? "admin@bespoke.com.my";
             var subject = $"Data transfer was successful - {id}";
+
+            
             var body = new StringBuilder();
             body.Append($@"
 Your scheduled data transfer was successfuly executed on {DateTime.Now}");
             body.AppendLine();
             body.AppendLine();
+            body.AppendLine("Data transfer summary");
+            body.AppendLine("------------------------------------------------");
+            body.AppendLine($"Rows read : {"row".ToQuantity(finalProgress.Rows)}");
+            body.AppendLine($"Elasticsearch rows count : {"row".ToQuantity(finalProgress.ElasticsearchRows)}");
+            body.AppendLine($"SQL Server rows count : {"row".ToQuantity(finalProgress.SqlRows)}");
+            body.AppendLine($"Total time taken : {finalProgress.TotalTime}");
+            body.AppendLine($"For more details you view History tab in {ConfigurationManager.BaseUrl}/sph#data.import/{id}");
+            body.AppendLine();
+            body.AppendLine();
 
             var errors = Directory.GetFiles($"{ConfigurationManager.WebPath}\\App_Data\\data-imports\\{id}", "*.error");
-            body.AppendLine($" There are {"row".ToQuantity(errors.Length)} that were not successfully transformed and transfered.");
+            body.AppendLine($"There are {"row".ToQuantity(errors.Length)} that were not successfully transformed and transfered.");
             body.AppendLine();
-            body.AppendLine($" You can modify and resubmit the data at {ConfigurationManager.BaseUrl}/sph#data.import/{id}");
+            body.AppendLine($"You can modify and resubmit the data at {ConfigurationManager.BaseUrl}/sph#data.import/{id}");
 
             await smtp.SendMailAsync(@from, to, subject, body.ToString());
         }

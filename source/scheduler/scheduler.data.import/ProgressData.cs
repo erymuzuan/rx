@@ -56,5 +56,23 @@ namespace scheduler.data.import
             return new Queue(name, messages, deliveries, unacked);
 
         }
+
+        public void Merge(ProgressData p)
+        {
+            if (p.Rows > 0)
+                this.Rows = p.Rows;
+            if (p.SqlServerQueue.MessagesCount > 0)
+                this.SqlServerQueue.MessagesCount = p.SqlServerQueue.MessagesCount;
+            if (p.SqlServerQueue.Rate > 0d)
+                this.SqlServerQueue.Rate = p.SqlServerQueue.Rate;
+            if (p.SqlRows > 0)
+                this.SqlRows = p.SqlRows;
+            if (p.ElasticsearchQueue.MessagesCount > 0)
+                this.SqlServerQueue.MessagesCount = p.ElasticsearchQueue.MessagesCount;
+            if (p.ElasticsearchQueue.Rate > 0)
+                this.ElasticsearchQueue.Rate = p.ElasticsearchQueue.Rate;
+            if (p.ElasticsearchRows > 0)
+                this.ElasticsearchRows = p.ElasticsearchRows;
+        }
     }
 }
