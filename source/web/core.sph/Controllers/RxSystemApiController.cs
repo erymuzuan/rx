@@ -310,12 +310,10 @@ namespace Bespoke.Sph.Web.Controllers
                 var sumSql = translator2.Count(filter);
                 rows = await ExecuteScalarAsync(sumSql);
 
-                if (rows >= list.Count)
-                    nextPageToken = string.Format(
-                        "/api/{3}/?filer={0}&includeTotal=true&page={1}&size={2}", filter, page + 1, size, typeName);
+                nextPageToken = rows > list.Count ? $"/api/{typeName}/?filer={filter}&includeTotal=true&page={page + 1}&size={size}" : null;
             }
 
-            string previousPageToken = DateTime.Now.ToShortTimeString();
+            var previousPageToken = DateTime.Now.ToShortTimeString();
             var result = new
             {
                 results = list.ToArray(),

@@ -134,7 +134,7 @@ SELECT
                         }
                     }
                 }
-                var excludeNames = new[] { "SqlQueryNotificationStoredProcedure","aspnet_" };
+                var excludeNames = new[] { "SqlQueryNotificationStoredProcedure", "aspnet_" };
                 var selectSprocSql = $@"SELECT * FROM sys.all_objects 
                                             WHERE 
                                                 [schema_id] = 1 AND [type] = 'P' 
@@ -363,14 +363,14 @@ order by ORDINAL_POSITION";
 
         [HttpPost]
         [Route("generate")]
-        public async Task<HttpResponseMessage> GenerateAsync([JsonBody]SqlServerAdapter adapter)
+        public async Task<IHttpActionResult> GenerateAsync([JsonBody]SqlServerAdapter adapter)
         {
-            if (null == adapter.Tables || 0 == adapter.Tables.Length)
-            {
+            var noTables = null == adapter.Tables || 0 == adapter.Tables.Length;
+            var noSprocs = null == adapter.OperationDefinitionCollection || 0 == adapter.OperationDefinitionCollection.Count;
 
-                var json = JsonConvert.SerializeObject(new { message = "No tables is specified", success = false, status = "Fail" });
-                var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json) };
-                return response;
+            if (noTables && noSprocs)
+            {
+                return Ok(new { message = "No tables is specified", success = false, status = "Fail" });
             }
             await adapter.OpenAsync(true);
             var result = await adapter.CompileAsync();
@@ -382,15 +382,13 @@ order by ORDINAL_POSITION";
                 await session.SubmitChanges("Publish");
             }
 
-            var json2 = JsonConvert.SerializeObject(new
+            return Json(new
             {
                 message = result.Result ? "Successfully compiled" : "There are errors in your adapter",
                 errors = result.Errors.ToArray(),
                 success = result.Result,
                 status = "OK"
             });
-            var response2 = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json2) };
-            return response2;
         }
 
 
