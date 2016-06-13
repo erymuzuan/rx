@@ -2056,7 +2056,7 @@ ko.bindingHandlers.commandWithParameter = {
             callback = command.command,
             parameter = command.parameter || command.commandParameter,
             button = $(element),
-            inputValue = button.dataval();
+            inputValue = button.val();
 
             
         var $spinner = $("<i class='fa fa-spin fa-circle-o-notch'></i>").hide(),
