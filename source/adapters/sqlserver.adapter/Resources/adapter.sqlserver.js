@@ -130,14 +130,34 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                         var tables = _(result.tables).map(function (v) {
                             return {
-                                name: v,
+                                name: v.name,
                                 children: ko.observableArray(),
                                 selectedChildren: ko.observableArray(),
-                                busy: ko.observable(false)
+                                busy: ko.observable(false),
+                                checked: ko.observable(false),
+                                versionColumn: ko.observable(),
+                                versionColumnOptions: ko.observableArray(v.rowVersionColumnOptions),
+                                modifiedDateColumn: ko.observable(),
+                                modifiedDateColumnOptions: ko.observableArray(v.modifiedDateColumnOptions)
                             };
                         });
                         tableOptions(tables);
-                        sprocOptions(result.sprocs);
+
+                        var sprocs = _(result.sprocs).map(function (v) {
+                            var sp = {
+                                $type: "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
+                                checked: ko.observable(false)
+                            };
+                            if (v.requestMemberCollection) {
+                                var members = _(v.requestMemberCollection).map(function (k) {
+                                    var bp = { $type: "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter" };
+                                    return _(bp).extend(k);
+                                });
+                                v.requestMemberCollection = members;
+                            }
+                            return _(sp).extend(v);
+                        });
+                        sprocOptions(sprocs);
                         loadingSchemas(false);
                         logger.info("You are now connected, please select your schema");
                     });
