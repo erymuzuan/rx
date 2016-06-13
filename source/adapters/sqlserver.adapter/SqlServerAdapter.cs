@@ -224,8 +224,9 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var webApi = new Class { Name = $"{Name}Controller", BaseClass = "BaseApiController", Namespace = CodeNamespace };
             webApi.AttributeCollection.Add($@"[RoutePrefix(""{RoutePrefix}"")]");
             webApi.AddNamespaceImport<DateTime, DomainObject, Task, BaseApiController>();
-            webApi.AddNamespaceImport<System.Web.Http.IHttpActionResult>();
+            webApi.AddNamespaceImport<System.Web.Http.IHttpActionResult, Polly.Policy>();
 
+    
 
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())

@@ -3,6 +3,12 @@ using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain.Api
 {
+    public enum RetryWait
+    {
+        Constant,
+        Linear,
+        Exponential
+    }
     public partial class OperationDefinition
     {
         public string WebId { get; set; }
@@ -13,6 +19,9 @@ namespace Bespoke.Sph.Domain.Api
         public ParameterDefinition RequestDefinition { get; set; }
         public ParameterDirection ResponseDefinition { get; set; }
         public string CodeNamespace { get; set; }
+        public int? RetryCount { get; set; }
+        public int? RetryInterval { get; set; }
+        public RetryWait RetryWait { get; set; }
 
         public ObjectCollection<Member> RequestMemberCollection { get; } = new ObjectCollection<Member>();
 

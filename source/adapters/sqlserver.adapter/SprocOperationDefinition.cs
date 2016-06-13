@@ -32,14 +32,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine($"public async Task<IHttpActionResult> {action}([FromBody]{action}Request  request)");
             code.AppendLine("{");
 
-            code.AppendLine($@"
-                                var adapter = new {adapter.Name}();
-                                var response = await adapter.{action}Async(request);
-                                return Ok(response);");
+            code.AppendLine(GenerateActionBody(adapter, action));
             code.AppendLine("}");
             return code.ToString();
         }
-
         private string GenerateGetApiCode(SqlServerAdapter adapter)
         {
             var code = new StringBuilder();
@@ -56,11 +52,42 @@ namespace Bespoke.Sph.Integrations.Adapters
             var values = this.RequestMemberCollection.ToString("\r\n", x => $"request.{x.Name} = {x.Name.ToCamelCase()};");
             code.AppendLine(values);
 
-            code.AppendLine($@"
-                                var adapter = new {adapter.Name}();
-                                var response = await adapter.{action}Async(request);
-                                return Ok(response);");
+            code.AppendLine(GenerateActionBody(adapter, action));
             code.AppendLine("}");
+            return code.ToString();
+        }
+
+
+        private string GenerateActionBody(SqlServerAdapter adapter, string action)
+        {
+            var code = new StringBuilder();
+            code.AppendLine($"  var adapter = new {adapter.Name}();");
+            if (this.RetryCount.HasValue)
+            {
+                var wait = RetryInterval.HasValue ? $"{RetryInterval}" : "500";
+                if (RetryWait == RetryWait.Exponential)
+                    wait = $"{wait} * Math.Pow(2, c)";
+                if (RetryWait == RetryWait.Linear)
+                    wait = $"{wait} * c";
+
+                code.AppendLine(
+                    $@"	        
+                var result = await Policy.Handle<Exception>()
+	                                .WaitAndRetryAsync({RetryCount}, c => TimeSpan.FromMilliseconds({wait}))
+	                                .ExecuteAndCaptureAsync(async() =>  await adapter.{action}Async(request) );
+
+                if(null != result.FinalException)
+	                throw result.FinalException;
+
+                var response = result.Result;
+");
+            }
+            else
+            {
+                code.AppendLine($"  var response = await adapter.{action}Async(request);");
+            }
+            code.AppendLine("   return Ok(response);");
+
             return code.ToString();
         }
 
