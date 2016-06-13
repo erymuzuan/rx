@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 case "smallmoney":
                 case "decimal":
                 case "money": return typeof(decimal);
-                case "real":
+                case "real": return typeof(float);
                 case "float": return typeof(double);
                 case "sql_variant": return typeof(object);
             }
