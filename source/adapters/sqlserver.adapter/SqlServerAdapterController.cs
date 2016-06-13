@@ -134,8 +134,13 @@ SELECT
                         }
                     }
                 }
-
-                using (var spocCommand = new SqlCommand("SELECT * FROM sys.all_objects WHERE [schema_id] = @schema_id AND [type] = 'P'", conn))
+                var excludeNames = new[] { "SqlQueryNotificationStoredProcedure","aspnet_" };
+                var selectSprocSql = $@"SELECT * FROM sys.all_objects 
+                                            WHERE 
+                                                [schema_id] = 1 AND [type] = 'P' 
+                                            AND 
+                                                [name] NOT LIKE {excludeNames.ToString("\r\nAND\r\n [name] NOT LIKE", x => $"'{x}%'")}";
+                using (var spocCommand = new SqlCommand(selectSprocSql, conn))
                 {
                     spocCommand.Parameters.AddWithValue("@schema_id", schemaId);
                     using (var reader = await spocCommand.ExecuteReaderAsync())
