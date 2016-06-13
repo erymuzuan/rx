@@ -622,6 +622,9 @@
         "RequestDefinition": null,
         "ResponseDefinition": "Request",
         "CodeNamespace": "Bespoke.DevV1.Adapters.HospitalInformationSystemV13.Dbo",
+        "RetryCount": 5,
+        "RetryInterval": 520,
+        "RetryWait": "Exponential",
         "RequestMemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": [
@@ -2167,6 +2170,6 @@
   "Id": "hospital-information-system-v13",
   "CreatedDate": "2016-06-10T06:47:07.7587211+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-12T07:17:45.1370273+08:00",
+  "ChangedDate": "2016-06-13T08:17:55.706309+08:00",
   "WebId": "8b0e96b4-ce81-43f7-b8e9-e245379a69ff"
 }
