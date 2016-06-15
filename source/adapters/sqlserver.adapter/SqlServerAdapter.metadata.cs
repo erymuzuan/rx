@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,35 +27,122 @@ namespace Bespoke.Sph.Integrations.Adapters
                     return false;
                 }
                 await ReadTablesAsync(conn);
+                await ReadViewsAsync(conn);
                 await ReadColumnsAsync(conn);
                 await ReadPrimaryKeysAsync(conn);
                 await ReadStoreProceduresAsync(conn);
+                //await ReadFunctionsAsync(conn);
             }
 
 
             return true;
         }
 
-        private static async Task ReadStoreProceduresAsync(SqlConnection conn)
+        private Task ReadViewsAsync(SqlConnection conn)
+        {
+            return Task.FromResult(0);
+        }
+
+        private async Task ReadStoreProceduresAsync(SqlConnection conn)
         {
             // get the sprocs
             var excludeNames = new[] { "SqlQueryNotificationStoredProcedure", "aspnet_" };
             var selectSprocSql =
-                $@"SELECT * FROM sys.all_objects 
-                                            WHERE
-                                                [name] NOT LIKE {excludeNames
-                    .ToString("\r\nAND\r\n [name] NOT LIKE", x => $"'{x}%'")}";
+                $@"
+SELECT s.name as 'schema', o.name as 'sproc' FROM sys.all_objects o
+INNER JOIN sys.schemas s ON o.schema_id = s.schema_id
+WHERE [type] = 'P'
+AND s.name NOT IN ('sys')
+AND
+o.[name] NOT LIKE {excludeNames .ToString("\r\nAND\r\n o.[name] NOT LIKE", x => $"'{x}%'")}";
             using (var spocCommand = new SqlCommand(selectSprocSql, conn))
             {
                 using (var reader = await spocCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        //var sp = await this.GetStoreProcedureAsync(adapter, reader.GetString(0));
-                        //vm.Add(sp);
+                        var sp = await this.GetStoreProcedureAsync(reader.GetString(0), reader.GetString(1));
+                        this.OperationDefinitionCollection.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
                     }
                 }
             }
+        }
+
+        private async Task<SprocOperationDefinition> GetStoreProcedureAsync(string schema, string name)
+        {
+
+            const string SQL = @"
+select * from information_schema.PARAMETERS
+where SPECIFIC_NAME = @name
+order by ORDINAL_POSITION";
+
+            var uuid = Guid.NewGuid().ToString();
+            var od = new SprocOperationDefinition
+            {
+                Name = name,
+                MethodName = name.ToCsharpIdentitfier(),
+                Uuid = uuid,
+                Schema = schema,
+                CodeNamespace = this.CodeNamespace,
+                WebId = uuid,
+            };
+            using (var conn = new SqlConnection(this.ConnectionString))
+            using (var cmd = new SqlCommand(SQL, conn))
+            {
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@name", name);
+
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var dt = (string)reader["DATA_TYPE"];
+                        var cml = reader["CHARACTER_MAXIMUM_LENGTH"].ReadNullable<int>();
+                        var mode = (string)reader["PARAMETER_MODE"];
+                        var pname = (string)reader["PARAMETER_NAME"];
+                        var position = reader["ORDINAL_POSITION"].ReadNullable<int>();
+
+                        var member = new SprocParameter
+                        {
+                            Name = pname,
+                            FullName = pname,
+                            SqlType = dt,
+                            Type = dt.GetClrType(),
+                            IsNullable = cml == 0,
+                            MaxLength = cml,
+                            Mode = mode == "IN" ? ParameterMode.In : ParameterMode.Out,
+                            Position = position ?? 0,
+                            WebId = Guid.NewGuid().ToString()
+                        };
+                        if (mode == "IN" || mode == "INOUT")
+                            od.RequestMemberCollection.Add(member);
+                        if (mode == "OUT" || mode == "INOUT")
+                        {
+                            SqlDbType t;
+                            Enum.TryParse(dt, true, out t);
+                            var rm = new SprocResultMember
+                            {
+                                Name = pname,
+                                SqlDbType = t,
+                                Type = dt.GetClrType()
+                            };
+                            od.ResponseMemberCollection.Add(rm);
+                        }
+                    }
+                }
+
+            }
+
+
+            var retVal = new SprocResultMember
+            {
+                Name = "@return_value",
+                Type = typeof(int),
+                SqlDbType = SqlDbType.Int
+            };
+            od.ResponseMemberCollection.Add(retVal);
+            return od;
         }
 
         private async Task ReadPrimaryKeysAsync(SqlConnection conn)

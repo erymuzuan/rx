@@ -2288,6 +2288,7 @@
     <Content Include="SphApp\prototypes\__prototypes.min.js">
       <DependentUpon>__prototypes.js</DependentUpon>
     </Content>
+    <Content Include="SphApp\schemas\adapter.api.g.js" />
     <Content Include="SphApp\schemas\sph.domain.g.js" />
     <EmbeddedResource Include="SphApp\schemas\trigger.workflow.g.js" />
     <EmbeddedResource Include="SphApp\services\app.js" />

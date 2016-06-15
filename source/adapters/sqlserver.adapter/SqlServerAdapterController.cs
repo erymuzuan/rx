@@ -131,76 +131,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 Etag = connected ? "connected" : "not connected"
             });
         }
-
-        [HttpPost]
-        [Route("objects")]
-        public async Task<IHttpActionResult> GetDatabaseOjectsAsync([FromBody]SqlServerAdapter adapter)
-        {
-            var vm = new DatabaseObjectsViewModel();
-            using (var conn = new SqlConnection(adapter.ConnectionString))
-            {
-
-                using (var tableCommand = new SqlCommand("SELECT * FROM sys.all_objects WHERE [type] = 'U'", conn))
-                {
-                    using (var reader = await tableCommand.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var table = new DatabaseObjectsViewModel.TableObjectViewModel { Name = reader.GetString(0) };
-                            vm.Add(table);
-                        }
-                    }
-                }
-                using (var columnCommand = new SqlCommand(@"
-SELECT 
-         o.name as 'Table'
-        ,c.name as 'Column'
-        ,t.name as 'Type' 
-    FROM 
-        sys.objects o INNER JOIN sys.all_columns c
-        ON c.object_id = o.object_id
-        INNER JOIN sys.types t 
-        ON c.system_type_id = t.system_type_id
-        INNER JOIN sys.schemas s
-        ON s.schema_id = o.schema_id
-    WHERE 
-        o.type = 'U'
-        AND t.name <> N'sysname'
-        AND t.is_user_defined= 0
-		AND c.is_nullable = 0
-		AND t.name IN ('smalldatetime', 'datetime','datetime2', 'rowversion', 'timestamp')
-    ORDER 
-        BY o.type", conn))
-                {
-                    using (var reader = await columnCommand.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var table = vm.Tables.SingleOrDefault(x => x.Name == (string)reader["Table"]);
-                            table?.AddColumn((string)reader["Column"], (string)reader["Type"]);
-                        }
-                    }
-                }
-                var excludeNames = new[] { "SqlQueryNotificationStoredProcedure", "aspnet_" };
-                var selectSprocSql = $@"SELECT * FROM sys.all_objects 
-                                            WHERE
-                                                [name] NOT LIKE {excludeNames.ToString("\r\nAND\r\n [name] NOT LIKE", x => $"'{x}%'")}";
-                using (var spocCommand = new SqlCommand(selectSprocSql, conn))
-                {
-                    using (var reader = await spocCommand.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var sp = await this.GetStoreProcedureAsync(adapter, reader.GetString(0));
-                            vm.Add(sp);
-                        }
-                    }
-                }
-                return Json(vm, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-
-            }
-        }
-
+        
 
         [HttpPost]
         [Route("children/{table}")]
@@ -301,81 +232,7 @@ SELECT
             }
         }
 
-        private async Task<SprocOperationDefinition> GetStoreProcedureAsync(SqlServerAdapter adapter, string name)
-        {
 
-            const string SQL = @"
-select * from information_schema.PARAMETERS
-where SPECIFIC_NAME = @name
-order by ORDINAL_POSITION";
-
-            var uuid = Guid.NewGuid().ToString();
-            var od = new SprocOperationDefinition
-            {
-                Name = name,
-                MethodName = name.ToCsharpIdentitfier(),
-                Uuid = uuid,
-                CodeNamespace = adapter.CodeNamespace,
-                WebId = uuid,
-            };
-            using (var conn = new SqlConnection(adapter.ConnectionString))
-            using (var cmd = new SqlCommand(SQL, conn))
-            {
-                cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("@name", name);
-
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        var dt = (string)reader["DATA_TYPE"];
-                        var cml = reader["CHARACTER_MAXIMUM_LENGTH"].ReadNullable<int>();
-                        var mode = (string)reader["PARAMETER_MODE"];
-                        var pname = (string)reader["PARAMETER_NAME"];
-                        var position = reader["ORDINAL_POSITION"].ReadNullable<int>();
-
-                        var member = new SprocParameter
-                        {
-                            Name = pname,
-                            FullName = pname,
-                            SqlType = dt,
-                            Type = dt.GetClrType(),
-                            IsNullable = cml == 0,
-                            MaxLength = cml,
-                            Mode = mode == "IN" ? ParameterMode.In : ParameterMode.Out,
-                            Position = position ?? 0,
-                            WebId = Guid.NewGuid().ToString()
-                        };
-                        if (mode == "IN" || mode == "INOUT")
-                            od.RequestMemberCollection.Add(member);
-                        if (mode == "OUT" || mode == "INOUT")
-                        {
-                            SqlDbType t;
-                            Enum.TryParse(dt, true, out t);
-                            var rm = new SprocResultMember
-                            {
-                                Name = pname,
-                                SqlDbType = t,
-                                Type = dt.GetClrType()
-                            };
-                            od.ResponseMemberCollection.Add(rm);
-                        }
-                    }
-                }
-
-            }
-
-
-            var retVal = new SprocResultMember
-            {
-                Name = "@return_value",
-                Type = typeof(int),
-                SqlDbType = SqlDbType.Int
-            };
-            od.ResponseMemberCollection.Add(retVal);
-            return od;
-        }
 
 
         [HttpPatch]

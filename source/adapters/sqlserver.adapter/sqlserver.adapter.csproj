@@ -85,6 +85,7 @@
     <Compile Include="Columns\StringColumn.cs" />
     <Compile Include="Columns\TinyIntColumn.cs" />
     <Compile Include="Columns\XmlColumn.cs" />
+    <Compile Include="FuncOperationDefinition.cs" />
     <Compile Include="IColumnGeneratorMetadata.cs" />
     <Compile Include="SqlServerAdapter.metadata.cs" />
     <Compile Include="TableOperationDefinition.cs" />

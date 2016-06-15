@@ -36,6 +36,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("}");
             return code.ToString();
         }
+
         private string GenerateGetApiCode(SqlServerAdapter adapter)
         {
             var code = new StringBuilder();
