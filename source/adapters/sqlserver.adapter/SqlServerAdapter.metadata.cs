@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -26,16 +27,76 @@ namespace Bespoke.Sph.Integrations.Adapters
                     Console.WriteLine(e);
                     return false;
                 }
-                await ReadTablesAsync(conn);
-                await ReadViewsAsync(conn);
-                await ReadColumnsAsync(conn);
-                await ReadPrimaryKeysAsync(conn);
-                await ReadStoreProceduresAsync(conn);
-                await ReadFunctionsAsync(conn);
+                var tableTask = ReadTablesAsync(conn);
+                var viewsTask = ReadViewsAsync(conn);
+                await Task.WhenAll(tableTask, viewsTask);
+
+
+                // Used for performance testing, since it's not easy to use profiler
+                //await GetChildTablesAsync(conn);
+                //await ReadColumnsAsync(conn);
+                //await ReadPrimaryKeysAsync(conn);
+                //await ReadStoreProceduresAsync(conn);
+                //await ReadFunctionsAsync(conn);
+
+                var childTablesTask = GetChildTablesAsync(conn);
+                var columnsTask = ReadColumnsAsync(conn);
+                var primariKeyTask = ReadPrimaryKeysAsync(conn);
+                var sprocTask = ReadStoreProceduresAsync(conn);
+                var funcTask = ReadFunctionsAsync(conn);
+
+                await Task.WhenAll(columnsTask, primariKeyTask, sprocTask, funcTask, childTablesTask);
             }
 
 
             return true;
+        }
+
+        private async Task GetChildTablesAsync(SqlConnection conn)
+        {
+            var tasks = this.TableDefinitionCollection.Select(x => this.GetChildTablesAsync(x, conn));
+            await Task.WhenAll(tasks);
+        }
+        private async Task GetChildTablesAsync(TableDefinition table, SqlConnection conn)
+        {
+            const string SQL = @"Select
+                    object_name(rkeyid) Parent_Table,
+                    object_name(fkeyid) Child_Table,
+                    object_name(constid) FKey_Name,
+                    c1.name FKey_Col,
+                    c2.name Ref_KeyCol
+                    From
+                    sys.sysforeignkeys s
+                    Inner join sys.syscolumns c1
+                    on ( s.fkeyid = c1.id And s.fkey = c1.colid )
+                    Inner join syscolumns c2
+                    on ( s.rkeyid = c2.id And s.rkey = c2.colid )
+                    WHERE object_name(rkeyid) = @table";
+
+            using (var cmd = new SqlCommand(SQL, conn))
+            {
+                cmd.Parameters.AddWithValue("@table", table.Name);
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    var childTables = new List<TableRelation>();
+                    while (await reader.ReadAsync())
+                    {
+                        var ct = new TableRelation
+                        {
+                            Table = reader.GetString(1),
+                            Constraint = reader.GetString(2),
+                            Column = reader.GetString(3),
+                            ForeignColumn = reader.GetString(4)
+                        };
+                        childTables.Add(ct);
+                    }
+
+                    table.ChildRelationCollection.ClearAndAddRange(childTables);
+                }
+
+            }
+
+
         }
 
         private async Task ReadViewsAsync(SqlConnection conn)
@@ -55,7 +116,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                             AllowRead = true,
                             AllowUpdate = false,
                             IsSelected = false
-                           
+
                         };
                         if (this.TableDefinitionCollection.All(x => x.Name != table.Name))
                             this.TableDefinitionCollection.Add(table);
@@ -98,16 +159,26 @@ WHERE [type] = 'P'
 AND s.name NOT IN ('sys')
 AND
 o.[name] NOT LIKE {excludeNames.ToString("\r\nAND\r\n o.[name] NOT LIKE", x => $"'{x}%'")}";
+
+            var list = new List<Tuple<string, string>>();
+
             using (var spocCommand = new SqlCommand(selectSprocSql, conn))
             {
                 using (var reader = await spocCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        var sp = await this.GetStoreProcedureAsync(reader.GetString(0), reader.GetString(1));
-                        this.OperationDefinitionCollection.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
+                        list.Add(new Tuple<string, string>(reader.GetString(0), reader.GetString(1)));
                     }
                 }
+            }
+
+            var tasks = from s in list
+                        select this.GetStoreProcedureAsync(s.Item1, s.Item2);
+            var sprocs = await Task.WhenAll(tasks);
+            foreach (var sp in sprocs)
+            {
+                this.OperationDefinitionCollection.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
             }
         }
 
@@ -277,26 +348,31 @@ ORDER
 
         private async Task ReadPrimaryKeysAsync(SqlConnection conn)
         {
-            foreach (var table in this.TableDefinitionCollection)
-            {
-                using (var primaryKeyCommand = new SqlCommand(Resources.SelectTablePrimaryKeysSql, conn))
-                {
-                    primaryKeyCommand.Parameters.AddWithValue("@Table", table.Name);
-                    primaryKeyCommand.Parameters.AddWithValue("@Schema", table.Schema);
-                    using (var reader = await primaryKeyCommand.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var name = reader.GetString(0);
-                            var col = table.ColumnCollection.SingleOrDefault(x => x.Name == name);
-                            if (null != col)
-                                col.IsPrimaryKey = true;
+            var tasks = from t in this.TableDefinitionCollection
+                        select ReadPrimaryKeysAsync2(t, conn);
+            await Task.WhenAll(tasks);
+        }
+        private async Task ReadPrimaryKeysAsync2(TableDefinition table, SqlConnection conn)
+        {
 
-                            table.PrimaryKeyCollection.AddOrReplace(name, x => x == name);
-                        }
+            using (var primaryKeyCommand = new SqlCommand(Resources.SelectTablePrimaryKeysSql, conn))
+            {
+                primaryKeyCommand.Parameters.AddWithValue("@Table", table.Name);
+                primaryKeyCommand.Parameters.AddWithValue("@Schema", table.Schema);
+                using (var reader = await primaryKeyCommand.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var name = reader.GetString(0);
+                        var col = table.ColumnCollection.SingleOrDefault(x => x.Name == name);
+                        if (null != col)
+                            col.IsPrimaryKey = true;
+
+                        table.PrimaryKeyCollection.AddOrReplace(name, x => x == name);
                     }
                 }
             }
+
         }
 
         private async Task ReadColumnsAsync(SqlConnection conn)

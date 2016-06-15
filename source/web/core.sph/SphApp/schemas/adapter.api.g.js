@@ -125,7 +125,7 @@ bespoke.sph.domain.api.OperationDefinition = function (optionOrWebid) {
         Name: ko.observable(""),
         MethodName: ko.observable(""),
         IsOneWay: ko.observable(false),
-        IsEvent: ko.observable(false),
+        IsSelected: ko.observable(false),
         Schema: ko.observable(""),
         ParameterDefinition: ko.observable(new bespoke.sph.domain.api.ParameterDefinition()),
         RequestMemberCollection: ko.observableArray([]),

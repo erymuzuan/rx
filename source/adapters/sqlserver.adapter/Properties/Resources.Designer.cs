@@ -141,7 +141,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ///   Looks up a localized string similar to SELECT o.name, s.name as &apos;schema&apos; FROM sys.all_objects o INNER JOIN sys.schemas s
         ///ON o.schema_id = s.schema_id
         ///WHERE o.[type] = &apos;U&apos;
-        ///AND s.name NOT IN (&apos;sys&apos;)
+        ///AND s.name NOT IN (&apos;sys&apos;, &apos;INFORMATION_SCHEMA&apos;)
         ///ORDER BY o.[schema_id].
         /// </summary>
         internal static string SelectTablesSql {
