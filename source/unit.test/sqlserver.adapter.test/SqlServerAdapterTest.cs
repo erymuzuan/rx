@@ -26,20 +26,19 @@ namespace sqlserver.adapter.test
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
             var tables = new[]
             {
-                new AdapterTable{Name = "Person"},
-                new AdapterTable{Name = "Address"}
+                new TableDefinition{Name = "Person",Schema = "Person"},
+                new TableDefinition{Name = "Address", Schema = "Person"}
             };
             m_sql = new SqlServerAdapter
             {
                 Server = @"(localdb)\ProjectsV12",
                 Database = "AdventureWorks",
                 TrustedConnection = true,
-                Schema = "Person",
-                Tables = tables,
                 Name = ADAPTER_NAME,
                 Description = "A test"
 
             };
+            m_sql.TableDefinitionCollection.AddRange(tables);
 
             var app = ConfigurationManager.ApplicationName;
             var web = ConfigurationManager.WebPath;

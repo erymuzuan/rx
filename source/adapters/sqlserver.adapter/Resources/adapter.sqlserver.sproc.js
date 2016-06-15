@@ -10,7 +10,7 @@
 /// <reference path="../../../web/web.sph/scripts/prism.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "adapter.resource/sqlserver-adapter/_ko.adapter.sqlserver"],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "adapter.resource/sqlserver-adapter/_ko.adapter.sqlserver","adapter.resource/sqlserver-adapter/_sql.server.adapter.domain.js"],
     function (context, logger, router, system) {
 
         var operation = ko.observable(),

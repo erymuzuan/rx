@@ -13,6 +13,7 @@ var sourcemaps = require("gulp-sourcemaps"),
 var sources =["./source/web/core.sph/SphApp/schemas/form.designer.g.js",
       "./source/web/core.sph/SphApp/schemas/report.builder.g.js",
       "./source/web/core.sph/SphApp/schemas/sph.domain.g.js",
+      "./source/web/core.sph/SphApp/schemas/adapter.api.g.js",
       "./source/web/core.sph/SphApp/schemas/trigger.workflow.g.js"];
 
 

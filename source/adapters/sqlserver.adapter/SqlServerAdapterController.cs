@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -21,20 +23,40 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         [HttpGet]
         [Route("resource/{resource}")]
-        public HttpResponseMessage GetEmbeddedResource()
+        public HttpResponseMessage GetEmbeddedResource(string resource)
         {
-
+            HttpContent content = new StringContent(Properties.Resources._ko_adapter_sqlserver);
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{typeof(SqlServerAdapter).Namespace}.{resource}");
+            if (null != stream)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    var bytes = memoryStream.ToArray();
+                    content = new ByteArrayContent(bytes);
+                }
+            }
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new StringContent(Properties.Resources._ko_adapter_sqlserver)
+                Content = content
             };
         }
 
 
-        [HttpPost]
+        [HttpGet]
         [Route("databases")]
-        public async Task<HttpResponseMessage> GetDatabasesAsync([FromBody]SqlServerAdapter adapter)
+        public async Task<HttpResponseMessage> GetDatabasesAsync([FromUri(Name = "server")]string server = ".", 
+            [FromUri(Name = "userid")]string userid = "", 
+            [FromUri(Name = "password")]string password = "",
+            [FromUri(Name = "trusted")]bool trusted = true)
         {
+            var adapter = new SqlServerAdapter
+            {
+                Server = server,
+                TrustedConnection = trusted,
+                UserId = userid,
+                Password = password
+            };
             using (var conn = new SqlConnection(adapter.ConnectionString))
 
             using (var cmd = new SqlCommand("select name from sysdatabases", conn))
@@ -78,21 +100,48 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IHttpActionResult> GetAdapterAsync(string id,
+            [FromUri(Name = "server")]string server,
+            [FromUri(Name = "database")]string database,
+            [FromUri(Name = "trusted")]bool? trusted,
+            [FromUri(Name = "userid")]string user,
+            [FromUri(Name = "password")]string password)
+        {
+            var context = new SphDataContext();
+            var adapter = context.LoadOneFromSources<Adapter>(x => x.Id == id) as SqlServerAdapter;
+            if (null == adapter)
+                return NotFound($"Cannot find SQL server adapter with id {id}");
+
+            if (!string.IsNullOrWhiteSpace(database))
+                adapter.Database = database;
+            if (!string.IsNullOrWhiteSpace(server))
+                adapter.Server = server;
+            if (!string.IsNullOrWhiteSpace(user))
+                adapter.UserId = user;
+            if (!string.IsNullOrWhiteSpace(password))
+                adapter.Password = password;
+            if (trusted.HasValue)
+                adapter.TrustedConnection = trusted.Value;
+            var connected = await adapter.LoadDatabaseObjectAsync(adapter.ConnectionString);
+
+            return Json(adapter.ToJsonString(), new CacheMetadata
+            {
+                Etag = connected ? "connected" : "not connected"
+            });
+        }
+
         [HttpPost]
         [Route("objects")]
         public async Task<IHttpActionResult> GetDatabaseOjectsAsync([FromBody]SqlServerAdapter adapter)
         {
             var vm = new DatabaseObjectsViewModel();
             using (var conn = new SqlConnection(adapter.ConnectionString))
-            using (var cmd = new SqlCommand("SELECT schema_id FROM sys.schemas WHERE [name] = @Schema", conn))
             {
-                cmd.Parameters.AddWithValue("@Schema", adapter.Schema);
-                await conn.OpenAsync();
-                var schemaId = (int)(await cmd.ExecuteScalarAsync());
 
-                using (var tableCommand = new SqlCommand("SELECT * FROM sys.all_objects WHERE [schema_id] = @schema_id AND [type] = 'U'", conn))
+                using (var tableCommand = new SqlCommand("SELECT * FROM sys.all_objects WHERE [type] = 'U'", conn))
                 {
-                    tableCommand.Parameters.AddWithValue("@schema_id", schemaId);
                     using (var reader = await tableCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -116,7 +165,6 @@ SELECT
         ON s.schema_id = o.schema_id
     WHERE 
         o.type = 'U'
-        AND s.name = @schema
         AND t.name <> N'sysname'
         AND t.is_user_defined= 0
 		AND c.is_nullable = 0
@@ -124,7 +172,6 @@ SELECT
     ORDER 
         BY o.type", conn))
                 {
-                    columnCommand.Parameters.AddWithValue("@schema", adapter.Schema);
                     using (var reader = await columnCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -136,13 +183,10 @@ SELECT
                 }
                 var excludeNames = new[] { "SqlQueryNotificationStoredProcedure", "aspnet_" };
                 var selectSprocSql = $@"SELECT * FROM sys.all_objects 
-                                            WHERE 
-                                                [schema_id] = 1 AND [type] = 'P' 
-                                            AND 
+                                            WHERE
                                                 [name] NOT LIKE {excludeNames.ToString("\r\nAND\r\n [name] NOT LIKE", x => $"'{x}%'")}";
                 using (var spocCommand = new SqlCommand(selectSprocSql, conn))
                 {
-                    spocCommand.Parameters.AddWithValue("@schema_id", schemaId);
                     using (var reader = await spocCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -263,7 +307,6 @@ SELECT
             const string SQL = @"
 select * from information_schema.PARAMETERS
 where SPECIFIC_NAME = @name
-and SPECIFIC_SCHEMA = @schema
 order by ORDINAL_POSITION";
 
             var uuid = Guid.NewGuid().ToString();
@@ -280,7 +323,6 @@ order by ORDINAL_POSITION";
             {
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@schema", adapter.Schema);
 
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())
@@ -365,8 +407,8 @@ order by ORDINAL_POSITION";
         [Route("generate")]
         public async Task<IHttpActionResult> GenerateAsync([JsonBody]SqlServerAdapter adapter)
         {
-            var noTables = null == adapter.Tables || 0 == adapter.Tables.Length;
-            var noSprocs = null == adapter.OperationDefinitionCollection || 0 == adapter.OperationDefinitionCollection.Count;
+            var noTables = adapter.TableDefinitionCollection.Count == 0;
+            var noSprocs = 0 == adapter.OperationDefinitionCollection.Count;
 
             if (noTables && noSprocs)
             {

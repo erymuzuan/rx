@@ -31,7 +31,7 @@ namespace adapter.csproj.gen
             var vm = new
             {
                 Adapter = item,
-                RootNamespace = $"{ConfigurationManager.ApplicationName}.Adapter.{item.Schema}",
+                RootNamespace = $"{ConfigurationManager.ApplicationName}.Adapter",
                 CsFiles = files,
                 AssemblyName = $"{ConfigurationManager.ApplicationName}.{item.Name}"
             };

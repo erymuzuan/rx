@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -42,6 +43,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 case "money": return typeof(decimal);
                 case "real": return typeof(float);
                 case "float": return typeof(double);
+                case "hierarchyid": 
                 case "sql_variant": return typeof(object);
             }
             throw new Exception($"No mapping for {sqlType}");
@@ -80,7 +82,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (x.IsIdentity == ThreeWayBoolean.False && mt.IsIdentity)
                 return -1;
 
-            var loweredType = mt.SqlType.ToLowerInvariant();
+            var loweredType = mt.DbType.ToLowerInvariant();
             if (null != x.IncludeTypes)
             {
                 var includes = x.IncludeTypes.Select(t => t.ToString().ToLowerInvariant()).ToArray();

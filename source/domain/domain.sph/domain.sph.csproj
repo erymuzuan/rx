@@ -166,10 +166,12 @@
     </Compile>
     <Compile Include="Api\Adapter.cs" />
     <Compile Include="Api\AdapterDesigner.cs" />
-    <Compile Include="Api\AdapterTable.cs" />
     <Compile Include="Api\ChildListActionCode.cs" />
+    <Compile Include="Api\Column.cs" />
+    <Compile Include="Api\ColumnMetadata.cs" />
     <Compile Include="Api\ControllerAction.cs" />
     <Compile Include="Api\DeleteActionCode.cs" />
+    <Compile Include="Api\ErrorRetry.cs" />
     <Compile Include="Api\GetOneActionCode.cs" />
     <Compile Include="Api\HypermediaLink.cs" />
     <Compile Include="Api\InsertActionCode.cs" />
@@ -348,6 +350,7 @@
     </Compile>
     <Compile Include="ReceivePort.cs" />
     <Compile Include="ReceivePortDefinition.cs" />
+    <Compile Include="Schema\AdaptersApi.g.cs" />
     <Compile Include="SendPort.cs" />
     <Compile Include="SendPortDefinition.cs" />
     <Compile Include="Transform\AddDaysFunctoid.cs" />
@@ -651,6 +654,9 @@
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
+    <None Include="Schema\AdaptersApi.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Schema\SphDomain.xsd">
       <SubType>Designer</SubType>
     </None>

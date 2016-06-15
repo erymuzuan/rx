@@ -126,7 +126,7 @@ namespace Bespoke.Sph.Domain.Api
             if (!Directory.Exists(sourceFolder))
                 Directory.CreateDirectory(sourceFolder);
 
-            foreach (var table in this.Tables)
+            foreach (var table in this.TableDefinitionCollection)
             {
                 var td = await this.GetSchemaDefinitionAsync(table.Name);
                 td.CodeNamespace = this.CodeNamespace;

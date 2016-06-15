@@ -24,21 +24,20 @@ namespace sqlserver.adapter.test
             ObjectBuilder.AddCacheList<ILogger>(new Logger());
             var tables = new[]
             {
-                new AdapterTable {Name = "Patient"},
-                new AdapterTable {Name = "Department"},
-                new AdapterTable {Name = "PatientDepartment"}
+                new TableDefinition {Name = "Patient", Schema = "dbo"},
+                new TableDefinition {Name = "Department"},
+                new TableDefinition {Name = "PatientDepartment"}
             };
             m_sql = new SqlServerAdapter
             {
                 Server = @"(localdb)\Projects",
                 Database = "His",
                 TrustedConnection = true,
-                Schema = "dbo",
-                Tables = tables,
                 Name = ADAPTER_NAME,
                 Description = "A test"
 
             };
+            m_sql.TableDefinitionCollection.AddRange(tables);
 
             var bin = ConfigurationManager.WebPath + @"\bin\DevV1.AdventureWorksPersons.dll";
             if (File.Exists(bin))

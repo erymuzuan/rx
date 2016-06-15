@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.Composition;
 using System.Data;
 
@@ -8,6 +9,10 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
         IsNullable = ThreeWayBoolean.False)]
     public class BinaryColumn : SqlColumn
     {
-
+        public override Type ClrType => typeof(byte[]);
+        public override string GenerateReadCode()
+        {
+            return null;
+        }
     }
 }

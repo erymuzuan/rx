@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain.Api
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             var code = new StringBuilder();
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var routeConstraint = pks.Select(m => "{" + m.Name.ToCamelCase() + this.GetRouteConstraint(m) + "}");
             var methodParameters = pks.Select(m => m.GenerateParameterCode());
             var parameters = pks.Select(m => m.Name.ToCamelCase());
@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Domain.Api
         public override HypermediaLink GetHypermediaLink(Adapter adapter, TableDefinition table)
         {
             if (table.PrimaryKeyCollection.Count == 0) return null;
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(m => m.Name.ToCamelCase()).ToArray();
             return new HypermediaLink
             {

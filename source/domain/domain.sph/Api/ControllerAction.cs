@@ -4,11 +4,9 @@ namespace Bespoke.Sph.Domain.Api
 {
     public abstract class ControllerAction
     {
-        protected string GetRouteConstraint(Member member)
+        protected string GetRouteConstraint(Column column)
         {
-            var sm = member as SimpleMember;
-            if (null == sm) return string.Empty;
-            var type = sm.Type;
+            var type = column.ClrType;
             if (type == typeof(string)) return string.Empty;
             if (type == typeof(short)) return ":int";
             if (type == typeof(Guid)) return ":guid";

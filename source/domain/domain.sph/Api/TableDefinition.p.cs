@@ -1,23 +1,17 @@
 ﻿using System.Linq;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
 {
-    public partial class TableDefinition
+    public partial class TableDefinition : DomainObject
     {
-
-        public string Schema { get; set; }
-
-        public ObjectCollection<TableDefinition> ParentTableCollection { get; } = new ObjectCollection<TableDefinition>();
-
-        public ObjectCollection<TableDefinition> ChildTableCollection { get; } = new ObjectCollection<TableDefinition>();
-
-        public ObjectCollection<Member> MemberCollection { get; } = new ObjectCollection<Member>();
-
-        public Member PrimaryKey
+        [JsonIgnore]
+        public Column PrimaryKey
         {
-            get { return this.MemberCollection.FirstOrDefault(a => this.PrimaryKeyCollection.Contains(a.Name)); }
+            get { return this.ColumnCollection.FirstOrDefault(a => this.PrimaryKeyCollection.Contains(a.Name)); }
         }
 
+        //TODO : move to xsd
         public ObjectCollection<string> PrimaryKeyCollection { get; } = new ObjectCollection<string>();
 
         public override string ToString()
@@ -25,8 +19,6 @@ namespace Bespoke.Sph.Domain.Api
             return this.Name;
         }
 
-        public string VersionColumn { get; set; }
-        public string ModifiedDateColumn { get; set; }
 
     }
 }

@@ -31,9 +31,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var vr = (await base.ValidateAsync()).ToList();
 
-            if (string.IsNullOrWhiteSpace(this.Schema))
-                vr.Add("Schema", "Schema cannot be empty");
-
             if (string.IsNullOrWhiteSpace(this.Database))
                 vr.Add("Database", "Database cannot be empty");
 
@@ -42,14 +39,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        private const string PkSql = @"
-SELECT  
-    B.COLUMN_NAME
-FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, 
-    INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B
-WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
-    AND A.TABLE_NAME = @Table
-    AND A.CONSTRAINT_SCHEMA = @Schema";
 
         private const string Sql = @"SELECT 
         '[' + s.name + '].[' + o.name + ']' as 'Table'
@@ -78,22 +67,19 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         public override async Task OpenAsync(bool verbose = false)
         {
             this.TableDefinitionCollection.Clear();
-            TableColumns.Clear();
 
-            foreach (var table in this.Tables)
+            foreach (var td in this.TableDefinitionCollection)
             {
 
-                var td = new TableDefinition(table) { Name = table.Name, Schema = this.Schema };
-                var columns = new ObjectCollection<SqlColumn>();
 
                 var updateCommand = new StringBuilder("UPDATE ");
-                updateCommand.Append($"[{this.Schema}].[{table.Name}] SET");
+                updateCommand.Append($"[{td.Schema}].[{td.Name}] SET");
 
                 using (var conn = new SqlConnection(ConnectionString))
-                using (var cmd = new SqlCommand(PkSql, conn))
+                using (var cmd = new SqlCommand(Resources.SelectTablePrimaryKeysSql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Schema", this.Schema);
-                    cmd.Parameters.AddWithValue("@Table", table.Name);
+                    cmd.Parameters.AddWithValue("@Schema", td.Schema);
+                    cmd.Parameters.AddWithValue("@Table", td.Name);
                     await conn.OpenAsync();
 
                     using (var reader = await cmd.ExecuteReaderAsync())
@@ -107,8 +93,8 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 using (var conn = new SqlConnection(ConnectionString))
                 using (var cmd = new SqlCommand(Sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Schema", this.Schema);
-                    cmd.Parameters.AddWithValue("@Table", table.Name);
+                    cmd.Parameters.AddWithValue("@Schema", td.Schema);
+                    cmd.Parameters.AddWithValue("@Table", td.Name);
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
@@ -132,26 +118,14 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                             var generator = scores.FirstOrDefault();
                             if (null == generator)
                                 throw new InvalidOperationException($"Cannot find column generator for {mt}");
-                            var col = generator.Value.Initialize(mt,td);
+                            //var col = generator.Value.Initialize(mt, td) as SqlColumn;
 
-                            columns.Add(col);
 
                         }
                     }
                 }
 
-                var members = from c in columns
-                              select c.GetMember(td);
-                td.MemberCollection.AddRange(members);
 
-                if (TableColumns.Any(x => x.Name == table.Name))
-                    TableColumns.Single(x => x.Name == table.Name).ColumnCollection.ClearAndAddRange(columns);
-                else
-                {
-                    var sqlTable = new SqlTable { Name = table.Name };
-                    sqlTable.ColumnCollection.AddRange(columns);
-                    TableColumns.Add(sqlTable);
-                }
 
                 this.TableDefinitionCollection.Add(td);
 
@@ -193,7 +167,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
             var sources = new ObjectCollection<Class>();
-            foreach (var at in this.Tables)
+            foreach (var at in this.TableDefinitionCollection)
             {
                 var table = this.TableDefinitionCollection.Single(t => t.Name == at.Name);
                 options.AddReference(typeof(SqlConnection));
@@ -211,6 +185,13 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 code.AddMethod(GenerateSelectOneMethod(table));
                 code.AddMethod(GenerateConnectionStringProperty());
 
+
+                var columns = from c in at.ColumnCollection
+                              let read = c.GenerateReadAdapterCode(table, this)
+                              where !string.IsNullOrWhiteSpace(read)
+                              select read;
+                columns.ToList().ForEach(x => code.AddMethod(x));
+
                 sources.Add(code);
 
 
@@ -226,7 +207,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             webApi.AddNamespaceImport<DateTime, DomainObject, Task, BaseApiController>();
             webApi.AddNamespaceImport<System.Web.Http.IHttpActionResult, Polly.Policy>();
 
-    
+
 
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
@@ -326,7 +307,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         private string GenerateUpdateMethod(TableDefinition table)
         {
             var name = table.Name;
-            var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
+            var columns = table.ColumnCollection;
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> UpdateAsync({0} item)", name);
             code.AppendLine("       {");
@@ -374,10 +355,13 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         public string GetSelectOneCommand(TableDefinition table)
         {
-            var sql = new StringBuilder("SELECT * FROM ");
-            sql.Append($"{this.Schema}.{table} ");
+            var columns = from c in table.ColumnCollection
+                          let read = c.GenerateReadCode()
+                          where !string.IsNullOrWhiteSpace(read)
+                          select c;
+            var sql = new StringBuilder($"SELECT {columns.ToString(",\r\n ", x => $"[{x.Name}]")} FROM [{table.Schema}].[{table}] ");
             sql.AppendLine("WHERE ");
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
+            var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
             var parameters = pks.Select(k => string.Format("[{0}] = @{0}", k.Name));
 
 
@@ -387,13 +371,17 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         }
         public string GetSelectCommand(TableDefinition table)
         {
-            return $"SELECT * FROM {this.Schema}.{table} ";
+            var columns = from c in table.ColumnCollection
+                          let read = c.GenerateReadCode()
+                          where !string.IsNullOrWhiteSpace(read)
+                          select c;
+            return $"SELECT {columns.ToString(", ", x => $"[{x.Name}]")} FROM [{table.Schema}].[{table}] ";
         }
 
         private string GenerateSelectOneMethod(TableDefinition table)
         {
 
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var arguments = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguments));
@@ -429,6 +417,12 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         private string GenerateSelectMethod(TableDefinition table)
         {
+
+            var columns = from c in table.ColumnCollection
+                          let read = c.GenerateReadCode()
+                          where !string.IsNullOrWhiteSpace(read)
+                          select c;
+            var select = $"SELECT {columns.ToString(",\r\n", x => $"[{x.Name}]")} FROM";
             var code = new StringBuilder();
 
 
@@ -437,9 +431,11 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine("       {");
 
             code.AppendLine("           if (!sql.ToString().Contains(\"ORDER\"))");
-            code.AppendLinf("               sql +=\"\\r\\nORDER BY [{0}]\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.MemberCollection.Select(m => m.Name).First());
+            code.AppendLinf("               sql +=\"\\r\\nORDER BY [{0}]\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.ColumnCollection.Select(m => m.Name).First());
             code.AppendLine("           var translator = new SqlPagingTranslator();");
             code.AppendLine("           sql = translator.Translate(sql, page, size);");
+            code.AppendLine($@"           sql = sql.Replace(""SELECT * FROM"", @""{select}"");");
+
             code.AppendLine();
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
             code.AppendLinf("           using(var cmd = new SqlCommand( sql, conn))", this.GetSelectCommand(table));
@@ -472,7 +468,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         private string PopulateItemFromReader(string name)
         {
-            var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
+            var columns = TableDefinitionCollection.Single(x => x.Name == name).ColumnCollection;
             var code = new StringBuilder();
             var readCodes = from c in columns
                             let rc = c.GenerateReadCode()
@@ -485,10 +481,10 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         public string GetDeleteCommand(TableDefinition table)
         {
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(k => string.Format("[{0}] = @{0}", k.Name));
             var sql = new StringBuilder("DELETE FROM ");
-            sql.Append($"[{this.Schema}].[{table}] ");
+            sql.Append($"[{table.Schema}].[{table}] ");
             sql.AppendLine("WHERE");
             sql.AppendLine(string.Join(" AND ", parameters));
 
@@ -497,7 +493,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         }
         private string GenerateDeleteMethod(TableDefinition table)
         {
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var arguements = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
@@ -526,7 +522,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var name = table.Name;
             var code = new StringBuilder();
-            var columns = TableColumns.Single(x => x.Name == name).ColumnCollection;
+            var columns = table.ColumnCollection;
             var primaryKeyIdentityColumns = columns.Where(x => x.IsPrimaryKey && x.IsIdentity).ToList();
             var sql = this.GetInsertCommand(table);
             var hasSingleIdentityPrimaryKey = primaryKeyIdentityColumns.Count == 1;
@@ -569,11 +565,11 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         public string GetUpdateCommand(TableDefinition table)
         {
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var primaryKeyNames = pks.Select(x => x.Name).ToArray();
-            var columns = TableColumns.Single(x => x.Name == table.Name).ColumnCollection.Where(x => !primaryKeyNames.Contains(x.Name));
+            var columns = table.ColumnCollection.Where(x => !primaryKeyNames.Contains(x.Name));
             var sql = new StringBuilder("UPDATE  ");
-            sql.Append($"[{this.Schema}].[{table}] SET ");
+            sql.Append($"[{table.Schema}].[{table}] SET ");
 
             var cols = columns
                 .Where(c => c.CanWrite)
@@ -591,9 +587,9 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         public string GetInsertCommand(TableDefinition table)
         {
             var sql = new StringBuilder("INSERT INTO ");
-            sql.Append($"[{this.Schema}].[{table}] (");
+            sql.Append($"[{table.Schema}].[{table}] (");
 
-            var cols = TableColumns.Single(x => x.Name == table.Name).ColumnCollection
+            var cols = table.ColumnCollection
                 .Where(c => c.CanWrite)
                 .ToArray();
             sql.JoinAndAppendLine(cols, ",\r\n\t", c => $"[{c.Name}]");
@@ -612,7 +608,6 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var td = this.TableDefinitionCollection.Last(t => t.Name == table);
             return Task.FromResult(td);
         }
-
 
     }
 

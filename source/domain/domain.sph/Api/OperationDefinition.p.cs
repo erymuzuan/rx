@@ -3,29 +3,9 @@ using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain.Api
 {
-    public enum RetryWait
+    public partial class OperationDefinition : DomainObject
     {
-        Constant,
-        Linear,
-        Exponential
-    }
-    public partial class OperationDefinition
-    {
-        public string WebId { get; set; }
-        public string Name { get; set; }
-        public string MethodName { get; set; }
-        public bool IsOneWay { get; set; }
-        public bool IsEvent { get; set; }
-        public ParameterDefinition RequestDefinition { get; set; }
-        public ParameterDirection ResponseDefinition { get; set; }
         public string CodeNamespace { get; set; }
-        public int? RetryCount { get; set; }
-        public int? RetryInterval { get; set; }
-        public RetryWait RetryWait { get; set; }
-
-        public ObjectCollection<Member> RequestMemberCollection { get; } = new ObjectCollection<Member>();
-
-        public ObjectCollection<Member> ResponseMemberCollection { get; } = new ObjectCollection<Member>();
 
         public virtual IEnumerable<Class> GenerateRequestCode()
         {

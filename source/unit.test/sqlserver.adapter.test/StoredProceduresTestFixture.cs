@@ -17,11 +17,9 @@ namespace sqlserver.adapter.test
         {
             var adapter = new SqlServerAdapter
             {
-                Schema = "dbo",
                 TrustedConnection = true,
                 Server = "(localdb)\\ProjectsV12",
                 Database = "Commerce",
-                Tables = new AdapterTable[] { },
                 Name = "__sprocSqlWithResultsetTest"
             };
 
@@ -86,11 +84,11 @@ namespace sqlserver.adapter.test
             Assert.AreEqual(true, cr.Result);
 
             var dll = Assembly.LoadFile(cr.Output);
-            dynamic commerce = dll.CreateInstance(($"{ConfigurationManager.ApplicationName}.Adapters.{adapter.Schema}.{adapter.Name}.{adapter.Name}"));
+            dynamic commerce = dll.CreateInstance(($"{ConfigurationManager.ApplicationName}.Adapters.{productByCategory.Schema}.{adapter.Name}.{adapter.Name}"));
             Assert.IsNotNull(commerce);
             commerce.ConnectionString = @"server=(localdb)\ProjectsV12;database=Commerce;trusted_connection=yes";
             dynamic request =
-                dll.CreateInstance($"{ConfigurationManager.ApplicationName}.Adapters.{adapter.Schema}.{adapter.Name}.{productByCategory.MethodName.ToCsharpIdentitfier()}Request");
+                dll.CreateInstance($"{ConfigurationManager.ApplicationName}.Adapters.{productByCategory.Schema}.{adapter.Name}.{productByCategory.MethodName.ToCsharpIdentitfier()}Request");
             Assert.IsNotNull(request);
             request.CategoryID = 14;
 
@@ -108,11 +106,9 @@ namespace sqlserver.adapter.test
         {
             var adapter = new SqlServerAdapter
             {
-                Schema = "HumanResources",
                 TrustedConnection = true,
                 Server = "(localdb)\\ProjectsV12",
                 Database = "AdventureWorks",
-                Tables = new AdapterTable[] { },
                 Name = ADAPTER_NAME
             };
 
@@ -192,11 +188,11 @@ namespace sqlserver.adapter.test
             Assert.AreEqual(true, cr.Result);
 
             var dll = Assembly.LoadFile(cr.Output);
-            dynamic adw = dll.CreateInstance($"{ConfigurationManager.ApplicationName}.Adapters.{adapter.Schema}.{adapter.Name}.{adapter.Name}");
+            dynamic adw = dll.CreateInstance($"{ConfigurationManager.ApplicationName}.Adapters.{adapter.Name}.{adapter.Name}");
             Assert.IsNotNull(adw);
             adw.ConnectionString = @"server=(localdb)\ProjectsV12;database=AdventureWorks;trusted_connection=yes";
             dynamic request =
-                dll.CreateInstance(($"{ConfigurationManager.ApplicationName}.Adapters.{adapter.Schema}.{ADAPTER_NAME}.{uspUpdateEmployeePersonalInfo.MethodName.ToCsharpIdentitfier()}Request"));
+                dll.CreateInstance(($"{ConfigurationManager.ApplicationName}.Adapters.{ADAPTER_NAME}.{uspUpdateEmployeePersonalInfo.MethodName.ToCsharpIdentitfier()}Request"));
             Assert.IsNotNull(request);
             request.BusinessEntityID = 102;
             request.NationalIDNumber = "360868122";

@@ -13,26 +13,6 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class TableDefinition
     {
-        public TableDefinition()
-        {
-
-        }
-
-        public TableDefinition(AdapterTable table)
-        {
-            this.Name = table.Name;
-            this.VersionColumn = table.VersionColumn;
-            this.ModifiedDateColumn = table.ModifiedDateColumn;
-            var tables = from a in table.ChildRelationCollection
-                         select new TableDefinition
-                         {
-                             Name = a.Table,
-                             CodeNamespace = this.CodeNamespace,
-                             Schema = this.Schema
-                         };
-            this.ChildTableCollection.ClearAndAddRange(tables);
-
-        }
 
         private static readonly string[] ImportDirectives =
         {
@@ -57,28 +37,27 @@ namespace Bespoke.Sph.Domain.Api
 
         public IEnumerable<Class> GenerateCode(Adapter adapter)
         {
-            var @adapteClass = new Class { Name = Name, BaseClass = nameof(DomainObject), Namespace = this.CodeNamespace };
-            @adapteClass.AddNamespaceImport<System.DateTime>();
-            @adapteClass.AddNamespaceImport<DomainObject>();
-            var list = new ObjectCollection<Class> { @adapteClass };
+            var adapteClass = new Class { Name = Name, BaseClass = nameof(DomainObject), Namespace = this.CodeNamespace };
+            adapteClass.AddNamespaceImport<System.DateTime,DomainObject>();
+            var list = new ObjectCollection<Class> { adapteClass };
 
             if (!string.IsNullOrWhiteSpace(ClassAttribute))
-                @adapteClass.AttributeCollection.Add(ClassAttribute);
+                adapteClass.AttributeCollection.Add(ClassAttribute);
 
 
             var pk = "\"\"";
             if (null != this.PrimaryKey)
                 pk = this.PrimaryKey.Name;
             var toString = $"public override string ToString(){{ return \"{Name}:\" + {pk};}}";
-            @adapteClass.MethodCollection.Add(new Method { Code = toString });
+            adapteClass.MethodCollection.Add(new Method { Code = toString });
 
 
-            var properties = this.MemberCollection.Select(x => new Property { Code = x.GeneratedCode() }).ToList();
+            var properties = this.ColumnCollection.Select(x => new Property { Code = x.GeneratedCode() }).ToList();
             
 
-            @adapteClass.PropertyCollection.AddRange(properties);
+            adapteClass.PropertyCollection.AddRange(properties);
 
-            var otherClasses = this.MemberCollection.Select(
+            var otherClasses = this.ColumnCollection.Select(
                 x => x.GeneratedCustomClass(this.CodeNamespace, ImportDirectives))
                 .SelectMany(x => x.ToArray());
             list.AddRange(otherClasses);
@@ -89,10 +68,9 @@ namespace Bespoke.Sph.Domain.Api
 
             return list;
         }
-
-        public string Name { get; set; }
+        [JsonIgnore]
         public string CodeNamespace { get; set; }
+        [JsonIgnore]
         public string ClassAttribute { get; set; }
-        public string WebId { get; set; }
     }
 }

@@ -9,7 +9,6 @@ namespace Bespoke.Sph.Integrations.Adapters
     public class TableOperationDefinition : OperationDefinition
     {
         public string Table { get; set; }
-        public string Schema { get; set; }
         public string Crud { get; set; }
         private string CreateMethodCode(SqlServerAdapter adapter)
         {
@@ -28,7 +27,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand(\"[{0}].[{1}]\", conn))", adapter.Schema, this.MethodName);
+            code.AppendLinf("           using(var cmd = new SqlCommand(\"[{0}].[{1}]\", conn))", this.Schema, this.MethodName);
             code.AppendLine("           {");
             code.AppendLine("               cmd.CommandType = CommandType.Text;");
             foreach (var m in this.RequestMemberCollection.OfType<SprocParameter>())

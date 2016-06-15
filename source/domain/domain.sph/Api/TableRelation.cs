@@ -1,10 +1,12 @@
+using System.Linq;
+
 namespace Bespoke.Sph.Domain.Api
 {
-    public class TableRelation
+    public partial class TableRelation : DomainObject
     {
-        public string Table { get; set; }
-        public string Constraint { get; set; }
-        public string Column { get; set; }
-        public string ForeignColumn { get; set; }
+        public TableDefinition GetTable(Adapter adapter)
+        {
+            return adapter.TableDefinitionCollection.SingleOrDefault(x => x.Name == this.Table);
+        }
     }
 }

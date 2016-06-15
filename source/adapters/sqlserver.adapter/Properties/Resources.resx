@@ -139,4 +139,48 @@
   <data name="Format15Tab" xml:space="preserve">
     <value>{0,-15}	</value>
   </data>
+  <data name="SelectColumnsSql" xml:space="preserve">
+    <value>
+	
+SELECT 
+         o.name as 'Table'
+		,s.name as 'Schema'
+        ,c.name as 'Column'
+        ,t.name as 'Type' 		
+        ,c.max_length as 'Length'
+        ,c.is_nullable as 'IsNullable'    
+	    ,c.is_identity as 'IsIdentity'
+        ,c.is_computed as 'IsComputed'
+    FROM 
+        sys.objects o INNER JOIN sys.all_columns c
+        ON c.object_id = o.object_id
+        INNER JOIN sys.types t 
+        ON c.system_type_id = t.system_type_id
+        INNER JOIN sys.schemas s
+        ON s.schema_id = o.schema_id
+    WHERE 
+        o.type = 'U'
+        AND t.name &lt;&gt; N'sysname'
+        AND t.is_user_defined= 0
+		--AND c.is_nullable = 0
+		--AND t.name IN ('smalldatetime', 'datetime','datetime2', 'rowversion', 'timestamp')
+    ORDER 
+        BY s.name, o.name</value>
+  </data>
+  <data name="SelectTablePrimaryKeysSql" xml:space="preserve">
+    <value>SELECT  
+    B.COLUMN_NAME
+FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, 
+    INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B
+WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
+    AND A.TABLE_NAME = @Table
+    AND A.CONSTRAINT_SCHEMA = @Schema</value>
+  </data>
+  <data name="SelectTablesSql" xml:space="preserve">
+    <value>SELECT o.name, s.name as 'schema' FROM sys.all_objects o INNER JOIN sys.schemas s
+ON o.schema_id = s.schema_id
+WHERE o.[type] = 'U'
+AND s.name NOT IN ('sys')
+ORDER BY o.[schema_id]</value>
+  </data>
 </root>

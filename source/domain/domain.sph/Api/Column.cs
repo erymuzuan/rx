@@ -1,38 +1,35 @@
 using System;
-using Bespoke.Sph.Domain;
-using System.Data;
-using Bespoke.Sph.Domain.Api;
 
-namespace Bespoke.Sph.Integrations.Adapters
+namespace Bespoke.Sph.Domain.Api
 {
-    public class SqlColumn : Column
+    public partial class Column : SimpleMember
     {
-        public virtual SqlDbType SqlType { get; private set; }
-        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        public virtual bool CanWrite => true;
+        public virtual Type ClrType => typeof(object);
+        public short Length { get; set; }
+        public bool IsSelected { get; set; }
+
+        public virtual string GenerateUpdateParameterValue(string commandName = "cmd")
         {
             var nullable = this.IsNullable ? ".ToDbNull()" : "";
             return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{Name}{nullable});";
 
         }
-        public override string GenerateReadCode()
+        public virtual string GenerateReadCode()
         {
             return $"item.{Name} = ({ClrType.ToCSharp()})reader[\"{Name}\"];";
         }
 
-        public override Member GetMember(TableDefinition td)
+        public virtual Member GetMember(TableDefinition td)
         {
-            return new ColumnMember(this)
-            {
-                Type = this.ClrType,
-                IsVersion = td.VersionColumn == this.Name,
-                IsModifiedDate = td.ModifiedDateColumn == this.Name
-            };
+            return null;
         }
 
-        public override Column Initialize(ColumnMetadata mt, TableDefinition td)
+        public virtual Column Initialize(ColumnMetadata mt, TableDefinition td)
         {
             var col = this.JsonClone();
             col.Name = mt.Name;
+            col.DbType = mt.DbType;
             col.IsNullable = mt.IsNullable;
             col.IsIdentity = mt.IsIdentity;
             col.IsComputed = mt.IsComputed;
@@ -41,23 +38,20 @@ namespace Bespoke.Sph.Integrations.Adapters
             col.IsVersion = td.VersionColumn == col.Name;
             col.IsModifiedDate = td.ModifiedDateColumn == col.Name;
 
-            SqlDbType st;
-            if (Enum.TryParse(mt.DbType, true, out st))
-                col.SqlType = st;
-
             return col;
         }
+
+        public string DbType { get; set; }
 
         public override string ToString()
         {
             return new ColumnMetadata(this) + " // - " + this.GetType().FullName;
         }
 
-        public virtual string GenerateReadAdapterCode(TableDefinition table, SqlServerAdapter adapter)
+        public virtual string GenerateReadAdapterCode(TableDefinition table, Adapter adapter)
         {
             return null;
         }
+        
     }
-
-
 }

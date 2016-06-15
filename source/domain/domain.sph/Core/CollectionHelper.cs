@@ -49,6 +49,18 @@ namespace Bespoke.Sph.Domain
             list.Remove(oldItem);
             list.Insert(index, newItem);
         }
+        public static void AddOrReplace<T>(this IList<T> list, T newItem, Func<T,bool> predicate )
+        {
+            var oldItem = list.SingleOrDefault(predicate);
+            if (null == oldItem)
+            {
+                list.Add(newItem);
+                return;
+            }
+            var index = list.IndexOf(oldItem);
+            list.Remove(oldItem);
+            list.Insert(index, newItem);
+        }
 
 
         public static ObjectCollection<T> Flatten<T>(this IEnumerable<IEnumerable<T>> list, bool setBil) where T : DomainObject

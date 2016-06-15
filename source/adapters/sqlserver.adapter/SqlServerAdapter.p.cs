@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string UserId { get; set; }
         public string Password { get; set; }
         public string Database { get; set; }
+        [JsonIgnore]
         public string ConnectionString
         {
             get
@@ -27,7 +28,5 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
         }
 
-        public List<SqlTable> TableColumns { get; } = new List<SqlTable>();
-        public override ObjectCollection<OperationDefinition> OperationDefinitionCollection { get; } = new ObjectCollection<OperationDefinition>();
     }
 }

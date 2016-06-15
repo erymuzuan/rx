@@ -1,14 +1,13 @@
 using System;
 using System.Data;
 using System.Text;
-using Bespoke.Sph.Domain.Api;
 
-namespace Bespoke.Sph.Integrations.Adapters
+namespace Bespoke.Sph.Domain.Api
 {
-    public class ColumnMetadata
+    public partial class ColumnMetadata : DomainObject
     {
         public string Name { get; private set; }
-        public string SqlType { get; private set; }
+        public string DbType { get; private set; }
         public bool IsPrimaryKey { get; private set; }
         public bool IsComputed { get; private set; }
         public bool IsIdentity { get; private set; }
@@ -16,10 +15,9 @@ namespace Bespoke.Sph.Integrations.Adapters
         public short Length { get; private set; }
 
         private ColumnMetadata() { }
-        public ColumnMetadata(SqlColumn column)
+        public ColumnMetadata(Column column)
         {
             Name = column.Name;
-            SqlType = column.SqlType.ToString();
             IsNullable = column.IsNullable;
             IsIdentity = column.IsIdentity;
             IsComputed = column.IsComputed;
@@ -33,13 +31,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var mt = new ColumnMetadata();
             Console.WriteLine("");
-            mt.Name = reader.GetString(1);
-            mt.SqlType = reader.GetString(2);
-            mt.Length = reader.GetInt16(3);
-            mt.IsNullable = reader.GetBoolean(4);
-            mt.IsIdentity = reader.GetBoolean(5);
-            mt.IsComputed = reader.GetBoolean(6);
-            mt.IsPrimaryKey = table.PrimaryKeyCollection.Contains(mt.Name);
+            mt.Name = (string) reader["Column"];
+            mt.DbType = (string)reader["Type"];
+            mt.Length = Convert.ToInt16(reader["Length"]);
+            mt.IsNullable = (bool)reader["IsNullable"];
+            mt.IsIdentity = (bool)reader["IsIdentity"];
+            mt.IsComputed = (bool)reader["IsComputed"];
             return mt;
         }
 
@@ -48,7 +45,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var t = new StringBuilder();
             var nullable = this.IsNullable ? "NULL" : "NOT NULL";
-            t.Append($"{Name}({SqlType} {Length}) {nullable}");
+            t.Append($"{Name}({DbType} {Length}) {nullable}");
 
             if (this.IsComputed)
                 t.AppendLine(" Computed");

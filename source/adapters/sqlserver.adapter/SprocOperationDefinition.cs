@@ -62,18 +62,18 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var code = new StringBuilder();
             code.AppendLine($"  var adapter = new {adapter.Name}();");
-            if (this.RetryCount.HasValue)
+            if (this.ErrorRetry.IsEnabled)
             {
-                var wait = RetryInterval.HasValue ? $"{RetryInterval}" : "500";
-                if (RetryWait == RetryWait.Exponential)
+                var wait = this.ErrorRetry.Wait > 200 ? this.ErrorRetry.Wait.ToString() : "500";
+                if (this.ErrorRetry.Algorithm == WaitAlgorithm.Exponential)
                     wait = $"{wait} * Math.Pow(2, c)";
-                if (RetryWait == RetryWait.Linear)
+                if (this.ErrorRetry.Algorithm == WaitAlgorithm.Linear)
                     wait = $"{wait} * c";
 
                 code.AppendLine(
                     $@"	        
                 var result = await Policy.Handle<Exception>()
-	                                .WaitAndRetryAsync({RetryCount}, c => TimeSpan.FromMilliseconds({wait}))
+	                                .WaitAndRetryAsync({this.ErrorRetry.Attempt}, c => TimeSpan.FromMilliseconds({wait}))
 	                                .ExecuteAndCaptureAsync(async() =>  await adapter.{action}Async(request) );
 
                 if(null != result.FinalException)
@@ -98,8 +98,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand(\"[{0}].[{1}]\", conn))", adapter.Schema,
-                this.MethodName);
+            code.AppendLine($"           using(var cmd = new SqlCommand(\"[{Schema}].[{MethodName}]\", conn))");
             code.AppendLine("           {");
             code.AppendLine("               cmd.CommandType = CommandType.StoredProcedure;");
             foreach (var m in this.RequestMemberCollection.OfType<SprocParameter>())

@@ -14,11 +14,13 @@ namespace Bespoke.Sph.Domain.Api
             if (table.PrimaryKeyCollection.Count != 1) return string.Empty;
 
             var code = new StringBuilder();
-            var lines = from c in table.ChildTableCollection
-                        select this.GenerateChildListAction(table, adapter, c);
+            var lines = from c in table.ChildRelationCollection
+                        let t = c.GetTable(adapter)
+                        where c.IsSelected && null != t
+                        select this.GenerateChildListAction(table, adapter, t);
             lines.ToList().ForEach(l => code.AppendLine(l));
 
-            Console.WriteLine($"ChildListActionCode for {table.Name} with {table.ChildTableCollection.Count} child tables");
+            Console.WriteLine($"ChildListActionCode for {table.Name} with {table.ChildRelationCollection.Count} child tables");
 
             return code.ToString();
         }
@@ -28,18 +30,18 @@ namespace Bespoke.Sph.Domain.Api
         {
             if (null == table.PrimaryKey) return string.Empty;
 
-            var parentTable = adapter.Tables.SingleOrDefault(x => x.Name == table.Name);
+            var parentTable = adapter.TableDefinitionCollection.SingleOrDefault(x => x.Name == table.Name);
             var fk = parentTable?.ChildRelationCollection.SingleOrDefault(x => x.Table == child.Name);
 
             if (null == fk) return string.Empty;
 
             var code = new StringBuilder();
-            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(k => k.Name.ToCamelCase()).ToArray();
             var routes = pks.Select(k => k.Name.ToCamelCase() + this.GetRouteConstraint(k));
             var args = pks.Select(k => k.GenerateParameterCode());
 
-            var delimiter = (new[]{"int","double", "float", "short","long", "byte", "single", "decimal"}).Contains(table.PrimaryKey.GetMemberTypeName()) ? "" : "'";
+            var delimiter = (new[] { "int", "double", "float", "short", "long", "byte", "single", "decimal" }).Contains(table.PrimaryKey.ClrType.ToCSharp()) ? "" : "'";
             var filter = $"[{fk.Column}] = {delimiter}{{{table.PrimaryKey.Name.ToCamelCase()}}}{delimiter}";
 
 

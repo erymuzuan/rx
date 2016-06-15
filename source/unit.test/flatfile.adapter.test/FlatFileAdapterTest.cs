@@ -29,8 +29,8 @@ namespace flatfile.adapter.test
             };
 
             var customer = new TableDefinition { Name = "Customer" , Schema = adapter.Schema, ClassAttribute = "[FileHelpers.DelimitedRecord(\", \")]" };
-            customer.MemberCollection.Add(new FlatFileMember { Name = "No" , Type = typeof(string), IsNullable = true });
-            customer.MemberCollection.Add(new FlatFileMember { Name = "RegisterdDate" , Type = typeof(string), IsNullable = true });
+            customer.ColumnCollection.Add(new FlatFileMember { Name = "No" , Type = typeof(string), IsNullable = true });
+            customer.ColumnCollection.Add(new FlatFileMember { Name = "RegisterdDate" , Type = typeof(string), IsNullable = true });
             customer.ActionCodeGenerators = new ControllerAction[] {};
 
             adapter.TableDefinitionCollection.Add(customer);

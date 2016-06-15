@@ -72,10 +72,6 @@
     <Compile Include="NamingUtilityTextFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\adapters\http.adapter\http.adapter.csproj">
-      <Project>{E9B0A836-06F6-4B09-8B53-BFEE0B75224F}</Project>
-      <Name>http.adapter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:bs="http://www.bespoke.com.my/" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
+	<xs:element name="TableDefinition">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ColumnCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Column" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ChildRelationCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="TableRelation" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ParentRelationCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="TableRelation" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="IsSelected" type="xs:boolean" use="required"/>
+			<xs:attribute name="AllowRead" type="xs:boolean" use="required"/>
+			<xs:attribute name="AllowInsert" type="xs:boolean" use="required"/>
+			<xs:attribute name="AllowUpdate" type="xs:boolean" use="required"/>
+			<xs:attribute name="AllowDelete" type="xs:boolean" use="required"/>
+			<xs:attribute name="Schema" type="xs:string" use="required"/>
+			<xs:attribute name="VersionColumn" type="xs:string" use="optional"/>
+			<xs:attribute name="ModifiedDateColumn" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Column">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Member">
+					<xs:attribute name="IsPrimaryKey" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsVersion" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsModifiedDate" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsComputed" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsIdentity" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ColumnMetadata"/>
+	<xs:element name="OperationDefinition">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="ParameterDefinition"/>
+				<xs:element name="RequestMemberCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Member" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ResponseMemberCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Member" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="ErrorRetry"/>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="MethodName" type="xs:string" use="required"/>
+			<xs:attribute name="IsOneWay" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsEvent" type="xs:boolean" use="required"/>
+			<xs:attribute name="Schema" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ErrorRetry">
+		<xs:complexType>
+			<xs:attribute name="Attempt" type="xs:int" use="required"/>
+			<xs:attribute name="IsEnabled" type="xs:boolean" use="required"/>
+			<xs:attribute name="Wait" type="xs:int" use="required"/>
+			<xs:attribute name="Algorithm" type="WaitAlgorithm" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="WaitAlgorithm">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Constant"/>
+			<xs:enumeration value="Linear"/>
+			<xs:enumeration value="Exponential"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="ParameterDefinition">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="MemberCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Member" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="IsRequest" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsResponse" type="xs:boolean" use="required"/>
+			<xs:attribute name="CodeNamespace" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TableRelation">
+		<xs:complexType>
+			<xs:attribute name="Table" type="xs:string" use="required"/>
+			<xs:attribute name="Constraint" type="xs:string" use="required"/>
+			<xs:attribute name="Column" type="xs:string" use="required"/>
+			<xs:attribute name="ForeignColumn" type="xs:string" use="required"/>
+			<xs:attribute name="IsSelected" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Adapter">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="TableDefinitionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="TableDefinition" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OperationDefinitionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="OperationDefinition" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Member">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:element name="Member">
+		<xs:annotation>
+			<xs:documentation>Placehorder</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

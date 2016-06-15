@@ -66,7 +66,6 @@
   <ItemGroup>
     <Compile Include="ColumnGeneratorMetadata.cs" />
     <Compile Include="ColumnMember.cs" />
-    <Compile Include="ColumnMetadata.cs" />
     <Compile Include="Columns\BinaryColumn.cs" />
     <Compile Include="Columns\ComputedColumn.cs" />
     <Compile Include="Columns\DateTimeColumn.cs" />
@@ -87,12 +86,14 @@
     <Compile Include="Columns\TinyIntColumn.cs" />
     <Compile Include="Columns\XmlColumn.cs" />
     <Compile Include="IColumnGeneratorMetadata.cs" />
+    <Compile Include="SqlServerAdapter.metadata.cs" />
     <Compile Include="TableOperationDefinition.cs" />
     <Compile Include="ThreeWayBoolean.cs" />
     <EmbeddedResource Include="OdataSqlTranslator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql2008PagingTranslator.cs" />
     <EmbeddedResource Include="Sql2012PagingTranslator.cs" />
@@ -161,6 +162,7 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="_ko.adapter.sqlserver.js" />
+    <EmbeddedResource Include="_sql.server.adapter.domain.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

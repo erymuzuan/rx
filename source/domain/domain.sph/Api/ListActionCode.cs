@@ -8,6 +8,7 @@ namespace Bespoke.Sph.Domain.Api
     {
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
+
             var code = new StringBuilder();
             code.AppendLine("       [Route(\"\")]");
             code.AppendLine("       [HttpGet]");
