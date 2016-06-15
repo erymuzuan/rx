@@ -6,6 +6,8 @@
 /// <reference path="../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../../../web/core.sph/sphapp/schemas/adapter.api.g.js" />
+/// <reference path="c:\project\work\sph\source\adapters\sqlserver.adapter\_sql.server.adapter.domain.js" />
 /// <reference path="../domain/domain.sph/Scripts/objectbuilders.js" />
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app,"sqlserver-adapter/resource/_sql.server.adapter.domain.js"],
@@ -20,7 +22,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             connect = function () {
 
                 var tcs = new $.Deferred(),
-                    adp = ko.unwrap(adapter)
+                    adp = ko.unwrap(adapter),
                     server = ko.unwrap(adp.Server),
                     trusted = ko.unwrap(adp.TrustedConnection),
                     userid = ko.unwrap(adp.UserId),
@@ -114,15 +116,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             generate = function () {
 
-                _(ko.unwrap(selectedTables)).each(function (v) {
-                    var opt = _(tableOptions()).find(function (x) {
-                        return ko.unwrap(v.Name) === ko.unwrap(x.name);
-                    });
-                    v.VersionColumn = ko.unwrap(opt.versionColumn);
-                    v.ModifiedDateColumn = ko.unwrap(opt.modifiedDateColumn);
-                });
-                adapter().Tables = selectedTables();
-
                 var data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
@@ -178,7 +171,18 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             },
             editTable = function (table) {
-                console.log(table);
+                require(["viewmodels/_adapter.sqlserver.table.dialog", "durandal/app"],
+                    function (dialog, app2) {
+                        dialog.table(context.clone(table));
+                        app2.showDialog(dialog)
+                            .done(function(result) {
+                                if (!result) return;
+                                if (result === "OK") {
+                                    adapter().TableDefinitionCollection.replace(table, dialog.table());
+
+                                }
+                            });
+                    });
             }
         ;
 
