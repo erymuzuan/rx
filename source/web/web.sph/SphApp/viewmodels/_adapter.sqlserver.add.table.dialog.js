@@ -42,7 +42,7 @@ define(['plugins/dialog', "services/datacontext"],
                 });
             },
             attached = function(view){
-                $(view).find("table").on("click","input[type=checkbox].table-checkbox", function(e){
+                $(view).on("click","input[type=checkbox].table-checkbox", function(e){
                     var table = ko.dataFor(this);
 
                 var adp = ko.unwrap(adapter),
@@ -63,7 +63,7 @@ define(['plugins/dialog', "services/datacontext"],
 
                     }else{
                         var tr = _(selectedTables()).find(function(v){
-                            return ko.unwrap(v.Name) === v.Name && ko.unwrap(v.Schema) === v.Schema;
+                            return ko.unwrap(v.Name) === ko.unwrap(table.Name) && ko.unwrap(v.Schema) === ko.unwrap(table.Schema);
                         });
                         if(tr)
                             selectedTables.remove(tr);
