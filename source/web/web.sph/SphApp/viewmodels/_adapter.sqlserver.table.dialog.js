@@ -17,7 +17,7 @@ define(['plugins/dialog'],
                     return ko.unwrap(v.SqlType) === "Timestamp";
                 }),
                 modifiedDateColumnOptions = _(table().ColumnCollection()).filter(function(v) {
-                    return ko.unwrap(v.ClrType).startsWith("System.DateTime");
+                    return ko.unwrap(v.TypeName).startsWith("System.DateTime");
                 });
                 table().versionColumnOptions = ko.observableArray(timestampColumn);
                 table().modifiedDateColumnOptions = ko.observableArray(modifiedDateColumnOptions);

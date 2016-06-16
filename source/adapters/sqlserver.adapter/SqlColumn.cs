@@ -3,6 +3,7 @@ using Bespoke.Sph.Domain;
 using System.Data;
 using System.Text;
 using Bespoke.Sph.Domain.Api;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -46,7 +47,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             col.IsPrimaryKey = mt.IsPrimaryKey;
             col.IsVersion = td.VersionColumn == col.Name;
             col.IsModifiedDate = td.ModifiedDateColumn == col.Name;
-            col.TypeName = this.ClrType.GetShortAssemblyQualifiedName();
+            col.TypeName = col.ClrType.GetShortAssemblyQualifiedName();
 
             SqlDbType st;
             if (Enum.TryParse(mt.DbType, true, out st))
@@ -64,7 +65,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             return null;
         }
-
+        [JsonIgnore]
         public override Type ClrType
         {
             get

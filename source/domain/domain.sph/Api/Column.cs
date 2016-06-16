@@ -1,10 +1,12 @@
 using System;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
 {
     public partial class Column : SimpleMember
     {
         public virtual bool CanWrite => true;
+        [JsonIgnore]
         public virtual Type ClrType => typeof(object);
         public short Length { get; set; }
         public bool IsSelected { get; set; }
@@ -19,7 +21,7 @@ namespace Bespoke.Sph.Domain.Api
         {
             return $"item.{Name} = ({ClrType.ToCSharp()})reader[\"{Name}\"];";
         }
-
+        [JsonIgnore]
         public override Type Type
         {
             get { return this.ClrType; }
