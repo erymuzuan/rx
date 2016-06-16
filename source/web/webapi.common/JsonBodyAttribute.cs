@@ -30,8 +30,12 @@ namespace Bespoke.Sph.WebApi
         {
             var request = actionContext.Request;
             var stream = request.Content.ReadAsStreamAsync().Result;
-            var text = this.GetContentJson(stream);
-            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            var text = this.GetContentJson(stream); var setting = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
             actionContext.ActionArguments[Descriptor.ParameterName] = JsonConvert.DeserializeObject(text, setting);
             var tsc = new TaskCompletionSource<object>();

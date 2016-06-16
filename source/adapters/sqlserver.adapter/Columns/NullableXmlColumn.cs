@@ -6,7 +6,7 @@ using System.Xml;
 namespace Bespoke.Sph.Integrations.Adapters.Columns
 {
     [Export("SqlColumn", typeof(SqlColumn))]
-    [ColumnGeneratorMetadata(IncludeTypes = new[] { SqlDbType.Xml,  }, IsNullable = ThreeWayBoolean.True)]
+    [ColumnGeneratorMetadata(IncludeTypes = new[] { SqlDbType.Xml}, IsNullable = ThreeWayBoolean.True)]
     public class NullableXmlColumn : SqlColumn
     {
         public override Type ClrType => typeof(XmlDocument);

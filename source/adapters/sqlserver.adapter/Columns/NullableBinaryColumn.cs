@@ -19,6 +19,16 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
             return null;
         }
 
+        public override string GeneratedCode(string padding = "      ")
+        {
+            var code = base.GeneratedCode(padding);
+            const string IGNORE = "[JsonIgnore]\r\n";
+            if (this.IsComplex)
+                return IGNORE + code;
+            return code;
+
+        }
+
         public override string GenerateReadAdapterCode(TableDefinition table, SqlServerAdapter adapter)
         {
             var pks = table.ColumnCollection.Where(x => table.PrimaryKeyCollection.Contains(x.Name)).ToArray();

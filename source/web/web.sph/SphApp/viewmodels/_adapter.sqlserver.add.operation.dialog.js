@@ -51,7 +51,7 @@ define(['plugins/dialog', "services/datacontext"],
                         userid = ko.unwrap(adp.UserId),
                         password = ko.unwrap(adp.Password),
                         url = trusted ? "" : "&trusted=false&userid=" + userid+ "&password=" + password,
-                        type = ko.unwrap($type) === 'Bespoke.Sph.Integrations.Adapters.FuncOperationDefinition, sqlserver.adapter' ? 'functions' : 'sprocs';
+                        type = ko.unwrap(operation.$type) === 'Bespoke.Sph.Integrations.Adapters.FuncOperationDefinition, sqlserver.adapter' ? 'functions' : 'sprocs';
                     if($(this).is(":checked")){
                         isBusy();
                         $.getJSON("/sqlserver-adapter/" +  type + "/" +  operation.Schema + "/" + operation.Name +"?server=" + server + "&database=" + database + url)

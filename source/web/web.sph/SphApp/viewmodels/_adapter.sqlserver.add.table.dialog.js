@@ -57,6 +57,7 @@ define(['plugins/dialog', "services/datacontext"],
                         $.getJSON("/sqlserver-adapter/table-options/" +  table.Schema + "/" + table.Name +"?server=" + server + "&database=" + database + url)
                                 .done(function(result){
                                     var tr = context.toObservable(result);
+                                    tr.IsSelected(true);
                                     selectedTables.push(tr);
                                     isBusy(false);
                                 });

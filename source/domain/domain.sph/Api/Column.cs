@@ -20,10 +20,15 @@ namespace Bespoke.Sph.Domain.Api
             return $"item.{Name} = ({ClrType.ToCSharp()})reader[\"{Name}\"];";
         }
 
-        public virtual Member GetMember(TableDefinition td)
+        public override Type Type
         {
-            return null;
+            get { return this.ClrType; }
+            set
+            {
+                this.TypeName = value.GetShortAssemblyQualifiedName();
+            }
         }
+
 
         public virtual Column Initialize(ColumnMetadata mt, TableDefinition td)
         {

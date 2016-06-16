@@ -191,7 +191,12 @@ namespace Bespoke.Sph.Domain
         {
             try
             {
-                var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                var setting = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+                setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                 return JsonConvert.DeserializeObject<T>(json, setting);
             }
             catch (OutOfMemoryException)

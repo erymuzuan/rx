@@ -430,6 +430,36 @@ namespace Bespoke.Sph.Domain.Api
         }
 
 
+        private bool m_IsComplex;
+        public bool IsComplex
+        {
+            get
+            {
+                return m_IsComplex;
+            }
+            set
+            {
+                m_IsComplex = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_MimeType;
+        public string MimeType
+        {
+            get
+            {
+                return m_MimeType;
+            }
+            set
+            {
+                m_MimeType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -1181,7 +1211,6 @@ namespace Bespoke.Sph.Domain.Api
 
 
     }
-
 
 
     // placeholder for Member complext type

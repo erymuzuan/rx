@@ -14,7 +14,7 @@ define(['plugins/dialog'],
         var table = ko.observable(new bespoke.sph.domain.api.TableDefinition()),
             activate = function () {
                 var timestampColumn = _(table().ColumnCollection()).filter(function(v) {
-                    return ko.unwrap(v.SqlType) === "TimeStamp";
+                    return ko.unwrap(v.SqlType) === "Timestamp";
                 }),
                 modifiedDateColumnOptions = _(table().ColumnCollection()).filter(function(v) {
                     return ko.unwrap(v.ClrType).startsWith("System.DateTime");
