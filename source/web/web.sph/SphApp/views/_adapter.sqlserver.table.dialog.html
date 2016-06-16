@@ -46,7 +46,32 @@
 
                         </div>
                         <div id="columns-selection" class="tab-pane">
-
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Length</th>
+                                        <th>Null</th>
+                                        <th>Is complex</th>
+                                        <th>Mime type</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: ColumnCollection">
+                                    <tr>
+                                        <td data-bind="text:Name"></td>
+                                        <td data-bind="text:DbType"></td>
+                                        <td data-bind="text:Length"></td>
+                                        <td data-bind="text:IsNullable"></td>
+                                        <td>
+                                            <input type="checkbox" class="form-control" name="IsNullable" data-bind="checked:IsComplex"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="MimeType" data-bind="value:MimeType, enable:IsComplex"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
                         </div>
                         <div id="others" class="tab-pane">

@@ -1,24 +1,41 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Data;
+using System.Text;
 using System.Xml;
+using System.Linq;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters.Columns
 {
     [Export("SqlColumn", typeof(SqlColumn))]
-    [ColumnGeneratorMetadata(IncludeTypes = new[] { SqlDbType.Xml}, IsNullable = ThreeWayBoolean.True)]
+    [ColumnGeneratorMetadata(IncludeTypes = new[] { SqlDbType.Xml }, IsNullable = ThreeWayBoolean.True)]
     public class NullableXmlColumn : SqlColumn
     {
+        [JsonIgnore]
         public override Type ClrType => typeof(XmlDocument);
         public override string GenerateReadCode()
         {
             return $"item.{Name} = reader[\"{Name}\"].ReadNullableXmlDocument();";
         }
 
-        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        public override string GeneratedCode(string padding = "      ")
         {
-            return  $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{Name}?.OuterXml.ToDbNull());";
+            var code = base.GeneratedCode(padding);
+            const string IGNORE = "[Newtonsoft.Json.JsonIgnore]\r\n";
+            if (this.IsComplex)
+                return IGNORE + code;
+            return code;
 
         }
+
+        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        {
+            return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{Name}?.OuterXml.ToDbNull());";
+
+        }
+       
     }
 }

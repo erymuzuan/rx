@@ -31,6 +31,7 @@ namespace Bespoke.Sph.Domain.Api
             }
         }
 
+     
 
         public virtual Column Initialize(ColumnMetadata mt, TableDefinition td)
         {
