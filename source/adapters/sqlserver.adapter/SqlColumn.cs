@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public override Column Initialize(ColumnMetadata mt, TableDefinition td)
         {
-            var col = this.JsonClone();
+            var col = (SqlColumn)base.Initialize(mt, td);
             col.Name = mt.Name;
             col.DbType = mt.DbType;
             col.IsNullable = mt.IsNullable;

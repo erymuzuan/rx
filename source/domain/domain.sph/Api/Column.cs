@@ -60,6 +60,14 @@ namespace Bespoke.Sph.Domain.Api
         {
             return null;
         }
-        
+
+        public void Merge(Column oc, TableDefinition table)
+        {
+            // TODO : copy users setting property like, MIME, inline data or not from oc to col
+            this.IsComplex = oc.IsComplex;
+            this.MimeType = oc.MimeType;
+            this.IsVersion = table.VersionColumn == this.Name;
+            this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
+        }
     }
 }

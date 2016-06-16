@@ -18,7 +18,31 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
         {
             return null;
         }
+        public override string GenerateReadAdapterCode(TableDefinition table, Adapter adapter)
+        {
+            if (!this.IsComplex)
+                return null;
+            var pks = table.ColumnCollection.Where(x => table.PrimaryKeyCollection.Contains(x.Name)).ToArray();
+            var args = pks.ToString(", ", x => $"{x.GenerateParameterCode()}");
+            var predicates = pks.ToString("AND ", x => $"[{x.Name}] = @{x.Name}");
+            var parameters = pks.ToString("\r\n", x => $@"cmd.Parameters.AddWithValue(""@{x.Name}"", {x.Name.ToCamelCase()});");
+            var code = new StringBuilder();
+            code.AppendLine($"       public async Task<{ClrType.ToCSharp()}> Get{Name}Async({args})");
+            code.AppendLine("       {");
+            code.AppendLine($@"           var sql = $""SELECT [{Name}] FROM [{table.Schema}].[{table.Name}] WHERE {predicates}"";");
+            code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
+            code.AppendLine("           using(var cmd = new SqlCommand(sql, conn))");
+            code.AppendLine("           {");
+            code.AppendLine("               " + parameters);
 
+            code.AppendLine("               await conn.OpenAsync();");
+            code.AppendLine("               var dbval = await cmd.ExecuteScalarAsync();");
+            code.AppendLine("               return dbval.ReadNullableByteArray();");
+            code.AppendLine("           }");
+
+            code.AppendLine("       }");
+            return code.ToString();
+        }
         public override string GeneratedCode(string padding = "      ")
         {
             var code = base.GeneratedCode(padding);

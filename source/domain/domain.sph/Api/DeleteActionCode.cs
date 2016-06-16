@@ -34,18 +34,18 @@ namespace Bespoke.Sph.Domain.Api
             return code.ToString();
         }
 
-        public override HypermediaLink GetHypermediaLink(Adapter adapter, TableDefinition table)
+        public override HypermediaLink[] GetHypermediaLinks(Adapter adapter, TableDefinition table)
         {
             if (table.PrimaryKeyCollection.Count == 0) return null;
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(m => m.Name.ToCamelCase()).ToArray();
-            return new HypermediaLink
+            return new[] {new HypermediaLink
             {
                 Rel = "delete",
                 Method = "DELETE",
                 Href = $"{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{parameters.ToString("/", x => $"{{{x}}}")}",
                 Description = "Issue a DELETE command to your table"
-            };
+            }};
 
         }
     }

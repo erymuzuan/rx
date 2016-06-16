@@ -34,12 +34,13 @@ namespace Bespoke.Sph.Integrations.Adapters
                         deletedTables.Add(table);
                         continue;
                     }
+                   // db.Merge(table);
                     foreach (var col in db.ColumnCollection)
                     {
                         var oc = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
                         if (null != oc)
                         {
-                            // TODO : copy users setting property like, MIME, inline data or not from oc to col
+                            col.Merge(oc, table);
                         }
                     }
                     // now refresh the table column with the one read from db, but with user's metada intact

@@ -19,7 +19,15 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
                     item.{Name} = xml{Name};";
 
         }
+        public override string GeneratedCode(string padding = "      ")
+        {
+            var code = base.GeneratedCode(padding);
+            const string IGNORE = "[Newtonsoft.Json.JsonIgnore]\r\n";
+            if (this.IsComplex)
+                return IGNORE + code;
+            return code;
 
+        }
         public override string GenerateUpdateParameterValue(string commandName = "cmd")
         {
             return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{Name}.OuterXml);";

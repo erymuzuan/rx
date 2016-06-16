@@ -92,13 +92,14 @@ var cache = new CacheMetadata(null, item.{table.ModifiedDateColumn});
                 return NotModified(cache);   
             }");
 
-            if(null == this.ActionCodeGenerators)
+            if (null == this.ActionCodeGenerators)
                 ObjectBuilder.ComposeMefCatalog(this);
-            if(null == this.ActionCodeGenerators)throw new Exception($"Fail to initialize {nameof(GetOneActionCode)}");
+            if (null == this.ActionCodeGenerators) throw new Exception($"Fail to initialize {nameof(GetOneActionCode)}");
 
-            var links = this.ActionCodeGenerators.Select(x => x.GetHypermediaLink(adapter, table))
+            var links = this.ActionCodeGenerators.Select(x => x.GetHypermediaLinks(adapter, table))
                 .Where(x => null != x)
-                .Select(x => "{"+ x.ToString().Replace("\"", "\"\"") + "}")
+                .SelectMany(x => x)
+                .Select(x => "{" + x.ToString().Replace("\"", "\"\"") + "}")
                 .ToList();
 
             code.Append(
@@ -113,25 +114,25 @@ var cache = new CacheMetadata(null, item.{table.ModifiedDateColumn});
             return Json(source.ToString(){((version || modifiedDate) ? ", cache" : "")});
 ");
 
-            
+
             code.AppendLine();
             code.AppendLine("       }");
 
             return code.ToString();
         }
 
-        public override HypermediaLink GetHypermediaLink(Adapter adapter, TableDefinition table)
+        public override HypermediaLink[] GetHypermediaLinks(Adapter adapter, TableDefinition table)
         {
             if (table.PrimaryKeyCollection.Count == 0) return null;
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(m => m.Name.ToCamelCase()).ToArray();
-            return new HypermediaLink
+            return new[] {new HypermediaLink
             {
                 Rel = "self",
                 Method = "GET",
                 Href = $"{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{parameters.ToString("/", x => $"{{{x}}}")}",
                 Description = "Issue a GET request"
-            };
+            }};
         }
     }
 }

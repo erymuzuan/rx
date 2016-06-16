@@ -1,11 +1,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Data;
-using System.Text;
 using System.Xml;
-using System.Linq;
-using Bespoke.Sph.Domain;
-using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters.Columns

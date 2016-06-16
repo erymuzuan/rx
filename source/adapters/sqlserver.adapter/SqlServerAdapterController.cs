@@ -313,6 +313,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 UserId = user,
                 Password = password
             };
+            
 
             var tables = await adapter.GetOperationOptionsAsync();
             var json = "[" + tables.ToString(",\r\n", x => x.ToJsonString(false)) + "]";

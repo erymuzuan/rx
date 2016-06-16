@@ -169,6 +169,7 @@
     <Compile Include="Api\ChildListActionCode.cs" />
     <Compile Include="Api\Column.cs" />
     <Compile Include="Api\ColumnMetadata.cs" />
+    <Compile Include="Api\ComplexColumnActionCode.cs" />
     <Compile Include="Api\ControllerAction.cs" />
     <Compile Include="Api\DeleteActionCode.cs" />
     <Compile Include="Api\ErrorRetry.cs" />

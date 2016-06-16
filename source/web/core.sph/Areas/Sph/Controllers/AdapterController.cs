@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Web.Controllers
     ""designer"" : {JsonConvert.SerializeObject(a.Metadata)},
     ""adapter"" : {a.Value.ToJsonString()}
 }}";
-
+           
 
             return Json("[" + string.Join(",", actions) + "]");
 
