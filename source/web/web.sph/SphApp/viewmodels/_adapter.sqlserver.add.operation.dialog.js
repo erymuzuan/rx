@@ -28,7 +28,18 @@ define(['plugins/dialog', "services/datacontext"],
                     password = ko.unwrap(adp.Password),
                     url = trusted ? "" : "&trusted=false&userid=" + userid+ "&password=" + password;
                 return $.getJSON("/sqlserver-adapter/operation-options?server=" + server + "&database=" + database + url)
-                .done(operations);
+                .done(function(result){
+                    var list = _(result).filter(function(v){
+                            var f = _(adapter().OperationDefinitionCollection())
+                                .find(function(x){
+                                    return ko.unwrap(x.Name) === ko.unwrap(v.Name) && ko.unwrap(v.Schema) === ko.unwrap(x.Schema);
+
+                                });
+                            return !f;
+                    });
+                    operations(list);
+
+                });
             },
             attached = function(view){
                 $(view).on("click","input[type=checkbox].operation-checkbox", function(e){
@@ -52,7 +63,8 @@ define(['plugins/dialog', "services/datacontext"],
 
                     }else{
                         var tr = _(selectedOperations()).find(function(v){
-                            return ko.unwrap(v.Name) === v.Name && ko.unwrap(v.Schema) === v.Schema;
+                            return ko.unwrap(v.Name) === operation.Name 
+                                && ko.unwrap(v.Schema) === operation.Schema;
                         });
                         if(tr)
                             selectedOperations.remove(tr);

@@ -28,7 +28,18 @@ define(['plugins/dialog', "services/datacontext"],
                     password = ko.unwrap(adp.Password),
                     url = trusted ? "" : "&trusted=false&userid=" + userid+ "&password=" + password;
                 return $.getJSON("/sqlserver-adapter/table-options?server=" + server + "&database=" + database + url)
-                .done(tables);
+                .done(function(result){
+                    var list = _(result).filter(function(v){
+                            var f = _(adapter().TableDefinitionCollection())
+                                .find(function(x){
+                                    return ko.unwrap(x.Name) === ko.unwrap(v.Name) && ko.unwrap(v.Schema) === ko.unwrap(x.Schema);
+
+                                });
+                            return !f;
+                    });
+                    tables(list);
+
+                });
             },
             attached = function(view){
                 $(view).find("table").on("click","input[type=checkbox].table-checkbox", function(e){

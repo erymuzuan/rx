@@ -49,22 +49,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 {
                     this.TableDefinitionCollection.Remove(dt);
                 }
-
-
-                // Used for performance testing, since it's not easy to use profiler
-                //await GetChildTablesAsync(conn);
-                //await ReadColumnsAsync(conn);
-                //await ReadPrimaryKeysAsync(conn);
-                //await ReadStoreProceduresAsync(conn);
-                //await ReadFunctionsAsync(conn);
-
-                //var childTablesTask = GetChildTablesAsync(this.TableDefinitionCollection, conn);
-                //var columnsTask = ReadColumnsAsync(conn);
-                //var primariKeyTask = ReadPrimaryKeysAsync(conn);
-                //var sprocTask = ReadStoreProceduresAsync(conn);
-                //var funcTask = ReadFunctionsAsync(conn);
-
-                //await Task.WhenAll(columnsTask, primariKeyTask, sprocTask, funcTask, childTablesTask);
+                
             }
 
 
