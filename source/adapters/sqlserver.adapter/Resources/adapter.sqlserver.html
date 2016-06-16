@@ -38,44 +38,49 @@
 
                 <table id="table-options-panel" class="table table-condensed table-striped table-hover" data-bind="filter: {path: 'tbody>tr'}">
                     <thead>
-                        <tr>
-                            <th>Table</th>
-                            <th>Row Version/Timestamp Column</th>
-                            <th>Last Modified Date Column</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>Table</th>
+                        <th>Row Version/Timestamp Column</th>
+                        <th>Last Modified Date Column</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody data-bind="foreach :TableDefinitionCollection">
-                        <tr>
-                            <td>
-                                <label>
-                                    <input type="checkbox" data-bind="attr : {'name':'table-' + Name}, checked: IsSelected" />
-                                    <!-- ko text: Schema  --><!-- /ko -->.<!-- ko text: Name  --><!-- /ko -->
-                                </label>
-                            </td>
-                            <td data-bind="text: VersionColumn"></td>
-                            <td data-bind="text:ModifiedDateColumn"></td>
-                            <td>
-                                <a href="javascript:;" data-bind="click : $root.editTable">
-                                    Advanced
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- ko foreach:ChildRelationCollection -->
-                        <tr>
-                            <td>
-                                <label style="margin-left:20px">
-                                    <input type="checkbox" data-bind="checked: IsSelected" />
-                                    <!-- ko text: Table  --><!-- /ko -->
-                                </label>
-                            </td>
-                            <td data-bind="text: Column"></td>
-                            <td data-bind="text:ForeignColumn"></td>
-                            <td></td>
-                        </tr>
-                        <!-- /ko -->
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="checkbox" data-bind="attr : {'name':'table-' + Name}, checked: IsSelected"/>
+                                <!-- ko text: Schema --><!-- /ko -->.<!-- ko text: Name --><!-- /ko -->
+                            </label>
+                        </td>
+                        <td data-bind="text: VersionColumn"></td>
+                        <td data-bind="text:ModifiedDateColumn"></td>
+                        <td>
+                            <a href="javascript:;" data-bind="click : $root.editTable">
+                                Advanced
+                            </a>
+                        </td>
+                    </tr>
+                    <!-- ko foreach:ChildRelationCollection -->
+                    <tr>
+                        <td>
+                            <label style="margin-left: 20px">
+                                <input type="checkbox" data-bind="checked: IsSelected"/>
+                                <!-- ko text: Table --><!-- /ko -->
+                            </label>
+                        </td>
+                        <td data-bind="text: Column"></td>
+                        <td data-bind="text:ForeignColumn"></td>
+                        <td></td>
+                    </tr>
+                    <!-- /ko -->
                     </tbody>
                 </table>
+
+                <a class="btn btn-link" data-bind="click : $root.addTable">
+                    <i class="fa fa-plus-circle"></i>
+                    Add new table or view
+                </a>
 
             </div>
 

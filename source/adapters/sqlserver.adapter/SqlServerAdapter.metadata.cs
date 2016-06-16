@@ -12,8 +12,6 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public partial class SqlServerAdapter
     {
-
-
         public async Task<bool> LoadDatabaseObjectAsync(string connectionString)
         {
             using (var conn = new SqlConnection(connectionString))
@@ -27,9 +25,31 @@ namespace Bespoke.Sph.Integrations.Adapters
                     Console.WriteLine(e);
                     return false;
                 }
-                var tableTask = ReadTablesAsync(conn);
-                var viewsTask = ReadViewsAsync(conn);
-                await Task.WhenAll(tableTask, viewsTask);
+                var tableOptions = (await GetTableOptionsAsync()).ToArray();
+                var deletedTables = new List<TableDefinition>();
+                foreach (var table in this.TableDefinitionCollection)
+                {
+                    var db = tableOptions.SingleOrDefault(x => x.Name == table.Name && x.Schema == table.Schema);
+                    if (null == db)
+                    {
+                        deletedTables.Add(table);
+                        continue;
+                    }
+                    foreach (var col in db.ColumnCollection)
+                    {
+                        var oc = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
+                        if (null != oc)
+                        {
+                            // TODO : copy users setting property like, MIME, inline data or not from oc to col
+                        }
+                    }
+                    // now refresh the table column with the one read from db, but with user's metada intact
+                    table.ColumnCollection.ClearAndAddRange(db.ColumnCollection);
+                }
+                foreach (var dt in deletedTables)
+                {
+                    this.TableDefinitionCollection.Remove(dt);
+                }
 
 
                 // Used for performance testing, since it's not easy to use profiler
@@ -39,22 +59,22 @@ namespace Bespoke.Sph.Integrations.Adapters
                 //await ReadStoreProceduresAsync(conn);
                 //await ReadFunctionsAsync(conn);
 
-                var childTablesTask = GetChildTablesAsync(conn);
-                var columnsTask = ReadColumnsAsync(conn);
-                var primariKeyTask = ReadPrimaryKeysAsync(conn);
-                var sprocTask = ReadStoreProceduresAsync(conn);
-                var funcTask = ReadFunctionsAsync(conn);
+                //var childTablesTask = GetChildTablesAsync(this.TableDefinitionCollection, conn);
+                //var columnsTask = ReadColumnsAsync(conn);
+                //var primariKeyTask = ReadPrimaryKeysAsync(conn);
+                //var sprocTask = ReadStoreProceduresAsync(conn);
+                //var funcTask = ReadFunctionsAsync(conn);
 
-                await Task.WhenAll(columnsTask, primariKeyTask, sprocTask, funcTask, childTablesTask);
+                //await Task.WhenAll(columnsTask, primariKeyTask, sprocTask, funcTask, childTablesTask);
             }
 
 
             return true;
         }
 
-        private async Task GetChildTablesAsync(SqlConnection conn)
+        private async Task GetChildTablesAsync(IEnumerable<TableDefinition> tables, SqlConnection conn)
         {
-            var tasks = this.TableDefinitionCollection.Select(x => this.GetChildTablesAsync(x, conn));
+            var tasks = tables.Select(x => this.GetChildTablesAsync(x, conn));
             await Task.WhenAll(tasks);
         }
         private async Task GetChildTablesAsync(TableDefinition table, SqlConnection conn)
@@ -125,7 +145,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
         }
 
-        private async Task ReadFunctionsAsync(SqlConnection conn)
+        private async Task<IEnumerable<OperationDefinition>> ReadFunctionsAsync(SqlConnection conn)
         {
             // get the sprocs
             var selectSprocSql =
@@ -134,6 +154,8 @@ SELECT s.name as 'schema', o.name as 'sproc' FROM sys.all_objects o
 INNER JOIN sys.schemas s ON o.schema_id = s.schema_id
 WHERE [type] = 'FN'
 AND s.name NOT IN ('sys')";
+
+            var functions = new List<OperationDefinition>();
             using (var spocCommand = new SqlCommand(selectSprocSql, conn))
             {
                 using (var reader = await spocCommand.ExecuteReaderAsync())
@@ -141,13 +163,15 @@ AND s.name NOT IN ('sys')";
                     while (await reader.ReadAsync())
                     {
                         var sp = await this.GetFunctionAsync(reader.GetString(0), reader.GetString(1));
-                        this.OperationDefinitionCollection.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
+                        functions.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
                     }
                 }
             }
+
+            return functions;
         }
 
-        private async Task ReadStoreProceduresAsync(SqlConnection conn)
+        private async Task<IEnumerable<OperationDefinition>> ReadStoreProceduresAsync(SqlConnection conn)
         {
             // get the sprocs
             var excludeNames = new[] { "SqlQueryNotificationStoredProcedure", "aspnet_" };
@@ -162,6 +186,7 @@ o.[name] NOT LIKE {excludeNames.ToString("\r\nAND\r\n o.[name] NOT LIKE", x => $
 
             var list = new List<Tuple<string, string>>();
 
+
             using (var spocCommand = new SqlCommand(selectSprocSql, conn))
             {
                 using (var reader = await spocCommand.ExecuteReaderAsync())
@@ -175,11 +200,8 @@ o.[name] NOT LIKE {excludeNames.ToString("\r\nAND\r\n o.[name] NOT LIKE", x => $
 
             var tasks = from s in list
                         select this.GetStoreProcedureAsync(s.Item1, s.Item2);
-            var sprocs = await Task.WhenAll(tasks);
-            foreach (var sp in sprocs)
-            {
-                this.OperationDefinitionCollection.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
-            }
+            return await Task.WhenAll(tasks);
+
         }
 
         private async Task<SprocOperationDefinition> GetStoreProcedureAsync(string schema, string name)
@@ -346,9 +368,9 @@ ORDER
             return od;
         }
 
-        private async Task ReadPrimaryKeysAsync(SqlConnection conn)
+        private async Task ReadPrimaryKeysAsync(IList<TableDefinition> tables, SqlConnection conn)
         {
-            var tasks = from t in this.TableDefinitionCollection
+            var tasks = from t in tables
                         select ReadPrimaryKeysAsync2(t, conn);
             await Task.WhenAll(tasks);
         }
@@ -375,21 +397,20 @@ ORDER
 
         }
 
-        private async Task ReadColumnsAsync(SqlConnection conn)
+        private async Task ReadColumnsAsync(IList<TableDefinition> tables, SqlConnection conn)
         {
+            if (null == this.ColumnGenerators)
+                ObjectBuilder.ComposeMefCatalog(this);
             using (var columnCommand = new SqlCommand(Resources.SelectColumnsSql, conn))
             {
                 using (var reader = await columnCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        var table =
-                            this.TableDefinitionCollection.Single(
-                                x => x.Name == (string)reader["Table"] && (string)reader["Schema"] == x.Schema);
+                        var table = tables.SingleOrDefault(x => x.Name == (string)reader["Table"] && (string)reader["Schema"] == x.Schema);
+                        if (null == table) continue;
                         var mt = ColumnMetadata.Read(reader, table);
 
-                        if (null == this.ColumnGenerators)
-                            ObjectBuilder.ComposeMefCatalog(this);
                         var scores = (from g in this.ColumnGenerators
                                       let s = g.Metadata.GetScore(mt)
                                       where s >= 0
@@ -408,10 +429,13 @@ ORDER
             }
         }
 
-        private async Task ReadTablesAsync(SqlConnection conn)
+        public async Task<IEnumerable<TableDefinition>> GetTableOptionsAsync(bool ommitDetails = false)
         {
+            var list = new ObjectCollection<TableDefinition>();
+            using (var conn = new SqlConnection(this.ConnectionString))
             using (var tableCommand = new SqlCommand(Resources.SelectTablesSql, conn))
             {
+                await conn.OpenAsync();
                 using (var reader = await tableCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -426,11 +450,66 @@ ORDER
                             AllowUpdate = true,
                             IsSelected = false
                         };
-                        if (this.TableDefinitionCollection.All(x => x.Name != table.Name))
-                            this.TableDefinitionCollection.Add(table);
+                        list.AddOrReplace(table, x => x.Name == table.Name && x.Schema == table.Schema);
                     }
                 }
+                if (ommitDetails) return list;
+                await ReadColumnsAsync(list, conn);
+                var primaryKeyTask = ReadPrimaryKeysAsync(list, conn);
+                var childTableTask = GetChildTablesAsync(list, conn);
+                await Task.WhenAll(primaryKeyTask, childTableTask);
             }
+
+            return list;
+        }
+        public async Task<TableDefinition> GetTableOptionDetailsAsync(string schema, string name)
+        {
+            var list = new ObjectCollection<TableDefinition>();
+            using (var conn = new SqlConnection(this.ConnectionString))
+            using (var tableCommand = new SqlCommand(Resources.SelectTablesSql, conn))
+            {
+                await conn.OpenAsync();
+                using (var reader = await tableCommand.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var table = new TableDefinition
+                        {
+                            Name = reader.GetString(0),
+                            Schema = reader.GetString(1),
+                            AllowDelete = true,
+                            AllowInsert = true,
+                            AllowRead = true,
+                            AllowUpdate = true,
+                            IsSelected = false
+                        };
+                        if (table.Schema == schema && table.Name == name)
+                            list.AddOrReplace(table, x => x.Name == table.Name && x.Schema == table.Schema);
+                    }
+                }
+                await ReadColumnsAsync(list, conn);
+                var primaryKeyTask = ReadPrimaryKeysAsync(list, conn);
+                var childTableTask = GetChildTablesAsync(list, conn);
+                await Task.WhenAll(primaryKeyTask, childTableTask);
+            }
+
+            return list.SingleOrDefault(x => x.Name == name && x.Schema == schema);
+        }
+
+        public async Task<IEnumerable<OperationDefinition>> GetOperationOptionsAsync()
+        {
+            var list = new ObjectCollection<OperationDefinition>();
+            using (var conn = new SqlConnection(this.ConnectionString))
+            {
+                await conn.OpenAsync();
+                var functionsTask = ReadFunctionsAsync(conn);
+                var sprocsTask = ReadStoreProceduresAsync(conn);
+                var ops = await Task.WhenAll(functionsTask, sprocsTask);
+                list.AddRange(ops.SelectMany(x => x));
+            }
+
+
+            return list;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -44,8 +43,8 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpGet]
         [Route("databases")]
-        public async Task<HttpResponseMessage> GetDatabasesAsync([FromUri(Name = "server")]string server = ".", 
-            [FromUri(Name = "userid")]string userid = "", 
+        public async Task<HttpResponseMessage> GetDatabasesAsync([FromUri(Name = "server")]string server = ".",
+            [FromUri(Name = "userid")]string userid = "",
             [FromUri(Name = "password")]string password = "",
             [FromUri(Name = "trusted")]bool trusted = true)
         {
@@ -75,6 +74,8 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             }
         }
+
+
         [HttpPost]
         [Route("schema")]
         public async Task<HttpResponseMessage> GetSchemaAsync([FromBody]SqlServerAdapter adapter)
@@ -130,7 +131,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 Etag = connected ? "connected" : "not connected"
             });
         }
-        
+
 
 
         [HttpGet]
@@ -185,8 +186,6 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             }
         }
-
-
 
 
         [HttpPatch]
@@ -246,44 +245,79 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
 
-
-    }
-
-    public class DatabaseObjectsViewModel
-    {
-        public void Add(SprocOperationDefinition sproc)
+        [HttpGet]
+        [Route("table-options")]
+        public async Task<IHttpActionResult> GetTableOptionsAsync(
+            [FromUri(Name = "server")] string server,
+            [FromUri(Name = "database")] string database,
+            [FromUri(Name = "trusted")] bool trusted = true,
+            [FromUri(Name = "userid")] string user = "",
+            [FromUri(Name = "password")] string password = "")
         {
-            this.Sprocs.Add(sproc);
-        }
-        public void Add(TableObjectViewModel table)
-        {
-            this.Tables.Add(table);
-        }
-        public IList<SprocOperationDefinition> Sprocs { get; set; } = new List<SprocOperationDefinition>();
-        public IList<TableObjectViewModel> Tables { get; set; } = new List<TableObjectViewModel>();
-        public class TableObjectViewModel
-        {
-            public string Name { get; set; }
-            public IList<string> RowVersionColumnOptions { get; set; } = new List<string>();
-            public IList<string> ModifiedDateColumnOptions { get; set; } = new List<string>();
-
-            public void AddColumn(string name, string type)
+            var adapter = new SqlServerAdapter
             {
-                switch (type)
-                {
-                    case "datetime":
-                    case "smalldatetime":
-                    case "datetime2":
-                        this.ModifiedDateColumnOptions.Add(name);
-                        break;
-                    case "rowversion":
-                    case "timestamp":
-                        this.RowVersionColumnOptions.Add(name);
-                        break;
-                    default: throw new Exception($"Column {name} with type {type} is not supported");
-                }
+                Server = server,
+                Database = database,
+                TrustedConnection = trusted ,
+                UserId = user,
+                Password = password
+            };
 
-            }
+            var tables = await adapter.GetTableOptionsAsync(true);
+            var json = "[" + tables.ToString(",\r\n", x => x.ToJsonString(false)) + "]";
+            return Json(json);
         }
+
+
+        [HttpGet]
+        [Route("table-options/{schema}/{name}")]
+        public async Task<IHttpActionResult> GetTableOptionDetailAsync(
+            string schema,
+            string name,
+            [FromUri(Name = "server")] string server,
+            [FromUri(Name = "database")] string database,
+            [FromUri(Name = "trusted")] bool trusted = true,
+            [FromUri(Name = "userid")] string user = "",
+            [FromUri(Name = "password")] string password = "")
+        {
+            var adapter = new SqlServerAdapter
+            {
+                Server = server,
+                Database = database,
+                TrustedConnection = trusted,
+                UserId = user,
+                Password = password
+            };
+
+            var table = await adapter.GetTableOptionDetailsAsync(schema, name);
+            if (null == table) return NotFound($"No object with name {schema}.{name} found in {server}.{database}");
+            return Json(table.ToJsonString());
+        }
+
+        [HttpGet]
+        [Route("operation-options")]
+        public async Task<IHttpActionResult> GetOperationOptionsAsync(
+            [FromUri(Name = "server")] string server,
+            [FromUri(Name = "database")] string database,
+            [FromUri(Name = "trusted")] bool? trusted,
+            [FromUri(Name = "userid")] string user,
+            [FromUri(Name = "password")] string password)
+        {
+            var adapter = new SqlServerAdapter
+            {
+                Server = server,
+                Database = database,
+                TrustedConnection = trusted ?? false,
+                UserId = user,
+                Password = password
+            };
+
+            var tables = await adapter.GetOperationOptionsAsync();
+            var json = "[" + tables.ToString(",\r\n", x => x.ToJsonString(false)) + "]";
+            return Json(json);
+        }
+
+
     }
+
 }

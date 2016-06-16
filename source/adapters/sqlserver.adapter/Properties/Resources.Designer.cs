@@ -222,7 +222,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ////// &lt;reference path=&quot;../Scripts/moment.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
         ////// &lt;reference path=&quot;../schemas/sph.domain.g.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../domain/domain.sph/Scripts/objectbuilder [rest of string was truncated]&quot;;.
+        ////// &lt;reference path=&quot;../../../web/core.sph/sphapp/schemas/adapt [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SqlServerAdapterJs {
             get {

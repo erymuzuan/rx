@@ -183,11 +183,25 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                 }
                             });
                     });
+            },
+            addTable = function() {
+                require(["viewmodels/_adapter.sqlserver.add.table.dialog", "durandal/app"],
+                  function (dialog, app2) {
+                      app2.showDialog(dialog)
+                          .done(function (result) {
+                              if (!result) return;
+                              if (result === "OK") {
+                                  adapter().TableDefinitionCollection.push(dialog.table());
+
+                              }
+                          });
+                  });
             }
         ;
 
         var vm = {
             errors: errors,
+            addTable :addTable(),
             databaseOptions: databaseOptions,
             adapter: adapter,
             isBusy: isBusy,
