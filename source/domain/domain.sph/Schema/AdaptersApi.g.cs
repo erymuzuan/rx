@@ -64,6 +64,11 @@ namespace Bespoke.Sph.Domain.Api
         public const string PropertyNameModifiedDateColumn = "ModifiedDateColumn";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_type;
+        public const string PropertyNameType = "Type";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -314,6 +319,31 @@ namespace Bespoke.Sph.Domain.Api
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Type
+        {
+            set
+            {
+                if (String.Equals(m_type, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_type = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_type;
+            }
+        }
+
+
 
     }
 
@@ -439,7 +469,7 @@ namespace Bespoke.Sph.Domain.Api
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool m_isSelected;
-        public const string PropertyNameIsEvent = "IsEvent";
+        public const string PropertyNameIsSelected = "IsSelected";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -582,7 +612,7 @@ namespace Bespoke.Sph.Domain.Api
             set
             {
                 if (m_isSelected == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsEvent, value);
+                var arg = new PropertyChangingEventArgs(PropertyNameIsSelected, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
@@ -1152,7 +1182,7 @@ namespace Bespoke.Sph.Domain.Api
 
     }
 
-  
+
 
     // placeholder for Member complext type
 

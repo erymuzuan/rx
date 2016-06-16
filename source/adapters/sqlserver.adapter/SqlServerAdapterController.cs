@@ -258,13 +258,15 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 Server = server,
                 Database = database,
-                TrustedConnection = trusted ,
+                TrustedConnection = trusted,
                 UserId = user,
                 Password = password
             };
 
             var tables = await adapter.GetTableOptionsAsync(true);
-            var json = "[" + tables.ToString(",\r\n", x => x.ToJsonString(false)) + "]";
+            var views = await adapter.GetViewOptionsAsync();
+            var options = tables.Concat(views);
+            var json = "[" + options.ToString(",\r\n", x => x.ToJsonString(false)) + "]";
             return Json(json);
         }
 
@@ -299,15 +301,15 @@ namespace Bespoke.Sph.Integrations.Adapters
         public async Task<IHttpActionResult> GetOperationOptionsAsync(
             [FromUri(Name = "server")] string server,
             [FromUri(Name = "database")] string database,
-            [FromUri(Name = "trusted")] bool? trusted,
-            [FromUri(Name = "userid")] string user,
-            [FromUri(Name = "password")] string password)
+            [FromUri(Name = "trusted")] bool trusted = true,
+            [FromUri(Name = "userid")] string user = "",
+            [FromUri(Name = "password")] string password ="")
         {
             var adapter = new SqlServerAdapter
             {
                 Server = server,
                 Database = database,
-                TrustedConnection = trusted ?? false,
+                TrustedConnection = trusted,
                 UserId = user,
                 Password = password
             };
@@ -315,6 +317,49 @@ namespace Bespoke.Sph.Integrations.Adapters
             var tables = await adapter.GetOperationOptionsAsync();
             var json = "[" + tables.ToString(",\r\n", x => x.ToJsonString(false)) + "]";
             return Json(json);
+        }
+
+        [HttpGet]
+        [Route("sprocs/{schema}/{name}")]
+        public async Task<IHttpActionResult> GetSprocDetailsAsync(string schema,string name,
+            [FromUri(Name = "server")] string server,
+            [FromUri(Name = "database")] string database,
+            [FromUri(Name = "trusted")] bool trusted = true,
+            [FromUri(Name = "userid")] string user = "",
+            [FromUri(Name = "password")] string password ="")
+        {
+            var adapter = new SqlServerAdapter
+            {
+                Server = server,
+                Database = database,
+                TrustedConnection = trusted,
+                UserId = user,
+                Password = password
+            };
+
+            var sproc = await adapter.GetStoreProcedureAsync(schema,name);
+            return Json(sproc.ToJsonString());
+        }
+
+        [HttpGet]
+        [Route("functions/{schema}/{name}")]
+        public async Task<IHttpActionResult> GetFunctionDetailsAsync(string schema,string name,
+            [FromUri(Name = "server")] string server,
+            [FromUri(Name = "database")] string database,
+            [FromUri(Name = "trusted")] bool trusted = true,
+            [FromUri(Name = "userid")] string user = "",
+            [FromUri(Name = "password")] string password ="")
+        {
+            var adapter = new SqlServerAdapter
+            {
+                Server = server,
+                Database = database,
+                TrustedConnection = trusted,
+                UserId = user,
+                Password = password
+            };
+            var func = await adapter.GetFunctionAsync(schema, name);
+            return Json(func.ToJsonString());
         }
 
 

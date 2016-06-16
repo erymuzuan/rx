@@ -25,11 +25,10 @@ namespace Bespoke.Sph.Integrations.Adapters
                     Console.WriteLine(e);
                     return false;
                 }
-                var tableOptions = (await GetTableOptionsAsync()).ToArray();
                 var deletedTables = new List<TableDefinition>();
                 foreach (var table in this.TableDefinitionCollection)
                 {
-                    var db = tableOptions.SingleOrDefault(x => x.Name == table.Name && x.Schema == table.Schema);
+                    var db = await this.GetTableOptionDetailsAsync(table.Schema, table.Name);
                     if (null == db)
                     {
                         deletedTables.Add(table);
@@ -119,15 +118,18 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         }
 
-        private async Task ReadViewsAsync(SqlConnection conn)
+        public async Task<IEnumerable<TableDefinition>> GetViewOptionsAsync(bool ommitDetails = true)
         {
+            var list = new List<TableDefinition>();
+            using (var conn = new SqlConnection(this.ConnectionString))
             using (var tableCommand = new SqlCommand(Resources.SelectTablesSql.Replace("'U'", "'V'"), conn))
             {
+                await conn.OpenAsync();
                 using (var reader = await tableCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        var table = new TableDefinition
+                        var view = new TableDefinition
                         {
                             Name = reader.GetString(0),
                             Schema = reader.GetString(1),
@@ -135,14 +137,15 @@ namespace Bespoke.Sph.Integrations.Adapters
                             AllowInsert = false,
                             AllowRead = true,
                             AllowUpdate = false,
-                            IsSelected = false
-
+                            IsSelected = false,
+                            Type = "View"
                         };
-                        if (this.TableDefinitionCollection.All(x => x.Name != table.Name))
-                            this.TableDefinitionCollection.Add(table);
+                        list.AddOrReplace(view, x => x.Name == view.Name && x.Schema == view.Schema);
                     }
                 }
             }
+
+            return list;
         }
 
         private async Task<IEnumerable<OperationDefinition>> ReadFunctionsAsync(SqlConnection conn)
@@ -204,7 +207,7 @@ o.[name] NOT LIKE {excludeNames.ToString("\r\nAND\r\n o.[name] NOT LIKE", x => $
 
         }
 
-        private async Task<SprocOperationDefinition> GetStoreProcedureAsync(string schema, string name)
+        public async Task<SprocOperationDefinition> GetStoreProcedureAsync(string schema, string name)
         {
 
             const string SQL = @"
@@ -281,7 +284,7 @@ order by ORDINAL_POSITION";
             return od;
         }
 
-        private async Task<FuncOperationDefinition> GetFunctionAsync(string schema, string name)
+        public async Task<FuncOperationDefinition> GetFunctionAsync(string schema, string name)
         {
 
             const string SQL = @"
@@ -448,7 +451,8 @@ ORDER
                             AllowInsert = true,
                             AllowRead = true,
                             AllowUpdate = true,
-                            IsSelected = false
+                            IsSelected = false,
+                            Type = "Table"
                         };
                         list.AddOrReplace(table, x => x.Name == table.Name && x.Schema == table.Schema);
                     }
@@ -509,6 +513,20 @@ ORDER
             }
 
 
+            return list;
+        }
+
+        public async Task<IEnumerable<OperationDefinition>> GetOperationDetailsAsync(string schema, string name)
+        {
+            var list = new ObjectCollection<OperationDefinition>();
+            using (var conn = new SqlConnection(this.ConnectionString))
+            {
+                await conn.OpenAsync();
+                var functionsTask = ReadFunctionsAsync(conn);
+                var sprocsTask = ReadStoreProceduresAsync(conn);
+                var ops = await Task.WhenAll(functionsTask, sprocsTask);
+                list.AddRange(ops.SelectMany(x => x));
+            }
             return list;
         }
     }

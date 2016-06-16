@@ -10,7 +10,7 @@
 /// <reference path="c:\project\work\sph\source\adapters\sqlserver.adapter\_sql.server.adapter.domain.js" />
 /// <reference path="../domain/domain.sph/Scripts/objectbuilders.js" />
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app,"sqlserver-adapter/resource/_sql.server.adapter.domain.js"],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "sqlserver-adapter/resource/_sql.server.adapter.domain.js"],
     function (context, logger, router, app) {
 
         var adapter = ko.observable(),
@@ -26,10 +26,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     server = ko.unwrap(adp.Server),
                     trusted = ko.unwrap(adp.TrustedConnection),
                     userid = ko.unwrap(adp.UserId),
-                    password = ko.unwrap(adp.Password);;
+                    password = ko.unwrap(adp.Password);
                 loadingDatabases(true);
                 isBusy(true);
-                $.getJSON("sqlserver-adapter/databases/?server=" + server + "&trusted=" +  trusted + "&userid=" + userid + "&password=" + password )
+                $.getJSON("sqlserver-adapter/databases/?server=" + server + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
                     .done(function (result) {
                         loadingDatabases(false);
                         if (result.success) {
@@ -46,10 +46,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 return tcs.promise();
             },
-            populateAdapterObjectsAsync = function(id, server, database, trusted, userid, password){
+            populateAdapterObjectsAsync = function (id, server, database, trusted, userid, password) {
                 var tcs = new $.Deferred();
-                $.getJSON("/sqlserver-adapter/" + id + "?server="+ server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password )
-                    .done(function(result){
+                $.getJSON("/sqlserver-adapter/" + id + "?server=" + server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
+                    .done(function (result) {
                         var adp = context.toObservable(result);
                         tcs.resolve(adp);
                     });
@@ -71,13 +71,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         adapter(new bespoke.sph.integrations.adapters.SqlServerAdapter({
                             "Server": ko.unwrap(b.Server),
                             "TrustedConnection": ko.unwrap(b.TrustedConnection),
-                            "UserId" : ko.unwrap(b.UserId),
-                            "Password" : ko.unwrap(b.Password)
+                            "UserId": ko.unwrap(b.UserId),
+                            "Password": ko.unwrap(b.Password)
                         }));
                         return connect();
                     })
-                    .then(function(){
-                        
+                    .then(function () {
+
                         var adp = ko.unwrap(b),
                             server = ko.unwrap(adp.Server),
                             id = ko.unwrap(adp.Id),
@@ -85,9 +85,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             trusted = ko.unwrap(adp.TrustedConnection),
                             userid = ko.unwrap(adp.UserId),
                             password = ko.unwrap(adp.Password);
-                            // now -repopulate
-                            return populateAdapterObjectsAsync(id,server,database,trusted,userid,password) ;                    
-                                             
+                        // now -repopulate
+                        return populateAdapterObjectsAsync(id, server, database, trusted, userid, password);
+
                     }).then(adapter);
 
 
@@ -105,7 +105,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         userid = ko.unwrap(adp.UserId),
                         password = ko.unwrap(adp.Password);
                     populateAdapterObjectsAsync(ko.unwrap(adp.Id), server, database, trusted, userid, password)
-                        .done(function(result){
+                        .done(function (result) {
                             adapter(result);
                             isBusy(false);
                         });
@@ -175,7 +175,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     function (dialog, app2) {
                         dialog.table(context.clone(table));
                         app2.showDialog(dialog)
-                            .done(function(result) {
+                            .done(function (result) {
                                 if (!result) return;
                                 if (result === "OK") {
                                     adapter().TableDefinitionCollection.replace(table, dialog.table());
@@ -184,24 +184,50 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             });
                     });
             },
-            addTable = function() {
+            addTable = function () {
                 require(["viewmodels/_adapter.sqlserver.add.table.dialog", "durandal/app"],
                   function (dialog, app2) {
+                      dialog.adapter(adapter());
                       app2.showDialog(dialog)
                           .done(function (result) {
                               if (!result) return;
                               if (result === "OK") {
-                                  adapter().TableDefinitionCollection.push(dialog.table());
-
+                                  _(dialog.selectedTables()).each(function (v) {
+                                      adapter().TableDefinitionCollection.push(v);
+                                  });
                               }
                           });
                   });
+            },
+            removeTable = function (table) {
+                adapter().TableDefinitionCollection.remove(table);
+            },
+            addOperation = function () {
+                require(["viewmodels/_adapter.sqlserver.add.operation.dialog", "durandal/app"],
+                  function (dialog, app2) {
+                      dialog.adapter(adapter());
+                      app2.showDialog(dialog)
+                          .done(function (result) {
+                              if (!result) return;
+                              if (result === "OK") {
+                                  _(dialog.selectedOperations()).each(function (v) {
+                                      adapter().OperationDefinitionCollection.push(v);
+                                  });
+                              }
+                          });
+                  });
+            },
+            removeOperation = function (table) {
+                adapter().OperationDefinitionCollection.remove(table);
             }
         ;
 
         var vm = {
             errors: errors,
-            addTable :addTable(),
+            addTable: addTable,
+            addOperation: addOperation,
+            removeTable: removeTable,
+            removeOperation: removeOperation,
             databaseOptions: databaseOptions,
             adapter: adapter,
             isBusy: isBusy,
