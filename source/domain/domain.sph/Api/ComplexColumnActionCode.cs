@@ -15,14 +15,14 @@ namespace Bespoke.Sph.Domain.Api
             var code = new StringBuilder();
             var lines = from c in table.ColumnCollection
                         where c.IsComplex
-                        select this.GenerateColumnAction(table, c);
+                        select this.GenerateColumnAction(adapter, table, c);
             lines.ToList().ForEach(l => code.AppendLine(l));
 
             Console.WriteLine($"ChildListActionCode for {table.Name} with {table.ChildRelationCollection.Count} child tables");
 
             return code.ToString();
         }
-        private string GenerateColumnAction(TableDefinition table, Column column)
+        private string GenerateColumnAction(Adapter adapter, TableDefinition table, Column column)
         {
             if (null == table.PrimaryKey) return string.Empty;
 
@@ -35,15 +35,30 @@ namespace Bespoke.Sph.Domain.Api
             code.Append($"       [Route(\"{{{string.Join("/", routes)}}}/{column.Name}\")]");
             code.AppendLine();
             code.Append(
-                $"       public async Task<IHttpActionResult> Get{column.Name}({string.Join(",", args)})");
+                $@"       public async Task<IHttpActionResult> Get{column.Name}([SourceEntity(""{adapter.Id}"")]Bespoke.Sph.Domain.Api.Adapter adapterDefinition, {string.Join(",", args)})");
             code.AppendLine("       {");
 
 
             var retVal = column.Name.ToCamelCase();
             var mime = $@"""{column.MimeType}""";
-            if (mime.StartsWith("{"))
+            var mimeStatement = "";
+            if (column.MimeType.StartsWith("="))
             {
-                
+                mimeStatement = $"var item = await adapter.LoadOneAsync({parameters.ToString(", ")});";
+                mime = $"item.{column.MimeType.Remove(0,1)}";
+            }
+            if (column.MimeType.StartsWith("{"))
+            {
+                mimeStatement = $@"
+                var item = await adapter.LoadOneAsync({parameters.ToString(", ")});
+                var scripting = ObjectBuilder.GetObject<IScriptEngine>();
+                var table = adapterDefinition.TableDefinitionCollection.Single(x =>x.Name ==""{table.Name}"");
+                var column = table.ColumnCollection.Single(x => x.Name == ""{column.Name}"");
+                var code = column.MimeType;
+                code = code.Remove(code.Length - 1, 1).Remove(0, 1);
+                var mimeType = scripting.Evaluate<string, {table.Name}>(code, item);
+";
+                mime = "mimeType";
             }
 
             var nullGuard = column.IsNullable ? $@"
@@ -52,8 +67,8 @@ namespace Bespoke.Sph.Domain.Api
             code.Append($@"
                 var adapter = new {table.Name}Adapter();
                 var {retVal} = await adapter.Get{column.Name}Async({parameters.ToString(", ")});
-                {nullGuard}
-              
+                {nullGuard}              
+                {mimeStatement}
                 return Ok({retVal}, {mime});
             ");
 

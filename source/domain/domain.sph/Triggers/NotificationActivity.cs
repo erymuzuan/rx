@@ -143,9 +143,9 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine($"   private Task<string> Transform{fieldName}{this.MethodName}(string template)");
                 code.AppendLine("   {");
                 code.AppendLine("        if (string.IsNullOrWhiteSpace(template)) return Task.FromResult(string.Empty);");
-                code.AppendFormat(@"
+                code.Append($@"
                 var item = this;
-                return Task.FromResult({0});", template.Remove(0, 1));
+                return Task.FromResult({template.Remove(0, 1)});");
             }
             else
             {

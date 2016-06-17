@@ -111,11 +111,11 @@ namespace Bespoke.Sph.SqlReportDataSource
 
         public string GetFilterValue(ReportFilter filter)
         {
-            if (null == filter) throw new ArgumentNullException("filter");
-            if (null == filter.Type) throw new ArgumentException("You must specify the type", "filter");
+            if (null == filter) throw new ArgumentNullException(nameof(filter));
+            if (null == filter.Type) throw new ArgumentException(@"You must specify the type", nameof(filter));
 
             object val = filter.Value;
-            if (null == filter) throw new ArgumentNullException("filter");
+            if (null == filter) throw new ArgumentNullException(nameof(filter));
             if (filter.Value.StartsWith("@"))
                 return filter.Value;
             if (filter.Value.StartsWith("="))
@@ -128,7 +128,7 @@ namespace Bespoke.Sph.SqlReportDataSource
             if (null == val) return "NULL";
 
             if (filter.Type == typeof(DateTime))
-                return string.Format("'{0:s}'", val);
+                return $"'{val:s}'";
             if (filter.Type == typeof(bool))
             {
                 if (val is string)

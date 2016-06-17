@@ -46,6 +46,12 @@
 
                         </div>
                         <div id="columns-selection" class="tab-pane">
+                        <div class="alert alert-info alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>MimeType</strong> You can hardcode the MimeType e.g application/xml
+or you can use column expression e.g =MimeTypeColumn and it will read from that column
+or you can also use code expression e.g { if(item.DocumentType == "Microsoft Word") return "application/ms-word"; return "application/pdf"}.
+</div>
                             <table class="table table-striped">
                                 <thead style="display:block">
                                     <tr>
@@ -72,6 +78,9 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div>
+                            <p></p>
+                            </div>
 
                         </div>
                         <div id="others" class="tab-pane">

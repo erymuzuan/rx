@@ -1,18 +1,20 @@
 <Query Kind="Program">
   <Connection>
-    <ID>116d4209-bdea-481e-8626-0da5620bb091</ID>
+    <ID>353b5cd5-b9db-4c86-bb0e-0003d679e40f</ID>
     <Persist>true</Persist>
-    <Server>(localdb)\ProjectsV13</Server>
+    <Server>.\DEV2016</Server>
     <Database>His</Database>
+    <DisplayName>dev2016-his</DisplayName>
   </Connection>
+  <Reference>&lt;RuntimeDirectory&gt;\System.Web.dll</Reference>
 </Query>
 
 void Main()
 {
 	
 	var count = 0;
-	foreach (var f in Directory.GetFiles(@"E:\OneDrive\Pictures\Italia2015", "*.jpg").Select(x => new FileInfo(x))
-	.Where(x => x.Length <= 1092712 && x.Length > 4572)
+	foreach (var f in Directory.GetFiles(@"F:\OneDrive\Pictures\Italia2015", "*.jpg").Select(x => new FileInfo(x))
+	.Where(x => x.Length <= 1092712)
 	.OrderBy(x => x.Length))
 	{
 		count ++;
@@ -20,7 +22,7 @@ void Main()
 	
 		var patient = new Patient
 		{
-			Mrn = Path.GetFileNameWithoutExtension(f.Name),
+			Mrn = Path.GetFileNameWithoutExtension(f.Name).Replace(" ", ""),
 			Name = "Wan " + Path.GetFileNameWithoutExtension(f.Name),
 			Gender = (new []{'M', 'F'}).OrderBy(g => Guid.NewGuid()).First(),
 			Income = 2500.00m + (count + 120),
@@ -32,6 +34,7 @@ void Main()
 			PassportNo = "",
 			BirthCert = "C45666",
 			IdCardCopy = card,
+			IdCardMimeType = System.Web.MimeMapping.GetMimeMapping(Path.GetExtension(f.FullName)),
 			Fee = 50.05m + count,
 			Weight = 48.00m + count,
 			Height = 160f + (count * 0.1f),
