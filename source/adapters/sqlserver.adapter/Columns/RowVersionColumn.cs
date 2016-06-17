@@ -24,5 +24,10 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
             return code;
 
         }
+
+        public override string GenerateValueAssignmentCode(string dbValue)
+        {
+            return $"{dbValue}.ReadNullableByteArray()";
+        }
     }
 }

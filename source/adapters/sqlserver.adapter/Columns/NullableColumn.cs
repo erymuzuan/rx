@@ -7,9 +7,9 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     [ColumnGeneratorMetadata(IsNullable = ThreeWayBoolean.True)]
     public class NullableColumn : SqlColumn
     {
-        public override string GenerateReadCode()
+        public override string GenerateValueAssignmentCode(string dbValue)
         {
-            return $"item.{Name} = reader[\"{Name}\"].ReadNullable<{ClrType.ToCSharp()}>();";
+            return $"{dbValue}.ReadNullable<{ClrType.ToCSharp()}>()";
         }
     }
 }

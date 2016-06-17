@@ -17,10 +17,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{Name}{nullable});";
 
         }
-        public override string GenerateReadCode()
-        {
-            return $"item.{Name} = ({ClrType.ToCSharp()})reader[\"{Name}\"];";
-        }
+     
 
         public override string GeneratedCode(string padding = "      ")
         {

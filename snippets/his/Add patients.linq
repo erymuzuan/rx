@@ -13,8 +13,8 @@ void Main()
 {
 	
 	var count = 0;
-	foreach (var f in Directory.GetFiles(@"F:\OneDrive\Pictures\Italia2015", "*.jpg").Select(x => new FileInfo(x))
-	.Where(x => x.Length <= 1092712)
+	foreach (var f in Directory.GetFiles(@"F:\temp\images", "*.*").Select(x => new FileInfo(x))
+//	.Where(x => x.Length <= 1092712)
 	.OrderBy(x => x.Length))
 	{
 		count ++;
@@ -47,7 +47,15 @@ void Main()
 		};
 	
 		Patients.InsertOnSubmit(patient);
-		SubmitChanges();
+		try
+		{	        
+			SubmitChanges();
+		}
+		catch (Exception ex)
+		{
+		Console.WriteLine(ex.Message);
+		Console.WriteLine(f.Name);
+		}
 	}
 	
 }

@@ -12,12 +12,6 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     {
         [JsonIgnore]
         public override Type ClrType => typeof(XmlDocument);
-        public override string GenerateReadCode()
-        {
-            if (this.IsComplex) return null;
-            return $"item.{Name} = reader[\"{Name}\"].ReadNullableXmlDocument();";
-        }
-
         public override string GenerateValueAssignmentCode(string dbValue)
         {
             return $"{dbValue}.ReadNullableXmlDocument()";

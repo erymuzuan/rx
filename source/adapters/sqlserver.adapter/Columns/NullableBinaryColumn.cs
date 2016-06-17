@@ -14,10 +14,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     public class NullableBinaryColumn : SqlColumn
     {
         public override Type ClrType => typeof(byte[]);
-        public override string GenerateReadCode()
-        {
-            return null;
-        }
+       
         public override string GenerateReadAdapterCode(TableDefinition table, Adapter adapter)
         {
             if (!this.IsComplex)

@@ -11,16 +11,6 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     {
         public override Type ClrType => typeof(XmlDocument);
 
-        public override string GenerateReadCode()
-        {
-            if (this.IsComplex) return null;
-            return $@"                         
-                    var xml{Name} = new System.Xml.XmlDocument();
-                    xml{Name}.LoadXml((string)reader[""{Name}""]);
-                    item.{Name} = xml{Name};";
-
-        }
-
         public override string GenerateValueStatementCode(string dbValue)
         {
             return $@"                         

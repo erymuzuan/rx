@@ -10,9 +10,9 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     public class NullableStringColumn : SqlColumn
     {
         public override Type ClrType => typeof(string);
-        public override string GenerateReadCode()
+        public override string GenerateValueAssignmentCode(string dbValue)
         {
-            return $"item.{Name} = reader[\"{Name}\"].ReadNullableString();";
+            return $"{dbValue}.ReadNullableString()";
 
         }
     }

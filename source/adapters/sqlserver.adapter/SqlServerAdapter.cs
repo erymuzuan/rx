@@ -12,7 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
-using Bespoke.Sph.Integrations.Adapters.Properties;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 
@@ -37,34 +36,6 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             return vr.AsEnumerable();
         }
-
-
-
-        private const string Sql = @"SELECT 
-        '[' + s.name + '].[' + o.name + ']' as 'Table'
-        ,c.name as 'Column'
-        ,t.name as 'Type' 
-        ,c.max_length as 'length'
-        ,c.is_nullable as 'IsNullable'    
-	    ,c.is_identity as 'IsIdentity'
-        ,c.is_computed as 'IsComputed'
-    FROM 
-        sys.objects o INNER JOIN sys.all_columns c
-        ON c.object_id = o.object_id
-        INNER JOIN sys.types t 
-        ON c.system_type_id = t.system_type_id
-        INNER JOIN sys.schemas s
-        ON s.schema_id = o.schema_id
-    WHERE 
-        o.type = 'U'
-        AND s.name = @Schema
-        AND o.Name = @Table
-        AND t.name <> N'sysname'
-        AND t.is_user_defined= 0
-    ORDER 
-        BY o.type";
-
-    
 
         public static readonly string[] ImportDirectives =
         {
@@ -276,8 +247,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetSelectOneCommand(TableDefinition table)
         {
             var columns = from c in table.ColumnCollection
-                          let read = c.GenerateReadCode()
-                          where !string.IsNullOrWhiteSpace(read)
+                          where !c.IsComplex
                           select c;
             var sql = new StringBuilder($"SELECT {columns.ToString(",\r\n ", x => $"[{x.Name}]")} FROM [{table.Schema}].[{table}] ");
             sql.AppendLine("WHERE ");
@@ -292,8 +262,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetSelectCommand(TableDefinition table)
         {
             var columns = from c in table.ColumnCollection
-                          let read = c.GenerateReadCode()
-                          where !string.IsNullOrWhiteSpace(read)
+                          where !c.IsComplex
                           select c;
             return $"SELECT {columns.ToString(", ", x => $"[{x.Name}]")} FROM [{table.Schema}].[{table}] ";
         }
@@ -339,8 +308,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
 
             var columns = from c in table.ColumnCollection
-                          let read = c.GenerateReadCode()
-                          where !string.IsNullOrWhiteSpace(read)
+                          where !c.IsComplex
                           select c;
             var select = $"SELECT {columns.ToString(",\r\n", x => $"[{x.Name}]")} FROM";
             var code = new StringBuilder();
@@ -391,9 +359,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             var columns = TableDefinitionCollection.Single(x => x.Name == name).ColumnCollection;
             var code = new StringBuilder();
             var readCodes = from c in columns
-                            let rc = c.GenerateReadCode()
-                            where !string.IsNullOrWhiteSpace(rc)
-                            select rc;
+                            where !c.IsComplex
+                            select $"item.{c.Name} = {c.GenerateValueAssignmentCode($@"reader[""{c.Name}""]")};";
             code.JoinAndAppendLine(readCodes, "\r\n");
 
             return code.ToString();

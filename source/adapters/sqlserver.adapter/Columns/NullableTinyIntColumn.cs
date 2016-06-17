@@ -11,9 +11,9 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
         public override SqlDbType SqlType => SqlDbType.TinyInt;
         public override Type ClrType => typeof(byte);
 
-        public override string GenerateReadCode()
+        public override string GenerateValueAssignmentCode(string dbValue)
         {
-            return $"item.{this.Name} = reader[\"{this.Name}\"].ReadNullable<byte>();";
+            return $"{dbValue}.ReadNullable<byte>()";
         }
     }
 }

@@ -10,9 +10,5 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     public class BinaryColumn : SqlColumn
     {
         public override Type ClrType => typeof(byte[]);
-        public override string GenerateReadCode()
-        {
-            return null;
-        }
     }
 }

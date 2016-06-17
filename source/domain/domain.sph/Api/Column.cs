@@ -17,10 +17,7 @@ namespace Bespoke.Sph.Domain.Api
             return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{Name}{nullable});";
 
         }
-        public virtual string GenerateReadCode()
-        {
-            return $"item.{Name} = ({ClrType.ToCSharp()})reader[\"{Name}\"];";
-        }
+    
         public virtual string GenerateValueStatementCode(string dbValue)
         {
             return null;
