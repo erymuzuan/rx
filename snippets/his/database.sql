@@ -2,7 +2,7 @@
 USE [His]
 
 GO
-
+-- DROP TABLE [Patient]
 CREATE TABLE [Patient]
 (
 	 [Mrn] VARCHAR(255) NOT NULL PRIMARY KEY
@@ -18,7 +18,7 @@ CREATE TABLE [Patient]
 	,[PassportNo] NVARCHAR(50) NULL
 	,[BirthCert] NVARCHAR(50) NULL
 	,[IdCardCopy] VARBINARY(MAX) NULL
-	,[IdCardMimeType] VARCHAR(50) NULL
+	,[IdCardMimeType] VARCHAR(255) NULL
 	,[Fee] MONEY NULL
 	,[Weight] DECIMAL NULL
 	,[Height] REAL NOT NULL

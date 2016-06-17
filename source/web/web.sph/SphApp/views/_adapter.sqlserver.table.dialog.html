@@ -55,20 +55,17 @@ or you can also use code expression e.g { if(item.DocumentType == "Microsoft Wor
                             <table class="table table-striped">
                                 <thead style="display:block">
                                     <tr>
-                                        <th style="width:150px">Name</th>
-                                        <th style="width:70px">Type</th>
-                                        <th style="width:50px">Length</th>
-                                        <th style="width:50px">Null</th>
+                                        <th style="width:180px">Name</th>
+                                        <th style="width:140px">Type</th>
                                         <th style="width:50px">Is complex</th>
                                         <th style="width:150px">Mime type</th>
                                     </tr>
                                 </thead>
                                 <tbody style="max-height: 400px;overflow-y: scroll;display: block" data-bind="foreach: ColumnCollection">
                                     <tr>
-                                        <td data-bind="text:Name" style="width:150px"></td>
-                                        <td data-bind="text:DbType" style="width:70px"></td>
-                                        <td data-bind="text:Length" style="width:50px"></td>
-                                        <td data-bind="text:IsNullable" style="width:50px"></td>
+                                        <td data-bind="text:Name" style="width:180px"></td>
+                                        <td data-bind="text:ko.unwrap(DbType) + ' (' + ko.unwrap(Length) + ')' + (ko.unwrap(IsNullable) ? ' NULL': ' NOT NULL')" style="width:140px"></td>
+                                      
                                         <td style="width:50px">
                                             <input type="checkbox" name="IsNullable" data-bind="checked:IsComplex"/>
                                         </td>
