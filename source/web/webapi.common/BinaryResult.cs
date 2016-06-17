@@ -4,19 +4,20 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Xml;
 
 namespace Bespoke.Sph.WebApi
 {
-    public class XmlResult : IHttpActionResult
+    public class BinaryResult : IHttpActionResult
     {
-        private readonly XmlDocument m_xml;
+        private readonly byte[] m_content;
+        private readonly string m_mimeType;
         private readonly CacheMetadata m_cache;
         private readonly HttpStatusCode m_statusCode;
 
-        public XmlResult(XmlDocument xml, CacheMetadata cache = null,  HttpStatusCode statusCode = HttpStatusCode.OK)
+        public BinaryResult(byte[] content, string mimeType, CacheMetadata cache = null,  HttpStatusCode statusCode = HttpStatusCode.OK)
         {
-            m_xml = xml;
+            m_content = content;
+            m_mimeType = mimeType;
             m_cache = cache;
             m_statusCode = statusCode;
         }
@@ -25,9 +26,9 @@ namespace Bespoke.Sph.WebApi
         {
             var response = new HttpResponseMessage(m_statusCode)
             {
-                Content = new StringContent(m_xml.OuterXml)
+                Content = new ByteArrayContent(m_content)
             };
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue(m_mimeType);
             m_cache?.SetMetadata(response);
             return Task.FromResult(response);
         }

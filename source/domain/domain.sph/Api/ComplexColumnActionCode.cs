@@ -30,13 +30,30 @@ namespace Bespoke.Sph.Domain.Api
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(k => k.Name.ToCamelCase()).ToArray();
             var routes = pks.Select(k => k.Name.ToCamelCase() + this.GetRouteConstraint(k));
-            var args = pks.Select(k => k.GenerateParameterCode());
+            var args = pks.Select(k => k.GenerateParameterCode()).ToList();
+
+            var version = !string.IsNullOrWhiteSpace(table.VersionColumn);
+            var modifiedDate = !string.IsNullOrWhiteSpace(table.ModifiedDateColumn);
+            if (version)
+                args.Add("[IfNoneMatch]ETag etag");
+            if (modifiedDate)
+                args.Add("[ModifiedSince]ModifiedSinceHeader modifiedSince");
+
+            var shouldRetrieveItem = version || modifiedDate || column.MimeType.StartsWith("=") || column.MimeType.StartsWith("{");
 
             code.Append($"       [Route(\"{{{string.Join("/", routes)}}}/{column.Name}\")]");
             code.AppendLine();
-            code.Append(
-                $@"       public async Task<IHttpActionResult> Get{column.Name}([SourceEntity(""{adapter.Id}"")]Bespoke.Sph.Domain.Api.Adapter adapterDefinition, {string.Join(",", args)})");
+            code.Append($@"       public async Task<IHttpActionResult> Get{column.Name}(
+                        [SourceEntity(""{adapter.Id}"")]Bespoke.Sph.Domain.Api.Adapter adapterDefinition, 
+                        {args.ToString(",\r\n")})");
             code.AppendLine("       {");
+
+            code.AppendLine($@"           CacheMetadata cache = null;
+                                          var adapter = new {table.Name}Adapter();");
+            if (shouldRetrieveItem)
+                code.AppendLine($"var item = await adapter.LoadOneAsync({parameters.ToString(", ")});");
+            if (version || modifiedDate)
+                code.AppendLine(this.GenerateCachingCode(table, version, modifiedDate));
 
 
             var retVal = column.Name.ToCamelCase();
@@ -44,13 +61,11 @@ namespace Bespoke.Sph.Domain.Api
             var mimeStatement = "";
             if (column.MimeType.StartsWith("="))
             {
-                mimeStatement = $"var item = await adapter.LoadOneAsync({parameters.ToString(", ")});";
-                mime = $"item.{column.MimeType.Remove(0,1)}";
+                mime = $"item.{column.MimeType.Remove(0, 1)}";
             }
             if (column.MimeType.StartsWith("{"))
             {
                 mimeStatement = $@"
-                var item = await adapter.LoadOneAsync({parameters.ToString(", ")});
                 var scripting = ObjectBuilder.GetObject<IScriptEngine>();
                 var table = adapterDefinition.TableDefinitionCollection.Single(x =>x.Name ==""{table.Name}"");
                 var column = table.ColumnCollection.Single(x => x.Name == ""{column.Name}"");
@@ -65,17 +80,59 @@ namespace Bespoke.Sph.Domain.Api
                   if(null == {retVal})
                     return NotFound($""Cannot find {column.Name} for {table.Name} {parameters.ToString("/", x => "{" + x + "}")}"");" : "";
             code.Append($@"
-                var adapter = new {table.Name}Adapter();
                 var {retVal} = await adapter.Get{column.Name}Async({parameters.ToString(", ")});
                 {nullGuard}              
                 {mimeStatement}
-                return Ok({retVal}, {mime});
+                return Ok({retVal}, {mime}, cache);
             ");
 
 
             code.AppendLine();
             code.AppendLine("       }");
             code.AppendLine();
+
+            return code.ToString();
+        }
+
+        private string GenerateCachingCode(TableDefinition table, bool version, bool modifiedDate)
+        {
+            var code = new StringBuilder();
+            if (version)
+                code.AppendLine($"var version = item.{table.VersionColumn}.TimeStampToString();");
+
+
+            if (version && modifiedDate)
+                code.Append(
+                    $@"
+ cache = new CacheMetadata(version, item.{table.ModifiedDateColumn});
+           ");
+            if (version && !modifiedDate)
+                code.Append(
+                    @"
+ cache = new CacheMetadata(version, null);
+           ");
+
+            if (!version && modifiedDate)
+                code.Append(
+                    $@"
+ cache = new CacheMetadata(null, item.{table.ModifiedDateColumn});
+           ");
+
+
+            if (modifiedDate)
+                code.Append(
+                    $@"
+            if(modifiedSince.IsMatch(item.{table.ModifiedDateColumn}))
+            {{
+                return NotModified(cache);   
+            }}");
+            if (version)
+                code.Append(
+                    @"
+            if(etag.IsMatch(version))
+            {
+                return NotModified(cache);   
+            }");
 
             return code.ToString();
         }
@@ -88,7 +145,7 @@ namespace Bespoke.Sph.Domain.Api
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(k => k.Name.ToCamelCase()).ToArray();
             var links = from c in table.ColumnCollection
-                where c.IsComplex
+                        where c.IsComplex
                         select new HypermediaLink
                         {
                             Rel = c.Name,

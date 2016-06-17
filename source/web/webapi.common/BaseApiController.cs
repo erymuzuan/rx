@@ -117,11 +117,12 @@ namespace Bespoke.Sph.WebApi
             var json = JsonConvert.SerializeObject(content, setting);
             return new JsonCachedResult(json, cache);
         }
-        protected IHttpActionResult Ok<T>(T content, string mimeType)
+
+        protected IHttpActionResult Ok<T>(T content, string mimeType, CacheMetadata cache = null)
         {
             if(typeof(T) == typeof(XmlDocument))
-                return new XmlResult(content as XmlDocument);
-            return new BinaryResult(content as byte[], mimeType);
+                return new XmlResult(content as XmlDocument, cache);
+            return new BinaryResult(content as byte[], mimeType, cache);
         }
         protected override OkNegotiatedContentResult<T> Ok<T>(T content)
         {

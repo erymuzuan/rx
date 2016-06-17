@@ -83,9 +83,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("               var dbval = await cmd.ExecuteScalarAsync();");
             code.AppendLine("               if(dbval == System.DBNull.Value)");
             code.AppendLine("                   return null;");
-            code.AppendLine($"               var item = new {table.Name}();");
-            code.AppendLine($"               {this.GenerateReadCode().Replace($"reader[\"{Name}\"]", "dbval")}");
-            code.AppendLine($"               return item.{Name};");
+            code.AppendLine($"               {this.GenerateValueStatementCode("dbval")}");
+            code.AppendLine($"               return {this.GenerateValueAssignmentCode("dbval")};");
             code.AppendLine("           }");
 
             code.AppendLine("       }");

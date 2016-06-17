@@ -13,12 +13,26 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
 
         public override string GenerateReadCode()
         {
+            if (this.IsComplex) return null;
             return $@"                         
                     var xml{Name} = new System.Xml.XmlDocument();
                     xml{Name}.LoadXml((string)reader[""{Name}""]);
                     item.{Name} = xml{Name};";
 
         }
+
+        public override string GenerateValueStatementCode(string dbValue)
+        {
+            return $@"                         
+                    var xml{Name} = new System.Xml.XmlDocument();
+                    xml{Name}.LoadXml((string){dbValue});";
+        }
+
+        public override string GenerateValueAssignmentCode(string dbValue)
+        {
+            return $"xml{Name}";
+        }
+
         public override string GeneratedCode(string padding = "      ")
         {
             var code = base.GeneratedCode(padding);

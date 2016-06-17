@@ -126,6 +126,7 @@
     <Compile Include="AccessToken.cs" />
     <Compile Include="AuthorizationHandler.cs" />
     <Compile Include="BaseApiController.cs" />
+    <Compile Include="BinaryResult.cs" />
     <Compile Include="CacheMetadata.cs" />
     <Compile Include="ClaimSetting.cs" />
     <Compile Include="ClaimSettingResolver.cs" />

@@ -21,6 +21,14 @@ namespace Bespoke.Sph.Domain.Api
         {
             return $"item.{Name} = ({ClrType.ToCSharp()})reader[\"{Name}\"];";
         }
+        public virtual string GenerateValueStatementCode(string dbValue)
+        {
+            return null;
+        }
+        public virtual string GenerateValueAssignmentCode(string dbValue)
+        {
+            return null;
+        }
         [JsonIgnore]
         public override Type Type
         {
