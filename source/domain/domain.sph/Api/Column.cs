@@ -1,4 +1,5 @@
 using System;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
@@ -73,6 +74,18 @@ namespace Bespoke.Sph.Domain.Api
             this.MimeType = oc.MimeType;
             this.IsVersion = table.VersionColumn == this.Name;
             this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
+        }
+
+        public virtual Property GetLookupProperty(Adapter adapter, TableDefinition table)
+        {
+            if (!this.LookupColumnTable.IsEnabled) return null;
+            var prop = new Property
+            {
+                Name = this.LookupColumnTable.Name,
+                Type = this.LookupColumnTable.Type
+            };
+            prop.AttributeCollection.Add("//" + new ColumnMetadata(this));
+            return prop;
         }
     }
 }

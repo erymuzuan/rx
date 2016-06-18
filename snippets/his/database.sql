@@ -3,6 +3,7 @@ USE [His]
 
 GO
 -- DROP TABLE [Patient]
+-- 
 CREATE TABLE [Patient]
 (
 	 [Mrn] VARCHAR(255) NOT NULL PRIMARY KEY
@@ -31,6 +32,20 @@ CREATE TABLE [Patient]
 	,[Version] ROWVERSION NOT NULL
 )
 GO
+
+CREATE TABLE [GenderLookup]
+(
+	[Key] CHAR(1) PRIMARY KEY NOT NULL,
+	[Value] VARCHAR(255) NOT NULL
+)
+
+GO 
+INSERT INTO [GenderLookup]([Key], [Value]) VALUES('M', 'Male')
+
+GO 
+INSERT INTO [GenderLookup]([Key], [Value]) VALUES('F', 'Female')
+GO 
+INSERT INTO [GenderLookup]([Key], [Value]) VALUES('I', 'Inderteminate')
 
 CREATE TABLE [Department]
 (

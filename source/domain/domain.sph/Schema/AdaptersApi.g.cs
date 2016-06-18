@@ -460,6 +460,23 @@ namespace Bespoke.Sph.Domain.Api
         }
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private LookupColumnTable m_lookupColumnTable
+                = new LookupColumnTable();
+
+        public const string PropertyNameLookupColumnTable = "LookupColumnTable";
+        [DebuggerHidden]
+
+        public LookupColumnTable LookupColumnTable
+        {
+            get { return m_lookupColumnTable; }
+            set
+            {
+                m_lookupColumnTable = value;
+                OnPropertyChanged();
+            }
+        }
+
 
     }
 
@@ -1212,6 +1229,265 @@ namespace Bespoke.Sph.Domain.Api
 
     }
 
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class LookupColumnTable
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isEnabled;
+        public const string PropertyNameIsEnabled = "IsEnabled";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_table;
+        public const string PropertyNameTable = "Table";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_column;
+        public const string PropertyNameColumn = "Column";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_dbType;
+        public const string PropertyNameDbType = "DbType";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_valueColumn;
+        public const string PropertyNameValueColumn = "ValueColumn";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_keyColumn;
+        public const string PropertyNameKeyColumn = "KeyColumn";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsEnabled
+        {
+            set
+            {
+                if (m_isEnabled == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsEnabled, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isEnabled;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Table
+        {
+            set
+            {
+                if (String.Equals(m_table, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_table = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_table;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Column
+        {
+            set
+            {
+                if (String.Equals(m_column, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameColumn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_column = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_column;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string DbType
+        {
+            set
+            {
+                if (String.Equals(m_dbType, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDbType, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_dbType = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_dbType;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string ValueColumn
+        {
+            set
+            {
+                if (String.Equals(m_valueColumn, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameValueColumn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_valueColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_valueColumn;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string KeyColumn
+        {
+            set
+            {
+                if (String.Equals(m_keyColumn, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameKeyColumn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_keyColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_keyColumn;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+
+    }
 
     // placeholder for Member complext type
 

@@ -11,5 +11,10 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
         {
             return null;
         }
+
+        public override string GenerateValueAssignmentCode(string dbValue)
+        {
+            return $"(int){dbValue}";
+        }
     }
 }

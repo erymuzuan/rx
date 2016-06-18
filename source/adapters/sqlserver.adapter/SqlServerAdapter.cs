@@ -246,25 +246,52 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public string GetSelectOneCommand(TableDefinition table)
         {
-            var columns = from c in table.ColumnCollection
-                          where !c.IsComplex
-                          select c;
-            var sql = new StringBuilder($"SELECT {columns.ToString(",\r\n ", x => $"[{x.Name}]")} FROM [{table.Schema}].[{table}] ");
-            sql.AppendLine("WHERE ");
+            var columns = table.ColumnCollection.Where(c => !c.IsComplex).ToList();
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
-            var parameters = pks.Select(k => string.Format("[{0}] = @{0}", k.Name));
+            var sql = new StringBuilder();
+
+            sql.AppendLine($"SELECT {columns.ToString(",\r\n ", x => $"t0.[{x.Name}]")} ");
+            if (columns.All(c => !c.LookupColumnTable.IsEnabled))
+            {
+                sql.AppendLine($"FROM [{table.Schema}].[{table}] t0");
+            }
+            else
+            {
+                var lookups = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
+                 .Select(x => x.LookupColumnTable)
+                 .Select((x, i) => $"t{i + 1}.[{x.ValueColumn}] as '{x.Name}'");
+                sql.Append(",");
+                sql.AppendLine(lookups.ToString(", "));
 
 
+                sql.AppendLine($" FROM [{table.Schema}].[{table}] t0");
+                var joins = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
+                    .Select((x, i) => $" INNER JOIN {x.LookupColumnTable.Table} t{i + 1} ON t0.[{x.Name}] = t{i + 1}.[{x.LookupColumnTable.KeyColumn}]");
+                sql.AppendLine(joins.ToString("\r\n"));
+
+            }
+            sql.AppendLine("WHERE ");
+            var parameters = pks.Select(k => string.Format("t0.[{0}] = @{0}", k.Name));
             sql.AppendLine(string.Join(" AND ", parameters));
 
             return sql.ToString();
         }
         public string GetSelectCommand(TableDefinition table)
         {
-            var columns = from c in table.ColumnCollection
-                          where !c.IsComplex
-                          select c;
-            return $"SELECT {columns.ToString(", ", x => $"[{x.Name}]")} FROM [{table.Schema}].[{table}] ";
+            var columns = table.ColumnCollection.Where(c => !c.IsComplex).ToList();
+            if (columns.All(c => !c.LookupColumnTable.IsEnabled))
+                return $"SELECT {columns.ToString(", ", x => $"[{x.Name}]")} FROM [{table.Schema}].[{table}] ";
+
+            var code = new StringBuilder($"SELECT {columns.ToString(", ", x => $"t0.[{ x.Name }]")}, ");
+            var lookups = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
+                .Select(x => x.LookupColumnTable)
+                .Select((x, i) => $"t{i}.[{x.ValueColumn}] as '{x.Name}'");
+            code.AppendLine(lookups.ToString(", "));
+            code.AppendLine("FROM [{table.Schema}].[{table}] t0");
+            var joins = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
+                .Select((x, i) => $" INNER JOIN {x.LookupColumnTable.Table} t{i} ON t0.[{x.Name}] = t1.[{x.LookupColumnTable.KeyColumn}]");
+            code.AppendLine(joins.ToString("\r\n"));
+            return code.ToString();
         }
 
         private string GenerateSelectOneMethod(TableDefinition table)
@@ -362,6 +389,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                             where !c.IsComplex
                             select $"item.{c.Name} = {c.GenerateValueAssignmentCode($@"reader[""{c.Name}""]")};";
             code.JoinAndAppendLine(readCodes, "\r\n");
+
+            var readLookup = from c in columns
+                where !c.IsComplex & c.LookupColumnTable.IsEnabled
+                select $@"item.{c.LookupColumnTable.Name} = ({c.LookupColumnTable.Type.ToCSharp()})reader[""{c.LookupColumnTable.Name}""];";
+            code.JoinAndAppendLine(readLookup, "\r\n");
 
             return code.ToString();
         }

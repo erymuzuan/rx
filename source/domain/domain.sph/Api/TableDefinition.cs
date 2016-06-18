@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Domain.Api
         public IEnumerable<Class> GenerateCode(Adapter adapter)
         {
             var adapteClass = new Class { Name = Name, BaseClass = nameof(DomainObject), Namespace = this.CodeNamespace };
-            adapteClass.AddNamespaceImport<System.DateTime,DomainObject>();
+            adapteClass.AddNamespaceImport<System.DateTime, DomainObject>();
             var list = new ObjectCollection<Class> { adapteClass };
 
             if (!string.IsNullOrWhiteSpace(ClassAttribute))
@@ -53,7 +53,10 @@ namespace Bespoke.Sph.Domain.Api
 
 
             var properties = this.ColumnCollection.Select(x => new Property { Code = x.GeneratedCode() }).ToList();
-            
+            var lookupProperties = from c in this.ColumnCollection
+                                   where c.LookupColumnTable.IsEnabled
+                                   select c.GetLookupProperty(adapter, this);
+            properties.AddRange(lookupProperties);
 
             adapteClass.PropertyCollection.AddRange(properties);
 

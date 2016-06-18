@@ -178,6 +178,7 @@
     <Compile Include="Api\InsertActionCode.cs" />
     <Compile Include="Api\IRouteTableProvider.cs" />
     <Compile Include="Api\ListActionCode.cs" />
+    <Compile Include="Api\LookupColumnTable.cs" />
     <Compile Include="Api\OperationDefinition.cs" />
     <Compile Include="Api\OperationDefinition.p.cs">
       <DependentUpon>OperationDefinition.cs</DependentUpon>

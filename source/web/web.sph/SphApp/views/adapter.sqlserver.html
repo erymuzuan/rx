@@ -51,6 +51,53 @@
                     <label class="control-label">MIME type</label>
                     <input type="text" class="form-control" data-bind="value:MimeType,enable:IsComplex"/>
                 </div>
+                <!-- ko with :LookupColumnTable -->
+                <div class="form-group">
+                    <label class="control-label">Enable
+                        <input type="checkbox" data-bind="checked: IsEnabled"/>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="lookup-table">Table</label>
+                    <input type="text" class="form-control" id="lookup-table" data-bind="value:Table,enable:IsEnabled"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="lookup-table">Name</label>
+                    <input type="text" class="form-control" id="lookup-name" data-bind="value:Name,enable:IsEnabled"/>
+                </div>
+                <div class="form-group">
+                    <label for="member-type2">Type</label>
+                    <select class="form-control" id="member-type2" data-bind="value:TypeName">
+                        <option value="">[Please Select]</option>
+                        <option value="System.String, mscorlib">String</option>
+                        <option value="System.Boolean, mscorlib">Boolean</option>
+                        <option value="System.Byte, mscorlib">Byte</option>
+                        <option value="System.Int16, mscorlib">Short</option>
+                        <option value="System.Int32, mscorlib">Integer</option>
+                        <option value="System.Int64, mscorlib">Long</option>
+                        <option value="System.Decimal, mscorlib">Decimal</option>
+                        <option value="System.Double, mscorlib">Double</option>
+                        <option value="System.DateTime, mscorlib">DateTime</option>
+                        <option value="System.DateTimeOffset, mscorlib">DateTimeOffset</option>
+                        <option value="System.TimeSpan, mscorlib">TimeSpan</option>
+                        <option value="System.Guid, mscorlib">Guid</option>
+                        <option value="System.Byte[], mscorlib">Byte Array</option>
+                        <option value="System.Xml.XmlDocument, System.Xml">Xml</option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="key-column-table">Key Column</label>
+                    <input type="text" class="form-control" id="key-column-table" data-bind="value:KeyColumn,enable:IsEnabled"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="value-column-table">Value Column</label>
+                    <input type="text" class="form-control" id="value-column-table" data-bind="value:ValueColumn,enable:IsEnabled"/>
+                </div>
+                <!-- /ko -->
             </form>
             <!-- /ko -->
             <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph" -->

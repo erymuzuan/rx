@@ -42,6 +42,9 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Member">
+					<xs:all>
+						<xs:element ref="LookupColumnTable"/>
+					</xs:all>
 					<xs:attribute name="IsPrimaryKey" type="xs:boolean" use="required"/>
 					<xs:attribute name="IsVersion" type="xs:boolean" use="required"/>
 					<xs:attribute name="IsModifiedDate" type="xs:boolean" use="required"/>
@@ -153,5 +156,17 @@
 		<xs:annotation>
 			<xs:documentation>Placehorder</xs:documentation>
 		</xs:annotation>
+	</xs:element>
+	<xs:element name="LookupColumnTable">
+		<xs:complexType>
+			<xs:attribute name="IsEnabled" type="xs:boolean" use="required"/>
+			<xs:attribute name="Table" type="xs:string" use="required"/>
+			<xs:attribute name="Column" type="xs:string" use="required"/>
+			<xs:attribute name="DbType" type="xs:string" use="required"/>
+			<xs:attribute name="ValueColumn" type="xs:string" use="required"/>
+			<xs:attribute name="KeyColumn" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+		</xs:complexType>
 	</xs:element>
 </xs:schema>
