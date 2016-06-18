@@ -93,7 +93,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 
             },
-            attached = function () {
+            attached = function (view) {
                 adapter().Database.subscribe(function (db) {
                     if (!db) {
                         return;
@@ -111,6 +111,21 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             isBusy(false);
                         });
                 });
+
+                var adapterTreePanel = $(view).find("#table-tree"),
+                    setDesignerHeight = function () {
+                        if (adapterTreePanel.length === 0) {
+                            return;
+                        }
+
+                        var dev = $("#developers-log-panel").height(),
+                            top = adapterTreePanel.offset().top,
+                            height = dev + top;
+                        adapterTreePanel.css("max-height", $(window).height() - height);
+
+                };
+                $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
+                setDesignerHeight();
 
 
 

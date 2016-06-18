@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
 {
+    [DebuggerDisplay("{Name} {Table}({KeyColumn}/{ValueColumn})")]
     public partial class LookupColumnTable : DomainObject
     {
         [JsonIgnore]

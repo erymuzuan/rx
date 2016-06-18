@@ -32,9 +32,15 @@ define(["knockout"], function (ko) {
                         }
                     }],
                 mapTable = function (v) {
-                    var columns = _(v.ColumnCollection()).map(function (col) {
+                    var table = ko.toJS(v),
+                        columns = _(v.ColumnCollection()).map(function (col) {
+
+                            var column = ko.toJS(col),
+                                lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars' style='margin-left:5px;color:darkgreen'></i>" : "",
+                                complex = column.IsComplex ? " <i class='fa fa-link' style='margin-left:5px;color:darkblue'></i>" : "";
                             return {
-                                text: ko.unwrap(col.Name),
+                                id: "column-" + table.Schema + "-" + table.Name + "-" + column.Name,
+                                text: ko.unwrap(col.Name) + lookup + complex,
                                 type: ko.unwrap(col.TypeName),
                                 data: col
                             }
@@ -86,7 +92,6 @@ define(["knockout"], function (ko) {
                     $(element)
                         .on("select_node.jstree", function (node, selected) {
                             member(selected.node.data);
-
                         })
                         .on("create_node.jstree", function (event, node) {
                             console.log(node, "node");
@@ -100,7 +105,7 @@ define(["knockout"], function (ko) {
                             },
                             "contextmenu": {
                                 "items": function ($node) {
-                                    console.log($node);
+                                    //console.log($node);
                                     var ref = $(element).jstree(true),
                                         removeMenu = {
                                             label: "Remove",
@@ -143,9 +148,65 @@ define(["knockout"], function (ko) {
                                                 ref.set_type($node, "child-table");
                                                 $node.data.IsSelected(false);
                                             }
-                                        }
-                                        ;
+                                        },
+                                        setNodeText = function (col) {
+                                            var column = ko.toJS(col),
+                                                lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars' style='margin-left:5px;color:darkgreen'></i>" : "",
+                                                complex = column.IsComplex ? " <i class='fa fa-link' style='margin-left:5px;color:darkblue'></i>" : "",
+                                                text = column.Name + lookup + complex;
 
+                                            $("#" + $node.id + ">a.jstree-anchor>i.fa-link").remove();
+                                            $("#" + $node.id + ">a.jstree-anchor>i.fa-binoculars").remove();
+
+                                            $(element).jstree(true)
+                                                .rename_node($node, text);
+                                        },
+                                        markComplex = {
+                                            label: "Make a complex resource",
+                                            action: function () {
+
+                                                $node.data.IsComplex(true);
+                                                setNodeText($node.data);
+                                            }
+                                        },
+                                        makeInline = {
+                                            label: "Make an inline member",
+                                            action: function () {
+                                                $node.data.IsComplex(false);
+                                                setNodeText($node.data);
+                                            }
+                                        },
+                                        makeLookup = {
+                                            label: "Enable lookup value",
+                                            action: function () {
+                                                $node.data.LookupColumnTable().IsEnabled(true);
+                                                setNodeText($node.data);
+                                            }
+                                        },
+                                        undoLookup = {
+                                            label: "Disable lookup value",
+                                            action: function () {
+                                                $node.data.LookupColumnTable().IsEnabled(false);
+                                                setNodeText($node.data);
+                                            }
+                                        };
+                                    var data = $node.data;
+
+                                    if ($node.id.startsWith("column-")) {
+                                        var items = [];
+                                        if (ko.unwrap(data.IsComplex))
+                                            items.push(makeInline);
+                                        else
+                                            items.push(markComplex);
+
+                                        if (ko.unwrap(data.LookupColumnTable().IsEnabled))
+                                            items.push(undoLookup);
+                                        else
+                                            items.push(makeLookup);
+
+
+                                        return items;
+                                    }
                                     if ($node.type === "child-table-selected")
                                         return [unselectRelatedTable];
                                     if ($node.type === "child-table")

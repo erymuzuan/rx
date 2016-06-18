@@ -74,6 +74,7 @@ namespace Bespoke.Sph.Domain.Api
             this.MimeType = oc.MimeType;
             this.IsVersion = table.VersionColumn == this.Name;
             this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
+            this.LookupColumnTable = oc.LookupColumnTable;
         }
 
         public virtual Property GetLookupProperty(Adapter adapter, TableDefinition table)

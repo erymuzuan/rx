@@ -251,11 +251,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var sql = new StringBuilder();
 
             sql.AppendLine($"SELECT {columns.ToString(",\r\n ", x => $"t0.[{x.Name}]")} ");
-            if (columns.All(c => !c.LookupColumnTable.IsEnabled))
-            {
-                sql.AppendLine($"FROM [{table.Schema}].[{table}] t0");
-            }
-            else
+            if (table.ColumnCollection.Any(c => c.LookupColumnTable.IsEnabled))
             {
                 var lookups = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
                  .Select(x => x.LookupColumnTable)
@@ -266,9 +262,12 @@ namespace Bespoke.Sph.Integrations.Adapters
 
                 sql.AppendLine($" FROM [{table.Schema}].[{table}] t0");
                 var joins = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
-                    .Select((x, i) => $" INNER JOIN {x.LookupColumnTable.Table} t{i + 1} ON t0.[{x.Name}] = t{i + 1}.[{x.LookupColumnTable.KeyColumn}]");
+                    .Select((x, i) => $" LEFT JOIN {x.LookupColumnTable.Table} t{i + 1} ON t0.[{x.Name}] = t{i + 1}.[{x.LookupColumnTable.KeyColumn}]");
                 sql.AppendLine(joins.ToString("\r\n"));
-
+            }
+            else
+            {
+                sql.AppendLine($"FROM [{table.Schema}].[{table}] t0");
             }
             sql.AppendLine("WHERE ");
             var parameters = pks.Select(k => string.Format("t0.[{0}] = @{0}", k.Name));
@@ -391,8 +390,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.JoinAndAppendLine(readCodes, "\r\n");
 
             var readLookup = from c in columns
-                where !c.IsComplex & c.LookupColumnTable.IsEnabled
-                select $@"item.{c.LookupColumnTable.Name} = ({c.LookupColumnTable.Type.ToCSharp()})reader[""{c.LookupColumnTable.Name}""];";
+                             where c.LookupColumnTable.IsEnabled
+                             select $@"item.{c.LookupColumnTable.Name} = ({c.LookupColumnTable.Type.ToCSharp()})reader[""{c.LookupColumnTable.Name}""];";
             code.JoinAndAppendLine(readLookup, "\r\n");
 
             return code.ToString();

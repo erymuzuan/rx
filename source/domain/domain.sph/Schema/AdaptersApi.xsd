@@ -52,6 +52,7 @@
 					<xs:attribute name="IsIdentity" type="xs:boolean" use="required"/>
 					<xs:attribute name="IsComplex" type="xs:boolean" use="required"/>
 					<xs:attribute name="MimeType" type="xs:string" use="required"/>
+					<xs:attribute name="Exclude" type="xs:boolean" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

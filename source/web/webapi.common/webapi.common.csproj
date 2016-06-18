@@ -155,6 +155,7 @@
     <Compile Include="MethodConstraintAttribute.cs" />
     <Compile Include="MethodOverrideHandler.cs" />
     <Compile Include="ModifiedSinceAttribute.cs" />
+    <Compile Include="TextResult.cs" />
     <Compile Include="UnmodifiedSinceAttribute.cs" />
     <Compile Include="UnModifiedSinceParameterBinding.cs" />
     <Compile Include="ModifiedSinceParameterBinding.cs" />

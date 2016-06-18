@@ -120,9 +120,11 @@ namespace Bespoke.Sph.WebApi
 
         protected IHttpActionResult Ok<T>(T content, string mimeType, CacheMetadata cache = null)
         {
-            if(typeof(T) == typeof(XmlDocument))
+            if (typeof(T) == typeof(XmlDocument))
                 return new XmlResult(content as XmlDocument, cache);
-            return new BinaryResult(content as byte[], mimeType, cache);
+            if (typeof(T) == typeof(byte[]))
+                return new BinaryResult(content as byte[], mimeType, cache);
+            return new TextResult($"{content}", mimeType, cache);
         }
         protected override OkNegotiatedContentResult<T> Ok<T>(T content)
         {

@@ -42,33 +42,33 @@
                     <span class=""
                           data-bind="text:ko.unwrap(DbType) + ' (' + ko.unwrap(Length) + ')' + (ko.unwrap(IsNullable) ? ' NULL': ' NOT NULL')"></span>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Is Complex
-                        <input type="checkbox" data-bind="checked: IsComplex"/>
+                <div class="form-group sr-only">
+                    <label class="control-label">Is Complex &nbsp;
+                        <input type="checkbox" data-bind="checked: IsComplex, tooltip:'If you want to make this field accessible via another endpoint'"/>
                     </label>
                 </div>
                 <div class="form-group">
                     <label class="control-label">MIME type</label>
-                    <input type="text" class="form-control" data-bind="value:MimeType,enable:IsComplex"/>
+                    <input type="text" required class="form-control" data-bind="value:MimeType,enable:IsComplex, tooltip: 'Mime type used for the response message content type'"/>
                 </div>
                 <!-- ko with :LookupColumnTable -->
-                <div class="form-group">
-                    <label class="control-label">Enable
-                        <input type="checkbox" data-bind="checked: IsEnabled"/>
+                <div class="form-group sr-only">
+                    <label class="control-label">Enable Lookup Table &nbsp;
+                        <input type="checkbox" data-bind="checked: IsEnabled, tooltip:'If this column only store the key, and you want to display the value for the given from a separate lookup table'"/>
                     </label>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="lookup-table">Table</label>
-                    <input type="text" class="form-control" id="lookup-table" data-bind="value:Table,enable:IsEnabled"/>
+                    <label class="control-label" for="lookup-table">Lookup Table</label>
+                    <input type="text" required class="form-control" id="lookup-table" data-bind="value:Table,enable:IsEnabled, tooltip:'Lookup table where the value is stored'"/>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="lookup-table">Name</label>
-                    <input type="text" class="form-control" id="lookup-name" data-bind="value:Name,enable:IsEnabled"/>
+                    <input type="text" required class="form-control" id="lookup-name" data-bind="value:Name,enable:IsEnabled, tooltip:'The property name for the field produce by the lookup value'"/>
                 </div>
                 <div class="form-group">
                     <label for="member-type2">Type</label>
-                    <select class="form-control" id="member-type2" data-bind="value:TypeName">
+                    <select required class="form-control" id="member-type2" data-bind="value:TypeName,enable:IsEnabled, tooltip:'The data type of the return value'">
                         <option value="">[Please Select]</option>
                         <option value="System.String, mscorlib">String</option>
                         <option value="System.Boolean, mscorlib">Boolean</option>
@@ -90,12 +90,12 @@
 
                 <div class="form-group">
                     <label class="control-label" for="key-column-table">Key Column</label>
-                    <input type="text" class="form-control" id="key-column-table" data-bind="value:KeyColumn,enable:IsEnabled"/>
+                    <input type="text" required class="form-control" id="key-column-table" data-bind="value:KeyColumn,enable:IsEnabled, tooltip:'The column name for the key, in the lookup table'"/>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="value-column-table">Value Column</label>
-                    <input type="text" class="form-control" id="value-column-table" data-bind="value:ValueColumn,enable:IsEnabled"/>
+                    <input type="text" required class="form-control" id="value-column-table" data-bind="value:ValueColumn,enable:IsEnabled, tooltip:'The column name for the value, in the lookup table'"/>
                 </div>
                 <!-- /ko -->
             </form>
