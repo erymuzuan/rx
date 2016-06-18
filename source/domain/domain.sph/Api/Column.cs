@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
@@ -15,10 +16,10 @@ namespace Bespoke.Sph.Domain.Api
         public virtual string GenerateUpdateParameterValue(string commandName = "cmd")
         {
             var nullable = this.IsNullable ? ".ToDbNull()" : "";
-            return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{Name}{nullable});";
+            return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", item.{ClrName}{nullable});";
 
         }
-    
+
         public virtual string GenerateValueStatementCode(string dbValue)
         {
             return null;
@@ -37,7 +38,7 @@ namespace Bespoke.Sph.Domain.Api
             }
         }
 
-     
+
 
         public virtual Column Initialize(ColumnMetadata mt, TableDefinition td)
         {
@@ -61,7 +62,23 @@ namespace Bespoke.Sph.Domain.Api
         {
             return new ColumnMetadata(this) + " // - " + this.GetType().FullName;
         }
+        public string ClrName => this.Name.ToPascalCase();
 
+        public override string GeneratedCode(string padding = "      ")
+        {
+            if (null == this.Type)
+                throw new InvalidOperationException(this + " doesn't have a type");
+            var code = new StringBuilder();
+
+            code.AppendLine(padding + $"//{this.GetType().Name} :{this.DbType}({this.Length}) {(IsNullable ? "" : "NOT ")}NULL");
+
+            if (!string.IsNullOrWhiteSpace(PropertyAttribute))
+                code.AppendLine(padding + PropertyAttribute);
+            if (this.IsComplex)
+                code.AppendLine($"[JsonIgnore]");
+            code.AppendLine(padding + $"public {this.GetCsharpType()}{this.GetNullable()} {ClrName} {{ get; set; }}");
+            return code.ToString();
+        }
         public virtual string GenerateReadAdapterCode(TableDefinition table, Adapter adapter)
         {
             return null;

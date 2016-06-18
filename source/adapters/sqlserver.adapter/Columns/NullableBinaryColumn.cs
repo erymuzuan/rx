@@ -40,15 +40,6 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
             code.AppendLine("       }");
             return code.ToString();
         }
-        public override string GeneratedCode(string padding = "      ")
-        {
-            var code = base.GeneratedCode(padding);
-            const string IGNORE = "[Newtonsoft.Json.JsonIgnore]\r\n";
-            if (this.IsComplex)
-                return IGNORE + code;
-            return code;
-
-        }
-    
+  
     }
 }

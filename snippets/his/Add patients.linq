@@ -27,8 +27,8 @@ void Main()
 			Gender = (new []{'M', 'F'}).OrderBy(g => Guid.NewGuid()).First(),
 			Income = 2500.00m + (count + 120),
 			Dob = (new DateTime(1980, 4, 6)).AddYears(count).AddDays(count).AddMonths(count),
-			Nationality = (new []{"Malaysian", "Malaysian", "Thailand", "Indonesia", "Vietnam", "Malaysia"}).OrderBy(g => Guid.NewGuid()).First(),
-			Race = "Islam",
+			NationalityCode = (new []{"MAS", "MAS", "THA", "INS", "VTN", "SNG"}).OrderBy(g => Guid.NewGuid()).First(),
+			RaceCode = Random(Enumerable.Range(1,5)),
 			Age = Convert.ToByte(count + 36),
 			Nrid = 800406034567 + count,
 			PassportNo = "",
@@ -61,6 +61,10 @@ void Main()
 }
 
 // Define other methods and classes here
+
+public static T Random<T>(IEnumerable<T> list) {
+	return RandomExtension.Random(list);
+}
 public static class RandomExtension
 {
 	public static T Random<T>(this IEnumerable<T> list)

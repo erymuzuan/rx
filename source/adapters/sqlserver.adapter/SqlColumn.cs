@@ -14,24 +14,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         public override string GenerateUpdateParameterValue(string commandName = "cmd")
         {
             var nullable = this.IsNullable ? ".ToDbNull()" : "";
-            return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{Name}{nullable});";
+            return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{ClrName}{nullable});";
 
         }
      
 
-        public override string GeneratedCode(string padding = "      ")
-        {
-            if (null == this.ClrType)
-                throw new InvalidOperationException(this + " doesn't have a type");
-            var code = new StringBuilder();
-
-            if (!string.IsNullOrWhiteSpace(PropertyAttribute))
-                code.AppendLine(padding + PropertyAttribute);
-
-            code.AppendLine(padding + $"//{this.GetType().Name} :{this.DbType}({this.Length}) {(IsNullable ? "" : "NOT ")}NULL");
-            code.AppendLine(padding + $"public {this.GetCsharpType()}{this.GetNullable()} {Name} {{ get; set; }}");
-            return code.ToString();
-        }
+       
 
         public override Column Initialize(ColumnMetadata mt, TableDefinition td)
         {

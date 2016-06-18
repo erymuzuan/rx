@@ -11,9 +11,9 @@ CREATE TABLE [Patient]
 	,[Gender] CHAR(1) NOT NULL
 	,[Income] DECIMAL(18,0) NOT NULL
 	,[Dob] SMALLDATETIME NOT NULL
-	,[Nationality] VARCHAR(255) NULL
-	,[Race] VARCHAR(50) NULL
-	,[Religion] VARCHAR(50) NULL
+	,[Nationality.Code] INT NOT NULL
+	,[RaceCode] INT NULL
+	,[ReligionCode] VARCHAR(50) NULL
 	,[Age] TINYINT NULL
 	,[Nrid] BIGINT NULL
 	,[PassportNo] NVARCHAR(50) NULL
@@ -32,6 +32,28 @@ CREATE TABLE [Patient]
 	,[Version] ROWVERSION NOT NULL
 )
 GO
+CREATE TABLE [Country](
+[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+[Name] VARCHAR(255) NOT NULL,
+[Code] CHAR(3) NOT NULL
+)
+GO
+INSERT INTO [Country]([Name], [Code]) VALUES('Malaysia', 'MAS')
+GO
+INSERT INTO [Country]([Name], [Code]) VALUES('Indonesia', 'INS')
+GO
+
+INSERT INTO [Country]([Name], [Code]) VALUES('Thailand', 'THA')
+GO
+
+INSERT INTO [Country]([Name], [Code]) VALUES('Singapore', 'SNG')
+GO
+
+INSERT INTO [Country]([Name], [Code]) VALUES('Vietnam', 'VTN')
+GO
+
+
+
 
 CREATE TABLE [GenderLookup]
 (

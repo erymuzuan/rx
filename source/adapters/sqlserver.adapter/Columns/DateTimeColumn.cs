@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
         public override string GenerateUpdateParameterValue(string commandName = "cmd")
         {
             if (this.IsModifiedDate)
-                return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", System.DateTime.Now);";
+                return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", System.DateTime.Now);";
             return base.GenerateUpdateParameterValue(commandName);
         }
 
@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
             if (this.IsModifiedDate)
                 return IGNORE + code;
             return code;
-
-        }
+     
     }
+}
 }

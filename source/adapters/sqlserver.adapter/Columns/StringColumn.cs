@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
 
         public override string GenerateUpdateParameterValue(string commandName = "cmd")
         {
-            return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{Name});";
+            return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", item.{ClrName});";
         }
 
         public override string GenerateValueAssignmentCode(string dbValue)

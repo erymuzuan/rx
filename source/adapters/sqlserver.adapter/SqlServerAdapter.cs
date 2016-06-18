@@ -270,7 +270,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 sql.AppendLine($"FROM [{table.Schema}].[{table}] t0");
             }
             sql.AppendLine("WHERE ");
-            var parameters = pks.Select(k => string.Format("t0.[{0}] = @{0}", k.Name));
+            var parameters = pks.Select(k => $"t0.[{k.Name}] = @{k.ClrName}");
             sql.AppendLine(string.Join(" AND ", parameters));
 
             return sql.ToString();
@@ -386,7 +386,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var code = new StringBuilder();
             var readCodes = from c in columns
                             where !c.IsComplex
-                            select $"item.{c.Name} = {c.GenerateValueAssignmentCode($@"reader[""{c.Name}""]")};";
+                            select $"item.{c.ClrName} = {c.GenerateValueAssignmentCode($@"reader[""{c.Name}""]")};";
             code.JoinAndAppendLine(readCodes, "\r\n");
 
             var readLookup = from c in columns
@@ -468,8 +468,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (hasSingleIdentityPrimaryKey)
                 code.AppendLine($@"
                 var scopeIdentity = await cmd.ExecuteScalarAsync();     
-                item.{primaryKeyIdentityColumns[0].Name} = Convert.To{primaryKeyIdentityColumns[0].ClrType.Name}(scopeIdentity);
-                return item.{primaryKeyIdentityColumns[0].Name};");
+                item.{primaryKeyIdentityColumns[0].ClrName} = Convert.To{primaryKeyIdentityColumns[0].ClrType.Name}(scopeIdentity);
+                return item.{primaryKeyIdentityColumns[0].ClrName};");
             else
                 code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
 
@@ -492,12 +492,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             var cols = columns
                 .Where(c => c.CanWrite)
                 .Where(c => !c.IsPrimaryKey)
-                .Select(c => c.Name)
                 .ToArray();
-            sql.JoinAndAppendLine(cols, ",\r\n", c => $"[{c}] = @{c}");
+            sql.JoinAndAppendLine(cols, ",\r\n", c => $"[{c.Name}] = @{c.ClrName}");
             sql.AppendLine(" WHERE ");
 
-            sql.JoinAndAppendLine(pks, "\r\nAND\t\r\n", x => $"[{x.Name}] = @{x.Name}");
+            sql.JoinAndAppendLine(pks, "\r\nAND\t\r\n", x => $"[{x.Name}] = @{x.ClrName}");
 
             return sql.ToString();
 
@@ -513,7 +512,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             sql.JoinAndAppendLine(cols, ",\r\n\t", c => $"[{c.Name}]");
             sql.AppendLine(")");
             sql.AppendLine("VALUES(");
-            sql.JoinAndAppendLine(cols, ",\r\n\t", c => $"@{c.Name}");
+            sql.JoinAndAppendLine(cols, ",\r\n\t", c => $"@{c.ClrName}");
             sql.Append(")");
 
 
