@@ -1,0 +1,171 @@
+﻿<h1>Microsoft SQL Server</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+
+
+<div class="row">
+
+
+    <div class="row col-lg-9 col-md9">
+
+        <div class="col-lg-8 col-md-7 col-sm-6">
+            <div id="table-tree" style="overflow-y: scroll; min-height: 400px"
+                 data-bind="adapterTree :{ adapter:adapter, selected: $root.selected}">
+                <h3>This is where the tre view goes</h3>
+            </div>
+            <a class="btn btn-link" data-bind="click : $root.addTable">
+                <i class="fa fa-plus-circle"></i>
+                Add new table or view
+            </a>
+            <a class="btn btn-link" data-bind="click : $root.addOperation">
+                <i class="fa fa-plus-circle"></i>
+                Add new stored procedure or function
+            </a>
+        </div>
+
+
+        <div class="col-lg-4 col-md-5 col-sm-6" data-bind="with:selected ">
+            <!-- ko if : (typeof(SqlType) !== "undefined") -->
+            <h3 data-bind="text: 'Column Property'"></h3>
+            <form>
+                <div class="form-group">
+                    <label class="control-label" data-bind="text:Name">Name</label>
+                    <span class=""
+                          data-bind="text:ko.unwrap(DbType) + ' (' + ko.unwrap(Length) + ')' + (ko.unwrap(IsNullable) ? ' NULL': ' NOT NULL')"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Is Complex
+                        <input type="checkbox" data-bind="checked: IsComplex"/>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">MIME type</label>
+                    <input type="text" class="form-control" data-bind="value:MimeType,enable:IsComplex"/>
+                </div>
+            </form>
+            <!-- /ko -->
+            <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph" -->
+            <h3 data-bind="text: ko.unwrap(Name) "></h3>
+            <form>
+
+
+                <div class="form-group">
+                    <label for="version-column" class="control-label">Version Column</label>
+
+                    <select class="form-control" id="version-column"
+                            data-bind="value:VersionColumn, options: ColumnCollection, optionsValue : 'Name', optionsText:'Name', optionsCaption:''"></select>
+
+                </div>
+                <div class="form-group">
+                    <label for="modified-date-column" class="control-label">Modified Date Column</label>
+
+                    <select class="form-control" id="modified-date-column"
+                            data-bind="value:ModifiedDateColumn, options: ColumnCollection, optionsValue : 'Name', optionsText:'Name', optionsCaption:''"></select>
+
+                </div>
+            </form>
+            <!-- /ko -->
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3 col-lg-3">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#general-tab" data-toggle="tab">General</a>
+                </li>
+                <li>
+                    <a href="#connection-tab" data-toggle="tab">Connection</a>
+                </li>
+                <li>
+                    <a href="#others-tab" data-toggle="tab">Others</a>
+                </li>
+                <li>
+                    <a href="#others2-tab" data-toggle="tab">Others</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="general-tab" class="tab-pane active">
+
+                    <form data-bind="with:adapter">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input class="form-control" type="text" id="name" required placeholder="Adapter name"
+                                   pattern="^[A-Z][A-Za-z0-9_]*$"
+                                   data-bind="value:Name"/>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" type="text" id="description" placeholder="Developers note"
+                                      data-bind="value: Description"></textarea>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div id="connection-tab" class="tab-pane">
+                    <form data-bind="with : adapter">
+                        <div class="form-group">
+                            <label for="server">Server</label>
+                            <input class="form-control" type="text" id="server" required
+                                   placeholder="SQL Server name instance" data-bind="value:Server"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trusted">Trusted Connection</label>
+                            <input type="checkbox" id="trusted" placeholder="SQL Server name instance"
+                                   data-bind="checked:TrustedConnection"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userid">UserId</label>
+                            <input class="form-control" type="text" id="userid" required
+                                   placeholder="UserId if connection using SQL authentication"
+                                   data-bind="value:UserId, disable:TrustedConnection "/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input class="form-control" type="password" id="password" required
+                                   placeholder="Password if connection using SQL authentication"
+                                   data-bind="value:Password, disable:TrustedConnection"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="database">Database</label>
+                            <select class="form-control" id="database" required
+                                    data-bind="value:Database, options: $root.databaseOptions, optionsCaption:'[Select a database]'"></select>
+                        </div>
+
+
+                    </form>
+
+                </div>
+                <div id="others-tab" class="tab-pane">
+
+
+                </div>
+                <div id="others2-tab" class="tab-pane">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy"/>

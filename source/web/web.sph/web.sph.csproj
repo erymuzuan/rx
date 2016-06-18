@@ -1295,6 +1295,9 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="SphApp\ko\_ko.adapter.sqlserver.js" />
+    <Content Include="SphApp\views\adapter.sqlserver.html" />
+    <Content Include="SphApp\viewmodels\adapter.sqlserver.js" />
     <Content Include="SphApp\gulpfile.js" />
     <Content Include="SphApp\services\cultures.my.js" />
     <Content Include="SphApp\viewmodels\_adapter.sqlserver.add.operation.dialog.js" />
@@ -1348,7 +1351,6 @@
     <Folder Include="App_Start\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
-    <Folder Include="SphApp\ko\" />
     <Folder Include="SphApp\partial\" />
     <Folder Include="Views\TestError\" />
   </ItemGroup>

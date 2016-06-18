@@ -1,87 +1,90 @@
+Design a Database Structure with SQL Server 2014 (70-465)
+David Peter Hansen
+2016
+Why a Good Database Structure Matters
+16m 18s
 
+    Course Introduction
+    1m 18s
+    What Is a Database Structure?
+    2m 35s
+    Performance and Maintenance Issues
+    2m 35s
+    Demo: Database Structure Issues
+    9m 14s
+    Module Summary
+    34s
 
-<h1>Appointment details</h1>
-<div id="error-list" class="row" data-bind="visible:errors().length">
-    <!-- ko foreach : errors -->
-    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <i class="fa fa-exclamation"></i>
-        <span data-bind="text:Message"></span>
-    
-    </div>
-    <div class="col-lg-2"></div>
-    <!-- /ko-->
-</div>
-<div class="row">
+Translating Business Requirements
+40m 14s
 
-    <div class="col-sm-8">
-        <form class="form-horizontal" data-bind="with : entity" id="appointment-details-form">
+    Module Introduction
+    1m 26s
+    What Type of Application Is the Database Used For?
+    4m 49s
+    Difference Between Logical and Physical Design
+    11m 8s
+    Demo: Physical Design
+    6m 42s
+    Normalization and Denormalization
+    7m 35s
+    Demo: Denormalization
+    7m 41s
+    Module Summary
+    49s
 
+Designing Physical Database and Object Placement
+31m 37s
 
-    <div data-bind="visible:true" class="form-group">
-        <label for="patient-mrn" class="col-md-4">Patient</label>
-    
-        
+    Module Introduction
+    53s
+    Filegroups, Data Files, and Transaction Log File
+    8m 23s
+    RAID Levels
+    6m 18s
+    Demo: Data Files and Filegroup Placement
+    7m 2s
+    System Databases
+    2m 55s
+    Demo: Configure System Databases
+    5m 13s
+    Module Summary
+    51s
 
-        <div class="col-md-8">
-            <a class="btn btn-link" 
-               data-bind="tooltip :'A demo test',lookup : {entity: 'Patient', member : 'Mrn', value : Mrn, columns : ['FullName','Mrn']}"
-               id="patient-mrn">
-                         <!-- ko lookupText: { entity : 'Patient', value : Mrn, valuePath :'Mrn', displayPath : 'FullName'} -->
-                            <!-- /ko -->
-                <i class="fa fa-search"></i>
-            </a>
-        </div>
-    </div>
+Designing the Right Index Strategy
+39m 11s
 
+    Module Introduction
+    52s
+    Heaps, Clustered, and Nonclustered Indexes
+    13m 21s
+    Demo: Index Strategy
+    10m 13s
+    Columnstore Index
+    3m 33s
+    Demo: Columnstore Indexes
+    1m 58s
+    XML Indexes
+    3m 37s
+    Demo: XML Index
+    4m 44s
+    Module Summary
+    50s
 
-    <div data-bind="visible:true" class="form-group">
-        <label class="col-md-4">Mrn</label>
-        <div class="col-md-8">
-            <input  class="fa fa-text-width form-control " title=""
-                   data-bind="value: Mrn, visible :true, autocomplete :{ entity:'Patient', field :'Mrn', query:'PatientId gt 0' }"
-                   id="" type="text" name="Mrn" />
-        </div>
-    </div>
+Designing the Right Partitioning Strategy
+29m 34s
 
-
-    <div data-bind="visible:true" class="form-group">
-        <label for="fb38b3a3-739c-4628-a029-9369d0035aa3" class="col-md-4">Reference No</label>
-        <div class="col-md-8">
-            <input  class=" form-control input-large" title=""
-                   data-bind="value: ReferenceNo, enable :true"
-                   id="fb38b3a3-739c-4628-a029-9369d0035aa3" type="text" name="ReferenceNo" />
-        </div>
-    </div>
-
-
-    <div data-bind="visible:true" class="form-group">
-        <label for="709d58fd-57f1-4cc3-9268-3b0b40ac7edf" class="col-md-4">Doctor</label>
-        <div class="col-md-8">
-            <input  class=" form-control input-large" title=""
-                   data-bind="value: Doctor, enable :true"
-                   id="709d58fd-57f1-4cc3-9268-3b0b40ac7edf" type="text" name="Doctor" />
-        </div>
-    </div>
-
-
-    <div data-bind="visible:true" class="form-group">
-        <label for="6930f227-7969-408c-bba9-fa57e1d1c22a" class="col-md-4">Location</label>
-        <div class="col-md-8">
-            <input  class=" form-control input-large" title=""
-                   data-bind="value: Location, enable :true"
-                   id="6930f227-7969-408c-bba9-fa57e1d1c22a" type="text" name="Location" />
-        </div>
-    </div>
-
-    <div class="form-group" data-bind="visible:true">
-        <label for="4d94f9bd-b878-47b2-856a-fb3cb2dbcf51" class="col-md-4">DateTime</label>
-        <div class="col-md-8">
-            <input class=" form-control input-large"
-                   data-bind="kendoDateTime: DateTime, enable :true" id="4d94f9bd-b878-47b2-856a-fb3cb2dbcf51" type="text"
-                   name="DateTime" />
-        </div>
-    </div>
-        </form>
-    </div>
-</div>
+    Module Introduction
+    1m 1s
+    Vertical vs. Horizontal Partitioning
+    2m 29s
+    Table and Index Partitioning
+    7m 38s
+    Demo: Partitioned Table
+    5m 54s
+    Partitioning Operations
+    3m 48s
+    Demo: Partition Management
+    7m 55s
+    Module Summary
+    47s

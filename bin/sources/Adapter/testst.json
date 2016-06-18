@@ -209,7 +209,7 @@
               "DbType": "datetime",
               "IsPrimaryKey": false,
               "IsVersion": false,
-              "IsModifiedDate": false,
+              "IsModifiedDate": true,
               "IsComputed": false,
               "IsIdentity": false,
               "IsComplex": false,
@@ -247,7 +247,7 @@
               "Constraint": "FK_Customer_Store_StoreID",
               "Column": "StoreID",
               "ForeignColumn": "BusinessEntityID",
-              "IsSelected": true,
+              "IsSelected": false,
               "WebId": null
             }
           ]
@@ -542,7 +542,7 @@
               "Constraint": "FK_SalesOrderHeader_Customer_CustomerID",
               "Column": "CustomerID",
               "ForeignColumn": "CustomerID",
-              "IsSelected": true,
+              "IsSelected": false,
               "WebId": null
             }
           ]
@@ -909,7 +909,7 @@
               "Constraint": "FK_SalesOrderHeader_SalesPerson_SalesPersonID",
               "Column": "SalesPersonID",
               "ForeignColumn": "BusinessEntityID",
-              "IsSelected": true,
+              "IsSelected": false,
               "WebId": null
             },
             {
@@ -936,7 +936,7 @@
               "Constraint": "FK_Store_SalesPerson_SalesPersonID",
               "Column": "SalesPersonID",
               "ForeignColumn": "BusinessEntityID",
-              "IsSelected": true,
+              "IsSelected": false,
               "WebId": null
             }
           ]
@@ -1924,7 +1924,7 @@
               "Constraint": "FK_SalesOrderHeaderSalesReason_SalesOrderHeader_SalesOrderID",
               "Column": "SalesOrderID",
               "ForeignColumn": "SalesOrderID",
-              "IsSelected": false,
+              "IsSelected": true,
               "WebId": null
             }
           ]
@@ -1949,7 +1949,196 @@
   },
   "OperationDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Integrations.Adapters.FuncOperationDefinition, sqlserver.adapter",
+        "CodeNamespace": "Bespoke.DevV1.Adapters.",
+        "Uuid": "afe81d74-048e-4eb7-b0cb-865e592941f1",
+        "ParameterDefinition": {
+          "$type": "Bespoke.Sph.Domain.Api.ParameterDefinition, domain.sph",
+          "MemberCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": null,
+          "IsRequest": false,
+          "IsResponse": false,
+          "CodeNamespace": null,
+          "WebId": null
+        },
+        "RequestMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ResponseMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+              "SqlDbType": "DateTime",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Result",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            }
+          ]
+        },
+        "ErrorRetry": {
+          "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
+          "Attempt": 0,
+          "IsEnabled": false,
+          "Wait": 0,
+          "Algorithm": "Constant",
+          "WebId": null
+        },
+        "Name": "ufnGetAccountingStartDate",
+        "MethodName": "UfnGetAccountingStartDate",
+        "IsOneWay": false,
+        "IsSelected": false,
+        "Schema": "dbo",
+        "WebId": "afe81d74-048e-4eb7-b0cb-865e592941f1"
+      },
+      {
+        "$type": "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
+        "UseHttpGet": false,
+        "CodeNamespace": "Bespoke.DevV1.Adapters.",
+        "Uuid": "73876c1d-b921-4427-b98e-2fd33b4eb81b",
+        "ParameterDefinition": {
+          "$type": "Bespoke.Sph.Domain.Api.ParameterDefinition, domain.sph",
+          "MemberCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": null,
+          "IsRequest": false,
+          "IsResponse": false,
+          "CodeNamespace": null,
+          "WebId": null
+        },
+        "RequestMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
+              "MaxLength": 0,
+              "Mode": "In",
+              "SqlType": "int",
+              "Position": 1,
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": "@StartProductID",
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@StartProductID",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "cee064c4-d823-4959-b677-63150509c103"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
+              "MaxLength": 0,
+              "Mode": "In",
+              "SqlType": "datetime",
+              "Position": 2,
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": "@CheckDate",
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@CheckDate",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "56788798-8e30-4850-b612-28924d54400c"
+            }
+          ]
+        },
+        "ResponseMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+              "SqlDbType": "Int",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@return_value",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": null
+            }
+          ]
+        },
+        "ErrorRetry": {
+          "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
+          "Attempt": 0,
+          "IsEnabled": false,
+          "Wait": 0,
+          "Algorithm": "Constant",
+          "WebId": null
+        },
+        "Name": "uspGetBillOfMaterials",
+        "MethodName": "UspGetBillOfMaterials",
+        "IsOneWay": false,
+        "IsSelected": false,
+        "Schema": "dbo",
+        "WebId": "73876c1d-b921-4427-b98e-2fd33b4eb81b"
+      }
+    ]
   },
   "Name": "Testst",
   "Description": null,
@@ -1957,6 +2146,6 @@
   "Id": "testst",
   "CreatedDate": "2016-06-14T08:38:36.0838095+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-17T06:00:45.7822542+08:00",
+  "ChangedDate": "2016-06-18T08:09:16.9541018+08:00",
   "WebId": "11a7ec7a-4a9f-416f-a337-ced3ec8b50dc"
 }
