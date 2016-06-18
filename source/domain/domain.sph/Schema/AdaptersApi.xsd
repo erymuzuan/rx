@@ -52,7 +52,9 @@
 					<xs:attribute name="IsIdentity" type="xs:boolean" use="required"/>
 					<xs:attribute name="IsComplex" type="xs:boolean" use="required"/>
 					<xs:attribute name="MimeType" type="xs:string" use="required"/>
-					<xs:attribute name="Exclude" type="xs:boolean" use="required"/>
+					<xs:attribute name="Ignore" type="xs:boolean" use="required"/>
+					<xs:attribute name="DisplayName" type="xs:string" use="required"/>
+					<xs:attribute name="Order" type="xs:int" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -146,6 +148,7 @@
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="ColumnDisplayNameStrategy" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="Member">

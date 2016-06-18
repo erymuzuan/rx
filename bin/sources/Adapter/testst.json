@@ -424,7 +424,7 @@
               "WebId": null
             },
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.ComputedColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.ComputedStringColumn, sqlserver.adapter",
               "CanWrite": false,
               "SqlType": "VarChar",
               "Length": 10,
@@ -1221,7 +1221,7 @@
               "WebId": null
             },
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.ComputedColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.ComputedStringColumn, sqlserver.adapter",
               "CanWrite": false,
               "SqlType": "NVarChar",
               "Length": 50,
@@ -1761,7 +1761,7 @@
               "WebId": null
             },
             {
-              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.ComputedColumn, sqlserver.adapter",
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.ComputedStringColumn, sqlserver.adapter",
               "CanWrite": false,
               "SqlType": "Money",
               "Length": 8,

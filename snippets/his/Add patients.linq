@@ -23,12 +23,13 @@ void Main()
 		var patient = new Patient
 		{
 			Mrn = Path.GetFileNameWithoutExtension(f.Name).Replace(" ", ""),
-			Name = "Wan " + Path.GetFileNameWithoutExtension(f.Name),
+			FirstName = Path.GetFileNameWithoutExtension(f.Name),
+			LastName = "Wan",
 			Gender = (new []{'M', 'F'}).OrderBy(g => Guid.NewGuid()).First(),
 			Income = 2500.00m + (count + 120),
 			Dob = (new DateTime(1980, 4, 6)).AddYears(count).AddDays(count).AddMonths(count),
-			NationalityCode = (new []{"MAS", "MAS", "THA", "INS", "VTN", "SNG"}).OrderBy(g => Guid.NewGuid()).First(),
-			RaceCode = Random(Enumerable.Range(1,5)),
+			NationalityCode = Random((byte)1, (byte)2, (byte)3, (byte)1),
+			RaceCode = Random(Enumerable.Range(1,5).Select(x => Convert.ToByte(x)).ToArray()),
 			Age = Convert.ToByte(count + 36),
 			Nrid = 800406034567 + count,
 			PassportNo = "",
@@ -43,7 +44,7 @@ void Main()
 			IsCivilServant = (new []{true, false}).OrderBy(g => Guid.NewGuid()).First(),
 			IsChildren = (new []{true, false}).Random(),
 			RegisteredDate = DateTime.Today,
-			ModifiedDate = DateTime.Now
+			ModifiedDate = DateTime.Now			
 		};
 	
 		Patients.InsertOnSubmit(patient);
@@ -62,7 +63,7 @@ void Main()
 
 // Define other methods and classes here
 
-public static T Random<T>(IEnumerable<T> list) {
+public static T Random<T>(params T[] list) {
 	return RandomExtension.Random(list);
 }
 public static class RandomExtension

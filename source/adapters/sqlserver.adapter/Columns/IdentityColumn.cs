@@ -1,4 +1,5 @@
 using System.ComponentModel.Composition;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Integrations.Adapters.Columns
 {
@@ -14,7 +15,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
 
         public override string GenerateValueAssignmentCode(string dbValue)
         {
-            return $"(int){dbValue}";
+            return $"({this.ClrType.ToCSharp()}){dbValue}";
         }
     }
 }

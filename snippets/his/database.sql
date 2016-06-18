@@ -2,25 +2,36 @@
 USE [His]
 
 GO
--- DROP TABLE [Patient]
+/*
+DROP TABLE [Religion.Code]
+GO
+DROP TABLE [GenderLookup]
+GO
+DROP TABLE [Country]
+GO
+DROP TABLE [Patient]
+
+*/
 -- 
-CREATE TABLE [Patient]
+CREATE TABLE [dbo].[Patient]
 (
-	 [Mrn] VARCHAR(255) NOT NULL PRIMARY KEY
-	,[Name] VARCHAR(255) NOT NULL
+	 [Mrn] VARCHAR(255) NOT NULL
+	,[FirstName] VARCHAR(50) NOT NULL
+	,[LastName] VARCHAR(50) NOT NULL
+	,[FullName] as [FirstName] + ' ' + [LastName] PERSISTED
 	,[Gender] CHAR(1) NOT NULL
-	,[Income] DECIMAL(18,0) NOT NULL
-	,[Dob] SMALLDATETIME NOT NULL
-	,[Nationality.Code] INT NOT NULL
-	,[RaceCode] INT NULL
-	,[ReligionCode] VARCHAR(50) NULL
+	,[Income] MONEY NOT NULL
+	,[Dob] DATE NOT NULL
+	,[Nationality.Code] TINYINT NOT NULL
+	,[RaceCode] TINYINT NOT NULL
+	,[ReligionCode] TINYINT NULL
 	,[Age] TINYINT NULL
 	,[Nrid] BIGINT NULL
 	,[PassportNo] NVARCHAR(50) NULL
 	,[BirthCert] NVARCHAR(50) NULL
 	,[IdCardCopy] VARBINARY(MAX) NULL
 	,[IdCardMimeType] VARCHAR(255) NULL
-	,[Fee] MONEY NULL
+	,[Fee] SMALLMONEY NULL
 	,[Weight] DECIMAL NULL
 	,[Height] REAL NOT NULL
 	,[AdditionalInfo] XML NULL
@@ -30,17 +41,48 @@ CREATE TABLE [Patient]
 	,[RegisteredDate] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP
 	,[ModifiedDate] DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 	,[Version] ROWVERSION NOT NULL
+	,CONSTRAINT PK_Patient PRIMARY KEY CLUSTERED ([Mrn] ASC)
+)
+
+GO 
+CREATE TABLE [dbo].[Religion.Code]
+(
+	[ReligionId] TINYINT NOT NULL PRIMARY KEY IDENTITY
+	,[Religion] VARCHAR(50) NOT NULL
 )
 GO
+INSERT INTO [Religion.Code] VALUES('Islam')
+GO
+INSERT INTO [Religion.Code] VALUES('Christianity')
+GO
+INSERT INTO [Religion.Code] VALUES('Hinduism')
+GO
+INSERT INTO [Religion.Code] VALUES('Bhudism')
+GO
+INSERT INTO [Religion.Code] VALUES('Aetheism')
+GO
+INSERT INTO [Religion.Code] VALUES('Judaism')
+GO
+INSERT INTO [Religion.Code] VALUES('Sihksm')
+GO
+
+ALTER TABLE [dbo].[Patient] WITH CHECK
+ADD CONSTRAINT FK_Patient_ReligionCode
+FOREIGN KEY ([ReligionCode])
+REFERENCES [dbo].[Religion.Code]([ReligionId])
+
+GO
+
+
 CREATE TABLE [Country](
-[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+[Id] TINYINT NOT NULL PRIMARY KEY IDENTITY(1,1),
 [Name] VARCHAR(255) NOT NULL,
 [Code] CHAR(3) NOT NULL
 )
 GO
 INSERT INTO [Country]([Name], [Code]) VALUES('Malaysia', 'MAS')
 GO
-INSERT INTO [Country]([Name], [Code]) VALUES('Indonesia', 'INS')
+INSERT INTO [Country]([Name], [Code]) VALUES('Indonesia', 'IDN')
 GO
 
 INSERT INTO [Country]([Name], [Code]) VALUES('Thailand', 'THA')
@@ -54,12 +96,23 @@ GO
 
 
 
+ALTER TABLE [dbo].[Patient] WITH CHECK
+ADD CONSTRAINT FK_Patient_Country
+FOREIGN KEY ([Country])
+REFERENCES [dbo].[Country]([Id])
+GO
 
 CREATE TABLE [GenderLookup]
 (
 	[Key] CHAR(1) PRIMARY KEY NOT NULL,
 	[Value] VARCHAR(255) NOT NULL
 )
+GO
+
+ALTER TABLE [dbo].[Patient] WITH CHECK
+ADD CONSTRAINT FK_Patient_Gender
+FOREIGN KEY ([Gender])
+REFERENCES [dbo].[GenderLookup]([Key])
 
 GO 
 INSERT INTO [GenderLookup]([Key], [Value]) VALUES('M', 'Male')
@@ -69,7 +122,7 @@ INSERT INTO [GenderLookup]([Key], [Value]) VALUES('F', 'Female')
 GO 
 INSERT INTO [GenderLookup]([Key], [Value]) VALUES('I', 'Inderteminate')
 
-CREATE TABLE [Department]
+CREATE TABLE [dbo].[Department]
 (
 	 [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1)
 	,[Name] VARCHAR(255) NOT NULL

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -9,6 +10,7 @@ namespace Bespoke.Sph.Domain.Api
             var type = column.ClrType;
             if (type == typeof(string)) return string.Empty;
             if (type == typeof(short)) return ":int";
+            if (type == typeof(byte)) return ":int";
             if (type == typeof(Guid)) return ":guid";
             return ":" + type.ToCSharp();
         }
@@ -20,6 +22,7 @@ namespace Bespoke.Sph.Domain.Api
         {
             return new HypermediaLink[] {};
         }
+
         public virtual Type ReturnType => typeof(string);
         public abstract string GenerateCode(TableDefinition table, Adapter adapter);
 

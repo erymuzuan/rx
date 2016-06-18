@@ -460,6 +460,36 @@ namespace Bespoke.Sph.Domain.Api
         }
 
 
+        private bool m_Exclude;
+        public bool Exclude
+        {
+            get
+            {
+                return m_Exclude;
+            }
+            set
+            {
+                m_Exclude = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_DisplayName;
+        public string DisplayName
+        {
+            get
+            {
+                return m_DisplayName;
+            }
+            set
+            {
+                m_DisplayName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private LookupColumnTable m_lookupColumnTable
                 = new LookupColumnTable();

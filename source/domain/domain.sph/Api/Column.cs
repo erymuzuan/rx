@@ -52,6 +52,8 @@ namespace Bespoke.Sph.Domain.Api
             col.IsPrimaryKey = mt.IsPrimaryKey;
             col.IsVersion = td.VersionColumn == col.Name;
             col.IsModifiedDate = td.ModifiedDateColumn == col.Name;
+            if (string.IsNullOrWhiteSpace(col.DisplayName))
+                col.DisplayName = mt.Name.ToCamelCase();
 
             return col;
         }
@@ -76,6 +78,9 @@ namespace Bespoke.Sph.Domain.Api
                 code.AppendLine(padding + PropertyAttribute);
             if (this.IsComplex)
                 code.AppendLine($"[JsonIgnore]");
+            if (!string.IsNullOrWhiteSpace(this.DisplayName))
+                code.AppendLine($@"[JsonProperty(""{DisplayName}"")]");
+
             code.AppendLine(padding + $"public {this.GetCsharpType()}{this.GetNullable()} {ClrName} {{ get; set; }}");
             return code.ToString();
         }
@@ -92,6 +97,7 @@ namespace Bespoke.Sph.Domain.Api
             this.IsVersion = table.VersionColumn == this.Name;
             this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
             this.LookupColumnTable = oc.LookupColumnTable;
+            this.DisplayName = oc.DisplayName;
         }
 
         public virtual Property GetLookupProperty(Adapter adapter, TableDefinition table)
