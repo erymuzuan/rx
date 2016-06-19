@@ -287,7 +287,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine(lookups.ToString(", "));
             code.AppendLine("FROM [{table.Schema}].[{table}] t0");
             var joins = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
-                .Select((x, i) => $" INNER JOIN {x.LookupColumnTable.Table} t{i} ON t0.[{x.Name}] = t1.[{x.LookupColumnTable.KeyColumn}]");
+                .Select((x, i) => $" LEFT JOIN {x.LookupColumnTable.Table} t{i} ON t0.[{x.Name}] = t1.[{x.LookupColumnTable.KeyColumn}]");
             code.AppendLine(joins.ToString("\r\n"));
             return code.ToString();
         }
@@ -332,22 +332,38 @@ namespace Bespoke.Sph.Integrations.Adapters
         private string GenerateSelectMethod(TableDefinition table)
         {
 
-            var columns = from c in table.ColumnCollection
-                          where !c.IsComplex
-                          select c;
-            var select = $"SELECT {columns.ToString(",\r\n", x => $"[{x.Name}]")} FROM";
+            var columns = table.ColumnCollection.Where(c => !c.IsComplex).ToList();
+            var select = $"SELECT {columns.ToString(",\r\n", x => $"t.[{x.Name}]")} FROM";
+            var joins = new string[] { };
+            if (columns.Any(x => x.LookupColumnTable.IsEnabled))
+            {
+                var fields = columns.Select(x => $"t.[{x.Name}]").ToList();
+                var lookups = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
+                                .Select((x, i) => $"t{i}.[{x.LookupColumnTable.ValueColumn}] as '{x.LookupClrName}'");
+
+                joins = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
+                    .Select((x, i) => $" LEFT JOIN {x.LookupColumnTable.Table} t{i} ON t.[{x.Name}] = t{i}.[{x.LookupColumnTable.KeyColumn}]")
+                    .ToArray();
+
+                select = $"SELECT {fields.Concat(lookups).ToString(",\r\n")} FROM";
+            }
             var code = new StringBuilder();
 
 
             //load async
-            code.AppendFormat("       public async Task<LoadOperation<{0}>> LoadAsync(string sql, int page = 1, int size = 40, bool includeTotal = false)", table.Name);
+            code.Append($@"       public async Task<LoadOperation<{table.Name}>> LoadAsync(string sql, 
+                                                                                    int page = 1, 
+                                                                                    int size = 40, 
+                                                                                    bool includeTotal = false)");
             code.AppendLine("       {");
 
             code.AppendLine("           if (!sql.ToString().Contains(\"ORDER\"))");
             code.AppendLinf("               sql +=\"\\r\\nORDER BY [{0}]\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.ColumnCollection.Select(m => m.Name).First());
             code.AppendLine("           var translator = new SqlPagingTranslator();");
             code.AppendLine("           sql = translator.Translate(sql, page, size);");
-            code.AppendLine($@"           sql = sql.Replace(""SELECT * FROM"", @""{select}"");");
+            code.AppendLine($@"           sql = sql.Replace(""SELECT * FROM"", @""{select}"")
+                                                    .Replace(""[{table.Schema}].[{table.Name}]"", @""[{table.Schema}].[{table.Name}] t 
+    {joins.ToString("\r\n")}"");");
 
             code.AppendLine();
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
@@ -388,9 +404,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                             select $"item.{c.ClrName} = {c.GenerateValueAssignmentCode($@"reader[""{c.Name}""]")};";
             code.JoinAndAppendLine(readCodes, "\r\n");
 
+            // TODO : we should create a column from the lookup table and use the column Assignment code to do the read
             var readLookup = from c in columns
                              where c.LookupColumnTable.IsEnabled
-                             select $@"item.{c.LookupClrName} = ({c.LookupColumnTable.Type.ToCSharp()})reader[""{c.LookupClrName}""];";
+                             let typeName = c.LookupColumnTable.Type.ToCSharp()
+                             let read = typeName == "string" ? $@"reader[""{c.LookupClrName}""].ReadNullableString()" : $@" ({typeName})reader[""{c.LookupClrName}""]"
+                             select $@"item.{c.LookupClrName} = {read};";
             code.JoinAndAppendLine(readLookup, "\r\n");
 
             return code.ToString();
