@@ -31,14 +31,17 @@ define(["knockout"], function (ko) {
                             opened: true
                         }
                     }],
-                calculateColumnName = function(col){
+                calculateColumnName = function (col) {
 
                     var column = ko.toJS(col),
                         lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars' style='margin-left:5px;color:darkgreen'></i>" : "",
                         complex = column.IsComplex ? " <i class='fa fa-link' style='margin-left:5px;color:darkblue'></i>" : "",
-                        ignore = column.Ignore ? " <i class='fa fa-eye-slash' style='margin-left:5px;color:grey'></i>" : "";
+                        ignore = column.Ignore ? " <i class='fa fa-eye-slash' style='margin-left:5px;color:grey'></i>" : "",
+                        displayName = column.DisplayName || "",
+                        bracket = displayName ? " [" : "",
+                        bracket2 = displayName ? "]" : "";
 
-                    return column.Name + complex + lookup + ignore;
+                    return column.Name + bracket + displayName + bracket2 + complex + lookup + ignore;
 
 
                 },
@@ -46,7 +49,7 @@ define(["knockout"], function (ko) {
                     var table = ko.toJS(v),
                         columns = _(v.ColumnCollection()).map(function (col) {
                             return {
-                                id: "column-"+ ko.unwrap(col.WebId),
+                                id: "column-" + ko.unwrap(col.WebId),
                                 text: calculateColumnName(col),
                                 type: ko.unwrap(col.TypeName),
                                 data: col

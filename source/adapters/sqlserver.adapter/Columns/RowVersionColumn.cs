@@ -14,17 +14,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
         {
             return null;
         }
-
-        public override string GeneratedCode(string padding = "      ")
-        {
-            var code = base.GeneratedCode(padding);
-            const string IGNORE = "[Newtonsoft.Json.JsonIgnore]\r\n";
-            if (this.IsVersion)
-                return IGNORE + code;
-            return code;
-
-        }
-
+        
         public override string GenerateValueAssignmentCode(string dbValue)
         {
             return $"{dbValue}.ReadNullableByteArray()";

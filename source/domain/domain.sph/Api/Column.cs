@@ -85,7 +85,7 @@ namespace Bespoke.Sph.Domain.Api
         }
         public string ClrName => this.Name.ToPascalCase();
         [JsonIgnore]
-        public string LookupClrName => $"{this.LookupColumnTable.Name}{ClrName}Lookup";
+        public string LookupClrName => $"{this.LookupColumnTable.Name}{ClrName}Lookup".ToPascalCase();
 
         public override string GeneratedCode(string padding = "      ")
         {
@@ -97,12 +97,9 @@ namespace Bespoke.Sph.Domain.Api
 
             if (!string.IsNullOrWhiteSpace(PropertyAttribute))
                 code.AppendLine(padding + PropertyAttribute);
-            if (this.IsComplex || this.Ignore)
-                code.AppendLine($"[JsonIgnore]");
-
             var displayName = string.IsNullOrWhiteSpace(this.DisplayName) ? this.Name : this.DisplayName;
-            if (!this.Ignore)
-                code.AppendLine($@"[JsonProperty(""{displayName}"", Order = {this.Order})]");
+            var canIgnore = this.IsComplex || this.Ignore || this.IsVersion || this.IsModifiedDate;
+            code.AppendLine(canIgnore ? "[JsonIgnore]" : $@"[JsonProperty(""{displayName}"", Order = {this.Order})]");
 
             code.AppendLine(padding + $"public {this.GetCsharpType()}{this.GetNullable()} {ClrName} {{ get; set; }}");
             return code.ToString();

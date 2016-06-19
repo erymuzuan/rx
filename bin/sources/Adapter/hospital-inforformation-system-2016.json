@@ -224,7 +224,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -484,7 +484,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -536,7 +536,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": false,
+              "Ignore": true,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -912,7 +912,7 @@
                 "ValueColumn": null,
                 "KeyColumn": null,
                 "Name": null,
-                "TypeName": null,
+                "TypeName": "",
                 "WebId": null
               },
               "TypeName": "System.DateTime, mscorlib",
@@ -1004,7 +1004,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -1108,7 +1108,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -1316,7 +1316,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": false,
+              "Ignore": true,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -2037,6 +2037,6 @@
   "Id": "hospital-inforformation-system-2016",
   "CreatedDate": "2016-06-17T06:30:51.5495414+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-19T08:24:55.7959679+08:00",
+  "ChangedDate": "2016-06-19T08:45:12.5911169+08:00",
   "WebId": "1ca35cdc-984f-417e-bbf0-68cb68cc9a65"
 }

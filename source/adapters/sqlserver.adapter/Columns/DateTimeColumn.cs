@@ -15,15 +15,6 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
                 return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", System.DateTime.Now);";
             return base.GenerateUpdateParameterValue(commandName);
         }
-
-        public override string GeneratedCode(string padding = "      ")
-        {
-            var code = base.GeneratedCode(padding);
-            const string IGNORE = "[Newtonsoft.Json.JsonIgnore]\r\n";
-            if (this.IsModifiedDate)
-                return IGNORE + code;
-            return code;
-     
+        
     }
-}
 }
