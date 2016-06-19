@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Text;
+using System.Linq;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -8,6 +9,10 @@ namespace Bespoke.Sph.Domain.Api
     {
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
+            if (table.PrimaryKeyCollection.Count == 0) return null;
+            var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name))
+                .Select(x => $"{{item.{x.Name}}}")
+                .ToString("/");
 
             var code = new StringBuilder();
             code.AppendLine("       [Route(\"\")]");
@@ -31,7 +36,8 @@ namespace Bespoke.Sph.Domain.Api
 	                                .ExecuteAndCaptureAsync(async() => await context.LoadAsync(sql, page, size));
 
 	        if(null != loResult.FinalException)
-		        throw loResult.FinalException;
+		        return InternalServerError(loResult.FinalException);
+            
             var lo = loResult.Result;
 
 
@@ -56,16 +62,37 @@ namespace Bespoke.Sph.Domain.Api
             var previousPageToken = $""{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/?filter={{filter}}&includeTotal=true&page={{page - 1}}&size={{size}}"";
             if(page == 1)
                 previousPageToken = null;
-            var json = new
+            var json = JObject.Parse( JsonConvert.SerializeObject( new
             {{
                 count,
                 page,
                 nextPageToken,
                 previousPageToken,
-                size,
-                results = lo.ItemCollection.ToArray()
-            }};
-            return Ok(json);
+                size
+            }}));
+
+            JArray results = JArray.Parse(""[]"");
+	        foreach (var item in lo.ItemCollection)
+	        {{
+		        var r = JObject.Parse(JsonConvert.SerializeObject(item));
+		        r.Remove(""WebId"");
+		        JArray links = JArray.Parse($@""[
+		                                {{{{
+	                                """"method"""": """"GET"""",
+	                                """"rel"""": """"self"""",
+	                                """"href"""": """"{{ConfigurationManager.BaseUrl}}/api/{adapter.Id}/{table.Name.ToIdFormat()}/{pks}"""",
+	                                """"desc"""": """"Issue a GET request""""
+	                                }}}}
+		                                ]"");
+		        var link = new JProperty(""_links"", links);
+		        r.Last.AddAfterSelf(link);
+
+		        results.Add(r);
+	        }}
+
+	        json.Last.AddAfterSelf(new JProperty(""results"", results));
+
+            return Json(json.ToString());
             ");
 
 
