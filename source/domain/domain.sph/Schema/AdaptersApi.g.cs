@@ -460,16 +460,16 @@ namespace Bespoke.Sph.Domain.Api
         }
 
 
-        private bool m_Exclude;
-        public bool Exclude
+        private bool m_Ignore;
+        public bool Ignore
         {
             get
             {
-                return m_Exclude;
+                return m_Ignore;
             }
             set
             {
-                m_Exclude = value;
+                m_Ignore = value;
                 RaisePropertyChanged();
             }
         }
@@ -485,6 +485,21 @@ namespace Bespoke.Sph.Domain.Api
             set
             {
                 m_DisplayName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_Order;
+        public int Order
+        {
+            get
+            {
+                return m_Order;
+            }
+            set
+            {
+                m_Order = value;
                 RaisePropertyChanged();
             }
         }
@@ -1192,6 +1207,11 @@ namespace Bespoke.Sph.Domain.Api
         public const string PropertyNameDescription = "Description";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_columnDisplayNameStrategy;
+        public const string PropertyNameColumnDisplayNameStrategy = "ColumnDisplayNameStrategy";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -1256,9 +1276,34 @@ namespace Bespoke.Sph.Domain.Api
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string ColumnDisplayNameStrategy
+        {
+            set
+            {
+                if (String.Equals(m_columnDisplayNameStrategy, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameColumnDisplayNameStrategy, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_columnDisplayNameStrategy = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_columnDisplayNameStrategy;
+            }
+        }
+
+
 
     }
-
 
     ///<summary>
     /// 

@@ -45,16 +45,17 @@ define(['plugins/dialog', "services/datacontext"],
                 $(view).on("click","input[type=checkbox].table-checkbox", function(e){
                     var table = ko.dataFor(this);
 
-                var adp = ko.unwrap(adapter),
+                var adp = ko.toJS(adapter),
                     server = ko.unwrap(adp.Server),
                     database = ko.unwrap(adp.Database),
                     trusted = ko.unwrap(adp.TrustedConnection),
                     userid = ko.unwrap(adp.UserId),
                     password = ko.unwrap(adp.Password),
+                    strategy = ko.unwrap(adp.ColumnDisplayNameStrategy),
                     url = trusted ? "" : "&trusted=false&userid=" + userid+ "&password=" + password;
                     if($(this).is(":checked")){
                         isBusy();
-                        $.getJSON("/sqlserver-adapter/table-options/" +  table.Schema + "/" + table.Name +"?server=" + server + "&database=" + database + url)
+                        $.getJSON("/sqlserver-adapter/table-options/" +  table.Schema + "/" + table.Name +"?server=" + server + "&database=" + database + "&strategy=" + strategy + url)
                                 .done(function(result){
                                     var tr = context.toObservable(result);
                                     tr.IsSelected(true);

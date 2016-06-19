@@ -17,13 +17,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{ClrName}{nullable});";
 
         }
-     
 
-       
-
-        public override Column Initialize(ColumnMetadata mt, TableDefinition td)
+        public override Column Initialize(Adapter adapter, TableDefinition td, ColumnMetadata mt)
         {
-            var col = (SqlColumn)base.Initialize(mt, td);
+            var col = (SqlColumn)base.Initialize(adapter, td, mt);
             col.Name = mt.Name;
             col.DbType = mt.DbType;
             col.IsNullable = mt.IsNullable;

@@ -35,8 +35,9 @@
               "IsIdentity": true,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -69,7 +70,7 @@
               "Name": "Id",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "6b9305a7-53ed-43a8-8722-09765e35744a"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
@@ -86,8 +87,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -120,7 +122,7 @@
               "Name": "Name",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "b9c41d3e-df02-4aec-99e6-f9e2e48dc891"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
@@ -137,8 +139,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -171,7 +174,7 @@
               "Name": "Code",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "fa21b94b-ece4-47ea-be60-7b045191c331"
             }
           ]
         },
@@ -221,8 +224,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": true,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": true,
@@ -231,7 +235,7 @@
                 "DbType": null,
                 "ValueColumn": "Value",
                 "KeyColumn": "Key",
-                "Name": "Sex",
+                "Name": "gender",
                 "TypeName": "System.String, mscorlib",
                 "WebId": null
               },
@@ -255,7 +259,7 @@
               "Name": "Gender",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "fcf22ece-574a-4555-b347-8b4c5b34877c"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
@@ -272,8 +276,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": "mrn",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -306,7 +311,7 @@
               "Name": "Mrn",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "502016fa-cc95-413c-bca8-02c916c6e1bf"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
@@ -323,8 +328,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "firstName",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -357,7 +363,7 @@
               "Name": "FirstName",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "d45c5b46-81ce-496b-9b6a-d26073f08f41"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
@@ -374,8 +380,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "lastName",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -408,7 +415,7 @@
               "Name": "LastName",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "050d5ed4-ced3-4f58-a5a8-4e0d2b83bfe2"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.ComputedStringColumn, sqlserver.adapter",
@@ -425,8 +432,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "fullName",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -459,7 +467,7 @@
               "Name": "FullName",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "cefd0921-0910-4933-98db-1749b0188403"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableStringColumn, sqlserver.adapter",
@@ -476,8 +484,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": true,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -510,7 +519,7 @@
               "Name": "IdCardMimeType",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "a2027479-8bba-43e0-9357-cbf856b75034"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.DateTimeColumn, sqlserver.adapter",
@@ -527,8 +536,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -561,7 +571,7 @@
               "Name": "ModifiedDate",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "b50ed35e-9e7f-4430-a447-adb3df9b15a8"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableColumn, sqlserver.adapter",
@@ -578,8 +588,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "civil-servant",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -612,7 +623,7 @@
               "Name": "IsCivilServant",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "c81aaa5b-603c-43f5-a8b0-3c69ac0ad3ae"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NonNullableColumn, sqlserver.adapter",
@@ -629,8 +640,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "children",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -663,7 +675,7 @@
               "Name": "IsChildren",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "b937c472-3848-49ad-ba8e-3d6e35fbf7c3"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableColumn, sqlserver.adapter",
@@ -680,8 +692,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "weight",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -714,7 +727,7 @@
               "Name": "Weight",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "d473ca6b-f41c-4413-8152-048ed47955d4"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableColumn, sqlserver.adapter",
@@ -731,8 +744,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "fee",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -765,7 +779,7 @@
               "Name": "Fee",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "9770c796-b44c-4f04-ad70-128048c598ed"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableInt64Column, sqlserver.adapter",
@@ -782,8 +796,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "my_kad",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -816,7 +831,7 @@
               "Name": "Nrid",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "c3fe5dce-83cf-40c1-a68f-8eb073d66103"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableBinaryColumn, sqlserver.adapter",
@@ -833,8 +848,9 @@
               "IsIdentity": false,
               "IsComplex": true,
               "MimeType": "=IdCardMimeType",
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -867,7 +883,7 @@
               "Name": "IdCardCopy",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "f0e47b1c-0f9e-4407-8d35-a26ba2584b3b"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NonNullableColumn, sqlserver.adapter",
@@ -884,8 +900,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -918,7 +935,7 @@
               "Name": "Dob",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "33598ce3-3960-42c7-a916-cfead9ed33da"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.DateTimeColumn, sqlserver.adapter",
@@ -935,8 +952,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -969,7 +987,7 @@
               "Name": "RegisteredDate",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "5d642573-d8f4-44a5-a5f1-b3897fd7a37f"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.TinyIntColumn, sqlserver.adapter",
@@ -986,8 +1004,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": true,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": true,
@@ -996,7 +1015,7 @@
                 "DbType": null,
                 "ValueColumn": "Name",
                 "KeyColumn": "Id",
-                "Name": "Nationality",
+                "Name": "nationality",
                 "TypeName": "System.String, mscorlib",
                 "WebId": null
               },
@@ -1020,7 +1039,7 @@
               "Name": "Nationality.Code",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "6b1e9d41-c1a1-4d25-81fc-303c88fe1d92"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.TinyIntColumn, sqlserver.adapter",
@@ -1037,8 +1056,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "race_code",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -1048,7 +1068,7 @@
                 "ValueColumn": null,
                 "KeyColumn": null,
                 "Name": null,
-                "TypeName": null,
+                "TypeName": "",
                 "WebId": null
               },
               "TypeName": "System.Byte, mscorlib",
@@ -1071,7 +1091,7 @@
               "Name": "RaceCode",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "5254650d-fd19-4579-b7ad-e8194a48c305"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableTinyIntColumn, sqlserver.adapter",
@@ -1088,8 +1108,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": true,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": true,
@@ -1098,7 +1119,7 @@
                 "DbType": null,
                 "ValueColumn": "Religion",
                 "KeyColumn": "ReligionId",
-                "Name": "Religion",
+                "Name": "religion",
                 "TypeName": "System.String, mscorlib",
                 "WebId": null
               },
@@ -1122,7 +1143,7 @@
               "Name": "ReligionCode",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "895bc209-4103-4379-bb1e-f87170008661"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableTinyIntColumn, sqlserver.adapter",
@@ -1139,8 +1160,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "umur",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -1173,7 +1195,7 @@
               "Name": "Age",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "b97fcf99-932a-42b9-a1b0-bd151b650ceb"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NonNullableColumn, sqlserver.adapter",
@@ -1190,8 +1212,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "tinggi",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -1224,7 +1247,7 @@
               "Name": "Height",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "fb164625-46ca-4cfd-b600-fd118a455efd"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NonNullableColumn, sqlserver.adapter",
@@ -1241,8 +1264,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "annual_income",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -1252,7 +1276,7 @@
                 "ValueColumn": null,
                 "KeyColumn": null,
                 "Name": null,
-                "TypeName": null,
+                "TypeName": "",
                 "WebId": null
               },
               "TypeName": "System.Decimal, mscorlib",
@@ -1275,7 +1299,7 @@
               "Name": "Income",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "4530c54a-0292-49aa-a324-539aa940e393"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.RowVersionColumn, sqlserver.adapter",
@@ -1292,8 +1316,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -1326,7 +1351,7 @@
               "Name": "Version",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "225ebf75-83e6-462f-8fd8-f3388edb1a29"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableStringColumn, sqlserver.adapter",
@@ -1343,8 +1368,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "passport_no",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -1377,7 +1403,7 @@
               "Name": "PassportNo",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "ce782136-ddd0-4bd3-960a-2ae3dd7aedc9"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableStringColumn, sqlserver.adapter",
@@ -1394,8 +1420,9 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Exclude": false,
-              "DisplayName": null,
+              "Ignore": false,
+              "DisplayName": "birth_certficate_no",
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -1428,7 +1455,7 @@
               "Name": "BirthCert",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "a7694ebb-404c-444b-9993-53a5c19e9e5e"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableXmlColumn, sqlserver.adapter",
@@ -1445,8 +1472,9 @@
               "IsIdentity": false,
               "IsComplex": true,
               "MimeType": "application/xml",
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -1479,7 +1507,7 @@
               "Name": "AdditionalInfo",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "607f5ca8-5186-4cb6-9d22-8295ff5dc3bf"
             },
             {
               "$type": "Bespoke.Sph.Integrations.Adapters.Columns.XmlColumn, sqlserver.adapter",
@@ -1496,8 +1524,9 @@
               "IsIdentity": false,
               "IsComplex": true,
               "MimeType": "application/xml",
-              "Exclude": false,
+              "Ignore": false,
               "DisplayName": null,
+              "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
                 "IsEnabled": false,
@@ -1530,7 +1559,7 @@
               "Name": "Address",
               "AllowMultiple": false,
               "DefaultValue": null,
-              "WebId": null
+              "WebId": "9086ecac-3eb5-44c2-af4a-9e098235ec6c"
             }
           ]
         },
@@ -1543,6 +1572,351 @@
           "$values": []
         },
         "Name": "Patient",
+        "IsSelected": true,
+        "AllowRead": true,
+        "AllowInsert": true,
+        "AllowUpdate": true,
+        "AllowDelete": true,
+        "Schema": "dbo",
+        "VersionColumn": "Version",
+        "ModifiedDateColumn": "ModifiedDate",
+        "Type": null,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+        "PrimaryKeyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "Id"
+          ]
+        },
+        "ColumnCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.Column, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.RowVersionColumn, sqlserver.adapter",
+              "CanWrite": false,
+              "SqlType": "Timestamp",
+              "Length": 8,
+              "IsSelected": false,
+              "DbType": "timestamp",
+              "ClrName": "Version",
+              "IsPrimaryKey": false,
+              "IsVersion": true,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "version",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.Byte[], mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Version",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "1f9049e7-281f-4720-8db9-c74507405efe"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableStringColumn, sqlserver.adapter",
+              "SqlType": "NVarChar",
+              "CanWrite": true,
+              "Length": 100,
+              "IsSelected": false,
+              "DbType": "nvarchar",
+              "ClrName": "Name",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "name",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Name",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "d82f7ea0-818e-46b8-9f5a-450493fa1b83"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableStringColumn, sqlserver.adapter",
+              "SqlType": "NVarChar",
+              "CanWrite": true,
+              "Length": 100,
+              "IsSelected": false,
+              "DbType": "nvarchar",
+              "ClrName": "Block",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "block",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Block",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "f8b93f88-6b8a-4716-9a6c-a26da2454cee"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.DateTimeColumn, sqlserver.adapter",
+              "SqlType": "DateTime",
+              "CanWrite": true,
+              "Length": 8,
+              "IsSelected": false,
+              "DbType": "datetime",
+              "ClrName": "ModifiedDate",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": true,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "modifiedDate",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "ModifiedDate",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "df91a085-3278-4111-9870-419b378fd837"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NonNullableColumn, sqlserver.adapter",
+              "SqlType": "UniqueIdentifier",
+              "CanWrite": true,
+              "Length": 16,
+              "IsSelected": false,
+              "DbType": "uniqueidentifier",
+              "ClrName": "Id",
+              "IsPrimaryKey": true,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "id",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.Guid, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Id",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "3bc667f0-092e-4bca-94e4-e96cc25b01ae"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.SmallIntColumn, sqlserver.adapter",
+              "SqlType": "SmallInt",
+              "CanWrite": true,
+              "Length": 2,
+              "IsSelected": false,
+              "DbType": "smallint",
+              "ClrName": "Capacity",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "capacity",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.Int16, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Capacity",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "dcf7bcb4-00a1-43dc-89e5-fc14eb88b439"
+            }
+          ]
+        },
+        "ChildRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ParentRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Ward",
         "IsSelected": true,
         "AllowRead": true,
         "AllowInsert": true,
@@ -1658,10 +2032,11 @@
   },
   "Name": "HospitalInforformationSystem2016",
   "Description": null,
+  "ColumnDisplayNameStrategy": "camel",
   "CreatedBy": "admin",
   "Id": "hospital-inforformation-system-2016",
   "CreatedDate": "2016-06-17T06:30:51.5495414+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-19T06:27:37.6303278+08:00",
+  "ChangedDate": "2016-06-19T08:24:55.7959679+08:00",
   "WebId": "1ca35cdc-984f-417e-bbf0-68cb68cc9a65"
 }

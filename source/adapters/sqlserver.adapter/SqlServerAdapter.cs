@@ -254,10 +254,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (table.ColumnCollection.Any(c => c.LookupColumnTable.IsEnabled))
             {
                 var lookups = table.ColumnCollection.Where(x => x.LookupColumnTable.IsEnabled)
-                 .Select(x => x.LookupColumnTable)
-                 .Select((x, i) => $"t{i + 1}.[{x.ValueColumn}] as '{x.Name}'");
+                 .Select((x, i) => $"t{i + 1}.[{x.LookupColumnTable.ValueColumn}] as '{x.LookupClrName}'");
                 sql.Append(",");
-                sql.AppendLine(lookups.ToString(", "));
+                sql.AppendLine(lookups.ToString(",\r\n"));
 
 
                 sql.AppendLine($" FROM [{table.Schema}].[{table}] t0");
@@ -391,7 +390,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var readLookup = from c in columns
                              where c.LookupColumnTable.IsEnabled
-                             select $@"item.{c.LookupColumnTable.Name} = ({c.LookupColumnTable.Type.ToCSharp()})reader[""{c.LookupColumnTable.Name}""];";
+                             select $@"item.{c.LookupClrName} = ({c.LookupColumnTable.Type.ToCSharp()})reader[""{c.LookupClrName}""];";
             code.JoinAndAppendLine(readLookup, "\r\n");
 
             return code.ToString();

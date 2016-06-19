@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                         deletedTables.Add(table);
                         continue;
                     }
-                   // db.Merge(table);
+                    // db.Merge(table);
                     foreach (var col in db.ColumnCollection)
                     {
                         var oc = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 {
                     this.TableDefinitionCollection.Remove(dt);
                 }
-                
+
             }
 
 
@@ -408,7 +408,7 @@ ORDER
                         var generator = scores.FirstOrDefault();
                         if (null == generator)
                             throw new InvalidOperationException($"Cannot find column generator for {mt}");
-                        var col = generator.Value.Initialize(mt, table);
+                        var col = generator.Value.Initialize(this, table, mt);
                         var existingColumn = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
                         col.IsSelected = existingColumn?.IsSelected ?? false;
 

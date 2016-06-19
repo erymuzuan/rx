@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
+using Humanizer;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
@@ -38,9 +39,7 @@ namespace Bespoke.Sph.Domain.Api
             }
         }
 
-
-
-        public virtual Column Initialize(ColumnMetadata mt, TableDefinition td)
+        public virtual Column Initialize(Adapter adapter, TableDefinition td, ColumnMetadata mt)
         {
             var col = this.JsonClone();
             col.Name = mt.Name;
@@ -52,8 +51,28 @@ namespace Bespoke.Sph.Domain.Api
             col.IsPrimaryKey = mt.IsPrimaryKey;
             col.IsVersion = td.VersionColumn == col.Name;
             col.IsModifiedDate = td.ModifiedDateColumn == col.Name;
+            col.WebId = Guid.NewGuid().ToString();
             if (string.IsNullOrWhiteSpace(col.DisplayName))
-                col.DisplayName = mt.Name.ToCamelCase();
+            {
+                switch (adapter.ColumnDisplayNameStrategy)
+                {
+                    case "camel":
+                        col.DisplayName = mt.Name.Camelize();
+                        break;
+                    case "Pascal":
+                        col.DisplayName = mt.Name.Pascalize();
+                        break;
+                    case "-":
+                        col.DisplayName = mt.Name.Dasherize();
+                        break;
+                    case "_":
+                        col.DisplayName = mt.Name.Underscore();
+                        break;
+                    default:
+                        col.DisplayName = null;
+                        break;
+                }
+            }
 
             return col;
         }
@@ -65,6 +84,8 @@ namespace Bespoke.Sph.Domain.Api
             return new ColumnMetadata(this) + " // - " + this.GetType().FullName;
         }
         public string ClrName => this.Name.ToPascalCase();
+        [JsonIgnore]
+        public string LookupClrName => $"{this.LookupColumnTable.Name}{ClrName}Lookup";
 
         public override string GeneratedCode(string padding = "      ")
         {
@@ -76,10 +97,12 @@ namespace Bespoke.Sph.Domain.Api
 
             if (!string.IsNullOrWhiteSpace(PropertyAttribute))
                 code.AppendLine(padding + PropertyAttribute);
-            if (this.IsComplex)
+            if (this.IsComplex || this.Ignore)
                 code.AppendLine($"[JsonIgnore]");
-            if (!string.IsNullOrWhiteSpace(this.DisplayName))
-                code.AppendLine($@"[JsonProperty(""{DisplayName}"")]");
+
+            var displayName = string.IsNullOrWhiteSpace(this.DisplayName) ? this.Name : this.DisplayName;
+            if (!this.Ignore)
+                code.AppendLine($@"[JsonProperty(""{displayName}"", Order = {this.Order})]");
 
             code.AppendLine(padding + $"public {this.GetCsharpType()}{this.GetNullable()} {ClrName} {{ get; set; }}");
             return code.ToString();
@@ -89,7 +112,7 @@ namespace Bespoke.Sph.Domain.Api
             return null;
         }
 
-        public void Merge(Column oc, TableDefinition table)
+        public virtual void Merge(Column oc, TableDefinition table)
         {
             // TODO : copy users setting property like, MIME, inline data or not from oc to col
             this.IsComplex = oc.IsComplex;
@@ -98,6 +121,7 @@ namespace Bespoke.Sph.Domain.Api
             this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
             this.LookupColumnTable = oc.LookupColumnTable;
             this.DisplayName = oc.DisplayName;
+            this.WebId = oc.WebId ?? Guid.NewGuid().ToString();
         }
 
         public virtual Property GetLookupProperty(Adapter adapter, TableDefinition table)
@@ -105,10 +129,11 @@ namespace Bespoke.Sph.Domain.Api
             if (!this.LookupColumnTable.IsEnabled) return null;
             var prop = new Property
             {
-                Name = this.LookupColumnTable.Name,
+                Name = LookupClrName,
                 Type = this.LookupColumnTable.Type
             };
-            prop.AttributeCollection.Add("//" + new ColumnMetadata(this));
+            prop.AttributeCollection.Add($"//{this.GetType().Name}:{new ColumnMetadata(this)}");
+            prop.AttributeCollection.Add($@"[JsonProperty(""{LookupColumnTable.Name}"", Order={Order})]");
             return prop;
         }
     }

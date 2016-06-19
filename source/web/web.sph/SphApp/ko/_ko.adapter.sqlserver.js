@@ -31,16 +31,23 @@ define(["knockout"], function (ko) {
                             opened: true
                         }
                     }],
+                calculateColumnName = function(col){
+
+                    var column = ko.toJS(col),
+                        lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars' style='margin-left:5px;color:darkgreen'></i>" : "",
+                        complex = column.IsComplex ? " <i class='fa fa-link' style='margin-left:5px;color:darkblue'></i>" : "",
+                        ignore = column.Ignore ? " <i class='fa fa-eye-slash' style='margin-left:5px;color:grey'></i>" : "";
+
+                    return column.Name + complex + lookup + ignore;
+
+
+                },
                 mapTable = function (v) {
                     var table = ko.toJS(v),
                         columns = _(v.ColumnCollection()).map(function (col) {
-
-                            var column = ko.toJS(col),
-                                lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars' style='margin-left:5px;color:darkgreen'></i>" : "",
-                                complex = column.IsComplex ? " <i class='fa fa-link' style='margin-left:5px;color:darkblue'></i>" : "";
                             return {
-                                id: "column-" + table.Schema + "-" + table.Name + "-" + column.Name,
-                                text: ko.unwrap(col.Name) + lookup + complex,
+                                id: "column-"+ ko.unwrap(col.WebId),
+                                text: calculateColumnName(col),
                                 type: ko.unwrap(col.TypeName),
                                 data: col
                             }
@@ -150,13 +157,11 @@ define(["knockout"], function (ko) {
                                             }
                                         },
                                         setNodeText = function (col) {
-                                            var column = ko.toJS(col),
-                                                lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars' style='margin-left:5px;color:darkgreen'></i>" : "",
-                                                complex = column.IsComplex ? " <i class='fa fa-link' style='margin-left:5px;color:darkblue'></i>" : "",
-                                                text = column.Name + lookup + complex;
+                                            var text = calculateColumnName(col);
 
                                             $("#" + $node.id + ">a.jstree-anchor>i.fa-link").remove();
                                             $("#" + $node.id + ">a.jstree-anchor>i.fa-binoculars").remove();
+                                            $("#" + $node.id + ">a.jstree-anchor>i.fa-eye-slash").remove();
 
                                             $(element).jstree(true)
                                                 .rename_node($node, text);
@@ -189,11 +194,31 @@ define(["knockout"], function (ko) {
                                                 $node.data.LookupColumnTable().IsEnabled(false);
                                                 setNodeText($node.data);
                                             }
+                                        },
+                                        ignoreMenu = {
+                                            label: "Ignore",
+                                            action: function () {
+                                                $node.data.Ignore(true);
+                                                setNodeText($node.data);
+                                            }
+                                        },
+                                        includeMenu = {
+                                            label: "Include",
+                                            action: function () {
+                                                $node.data.Ignore(false);
+                                                setNodeText($node.data);
+                                            }
                                         };
                                     var data = $node.data;
 
                                     if ($node.id.startsWith("column-")) {
                                         var items = [];
+
+                                        if (ko.unwrap(data.Ignore))
+                                            items.push(includeMenu);
+                                        else
+                                            items.push(ignoreMenu);
+
                                         if (ko.unwrap(data.IsComplex))
                                             items.push(makeInline);
                                         else
