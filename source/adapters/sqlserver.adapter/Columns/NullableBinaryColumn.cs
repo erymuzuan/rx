@@ -14,7 +14,12 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     public class NullableBinaryColumn : SqlColumn
     {
         public override Type ClrType => typeof(byte[]);
-       
+
+        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        {
+            return $@"{commandName}.Parameters.Add(new SqlParameter(""@{ClrName}"", SqlDbType.{SqlType}, {Length}){{ Value = item.{ClrName}.ToDbNull()}});";
+        }
+
         public override string GenerateReadAdapterCode(TableDefinition table, Adapter adapter)
         {
             if (!this.IsComplex)
@@ -40,6 +45,6 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
             code.AppendLine("       }");
             return code.ToString();
         }
-  
+
     }
 }
