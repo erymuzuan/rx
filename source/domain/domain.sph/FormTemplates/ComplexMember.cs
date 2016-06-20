@@ -41,10 +41,10 @@ namespace Bespoke.Sph.Domain
             return $"model.{Name}(new {ctor}(optionOrWebid.{Name}));";
         }
 
-        public override string GetDefaultValueCode(int count)
+        public override string GetDefaultValueCode(int count, string itemIdentifier = "this")
         {
             if (this.AllowMultiple) return null;
-            return $"           this.{Name} = new {TypeName}();";
+            return $"           {itemIdentifier}.{Name} = new {TypeName}();";
         }
 
         public override string GeneratedCode(string padding = "      ")

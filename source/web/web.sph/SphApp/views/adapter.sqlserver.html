@@ -52,6 +52,42 @@
                     <input type="text" placeholder="Json serialized property name, leave it blank and it will use the ClrName" class="form-control" data-bind="value:DisplayName, tooltip: 'The property name used by json serializer, for your API'"/>
                 </div>
 
+
+                <div class="form-group" data-bind="visible :(!ko.unwrap(IsNullable) && (ko.unwrap(Ignore)|| ko.unwrap(IsComplex)))">
+                    <label for="member-default-value" class="control-label">Default Value</label>
+                    <div class="btn-group" id="member-default-value">
+                        <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                            <!-- ko text : Name -->
+                            <!-- /ko -->
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li data-bind="with : DefaultValue">
+                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field', click: $root.editField.call($parent, $data, $parent.DefaultValue)">
+                                    <i class="fa fa-edit"></i>
+                                    Edit Default Value
+                                </a>
+                            </li>
+
+                            <li>
+                                <a data-bind="click: $root.addField" href="#">
+                                    <img src="/images/ConstantField.png" alt="constantfield" class="pull-left" />
+                                    + Constant Field
+                                </a>
+                            </li>
+                            <li>
+                                <a data-bind="click: $root.addField(DefaultValue,'Function')" href="#">
+                                    <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left" />
+                                    + Function Field
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
                 <div class="form-group sr-only">
                     <label class="control-label">Is Complex &nbsp;
                         <input type="checkbox" data-bind="checked: IsComplex, tooltip:'If you want to make this field accessible via another endpoint'"/>

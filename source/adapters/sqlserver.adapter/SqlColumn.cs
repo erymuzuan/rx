@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public override string GenerateUpdateParameterValue(string commandName = "cmd")
         {
             var nullable = this.IsNullable ? ".ToDbNull()" : "";
-            return $"{commandName}.Parameters.AddWithValue(\"@{Name}\", item.{ClrName}{nullable});";
+            return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", item.{ClrName}{nullable});";
 
         }
 

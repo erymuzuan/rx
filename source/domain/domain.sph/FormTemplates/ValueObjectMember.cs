@@ -8,9 +8,9 @@ namespace Bespoke.Sph.Domain
 {
     public partial class ValueObjectMember : Member
     {
-        public override string GetDefaultValueCode(int count)
+        public override string GetDefaultValueCode(int count, string itemIdentifier = "this")
         {
-            return this.AllowMultiple ? null : $"this.{Name} = new {ValueObjectName}();";
+            return this.AllowMultiple ? null : $"{itemIdentifier}.{Name} = new {ValueObjectName}();";
         }
 
 

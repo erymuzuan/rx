@@ -82,11 +82,22 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   public class FunctionFieldHost");
             code.AppendLine("   {");
 
-            code.AppendLine("       public object Evaluate(Entity entity)");
-            code.AppendLine("       {");
-            code.AppendLine("           var item = entity as " + context.Item.GetType().FullName + ";");
-            code.AppendLine("           " + block);
-            code.AppendLine("       }");
+            if (null != context.Item)
+            {
+                code.AppendLine("       public object Evaluate(Entity entity)");
+                code.AppendLine("       {");
+                code.AppendLine("           var item = entity as " + context.Item.GetType().FullName + ";");
+                code.AppendLine("           " + block);
+                code.AppendLine("       }");
+            }
+            if (null != context.Object)
+            {
+                code.AppendLine("       public object Evaluate(DomainObject domainObject)");
+                code.AppendLine("       {");
+                code.AppendLine("           var @object = domainObject as " + context.Object.GetType().FullName + ";");
+                code.AppendLine("           " + block);
+                code.AppendLine("       }");
+            }
             code.AppendLine("   }");
 
             code.AppendLine("}");
@@ -112,7 +123,11 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
-                parameters.ReferencedAssemblies.Add((context.Item.GetType()).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Xml.XmlDocument).Assembly.Location);
+                if (null != context.Item)
+                    parameters.ReferencedAssemblies.Add((context.Item.GetType()).Assembly.Location);
+                if (null != context.Object)
+                    parameters.ReferencedAssemblies.Add((context.Object.GetType()).Assembly.Location);
 
                 var result = provider.CompileAssemblyFromSource(parameters, code);
                 var cr = new WorkflowCompilerResult
@@ -125,8 +140,8 @@ namespace Bespoke.Sph.Domain
                 foreach (var error in result.Errors)
                 {
                     Console.WriteLine(error);
-                    var guid = Guid.NewGuid();
-                    var log = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, @"\logs");
+                    var guid = $"{DateTime.Now:yyyyMMdd-HHmm-ss}" + Guid.NewGuid();
+                    var log = Path.Combine(ConfigurationManager.GeneratedSourceDirectory, @"function.logs");
                     if (!Directory.Exists(log)) Directory.CreateDirectory(log);
 
                     var logFile = $"{log}\\{guid}.log";

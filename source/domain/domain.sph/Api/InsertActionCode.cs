@@ -1,5 +1,6 @@
 using System.ComponentModel.Composition;
 using System.Text;
+using System.Linq;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -17,11 +18,22 @@ namespace Bespoke.Sph.Domain.Api
             // insert
             code.AppendLine("       [Route(\"\")]");
             code.AppendLinf("       [HttpPost]");
-            code.AppendLinf("       public async Task<IHttpActionResult> Insert([FromBody]{0} item)", table.Name);
+            code.AppendLine($@"       public async Task<IHttpActionResult> Insert(
+                                                                [SourceEntity(""{adapter.Id}"")]Bespoke.Sph.Domain.Api.Adapter adapterDefinition,
+                                                                [FromBody]{table.Name} item)");
             code.AppendLine("       {");
+            code.AppendLine(@"          if(null == item) throw new ArgumentNullException(""item"");");
+            code.AppendLine("       ");
+
+            // generate default value for NOT NULL and it's Ignored || IsComplex
+            code.AppendLine("var rc = new RuleContext(item);");
+            var defaultValueCodes = table.ColumnCollection.Select(x => x.GetDefaultValueCode(table));
+            code.JoinAndAppendLine(defaultValueCodes, "\r\n");
+
             code.Append(
                 $@"
-            if(null == item) throw new ArgumentNullException(""item"");
+
+
             var context = new {table.Name}Adapter();
             var result = await Policy.Handle<Exception>()
 	                                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))

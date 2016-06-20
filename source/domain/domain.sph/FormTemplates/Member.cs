@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain
         public string FullName { get; set; }
         public string PropertyAttribute { get; set; }
 
-        public virtual string GetDefaultValueCode(int count)
+        public virtual string GetDefaultValueCode(int count, string itemIdentifier = "this")
         {
             return null;
         }

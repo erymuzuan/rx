@@ -476,7 +476,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine($"           using(var cmd = new SqlCommand(@\"{sql}\", conn))");
             code.AppendLine("           {");
-
+            code.AppendLine("               await conn.OpenAsync();");
             var lookupIndex = 0;
             foreach (var col in columns.Where(x => x.Ignore && x.LookupColumnTable.IsEnabled))
             {
@@ -502,7 +502,9 @@ namespace Bespoke.Sph.Integrations.Adapters
                 if (!string.IsNullOrWhiteSpace(parameterCode))
                     code.AppendLine(parameterCode);
             }
-            code.AppendLine("               await conn.OpenAsync();");
+
+
+
             if (hasSingleIdentityPrimaryKey)
                 code.AppendLine($@"
                 var scopeIdentity = await cmd.ExecuteScalarAsync();     

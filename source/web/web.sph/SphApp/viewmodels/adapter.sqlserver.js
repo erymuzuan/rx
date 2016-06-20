@@ -10,8 +10,8 @@
 /// <reference path="c:\project\work\sph\source\adapters\sqlserver.adapter\_sql.server.adapter.domain.js" />
 /// <reference path="../domain/domain.sph/Scripts/objectbuilders.js" />
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/_ko.adapter.sqlserver"],
-    function (context, logger, router, app) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, objectbuilders.system, "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/_ko.adapter.sqlserver"],
+    function (context, logger, router, app,system) {
 
         var adapter = ko.observable(),
             selected = ko.observable(),
@@ -123,10 +123,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             height = dev + top;
                         adapterTreePanel.css("max-height", $(window).height() - height);
 
-                };
+                    };
                 $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
                 setDesignerHeight();
-
 
 
             },
@@ -174,10 +173,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
                             context.send(ko.mapping.toJSON(adapter), "adapter", "DELETE")
-                            .done(function () {
-                                router.navigate("#dev.home");
-                                tcs.resolve(dialogResult);
-                            });
+                                .done(function () {
+                                    router.navigate("#dev.home");
+                                    tcs.resolve(dialogResult);
+                                });
                         } else {
                             tcs.resolve(dialogResult);
                         }
@@ -202,45 +201,80 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             addTable = function () {
                 require(["viewmodels/_adapter.sqlserver.add.table.dialog", "durandal/app"],
-                  function (dialog, app2) {
-                      dialog.adapter(adapter());
-                      app2.showDialog(dialog)
-                          .done(function (result) {
-                              if (!result) return;
-                              if (result === "OK") {
-                                  _(dialog.selectedTables()).each(function (v) {
-                                      adapter().TableDefinitionCollection.push(v);
-                                  });
-                              }
-                          });
-                  });
+                    function (dialog, app2) {
+                        dialog.adapter(adapter());
+                        app2.showDialog(dialog)
+                            .done(function (result) {
+                                if (!result) return;
+                                if (result === "OK") {
+                                    _(dialog.selectedTables()).each(function (v) {
+                                        adapter().TableDefinitionCollection.push(v);
+                                    });
+                                }
+                            });
+                    });
             },
             removeTable = function (table) {
                 adapter().TableDefinitionCollection.remove(table);
             },
             addOperation = function () {
                 require(["viewmodels/_adapter.sqlserver.add.operation.dialog", "durandal/app"],
-                  function (dialog, app2) {
-                      dialog.adapter(adapter());
-                      app2.showDialog(dialog)
-                          .done(function (result) {
-                              if (!result) return;
-                              if (result === "OK") {
-                                  _(dialog.selectedOperations()).each(function (v) {
-                                      adapter().OperationDefinitionCollection.push(v);
-                                  });
-                              }
-                          });
-                  });
+                    function (dialog, app2) {
+                        dialog.adapter(adapter());
+                        app2.showDialog(dialog)
+                            .done(function (result) {
+                                if (!result) return;
+                                if (result === "OK") {
+                                    _(dialog.selectedOperations()).each(function (v) {
+                                        adapter().OperationDefinitionCollection.push(v);
+                                    });
+                                }
+                            });
+                    });
             },
             removeOperation = function (table) {
                 adapter().OperationDefinitionCollection.remove(table);
+            },
+            showFieldDialog = function (accessor, field, path) {
+                require(["viewmodels/" + path, "durandal/app"], function (dialog, app2) {
+                    dialog.field(field);
+
+
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                accessor(field);
+                            }
+                        });
+
+                });
+            },
+            addField = function (accessor, type) {
+                return function (){
+                    var field = new bespoke.sph.domain[type + "Field"](system.guid());
+                    showFieldDialog(accessor, field, "field." + type.toLowerCase());
+                }
+            },
+            editField = function (field) {
+                var self = this;
+                return function () {
+                    var fieldType = ko.unwrap(field.$type),
+                        clone = ko.mapping.fromJS(ko.mapping.toJS(field)),
+                        pattern = /Bespoke\.Sph\.Domain\.(.*?)Field,/,
+                        type = pattern.exec(fieldType)[1];
+
+
+                    showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
+                };
             }
-        ;
+            ;
 
         var vm = {
             errors: errors,
             addTable: addTable,
+            addField: addField,
+            editField: editField,
             addOperation: addOperation,
             removeTable: removeTable,
             removeOperation: removeOperation,
@@ -250,7 +284,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             activate: activate,
             attached: attached,
             editTable: editTable,
-            selected : selected,
+            selected: selected,
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAdapter,

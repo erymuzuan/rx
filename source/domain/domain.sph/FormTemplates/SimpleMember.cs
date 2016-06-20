@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Domain
             return $"model.{Name}(optionOrWebid.{Name});";
         }
 
-        public override string GetDefaultValueCode(int count)
+        public override string GetDefaultValueCode(int count, string itemIdentifier = "this")
         {
             if (null == this.DefaultValue) return null;
 
@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine($"           var mj{count} = \"{json}\";");
             code.AppendLine($"           var field{count} = mj{count}.DeserializeFromJson<{typeName}>();");
             code.AppendLine($"           var val{count} = field{count}.GetValue(rc);");
-            code.AppendLine($"           this.{Name} = ({Type.FullName})val{count};");
+            code.AppendLine($"           {itemIdentifier}.{Name} = ({Type.FullName})val{count};");
 
             return code.ToString();
 

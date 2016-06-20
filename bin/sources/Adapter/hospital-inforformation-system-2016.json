@@ -1710,7 +1710,14 @@
               },
               "Name": "Address",
               "AllowMultiple": false,
-              "DefaultValue": null,
+              "DefaultValue": {
+                "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "CodeNamespace": "ff2f76a4d1",
+                "Script": "var doc = new System.Xml.Document();\ndoc.Load(@\"<Address Street=\"\"\"\" State=\"\"\"\"/>\");\nreturn doc;",
+                "Name": "AddressXml",
+                "Note": "",
+                "WebId": "2f76a4d1-94d4-4a04-c26e-3b54e0242149"
+              },
               "WebId": "9086ecac-3eb5-44c2-af4a-9e098235ec6c"
             }
           ]
@@ -1838,12 +1845,12 @@
     ]
   },
   "Name": "HospitalInforformationSystem2016",
-  "Description": null,
+  "Description": "var doc = new System.Xml.Document();\ndoc.Load(@\"<Address Street=\"\"\"\" State=\"\"\"\"/>\");\nreturn doc;",
   "ColumnDisplayNameStrategy": "camel",
   "CreatedBy": "admin",
   "Id": "hospital-inforformation-system-2016",
   "CreatedDate": "2016-06-17T06:30:51.5495414+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-20T08:18:08.4449115+08:00",
+  "ChangedDate": "2016-06-20T11:22:00.4326108+08:00",
   "WebId": "1ca35cdc-984f-417e-bbf0-68cb68cc9a65"
 }

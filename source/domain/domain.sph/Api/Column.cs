@@ -118,6 +118,8 @@ namespace Bespoke.Sph.Domain.Api
             this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
             this.LookupColumnTable = oc.LookupColumnTable;
             this.DisplayName = oc.DisplayName;
+            this.Ignore = oc.Ignore;
+            this.DefaultValue = oc.DefaultValue;
             this.WebId = oc.WebId ?? Guid.NewGuid().ToString();
         }
 
@@ -132,6 +134,23 @@ namespace Bespoke.Sph.Domain.Api
             prop.AttributeCollection.Add($"//{this.GetType().Name}:{new ColumnMetadata(this)}");
             prop.AttributeCollection.Add($@"[JsonProperty(""{LookupColumnTable.Name}"", Order={Order})]");
             return prop;
+        }
+
+
+        public virtual string GetDefaultValueCode(TableDefinition table, string itemIdentifier = "item", string adapterIdentifier = "adapterDefinition")
+        {
+            if (null == this.DefaultValue) return null;
+            if (this.IsNullable) return null;
+            if (!(Ignore || IsComplex)) return null;
+            
+            var code = new StringBuilder();
+            code.AppendLine($@"           var field{ClrName} = {adapterIdentifier}.TableDefinitionCollection.Single(x => x.Name == ""{table.Name}"" && x.Schema == ""{table.Schema}"" )
+                                                                .ColumnCollection.Single(x => x.Name == ""{this.Name}"").DefaultValue;");
+            code.AppendLine($"           var val{ClrName} = field{ClrName}.GetValue(rc);");
+            code.AppendLine($"           {itemIdentifier}.{Name} = ({Type.FullName})val{ClrName};");
+
+            return code.ToString();
+
         }
     }
 }
