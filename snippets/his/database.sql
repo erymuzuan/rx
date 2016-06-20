@@ -191,7 +191,7 @@ GO
 CREATE PROCEDURE [dbo].[GetPatientsByGender]
 	@Gender varchar(255)
 AS
-	SELECT Mrn, Name,Age, Income, Nrid, PassportNo, Nationality, Fee, IsChildren, IsCivilServant, AdditionalInfo, Address FROM [dbo].[Patient]
+	SELECT Mrn, [FullName],Age, Income, Nrid, PassportNo, Fee, IsChildren, IsCivilServant, AdditionalInfo, Address FROM [dbo].[Patient]
 	WHERE [Gender] = @Gender
 RETURN 0
 

@@ -55,7 +55,7 @@ define(['plugins/dialog', "services/datacontext"],
                     url = trusted ? "" : "&trusted=false&userid=" + userid+ "&password=" + password;
                     if($(this).is(":checked")){
                         isBusy();
-                        $.getJSON("/sqlserver-adapter/table-options/" +  table.Schema + "/" + table.Name +"?server=" + server + "&database=" + database + "&strategy=" + strategy + url)
+                        $.getJSON("/sqlserver-adapter/table-options/" +  table.Schema + "/" + table.Name +"/?server=" + server + "&database=" + database + "&strategy=" + strategy + url)
                                 .done(function(result){
                                     var tr = context.toObservable(result);
                                     tr.IsSelected(true);

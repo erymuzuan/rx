@@ -105,7 +105,8 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="lookup-table">Lookup Table</label>
-                    <input type="text" required class="form-control" id="lookup-table" data-bind="value:Table,enable:IsEnabled, tooltip:'Lookup table where the value is stored'"/>
+                    <select type="text" required class="form-control" id="lookup-table" 
+                        data-bind="value:Table, options:$root.tableNameOptions, optionsCaption:'', enable:IsEnabled, tooltip:'Lookup table where the value is stored'"></select>
                 </div>
 
                 <div class="form-group">
@@ -133,15 +134,16 @@
                     </select>
 
                 </div>
-
-                <div class="form-group">
-                    <label class="control-label" for="key-column-table">Key Column</label>
-                    <input type="text" required class="form-control" id="key-column-table" data-bind="value:KeyColumn,enable:IsEnabled, tooltip:'The column name for the key, in the lookup table'"/>
+                <div class="form-group" id="key-column-form-group" data-bind="value:KeyColumn,enable:IsEnabled, tooltip:'The column name for the key, in the lookup table'">
+                  <i class="fa fa-spinner fa-spin fa-fw fa-2x" data-bind="visible:IsEnabled"></i>
+                    <span class="sr-only">Loading...</span>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label" for="value-column-table">Value Column</label>
-                    <input type="text" required class="form-control" id="value-column-table" data-bind="value:ValueColumn,enable:IsEnabled, tooltip:'The column name for the value, in the lookup table'"/>
+                <div class="form-group" id="value-column-form-group"
+                        data-bind="tooltip:'The column name for the value, in the lookup table'">
+                        <i class="fa fa-spinner fa-spin fa-fw fa-2x" data-bind="visible:IsEnabled"></i>
+                        <span class="sr-only">Loading...</span>
+
                 </div>
                 <!-- /ko -->
             </form>
