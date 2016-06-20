@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain
         {
             var errors = new List<BuildError>();
             if (string.IsNullOrWhiteSpace(this.ChildItemType))
-                errors.Add(new BuildError(null, string.Format("[ListView] -> Child item type cannot be empty for {0}", this.Path)));
+                errors.Add(new BuildError(null, ($"[ListView] -> Child item type cannot be empty for {Path}")));
 
             return errors.ToArray();
         }
