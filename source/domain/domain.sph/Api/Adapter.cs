@@ -92,11 +92,7 @@ namespace Bespoke.Sph.Domain.Api
                 };
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
-                             select new BuildError(this.WebId, x.ErrorText)
-                             {
-                                 Line = x.Line,
-                                 FileName = x.FileName
-                             };
+                             select new BuildError(x);
                 cr.Errors.AddRange(errors);
                 return cr;
             }
@@ -163,13 +159,8 @@ namespace Bespoke.Sph.Domain.Api
                 sources.AddRange(pagingSource);
 
             }
-
-
+            
             var result = this.Compile(options, sources.ToArray());
-
-            if (!result.Result)
-                throw new Exception(string.Join("\r\n", result.Errors.Select(e => e.ToString())));
-
             return result;
 
         }

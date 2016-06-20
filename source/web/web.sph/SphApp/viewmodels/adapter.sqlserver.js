@@ -229,12 +229,27 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
+                            errors.removeAll();
                         } else {
                             logger.error(result.message);
+                            errors(result.errors);
                         }
                     });
 
 
+            },
+            viewFile = function (e) {
+                var file = e.FileName || e,
+                    line = e.Line || 1;
+                var params = [
+                        "height=" + screen.height,
+                        "width=" + screen.width,
+                        "toolbar=0",
+                        "location=0",
+                        "fullscreen=yes"
+                    ].join(","),
+                    editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
+                editor.moveTo(0, 0);
             },
             save = function () {
 
@@ -375,6 +390,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             isBusy: isBusy,
             activate: activate,
             attached: attached,
+            viewFile:viewFile,
             editTable: editTable,
             selected: selected,
             toolbar: {
