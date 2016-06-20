@@ -474,8 +474,28 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
 
-            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", sql);
+            code.AppendLine($"           using(var cmd = new SqlCommand(@\"{sql}\", conn))");
             code.AppendLine("           {");
+
+            var lookupIndex = 0;
+            foreach (var col in columns.Where(x => x.Ignore && x.LookupColumnTable.IsEnabled))
+            {
+                ++lookupIndex;
+                var script = new StringBuilder();
+                script.AppendLine($@"using(var cmd{lookupIndex} = new SqlCommand(@""SELECT [{col.LookupColumnTable.KeyColumn}] 
+                                                                            FROM 
+                                                                                {col.LookupColumnTable.Table} 
+                                                                            WHERE
+                                                                                [{col.LookupColumnTable.ValueColumn}] = @Value"", conn))");
+                script.AppendLine("{");
+                script.AppendLine($@"     cmd{lookupIndex}.Parameters.AddWithValue(""@Value"", item.{col.LookupClrName});");
+                script.AppendLine($@"     var val{lookupIndex} = await cmd{lookupIndex}.ExecuteScalarAsync();");
+
+                script.AppendLine($@"     item.{col.ClrName} = {col.GenerateValueAssignmentCode("val" + lookupIndex)};");
+                script.AppendLine("}");
+                code.AppendLine(script.ToString());
+            }
+
             foreach (var col in columns)
             {
                 var parameterCode = col.GenerateUpdateParameterValue();

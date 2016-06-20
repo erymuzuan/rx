@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                         deletedTables.Add(table);
                         continue;
                     }
-                    // db.Merge(table);
+
                     foreach (var col in db.ColumnCollection)
                     {
                         var oc = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
