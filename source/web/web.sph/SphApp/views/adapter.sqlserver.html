@@ -45,19 +45,25 @@
 
                 <div class="form-group">
                     <label class="control-label">CLR Property</label>
-                    <input type="text" disabled class="form-control" data-bind="value:ClrName, tooltip: 'The property name used internally by C# compiler'"/>
+                    <input type="text" disabled class="form-control"
+                           data-bind="value:ClrName, tooltip: 'The property name used internally by C# compiler'"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Display Name</label>
-                    <input type="text" placeholder="Json serialized property name, leave it blank and it will use the ClrName" class="form-control" data-bind="value:DisplayName, tooltip: 'The property name used by json serializer, for your API'"/>
+                    <input type="text"
+                           placeholder="Json serialized property name, leave it blank and it will use the ClrName"
+                           class="form-control"
+                           data-bind="value:DisplayName, tooltip: 'The property name used by json serializer, for your API'"/>
                 </div>
 
 
-                <div class="form-group" data-bind="visible :(!ko.unwrap(IsNullable) && (ko.unwrap(Ignore)|| ko.unwrap(IsComplex)))">
+                <div class="form-group"
+                     data-bind="visible :(!ko.unwrap(IsNullable) && (ko.unwrap(Ignore)|| ko.unwrap(IsComplex)))">
                     <label for="member-default-value" class="control-label">Default Value</label>
                     <div class="btn-group" id="member-default-value">
-                        <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
-                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                        <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown"
+                           href="#">
+                            <img data-bind="fieldImage : $type" class="pull-left" alt="."/>
                             <!-- ko text : Name -->
                             <!-- /ko -->
                             <i class="fa fa-caret-down"></i>
@@ -65,7 +71,8 @@
 
                         <ul class="dropdown-menu">
                             <li data-bind="with : DefaultValue">
-                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field', click: $root.editField.call($parent, $data, $parent.DefaultValue)">
+                                <a class="btn btn-link"
+                                   data-bind="visible: Name() !== '+ Field', click: $root.editField.call($parent, $data, $parent.DefaultValue)">
                                     <i class="fa fa-edit"></i>
                                     Edit Default Value
                                 </a>
@@ -73,13 +80,13 @@
 
                             <li>
                                 <a data-bind="click: $root.addField" href="#">
-                                    <img src="/images/ConstantField.png" alt="constantfield" class="pull-left" />
+                                    <img src="/images/ConstantField.png" alt="constantfield" class="pull-left"/>
                                     + Constant Field
                                 </a>
                             </li>
                             <li>
                                 <a data-bind="click: $root.addField(DefaultValue,'Function')" href="#">
-                                    <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left" />
+                                    <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left"/>
                                     + Function Field
                                 </a>
                             </li>
@@ -90,32 +97,37 @@
 
                 <div class="form-group sr-only">
                     <label class="control-label">Is Complex &nbsp;
-                        <input type="checkbox" data-bind="checked: IsComplex, tooltip:'If you want to make this field accessible via another endpoint'"/>
+                        <input type="checkbox"
+                               data-bind="checked: IsComplex, tooltip:'If you want to make this field accessible via another endpoint'"/>
                     </label>
                 </div>
                 <div class="form-group">
                     <label class="control-label">MIME type</label>
-                    <input type="text" required class="form-control" data-bind="value:MimeType,enable:IsComplex, tooltip: 'Mime type used for the response message content type'"/>
+                    <input type="text" required class="form-control"
+                           data-bind="value:MimeType,enable:IsComplex, tooltip: 'Mime type used for the response message content type'"/>
                 </div>
                 <!-- ko with :LookupColumnTable -->
                 <div class="form-group sr-only">
                     <label class="control-label">Enable Lookup Table &nbsp;
-                        <input type="checkbox" data-bind="checked: IsEnabled, tooltip:'If this column only store the key, and you want to display the value for the given from a separate lookup table'"/>
+                        <input type="checkbox"
+                               data-bind="checked: IsEnabled, tooltip:'If this column only store the key, and you want to display the value for the given from a separate lookup table'"/>
                     </label>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="lookup-table">Lookup Table</label>
-                    <select type="text" required class="form-control" id="lookup-table" 
-                        data-bind="value:Table, options:$root.tableNameOptions, optionsCaption:'', enable:IsEnabled, tooltip:'Lookup table where the value is stored'"></select>
+                    <select type="text" required class="form-control" id="lookup-table"
+                            data-bind="value:Table, options:$root.tableNameOptions, optionsCaption:'', enable:IsEnabled, tooltip:'Lookup table where the value is stored'"></select>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="lookup-table">Name</label>
-                    <input type="text" required class="form-control" id="lookup-name" data-bind="value:Name,enable:IsEnabled, tooltip:'The property name for the field produce by the lookup value'"/>
+                    <input type="text" required class="form-control" id="lookup-name"
+                           data-bind="value:Name,enable:IsEnabled, tooltip:'The property name for the field produce by the lookup value'"/>
                 </div>
                 <div class="form-group">
                     <label for="member-type2">Type</label>
-                    <select required class="form-control" id="member-type2" data-bind="value:TypeName,enable:IsEnabled, tooltip:'The data type of the return value'">
+                    <select required class="form-control" id="member-type2"
+                            data-bind="value:TypeName,enable:IsEnabled, tooltip:'The data type of the return value'">
                         <option value="">[Please Select]</option>
                         <option value="System.String, mscorlib">String</option>
                         <option value="System.Boolean, mscorlib">Boolean</option>
@@ -134,15 +146,29 @@
                     </select>
 
                 </div>
-                <div class="form-group" id="key-column-form-group" data-bind="value:KeyColumn,enable:IsEnabled, tooltip:'The column name for the key, in the lookup table'">
-                  <i class="fa fa-spinner fa-spin fa-fw fa-2x" data-bind="visible:IsEnabled"></i>
-                    <span class="sr-only">Loading...</span>
+                <div class="form-group" id="key-column-form-group"
+                     data-bind="enable:IsEnabled, tooltip:'The column name for the key, in the lookup table'">
+
+                    <label>Key Column</label>
+
+                    <div>
+                        <select class="form-control" style="display: inline"  data-bind="enable:IsEnabled">
+                        </select>
+                        <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px" data-bind="visible:IsEnabled"></i>
+
+                    </div>
                 </div>
 
                 <div class="form-group" id="value-column-form-group"
-                        data-bind="tooltip:'The column name for the value, in the lookup table'">
-                        <i class="fa fa-spinner fa-spin fa-fw fa-2x" data-bind="visible:IsEnabled"></i>
-                        <span class="sr-only">Loading...</span>
+                     data-bind="tooltip:'The column name for the value, in the lookup table'">
+                    <label>Value Column</label>
+
+                    <div>
+                        <select class="form-control" style="display: inline"  data-bind="enable:IsEnabled">
+                        </select>
+                        <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px" data-bind="visible:IsEnabled"></i>
+
+                    </div>
 
                 </div>
                 <!-- /ko -->
@@ -171,7 +197,6 @@
             <!-- /ko -->
 
             <div id="action-generators-panel">
-
 
 
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph" -->
@@ -234,13 +259,16 @@
                 <form data-bind="with:ErrorRetry">
                     <div class="form-group">
                         <label for="retry-count" class="control-label">Attempt</label>
-                        <input type="number" max="50" data-bind="value: Attempt, tooltip:'Enable retry for your database call, the min value is 2, in an Exception is thrown, after the number of retry count you set, the execution will stop and exception is propagated to the call stack'" min="2"
+                        <input type="number" max="50"
+                               data-bind="value: Attempt, tooltip:'Enable retry for your database call, the min value is 2, in an Exception is thrown, after the number of retry count you set, the execution will stop and exception is propagated to the call stack'"
+                               min="2"
                                placeholder="Set the number if retries if the invocation throws any exception"
                                class="form-control" id="retry-count">
                     </div>
                     <div class="form-group">
                         <label for="retry-interval" class="control-label">Wait</label>
-                        <input type="number" step="10" max="50000" data-bind="value: Wait, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'"
+                        <input type="number" step="10" max="50000"
+                               data-bind="value: Wait, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'"
                                placeholder="The interval between retries in ms"
                                class="form-control" id="retry-interval">
                     </div>
@@ -304,9 +332,10 @@
 
                         <div class="form-group">
                             <label for="name">Column Display Name Strategy</label>
-                            <select class="form-control" type="text" id="column-name-strategy" placeholder="Adapter name"
-                                   pattern="^[A-Z][A-Za-z0-9_]*$"
-                                   data-bind="value:ColumnDisplayNameStrategy">
+                            <select class="form-control" type="text" id="column-name-strategy"
+                                    placeholder="Adapter name"
+                                    pattern="^[A-Z][A-Za-z0-9_]*$"
+                                    data-bind="value:ColumnDisplayNameStrategy">
                                 <option value=""></option>
                                 <option value="Pascal">PascalCase</option>
                                 <option value="camel">camel</option>
