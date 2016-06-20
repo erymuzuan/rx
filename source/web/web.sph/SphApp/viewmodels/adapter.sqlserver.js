@@ -71,6 +71,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             activate = function (sid) {
 
+                errors.removeAll();
                 var query = String.format("Id eq '{0}'", sid),
                     b = null;
                 return context.loadOneAsync("Adapter", query)
@@ -148,13 +149,26 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         database = ko.unwrap(adp.Database),
                         trusted = ko.unwrap(adp.TrustedConnection),
                         userid = ko.unwrap(adp.UserId),
-                        password = ko.unwrap(adp.Password);
+                        password = ko.unwrap(adp.Password),
+                        showLoading = function(){
+                            var html =
+                               ' <div>' +
+                               ' <select class="form-control" style="display: inline"  data-bind="enable:IsEnabled">' +
+                               ' </select>' +
+                               ' <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px" data-bind="visible:IsEnabled"></i>' +
+                               ' </div>';
+                            $("div#value-column-form-group").html('<label>Value Column</label>' +html);
+                            $("div#key-column-form-group").html('<label>Key Column</label>' +html);
+                        },
+                        hideLoading = function(){};
+
+                    showLoading();
 
 
 
                 // get the options for lookup table
                 return $.getJSON("/sqlserver-adapter/table-options/" + schema +"/" +  name +"/?server=" + server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
-                    .done(function(result){
+                    .then(function(result){
                         var td = context.toObservable(result),
                             options = [""];
 
@@ -176,7 +190,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             .html('<label class="control-label" for="key-column-table">Key Column</label><select class="form-control key-column">' + keyList + '</select>');
                         $("div#value-column-form-group")
                             .html('<label class="control-label" for="value-column-table">Value Column</label><select class="form-control value-column">' + valueList + '</select>');
-                    });
+                    }).fail(function(e){
+                        if(e.responseJSON){
+                            logger.error(e.responseJSON.Message, e.responseJSON);
+                        }else{
+                            logger.error(e.responseText);
+                        }
+
+                    }).done(hideLoading);
                 };
 
                 selected.subscribe(function(column){
