@@ -41,7 +41,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       {");
             code.Append(
                 $@"
-            var context = new {table.Name}Adapter();
+            var context = new {table.ClrName}Adapter();
 	        var result = await Policy.Handle<Exception>()
 	                                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
 	                                .ExecuteAndCaptureAsync(async() => await context.LoadOneAsync({parameters.ToString(",")}) );

@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLinf("       [HttpPost]");
             code.AppendLine($@"       public async Task<IHttpActionResult> Insert(
                                                                 [SourceEntity(""{adapter.Id}"")]Bespoke.Sph.Domain.Api.Adapter adapterDefinition,
-                                                                [FromBody]{table.Name} item)");
+                                                                [FromBody]{table.ClrName} item)");
             code.AppendLine("       {");
             code.AppendLine(@"          if(null == item) throw new ArgumentNullException(""item"");");
             code.AppendLine("       ");
@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain.Api
                 $@"
 
 
-            var context = new {table.Name}Adapter();
+            var context = new {table.ClrName}Adapter();
             var result = await Policy.Handle<Exception>()
 	                                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
 	                                .ExecuteAndCaptureAsync(async() => await context.InsertAsync(item));

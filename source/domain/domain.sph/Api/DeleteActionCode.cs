@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       {");
             code.Append(
                 $@"
-            var context = new {table.Name}Adapter();
+            var context = new {table.ClrName}Adapter();
             var item = await context.LoadOneAsync({parameterArguments});
             if(null == item)
                 return NotFound();

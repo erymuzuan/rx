@@ -31,12 +31,12 @@ namespace Bespoke.Sph.Domain.Api
 
             // update
             code.AppendLinf("       [HttpPut]");
-            code.AppendLine($"       public async Task<IHttpActionResult> Save([FromBody]{table.Name} item, {arguments.ToString(",")})");
+            code.AppendLine($"       public async Task<IHttpActionResult> Save([FromBody]{table.ClrName} item, {arguments.ToString(",")})");
             code.AppendLine("       {");
             code.AppendLine(
                 $@"
             if(null == item) throw new ArgumentNullException(nameof(item));
-            var context = new {table.Name}Adapter();
+            var context = new {table.ClrName}Adapter();
             var loadResult = await Policy.Handle<Exception>()
 	                    .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
 	                    .ExecuteAndCaptureAsync(async() => await context.LoadOneAsync({parameters.ToString(",")}));

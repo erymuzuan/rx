@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Domain.Api
             var sql = $""SELECT * FROM {child.Schema}.{child.Name} WHERE {filter}"";
             var count = 0;
 
-            var context = new {child.Name}Adapter();
+            var context = new {child.ClrName}Adapter();
             var nextPageToken = string.Empty;
             var lo = await context.LoadAsync(sql, page, size);
             if (includeTotal || page > 1)

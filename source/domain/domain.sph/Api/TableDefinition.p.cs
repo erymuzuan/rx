@@ -5,6 +5,7 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class TableDefinition : DomainObject
     {
+        public string ClrName => Name.ToPascalCase();
         [JsonIgnore]
         public Column PrimaryKey
         {

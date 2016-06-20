@@ -63,7 +63,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var table = this.TableDefinitionCollection.Single(t => t.Name == at.Name);
                 options.AddReference(typeof(SqlConnection));
 
-                var code = new Class { Name = $"{table}Adapter", Namespace = this.CodeNamespace };
+                var code = new Class { Name = $"{table.ClrName}Adapter", Namespace = this.CodeNamespace };
                 code.ImportCollection.AddRange(ImportDirectives);
                 code.ImportCollection.AddRange(namespaces);
 
@@ -197,10 +197,9 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         private string GenerateUpdateMethod(TableDefinition table)
         {
-            var name = table.Name;
             var columns = table.ColumnCollection;
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<int> UpdateAsync({0} item)", name);
+            code.AppendLine($"       public async Task<int> UpdateAsync({table.ClrName} item)");
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
@@ -298,7 +297,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var arguments = pks.Select(k => k.GenerateParameterCode());
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguments));
+            code.AppendLine($"       public async Task<{table.ClrName}> LoadOneAsync({arguments.ToString(",")})");
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
@@ -316,7 +315,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("               {");
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
-            code.AppendLinf("                       var item = new {0}();", table.Name);
+            code.AppendLine($"                       var item = new {table.ClrName}();");
             code.AppendLine(PopulateItemFromReader(table.Name));
             code.AppendLine("                       return item;");
             code.AppendLine("                   }");
@@ -351,7 +350,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
             //load async
-            code.Append($@"       public async Task<LoadOperation<{table.Name}>> LoadAsync(string sql, 
+            code.Append($@"       public async Task<LoadOperation<{table.ClrName}>> LoadAsync(string sql, 
                                                                                     int page = 1, 
                                                                                     int size = 40, 
                                                                                     bool includeTotal = false)");
@@ -370,7 +369,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLinf("           using(var cmd = new SqlCommand( sql, conn))", this.GetSelectCommand(table));
             code.AppendLine("           {");
 
-            code.AppendLinf("               var lo = new LoadOperation<{0}>", table.Name);
+            code.AppendLinf("               var lo = new LoadOperation<{0}>", table.ClrName);
             code.AppendLine("                            {");
             code.AppendLine("                               CurrentPage = page,");
             code.AppendLine("                               Filter = sql,");
@@ -382,7 +381,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("               {");
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
-            code.AppendLinf("                       var item = new {0}();", table.Name);
+            code.AppendLine($"                       var item = new {table.ClrName}();");
             code.AppendLine(PopulateItemFromReader(table.Name));
             code.AppendLinf("                       lo.ItemCollection.Add(item);");
             code.AppendLine("                   }");
@@ -456,7 +455,6 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         private string GenerateInsertMethod(TableDefinition table)
         {
-            var name = table.Name;
             var code = new StringBuilder();
             var columns = table.ColumnCollection;
             var primaryKeyIdentityColumns = columns.Where(x => x.IsPrimaryKey && x.IsIdentity).ToList();
@@ -464,11 +462,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             var hasSingleIdentityPrimaryKey = primaryKeyIdentityColumns.Count == 1;
             if (hasSingleIdentityPrimaryKey)
             {
-                code.AppendLine($"       public async Task<{primaryKeyIdentityColumns[0].ClrType.ToCSharp()}> InsertAsync({name} item)");
+                code.AppendLine($"       public async Task<{primaryKeyIdentityColumns[0].ClrType.ToCSharp()}> InsertAsync({table.ClrName} item)");
                 sql += "; SELECT Scope_Identity()";
             }
             else
-                code.AppendLinf("       public async Task<int> InsertAsync({0} item)", name);
+                code.AppendLine($"       public async Task<int> InsertAsync({table.ClrName} item)");
 
             code.AppendLine("       {");
 

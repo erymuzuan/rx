@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       {");
 
             code.AppendLine($@"           CacheMetadata cache = null;
-                                          var adapter = new {table.Name}Adapter();");
+                                          var adapter = new {table.ClrName}Adapter();");
             if (shouldRetrieveItem)
                 code.AppendLine($"var item = await adapter.LoadOneAsync({parameters.ToString(", ")});");
             if (version || modifiedDate)
@@ -72,7 +72,7 @@ namespace Bespoke.Sph.Domain.Api
                 var column = table.ColumnCollection.Single(x => x.Name == ""{column.Name}"");
                 var code = column.MimeType;
                 code = code.Remove(code.Length - 1, 1).Remove(0, 1);
-                var mimeType = scripting.Evaluate<string, {table.Name}>(code, item);
+                var mimeType = scripting.Evaluate<string, {table.ClrName}>(code, item);
 ";
                 mime = "mimeType";
             }

@@ -39,11 +39,11 @@ namespace Bespoke.Sph.Domain.Api
            if (size > 200)
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
-            var translator = new {adapter.OdataTranslator}<{table.Name}>(null,""{table.Name}"" ){{Schema = ""{table.Schema}""}};
+            var translator = new {adapter.OdataTranslator}<{table.ClrName}>(null,""{table.Name}"" ){{Schema = ""{table.Schema}""}};
             var sql = translator.Select(filter, orderby);
             var count = 0;
 
-            var context = new {table.Name}Adapter();
+            var context = new {table.ClrName}Adapter();
             var nextPageToken = string.Empty;
             
             var loResult = await Policy.Handle<Exception>()
@@ -58,7 +58,7 @@ namespace Bespoke.Sph.Domain.Api
 
             if (includeTotal || page > 1)
             {{
-                var translator2 = new {adapter.OdataTranslator}<{table.Name}>(null, ""{table.Name}""){{Schema = ""{table.Schema}""}};
+                var translator2 = new {adapter.OdataTranslator}<{table.ClrName}>(null, ""{table.Name}""){{Schema = ""{table.Schema}""}};
                 var countSql = translator2.Count(filter);
 
                 var countResult = await Policy.Handle<Exception>()
