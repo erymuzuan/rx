@@ -62,7 +62,6 @@ namespace sqlserver.adapter.test
             }
 
             await m_sql.OpenAsync();
-            m_sql.TableDefinitionCollection.ForEach(x => x.ActionCodeGenerators = new ControllerAction[] {});
             var result = await m_sql.CompileAsync();
             m_dll = Assembly.LoadFile(result.Output);
             File.Copy(result.Output, bin, true);

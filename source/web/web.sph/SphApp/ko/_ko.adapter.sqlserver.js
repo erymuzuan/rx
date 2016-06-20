@@ -8,7 +8,8 @@ define(["knockout"], function (ko) {
 
     ko.bindingHandlers.adapterTree = {
         init: function (element, valueAccessor) {
-            var funcType = "Bespoke.Sph.Integrations.Adapters.FuncOperationDefinition, sqlserver.adapter",
+            var system = require(objectbuilders.system),
+                funcType = "Bespoke.Sph.Integrations.Adapters.FuncOperationDefinition, sqlserver.adapter",
                 sprocType = "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
                 value = valueAccessor(),
                 adapter = ko.unwrap(value.adapter),
@@ -61,6 +62,15 @@ define(["knockout"], function (ko) {
                                 type: ko.unwrap(col.IsSelected) ? "child-table-selected" : "child-table",
                                 data: col
                             }
+                        }),
+                        actions = _(v.ControllerActionCollection()).map(function(act){
+                            act.guid = "action-" + system.guid();
+                            return {
+                                id: act.guid,
+                                text: ko.unwrap(act.Name),
+                                type: "api-action-" + (ko.unwrap(act.IsEnabled) ? "enabled": "disabled"),
+                                data: act
+                            }
                         });
 
                     return {
@@ -82,6 +92,13 @@ define(["knockout"], function (ko) {
                                 type: "related-table",
                                 data: v,
                                 children: relations
+                            },
+                            {
+                                text: "API actions",
+                                state: "open",
+                                type: "api-actions",
+                                data: v,
+                                children: actions
                             }]
                     };
                 },
@@ -211,6 +228,20 @@ define(["knockout"], function (ko) {
                                                 $node.data.Ignore(false);
                                                 setNodeText($node.data);
                                             }
+                                        },
+                                        enableActionMenu = {
+                                            label: "Enable",
+                                            action: function () {
+                                                $node.data.IsEnabled(true);
+                                                ref.set_type($node, "api-action-enabled");
+                                            }
+                                        },
+                                        disableActionMenu = {
+                                            label: "Disable",
+                                            action: function () {
+                                                $node.data.IsEnabled(false);
+                                                ref.set_type($node, "api-action-disabled");
+                                            }
                                         };
                                     var data = $node.data;
 
@@ -235,6 +266,13 @@ define(["knockout"], function (ko) {
 
                                         return items;
                                     }
+
+                                    if ($node.id.startsWith("action-")) {
+                                        if (ko.unwrap(data.IsEnabled))
+                                            return [disableActionMenu];
+
+                                        return [enableActionMenu];
+                                    }
                                     if ($node.type === "child-table-selected")
                                         return [unselectRelatedTable];
                                     if ($node.type === "child-table")
@@ -249,6 +287,15 @@ define(["knockout"], function (ko) {
                             },
                             "types": {
 
+                                "api-action-enabled": {
+                                    "icon": "fa fa-check-square-o"
+                                },
+                                "api-action-disabled": {
+                                    "icon": "fa fa-square-o"
+                                },
+                                "api-actions": {
+                                    "icon": "fa fa-cloud"
+                                },
                                 "table-node": {
                                     "icon": "fa fa-table"
                                 },

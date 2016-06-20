@@ -7,6 +7,9 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class DeleteActionCode : ControllerAction
     {
+        public override string Name => "Delete resource action";
+        public override string ActionName => "Remove";
+
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             var code = new StringBuilder();

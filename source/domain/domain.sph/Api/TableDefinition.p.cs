@@ -13,6 +13,7 @@ namespace Bespoke.Sph.Domain.Api
 
         //TODO : move to xsd
         public ObjectCollection<string> PrimaryKeyCollection { get; } = new ObjectCollection<string>();
+        public ObjectCollection<ControllerAction> ControllerActionCollection { get; } = new ObjectCollection<ControllerAction>();
 
         public override string ToString()
         {

@@ -65,16 +65,12 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine($"  var adapter = new {adapter.Name}();");
             if (this.ErrorRetry.IsEnabled)
             {
-                var wait = this.ErrorRetry.Wait > 200 ? this.ErrorRetry.Wait.ToString() : "500";
-                if (this.ErrorRetry.Algorithm == WaitAlgorithm.Exponential)
-                    wait = $"{wait} * Math.Pow(2, c)";
-                if (this.ErrorRetry.Algorithm == WaitAlgorithm.Linear)
-                    wait = $"{wait} * c";
+            
 
                 code.AppendLine(
                     $@"	        
                 var result = await Policy.Handle<Exception>()
-	                                .WaitAndRetryAsync({this.ErrorRetry.Attempt}, c => TimeSpan.FromMilliseconds({wait}))
+	                                .WaitAndRetryAsync({this.ErrorRetry.GenerateWaitCode()})
 	                                .ExecuteAndCaptureAsync(async() =>  await adapter.{action}Async(request) );
 
                 if(null != result.FinalException)

@@ -6,6 +6,7 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class InsertActionCode : ControllerAction
     {
+        public override string Name => "Insert new resource action";
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             var code = new StringBuilder();
@@ -27,7 +28,7 @@ namespace Bespoke.Sph.Domain.Api
 	                                .ExecuteAndCaptureAsync(async() => await context.InsertAsync(item));
 
 	        if(null != result.FinalException)
-		        throw result.FinalException;
+		        return InternalServerError(result.FinalException);
             
             return Created(new Uri($""{url}""), item);
             ");

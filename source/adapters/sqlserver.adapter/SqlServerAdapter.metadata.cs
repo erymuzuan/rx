@@ -45,6 +45,10 @@ namespace Bespoke.Sph.Integrations.Adapters
                     }
                     // now refresh the table column with the one read from db, but with user's metada intact
                     table.ColumnCollection.ClearAndAddRange(db.ColumnCollection);
+
+                    //TODO : we should merge action generators with new ones, and remove the old one
+                    if (table.ControllerActionCollection.Count == 0)
+                        table.ControllerActionCollection.AddRange(ObjectBuilder.GetObject<IDeveloperService>().ActionCodeGenerators);
                 }
                 foreach (var dt in deletedTables)
                 {

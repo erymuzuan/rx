@@ -10,6 +10,7 @@ namespace Bespoke.Sph.Domain.Api
     public class GetOneActionCode : ControllerAction
     {
         public override string ActionName => "Get";
+        public override string Name => "Get one by primary key";
 
         [ImportMany(typeof(ControllerAction))]
         [JsonIgnore]
@@ -46,7 +47,7 @@ namespace Bespoke.Sph.Domain.Api
 	                                .ExecuteAndCaptureAsync(async() => await context.LoadOneAsync({parameters.ToString(",")}) );
 
 	        if(null != result.FinalException)
-		        throw result.FinalException;
+		        return InternalServerError(result.FinalException);
 
             var item = result.Result;
 

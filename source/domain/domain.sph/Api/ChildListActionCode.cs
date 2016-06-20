@@ -9,6 +9,8 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class ChildListActionCode : ControllerAction
     {
+        public override string Name => "Related table list action";
+
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             if (table.PrimaryKeyCollection.Count != 1) return string.Empty;

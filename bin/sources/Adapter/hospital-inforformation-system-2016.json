@@ -17,6 +17,82 @@
             "Id"
           ]
         },
+        "ControllerActionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.ControllerAction, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph",
+              "Name": "Related table list action",
+              "IsEnabled": true,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph",
+              "Name": "Complex column link action",
+              "IsEnabled": true,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
+              "Name": "Delete resource action",
+              "ActionName": "Remove",
+              "IsEnabled": true,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
+              "ActionName": "Get",
+              "Name": "Get one by primary key",
+              "IsEnabled": true,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.InsertActionCode, domain.sph",
+              "Name": "Insert new resource action",
+              "IsEnabled": true,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
+              "Name": "List action",
+              "ErrorRetry": {
+                "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
+                "Attempt": 3,
+                "IsEnabled": false,
+                "Wait": 500,
+                "Algorithm": "Linear",
+                "WebId": null
+              },
+              "ActionName": "List",
+              "IsAsync": true,
+              "Route": "",
+              "IsEnabled": true,
+              "ReturnTypeName": "System.Threading.Tasks.Task`1[[System.Web.Http.IHttpActionResult, System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]], mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.UpdateActionCode, domain.sph",
+              "Name": "Update resource action",
+              "IsEnabled": true,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            }
+          ]
+        },
         "ColumnCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.Column, domain.sph]], domain.sph",
           "$values": [
@@ -35,7 +111,7 @@
               "IsIdentity": true,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -88,7 +164,7 @@
               "IsComplex": false,
               "MimeType": null,
               "Ignore": false,
-              "DisplayName": null,
+              "DisplayName": "name",
               "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
@@ -140,7 +216,7 @@
               "IsComplex": false,
               "MimeType": null,
               "Ignore": false,
-              "DisplayName": null,
+              "DisplayName": "code",
               "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
@@ -204,6 +280,82 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": [
             "Mrn"
+          ]
+        },
+        "ControllerActionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.ControllerAction, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph",
+              "Name": "Related table list action",
+              "IsEnabled": true,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph",
+              "Name": "Complex column link action",
+              "IsEnabled": true,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
+              "Name": "Delete resource action",
+              "ActionName": "Remove",
+              "IsEnabled": true,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
+              "ActionName": "Get",
+              "Name": "Get one by primary key",
+              "IsEnabled": true,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.InsertActionCode, domain.sph",
+              "Name": "Insert new resource action",
+              "IsEnabled": true,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
+              "Name": "List action",
+              "ErrorRetry": {
+                "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
+                "Attempt": 3,
+                "IsEnabled": false,
+                "Wait": 500,
+                "Algorithm": "Linear",
+                "WebId": null
+              },
+              "ActionName": "List",
+              "IsAsync": true,
+              "Route": "",
+              "IsEnabled": true,
+              "ReturnTypeName": "System.Threading.Tasks.Task`1[[System.Web.Http.IHttpActionResult, System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]], mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.UpdateActionCode, domain.sph",
+              "Name": "Update resource action",
+              "IsEnabled": true,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            }
           ]
         },
         "ColumnCollection": {
@@ -484,7 +636,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -536,7 +688,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -1004,7 +1156,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -1108,7 +1260,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -1316,7 +1468,7 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": true,
+              "Ignore": false,
               "DisplayName": null,
               "Order": 0,
               "LookupColumnTable": {
@@ -1589,6 +1741,82 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": [
             "Id"
+          ]
+        },
+        "ControllerActionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.ControllerAction, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph",
+              "Name": "Related table list action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph",
+              "Name": "Complex column link action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
+              "Name": "Delete resource action",
+              "ActionName": "Remove",
+              "IsEnabled": false,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
+              "ActionName": "Get",
+              "Name": "Get one by primary key",
+              "IsEnabled": true,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.InsertActionCode, domain.sph",
+              "Name": "Insert new resource action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
+              "Name": "List action",
+              "ErrorRetry": {
+                "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
+                "Attempt": 5,
+                "IsEnabled": false,
+                "Wait": 250,
+                "Algorithm": "Exponential",
+                "WebId": null
+              },
+              "ActionName": "List",
+              "IsAsync": true,
+              "Route": "",
+              "IsEnabled": true,
+              "ReturnTypeName": "System.Threading.Tasks.Task`1[[System.Web.Http.IHttpActionResult, System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]], mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.UpdateActionCode, domain.sph",
+              "Name": "Update resource action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            }
           ]
         },
         "ColumnCollection": {
@@ -1927,6 +2155,806 @@
         "ModifiedDateColumn": "ModifiedDate",
         "Type": null,
         "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+        "PrimaryKeyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "Id"
+          ]
+        },
+        "ControllerActionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.ControllerAction, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph",
+              "Name": "Related table list action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph",
+              "Name": "Complex column link action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
+              "Name": "Delete resource action",
+              "ActionName": "Remove",
+              "IsEnabled": false,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
+              "ActionName": "Get",
+              "Name": "Get one by primary key",
+              "IsEnabled": true,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.InsertActionCode, domain.sph",
+              "Name": "Insert new resource action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
+              "Name": "List action",
+              "ErrorRetry": {
+                "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
+                "Attempt": 3,
+                "IsEnabled": false,
+                "Wait": 500,
+                "Algorithm": "Linear",
+                "WebId": null
+              },
+              "ActionName": "List",
+              "IsAsync": true,
+              "Route": "",
+              "IsEnabled": false,
+              "ReturnTypeName": "System.Threading.Tasks.Task`1[[System.Web.Http.IHttpActionResult, System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]], mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.UpdateActionCode, domain.sph",
+              "Name": "Update resource action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            }
+          ]
+        },
+        "ColumnCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.Column, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableStringColumn, sqlserver.adapter",
+              "SqlType": "NVarChar",
+              "CanWrite": true,
+              "Length": 100,
+              "IsSelected": false,
+              "DbType": "nvarchar",
+              "ClrName": "Name",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "name",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": null,
+                "WebId": null
+              },
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Name",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "11f56266-47b3-407c-9bbc-a786d8a2a327"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableStringColumn, sqlserver.adapter",
+              "SqlType": "NVarChar",
+              "CanWrite": true,
+              "Length": 100,
+              "IsSelected": false,
+              "DbType": "nvarchar",
+              "ClrName": "Designation",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "designation",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": null,
+                "WebId": null
+              },
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Designation",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "9ae245e7-42cb-4308-83c7-0c1b1d309d7b"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.RowVersionColumn, sqlserver.adapter",
+              "CanWrite": false,
+              "SqlType": "Timestamp",
+              "Length": 8,
+              "IsSelected": false,
+              "DbType": "timestamp",
+              "ClrName": "Version",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": true,
+              "DisplayName": "version",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.Byte[], mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Version",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "31d13d16-0624-4769-b75f-56d2c38aec4e"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IdentityColumn, sqlserver.adapter",
+              "CanWrite": false,
+              "SqlType": "Int",
+              "Length": 4,
+              "IsSelected": false,
+              "DbType": "int",
+              "ClrName": "Id",
+              "IsPrimaryKey": true,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": true,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": true,
+              "DisplayName": "id",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Id",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "50823e8f-cb2e-40b9-bb7d-61c5e72fd08d"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IntColumn, sqlserver.adapter",
+              "SqlType": "Int",
+              "CanWrite": true,
+              "Length": 4,
+              "IsSelected": false,
+              "DbType": "int",
+              "ClrName": "Department",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "department",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": null,
+                "WebId": null
+              },
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Department",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "de627ab3-ebc5-4c73-bf3c-3e036a7311c7"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableSmallIntColumn, sqlserver.adapter",
+              "SqlType": "SmallInt",
+              "CanWrite": true,
+              "Length": 2,
+              "IsSelected": false,
+              "DbType": "smallint",
+              "ClrName": "Age",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "age",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.Int16, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Age",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "de3113c2-b7d0-4d78-8506-a2cd421ad344"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.DateTimeColumn, sqlserver.adapter",
+              "SqlType": "DateTime",
+              "CanWrite": true,
+              "Length": 8,
+              "IsSelected": false,
+              "DbType": "datetime",
+              "ClrName": "ModifiedDate",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": true,
+              "DisplayName": "modifiedDate",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "ModifiedDate",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "24fcbb59-9129-47ca-844a-ce6067bd558a"
+            }
+          ]
+        },
+        "ChildRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "ParentRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Doctor",
+        "IsSelected": true,
+        "AllowRead": true,
+        "AllowInsert": true,
+        "AllowUpdate": true,
+        "AllowDelete": true,
+        "Schema": "dbo",
+        "VersionColumn": "Version",
+        "ModifiedDateColumn": "ModifiedDate",
+        "Type": null,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+        "PrimaryKeyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "Id"
+          ]
+        },
+        "ControllerActionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.ControllerAction, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph",
+              "Name": "Related table list action",
+              "IsEnabled": true,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph",
+              "Name": "Complex column link action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
+              "Name": "Delete resource action",
+              "ActionName": "Remove",
+              "IsEnabled": false,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
+              "ActionName": "Get",
+              "Name": "Get one by primary key",
+              "IsEnabled": true,
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.InsertActionCode, domain.sph",
+              "Name": "Insert new resource action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
+              "Name": "List action",
+              "ErrorRetry": {
+                "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
+                "Attempt": 3,
+                "IsEnabled": false,
+                "Wait": 500,
+                "Algorithm": "Linear",
+                "WebId": null
+              },
+              "ActionName": "List",
+              "IsAsync": true,
+              "Route": "",
+              "IsEnabled": true,
+              "ReturnTypeName": "System.Threading.Tasks.Task`1[[System.Web.Http.IHttpActionResult, System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]], mscorlib"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Api.UpdateActionCode, domain.sph",
+              "Name": "Update resource action",
+              "IsEnabled": false,
+              "ActionName": "",
+              "IsAsync": false,
+              "Route": null,
+              "ReturnTypeName": "System.Object, mscorlib"
+            }
+          ]
+        },
+        "ColumnCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.Column, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.StringColumn, sqlserver.adapter",
+              "SqlType": "VarChar",
+              "CanWrite": true,
+              "Length": 255,
+              "IsSelected": false,
+              "DbType": "varchar",
+              "ClrName": "Name",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "name",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": null,
+                "WebId": null
+              },
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Name",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "65f2a66c-87b3-468a-adf3-0f8c49727df5"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IdentityColumn, sqlserver.adapter",
+              "CanWrite": false,
+              "SqlType": "Int",
+              "Length": 4,
+              "IsSelected": false,
+              "DbType": "int",
+              "ClrName": "Id",
+              "IsPrimaryKey": true,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": true,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": true,
+              "DisplayName": "id",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Id",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "fed55b4d-825c-4e1e-9032-e1c7debfebce"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.DateTimeColumn, sqlserver.adapter",
+              "SqlType": "DateTime",
+              "CanWrite": true,
+              "Length": 8,
+              "IsSelected": false,
+              "DbType": "datetime",
+              "ClrName": "ModifiedDate",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": true,
+              "DisplayName": "modifiedDate",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "ModifiedDate",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "514ed736-102c-40b0-938a-d571964306b7"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.RowVersionColumn, sqlserver.adapter",
+              "CanWrite": false,
+              "SqlType": "Timestamp",
+              "Length": 8,
+              "IsSelected": false,
+              "DbType": "timestamp",
+              "ClrName": "Version",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": true,
+              "DisplayName": "version",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": "",
+                "WebId": null
+              },
+              "TypeName": "System.Byte[], mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Version",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "e529f6c9-ae8f-4081-9d0b-7adf4781907e"
+            }
+          ]
+        },
+        "ChildRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+              "Table": "Doctor",
+              "Constraint": "FK_Doctor_ToDepartment",
+              "Column": "Department",
+              "ForeignColumn": "Id",
+              "IsSelected": true,
+              "WebId": null
+            }
+          ]
+        },
+        "ParentRelationCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableRelation, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Department",
+        "IsSelected": true,
+        "AllowRead": true,
+        "AllowInsert": true,
+        "AllowUpdate": true,
+        "AllowDelete": true,
+        "Schema": "dbo",
+        "VersionColumn": "Version",
+        "ModifiedDateColumn": "ModifiedDate",
+        "Type": null,
+        "WebId": null
       }
     ]
   },
@@ -2037,6 +3065,6 @@
   "Id": "hospital-inforformation-system-2016",
   "CreatedDate": "2016-06-17T06:30:51.5495414+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-19T10:50:26.2790906+08:00",
+  "ChangedDate": "2016-06-20T08:04:15.2244255+08:00",
   "WebId": "1ca35cdc-984f-417e-bbf0-68cb68cc9a65"
 }

@@ -74,5 +74,7 @@ namespace Bespoke.Sph.Domain.Api
         public string CodeNamespace { get; set; }
         [JsonIgnore]
         public string ClassAttribute { get; set; }
+
+        
     }
 }

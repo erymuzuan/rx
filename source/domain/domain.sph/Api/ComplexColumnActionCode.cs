@@ -8,6 +8,7 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class ComplexColumnActionCode : ControllerAction
     {
+        public override string Name => "Complex column link action";
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             if (table.PrimaryKeyCollection.Count != 1) return string.Empty;

@@ -7,6 +7,7 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class UpdateActionCode : ControllerAction
     {
+        public override string Name => "Update resource action";
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             if (table.PrimaryKeyCollection.Count == 0) return null;
@@ -41,7 +42,7 @@ namespace Bespoke.Sph.Domain.Api
 	                    .ExecuteAndCaptureAsync(async() => await context.LoadOneAsync({parameters.ToString(",")}));
 
 	        if(null != loadResult.FinalException)
-		        throw loadResult.FinalException;
+		        return InternalServerError(loadResult.FinalException);
 
             var exist = loadResult.Result;
             if(null == exist)

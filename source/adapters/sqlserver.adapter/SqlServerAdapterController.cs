@@ -295,6 +295,10 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var table = await adapter.GetTableOptionDetailsAsync(schema, name);
             if (null == table) return NotFound($"No object with name {schema}.{name} found in {server}.{database}");
+
+            var ds = ObjectBuilder.GetObject<IDeveloperService>();
+            table.ControllerActionCollection.ClearAndAddRange(ds.ActionCodeGenerators);
+
             return Json(table.ToJsonString());
         }
 
@@ -305,7 +309,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             [FromUri(Name = "database")] string database,
             [FromUri(Name = "trusted")] bool trusted = true,
             [FromUri(Name = "userid")] string user = "",
-            [FromUri(Name = "password")] string password ="")
+            [FromUri(Name = "password")] string password = "")
         {
             var adapter = new SqlServerAdapter
             {
@@ -315,7 +319,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 UserId = user,
                 Password = password
             };
-            
+
 
             var tables = await adapter.GetOperationOptionsAsync();
             var json = "[" + tables.ToString(",\r\n", x => x.ToJsonString(false)) + "]";
@@ -324,12 +328,12 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpGet]
         [Route("sprocs/{schema}/{name}")]
-        public async Task<IHttpActionResult> GetSprocDetailsAsync(string schema,string name,
+        public async Task<IHttpActionResult> GetSprocDetailsAsync(string schema, string name,
             [FromUri(Name = "server")] string server,
             [FromUri(Name = "database")] string database,
             [FromUri(Name = "trusted")] bool trusted = true,
             [FromUri(Name = "userid")] string user = "",
-            [FromUri(Name = "password")] string password ="")
+            [FromUri(Name = "password")] string password = "")
         {
             var adapter = new SqlServerAdapter
             {
@@ -340,18 +344,18 @@ namespace Bespoke.Sph.Integrations.Adapters
                 Password = password
             };
 
-            var sproc = await adapter.GetStoreProcedureAsync(schema,name);
+            var sproc = await adapter.GetStoreProcedureAsync(schema, name);
             return Json(sproc.ToJsonString());
         }
 
         [HttpGet]
         [Route("functions/{schema}/{name}")]
-        public async Task<IHttpActionResult> GetFunctionDetailsAsync(string schema,string name,
+        public async Task<IHttpActionResult> GetFunctionDetailsAsync(string schema, string name,
             [FromUri(Name = "server")] string server,
             [FromUri(Name = "database")] string database,
             [FromUri(Name = "trusted")] bool trusted = true,
             [FromUri(Name = "userid")] string user = "",
-            [FromUri(Name = "password")] string password ="")
+            [FromUri(Name = "password")] string password = "")
         {
             var adapter = new SqlServerAdapter
             {
@@ -365,6 +369,23 @@ namespace Bespoke.Sph.Integrations.Adapters
             return Json(func.ToJsonString());
         }
 
+        [Route("action-generators-designers")]
+        public IHttpActionResult GetActionGeneratorDesigners()
+        {
+            var generators = ObjectBuilder.GetObject<IDeveloperService>().ActionCodeGenerators;
+            var code = new StringBuilder();
+            foreach (var ga in generators)
+            {
+                code.AppendLine($@"         
+            <!-- ko if : ko.unwrap($type) === ""{ga.GetType().GetShortAssemblyQualifiedName()}"" -->
+            <h3>{ga.Name}</h3>
+            {ga.GetDesignerHtmlView()}
+            <!-- /ko -->");
+            }
+
+            return Ok(code.ToString(), "text/html");
+
+        }
 
     }
 
