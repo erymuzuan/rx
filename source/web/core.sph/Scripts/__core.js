@@ -2475,7 +2475,7 @@ ko.bindingHandlers.tooltip = {
 ko.bindingHandlers.bootstrapPopover = {
     init: function (element, valueAccesor) {
         var text = ko.unwrap(valueAccesor()).replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        $(element).popover({ content: "<pre>" + text + "</pre>", html: true });
+        $(element).popover({ content: "<pre>" + text + "</pre>", html: true, placement:"bottom" });
     }
 };
 ko.bindingHandlers.popover = {
