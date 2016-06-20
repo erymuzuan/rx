@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine($"  var adapter = new {adapter.Name}();");
             if (this.ErrorRetry.IsEnabled)
             {
-            
+
 
                 code.AppendLine(
                     $@"	        
@@ -150,10 +150,9 @@ namespace Bespoke.Sph.Integrations.Adapters
         private string CreateMethodCode()
         {
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)",
-                this.MethodName.ToCsharpIdentitfier());
+            var methodName = this.MethodName.ToCsharpIdentitfier();
+            code.AppendLine($"       public async Task<{methodName}Response> {methodName}Async({methodName}Request request)");
             code.AppendLine("       {");
-            code.AppendLinf("           const string SPROC = \"{0}\";", this.MethodName);
 
             return code.ToString();
         }
