@@ -155,14 +155,14 @@
                     <label for="version-column" class="control-label">Version Column</label>
 
                     <select class="form-control" id="version-column"
-                            data-bind="value:VersionColumn, options: ColumnCollection, optionsValue : 'Name', optionsText:'Name', optionsCaption:''"></select>
+                            data-bind="value:VersionColumn, options: (_(ko.unwrap(ColumnCollection)).filter(function(v){ return ko.unwrap(v.DbType) === 'timestamp'})), optionsValue : 'Name', optionsText:'Name', optionsCaption:''"></select>
 
                 </div>
                 <div class="form-group">
                     <label for="modified-date-column" class="control-label">Modified Date Column</label>
 
                     <select class="form-control" id="modified-date-column"
-                            data-bind="value:ModifiedDateColumn, options: ColumnCollection, optionsValue : 'Name', optionsText:'Name', optionsCaption:''"></select>
+                            data-bind="value:ModifiedDateColumn, options:  (_(ko.unwrap(ColumnCollection)).filter(function(v){ return ko.unwrap(v.TypeName) === 'System.DateTime, mscorlib'})), optionsValue : 'Name', optionsText:'Name', optionsCaption:''"></select>
 
                 </div>
             </form>
