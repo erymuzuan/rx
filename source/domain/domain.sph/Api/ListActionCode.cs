@@ -11,7 +11,6 @@ namespace Bespoke.Sph.Domain.Api
     public class ListActionCode : ControllerAction
     {
         public override string Name => "List action";
-        public ErrorRetry ErrorRetry { get; set; } = new ErrorRetry { Wait = 500, Algorithm = WaitAlgorithm.Linear, Attempt = 3 };
         public override string ActionName => "List";
         public override bool IsAsync => true;
         public override Type ReturnType => typeof(Task<IHttpActionResult>);
@@ -118,32 +117,6 @@ namespace Bespoke.Sph.Domain.Api
             return code.ToString();
         }
 
-        public override string GetDesignerHtmlView()
-        {
-            return $@"       
-                <form data-bind=""with:ErrorRetry"">
-                    <div class=""form-group"">
-                        <label for=""retry-count"" class=""control-label"">Attempt</label>
-                        <input type=""number"" max=""50"" data-bind=""value: Attempt, tooltip:'Enable retry for your database call, the min value is 2, in an Exception is thrown, after the number of retry count you set, the execution will stop and exception is propagated to the call stack'"" min=""2""
-                               placeholder=""Set the number if retries if the invocation throws any exception""
-                               class=""form-control"" id=""retry-count"">
-                    </div>
-                    <div class=""form-group"">
-                        <label for=""retry-interval"" class=""control-label"">Wait</label>
-                        <input type=""number"" step=""10"" max=""50000"" data-bind=""value: Wait, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'""
-                               placeholder=""The interval between retries in ms""
-                               class=""form-control"" id=""retry-interval"">
-                    </div>
-                    <div class=""form-group"">
-                        <label for=""retry-interval"" class=""control-label"">Algorithm</label>
-                        <select data-bind=""value: Algorithm, tooltip:'Connstant - set to your interval value, Liner = interval * n, Exponential = interval * (2^n), n is the retry attempt'""
-                                class=""form-control"" id=""retry-wait"">
-                            <option value=""Constant"">Constant</option>
-                            <option value=""Linear"">Linear</option>
-                            <option value=""Exponential"">Exponential</option>
-                        </select>
-                    </div>
-                </form>";
-        }
+     
     }
 }

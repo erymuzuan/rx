@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Domain.Api
 
             var context = new {table.ClrName}Adapter();
             var result = await Policy.Handle<Exception>()
-	                                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
+	                                .WaitAndRetryAsync({ErrorRetry.GenerateWaitCode()})
 	                                .ExecuteAndCaptureAsync(async() => await context.InsertAsync(item));
 
 	        if(null != result.FinalException)

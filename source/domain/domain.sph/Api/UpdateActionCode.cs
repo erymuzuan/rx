@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Domain.Api
             if(null == item) throw new ArgumentNullException(nameof(item));
             var context = new {table.ClrName}Adapter();
             var loadResult = await Policy.Handle<Exception>()
-	                    .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
+	                    .WaitAndRetryAsync({ErrorRetry.GenerateWaitCode()})
 	                    .ExecuteAndCaptureAsync(async() => await context.LoadOneAsync({parameters.ToString(",")}));
 
 	        if(null != loadResult.FinalException)
