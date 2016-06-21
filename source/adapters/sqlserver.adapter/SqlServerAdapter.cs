@@ -101,7 +101,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
             var addedActions = new List<string>();
-            foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
+            foreach (var op in this.OperationDefinitionCollection)
             {
                 op.CodeNamespace = this.CodeNamespace;
                 var methodName = op.MethodName;
@@ -110,7 +110,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 addedActions.Add(methodName);
                 webApi.AddMethod(op.GenerateApiCode(this));
                 //
-                adapterClass.AddMethod(op.GenerateActionCode(this, methodName));
+                adapterClass.AddMethod(op.GenerateActionCode(this));
 
                 var requestSources = op.GenerateRequestCode();
                 sources.AddRange(requestSources);

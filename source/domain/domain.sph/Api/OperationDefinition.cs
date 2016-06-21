@@ -11,7 +11,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Domain.Api
 {
-    public partial class OperationDefinition
+    public abstract partial class OperationDefinition
     {
 
         private string GetCodeHeader()
@@ -60,13 +60,10 @@ namespace Bespoke.Sph.Domain.Api
             var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.ToString() } };
 
             // classes for parameters
-            
-       
-
-
-
             return sourceCodes;
         }
+
+
 
     }
 }
