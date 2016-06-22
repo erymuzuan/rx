@@ -28,8 +28,7 @@
                                     <!-- ko text: Schema --><!-- /ko -->.<!-- ko text: Name --><!-- /ko -->
                                 </label>
                             </td>
-                            <td 
-                            data-bind="text: (ko.unwrap($type) === 'Bespoke.Sph.Integrations.Adapters.FuncOperationDefinition, sqlserver.adapter' ? 'Function' : 'Stored Procedure')"></td>
+                            <td data-bind="text:$root.getType($data)"></td>
                         </tr>
               
                     </tbody>

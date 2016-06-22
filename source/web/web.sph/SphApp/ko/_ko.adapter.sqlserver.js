@@ -9,7 +9,8 @@ define(["knockout"], function (ko) {
     ko.bindingHandlers.adapterTree = {
         init: function (element, valueAccessor) {
             var system = require(objectbuilders.system),
-                funcType = "Bespoke.Sph.Integrations.Adapters.FuncOperationDefinition, sqlserver.adapter",
+                funcType = "Bespoke.Sph.Integrations.Adapters.ScalarValuedFunction, sqlserver.adapter",
+                tableValuedfunctionType = "Bespoke.Sph.Integrations.Adapters.TableValuedFunction, sqlserver.adapter",
                 sprocType = "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
                 value = valueAccessor(),
                 adapter = ko.unwrap(value.adapter),
@@ -106,6 +107,7 @@ define(["knockout"], function (ko) {
                 mapOperation = function (v) {
 
                     return {
+                        id : "operation-" + ko.unwrap(v.Uuid),
                         text: ko.unwrap(v.Schema) + "." + ko.unwrap(v.Name),
                         state: "open",
                         type: ko.unwrap(v.$type),
@@ -281,7 +283,7 @@ define(["knockout"], function (ko) {
                                         return [selectRelatedTable];
                                     if ($node.type === "table")
                                         return [removeMenu];
-                                    if ($node.type === funcType || $node.type == sprocType)
+                                    if ($node.id.startsWith("operation-"))
                                         return [editOperation, removeMenu];
                                     return [];
 
@@ -319,8 +321,11 @@ define(["knockout"], function (ko) {
                                 "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter": {
                                     "icon": "fa fa-cog"
                                 },
-                                "Bespoke.Sph.Integrations.Adapters.FuncOperationDefinition, sqlserver.adapter": {
+                                "Bespoke.Sph.Integrations.Adapters.ScalarValuedFunction, sqlserver.adapter": {
                                     "icon": "fa fa-calculator"
+                                },
+                                "Bespoke.Sph.Integrations.Adapters.TableValuedFunction, sqlserver.adapter": {
+                                    "icon": "fa fa-th"
                                 },
                                 "System.String, mscorlib": {
                                     "icon": "glyphicon glyphicon-bold",
