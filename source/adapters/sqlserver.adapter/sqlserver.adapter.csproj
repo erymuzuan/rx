@@ -87,6 +87,7 @@
     <Compile Include="Columns\XmlColumn.cs" />
     <Compile Include="FuncOperationDefinition.cs" />
     <Compile Include="IColumnGeneratorMetadata.cs" />
+    <Compile Include="ParameterNameExtensions.cs" />
     <Compile Include="SqlServerAdapter.metadata.cs" />
     <Compile Include="ThreeWayBoolean.cs" />
     <EmbeddedResource Include="OdataSqlTranslator.cs" />
