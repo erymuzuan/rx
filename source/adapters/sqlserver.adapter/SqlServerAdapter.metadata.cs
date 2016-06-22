@@ -309,6 +309,7 @@ ORDER
                 Schema = schema,
                 CodeNamespace = this.CodeNamespace,
                 WebId = uuid,
+                ErrorRetry = new ErrorRetry { Attempt = 3, Wait = 500, Algorithm = WaitAlgorithm.Linear }
             };
             using (var conn = new SqlConnection(this.ConnectionString))
             using (var cmd = new SqlCommand(SQL, conn))
@@ -349,7 +350,8 @@ ORDER
                             {
                                 Name = string.IsNullOrWhiteSpace(pname) ? "Result" : pname,
                                 SqlDbType = t,
-                                Type = dt.GetClrType()
+                                Type = dt.GetClrType(),
+                                MaxLength = cml
                             };
                             od.ResponseMemberCollection.Add(rm);
                         }
