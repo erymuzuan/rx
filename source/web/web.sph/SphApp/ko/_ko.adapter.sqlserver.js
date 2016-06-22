@@ -148,16 +148,19 @@ define(["knockout"], function (ko) {
                                 "animation": 0,
                                 "check_callback": function (operation, node, nodeParent, nodePosition, more) {
                                     if (operation === "move_node") {
-                                        var mbr = node.data,
+                                        var column = node.data,
                                             ref = $(element).jstree(true),
                                             target = ref.get_node(nodeParent);
-                                        if (!mbr) {
+                                        if (!column) {
                                             return false;
                                         }
                                         if (!target) {
                                             return false;
                                         }
+                                        if(target.text !== "Columns") return false;
+                                        if(target.id !== node.parent)return false;
 
+                                        //console.log("dragged into target %s , and id ",target.text, target.id);
 
                                         return true;
                                     }
