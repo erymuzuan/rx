@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8" />
+      <title>SqlServerAdapter</title>
+      <style>.markdown-preview:not([data-use-github-style]) { padding: 2em; font-size: 1.2em; color: rgb(85, 85, 85); overflow: auto; background-color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) > :first-child { margin-top: 0px; }
+.markdown-preview:not([data-use-github-style]) h1, .markdown-preview:not([data-use-github-style]) h2, .markdown-preview:not([data-use-github-style]) h3, .markdown-preview:not([data-use-github-style]) h4, .markdown-preview:not([data-use-github-style]) h5, .markdown-preview:not([data-use-github-style]) h6 { line-height: 1.2; margin-top: 1.5em; margin-bottom: 0.5em; color: rgb(3, 3, 3); }
+.markdown-preview:not([data-use-github-style]) h1 { font-size: 2.4em; font-weight: 300; }
+.markdown-preview:not([data-use-github-style]) h2 { font-size: 1.8em; font-weight: 400; }
+.markdown-preview:not([data-use-github-style]) h3 { font-size: 1.5em; font-weight: 500; }
+.markdown-preview:not([data-use-github-style]) h4 { font-size: 1.2em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h5 { font-size: 1.1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h6 { font-size: 1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) strong { color: rgb(3, 3, 3); }
+.markdown-preview:not([data-use-github-style]) del { color: rgb(126, 126, 126); }
+.markdown-preview:not([data-use-github-style]) a, .markdown-preview:not([data-use-github-style]) a code { color: rgb(0, 0, 0); }
+.markdown-preview:not([data-use-github-style]) img { max-width: 100%; }
+.markdown-preview:not([data-use-github-style]) > p { margin-top: 0px; margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) > ul, .markdown-preview:not([data-use-github-style]) > ol { margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) blockquote { margin: 1.5em 0px; font-size: inherit; color: rgb(126, 126, 126); border-color: rgb(214, 214, 214); border-width: 4px; }
+.markdown-preview:not([data-use-github-style]) hr { margin: 3em 0px; border-top-width: 2px; border-top-style: dashed; border-top-color: rgb(214, 214, 214); background: none; }
+.markdown-preview:not([data-use-github-style]) table { margin: 1.5em 0px; }
+.markdown-preview:not([data-use-github-style]) th { color: rgb(3, 3, 3); }
+.markdown-preview:not([data-use-github-style]) th, .markdown-preview:not([data-use-github-style]) td { padding: 0.66em 1em; border: 1px solid rgb(214, 214, 214); }
+.markdown-preview:not([data-use-github-style]) code { color: rgb(3, 3, 3); background-color: rgb(240, 240, 240); }
+.markdown-preview:not([data-use-github-style]) pre.editor-colors { margin: 1.5em 0px; padding: 1em; font-size: 0.92em; border-radius: 3px; background-color: rgb(245, 245, 245); }
+.markdown-preview:not([data-use-github-style]) kbd { color: rgb(3, 3, 3); border-width: 1px 1px 2px; border-style: solid; border-color: rgb(214, 214, 214) rgb(214, 214, 214) rgb(199, 199, 199); background-color: rgb(240, 240, 240); }
+.markdown-preview[data-use-github-style] { font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif; line-height: 1.6; word-wrap: break-word; padding: 30px; font-size: 16px; color: rgb(51, 51, 51); overflow: scroll; background-color: rgb(255, 255, 255); }
+.markdown-preview[data-use-github-style] > :first-child { margin-top: 0px !important; }
+.markdown-preview[data-use-github-style] > :last-child { margin-bottom: 0px !important; }
+.markdown-preview[data-use-github-style] a:not([href]) { color: inherit; text-decoration: none; }
+.markdown-preview[data-use-github-style] .absent { color: rgb(204, 0, 0); }
+.markdown-preview[data-use-github-style] .anchor { position: absolute; top: 0px; left: 0px; display: block; padding-right: 6px; padding-left: 30px; margin-left: -30px; }
+.markdown-preview[data-use-github-style] .anchor:focus { outline: none; }
+.markdown-preview[data-use-github-style] h1, .markdown-preview[data-use-github-style] h2, .markdown-preview[data-use-github-style] h3, .markdown-preview[data-use-github-style] h4, .markdown-preview[data-use-github-style] h5, .markdown-preview[data-use-github-style] h6 { position: relative; margin-top: 1em; margin-bottom: 16px; font-weight: bold; line-height: 1.4; }
+.markdown-preview[data-use-github-style] h1 .octicon-link, .markdown-preview[data-use-github-style] h2 .octicon-link, .markdown-preview[data-use-github-style] h3 .octicon-link, .markdown-preview[data-use-github-style] h4 .octicon-link, .markdown-preview[data-use-github-style] h5 .octicon-link, .markdown-preview[data-use-github-style] h6 .octicon-link { display: none; color: rgb(0, 0, 0); vertical-align: middle; }
+.markdown-preview[data-use-github-style] h1:hover .anchor, .markdown-preview[data-use-github-style] h2:hover .anchor, .markdown-preview[data-use-github-style] h3:hover .anchor, .markdown-preview[data-use-github-style] h4:hover .anchor, .markdown-preview[data-use-github-style] h5:hover .anchor, .markdown-preview[data-use-github-style] h6:hover .anchor { padding-left: 8px; margin-left: -30px; text-decoration: none; }
+.markdown-preview[data-use-github-style] h1:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h2:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h3:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h4:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h5:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h6:hover .anchor .octicon-link { display: inline-block; }
+.markdown-preview[data-use-github-style] h1 tt, .markdown-preview[data-use-github-style] h2 tt, .markdown-preview[data-use-github-style] h3 tt, .markdown-preview[data-use-github-style] h4 tt, .markdown-preview[data-use-github-style] h5 tt, .markdown-preview[data-use-github-style] h6 tt, .markdown-preview[data-use-github-style] h1 code, .markdown-preview[data-use-github-style] h2 code, .markdown-preview[data-use-github-style] h3 code, .markdown-preview[data-use-github-style] h4 code, .markdown-preview[data-use-github-style] h5 code, .markdown-preview[data-use-github-style] h6 code { font-size: inherit; }
+.markdown-preview[data-use-github-style] h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h1 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h2 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h3 { font-size: 1.5em; line-height: 1.43; }
+.markdown-preview[data-use-github-style] h3 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h4 { font-size: 1.25em; }
+.markdown-preview[data-use-github-style] h4 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h5 { font-size: 1em; }
+.markdown-preview[data-use-github-style] h5 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] h6 { font-size: 1em; color: rgb(119, 119, 119); }
+.markdown-preview[data-use-github-style] h6 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] p, .markdown-preview[data-use-github-style] blockquote, .markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol, .markdown-preview[data-use-github-style] dl, .markdown-preview[data-use-github-style] table, .markdown-preview[data-use-github-style] pre { margin-top: 0px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] hr { height: 4px; padding: 0px; margin: 16px 0px; border: 0px none; background-color: rgb(231, 231, 231); }
+.markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol { padding-left: 2em; }
+.markdown-preview[data-use-github-style] ul.no-list, .markdown-preview[data-use-github-style] ol.no-list { padding: 0px; list-style-type: none; }
+.markdown-preview[data-use-github-style] ul ul, .markdown-preview[data-use-github-style] ul ol, .markdown-preview[data-use-github-style] ol ol, .markdown-preview[data-use-github-style] ol ul { margin-top: 0px; margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] li > p { margin-top: 16px; }
+.markdown-preview[data-use-github-style] dl { padding: 0px; }
+.markdown-preview[data-use-github-style] dl dt { padding: 0px; margin-top: 16px; font-size: 1em; font-style: italic; font-weight: bold; }
+.markdown-preview[data-use-github-style] dl dd { padding: 0px 16px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] blockquote { padding: 0px 15px; color: rgb(119, 119, 119); border-left-width: 4px; border-left-style: solid; border-left-color: rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] blockquote > :first-child { margin-top: 0px; }
+.markdown-preview[data-use-github-style] blockquote > :last-child { margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] table { display: block; width: 100%; overflow: auto; word-break: keep-all; }
+.markdown-preview[data-use-github-style] table th { font-weight: bold; }
+.markdown-preview[data-use-github-style] table th, .markdown-preview[data-use-github-style] table td { padding: 6px 13px; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] table tr { border-top-width: 1px; border-top-style: solid; border-top-color: rgb(204, 204, 204); background-color: rgb(255, 255, 255); }
+.markdown-preview[data-use-github-style] table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+.markdown-preview[data-use-github-style] img { max-width: 100%; box-sizing: border-box; }
+.markdown-preview[data-use-github-style] .emoji { max-width: none; }
+.markdown-preview[data-use-github-style] span.frame { display: block; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.frame > span { display: block; float: left; width: auto; padding: 7px; margin: 13px 0px 0px; overflow: hidden; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] span.frame span img { display: block; float: left; }
+.markdown-preview[data-use-github-style] span.frame span span { display: block; padding: 5px 0px 0px; clear: both; color: rgb(51, 51, 51); }
+.markdown-preview[data-use-github-style] span.align-center { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-center > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-center span img { margin: 0px auto; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-right { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-right > span { display: block; margin: 13px 0px 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] span.align-right span img { margin: 0px; text-align: right; }
+.markdown-preview[data-use-github-style] span.float-left { display: block; float: left; margin-right: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-left span { margin: 13px 0px 0px; }
+.markdown-preview[data-use-github-style] span.float-right { display: block; float: right; margin-left: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-right > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] code, .markdown-preview[data-use-github-style] tt { padding: 0.2em 0px; margin: 0px; font-size: 85%; border-radius: 3px; background-color: rgba(0, 0, 0, 0.0392157); }
+.markdown-preview[data-use-github-style] code::before, .markdown-preview[data-use-github-style] tt::before, .markdown-preview[data-use-github-style] code::after, .markdown-preview[data-use-github-style] tt::after { letter-spacing: -0.2em; content: " "; }
+.markdown-preview[data-use-github-style] code br, .markdown-preview[data-use-github-style] tt br { display: none; }
+.markdown-preview[data-use-github-style] del code { text-decoration: inherit; }
+.markdown-preview[data-use-github-style] pre > code { padding: 0px; margin: 0px; font-size: 100%; word-break: normal; white-space: pre; border: 0px; background: transparent; }
+.markdown-preview[data-use-github-style] .highlight { margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] .highlight pre, .markdown-preview[data-use-github-style] pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; border-radius: 3px; background-color: rgb(247, 247, 247); }
+.markdown-preview[data-use-github-style] .highlight pre { margin-bottom: 0px; word-break: normal; }
+.markdown-preview[data-use-github-style] pre { word-wrap: normal; }
+.markdown-preview[data-use-github-style] pre code, .markdown-preview[data-use-github-style] pre tt { display: inline; max-width: initial; padding: 0px; margin: 0px; overflow: initial; line-height: inherit; word-wrap: normal; border: 0px; background-color: transparent; }
+.markdown-preview[data-use-github-style] pre code::before, .markdown-preview[data-use-github-style] pre tt::before, .markdown-preview[data-use-github-style] pre code::after, .markdown-preview[data-use-github-style] pre tt::after { content: normal; }
+.markdown-preview[data-use-github-style] kbd { display: inline-block; padding: 3px 5px; font-size: 11px; line-height: 10px; color: rgb(85, 85, 85); vertical-align: middle; border-style: solid; border-width: 1px; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(187, 187, 187); border-radius: 3px; box-shadow: rgb(187, 187, 187) 0px -1px 0px inset; background-color: rgb(252, 252, 252); }
+.markdown-preview[data-use-github-style] a { color: rgb(51, 122, 183); }
+.markdown-preview[data-use-github-style] code { color: inherit; }
+.markdown-preview[data-use-github-style] pre.editor-colors { padding: 0.8em 1em; margin-bottom: 1em; font-size: 0.85em; border-radius: 4px; overflow: auto; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors::shadow .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors::shadow .horizontal-scrollbar { visibility: hidden; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors:hover::shadow .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors:hover::shadow .horizontal-scrollbar { visibility: visible; }
+.markdown-preview code { text-shadow: none; }
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+
+pre.editor-colors,
+.host {
+  background-color: #ffffff;
+  color: #555555;
+}
+pre.editor-colors .invisible-character,
+.host .invisible-character {
+  color: rgba(85, 85, 85, 0.2);
+}
+pre.editor-colors .indent-guide,
+.host .indent-guide {
+  color: rgba(85, 85, 85, 0.2);
+}
+pre.editor-colors .wrap-guide,
+.host .wrap-guide {
+  background-color: rgba(85, 85, 85, 0.2);
+}
+pre.editor-colors .gutter,
+.host .gutter {
+  color: #555555;
+  background: #ffffff;
+}
+pre.editor-colors .gutter .line-number.folded,
+.host .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+.host .gutter .line-number:after,
+pre.editor-colors .fold-marker:after,
+.host .fold-marker:after {
+  color: #e87b00;
+}
+pre.editor-colors .invisible,
+.host .invisible {
+  color: #555;
+}
+pre.editor-colors .selection .region,
+.host .selection .region {
+  background-color: #e1e1e1;
+}
+pre.editor-colors.is-focused .cursor,
+.host.is-focused .cursor {
+  border-color: #000000;
+}
+pre.editor-colors.is-focused .selection .region,
+.host.is-focused .selection .region {
+  background-color: #afc4da;
+}
+pre.editor-colors.is-focused .line-number.cursor-line-no-selection,
+.host.is-focused .line-number.cursor-line-no-selection,
+pre.editor-colors.is-focused .line.cursor-line,
+.host.is-focused .line.cursor-line {
+  background-color: rgba(255, 255, 134, 0.34);
+}
+pre.editor-colors .source.gfm,
+.host .source.gfm {
+  color: #444;
+}
+pre.editor-colors .gfm .markup.heading,
+.host .gfm .markup.heading {
+  color: #111;
+}
+pre.editor-colors .gfm .link,
+.host .gfm .link {
+  color: #888;
+}
+pre.editor-colors .gfm .variable.list,
+.host .gfm .variable.list {
+  color: #888;
+}
+pre.editor-colors .markdown .paragraph,
+.host .markdown .paragraph {
+  color: #444;
+}
+pre.editor-colors .markdown .heading,
+.host .markdown .heading {
+  color: #111;
+}
+pre.editor-colors .markdown .link,
+.host .markdown .link {
+  color: #888;
+}
+pre.editor-colors .markdown .link .string,
+.host .markdown .link .string {
+  color: #888;
+}
+.host(.is-focused) .cursor {
+  border-color: #000000;
+}
+.host(.is-focused) .selection .region {
+  background-color: #afc4da;
+}
+.host(.is-focused) .line-number.cursor-line-no-selection,
+.host(.is-focused) .line.cursor-line {
+  background-color: rgba(255, 255, 134, 0.34);
+}
+.comment {
+  color: #999988;
+  font-style: italic;
+}
+.string {
+  color: #D14;
+}
+.string .source,
+.string .meta.embedded.line {
+  color: #5A5A5A;
+}
+.string .punctuation.section.embedded {
+  color: #920B2D;
+}
+.string .punctuation.section.embedded .source {
+  color: #920B2D;
+}
+.constant.numeric {
+  color: #D14;
+}
+.constant.language {
+  color: #606aa1;
+}
+.constant.character,
+.constant.other {
+  color: #606aa1;
+}
+.constant.symbol {
+  color: #990073;
+}
+.constant.numeric.line-number.find-in-files .match {
+  color: rgba(143, 190, 0, 0.63);
+}
+.variable {
+  color: #008080;
+}
+.variable.parameter {
+  color: #606aa1;
+}
+.keyword {
+  color: #222;
+  font-weight: bold;
+}
+.keyword.unit {
+  color: #445588;
+}
+.keyword.special-method {
+  color: #0086B3;
+}
+.storage {
+  color: #222;
+}
+.storage.type {
+  color: #222;
+}
+.entity.name.class {
+  text-decoration: underline;
+  color: #606aa1;
+}
+.entity.other.inherited-class {
+  text-decoration: underline;
+  color: #606aa1;
+}
+.entity.name.function {
+  color: #900;
+}
+.entity.name.tag {
+  color: #008080;
+}
+.entity.other.attribute-name {
+  color: #458;
+  font-weight: bold;
+}
+.entity.name.filename.find-in-files {
+  color: #E6DB74;
+}
+.support.constant,
+.support.function,
+.support.type {
+  color: #458;
+}
+.support.class {
+  color: #008080;
+}
+.invalid {
+  color: #F8F8F0;
+  background-color: #00A8C6;
+}
+.invalid.deprecated {
+  color: #F8F8F0;
+  background-color: #8FBE00;
+}
+.meta.structure.dictionary.json > .string.quoted.double.json,
+.meta.structure.dictionary.json > .string.quoted.double.json .punctuation.string {
+  color: #000080;
+}
+.meta.structure.dictionary.value.json > .string.quoted.double.json {
+  color: #d14;
+}
+.meta.diff,
+.meta.diff.header {
+  color: #75715E;
+}
+.css.support.property-name {
+  font-weight: bold;
+  color: #333;
+}
+.css.constant {
+  color: #099;
+}
+.bracket-matcher .region {
+  background-color: #C9C9C9;
+  opacity: .7;
+  border-bottom: 0 none;
+}
+</style>
+  </head>
+  <body class='markdown-preview' data-use-github-style><h1 id="microsoft-sql-server-adapter">Microsoft SQL Server Adapter</h1>
+<p>List of icons</p>
+<ol>
+<li><i class="fa fa-eye"></i> Readonly - Computed column</li>
+<li><i class="fa fa-eye-slash"></i> Ignore - The column will be ignored when serializing or deserializing to JSON</li>
+<li><i class="fa fa-binoculars"></i> Lookup - This column holds a key, and the value will be retrieved from another table</li>
+<li><i class="fa fa-link"></i> Complex - This column will not be serialized or retrieved, it&#39;s configured another endpoint belong to the row</li>
+</ol>
+<h2 id="caching-and-versioning">Caching and versioning</h2>
+<p>The first thing you want to do to optimize you database access is provided some kind of caching, with Rx Developer <code>Adapter</code> REST API framework you are able to do so with simple <code>ROWVERSION</code> column or <code>ModifiedDate</code> column.</p>
+<h3 id="rowversion">ROWVERSION</h3>
+<p><code>ROWVERSION</code> column , is a kind of special column in Microsoft SQL Server, where it&#39;s readonly and the value will be incremented each time the row is updated. So users don&#39;t have to do anything.</p>
+<p>To use <code>ROWVERSION</code> column all you have to do is, select a <code>table</code> in your adapter designer, and on the property pane select your <code>ROWVERSION</code> column.</p>
+<p>Now every row in your table will have a version number included in <code>GetOne</code> API request via <code>ETag</code> header. and if your client include this header every time it make a request, RX Developer will compare the value with the one in the database, and quickly return <code>304 Not Modified</code> if it&#39;s unchanged.</p>
+<p>First request</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>GET&nbsp;/api/hospital-inforformation-system-2016/patient/2015-120&nbsp;HTTP/1.1</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Authorization:&nbsp;Bearer&nbsp;eyJ0eXAiOiJKV1QiL.....</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Content-Type:&nbsp;application/json</span></span></span></div></pre><p>Response</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>HTTP/1.1&nbsp;200&nbsp;OK</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Content-Type:&nbsp;application/json</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>ETag:&nbsp;&quot;0x0000000000000949&quot;</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Vary:&nbsp;Accept-Encoding</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Server:&nbsp;Microsoft-IIS/10.0</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>X-AspNet-Version:&nbsp;4.0.30319</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>X-Powered-By:&nbsp;ASP.NET</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;</span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>{</span></span></span></div><div class="line"><span class="text plain"><span>&nbsp;&nbsp;</span><span class="meta paragraph text"><span>&quot;mrn&quot;:&nbsp;&quot;2015-120&quot;,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&quot;firstName&quot;:&nbsp;&quot;2015&nbsp;-&nbsp;120&quot;,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&quot;lastName&quot;:&nbsp;&quot;Wan&quot;,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&quot;fullName&quot;:&nbsp;&quot;2015&nbsp;-&nbsp;120&nbsp;Wan&quot;,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&quot;IdCardMimeType&quot;:&nbsp;&quot;image/jpeg&quot;,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&quot;civil-servant&quot;:&nbsp;false,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;&quot;children&quot;:&nbsp;true,</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>&nbsp;&nbsp;.....</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>}</span></span></span></div></pre><p>Now for next request, include the <code>If-None-Match</code> header</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>GET&nbsp;/api/hospital-inforformation-system-2016/patient/2015-120&nbsp;HTTP/1.1</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Authorization:&nbsp;Bearer&nbsp;eyJ0eXAiOiJKV1QiL.....</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Connection:&nbsp;keep-alive</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Cache-Control:&nbsp;max-age=0</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>If-None-Match:&nbsp;&quot;0x0000000000000949&quot;</span></span></span></div></pre><p>and if the row is unchanged between the first and the second request is made</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>HTTP/1.1&nbsp;304&nbsp;Not&nbsp;Modified</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Cache-Control:&nbsp;private</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Content-Length:&nbsp;0</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>Content-Type:&nbsp;text/plain;&nbsp;charset=utf-8</span></span></span></div><div class="line"><span class="text plain"><span class="meta paragraph text"><span>ETag:&nbsp;&quot;0x0000000000000949&quot;</span></span></span></div></pre><p>Learn more about HTTP with ETag  <a href="https://www.w3.org/2005/MWI/BPWG/techs/CachingWithETag.html">Caching with Entity Tags</a>  </p>
+<p>If your table doesn&#39;t have a <code>ROWVERSION</code> column yet, you can easily add one without any worry</p>
+<pre class="editor-colors lang-sql"><div class="line"><span class="source sql"><span>ALTER&nbsp;TABLE&nbsp;[schema].[table]</span></span></div><div class="line"><span class="source sql"><span>ADD&nbsp;[Version]&nbsp;ROWVERSION&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div></pre>
+<p>You can find out more about <code>ROWVERSION</code> in <a href="https://msdn.microsoft.com/en-us/library/ms182776.aspx">MSDN</a></p>
+<h3 id="modifieddate">ModifiedDate</h3>
+<p>Apart from <code>ROWVERSION</code>, RX Developer also support <code>ModifiedDate</code> column, although this is manual way of keeping update on the versioning and it&#39;s supported by HTTP with <code>Last-Modified</code> header in the response and the accompanying <code>If-Modified-Since</code> for the GET request and <code>If-Unmodified-Since</code> for others.</p>
+<p>Your table would have to a column where with <code>DateTime</code> or equivalent data type, and everytime the row is updated, so does this column.</p>
+<p>The way it works is, when your client issuing the first <code>GET</code> request, you&#39;ll include the <code>Last-Modified</code> value in your response header. Now your client can keep this value, if they are trying to issue another <code>GET</code> request to the same resource, they could include <code>If-Modified-Since</code> value in their request header. And if the server see this value, and the resource the <code>ModifiedDate</code> hasn&#39;t changed, then a <code>304</code> response code will be returned. If however that the value has changed, then a new <code>200</code> response with the new value for <code>Last-Modified</code> will be sent.</p>
+<h2 id="creating-a-lookup-value">Creating a lookup value</h2>
+<p>Most database tables were designed for OLTP, which normally means table are normalized for optimum update and insert. But the table is no longer presenting your actual your business <code>Logical</code> data.</p>
+<p>Take for example a Sales</p>
+<table class="table table-bordered" style="width:40%">
+<thead>
+<tr>
+<th style="text-align:left">SalesId</th>
+<th style="text-align:left">SalesPersonId</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">1005</td>
+<td>50.00</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">1852</td>
+<td>100.00</td>
+</tr>
+</tbody>
+</table>
+<p>and there&#39;s another Sales person table</p>
+<table class="table table-bordered" style="width:40%">
+<thead>
+<tr>
+<th style="text-align:left">SalesPersonId</th>
+<th style="text-align:left">FullName</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1005</td>
+<td style="text-align:left">Lewis Hamilton</td>
+</tr>
+<tr>
+<td style="text-align:left">185</td>
+<td style="text-align:left">Cliff Burton</td>
+</tr>
+</tbody>
+</table>
+<p>Your logical sales data might look sometime like</p>
+<table class="table table-bordered" style="width:40%">
+<thead>
+<tr>
+<th style="text-align:left">SalesId</th>
+<th style="text-align:left">SalesPerson</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">Lewis Hamilton</td>
+<td>50.00</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">Cliff Burton</td>
+<td>100.00</td>
+</tr>
+</tbody>
+</table>
+<p>With Rx Developer <code>Sql Server</code> adapter, you could make this possible with a simple <code>Enable Lookup Column</code> context menu, on any column.</p>
+<p>Once you enable <code>LookupColumn</code> on a column, you&#39;ll be presented will a property pane that let you choose the followings fields</p>
+<ol>
+<li>Lookup table - the other table where the actual value is stored, e.g. <code>SalesPerson</code> table</li>
+<li>Name - the property name of the column, in the example above it&#39;s <code>SalesPerson</code></li>
+<li>Type - The property type</li>
+<li>Key Column - the column in the lookup table where the corresponding column in the original table is stored</li>
+<li>Value column - the column in the lookup table where the final value will be retrieved if matched with the value of the provided key column.</li>
+</ol>
+<h2 id="creating-a-complex-column">Creating a complex column</h2>
+<p>There are times where you don&#39;t want to display the column value right inline or included is select statement, now imaging you have this table</p>
+<pre class="editor-colors lang-sql"><div class="line"><span class="source sql"><span class="comment block c"><span class="punctuation definition comment sql"><span>/*</span></span><span>&nbsp;Sample&nbsp;Patient&nbsp;Table&nbsp;DDL&nbsp;</span><span class="punctuation definition comment sql"><span>*/</span></span></span></span></div><div class="line"><span class="source sql"><span>CREATE&nbsp;TABLE&nbsp;[dbo].[Patient]</span></span></div><div class="line"><span class="source sql"><span>(</span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Mrn]&nbsp;</span><span class="storage type sql"><span>VARCHAR</span></span><span>(</span><span class="constant numeric sql"><span>255</span></span><span>)</span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[FirstName]&nbsp;</span><span class="storage type sql"><span>VARCHAR</span></span><span>(</span><span class="constant numeric sql"><span>50</span></span><span>)</span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[LastName]&nbsp;</span><span class="storage type sql"><span>VARCHAR</span></span><span>(</span><span class="constant numeric sql"><span>50</span></span><span>)</span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[FullName]&nbsp;</span><span class="keyword other alias sql"><span>as</span></span><span>&nbsp;[FirstName]&nbsp;</span><span class="keyword operator math sql"><span>+</span></span><span>&nbsp;</span><span class="string quoted single sql"><span class="punctuation definition string begin sql"><span>&#39;</span></span><span>&nbsp;</span><span class="punctuation definition string end sql"><span>&#39;</span></span></span><span>&nbsp;</span><span class="keyword operator math sql"><span>+</span></span><span>&nbsp;[LastName]&nbsp;PERSISTED</span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Gender]&nbsp;</span><span class="storage type sql"><span>CHAR</span></span><span>(</span><span class="constant numeric sql"><span>1</span></span><span>)</span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Income]&nbsp;</span><span class="storage type sql"><span>MONEY</span></span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Dob]&nbsp;</span><span class="storage type sql"><span>DATE</span></span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[</span><span class="constant other database-name sql"><span>Nationality</span></span><span>.</span><span class="constant other table-name sql"><span>Code</span></span><span>]&nbsp;TINYINT&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[RaceCode]&nbsp;TINYINT&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[ReligionCode]&nbsp;TINYINT&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Age]&nbsp;TINYINT&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Nrid]&nbsp;</span><span class="storage type sql"><span>BIGINT</span></span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[PassportNo]&nbsp;NVARCHAR(</span><span class="constant numeric sql"><span>50</span></span><span>)&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[BirthCert]&nbsp;NVARCHAR(</span><span class="constant numeric sql"><span>50</span></span><span>)&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[IdCardCopy]&nbsp;VARBINARY(MAX)&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[IdCardMimeType]&nbsp;</span><span class="storage type sql"><span>VARCHAR</span></span><span>(</span><span class="constant numeric sql"><span>255</span></span><span>)</span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Fee]&nbsp;SMALLMONEY&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Weight]&nbsp;</span><span class="storage type sql"><span>DECIMAL</span></span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Height]&nbsp;</span><span class="storage type sql"><span>REAL</span></span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[AdditionalInfo]&nbsp;XML&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Address]&nbsp;XML&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[IsCivilServant]&nbsp;</span><span class="storage type sql"><span>BIT</span></span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[IsChildren]&nbsp;</span><span class="storage type sql"><span>BIT</span></span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[RegisteredDate]&nbsp;DATETIME</span><span class="constant numeric sql"><span>2</span></span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span><span>&nbsp;DEFAULT&nbsp;</span><span class="support function scalar sql"><span>CURRENT_TIMESTAMP</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[ModifiedDate]&nbsp;</span><span class="storage type sql"><span>DATETIME</span></span><span>&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span><span>&nbsp;DEFAULT&nbsp;</span><span class="support function scalar sql"><span>CURRENT_TIMESTAMP</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,[Version]&nbsp;ROWVERSION&nbsp;</span><span class="keyword other DDL create II sql"><span>NOT&nbsp;NULL</span></span></span></div><div class="line"><span class="source sql"><span>&nbsp;&nbsp;&nbsp;&nbsp;,</span><span class="storage modifier sql"><span>CONSTRAINT</span></span><span>&nbsp;PK_Patient&nbsp;</span><span class="storage modifier sql"><span>PRIMARY&nbsp;KEY</span></span><span>&nbsp;CLUSTERED&nbsp;([Mrn]&nbsp;</span><span class="keyword other order sql"><span>ASC</span></span><span>)</span></span></div><div class="line"><span class="source sql"><span>)</span></span></div></pre>
+<p>There&#39;s a column called <code>[IdCardCopy] VARBINARY(MAX)</code>, to select the field every time you would be very expensive and most of the time it&#39;s irrelevant . So does <code>[Address]</code> and <code>[AdditionalInfo]</code> column which might represent another data.</p>
+<p>Now if we choose, this column and make it <code>Complex</code>, RX Developer will not select or serialize the column value anymore. See <code>Complex link below</code> for more information about how the generated API will be handled.</p>
+<h2 id="configuring-api">Configuring API</h2>
+<h3 id="list">List</h3>
+<h3 id="get-one">Get one</h3>
+<h3 id="insert">Insert</h3>
+<h3 id="update">Update</h3>
+<h3 id="complex-link">Complex link</h3>
+<p>Once you had a column mark as <code>Complex</code>, the column will no longer serialized to JSON, and <code>ComplexLinkActionCode</code> generator will generate a new endpoint for this column.</p>
+<p>On the example above, the route for <code>[IdCardCopy]</code> endpoint will be <code>/api/adapter-id/{mrn}/patients/IdCardCopy</code>, and link is provided on every item generated by <code>GetOne</code> action.</p>
+<p>It&#39;s very important to specify the correct MIME type, for <code>Complex</code> column.</p>
+<ol>
+<li>Literal string e.g. <code>application/xml</code></li>
+<li>Value from another column with <code>=IdCardMimeType</code></li>
+<li>Code expression with <code>{code expression}</code></li>
+</ol>
+<h3 id="child-relations">Child relations</h3></body>
+</html>
