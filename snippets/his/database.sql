@@ -232,3 +232,27 @@ BEGIN
 
 END
 GO
+
+USE [His]
+GO
+
+/****** Object:  View [dbo].[Latest10Patients]    Script Date: 23/6/2016 7:47:03 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE VIEW [dbo].[Latest10Patients]
+AS
+SELECT        TOP (10) dbo.Country.Name AS Nationality, dbo.Patient.Mrn, dbo.Patient.FullName, dbo.GenderLookup.Value, dbo.[Religion.Code].Religion, dbo.Patient.Dob, dbo.Patient.Age, dbo.Patient.Nrid, dbo.Patient.Weight, 
+                         dbo.Patient.Height, dbo.Patient.IsCivilServant, dbo.Patient.ModifiedDate
+FROM            dbo.Patient INNER JOIN
+                         dbo.[Religion.Code] ON dbo.Patient.ReligionCode = dbo.[Religion.Code].ReligionId INNER JOIN
+                         dbo.GenderLookup ON dbo.Patient.Gender = dbo.GenderLookup.[Key] INNER JOIN
+                         dbo.Country ON dbo.Patient.[Nationality.Code] = dbo.Country.Id
+ORDER BY dbo.Patient.RegisteredDate DESC
+
+GO
+
+
