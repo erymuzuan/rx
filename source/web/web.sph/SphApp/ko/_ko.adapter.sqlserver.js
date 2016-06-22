@@ -9,9 +9,6 @@ define(["knockout"], function (ko) {
     ko.bindingHandlers.adapterTree = {
         init: function (element, valueAccessor) {
             var system = require(objectbuilders.system),
-                funcType = "Bespoke.Sph.Integrations.Adapters.ScalarValuedFunction, sqlserver.adapter",
-                tableValuedfunctionType = "Bespoke.Sph.Integrations.Adapters.TableValuedFunction, sqlserver.adapter",
-                sprocType = "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
                 value = valueAccessor(),
                 adapter = ko.unwrap(value.adapter),
                 searchbox = ko.unwrap(value.searchbox),
@@ -36,15 +33,16 @@ define(["knockout"], function (ko) {
                 calculateColumnName = function (col) {
 
                     var column = ko.toJS(col),
-                        lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars' style='margin-left:5px;color:darkgreen'></i>" : "",
-                        complex = column.IsComplex ? " <i class='fa fa-link' style='margin-left:5px;color:darkblue'></i>" : "",
-                        ignore = column.Ignore ? " <i class='fa fa-eye-slash' style='margin-left:5px;color:grey'></i>" : "",
-                        readonly = column.IsComputed ? " <i class='fa fa-eye' style='margin-left:5px;color:grey'></i>" : "",
+                        lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars column-icon' style='margin-left:5px;color:darkgreen'></i>" : "",
+                        complex = column.IsComplex ? " <i class='fa fa-link column-icon' style='margin-left:5px;color:darkblue'></i>" : "",
+                        ignore = column.Ignore ? " <i class='fa fa-eye-slash column-icon' style='margin-left:5px;color:grey'></i>" : "",
+                        readonly = column.IsComputed ? " <i class='fa fa-eye column-icon' style='margin-left:5px;color:grey'></i>" : "",
+                        primaryKey = column.IsPrimaryKey ? "<i class='icon-key column-icon' style='margin-right:3px;color:#ff8c00;font-weight: bold'></i> " : "",
                         displayName = column.DisplayName || "",
                         bracket = displayName ? " [" : "",
                         bracket2 = displayName ? "]" : "";
 
-                    return column.Name + readonly + bracket + displayName + bracket2 + complex + lookup + ignore;
+                    return primaryKey + column.Name +  readonly + bracket + displayName + bracket2 + complex + lookup + ignore;
 
 
                 },
@@ -146,7 +144,7 @@ define(["knockout"], function (ko) {
                         .jstree({
                             "core": {
                                 "animation": 0,
-                                "check_callback": function (operation, node, nodeParent, nodePosition, more) {
+                                "check_callback": function (operation, node, nodeParent) {
                                     if (operation === "move_node") {
                                         var column = node.data,
                                             ref = $(element).jstree(true),
@@ -223,10 +221,7 @@ define(["knockout"], function (ko) {
                                         setNodeText = function (col) {
                                             var text = calculateColumnName(col);
 
-                                            $("#" + $node.id + ">a.jstree-anchor>i.fa-link").remove();
-                                            $("#" + $node.id + ">a.jstree-anchor>i.fa-binoculars").remove();
-                                            $("#" + $node.id + ">a.jstree-anchor>i.fa-eye-slash").remove();
-                                            $("#" + $node.id + ">a.jstree-anchor>i.fa-eye").remove();
+                                            $("#" + $node.id + ">a.jstree-anchor>i.column-icon").remove();
 
                                             $(element).jstree(true)
                                                 .rename_node($node, text);
