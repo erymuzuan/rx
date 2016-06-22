@@ -197,4 +197,38 @@ RETURN 0
 
 
 
+GO
+-- =============================================
+CREATE FUNCTION PatientsBornInYear 
+(	
+	@Year int
+)
+RETURNS TABLE 
+AS
+RETURN 
+(
+	SELECT [Mrn],[FullName], [Nrid] FROM [dbo].[Patient]
+	WHERE YEAR([Dob]) = @Year
+)
+GO
 
+CREATE FUNCTION GetFullName 
+(
+	-- Add the parameters for the function here
+	@FirstName varchar(255),
+	@LastName VARCHAR(50)
+)
+RETURNS varchar(255)
+AS
+BEGIN
+	-- Declare the return variable here
+	DECLARE @FullName varchar(255)
+
+	-- Add the T-SQL statements to compute the return value here
+	SELECT @FullName = @FirstName + ' ' + @LastName
+
+	-- Return the result of the function
+	RETURN @FullName
+
+END
+GO
