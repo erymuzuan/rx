@@ -79,7 +79,7 @@ define(["knockout"], function (ko) {
                         id: "table-" + ko.unwrap(v.Schema) + "-" + ko.unwrap(v.Name),
                         text: ko.unwrap(v.Schema) + "." + ko.unwrap(v.Name),
                         state: "open",
-                        type: "table",
+                        type: ko.unwrap(v.Type),
                         data: v,
                         children: [{
                             text: "Columns",
@@ -357,8 +357,11 @@ define(["knockout"], function (ko) {
                                 "table-node": {
                                     "icon": "fa fa-table"
                                 },
-                                "table": {
+                                "U": {
                                     "icon": "fa fa-list"
+                                },
+                                "V": {
+                                    "icon": "fa fa-bars"
                                 },
                                 "related-table": {
                                     "icon": "fa fa-list-alt"

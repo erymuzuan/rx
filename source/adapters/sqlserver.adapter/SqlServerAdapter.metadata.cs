@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var deletedTables = new ConcurrentBag<TableDefinition>();
 
                 var tasks = from t in this.TableDefinitionCollection
-                    select RefreshTableMetadataAsync(t, deletedTables);
+                            select RefreshTableMetadataAsync(t, deletedTables);
                 await Task.WhenAll(tasks);
 
                 foreach (var dt in deletedTables)
@@ -134,7 +134,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                             AllowRead = true,
                             AllowUpdate = false,
                             IsSelected = false,
-                            Type = "View"
+                            Type = "V"
                         };
                         list.AddOrReplace(view, x => x.Name == view.Name && x.Schema == view.Schema);
                     }
@@ -243,6 +243,45 @@ AND
             }
         }
 
+        private async Task ReadViewColumnsAsync(SqlConnection conn, TableDefinition view)
+        {
+            var developerService = ObjectBuilder.GetObject<SqlAdapterDeveloperService>();
+            string sql = $@"
+SELECT 
+	name as 'Column',
+	TYPE_NAME(user_type_id) as 'Type', 
+	max_length as 'Length',
+	is_nullable as 'IsNullable',
+	is_computed as 'IsComputed',
+	is_identity as 'IsIdentity'
+FROM sys.columns
+WHERE object_id=object_id('{view.Schema}.{view.Name}')";
+            using (var columnCommand = new SqlCommand(sql, conn))
+            {
+                using (var reader = await columnCommand.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var mt = ColumnMetadata.Read(reader, view);
+
+                        var scores = (from g in developerService.ColumnGenerators
+                                      let s = g.Metadata.GetScore(mt)
+                                      where s >= 0
+                                      orderby s descending
+                                      select g).ToList();
+                        var generator = scores.FirstOrDefault();
+                        if (null == generator)
+                            throw new InvalidOperationException($"Cannot find column generator for {mt}");
+                        var col = generator.Value.Initialize(this, view, mt);
+                        var existingColumn = view.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
+                        col.IsSelected = existingColumn?.IsSelected ?? false;
+
+                        view.ColumnCollection.AddOrReplace(col, x => x.Name == col.Name);
+                    }
+                }
+            }
+        }
+
         public async Task<IEnumerable<TableDefinition>> GetTableOptionsAsync(bool ommitDetails = false)
         {
             var list = new ObjectCollection<TableDefinition>();
@@ -263,7 +302,7 @@ AND
                             AllowRead = true,
                             AllowUpdate = true,
                             IsSelected = false,
-                            Type = "Table"
+                            Type = "U"
                         };
                         list.AddOrReplace(table, x => x.Name == table.Name && x.Schema == table.Schema);
                     }
@@ -279,26 +318,70 @@ AND
         }
         public async Task<TableDefinition> GetTableOptionDetailsAsync(string schema, string name)
         {
-            var table = new TableDefinition
-            {
-                Name = name,
-                Schema = schema,
-                AllowDelete = true,
-                AllowInsert = true,
-                AllowRead = true,
-                AllowUpdate = true,
-                IsSelected = false
-            };
-            using (var conn = new SqlConnection(this.ConnectionString))
-            {
-                await conn.OpenAsync();
-                await ReadColumnsAsync(conn, table);
-                var primaryKeyTask = ReadPrimaryKeysAsync(conn, table);
-                var childTableTask = GetChildTablesAsync(conn, table);
-                await Task.WhenAll(primaryKeyTask, childTableTask);
-            }
 
-            return table;
+            var sql = @"
+SELECT  
+    o.type 
+FROM 
+    sys.all_objects o
+INNER JOIN 
+    sys.schemas s ON o.schema_id = s.schema_id
+WHERE 
+    o.[type] IN( 'U', 'V')
+AND 
+    s.name NOT IN ('sys')
+AND 
+    s.name = @Schema 
+AND 
+    o.name = @Name ";
+            using (var conn = new SqlConnection(this.ConnectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@Schema", schema);
+                cmd.Parameters.AddWithValue("@Name", name);
+                await conn.OpenAsync();
+                var dbVal = await cmd.ExecuteScalarAsync();
+                if (dbVal == DBNull.Value) return null;
+                var type = ((string)dbVal).Trim();
+                if (type == "U")
+                {
+                    var table = new TableDefinition
+                    {
+                        Name = name,
+                        Schema = schema,
+                        AllowDelete = true,
+                        AllowInsert = true,
+                        AllowRead = true,
+                        AllowUpdate = true,
+                        IsSelected = false,
+                        Type = "U"
+                    };
+
+                    await ReadColumnsAsync(conn, table);
+                    var primaryKeyTask = ReadPrimaryKeysAsync(conn, table);
+                    var childTableTask = GetChildTablesAsync(conn, table);
+                    await Task.WhenAll(primaryKeyTask, childTableTask);
+                    return table;
+                }
+                if (type == "V")
+                {
+                    var view = new TableDefinition
+                    {
+                        Name = name,
+                        Schema = schema,
+                        AllowDelete = false,
+                        AllowInsert = false,
+                        AllowRead = true,
+                        AllowUpdate = false,
+                        IsSelected = false,
+                        Type = "V"
+                    };
+
+                    await ReadViewColumnsAsync(conn, view);
+                    return view;
+                }
+            }
+            return null;
         }
 
         public async Task<IEnumerable<OperationDefinition>> GetOperationOptionsAsync()

@@ -18,11 +18,23 @@ namespace Bespoke.Sph.Domain.Api
 
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
-            if (table.PrimaryKeyCollection.Count == 0) return null;
+            //if (table.PrimaryKeyCollection.Count == 0) return null;
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name))
                 .Select(x => $"{{item.{x.Name}}}")
                 .ToString("/");
-
+            var objectLinks = "";
+            if (!string.IsNullOrWhiteSpace(pks))
+                objectLinks = $@"        
+                JArray links = JArray.Parse($@""[
+		                                {{{{
+	                                """"method"""": """"GET"""",
+	                                """"rel"""": """"self"""",
+	                                """"href"""": """"{{ConfigurationManager.BaseUrl}}/api/{adapter.Id}/{table.Name.ToIdFormat()}/{pks}"""",
+	                                """"desc"""": """"Issue a GET request""""
+	                                }}}}
+		                                ]"");
+		        var link = new JProperty(""_links"", links);
+		        r.Last.AddAfterSelf(link);";
 
             var code = new StringBuilder();
             code.AppendLine("       [Route(\"\")]");
@@ -67,7 +79,7 @@ namespace Bespoke.Sph.Domain.Api
 	            if(null != countResult.FinalException)
 		            throw countResult.FinalException;
                 count = countResult.Result;
-                if (count > lo.ItemCollection.Count())
+                if (page * size < count)
                     nextPageToken = $""{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/?filter={{filter}}&includeTotal=true&page={{page + 1}}&size={{size}}"";
                 else
                     nextPageToken = null;
@@ -76,13 +88,20 @@ namespace Bespoke.Sph.Domain.Api
             var previousPageToken = $""{{ConfigurationManager.BaseUrl}}/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/?filter={{filter}}&includeTotal=true&page={{page - 1}}&size={{size}}"";
             if(page == 1)
                 previousPageToken = null;
+
+            var pageLinks = new System.Collections.Generic.List<object>();
+            if(null != previousPageToken)
+                pageLinks.Add(new {{ method = ""GET"", rel= ""previous"", href= previousPageToken}});
+            if(null != nextPageToken)
+                pageLinks.Add(new {{ method = ""GET"", rel= ""next"", href= nextPageToken}});
+
+
             var json = JObject.Parse( JsonConvert.SerializeObject( new
             {{
                 count,
                 page,
-                nextPageToken,
-                previousPageToken,
-                size
+                size,
+                _links = pageLinks
             }}));
 
             JArray results = JArray.Parse(""[]"");
@@ -90,30 +109,21 @@ namespace Bespoke.Sph.Domain.Api
 	        {{
 		        var r = JObject.Parse(JsonConvert.SerializeObject(item));
 		        r.Remove(""WebId"");
-		        JArray links = JArray.Parse($@""[
-		                                {{{{
-	                                """"method"""": """"GET"""",
-	                                """"rel"""": """"self"""",
-	                                """"href"""": """"{{ConfigurationManager.BaseUrl}}/api/{adapter.Id}/{table.Name.ToIdFormat()}/{pks}"""",
-	                                """"desc"""": """"Issue a GET request""""
-	                                }}}}
-		                                ]"");
-		        var link = new JProperty(""_links"", links);
-		        r.Last.AddAfterSelf(link);
+		        {objectLinks}
 
 		        results.Add(r);
 	        }}
-
-	        json.Last.AddAfterSelf(new JProperty(""results"", results));
+	        json.Last.AddBeforeSelf(new JProperty(""results"", results));
 
             return Json(json.ToString());
             ");
 
 
+
             code.AppendLine();
             code.AppendLine("       }");
             code.AppendLine();
-
+            
             return code.ToString();
         }
 

@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                     op = new TableValuedFunction { Schema = schema, Name = name, ObjectType = "IF" };
                     break;
                 case "FN":
-                    op = new ScalarValuedFunction { Schema = schema, Name = name, ObjectType = "P" };
+                    op = new ScalarValuedFunction { Schema = schema, Name = name, ObjectType = "FN" };
                     break;
                 default:
                     throw new ArgumentException($"Cannot identify SQL Server object of type '{type}'", nameof(type));
