@@ -324,8 +324,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         [HttpGet]
-        [Route("sprocs/{schema}/{name}")]
-        public async Task<IHttpActionResult> GetSprocDetailsAsync(string schema, string name,
+        [Route("operation-options/{type}/{schema}/{name}")]
+        public async Task<IHttpActionResult> GetSprocDetailsAsync(string type, string schema, string name,
             [FromUri(Name = "server")] string server,
             [FromUri(Name = "database")] string database,
             [FromUri(Name = "trusted")] bool trusted = true,
@@ -341,51 +341,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                 Password = password
             };
 
-            var sproc = await adapter.GetStoreProcedureAsync(schema, name);
-            return Json(sproc.ToJsonString());
+            var operation = await adapter.CreateAsync(type, schema, name);
+            return Json(operation.ToJsonString());
         }
 
-        [HttpGet]
-        [Route("scalar-valued-functions/{schema}/{name}")]
-        public async Task<IHttpActionResult> GetScalarValuedFunctionDetailsAsync(string schema, string name,
-            [FromUri(Name = "server")] string server,
-            [FromUri(Name = "database")] string database,
-            [FromUri(Name = "trusted")] bool trusted = true,
-            [FromUri(Name = "userid")] string user = "",
-            [FromUri(Name = "password")] string password = "")
-        {
-            var adapter = new SqlServerAdapter
-            {
-                Server = server,
-                Database = database,
-                TrustedConnection = trusted,
-                UserId = user,
-                Password = password
-            };
-            var func = await adapter.GetFunctionDetailsAsync<ScalarValuedFunction>(schema, name);
-            return Json(func.ToJsonString());
-        }
 
-        [HttpGet]
-        [Route("table-valued-functions/{schema}/{name}")]
-        public async Task<IHttpActionResult> GetTableValuedFunctionDetailsAsync(string schema, string name,
-            [FromUri(Name = "server")] string server,
-            [FromUri(Name = "database")] string database,
-            [FromUri(Name = "trusted")] bool trusted = true,
-            [FromUri(Name = "userid")] string user = "",
-            [FromUri(Name = "password")] string password = "")
-        {
-            var adapter = new SqlServerAdapter
-            {
-                Server = server,
-                Database = database,
-                TrustedConnection = trusted,
-                UserId = user,
-                Password = password
-            };
-            var func = await adapter.GetFunctionDetailsAsync<TableValuedFunction>(schema, name);
-            return Json(func.ToJsonString());
-        }
 
         [Route("action-generators-designers")]
         public IHttpActionResult GetActionGeneratorDesigners()

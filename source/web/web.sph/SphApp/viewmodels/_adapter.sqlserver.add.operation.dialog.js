@@ -69,12 +69,12 @@ define(['plugins/dialog', "services/datacontext"],
                         userid = ko.unwrap(adp.UserId),
                         password = ko.unwrap(adp.Password),
                         url = trusted ? "" : "&trusted=false&userid=" + userid+ "&password=" + password,
-                        type = getType(operation);
+                        type = ko.unwrap(operation.ObjectType);
 
 
                     if($(this).is(":checked")){
                         isBusy();
-                        $.getJSON("/sqlserver-adapter/" +  type + "/" +  operation.Schema + "/" + operation.Name +"?server=" + server + "&database=" + database + url)
+                        $.getJSON("/sqlserver-adapter/operation-options/" +  type + "/" +  operation.Schema + "/" + operation.Name +"?server=" + server + "&database=" + database + url)
                                 .done(function(result){
                                     var tr = context.toObservable(result);
                                     selectedOperations.push(tr);

@@ -85,9 +85,12 @@
     <Compile Include="Columns\StringColumn.cs" />
     <Compile Include="Columns\TinyIntColumn.cs" />
     <Compile Include="Columns\XmlColumn.cs" />
+    <Compile Include="FunctionOperationDefinition.cs" />
     <Compile Include="ScalarValuedFunction.cs" />
     <Compile Include="IColumnGeneratorMetadata.cs" />
     <Compile Include="ParameterNameExtensions.cs" />
+    <Compile Include="SqlOperationDefinition.cs" />
+    <Compile Include="SqlOperationFactory.cs" />
     <Compile Include="SqlServerAdapter.metadata.cs" />
     <Compile Include="TableValuedFunction.cs" />
     <Compile Include="ThreeWayBoolean.cs" />

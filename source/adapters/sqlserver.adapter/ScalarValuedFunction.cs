@@ -1,12 +1,17 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class ScalarValuedFunction : OperationDefinition
+    public class ScalarValuedFunction : FunctionOperationDefinition
     {
+
         protected override string GenerateAdapterActionBody(Adapter adapter)
         {
             var code = new StringBuilder();
