@@ -17,12 +17,29 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public partial class SqlServerAdapter : Adapter
+
+    [Export(typeof(SqlAdapterDeveloperService))]
+    public class SqlAdapterDeveloperService
     {
+        private static bool m_initialized;
+
+        public static void Init()
+        {
+            if (m_initialized) return;
+            m_initialized = true;
+
+            var ds = new DeveloperService();
+            ObjectBuilder.ComposeMefCatalog(ds);
+            ObjectBuilder.AddCacheList(ds);
+        }
+
         [JsonIgnore]
         [ImportMany("SqlColumn", typeof(SqlColumn), AllowRecomposition = true)]
         public Lazy<SqlColumn, IColumnGeneratorMetadata>[] ColumnGenerators { get; set; }
+    }
 
+    public partial class SqlServerAdapter : Adapter
+    {
 
         public override string OdataTranslator => "OdataSqlTranslator";
 

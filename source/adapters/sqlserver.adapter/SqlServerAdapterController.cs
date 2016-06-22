@@ -19,6 +19,17 @@ namespace Bespoke.Sph.Integrations.Adapters
     [RoutePrefix("sqlserver-adapter")]
     public class SqlServerAdapterController : BaseApiController
     {
+        public SqlServerAdapterController()
+        {
+            var developerService = ObjectBuilder.GetObject<SqlAdapterDeveloperService>();
+            if (null == developerService)
+            {
+                developerService = new SqlAdapterDeveloperService();
+                ObjectBuilder.AddCacheList(developerService);
+            }
+            if (null == developerService.ColumnGenerators)
+                ObjectBuilder.ComposeMefCatalog(developerService);
+        }
         [HttpGet]
         [Route("resource/{resource}")]
         public HttpResponseMessage GetEmbeddedResource(string resource)

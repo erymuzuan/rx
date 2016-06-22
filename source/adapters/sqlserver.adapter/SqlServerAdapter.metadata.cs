@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -24,31 +25,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                     Console.WriteLine(e);
                     return false;
                 }
-                var deletedTables = new List<TableDefinition>();
-                foreach (var table in this.TableDefinitionCollection)
-                {
-                    var db = await this.GetTableOptionDetailsAsync(table.Schema, table.Name);
-                    if (null == db)
-                    {
-                        deletedTables.Add(table);
-                        continue;
-                    }
+                var deletedTables = new ConcurrentBag<TableDefinition>();
 
-                    foreach (var col in db.ColumnCollection)
-                    {
-                        var oc = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
-                        if (null != oc)
-                        {
-                            col.Merge(oc, table);
-                        }
-                    }
-                    // now refresh the table column with the one read from db, but with user's metada intact
-                    table.ColumnCollection.ClearAndAddRange(db.ColumnCollection.OrderBy(c => c.Order));
+                var tasks = from t in this.TableDefinitionCollection
+                    select RefreshTableMetadataAsync(t, deletedTables);
+                await Task.WhenAll(tasks);
 
-                    //TODO : we should merge action generators with new ones, and remove the old one
-                    if (table.ControllerActionCollection.Count == 0)
-                        table.ControllerActionCollection.AddRange(ObjectBuilder.GetObject<IDeveloperService>().ActionCodeGenerators);
-                }
                 foreach (var dt in deletedTables)
                 {
                     this.TableDefinitionCollection.Remove(dt);
@@ -60,7 +42,32 @@ namespace Bespoke.Sph.Integrations.Adapters
             return true;
         }
 
-        private async Task GetChildTablesAsync(IEnumerable<TableDefinition> tables, SqlConnection conn)
+        private async Task RefreshTableMetadataAsync(TableDefinition table, ConcurrentBag<TableDefinition> deletedTables)
+        {
+            var db = await this.GetTableOptionDetailsAsync(table.Schema, table.Name);
+            if (null == db)
+            {
+                deletedTables.Add(table);
+                return;
+            }
+
+            foreach (var col in db.ColumnCollection)
+            {
+                var oc = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
+                if (null != oc)
+                {
+                    col.Merge(oc, table);
+                }
+            }
+            // now refresh the table column with the one read from db, but with user's metada intact
+            table.ColumnCollection.ClearAndAddRange(db.ColumnCollection.OrderBy(c => c.Order));
+
+            //TODO : we should merge action generators with new ones, and remove the old one
+            if (table.ControllerActionCollection.Count == 0)
+                table.ControllerActionCollection.AddRange(ObjectBuilder.GetObject<IDeveloperService>().ActionCodeGenerators);
+        }
+
+        private async Task GetChildTablesAsync(SqlConnection conn, params TableDefinition[] tables)
         {
             var tasks = tables.Select(x => this.GetChildTablesAsync(x, conn));
             await Task.WhenAll(tasks);
@@ -173,10 +180,10 @@ AND
 
             return functions;
         }
-        
-   
 
-        private async Task ReadPrimaryKeysAsync(IList<TableDefinition> tables, SqlConnection conn)
+
+
+        private async Task ReadPrimaryKeysAsync(SqlConnection conn, params TableDefinition[] tables)
         {
             var tasks = from t in tables
                         select ReadPrimaryKeysAsync2(t, conn);
@@ -205,10 +212,9 @@ AND
 
         }
 
-        private async Task ReadColumnsAsync(IList<TableDefinition> tables, SqlConnection conn)
+        private async Task ReadColumnsAsync(SqlConnection conn, params TableDefinition[] tables)
         {
-            if (null == this.ColumnGenerators)
-                ObjectBuilder.ComposeMefCatalog(this);
+            var developerService = ObjectBuilder.GetObject<SqlAdapterDeveloperService>();
             using (var columnCommand = new SqlCommand(Resources.SelectColumnsSql, conn))
             {
                 using (var reader = await columnCommand.ExecuteReaderAsync())
@@ -219,7 +225,7 @@ AND
                         if (null == table) continue;
                         var mt = ColumnMetadata.Read(reader, table);
 
-                        var scores = (from g in this.ColumnGenerators
+                        var scores = (from g in developerService.ColumnGenerators
                                       let s = g.Metadata.GetScore(mt)
                                       where s >= 0
                                       orderby s descending
@@ -263,9 +269,9 @@ AND
                     }
                 }
                 if (ommitDetails) return list;
-                await ReadColumnsAsync(list, conn);
-                var primaryKeyTask = ReadPrimaryKeysAsync(list, conn);
-                var childTableTask = GetChildTablesAsync(list, conn);
+                await ReadColumnsAsync(conn, list.ToArray());
+                var primaryKeyTask = ReadPrimaryKeysAsync(conn, list.ToArray());
+                var childTableTask = GetChildTablesAsync(conn, list.ToArray());
                 await Task.WhenAll(primaryKeyTask, childTableTask);
             }
 
@@ -273,36 +279,26 @@ AND
         }
         public async Task<TableDefinition> GetTableOptionDetailsAsync(string schema, string name)
         {
-            var list = new ObjectCollection<TableDefinition>();
+            var table = new TableDefinition
+            {
+                Name = name,
+                Schema = schema,
+                AllowDelete = true,
+                AllowInsert = true,
+                AllowRead = true,
+                AllowUpdate = true,
+                IsSelected = false
+            };
             using (var conn = new SqlConnection(this.ConnectionString))
-            using (var tableCommand = new SqlCommand(Resources.SelectTablesSql, conn))
             {
                 await conn.OpenAsync();
-                using (var reader = await tableCommand.ExecuteReaderAsync())
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        var table = new TableDefinition
-                        {
-                            Name = reader.GetString(0),
-                            Schema = reader.GetString(1),
-                            AllowDelete = true,
-                            AllowInsert = true,
-                            AllowRead = true,
-                            AllowUpdate = true,
-                            IsSelected = false
-                        };
-                        if (table.Schema == schema && table.Name == name)
-                            list.AddOrReplace(table, x => x.Name == table.Name && x.Schema == table.Schema);
-                    }
-                }
-                await ReadColumnsAsync(list, conn);
-                var primaryKeyTask = ReadPrimaryKeysAsync(list, conn);
-                var childTableTask = GetChildTablesAsync(list, conn);
+                await ReadColumnsAsync(conn, table);
+                var primaryKeyTask = ReadPrimaryKeysAsync(conn, table);
+                var childTableTask = GetChildTablesAsync(conn, table);
                 await Task.WhenAll(primaryKeyTask, childTableTask);
             }
 
-            return list.SingleOrDefault(x => x.Name == name && x.Schema == schema);
+            return table;
         }
 
         public async Task<IEnumerable<OperationDefinition>> GetOperationOptionsAsync()
