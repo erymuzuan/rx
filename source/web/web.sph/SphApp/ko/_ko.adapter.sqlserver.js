@@ -123,15 +123,53 @@ define(["knockout"], function (ko) {
                         .on("select_node.jstree", function (node, selected) {
                             member(selected.node.data);
                         })
+                        .on("move_node.jstree", function (e, data) {
+                            var ref = $(element).jstree(true),
+                                column = data.node.data,
+                                parent = ref.get_node(data.parent),
+                                collection = parent.data.ColumnCollection,
+                                order = 1;
+
+                            collection.remove(function (c) {
+                                return ko.unwrap(column.WebId) === ko.unwrap(c.WebId);
+                            });
+                            collection.splice(data.position, 0, column);
+                            _(ko.unwrap(collection)).each(function(c){
+                                if(ko.isObservable(c.Order)){
+                                    c.Order(order++);
+                                }
+                            });
+                        })
                         .on("create_node.jstree", function (event, node) {
                             console.log(node, "node");
                         })
                         .jstree({
                             "core": {
                                 "animation": 0,
-                                "check_callback": true,
-                                "themes": {"stripes": true},
+                                "check_callback": function (operation, node, nodeParent, nodePosition, more) {
+                                    if (operation === "move_node") {
+                                        var mbr = node.data,
+                                            ref = $(element).jstree(true),
+                                            target = ref.get_node(nodeParent);
+                                        if (!mbr) {
+                                            return false;
+                                        }
+                                        if (!target) {
+                                            return false;
+                                        }
+
+
+                                        return true;
+                                    }
+                                    return true;
+                                },
+                                "themes": { "stripes": true },
                                 'data': jsTreeData
+                            },
+                            "dnd": {
+                                "is_draggable": function (node) {
+                                    return node.id.startsWith("column-");
+                                }
                             },
                             "contextmenu": {
                                 "items": function ($node) {
@@ -396,7 +434,7 @@ define(["knockout"], function (ko) {
                                     "icon": "glyphicon glyphicon-list"
                                 }
                             },
-                            "plugins": ["contextmenu", "types"]
+                            "plugins": ["contextmenu", "types", "dnd"]
                         });
                 };
 

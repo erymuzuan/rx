@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                         }
                     }
                     // now refresh the table column with the one read from db, but with user's metada intact
-                    table.ColumnCollection.ClearAndAddRange(db.ColumnCollection);
+                    table.ColumnCollection.ClearAndAddRange(db.ColumnCollection.OrderBy(c => c.Order));
 
                     //TODO : we should merge action generators with new ones, and remove the old one
                     if (table.ControllerActionCollection.Count == 0)

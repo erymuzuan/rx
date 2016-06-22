@@ -112,14 +112,15 @@ namespace Bespoke.Sph.Domain.Api
         public virtual void Merge(Column oc, TableDefinition table)
         {
             // TODO : copy users setting property like, MIME, inline data or not from oc to col
-            this.IsComplex = oc.IsComplex;
-            this.MimeType = oc.MimeType;
-            this.IsVersion = table.VersionColumn == this.Name;
-            this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
-            this.LookupColumnTable = oc.LookupColumnTable;
+            this.DefaultValue = oc.DefaultValue;
             this.DisplayName = oc.DisplayName;
             this.Ignore = oc.Ignore;
-            this.DefaultValue = oc.DefaultValue;
+            this.IsComplex = oc.IsComplex;
+            this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
+            this.IsVersion = table.VersionColumn == this.Name;
+            this.LookupColumnTable = oc.LookupColumnTable;
+            this.MimeType = oc.MimeType;
+            this.Order = oc.Order;
             this.WebId = oc.WebId ?? Guid.NewGuid().ToString();
         }
 
