@@ -85,10 +85,11 @@
     <Compile Include="Columns\StringColumn.cs" />
     <Compile Include="Columns\TinyIntColumn.cs" />
     <Compile Include="Columns\XmlColumn.cs" />
-    <Compile Include="FuncOperationDefinition.cs" />
+    <Compile Include="ScalarValuedFunction.cs" />
     <Compile Include="IColumnGeneratorMetadata.cs" />
     <Compile Include="ParameterNameExtensions.cs" />
     <Compile Include="SqlServerAdapter.metadata.cs" />
+    <Compile Include="TableValuedFunction.cs" />
     <Compile Include="ThreeWayBoolean.cs" />
     <EmbeddedResource Include="OdataSqlTranslator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

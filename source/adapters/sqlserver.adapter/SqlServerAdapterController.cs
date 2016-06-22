@@ -346,8 +346,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         [HttpGet]
-        [Route("functions/{schema}/{name}")]
-        public async Task<IHttpActionResult> GetFunctionDetailsAsync(string schema, string name,
+        [Route("scalar-valued-functions/{schema}/{name}")]
+        public async Task<IHttpActionResult> GetScalarValuedFunctionDetailsAsync(string schema, string name,
             [FromUri(Name = "server")] string server,
             [FromUri(Name = "database")] string database,
             [FromUri(Name = "trusted")] bool trusted = true,
@@ -362,7 +362,28 @@ namespace Bespoke.Sph.Integrations.Adapters
                 UserId = user,
                 Password = password
             };
-            var func = await adapter.GetFunctionAsync(schema, name);
+            var func = await adapter.GetFunctionDetailsAsync<ScalarValuedFunction>(schema, name);
+            return Json(func.ToJsonString());
+        }
+
+        [HttpGet]
+        [Route("table-valued-functions/{schema}/{name}")]
+        public async Task<IHttpActionResult> GetTableValuedFunctionDetailsAsync(string schema, string name,
+            [FromUri(Name = "server")] string server,
+            [FromUri(Name = "database")] string database,
+            [FromUri(Name = "trusted")] bool trusted = true,
+            [FromUri(Name = "userid")] string user = "",
+            [FromUri(Name = "password")] string password = "")
+        {
+            var adapter = new SqlServerAdapter
+            {
+                Server = server,
+                Database = database,
+                TrustedConnection = trusted,
+                UserId = user,
+                Password = password
+            };
+            var func = await adapter.GetFunctionDetailsAsync<TableValuedFunction>(schema, name);
             return Json(func.ToJsonString());
         }
 

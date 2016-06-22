@@ -138,24 +138,30 @@ namespace Bespoke.Sph.Integrations.Adapters
             return list;
         }
 
-        private async Task<IEnumerable<OperationDefinition>> ReadFunctionsAsync(SqlConnection conn)
+        private async Task<IEnumerable<T>> ReadFunctionsAsync<T>(SqlConnection conn) where T : OperationDefinition, new()
         {
-            // get the sprocs
+            // get the sprocs      {
+            var type = "FN";
+            if (typeof(T) == typeof(SprocOperationDefinition))
+                type = "P";
+            if (typeof(T) == typeof(TableValuedFunction))
+                type = "IF";
+
             var selectSprocSql =
                 $@"
 SELECT s.name as 'schema', o.name as 'sproc' FROM sys.all_objects o
 INNER JOIN sys.schemas s ON o.schema_id = s.schema_id
-WHERE [type] = 'FN'
+WHERE [type] = '{type}'
 AND s.name NOT IN ('sys')";
 
-            var functions = new List<OperationDefinition>();
+            var functions = new List<T>();
             using (var spocCommand = new SqlCommand(selectSprocSql, conn))
             {
                 using (var reader = await spocCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        var sp = await this.GetFunctionAsync(reader.GetString(0), reader.GetString(1));
+                        var sp = await this.GetFunctionDetailsAsync<T>(reader.GetString(0), reader.GetString(1));
                         functions.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
                     }
                 }
@@ -274,10 +280,16 @@ order by ORDINAL_POSITION";
             return od;
         }
 
-        public async Task<FuncOperationDefinition> GetFunctionAsync(string schema, string name)
+        public async Task<T> GetFunctionDetailsAsync<T>(string schema, string name) where T : OperationDefinition, new()
         {
+            var type = "FN";
+            if (typeof(T) == typeof(SprocOperationDefinition))
+                type = "P";
+            if (typeof(T) == typeof(TableValuedFunction))
+                type = "IF";
 
-            const string SQL = @"
+
+            string selectParametersSql = $@"
 SELECT 
     SCHEMA_NAME(SCHEMA_ID) AS [Schema], 
     SO.name AS [ObjectName],
@@ -293,7 +305,7 @@ INNER JOIN
     sys.parameters AS P 
 ON SO.OBJECT_ID = P.OBJECT_ID
 WHERE 
-    SO.OBJECT_ID IN ( SELECT OBJECT_ID FROM sys.objects WHERE TYPE IN ('FN'))
+    SO.OBJECT_ID IN ( SELECT OBJECT_ID FROM sys.objects WHERE TYPE IN ('{type}'))
 AND 
     SO.name = @name
 ORDER 
@@ -301,7 +313,7 @@ ORDER
 ";
 
             var uuid = Guid.NewGuid().ToString();
-            var od = new FuncOperationDefinition
+            var od = new T
             {
                 Name = name,
                 MethodName = name.ToCsharpIdentitfier(),
@@ -312,7 +324,7 @@ ORDER
                 ErrorRetry = new ErrorRetry { Attempt = 3, Wait = 500, Algorithm = WaitAlgorithm.Linear }
             };
             using (var conn = new SqlConnection(this.ConnectionString))
-            using (var cmd = new SqlCommand(SQL, conn))
+            using (var cmd = new SqlCommand(selectParametersSql, conn))
             {
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@name", name);
@@ -498,28 +510,18 @@ ORDER
             using (var conn = new SqlConnection(this.ConnectionString))
             {
                 await conn.OpenAsync();
-                var functionsTask = ReadFunctionsAsync(conn);
+                var scalarFuncsTask = ReadFunctionsAsync<ScalarValuedFunction>(conn);
+                var tableValuedFuncsTask = ReadFunctionsAsync<TableValuedFunction>(conn);
                 var sprocsTask = ReadStoreProceduresAsync(conn);
-                var ops = await Task.WhenAll(functionsTask, sprocsTask);
-                list.AddRange(ops.SelectMany(x => x));
+                await Task.WhenAll(scalarFuncsTask, tableValuedFuncsTask, sprocsTask);
+                list.AddRange((await scalarFuncsTask));
+                list.AddRange((await tableValuedFuncsTask));
+                list.AddRange((await sprocsTask));
             }
 
 
             return list;
         }
-
-        public async Task<IEnumerable<OperationDefinition>> GetOperationDetailsAsync(string schema, string name)
-        {
-            var list = new ObjectCollection<OperationDefinition>();
-            using (var conn = new SqlConnection(this.ConnectionString))
-            {
-                await conn.OpenAsync();
-                var functionsTask = ReadFunctionsAsync(conn);
-                var sprocsTask = ReadStoreProceduresAsync(conn);
-                var ops = await Task.WhenAll(functionsTask, sprocsTask);
-                list.AddRange(ops.SelectMany(x => x));
-            }
-            return list;
-        }
+        
     }
 }
