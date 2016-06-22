@@ -16,6 +16,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             set { m_sqlDbType = value; }
         }
 
+        public short? MaxLength { get; set; }
+
         public string GenerateReaderCode(string responseName = "item", string readerName = "reader")
         {
             if(Type == typeof(byte[]) && this.IsNullable)

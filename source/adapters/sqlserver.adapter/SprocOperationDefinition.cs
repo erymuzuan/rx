@@ -8,7 +8,6 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public class SprocOperationDefinition : OperationDefinition
     {
-
         protected override string GenerateAdapterActionBody(Adapter adapter)
         {
             var code = new StringBuilder();
@@ -64,7 +63,5 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           }");
             return code.ToString();
         }
-
-
     }
 }
