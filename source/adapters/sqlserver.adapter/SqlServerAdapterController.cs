@@ -144,8 +144,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (null == adapter)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-            var sproc = adapter.OperationDefinitionCollection.OfType<SprocOperationDefinition>()
-                    .SingleOrDefault(x => x.Name == name);
+            var sproc = adapter.OperationDefinitionCollection.SingleOrDefault(x => x.Name == name);
             if (null == sproc)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             return new JsonResponseMessage(sproc.ToJsonString(true));
@@ -161,9 +160,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (null == adapter)
                 return NotFound($"Cannot find any adapter with Id {id}");
 
-            var sproc =
-                adapter.OperationDefinitionCollection.OfType<SprocOperationDefinition>()
-                    .SingleOrDefault(x => x.Name == name);
+            var sproc = adapter.OperationDefinitionCollection.SingleOrDefault(x => x.Name == name);
             if (null == sproc)
                 return NotFound($"Cannot find any sproc with name {name}");
 
@@ -182,7 +179,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                         sb.Append(reader.GetString(0));
                     }
                 }
-                return Ok(sb.ToString());
+                return Ok(sb.ToString(), "text/plain");
 
             }
         }
@@ -190,14 +187,14 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpPatch]
         [Route("sproc/{id}")]
-        public async Task<IHttpActionResult> UpdateSprocDefinitionAsync(string id, [JsonBody]SprocOperationDefinition operation)
+        public async Task<IHttpActionResult> UpdateSprocDefinitionAsync(string id, [JsonBody]OperationDefinition operation)
         {
             var context = new SphDataContext();
             var sa = (await context.LoadOneAsync<Adapter>(x => x.Id == id)) as SqlServerAdapter;
             if (null == sa)
                 return NotFound();
 
-            var op = sa.OperationDefinitionCollection.OfType<SprocOperationDefinition>().SingleOrDefault(o => o.Uuid == operation.Uuid);
+            var op = sa.OperationDefinitionCollection.SingleOrDefault(o => o.Uuid == operation.Uuid);
             if (null == op)
                 sa.OperationDefinitionCollection.Add(operation);
             else
@@ -218,9 +215,9 @@ namespace Bespoke.Sph.Integrations.Adapters
         public async Task<IHttpActionResult> GenerateAsync([JsonBody]SqlServerAdapter adapter)
         {
             var noTables = adapter.TableDefinitionCollection.Count == 0;
-            var noSprocs = 0 == adapter.OperationDefinitionCollection.Count;
+            var noOps = 0 == adapter.OperationDefinitionCollection.Count;
 
-            if (noTables && noSprocs)
+            if (noTables && noOps)
             {
                 return Ok(new { message = "No tables is specified", success = false, status = "Fail" });
             }
