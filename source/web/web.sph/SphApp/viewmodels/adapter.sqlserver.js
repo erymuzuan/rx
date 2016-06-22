@@ -201,9 +201,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 };
 
                 selected.subscribe(function(column){
-                    if(!ko.isObservable(column.LookupColumnTable)){
-                        return;
-                    }
+                    if(!column) return;
+                    if(!ko.isObservable(column.LookupColumnTable)) return;
+
+
                     var table = ko.unwrap(column.LookupColumnTable().Table),
                         plain = ko.toJS(column.LookupColumnTable);
                     if(!table)return;

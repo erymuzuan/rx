@@ -12,6 +12,8 @@ define(["knockout"], function (ko) {
                 value = valueAccessor(),
                 adapter = ko.unwrap(value.adapter),
                 searchbox = ko.unwrap(value.searchbox),
+                addOperation = value.addOperation,
+                addTable = value.addTable,
                 member = value.selected,
                 jsTreeData = [{
                     id: "table-node",
@@ -23,7 +25,7 @@ define(["knockout"], function (ko) {
                     children: []
                 },
                     {
-                        "id": "operation-node",
+                        "id": "node-operations",
                         text: "Operations",
                         icon: "fa fa-cogs",
                         state: {
@@ -108,7 +110,7 @@ define(["knockout"], function (ko) {
                         id : "operation-" + ko.unwrap(v.Uuid),
                         text: ko.unwrap(v.Schema) + "." + ko.unwrap(v.Name),
                         state: "open",
-                        type: ko.unwrap(v.$type),
+                        type: ko.unwrap(v.ObjectType),
                         data: v
                     };
                 },
@@ -285,6 +287,22 @@ define(["knockout"], function (ko) {
                                         };
                                     var data = $node.data;
 
+                                    if($node.id === "table-node" && addTable){
+                                        return [{
+                                            label:"Add new table/view",
+                                            action: addTable
+                                        }]
+                                    }
+
+                                    if($node.id === "node-operations" && addOperation){
+                                        return [{
+                                            label:"Add new sproc/function",
+                                            action: addOperation,
+                                            "icon" : "fa fa-cogs"
+                                        }]
+                                    }
+
+
                                     if ($node.id.startsWith("column-")) {
                                         var items = [];
 
@@ -354,14 +372,20 @@ define(["knockout"], function (ko) {
                                 "column": {
                                     "icon": "fa fa-columns"
                                 },
-                                "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter": {
+                                "P ": {
                                     "icon": "fa fa-cog"
                                 },
-                                "Bespoke.Sph.Integrations.Adapters.ScalarValuedFunction, sqlserver.adapter": {
+                                "P": {
+                                    "icon": "fa fa-cog"
+                                },
+                                "FN": {
                                     "icon": "fa fa-calculator"
                                 },
-                                "Bespoke.Sph.Integrations.Adapters.TableValuedFunction, sqlserver.adapter": {
+                                "TF": {
                                     "icon": "fa fa-th"
+                                },
+                                "IF": {
+                                    "icon": "fa fa-th-list"
                                 },
                                 "System.String, mscorlib": {
                                     "icon": "glyphicon glyphicon-bold",
