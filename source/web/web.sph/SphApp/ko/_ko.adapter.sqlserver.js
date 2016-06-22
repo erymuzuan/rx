@@ -38,11 +38,12 @@ define(["knockout"], function (ko) {
                         lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars' style='margin-left:5px;color:darkgreen'></i>" : "",
                         complex = column.IsComplex ? " <i class='fa fa-link' style='margin-left:5px;color:darkblue'></i>" : "",
                         ignore = column.Ignore ? " <i class='fa fa-eye-slash' style='margin-left:5px;color:grey'></i>" : "",
+                        readonly = column.IsComputed ? " <i class='fa fa-eye' style='margin-left:5px;color:grey'></i>" : "",
                         displayName = column.DisplayName || "",
                         bracket = displayName ? " [" : "",
                         bracket2 = displayName ? "]" : "";
 
-                    return column.Name + bracket + displayName + bracket2 + complex + lookup + ignore;
+                    return column.Name + readonly + bracket + displayName + bracket2 + complex + lookup + ignore;
 
 
                 },
@@ -182,6 +183,7 @@ define(["knockout"], function (ko) {
                                             $("#" + $node.id + ">a.jstree-anchor>i.fa-link").remove();
                                             $("#" + $node.id + ">a.jstree-anchor>i.fa-binoculars").remove();
                                             $("#" + $node.id + ">a.jstree-anchor>i.fa-eye-slash").remove();
+                                            $("#" + $node.id + ">a.jstree-anchor>i.fa-eye").remove();
 
                                             $(element).jstree(true)
                                                 .rename_node($node, text);
