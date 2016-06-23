@@ -9,7 +9,9 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     {
         public override string GenerateValueAssignmentCode(string dbValue)
         {
-            return $"{dbValue}.ReadNullable<{ClrType.ToCSharp()}>()";
+            if (ClrType.IsValueType)
+                return $"{dbValue}.ReadNullable<{ClrType.ToCSharp()}>()";
+            return $"{dbValue}.ReadNullableObject<{ClrType.ToCSharp()}>()";
         }
     }
 }

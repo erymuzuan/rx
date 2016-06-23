@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -7,7 +8,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         public static async Task<SqlOperationDefinition> CreateAsync(this SqlServerAdapter adapter, string type, string schema, string name)
         {
-            SqlOperationDefinition op = null;
+            SqlOperationDefinition op;
             switch (type)
             {
                 case "P":
@@ -28,7 +29,14 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             op.RequestMemberCollection.Clear();
             op.ResponseMemberCollection.Clear();
-            await op.InitializeRequestMembersAsync(adapter);
+            try
+            {
+                await op.InitializeRequestMembersAsync(adapter);
+            }
+            catch (Exception e)
+            {
+                throw new NotSupportedException($"Fail to initialize {op}", e) { Data = { { "operation", op.ToJson() } } };
+            }
             return op;
         }
 

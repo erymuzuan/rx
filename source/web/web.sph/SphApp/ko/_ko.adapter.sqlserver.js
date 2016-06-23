@@ -35,16 +35,17 @@ define(["knockout"], function (ko) {
                 calculateColumnName = function (col) {
 
                     var column = ko.toJS(col),
-                        lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars column-icon' style='margin-left:5px;color:darkgreen'></i>" : "",
-                        complex = column.IsComplex ? " <i class='fa fa-link column-icon' style='margin-left:5px;color:darkblue'></i>" : "",
-                        ignore = column.Ignore ? " <i class='fa fa-eye-slash column-icon' style='margin-left:5px;color:grey'></i>" : "",
-                        readonly = column.IsComputed ? " <i class='fa fa-eye column-icon' style='margin-left:5px;color:grey'></i>" : "",
-                        primaryKey = column.IsPrimaryKey ? "<i class='icon-key column-icon' style='margin-right:3px;color:#ff8c00;font-weight: bold'></i> " : "",
+                        lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars column-icon' style='margin-left:5px;color:darkgreen' title='Lookup: The value is stored in another table'></i>" : "",
+                        complex = column.IsComplex ? " <i class='fa fa-link column-icon' style='margin-left:5px;color:darkblue' title='Complex: creates a link to the column value'></i>" : "",
+                        ignore = column.Ignore ? " <i class='fa fa-eye-slash column-icon' style='margin-left:5px;color:grey' title='Ignored : will not be read in select'></i>" : "",
+                        readonly = column.IsComputed ? " <i class='fa fa-info-circle column-icon' style='margin-left:5px;color:#0000ee' title='Computed readonly column'></i>" : "",
+                        primaryKey = column.IsPrimaryKey ? "<i class='icon-key column-icon' style='margin-right:3px;color:#ff8c00;font-weight: bold' title='Primary Key'></i> " : "",
+                        unsupported = column.Unsupported ? "<i class='fa fa-exclamation-triangle column-icon' style='margin-right:3px;color:#ff0028;font-weight: bold' title='The column type is not supported'></i> " : "",
                         displayName = column.DisplayName || "",
                         bracket = displayName ? " [" : "",
                         bracket2 = displayName ? "]" : "";
 
-                    return primaryKey + column.Name + readonly + bracket + displayName + bracket2 + complex + lookup + ignore;
+                    return primaryKey + unsupported + column.Name + readonly + bracket + displayName + bracket2 + complex + lookup + ignore;
 
 
                 },
@@ -114,7 +115,7 @@ define(["knockout"], function (ko) {
                         data: v
                     };
                 },
-
+                tree = null,
                 loadJsTree = function () {
                     jsTreeData[0].children = _(adapter.TableDefinitionCollection()).map(mapTable);
                     jsTreeData[1].children = _(adapter.OperationDefinitionCollection()).map(mapOperation);
@@ -149,8 +150,7 @@ define(["knockout"], function (ko) {
                                 "check_callback": function (operation, node, nodeParent) {
                                     if (operation === "move_node") {
                                         var column = node.data,
-                                            ref = $(element).jstree(true),
-                                            target = ref.get_node(nodeParent);
+                                            target = tree.get_node(nodeParent);
                                         if (!column) {
                                             return false;
                                         }
@@ -177,13 +177,13 @@ define(["knockout"], function (ko) {
                             "contextmenu": {
                                 "items": function ($node) {
                                     //console.log($node);
-                                    var ref = $(element).jstree(true),
+                                    var ref = tree,
                                         removeMenu = {
                                             label: "Remove",
                                             action: function () {
-                                                ref.delete_node($node);
+                                                tree.delete_node($node);
 
-                                                if ($node.type === "table") {
+                                                if ($node.type === "U") {
                                                     adapter.TableDefinitionCollection.remove(function (v) {
                                                         return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema)
                                                             && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
@@ -225,8 +225,7 @@ define(["knockout"], function (ko) {
 
                                             $("#" + $node.id + ">a.jstree-anchor>i.column-icon").remove();
 
-                                            $(element).jstree(true)
-                                                .rename_node($node, text);
+                                            tree.rename_node($node, text);
                                         },
                                         markComplex = {
                                             label: "Make a complex resource",
@@ -275,14 +274,14 @@ define(["knockout"], function (ko) {
                                             label: "Enable",
                                             action: function () {
                                                 $node.data.IsEnabled(true);
-                                                ref.set_type($node, "api-action-enabled");
+                                                tree.set_type($node, "api-action-enabled");
                                             }
                                         },
                                         disableActionMenu = {
                                             label: "Disable",
                                             action: function () {
                                                 $node.data.IsEnabled(false);
-                                                ref.set_type($node, "api-action-disabled");
+                                                tree.set_type($node, "api-action-disabled");
                                             }
                                         };
                                     var data = $node.data;
@@ -349,7 +348,7 @@ define(["knockout"], function (ko) {
                                                     var cn = ref.get_node(v),
                                                         ep = cn.data;
                                                     ep.IsEnabled(true);
-                                                    ref.set_type(cn, "api-action-enabled");
+                                                    tree.set_type(cn, "api-action-enabled");
                                                 })
                                             }
                                         },
@@ -361,7 +360,7 @@ define(["knockout"], function (ko) {
                                                         var cn = ref.get_node(v),
                                                             ep = cn.data;
                                                         ep.IsEnabled(false);
-                                                        ref.set_type(cn, "api-action-disabled");
+                                                        tree.set_type(cn, "api-action-disabled");
                                                     })
                                                 }
                                             }];
@@ -490,6 +489,10 @@ define(["knockout"], function (ko) {
                 };
 
 
+            loadJsTree();
+            tree = $(element).jstree(true);
+
+
             adapter.TableDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
                 var tables = _(changes).filter(function (c) {
@@ -498,16 +501,14 @@ define(["knockout"], function (ko) {
                     children = _(tables).map(function (c) {
                         return mapTable(c.value);
                     });
-                var ref = $(element).jstree(true),
-                    sel = ref.get_node("table-node");
+                var sel = tree.get_node("table-node");
 
                 sel = sel.length ? sel[0] : sel;
                 _(children).each(function (tableNode) {
-                    sel = ref.create_node(sel, tableNode);
+                    sel = tree.create_node(sel, tableNode);
                 });
 
             }, null, "arrayChange");
-
 
             adapter.OperationDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
@@ -517,20 +518,16 @@ define(["knockout"], function (ko) {
                     children = _(operations).map(function (c) {
                         return mapOperation(c.value);
                     });
-                var ref = $(element).jstree(true),
-                    sel = ref.get_node("operation-node");
+                var sel = tree.get_node("node-operations");
 
                 sel = sel.length ? sel[0] : sel;
                 _(children).each(function (opNode) {
-                    sel = ref.create_node(sel, opNode);
+                    sel = tree.create_node(sel, opNode);
                 });
 
             }, null, "arrayChange");
-            loadJsTree();
-
             $(element).on("click", "i.fa-square-o, i.fa-check-square-o", function () {
                 var id = $(this).parents("li").attr("id"),
-                    tree = $(element).jstree(true),
                     node = tree.get_node(id);
                 if(!node)return;
 

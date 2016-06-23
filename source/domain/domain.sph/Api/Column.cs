@@ -13,6 +13,7 @@ namespace Bespoke.Sph.Domain.Api
         public virtual Type ClrType => typeof(object);
         public short Length { get; set; }
         public bool IsSelected { get; set; }
+        public bool Unsupported { get; set; }
 
         public virtual string GenerateUpdateParameterValue(string commandName = "cmd")
         {

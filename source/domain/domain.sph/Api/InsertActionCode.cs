@@ -9,7 +9,10 @@ namespace Bespoke.Sph.Domain.Api
     {
         public override bool Applicable(TableDefinition table)
         {
-            return table.AllowInsert;
+            if (!table.AllowInsert)
+                return false;
+            var unsupportedNonNull = table.ColumnCollection.Any(x => x.Unsupported && !x.IsNullable);
+            return !unsupportedNonNull;
         }
 
         public override string Name => "Insert new resource action";

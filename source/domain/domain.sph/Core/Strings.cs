@@ -510,6 +510,12 @@ namespace Bespoke.Sph.Domain
             if (val == DBNull.Value) return null;
             return (string)val;
         }
+        public static T ReadNullableObject<T>(this object val) where T : class
+        {
+            if (val == null) return default(T);
+            if (val == DBNull.Value) return default(T);
+            return (T)val;
+        }
         public static XmlDocument ReadNullableXmlDocument(this object val)
         {
             if (val == null) return null;

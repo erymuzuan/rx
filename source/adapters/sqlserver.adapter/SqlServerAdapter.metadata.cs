@@ -172,8 +172,16 @@ AND
                 {
                     while (await reader.ReadAsync())
                     {
-                        var sp = await this.CreateAsync(reader.GetString(2), reader.GetString(0), reader.GetString(1));
-                        functions.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
+                        try
+                        {
+                            var sp = await this.CreateAsync(reader.GetString(2), reader.GetString(0), reader.GetString(1));
+                            functions.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
+                        }
+                        catch (Exception e)
+                        {
+                            // ignored
+                            await ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry(e));
+                        }
                     }
                 }
             }
@@ -233,11 +241,21 @@ AND
                         var generator = scores.FirstOrDefault();
                         if (null == generator)
                             throw new InvalidOperationException($"Cannot find column generator for {mt}");
-                        var col = generator.Value.Initialize(this, table, mt);
-                        var existingColumn = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
-                        col.IsSelected = existingColumn?.IsSelected ?? false;
+                        try
+                        {
+                            var col = generator.Value.Initialize(this, table, mt);
+                            var existingColumn = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
+                            col.IsSelected = existingColumn?.IsSelected ?? false;
 
-                        table.ColumnCollection.AddOrReplace(col, x => x.Name == col.Name);
+                            table.ColumnCollection.AddOrReplace(col, x => x.Name == col.Name);
+                        }
+                        catch (Exception e)
+                        {
+                            var oc = table.ColumnCollection.SingleOrDefault(x => x.Name == mt.Name);
+                            if (null != oc) oc.Unsupported = true;
+                            var exc = new NotSupportedException($"Fail to initilize column [{table.Schema}].[{table.Name}].{mt}", e) { Data = { { "col", mt.ToJson() } } };
+                            await ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry(exc));
+                        }
                     }
                 }
             }

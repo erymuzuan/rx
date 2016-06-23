@@ -12,5 +12,10 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             throw new Exception("Should be implemented by one of the function or sprocs");
         }
+
+        public override string ToString()
+        {
+            return $"[{Schema}].[{Name}]";
+        }
     }
 }
