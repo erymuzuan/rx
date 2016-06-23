@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
 using System.Linq;
@@ -36,15 +37,37 @@ namespace Bespoke.Sph.Domain.Api
 		        var link = new JProperty(""_links"", links);
 		        r.Last.AddAfterSelf(link);";
 
+
+            var arguments = new List<string>();
+
+            var modifiedDate = !string.IsNullOrWhiteSpace(table.ModifiedDateColumn);
+            if (modifiedDate)
+                arguments.Add("[ModifiedSince]ModifiedSinceHeader modifiedSince");
+
+      
+            var cachingCode = $@"
+            var maxTranslator = new {adapter.OdataTranslator}<{table.ClrName}>(""{table.ModifiedDateColumn}"",""{table.Name}""){{Schema = ""{table.Schema}""}};
+            var getMaxModifiedDateSql = maxTranslator.Max(filter);
+            var adapter = new {table.ClrName}Adapter();
+            var modifiedDate = (await adapter.ExecuteScalarAsync<DateTime?>(getMaxModifiedDateSql)) ?? System.DateTime.Now;
+            var cache = new CacheMetadata(null, modifiedDate);
+            
+            if(modifiedSince.IsMatch(modifiedDate))
+            {{
+                return NotModified(cache);   
+            }}";
+
+            arguments.Add("string filter = null");
+            arguments.Add("int page = 1");
+            arguments.Add("int size = 40");
+            arguments.Add("bool includeTotal = false");
+            arguments.Add("string orderby = null");
+
             var code = new StringBuilder();
             code.AppendLine("       [Route(\"\")]");
             code.AppendLine("       [HttpGet]");
             code.AppendLine($@"       
-                                    public async Task<IHttpActionResult> {ActionName}(string filter = null, 
-                                                    int page = 1, 
-                                                    int size = 40, 
-                                                    bool includeTotal = false, 
-                                                    string orderby = null)");
+                                    public async Task<IHttpActionResult> {ActionName}({arguments.ToString(", ")})");
             code.AppendLine("       {");
             code.Append($@"
            if (size > 200)
@@ -56,6 +79,7 @@ namespace Bespoke.Sph.Domain.Api
 
             var context = new {table.ClrName}Adapter();
             var nextPageToken = string.Empty;
+            {(modifiedDate ? cachingCode : "")}
             
             var loResult = await Policy.Handle<Exception>()
 	                                .WaitAndRetryAsync({ErrorRetry.GenerateWaitCode()})
@@ -115,7 +139,7 @@ namespace Bespoke.Sph.Domain.Api
 	        }}
 	        json.Last.AddBeforeSelf(new JProperty(""results"", results));
 
-            return Json(json.ToString());
+            return Json(json.ToString(){(( modifiedDate) ? ", cache" : "")});
             ");
 
 
@@ -123,10 +147,10 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine();
             code.AppendLine("       }");
             code.AppendLine();
-            
+
             return code.ToString();
         }
 
-     
+
     }
 }
