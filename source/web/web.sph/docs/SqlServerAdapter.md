@@ -106,6 +106,14 @@ If-Unmodified-Since:<>
 
 ```
 
+## Sorting column orders
+![Sort designers](https://lh3.googleusercontent.com/-rdXVn4CJQV8/V2s93dxDYBI/AAAAAAAA8h8/nAQ0y5ZHEQI6_xOrmWhuDSTqW3sb8jAkgCCo/s2048/%255BUNSET%255D)
+
+To order columns in you table so that , the generated json result will be ordered to your liking, just simply drag and drop the column.
+
+1. The arrow shows where it will be dropped
+2. The dragged overlay shows the dragged column
+
 ## Creating a lookup value
 Most database tables were designed for OLTP, which normally means table are normalized for optimum update and insert. But the table is no longer presenting your actual your business `Logical` data.
 
