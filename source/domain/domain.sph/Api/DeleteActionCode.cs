@@ -10,6 +10,11 @@ namespace Bespoke.Sph.Domain.Api
         public override string Name => "Delete resource action";
         public override string ActionName => "Remove";
 
+        public override bool Applicable(TableDefinition table)
+        {
+            return table.AllowDelete;
+        }
+
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             var code = new StringBuilder();

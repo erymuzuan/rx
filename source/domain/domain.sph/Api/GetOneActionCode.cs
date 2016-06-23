@@ -9,6 +9,11 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class GetOneActionCode : ControllerAction
     {
+        public override bool Applicable(TableDefinition table)
+        {
+            return table.PrimaryKey != null;
+        }
+
         public override string ActionName => "Get";
         public override string Name => "Get one by primary key";
 

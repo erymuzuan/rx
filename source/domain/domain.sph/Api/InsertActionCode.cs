@@ -7,6 +7,11 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class InsertActionCode : ControllerAction
     {
+        public override bool Applicable(TableDefinition table)
+        {
+            return table.AllowInsert;
+        }
+
         public override string Name => "Insert new resource action";
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {

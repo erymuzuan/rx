@@ -305,7 +305,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (null == table) return NotFound($"No object with name {schema}.{name} found in {server}.{database}");
 
             var ds = ObjectBuilder.GetObject<IDeveloperService>();
-            table.ControllerActionCollection.ClearAndAddRange(ds.ActionCodeGenerators);
+            table.ControllerActionCollection.ClearAndAddRange(ds.ActionCodeGenerators.Where(x => x.Applicable(table)));
 
             return Json(table.ToJsonString());
         }

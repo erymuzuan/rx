@@ -7,6 +7,11 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class UpdateActionCode : ControllerAction
     {
+        public override bool Applicable(TableDefinition table)
+        {
+            return table.AllowUpdate;
+        }
+
         public override string Name => "Update resource action";
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {

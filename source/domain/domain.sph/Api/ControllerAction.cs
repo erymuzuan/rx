@@ -14,6 +14,11 @@ namespace Bespoke.Sph.Domain.Api
             if (type == typeof(Guid)) return ":guid";
             return ":" + type.ToCSharp();
         }
+
+        public virtual bool Applicable(TableDefinition table)
+        {
+            return true;
+        }
         public ErrorRetry ErrorRetry { get; set; } = new ErrorRetry { Wait = 500, Algorithm = WaitAlgorithm.Linear, Attempt = 3 };
         public abstract string Name { get; }
         public bool IsEnabled { get; set; }
