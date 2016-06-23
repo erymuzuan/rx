@@ -234,6 +234,10 @@ Your scheduled data transfer was successfuly executed on {DateTime.Now}");
             body.AppendLine($"There are {"row".ToQuantity(errors.Length)} that were not successfully transformed and transfered.");
             body.AppendLine();
             body.AppendLine($"You can modify and resubmit the data at {ConfigurationManager.BaseUrl}/sph#data.import/{id}");
+            body.AppendLine();
+            body.AppendLine();
+            body.AppendLine($"This email was sent by RX Developer data import scheduler running on {DateTime.Now:F}");
+            body.AppendLine("DISCLAIMER : 2016 Bespoke Technology Sdn. Bhd., Please checheck your error logs properly");
 
             await smtp.SendMailAsync(@from, to, subject, body.ToString());
         }
