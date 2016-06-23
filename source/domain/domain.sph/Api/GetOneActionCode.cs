@@ -1,8 +1,6 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -17,9 +15,6 @@ namespace Bespoke.Sph.Domain.Api
         public override string ActionName => "Get";
         public override string Name => "Get one by primary key";
 
-        [ImportMany(typeof(ControllerAction))]
-        [JsonIgnore]
-        public ControllerAction[] ActionCodeGenerators { get; set; }
 
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
@@ -98,11 +93,11 @@ var cache = new CacheMetadata(null, item.{table.ModifiedDateColumn});
                 return NotModified(cache);   
             }");
 
-            if (null == this.ActionCodeGenerators)
-                ObjectBuilder.ComposeMefCatalog(this);
-            if (null == this.ActionCodeGenerators) throw new Exception($"Fail to initialize {nameof(GetOneActionCode)}");
 
-            var links = this.ActionCodeGenerators.Select(x => x.GetHypermediaLinks(adapter, table))
+            var links = table.ControllerActionCollection
+                .Where(x => x.IsEnabled)
+                .Where(x => x.Applicable(table))
+                .Select(x => x.GetHypermediaLinks(adapter, table))
                 .Where(x => null != x)
                 .SelectMany(x => x)
                 .Select(x => "{" + x.ToString().Replace("\"", "\"\"") + "}")

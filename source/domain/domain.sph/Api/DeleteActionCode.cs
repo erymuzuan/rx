@@ -44,6 +44,7 @@ namespace Bespoke.Sph.Domain.Api
 
         public override HypermediaLink[] GetHypermediaLinks(Adapter adapter, TableDefinition table)
         {
+            if (!this.Applicable(table)) return null;
             if (table.PrimaryKeyCollection.Count == 0) return null;
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(m => m.Name.ToCamelCase()).ToArray();
