@@ -44,7 +44,7 @@ define(["knockout"], function (ko) {
                         bracket = displayName ? " [" : "",
                         bracket2 = displayName ? "]" : "";
 
-                    return primaryKey + column.Name +  readonly + bracket + displayName + bracket2 + complex + lookup + ignore;
+                    return primaryKey + column.Name + readonly + bracket + displayName + bracket2 + complex + lookup + ignore;
 
 
                 },
@@ -65,12 +65,12 @@ define(["knockout"], function (ko) {
                                 data: col
                             }
                         }),
-                        actions = _(v.ControllerActionCollection()).map(function(act){
+                        actions = _(v.ControllerActionCollection()).map(function (act) {
                             act.guid = "action-" + system.guid();
                             return {
                                 id: act.guid,
                                 text: ko.unwrap(act.Name),
-                                type: "api-action-" + (ko.unwrap(act.IsEnabled) ? "enabled": "disabled"),
+                                type: "api-action-" + (ko.unwrap(act.IsEnabled) ? "enabled" : "disabled"),
                                 data: act
                             }
                         });
@@ -107,7 +107,7 @@ define(["knockout"], function (ko) {
                 mapOperation = function (v) {
 
                     return {
-                        id : "operation-" + ko.unwrap(v.Uuid),
+                        id: "operation-" + ko.unwrap(v.Uuid),
                         text: ko.unwrap(v.Schema) + "." + ko.unwrap(v.Name),
                         state: "open",
                         type: ko.unwrap(v.ObjectType),
@@ -134,8 +134,8 @@ define(["knockout"], function (ko) {
                                 return ko.unwrap(column.WebId) === ko.unwrap(c.WebId);
                             });
                             collection.splice(data.position, 0, column);
-                            _(ko.unwrap(collection)).each(function(c){
-                                if(ko.isObservable(c.Order)){
+                            _(ko.unwrap(collection)).each(function (c) {
+                                if (ko.isObservable(c.Order)) {
                                     c.Order(order++);
                                 }
                             });
@@ -157,8 +157,8 @@ define(["knockout"], function (ko) {
                                         if (!target) {
                                             return false;
                                         }
-                                        if(target.text !== "Columns") return false;
-                                        if(target.id !== node.parent)return false;
+                                        if (target.text !== "Columns") return false;
+                                        if (target.id !== node.parent)return false;
 
                                         //console.log("dragged into target %s , and id ",target.text, target.id);
 
@@ -166,7 +166,7 @@ define(["knockout"], function (ko) {
                                     }
                                     return true;
                                 },
-                                "themes": { "stripes": true },
+                                "themes": {"stripes": true},
                                 'data': jsTreeData
                             },
                             "dnd": {
@@ -287,18 +287,18 @@ define(["knockout"], function (ko) {
                                         };
                                     var data = $node.data;
 
-                                    if($node.id === "table-node" && addTable){
+                                    if ($node.id === "table-node" && addTable) {
                                         return [{
-                                            label:"Add new table/view",
+                                            label: "Add new table/view",
                                             action: addTable
                                         }]
                                     }
 
-                                    if($node.id === "node-operations" && addOperation){
+                                    if ($node.id === "node-operations" && addOperation) {
                                         return [{
-                                            label:"Add new sproc/function",
+                                            label: "Add new sproc/function",
                                             action: addOperation,
-                                            "icon" : "fa fa-cogs"
+                                            "icon": "fa fa-cogs"
                                         }]
                                     }
 
@@ -335,10 +335,36 @@ define(["knockout"], function (ko) {
                                         return [unselectRelatedTable];
                                     if ($node.type === "child-table")
                                         return [selectRelatedTable];
-                                    if ($node.type === "table")
+                                    if ($node.type === "U")
+                                        return [removeMenu];
+                                    if ($node.type === "V")
                                         return [removeMenu];
                                     if ($node.id.startsWith("operation-"))
                                         return [editOperation, removeMenu];
+                                    if ($node.type === "api-actions")
+                                        return [{
+                                            label: "Enable all endpoints", action: function () {
+
+                                                _($node.children).each(function (v) {
+                                                    var cn = ref.get_node(v),
+                                                        ep = cn.data;
+                                                    ep.IsEnabled(true);
+                                                    ref.set_type(cn, "api-action-enabled");
+                                                })
+                                            }
+                                        },
+                                            {
+                                                label: "Disable all endpoints",
+                                                action: function () {
+
+                                                    _($node.children).each(function (v) {
+                                                        var cn = ref.get_node(v),
+                                                            ep = cn.data;
+                                                        ep.IsEnabled(false);
+                                                        ref.set_type(cn, "api-action-disabled");
+                                                    })
+                                                }
+                                            }];
                                     return [];
 
                                 }
@@ -370,7 +396,7 @@ define(["knockout"], function (ko) {
                                     "icon": "fa fa-square-o"
                                 },
                                 "child-table-selected": {
-                                    "icon": "fa fa-check"
+                                    "icon": "fa fa-check-square-o"
                                 },
                                 "column": {
                                     "icon": "fa fa-columns"
@@ -501,6 +527,40 @@ define(["knockout"], function (ko) {
 
             }, null, "arrayChange");
             loadJsTree();
+
+            $(element).on("click", "i.fa-square-o, i.fa-check-square-o", function () {
+                var id = $(this).parents("li").attr("id"),
+                    tree = $(element).jstree(true),
+                    node = tree.get_node(id);
+                if(!node)return;
+
+                var action = node.data;
+
+                if(node.id.startsWith("action-")){
+                    if(ko.unwrap(action.IsEnabled)){
+                        action.IsEnabled(false);
+                        tree.set_type(node, "api-action-disabled");
+
+                    }else{
+
+                        action.IsEnabled(true);
+                        tree.set_type(node, "api-action-enabled");
+                    }
+                }
+
+                // child-table
+                if(node.type.startsWith("child-table")){
+                    if(ko.unwrap(action.IsSelected)){
+                        action.IsSelected(false);
+                        tree.set_type(node, "child-table");
+
+                    }else{
+
+                        action.IsSelected(true);
+                        tree.set_type(node, "child-table-selected");
+                    }
+                }
+            });
 
             var to = false;
             $(searchbox).keyup(function () {
