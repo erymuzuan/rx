@@ -247,17 +247,35 @@ AND
         {
             var developerService = ObjectBuilder.GetObject<SqlAdapterDeveloperService>();
             string sql = $@"
+
 SELECT 
-	name as 'Column',
-	TYPE_NAME(user_type_id) as 'Type', 
-	max_length as 'Length',
-	is_nullable as 'IsNullable',
-	is_computed as 'IsComputed',
-	is_identity as 'IsIdentity'
-FROM sys.columns
-WHERE object_id=object_id('{view.Schema}.{view.Name}')";
+         /*o.name as 'Table'
+		,s.name as 'Schema'
+        ,*/c.name as 'Column'
+        ,t.name as 'Type' 		
+        ,c.max_length as 'Length'
+        ,c.is_nullable as 'IsNullable'    
+	    ,c.is_identity as 'IsIdentity'
+        ,c.is_computed as 'IsComputed'
+    FROM 
+        sys.objects o INNER JOIN sys.all_columns c
+        ON c.object_id = o.object_id
+        INNER JOIN sys.types t 
+        ON c.system_type_id = t.system_type_id
+        INNER JOIN sys.schemas s
+        ON s.schema_id = o.schema_id
+    WHERE 
+        o.type = 'V'
+        AND t.name <> N'sysname'
+        AND t.is_user_defined= 0
+		AND o.name = @Name
+		AND s.name = @Schema
+    ORDER 
+        BY s.name, o.name";
             using (var columnCommand = new SqlCommand(sql, conn))
             {
+                columnCommand.Parameters.AddWithValue("@Schema", view.Schema);
+                columnCommand.Parameters.AddWithValue("@Name", view.Name);
                 using (var reader = await columnCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
