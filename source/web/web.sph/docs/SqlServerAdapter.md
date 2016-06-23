@@ -192,10 +192,15 @@ Now if we choose, this column and make it `Complex`, RX Developer will not selec
 
 
 ## Configuring API
+
 ### List
+
 ### Get one
+
 ### Insert
+
 ### Update
+
 ### Complex link
 Once you had a column mark as `Complex`, the column will no longer serialized to JSON, and `ComplexLinkActionCode` generator will generate a new endpoint for this column.
 

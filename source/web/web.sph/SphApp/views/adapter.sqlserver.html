@@ -9,7 +9,7 @@
         <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
         <!-- /ko-->
         <!-- ko if : FileName -->
-        <br/>
+        <br />
         <a href="javascript:;" data-bind="click : $root.viewFile">
             <span class="small" data-bind="text:FileName"></span>(<span class="small" data-bind="text:Line"></span>)
         </a>
@@ -56,14 +56,14 @@
                 <div class="form-group">
                     <label class="control-label">CLR Property</label>
                     <input type="text" disabled class="form-control"
-                           data-bind="value:ClrName, tooltip: 'The property name used internally by C# compiler'"/>
+                           data-bind="value:ClrName, tooltip: 'The property name used internally by C# compiler'" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Display Name</label>
                     <input type="text"
                            placeholder="Json serialized property name, leave it blank and it will use the ClrName"
                            class="form-control"
-                           data-bind="value:DisplayName, tooltip: 'The property name used by json serializer, for your API'"/>
+                           data-bind="value:DisplayName, tooltip: 'The property name used by json serializer, for your API'" />
                 </div>
 
 
@@ -73,7 +73,7 @@
                     <div class="btn-group" id="member-default-value">
                         <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown"
                            href="#">
-                            <img data-bind="fieldImage : $type" class="pull-left" alt="."/>
+                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                             <!-- ko text : Name -->
                             <!-- /ko -->
                             <i class="fa fa-caret-down"></i>
@@ -90,13 +90,13 @@
 
                             <li>
                                 <a data-bind="click: $root.addField" href="#">
-                                    <img src="/images/ConstantField.png" alt="constantfield" class="pull-left"/>
+                                    <img src="/images/ConstantField.png" alt="constantfield" class="pull-left" />
                                     + Constant Field
                                 </a>
                             </li>
                             <li>
                                 <a data-bind="click: $root.addField(DefaultValue,'Function')" href="#">
-                                    <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left"/>
+                                    <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left" />
                                     + Function Field
                                 </a>
                             </li>
@@ -106,21 +106,23 @@
                 </div>
 
                 <div class="form-group sr-only">
-                    <label class="control-label">Is Complex &nbsp;
+                    <label class="control-label">
+                        Is Complex &nbsp;
                         <input type="checkbox"
-                               data-bind="checked: IsComplex, tooltip:'If you want to make this field accessible via another endpoint'"/>
+                               data-bind="checked: IsComplex, tooltip:'If you want to make this field accessible via another endpoint'" />
                     </label>
                 </div>
                 <div class="form-group">
                     <label class="control-label">MIME type</label>
                     <input type="text" required class="form-control"
-                           data-bind="value:MimeType,enable:IsComplex, tooltip: 'Mime type used for the response message content type'"/>
+                           data-bind="value:MimeType,enable:IsComplex, tooltip: 'Mime type used for the response message content type'" />
                 </div>
                 <!-- ko with :LookupColumnTable -->
                 <div class="form-group sr-only">
-                    <label class="control-label">Enable Lookup Table &nbsp;
+                    <label class="control-label">
+                        Enable Lookup Table &nbsp;
                         <input type="checkbox"
-                               data-bind="checked: IsEnabled, tooltip:'If this column only store the key, and you want to display the value for the given from a separate lookup table'"/>
+                               data-bind="checked: IsEnabled, tooltip:'If this column only store the key, and you want to display the value for the given from a separate lookup table'" />
                     </label>
                 </div>
                 <div class="form-group">
@@ -132,7 +134,7 @@
                 <div class="form-group">
                     <label class="control-label" for="lookup-table">Name</label>
                     <input type="text" required class="form-control" id="lookup-name"
-                           data-bind="value:Name,enable:IsEnabled, tooltip:'The property name for the field produce by the lookup value'"/>
+                           data-bind="value:Name,enable:IsEnabled, tooltip:'The property name for the field produce by the lookup value'" />
                 </div>
                 <div class="form-group">
                     <label for="member-type2">Type</label>
@@ -162,8 +164,7 @@
                     <label>Key Column</label>
 
                     <div>
-                        <select class="form-control" style="display: inline"  data-bind="enable:IsEnabled">
-                        </select>
+                        <select class="form-control" style="display: inline" data-bind="enable:IsEnabled"></select>
                         <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px" data-bind="visible:IsEnabled"></i>
 
                     </div>
@@ -174,8 +175,7 @@
                     <label>Value Column</label>
 
                     <div>
-                        <select class="form-control" style="display: inline"  data-bind="enable:IsEnabled">
-                        </select>
+                        <select class="form-control" style="display: inline" data-bind="enable:IsEnabled"></select>
                         <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px" data-bind="visible:IsEnabled"></i>
 
                     </div>
@@ -213,57 +213,57 @@
                 <h3>Related table list action</h3>
                 <form>
                     <div class="form-group">
-                        <label class="control-label">Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled"/>
+                        <label class="control-label">
+                            Enable &nbsp;
+                            <input type="checkbox" data-bind="checked: IsEnabled" />
                         </label>
                     </div>
                 </form>
                 <!-- /ko -->
-
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph" -->
                 <h3>Complex column link action</h3>
                 <form>
                     <div class="form-group">
-                        <label class="control-label">Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled"/>
+                        <label class="control-label">
+                            Enable &nbsp;
+                            <input type="checkbox" data-bind="checked: IsEnabled" />
                         </label>
                     </div>
                 </form>
                 <!-- /ko -->
-
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph" -->
                 <h3>Delete resource action</h3>
                 <form>
                     <div class="form-group">
-                        <label class="control-label">Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled"/>
+                        <label class="control-label">
+                            Enable &nbsp;
+                            <input type="checkbox" data-bind="checked: IsEnabled" />
                         </label>
                     </div>
                 </form>
                 <!-- /ko -->
-
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph" -->
                 <h3>Get one by primary key</h3>
                 <form>
                     <div class="form-group">
-                        <label class="control-label">Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled"/>
+                        <label class="control-label">
+                            Enable &nbsp;
+                            <input type="checkbox" data-bind="checked: IsEnabled" />
                         </label>
                     </div>
                 </form>
                 <!-- /ko -->
-
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.InsertActionCode, domain.sph" -->
                 <h3>Insert new resource action</h3>
                 <form>
                     <div class="form-group">
-                        <label class="control-label">Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled"/>
+                        <label class="control-label">
+                            Enable &nbsp;
+                            <input type="checkbox" data-bind="checked: IsEnabled" />
                         </label>
                     </div>
                 </form>
                 <!-- /ko -->
-
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph" -->
                 <h3>List action</h3>
                 <form data-bind="with:ErrorRetry">
@@ -292,14 +292,32 @@
                         </select>
                     </div>
                 </form>
-                <!-- /ko -->
+                <form data-bind="with:CachingSetting">
+                    <div class="form-group">
+                        <label class="control-label">Cache control</label>
+                        <select class="form-control" data-bind="value:CacheControl">
+                            <option value="Public">Public</option>
+                            <option value="Private">Private</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Expirese(seconds)</label>
+                        <input type="number" class="form-control" data-bind="value:Expires" step="60" />
+                    </div>
+                    <div class="form-group">
 
+                        <label class="control-label">No store<input type="checkbox" data-bind="checked : NoStore" /></label>
+
+                    </div>
+                </form>
+                <!-- /ko -->
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.UpdateActionCode, domain.sph" -->
                 <h3>Update resource action</h3>
                 <form>
                     <div class="form-group">
-                        <label class="control-label">Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled"/>
+                        <label class="control-label">
+                            Enable &nbsp;
+                            <input type="checkbox" data-bind="checked: IsEnabled" />
                         </label>
                     </div>
                 </form>
@@ -336,7 +354,7 @@
                             <label for="name">Name</label>
                             <input class="form-control" type="text" id="name" required placeholder="Adapter name"
                                    pattern="^[A-Z][A-Za-z0-9_]*$"
-                                   data-bind="value:Name"/>
+                                   data-bind="value:Name" />
 
                         </div>
 
@@ -369,27 +387,27 @@
                         <div class="form-group">
                             <label for="server">Server</label>
                             <input class="form-control" type="text" id="server" required
-                                   placeholder="SQL Server name instance" data-bind="value:Server"/>
+                                   placeholder="SQL Server name instance" data-bind="value:Server" />
                         </div>
 
                         <div class="form-group">
                             <label for="trusted">Trusted Connection</label>
                             <input type="checkbox" id="trusted" placeholder="SQL Server name instance"
-                                   data-bind="checked:TrustedConnection"/>
+                                   data-bind="checked:TrustedConnection" />
                         </div>
 
                         <div class="form-group">
                             <label for="userid">UserId</label>
                             <input class="form-control" type="text" id="userid" required
                                    placeholder="UserId if connection using SQL authentication"
-                                   data-bind="value:UserId, disable:TrustedConnection "/>
+                                   data-bind="value:UserId, disable:TrustedConnection " />
                         </div>
 
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input class="form-control" type="password" id="password" required
                                    placeholder="Password if connection using SQL authentication"
-                                   data-bind="value:Password, disable:TrustedConnection"/>
+                                   data-bind="value:Password, disable:TrustedConnection" />
                         </div>
 
                         <div class="form-group">
@@ -416,4 +434,4 @@
 </div>
 
 
-<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy"/>
+<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />

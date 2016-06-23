@@ -16,6 +16,12 @@ namespace Bespoke.Sph.Domain.Api
         public override bool IsAsync => true;
         public override Type ReturnType => typeof(Task<IHttpActionResult>);
         public override string Route => "";
+        public CachingSetting CachingSetting { get; set; }   = new CachingSetting
+        {
+            CacheControl = "Public",
+            NoStore = true,
+            Expires = 600
+        };
 
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
@@ -42,15 +48,21 @@ namespace Bespoke.Sph.Domain.Api
 
             var modifiedDate = !string.IsNullOrWhiteSpace(table.ModifiedDateColumn);
             if (modifiedDate)
+            {
+                arguments.Add($@" [SourceEntity(""{adapter.Id}"")]Bespoke.Sph.Domain.Api.Adapter adapterDefinition");
                 arguments.Add("[ModifiedSince]ModifiedSinceHeader modifiedSince");
+            }
 
       
             var cachingCode = $@"
+            var cacheSetting = adapterDefinition
+                                .TableDefinitionCollection.Single(x => x.Name == ""{table.Name}"" && x.Schema == ""{table.Schema}"")
+                                .ControllerActionCollection.OfType<{typeof(ListActionCode).FullName}>().Single()
+                                .CachingSetting;
             var maxTranslator = new {adapter.OdataTranslator}<{table.ClrName}>(""{table.ModifiedDateColumn}"",""{table.Name}""){{Schema = ""{table.Schema}""}};
             var getMaxModifiedDateSql = maxTranslator.Max(filter);
-            var adapter = new {table.ClrName}Adapter();
-            var modifiedDate = (await adapter.ExecuteScalarAsync<DateTime?>(getMaxModifiedDateSql)) ?? System.DateTime.Now;
-            var cache = new CacheMetadata(null, modifiedDate);
+            var modifiedDate = (await context.ExecuteScalarAsync<DateTime?>(getMaxModifiedDateSql)) ?? System.DateTime.Now;
+            var cache = new CacheMetadata(null, modifiedDate, cacheSetting);
             
             if(modifiedSince.IsMatch(modifiedDate))
             {{
@@ -67,7 +79,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       [Route(\"\")]");
             code.AppendLine("       [HttpGet]");
             code.AppendLine($@"       
-                                    public async Task<IHttpActionResult> {ActionName}({arguments.ToString(", ")})");
+                                    public async Task<IHttpActionResult> {ActionName}({arguments.ToString(",\r\n\t\t\t\t")})");
             code.AppendLine("       {");
             code.Append($@"
            if (size > 200)
