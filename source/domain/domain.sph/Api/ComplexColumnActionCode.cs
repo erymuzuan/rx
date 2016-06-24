@@ -9,6 +9,13 @@ namespace Bespoke.Sph.Domain.Api
     public class ComplexColumnActionCode : ControllerAction
     {
         public override string Name => "Complex column link action";
+        public CachingSetting CachingSetting { get; set; } = new CachingSetting
+        {
+            CacheControl = "Public",
+            NoStore = true,
+            Expires = 600
+        };
+
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             if (table.PrimaryKeyCollection.Count != 1) return string.Empty;
@@ -49,8 +56,43 @@ namespace Bespoke.Sph.Domain.Api
                         {args.ToString(",\r\n")})");
             code.AppendLine("       {");
 
+
+
+
             code.AppendLine($@"           CacheMetadata cache = null;
                                           var adapter = new {table.ClrName}Adapter();");
+
+            Func<Column, string> generateFilter = (c) =>
+            {
+                var name = c.Name;
+                var identifier = name.ToCamelCase();
+                if (typeof(DateTime) == c.Type)
+                    return $"{name} eq DateTime'{identifier}'";
+                if (typeof(string) == c.Type)
+                    return $"{name} eq '{identifier}'";
+                return $"{name} eq {identifier}";
+            };
+
+
+            var filter = pks.Select(generateFilter);
+            var cachingCode = $@"
+            var cacheSetting = adapterDefinition
+                                .TableDefinitionCollection.Single(x => x.Name == ""{table.Name}"" && x.Schema == ""{table.Schema}"")
+                                .ControllerActionCollection.OfType<{typeof(ChildListActionCode).FullName}>().Single()
+                                .CachingSetting;
+            var scalarTranslator = new {adapter.OdataTranslator}<{table.ClrName}>(""{table.ModifiedDateColumn}"",""{table.Name}""){{Schema = ""{table.Schema}""}};
+            var getModifiedDateSql = scalarTranslator.Scalar($""{filter.ToString(" and ")}"");
+            var modifiedDate = (await adapter.ExecuteScalarAsync<DateTime?>(getModifiedDateSql)) ?? System.DateTime.Now;
+            cache = new CacheMetadata(null, modifiedDate, cacheSetting);
+            
+            if(modifiedSince.IsMatch(modifiedDate))
+            {{
+                return NotModified(cache);   
+            }}";
+
+            if (modifiedDate || version)
+                code.AppendLine(cachingCode);
+
             if (shouldRetrieveItem)
                 code.AppendLine($"var item = await adapter.LoadOneAsync({parameters.ToString(", ")});");
             if (version || modifiedDate)
@@ -142,7 +184,6 @@ namespace Bespoke.Sph.Domain.Api
         {
             if (null == table.PrimaryKey) return base.GetHypermediaLinks(adapter, table);
 
-            var code = new StringBuilder();
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
             var parameters = pks.Select(k => k.Name.ToCamelCase()).ToArray();
             var links = from c in table.ColumnCollection
