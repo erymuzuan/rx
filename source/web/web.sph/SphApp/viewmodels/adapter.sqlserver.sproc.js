@@ -12,7 +12,7 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "ko/_ko.adapter.sqlserver", "sqlserver-adapter/resource/_sql.server.adapter.domain.js"],
     function (context, logger, router, system) {
 
-        var operation = ko.observable(),
+        var operation = ko.observable({ObjectType: ko.observable()}),
             isBusy = ko.observable(false),
             adapterId = ko.observable(),
             text = ko.observable(),
@@ -20,6 +20,18 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             responseSchema = ko.observable(),
             member = ko.observable(),
             responseMember = ko.observable(),
+            objectType = ko.computed(function(){
+                var type = operation().ObjectType();
+                switch(type){
+                    case "P":
+                    case "P ": return "Stored Procedure";
+                    case "FN": return "Scalar Valued Function";
+                    case "IF": return "Inline Table Valued Function";
+                    case "TF": return "Table Valued Function";
+
+                }
+                return type;
+            }),
         activate = function (id, uuid) {
             adapterId(id);
             var tcs = new $.Deferred();
@@ -97,6 +109,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             responseSchema: responseSchema,
             responseMember: responseMember,
             member: member,
+            objectType : objectType,
             operation: operation,
             isBusy: isBusy,
             activate: activate,
