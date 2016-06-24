@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 
@@ -53,7 +54,7 @@ namespace Bespoke.Sph.Domain.Api
             var context = new {table.ClrName}Adapter();
 	        var result = await Policy.Handle<Exception>()
 	                                .WaitAndRetryAsync({ErrorRetry.GenerateWaitCode()})
-	                                .ExecuteAndCaptureAsync(async() => await context.LoadOneAsync({parameters.ToString(",")}) );
+	                                .ExecuteAndCaptureAsync(async() => await context.LoadOneAsync({parameters.ToString(",\r\n\t\t\t\t")}) );
 
 	        if(null != result.FinalException)
 		        return InternalServerError(result.FinalException);
@@ -143,7 +144,7 @@ var cache = new CacheMetadata(null, item.{table.ModifiedDateColumn}, cacheSettin
         {
             if (table.PrimaryKeyCollection.Count == 0) return null;
             var pks = table.ColumnCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var parameters = pks.Select(m => m.Name.ToCamelCase()).ToArray();
+            var parameters = pks.Select(m => m.Name.ToCamelCase() + (m.Type == typeof(DateTime) ? ":yyyy-MM-dd":"")).ToArray();
             return new[] {new HypermediaLink
             {
                 Rel = "self",
