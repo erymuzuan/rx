@@ -115,7 +115,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             webApi.AddNamespaceImport<DateTime, DomainObject, Task, BaseApiController>();
             webApi.AddNamespaceImport<System.Web.Http.IHttpActionResult, Polly.Policy>();
 
-
+            webApi.AddMethod(this.GenerateDefaultAction());
 
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection)
@@ -141,7 +141,55 @@ namespace Bespoke.Sph.Integrations.Adapters
             return Task.FromResult(sources.AsEnumerable());
         }
 
+        private string GenerateDefaultAction()
+        {
+            var code = new StringBuilder("");
+            code.AppendLine($@"
+            [Route("""")]
+            [HttpGet]
+            public IHttpActionResult Index()
+            {{
 
+                var links = new System.Collections.Generic.List<object>(); ");
+
+
+
+            foreach (var table in this.TableDefinitionCollection)
+            {
+                var count = 0;
+                foreach (var action in table.ControllerActionCollection.Where(x => x.IsEnabled))
+                {
+                    code.AppendLine($@"
+                    var tl{table.ClrName}{++count} = new {{
+                                    rel = ""{table.Name}"",
+                                    href = $""{{ConfigurationManager.BaseUrl}}/api/{this.Id}/{table.Name.ToIdFormat()}"",                                    
+                                    description = ""{action.Name}""
+                                }};
+                   links.Add(tl{table.ClrName}{count});
+                ");
+
+                }
+            }
+            foreach (var op in this.OperationDefinitionCollection)
+            {
+                code.AppendLine($@"
+                    var tl{op.MethodName} = new {{
+                                    rel = ""{op.Name}"",
+                                    href = $""{{ConfigurationManager.BaseUrl}}/api/{this.Id}/{op.Name.ToIdFormat()}"",
+                                    method = ""{(op.UseHttpGet ? "GET" : "POST")}""
+                                }};
+                   links.Add(tl{op.MethodName});
+                ");
+
+            }
+
+            code.AppendLine($@"
+                return Ok(new {{ _links = links}});
+
+            }}");
+
+            return code.ToString();
+        }
 
 
         private string GenerateExecuteScalarMethod()
