@@ -65,6 +65,38 @@ namespace Bespoke.Sph.Domain.Api
             var delimiter = (new[] { "int", "double", "float", "short", "long", "byte", "single", "decimal" }).Contains(table.PrimaryKey.ClrType.ToCSharp()) ? "" : "'";
             var filter = $"{fk.Column} eq {delimiter}{{{table.PrimaryKey.Name.ToCamelCase()}}}{delimiter}";
 
+            var childPks = child.ColumnCollection.Where(m => child.PrimaryKeyCollection.Contains(m.Name))
+              .Select(x =>x.Type == typeof(DateTime)? $"{{item.{x.Name}:yyyy-MM-dd}}" : $"{{item.{x.Name}}}")
+              .ToString("/");
+            var objectLinks = "";
+            if (!string.IsNullOrWhiteSpace(childPks))
+                objectLinks = $@"        
+                JArray links = JArray.Parse($@""[
+		                                {{{{
+	                                """"method"""": """"GET"""",
+	                                """"rel"""": """"self"""",
+	                                """"href"""": """"{{ConfigurationManager.BaseUrl}}/api/{adapter.Id}/{child.Name.ToIdFormat()}/{childPks}"""",
+	                                """"desc"""": """"Issue a GET request""""
+	                                }}}}
+		                                ]"");
+		        var link = new JProperty(""_links"", links);
+		        r.Last.AddAfterSelf(link);";
+
+            var cachingCode = $@"
+            var cacheSetting = adapterDefinition
+                                .TableDefinitionCollection.Single(x => x.Name == ""{table.Name}"" && x.Schema == ""{table.Schema}"")
+                                .ControllerActionCollection.OfType<{typeof(ChildListActionCode).FullName}>().Single()
+                                .CachingSetting;
+            var maxTranslator = new {adapter.OdataTranslator}<{child.ClrName}>(""{child.ModifiedDateColumn}"",""{child.Name}""){{Schema = ""{child.Schema}""}};
+            var getMaxModifiedDateSql = maxTranslator.Max($""{filter}"");
+            var modifiedDate = (await context.ExecuteScalarAsync<DateTime?>(getMaxModifiedDateSql)) ?? System.DateTime.Now;
+            var cache = new CacheMetadata(null, modifiedDate, cacheSetting);
+            
+            if(modifiedSince.IsMatch(modifiedDate))
+            {{
+                return NotModified(cache);   
+            }}";
+
 
             var resources = child.Name.Pluralize().ToIdFormat();
             code.Append($"       [Route(\"{{{string.Join("/", routes)}}}/{resources}\")]");
@@ -81,32 +113,54 @@ namespace Bespoke.Sph.Domain.Api
             var translator = new {adapter.OdataTranslator}<{child.ClrName}>(null,""{child.Name}"" ){{Schema = ""{child.Schema}""}};
             var sql = translator.Select($""{filter}"", null);
             var count = 0;
+            var nextPageToken = string.Empty;
 
             var context = new {child.ClrName}Adapter();
-            var nextPageToken = string.Empty;
+            {(modifiedDate ? cachingCode : "")}
+
             var lo = await context.LoadAsync(sql, page, size);
             if (includeTotal || page > 1)
             {{
                 var countSql = translator.Count($""{filter}"");
                 count = await context.ExecuteScalarAsync<int>(countSql);
 
-                if (count >= lo.ItemCollection.Count())
+                if (page * size < count)
                     nextPageToken = $""/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{{{parameters.ToString(",")}}}/{resources}/?includeTotal=true&page={{page + 1}}&size={{size}}"";
+                else
+                    nextPageToken = null;
             }}
 
             string previousPageToken = $""/{adapter.RoutePrefix}/{table.Name.ToIdFormat()}/{{{parameters.ToString(",")}}}/{resources}/?filer={filter}&includeTotal=true&page={{page - 1}}&size={{size}}"";
             if(page == 1)
                 previousPageToken = null;
-            var json = new
+            
+            var pageLinks = new System.Collections.Generic.List<object>();
+            if(null != previousPageToken)
+                pageLinks.Add(new {{ method = ""GET"", rel= ""previous"", href= previousPageToken}});
+            if(null != nextPageToken)
+                pageLinks.Add(new {{ method = ""GET"", rel= ""next"", href= nextPageToken}});
+
+
+            var json = JObject.Parse( JsonConvert.SerializeObject( new
             {{
                 count,
                 page,
-                nextPageToken,
-                previousPageToken,
                 size,
-                results = lo.ItemCollection.ToArray()
-            }};
-            return Json(json);
+                _links = pageLinks
+            }}));
+
+            JArray results = JArray.Parse(""[]"");
+	        foreach (var item in lo.ItemCollection)
+	        {{
+		        var r = JObject.Parse(JsonConvert.SerializeObject(item));
+		        r.Remove(""WebId"");
+		        {objectLinks}
+
+		        results.Add(r);
+	        }}
+	        json.Last.AddBeforeSelf(new JProperty(""results"", results));
+
+            return Json(json.ToString(){((modifiedDate) ? ", cache" : "")});
             ");
 
 
