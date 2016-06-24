@@ -14,6 +14,13 @@ namespace Bespoke.Sph.Domain.Api
 
         public override string ActionName => "Get";
         public override string Name => "Get one by primary key";
+        public CachingSetting CachingSetting { get; set; } = new CachingSetting
+        {
+            CacheControl = "Public",
+            NoStore = true,
+            Expires = 600
+        };
+
 
 
         public override string GenerateCode(TableDefinition table, Adapter adapter)
@@ -26,6 +33,8 @@ namespace Bespoke.Sph.Domain.Api
 
             var version = !string.IsNullOrWhiteSpace(table.VersionColumn);
             var modifiedDate = !string.IsNullOrWhiteSpace(table.ModifiedDateColumn);
+            if(version || modifiedDate)
+                arguments.Add($@" [SourceEntity(""{adapter.Id}"")]Bespoke.Sph.Domain.Api.Adapter adapterDefinition");
             if (version)
                 arguments.Add("[IfNoneMatch]ETag etag");
 
@@ -56,6 +65,14 @@ namespace Bespoke.Sph.Domain.Api
             
         ");
 
+            var cachingCode = $@"
+            var cacheSetting = adapterDefinition
+                                .TableDefinitionCollection.Single(x => x.Name == ""{table.Name}"" && x.Schema == ""{table.Schema}"")
+                                .ControllerActionCollection.OfType<{typeof(GetOneActionCode).FullName}>().Single()
+                                .CachingSetting;";
+            if (version || modifiedDate)
+                code.AppendLine(cachingCode);
+
             if (version)
                 code.AppendLine($"var version = item.{table.VersionColumn}.TimeStampToString();");
 
@@ -63,18 +80,18 @@ namespace Bespoke.Sph.Domain.Api
             if (version && modifiedDate)
                 code.Append(
                     $@"
-var cache = new CacheMetadata(version, item.{table.ModifiedDateColumn});
+var cache = new CacheMetadata(version, item.{table.ModifiedDateColumn}, cacheSetting);
            ");
             if (version && !modifiedDate)
                 code.Append(
                     @"
-var cache = new CacheMetadata(version, null);
+var cache = new CacheMetadata(version, null, cacheSetting);
            ");
 
             if (!version && modifiedDate)
                 code.Append(
                     $@"
-var cache = new CacheMetadata(null, item.{table.ModifiedDateColumn});
+var cache = new CacheMetadata(null, item.{table.ModifiedDateColumn}, cacheSetting);
            ");
 
 

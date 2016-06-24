@@ -208,69 +208,120 @@
 
             <div id="action-generators-panel">
 
-
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph" -->
                 <h3>Related table list action</h3>
-                <form>
+                <h5>Cache setting</h5>
+                <form data-bind="with:CachingSetting">
+                    <div class="form-group">
+                        <label class="control-label">Cache control</label>
+                        <select class="form-control" data-bind="value:CacheControl, enable :$parent.IsEnabled">
+                            <option value="Public">Public</option>
+                            <option value="Private">Private</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Expirese(seconds)</label>
+                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled" step="60" />
+                    </div>
                     <div class="form-group">
                         <label class="control-label">
-                            Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled" />
+                            NoStore &nbsp;
+                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled" />
                         </label>
                     </div>
                 </form>
+
                 <!-- /ko -->
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph" -->
                 <h3>Complex column link action</h3>
-                <form>
+                <h5>Cache setting</h5>
+                <form data-bind="with:CachingSetting">
+                    <div class="form-group">
+                        <label class="control-label">Cache control</label>
+                        <select class="form-control" data-bind="value:CacheControl, enable :$parent.IsEnabled">
+                            <option value="Public">Public</option>
+                            <option value="Private">Private</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Expirese(seconds)</label>
+                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled" step="60" />
+                    </div>
                     <div class="form-group">
                         <label class="control-label">
-                            Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled" />
+                            NoStore &nbsp;
+                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled" />
                         </label>
                     </div>
                 </form>
+
                 <!-- /ko -->
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph" -->
                 <h3>Delete resource action</h3>
-                <form>
-                    <div class="form-group">
-                        <label class="control-label">
-                            Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled" />
-                        </label>
-                    </div>
-                </form>
+
                 <!-- /ko -->
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph" -->
                 <h3>Get one by primary key</h3>
-                <form>
+                <h5>Cache setting</h5>
+                <form data-bind="with:CachingSetting">
+                    <div class="form-group">
+                        <label class="control-label">Cache control</label>
+                        <select class="form-control" data-bind="value:CacheControl, enable :$parent.IsEnabled">
+                            <option value="Public">Public</option>
+                            <option value="Private">Private</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Expirese(seconds)</label>
+                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled" step="60" />
+                    </div>
                     <div class="form-group">
                         <label class="control-label">
-                            Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled" />
+                            NoStore &nbsp;
+                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled" />
                         </label>
                     </div>
                 </form>
                 <!-- /ko -->
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.InsertActionCode, domain.sph" -->
                 <h3>Insert new resource action</h3>
-                <form>
+
+                <!-- /ko -->
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph" -->
+                <h3>List action</h3>
+
+                <h5>Cache setting</h5>
+                <form data-bind="with:CachingSetting">
+                    <div class="form-group">
+                        <label class="control-label">Cache control</label>
+                        <select class="form-control" data-bind="value:CacheControl, enable :$parent.IsEnabled">
+                            <option value="Public">Public</option>
+                            <option value="Private">Private</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Expirese(seconds)</label>
+                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled" step="60" />
+                    </div>
                     <div class="form-group">
                         <label class="control-label">
-                            Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled" />
+                            NoStore &nbsp;
+                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled" />
                         </label>
                     </div>
                 </form>
                 <!-- /ko -->
-                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph" -->
-                <h3>List action</h3>
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.UpdateActionCode, domain.sph" -->
+                <h3>Update resource action</h3>
+
+                <!-- /ko -->
+
+                <h5>Error retries</h5>
                 <form data-bind="with:ErrorRetry">
                     <div class="form-group">
                         <label for="retry-count" class="control-label">Attempt</label>
                         <input type="number" max="50"
-                               data-bind="value: Attempt, tooltip:'Enable retry for your database call, the min value is 2, in an Exception is thrown, after the number of retry count you set, the execution will stop and exception is propagated to the call stack'"
+                               data-bind="value: Attempt, enable :$parent.IsEnabled, tooltip:'Enable retry for your database call, the min value is 2, in an Exception is thrown, after the number of retry count you set, the execution will stop and exception is propagated to the call stack'"
                                min="2"
                                placeholder="Set the number if retries if the invocation throws any exception"
                                class="form-control" id="retry-count">
@@ -278,13 +329,13 @@
                     <div class="form-group">
                         <label for="retry-interval" class="control-label">Wait</label>
                         <input type="number" step="10" max="50000"
-                               data-bind="value: Wait, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'"
+                               data-bind="value: Wait, enable :$parent.IsEnabled, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'"
                                placeholder="The interval between retries in ms"
                                class="form-control" id="retry-interval">
                     </div>
                     <div class="form-group">
                         <label for="retry-interval" class="control-label">Algorithm</label>
-                        <select data-bind="value: Algorithm, tooltip:'Connstant - set to your interval value, Liner = interval * n, Exponential = interval * (2^n), n is the retry attempt'"
+                        <select data-bind="value: Algorithm, enable :$parent.IsEnabled, tooltip:'Connstant - set to your interval value, Liner = interval * n, Exponential = interval * (2^n), n is the retry attempt'"
                                 class="form-control" id="retry-wait">
                             <option value="Constant">Constant</option>
                             <option value="Linear">Linear</option>
@@ -292,37 +343,6 @@
                         </select>
                     </div>
                 </form>
-                <form data-bind="with:CachingSetting">
-                    <div class="form-group">
-                        <label class="control-label">Cache control</label>
-                        <select class="form-control" data-bind="value:CacheControl">
-                            <option value="Public">Public</option>
-                            <option value="Private">Private</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Expirese(seconds)</label>
-                        <input type="number" class="form-control" data-bind="value:Expires" step="60" />
-                    </div>
-                    <div class="form-group">
-
-                        <label class="control-label">No store<input type="checkbox" data-bind="checked : NoStore" /></label>
-
-                    </div>
-                </form>
-                <!-- /ko -->
-                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.Api.UpdateActionCode, domain.sph" -->
-                <h3>Update resource action</h3>
-                <form>
-                    <div class="form-group">
-                        <label class="control-label">
-                            Enable &nbsp;
-                            <input type="checkbox" data-bind="checked: IsEnabled" />
-                        </label>
-                    </div>
-                </form>
-                <!-- /ko -->
-
             </div>
 
         </div>
