@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain.Api
 
         public override bool Applicable(TableDefinition table)
         {
-            return table.AllowDelete;
+            return table.AllowDelete && null != table.PrimaryKey;
         }
 
         public override string GenerateCode(TableDefinition table, Adapter adapter)
