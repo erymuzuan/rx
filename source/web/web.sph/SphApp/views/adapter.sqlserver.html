@@ -316,6 +316,7 @@
 
                 <!-- /ko -->
 
+                <!-- ko if : typeof ErrorRetry === "function" -->
                 <h5>Error retries</h5>
                 <form data-bind="with:ErrorRetry">
                     <div class="form-group">
@@ -343,6 +344,8 @@
                         </select>
                     </div>
                 </form>
+
+                <!-- /ko -->
             </div>
 
         </div>
