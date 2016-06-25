@@ -8,6 +8,11 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class ComplexColumnActionCode : ControllerAction
     {
+        public override bool Applicable(TableDefinition table)
+        {
+            return null != table?.PrimaryKey;
+        }
+
         public override string Name => "Complex column link action";
         public CachingSetting CachingSetting { get; set; } = new CachingSetting
         {
