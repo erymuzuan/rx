@@ -529,16 +529,16 @@ define(["knockout"], function (ko) {
             $(element).on("click", "i.fa-square-o, i.fa-check-square-o", function () {
                 var id = $(this).parents("li").attr("id"),
                     node = tree.get_node(id);
-                if(!node)return;
+                if (!node)return;
 
                 var action = node.data;
 
-                if(node.id.startsWith("action-")){
-                    if(ko.unwrap(action.IsEnabled)){
+                if (node.id.startsWith("action-")) {
+                    if (ko.unwrap(action.IsEnabled)) {
                         action.IsEnabled(false);
                         tree.set_type(node, "api-action-disabled");
 
-                    }else{
+                    } else {
 
                         action.IsEnabled(true);
                         tree.set_type(node, "api-action-enabled");
@@ -546,12 +546,12 @@ define(["knockout"], function (ko) {
                 }
 
                 // child-table
-                if(node.type.startsWith("child-table")){
-                    if(ko.unwrap(action.IsSelected)){
+                if (node.type.startsWith("child-table")) {
+                    if (ko.unwrap(action.IsSelected)) {
                         action.IsSelected(false);
                         tree.set_type(node, "child-table");
 
-                    }else{
+                    } else {
 
                         action.IsSelected(true);
                         tree.set_type(node, "child-table-selected");
@@ -739,7 +739,7 @@ define(["knockout"], function (ko) {
                 recurseChildMember = function (node) {
                     node.children = _(node.data.MemberCollection()).map(function (v) {
                         return {
-                            text: v.Name(),
+                            text: typeof v.FieldName === "function" ? v.FieldName() : v.Name(),
                             state: "open",
                             type: v.TypeName(),
                             data: v
@@ -761,19 +761,26 @@ define(["knockout"], function (ko) {
                     _(jsTreeData.children).each(recurseChildMember);
                     $(element)
                         .on("select_node.jstree", function (node, selected) {
+                            var tree = $(element).jstree(true);
                             if (selected.node.data && typeof selected.node.data.Name === "function") {
                                 member(selected.node.data);
 
-                                // subscribe to Name change
-                                member().Name.subscribe(function (name) {
-                                    $(element).jstree(true)
-                                        .rename_node(selected.node, name);
-                                });
-                                // type
-                                member().TypeName.subscribe(function (name) {
-                                    $(element).jstree(true)
-                                        .set_type(selected.node, name);
-                                });
+                                if (typeof member().FieldName === "function") {
+                                    member().FieldName.subscribe(function (name) {
+                                        tree.rename_node(selected.node, name);
+                                    });
+
+                                } else {
+                                    // subscribe to Name change
+                                    member().Name.subscribe(function (name) {
+                                        tree.rename_node(selected.node, name);
+                                    });
+                                    // type
+                                    member().TypeName.subscribe(function (name) {
+                                        tree.set_type(selected.node, name);
+                                    });
+
+                                }
                             }
                         })
                         .on("create_node.jstree", function (event, node) {
@@ -781,7 +788,18 @@ define(["knockout"], function (ko) {
                         })
                         .on("rename_node.jstree", function (ev, node) {
                             var mb = node.node.data;
-                            mb.Name(node.text);
+                            if (typeof mb.FieldName === "function" && ko.isObservable(mb.FieldName)) {
+                                mb.FieldName(node.text);
+                                if (!ko.unwrap(mb.Name)) {
+                                    mb.Name(node.text.replace(/ /g, ""));
+                                }
+                                if (!ko.unwrap(mb.DisplayName)) {
+                                    mb.DisplayName(node.text.replace(/ /g, ""));
+                                }
+
+                            } else {
+                                mb.Name(node.text);
+                            }
                         })
                         .jstree({
                             "core": {
@@ -791,124 +809,138 @@ define(["knockout"], function (ko) {
                                 'data': jsTreeData
                             },
                             "contextmenu": {
-                                "items": [
-                                    {
-                                        label: "Add result set",
-                                        action: function () {
-                                            var text = name + "Result1",
-                                                child = new bespoke.sph.domain.ComplexMember({
-                                                    WebId: system.guid(),
-                                                    AllowMultiple: true,
-                                                    TypeName: text,
-                                                    Name: text
-                                                }),
-                                                parent = $(element).jstree("get_selected", true),
-                                                mb = parent[0].data,
-                                                newNode = {
-                                                    state: "open",
-                                                    type: ko.unwrap(child.$type),
-                                                    text: text,
-                                                    data: child
-                                                };
+                                "items": function ($node) {
+                                    var addResultSet = {
+                                            label: "Add result set",
+                                            action: function () {
+                                                var text = name + "Result1",
+                                                    child = new bespoke.sph.domain.ComplexMember({
+                                                        WebId: system.guid(),
+                                                        AllowMultiple: true,
+                                                        TypeName: text,
+                                                        Name: text
+                                                    }),
+                                                    parent = $(element).jstree("get_selected", true),
+                                                    mb = parent[0].data,
+                                                    newNode = {
+                                                        state: "open",
+                                                        type: ko.unwrap(child.$type),
+                                                        text: text,
+                                                        data: child
+                                                    };
 
-                                            var ref = $(element).jstree(true),
-                                                sel = ref.get_selected();
-                                            if (!sel.length) {
-                                                return false;
-                                            }
-                                            sel = sel[0];
-                                            sel = ref.create_node(sel, newNode);
-                                            if (sel) {
-                                                ref.edit(sel);
-                                                if (mb && mb.MemberCollection) {
-                                                    mb.MemberCollection.push(child);
-                                                } else {
-                                                    entity.MemberCollection.push(child);
+                                                var ref = $(element).jstree(true),
+                                                    sel = ref.get_selected();
+                                                if (!sel.length) {
+                                                    return false;
                                                 }
-                                                return true;
-                                            }
-                                            return false;
-
-
-                                        }
-                                    },
-                                    {
-                                        label: "Add record",
-                                        action: function () {
-                                            var child = {
-                                                    $type: "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                                                    WebId: system.guid(),
-                                                    TypeName: ko.observable("System.String, mscorlib"),
-                                                    Name: ko.observable("Member_Name"),
-                                                    SqlDbType: ko.observable(),
-                                                    IsNullable: ko.observable(false)
-                                                },
-                                                parent = $(element).jstree("get_selected", true),
-                                                mb = parent[0].data,
-                                                newNode = {
-                                                    state: "open",
-                                                    type: ko.unwrap(child.TypeName),
-                                                    text: ko.unwrap(child.Name),
-                                                    data: child
-                                                };
-
-
-                                            var ref = $(element).jstree(true),
-                                                sel = ref.get_selected();
-                                            if (!sel.length) {
-                                                return false;
-                                            }
-                                            sel = sel[0];
-                                            sel = ref.create_node(sel, newNode);
-                                            if (sel) {
-                                                ref.edit(sel);
-                                                if (mb && mb.MemberCollection) {
-                                                    mb.MemberCollection.push(child);
-                                                } else {
-                                                    entity.MemberCollection.push(child);
+                                                sel = sel[0];
+                                                sel = ref.create_node(sel, newNode);
+                                                if (sel) {
+                                                    ref.edit(sel);
+                                                    if (mb && mb.MemberCollection) {
+                                                        mb.MemberCollection.push(child);
+                                                    } else {
+                                                        entity.MemberCollection.push(child);
+                                                    }
+                                                    return true;
                                                 }
-                                                return true;
-                                            }
-                                            return false;
-
-
-                                        }
-                                    },
-                                    {
-                                        label: "Remove",
-                                        action: function () {
-                                            var ref = $(element).jstree(true),
-                                                sel = ref.get_selected();
-
-                                            // now delete the member
-                                            var n = ref.get_selected(true)[0],
-                                                p = ref.get_node($("#" + n.parent)),
-                                                parentMember = p.data;
-                                            if (parentMember && typeof parentMember.MemberCollection === "function") {
-                                                var child = _(parentMember.MemberCollection()).find(function (v) {
-                                                    return ko.unwrap(v.WebId) === ko.unwrap(n.data.WebId);
-                                                });
-                                                parentMember.MemberCollection.remove(child);
-                                            } else {
-                                                var child2 = _(entity.MemberCollection()).find(function (v) {
-                                                    return v.WebId() === n.data.WebId();
-                                                });
-                                                entity.MemberCollection.remove(child2);
-                                            }
-
-                                            if (!sel.length) {
                                                 return false;
+
+
                                             }
-                                            ref.delete_node(sel);
+                                        },
+                                        addRecord =
+                                        {
+                                            label: "Add record",
+                                            action: function () {
+                                                var child = {
+                                                        $type: "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                                                        WebId: system.guid(),
+                                                        TypeName: ko.observable("System.String, mscorlib"),
+                                                        FieldName: ko.observable("Member_Name"),
+                                                        Name: ko.observable(""),
+                                                        DisplayName: ko.observable(""),
+                                                        SqlDbType: ko.observable(),
+                                                        IsNullable: ko.observable(false)
+                                                    },
+                                                    parent = $(element).jstree("get_selected", true),
+                                                    mb = parent[0].data,
+                                                    newNode = {
+                                                        state: "open",
+                                                        type: ko.unwrap(child.TypeName),
+                                                        text: ko.unwrap(child.Name),
+                                                        data: child
+                                                    };
 
-                                            return true;
 
-                                        }
-                                    }
-                                ]
+                                                var ref = $(element).jstree(true),
+                                                    sel = ref.get_selected();
+                                                if (!sel.length) {
+                                                    return false;
+                                                }
+                                                sel = sel[0];
+                                                sel = ref.create_node(sel, newNode);
+                                                if (sel) {
+                                                    ref.edit(sel);
+                                                    if (mb && mb.MemberCollection) {
+                                                        mb.MemberCollection.push(child);
+                                                    } else {
+                                                        entity.MemberCollection.push(child);
+                                                    }
+                                                    return true;
+                                                }
+                                                return false;
+
+
+                                            }
+                                        },
+                                        removeMember =
+                                        {
+                                            label: "Remove",
+                                            action: function () {
+                                                var ref = $(element).jstree(true),
+                                                    sel = ref.get_selected();
+
+                                                // now delete the member
+                                                var n = ref.get_selected(true)[0],
+                                                    p = ref.get_node($("#" + n.parent)),
+                                                    parentMember = p.data;
+                                                if (parentMember && typeof parentMember.MemberCollection === "function") {
+                                                    var child = _(parentMember.MemberCollection()).find(function (v) {
+                                                        return ko.unwrap(v.WebId) === ko.unwrap(n.data.WebId);
+                                                    });
+                                                    parentMember.MemberCollection.remove(child);
+                                                } else {
+                                                    var child2 = _(entity.MemberCollection()).find(function (v) {
+                                                        return v.WebId() === n.data.WebId();
+                                                    });
+                                                    entity.MemberCollection.remove(child2);
+                                                }
+
+                                                if (!sel.length) {
+                                                    return false;
+                                                }
+                                                ref.delete_node(sel);
+
+                                                return true;
+
+                                            }
+                                        };
+
+                                    console.log($node.type);
+                                    if($node.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph")
+                                        return [addRecord, removeMember];
+                                    if($node.type === "default")
+                                        return [addRecord, addResultSet];
+                                    if($node.text === "@return_value")
+                                        return [];
+
+                                    return [removeMember];
+
+                                }
                             },
                             "types": {
-
                                 "System.String, mscorlib": {
                                     "icon": "glyphicon glyphicon-bold",
                                     "valid_children": []
