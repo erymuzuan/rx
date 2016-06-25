@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain.Api
     {
         public override bool Applicable(TableDefinition table)
         {
-            return table.AllowUpdate;
+            return table.AllowUpdate && null != table?.PrimaryKey;
         }
 
         public override string Name => "Update resource action";
