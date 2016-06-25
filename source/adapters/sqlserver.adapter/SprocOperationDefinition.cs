@@ -77,6 +77,8 @@ order by ORDINAL_POSITION";
             var retVal = new SprocResultMember
             {
                 Name = "@return_value",
+                DisplayName = "@return_value",
+                FieldName = "@return_value",
                 Type = typeof(int),
                 SqlDbType = SqlDbType.Int
             };
@@ -89,7 +91,7 @@ order by ORDINAL_POSITION";
 
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLine($"           using(var cmd = new SqlCommand(\"[{Schema}].[{MethodName}]\", conn))");
+            code.AppendLine($"           using(var cmd = new SqlCommand(\"[{Schema}].[{Name}]\", conn))");
             code.AppendLine("           {");
             code.AppendLine("               cmd.CommandType = CommandType.StoredProcedure;");
             foreach (var m in this.RequestMemberCollection.OfType<SprocParameter>())
@@ -105,11 +107,18 @@ order by ORDINAL_POSITION";
                     "               cmd.Parameters.Add(\"{0}\", SqlDbType.{1}).Direction = ParameterDirection.Output;",
                     m.Name, m.SqlDbType);
             }
+            var returnParameter = (SprocResultMember)this.ResponseMemberCollection.Single(x => x.Name == "@return_value");
+
+            code.AppendLine($@"
+            SqlParameter retval = cmd.Parameters.Add(""{returnParameter.FieldName}"", SqlDbType.Int);
+            retval.Direction = ParameterDirection.ReturnValue;");
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
             code.AppendLinf("               var response = new {0}Response();", this.MethodName.ToCsharpIdentitfier());
+            code.AppendLine($@"             response.@return_value = (int)cmd.Parameters[""{returnParameter.FieldName}""].Value;");
             foreach (var m in this.ResponseMemberCollection)
             {
+                if (m.Name == "@return_value") continue;
                 var cm = m as ComplexMember;
                 if (null != cm && cm.AllowMultiple)
                 {
@@ -128,7 +137,6 @@ order by ORDINAL_POSITION";
                     code.AppendLine("               }");
                     continue;
                 }
-                if (m.Name == "@return_value") continue;
                 var srm = m as SprocResultMember;
                 if (null != srm)
                     code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name, srm.Type.ToCSharp());
