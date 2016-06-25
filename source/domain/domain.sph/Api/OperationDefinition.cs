@@ -27,6 +27,7 @@ namespace Bespoke.Sph.Domain.Api
             header.AppendLine("using " + typeof(StringEnumConverter).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             header.AppendLine("using " + typeof(MediaTypeFormatter).Namespace + ";");
+            header.AppendLine("using " + typeof(JsonPropertyAttribute).Namespace + ";");
             header.AppendLine("using System.Web.Http;");
             header.AppendLine("using System.Net;");
             header.AppendLine("using System.Net.Http;");

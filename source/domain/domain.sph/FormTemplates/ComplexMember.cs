@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -60,8 +61,6 @@ namespace Bespoke.Sph.Domain
         }
         public override IEnumerable<Class> GeneratedCustomClass(string codeNamespace, string[] usingNamespaces = null)
         {
-
-
             var @class = new Class { Name = this.TypeName, BaseClass = nameof(DomainObject), FileName = $"{TypeName}.cs", Namespace = codeNamespace };
             if (null != usingNamespaces)
             {
@@ -69,9 +68,9 @@ namespace Bespoke.Sph.Domain
             }
             else
             {
-                @class.ImportCollection.Add(typeof(DateTime).Namespace);
-                @class.ImportCollection.Add(typeof(Entity).Namespace);
+                @class.AddNamespaceImport<DateTime, Entity, JsonPropertyAttribute>();
             }
+           
             var classes = new ObjectCollection<Class> { @class };
 
 

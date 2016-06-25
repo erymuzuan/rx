@@ -3,19 +3,20 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
 {
     public abstract partial class OperationDefinition : DomainObject
     {
         public string CodeNamespace { get; set; }
-        protected virtual string[] RequestCodeClassUsingImports => new[] { typeof(string).Namespace, typeof(Enumerable).Namespace, typeof(DomainObject).Namespace };
-        protected virtual string[] ResponseCodeClassUsingImports => new[] { typeof(string).Namespace, typeof(Enumerable).Namespace , typeof(DomainObject).Namespace};
+        protected virtual string[] RequestCodeClassUsingImports => new[] { typeof(string).Namespace, typeof(Enumerable).Namespace, typeof(DomainObject).Namespace, typeof(JsonPropertyAttribute).Namespace };
+        protected virtual string[] ResponseCodeClassUsingImports => new[] { typeof(string).Namespace, typeof(Enumerable).Namespace, typeof(DomainObject).Namespace, typeof(JsonPropertyAttribute).Namespace };
 
         public virtual IEnumerable<Class> GenerateRequestCode()
         {
             var @class = new Class { Name = this.Name.ToCsharpIdentitfier() + "Request", BaseClass = nameof(DomainObject), Namespace = CodeNamespace };
-            @class.AddNamespaceImport<DateTime, DomainObject>();
+            @class.AddNamespaceImport<DateTime, DomainObject, JsonPropertyAttribute>();
             var sources = new ObjectCollection<Class> { @class };
 
             var properties = from m in this.RequestMemberCollection
@@ -33,7 +34,7 @@ namespace Bespoke.Sph.Domain.Api
         public virtual IEnumerable<Class> GenerateResponseCode()
         {
             var @class = new Class { Name = this.Name.ToCsharpIdentitfier() + "Response", Namespace = CodeNamespace };
-            @class.AddNamespaceImport<DateTime, DomainObject>();
+            @class.AddNamespaceImport<DateTime, DomainObject, JsonPropertyAttribute>();
             var sources = new ObjectCollection<Class> { @class };
 
             var properties = from m in this.ResponseMemberCollection
