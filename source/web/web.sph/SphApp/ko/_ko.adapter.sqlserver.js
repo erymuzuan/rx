@@ -696,11 +696,8 @@ define(["knockout"], function (ko) {
                                     "icon": "glyphicon glyphicon-ok",
                                     "valid_children": []
                                 },
-                                "System.Object, mscorlib": {
-                                    "icon": "fa fa-building-o"
-                                },
-                                "System.Array, mscorlib": {
-                                    "icon": "glyphicon glyphicon-list"
+                                "default": {
+                                    "icon": "fa fa-envelope-o"
                                 }
                             },
                             "plugins": ["contextmenu", "dnd", "types", "search"]
@@ -1008,6 +1005,9 @@ define(["knockout"], function (ko) {
                                 },
                                 "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
                                     "icon": "glyphicon glyphicon-list"
+                                },
+                                "default": {
+                                    "icon": "fa fa-envelope"
                                 }
                             },
                             "plugins": ["contextmenu", "types"]

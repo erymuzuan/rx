@@ -71,6 +71,7 @@ order by ORDINAL_POSITION";
                     }
                 }
 
+
             }
 
 
@@ -83,6 +84,48 @@ order by ORDINAL_POSITION";
                 SqlDbType = SqlDbType.Int
             };
             this.ResponseMemberCollection.Add(retVal);
+            await this.SuggestReturnResultset(adapter);
+        }
+
+        private async Task SuggestReturnResultset(SqlServerAdapter adapter)
+        {
+            using (var conn = new SqlConnection(adapter.ConnectionString))
+            using (var cmd = new SqlCommand($@"
+set fmtonly on
+exec [{Schema}].[{Name}] {this.RequestMemberCollection.OfType<SprocParameter>().ToString(", ", x => x.Name)}
+set fmtonly off
+", conn))
+            {
+                cmd.CommandType = CommandType.Text;
+                foreach (var p in this.RequestMemberCollection.OfType<SprocParameter>())
+                {
+                    cmd.Parameters.AddWithValue(p.Name, 442);
+                }
+
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    var dt = reader.GetSchemaTable();
+                    if (null == dt) return;
+                    var resultSet = new ComplexMember { Name = $"{MethodName}Results", TypeName = $"{MethodName}Row", AllowMultiple = true };
+                    foreach (DataRow colMetadata in dt.Rows)
+                    {
+                        var col = new SprocResultMember
+                        {
+                            FieldName = colMetadata["ColumnName"] as string,
+                            Type = colMetadata["DataType"] as Type,
+                            IsNullable =  (bool)colMetadata["AllowDBNull"],
+                            DbType = colMetadata["DataTypeName"] as string,
+                            Length = Convert.ToByte(colMetadata["NumericPrecision"])
+                        };
+                        col.Name = col.FieldName.ToPascalCase();
+                        col.DisplayName = col.FieldName;
+
+                        resultSet.MemberCollection.Add(col);
+                    }
+                    this.ResponseMemberCollection.AddRange(resultSet);
+                }
+            }
         }
 
         protected override string GenerateAdapterActionBody(Adapter adapter)

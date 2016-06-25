@@ -85,6 +85,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         adapter(new bespoke.sph.integrations.adapters.SqlServerAdapter({
                             "Server": ko.unwrap(b.Server),
                             "TrustedConnection": ko.unwrap(b.TrustedConnection),
+                            "ColumnDisplayNameStrategy": ko.unwrap(b.ColumnDisplayNameStrategy),
                             "UserId": ko.unwrap(b.UserId),
                             "Password": ko.unwrap(b.Password)
                         }));

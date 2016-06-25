@@ -174,7 +174,7 @@ AND
                     {
                         try
                         {
-                            var sp = await this.CreateAsync(reader.GetString(2), reader.GetString(0), reader.GetString(1));
+                            var sp = this.CreateMetadata(reader.GetString(2), reader.GetString(0), reader.GetString(1));
                             functions.AddOrReplace(sp, x => x.Name == sp.Name && x.Schema == sp.Schema);
                         }
                         catch (Exception e)

@@ -14,6 +14,7 @@ bespoke.sph.integrations.adapters.SqlServerAdapter = function(optionOrWebid){
       $type : "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter",
       Server : ko.observable(),
       TrustedConnection : ko.observable(),
+      ColumnDisplayNameStrategy: ko.observable(),
       UserId : ko.observable(),
       Password : ko.observable(),
       Database : ko.observable()

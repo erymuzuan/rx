@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public static class SqlOperationFactory
     {
-        public static async Task<SqlOperationDefinition> CreateAsync(this SqlServerAdapter adapter, string type, string schema, string name)
+        public static SqlOperationDefinition CreateMetadata(this SqlServerAdapter adapter, string type, string schema, string name)
         {
             SqlOperationDefinition op;
             switch (type)
@@ -27,6 +27,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                 default:
                     throw new ArgumentException($"Cannot identify SQL Server object of type '{type}'", nameof(type));
             }
+
+            return op;
+        }
+        public static async Task<SqlOperationDefinition> CreateAsync(this SqlServerAdapter adapter, string type, string schema, string name)
+        {
+            var op = CreateMetadata(adapter, type, schema, name);
             op.RequestMemberCollection.Clear();
             op.ResponseMemberCollection.Clear();
             try
