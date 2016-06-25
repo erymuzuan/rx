@@ -19,7 +19,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             requestSchema = ko.observable(),
             responseSchema = ko.observable(),
             member = ko.observable(),
-            responseMember = ko.observable(),
+            selected = ko.observable(),
             objectType = ko.computed(function(){
                 var type = operation().ObjectType();
                 switch(type){
@@ -107,7 +107,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             text: text,
             requestSchema: requestSchema,
             responseSchema: responseSchema,
-            responseMember: responseMember,
+            selected: selected,
             member: member,
             objectType : objectType,
             operation: operation,

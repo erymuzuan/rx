@@ -4,58 +4,15 @@
 <div class="row">
     <div class="col-sm-12 col-md-8 col-lg-9">
 
-        <div class="row" id="members-panel">
-            <h3>Request Schema Designer</h3>
-            <div class="col-sm-8">
-                <div data-bind="sprocRequestSchemaTree : {entity: requestSchema, selected: member, searchbox: '#search-box-tree' }">
-                </div>
-            </div>
 
-            <div class="col-sm-4" data-bind="with: member">
-                <h3>Member properties</h3>
-
-                <form class="form" role="form" data-bind="visible:Name()">
-                    <div class="form-group">
-                        <label for="member_name">Name</label>
-                        <input class="form-control" id="member_name" name="member.name" type="text" required
-                               data-bind="value: Name"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="member-type">Type</label>
-
-                        <select class="form-control" id="member-type" data-bind="value:TypeName">
-                            <option value="">[Please Select]</option>
-                            <option value="System.String, mscorlib">String</option>
-                            <option value="System.Int32, mscorlib">Integer</option>
-                            <option value="System.Decimal, mscorlib">Decimal</option>
-                            <option value="System.DateTime, mscorlib">DateTime</option>
-                            <option value="System.Boolean, mscorlib">Boolean</option>
-                            <option value="System.Object, mscorlib">Complex</option>
-                            <option value="System.Array, mscorlib">Collection</option>
-                        </select>
-
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox">
-                            <input data-bind="checked: IsNullable" id="member-nullable1" type="checkbox"
-                                   name="IsNullable"/>
-                            Nullable
-                        </label>
-                    </div>
-
-
-                </form>
-            </div>
-        </div>
 
         <div class="row" id="response-members-panel">
-            <h3>Response Schema Designer</h3>
+            <h3>Operation Schema Designer</h3>
             <div class="col-sm-8">
-                <div data-bind="sprocResponseSchemaTree : {entity: responseSchema, selected: responseMember, searchbox: '#search-box-tree2', name: operation().Name}">
+                <div data-bind="operationSchemaTree : {operation: operation, selected : $root.selected }">
                 </div>
             </div>
-            <div class="col-sm-4" data-bind="with: responseMember">
+            <div class="col-sm-4" data-bind="with: $root.selected">
                 <h3>Member properties</h3>
 
                 <form class="form" role="form" data-bind="visible:Name()">
@@ -201,7 +158,7 @@
                         </div>
                         <div class="form-group">
                             <label for="retry-interval" class="control-label">Wait interval</label>
-                            <input type="number" step="10" max="50000"
+                            <input type="number" step="10" max="50000" min="100"
                                    data-bind="value: Wait, enable:IsEnabled, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'"
                                    placeholder="The interval between retries in ms"
                                    class="form-control" id="retry-interval">
@@ -209,7 +166,7 @@
                         <div class="form-group">
                             <label for="retry-interval" class="control-label">Algorithm</label>
                             <select data-bind="value: Algorithm, enable:IsEnabled, tooltip:'Connstant - set to your interval value, Liner = interval * n, Exponential = interval * (2^n), n is the retry attempt'"
-                                    class="form-control" id="retry-wait">
+                                    class="form-control" required id="retry-wait">
                                 <option value="Constant">Constant</option>
                                 <option value="Linear">Linear</option>
                                 <option value="Exponential">Exponential</option>

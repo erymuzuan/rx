@@ -573,166 +573,37 @@ define(["knockout"], function (ko) {
         }
     };
 
-    ko.bindingHandlers.sprocRequestSchemaTree = {
+
+    ko.bindingHandlers.operationSchemaTree = {
         init: function (element, valueAccessor) {
             var system = require(objectbuilders.system),
                 value = valueAccessor(),
-                entity = ko.unwrap(value.entity),
-                searchbox = ko.unwrap(value.searchbox),
-                member = value.selected,
-                jsTreeData = {
-                    text: entity.Name(),
-                    state: {
-                        opened: true,
-                        selected: true
-                    }
-                },
-                recurseChildMember = function (node) {
-                    node.children = _(node.data.MemberCollection()).map(function (v) {
-                        return {
-                            text: v.Name(),
-                            state: "open",
-                            type: v.TypeName(),
-                            data: v
-                        };
-                    });
-                    _(node.children).each(recurseChildMember);
-                },
-                loadJsTree = function () {
-                    jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
-                        return {
-                            text: v.Name(),
-                            state: "open",
-                            type: v.TypeName(),
-                            data: v
-                        };
-                    });
-                    _(jsTreeData.children).each(recurseChildMember);
-                    $(element)
-                        .on("select_node.jstree", function (node, selected) {
-                            if (selected.node.data && typeof selected.node.data.Name === "function") {
-                                member(selected.node.data);
-
-                                // subscribe to Name change
-                                member().Name.subscribe(function (name) {
-                                    $(element).jstree(true)
-                                        .rename_node(selected.node, name);
-                                });
-                                // type
-                                member().TypeName.subscribe(function (name) {
-                                    $(element).jstree(true)
-                                        .set_type(selected.node, name);
-                                });
-                            }
-                        })
-                        .on("create_node.jstree", function (event, node) {
-                            console.log(node, "node");
-                        })
-                        .on("rename_node.jstree", function (ev, node) {
-                            var mb = node.node.data;
-                            mb.Name(node.text);
-                        })
-                        .jstree({
-                            "core": {
-                                "animation": 0,
-                                "check_callback": true,
-                                "themes": {"stripes": true},
-                                'data': jsTreeData
-                            },
-                            "contextmenu": {
-                                "items": [
-                                    {
-                                        label: "Remove",
-                                        action: function () {
-                                            var ref = $(element).jstree(true),
-                                                sel = ref.get_selected();
-
-                                            // now delete the member
-                                            var n = ref.get_selected(true)[0],
-                                                p = ref.get_node($("#" + n.parent)),
-                                                parentMember = p.data;
-                                            if (parentMember && typeof parentMember.MemberCollection === "function") {
-                                                var child = _(parentMember.MemberCollection()).find(function (v) {
-                                                    return v.WebId() === n.data.WebId();
-                                                });
-                                                parentMember.MemberCollection.remove(child);
-                                            } else {
-                                                var child2 = _(entity.MemberCollection()).find(function (v) {
-                                                    return v.WebId() === n.data.WebId();
-                                                });
-                                                entity.MemberCollection.remove(child2);
-                                            }
-
-                                            if (!sel.length) {
-                                                return false;
-                                            }
-                                            ref.delete_node(sel);
-
-                                            return true;
-
-                                        }
-                                    }
-                                ]
-                            },
-                            "types": {
-
-                                "System.String, mscorlib": {
-                                    "icon": "glyphicon glyphicon-bold",
-                                    "valid_children": []
-                                },
-                                "System.DateTime, mscorlib": {
-                                    "icon": "glyphicon glyphicon-calendar",
-                                    "valid_children": []
-                                },
-                                "System.Int32, mscorlib": {
-                                    "icon": "fa fa-sort-numeric-asc",
-                                    "valid_children": []
-                                },
-                                "System.Decimal, mscorlib": {
-                                    "icon": "glyphicon glyphicon-usd",
-                                    "valid_children": []
-                                },
-                                "System.Boolean, mscorlib": {
-                                    "icon": "glyphicon glyphicon-ok",
-                                    "valid_children": []
-                                },
-                                "default": {
-                                    "icon": "fa fa-envelope-o"
-                                }
-                            },
-                            "plugins": ["contextmenu", "dnd", "types", "search"]
-                        });
-                };
-            loadJsTree();
-
-            var to = false;
-            $(searchbox).keyup(function () {
-                if (to) {
-                    clearTimeout(to);
-                }
-                to = setTimeout(function () {
-                    var v = $(searchbox).val();
-                    $(element).jstree(true).search(v);
-                }, 250);
-            });
-
-        }
-    };
-    ko.bindingHandlers.sprocResponseSchemaTree = {
-        init: function (element, valueAccessor) {
-            var system = require(objectbuilders.system),
-                value = valueAccessor(),
-                entity = ko.unwrap(value.entity),
+                operation = ko.unwrap(value.operation),
                 name = ko.unwrap(value.name),
-                searchbox = ko.unwrap(value.searchbox),
                 member = value.selected,
-                jsTreeData = {
-                    text: entity.Name(),
-                    state: {
-                        opened: true,
-                        selected: true
-                    }
+                createNode = function (v) {
+
+                    var icon = ko.unwrap(v.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph" ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(v.TypeName);
+                    return {
+                        text: v.Name(),
+                        state: "open",
+                        type: icon,
+                        data: v
+                    };
                 },
+                jsTreeData =[ {
+                    text: "Request",
+                    type : "request",
+                    state: {
+                        opened: true
+                    }
+                }, {
+                    text: "Response",
+                    type : "response",
+                    state: {
+                        opened: true
+                    }
+                }],
                 recurseChildMember = function (node) {
                     node.children = _(node.data.MemberCollection()).map(function (v) {
                         return {
@@ -745,17 +616,9 @@ define(["knockout"], function (ko) {
                     _(node.children).each(recurseChildMember);
                 },
                 loadJsTree = function () {
-                    jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
-
-                        var icon = ko.unwrap(v.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph" ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(v.TypeName);
-                        return {
-                            text: v.Name(),
-                            state: "open",
-                            type: icon,
-                            data: v
-                        };
-                    });
-                    _(jsTreeData.children).each(recurseChildMember);
+                    jsTreeData[0].children = _(operation.RequestMemberCollection()).map(createNode);
+                    jsTreeData[1].children = _(operation.ResponseMemberCollection()).map(createNode);
+                    _(jsTreeData[1].children).each(recurseChildMember);
                     $(element)
                         .on("select_node.jstree", function (node, selected) {
                             var tree = $(element).jstree(true);
@@ -807,7 +670,8 @@ define(["knockout"], function (ko) {
                             },
                             "contextmenu": {
                                 "items": function ($node) {
-                                    var addResultSet = {
+                                    var $item = $node.data,
+                                        addResultSet = {
                                             label: "Add result set",
                                             action: function () {
                                                 var text = name + "Result1",
@@ -925,11 +789,13 @@ define(["knockout"], function (ko) {
                                             }
                                         };
 
-                                    console.log($node.type);
+                                    console.log($item);
                                     if($node.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph")
                                         return [addRecord, removeMember];
-                                    if($node.type === "default")
+                                    if($node.type === "response")
                                         return [addRecord, addResultSet];
+                                    if($node.type === "request")
+                                        return [addRecord];
                                     if($node.text === "@return_value")
                                         return [];
 
@@ -1006,7 +872,10 @@ define(["knockout"], function (ko) {
                                 "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
                                     "icon": "glyphicon glyphicon-list"
                                 },
-                                "default": {
+                                "request": {
+                                    "icon": "fa fa-envelope-o"
+                                },
+                                "response": {
                                     "icon": "fa fa-envelope"
                                 }
                             },
@@ -1015,16 +884,6 @@ define(["knockout"], function (ko) {
                 };
             loadJsTree();
 
-            var to = false;
-            $(searchbox).keyup(function () {
-                if (to) {
-                    clearTimeout(to);
-                }
-                to = setTimeout(function () {
-                    var v = $(searchbox).val();
-                    $(element).jstree(true).search(v);
-                }, 250);
-            });
 
         }
     };
