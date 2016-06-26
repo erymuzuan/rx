@@ -10,5 +10,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                 return member.Name;
             return "@" + member.Name;
         }
+        public static string ToSqlParameter(this string member)
+        {
+            if (member.StartsWith("@"))
+                return member;
+            return "@" + member;
+        }
     }
 }

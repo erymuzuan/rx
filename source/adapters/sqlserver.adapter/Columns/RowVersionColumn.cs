@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     {
         public override bool CanWrite => false;
         public override Type ClrType => typeof(byte[]);
-        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
             return null;
         }

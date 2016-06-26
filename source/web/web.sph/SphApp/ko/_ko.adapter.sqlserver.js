@@ -107,12 +107,56 @@ define(["knockout"], function (ko) {
                 },
                 mapOperation = function (v) {
 
+                    var createNode = function (t, isResponse) {
+                            var isResultSet = ko.unwrap(t.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph",
+                                icon = isResultSet ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(t.TypeName),
+                                members = _(t.MemberCollection()).map(function (x) {
+                                    return {
+                                        id: "parameter-" + ko.unwrap(x.WebId),
+                                        text: calculateColumnName(x),
+                                        type: x.TypeName(),
+                                        data: x
+                                    };
+                                }),
+                                webid = (ko.unwrap(t.WebId) || system.guid());
+
+
+                            if (ko.isObservable(t.WebId))
+                                t.WebId(webid);
+
+                            return {
+                                id: (isResponse ? "parameter-" : "") + webid,
+                                text: isResultSet ? t.Name() : calculateColumnName(t),
+                                type: icon,
+                                data: t,
+                                children: members
+                            };
+                        },
+                        requests = _(v.RequestMemberCollection()).map(createNode),
+                        responses = _(v.ResponseMemberCollection()).map(function (vt) {
+                            return createNode(vt, true);
+                        });
                     return {
                         id: "operation-" + ko.unwrap(v.Uuid),
                         text: ko.unwrap(v.Schema) + "." + ko.unwrap(v.Name),
                         state: "open",
                         type: ko.unwrap(v.ObjectType),
-                        data: v
+                        data: v,
+                        children: [{
+                            text: "Request",
+                            type: "request",
+                            state: {
+                                opened: true
+                            },
+                            children: requests
+                        }, {
+                            text: "Response",
+                            type: "response",
+                            state: {
+                                opened: true
+                            },
+                            children: responses
+                        }]
                     };
                 },
                 tree = null,
@@ -128,7 +172,7 @@ define(["knockout"], function (ko) {
                             var ref = $(element).jstree(true),
                                 column = data.node.data,
                                 parent = ref.get_node(data.parent),
-                                collection = parent.data.ColumnCollection,
+                                collection = parent.data.ColumnCollection || parent.data.MemberCollection,
                                 order = 1;
 
                             collection.remove(function (c) {
@@ -157,7 +201,8 @@ define(["knockout"], function (ko) {
                                         if (!target) {
                                             return false;
                                         }
-                                        if (target.text !== "Columns") return false;
+                                        var columnsParent = target.text === "Columns" || target.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph";
+                                        if (!columnsParent) return false;
                                         if (target.id !== node.parent)return false;
 
                                         //console.log("dragged into target %s , and id ",target.text, target.id);
@@ -176,7 +221,7 @@ define(["knockout"], function (ko) {
                             },
                             "contextmenu": {
                                 "items": function ($node) {
-                                    //console.log($node);
+                                    console.log($node);
                                     var ref = tree,
                                         removeMenu = {
                                             label: "Remove",
@@ -319,7 +364,15 @@ define(["knockout"], function (ko) {
                                             items.push(undoLookup);
                                         else
                                             items.push(makeLookup);
+                                        return items;
+                                    }
+                                    if ($node.id.startsWith("parameter-")) {
+                                        var items = [];
 
+                                        if (ko.unwrap(data.Ignore))
+                                            items.push(includeMenu);
+                                        else
+                                            items.push(ignoreMenu);
 
                                         return items;
                                     }
@@ -372,6 +425,12 @@ define(["knockout"], function (ko) {
 
                                 "api-action-enabled": {
                                     "icon": "fa fa-check-square-o"
+                                },
+                                "request": {
+                                    "icon": "fa fa-envelope-o"
+                                },
+                                "response": {
+                                    "icon": "fa fa-envelope"
                                 },
                                 "api-action-disabled": {
                                     "icon": "fa fa-square-o"
@@ -591,15 +650,15 @@ define(["knockout"], function (ko) {
                         data: v
                     };
                 },
-                jsTreeData =[ {
+                jsTreeData = [{
                     text: "Request",
-                    type : "request",
+                    type: "request",
                     state: {
                         opened: true
                     }
                 }, {
                     text: "Response",
-                    type : "response",
+                    type: "response",
                     state: {
                         opened: true
                     }
@@ -790,13 +849,13 @@ define(["knockout"], function (ko) {
                                         };
 
                                     console.log($item);
-                                    if($node.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph")
+                                    if ($node.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph")
                                         return [addRecord, removeMember];
-                                    if($node.type === "response")
+                                    if ($node.type === "response")
                                         return [addRecord, addResultSet];
-                                    if($node.type === "request")
+                                    if ($node.type === "request")
                                         return [addRecord];
-                                    if($node.text === "@return_value")
+                                    if ($node.text === "@return_value")
                                         return [];
 
                                     return [removeMember];

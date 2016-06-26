@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -6,17 +7,31 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Integrations.Adapters.Columns;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
     public class SprocOperationDefinition : SqlOperationDefinition
     {
         public override async Task InitializeRequestMembersAsync(SqlServerAdapter adapter)
-        {
-            const string SQL = @"
-select * from information_schema.PARAMETERS
+        {/*
+            if the type is unicode, the length is twice 
+            select * from information_schema.PARAMETERS
 where SPECIFIC_NAME = @name
-order by ORDINAL_POSITION";
+order by ORDINAL_POSITION*/
+            string sql = $@"
+select  
+    name as 'Column',
+    TYPE_NAME(user_type_id) as 'Type',
+    max_length as 'Length',
+    is_output,
+    has_default_value,
+    is_nullable as 'IsNullable',
+    cast(0 as bit) as 'IsIdentity',
+	cast(0 as bit) as 'IsComputed'
+ from sys.parameters where object_id = object_id('[{Schema}].[{Name}]')
+
+";
 
             var uuid = Guid.NewGuid().ToString();
 
@@ -26,48 +41,20 @@ order by ORDINAL_POSITION";
             WebId = uuid;
 
             using (var conn = new SqlConnection(adapter.ConnectionString))
-            using (var cmd = new SqlCommand(SQL, conn))
+            using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("@name", Name);
 
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        var dt = (string)reader["DATA_TYPE"];
-                        var cml = reader["CHARACTER_MAXIMUM_LENGTH"].ReadNullable<int>();
-                        var mode = (string)reader["PARAMETER_MODE"];
-                        var pname = (string)reader["PARAMETER_NAME"];
-                        var position = reader["ORDINAL_POSITION"].ReadNullable<int>();
-
-                        var member = new SprocParameter
-                        {
-                            Name = pname,
-                            FullName = pname,
-                            SqlType = dt,
-                            Type = dt.GetClrType(),
-                            IsNullable = cml == 0,
-                            MaxLength = cml,
-                            Mode = mode == "IN" ? ParameterMode.In : ParameterMode.Out,
-                            Position = position ?? 0,
-                            WebId = Guid.NewGuid().ToString()
-                        };
-                        if (mode == "IN" || mode == "INOUT")
-                            this.RequestMemberCollection.Add(member);
-                        if (mode == "OUT" || mode == "INOUT")
-                        {
-                            SqlDbType t;
-                            Enum.TryParse(dt, true, out t);
-                            var rm = new SprocResultMember
-                            {
-                                Name = pname,
-                                SqlDbType = t,
-                                Type = dt.GetClrType()
-                            };
-                            this.ResponseMemberCollection.Add(rm);
-                        }
+                        var col = await reader.ReadColumnAsync(adapter);
+                        if ((bool)reader["is_output"])
+                            this.ResponseMemberCollection.Add(col);
+                        else
+                            this.RequestMemberCollection.Add(col);
                     }
                 }
 
@@ -75,13 +62,11 @@ order by ORDINAL_POSITION";
             }
 
 
-            var retVal = new SprocResultMember
+            var retVal = new IntColumn
             {
                 Name = "@return_value",
                 DisplayName = "@return_value",
-                FieldName = "@return_value",
-                Type = typeof(int),
-                SqlDbType = SqlDbType.Int
+                Type = typeof(int)
             };
             this.ResponseMemberCollection.Add(retVal);
             await this.SuggestReturnResultset(adapter);
@@ -89,17 +74,23 @@ order by ORDINAL_POSITION";
 
         private async Task SuggestReturnResultset(SqlServerAdapter adapter)
         {
+            var parameters = this.RequestMemberCollection.Concat(this.ResponseMemberCollection.Where(x => x.Name != "@return_value"));
             using (var conn = new SqlConnection(adapter.ConnectionString))
             using (var cmd = new SqlCommand($@"
 set fmtonly on
-exec [{Schema}].[{Name}] {this.RequestMemberCollection.OfType<SprocParameter>().ToString(", ", x => x.Name)}
+exec [{Schema}].[{Name}] {parameters.ToString(", ", x => x.Name)}
 set fmtonly off
 ", conn))
             {
                 cmd.CommandType = CommandType.Text;
-                foreach (var p in this.RequestMemberCollection.OfType<SprocParameter>())
+                foreach (var p in this.RequestMemberCollection)
                 {
                     cmd.Parameters.AddWithValue(p.Name, 442);
+                }
+
+                foreach (var p in this.ResponseMemberCollection.Where(x => x.Name != "@return_value"))
+                {
+                    cmd.Parameters.AddWithValue(p.Name, 442).Direction = ParameterDirection.Output;
                 }
 
                 await conn.OpenAsync();
@@ -110,18 +101,17 @@ set fmtonly off
                     var resultSet = new ComplexMember { Name = $"{MethodName}Results", TypeName = $"{MethodName}Row", AllowMultiple = true };
                     foreach (DataRow colMetadata in dt.Rows)
                     {
-                        var col = new SprocResultMember
+                        var colReader = new Dictionary<string, object>
                         {
-                            FieldName = colMetadata["ColumnName"] as string,
-                            Type = colMetadata["DataType"] as Type,
-                            IsNullable =  (bool)colMetadata["AllowDBNull"],
-                            DbType = colMetadata["DataTypeName"] as string,
-                            Length = Convert.ToByte(colMetadata["NumericPrecision"])
+                            {"Column", colMetadata["ColumnName"]},
+                            {"Type", colMetadata["DataTypeName"]},
+                            {"Length", colMetadata["NumericPrecision"]},
+                            {"IsNullable", colMetadata["AllowDBNull"]},
+                            {"IsIdentity", false},
+                            {"IsComputed", false},
                         };
-                        col.Name = col.FieldName.ToPascalCase();
-                        col.DisplayName = col.FieldName;
-
-                        resultSet.MemberCollection.Add(col);
+                        var member = await colReader.ReadColumnAsync(adapter);
+                        resultSet.MemberCollection.Add(member);
                     }
                     this.ResponseMemberCollection.AddRange(resultSet);
                 }
@@ -137,28 +127,26 @@ set fmtonly off
             code.AppendLine($"           using(var cmd = new SqlCommand(\"[{Schema}].[{Name}]\", conn))");
             code.AppendLine("           {");
             code.AppendLine("               cmd.CommandType = CommandType.StoredProcedure;");
-            foreach (var m in this.RequestMemberCollection.OfType<SprocParameter>())
+            foreach (var member in this.RequestMemberCollection)
             {
-                code.AppendLinf("               cmd.Parameters.AddWithValue(\"{0}\", request.{0});", m.Name);
+                var m = (SqlColumn)member;
+                code.AppendLinf(m.GenerateUpdateParameterValue(itemIdentifier: "request"));
             }
-            foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
+
+            // TODO : OUT parameter
+            foreach (var m in this.ResponseMemberCollection.Where(x => x.Name != "@return_value").OfType<SqlColumn>())
             {
-                if (m.Type == typeof(Array)) continue;
-                if (m.Type == typeof(object)) continue;
-                if (m.Name == "@return_value") continue;
-                code.AppendLinf(
-                    "               cmd.Parameters.Add(\"{0}\", SqlDbType.{1}).Direction = ParameterDirection.Output;",
-                    m.Name, m.SqlDbType);
+                code.Append($"cmd.Parameters.Add(\"{m.ToSqlParameter()}\", SqlDbType.{m.SqlType}).Direction = ParameterDirection.Output;");
             }
-            var returnParameter = (SprocResultMember)this.ResponseMemberCollection.Single(x => x.Name == "@return_value");
+            var returnParameter = (SqlColumn)this.ResponseMemberCollection.Single(x => x.Name == "@return_value");
 
             code.AppendLine($@"
-            SqlParameter retval = cmd.Parameters.Add(""{returnParameter.FieldName}"", SqlDbType.Int);
+            SqlParameter retval = cmd.Parameters.Add(""{returnParameter.Name}"", SqlDbType.Int);
             retval.Direction = ParameterDirection.ReturnValue;");
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
             code.AppendLinf("               var response = new {0}Response();", this.MethodName.ToCsharpIdentitfier());
-            code.AppendLine($@"             response.@return_value = (int)cmd.Parameters[""{returnParameter.FieldName}""].Value;");
+            code.AppendLine($@"             response.{returnParameter.ClrName} = (int)cmd.Parameters[""{returnParameter.Name}""].Value;");
             foreach (var m in this.ResponseMemberCollection)
             {
                 if (m.Name == "@return_value") continue;
@@ -170,19 +158,25 @@ set fmtonly off
                     code.AppendLine("                   while(await reader.ReadAsync())");
                     code.AppendLine("                   {");
                     code.AppendLine($"                       var item = new {cm.TypeName}();");
-                    var readerCodes = m.MemberCollection.OfType<SprocResultMember>()
-                                    .Select(x => x.GenerateReaderCode())
+                    var statementsCode = m.MemberCollection.OfType<SqlColumn>()
+                                        .Select(x => x.GenerateValueStatementCode($@"reader[""{x.Name}""]"))
+                                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                                        .ToString("\r\n");
+                    var assignmentCodes = m.MemberCollection.OfType<SqlColumn>()
+                                    .Select(x => $"item.{x.ClrName} = {x.GenerateValueAssignmentCode($@"reader[""{x.Name}""]")};")
                                     .Where(x => !string.IsNullOrWhiteSpace(x))
                                     .ToString("\r\n");
-                    code.AppendLine(readerCodes);
+
+                    code.AppendLine(statementsCode);
+                    code.AppendLine(assignmentCodes);
                     code.AppendLinf("                       response.{0}.Add(item);", m.Name);
                     code.AppendLine("                   }");
                     code.AppendLine("               }");
                     continue;
                 }
-                var srm = m as SprocResultMember;
+                var srm = m as SqlColumn;
                 if (null != srm)
-                    code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name, srm.Type.ToCSharp());
+                    code.AppendLine($"               response.{m.Name} = ({srm.Type.ToCSharp()})cmd.Parameters[\"{m.Name}\"].Value;");
             }
 
             code.AppendLine("               return response;");

@@ -222,7 +222,6 @@ AND
 
         private async Task ReadColumnsAsync(SqlConnection conn, params TableDefinition[] tables)
         {
-            var developerService = ObjectBuilder.GetObject<SqlAdapterDeveloperService>();
             using (var columnCommand = new SqlCommand(Resources.SelectColumnsSql, conn))
             {
                 using (var reader = await columnCommand.ExecuteReaderAsync())
@@ -231,19 +230,10 @@ AND
                     {
                         var table = tables.SingleOrDefault(x => x.Name == (string)reader["Table"] && (string)reader["Schema"] == x.Schema);
                         if (null == table) continue;
-                        var mt = ColumnMetadata.Read(reader, table);
-
-                        var scores = (from g in developerService.ColumnGenerators
-                                      let s = g.Metadata.GetScore(mt)
-                                      where s >= 0
-                                      orderby s descending
-                                      select g).ToList();
-                        var generator = scores.FirstOrDefault();
-                        if (null == generator)
-                            throw new InvalidOperationException($"Cannot find column generator for {mt}");
+                        var mt = ColumnMetadata.Read(reader);
                         try
                         {
-                            var col = generator.Value.Initialize(this, table, mt);
+                            var col = await reader.ReadColumnAsync(this, table);
                             var existingColumn = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
                             col.IsSelected = existingColumn?.IsSelected ?? false;
 
@@ -263,8 +253,7 @@ AND
 
         private async Task ReadViewColumnsAsync(SqlConnection conn, TableDefinition view)
         {
-            var developerService = ObjectBuilder.GetObject<SqlAdapterDeveloperService>();
-            string sql = $@"
+            const string SQL = @"
 
 SELECT 
          /*o.name as 'Table'
@@ -290,7 +279,7 @@ SELECT
 		AND s.name = @Schema
     ORDER 
         BY s.name, o.name";
-            using (var columnCommand = new SqlCommand(sql, conn))
+            using (var columnCommand = new SqlCommand(SQL, conn))
             {
                 columnCommand.Parameters.AddWithValue("@Schema", view.Schema);
                 columnCommand.Parameters.AddWithValue("@Name", view.Name);
@@ -298,17 +287,7 @@ SELECT
                 {
                     while (await reader.ReadAsync())
                     {
-                        var mt = ColumnMetadata.Read(reader, view);
-
-                        var scores = (from g in developerService.ColumnGenerators
-                                      let s = g.Metadata.GetScore(mt)
-                                      where s >= 0
-                                      orderby s descending
-                                      select g).ToList();
-                        var generator = scores.FirstOrDefault();
-                        if (null == generator)
-                            throw new InvalidOperationException($"Cannot find column generator for {mt}");
-                        var col = generator.Value.Initialize(this, view, mt);
+                        var col = await reader.ReadColumnAsync(this, view);
                         var existingColumn = view.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
                         col.IsSelected = existingColumn?.IsSelected ?? false;
 

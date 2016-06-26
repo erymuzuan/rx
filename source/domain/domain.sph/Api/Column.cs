@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain.Api
         public bool IsSelected { get; set; }
         public bool Unsupported { get; set; }
 
-        public virtual string GenerateUpdateParameterValue(string commandName = "cmd")
+        public virtual string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
             var nullable = this.IsNullable ? ".ToDbNull()" : "";
             return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", item.{ClrName}{nullable});";
@@ -50,8 +50,8 @@ namespace Bespoke.Sph.Domain.Api
             col.IsComputed = mt.IsComputed;
             col.Length = mt.Length;
             col.IsPrimaryKey = mt.IsPrimaryKey;
-            col.IsVersion = td.VersionColumn == col.Name;
-            col.IsModifiedDate = td.ModifiedDateColumn == col.Name;
+            col.IsVersion = td?.VersionColumn == col.Name;
+            col.IsModifiedDate = td?.ModifiedDateColumn == col.Name;
             col.WebId = Guid.NewGuid().ToString();
             if (string.IsNullOrWhiteSpace(col.DisplayName))
             {

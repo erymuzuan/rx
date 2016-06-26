@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 
@@ -50,7 +53,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         }
 
-        public static int GetScore(this IColumnGeneratorMetadata x, ColumnMetadata mt)
+        private static int GetScore(this IColumnGeneratorMetadata x, ColumnMetadata mt)
         {
             var score = 0;
 
@@ -102,6 +105,61 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
 
             return score;
+        }
+
+        public static async Task<Column> ReadColumnAsync(this IDataReader reader,Adapter adapter,  TableDefinition table = null)
+        {
+            var developerService = ObjectBuilder.GetObject<SqlAdapterDeveloperService>();
+            var mt = ColumnMetadata.Read(reader);
+
+            var scores = (from g in developerService.ColumnGenerators
+                          let s = g.Metadata.GetScore(mt)
+                          where s >= 0
+                          orderby s descending
+                          select g).ToList();
+            var generator = scores.FirstOrDefault();
+            if (null == generator)
+                throw new InvalidOperationException($"Cannot find column generator for {mt}");
+            try
+            {
+                var col = generator.Value.Initialize(adapter, table, mt);
+                return col;
+            }
+            catch (Exception e)
+            {
+                var oc = table?.ColumnCollection.SingleOrDefault(x => x.Name == mt.Name);
+                if (null != oc) oc.Unsupported = true;
+                var exc = new NotSupportedException($"Fail to initilize column [{table?.Schema}].[{table?.Name}].{mt}", e) { Data = { { "col", mt.ToJson() } } };
+                await ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry(exc));
+            }
+            return null;
+        }
+        public static async Task<Column> ReadColumnAsync(this IDictionary<string,object> reader,Adapter adapter,  TableDefinition table = null)
+        {
+            var developerService = ObjectBuilder.GetObject<SqlAdapterDeveloperService>();
+            var mt = ColumnMetadata.Read(reader);
+
+            var scores = (from g in developerService.ColumnGenerators
+                          let s = g.Metadata.GetScore(mt)
+                          where s >= 0
+                          orderby s descending
+                          select g).ToList();
+            var generator = scores.FirstOrDefault();
+            if (null == generator)
+                throw new InvalidOperationException($"Cannot find column generator for {mt}");
+            try
+            {
+                var col = generator.Value.Initialize(adapter, table, mt);
+                return col;
+            }
+            catch (Exception e)
+            {
+                var oc = table?.ColumnCollection.SingleOrDefault(x => x.Name == mt.Name);
+                if (null != oc) oc.Unsupported = true;
+                var exc = new NotSupportedException($"Fail to initilize column [{table?.Schema}].[{table?.Name}].{mt}", e) { Data = { { "col", mt.ToJson() } } };
+                await ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry(exc));
+            }
+            return null;
         }
 
     }

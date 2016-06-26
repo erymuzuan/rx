@@ -24,6 +24,13 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph",
               "Name": "Related table list action",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -41,6 +48,13 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph",
               "Name": "Complex column link action",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -76,6 +90,13 @@
               "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
               "ActionName": "Get",
               "Name": "Get one by primary key",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -112,6 +133,13 @@
               "ActionName": "List",
               "IsAsync": true,
               "Route": "",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -151,6 +179,7 @@
               "SqlType": "TinyInt",
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "tinyint",
               "ClrName": "Id",
               "IsPrimaryKey": true,
@@ -203,6 +232,7 @@
               "CanWrite": true,
               "Length": 255,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "Name",
               "IsPrimaryKey": false,
@@ -255,6 +285,7 @@
               "CanWrite": true,
               "Length": 3,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "char",
               "ClrName": "Code",
               "IsPrimaryKey": false,
@@ -338,6 +369,13 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph",
               "Name": "Related table list action",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -355,6 +393,13 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph",
               "Name": "Complex column link action",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -390,6 +435,13 @@
               "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
               "ActionName": "Get",
               "Name": "Get one by primary key",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -426,6 +478,13 @@
               "ActionName": "List",
               "IsAsync": true,
               "Route": "",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -465,6 +524,7 @@
               "CanWrite": true,
               "Length": 255,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "Mrn",
               "IsPrimaryKey": true,
@@ -517,6 +577,7 @@
               "CanWrite": true,
               "Length": 8,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "bigint",
               "ClrName": "Nrid",
               "IsPrimaryKey": false,
@@ -569,6 +630,7 @@
               "CanWrite": true,
               "Length": 100,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "nvarchar",
               "ClrName": "PassportNo",
               "IsPrimaryKey": false,
@@ -621,6 +683,7 @@
               "CanWrite": true,
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "char",
               "ClrName": "Gender",
               "IsPrimaryKey": false,
@@ -673,6 +736,7 @@
               "CanWrite": true,
               "Length": 50,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "FirstName",
               "IsPrimaryKey": false,
@@ -725,6 +789,7 @@
               "CanWrite": true,
               "Length": 50,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "LastName",
               "IsPrimaryKey": false,
@@ -777,6 +842,7 @@
               "SqlType": "VarChar",
               "Length": 101,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "FullName",
               "IsPrimaryKey": false,
@@ -829,6 +895,7 @@
               "CanWrite": true,
               "Length": 3,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "date",
               "ClrName": "Dob",
               "IsPrimaryKey": false,
@@ -881,6 +948,7 @@
               "CanWrite": true,
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "bit",
               "ClrName": "IsCivilServant",
               "IsPrimaryKey": false,
@@ -933,6 +1001,7 @@
               "CanWrite": true,
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "bit",
               "ClrName": "IsChildren",
               "IsPrimaryKey": false,
@@ -985,6 +1054,7 @@
               "CanWrite": true,
               "Length": 9,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "decimal",
               "ClrName": "Weight",
               "IsPrimaryKey": false,
@@ -1037,6 +1107,7 @@
               "CanWrite": true,
               "Length": 4,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "smallmoney",
               "ClrName": "Fee",
               "IsPrimaryKey": false,
@@ -1089,6 +1160,7 @@
               "CanWrite": true,
               "Length": 8,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "datetime2",
               "ClrName": "RegisteredDate",
               "IsPrimaryKey": false,
@@ -1141,6 +1213,7 @@
               "CanWrite": true,
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "tinyint",
               "ClrName": "NationalityCode",
               "IsPrimaryKey": false,
@@ -1193,6 +1266,7 @@
               "CanWrite": true,
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "tinyint",
               "ClrName": "RaceCode",
               "IsPrimaryKey": false,
@@ -1245,6 +1319,7 @@
               "CanWrite": true,
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "tinyint",
               "ClrName": "ReligionCode",
               "IsPrimaryKey": false,
@@ -1297,6 +1372,7 @@
               "CanWrite": true,
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "tinyint",
               "ClrName": "Age",
               "IsPrimaryKey": false,
@@ -1349,6 +1425,7 @@
               "CanWrite": true,
               "Length": 4,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "real",
               "ClrName": "Height",
               "IsPrimaryKey": false,
@@ -1401,6 +1478,7 @@
               "CanWrite": true,
               "Length": 8,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "money",
               "ClrName": "Income",
               "IsPrimaryKey": false,
@@ -1453,6 +1531,7 @@
               "CanWrite": true,
               "Length": 100,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "nvarchar",
               "ClrName": "BirthCert",
               "IsPrimaryKey": false,
@@ -1505,6 +1584,7 @@
               "CanWrite": true,
               "Length": 255,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "IdCardMimeType",
               "IsPrimaryKey": false,
@@ -1557,6 +1637,7 @@
               "CanWrite": true,
               "Length": -1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "xml",
               "ClrName": "AdditionalInfo",
               "IsPrimaryKey": false,
@@ -1609,6 +1690,7 @@
               "CanWrite": true,
               "Length": -1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "xml",
               "ClrName": "Address",
               "IsPrimaryKey": false,
@@ -1668,6 +1750,7 @@
               "CanWrite": true,
               "Length": -1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varbinary",
               "ClrName": "IdCardCopy",
               "IsPrimaryKey": false,
@@ -1720,6 +1803,7 @@
               "SqlType": "Timestamp",
               "Length": 8,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "timestamp",
               "ClrName": "Version",
               "IsPrimaryKey": false,
@@ -1772,6 +1856,7 @@
               "CanWrite": true,
               "Length": 8,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "datetime",
               "ClrName": "ModifiedDate",
               "IsPrimaryKey": false,
@@ -1853,6 +1938,13 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ChildListActionCode, domain.sph",
               "Name": "Related table list action",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -1870,6 +1962,13 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ComplexColumnActionCode, domain.sph",
               "Name": "Complex column link action",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -1905,6 +2004,13 @@
               "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
               "ActionName": "Get",
               "Name": "Get one by primary key",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -1941,6 +2047,13 @@
               "ActionName": "List",
               "IsAsync": true,
               "Route": "",
+              "CachingSetting": {
+                "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
+                "CacheControl": "Public",
+                "NoStore": true,
+                "Expires": 600,
+                "WebId": null
+              },
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -1980,6 +2093,7 @@
               "CanWrite": true,
               "Length": 255,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "Mrn",
               "IsPrimaryKey": false,
@@ -2032,6 +2146,7 @@
               "CanWrite": true,
               "Length": 255,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "Nationality",
               "IsPrimaryKey": false,
@@ -2084,6 +2199,7 @@
               "CanWrite": true,
               "Length": 101,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "FullName",
               "IsPrimaryKey": false,
@@ -2136,6 +2252,7 @@
               "CanWrite": true,
               "Length": 255,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "Value",
               "IsPrimaryKey": false,
@@ -2188,6 +2305,7 @@
               "CanWrite": true,
               "Length": 50,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "varchar",
               "ClrName": "Religion",
               "IsPrimaryKey": false,
@@ -2240,6 +2358,7 @@
               "CanWrite": true,
               "Length": 3,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "date",
               "ClrName": "Dob",
               "IsPrimaryKey": false,
@@ -2292,6 +2411,7 @@
               "CanWrite": true,
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "tinyint",
               "ClrName": "Age",
               "IsPrimaryKey": false,
@@ -2344,6 +2464,7 @@
               "CanWrite": true,
               "Length": 8,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "bigint",
               "ClrName": "Nrid",
               "IsPrimaryKey": false,
@@ -2396,6 +2517,7 @@
               "CanWrite": true,
               "Length": 9,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "decimal",
               "ClrName": "Weight",
               "IsPrimaryKey": false,
@@ -2448,6 +2570,7 @@
               "CanWrite": true,
               "Length": 4,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "real",
               "ClrName": "Height",
               "IsPrimaryKey": false,
@@ -2500,6 +2623,7 @@
               "CanWrite": true,
               "Length": 1,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "bit",
               "ClrName": "IsCivilServant",
               "IsPrimaryKey": false,
@@ -2552,11 +2676,12 @@
               "CanWrite": true,
               "Length": 8,
               "IsSelected": false,
+              "Unsupported": false,
               "DbType": "datetime",
               "ClrName": "ModifiedDate",
               "IsPrimaryKey": false,
               "IsVersion": false,
-              "IsModifiedDate": false,
+              "IsModifiedDate": true,
               "IsComputed": false,
               "IsIdentity": false,
               "IsComplex": false,
@@ -2624,542 +2749,7 @@
   },
   "OperationDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
-    "$values": [
-      {
-        "$type": "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, sqlserver.adapter",
-        "ObjectType": "P",
-        "UseHttpGet": false,
-        "CodeNamespace": "Bespoke.DevV1.Adapters.HospitalInforformationSystem2016",
-        "Uuid": "5fd0bf75-5418-4be6-a83c-42bcc773d931",
-        "ParameterDefinition": {
-          "$type": "Bespoke.Sph.Domain.Api.ParameterDefinition, domain.sph",
-          "MemberCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-            "$values": []
-          },
-          "Name": null,
-          "IsRequest": false,
-          "IsResponse": false,
-          "CodeNamespace": null,
-          "WebId": null
-        },
-        "RequestMemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
-              "MaxLength": 255,
-              "Mode": "In",
-              "SqlType": "varchar",
-              "Position": 1,
-              "TypeName": "System.String, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": false,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "FullName": "@Gender",
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "@Gender",
-              "AllowMultiple": false,
-              "DefaultValue": null,
-              "WebId": "ff5b063a-992b-497b-ac31-2bfaf4a80b3b"
-            }
-          ]
-        },
-        "ResponseMemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-              "SqlDbType": "Int",
-              "MaxLength": null,
-              "TypeName": "System.Int32, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": false,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "FullName": null,
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "@return_value",
-              "AllowMultiple": false,
-              "DefaultValue": null,
-              "WebId": null
-            }
-          ]
-        },
-        "ErrorRetry": {
-          "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
-          "Attempt": 0,
-          "IsEnabled": false,
-          "Wait": 0,
-          "Algorithm": "Constant",
-          "WebId": null
-        },
-        "Name": "GetPatientsByGender",
-        "MethodName": "GetPatientsByGender",
-        "IsOneWay": false,
-        "IsSelected": false,
-        "Schema": "dbo",
-        "WebId": "5fd0bf75-5418-4be6-a83c-42bcc773d931"
-      },
-      {
-        "$type": "Bespoke.Sph.Integrations.Adapters.ScalarValuedFunction, sqlserver.adapter",
-        "ObjectType": "FN",
-        "UseHttpGet": false,
-        "CodeNamespace": "Bespoke.DevV1.Adapters.HospitalInforformationSystem2016",
-        "Uuid": "3a405cb4-5e5b-44b9-b794-9b65bb07c63a",
-        "ParameterDefinition": {
-          "$type": "Bespoke.Sph.Domain.Api.ParameterDefinition, domain.sph",
-          "MemberCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-            "$values": []
-          },
-          "Name": null,
-          "IsRequest": false,
-          "IsResponse": false,
-          "CodeNamespace": null,
-          "WebId": null
-        },
-        "RequestMemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
-              "MaxLength": 255,
-              "Mode": "In",
-              "SqlType": "varchar",
-              "Position": 1,
-              "TypeName": "System.String, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": false,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "FullName": "@FirstName",
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "@FirstName",
-              "AllowMultiple": false,
-              "DefaultValue": null,
-              "WebId": "12a011a5-46dc-4e69-9d9e-fd39cf71d090"
-            },
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
-              "MaxLength": 50,
-              "Mode": "In",
-              "SqlType": "varchar",
-              "Position": 2,
-              "TypeName": "System.String, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": false,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "FullName": "@LastName",
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "@LastName",
-              "AllowMultiple": false,
-              "DefaultValue": null,
-              "WebId": "8b423092-6c0e-43c5-a09f-acb100610d73"
-            }
-          ]
-        },
-        "ResponseMemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-              "SqlDbType": "VarChar",
-              "MaxLength": 255,
-              "TypeName": "System.String, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": false,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "FullName": null,
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "Result",
-              "AllowMultiple": false,
-              "DefaultValue": null,
-              "WebId": null
-            }
-          ]
-        },
-        "ErrorRetry": {
-          "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
-          "Attempt": 3,
-          "IsEnabled": false,
-          "Wait": 500,
-          "Algorithm": "Linear",
-          "WebId": null
-        },
-        "Name": "GetFullName",
-        "MethodName": "GetFullName",
-        "IsOneWay": false,
-        "IsSelected": false,
-        "Schema": "dbo",
-        "WebId": "3a405cb4-5e5b-44b9-b794-9b65bb07c63a"
-      },
-      {
-        "$type": "Bespoke.Sph.Integrations.Adapters.TableValuedFunction, sqlserver.adapter",
-        "ObjectType": "IF",
-        "UseHttpGet": true,
-        "CodeNamespace": "Bespoke.DevV1.Adapters.HospitalInforformationSystem2016",
-        "Uuid": "68a41b71-4528-4723-beee-1629fd6195f9",
-        "ParameterDefinition": {
-          "$type": "Bespoke.Sph.Domain.Api.ParameterDefinition, domain.sph",
-          "MemberCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-            "$values": []
-          },
-          "Name": null,
-          "IsRequest": false,
-          "IsResponse": false,
-          "CodeNamespace": null,
-          "WebId": null
-        },
-        "RequestMemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
-              "MaxLength": 4,
-              "Mode": "In",
-              "SqlType": "int",
-              "Position": 1,
-              "TypeName": "System.Int32, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": false,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "FullName": "@Year",
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "@Year",
-              "AllowMultiple": false,
-              "DefaultValue": null,
-              "WebId": "7dc89e9f-2df8-48bc-bfa2-81e9e924a5d3"
-            }
-          ]
-        },
-        "ResponseMemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
-              "EmptyField": "",
-              "TypeName": "PatientsBornInYearResult1",
-              "FullName": null,
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": [
-                  {
-                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                    "SqlDbType": "VarChar",
-                    "MaxLength": null,
-                    "TypeName": "System.String, mscorlib",
-                    "IsNullable": false,
-                    "IsNotIndexed": false,
-                    "IsAnalyzed": false,
-                    "IsFilterable": false,
-                    "IsExcludeInAll": false,
-                    "Boost": 0,
-                    "FullName": null,
-                    "PropertyAttribute": null,
-                    "MemberCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "FieldPermissionCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "Name": "Mrn",
-                    "AllowMultiple": false,
-                    "DefaultValue": null,
-                    "WebId": "9917bf77-8af6-4cde-84b7-53ce7ed3b16d"
-                  },
-                  {
-                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                    "SqlDbType": "VarChar",
-                    "MaxLength": null,
-                    "TypeName": "System.String, mscorlib",
-                    "IsNullable": false,
-                    "IsNotIndexed": false,
-                    "IsAnalyzed": false,
-                    "IsFilterable": false,
-                    "IsExcludeInAll": false,
-                    "Boost": 0,
-                    "FullName": null,
-                    "PropertyAttribute": null,
-                    "MemberCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "FieldPermissionCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "Name": "FullName",
-                    "AllowMultiple": false,
-                    "DefaultValue": null,
-                    "WebId": "b7158caf-409d-4ce0-cf5e-57de42d8ac27"
-                  },
-                  {
-                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                    "SqlDbType": "VarChar",
-                    "MaxLength": null,
-                    "TypeName": "System.Int64, mscorlib",
-                    "IsNullable": true,
-                    "IsNotIndexed": false,
-                    "IsAnalyzed": false,
-                    "IsFilterable": false,
-                    "IsExcludeInAll": false,
-                    "Boost": 0,
-                    "FullName": null,
-                    "PropertyAttribute": null,
-                    "MemberCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "FieldPermissionCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "Name": "Nrid",
-                    "AllowMultiple": false,
-                    "DefaultValue": null,
-                    "WebId": "c8cfaf27-8dd6-4486-d9ac-f59ef26a965f"
-                  }
-                ]
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "PatientsBornInYearResult1",
-              "AllowMultiple": true,
-              "DefaultValue": null,
-              "WebId": "9c1d46c3-0d41-4697-cf96-6f5071be8d24"
-            }
-          ]
-        },
-        "ErrorRetry": {
-          "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
-          "Attempt": 3,
-          "IsEnabled": false,
-          "Wait": 500,
-          "Algorithm": "Linear",
-          "WebId": null
-        },
-        "Name": "PatientsBornInYear",
-        "MethodName": "PatientsBornInYear",
-        "IsOneWay": false,
-        "IsSelected": false,
-        "Schema": "dbo",
-        "WebId": "68a41b71-4528-4723-beee-1629fd6195f9"
-      },
-      {
-        "$type": "Bespoke.Sph.Integrations.Adapters.TableValuedFunction, sqlserver.adapter",
-        "ObjectType": "TF",
-        "UseHttpGet": true,
-        "CodeNamespace": "Bespoke.DevV1.Adapters.HospitalInforformationSystem2016",
-        "Uuid": "60fa5a42-4535-4337-9840-4b5cfb877cc4",
-        "ParameterDefinition": {
-          "$type": "Bespoke.Sph.Domain.Api.ParameterDefinition, domain.sph",
-          "MemberCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-            "$values": []
-          },
-          "Name": null,
-          "IsRequest": false,
-          "IsResponse": false,
-          "CodeNamespace": null,
-          "WebId": null
-        },
-        "RequestMemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Integrations.Adapters.SprocParameter, sqlserver.adapter",
-              "MaxLength": 4,
-              "Mode": "In",
-              "SqlType": "int",
-              "Position": 1,
-              "TypeName": "System.Int32, mscorlib",
-              "IsNullable": false,
-              "IsNotIndexed": false,
-              "IsAnalyzed": false,
-              "IsFilterable": false,
-              "IsExcludeInAll": false,
-              "Boost": 0,
-              "FullName": "@Country",
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "@Country",
-              "AllowMultiple": false,
-              "DefaultValue": null,
-              "WebId": "4aaeae61-ab21-4497-94f4-2502ec876be2"
-            }
-          ]
-        },
-        "ResponseMemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
-              "EmptyField": null,
-              "TypeName": "GetPatientsByCountryResultset",
-              "FullName": null,
-              "PropertyAttribute": null,
-              "MemberCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                "$values": [
-                  {
-                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                    "SqlDbType": "VarChar",
-                    "MaxLength": 50,
-                    "TypeName": "System.String, mscorlib",
-                    "IsNullable": true,
-                    "IsNotIndexed": false,
-                    "IsAnalyzed": false,
-                    "IsFilterable": false,
-                    "IsExcludeInAll": false,
-                    "Boost": 0,
-                    "FullName": null,
-                    "PropertyAttribute": null,
-                    "MemberCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "FieldPermissionCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "Name": "Mrn",
-                    "AllowMultiple": false,
-                    "DefaultValue": null,
-                    "WebId": null
-                  },
-                  {
-                    "$type": "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                    "SqlDbType": "VarChar",
-                    "MaxLength": 255,
-                    "TypeName": "System.String, mscorlib",
-                    "IsNullable": true,
-                    "IsNotIndexed": false,
-                    "IsAnalyzed": false,
-                    "IsFilterable": false,
-                    "IsExcludeInAll": false,
-                    "Boost": 0,
-                    "FullName": null,
-                    "PropertyAttribute": null,
-                    "MemberCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "FieldPermissionCollection": {
-                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                      "$values": []
-                    },
-                    "Name": "FullName",
-                    "AllowMultiple": false,
-                    "DefaultValue": null,
-                    "WebId": null
-                  }
-                ]
-              },
-              "FieldPermissionCollection": {
-                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-                "$values": []
-              },
-              "Name": "GetPatientsByCountryResults",
-              "AllowMultiple": true,
-              "DefaultValue": null,
-              "WebId": null
-            }
-          ]
-        },
-        "ErrorRetry": {
-          "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
-          "Attempt": 3,
-          "IsEnabled": false,
-          "Wait": 500,
-          "Algorithm": "Linear",
-          "WebId": null
-        },
-        "Name": "GetPatientsByCountry",
-        "MethodName": "GetPatientsByCountry",
-        "IsOneWay": false,
-        "IsSelected": false,
-        "Schema": "dbo",
-        "WebId": "60fa5a42-4535-4337-9840-4b5cfb877cc4"
-      }
-    ]
+    "$values": []
   },
   "Name": "HospitalInforformationSystem2016",
   "Description": "var doc = new System.Xml.Document();\ndoc.Load(@\"<Address Street=\"\"\"\" State=\"\"\"\"/>\");\nreturn doc;",
@@ -3168,6 +2758,6 @@
   "Id": "hospital-inforformation-system-2016",
   "CreatedDate": "2016-06-17T06:30:51.5495414+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-23T07:42:07.6002481+08:00",
+  "ChangedDate": "2016-06-25T05:48:02.1949896+08:00",
   "WebId": "1ca35cdc-984f-417e-bbf0-68cb68cc9a65"
 }

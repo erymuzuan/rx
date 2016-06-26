@@ -10,9 +10,9 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     {
         public override Type ClrType => typeof(string);
 
-        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
-            return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", item.{ClrName});";
+            return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", {itemIdentifier}.{ClrName});";
         }
 
         public override string GenerateValueAssignmentCode(string dbValue)

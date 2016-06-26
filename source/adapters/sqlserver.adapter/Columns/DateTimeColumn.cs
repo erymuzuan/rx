@@ -9,11 +9,11 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     public class DateTimeColumn : NonNullableColumn
     {
         public override Type ClrType => typeof(DateTime);
-        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
             if (this.IsModifiedDate)
                 return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", System.DateTime.Now);";
-            return base.GenerateUpdateParameterValue(commandName);
+            return base.GenerateUpdateParameterValue(commandName,itemIdentifier);
         }
         
     }

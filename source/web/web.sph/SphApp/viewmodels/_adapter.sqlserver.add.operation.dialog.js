@@ -68,13 +68,14 @@ define(['plugins/dialog', "services/datacontext"],
                         trusted = ko.unwrap(adp.TrustedConnection),
                         userid = ko.unwrap(adp.UserId),
                         password = ko.unwrap(adp.Password),
+                        strategy = ko.unwrap(adp.ColumnDisplayNameStrategy),
                         url = trusted ? "" : "&trusted=false&userid=" + userid+ "&password=" + password,
                         type = ko.unwrap(operation.ObjectType);
 
 
                     if($(this).is(":checked")){
                         isBusy();
-                        $.getJSON("/sqlserver-adapter/operation-options/" +  type + "/" +  operation.Schema + "/" + operation.Name +"?server=" + server + "&database=" + database + url)
+                        $.getJSON("/sqlserver-adapter/operation-options/" +  type + "/" +  operation.Schema + "/" + operation.Name +"?server=" + server + "&database=" + database+ "&strategy=" + strategy + url)
                                 .done(function(result){
                                     var tr = context.toObservable(result);
                                     selectedOperations.push(tr);

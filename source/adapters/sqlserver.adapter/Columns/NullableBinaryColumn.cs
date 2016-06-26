@@ -15,9 +15,9 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     {
         public override Type ClrType => typeof(byte[]);
 
-        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
-            return $@"{commandName}.Parameters.Add(new SqlParameter(""@{ClrName}"", SqlDbType.{SqlType}, {Length}){{ Value = item.{ClrName}.ToDbNull()}});";
+            return $@"{commandName}.Parameters.Add(new SqlParameter(""@{ClrName}"", SqlDbType.{SqlType}, {Length}){{ Value = {itemIdentifier}.{ClrName}.ToDbNull()}});";
         }
 
         public override string GenerateReadAdapterCode(TableDefinition table, Adapter adapter)

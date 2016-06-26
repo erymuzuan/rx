@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Data;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
+using Bespoke.Sph.Integrations.Adapters.Columns;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace sqlserver.adapter.test
@@ -29,47 +28,39 @@ namespace sqlserver.adapter.test
                 Name = "CmrcProductsByCategory",
             };
 
-            var categoryId = new SprocParameter
+            var categoryId = new IntColumn
             {
-                Name = "@CategoryID",
-                Type = typeof(int),
-                SqlType = "int",
-                Position = 0,
-                MaxLength = null
+                Name = "@CategoryID"
             };
 
             productByCategory.RequestMemberCollection.Add(categoryId);
 
 
 
-            var retVal = new SprocResultMember
+            var retVal = new IntColumn
             {
-                Name = "@return_value",
-                Type = typeof(int),
-                SqlDbType = SqlDbType.Int
+                Name = "@return_value"
             };
 
-            var resultset1 = new SprocResultMember
+            var resultset1 = new ComplexMember
             {
                 Name = "CMRC_ProductsByCategoryResult1Collection",
-                Type = typeof(Array)
+                AllowMultiple = true
             };
-            resultset1.MemberCollection.Add(new SprocResultMember
+            resultset1.MemberCollection.Add(new NullableIntColumn
             {
-                Name = "ProductId",
-                Type = typeof(int)
+                Name = "ProductId"
             });
-            resultset1.MemberCollection.Add(new SprocResultMember
+            resultset1.MemberCollection.Add(new StringColumn
             {
-                Name = "ModelName",
-                Type = typeof(string)
+                Name = "ModelName"
             });
-            resultset1.MemberCollection.Add(new SprocResultMember
+            resultset1.MemberCollection.Add(new NullableIntColumn
             {
                 Name = "UnitCost",
                 Type = typeof(decimal)
             });
-            resultset1.MemberCollection.Add(new SprocResultMember
+            resultset1.MemberCollection.Add(new StringColumn
             {
                 Name = "ProductImage",
                 Type = typeof(string)
@@ -118,45 +109,26 @@ namespace sqlserver.adapter.test
                 Name = "uspUpdateEmployeePersonalInfo",
             };
 
-            var businessEntityId = new SprocParameter
+            var businessEntityId = new StringColumn
             {
                 Name = "@BusinessEntityID",
-                Type = typeof(int),
-                SqlType = "nchar",
-                Position = 5,
-                MaxLength = null
+                Type = typeof(int)
             };
-            var nationalIdNumber = new SprocParameter
+            var nationalIdNumber = new StringColumn
             {
-                Name = "@NationalIDNumber",
-                Type = typeof(string),
-                SqlType = "nvarchar",
-                Position = 5,
-                MaxLength = null
+                Name = "@NationalIDNumber"
             };
-            var birthDate = new SprocParameter
+            var birthDate = new DateTimeColumn
             {
-                Name = "@BirthDate",
-                Type = typeof(DateTime),
-                SqlType = "nchar",
-                Position = 5,
-                MaxLength = null
+                Name = "@BirthDate"
             };
-            var maritalStatus = new SprocParameter
+            var maritalStatus = new StringColumn
             {
-                Name = "@MaritalStatus",
-                Type = typeof(string),
-                SqlType = "nchar",
-                Position = 5,
-                MaxLength = null
+                Name = "@MaritalStatus"
             };
-            var gender = new SprocParameter
+            var gender = new StringColumn
             {
-                Name = "@Gender",
-                Type = typeof(string),
-                SqlType = "nchar",
-                Position = 5,
-                MaxLength = null
+                Name = "@Gender"
             };
             uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(businessEntityId);
             uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(nationalIdNumber);
@@ -165,18 +137,14 @@ namespace sqlserver.adapter.test
             uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(gender);
 
 
-            var retVal = new SprocResultMember
+            var retVal = new IntColumn
             {
-                Name = "@return_value",
-                Type = typeof(int),
-                SqlDbType = SqlDbType.Int
+                Name = "@return_value"
             };
 
-            var modifiedDate = new SprocResultMember
+            var modifiedDate = new DateTimeColumn
             {
-                Name = "@ModifiedDate",
-                Type = typeof(DateTime),
-                SqlDbType = SqlDbType.DateTime
+                Name = "@ModifiedDate"
             };
             uspUpdateEmployeePersonalInfo.ResponseMemberCollection.Add(retVal);
             uspUpdateEmployeePersonalInfo.ResponseMemberCollection.Add(modifiedDate);

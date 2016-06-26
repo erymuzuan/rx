@@ -23,9 +23,9 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
             return $"xml{Name}";
         }
         
-        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
-            return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", item.{ClrName}.OuterXml);";
+            return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", {itemIdentifier}.{ClrName}.OuterXml);";
 
         }
     }

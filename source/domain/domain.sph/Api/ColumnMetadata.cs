@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
@@ -27,7 +28,19 @@ namespace Bespoke.Sph.Domain.Api
 
         }
 
-        public static ColumnMetadata Read(IDataReader reader, TableDefinition table)
+        public static ColumnMetadata Read(IDataReader reader)
+        {
+            var mt = new ColumnMetadata();
+            Console.WriteLine("");
+            mt.Name = (string) reader["Column"];
+            mt.DbType = (string)reader["Type"];
+            mt.Length = Convert.ToInt16(reader["Length"]);
+            mt.IsNullable = (bool)reader["IsNullable"];
+            mt.IsIdentity = (bool)reader["IsIdentity"];
+            mt.IsComputed = (bool)reader["IsComputed"];
+            return mt;
+        }
+        public static ColumnMetadata Read(IDictionary<string,object> reader)
         {
             var mt = new ColumnMetadata();
             Console.WriteLine("");

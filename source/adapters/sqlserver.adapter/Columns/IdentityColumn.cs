@@ -8,7 +8,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
     public class IdentityColumn : SqlColumn
     {
         public override bool CanWrite => false;
-        public override string GenerateUpdateParameterValue(string commandName = "cmd")
+        public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
             return null;
         }

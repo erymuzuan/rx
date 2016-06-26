@@ -1,4 +1,3 @@
-using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -21,7 +20,14 @@ namespace Bespoke.Sph.Integrations.Adapters
 
                 string selectParametersSql = $@"
 SELECT 
-    name,TYPE_NAME(user_type_id) as 'data_type', max_length, precision, scale, is_nullable
+    name as 'Column',
+    TYPE_NAME(user_type_id) as 'Type', 
+    max_length as 'Length',
+    precision, 
+    scale, 
+    is_nullable as 'IsNullable',
+	cast(0 as bit) as 'IsIdentity',
+	cast(0 as bit) as 'IsComputed'
 FROM 
     sys.columns
 WHERE 
@@ -42,21 +48,7 @@ WHERE
                     {
                         while (await reader.ReadAsync())
                         {
-                            var dt = (string)reader["data_type"];
-                            var max = reader["max_length"].ReadNullable<short>();
-                            var name = (string)reader["name"];
-                            var nullable = (bool)reader["is_nullable"];
-                            
-                            SqlDbType t;
-                            Enum.TryParse(dt, true, out t);
-                            var rm = new SprocResultMember
-                            {
-                                Name = name,
-                                SqlDbType = t,
-                                Type = dt.GetClrType(),
-                                MaxLength = max,
-                                IsNullable = nullable
-                            };
+                            var rm = await reader.ReadColumnAsync(adapter);
                             resultSet.MemberCollection.Add(rm);
 
                         }
@@ -92,23 +84,29 @@ WHERE
                     code.AppendLine("                   while(await reader.ReadAsync())");
                     code.AppendLine("                   {");
                     code.AppendLine($"                       var item = new {cm.TypeName}();");
-                    var readerCodes = m.MemberCollection.OfType<SprocResultMember>()
-                                    .Select(x => x.GenerateReaderCode())
+                    var statementsCode = m.MemberCollection.OfType<SqlColumn>()
+                                    .Select(x => x.GenerateValueStatementCode($@"reader[""{x.Name}""]"))
                                     .Where(x => !string.IsNullOrWhiteSpace(x))
                                     .ToString("\r\n");
-                    code.AppendLine(readerCodes);
-                    code.AppendLinf("                       response.{0}.Add(item);", m.Name);
+                    var assignmentCodes = m.MemberCollection.OfType<SqlColumn>()
+                                    .Select(x => $"item.{x.ClrName} = {x.GenerateValueAssignmentCode($@"reader[""{x.Name}""]")};")
+                                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                                    .ToString("\r\n");
+
+                    code.AppendLine(statementsCode);
+                    code.AppendLine(assignmentCodes);
+                    code.AppendLine($"                       response.{m.Name}.Add(item);");
                     code.AppendLine("                   }");
                     code.AppendLine("               }");
                     continue;
                 }
                 if (m.Name == "@return_value") continue;
-                var srm = m as SprocResultMember;
+                var srm = m as SqlColumn;
                 if (null != srm)
                     code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name, srm.Type.ToCSharp());
             }
 
-            code.AppendLine($"               return response;");
+            code.AppendLine("               return response;");
             code.AppendLine("           }");
             return code.ToString();
         }

@@ -5,7 +5,6 @@
     <div class="col-sm-12 col-md-8 col-lg-9">
 
 
-
         <div class="row" id="response-members-panel">
             <h3>Operation Schema Designer</h3>
             <div class="col-sm-8">
@@ -13,70 +12,31 @@
                 </div>
             </div>
             <div class="col-sm-4" data-bind="with: $root.selected">
-                <h3>Member properties</h3>
-
-                <form class="form" role="form" data-bind="visible:Name()">
+                <!-- ko if : (typeof(SqlType) !== "undefined") -->
+                <h3 data-bind="text: 'Parameter Property'"></h3>
+                <form>
                     <div class="form-group">
-                        <label for="member_name2">CLR Name</label>
-                        <input class="form-control" id="member_name2" name="member.name" type="text" required
-                               pattern="^[A-Za-z@_][A-Za-z0-9_]*$"
-                               data-bind="value: Name, enable : ko.unwrap(Name) !== '@return_value', tooltip: 'The property name for C# code, must be valid C# identifier with Pascal'"/>
-                    </div>
-
-                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter'-->
-                    <div class="form-group">
-                        <label for="field-name">Field Name</label>
-                        <input class="form-control" id="field-name" name="field.name" type="text" required
-                               data-bind="value: FieldName, tooltip:'Field is the record set name, must be the same with the field name returned from the operation call'"/>
+                        <label class="control-label" data-bind="text:Name">Name</label>
+                    <span class=""
+                          data-bind="text:ko.unwrap(DbType) + ' (' + ko.unwrap(Length) + ')' + (ko.unwrap(IsNullable) ? ' NULL': ' NOT NULL')"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="member_name2">Display Name</label>
-                        <input class="form-control" id="display-name" name="display.name" type="text" required
-                               data-bind="value: DisplayName, tooltip :'Json serialized property name'"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="member-type2">Type</label>
-                        <select class="form-control" id="member-type2" data-bind="value:TypeName">
-                            <option value="">[Please Select]</option>
-                            <option value="System.String, mscorlib">String</option>
-                            <option value="System.Boolean, mscorlib">Boolean</option>
-                            <option value="System.Byte, mscorlib">Byte</option>
-                            <option value="System.Int16, mscorlib">Short</option>
-                            <option value="System.Int32, mscorlib">Integer</option>
-                            <option value="System.Int64, mscorlib">Long</option>
-                            <option value="System.Decimal, mscorlib">Decimal</option>
-                            <option value="System.Double, mscorlib">Double</option>
-                            <option value="System.DateTime, mscorlib">DateTime</option>
-                            <option value="System.DateTimeOffset, mscorlib">DateTimeOffset</option>
-                            <option value="System.TimeSpan, mscorlib">TimeSpan</option>
-                            <option value="System.Guid, mscorlib">Guid</option>
-                            <option value="System.Byte[], mscorlib">Byte Array</option>
-                            <option value="System.Xml.XmlDocument, System.Xml">Xml</option>
-                        </select>
-
+                        <label class="control-label">CLR Property</label>
+                        <input type="text" disabled class="form-control"
+                               data-bind="value:ClrName, tooltip: 'The property name used internally by C# compiler'"/>
                     </div>
                     <div class="form-group">
-                        <label class="checkbox">
-                            <input data-bind="checked: IsNullable" id="member-nullable" type="checkbox"
-                                   name="IsNullable"/>
-                            Nullable
-                        </label>
+                        <label class="control-label">Display Name</label>
+                        <input type="text"
+                               placeholder="Json serialized property name, leave it blank and it will use the ClrName"
+                               class="form-control"
+                               data-bind="value:DisplayName, tooltip: 'The property name used by json serializer, for your API'"/>
                     </div>
-
-                    <!-- /ko -->
-                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.ComplexMember, domain.sph'-->
-                    <div class="form-group">
-                        <label for="complex-type-name">Type Name</label>
-                        <input class="form-control" id="complex-type-name" name="member.name" type="text" required
-                               data-bind="value: TypeName"/>
-                    </div>
-
-                    <!-- /ko -->
 
 
                 </form>
+                <!-- /ko -->
             </div>
         </div>
 

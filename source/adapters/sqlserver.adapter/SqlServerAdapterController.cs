@@ -340,6 +340,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             [FromUri(Name = "server")] string server,
             [FromUri(Name = "database")] string database,
             [FromUri(Name = "trusted")] bool trusted = true,
+            [FromUri(Name = "strategy")] string strategy = null,
             [FromUri(Name = "userid")] string user = "",
             [FromUri(Name = "password")] string password = "")
         {
@@ -349,7 +350,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                 Database = database,
                 TrustedConnection = trusted,
                 UserId = user,
-                Password = password
+                Password = password,
+                ColumnDisplayNameStrategy = strategy
             };
 
             var operation = await adapter.CreateAsync(type, schema, name);

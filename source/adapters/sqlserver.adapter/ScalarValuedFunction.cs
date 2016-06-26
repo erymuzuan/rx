@@ -1,9 +1,5 @@
-using System;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 
@@ -11,12 +7,11 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public class ScalarValuedFunction : FunctionOperationDefinition
     {
-
         protected override string GenerateAdapterActionBody(Adapter adapter)
         {
             var code = new StringBuilder();
             var parameters = this.RequestMemberCollection.ToString(", ", x => x.ToSqlParameter());
-            var response = this.ResponseMemberCollection.OfType<SprocResultMember>().Single();
+            var response = (SqlColumn)this.ResponseMemberCollection.Single();
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
             code.AppendLine($@"           using(var cmd = new SqlCommand(""SELECT {response.ToSqlParameter()} = [{Schema}].[{MethodName}]({parameters})"", conn))");
@@ -26,17 +21,15 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.JoinAndAppendLine(this.RequestMemberCollection, "\r\n",
                 m => $@"cmd.Parameters.AddWithValue(""{m.ToSqlParameter()}"", request.{m.Name});");
 
-            code.AppendLine($@"var result = cmd.Parameters.Add(""{response.ToSqlParameter()}"", SqlDbType.{response.SqlDbType}, {response.MaxLength});");
+            code.AppendLine($@"var result = cmd.Parameters.Add(""{response.ToSqlParameter()}"", SqlDbType.{response.SqlType}, {response.Length});");
             code.AppendLine("result.Direction = ParameterDirection.Output;");
 
             code.AppendLine("               await conn.OpenAsync();");
-            code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
-            code.AppendLine(response.Type == typeof(string)
-                ? "var response = result.Value.ReadNullableString();"
-                : $"var response = ({response.Type.ToCSharp()})result.Value;");
+            code.AppendLine("               var _row = await cmd.ExecuteNonQueryAsync();");
+            code.AppendLine($"              var retVal = {response.GenerateValueAssignmentCode("result.Value")};");
 
 
-            code.AppendLine($"               return new {MethodName.ToCsharpIdentitfier()}Response{{ {response.Name} = response}};");
+            code.AppendLine($"               return new {MethodName.ToCsharpIdentitfier()}Response{{ {response.ClrName} = retVal}};");
             code.AppendLine("           }");
             return code.ToString();
         }

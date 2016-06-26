@@ -120,9 +120,9 @@ namespace Bespoke.Sph.Domain
                 var v = match.ToString();
                 return v.Replace(" ", "").ToUpperInvariant();
             });
-            text = removeSpace;
+            text = removeSpace.Replace("@", "").Replace("_", string.Empty);
 
-            if (text.Replace("_", string.Empty).ToCharArray().All(char.IsUpper))
+            if (text.ToCharArray().All(char.IsUpper))
             {
                 return new string(text.ToCamelCaseHelperWithAllUpper().Where(c => c != char.MinValue).ToArray());
             }

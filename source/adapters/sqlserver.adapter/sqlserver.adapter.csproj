@@ -110,8 +110,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SprocOperationDefinition.cs" />
-    <Compile Include="SprocParameter.cs" />
-    <Compile Include="SprocResultMember.cs" />
     <Compile Include="SqlColumn.cs" />
     <Compile Include="SqlServerAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

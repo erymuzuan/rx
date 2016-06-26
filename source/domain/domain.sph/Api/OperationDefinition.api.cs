@@ -30,8 +30,8 @@ namespace Bespoke.Sph.Domain.Api
         {
             var code = new StringBuilder();
             var action = this.MethodName.ToCsharpIdentitfier();
-            var parameters = this.RequestMemberCollection.ToString(", ", x => $@"[FromUri(Name=""{x.Name}"")]" + x.GenerateParameterCode());
-            var routesParamters = this.RequestMemberCollection.ToString("/", x => "{" + x.Name + "}");
+            var parameters = this.RequestMemberCollection.ToString(", ", x => $@"[FromUri(Name=""{x.Name.ToCamelCase()}"")]" + x.GenerateParameterCode());
+            var routesParamters = this.RequestMemberCollection.ToString("/", x => "{" + x.Name.ToCamelCase() + "}");
 
             code.AppendLine("[HttpGet]");
             code.AppendLine($@"[Route(""{this.MethodName.ToIdFormat()}/{routesParamters}"")]");
