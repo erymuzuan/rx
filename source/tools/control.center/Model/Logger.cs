@@ -63,7 +63,7 @@ namespace Bespoke.Sph.ControlCenter.Model
                 if ((int)entry.Severity < (int)this.TraceSwitch)
                     return;
                 var json = GetJsonContent(entry);
-                this.SendMessage(json, entry.Severity);
+                this.QueueUserWorkItem(this.SendMessage, json, entry.Severity);
             }
             catch
             {

@@ -127,7 +127,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     GenerateConsoleCtrlEvent(CtrlTypes.CTRL_C_EVENT, 0);
 
                     //Must wait here. If we don't and re-enable Ctrl-C handling below too fast, we might terminate ourselves.
-                    m_sphWorkerProcess.WaitForExit();
+                    m_sphWorkerProcess.WaitForExit(5000);
 
                     FreeConsole();
 
