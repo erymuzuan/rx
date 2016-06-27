@@ -13,12 +13,11 @@ namespace Bespoke.Sph.Integrations.Adapters
         public override async Task InitializeRequestMembersAsync(SqlServerAdapter adapter)
         {
             await base.InitializeRequestMembersAsync(adapter);
-            if (ObjectType == "TF")
-            {
-                // TODO : set the response member
-                this.ResponseMemberCollection.Clear();
 
-                string selectParametersSql = $@"
+            // TODO : set the response member
+            this.ResponseMemberCollection.Clear();
+
+            string selectParametersSql = $@"
 SELECT 
     name as 'Column',
     TYPE_NAME(user_type_id) as 'Type', 
@@ -35,28 +34,28 @@ WHERE
 ";
 
 
-                using (var conn = new SqlConnection(adapter.ConnectionString))
-                using (var cmd = new SqlCommand(selectParametersSql, conn))
+            using (var conn = new SqlConnection(adapter.ConnectionString))
+            using (var cmd = new SqlCommand(selectParametersSql, conn))
+            {
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+
+                var resultSet = new ComplexMember { AllowMultiple = true, Name = "_results", TypeName = $"{MethodName}Row" };
+                this.ResponseMemberCollection.Add(resultSet);
+                using (var reader = await cmd.ExecuteReaderAsync())
                 {
-                    cmd.CommandType = CommandType.Text;
-
-                    await conn.OpenAsync();
-
-                    var resultSet = new ComplexMember { AllowMultiple = true, Name = $"{MethodName}Results", TypeName = $"{MethodName}Resultset" };
-                    this.ResponseMemberCollection.Add(resultSet);
-                    using (var reader = await cmd.ExecuteReaderAsync())
+                    while (await reader.ReadAsync())
                     {
-                        while (await reader.ReadAsync())
-                        {
-                            var rm = await reader.ReadColumnAsync(adapter);
-                            resultSet.MemberCollection.Add(rm);
+                        var rm = await reader.ReadColumnAsync(adapter);
+                        resultSet.MemberCollection.Add(rm);
 
-                        }
                     }
-
                 }
 
             }
+
+
         }
 
         protected override string GenerateAdapterActionBody(Adapter adapter)
