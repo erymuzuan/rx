@@ -58,16 +58,16 @@ namespace Bespoke.Sph.Domain.Api
                 switch (adapter.ColumnDisplayNameStrategy)
                 {
                     case "camel":
-                        col.DisplayName = mt.Name.Camelize();
+                        col.DisplayName = mt.Name.ToCamelCase();
                         break;
                     case "Pascal":
-                        col.DisplayName = mt.Name.Pascalize();
+                        col.DisplayName = mt.Name.ToPascalCase();
                         break;
                     case "-":
-                        col.DisplayName = mt.Name.Dasherize();
+                        col.DisplayName = mt.Name.ToIdFormat();
                         break;
                     case "_":
-                        col.DisplayName = mt.Name.Underscore();
+                        col.DisplayName = mt.Name.ToIdFormat().Replace("-","_");
                         break;
                     default:
                         col.DisplayName = null;

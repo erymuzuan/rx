@@ -193,6 +193,8 @@ namespace Bespoke.Sph.Domain
             {
                 sb.Replace(norm, "-");
             }
+            if (sb[0] == '-')
+                sb.Remove(0, 1);
 
             return sb.ToString().ToLowerInvariant();
         }
