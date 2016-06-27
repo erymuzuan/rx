@@ -5427,8 +5427,8 @@
               "IsIdentity": false,
               "IsComplex": false,
               "MimeType": null,
-              "Ignore": false,
-              "DisplayName": "@StartProductID",
+              "Ignore": true,
+              "DisplayName": "startProductID",
               "Order": 0,
               "LookupColumnTable": {
                 "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
@@ -5439,7 +5439,7 @@
                 "ValueColumn": null,
                 "KeyColumn": null,
                 "Name": null,
-                "TypeName": null,
+                "TypeName": "",
                 "WebId": null
               },
               "TypeName": "System.Int32, mscorlib",
@@ -5492,7 +5492,7 @@
                 "ValueColumn": null,
                 "KeyColumn": null,
                 "Name": null,
-                "TypeName": null,
+                "TypeName": "",
                 "WebId": null
               },
               "TypeName": "System.DateTime, mscorlib",
@@ -5550,7 +5550,7 @@
                 "ValueColumn": null,
                 "KeyColumn": null,
                 "Name": null,
-                "TypeName": null,
+                "TypeName": "",
                 "WebId": null
               },
               "TypeName": "System.DateTime, mscorlib",
@@ -6098,6 +6098,6 @@
   "Id": "adventure-works",
   "CreatedDate": "2016-06-23T07:55:43.2930618+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-26T16:50:14.0637639+08:00",
+  "ChangedDate": "2016-06-26T16:54:38.7652025+08:00",
   "WebId": "871a980f-855f-499e-a0a5-7d4aabaa3cc6"
 }
