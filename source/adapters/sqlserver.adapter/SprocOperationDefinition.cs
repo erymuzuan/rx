@@ -57,10 +57,7 @@ select
                             this.RequestMemberCollection.Add(col);
                     }
                 }
-
-
             }
-
 
             var retVal = new IntColumn
             {
@@ -98,7 +95,7 @@ set fmtonly off
                 {
                     var dt = reader.GetSchemaTable();
                     if (null == dt) return;
-                    var resultSet = new ComplexMember { Name = $"{MethodName}Results", TypeName = $"{MethodName}Row", AllowMultiple = true };
+                    var resultSet = new ComplexMember { Name = "_results", TypeName = $"{MethodName}Row", AllowMultiple = true };
                     foreach (DataRow colMetadata in dt.Rows)
                     {
                         var colReader = new Dictionary<string, object>

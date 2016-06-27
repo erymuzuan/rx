@@ -9,7 +9,7 @@
         <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
         <!-- /ko-->
         <!-- ko if : FileName -->
-        <br />
+        <br/>
         <a href="javascript:;" data-bind="click : $root.viewFile">
             <span class="small" data-bind="text:FileName"></span>(<span class="small" data-bind="text:Line"></span>)
         </a>
@@ -28,8 +28,13 @@
     <div class="row col-lg-9 col-md9">
 
         <div class="col-lg-8 col-md-7 col-sm-6">
+            <div class="form-group">
+                <label class="control-label" for="search-textbox-sqladapter"></label>
+                <input type="search" placeholder="Search...." id="search-textbox-sqladapter" class="form-control" />
+
+            </div>
             <div id="table-tree" style="overflow-y: scroll; min-height: 400px"
-                 data-bind="adapterTree :{ adapter:adapter, selected: $root.selected, addTable :$root.addTable, addOperation:$root.addOperation}">
+                 data-bind="adapterTree :{ adapter:adapter, selected: $root.selected, addTable :$root.addTable, addOperation:$root.addOperation, searchTextBox :'#search-textbox-sqladapter'}">
                 <h3>This is where the tre view goes</h3>
             </div>
             <a class="btn btn-link" data-bind="click : $root.addTable">
@@ -56,14 +61,14 @@
                 <div class="form-group">
                     <label class="control-label">CLR Property</label>
                     <input type="text" disabled class="form-control"
-                           data-bind="value:ClrName, tooltip: 'The property name used internally by C# compiler'" />
+                           data-bind="value:ClrName, tooltip: 'The property name used internally by C# compiler'"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Display Name</label>
                     <input type="text"
                            placeholder="Json serialized property name, leave it blank and it will use the ClrName"
                            class="form-control"
-                           data-bind="value:DisplayName, tooltip: 'The property name used by json serializer, for your API'" />
+                           data-bind="value:DisplayName, tooltip: 'The property name used by json serializer, for your API'"/>
                 </div>
 
 
@@ -73,7 +78,7 @@
                     <div class="btn-group" id="member-default-value">
                         <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown"
                            href="#">
-                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                            <img data-bind="fieldImage : $type" class="pull-left" alt="."/>
                             <!-- ko text : Name -->
                             <!-- /ko -->
                             <i class="fa fa-caret-down"></i>
@@ -90,13 +95,13 @@
 
                             <li>
                                 <a data-bind="click: $root.addField" href="#">
-                                    <img src="/images/ConstantField.png" alt="constantfield" class="pull-left" />
+                                    <img src="/images/ConstantField.png" alt="constantfield" class="pull-left"/>
                                     + Constant Field
                                 </a>
                             </li>
                             <li>
                                 <a data-bind="click: $root.addField(DefaultValue,'Function')" href="#">
-                                    <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left" />
+                                    <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left"/>
                                     + Function Field
                                 </a>
                             </li>
@@ -109,20 +114,20 @@
                     <label class="control-label">
                         Is Complex &nbsp;
                         <input type="checkbox"
-                               data-bind="checked: IsComplex, tooltip:'If you want to make this field accessible via another endpoint'" />
+                               data-bind="checked: IsComplex, tooltip:'If you want to make this field accessible via another endpoint'"/>
                     </label>
                 </div>
                 <div class="form-group">
                     <label class="control-label">MIME type</label>
                     <input type="text" required class="form-control"
-                           data-bind="value:MimeType,enable:IsComplex, tooltip: 'Mime type used for the response message content type'" />
+                           data-bind="value:MimeType,enable:IsComplex, tooltip: 'Mime type used for the response message content type'"/>
                 </div>
                 <!-- ko with :LookupColumnTable -->
                 <div class="form-group sr-only">
                     <label class="control-label">
                         Enable Lookup Table &nbsp;
                         <input type="checkbox"
-                               data-bind="checked: IsEnabled, tooltip:'If this column only store the key, and you want to display the value for the given from a separate lookup table'" />
+                               data-bind="checked: IsEnabled, tooltip:'If this column only store the key, and you want to display the value for the given from a separate lookup table'"/>
                     </label>
                 </div>
                 <div class="form-group">
@@ -134,7 +139,7 @@
                 <div class="form-group">
                     <label class="control-label" for="lookup-table">Name</label>
                     <input type="text" required class="form-control" id="lookup-name"
-                           data-bind="value:Name,enable:IsEnabled, tooltip:'The property name for the field produce by the lookup value'" />
+                           data-bind="value:Name,enable:IsEnabled, tooltip:'The property name for the field produce by the lookup value'"/>
                 </div>
                 <div class="form-group">
                     <label for="member-type2">Type</label>
@@ -165,7 +170,8 @@
 
                     <div>
                         <select class="form-control" style="display: inline" data-bind="enable:IsEnabled"></select>
-                        <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px" data-bind="visible:IsEnabled"></i>
+                        <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px"
+                           data-bind="visible:IsEnabled"></i>
 
                     </div>
                 </div>
@@ -176,7 +182,8 @@
 
                     <div>
                         <select class="form-control" style="display: inline" data-bind="enable:IsEnabled"></select>
-                        <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px" data-bind="visible:IsEnabled"></i>
+                        <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px"
+                           data-bind="visible:IsEnabled"></i>
 
                     </div>
 
@@ -221,12 +228,13 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Expirese(seconds)</label>
-                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled" step="60" />
+                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled"
+                               step="60"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">
                             NoStore &nbsp;
-                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled" />
+                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled"/>
                         </label>
                     </div>
                 </form>
@@ -245,12 +253,13 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Expirese(seconds)</label>
-                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled" step="60" />
+                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled"
+                               step="60"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">
                             NoStore &nbsp;
-                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled" />
+                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled"/>
                         </label>
                     </div>
                 </form>
@@ -273,12 +282,13 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Expirese(seconds)</label>
-                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled" step="60" />
+                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled"
+                               step="60"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">
                             NoStore &nbsp;
-                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled" />
+                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled"/>
                         </label>
                     </div>
                 </form>
@@ -301,12 +311,13 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Expirese(seconds)</label>
-                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled" step="60" />
+                        <input type="number" class="form-control" data-bind="value:Expires, enable :$parent.IsEnabled"
+                               step="60"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">
                             NoStore &nbsp;
-                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled" />
+                            <input type="checkbox" data-bind="checked: NoStore, enable :$parent.IsEnabled"/>
                         </label>
                     </div>
                 </form>
@@ -316,13 +327,39 @@
 
                 <!-- /ko -->
 
+                <!-- ko if : typeof UseHttpGet === "function" -->
+
+                <h6>Operation details</h6>
+                <form>
+                    <div class="form-group"></div>
+                    <label class="control-label">Use HTTP GET
+                        <input type="checkbox" name="use-http-get" id="use-http-get" data-bind="checked : UseHttpGet">
+                    </label>
+                </form>
+                <!-- /ko -->
+
                 <!-- ko if : typeof ErrorRetry === "function" -->
-                <h5>Error retries</h5>
+                <h6>Error retries</h6>
                 <form data-bind="with:ErrorRetry">
+                    <!-- ko ifnot : ko.isObservable($parent.IsEnabled) -->
+                    <div class="form-group">
+                        <label class="control-label">Enable
+                            <input type="checkbox" data-bind="checked:IsEnabled"/>
+                        </label>
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko if : $parent.IsEnabled -->
+                    <div class="form-group">
+                        <label class="control-label">Enable..
+                            <input type="checkbox" data-bind="checked:IsEnabled, enable : $parent.IsEnabled"/>
+                        </label>
+                    </div>
+                    <!-- /ko -->
+
                     <div class="form-group">
                         <label for="retry-count" class="control-label">Attempt</label>
                         <input type="number" max="50"
-                               data-bind="value: Attempt, enable :$parent.IsEnabled, tooltip:'Enable retry for your database call, the min value is 2, in an Exception is thrown, after the number of retry count you set, the execution will stop and exception is propagated to the call stack'"
+                               data-bind="value: Attempt, enable :IsEnabled, tooltip:'Enable retry for your database call, the min value is 2, in an Exception is thrown, after the number of retry count you set, the execution will stop and exception is propagated to the call stack'"
                                min="2"
                                placeholder="Set the number if retries if the invocation throws any exception"
                                class="form-control" id="retry-count">
@@ -330,13 +367,13 @@
                     <div class="form-group">
                         <label for="retry-interval" class="control-label">Wait</label>
                         <input type="number" step="10" max="50000"
-                               data-bind="value: Wait, enable :$parent.IsEnabled, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'"
+                               data-bind="value: Wait, enable :IsEnabled, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'"
                                placeholder="The interval between retries in ms"
                                class="form-control" id="retry-interval">
                     </div>
                     <div class="form-group">
                         <label for="retry-interval" class="control-label">Algorithm</label>
-                        <select data-bind="value: Algorithm, enable :$parent.IsEnabled, tooltip:'Connstant - set to your interval value, Liner = interval * n, Exponential = interval * (2^n), n is the retry attempt'"
+                        <select data-bind="value: Algorithm, enable :IsEnabled, tooltip:'Connstant - set to your interval value, Liner = interval * n, Exponential = interval * (2^n), n is the retry attempt'"
                                 class="form-control" id="retry-wait">
                             <option value="Constant">Constant</option>
                             <option value="Linear">Linear</option>
@@ -346,6 +383,22 @@
                 </form>
 
                 <!-- /ko -->
+
+                <!-- ko if :  ko.unwrap($type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph"-->
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="complex-member-name">Name</label>
+                        <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="complex-type-name">Type Name</label>
+                        <input class="form-control" pattern="^[A-Za-z][A-Za-z0-9]*$" placeholder="The type name for this member" id="complex-type-name" name="member.name" type="text" required data-bind="value: TypeName, tooltip:'Type name is used for class name in your generated code so this member will a property named with the Name and of type TypeName'" />
+                    </div>
+
+
+                </form>
+                <!-- /ko -->
+
             </div>
 
         </div>
@@ -377,7 +430,7 @@
                             <label for="name">Name</label>
                             <input class="form-control" type="text" id="name" required placeholder="Adapter name"
                                    pattern="^[A-Z][A-Za-z0-9_]*$"
-                                   data-bind="value:Name" />
+                                   data-bind="value:Name"/>
 
                         </div>
 
@@ -410,27 +463,27 @@
                         <div class="form-group">
                             <label for="server">Server</label>
                             <input class="form-control" type="text" id="server" required
-                                   placeholder="SQL Server name instance" data-bind="value:Server" />
+                                   placeholder="SQL Server name instance" data-bind="value:Server"/>
                         </div>
 
                         <div class="form-group">
                             <label for="trusted">Trusted Connection</label>
                             <input type="checkbox" id="trusted" placeholder="SQL Server name instance"
-                                   data-bind="checked:TrustedConnection" />
+                                   data-bind="checked:TrustedConnection"/>
                         </div>
 
                         <div class="form-group">
                             <label for="userid">UserId</label>
                             <input class="form-control" type="text" id="userid" required
                                    placeholder="UserId if connection using SQL authentication"
-                                   data-bind="value:UserId, disable:TrustedConnection " />
+                                   data-bind="value:UserId, disable:TrustedConnection "/>
                         </div>
 
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input class="form-control" type="password" id="password" required
                                    placeholder="Password if connection using SQL authentication"
-                                   data-bind="value:Password, disable:TrustedConnection" />
+                                   data-bind="value:Password, disable:TrustedConnection"/>
                         </div>
 
                         <div class="form-group">
@@ -457,4 +510,4 @@
 </div>
 
 
-<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
+<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy"/>

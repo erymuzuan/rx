@@ -11,7 +11,7 @@ define(["knockout"], function (ko) {
             var system = require(objectbuilders.system),
                 value = valueAccessor(),
                 adapter = ko.unwrap(value.adapter),
-                searchbox = ko.unwrap(value.searchbox),
+                searchInput = $(ko.unwrap(value.searchTextBox)),
                 addOperation = value.addOperation,
                 addTable = value.addTable,
                 member = value.selected,
@@ -168,6 +168,7 @@ define(["knockout"], function (ko) {
                         .on("select_node.jstree", function (node, selected) {
                             member(selected.node.data);
                         })
+
                         .on("move_node.jstree", function (e, data) {
                             var ref = $(element).jstree(true),
                                 column = data.node.data,
@@ -543,7 +544,15 @@ define(["knockout"], function (ko) {
                                     "icon": "glyphicon glyphicon-list"
                                 }
                             },
-                            "plugins": ["contextmenu", "types", "dnd"]
+                            "search": {
+                                "case_sensitive": false,
+                                "show_only_matches": true,
+                                "show_only_matches_children": true,
+                                "search_callback": function (text, node) {
+                                    return (node.text.indexOf(text) > -1);
+                                }
+                            },
+                            "plugins": ["contextmenu", "types", "dnd", "search"]
                         });
                 };
 
@@ -618,16 +627,26 @@ define(["knockout"], function (ko) {
                 }
             });
 
-            var to = false;
-            $(searchbox).keyup(function () {
-                if (to) {
-                    clearTimeout(to);
+            var clearSearch = $('   <a class="pull-right" id="clear-search" href="javascript:;" style="margin-top: -27px;margin-right: 8px" title="Clear search text">'+
+                '<i class="fa fa-times" style="color: grey"></i>'+
+                '</a>'),
+                search = _.debounce(function () {
+                var text = $(this).val();
+
+                if (!text) {
+                    $(element).jstree("clear_search");
+                } else {
+                    var f = "\"\"" + text + "\"\"";
+                    console.log(f);
+                    $(element).jstree("search", f);
                 }
-                to = setTimeout(function () {
-                    var v = $(searchbox).val();
-                    $(element).jstree(true).search(v);
-                }, 250);
+            }, 400);
+            clearSearch.click(function(){
+                $(element).jstree("clear_search");
+                searchInput.val("");
             });
+            searchInput.after(clearSearch);
+            searchInput.keyup(search);
 
         }
     };
