@@ -67,7 +67,7 @@ namespace Bespoke.Sph.Domain.Api
                         col.DisplayName = mt.Name.ToIdFormat();
                         break;
                     case "_":
-                        col.DisplayName = mt.Name.ToIdFormat().Replace("-","_");
+                        col.DisplayName = mt.Name.ToIdFormat().Replace("-", "_");
                         break;
                     default:
                         col.DisplayName = null;
@@ -112,17 +112,23 @@ namespace Bespoke.Sph.Domain.Api
 
         public virtual void Merge(Column oc, TableDefinition table)
         {
+            this.Merge(oc);
+            this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
+            this.IsVersion = table.VersionColumn == this.Name;
+        }
+
+        public virtual void Merge(Column oc)
+        {
             // TODO : copy users setting property like, MIME, inline data or not from oc to col
             this.DefaultValue = oc.DefaultValue;
             this.DisplayName = oc.DisplayName;
             this.Ignore = oc.Ignore;
             this.IsComplex = oc.IsComplex;
-            this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
-            this.IsVersion = table.VersionColumn == this.Name;
             this.LookupColumnTable = oc.LookupColumnTable;
             this.MimeType = oc.MimeType;
             this.Order = oc.Order;
             this.WebId = oc.WebId ?? Guid.NewGuid().ToString();
+            this.IsSelected = oc.IsSelected;
         }
 
         public virtual Property GetLookupProperty(Adapter adapter, TableDefinition table)
@@ -144,7 +150,7 @@ namespace Bespoke.Sph.Domain.Api
             if (null == this.DefaultValue) return null;
             if (this.IsNullable) return null;
             if (!(Ignore || IsComplex)) return null;
-            
+
             var code = new StringBuilder();
             code.AppendLine($@"           var field{ClrName} = {adapterIdentifier}.TableDefinitionCollection.Single(x => x.Name == ""{table.Name}"" && x.Schema == ""{table.Schema}"" )
                                                                 .ColumnCollection.Single(x => x.Name == ""{this.Name}"").DefaultValue;");

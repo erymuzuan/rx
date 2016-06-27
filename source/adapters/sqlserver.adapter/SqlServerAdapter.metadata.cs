@@ -26,20 +26,45 @@ namespace Bespoke.Sph.Integrations.Adapters
                     return false;
                 }
                 var deletedTables = new ConcurrentBag<TableDefinition>();
+                var deletedOperations = new ConcurrentBag<OperationDefinition>();
 
                 var tasks = from t in this.TableDefinitionCollection
                             select RefreshTableMetadataAsync(t, deletedTables);
-                await Task.WhenAll(tasks);
+                var operations = from t in this.OperationDefinitionCollection
+                                 select RefreshOperationMetadaAsync(t, deletedOperations);
+                await Task.WhenAll(tasks.Concat(operations));
 
                 foreach (var dt in deletedTables)
                 {
                     this.TableDefinitionCollection.Remove(dt);
+                }
+                foreach (var dt in deletedOperations)
+                {
+                    this.OperationDefinitionCollection.Remove(dt);
                 }
 
             }
 
 
             return true;
+        }
+
+        private async Task RefreshOperationMetadaAsync(OperationDefinition operation, ConcurrentBag<OperationDefinition> deletedOperations)
+        {
+            //TODO : find out if the object is still in the database .. create async will always return an object
+            try
+            {
+                await operation.RefreshMetadataAsync(this);
+            }
+            catch (SqlException e)
+            {
+                if (e.Number == 2812 || e.Message.Contains("Could not find"))
+                {
+                    deletedOperations.Add(operation);
+                    return;
+                }
+                throw;
+            }
         }
 
         private async Task RefreshTableMetadataAsync(TableDefinition table, ConcurrentBag<TableDefinition> deletedTables)

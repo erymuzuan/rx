@@ -69,6 +69,7 @@ select
             await this.SuggestReturnResultset(adapter);
         }
 
+
         private async Task SuggestReturnResultset(SqlServerAdapter adapter)
         {
             var parameters = this.RequestMemberCollection.Concat(this.ResponseMemberCollection.Where(x => x.Name != "@return_value"));

@@ -63,8 +63,9 @@ namespace Bespoke.Sph.Domain.Api
             // classes for parameters
             return sourceCodes;
         }
-
-
-
+        public virtual Task RefreshMetadataAsync(Adapter adapter)
+        {
+            return Task.FromResult(0);
+        }
     }
 }
