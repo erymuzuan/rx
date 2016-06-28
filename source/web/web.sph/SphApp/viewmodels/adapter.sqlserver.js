@@ -56,7 +56,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     if (e.status === 502) {
 
                         connected(false);
-                        logger.error(result.message);
+                        logger.error(e.responseJSON.Message|| e.responseText);
+                        tcs.resolve(false);
+                        isBusy(false);
                     }
                 });
 
@@ -429,6 +431,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             viewFile: viewFile,
             editTable: editTable,
             selected: selected,
+            connected :connected,
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAdapter,

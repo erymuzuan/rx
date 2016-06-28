@@ -11,7 +11,7 @@ define(["knockout"], function (ko) {
             var system = require(objectbuilders.system),
                 value = valueAccessor(),
                 adapter = ko.unwrap(value.adapter),
-                connected = ko.unwrap(value.connected),
+                connected = value.connected,
                 searchInput = $(ko.unwrap(value.searchTextBox)),
                 addOperation = value.addOperation,
                 addTable = value.addTable,

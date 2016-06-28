@@ -34,7 +34,7 @@
 
             </div>
             <div id="table-tree" style="overflow-y: scroll; min-height: 400px"
-                 data-bind="adapterTree :{ adapter:adapter, selected: $root.selected, addTable :$root.addTable, addOperation:$root.addOperation, searchTextBox :'#search-textbox-sqladapter'}">
+                 data-bind="adapterTree :{ adapter:adapter, selected: $root.selected, connected :$root.connected, addTable :$root.addTable, addOperation:$root.addOperation, searchTextBox :'#search-textbox-sqladapter'}">
                 <h3>This is where the tre view goes</h3>
             </div>
             <button class="btn btn-link" data-bind="click : $root.addTable, enable :$root.connected">
