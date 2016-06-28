@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -67,10 +68,19 @@ namespace Bespoke.Sph.Integrations.Adapters
                 Password = password
             };
             using (var conn = new SqlConnection(adapter.ConnectionString))
-
             using (var cmd = new SqlCommand("select name from sysdatabases", conn))
             {
-                await conn.OpenAsync();
+                try
+                {
+                    await conn.OpenAsync();
+                }
+                catch (SqlException e) when (e.Number == -1)
+                {
+                    var json = JsonConvert.SerializeObject(new { databases = Array.Empty<string>(), success = false, status = "Not connected" });
+                    var response = new HttpResponseMessage(HttpStatusCode.BadGateway) { Content = new JsonContent(json) };
+                    return response;
+                }
+                var version = await adapter.GetDatabaseVersionAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     var list = new List<string>();
@@ -78,7 +88,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                     {
                         list.Add(reader.GetString(0));
                     }
-                    var json = JsonConvert.SerializeObject(new { databases = list.ToArray(), success = true, status = "OK" });
+                    var json = JsonConvert.SerializeObject(new { databases = list.ToArray(), version, success = true, status = "OK" });
                     var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new JsonContent(json) };
                     return response;
                 }
@@ -111,36 +121,19 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
         }
 
-        [HttpGet]
+
+        [HttpPost]
         [Route("{id}")]
-        public async Task<IHttpActionResult> GetAdapterAsync(string id,
-            [FromUri(Name = "server")]string server,
-            [FromUri(Name = "database")]string database,
-            [FromUri(Name = "trusted")]bool? trusted,
-            [FromUri(Name = "userid")]string user,
-            [FromUri(Name = "password")]string password)
+        public async Task<IHttpActionResult> UpdateAdapterMetadataAsync([JsonBody]SqlServerAdapter adapter)
         {
-            var context = new SphDataContext();
-            var adapter = context.LoadOneFromSources<Adapter>(x => x.Id == id) as SqlServerAdapter;
-            if (null == adapter)
-                return NotFound($"Cannot find SQL server adapter with id {id}");
-
-            if (!string.IsNullOrWhiteSpace(database))
-                adapter.Database = database;
-            if (!string.IsNullOrWhiteSpace(server))
-                adapter.Server = server;
-            if (!string.IsNullOrWhiteSpace(user))
-                adapter.UserId = user;
-            if (!string.IsNullOrWhiteSpace(password))
-                adapter.Password = password;
-            if (trusted.HasValue)
-                adapter.TrustedConnection = trusted.Value;
             var connected = await adapter.LoadDatabaseObjectAsync(adapter.ConnectionString);
-
-            return Json(adapter.ToJsonString(), new CacheMetadata
-            {
-                Etag = connected ? "connected" : "not connected"
-            });
+            var json = $@"
+{{
+    ""adapter"":{adapter.ToJsonString()},
+    ""connected"":""{connected}"",
+    ""changes"":[]
+}}";
+            return Json(json);
         }
 
 
@@ -222,8 +215,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         [HttpPost]
-        [Route("generate")]
-        public async Task<IHttpActionResult> GenerateAsync([JsonBody]SqlServerAdapter adapter)
+        [Route("publish")]
+        public async Task<IHttpActionResult> PublishAsync([JsonBody]SqlServerAdapter adapter)
         {
             var noTables = adapter.TableDefinitionCollection.Count == 0;
             var noOps = 0 == adapter.OperationDefinitionCollection.Count;

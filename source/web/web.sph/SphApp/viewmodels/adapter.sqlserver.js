@@ -11,7 +11,7 @@
 /// <reference path="../domain/domain.sph/Scripts/objectbuilders.js" />
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, objectbuilders.system, "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/_ko.adapter.sqlserver"],
-    function (context, logger, router, app,system) {
+    function (context, logger, router, app, system) {
 
         var adapter = ko.observable(),
             selected = ko.observable(),
@@ -33,11 +33,18 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 loadingDatabases(true);
                 isBusy(true);
                 $.getJSON("sqlserver-adapter/databases/?server=" + server + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
-                    .done(function (result) {
+                    .then(function (result) {
                         loadingDatabases(false);
                         if (result.success) {
                             connected(true);
                             databaseOptions(result.databases);
+
+                            if (ko.isObservable(adapter().Version))
+                                adapter().Version(result.version);
+                            else
+                                adapter().Version = ko.observable(result.version);
+
+
                             logger.info("You are now connected, please select your database");
                         } else {
                             connected(false);
@@ -45,7 +52,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         }
                         tcs.resolve(result);
                         isBusy(false);
-                    });
+                    }).fail(function (e) {
+                    if (e.status === 502) {
+
+                        connected(false);
+                        logger.error(result.message);
+                    }
+                });
 
                 return tcs.promise();
             },
@@ -59,8 +72,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 // get the options for lookup table
                 $.getJSON("/sqlserver-adapter/table-options?server=" + server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
-                    .done(function(result){
-                        var options = _(result).map(function(v){
+                    .done(function (result) {
+                        var options = _(result).map(function (v) {
                             return "[" + v.Schema + "].[" + v.Name + "]";
                         });
 
@@ -72,38 +85,27 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             activate = function (sid) {
 
                 errors.removeAll();
-                var query = String.format("Id eq '{0}'", sid),
-                    b = null;
+                var query = String.format("Id eq '{0}'", sid);
                 return context.loadOneAsync("Adapter", query)
                     .then(function (result) {
-                        b = result;
-                        var initialized = ko.unwrap(b.Database) && ko.unwrap(b.Server);
+                        var initialized = ko.unwrap(result.Database) && ko.unwrap(result.Server);
                         if (!initialized) {
-                            b.TrustedConnection(true);
+                            result.TrustedConnection(true);
                             return Task.fromResult(0);
                         }
-                        adapter(new bespoke.sph.integrations.adapters.SqlServerAdapter({
-                            "Server": ko.unwrap(b.Server),
-                            "TrustedConnection": ko.unwrap(b.TrustedConnection),
-                            "ColumnDisplayNameStrategy": ko.unwrap(b.ColumnDisplayNameStrategy),
-                            "UserId": ko.unwrap(b.UserId),
-                            "Password": ko.unwrap(b.Password)
-                        }));
-                        return connect();
-                    })
-                    .then(function () {
-
-                        var adp = ko.unwrap(b),
-                            server = ko.unwrap(adp.Server),
-                            id = ko.unwrap(adp.Id),
-                            database = ko.unwrap(adp.Database),
-                            trusted = ko.unwrap(adp.TrustedConnection),
-                            userid = ko.unwrap(adp.UserId),
-                            password = ko.unwrap(adp.Password);
-                        // now -repopulate
-                        return populateAdapterObjectsAsync(id, server, database, trusted, userid, password);
-
-                    }).then(adapter);
+                        // get optiosn for lookup from existing lookup
+                        var lookupOptions = [];
+                        _(result.TableDefinitionCollection()).each(function (t) {
+                            _(t.ColumnCollection()).each(function (c) {
+                                var table = ko.unwrap(c.LookupColumnTable().Table);
+                                if (table)
+                                    lookupOptions.push(table);
+                            });
+                        });
+                        tableNameOptions(lookupOptions);
+                        databaseOptions.push(ko.unwrap(result.Database));
+                        adapter(result);
+                    });
 
 
             },
@@ -141,7 +143,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
                 setDesignerHeight();
 
-                var loadLookupColumnOptions = function(table, lookup){
+                var loadLookupColumnOptions = function (table, lookup) {
                     var splits = table.split("].["),
                         schema = splits[0].replace(/\[/g, "").replace(/]/g, ""),
                         name = splits[1].replace(/\[/g, "").replace(/]/g, ""),
@@ -151,104 +153,114 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         trusted = ko.unwrap(adp.TrustedConnection),
                         userid = ko.unwrap(adp.UserId),
                         password = ko.unwrap(adp.Password),
-                        showLoading = function(){
+                        showLoading = function () {
                             var html =
-                               ' <div>' +
-                               ' <select class="form-control" style="display: inline"  data-bind="enable:IsEnabled">' +
-                               ' </select>' +
-                               ' <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px" data-bind="visible:IsEnabled"></i>' +
-                               ' </div>';
-                            $("div#value-column-form-group").html('<label>Value Column</label>' +html);
-                            $("div#key-column-form-group").html('<label>Key Column</label>' +html);
+                                ' <div>' +
+                                ' <select class="form-control" style="display: inline"  data-bind="enable:IsEnabled">' +
+                                ' </select>' +
+                                ' <i class="fa fa-spinner fa-spin fa-fw pull-left" style="margin-left: 5px;margin-top: -20px" data-bind="visible:IsEnabled"></i>' +
+                                ' </div>';
+                            $("div#value-column-form-group").html('<label>Value Column</label>' + html);
+                            $("div#key-column-form-group").html('<label>Key Column</label>' + html);
                         },
-                        hideLoading = function(){};
+                        hideLoading = function () {
+                        };
 
                     showLoading();
 
 
+                    // get the options for lookup table
+                    return $.getJSON("/sqlserver-adapter/table-options/" + schema + "/" + name + "/?server=" + server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
+                        .then(function (result) {
+                            var td = context.toObservable(result),
+                                options = [""];
 
-                // get the options for lookup table
-                return $.getJSON("/sqlserver-adapter/table-options/" + schema +"/" +  name +"/?server=" + server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
-                    .then(function(result){
-                        var td = context.toObservable(result),
-                            options = [""];
-
-                            _(td.ColumnCollection()).each(function(v){
-                                    options.push(ko.unwrap(v.Name));
-                                });
-
-                            var valueList = _(options).map(function(v){
-                                var selected = ko.unwrap(lookup.ValueColumn) === v ? " selected" : "";
-                                return '<option value="' + v + '"' + selected +'>' + v + "</option>";
-                            }),
-                            keyList = _(options).map(function(v){
-                                var selected = ko.unwrap(lookup.KeyColumn) === v ? " selected" : "";
-                                return '<option value="' + v + '"' + selected +'>' + v + "</option>";
+                            _(td.ColumnCollection()).each(function (v) {
+                                options.push(ko.unwrap(v.Name));
                             });
 
-                        lookupColumnOptions(options);
+                            var valueList = _(options).map(function (v) {
+                                    var selected = ko.unwrap(lookup.ValueColumn) === v ? " selected" : "";
+                                    return '<option value="' + v + '"' + selected + '>' + v + "</option>";
+                                }),
+                                keyList = _(options).map(function (v) {
+                                    var selected = ko.unwrap(lookup.KeyColumn) === v ? " selected" : "";
+                                    return '<option value="' + v + '"' + selected + '>' + v + "</option>";
+                                });
+
+                            lookupColumnOptions(options);
+                            $("div#key-column-form-group")
+                                .html('<label class="control-label" for="key-column-table">Key Column</label><select class="form-control key-column">' + keyList + '</select>');
+                            $("div#value-column-form-group")
+                                .html('<label class="control-label" for="value-column-table">Value Column</label><select class="form-control value-column">' + valueList + '</select>');
+                        }).fail(function (e) {
+                            if (e.responseJSON) {
+                                logger.error(e.responseJSON.Message, e.responseJSON);
+                            } else {
+                                logger.error(e.responseText);
+                            }
+
+                        }).done(hideLoading);
+                };
+
+                selected.subscribe(function (column) {
+                    if (!column) return;
+                    if (!ko.isObservable(column.LookupColumnTable)) return;
+                    if (!ko.unwrap(column.LookupColumnTable().IsEnabled)) return;
+                    if (!ko.unwrap(connected)){
+                        var value = column.LookupColumnTable().ValueColumn(),
+                            valueList = '<option value="' + value + '"' + selected + '>' + value + "</option>",
+                            key = column.LookupColumnTable().KeyColumn(),
+                            keyList =  '<option value="' + key + '" selected >' + key + "</option>";
                         $("div#key-column-form-group")
                             .html('<label class="control-label" for="key-column-table">Key Column</label><select class="form-control key-column">' + keyList + '</select>');
                         $("div#value-column-form-group")
                             .html('<label class="control-label" for="value-column-table">Value Column</label><select class="form-control value-column">' + valueList + '</select>');
-                    }).fail(function(e){
-                        if(e.responseJSON){
-                            logger.error(e.responseJSON.Message, e.responseJSON);
-                        }else{
-                            logger.error(e.responseText);
-                        }
-
-                    }).done(hideLoading);
-                };
-
-                selected.subscribe(function(column){
-                    if(!column) return;
-                    if(!ko.isObservable(column.LookupColumnTable)) return;
+                        return;
+                    }
 
 
                     var table = ko.unwrap(column.LookupColumnTable().Table),
                         plain = ko.toJS(column.LookupColumnTable);
-                    if(!table)return;
+                    if (!table)return;
                     lookupColumnOptions([]);
-                    console.log("Looup table changes %s",table);
+                    console.log("Looup table changes %s", table);
                     loadLookupColumnOptions(table, column.LookupColumnTable())
-                        .done(function(){
+                        .done(function () {
                             column.LookupColumnTable().KeyColumn(plain.KeyColumn);
                             column.LookupColumnTable().ValueColumn(plain.ValueColumn);
 
                         });
 
 
-
                 });
-                $(view).on("change","#lookup-table", function(){
+                $(view).on("change", "#lookup-table", function () {
                     var table = $(this).val();
-                    if(!table)return;
+                    if (!table)return;
                     console.log("Lookup table changes %s", table);
                     loadLookupColumnOptions(table, ko.dataFor(this));
 
                 });
 
 
-                $(view).on("change","select.key-column", function(){
+                $(view).on("change", "select.key-column", function () {
 
                     selected().LookupColumnTable().KeyColumn($(this).val());
 
                 });
 
-                $(view).on("change","select.value-column", function(){
+                $(view).on("change", "select.value-column", function () {
                     selected().LookupColumnTable().ValueColumn($(this).val());
                 });
 
 
-
             },
-            generate = function () {
+            publishAsync = function () {
 
                 var data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
-                return context.post(data, "/sqlserver-adapter/generate")
+                return context.post(data, "/sqlserver-adapter/publish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -380,7 +392,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 });
             },
             addField = function (accessor, type) {
-                return function (){
+                return function () {
                     var field = new bespoke.sph.domain[type + "Field"](system.guid());
                     showFieldDialog(accessor, field, "field." + type.toLowerCase());
                 }
@@ -414,7 +426,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             isBusy: isBusy,
             activate: activate,
             attached: attached,
-            viewFile:viewFile,
+            viewFile: viewFile,
             editTable: editTable,
             selected: selected,
             toolbar: {
@@ -427,10 +439,21 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         command: connect
                     },
                     {
+                        caption: "Refresh",
+                        tooltip: "Refresh adapter objects metada from the database",
+                        icon: "fa fa-refresh",
+                        command: connect,
+                        enable: connected
+                    },
+                    {
                         caption: "Publish",
                         icon: "fa fa-sign-in",
-                        command: generate,
-                        enable: connected
+                        command: publishAsync,
+                        tooltip: "Compile the adapter",
+                        enable: ko.computed(function () {
+                            if (!ko.unwrap(adapter))return false;
+                            return adapter().TableDefinitionCollection().length > 0 || adapter().OperationDefinitionCollection().length > 0;
+                        })
                     }
                 ])
             }

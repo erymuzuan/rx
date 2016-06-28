@@ -37,14 +37,14 @@
                  data-bind="adapterTree :{ adapter:adapter, selected: $root.selected, addTable :$root.addTable, addOperation:$root.addOperation, searchTextBox :'#search-textbox-sqladapter'}">
                 <h3>This is where the tre view goes</h3>
             </div>
-            <a class="btn btn-link" data-bind="click : $root.addTable">
+            <button class="btn btn-link" data-bind="click : $root.addTable, enable :$root.connected">
                 <i class="fa fa-plus-circle"></i>
                 Add new table or view
-            </a>
-            <a class="btn btn-link" data-bind="click : $root.addOperation">
+            </button>
+            <button class="btn btn-link" data-bind="click : $root.addOperation, enable :$root.connected">
                 <i class="fa fa-plus-circle"></i>
                 Add new stored procedure or function
-            </a>
+            </button>
         </div>
 
 
@@ -489,7 +489,7 @@
                         <div class="form-group">
                             <label for="database">Database</label>
                             <select class="form-control" id="database" required
-                                    data-bind="value:Database, options: $root.databaseOptions, optionsCaption:'[Select a database]'"></select>
+                                    data-bind="value:Database,enable: $root.connected, options: $root.databaseOptions, optionsCaption:'[Select a database]'"></select>
                         </div>
 
 

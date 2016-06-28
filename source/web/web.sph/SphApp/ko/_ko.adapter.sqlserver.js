@@ -11,6 +11,7 @@ define(["knockout"], function (ko) {
             var system = require(objectbuilders.system),
                 value = valueAccessor(),
                 adapter = ko.unwrap(value.adapter),
+                connected = ko.unwrap(value.connected),
                 searchInput = $(ko.unwrap(value.searchTextBox)),
                 addOperation = value.addOperation,
                 addTable = value.addTable,
@@ -293,7 +294,8 @@ define(["knockout"], function (ko) {
                                             action: function () {
                                                 $node.data.LookupColumnTable().IsEnabled(true);
                                                 setNodeText($node.data);
-                                            }
+                                            },
+                                            _disabled : !ko.unwrap(connected)
                                         },
                                         undoLookup = {
                                             label: "Disable lookup value",
@@ -332,18 +334,20 @@ define(["knockout"], function (ko) {
                                         };
                                     var data = $node.data;
 
-                                    if ($node.id === "table-node" && addTable) {
+                                    if ($node.id === "table-node" && addTable ) {
                                         return [{
                                             label: "Add new table/view",
-                                            action: addTable
+                                            action: addTable,
+                                            _disabled : !ko.unwrap(connected)
                                         }]
                                     }
 
-                                    if ($node.id === "node-operations" && addOperation) {
+                                    if ($node.id === "node-operations" && addOperation ) {
                                         return [{
                                             label: "Add new sproc/function",
                                             action: addOperation,
-                                            "icon": "fa fa-cogs"
+                                            "icon": "fa fa-cogs",
+                                            _disabled : !ko.unwrap(connected)
                                         }]
                                     }
 

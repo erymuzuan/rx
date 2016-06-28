@@ -232,7 +232,9 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             }
         }
-        protected override async Task<Class> GeneratePagingSourceCodeAsync()
+
+        public int Version { get; set; }
+        public async Task<int> GetDatabaseVersionAsync()
         {
             var version = 2012;
             using (var conn = new SqlConnection(ConnectionString))
@@ -243,9 +245,13 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var number = Strings.RegexInt32Value(result, @"^(?<version>[0-9]{1,2})\..*?", "version");
                 if (number < 11) version = 2008;
             }
+            return version;
+        }
+        protected override Task<Class> GeneratePagingSourceCodeAsync()
+        {
 
             var assembly = Assembly.GetExecutingAssembly();
-            string resourceName = $"Bespoke.Sph.Integrations.Adapters.Sql{version}PagingTranslator.cs";
+            string resourceName = $"Bespoke.Sph.Integrations.Adapters.Sql{Version}PagingTranslator.cs";
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             // ReSharper disable AssignNullToNotNullAttribute
@@ -255,7 +261,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
                 var source = new Class(code) { FileName = "SqlPagingTranslator.cs" };
-                return source;
+                return Task.FromResult(source);
 
             }
         }

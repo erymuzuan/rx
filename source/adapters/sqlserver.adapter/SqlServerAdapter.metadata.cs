@@ -20,9 +20,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                 {
                     await conn.OpenAsync();
                 }
-                catch (Exception e)
+                catch (SqlException e) when (e.Number == -1)
                 {
-                    Console.WriteLine(e);
                     return false;
                 }
                 var deletedTables = new ConcurrentBag<TableDefinition>();
@@ -56,14 +55,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 await operation.RefreshMetadataAsync(this);
             }
-            catch (SqlException e)
+            catch (SqlException e) when (e.Number == 2812 || e.Message.Contains("Could not find"))
             {
-                if (e.Number == 2812 || e.Message.Contains("Could not find"))
-                {
-                    deletedOperations.Add(operation);
-                    return;
-                }
-                throw;
+                deletedOperations.Add(operation);
             }
         }
 
@@ -145,7 +139,14 @@ namespace Bespoke.Sph.Integrations.Adapters
             using (var conn = new SqlConnection(this.ConnectionString))
             using (var tableCommand = new SqlCommand(Resources.SelectTablesSql.Replace("'U'", "'V'"), conn))
             {
-                await conn.OpenAsync();
+                try
+                {
+                    await conn.OpenAsync();
+                }
+                catch (SqlException e) when (e.Number == -1)
+                {
+                    return new TableDefinition[] { };
+                }
                 using (var reader = await tableCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -328,7 +329,14 @@ SELECT
             using (var conn = new SqlConnection(this.ConnectionString))
             using (var tableCommand = new SqlCommand(Resources.SelectTablesSql, conn))
             {
-                await conn.OpenAsync();
+                try
+                {
+                    await conn.OpenAsync();
+                }
+                catch (SqlException e) when (e.Number == -1)
+                {
+                    return Array.Empty<TableDefinition>();
+                }
                 using (var reader = await tableCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -359,7 +367,7 @@ SELECT
         public async Task<TableDefinition> GetTableOptionDetailsAsync(string schema, string name)
         {
 
-            var sql = @"
+            const string SQL = @"
 SELECT  
     o.type 
 FROM 
@@ -375,11 +383,13 @@ AND
 AND 
     o.name = @Name ";
             using (var conn = new SqlConnection(this.ConnectionString))
-            using (var cmd = new SqlCommand(sql, conn))
+            using (var cmd = new SqlCommand(SQL, conn))
             {
                 cmd.Parameters.AddWithValue("@Schema", schema);
                 cmd.Parameters.AddWithValue("@Name", name);
+
                 await conn.OpenAsync();
+
                 var dbVal = await cmd.ExecuteScalarAsync();
                 if (dbVal == DBNull.Value) return null;
                 var type = ((string)dbVal).Trim();
