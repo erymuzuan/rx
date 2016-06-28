@@ -1,6 +1,6 @@
 ﻿
 
-<div id="toolbar-panel"  data-bind="visible: typeof router.activeItem().toolbar === 'object' || typeof router.activeItem().toolbar === 'function'">
+<div id="toolbar-panel" data-bind="visible: typeof router.activeItem().toolbar === 'object' || typeof router.activeItem().toolbar === 'function'">
     <div data-bind="with: router.activeItem().toolbar">
 
 
@@ -16,7 +16,7 @@
             <ul class="dropdown-menu">
                 <!-- ko foreach: commands-->
                 <li>
-                    <a class="btn btn-link pull-left" data-bind="command: command, tooltip : $data" href="javascript:;" data-placement="bottom">
+                    <a class="btn btn-link pull-left" data-bind="command: command, tooltip : {text:tooltip, placement:'bottom'}" href="javascript:;" data-placement="bottom">
                         <i data-bind="attr: { 'class': icon }"></i>
                         <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
                     </a>
@@ -28,14 +28,12 @@
 
         <!-- /ko -->
         <!-- /ko -->
-
         <!-- ko if: typeof addNewCommand === "function"-->
         <button id="save" class="btn btn-default" data-bind="command: addNewCommand">
             <i class="fa fa-plus"></i>
             Add
         </button>
         <!-- /ko -->
-
         <!-- ko if: typeof addNew === "object"-->
         <!-- ko with: addNew-->
         <a id="addbutton" class="btn btn-default" data-bind="attr: { href: location }" data-loading-text="Simpan....">
@@ -45,7 +43,6 @@
         </a>
         <!-- /ko -->
         <!-- /ko -->
-
         <!-- ko if: typeof saveCommand === "function" && typeof canExecuteSaveCommand === "undefined"-->
         <button id="save-button" class="btn btn-default" data-bind="command: saveCommand">
             <i class="fa fa-save"></i>
@@ -64,8 +61,6 @@
             <span data-i18n="Open">Open</span>
         </button>
         <!-- /ko -->
-        
-
         <!-- ko if: typeof removeCommand === "function"&& typeof canExecuteRemoveCommand === "undefined"-->
         <button class="btn btn-default" data-bind="command: removeCommand">
             <i class="fa fa-trash-o"></i>
@@ -82,49 +77,41 @@
         <button class="btn btn-default" data-bind="command: reloadCommand">
             <i class="fa fa-refresh"></i>
             <span data-i18n="Reload">Reload</span>
-            
+
         </button>
         <!-- /ko -->
-
         <!-- ko if: typeof emailCommand === "object"-->
         <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.emailCommand, commandParameter: emailCommand }">
             <i class="fa fa-envelope-o"></i>
             <span data-i18n="Email">Email</span>
         </button>
         <!-- /ko -->
-
         <!-- ko if: typeof printCommand === "object"-->
         <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Cetak....">
             <i class="fa fa-print"></i>
             <span data-i18n="Print">Print</span>
         </button>
         <!-- /ko -->
-
         <!-- ko if: typeof pdfCommand === "object"-->
         <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.pdfCommand, commandParameter: pdfCommand }" data-loading-text="Cetak....">
             <i class="fa fa-print"></i>
             <span data-i18n="Print">Print</span>
         </button>
         <!-- /ko -->
-
-
         <!-- ko if: typeof exportCommand === "function"-->
         <button class="btn btn-default" data-bind="command: exportCommand">
             <i class="fa fa-download"></i>
             <span data-i18n="Export">Export</span>
         </button>
         <!-- /ko -->
-        
         <!-- ko if: typeof importCommand === "function"-->
         <button class="btn btn-default" data-bind="command: importCommand">
             <i class="fa fa-upload"></i>
             <span data-i18n="Import">Import</span>
         </button>
         <!-- /ko -->
-
-
         <!-- ko if: typeof watchCommand === "function"-->
-        <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false" >
+        <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false">
             <i class="glyphicon glyphicon-eye-open"></i>
             <span data-i18n="Watch">Watch</span>
         </button>
@@ -135,10 +122,8 @@
             <span data-i18n="Unwatch">Unwatch</span>
         </button>
         <!-- /ko -->
-
         <!-- ko if: typeof commands === "function"-->
         <!-- ko foreach: commands-->
-
         <!-- ko if: typeof visible === "undefined" && typeof enable === "undefined"-->
         <button class="btn btn-default" data-bind="command: command">
             <i data-bind="attr: { 'class': icon }"></i>
@@ -152,15 +137,13 @@
         </button>
         <!-- /ko -->
         <!-- ko if: typeof enable === "function"-->
-        <button class="btn btn-default" data-bind="command: command, enable: enable, tooltip : $data" data-placement="bottom">
+        <button class="btn btn-default" data-bind="command: command, enable: enable, tooltip :  {text:tooltip, placement:'bottom'}" data-placement="bottom">
             <i data-bind="attr: { 'class': icon }"></i>
             <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
-
         <!-- /ko -->
         <!-- /ko -->
-
         <!-- ko if: typeof toggleCommands === "function"-->
         <!-- ko foreach: toggleCommands -->
         <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" data-bind="click: function(){ toggle(!toggle());}">
@@ -170,17 +153,14 @@
         </button>
         <!-- /ko -->
         <!-- /ko -->
-
         <!-- ko if: typeof htmlCommands === "function"-->
         <!-- ko foreach: htmlCommands -->
         <span data-bind="html:html"></span>
 
         <!-- /ko -->
         <!-- /ko -->
-
         <!-- ko if: typeof clicks === "function"-->
         <!-- ko foreach: clicks-->
-
         <!-- ko if: typeof visible === "undefined"-->
         <button class="btn btn-default" data-bind="click: command">
             <i data-bind="attr: { 'class': icon }"></i>
@@ -193,7 +173,6 @@
             <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>
         <!-- /ko -->
-
         <!-- /ko -->
         <!-- /ko -->
     </div>
