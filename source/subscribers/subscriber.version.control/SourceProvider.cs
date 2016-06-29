@@ -24,7 +24,8 @@ namespace subscriber.version.control
         protected void RemoveJsonSource(T item)
         {
             var wc = ConfigurationManager.SphSourceDirectory;
-            var type = typeof(T).Name;
+            var type = item.GetEntityType().Name;
+
             var folder = Path.Combine(wc, type);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
