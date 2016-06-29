@@ -11,7 +11,7 @@
 /// <reference path="../domain/domain.sph/Scripts/objectbuilders.js" />
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, objectbuilders.system, "viewmodels/_developers.log", "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/_ko.adapter.sqlserver"],
-    function (context, logger, router, app, system,dlog) {
+    function (context, logger, router, app, system, dlog) {
 
         var adapter = ko.observable(),
             originalEntity = "",
@@ -58,7 +58,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     if (e.status === 502) {
 
                         connected(false);
-                        logger.error(e.responseJSON.Message|| e.responseText);
+                        logger.error(e.responseJSON.Message || e.responseText);
                         tcs.resolve(false);
                         isBusy(false);
                     }
@@ -67,15 +67,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             },
             populateAdapterObjectsAsync = function (id, server, database, trusted, userid, password) {
-                var tcs = new $.Deferred();
-                $.getJSON("/sqlserver-adapter/" + id + "?server=" + server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
-                    .done(function (result) {
-                        var adp = context.toObservable(result);
-                        tcs.resolve(adp);
-                    });
+
 
                 // get the options for lookup table
-                $.getJSON("/sqlserver-adapter/table-options?server=" + server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
+                return $.getJSON("/sqlserver-adapter/table-options?server=" + server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
                     .done(function (result) {
                         var options = _(result).map(function (v) {
                             return "[" + v.Schema + "].[" + v.Name + "]";
@@ -83,24 +78,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                         tableNameOptions(options);
                     });
-
-                return tcs.promise();
             },
-            refresh = function(){
+            refresh = function () {
 
                 return $.getJSON("/sqlserver-adapter/" + adapter().Id() + "/refresh-metadata")
-                    .then(function(result){
+                    .then(function (result) {
                         adapter(context.toObservable(result.adapter));
                         changes(result.changes);
-                        var logs = _(result.changes).map(function(c){
+                        var logs = _(result.changes).map(function (c) {
                             var message = "";
 
-                            switch (c.Action){
+                            switch (c.Action) {
                                 case "Changed":
                                     message = c.Table + "." + c.Name + " " + c.PropertyName + " was changed from " + c.OldValue + " to " + c.NewValue;
                                     break;
                                 case "Deleted":
-                                    message = c.Table + "." + c.Name + " " + c.PropertyName + " was deleted : " + c.OldValue ;
+                                    message = c.Table + "." + c.Name + " " + c.PropertyName + " was deleted : " + c.OldValue;
                                     break;
                                 case "Added":
                                     message = c.Table + "." + c.Name + " " + c.PropertyName + " was added : " + c.NewValue;
@@ -109,9 +102,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 
                             return {
-                                time : "",
-                                message : message,
-                                severity : "Info",
+                                time: "",
+                                message: message,
+                                severity: "Info",
 
                             };
                         });
@@ -128,12 +121,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var query = String.format("Id eq '{0}'", sid);
                 return context.loadOneAsync("Adapter", query)
                     .then(function (result) {
-                        var initialized = ko.unwrap(result.Database) && ko.unwrap(result.Server);
-                        if (!initialized) {
-                            result.TrustedConnection(true);
-                            return Task.fromResult(0);
-                        }
-                        // get optiosn for lookup from existing lookup
+
+                        // get options for lookup from existing lookup
                         var lookupOptions = [];
                         _(result.TableDefinitionCollection()).each(function (t) {
                             _(t.ColumnCollection()).each(function (c) {
@@ -162,8 +151,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         userid = ko.unwrap(adp.UserId),
                         password = ko.unwrap(adp.Password);
                     populateAdapterObjectsAsync(ko.unwrap(adp.Id), server, database, trusted, userid, password)
-                        .done(function (result) {
-                            adapter(result);
+                        .done(function () {
                             isBusy(false);
                         });
                 });
@@ -247,11 +235,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     if (!column) return;
                     if (!ko.isObservable(column.LookupColumnTable)) return;
                     if (!ko.unwrap(column.LookupColumnTable().IsEnabled)) return;
-                    if (!ko.unwrap(connected)){
+                    if (!ko.unwrap(connected)) {
                         var value = column.LookupColumnTable().ValueColumn(),
                             valueList = '<option value="' + value + '"' + selected + '>' + value + "</option>",
                             key = column.LookupColumnTable().KeyColumn(),
-                            keyList =  '<option value="' + key + '" selected >' + key + "</option>";
+                            keyList = '<option value="' + key + '" selected >' + key + "</option>";
                         $("div#key-column-form-group")
                             .html('<label class="control-label" for="key-column-table">Key Column</label><select class="form-control key-column">' + keyList + '</select>');
                         $("div#value-column-form-group")
@@ -301,7 +289,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 if (!originalEntity) {
                     return true;
                 }
-
 
 
                 if (originalEntity !== ko.toJSON(adapter)) {
@@ -498,12 +485,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             adapter: adapter,
             isBusy: isBusy,
             activate: activate,
-            canDeactivate :canDeactivate,
+            canDeactivate: canDeactivate,
             attached: attached,
             viewFile: viewFile,
             editTable: editTable,
             selected: selected,
-            connected :connected,
+            connected: connected,
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAdapter,
@@ -512,8 +499,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         caption: "Connect",
                         icon: "fa fa-exchange",
                         command: connect,
-                        tooltip : "Connect to the adapter SQL Server instance",
-                        enable : ko.computed(function(){
+                        tooltip: "Connect to the adapter SQL Server instance",
+                        enable: ko.computed(function () {
                             return !ko.unwrap(connected);
                         })
                     },
