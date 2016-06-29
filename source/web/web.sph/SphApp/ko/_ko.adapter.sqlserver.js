@@ -251,6 +251,7 @@ define(["knockout"], function (ko) {
                                         },
                                         editOperation = {
                                             "label": "Edit operation",
+                                            _disabled : !ko.unwrap(connected),
                                             "action": function () {
                                                 var op = ko.toJS($node.data);
                                                 window.location = '/sph#adapter.sqlserver.sproc/' + ko.unwrap(adapter().Id) + '/' + op.Schema + '.' + op.Name;

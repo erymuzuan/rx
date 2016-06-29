@@ -76,7 +76,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
                 catch (SqlException e) when (e.Number == -1)
                 {
-                    var json = JsonConvert.SerializeObject(new { databases = Array.Empty<string>(), success = false, status = "Not connected" });
+                    var credential = trusted ? "trusted connection" : userid + "@" + new string('*', password.Length);
+                    var json = JsonConvert.SerializeObject(new { databases = Array.Empty<string>(), success = false, status = "Not connected", message = $"Fail to connect to SQL Server instance {server} using {credential}" });
                     var response = new HttpResponseMessage(HttpStatusCode.BadGateway) { Content = new JsonContent(json) };
                     return response;
                 }

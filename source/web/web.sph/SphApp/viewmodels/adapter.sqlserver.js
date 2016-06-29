@@ -54,15 +54,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         }
                         tcs.resolve(result);
                         isBusy(false);
-                    }).fail(function (e) {
-                    if (e.status === 502) {
+                    }, function (e) {
+                        if (e.status === 502) {
 
-                        connected(false);
-                        logger.error(e.responseJSON.Message || e.responseText);
-                        tcs.resolve(false);
-                        isBusy(false);
-                    }
-                });
+                            connected(false);
+                            logger.error(e.responseJSON.message || e.responseText);
+                            tcs.resolve(false);
+                            isBusy(false);
+                        }
+                    });
 
                 return tcs.promise();
             },
