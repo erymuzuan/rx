@@ -53,6 +53,12 @@
 
 
         <div class="col-lg-4 col-md-5 col-sm-6" data-bind="with:selected ">
+
+            <!-- ko if :  typeof WebId === "function" -->
+            <div class="form-group">
+                <small data-bind="text:WebId"></small>
+            </div>
+            <!-- /ko -->
             <!-- ko if : (typeof(SqlType) !== "undefined") -->
             <h3 data-bind="text: 'Column Property'"></h3>
             <form>
@@ -61,6 +67,7 @@
                     <span class=""
                           data-bind="text:ko.unwrap(DbType) + ' (' + ko.unwrap(Length) + ')' + (ko.unwrap(IsNullable) ? ' NULL': ' NOT NULL')"></span>
                 </div>
+
 
                 <div class="form-group">
                     <label class="control-label">CLR Property</label>

@@ -54,13 +54,12 @@ namespace Bespoke.Sph.Integrations.Adapters
             //TODO : find out if the object is still in the database .. create async will always return an object
             try
             {
-                await operation.RefreshMetadataAsync(this);
+                return await operation.RefreshMetadataAsync(this);
             }
             catch (SqlException e) when (e.Number == 2812 || e.Message.Contains("Could not find"))
             {
                 deletedOperations.Add(operation);
             }
-
             return Array.Empty<Change>();
         }
 

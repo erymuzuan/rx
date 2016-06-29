@@ -19,6 +19,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             string selectParametersSql = $@"
 SELECT 
+	'{Schema}-{Name}-' + cast(column_id as varchar(3))  as 'Id',
     name as 'Column',
     TYPE_NAME(user_type_id) as 'Type', 
     max_length as 'Length',

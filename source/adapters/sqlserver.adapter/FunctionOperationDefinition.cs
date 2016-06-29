@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             string selectParametersSql = $@"
 SELECT 
+	'{Schema}-{Name}-' + cast(P.parameter_id as varchar(3))  as 'Id',
     P.is_output AS 'IsOutPutParameter',
     P.name AS 'Column',
     TYPE_NAME(P.user_type_id) AS 'Type',

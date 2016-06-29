@@ -21,6 +21,8 @@ where SPECIFIC_NAME = @name
 order by ORDINAL_POSITION*/
             string sql = $@"
 select  
+	-- DO NOT USE parameter_id as this value changes, and doesnot track the old object 
+	'{Schema}-{Name}-' + name  as 'Id',
     name as 'Column',
     TYPE_NAME(user_type_id) as 'Type',
     max_length as 'Length',
@@ -101,6 +103,7 @@ set fmtonly off
                     {
                         var colReader = new Dictionary<string, object>
                         {
+                            {"Id", colMetadata["ColumnName"]},
                             {"Column", colMetadata["ColumnName"]},
                             {"Type", colMetadata["DataTypeName"]},
                             {"Length", colMetadata["NumericPrecision"]},

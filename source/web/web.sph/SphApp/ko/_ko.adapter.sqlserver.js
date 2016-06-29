@@ -122,7 +122,7 @@ define(["knockout"], function (ko) {
                                         data: x
                                     };
                                 }),
-                                webid = (ko.unwrap(t.WebId) || system.guid());
+                                webid = (ko.unwrap(t.WebId) + system.guid());
 
 
                             if (ko.isObservable(t.WebId))

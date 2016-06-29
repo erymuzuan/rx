@@ -153,7 +153,7 @@ namespace Bespoke.Sph.Domain.Api
 
                 var oldValue = func(oc);
                 var newValue = func(this);
-                if (!oldValue.Equals(newValue))
+                if (null == oldValue || !oldValue.Equals(newValue))
                     changes.Add(new ColumnChange { Name = this.Name, OldValue = $"{oldValue}", NewValue = $"{newValue}", WebId = this.WebId, PropertyName = fieldName, Action = "Changed" });
             }
             return changes;
@@ -220,6 +220,6 @@ namespace Bespoke.Sph.Domain.Api
         public string Table { get; set; }
         public string Name { get; set; }
 
-        
+
     }
 }

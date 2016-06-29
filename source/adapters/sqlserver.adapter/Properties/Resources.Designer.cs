@@ -100,7 +100,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ///   Looks up a localized string similar to 
         ///	
         ///SELECT 
-        ///        c.column_id as &apos;Id&apos;
+        ///	      s.name +&apos;-&apos; + o.name + &apos;-&apos; + cast(c.column_id as varchar(3))  as &apos;Id&apos;
         ///        ,o.name as &apos;Table&apos;
         ///		    ,s.name as &apos;Schema&apos;
         ///        ,c.name as &apos;Column&apos;
@@ -113,8 +113,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ///        sys.objects o INNER JOIN sys.all_columns c
         ///        ON c.object_id = o.object_id
         ///        INNER JOIN sys.types t 
-        ///        ON c.system_type_id = t.system_type_id
-        ///        INNER JOI [rest of string was truncated]&quot;;.
+        ///        ON c.sys [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SelectColumnsSql {
             get {
