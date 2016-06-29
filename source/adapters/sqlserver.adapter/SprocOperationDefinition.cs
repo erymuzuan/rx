@@ -65,7 +65,8 @@ select
             {
                 Name = "@return_value",
                 DisplayName = "@return_value",
-                Type = typeof(int)
+                Type = typeof(int),
+                WebId = $"{Schema}-{Name}-@return_value"
             };
             this.ResponseMemberCollection.Add(retVal);
             await this.SuggestReturnResultset(adapter);
@@ -98,7 +99,7 @@ set fmtonly off
                 {
                     var dt = reader.GetSchemaTable();
                     if (null == dt) return;
-                    var resultSet = new ComplexMember { Name = "_results", TypeName = $"{MethodName}Row", AllowMultiple = true };
+                    var resultSet = new ComplexMember { Name = "_results", TypeName = $"{MethodName}Row", AllowMultiple = true, WebId = $"{Schema}-{Name}-results" };
                     foreach (DataRow colMetadata in dt.Rows)
                     {
                         var colReader = new Dictionary<string, object>

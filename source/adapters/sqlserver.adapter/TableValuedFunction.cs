@@ -42,7 +42,7 @@ WHERE
 
                 await conn.OpenAsync();
 
-                var resultSet = new ComplexMember { AllowMultiple = true, Name = "_results", TypeName = $"{MethodName}Row" };
+                var resultSet = new ComplexMember { AllowMultiple = true, Name = "_results", TypeName = $"{MethodName}Row", WebId = $"{Schema}-{Name}-results" };
                 this.ResponseMemberCollection.Add(resultSet);
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
