@@ -8,9 +8,12 @@ define(["knockout"], function (ko) {
 
     ko.bindingHandlers.adapterTree = {
         init: function (element, valueAccessor) {
+
+
+
             var system = require(objectbuilders.system),
                 value = valueAccessor(),
-                adapter = ko.unwrap(value.adapter),
+                adapter = value.adapter,
                 connected = value.connected,
                 searchInput = $(ko.unwrap(value.searchTextBox)),
                 addOperation = value.addOperation,
@@ -54,7 +57,7 @@ define(["knockout"], function (ko) {
                     var table = ko.toJS(v),
                         columns = _(v.ColumnCollection()).map(function (col) {
                             return {
-                                id: "column-" + ko.unwrap(col.WebId),
+                                id: "column-" + table.Name + "-" + ko.unwrap(col.WebId),
                                 text: calculateColumnName(col),
                                 type: ko.unwrap(col.TypeName),
                                 data: col
@@ -162,8 +165,8 @@ define(["knockout"], function (ko) {
                 },
                 tree = null,
                 loadJsTree = function () {
-                    jsTreeData[0].children = _(adapter.TableDefinitionCollection()).map(mapTable);
-                    jsTreeData[1].children = _(adapter.OperationDefinitionCollection()).map(mapOperation);
+                    jsTreeData[0].children = _(adapter().TableDefinitionCollection()).map(mapTable);
+                    jsTreeData[1].children = _(adapter().OperationDefinitionCollection()).map(mapOperation);
 
                     $(element)
                         .on("select_node.jstree", function (node, selected) {
@@ -231,12 +234,12 @@ define(["knockout"], function (ko) {
                                                 tree.delete_node($node);
 
                                                 if ($node.type === "U") {
-                                                    adapter.TableDefinitionCollection.remove(function (v) {
+                                                    adapter().TableDefinitionCollection.remove(function (v) {
                                                         return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema)
                                                             && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
                                                     });
                                                 } else {
-                                                    adapter.OperationDefinitionCollection.remove(function (v) {
+                                                    adapter().OperationDefinitionCollection.remove(function (v) {
                                                         return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema)
                                                             && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
                                                     });
@@ -250,7 +253,7 @@ define(["knockout"], function (ko) {
                                             "label": "Edit operation",
                                             "action": function () {
                                                 var op = ko.toJS($node.data);
-                                                window.location = '/sph#adapter.sqlserver.sproc/' + ko.unwrap(adapter.Id) + '/' + op.Schema + '.' + op.Name;
+                                                window.location = '/sph#adapter.sqlserver.sproc/' + ko.unwrap(adapter().Id) + '/' + op.Schema + '.' + op.Name;
                                             }
                                         },
                                         selectRelatedTable = {
@@ -565,7 +568,15 @@ define(["knockout"], function (ko) {
             tree = $(element).jstree(true);
 
 
-            adapter.TableDefinitionCollection.subscribe(function (changes) {
+            adapter.subscribe(function(){
+
+                tree.destroy();
+                loadJsTree();
+                tree = $(element).jstree(true);
+            });
+
+
+            adapter().TableDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
                 var tables = _(changes).filter(function (c) {
                         return c.status === "added";
@@ -582,7 +593,7 @@ define(["knockout"], function (ko) {
 
             }, null, "arrayChange");
 
-            adapter.OperationDefinitionCollection.subscribe(function (changes) {
+            adapter().OperationDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
                 var operations = _(changes).filter(function (c) {
                         return c.status === "added";

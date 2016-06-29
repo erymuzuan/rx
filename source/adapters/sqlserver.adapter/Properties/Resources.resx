@@ -143,8 +143,9 @@
     <value>
 	
 SELECT 
-         o.name as 'Table'
-		,s.name as 'Schema'
+        c.column_id as 'Id'
+        ,o.name as 'Table'
+		    ,s.name as 'Schema'
         ,c.name as 'Column'
         ,t.name as 'Type' 		
         ,c.max_length as 'Length'

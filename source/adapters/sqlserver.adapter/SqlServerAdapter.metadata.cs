@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public partial class SqlServerAdapter
     {
-        public async Task<bool> LoadDatabaseObjectAsync(string connectionString)
+        public async Task<IEnumerable<Change>> LoadDatabaseObjectAsync(string connectionString)
         {
             using (var conn = new SqlConnection(connectionString))
             {
@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
                 catch (SqlException e) when (e.Number == -1)
                 {
-                    return false;
+                    return Array.Empty<Change>();
                 }
                 var deletedTables = new ConcurrentBag<TableDefinition>();
                 var deletedOperations = new ConcurrentBag<OperationDefinition>();
@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                             select RefreshTableMetadataAsync(t, deletedTables);
                 var operations = from t in this.OperationDefinitionCollection
                                  select RefreshOperationMetadaAsync(t, deletedOperations);
-                await Task.WhenAll(tasks.Concat(operations));
+                var changes = (await Task.WhenAll(tasks.Concat(operations))).SelectMany(x => x);
 
                 foreach (var dt in deletedTables)
                 {
@@ -42,13 +42,14 @@ namespace Bespoke.Sph.Integrations.Adapters
                     this.OperationDefinitionCollection.Remove(dt);
                 }
 
+                return changes;
+
             }
 
 
-            return true;
         }
 
-        private async Task RefreshOperationMetadaAsync(OperationDefinition operation, ConcurrentBag<OperationDefinition> deletedOperations)
+        private async Task<IEnumerable<Change>> RefreshOperationMetadaAsync(OperationDefinition operation, ConcurrentBag<OperationDefinition> deletedOperations)
         {
             //TODO : find out if the object is still in the database .. create async will always return an object
             try
@@ -59,31 +60,57 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 deletedOperations.Add(operation);
             }
+
+            return Array.Empty<Change>();
         }
 
-        private async Task RefreshTableMetadataAsync(TableDefinition table, ConcurrentBag<TableDefinition> deletedTables)
+        private async Task<IEnumerable<Change>> RefreshTableMetadataAsync(TableDefinition table, ConcurrentBag<TableDefinition> deletedTables)
         {
             var db = await this.GetTableOptionDetailsAsync(table.Schema, table.Name);
             if (null == db)
             {
                 deletedTables.Add(table);
-                return;
+                return new[] { new Change { WebId = table.Name, Action = "Deleted" } };
             }
-
+            var changes = new List<Change>();
             foreach (var col in db.ColumnCollection)
             {
-                var oc = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
+                var oc = table.ColumnCollection.SingleOrDefault(x => x.WebId == col.WebId);
                 if (null != oc)
                 {
-                    col.Merge(oc, table);
+                    var list = col.Merge(oc, table);
+                    changes.AddRange(list);
+                }
+                else
+                {
+                    changes.Add(new ColumnChange
+                    {
+                        PropertyName = "Column",
+                        Table = table.Name,
+                        Name = col.Name,
+                        WebId = col.WebId,
+                        Action = "Added",
+                        NewValue = col.Name
+                    });
                 }
             }
-            // now refresh the table column with the one read from db, but with user's metada intact
+            var deletedColumns = from c in table.ColumnCollection.Except(db.ColumnCollection)
+                                 select new ColumnChange { Table = table.Name, Name = c.Name, PropertyName = "Column", Action = "Deleted", OldValue = c.Name, WebId = c.WebId };
+            changes.AddRange(deletedColumns);
+            // now refresh the table column with the one read from db, but with user's metadata intact
             table.ColumnCollection.ClearAndAddRange(db.ColumnCollection.OrderBy(c => c.Order));
 
             //TODO : we should merge action generators with new ones, and remove the old one
             if (table.ControllerActionCollection.Count == 0)
                 table.ControllerActionCollection.AddRange(ObjectBuilder.GetObject<IDeveloperService>().ActionCodeGenerators);
+
+            changes.OfType<ColumnChange>().ToList().ForEach(x =>
+            {
+                x.WebId = $"column-{table.Name}-{x.WebId}";
+                x.Table = table.Name;
+            });
+
+            return changes;
         }
 
         private async Task GetChildTablesAsync(SqlConnection conn, params TableDefinition[] tables)
@@ -260,14 +287,14 @@ AND
                         try
                         {
                             var col = await reader.ReadColumnAsync(this, table);
-                            var existingColumn = table.ColumnCollection.SingleOrDefault(x => x.Name == col.Name);
+                            var existingColumn = table.ColumnCollection.SingleOrDefault(x => x.WebId == col.WebId);
                             col.IsSelected = existingColumn?.IsSelected ?? false;
 
-                            table.ColumnCollection.AddOrReplace(col, x => x.Name == col.Name);
+                            table.ColumnCollection.AddOrReplace(col, x => x.WebId == col.WebId);
                         }
                         catch (Exception e)
                         {
-                            var oc = table.ColumnCollection.SingleOrDefault(x => x.Name == mt.Name);
+                            var oc = table.ColumnCollection.SingleOrDefault(x => x.WebId == mt.WebId);
                             if (null != oc) oc.Unsupported = true;
                             var exc = new NotSupportedException($"Fail to initilize column [{table.Schema}].[{table.Name}].{mt}", e) { Data = { { "col", mt.ToJson() } } };
                             await ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry(exc));

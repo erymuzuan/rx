@@ -122,16 +122,17 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        [HttpPost]
-        [Route("{id}")]
-        public async Task<IHttpActionResult> UpdateAdapterMetadataAsync([JsonBody]SqlServerAdapter adapter)
+        [HttpGet]
+        [Route("{id}/refresh-metadata")]
+        public async Task<IHttpActionResult> RefreshAdapterMetadataAsync(string id)
         {
-            var connected = await adapter.LoadDatabaseObjectAsync(adapter.ConnectionString);
+            var context = new SphDataContext();
+            var adapter = (SqlServerAdapter)context.LoadOneFromSources<Adapter>(x => x.Id == id);
+            var changes = await adapter.LoadDatabaseObjectAsync(adapter.ConnectionString);
             var json = $@"
 {{
     ""adapter"":{adapter.ToJsonString()},
-    ""connected"":""{connected}"",
-    ""changes"":[]
+    ""changes"":{ changes.ToJson()}
 }}";
             return Json(json);
         }

@@ -127,7 +127,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             catch (Exception e)
             {
-                var oc = table?.ColumnCollection.SingleOrDefault(x => x.Name == mt.Name);
+                var oc = table?.ColumnCollection.SingleOrDefault(x => x.WebId == mt.WebId);
                 if (null != oc) oc.Unsupported = true;
                 var exc = new NotSupportedException($"Fail to initilize column [{table?.Schema}].[{table?.Name}].{mt}", e) { Data = { { "col", mt.ToJson() } } };
                 await ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry(exc));
@@ -154,7 +154,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             catch (Exception e)
             {
-                var oc = table?.ColumnCollection.SingleOrDefault(x => x.Name == mt.Name);
+                var oc = table?.ColumnCollection.SingleOrDefault(x => x.WebId == mt.WebId);
                 if (null != oc) oc.Unsupported = true;
                 var exc = new NotSupportedException($"Fail to initilize column [{table?.Schema}].[{table?.Name}].{mt}", e) { Data = { { "col", mt.ToJson() } } };
                 await ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry(exc));

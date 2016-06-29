@@ -20,10 +20,8 @@ namespace Bespoke.Sph.Domain
         [XmlAttribute]
         public string WebId { get; set; }
 
-        protected TraceSource TraceSource
-        {
-            get { return m_traceSource ?? (m_traceSource = new TraceSource("Application")); }
-        }
+        protected TraceSource TraceSource => m_traceSource ?? (m_traceSource = new TraceSource("Application"));
+
         /// <summary>
         /// Write into trace source
         /// </summary>
@@ -89,15 +87,9 @@ namespace Bespoke.Sph.Domain
         #endregion
 
         #region Private API
-        private Dictionary<string, string> Errors
-        {
-            get { return m_errors ?? (m_errors = new Dictionary<string, string>()); }
-        }
+        private Dictionary<string, string> Errors => m_errors ?? (m_errors = new Dictionary<string, string>());
 
-        private PropertyDescriptorCollection Shape
-        {
-            get { return m_shape ?? (m_shape = TypeDescriptor.GetProperties(this)); }
-        }
+        private PropertyDescriptorCollection Shape => m_shape ?? (m_shape = TypeDescriptor.GetProperties(this));
 
         #endregion
 
@@ -118,26 +110,16 @@ namespace Bespoke.Sph.Domain
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            Dirty = true;
-            if (null != PropertyChanged)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
         #endregion
 
         #region IDataErrorInfo Members
 
         [JsonIgnore]
-        public string Error
-        {
-            get { return ((Errors.Count > 0) ? "Business object is in an invalid state" : string.Empty); }
-        }
+        public string Error => ((Errors.Count > 0) ? "Business object is in an invalid state" : string.Empty);
 
-        public string this[string columnName]
-        {
-            get { return GetColumnError(columnName); }
-        }
+        public string this[string columnName] => GetColumnError(columnName);
 
         private string GetColumn(string column)
         {
@@ -223,7 +205,7 @@ namespace Bespoke.Sph.Domain
         public void BeginEdit()
         {
             if (!m_usingIEditable) return;
-            if (null != BeginEditFired) BeginEditFired(this, EventArgs.Empty);
+            BeginEditFired?.Invoke(this, EventArgs.Empty);
 
             if (null == m_propertyHashtable)
             {

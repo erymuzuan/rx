@@ -43,7 +43,10 @@ ko.bindingHandlers.tooltip = {
     init: function (element, valueAccesor) {
         var optionOrText = ko.unwrap(valueAccesor()),
             placement = optionOrText.tooltipPlacement || optionOrText.placement || "top",
-            text = optionOrText.text ||optionOrText.tooltip || optionOrText;
+            text = optionOrText.text || optionOrText.tooltip || optionOrText;
+        if (typeof text !== "string") {
+            text = (optionOrText.text || {}).tooltip;
+        }
         if (typeof text === "string") {
             $(element).tooltip({ title: text, placement: placement });
         }

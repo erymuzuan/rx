@@ -19,6 +19,7 @@ namespace Bespoke.Sph.Domain.Api
         public ColumnMetadata(Column column)
         {
             Name = column.Name;
+            WebId = column.WebId;
             IsNullable = column.IsNullable;
             IsIdentity = column.IsIdentity;
             IsComputed = column.IsComputed;
@@ -32,6 +33,7 @@ namespace Bespoke.Sph.Domain.Api
         {
             var mt = new ColumnMetadata();
             Console.WriteLine("");
+            mt.WebId = reader["Id"].ToString();
             mt.Name = (string) reader["Column"];
             mt.DbType = (string)reader["Type"];
             mt.Length = Convert.ToInt16(reader["Length"]);
@@ -44,6 +46,7 @@ namespace Bespoke.Sph.Domain.Api
         {
             var mt = new ColumnMetadata();
             Console.WriteLine("");
+            mt.WebId = reader["Id"].ToString();
             mt.Name = (string) reader["Column"];
             mt.DbType = (string)reader["Type"];
             mt.Length = Convert.ToInt16(reader["Length"]);

@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
-using Humanizer;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
@@ -52,7 +54,13 @@ namespace Bespoke.Sph.Domain.Api
             col.IsPrimaryKey = mt.IsPrimaryKey;
             col.IsVersion = td?.VersionColumn == col.Name;
             col.IsModifiedDate = td?.ModifiedDateColumn == col.Name;
-            col.WebId = Guid.NewGuid().ToString();
+            col.WebId = mt.WebId;
+
+            col.TypeName = col.ClrType.GetShortAssemblyQualifiedName();
+
+            col.IsVersion = td?.VersionColumn == col.Name;
+            col.IsModifiedDate = td?.ModifiedDateColumn == col.Name;
+
             if (string.IsNullOrWhiteSpace(col.DisplayName))
             {
                 switch (adapter.ColumnDisplayNameStrategy)
@@ -110,16 +118,17 @@ namespace Bespoke.Sph.Domain.Api
             return null;
         }
 
-        public virtual void Merge(Column oc, TableDefinition table)
+        public virtual IEnumerable<Change> Merge(Column oc, TableDefinition table)
         {
-            this.Merge(oc);
             this.IsModifiedDate = table.ModifiedDateColumn == this.Name;
             this.IsVersion = table.VersionColumn == this.Name;
+
+            return this.Merge(oc);
         }
 
-        public virtual void Merge(Column oc)
+
+        public virtual IEnumerable<Change> Merge(Column oc)
         {
-            // TODO : copy users setting property like, MIME, inline data or not from oc to col
             this.DefaultValue = oc.DefaultValue;
             this.DisplayName = oc.DisplayName;
             this.Ignore = oc.Ignore;
@@ -127,8 +136,36 @@ namespace Bespoke.Sph.Domain.Api
             this.LookupColumnTable = oc.LookupColumnTable;
             this.MimeType = oc.MimeType;
             this.Order = oc.Order;
-            this.WebId = oc.WebId ?? Guid.NewGuid().ToString();
+            this.WebId = oc.WebId;
             this.IsSelected = oc.IsSelected;
+
+            return this.GetChanges(oc);
+        }
+
+        private IEnumerable<Change> GetChange<T>(Column oc, params Expression<Func<Column, T>>[] fields)
+        {
+            var changes = new List<Change>();
+            foreach (var field in fields)
+            {
+                var func = field.Compile();
+                dynamic fdyn = field.Body;
+                string fieldName = fdyn.Member.Name;
+
+                var oldValue = func(oc);
+                var newValue = func(this);
+                if (!oldValue.Equals(newValue))
+                    changes.Add(new ColumnChange { Name = this.Name, OldValue = $"{oldValue}", NewValue = $"{newValue}", WebId = this.WebId, PropertyName = fieldName, Action = "Changed" });
+            }
+            return changes;
+        }
+
+        protected virtual IEnumerable<Change> GetChanges(Column oc)
+        {
+            var changes = this.GetChange(oc, x => x.Name, x => x.DbType).ToList();
+            changes.AddRange(this.GetChange(oc, x => x.IsComputed, x => x.IsIdentity, x => x.IsNullable));
+            changes.AddRange(this.GetChange(oc, x => x.Length));
+
+            return changes;
         }
 
         public virtual Property GetLookupProperty(Adapter adapter, TableDefinition table)
@@ -144,6 +181,22 @@ namespace Bespoke.Sph.Domain.Api
             return prop;
         }
 
+        public override bool Equals(object obj)
+        {
+            var o = obj as Column;
+            if (null == o) return false;
+            return this.WebId.Equals(o.WebId);
+        }
+
+        protected bool Equals(Column other)
+        {
+            return WebId == other.WebId;
+        }
+
+        public override int GetHashCode()
+        {
+            return WebId.GetHashCode();
+        }
 
         public virtual string GetDefaultValueCode(TableDefinition table, string itemIdentifier = "item", string adapterIdentifier = "adapterDefinition")
         {
@@ -160,5 +213,13 @@ namespace Bespoke.Sph.Domain.Api
             return code.ToString();
 
         }
+    }
+
+    public class ColumnChange : Change
+    {
+        public string Table { get; set; }
+        public string Name { get; set; }
+
+        
     }
 }

@@ -10,8 +10,8 @@
 /// <reference path="c:\project\work\sph\source\adapters\sqlserver.adapter\_sql.server.adapter.domain.js" />
 /// <reference path="../domain/domain.sph/Scripts/objectbuilders.js" />
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, objectbuilders.system, "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/_ko.adapter.sqlserver"],
-    function (context, logger, router, app, system) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, objectbuilders.system, "viewmodels/_developers.log", "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/_ko.adapter.sqlserver"],
+    function (context, logger, router, app, system,dlog) {
 
         var adapter = ko.observable(),
             selected = ko.observable(),
@@ -19,6 +19,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             loadingDatabases = ko.observable(false),
             connected = ko.observable(false),
             errors = ko.observableArray(),
+            changes = ko.observableArray(),
             databaseOptions = ko.observableArray(),
             tableNameOptions = ko.observableArray(),
             lookupColumnOptions = ko.observableArray(),
@@ -83,6 +84,39 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
 
                 return tcs.promise();
+            },
+            refresh = function(){
+
+                return $.getJSON("/sqlserver-adapter/" + adapter().Id() + "/refresh-metadata")
+                    .then(function(result){
+                        adapter(context.toObservable(result.adapter));
+                        changes(result.changes);
+                        var logs = _(result.changes).map(function(c){
+                            var message = "";
+
+                            switch (c.Action){
+                                case "Changed":
+                                    message = c.Table + "." + c.Name + " " + c.PropertyName + " was changed from " + c.OldValue + " to " + c.NewValue;
+                                    break;
+                                case "Deleted":
+                                    message = c.Table + "." + c.Name + " " + c.PropertyName + " was deleted : " + c.OldValue ;
+                                    break;
+                                case "Added":
+                                    message = c.Table + "." + c.Name + " " + c.PropertyName + " was added : " + c.NewValue;
+                                    break;
+                            }
+
+
+                            return {
+                                time : "",
+                                message : message,
+                                severity : "Info",
+
+                            };
+                        });
+                        dlog.list(logs);
+
+                    });
             },
             activate = function (sid) {
 
@@ -415,6 +449,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var vm = {
             errors: errors,
+            changes: changes,
             addTable: addTable,
             addField: addField,
             editField: editField,
@@ -439,13 +474,17 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     {
                         caption: "Connect",
                         icon: "fa fa-exchange",
-                        command: connect
+                        command: connect,
+                        tooltip : "Connect to the adapter SQL Server instance",
+                        enable : ko.computed(function(){
+                            return !ko.unwrap(connected);
+                        })
                     },
                     {
                         caption: "Refresh",
                         tooltip: "Refresh adapter objects metada from the database",
                         icon: "fa fa-refresh",
-                        command: connect,
+                        command: refresh,
                         enable: connected
                     },
                     {

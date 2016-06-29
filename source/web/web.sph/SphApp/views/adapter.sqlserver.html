@@ -1,4 +1,8 @@
-﻿<h1>Microsoft SQL Server</h1>
+﻿<h1>
+<i class="fa fa-circle-o" data-bind="visible: connected" style="color: #00cc66"></i>
+<i class="fa fa-circle-o-notch" data-bind="visible: !ko.unwrap(connected)" style="color: red"></i>
+    Microsoft SQL Server
+</h1>
 <div id="error-list" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
     <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">

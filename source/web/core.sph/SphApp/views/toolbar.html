@@ -16,7 +16,7 @@
             <ul class="dropdown-menu">
                 <!-- ko foreach: commands-->
                 <li>
-                    <a class="btn btn-link pull-left" data-bind="command: command, tooltip : {text:tooltip, placement:'bottom'}" href="javascript:;" data-placement="bottom">
+                    <a class="btn btn-link pull-left" data-bind="command: command, tooltip : {text:$data, placement:'bottom'}" href="javascript:;" data-placement="bottom">
                         <i data-bind="attr: { 'class': icon }"></i>
                         <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
                     </a>
@@ -137,7 +137,7 @@
         </button>
         <!-- /ko -->
         <!-- ko if: typeof enable === "function"-->
-        <button class="btn btn-default" data-bind="command: command, enable: enable, tooltip :  {text:tooltip, placement:'bottom'}" data-placement="bottom">
+        <button class="btn btn-default" data-bind="command: command, enable: enable, tooltip :  {text:$data, placement:'bottom'}" data-placement="bottom">
             <i data-bind="attr: { 'class': icon }"></i>
             <span data-bind="text:caption, attr :{'data-i18n': caption}"></span>
         </button>

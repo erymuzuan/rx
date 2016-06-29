@@ -22,17 +22,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var col = (SqlColumn)base.Initialize(adapter, td, mt);
             col.Name = string.IsNullOrWhiteSpace(mt.Name) ? "@return_value" : mt.Name;
-            col.DbType = mt.DbType;
-            col.IsNullable = mt.IsNullable;
-            col.IsIdentity = mt.IsIdentity;
-            col.IsComputed = mt.IsComputed;
-            col.Length = mt.Length;
-            col.IsPrimaryKey = mt.IsPrimaryKey;
-
-            col.IsVersion = td?.VersionColumn == col.Name;
-            col.IsModifiedDate = td?.ModifiedDateColumn == col.Name;
-
-            col.TypeName = col.ClrType.GetShortAssemblyQualifiedName();
 
             SqlDbType st;
             if (Enum.TryParse(mt.DbType, true, out st))
