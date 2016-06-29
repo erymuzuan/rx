@@ -25,6 +25,17 @@
     <!-- /ko-->
 </div>
 
+<div id="validations-list" class="row" data-bind="visible:validations().length">
+    <!-- ko foreach : validations -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+
 
 <div class="row">
 

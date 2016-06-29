@@ -20,6 +20,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             loadingDatabases = ko.observable(false),
             connected = ko.observable(false),
             errors = ko.observableArray(),
+            validations = ko.observableArray(),
             changes = ko.observableArray(),
             databaseOptions = ko.observableArray(),
             tableNameOptions = ko.observableArray(),
@@ -354,11 +355,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
-                            errors.removeAll();
+                            validations.removeAll();
                             logger.info("Your Sql Server adapter has been saved");
 
                         } else {
-                            errors(result.errors);
+                            validations(result.errors);
                             logger.error("Please check for any errors in your adapter");
                         }
 
@@ -472,6 +473,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         var vm = {
             errors: errors,
+            validations: validations,
             changes: changes,
             addTable: addTable,
             addField: addField,
@@ -501,7 +503,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         command: connect,
                         tooltip: "Connect to the adapter SQL Server instance",
                         enable: ko.computed(function () {
-                            return !ko.unwrap(connected);
+                            var adp = ko.unwrap(adapter);
+                            if(!adp)return false;
+                            return !ko.unwrap(connected) && ko.unwrap(adp.Server);
                         })
                     },
                     {
