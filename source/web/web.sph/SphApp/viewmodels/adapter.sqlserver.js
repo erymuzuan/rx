@@ -14,6 +14,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
     function (context, logger, router, app, system,dlog) {
 
         var adapter = ko.observable(),
+            originalEntity = "",
             selected = ko.observable(),
             isBusy = ko.observable(false),
             loadingDatabases = ko.observable(false),
@@ -121,6 +122,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             activate = function (sid) {
 
                 errors.removeAll();
+                connected(false);
+                changes.removeAll();
+
                 var query = String.format("Id eq '{0}'", sid);
                 return context.loadOneAsync("Adapter", query)
                     .then(function (result) {
@@ -289,7 +293,37 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     selected().LookupColumnTable().ValueColumn($(this).val());
                 });
 
+                originalEntity = ko.toJSON(adapter);
 
+            },
+            canDeactivate = function () {
+                var tcs = new $.Deferred();
+                if (!originalEntity) {
+                    return true;
+                }
+
+
+
+                if (originalEntity !== ko.toJSON(adapter)) {
+                    app.showMessage("Save change to the item", "Rx Developer", ["Yes", "No", "Cancel"])
+                        .done(function (dialogResult) {
+                            if (dialogResult === "Yes") {
+                                save().done(function () {
+                                    tcs.resolve(true);
+                                });
+                            }
+                            if (dialogResult === "No") {
+                                tcs.resolve(true);
+                            }
+                            if (dialogResult === "Cancel") {
+                                tcs.resolve(false);
+                            }
+
+                        });
+                } else {
+                    return true;
+                }
+                return tcs.promise();
             },
             publishAsync = function () {
 
@@ -340,6 +374,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             errors(result.errors);
                             logger.error("Please check for any errors in your adapter");
                         }
+
+                        originalEntity = ko.toJSON(adapter);
 
                     });
 
@@ -462,6 +498,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             adapter: adapter,
             isBusy: isBusy,
             activate: activate,
+            canDeactivate :canDeactivate,
             attached: attached,
             viewFile: viewFile,
             editTable: editTable,
