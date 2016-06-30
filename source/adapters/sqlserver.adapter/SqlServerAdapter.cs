@@ -471,7 +471,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             var code = new StringBuilder();
             var readCodes = from c in columns
                             where !c.IsComplex
-                            select $"item.{c.ClrName} = {c.GenerateValueAssignmentCode($@"reader[""{c.Name}""]")};";
+                            let dbVal = $@"reader[""{c.Name}""]"
+                            let statement = c.GenerateValueStatementCode(dbVal)
+                            let statementCode = string.IsNullOrWhiteSpace(statement)? "" : statement + "\r\n"
+                            select $"{statementCode}item.{c.ClrName} = {c.GenerateValueAssignmentCode(dbVal)};";
             code.JoinAndAppendLine(readCodes, "\r\n");
 
             // TODO : we should create a column from the lookup table and use the column Assignment code to do the read

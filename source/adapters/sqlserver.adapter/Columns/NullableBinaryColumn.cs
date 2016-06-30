@@ -20,6 +20,12 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
             return $@"{commandName}.Parameters.Add(new SqlParameter(""@{ClrName}"", SqlDbType.{SqlType}, {Length}){{ Value = {itemIdentifier}.{ClrName}.ToDbNull()}});";
         }
 
+        public override string GenerateValueAssignmentCode(string dbValue)
+        {
+            return $"{dbValue}.ReadNullableByteArray()";
+        }
+
+
         public override string GenerateReadAdapterCode(TableDefinition table, Adapter adapter)
         {
             if (!this.IsComplex)
