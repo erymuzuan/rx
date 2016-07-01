@@ -166,7 +166,9 @@ namespace Bespoke.Sph.Domain
 
             var parameterlist = from r in this.RouteParameterCollection
                                 let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
-                                let type = r.Type.ToCsharpIdentitfier()
+                                let clrType = Strings.GetType(r.Type)
+                                where null != clrType
+                                let type = clrType.ToCSharp()
                                 select $"{type} {r.Name}{defaultValue},";
             var parameters = $@"[SourceEntity(""{Id}"")]QueryEndpoint eq,
                                    [IfNoneMatch]ETag etag,
@@ -179,7 +181,7 @@ namespace Bespoke.Sph.Domain
             foreach (var p in this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>())
             {
                 var qs = this.RouteParameterCollection.Single(x => x.Name == p.Expression);
-                code.AppendLine(qs.Type == "DateTime"
+                code.AppendLine(qs.Type == "System.DateTime, mscorlib"
                     ? $"  query = query.Replace(\"<<{p.Expression}>>\", $\"\\\"{{{p.Expression}:O}}\\\"\");"
                     : $"  query = query.Replace(\"<<{p.Expression}>>\", $\"{{{p.Expression}}}\");");
             }

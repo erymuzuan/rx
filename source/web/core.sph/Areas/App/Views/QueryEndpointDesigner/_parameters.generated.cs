@@ -57,21 +57,25 @@ WriteLiteral(" data-bind=\"value: Type, uniqueName: true\"");
 
 WriteLiteral(">\r\n                    <option");
 
-WriteLiteral(" value=\"Number\"");
-
-WriteLiteral(">Integer</option>\r\n                    <option");
-
-WriteLiteral(" value=\"boolean\"");
-
-WriteLiteral(">Boolean</option>\r\n                    <option");
-
-WriteLiteral(" value=\"string\"");
+WriteLiteral(" value=\"System.String, mscorlib\"");
 
 WriteLiteral(">String</option>\r\n                    <option");
 
-WriteLiteral(" value=\"float\"");
+WriteLiteral(" value=\"System.Int32, mscorlib\"");
 
-WriteLiteral(">Decimal</option>\r\n                </select>\r\n            </td>\r\n            <td>" +
+WriteLiteral(">Integer</option>\r\n                    <option");
+
+WriteLiteral(" value=\"System.Decimal, mscorlib\"");
+
+WriteLiteral(">Decimal</option>\r\n                    <option");
+
+WriteLiteral(" value=\"System.DateTime, mscorlib\"");
+
+WriteLiteral(">DateTime</option>\r\n                    <option");
+
+WriteLiteral(" value=\"System.Boolean, mscorlib\"");
+
+WriteLiteral(">Boolean</option>\r\n                </select>\r\n            </td>\r\n            <td>" +
 "\r\n                <input");
 
 WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_]*$\"");
