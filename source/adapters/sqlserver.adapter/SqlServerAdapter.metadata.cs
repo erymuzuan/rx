@@ -51,7 +51,6 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         private async Task<IEnumerable<Change>> RefreshOperationMetadaAsync(OperationDefinition operation, ConcurrentBag<OperationDefinition> deletedOperations)
         {
-            //TODO : find out if the object is still in the database .. create async will always return an object
             try
             {
                 return await operation.RefreshMetadataAsync(this);
@@ -99,7 +98,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             // now refresh the table column with the one read from db, but with user's metadata intact
             table.ColumnCollection.ClearAndAddRange(db.ColumnCollection.OrderBy(c => c.Order));
 
-            //TODO : we should merge action generators with new ones, and remove the old one
+            // TODO : we should merge action generators with new ones, and remove the old one
             if (table.ControllerActionCollection.Count == 0)
                 table.ControllerActionCollection.AddRange(ObjectBuilder.GetObject<IDeveloperService>().ActionCodeGenerators);
 
@@ -278,6 +277,7 @@ AND
             {
                 using (var reader = await columnCommand.ExecuteReaderAsync())
                 {
+                    var count = 0;
                     while (await reader.ReadAsync())
                     {
                         var table = tables.SingleOrDefault(x => x.Name == (string)reader["Table"] && (string)reader["Schema"] == x.Schema);
@@ -286,6 +286,7 @@ AND
                         try
                         {
                             var col = await reader.ReadColumnAsync(this, table);
+                            col.Order = ++count;
                             var existingColumn = table.ColumnCollection.SingleOrDefault(x => x.WebId == col.WebId);
                             col.IsSelected = existingColumn?.IsSelected ?? false;
 
