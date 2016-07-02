@@ -163,7 +163,7 @@ namespace Bespoke.Sph.Web.Controllers
             var list = from w in adapters
                        let tables = w.TableDefinitionCollection.Select(x => new
                        {
-                           Name = x.Name,
+                           x.Name,
                            Actions = x.ControllerActionCollection.Where(c => c.IsEnabled).Select(c => c.GetActionNames(x, w)).SelectMany(c => c).ToArray()
                        })
                        let ops = w.OperationDefinitionCollection.Select(x => x.MethodName)

@@ -230,42 +230,42 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
 
 
-                _(ko.unwrap(adapters)).each(function (v) {
+                _(ko.unwrap(adapters)).each(function (adp) {
                     var wdNode = {
-                        data: createTag(v.Name),
+                        data: createTag(adp.Name),
                         parent: "root",
-                        text: ko.unwrap(v.Name),
+                        text: ko.unwrap(adp.Name),
                         icon: "fa fa-database",
                         state: {opened: false},
                         a_attr: {
-                            "class": hasImplementation(v.Name)
+                            "class": hasImplementation(adp.Name)
                         },
                         children: []
                     };
-                    _(v.Operations).each(function (op) {
+                    _(adp.Operations).each(function (op) {
                         var action = {
-                            data: createTag(v.Name, v.Name, op),
+                            data: createTag(adp.Name, adp.Name, op),
                             text: op,
                             icon: "fa fa-bolt"
                         }
                         wdNode.children.push(action);
                     });
-                    _(v.Tables).each(function (t) {
+                    _(adp.Tables).each(function (table) {
 
-                        var actions = _(t.Actions).map(function(a) {
+                        var actions = _(table.Actions).map(function(ctrlAction) {
                                 return {
-                                    data: createTag(v.Name, t.Name, a),
-                                    text: a,
+                                    data: createTag(adp.Name, table.Name, ctrlAction),
+                                    text: ctrlAction,
                                     icon: "fa fa-bolt"
                                 };
                             }),
-                            table = {
-                            data: createTag(v.Name, t.Name, null),
-                            text: t.Name,
+                            tableController = {
+                            data: createTag(adp.Name, table.Name, null),
+                            text: table.Name,
                             icon: "fa fa-list",
                             children: actions
                         }
-                        wdNode.children.push(table);
+                        wdNode.children.push(tableController);
                     });
                     root.children.push(wdNode);
                 });
