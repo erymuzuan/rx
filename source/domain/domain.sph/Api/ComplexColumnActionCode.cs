@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Domain.Api
         }
 
         public override string Name => "Complex column link action";
+
         public CachingSetting CachingSetting { get; set; } = new CachingSetting
         {
             CacheControl = "Public",
@@ -56,7 +57,7 @@ namespace Bespoke.Sph.Domain.Api
 
             code.Append($"       [Route(\"{{{string.Join("/", routes)}}}/{column.Name}\")]");
             code.AppendLine();
-            code.Append($@"       public async Task<IHttpActionResult> Get{column.Name}(
+            code.Append($@"       public async Task<IHttpActionResult> Get{column.Name}Async(
                         [SourceEntity(""{adapter.Id}"")]Bespoke.Sph.Domain.Api.Adapter adapterDefinition, 
                         {args.ToString(",\r\n")})");
             code.AppendLine("       {");
@@ -183,6 +184,15 @@ namespace Bespoke.Sph.Domain.Api
             }");
 
             return code.ToString();
+        }
+
+        public override string[] GetActionNames(TableDefinition table, Adapter adapter)
+        {
+            var actions = from c in table.ColumnCollection
+                        where c.IsComplex
+                        select $"Get{c.Name}Async";
+
+            return actions.ToArray();
         }
 
         public override HypermediaLink[] GetHypermediaLinks(Adapter adapter, TableDefinition table)

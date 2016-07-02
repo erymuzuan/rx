@@ -15,6 +15,11 @@ namespace Bespoke.Sph.Domain.Api
             return !unsupportedNonNull;
         }
 
+        public override string[] GetActionNames(TableDefinition table, Adapter adapter)
+        {
+            return new[] { "InsertAsync" };
+        }
+
         public override string Name => "Insert new resource action";
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
@@ -26,7 +31,7 @@ namespace Bespoke.Sph.Domain.Api
             // insert
             code.AppendLine("       [Route(\"\")]");
             code.AppendLinf("       [HttpPost]");
-            code.AppendLine($@"       public async Task<IHttpActionResult> Insert(
+            code.AppendLine($@"       public async Task<IHttpActionResult> InsertAsync(
                                                                 [SourceEntity(""{adapter.Id}"")]Bespoke.Sph.Domain.Api.Adapter adapterDefinition,
                                                                 [FromBody]{table.ClrName} item)");
             code.AppendLine("       {");

@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain.Api
     {
         public override bool Applicable(TableDefinition table)
         {
-            return table.AllowUpdate && null != table?.PrimaryKey;
+            return table.AllowUpdate && null != table.PrimaryKey;
         }
 
         public override string Name => "Update resource action";
@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Domain.Api
 
             // update
             code.AppendLinf("       [HttpPut]");
-            code.AppendLine($"       public async Task<IHttpActionResult> Save([FromBody]{table.ClrName} item, {arguments.ToString(",")})");
+            code.AppendLine($"       public async Task<IHttpActionResult> UpdateAsync([FromBody]{table.ClrName} item, {arguments.ToString(",")})");
             code.AppendLine("       {");
             code.AppendLine(
                 $@"
@@ -79,7 +79,7 @@ namespace Bespoke.Sph.Domain.Api
                 code.AppendLine($"item.{pk} = {pk.ToCamelCase()};");
             }
 
-            code.AppendLine($@"
+            code.AppendLine(@"
             var result = await Policy.Handle<Exception>()
 	                                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(500 * c))
 	                                .ExecuteAndCaptureAsync(async() => await context.UpdateAsync(item));
@@ -93,6 +93,11 @@ namespace Bespoke.Sph.Domain.Api
             return code.ToString();
         }
 
+
+        public override string[] GetActionNames(TableDefinition table, Adapter adapter)
+        {
+            return new[] {"UpdateAsync"};
+        }
 
         public override HypermediaLink[] GetHypermediaLinks(Adapter adapter, TableDefinition table)
         {

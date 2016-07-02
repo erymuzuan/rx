@@ -13,7 +13,11 @@ namespace Bespoke.Sph.Domain.Api
             return table.PrimaryKey != null;
         }
 
-        public override string ActionName => "Get";
+        public override string[] GetActionNames(TableDefinition table, Adapter adapter)
+        {
+            return new[] {"GetOneAsync"};
+        }
+
         public override string Name => "Get one by primary key";
         public CachingSetting CachingSetting { get; set; } = new CachingSetting
         {
@@ -47,7 +51,7 @@ namespace Bespoke.Sph.Domain.Api
 
             code.AppendLinf("       [Route(\"{0}\")]", string.Join("/", routeConstraint));
             code.AppendLinf("       [HttpGet]");
-            code.AppendLinf("       public async Task<IHttpActionResult> Get({0})", arguments.ToString(","));
+            code.AppendLinf("       public async Task<IHttpActionResult> GetOneAsync({0})", arguments.ToString(","));
             code.AppendLine("       {");
             code.Append(
                 $@"

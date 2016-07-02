@@ -161,8 +161,12 @@ namespace Bespoke.Sph.Web.Controllers
             var context = new SphDataContext();
             var adapters = context.LoadFromSources<Adapter>();
             var list = from w in adapters
-                       let tables = w.TableDefinitionCollection.Select(x => x.Name)
-                       let ops = w.OperationDefinitionCollection.Select(x => x.Name)
+                       let tables = w.TableDefinitionCollection.Select(x => new
+                       {
+                           Name = x.Name,
+                           Actions = x.ControllerActionCollection.Where(c => c.IsEnabled).Select(c => c.GetActionNames(x, w)).SelectMany(c => c).ToArray()
+                       })
+                       let ops = w.OperationDefinitionCollection.Select(x => x.MethodName)
                        select new
                        {
                            w.Name,

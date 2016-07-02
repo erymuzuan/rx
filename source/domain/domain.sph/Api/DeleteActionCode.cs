@@ -7,8 +7,12 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class DeleteActionCode : ControllerAction
     {
+        public override string[] GetActionNames(TableDefinition table, Adapter adapter)
+        {
+            return new[] {"RemoveAsync"};
+        }
+
         public override string Name => "Delete resource action";
-        public override string ActionName => "Remove";
 
         public override bool Applicable(TableDefinition table)
         {
@@ -26,7 +30,7 @@ namespace Bespoke.Sph.Domain.Api
 
             code.AppendLinf("       [Route(\"{0}\")]", string.Join("/", routeConstraint.ToArray()));
             code.AppendLinf("       [HttpDelete]");
-            code.AppendLinf("       public async Task<IHttpActionResult> Remove({0})", string.Join(",", methodParameters));
+            code.AppendLinf("       public async Task<IHttpActionResult> RemoveAsync({0})", string.Join(",", methodParameters));
             code.AppendLine("       {");
             code.Append(
                 $@"

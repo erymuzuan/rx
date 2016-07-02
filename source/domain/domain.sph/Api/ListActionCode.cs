@@ -12,7 +12,11 @@ namespace Bespoke.Sph.Domain.Api
     public class ListActionCode : ControllerAction
     {
         public override string Name => "List action";
-        public override string ActionName => "List";
+        public override string[] GetActionNames(TableDefinition table, Adapter adapter)
+        {
+            return new[] {"ListAsync"};
+        }
+
         public override bool IsAsync => true;
         public override Type ReturnType => typeof(Task<IHttpActionResult>);
         public override string Route => "";
@@ -79,7 +83,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       [Route(\"\")]");
             code.AppendLine("       [HttpGet]");
             code.AppendLine($@"       
-                                    public async Task<IHttpActionResult> {ActionName}({arguments.ToString(",\r\n\t\t\t\t")})");
+                                    public async Task<IHttpActionResult> ListAsync({arguments.ToString(",\r\n\t\t\t\t")})");
             code.AppendLine("       {");
             code.Append($@"
            if (size > 200)

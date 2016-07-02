@@ -15,6 +15,8 @@ namespace Bespoke.Sph.Domain.Api
         }
 
         public override string Name => "Related table list action";
+   
+
         public CachingSetting CachingSetting { get; set; } = new CachingSetting
         {
             CacheControl = "Public",
@@ -174,6 +176,15 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine();
 
             return code.ToString();
+        }
+
+        public override string[] GetActionNames(TableDefinition table, Adapter adapter)
+        {
+            var actions = from c in table.ChildRelationCollection
+                        let t = c.GetTable(adapter)
+                        where c.IsSelected && null != t
+                        select $" Get{t.Name.Pluralize()}By{table.Name}";
+            return actions.ToArray();
         }
 
         public override HypermediaLink[] GetHypermediaLinks(Adapter adapter, TableDefinition table)

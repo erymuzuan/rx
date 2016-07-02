@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Domain.Api
         public ErrorRetry ErrorRetry { get; set; } = new ErrorRetry { Wait = 500, Algorithm = WaitAlgorithm.Linear, Attempt = 3 };
         public abstract string Name { get; }
         public bool IsEnabled { get; set; }
-        public virtual string ActionName => string.Empty;
+        public abstract string[] GetActionNames(TableDefinition table, Adapter adapter);
         public virtual bool IsAsync => false;
         public virtual string Route => null;
         public virtual HypermediaLink[] GetHypermediaLinks(Adapter adapter, TableDefinition table)

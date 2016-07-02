@@ -250,33 +250,22 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         }
                         wdNode.children.push(action);
                     });
-                    _(v.Tables).each(function (table) {
-                        var action = {
-                            data: createTag(v.Name, table, null),
-                            text: table,
+                    _(v.Tables).each(function (t) {
+
+                        var actions = _(t.Actions).map(function(a) {
+                                return {
+                                    data: createTag(v.Name, t.Name, a),
+                                    text: a,
+                                    icon: "fa fa-bolt"
+                                };
+                            }),
+                            table = {
+                            data: createTag(v.Name, t.Name, null),
+                            text: t.Name,
                             icon: "fa fa-list",
-                            children: [{
-                                data: createTag(v.Name, table, "Insert"),
-                                text: "Insert",
-                                icon: "fa fa-plus"
-                            },
-                                {
-                                    data: createTag(v.Name, table, "Save"),
-                                    text: "Update",
-                                    icon: "fa fa-edit"
-                                },
-                                {
-                                    data: createTag(v.Name, table, "Get"),
-                                    text: "Load One",
-                                    icon: "fa fa-file-text"
-                                },
-                                {
-                                    data: createTag(v.Name, table, "List"),
-                                    text: "Load",
-                                    icon: "fa fa-table"
-                                }]
+                            children: actions
                         }
-                        wdNode.children.push(action);
+                        wdNode.children.push(table);
                     });
                     root.children.push(wdNode);
                 });
