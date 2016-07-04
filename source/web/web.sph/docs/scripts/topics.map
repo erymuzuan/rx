@@ -53,6 +53,7 @@
   "changed-panel-modal": "PropertyChangedField.html",
   "assemblyfield-panel-modal": "AssemblyField.html",
   "js-field-dialog": "JavascriptExpressionField.html",
+  "route-parameter-field-dialog": "RouteParameterField.html",
 
   "variable-simple-modal": "SimpleVariable.html",
   "variable-complex-modal": "ComplexVariable.html",
