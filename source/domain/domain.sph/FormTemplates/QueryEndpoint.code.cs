@@ -115,7 +115,7 @@ namespace Bespoke.Sph.Domain
         private Method GenerateCountAction()
         {
             var code = new StringBuilder();
-            var route =$"{this.GetRoute()}/_count".Replace("//", "/");
+            var route = $"{this.GetRoute()}/_count".Replace("//", "/");
 
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [GetRoute(\"{route}\")]");
@@ -130,7 +130,7 @@ namespace Bespoke.Sph.Domain
                 var count = await repos.GetCountAsync(query, null);;
             ");
             code.AppendLine("return Ok(new {_count = count});");
-            
+
             code.AppendLine();
             code.AppendLine("       }");
             code.AppendLine();
@@ -164,17 +164,21 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [QueryRoute(\"{route}\")]");
 
-            var parameterlist = from r in this.RouteParameterCollection
+            var parameterlist = from r in this.RouteParameterCollection.OrderBy(x => x.DefaultValue)
                                 let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
                                 let clrType = Strings.GetType(r.Type)
                                 where null != clrType
                                 let type = clrType.ToCSharp()
-                                select $"{type} {r.Name}{defaultValue},";
+                                let uri = this.Route.Contains("{" + r.Name + "}") ? "" : $@"[FromUri(Name=""{r.Name}"")]"
+                                select $@"
+                                   {uri}{type} {r.Name}{defaultValue},";
             var parameters = $@"[SourceEntity(""{Id}"")]QueryEndpoint eq,
                                    [IfNoneMatch]ETag etag,
-                                   [ModifiedSince]ModifiedSinceHeader modifiedSince," + string.Join(" ", parameterlist);
+                                   [ModifiedSince]ModifiedSinceHeader modifiedSince," + parameterlist.ToString(" ");
 
-            code.AppendLine($"       public async Task<IHttpActionResult> GetAction({parameters}int page =1, int size=20, string q=\"\")");
+            code.AppendLine($@"       public async Task<IHttpActionResult> GetAction({parameters}");
+            code.AppendLine(@"                                   [FromUri(Name=""page"")]int page=1,");
+            code.AppendLine(@"                                   [FromUri(Name=""page"")]int size=20)");
             code.Append("       {");
             code.Append(GenerateGetQueryCode());
 

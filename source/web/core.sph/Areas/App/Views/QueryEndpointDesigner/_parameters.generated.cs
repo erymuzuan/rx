@@ -43,7 +43,8 @@ WriteLiteral("\r\n<table");
 WriteLiteral(" class=\"table table-striped\"");
 
 WriteLiteral(">\r\n    <thead>\r\n        <tr>\r\n            <th>Type</th>\r\n            <th>Name</th" +
-">\r\n            <th></th>\r\n        </tr>\r\n    </thead>\r\n    <tbody");
+">\r\n            <th>Default value</th>\r\n            <th></th>\r\n        </tr>\r\n   " +
+" </thead>\r\n    <tbody");
 
 WriteLiteral(" data-bind=\"foreach :RouteParameterCollection\"");
 
@@ -87,6 +88,15 @@ WriteLiteral(" required");
 WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-bind=\"value:Name, uniqueName:true\"");
+
+WriteLiteral(" />\r\n            </td>\r\n            <td>\r\n                <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value:DefaultValue, disable: ko.unwrap(Type) === \'System.DateTime, ms" +
+"corlib\'\"");
 
 WriteLiteral(" />\r\n            </td>\r\n            <td>\r\n                <a");
 

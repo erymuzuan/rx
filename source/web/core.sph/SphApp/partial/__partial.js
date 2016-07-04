@@ -974,9 +974,9 @@ bespoke.sph.domain.ExecutedActivityPartial = function () {
 
 bespoke.sph.domain.FilterPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
           showFieldDialog = function (accessor, field, path) {
-              require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+              require(["viewmodels/" + path, "durandal/app"], function (dialog, app2) {
                   dialog.field(field);
                   if (typeof dialog.entity === "function") {
                       //dialog.entity();
@@ -993,8 +993,8 @@ bespoke.sph.domain.FilterPartial = function () {
               });
           },
           addField = function (accessor, type) {
-              var field = new bespoke.sph.domain[type + 'Field'](system.guid());
-              showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+              var field = new bespoke.sph.domain[type + "Field"](system.guid());
+              showFieldDialog(accessor, field, "field." + type.toLowerCase());
           },
           editField = function (field) {
               var self = this;
@@ -1005,7 +1005,7 @@ bespoke.sph.domain.FilterPartial = function () {
                       type = pattern.exec(fieldType)[1];
 
 
-                  showFieldDialog(self.Field, clone, 'field.' + type.toLowerCase());
+                  showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
               };
           };
 
@@ -1360,14 +1360,14 @@ bespoke.sph.domain.MappingActivityPartial = function () {
 
 
 bespoke.sph.domain.MemberPartial = function () {
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         addMember = function () {
             this.MemberCollection.push(new bespoke.sph.domain.Member(system.guid()));
         },
         editMember = function (member) {
             var self = this;
             return function () {
-                require(['viewmodels/member.dialog', 'durandal/app'], function (dialog, app) {
+                require(["viewmodels/member.dialog", "durandal/app"], function (dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
                     dialog.member(clone);
                     app.showDialog(dialog)
@@ -1382,7 +1382,7 @@ bespoke.sph.domain.MemberPartial = function () {
         },
         editPermission = function (member) {
             var self = this;
-            require(['viewmodels/field.permission.dialog', 'durandal/app'], function (dialog, app) {
+            require(["viewmodels/field.permission.dialog", "durandal/app"], function (dialog, app) {
                 var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
                 dialog.member(clone);
                 app.showDialog(dialog)
@@ -1406,7 +1406,7 @@ bespoke.sph.domain.MemberPartial = function () {
             return function () {
                 console.log("show map ", building);
                 console.log(" on member ", member);
-                require(['viewmodels/member.map', 'durandal/app'], function (dialog, app) {
+                require(["viewmodels/member.map", "durandal/app"], function (dialog, app) {
                     dialog.init(building.BuildingId(), member.MemberPlanStoreId());
                     app.showDialog(dialog)
                         .done(function (result) {
@@ -1420,7 +1420,7 @@ bespoke.sph.domain.MemberPartial = function () {
             };
         },
         showFieldDialog = function (accessor, field, path) {
-            require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/" + path, "durandal/app"], function (dialog, app2) {
                 dialog.field(field);
 
 
@@ -1435,8 +1435,8 @@ bespoke.sph.domain.MemberPartial = function () {
             });
         },
         addField = function (accessor, type) {
-            var field = new bespoke.sph.domain[type + 'Field'](system.guid());
-            showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+            var field = new bespoke.sph.domain[type + "Field"](system.guid());
+            showFieldDialog(accessor, field, "field." + type.toLowerCase());
         },
         editField = function (field) {
             var self = this;
@@ -1447,7 +1447,7 @@ bespoke.sph.domain.MemberPartial = function () {
                     type = pattern.exec(fieldType)[1];
 
 
-                showFieldDialog(self.Field, clone, 'field.' + type.toLowerCase());
+                showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
             };
         };
     return {
@@ -1724,6 +1724,36 @@ bespoke.sph.domain.ReportDeliveryPartial = function () {
     return new bespoke.sph.domain.IntervalScheduleContainer();
 
 };
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+
+
+bespoke.sph.domain.RouteParameterPartial = function (model) {
+
+    model.Type.subscribe(function(v) {
+        if (v === "System.DateTime, mscorlib") {
+            model.DefaultValue(null);
+        }
+    });
+    return {};
+};
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+
+bespoke.sph.domain.RouteParameterFieldPartial = function (model) {
+
+    var vm = {};
+
+    model.Name.subscribe(function(v) {
+        if (!ko.unwrap(model.Expression)) {
+            model.Expression(v);
+        }
+    });
+    return vm;
+};
+
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />

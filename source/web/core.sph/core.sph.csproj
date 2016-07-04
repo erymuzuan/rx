@@ -2211,6 +2211,8 @@
     <EmbeddedResource Include="SphApp\ko\_ko.mapping.js" />
     <Content Include="SphApp\partial\ComplexMemberPartial.js" />
     <Content Include="SphApp\partial\ChildWorkflowActivity.js" />
+    <Content Include="SphApp\partial\RouteParameter.js" />
+    <Content Include="SphApp\partial\RouteParameterFieldPartial.js" />
     <Content Include="SphApp\partial\TimePeriodPartial.js" />
     <Content Include="SphApp\partial\WorkflowFormPartial.js" />
     <Content Include="SphApp\partial\ValueObjectDefinitionPartial.js" />

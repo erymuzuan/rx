@@ -4,6 +4,7 @@
         <tr>
             <th>Type</th>
             <th>Name</th>
+            <th>Default value</th>
             <th></th>
         </tr>
     </thead>
@@ -20,6 +21,9 @@
             </td>
             <td>
                 <input pattern="^[A-Za-z][A-Za-z0-9_]*$" type="text" required class="form-control" data-bind="value:Name, uniqueName:true" />
+            </td>
+            <td>
+                <input type="text" class="form-control" data-bind="value:DefaultValue, disable: ko.unwrap(Type) === 'System.DateTime, mscorlib'" />
             </td>
             <td>
                 <a href="#" data-bind="click : $parent.removeRouteParameter.call($parent,$data)">

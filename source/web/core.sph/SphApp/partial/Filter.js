@@ -13,9 +13,9 @@
 
 bespoke.sph.domain.FilterPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
           showFieldDialog = function (accessor, field, path) {
-              require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+              require(["viewmodels/" + path, "durandal/app"], function (dialog, app2) {
                   dialog.field(field);
                   if (typeof dialog.entity === "function") {
                       //dialog.entity();
@@ -32,8 +32,8 @@ bespoke.sph.domain.FilterPartial = function () {
               });
           },
           addField = function (accessor, type) {
-              var field = new bespoke.sph.domain[type + 'Field'](system.guid());
-              showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+              var field = new bespoke.sph.domain[type + "Field"](system.guid());
+              showFieldDialog(accessor, field, "field." + type.toLowerCase());
           },
           editField = function (field) {
               var self = this;
@@ -44,7 +44,7 @@ bespoke.sph.domain.FilterPartial = function () {
                       type = pattern.exec(fieldType)[1];
 
 
-                  showFieldDialog(self.Field, clone, 'field.' + type.toLowerCase());
+                  showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
               };
           };
 

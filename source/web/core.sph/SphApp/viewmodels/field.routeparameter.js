@@ -12,7 +12,9 @@
 define(["services/datacontext", "services/logger", "plugins/dialog"],
     function(context, logger, dialog) {
 
-        var okClick = function(data, ev) {
+        var attached = function (view) {
+                setTimeout(function () { $(view).find("#route-parameter-field-name").focus(); }, 500);
+            }, okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
@@ -24,6 +26,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
 
         var vm = {
             field: ko.observable(new bespoke.sph.domain.RouteParameterField()),
+            attached: attached,
             okClick: okClick,
             cancelClick: cancelClick
         };
