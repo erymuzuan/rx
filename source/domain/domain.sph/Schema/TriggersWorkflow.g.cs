@@ -466,16 +466,16 @@ namespace Bespoke.Sph.Domain
     public partial class RouteParameterField
     {
 
-        private string m_Expression;
-        public string Expression
+        private string m_TypeName;
+        public string TypeName
         {
             get
             {
-                return m_Expression;
+                return m_TypeName;
             }
             set
             {
-                m_Expression = value;
+                m_TypeName = value;
                 RaisePropertyChanged();
             }
         }

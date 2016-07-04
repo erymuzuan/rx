@@ -787,6 +787,22 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
 
     v.IsToolbarItem = ko.observable(false);
 
+    v.DeleteOperationSuccessNavigateUrl = ko.observable("");
+
+    v.DeleteOperationSuccessMesage = ko.observable("");
+
+    v.DeleteOperation = ko.observable("");
+
+    v.OperationMethod = ko.observable("");
+
+    v.OperationFailureCallback = ko.observable("");
+
+    v.OperationSuccessCallback = ko.observable("");
+
+    v.OperationSuccessNavigateUrl = ko.observable("");
+
+    v.OperationSuccessMesage = ko.observable("");
+
     v.Operation = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.Button, domain.sph";
@@ -1999,7 +2015,6 @@ bespoke.sph.domain.QueryEndpoint = function (optionOrWebid) {
         Resource: ko.observable(""),
         FilterCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
-        RouteParameterCollection: ko.observableArray([]),
         MemberCollection: ko.observableArray([]),
         CacheFilter: ko.observable(),
         isBusy: ko.observable(false),
@@ -4644,7 +4659,7 @@ bespoke.sph.domain.RouteParameterField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
-    v.Expression = ko.observable("");
+    v.TypeName = ko.observable("");
 
     v.DefaultValue = ko.observable("");
 

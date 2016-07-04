@@ -13,27 +13,30 @@
                     <div class="form-group">
                         <label for="route-parameter-field-name" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-9">
-                            <input type="text" data-bind="value: Name" 
-                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" 
-                                   placeholder="Name"
+                            <input type="text" data-bind="value: Name"
+                                   required pattern="^[a-z_][A-Za-z0-9_]*$"
+                                   placeholder="Name, must be a valid C# identifier in camelCase format"
                                    class="form-control" id="route-parameter-field-name">
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="expression" class="col-lg-2 control-label">Expression</label>
+                    </div><div class="form-group">
+                        <label for="constant-field-typename" class="col-lg-2 control-label">Type</label>
                         <div class="col-lg-9">
-                            <input type="text" data-bind="value: Expression" 
-                                   required
-                                   placeholder="Parameter name will be, and must match that name"
-                                   class="form-control" id="expression">
+                            <select required class="form-control" id="constant-field-typename" name="constant-field-typename" data-bind="value: TypeName">
+                                <option></option>
+                                <option value="System.String, mscorlib">String</option>
+                                <option value="System.DateTime">DateTime</option>
+                                <option value="System.Int32, mscorlib">Integer</option>
+                                <option value="System.Decimal">Decimal</option>
+                                <option value="System.Boolean, mscorlib">Boolean</option>
+                            </select>
                         </div>
                     </div>
-                    
+
+
                     <div class="form-group">
-                        <label for="expression" class="col-lg-2 control-label">Default Value</label>
+                        <label for="default-value" class="col-lg-2 control-label">Default Value</label>
                         <div class="col-lg-9">
-                            <input type="text" data-bind="value: DefaultValue" 
+                            <input type="text" data-bind="value: DefaultValue"
                                    placeholder="a constant expression for default value"
                                    class="form-control" id="default-value">
                         </div>

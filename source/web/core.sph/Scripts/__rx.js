@@ -22007,7 +22007,7 @@ ko.bindingHandlers.tree = {
                 });
                 _(node.children).each(recurseChildMember);
             },
-            setNodePropertyForChildOfValueObject = function(node, tag) {
+            setNodePropertyForChildOfValueObject = function (node, tag) {
                 if (!ko.isObservable(tag.childOfValueMember)) {
                     tag.childOfValueMember = ko.observable(true);
                 }
@@ -22063,8 +22063,8 @@ ko.bindingHandlers.tree = {
                             if (!valueMember) {
 
                                 var cm = _(parents).find(function (n) {
-                                        var mb1 = n.data;
-                                     return n.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph" && ko.unwrap(mb1.AllowMultiple);
+                                    var mb1 = n.data;
+                                    return n.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph" && ko.unwrap(mb1.AllowMultiple);
                                 });
                                 if (cm) {
                                     tag.allowFilter(false);
@@ -22096,16 +22096,16 @@ ko.bindingHandlers.tree = {
                         console.log(node, "node");
                     })
                     .on("move_node.jstree", function (e, data) {
-                        var ref =  $(element).jstree(true),
+                        var ref = $(element).jstree(true),
                         	mbr = data.node.data,
                             oldParent = ref.get_node(data.old_parent),
                             oldCollections = oldParent.data.MemberCollection || entity.MemberCollection,
                             parent = ref.get_node(data.parent),
                             collection = parent.data.MemberCollection || entity.MemberCollection;
-                        oldCollections.remove(function(v) {
+                        oldCollections.remove(function (v) {
                             return ko.unwrap(mbr.WebId) === ko.unwrap(v.WebId);
                         });
-                        collection.splice(data.position,0, mbr);
+                        collection.splice(data.position, 0, mbr);
                     })
                     .on("rename_node.jstree", function (ev, node) {
                         var mb = node.node.data;
@@ -22126,7 +22126,7 @@ ko.bindingHandlers.tree = {
                                         return false;
                                     }
                                     if (!ko.isObservable(mbr.childOfValueMember)) {
-                                        setNodePropertyForChildOfValueObject(node,mbr);
+                                        setNodePropertyForChildOfValueObject(node, mbr);
                                     }
                                     if (ko.unwrap(mbr.childOfValueMember)) {
                                         return false;
@@ -22210,6 +22210,10 @@ ko.bindingHandlers.tree = {
                                                 } else {
                                                     entity.MemberCollection.push(child);
                                                 }
+                                                child.TypeName.subscribe(function () {
+                                                    // TODO : clear the node children and populate the node according to the value object definition members
+
+                                                });
                                                 return true;
                                             }
                                             return false;
@@ -22317,7 +22321,7 @@ ko.bindingHandlers.tree = {
                                 "icon": "fa fa-object-ungroup"
                             },
                             "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
-                                "icon": "fa fa-building-o"
+                                "icon": "fa fa-object-group"
                             }
                         },
                         "plugins": ["contextmenu", "dnd", "types", "search"]
@@ -22411,11 +22415,19 @@ ko.bindingHandlers.entityTypeaheadPath = {
             allBindings = allBindingsAccessor(),
             idOrName = ko.unwrap(valueAccessor()) || window.typeaheadEntity,
             setup = function (options) {
+                String.prototype.toCamelCase = function () {
+                    return this.replace(/^([A-Z])|\s(\w)/g, function (match, p1, p2, offset) {
+                        if (p2) return p2.toUpperCase();
+                        return p1.toLowerCase();
+                    });
+                };
+
 
                 var name = options.name || options,
-                    eid = options.id || options;
+                    eid = options.id || options,
+                    camel = name.toCamelCase();
 
-                var ed = ko.toJS(bespoke[config.applicationName + "_" + eid.toLowerCase()].domain[name]());
+                var ed = ko.toJS(bespoke[config.applicationName + "_" + camel].domain[name]());
                 var input = $(element),
                          div = $("<div></div>").css({
                              'height': "28px"
@@ -23341,6 +23353,7 @@ ko.bindingHandlers.field = {
     init: function () {
     }
 };
+
 ko.bindingHandlers.unwrapClick = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var action = valueAccessor(),
@@ -23415,8 +23428,6 @@ ko.bindingHandlers.stringArrayAutoComplete = {
 
 };
 
-
-
 ko.bindingHandlers.pathAutoComplete = {
     init: function (element, valueAccessor) {
         var command = valueAccessor();
@@ -23490,27 +23501,62 @@ ko.bindingHandlers.pathAutoComplete = {
 
 ko.bindingHandlers.commandWithParameter = {
     init: function (element, valueAccessor) {
-        var command = valueAccessor();
-        var callback = command.command;
-        var parameter = command.parameter || command.commandParameter;
+        var command = valueAccessor(),
+            callback = command.command,
+            parameter = command.parameter || command.commandParameter,
+            button = $(element),
+            inputValue = button.val();
 
-        var button = $(element);
-        var completeText = button.data("complete-text") || button.html();
+            
+        var $spinner = $("<i class='fa fa-spin fa-circle-o-notch'></i>").hide(),
+            $warning = $("<i class='fa fa-warning' style='color:red'></i>").hide();
+        button.append($spinner);
+        button.append($warning);
+
         button.click(function (e) {
             e.preventDefault();
-            callback(parameter)
-                .then(function () {
-                    button.button("complete");
-                    if (button.get(0).tagName === "BUTTON" || button.get(0).tagName === "A") {
-                        button.html(completeText);
-                    } else {
-                        button.val(completeText);
-                    }
+               if (this.form) {
+                if (!this.form.checkValidity()) return;
+            }
+            $spinner.show();
+            $warning.hide();
 
+            callback(parameter)
+                .fail(function (err, o, message) {
+                    button
+                       .button("complete")
+                       .prop("disabled", false)
+                       .val(inputValue)
+                       .removeClass("btn-disabled");
+                    $spinner.hide();
+                    $warning.show();
+                    if (err.status === 404) {
+                        logger.error(message);
+                        logger.error(err.statusText);
+                        return;
+                    }
+                    if (err.responseText) {
+                        logger.error(err.responseText);
+                        console.error(err.responseText);
+                    }
+                    if (err.responseJSON) {
+                        logger.error(JSON.stringify(err.responseJSON));
+                        console.error(err.responseJson);
+                    }
+                })
+                .done(function () {
+                    button
+                        .button("complete")
+                        .prop("disabled", false)
+                        .val(inputValue)
+                        .removeClass("btn-disabled");
+                    $spinner.hide();
                 });
             if (button.data("loading-text")) {
                 button.button("loading");
             }
+            button.addClass("btn-disabled").prop("disabled", true);
+
         });
     }
 
@@ -23866,15 +23912,22 @@ ko.bindingHandlers.bootstrapDropDown = {
 
 ko.bindingHandlers.tooltip = {
     init: function (element, valueAccesor) {
-        var text = ko.unwrap(valueAccesor());
-        $(element).tooltip({ title: text });
+        var optionOrText = ko.unwrap(valueAccesor()),
+            placement = optionOrText.tooltipPlacement || optionOrText.placement || "top",
+            text = optionOrText.text || optionOrText.tooltip || optionOrText;
+        if (typeof text !== "string") {
+            text = (optionOrText.text || {}).tooltip;
+        }
+        if (typeof text === "string") {
+            $(element).tooltip({ title: text, placement: placement });
+        }
     }
 };
 
 ko.bindingHandlers.bootstrapPopover = {
     init: function (element, valueAccesor) {
-        var text = ko.unwrap(valueAccesor());
-        $(element).popover({ content: '<pre>' + text + '</pre>', html: true });
+        var text = ko.unwrap(valueAccesor()).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        $(element).popover({ content: "<pre>" + text + "</pre>", html: true, placement:"bottom" });
     }
 };
 ko.bindingHandlers.popover = {
@@ -24881,6 +24934,22 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
     v.IconClass = ko.observable("");
 
     v.IsToolbarItem = ko.observable(false);
+
+    v.DeleteOperationSuccessNavigateUrl = ko.observable("");
+
+    v.DeleteOperationSuccessMesage = ko.observable("");
+
+    v.DeleteOperation = ko.observable("");
+
+    v.OperationMethod = ko.observable("");
+
+    v.OperationFailureCallback = ko.observable("");
+
+    v.OperationSuccessCallback = ko.observable("");
+
+    v.OperationSuccessNavigateUrl = ko.observable("");
+
+    v.OperationSuccessMesage = ko.observable("");
 
     v.Operation = ko.observable("");
 
@@ -26094,7 +26163,6 @@ bespoke.sph.domain.QueryEndpoint = function (optionOrWebid) {
         Resource: ko.observable(""),
         FilterCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
-        RouteParameterCollection: ko.observableArray([]),
         MemberCollection: ko.observableArray([]),
         CacheFilter: ko.observable(),
         isBusy: ko.observable(false),
@@ -28259,6 +28327,364 @@ bespoke.sph.domain.TimePeriod = function (optionOrWebid) {
 var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
+bespoke.sph.domain.api = bespoke.sph.domain.api || {};
+
+
+bespoke.sph.domain.api.TableDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Api.TableDefinition, domain.sph",
+        Name: ko.observable(""),
+        IsSelected: ko.observable(false),
+        AllowRead: ko.observable(false),
+        AllowInsert: ko.observable(false),
+        AllowUpdate: ko.observable(false),
+        AllowDelete: ko.observable(false),
+        Schema: ko.observable(""),
+        VersionColumn: ko.observable(""),
+        ModifiedDateColumn: ko.observable(""),
+        ColumnCollection: ko.observableArray([]),
+        ChildRelationCollection: ko.observableArray([]),
+        ParentRelationCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.api.TableDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.api.TableDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.api.Column = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.api.Member(optionOrWebid);
+
+    v.IsPrimaryKey = ko.observable(false);
+
+    v.IsVersion = ko.observable(false);
+
+    v.IsModifiedDate = ko.observable(false);
+
+    v.IsComputed = ko.observable(false);
+
+    v.IsIdentity = ko.observable(false);
+
+    v["$type"] = "Bespoke.Sph.Domain.Api.Column, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof v[n] === "function") {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.api.ColumnPartial) {
+        return _(v).extend(new bespoke.sph.domain.api.ColumnPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.api.ColumnMetadata = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Api.ColumnMetadata, domain.sph",
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.api.ColumnMetadataPartial) {
+        return _(model).extend(new bespoke.sph.domain.api.ColumnMetadataPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.api.OperationDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph",
+        Name: ko.observable(""),
+        MethodName: ko.observable(""),
+        IsOneWay: ko.observable(false),
+        IsSelected: ko.observable(false),
+        Schema: ko.observable(""),
+        ParameterDefinition: ko.observable(new bespoke.sph.domain.api.ParameterDefinition()),
+        RequestMemberCollection: ko.observableArray([]),
+        ResponseMemberCollection: ko.observableArray([]),
+        ErrorRetry: ko.observable(new bespoke.sph.domain.api.ErrorRetry()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.api.OperationDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.api.OperationDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.api.ErrorRetry = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
+        Attempt: ko.observable(0),
+        IsEnabled: ko.observable(false),
+        Wait: ko.observable(0),
+        Algorithm: ko.observable('WaitAlgorithm'),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.api.ErrorRetryPartial) {
+        return _(model).extend(new bespoke.sph.domain.api.ErrorRetryPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.api.ParameterDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Api.ParameterDefinition, domain.sph",
+        Name: ko.observable(""),
+        IsRequest: ko.observable(false),
+        IsResponse: ko.observable(false),
+        CodeNamespace: ko.observable(""),
+        MemberCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.api.ParameterDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.api.ParameterDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.api.TableRelation = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+        Table: ko.observable(""),
+        Constraint: ko.observable(""),
+        Column: ko.observable(""),
+        ForeignColumn: ko.observable(""),
+        IsSelected: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.api.TableRelationPartial) {
+        return _(model).extend(new bespoke.sph.domain.api.TableRelationPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.api.Adapter = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Api.Adapter, domain.sph",
+        Name: ko.observable(""),
+        Description: ko.observable(""),
+        TableDefinitionCollection: ko.observableArray([]),
+        OperationDefinitionCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.api.AdapterPartial) {
+        return _(model).extend(new bespoke.sph.domain.api.AdapterPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.api.Member = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Api.Member, domain.sph",
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.api.MemberPartial) {
+        return _(model).extend(new bespoke.sph.domain.api.MemberPartial(model));
+    }
+    return model;
+};
+
+
+bespoke.sph.domain.api.Member = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Api.Member, domain.sph",
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+    if (bespoke.sph.domain.api.MemberPartial) {
+        return _(model).extend(new bespoke.sph.domain.api.MemberPartial(model));
+    }
+    return model;
+};
+
+
+bespoke.sph.domain.api.WaitAlgorithm = function () {
+    return {
+        CONSTANT: 'Constant',
+        LINEAR: 'Linear',
+        EXPONENTIAL: 'Exponential',
+
+        DO_NOT_SELECT: 'DONTDOTHIS'
+    };
+}();
+
+
+
+/// <reference path="~/scripts/knockout-3.4.0.debug.js" />
+/// <reference path="~/Scripts/underscore.js" />
+/// <reference path="~/Scripts/moment.js" />
+
+var bespoke = bespoke || {};
+bespoke.sph = bespoke.sph || {};
+bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.Trigger = function (optionOrWebid) {
@@ -28381,7 +28807,7 @@ bespoke.sph.domain.RouteParameterField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
-    v.Expression = ko.observable("");
+    v.TypeName = ko.observable("");
 
     v.DefaultValue = ko.observable("");
 
@@ -30841,6 +31267,83 @@ bespoke.sph.domain.SendPortDefinition = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.DataTransferDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.DataTransferDefinition, domain.sph",
+        Name: ko.observable(""),
+        InboundAdapter: ko.observable(""),
+        InboundMap: ko.observable(""),
+        SelectStatement: ko.observable(""),
+        Table: ko.observable(""),
+        Entity: ko.observable(""),
+        BatchSize: ko.observable(0),
+        IgnoreMessaging: ko.observable(false),
+        DelayThrottle: ko.observable(),
+        SqlRetry: ko.observable(),
+        SqlWait: ko.observable(),
+        EsRetry: ko.observable(),
+        EsWait: ko.observable(),
+        IntervalScheduleCollection: ko.observableArray([]),
+        ScheduledDataTransferCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DataTransferDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.DataTransferDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ScheduledDataTransfer = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ScheduledDataTransfer, domain.sph",
+        ScheduleWebId: ko.observable(""),
+        NotifyOnError: ko.observable(false),
+        NotifyOnSuccess: ko.observable(false),
+        TruncateData: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ScheduledDataTransferPartial) {
+        return _(model).extend(new bespoke.sph.domain.ScheduledDataTransferPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {
@@ -32274,9 +32777,9 @@ bespoke.sph.domain.ExecutedActivityPartial = function () {
 
 bespoke.sph.domain.FilterPartial = function () {
 
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
           showFieldDialog = function (accessor, field, path) {
-              require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+              require(["viewmodels/" + path, "durandal/app"], function (dialog, app2) {
                   dialog.field(field);
                   if (typeof dialog.entity === "function") {
                       //dialog.entity();
@@ -32293,8 +32796,8 @@ bespoke.sph.domain.FilterPartial = function () {
               });
           },
           addField = function (accessor, type) {
-              var field = new bespoke.sph.domain[type + 'Field'](system.guid());
-              showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+              var field = new bespoke.sph.domain[type + "Field"](system.guid());
+              showFieldDialog(accessor, field, "field." + type.toLowerCase());
           },
           editField = function (field) {
               var self = this;
@@ -32305,7 +32808,7 @@ bespoke.sph.domain.FilterPartial = function () {
                       type = pattern.exec(fieldType)[1];
 
 
-                  showFieldDialog(self.Field, clone, 'field.' + type.toLowerCase());
+                  showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
               };
           };
 
@@ -32660,14 +33163,14 @@ bespoke.sph.domain.MappingActivityPartial = function () {
 
 
 bespoke.sph.domain.MemberPartial = function () {
-    var system = require('durandal/system'),
+    var system = require("durandal/system"),
         addMember = function () {
             this.MemberCollection.push(new bespoke.sph.domain.Member(system.guid()));
         },
         editMember = function (member) {
             var self = this;
             return function () {
-                require(['viewmodels/member.dialog', 'durandal/app'], function (dialog, app) {
+                require(["viewmodels/member.dialog", "durandal/app"], function (dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
                     dialog.member(clone);
                     app.showDialog(dialog)
@@ -32682,7 +33185,7 @@ bespoke.sph.domain.MemberPartial = function () {
         },
         editPermission = function (member) {
             var self = this;
-            require(['viewmodels/field.permission.dialog', 'durandal/app'], function (dialog, app) {
+            require(["viewmodels/field.permission.dialog", "durandal/app"], function (dialog, app) {
                 var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
                 dialog.member(clone);
                 app.showDialog(dialog)
@@ -32706,7 +33209,7 @@ bespoke.sph.domain.MemberPartial = function () {
             return function () {
                 console.log("show map ", building);
                 console.log(" on member ", member);
-                require(['viewmodels/member.map', 'durandal/app'], function (dialog, app) {
+                require(["viewmodels/member.map", "durandal/app"], function (dialog, app) {
                     dialog.init(building.BuildingId(), member.MemberPlanStoreId());
                     app.showDialog(dialog)
                         .done(function (result) {
@@ -32720,7 +33223,7 @@ bespoke.sph.domain.MemberPartial = function () {
             };
         },
         showFieldDialog = function (accessor, field, path) {
-            require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+            require(["viewmodels/" + path, "durandal/app"], function (dialog, app2) {
                 dialog.field(field);
 
 
@@ -32735,8 +33238,8 @@ bespoke.sph.domain.MemberPartial = function () {
             });
         },
         addField = function (accessor, type) {
-            var field = new bespoke.sph.domain[type + 'Field'](system.guid());
-            showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+            var field = new bespoke.sph.domain[type + "Field"](system.guid());
+            showFieldDialog(accessor, field, "field." + type.toLowerCase());
         },
         editField = function (field) {
             var self = this;
@@ -32747,7 +33250,7 @@ bespoke.sph.domain.MemberPartial = function () {
                     type = pattern.exec(fieldType)[1];
 
 
-                showFieldDialog(self.Field, clone, 'field.' + type.toLowerCase());
+                showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
             };
         };
     return {
@@ -33024,6 +33527,36 @@ bespoke.sph.domain.ReportDeliveryPartial = function () {
     return new bespoke.sph.domain.IntervalScheduleContainer();
 
 };
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+
+
+bespoke.sph.domain.RouteParameterPartial = function (model) {
+
+    model.Type.subscribe(function(v) {
+        if (v === "System.DateTime, mscorlib") {
+            model.DefaultValue(null);
+        }
+    });
+    return {};
+};
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+
+bespoke.sph.domain.RouteParameterFieldPartial = function (model) {
+
+    var vm = {};
+
+    model.Name.subscribe(function(v) {
+        if (!ko.unwrap(model.Expression)) {
+            model.Expression(v);
+        }
+    });
+    return vm;
+};
+
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />

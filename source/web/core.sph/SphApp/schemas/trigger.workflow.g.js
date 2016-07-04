@@ -128,7 +128,7 @@ bespoke.sph.domain.RouteParameterField = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
-    v.Expression = ko.observable("");
+    v.TypeName = ko.observable("");
 
     v.DefaultValue = ko.observable("");
 

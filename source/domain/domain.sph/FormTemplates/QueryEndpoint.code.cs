@@ -164,14 +164,11 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [QueryRoute(\"{route}\")]");
 
-            var parameterlist = from r in this.RouteParameterCollection.OrderBy(x => x.DefaultValue)
-                                let defaultValue = string.IsNullOrWhiteSpace(r.DefaultValue) ? "" : $" = {r.DefaultValue}"
-                                let clrType = Strings.GetType(r.Type)
-                                where null != clrType
-                                let type = clrType.ToCSharp()
+            var routeParameterFields = this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>().ToArray();
+            var parameterlist = from r in routeParameterFields.OrderBy(x => x.DefaultValue)
                                 let uri = this.Route.Contains("{" + r.Name + "}") ? "" : $@"[FromUri(Name=""{r.Name}"")]"
                                 select $@"
-                                   {uri}{type} {r.Name}{defaultValue},";
+                                   {uri}{r.GenerateParameterCode()},";
             var parameters = $@"[SourceEntity(""{Id}"")]QueryEndpoint eq,
                                    [IfNoneMatch]ETag etag,
                                    [ModifiedSince]ModifiedSinceHeader modifiedSince," + parameterlist.ToString(" ");
@@ -180,14 +177,22 @@ namespace Bespoke.Sph.Domain
             code.AppendLine(@"                                   [FromUri(Name=""page"")]int page=1,");
             code.AppendLine(@"                                   [FromUri(Name=""page"")]int size=20)");
             code.Append("       {");
+            foreach (var p in routeParameterFields)
+            {
+                var defaultValue = p.GenerateDefaultValueCode();
+                if (!string.IsNullOrWhiteSpace(defaultValue))
+                    code.AppendLine(defaultValue);
+            }
+
+
             code.Append(GenerateGetQueryCode());
 
-            foreach (var p in this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>())
+            foreach (var p in routeParameterFields)
             {
-                var qs = this.RouteParameterCollection.Single(x => x.Name == p.Expression);
-                code.AppendLine(qs.Type == "System.DateTime, mscorlib"
-                    ? $"  query = query.Replace(\"<<{p.Expression}>>\", $\"\\\"{{{p.Expression}:O}}\\\"\");"
-                    : $"  query = query.Replace(\"<<{p.Expression}>>\", $\"{{{p.Expression}}}\");");
+                code.AppendLine(p.Type == typeof(DateTime)
+                    ? $@"  query = query.Replace(""<<{p.Name}>>"", $""\""{{{p.Name}:O}}\"""");"
+                    : $@"  query = query.Replace(""<<{p.Name}>>"", $""{{{p.Name}}}"");");
+
             }
             code.Append($@"
             var queryString = $""from={{size * (page - 1)}}&size={{size}}"";

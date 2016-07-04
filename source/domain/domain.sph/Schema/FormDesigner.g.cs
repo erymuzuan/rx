@@ -8020,12 +8020,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        public ObjectCollection<RouteParameter> RouteParameterCollection { get; } = new ObjectCollection<RouteParameter>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
         public ObjectCollection<string> MemberCollection { get; } = new ObjectCollection<string>();
 
 
