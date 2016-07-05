@@ -72,7 +72,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             var buildValidation = await endpoint.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
-                return new HttpResponseMessage((HttpStatusCode)422) { Content = new JsonContent(buildValidation.ToJsonString(true)) };
+                return new HttpResponseMessage((HttpStatusCode)422) { Content = new JsonContent(buildValidation.ToJson()) };
 
             var options = new CompilerOptions();
             var sources = endpoint.GenerateCode(ed);

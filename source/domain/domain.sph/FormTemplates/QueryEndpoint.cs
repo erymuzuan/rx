@@ -36,9 +36,27 @@ namespace Bespoke.Sph.Domain
             var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this, ed));
             var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x.ToArray());
 
+
             result.Errors.AddRange(errors);
             result.Warnings.AddRange(warnings);
 
+            var filterErrorTasks = this.FilterCollection.Select(x => x.ValidateErrorsAsync());
+            var filterErrors = (await Task.WhenAll(filterErrorTasks)).SelectMany(x => x.ToArray());
+            result.Errors.AddRange(filterErrors);
+
+            var filterWarningTasks = this.FilterCollection.Select(x => x.ValidateWarningsAsync());
+            var filterWarnings = (await Task.WhenAll(filterWarningTasks)).SelectMany(x => x.ToArray());
+            result.Warnings.AddRange(filterWarnings);
+
+            // route
+            var routeParameters = Strings.RegexValues(this.Route, "\\{(?<p>.*?)}", "p");
+            foreach (var pr in routeParameters)
+            {
+                var filter = this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>()
+                    .SingleOrDefault(x => x.Name == pr);
+                if(null == filter)
+                    result.Warnings.Add(new BuildError(this.WebId, $@"You should define a filter with RouteParameterField for ""{pr}"" route parameter "));
+            }
 
             result.Result = result.Errors.Count == 0;
 

@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -6,6 +9,37 @@ namespace Bespoke.Sph.Domain
 {
     public partial class ConstantField : Field
     {
+        public override async Task<IEnumerable<BuildError>> ValidateErrorsAsync(Filter filter)
+        {
+            var errors = (await base.ValidateErrorsAsync(filter)).ToList();
+            var value = $"{Value}";
+            if (typeof(DateTime) == this.Type && !string.IsNullOrWhiteSpace(value))
+            {
+                DateTime date;
+                if (!DateTime.TryParse(value, out date))
+                    errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid DateTime value for {Name} in {filter.Term} filter"));
+            }
+            if (typeof(int) == this.Type && !string.IsNullOrWhiteSpace(value))
+            {
+                int val;
+                if (!int.TryParse(value, out val))
+                    errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid Int32 value for {Name} in {filter.Term} filter"));
+            }
+            if (typeof(decimal) == this.Type && !string.IsNullOrWhiteSpace(value))
+            {
+                decimal val;
+                if (!decimal.TryParse(value, out val))
+                    errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid decimal value for {Name} in {filter.Term} filter"));
+            }
+            if (typeof(bool) == this.Type && !string.IsNullOrWhiteSpace(value))
+            {
+                bool val;
+                if (!bool.TryParse(value, out val))
+                    errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid boolean value for {Name} in {filter.Term} filter, the only valid value is ""true"" or  ""false"""));
+            }
+            return errors;
+        }
+
         private object m_value;
 
         [XmlIgnore]
@@ -64,7 +98,7 @@ namespace Bespoke.Sph.Domain
                     m_tempVal = value;
                     return;
                 }
-                m_value = this.ParseValue(string.Format("{0}",value));
+                m_value = this.ParseValue($"{value}");
                 RaisePropertyChanged();
             }
         }

@@ -52,20 +52,26 @@
             },
             publish = function () {
 
-                var data = ko.mapping.toJSON(query);
-                return context.post(data, "/query-endpoints/" + ko.unwrap(query().Id) + "/publish")
+                var data = ko.mapping.toJSON(query),
+                    tcs = new $.Deferred();
+                context.post(data, "/query-endpoints/" + ko.unwrap(query().Id) + "/publish")
                     .fail(function (response) {
+                        tcs.resolve(false);
+                        logger.error("There are errors in your query endpoint, !!!");
                         var result = response.responseJSON;
                         errors(result.Errors);
-                        logger.error("There are errors in your query endpoint, !!!");
-
+                        warnings(result.Warnings);
                     })
                     .done(function (result) {
                         logger.info(result.message);
                         errors.removeAll();
                         query().IsPublished(true);
                         originalEntity = ko.toJSON(query);
+
+                        tcs.resolve(true);
                     });
+
+                return tcs.promise();
             },
             save = function () {
                 var data = ko.mapping.toJSON(query);

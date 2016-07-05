@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Domain
@@ -135,6 +136,27 @@ namespace Bespoke.Sph.Domain
             query.AppendLine("                 }");
 
             return query.ToString();
+        }
+
+        public virtual async Task<IEnumerable<BuildError>> ValidateErrorsAsync()
+        {
+            var errors = new List<BuildError>();
+            if (string.IsNullOrWhiteSpace(this.Term))
+                errors.Add(new BuildError(this.WebId, "Term cannot be empty"));
+            if (null == this.Field)
+                errors.Add(new BuildError(this.WebId, $"Filed cannot be null for {Term} filter"));
+
+            if (null != this.Field)
+            {
+                var fieldErrors = await this.Field.ValidateErrorsAsync(this);
+                errors.AddRange(fieldErrors);
+            }
+
+            return errors;
+        }
+        public virtual Task<IEnumerable<BuildError>> ValidateWarningsAsync()
+        {
+            return Task.FromResult(Array.Empty<BuildError>().AsEnumerable());
         }
     }
 }

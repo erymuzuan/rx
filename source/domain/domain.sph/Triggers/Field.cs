@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
@@ -14,13 +16,17 @@ namespace Bespoke.Sph.Domain
             throw new NotImplementedException("whoaaa");
         }
 
-        public virtual  string GenerateCode()
+        public virtual string GenerateCode()
         {
             return $"// NOT IMPLEMENTED => {this.GetType().Name}";
         }
-        public virtual  string GenerateAsyncCode()
+        public virtual string GenerateAsyncCode()
         {
             return $"// NOT IMPLEMENTED => {this.GetType().Name}";
+        }
+        public virtual Task<IEnumerable<BuildError>> ValidateErrorsAsync(Filter filter)
+        {
+            return Task.FromResult(Array.Empty<BuildError>().AsEnumerable());
         }
     }
 }
