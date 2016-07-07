@@ -4,6 +4,7 @@
     "gulp": "*"
   },
   "devDependencies": {
+    "babel-cli": "^6.10.1",
     "gulp": "^3.9.0",
     "gulp-cli": "^0.1.5",
     "gulp-concat": "^2.6.0",
