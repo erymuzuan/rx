@@ -496,6 +496,36 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private bool m_IsOptional;
+        public bool IsOptional
+        {
+            get
+            {
+                return m_IsOptional;
+            }
+            set
+            {
+                m_IsOptional = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Constraints;
+        public string Constraints
+        {
+            get
+            {
+                return m_Constraints;
+            }
+            set
+            {
+                m_Constraints = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 

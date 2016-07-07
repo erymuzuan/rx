@@ -15,29 +15,42 @@ namespace Bespoke.Sph.Domain
             if (typeof(DateTime) == this.Type && !string.IsNullOrWhiteSpace(this.DefaultValue))
             {
                 DateTime date;
-                if(!DateTime.TryParse(this.DefaultValue, out date))
+                if (!DateTime.TryParse(this.DefaultValue, out date))
                     addError($@"""{DefaultValue}"" is not a valid DateTime value for {Name} in {filter.Term} filter");
             }
             if (typeof(int) == this.Type && !string.IsNullOrWhiteSpace(this.DefaultValue))
             {
                 int val;
-                if(!int.TryParse(this.DefaultValue, out val))
+                if (!int.TryParse(this.DefaultValue, out val))
                     addError($@"""{DefaultValue}"" is not a valid Int32 value for {Name} in {filter.Term} filter");
             }
             if (typeof(decimal) == this.Type && !string.IsNullOrWhiteSpace(this.DefaultValue))
             {
                 decimal val;
-                if(!decimal.TryParse(this.DefaultValue, out val))
+                if (!decimal.TryParse(this.DefaultValue, out val))
                     addError($@"""{DefaultValue}"" is not a valid decimal value for {Name} in {filter.Term} filter");
             }
             if (typeof(bool) == this.Type && !string.IsNullOrWhiteSpace(this.DefaultValue))
             {
                 bool val;
-                if(!bool.TryParse(this.DefaultValue, out val))
+                if (!bool.TryParse(this.DefaultValue, out val))
                     addError($@"""{DefaultValue}"" is not a valid boolean value for {Name} in {filter.Term} filter, the only valid value is ""true"" or  ""false""");
             }
             return errors;
         }
+
+        public string GetRouteConstraint()
+        {
+            var constraint = string.IsNullOrWhiteSpace(this.Constraints) ? "" : ":" + this.Constraints;
+            var type = this.Type;
+            if (type == typeof(string)) return string.Empty + constraint;
+            if (type == typeof(short)) return ":int" + constraint;
+            if (type == typeof(byte)) return ":int" + constraint;
+            if (type == typeof(Guid)) return ":guid";
+            if (type == typeof(DateTime)) return ":datetime";
+            return ":" + type.ToCSharp();
+        }
+
 
         public override object GetValue(RuleContext context)
         {
@@ -61,10 +74,9 @@ namespace Bespoke.Sph.Domain
         public string GenerateParameterCode()
         {
             var type = Type.ToCSharp();
-            if (string.IsNullOrWhiteSpace(this.DefaultValue))
-            {
+            if (!this.IsOptional)
                 return $@"{type} {Name}";
-            }
+
             if (this.Type == typeof(string))
                 return $@"{type} {Name} = ""{DefaultValue}""";
             if (this.Type == typeof(DateTime))
@@ -73,7 +85,7 @@ namespace Bespoke.Sph.Domain
         }
         public string GenerateDefaultValueCode()
         {
-            var type = Type.ToCSharp();
+
             if (string.IsNullOrWhiteSpace(this.DefaultValue))
                 return null;
 

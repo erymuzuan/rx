@@ -4,6 +4,10 @@
 
 bespoke.sph.domain.RouteParameterFieldPartial = function (model) {
     // TODO : In QueryEndpoint filter, if term were defined, then maybe we could suggest the name and type
-    console.log(model);
+    model.IsOptional.subscribe(function(opt) {
+        if (!opt) {
+            model.DefaultValue("");
+        }
+    });
     return {};
 };

@@ -4663,6 +4663,10 @@ bespoke.sph.domain.RouteParameterField = function (optionOrWebid) {
 
     v.DefaultValue = ko.observable("");
 
+    v.IsOptional = ko.observable(false);
+
+    v.Constraints = ko.observable("");
+
     v["$type"] = "Bespoke.Sph.Domain.RouteParameterField, domain.sph";
 
 

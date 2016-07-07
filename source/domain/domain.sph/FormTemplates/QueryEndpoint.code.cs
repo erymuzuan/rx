@@ -102,7 +102,15 @@ namespace Bespoke.Sph.Domain
         {
             if (string.IsNullOrWhiteSpace(this.Resource))
                 this.Resource = this.Entity.Pluralize();
-            return this.Route.StartsWith("~") ? this.Route : $"~/api/{Resource}/{this.Route}";
+            var parameters = Strings.RegexValues(this.Route, "\\{(?<p>.*?)}", "p");
+            var route = this.Route;
+            foreach (var rp in parameters)
+            {
+                var field = this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>()
+                    .Single(x => x.Name == rp);
+                route = route.Replace($"{{{rp}}}", $"{{{rp}{field.GetRouteConstraint()}}}");
+            }
+            return this.Route.StartsWith("~") ? route : $"~/api/{Resource}/{route}";
         }
         public string GetLocation()
         {
