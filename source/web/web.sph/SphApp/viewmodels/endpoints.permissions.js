@@ -1,4 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
+﻿"use strict"
+/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../../core.sph/Scripts/require.js" />
 /// <reference path="../../../core.sph/Scripts/knockout-3.4.0.debug.js" />
@@ -6,8 +7,8 @@
 /// <reference path="../../../core.sph/Scripts/_task.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
-define(["services/datacontext", "services/logger", "plugins/router"],
-    function (context, logger, router) {
+define(["services/datacontext", "services/logger", "plugins/router", "knockout", "jquery"],
+    function (context, logger, router, ko, $) {
 
         var isBusy = ko.observable(false),
             operationEndpoints = ko.observableArray(),
@@ -66,9 +67,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         var item = ko.mapping.fromJS(result);
                         // if no parent, controller and action is set, the api will return all settings
                         if (_(result).isArray()) {
-                            var defaultItem = _(result).find(function (v) {
-                                return !v.Parent && !v.Controller && !v.Action;
-                            });
+                            var defaultItem = _(result).find(v => !v.Parent && !v.Controller && !v.Action);
                             item = ko.mapping.fromJS(defaultItem);
                         }
                         if (ko.isObservable(item.Parent)) {
@@ -130,9 +129,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 return "";
             },
             attached = function (view) {
-                var defaultItem = _(ko.unwrap(permissions)).find(function (v) {
-                    return !v.Parent && !v.Controller && !v.Action;
-                });
+                var defaultItem = _(ko.unwrap(permissions)).find(v => !v.Parent && !v.Controller && !v.Action);
                 selected(ko.mapping.fromJS(defaultItem));
 
                 var $panel = $(view).find("#endpoints-tree-panel"),
@@ -271,9 +268,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
 
                 _(queryEndpoints()).each(function (v) {
-                    var parent = _(root.children).find(function (k) {
-                        return k.text === ko.unwrap(v.Entity);
-                    });
+                    var parent = _(root.children).find(k => k.text === ko.unwrap(v.Entity));
                     if (!parent) {
                         return;
                     }
@@ -312,9 +307,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
 
                 _(operationEndpoints()).each(function (v) {
-                    var parent = _(root.children).find(function (k) {
-                        return k.text === ko.unwrap(v.Entity);
-                    });
+                    var parent = _(root.children).find(k => k.text === ko.unwrap(v.Entity));
                     if (!parent) {
                         return;
                     }

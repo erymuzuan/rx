@@ -57,7 +57,7 @@ define(["knockout"], function (ko) {
                     var table = ko.toJS(v),
                         columns = _(v.ColumnCollection()).map(function (col) {
                             return {
-                                id: "column-" + table.Name + "-" + ko.unwrap(col.WebId),
+                                id: `column-${table.Name}-${ko.unwrap(col.WebId)}`,
                                 text: calculateColumnName(col),
                                 type: ko.unwrap(col.TypeName),
                                 data: col
@@ -71,20 +71,20 @@ define(["knockout"], function (ko) {
                             }
                         }),
                         actions = _(v.ControllerActionCollection()).map(function (act) {
-                            act.guid = "action-" + system.guid();
+                            act.guid = `action-${system.guid()}`;
                             return {
                                 id: act.guid,
                                 text: ko.unwrap(act.Name),
-                                type: "api-action-" + (ko.unwrap(act.IsEnabled) ? "enabled" : "disabled"),
+                                type: `api-action-${(ko.unwrap(act.IsEnabled) ? "enabled" : "disabled")}`,
                                 data: act
                             }
                         });
 
                     return {
-                        id: "table-" + ko.unwrap(v.Schema) + "-" + ko.unwrap(v.Name),
-                        text: ko.unwrap(v.Schema) + "." + ko.unwrap(v.Name),
+                        id: `table-${table.Schema}-${table.Name}`,
+                        text: `${table.Schema}.${table.Name}`,
                         state: "open",
-                        type: ko.unwrap(v.Type),
+                        type: table.Type,
                         data: v,
                         children: [{
                             text: "Columns",
@@ -116,7 +116,7 @@ define(["knockout"], function (ko) {
                                 icon = isResultSet ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(t.TypeName),
                                 members = _(t.MemberCollection()).map(function (x) {
                                     return {
-                                        id: "parameter-" + ko.unwrap(x.WebId),
+                                        id: `parameter-${ko.unwrap(x.WebId)}`,
                                         text: calculateColumnName(x),
                                         type: x.TypeName(),
                                         data: x
@@ -141,8 +141,8 @@ define(["knockout"], function (ko) {
                             return createNode(vt, true);
                         });
                     return {
-                        id: "operation-" + ko.unwrap(v.Uuid),
-                        text: ko.unwrap(v.Schema) + "." + ko.unwrap(v.Name),
+                        id: `operation-${ko.unwrap(v.Uuid)}`,
+                        text: `${ko.unwrap(v.Schema)}.${ko.unwrap(v.Name)}`,
                         state: "open",
                         type: ko.unwrap(v.ObjectType),
                         data: v,
@@ -254,7 +254,7 @@ define(["knockout"], function (ko) {
                                             _disabled : !ko.unwrap(connected),
                                             "action": function () {
                                                 var op = ko.toJS($node.data);
-                                                window.location = '/sph#adapter.sqlserver.sproc/' + ko.unwrap(adapter().Id) + '/' + op.Schema + '.' + op.Name;
+                                                window.location = `/sph#adapter.sqlserver.sproc/${ko.unwrap(adapter().Id)}/${op.Schema}.${op.Name}`;
                                             }
                                         },
                                         selectRelatedTable = {
@@ -274,7 +274,7 @@ define(["knockout"], function (ko) {
                                         setNodeText = function (col) {
                                             var text = calculateColumnName(col);
 
-                                            $("#" + $node.id + ">a.jstree-anchor>i.column-icon").remove();
+                                            $(`#${$node.id}>a.jstree-anchor>i.column-icon`).remove();
 
                                             tree.rename_node($node, text);
                                         },
@@ -652,7 +652,7 @@ define(["knockout"], function (ko) {
                 if (!text) {
                     $(element).jstree("clear_search");
                 } else {
-                    var f = "\"\"" + text + "\"\"";
+                    var f = `""${text}""`;
                     console.log(f);
                     $(element).jstree("search", f);
                 }
@@ -768,7 +768,7 @@ define(["knockout"], function (ko) {
                                         addResultSet = {
                                             label: "Add result set",
                                             action: function () {
-                                                var text = name + "Result1",
+                                                var text = `${name}Result1`,
                                                     child = new bespoke.sph.domain.ComplexMember({
                                                         WebId: system.guid(),
                                                         AllowMultiple: true,
@@ -859,17 +859,13 @@ define(["knockout"], function (ko) {
 
                                                 // now delete the member
                                                 var n = ref.get_selected(true)[0],
-                                                    p = ref.get_node($("#" + n.parent)),
+                                                    p = ref.get_node($(`#${n.parent}`)),
                                                     parentMember = p.data;
                                                 if (parentMember && typeof parentMember.MemberCollection === "function") {
-                                                    var child = _(parentMember.MemberCollection()).find(function (v) {
-                                                        return ko.unwrap(v.WebId) === ko.unwrap(n.data.WebId);
-                                                    });
+                                                    var child = _(parentMember.MemberCollection()).find(v=>ko.unwrap(v.WebId) === ko.unwrap(n.data.WebId));
                                                     parentMember.MemberCollection.remove(child);
                                                 } else {
-                                                    var child2 = _(entity.MemberCollection()).find(function (v) {
-                                                        return v.WebId() === n.data.WebId();
-                                                    });
+                                                    var child2 = _(entity.MemberCollection()).find(v => v.WebId() === n.data.WebId());
                                                     entity.MemberCollection.remove(child2);
                                                 }
 
