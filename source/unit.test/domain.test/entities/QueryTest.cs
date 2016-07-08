@@ -80,7 +80,7 @@ namespace domain.test.entities
         }
 
         [Theory]
-        [MemberData(nameof(Filters))]
+        [MemberData("Filters")]
         public void Compile(EntityDefinition ed, QueryEndpoint query, Filter[] filters)
         {
             query.FilterCollection.AddRange(filters);
@@ -311,8 +311,8 @@ namespace domain.test.entities
             };
 
             var mrnParameter = new RouteParameterField { Name = "mrn" };
-            var start = new RouteParameterField { Name = "start", DefaultValue = "2016-01-01" };
-            var end = new RouteParameterField { Name = "end", DefaultValue = "2017-01-01" };
+            var start = new RouteParameterField { Name = "start", IsOptional = true, DefaultValue = "2016-01-01" };
+            var end = new RouteParameterField { Name = "end",IsOptional = true, DefaultValue = "2017-01-01" };
             query.FilterCollection.Add(new Filter
             {
                 Field = mrnParameter,
