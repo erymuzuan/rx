@@ -1,0 +1,32 @@
+<div class="row">
+    <form class="form-inline">
+        <div class="date-range pull-right" style="margin-right: 30px">
+            <i class="fa fa-calendar fa-lg"></i>
+            <span data-bind="date: { value : from, format :'MMMM DD, YYYY', inputFormat :'YYYY-MM-DD'}">
+            </span>
+            -
+            <span data-bind="date: { value:to, format :'MMMM DD, YYYY', inputFormat :'YYYY-MM-DD'}"></span>
+            <b class="caret"></b>
+        </div>
+
+
+    </form>
+</div>
+<div class="row">
+    
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Mrn</th>
+                <th>FullName</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:patients">
+            <tr>
+                <td data-bind="text:Mrn"></td>
+                <td data-bind="text:FullName"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row" id="patient-pager"></div>

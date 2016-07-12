@@ -26,5 +26,19 @@
     "showWhenLoggedIn": false,
     "isAdminPage": false,
     "startPageRoute": null
+  },
+  {
+    "role": "everybody",
+    "groupName": null,
+    "route": "patient-with-registered-date-filter",
+    "moduleId": "viewmodels/patient-with-registered-date-filter",
+    "title": "Patient filtered by date",
+    "nav": false,
+    "icon": "fa fa-signing",
+    "caption": "Patients",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "isAdminPage": false,
+    "startPageRoute": null
   }
 ]
