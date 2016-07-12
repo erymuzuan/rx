@@ -6,13 +6,16 @@
         'transitions': "/Scripts/durandal/transitions",
         "jquery.contextmenu": "/scripts/jquery.contextMenu",
         "jquery.ui.position": "/scripts/jquery.ui.position",
-        "jsPlumb": "/Scripts/jsPlumb/bundle",
+        "jsPlumb": "../Scripts/jsPlumb/bundle",
         'bootstrap': "../Scripts/bootstrap"
     },
     shim: {
         'bootstrap': {
             deps: ["jquery"],
             exports: "jQuery"
+        },
+        "jsPlumb": {
+            exports: "jsPlumb"
         }
     }
 });
@@ -21,14 +24,14 @@ define("knockout", ko);
 define("underscore", function () { return _; });
 define("objectbuilders", objectbuilders);
 define("Task", Task);
-define("bespoke", bespoke ||{});
+define("bespoke", bespoke || {});
 define("string", String);
 
 define(["durandal/app", "durandal/viewLocator", "durandal/system", objectbuilders.config],
     function (app, viewLocator, system, config) {
         system.debug(true);
-        app.title = config.applicationFullName ;
-        
+        app.title = config.applicationFullName;
+
         //specify which plugins to install and their configuration
         app.configurePlugins({
             router: true,
@@ -37,7 +40,7 @@ define(["durandal/app", "durandal/viewLocator", "durandal/system", objectbuilder
                 kinds: ["expander"]
             }
         });
-        
+
         app.start().then(function () {
             viewLocator.useConvention();
             app.setRoot("viewmodels/shell", "entrance");

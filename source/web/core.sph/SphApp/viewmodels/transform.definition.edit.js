@@ -9,6 +9,14 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/jsPlumb/jsPlumb.js" />
 /// <reference path="~/Scripts/_task.js" />
+
+/**
+ *
+ * @param no
+ * @param name
+ * @returns {{no, name, functoids, mappings, source, target, active}}
+ * @constructor
+ */
 bespoke.sph.domain.TransformDefinitionPage = function (no, name) {
     var model = {
         no: ko.observable(no),
@@ -23,8 +31,12 @@ bespoke.sph.domain.TransformDefinitionPage = function (no, name) {
     return model;
 };
 
-define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping", objectbuilders.app, objectbuilders.router, "services/app"],
-    function (context, logger, system, koMapping, app, router, app2) {
+/**
+ * @param{{ItemWebId:function, FileName:string}} item
+ */
+define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping", objectbuilders.app, objectbuilders.router, "services/app",
+        "knockout", "bespoke", "underscore", "jquery", "jsPlumb"],
+    function (context, logger, system, koMapping, app, router, app2, ko, bespoke, _, $) {
 
         var td = ko.observable(new bespoke.sph.domain.TransformDefinition({Id: "0"})),
             pages = ko.observableArray(),
@@ -1010,7 +1022,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             try {
                                 conn1.removeOverlay("connLabel");
                             } catch (err) {
-                                console.log(err, "Connectetion migh have been removed from the page");
+                                console.log(err, "Connection might have been removed from the page");
                             }
                         }, 5000);
                     });
@@ -1137,12 +1149,12 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 ]),
                 htmlCommands: ko.observableArray([
                     {
-                        html: "<input type=\"search\" id=\"search-box-source-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search source\"></input>" +
+                        html: "<input type=\"search\" id=\"search-box-source-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search source\">" +
                         "<button title=\"Clear the source search box\" id=\"clear-search-box-source-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
                         icon: "fa fa-users"
                     },
                     {
-                        html: "<input type=\"search\" id=\"search-box-destination-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search destination\"></input>" +
+                        html: "<input type=\"search\" id=\"search-box-destination-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search destination\">" +
                         "<button title=\"Clear the destination search box\" id=\"clear-search-box-destination-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
                         icon: "fa fa-users"
                     }])
