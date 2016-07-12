@@ -8,9 +8,13 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 
+/**
+ * @param{{aggregations, buckets}}result
+ * @param{{daterangepicker:function}}$
+ */
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
-    function (context, logger, router, app) {
+    function (context, logger, router, app, ko) {
 
         var isBusy = ko.observable(false),
             from = ko.observable(moment().subtract(1, "day").format("YYYY-MM-DD")),
