@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(["services/datacontext", "services/logger", objectbuilders.system],
-    function (context, logger, system) {
+define(["services/datacontext", "services/logger", objectbuilders.system, "knockout", "string", "jquery", "bespoke"],
+    function (context, logger, system, ko, String, $, bespoke) {
 
         var template = ko.observable(new bespoke.sph.domain.DocumentTemplate(system.guid())),
             entityOptions = ko.observableArray(),
@@ -125,10 +125,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system],
                         caption: "Test",
                         icon: "fa fa-cog",
                         enable: ko.computed(function () {
-                            return template().Id()
-                                && template().Id() !== "0"
-                                && template().Entity()
-                                && template().WordTemplateStoreId();
+                            return template().Id() && template().Id() !== "0" && template().Entity() && template().WordTemplateStoreId();
                         })
                     }])
             }

@@ -7,9 +7,14 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schema/sph.domain.g.js" />
 
+/**
+ * @param{{ Database:function, Server:function,TrustedConnection:function, UserId:function,Password:function,ColumnDisplayNameStrategy:function}} adapter
+ * @param{{toObservable:function}} context
+ *
+ */
 
-define(['plugins/dialog', "services/datacontext"],
-    function(dialog, context) {
+define(['plugins/dialog', "services/datacontext", "knockout", "underscore"],
+    function(dialog, context, ko, _) {
 
         var operations = ko.observableArray(),
             isBusy = ko.observable(false),
@@ -84,8 +89,7 @@ define(['plugins/dialog', "services/datacontext"],
 
                     }else{
                         var tr = _(selectedOperations()).find(function(v){
-                            return ko.unwrap(v.Name) === operation.Name 
-                                && ko.unwrap(v.Schema) === operation.Schema;
+                            return ko.unwrap(v.Name) === operation.Name  && ko.unwrap(v.Schema) === operation.Schema;
                         });
                         if(tr)
                             selectedOperations.remove(tr);
@@ -110,7 +114,6 @@ define(['plugins/dialog', "services/datacontext"],
             name : name,
             schema : schema,
             okClick: okClick,
-            activate: activate,
             cancelClick: cancelClick
         };
 

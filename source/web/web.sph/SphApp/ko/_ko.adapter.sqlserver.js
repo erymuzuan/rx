@@ -3,12 +3,21 @@
 ///<reference path="../../web/core.sph/Scripts/underscore.js"/>
 ///<reference path="../../web/core.sph/SphApp/objectbuilders.js"/>
 ///<reference path="../../web/core.sph/SphApp/schemas/form.designer.g.js"/>
+/**
+ * @param {{Id,TableDefinitionCollection:function, ControllerActionCollection:function, OperationDefinitionCollection:function,ColumnCollection:function,ChildRelationCollection,Table, Schema, Name}} adapter
+ * @param{{create_node:function, get_node:function, jstree:function, rename_node, set_type: function, delete_node:function, get_type:function, get_selected:function, set_selected:function}} jstree
+ * @param{{system:string, searchTextBox:string}} objectbuilders
+ * @param{{RequestMemberCollection:function,ResponseMemberCollection:function, Uuid:string , IsSelected : function, Order: function}} OperationDefinition
+ * @param{{LookupColumnTable:function, IsEnabled, IsComplex, Ignore, IsComputed, IsPrimaryKey:boolean, Unsupported:boolean}} column
+ * @param {{ entity: object, MemberCollection:function}} entity
+ * @param {{ debounce:function}} _
+ */
 
-define(["knockout"], function (ko) {
-
+/*globals define, console */
+define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilders, _) {
+    "use strict";
     ko.bindingHandlers.adapterTree = {
         init: function (element, valueAccessor) {
-
 
 
             var system = require(objectbuilders.system),
@@ -61,14 +70,14 @@ define(["knockout"], function (ko) {
                                 text: calculateColumnName(col),
                                 type: ko.unwrap(col.TypeName),
                                 data: col
-                            }
+                            };
                         }),
                         relations = _(v.ChildRelationCollection()).map(function (col) {
                             return {
                                 text: ko.unwrap(col.Table),
                                 type: ko.unwrap(col.IsSelected) ? "child-table-selected" : "child-table",
                                 data: col
-                            }
+                            };
                         }),
                         actions = _(v.ControllerActionCollection()).map(function (act) {
                             act.guid = `action-${system.guid()}`;
@@ -77,7 +86,7 @@ define(["knockout"], function (ko) {
                                 text: ko.unwrap(act.Name),
                                 type: `api-action-${(ko.unwrap(act.IsEnabled) ? "enabled" : "disabled")}`,
                                 data: act
-                            }
+                            };
                         });
 
                     return {
@@ -235,13 +244,11 @@ define(["knockout"], function (ko) {
 
                                                 if ($node.type === "U") {
                                                     adapter().TableDefinitionCollection.remove(function (v) {
-                                                        return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema)
-                                                            && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
+                                                        return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema) && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
                                                     });
                                                 } else {
                                                     adapter().OperationDefinitionCollection.remove(function (v) {
-                                                        return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema)
-                                                            && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
+                                                        return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema) && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
                                                     });
                                                 }
 
@@ -251,7 +258,7 @@ define(["knockout"], function (ko) {
                                         },
                                         editOperation = {
                                             "label": "Edit operation",
-                                            _disabled : !ko.unwrap(connected),
+                                            _disabled: !ko.unwrap(connected),
                                             "action": function () {
                                                 var op = ko.toJS($node.data);
                                                 window.location = `/sph#adapter.sqlserver.sproc/${ko.unwrap(adapter().Id)}/${op.Schema}.${op.Name}`;
@@ -274,7 +281,7 @@ define(["knockout"], function (ko) {
                                         setNodeText = function (col) {
                                             var text = calculateColumnName(col);
 
-                                            $(`#${$node.id}>a.jstree-anchor>i.column-icon`).remove();
+                                            $(`#${$node.id}`).find(`>a.jstree-anchor>i.column-icon`).remove();
 
                                             tree.rename_node($node, text);
                                         },
@@ -299,7 +306,7 @@ define(["knockout"], function (ko) {
                                                 $node.data.LookupColumnTable().IsEnabled(true);
                                                 setNodeText($node.data);
                                             },
-                                            _disabled : !ko.unwrap(connected)
+                                            _disabled: !ko.unwrap(connected)
                                         },
                                         undoLookup = {
                                             label: "Disable lookup value",
@@ -338,26 +345,26 @@ define(["knockout"], function (ko) {
                                         };
                                     var data = $node.data;
 
-                                    if ($node.id === "table-node" && addTable ) {
+                                    if ($node.id === "table-node" && addTable) {
                                         return [{
                                             label: "Add new table/view",
                                             action: addTable,
-                                            _disabled : !ko.unwrap(connected)
-                                        }]
+                                            _disabled: !ko.unwrap(connected)
+                                        }];
                                     }
 
-                                    if ($node.id === "node-operations" && addOperation ) {
+                                    if ($node.id === "node-operations" && addOperation) {
                                         return [{
                                             label: "Add new sproc/function",
                                             action: addOperation,
                                             "icon": "fa fa-cogs",
-                                            _disabled : !ko.unwrap(connected)
-                                        }]
+                                            _disabled: !ko.unwrap(connected)
+                                        }];
                                     }
 
 
                                     if ($node.id.startsWith("column-")) {
-                                        var items = [];
+                                        let items = [];
 
                                         if (ko.unwrap(data.Ignore))
                                             items.push(includeMenu);
@@ -376,7 +383,7 @@ define(["knockout"], function (ko) {
                                         return items;
                                     }
                                     if ($node.id.startsWith("parameter-")) {
-                                        var items = [];
+                                        let items = [];
 
                                         if (ko.unwrap(data.Ignore))
                                             items.push(includeMenu);
@@ -411,7 +418,7 @@ define(["knockout"], function (ko) {
                                                         ep = cn.data;
                                                     ep.IsEnabled(true);
                                                     tree.set_type(cn, "api-action-enabled");
-                                                })
+                                                });
                                             }
                                         },
                                             {
@@ -423,7 +430,7 @@ define(["knockout"], function (ko) {
                                                             ep = cn.data;
                                                         ep.IsEnabled(false);
                                                         tree.set_type(cn, "api-action-disabled");
-                                                    })
+                                                    });
                                                 }
                                             }];
                                     return [];
@@ -569,7 +576,7 @@ define(["knockout"], function (ko) {
             tree = $(element).jstree(true);
 
 
-            adapter.subscribe(function(){
+            adapter.subscribe(function () {
 
                 tree.destroy();
                 loadJsTree();
@@ -643,21 +650,21 @@ define(["knockout"], function (ko) {
                 }
             });
 
-            var clearSearch = $('   <a class="pull-right" id="clear-search" href="javascript:;" style="margin-top: -27px;margin-right: 8px" title="Clear search text">'+
-                '<i class="fa fa-times" style="color: grey"></i>'+
-                '</a>'),
+            var clearSearch = $(`<a class="pull-right" id="clear-search" href="javascript:;" style="margin-top: -27px;margin-right: 8px" title="Clear search text">
+                <i class="fa fa-times" style="color: grey"></i>
+                </a>`),
                 search = _.debounce(function () {
-                var text = $(this).val();
+                    var text = $(this).val();
 
-                if (!text) {
-                    $(element).jstree("clear_search");
-                } else {
-                    var f = `""${text}""`;
-                    console.log(f);
-                    $(element).jstree("search", f);
-                }
-            }, 400);
-            clearSearch.click(function(){
+                    if (!text) {
+                        $(element).jstree("clear_search");
+                    } else {
+                        var f = `""${text}""`;
+                        console.log(f);
+                        $(element).jstree("search", f);
+                    }
+                }, 400);
+            clearSearch.click(function () {
                 $(element).jstree("clear_search");
                 searchInput.val("");
             });

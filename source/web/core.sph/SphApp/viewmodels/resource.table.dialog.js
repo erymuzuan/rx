@@ -66,12 +66,15 @@ define(["plugins/dialog", objectbuilders.datacontext],
             }
             $.getJSON("/i18n/" + lang + "/" + resource())
                 .done(function (n) {
+                    var findKey = function (keyValue) {
+                        "use strict";
+                        return v => ko.unwrap(v.Key) === keyValue;
+                    };
                     for (var k in n) {
                         if (n.hasOwnProperty(k)) {
                             var k1 = k,
-                                key = _(items()).find(function (v) {
-                                    return ko.unwrap(v.Key) === k1;
-                                });
+                                fk = findKey(k1),
+                                key = _(items()).find(fk);
                             if (key) {
                                 key.Value(n[k1]);
                             } else {

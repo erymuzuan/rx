@@ -1,9 +1,10 @@
-﻿
+﻿define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp,
+        objectbuilders.dialog, objectbuilders.config, "services/_ko.list",
+        "jquery", "ko", "String", "bespoke", "underscore", "Task"],
+    function (context, logger, router, system, app, eximp, dialog, config, kolist,
+            $, ko,String, bespoke, _, Task) {
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp,
-    objectbuilders.dialog, objectbuilders.config, "services/_ko.list"],
-    function (context, logger, router, system, app, eximp, dialog, config, kolist) {
-
+        "use strict";
         var errors = ko.observableArray(),
             warnings = ko.observableArray(),
             originalEntity = "",
@@ -14,7 +15,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             wdOptions = ko.observableArray(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             schema = ko.observable(),
-            form = ko.observable(new bespoke.sph.domain.WorkflowForm({ WebId: system.guid() })),
+            form = ko.observable(new bespoke.sph.domain.WorkflowForm({WebId: system.guid()})),
             selectedFormElement = ko.observable(),
             activate = function (wdid, id) {
                 kolist.init();
@@ -51,51 +52,49 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             text: v
                         };
                     });
-                    layouts.splice(0, 0, { value: " ", text: "[Default Layout]" });
+                    layouts.splice(0, 0, {value: " ", text: "[Default Layout]"});
                     layoutOptions(layouts);
                 });
 
                 context.loadOneAsync("WorkflowForm", "Id eq '" + id + "'")
-                .done(function (f) {
-                    _(f.FormDesign().FormElementCollection()).each(function (v) {
-                        v.isSelected = ko.observable(false);
-                    });
-                    var url = "/api/workflow-forms/" + id + "/activities/" + ko.unwrap(f.Operation) + "/schema";
-                    $.getJSON(url)
-                        .done(function (model) {
-                            schema(model);
+                    .done(function (f) {
+                        _(f.FormDesign().FormElementCollection()).each(function (v) {
+                            v.isSelected = ko.observable(false);
                         });
-                    form(f);
-                    originalEntity = ko.toJSON(form);
-
-                    var vodUrl = "/api/workflow-forms/" + ko.unwrap(form().Id) + "/activities/" + ko.unwrap(form().Operation) + "/vod";
-                    $.getJSON(vodUrl)
-                        .done(function (b) {
-                            var vod = context.toObservable(b);
-                            // get the AllowMutlipe members
-                            var members = [];
-                            var getAllowMultipleMembers = function (list) {
-                                _(list).each(function (v) {
-                                    if (ko.unwrap(v.AllowMultiple)) {
-                                        members.push(v);
-                                    }
-                                    getAllowMultipleMembers(ko.unwrap(v.MemberCollection));
-                                });
-                            };
-
-                            getAllowMultipleMembers(ko.unwrap(vod.MemberCollection));
-                            var names = _(members).map(function (v) {
-                                return {
-                                    text: ko.unwrap(v.TypeName),
-                                    value: "bespoke." + config.applicationName + "." + ko.unwrap(wd().WorkflowTypeName) + ".domain." + ko.unwrap(v.TypeName)
-                                };
+                        var url = "/api/workflow-forms/" + id + "/activities/" + ko.unwrap(f.Operation) + "/schema";
+                        $.getJSON(url)
+                            .done(function (model) {
+                                schema(model);
                             });
-                            collectionMemberOptions(names);
-                        });
-                    tcs.resolve(true);
-                });
+                        form(f);
+                        originalEntity = ko.toJSON(form);
 
+                        var vodUrl = "/api/workflow-forms/" + ko.unwrap(form().Id) + "/activities/" + ko.unwrap(form().Operation) + "/vod";
+                        $.getJSON(vodUrl)
+                            .done(function (b) {
+                                var vod = context.toObservable(b);
+                                // get the AllowMutlipe members
+                                var members = [];
+                                var getAllowMultipleMembers = function (list) {
+                                    _(list).each(function (v) {
+                                        if (ko.unwrap(v.AllowMultiple)) {
+                                            members.push(v);
+                                        }
+                                        getAllowMultipleMembers(ko.unwrap(v.MemberCollection));
+                                    });
+                                };
 
+                                getAllowMultipleMembers(ko.unwrap(vod.MemberCollection));
+                                var names = _(members).map(function (v) {
+                                    return {
+                                        text: ko.unwrap(v.TypeName),
+                                        value: "bespoke." + config.applicationName + "." + ko.unwrap(wd().WorkflowTypeName) + ".domain." + ko.unwrap(v.TypeName)
+                                    };
+                                });
+                                collectionMemberOptions(names);
+                            });
+                        tcs.resolve(true);
+                    });
 
 
                 form().WorkflowDefinitionId(wdid);
@@ -167,61 +166,61 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 // kendoEditor
                 $("#template-form-designer").on("click", "textarea", function () {
-                    var $editor = $(this),
-                        kendoEditor = $editor.data("kendoEditor");
-                    if (!kendoEditor) {
-                        var htmlElement = ko.dataFor(this),
-                            editor = $editor.kendoEditor({
-                                change: function () {
-                                    htmlElement.Text(this.value());
-                                }
-                            }).data("kendoEditor");
+                        var $editor = $(this),
+                            kendoEditor = $editor.data("kendoEditor");
+                        if (!kendoEditor) {
+                            var htmlElement = ko.dataFor(this),
+                                editor = $editor.kendoEditor({
+                                    change: function () {
+                                        htmlElement.Text(this.value());
+                                    }
+                                }).data("kendoEditor");
 
-                        htmlElement.Text.subscribe(function (t) {
-                            editor.value(ko.unwrap(t));
-                        });
+                            htmlElement.Text.subscribe(function (t) {
+                                editor.value(ko.unwrap(t));
+                            });
 
+                        }
                     }
-                }
                 );
 
 
                 var receive = function (evt, ui) {
-                    $(".selected-form-element").each(function () {
-                        var kd = ko.dataFor(this);
-                        if (typeof kd.isSelected === "function")
-                            kd.isSelected(false);
-                    });
+                        $(".selected-form-element").each(function () {
+                            var kd = ko.dataFor(this);
+                            if (typeof kd.isSelected === "function")
+                                kd.isSelected(false);
+                        });
 
-                    var elements = _($("#template-form-designer>form>div")).map(function (div) {
-                        return ko.dataFor(div);
-                    }),
-                    fe = context.clone(ko.dataFor(ui.item[0]).element),
-                    sortable = $(this),
-                    position = 0,
-                    children = sortable.children();
+                        var elements = _($("#template-form-designer>form>div")).map(function (div) {
+                                return ko.dataFor(div);
+                            }),
+                            fe = context.clone(ko.dataFor(ui.item[0]).element),
+                            sortable = $(this),
+                            position = 0,
+                            children = sortable.children();
 
-                    fe.isSelected = ko.observable(true);
-                    fe.Enable("true");
-                    fe.Visible("true");
-                    fe.Label("Label " + fd.FormElementCollection().length);
-                    fe.ElementId(system.guid());
-                    fe.WebId(system.guid());
+                        fe.isSelected = ko.observable(true);
+                        fe.Enable("true");
+                        fe.Visible("true");
+                        fe.Label("Label " + fd.FormElementCollection().length);
+                        fe.ElementId(system.guid());
+                        fe.WebId(system.guid());
 
-                    for (var i = 0; i < children.length; i++) {
-                        if ($(children[i]).position().top > ui.position.top) {
-                            position = i;
-                            break;
+                        for (var i = 0; i < children.length; i++) {
+                            if ($(children[i]).position().top > ui.position.top) {
+                                position = i;
+                                break;
+                            }
                         }
-                    }
-                    elements.splice(position, 0, fe);
-                    $("#template-form-designer>form").sortable("destroy");
-                    //rebuild
-                    fd.FormElementCollection(elements);
-                    initDesigner();
-                    $("#template-form-designer>form li.ui-draggable").remove();
-                    selectedFormElement(fe);
-                },
+                        elements.splice(position, 0, fe);
+                        $("#template-form-designer>form").sortable("destroy");
+                        //rebuild
+                        fd.FormElementCollection(elements);
+                        initDesigner();
+                        $("#template-form-designer>form li.ui-draggable").remove();
+                        selectedFormElement(fe);
+                    },
                     initDesigner = function () {
                         $("#template-form-designer>form").sortable({
                             items: ">div",
@@ -262,7 +261,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             supportsHtml5Storage = function () {
                 try {
-                    return "localStorage" in window && window["localStorage"] !== null;
+                    return "localStorage" in window && window.localStorage !== null;
                 } catch (e) {
                     return false;
                 }
@@ -313,18 +312,18 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             importCommand = function () {
                 return eximp.importJson()
-             .done(function (json) {
-                 try {
+                    .done(function (json) {
+                        try {
 
-                     var obj = JSON.parse(json),
-                         clone = context.toObservable(obj);
+                            var obj = JSON.parse(json),
+                                clone = context.toObservable(obj);
 
-                     form().FormDesign(clone.FormDesign());
+                            form().FormDesign(clone.FormDesign());
 
-                 } catch (error) {
-                     logger.logError("Fail template import tidak sah", error, this, true);
-                 }
-             });
+                        } catch (error) {
+                            logger.logError("Fail template import tidak sah", error, this, true);
+                        }
+                    });
             },
             publish = function () {
                 var fd = ko.unwrap(form().FormDesign);
@@ -404,82 +403,82 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 return tcs.promise();
             },
 
-        removeAsync = function () {
+            removeAsync = function () {
 
-            var tcs = new $.Deferred(),
-                data = ko.mapping.toJSON(form);
-            app.showMessage("Are you sure you want to permanently remove this form?, this action cannot be undone!!", "Reactive Developer", ["Yes", "No"])
-                .done(function (dialogResult) {
-                    if (dialogResult === "Yes") {
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(form);
+                app.showMessage("Are you sure you want to permanently remove this form?, this action cannot be undone!!", "Reactive Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
 
-                        context.send(data, "/api/workflow-forms/" + form().Id(), "DELETE")
-                            .fail(tcs.reject)
-                            .then(function (result) {
-                                if (result.success) {
-                                    logger.info(result.message);
-                                    errors.removeAll();
-                                    window.location = "/sph#dev.home/";
-                                } else {
-                                    logger.error("There are errors in your form, cannot be removed !!");
-                                }
-                                tcs.resolve(result);
+                            context.send(data, "/api/workflow-forms/" + form().Id(), "DELETE")
+                                .fail(tcs.reject)
+                                .then(function (result) {
+                                    if (result.success) {
+                                        logger.info(result.message);
+                                        errors.removeAll();
+                                        window.location = "/sph#dev.home/";
+                                    } else {
+                                        logger.error("There are errors in your form, cannot be removed !!");
+                                    }
+                                    tcs.resolve(result);
+                                });
+                        } else {
+                            tcs.resolve(false);
+
+                        }
+                    });
+
+                return tcs.promise();
+            },
+            depublishAsync = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(form);
+
+                context.post(data, "/api/workflow-forms/depublish")
+                    .then(function (result) {
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+                            var views = _(result.views).map(function (v) {
+                                return {
+                                    Message: `${v} view has a link to this form!`,
+                                    Code: ""
+                                };
                             });
-                    } else {
-                        tcs.resolve(false);
+                            errors(views);
+                            logger.error("There are errors in your form, depublish those views first to proceed, !!!");
+                        }
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            },
+            partialEditor = null,
+            editCode = function () {
+                if (null === partialEditor || partialEditor.closed) {
+                    var partial = "partial/" + form().Route();
+                    partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", "_blank", "height=600px,width=800px,toolbar=0,location=0");
+                    form().Partial(partial);
+                } else {
+                    partialEditor.focus();
+                }
 
-                    }
-                });
+                return Task.fromResult(true);
 
-            return tcs.promise();
-        },
-        depublishAsync = function () {
+            },
+            layoutEditor = null,
+            editLayout = function () {
+                if (null === layoutEditor || layoutEditor.closed) {
+                    layoutEditor = window.open("/sph/editor/file?id=/views/workflowformrenderer/" + form().Layout() + ".cshtml", "_blank", "height=600px,width=800px,toolbar=0,location=0");
 
-            var tcs = new $.Deferred(),
-                data = ko.mapping.toJSON(form);
+                } else {
+                    layoutEditor.focus();
+                }
 
-            context.post(data, "/api/workflow-forms/depublish")
-                .then(function (result) {
-                    if (result.success) {
-                        logger.info(result.message);
-                        errors.removeAll();
-                    } else {
-                        var views = _(result.views).map(function (v) {
-                            return {
-                                Message: v + " view has a link to this form!",
-                                Code: ""
-                            }
-                        });
-                        errors(views);
-                        logger.error("There are errors in your form, depublish those views first to proceed, !!!");
-                    }
-                    tcs.resolve(result);
-                });
-            return tcs.promise();
-        },
-        partialEditor = null,
-        editCode = function () {
-            if (null == partialEditor || partialEditor.closed) {
-                var partial = "partial/" + form().Route();
-                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", "_blank", "height=600px,width=800px,toolbar=0,location=0");
-                form().Partial(partial);
-            } else {
-                partialEditor.focus();
-            }
-
-            return Task.fromResult(true);
-
-        },
-        layoutEditor = null,
-        editLayout = function () {
-            if (null == layoutEditor || layoutEditor.closed) {
-                layoutEditor = window.open("/sph/editor/file?id=/views/workflowformrenderer/" + form().Layout() + ".cshtml", "_blank", "height=600px,width=800px,toolbar=0,location=0");
-
-            } else {
-                layoutEditor.focus();
-            }
-
-            return Task.fromResult(true);
-        },
+                return Task.fromResult(true);
+            },
             viewSchema = function () {
                 var tcs = new $.Deferred();
                 var url = "/api/workflow-forms/" + ko.unwrap(form().Id) + "/activities/" + ko.unwrap(form().Operation) + "/vod";
@@ -555,60 +554,60 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         return Task.fromResult(0);
                     }
                 },
-                {
-                    caption: "Publish",
-                    icon: "fa fa-sign-in",
-                    command: publish,
-                    enable: ko.computed(function () {
-                        return form().Id() !== "0";
-                    })
-                },
-                {
-                    command: depublishAsync,
-                    caption: "Depublish",
-                    icon: "fa fa-sign-out",
-                    enable: ko.computed(function () {
-                        return form().Id() !== "0" && form().IsPublished();
-                    })
-                },
-                {
-                    command: editCode,
-                    caption: "Edit Code",
-                    icon: "fa fa-code",
-                    enable: ko.computed(function () {
-                        return form().Route();
-                    })
-                },
-                {
-                    command: editLayout,
-                    caption: "Edit Layout",
-                    icon: "fa  fa-file-text-o",
-                    enable: ko.computed(function () {
-                        if (typeof form().Layout() === "undefined") {
-                            return false;
-                        }
-                        if (!form().Layout()) {
-                            return false;
-                        }
-                        if (form().Layout().trim() === "") {
-                            return false;
-                        }
-                        return form().Route();
-                    })
-                },
-                {
-                    command: translateLabels,
-                    caption: "Translate",
-                    icon: "fa  fa-language",
-                    enable: ko.computed(function () {
-                        return form().Route();
-                    })
-                },
-                {
-                    command: viewSchema,
-                    caption: "View Schema",
-                    icon: "fa  fa-clipboard"
-                }
+                    {
+                        caption: "Publish",
+                        icon: "fa fa-sign-in",
+                        command: publish,
+                        enable: ko.computed(function () {
+                            return form().Id() !== "0";
+                        })
+                    },
+                    {
+                        command: depublishAsync,
+                        caption: "Depublish",
+                        icon: "fa fa-sign-out",
+                        enable: ko.computed(function () {
+                            return form().Id() !== "0" && form().IsPublished();
+                        })
+                    },
+                    {
+                        command: editCode,
+                        caption: "Edit Code",
+                        icon: "fa fa-code",
+                        enable: ko.computed(function () {
+                            return form().Route();
+                        })
+                    },
+                    {
+                        command: editLayout,
+                        caption: "Edit Layout",
+                        icon: "fa  fa-file-text-o",
+                        enable: ko.computed(function () {
+                            if (typeof form().Layout() === "undefined") {
+                                return false;
+                            }
+                            if (!form().Layout()) {
+                                return false;
+                            }
+                            if (form().Layout().trim() === "") {
+                                return false;
+                            }
+                            return form().Route();
+                        })
+                    },
+                    {
+                        command: translateLabels,
+                        caption: "Translate",
+                        icon: "fa  fa-language",
+                        enable: ko.computed(function () {
+                            return form().Route();
+                        })
+                    },
+                    {
+                        command: viewSchema,
+                        caption: "View Schema",
+                        icon: "fa  fa-clipboard"
+                    }
                 ]),
                 saveCommand: save,
                 removeCommand: removeAsync

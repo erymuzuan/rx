@@ -9,8 +9,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router"],
-    function(context, logger, router) {
+define(["services/datacontext", "services/logger", "plugins/router", "knockout"],
+    function(context, logger, router, ko) {
 
         var route = ko.observable(),
             security = ko.observable({

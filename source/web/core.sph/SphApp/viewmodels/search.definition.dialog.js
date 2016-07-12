@@ -17,7 +17,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             activate = function(){
                 var entitiesQuery = String.format("IsPublished eq {0}", 1),
                     tcs = new $.Deferred(),
-                    departmentQuery = "Key eq 'Departments' and Owner eq '{0}';
+                    departmentQuery = "Key eq 'Departments' and Owner eq '{0}'";
 
 
                 var departmentTask = context.loadOneAsync("Department", departmentQuery),

@@ -29,7 +29,7 @@ define(["plugins/dialog", "services/datacontext"],
                           designationOptions(s);
                       }
                       if (d) {
-                          var departments = JSON.parse(ko.mapping.toJS(d.Value));;
+                          var departments = JSON.parse(ko.mapping.toJS(d.Value));
                           departmentOptions(departments);
                       }
 

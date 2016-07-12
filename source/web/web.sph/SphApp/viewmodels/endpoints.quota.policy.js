@@ -5,10 +5,17 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 
+/*globals objectbuilders, console, bespoke*/
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
-    function (context, logger, router, app) {
+/**
+ * @param{{QuotaLimit:function, BandwidthLimit:function, Size:function, RenewalPeriod:function, Calls:function, TimePeriod:function, QuotaPolicy:function}} policy
+ * @param{{ sph:object, domain:object }}bespoke
+ */
 
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "knockout", "bespoke", "jquery"],
+    function (context, logger, router, app, ko, bespoke, $) {
+
+        "use strict";
         var isBusy = ko.observable(false),
             edit = function (policy) {
 
@@ -25,7 +32,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                                     tcs.resolve(false);
                                     return;
                                 }
-                                if(result === "OK"){
+                                if (result === "OK") {
                                     policy.Name(ko.unwrap(clone.Name));
 
                                     policy.RateLimit().Calls(ko.unwrap(clone.RateLimit().Calls));
@@ -39,13 +46,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                                     context.post(ko.mapping.toJSON(policy), "/api/quota-policies").then(tcs.resolve);
 
-                                }else{
-                                  tcs.resolve(false);
+                                } else {
+                                    tcs.resolve(false);
                                 }
                             });
                     });
 
-                    return tcs.promise();
+                return tcs.promise();
             },
             selectApi = function (policy) {
                 require(["viewmodels/endpoints.quota.api.selections.dialog", "durandal/app"],
@@ -65,36 +72,36 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             selected = ko.observable(false),
             activate = function () {
 
-               return context.loadAsync("QuotaPolicy")
-               .then(function(lo){
-                 policies(lo.itemCollection);
-                 _(policies()).each(function(v) {
-                     v.selectApi = selectApi;
-                     v.edit = edit;
-                 });
-               });
+                return context.loadAsync("QuotaPolicy")
+                    .then(function (lo) {
+                        policies(lo.itemCollection);
+                        _(policies()).each(function (v) {
+                            v.selectApi = selectApi;
+                            v.edit = edit;
+                        });
+                    });
 
             },
             attached = function (view) {
 
             },
             addPolicy = function () {
-                var pc =  new bespoke.sph.domain.QuotaPolicy();
+                var pc = new bespoke.sph.domain.QuotaPolicy();
                 pc.RateLimit().RenewalPeriod = ko.observable(new bespoke.sph.domain.TimePeriod());
                 pc.QuotaLimit().RenewalPeriod = ko.observable(new bespoke.sph.domain.TimePeriod());
                 pc.BandwidthLimit().RenewalPeriod = ko.observable(new bespoke.sph.domain.TimePeriod());
                 pc.selectApi = selectApi;
                 pc.edit = edit;
 
-                edit(pc).done(function(result){
-                   if(result){
-                       policies.push(pc);
-                   }
+                edit(pc).done(function (result) {
+                    if (result) {
+                        policies.push(pc);
+                    }
                 });
             },
             removePolicy = function (policy) {
                 app.showMessage("Are you sure you want to completely remove", "Rx Developer", ["Yes", "No"])
-                    .done(function(dialogResult) {
+                    .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
                             policies.remove(policy);
                         }
@@ -108,6 +115,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             isBusy: isBusy,
             activate: activate,
             attached: attached,
-            removePolicy : removePolicy
+            removePolicy: removePolicy
         };
     });

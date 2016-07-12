@@ -1,5 +1,5 @@
 
-define([], function(){
+define(["knockout", "underscore"], function(ko, _){
       ko.bindingHandlers['customPaging'] = {
         makeTemplateValueAccessor: function(valueAccessor) {
             return function() {
@@ -8,7 +8,7 @@ define([], function(){
     
                 // If unwrappedValue is the array, pass in the wrapped value on its own
                 // The value will be unwrapped and tracked within the template binding
-                if ((!unwrappedValue) || typeof unwrappedValue.length == "number")
+                if ((!unwrappedValue) || typeof unwrappedValue.length === "number")
                     return { 'foreach': modelValue, 'templateEngine': ko.nativeTemplateEngine.instance };
     
                 // If unwrappedValue.data is the array, preserve all relevant options and unwrap again value so we get updates

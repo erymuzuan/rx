@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(["services/datacontext", objectbuilders.system, objectbuilders.config],
-    function (context, system, config) {
+define(["services/datacontext", objectbuilders.system, objectbuilders.config, "knockout", "string"],
+    function (context, system, config, ko, String) {
         var entities = ko.observableArray(),
             privateSearches = ko.observableArray(),
             sharedSearches = ko.observableArray(),
@@ -53,7 +53,7 @@ define(["services/datacontext", objectbuilders.system, objectbuilders.config],
                 return function () {
 
                     filters.remove(filter);
-                }
+                };
             };
 
         type.subscribe(function (v) {

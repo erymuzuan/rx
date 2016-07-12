@@ -1,4 +1,4 @@
-﻿"use strict"
+﻿
 /// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../../core.sph/Scripts/require.js" />
@@ -7,9 +7,19 @@
 /// <reference path="../../../core.sph/Scripts/_task.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
-define(["services/datacontext", "services/logger", "plugins/router", "knockout", "jquery"],
-    function (context, logger, router, ko, $) {
 
+/*globals define, console*/
+
+/**
+ * @param {{ itemCollection:function, Entity:object, Parent:function, Tables:function, Actions:function, IsHttpPost:function,IsHttpPut:function
+ * IsHttpPatch:function,IsHttpDelete:function, IconClass:function, Children:function, Operations:function, Controller:function, Claims:function,Action:function,
+ * ControllerName : function}} lo
+ *
+ * @param {{fromResult: function}} Task
+ */
+define(["services/datacontext", "services/logger", "plugins/router", "knockout", "jquery", "Task", "underscore"],
+    function (context, logger, router, ko, $, Task, _) {
+        "use strict";
         var isBusy = ko.observable(false),
             operationEndpoints = ko.observableArray(),
             queryEndpoints = ko.observableArray(),
@@ -52,14 +62,14 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
 
                 var url = "/management-api/endpoint-permissions/";
                 if (tag.parent) {
-                    url += "?parent=" + tag.parent;
+                    url += `?parent=${tag.parent}`;
                 }
                 if (tag.controller) {
-                    url += "&controller=" + tag.controller;
+                    url += `&controller=${tag.controller}`;
                 }
 
                 if (tag.action) {
-                    url += "&action=" + tag.action;
+                    url += `&action=${tag.action}`;
                 }
                 return $.getJSON(url)
                     .done(function (result) {
@@ -80,7 +90,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                             item.Action(tag.action);
                         }
 
-                        var claimChanged = function (val) {
+                        var claimChanged = function () {
                             item.IsInherited(false);
                         };
 
@@ -220,7 +230,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                             data: createTag(v.Name, v.Name, c.Action),
                             text: c.Action,
                             icon: "fa fa-envelope"
-                        }
+                        };
                         wdNode.children.push(action);
                     });
                     root.children.push(wdNode);
@@ -244,7 +254,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                             data: createTag(adp.Name, adp.Name, op),
                             text: op,
                             icon: "fa fa-bolt"
-                        }
+                        };
                         wdNode.children.push(action);
                     });
                     _(adp.Tables).each(function (table) {
@@ -261,7 +271,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                             text: table.Name,
                             icon: "fa fa-list",
                             children: actions
-                        }
+                        };
                         wdNode.children.push(tableController);
                     });
                     root.children.push(wdNode);

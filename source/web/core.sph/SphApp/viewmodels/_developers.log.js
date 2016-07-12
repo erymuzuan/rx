@@ -44,7 +44,7 @@ bespoke.sph.domain.LogEntry = function (optionOrWebid) {
 
 
     return model;
-}
+};
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.config],
 	function (context, logger, router, config) {
@@ -167,7 +167,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    var tcs = new $.Deferred(),
 				support = "MozWebSocket" in window ? "MozWebSocket" : ("WebSocket" in window ? "WebSocket" : null);
 
-		    if (support == null) {
+		    if (support === null) {
 		        logger.error("No WebSocket support for console notification");
 		    }
 
@@ -212,6 +212,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        switch (severity) {
 		            case "Verbose":
 		                console.log(message);
+						break;
 		            case "Info":
 		            case "Log":
 		            case "Debug":
@@ -313,7 +314,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    if (config.roles.indexOf("developers") < 0) {
 		        $("#developers-log-panel").hide();
 		        return;
-		    };
+		    }
 		    start();
 		    error.subscribe(filter);
 		    warning.subscribe(filter);

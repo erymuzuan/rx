@@ -68,8 +68,7 @@
                         tcs.resolve(hits);
                     });
                 return tcs.promise();
-            }
-            ,
+            },
             navigateSearch = function (sr) {
                 var query = String.format("Name eq '{0}'", sr.type),
                     tcs = new $.Deferred();

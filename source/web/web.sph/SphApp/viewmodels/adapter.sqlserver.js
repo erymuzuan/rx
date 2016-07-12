@@ -9,9 +9,22 @@
 /// <reference path="../../../web/core.sph/sphapp/schemas/adapter.api.g.js" />
 /// <reference path="c:\project\work\sph\source\adapters\sqlserver.adapter\_sql.server.adapter.domain.js" />
 /// <reference path="../domain/domain.sph/Scripts/objectbuilders.js" />
+/*globals console, define, objectbuilders, bespoke, String*/
+/**
+ * @param{{app:string, system:string}}objectbuilders
+ * @param{{KeyColumn:function, ValueColumn:function}}LookupColumn
+ * @param{{navigate:function}} router
+ * @param{{showMessage:function, showDialog:function}} app
+ * @param{{OldValue:function,NewValue:function}}Change
+ * @param{{databases:functions}} options
+ * @param{{responseJSON:object}} response
+ * @param{{FileName:string, Line:number}}error
+ */
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, objectbuilders.system, "viewmodels/_developers.log", "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/_ko.adapter.sqlserver"],
-    function (context, logger, router, app, system, dlog) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, objectbuilders.system, "viewmodels/_developers.log", "knockout", "jquery",
+        "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/_ko.adapter.sqlserver"],
+    function (context, logger, router, app, system, dlog, ko, $) {
+        "use strict";
 
         var adapter = ko.observable(),
             originalEntity = "",
@@ -253,7 +266,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         plain = ko.toJS(column.LookupColumnTable);
                     if (!table)return;
                     lookupColumnOptions([]);
-                    console.log("Looup table changes %s", table);
+                    console.log("Lookup table changes %s", table);
                     loadLookupColumnOptions(table, column.LookupColumnTable())
                         .done(function () {
                             column.LookupColumnTable().KeyColumn(plain.KeyColumn);
@@ -455,7 +468,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return function () {
                     var field = new bespoke.sph.domain[type + "Field"](system.guid());
                     showFieldDialog(accessor, field, "field." + type.toLowerCase());
-                }
+                };
             },
             editField = function (field) {
                 var self = this;
@@ -504,13 +517,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         tooltip: "Connect to the adapter SQL Server instance",
                         enable: ko.computed(function () {
                             var adp = ko.unwrap(adapter);
-                            if(!adp)return false;
+                            if (!adp)return false;
                             return !ko.unwrap(connected) && ko.unwrap(adp.Server);
                         })
                     },
                     {
                         caption: "Refresh",
-                        tooltip: "Refresh adapter objects metada from the database",
+                        tooltip: "Refresh adapter objects metadata from the database",
                         icon: "fa fa-refresh",
                         command: refresh,
                         enable: connected

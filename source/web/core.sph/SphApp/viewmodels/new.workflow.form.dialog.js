@@ -12,8 +12,8 @@
 /// <reference path="../../../core.sph/Scripts/require.js" />
 
 
-define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
-    function (dialog, context, system) {
+define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system, "knockout", "bespoke"],
+    function (dialog, context, system, ko, bespoke) {
 
         var wds = ko.observableArray(),
             activityOptions = ko.observableArray(),
@@ -27,7 +27,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 });
                 form().WorkflowDefinitionId.subscribe(function (v) {
                     context.loadOneAsync("WorkflowDefinition", "Id eq '" + v + "'").done(function (b) {
-                        if (null == b) {
+                        if (null === b) {
                             return;
                         }
                         wd(b);

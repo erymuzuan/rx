@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/moment.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
-    function (context, logger, router, app) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "knockout"],
+    function (context, logger, router, app, ko) {
 
         var isBusy = ko.observable(false),
             results = ko.observableArray(),

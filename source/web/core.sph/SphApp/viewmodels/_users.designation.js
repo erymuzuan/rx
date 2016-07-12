@@ -47,7 +47,7 @@ define(['services/datacontext', 'plugins/router'],
 	                    Value: ko.mapping.toJSON(vm.designationCollection())
 	                }]
 	            });
-	            ;
+
 	            isBusy(true);
 	            context.post(data, "/Setting/Save")
 	                .then(function(result) {
@@ -56,7 +56,7 @@ define(['services/datacontext', 'plugins/router'],
 	                });
 	            return tcs.promise();
 	        };
-        
+
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,

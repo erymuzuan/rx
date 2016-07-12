@@ -20,7 +20,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         Key: "Departments",
                         Value: ko.mapping.toJSON(vm.departments())
                     }]
-                });;
+                });
                 isBusy(true);
                 context.post(data, "/Setting/Save")
                     .then(function (result) {

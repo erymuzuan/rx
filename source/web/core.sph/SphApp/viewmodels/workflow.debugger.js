@@ -183,7 +183,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "viewmodels
                 var tcs = new $.Deferred(),
                     support = "MozWebSocket" in window ? "MozWebSocket" : ("WebSocket" in window ? "WebSocket" : null);
 
-                if (support == null) {
+                if (support === null) {
                     logger.error("No WebSocket support for debugging");
                 }
 

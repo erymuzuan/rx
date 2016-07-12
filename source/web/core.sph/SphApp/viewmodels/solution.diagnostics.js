@@ -54,14 +54,17 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
             },
             recurseChildMember = function (node) {
-                var list = [];
+                var list = [],
+                    addWarning = v => warnings.push(v),
+                    addError = v => errors.push(v);
+
                 for (var d in node.data) {
                     if (!node.data.hasOwnProperty(d)) {
                         continue;
                     }
                     var item = node.data[d];
-                    _(item.Warnings).each(function (v) { warnings.push(v); });
-                    _(item.Errors).each(function (v) { errors.push(v); });
+                    _(item.Warnings).each(addWarning());
+                    _(item.Errors).each(addError);
 
 
                     var errorsCount = item.Errors.length > 0,
@@ -111,7 +114,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     "core": {
                         "animation": 0,
                         "check_callback": true,
-                        "themes": { "stripes": true },
+                        "themes": {"stripes": true},
                         'data': jsTreeData
                     },
                     "contextmenu": {

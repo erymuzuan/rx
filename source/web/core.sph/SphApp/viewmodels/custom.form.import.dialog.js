@@ -8,8 +8,9 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(["plugins/dialog", "services/logger", "services/datacontext"],
-    function (dialog, logger, context) {
+define(["plugins/dialog", "services/logger", "services/datacontext", "knockout"],
+    function (dialog, logger, context, ko) {
+        "use strict";
 
         var folder = ko.observable(),
             routes = ko.observableArray(),
@@ -57,19 +58,24 @@ define(["plugins/dialog", "services/logger", "services/datacontext"],
             importCommand = function (diff, type, file) {
                 return function () {
                     console.log("import " + file);
-                    return context.post(ko.toJSON({ folder: folder, file: file, type : type, diff: diff }), "custom-forms/import")
-                    .done(function () {
+                    return context.post(ko.toJSON({
+                        folder: folder,
+                        file: file,
+                        type: type,
+                        diff: diff
+                    }), "custom-forms/import")
+                        .done(function () {
 
-                    });
-                }
+                        });
+                };
             },
             diffCommand = function (file) {
                 return function () {
                     console.log("diff " + file);
-                }
+                };
             },
             importAllCommand = function () {
-                return context.post(ko.toJSON({ folder: folder }), "custom-forms/import-all");
+                return context.post(ko.toJSON({folder: folder}), "custom-forms/import-all");
             };
 
         var vm = {

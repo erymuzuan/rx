@@ -6,10 +6,12 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
+/**
+ * @param{{Errors:function}} result
+ */
 
-
-define(['services/datacontext', 'services/logger', objectbuilders.system],
-    function (context, logger, system) {
+define(['services/datacontext', 'services/logger', objectbuilders.system, "knockout", "jquery", "string", "bespoke"],
+    function (context, logger, system, ko, $, String, bespoke) {
 
         var template = ko.observable(new bespoke.sph.domain.EmailTemplate(system.guid())),
             entityOptions = ko.observableArray(),
@@ -119,9 +121,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                         caption: 'Test',
                         icon: "fa fa-cog",
                         enable: ko.computed(function () {
-                            return template().SubjectTemplate()
-                            && template().BodyTemplate()
-                            && template().Entity();
+                            return template().SubjectTemplate() && template().BodyTemplate() && template().Entity();
                         })
                     }])
             }

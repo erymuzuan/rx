@@ -6,7 +6,8 @@
         'transitions': "/Scripts/durandal/transitions",
         "jquery.contextmenu": "/scripts/jquery.contextMenu",
         "jquery.ui.position": "/scripts/jquery.ui.position",
-        'bootstrap': "../Scripts/bootstrap",
+        "jsPlumb": "/Scripts/jsPlumb/bundle",
+        'bootstrap': "../Scripts/bootstrap"
     },
     shim: {
         'bootstrap': {
@@ -17,6 +18,11 @@
 });
 define("jquery", function () { return jQuery; });
 define("knockout", ko);
+define("underscore", function () { return _; });
+define("objectbuilders", objectbuilders);
+define("Task", Task);
+define("bespoke", bespoke ||{});
+define("string", String);
 
 define(["durandal/app", "durandal/viewLocator", "durandal/system", objectbuilders.config],
     function (app, viewLocator, system, config) {

@@ -34,7 +34,7 @@ define(["plugins/dialog", "services/logger", "services/datacontext"],
             okClick = function (data, ev) {
                 if (!password1() && !password2()) {
                     return;
-                };
+                }
                 if (password1() !== password2()) {
                     logger.logError("Password mismatch", this, this, true);
                     return;

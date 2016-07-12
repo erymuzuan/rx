@@ -9,8 +9,14 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="~/Scripts/_task.js" />
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
-    function (context, logger, router, app) {
+/**
+ * @param{{Exception:object, ErrorId:function}} p
+ * @param{{hub:object, server:object, requestCancel:function, truncateData:function}}signalR
+ */
+
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app,
+    "knockout", "bespoke", "underscore", "jquery", "Task"],
+    function (context, logger, router, app, ko, bespoke, _, $, Task) {
 
         var model = ko.observable(new bespoke.sph.domain.DataTransferDefinition()),
             connection = null,
@@ -41,16 +47,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             }),
             isBusy = ko.observable(false),
             canPreview = ko.computed(function () {
-                return model().InboundAdapter()
-                    && model().Table()
-                    && model().SelectStatement()
-                    && model().BatchSize();
+                return model().InboundAdapter() &&
+                    model().Table() &&
+                    model().SelectStatement() &&
+                    model().BatchSize();
             }),
             canImport = ko.computed(function () {
-                return canPreview()
-                    && model().InboundMap()
-                    && model().Entity()
-                    && !progress().busy();
+                return canPreview() &&
+                    model().InboundMap() &&
+                    model().Entity() &&
+                    !progress().busy();
             }),
             filterMapOptions = function (list) {
                 var filtered = _(list).filter(function (v) {
@@ -65,7 +71,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         Name: ko.unwrap(v.Name),
                         InputTypeName: ko.unwrap(v.InputTypeName),
                         OutputTypeName: ko.unwrap(v.OutputTypeName)
-                    }
+                    };
                 });
                 filterMapOptions(tuples);
 

@@ -52,7 +52,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                         return {
                                             "text": ko.unwrap(v.Name).replace("Collection", ""),
                                             "value": "bespoke." + config.applicationName + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
-                                        }
+                                        };
                                     })
                                     .value();
                                 _(temp).each(function (v) { collectionMembers.push(v); });
@@ -415,7 +415,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                 return {
                                     Message: v + " view has a link to this form!",
                                     Code: ""
-                                }
+                                };
                             });
                             errors(views);
                             logger.error("There are errors in your form, depublish those views first to proceed, !!!");
@@ -426,7 +426,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             partialEditor = null,
             editCode = function () {
-                if (null == partialEditor || partialEditor.closed) {
+                if (null === partialEditor || partialEditor.closed) {
                     var partial = "partial/" + form().Route();
                     partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", "_blank", "height=600px,width=800px,toolbar=0,location=0");
                     form().Partial(partial);

@@ -8,26 +8,26 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext'],
-    function (context) {
+define(['services/datacontext', "jquery", "knockout", "string", "bespoke"],
+    function (context, $, ko, String, bespoke) {
 
         var isBusy = ko.observable(false),
             activate = function () {
                 var query = String.format("Key eq 'Organization'");
                 var tcs = new $.Deferred();
                 var orgTask = context.loadOneAsync("Setting", query);
-                var stateTask = context.loadOneAsync("Setting","Key eq 'State'")
-                $.when(orgTask,stateTask).done(function (o,s) {
-                        if (o) {
-                            var organization = JSON.parse(ko.mapping.toJS(o.Value));
-                            vm.organization(organization);
-                        }
-                        if (s) {
-                            var states = JSON.parse(s.Value());
-                            vm.stateOptions(states);
+                var stateTask = context.loadOneAsync("Setting", "Key eq 'State'");
+                $.when(orgTask, stateTask).done(function (o, s) {
+                    if (o) {
+                        var organization = JSON.parse(ko.mapping.toJS(o.Value));
+                        vm.organization(organization);
                     }
-                        tcs.resolve(true);
-                    });
+                    if (s) {
+                        var states = JSON.parse(s.Value());
+                        vm.stateOptions(states);
+                    }
+                    tcs.resolve(true);
+                });
 
                 return tcs.promise();
             },
@@ -38,10 +38,10 @@ define(['services/datacontext'],
                         Key: "Organization",
                         Value: ko.mapping.toJSON(vm.organization())
                     }]
-                });;
+                });
                 isBusy(true);
                 context.post(data, "/Setting/Save")
-                    .then(function(result) {
+                    .then(function (result) {
                         isBusy(false);
 
                         tcs.resolve(result);
@@ -54,7 +54,7 @@ define(['services/datacontext'],
             activate: activate,
             organization: ko.observable(new bespoke.sph.domain.Organization()),
             stateOptions: ko.observableArray(),
-            toolbar: { saveCommand: save }
+            toolbar: {saveCommand: save}
         };
 
         return vm;
