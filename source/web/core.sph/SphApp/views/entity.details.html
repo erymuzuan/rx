@@ -133,21 +133,52 @@
                 <form class="form" role="form" data-bind="visible:Name()">
                     <div class="form-group">
                         <label for="complex-member-name">Name</label>
-                        <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name, disable : childOfValueMember" />
+                        <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name, disable : childOfValueMember"/>
                     </div>
                     <div class="form-group">
                         <label for="complex-type-name">Type Name</label>
-                        <input class="form-control" pattern="^[A-Za-z][A-Za-z0-9]*$" placeholder="The type name for this member" id="complex-type-name" name="member.name" type="text" required data-bind="value: TypeName, disable : childOfValueMember, tooltip:'Type name is used for class name in your generated code so this member will a property named with the Name and of type TypeName'" />
+                        <input class="form-control" pattern="^[A-Za-z][A-Za-z0-9]*$" placeholder="The type name for this member" id="complex-type-name" name="member.name" type="text" required data-bind="value: TypeName, disable : childOfValueMember, tooltip:'Type name is used for class name in your generated code so this member will a property named with the Name and of type TypeName'"/>
                     </div>
 
 
                     <div class="form-group">
                         <label class="checkbox">
-                            <input data-bind="checked: AllowMultiple" id="complex-member-allow-multiple" type="checkbox" name="AllowMultiple, disable : childOfValueMember" />
+                            <input data-bind="checked: AllowMultiple" id="complex-member-allow-multiple" type="checkbox" name="AllowMultiple, disable : childOfValueMember"/>
                             Allow Multiple
                         </label>
                     </div>
                 </form>
+
+
+                <div class="form-group">
+                    <label for="member-default-value" class="control-label">Default Value</label>
+                    <div class="btn-group" id="complex-member-default-value">
+                        <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                            <!-- ko text : Name -->
+                            <!-- /ko -->
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li data-bind="with : DefaultValue">
+                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
+                                    <i class="fa fa-edit"></i>
+                                    Edit Default Value
+                                </a>
+                            </li>
+
+                            <li>
+                                <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.DefaultValue" href="#">
+                                    <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left" />
+                                    + Function Field
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
 
                 <!-- /ko-->
                 <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"-->

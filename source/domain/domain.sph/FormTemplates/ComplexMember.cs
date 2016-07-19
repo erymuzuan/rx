@@ -44,6 +44,10 @@ namespace Bespoke.Sph.Domain
 
         public override string GetDefaultValueCode(int count, string itemIdentifier = "this")
         {
+            var dv = this.DefaultValue.GenerateCode();
+            if (!string.IsNullOrWhiteSpace(dv))
+                return $"{itemIdentifier}.{Name} = {dv};";
+
             if (this.AllowMultiple) return null;
             return $"           {itemIdentifier}.{Name} = new {TypeName}();";
         }
