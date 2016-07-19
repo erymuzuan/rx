@@ -249,6 +249,19 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             addOperationEndpoint = function () {
                 return nis.addOperationEndpoint(ko.unwrap(entity().Name));
             },
+            viewFile = function (e) {
+                var file = e.FileName || e,
+                    line = e.Line || 1;
+                var params = [
+                        "height=" + screen.height,
+                        "width=" + screen.width,
+                        "toolbar=0",
+                        "location=0",
+                        "fullscreen=yes"
+                ].join(","),
+                    editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
+                editor.moveTo(0, 0);
+            },
             truncateData = function () {
                 var tcs = new $.Deferred();
 
@@ -277,6 +290,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             queries: queries,
             operations: operations,
             partialViews: partialViews,
+            viewFile : viewFile,
             forms: forms,
             views: views,
             errors: errors,
