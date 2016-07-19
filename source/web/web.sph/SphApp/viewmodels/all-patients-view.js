@@ -1,9 +1,9 @@
-define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config, "services/_ko.list", "knockout"],
+define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config, "services/_ko.list"],
 
-function(context, logger, router, chart, config, ko) {
+function(context, logger, router, chart, config) {
 
     var isBusy = ko.observable(false),
-        query = "/api/patients/cache-filter",
+        query = "/api/Patients/all-patients",
         partial = partial || {},
         list = ko.observableArray([]),
         map = function(v) {

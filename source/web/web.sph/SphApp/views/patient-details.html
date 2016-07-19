@@ -14,7 +14,7 @@
 <form class="form-horizontal" data-bind="with : entity" id="patient-details-form">
 <div class="form-group" data-bind="visible:true">
     <h3 data-i18n="Appointments">Appointments</h3>
-    <table class="table table-condensed table-striped" data-bind="queryPaging :{ query: '/api/patients/' + ko.unwrap(Mrn) + '/appointments?start=2016-01-01&amp;end=2016-02-29', list: bespoke.getSingletonObservableArray('b2420c82-1cab-4684-8d45-acdc01d91632')}">
+    <table class="table table-condensed table-striped" data-bind="queryPaging :{ query: '/api/patients/' + ko.unwrap(Mrn) + '/appointments?start=2016-01-01&amp;end=2016-02-29', list: bespoke.getSingletonObservableArray('36258e98-159d-41f9-b9d7-cfa2cf1a693c')}">
         <thead>
             <tr>
                     <th data-i18n="Doctor">Doctor</th>
@@ -23,7 +23,7 @@
                     <th data-i18n="Ward">Ward</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('b2420c82-1cab-4684-8d45-acdc01d91632')">
+        <tbody data-bind="foreach: bespoke.getSingletonObservableArray('36258e98-159d-41f9-b9d7-cfa2cf1a693c')">
             <tr>
                         <td data-bind="text:Doctor"></td>
                         <td data-bind="date:DateTime"></td>
