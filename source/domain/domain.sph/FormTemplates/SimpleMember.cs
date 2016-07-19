@@ -22,6 +22,9 @@ namespace Bespoke.Sph.Domain
         public override string GetDefaultValueCode(int count, string itemIdentifier = "this")
         {
             if (null == this.DefaultValue) return null;
+            var codeg = this.DefaultValue.GenerateCode();
+            if (!string.IsNullOrWhiteSpace(codeg))
+                return $"{itemIdentifier}.{Name} = {codeg};";
 
             var json = this.DefaultValue.ToJsonString().Replace("\"", "\\\"");
             var typeName = this.DefaultValue.GetType().Name;
