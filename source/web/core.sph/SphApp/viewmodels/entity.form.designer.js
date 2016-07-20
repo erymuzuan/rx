@@ -1,9 +1,9 @@
 ﻿
 
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.config,
-    "knockout", "bespoke", "string", "jquery", "Task"],
+    "knockout", "bespoke",  "jquery"],
     function (context, logger, router, system, app, eximp, dialog, config,
-    ko, bespoke, String, $, Task) {
+    ko, bespoke, $) {
 
         var errors = ko.observableArray(),
             warnings = ko.observableArray(),

@@ -18,7 +18,7 @@
  * @constructor
  */
 bespoke.sph.domain.TransformDefinitionPage = function (no, name) {
-    var model = {
+    return {
         no: ko.observable(no),
         name: ko.observable(name),
         functoids: ko.observableArray(),
@@ -27,8 +27,6 @@ bespoke.sph.domain.TransformDefinitionPage = function (no, name) {
         target: ko.observable(),
         active: ko.observable(true)
     };
-
-    return model;
 };
 
 /**
