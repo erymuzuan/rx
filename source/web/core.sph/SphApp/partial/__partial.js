@@ -1447,7 +1447,7 @@ bespoke.sph.domain.MemberPartial = function () {
                     type = pattern.exec(fieldType)[1];
 
 
-                showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
+                showFieldDialog(self.Field || self.DefaultValue, clone, "field." + type.toLowerCase());
             };
         };
     return {
