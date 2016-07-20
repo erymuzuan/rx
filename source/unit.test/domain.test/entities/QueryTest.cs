@@ -80,7 +80,7 @@ namespace domain.test.entities
         }
 
         [Theory]
-        [MemberData("Filters")]
+        [MemberData(nameof(Filters))]
         public void Compile(EntityDefinition ed, QueryEndpoint query, Filter[] filters)
         {
             query.FilterCollection.AddRange(filters);
@@ -309,13 +309,10 @@ namespace domain.test.entities
                 Resource = "appointments",
                 CacheFilter = 300
             };
-            query.RouteParameterCollection.Add(new RouteParameter { Type = "string", Name = "mrn" });
-            query.RouteParameterCollection.Add(new RouteParameter { Type = "DateTime", Name = "start" });
-            query.RouteParameterCollection.Add(new RouteParameter { Type = "DateTime", Name = "end" });
 
-            var mrnParameter = new RouteParameterField { Expression = "mrn" };
-            var start = new RouteParameterField { Expression = "start", DefaultValue = "2016-01-01" };
-            var end = new RouteParameterField { Expression = "end", DefaultValue = "2017-01-01" };
+            var mrnParameter = new RouteParameterField { Name = "mrn" };
+            var start = new RouteParameterField { Name = "start", DefaultValue = "2016-01-01" };
+            var end = new RouteParameterField { Name = "end", DefaultValue = "2017-01-01" };
             query.FilterCollection.Add(new Filter
             {
                 Field = mrnParameter,
