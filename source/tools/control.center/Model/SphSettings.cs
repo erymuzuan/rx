@@ -318,6 +318,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
         }
 
+        public string IncidentUri { set; get; } = "http://alpha.reactivedeveloper.com/";
         public string UpdateUri
         {
             get { return m_updateUri; }
