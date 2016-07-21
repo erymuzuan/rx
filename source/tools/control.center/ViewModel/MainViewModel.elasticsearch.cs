@@ -23,8 +23,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             StartElasticSearchCommand = new RelayCommand(StartElasticsearch, () => !ElasticSearchServiceStarted && RabbitMqServiceStarted && !RabbitMqServiceStarting);
             StopElasticSearchCommand = new RelayCommand(StopElasticSearch, () => ElasticSearchServiceStarted);
 
-
-
         }
 
         public void StartElasticsearch()
@@ -136,9 +134,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     MessageBox.Show("Cannot start your Elasticsearch", "Reactive Developer", MessageBoxButton.OK, MessageBoxImage.Warning);
                 });
             }
-
-
-
 
         }
 

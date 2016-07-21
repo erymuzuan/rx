@@ -89,6 +89,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.CheckWorkers();
             this.CheckIisExpress();
             this.CheckSqlServer();
+            this.CheckElasticsearch();
 
             this.IsBusy = false;
         }
