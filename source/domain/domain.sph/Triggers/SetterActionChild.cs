@@ -27,21 +27,30 @@ namespace Bespoke.Sph.Domain
         private string GenerateCodeWithFieldWithCode(string sc, Member member, int count)
         {
             var code = new StringBuilder();
-            if (sc.EndsWith(";") && member is SimpleMember)
+            if (sc.EndsWith(";"))
             {
                 var simpleMember = (SimpleMember)member;
                 var asyncLambda = sc.Contains("await ");
+                var assignment = $"f{count}()";
                 if (asyncLambda)
                 {
-
                     code.AppendLine($"          Func<Task<{simpleMember.Type.ToCSharp()}>> f{count}Async = async () =>{{{sc}}};");
-                    code.AppendLine($"          item.{Path} = await f{count}Async();");
+                    assignment = ($"await f{count}Async()");
                 }
                 else
                 {
                     code.AppendLine($"          Func<{simpleMember.Type.ToCSharp()}> f{count} = () =>{{{sc}}};");
-                    code.AppendLine($"          item.{Path} = f{count}();");
 
+                }
+
+                if (member.AllowMultiple)
+                {
+                    code.AppendLine($"          item.{Path}.Clear();");
+                    code.AppendLine($"          item.{Path}.AddRange({assignment});");
+                }
+                else
+                {
+                    code.AppendLine($"          item.{Path} = {assignment};");
                 }
                 return code.ToString();
             }
