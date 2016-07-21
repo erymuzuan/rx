@@ -10,7 +10,83 @@
   },
   "SetterActionChildCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+        "Path": "Teritorries",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+          "CodeNamespace": "ff0f4af1bd",
+          "Script": "new []{ new Teritorry{Name = \"Selangor\"}}",
+          "Name": "selangor",
+          "Note": "",
+          "WebId": "0f4af1bd-5120-4e2c-9f06-6a13603a7878"
+        },
+        "WebId": "237ae74d-286a-44fc-b117-4c77a2b44f6f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+        "Path": "Greeting",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.AssemblyField, domain.sph",
+          "Location": "assembly.test",
+          "TypeName": "assembly.test.AssemblyClassToTest",
+          "Method": "Greet",
+          "IsAsync": false,
+          "AsyncTimeout": 0,
+          "LoadInCurrentAppDomain": false,
+          "MethodArgCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+                "Name": "greet",
+                "TypeName": "System.String",
+                "ValueProvider": {
+                  "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                  "TypeName": "System.String, mscorlib",
+                  "Value": "Hello",
+                  "Name": "Hello",
+                  "Note": "",
+                  "WebId": "3427b471-9f23-4af6-aaba-b9dd96e5d7de"
+                },
+                "AttributeCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                  "$values": []
+                },
+                "Default": null,
+                "WebId": null
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+                "Name": "name",
+                "TypeName": "System.String",
+                "ValueProvider": {
+                  "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                  "XPath": "",
+                  "NamespacePrefix": "",
+                  "TypeName": "",
+                  "Path": "Name",
+                  "Name": "Name",
+                  "Note": "",
+                  "WebId": "eff1abe4-0dbb-44de-84c8-8839f7cde9c4"
+                },
+                "AttributeCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                  "$values": []
+                },
+                "Default": null,
+                "WebId": null
+              }
+            ]
+          },
+          "Name": "Hello",
+          "Note": "",
+          "WebId": "71c40970-b649-453b-89b6-1920e212fab0"
+        },
+        "WebId": "4b57279b-4608-421e-f95c-c14d9729cb67"
+      }
+    ]
   },
   "PatchPathCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
@@ -22,7 +98,7 @@
   "IsHttpPatch": false,
   "IsHttpPost": true,
   "IsHttpDelete": true,
-  "Note": "",
+  "Note": "new []{ new Teritorry{Name = \"Selangor\"}}",
   "Entity": "Country",
   "Resource": "countries",
   "IsPublished": true,
@@ -31,6 +107,6 @@
   "Id": "country-default",
   "CreatedDate": "2016-05-14T09:58:37.4442337+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-05-14T09:59:09.5515209+08:00",
+  "ChangedDate": "2016-07-21T11:58:33.8097783+08:00",
   "WebId": "e0c69333-3d45-45c4-b9b1-7bcabeb082fb"
 }
