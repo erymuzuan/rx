@@ -1,15 +1,20 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Polly;
+using Polly.CircuitBreaker;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
 
 namespace Bespoke.Sph.ControlCenter.Model
 {
 
     public class Logger
     {
+        private readonly CircuitBreakerPolicy m_circuit;
         public const int NON_PERSISTENT_DELIVERY_MODE = 2;
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -19,10 +24,15 @@ namespace Bespoke.Sph.ControlCenter.Model
 
         public Severity TraceSwitch { get; set; }
 
+        public Logger()
+        {
+
+            m_circuit = Policy.Handle<BrokerUnreachableException>()
+                 .CircuitBreaker(3, TimeSpan.FromSeconds(5));
+        }
 
         private void SendMessage(string json, Severity severity)
         {
-
             var factory = new ConnectionFactory
             {
                 UserName = this.UserName ?? "guest",
@@ -31,23 +41,33 @@ namespace Bespoke.Sph.ControlCenter.Model
                 Port = this.Port == 0 ? 5672 : this.Port,
                 VirtualHost = this.VirtualHost ?? "DevV1"
             };
-
-
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            Action send = () =>
             {
-                var routingKey = "logger." + severity;
-                var body = Encoding.Default.GetBytes(json);
+                using (var connection = factory.CreateConnection())
+                using (var channel = connection.CreateModel())
+                {
+                    var routingKey = "logger." + severity;
+                    var body = Encoding.Default.GetBytes(json);
 
-                var props = channel.CreateBasicProperties();
-                props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
-                props.ContentType = "application/json";
+                    var props = channel.CreateBasicProperties();
+                    props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
+                    props.ContentType = "application/json";
 
-                channel.BasicPublish("sph.topic", routingKey, props, body);
+                    channel.BasicPublish("sph.topic", routingKey, props, body);
 
+                }
+            };
+
+            try
+            {
+                Policy.Handle<BrokerUnreachableException>()
+                    .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(c * 500))
+                    .Execute(send);
             }
-
-
+            catch
+            {
+                //ignore
+            }
         }
 
         public Task LogAsync(LogEntry entry)
@@ -63,14 +83,14 @@ namespace Bespoke.Sph.ControlCenter.Model
                 if ((int)entry.Severity < (int)this.TraceSwitch)
                     return;
                 var json = GetJsonContent(entry);
-                this.QueueUserWorkItem(this.SendMessage, json, entry.Severity);
+                this.QueueUserWorkItem(SendMessage, json, entry.Severity);
             }
             catch
             {
                 // ignored
             }
         }
-      
+
 
         private static string GetJsonContent(LogEntry entry)
         {
