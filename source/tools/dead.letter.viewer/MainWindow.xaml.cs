@@ -74,5 +74,19 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter
                 m_updatingMessageFlag = false;
             }
         }
+
+        private void ExportButtonClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                m_updatingMessageFlag = true;
+                this.MainViewModel.Message = textEditor.Text;
+                this.MainViewModel.ExportCommand.Execute(null);
+            }
+            finally
+            {
+                m_updatingMessageFlag = false;
+            }
+        }
     }
 }

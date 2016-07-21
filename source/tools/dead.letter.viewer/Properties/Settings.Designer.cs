@@ -34,5 +34,17 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.Properties {
                 this["Connections"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IgnoreRequeueRequireCompressed {
+            get {
+                return ((bool)(this["IgnoreRequeueRequireCompressed"]));
+            }
+            set {
+                this["IgnoreRequeueRequireCompressed"] = value;
+            }
+        }
     }
 }

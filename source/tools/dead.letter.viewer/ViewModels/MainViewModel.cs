@@ -12,6 +12,7 @@ using RabbitMQ.Client;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
@@ -19,16 +20,27 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
     [Export]
     public partial class MainViewModel : ViewModelBase, IView
     {
+        [JsonIgnore]
         public RelayCommand<object> DeleteCommand { get; set; }
+        [JsonIgnore]
         public RelayCommand LoadCommand { get; set; }
+        [JsonIgnore]
         public RelayCommand SendCommand { get; set; }
+        [JsonIgnore]
         public RelayCommand RequeueCommand { get; set; }
+        [JsonIgnore]
+        public RelayCommand ExportCommand { get; set; }
+        [JsonIgnore]
         public RelayCommand DiscardMessageCommand { get; set; }
+        [JsonIgnore]
         public RelayCommand<BasicGetResult> DecompressMessageCommand { get; set; }
+        [JsonIgnore]
         public RelayCommand<string> FormatMessageCommand { get; set; }
+        [JsonIgnore]
         public RelayCommand<XDeathHeader> AutomaticallyRequeCommand { set; get; }
 
         [Import]
+        [JsonIgnore]
         public ConnectionViewModel Connection { set; get; }
 
         public MainViewModel()
@@ -36,6 +48,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             this.LoadCommand = new RelayCommand(Load, () => Connection.IsConnected && null != Connection.SelectedQueue);
             this.SendCommand = new RelayCommand(Send, CanSend);
             this.RequeueCommand = new RelayCommand(Requeue, () => Connection.IsConnected && null != this.Result);
+            this.ExportCommand = new RelayCommand(Export, () => Connection.IsConnected && null != this.Result);
             this.DiscardMessageCommand = new RelayCommand(DiscardMessage, () => Connection.IsConnected && null != this.Result);
             this.DecompressMessageCommand = new RelayCommand<BasicGetResult>(Decompress, b => null != b);
             this.FormatMessageCommand = new RelayCommand<string>(FormatJson, b => !string.IsNullOrWhiteSpace(b));
@@ -61,29 +74,55 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         protected override void RaisePropertyChanged(string propertyName)
         {
-            if (propertyName == "IsConnected" && null != this.LoadCommand)
-                this.LoadCommand.RaiseCanExecuteChanged();
-            if (propertyName == "SelectedQueue" && null != this.LoadCommand)
-                this.LoadCommand.RaiseCanExecuteChanged();
-            if (propertyName == "Result" && null != this.DiscardMessageCommand)
-                this.DiscardMessageCommand.RaiseCanExecuteChanged();
-            if (propertyName == "Result" && null != this.SendCommand)
-                this.SendCommand.RaiseCanExecuteChanged();
-            if (propertyName == "Exchange" && null != this.SendCommand)
-                this.SendCommand.RaiseCanExecuteChanged();
+            if (propertyName == "IsConnected")
+                this.LoadCommand?.RaiseCanExecuteChanged();
+            if (propertyName == "SelectedQueue")
+                this.LoadCommand?.RaiseCanExecuteChanged();
+            if (propertyName == "Result")
+                this.DiscardMessageCommand?.RaiseCanExecuteChanged();
+            if (propertyName == "Result")
+                this.SendCommand?.RaiseCanExecuteChanged();
+            if (propertyName == "Exchange")
+                this.SendCommand?.RaiseCanExecuteChanged();
 
             base.RaisePropertyChanged(propertyName);
 
         }
 
+        private async void Export()
+        {
+            var dlg = new SaveFileDialog { DefaultExt = ".zip", Title = "Export message" };
+            if (dlg.ShowDialog() ?? false)
+            {
+                var file = dlg.FileName;
+                var json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                var content = await CompressAsync(json);
+                File.WriteAllBytes(file, content);
+            }
+        }
+
         private async void Requeue()
         {
+            if (!Properties.Settings.Default.IgnoreRequeueRequireCompressed && !this.IsCompress)
+            {
+                var mr =
+                    MessageBox.Show(
+                        "To requeue to RX, normally you will need to compress the message, To ignore this warning int the future, click cancel",
+                        "Compress?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (mr == MessageBoxResult.Yes)
+                    this.IsCompress = true;
+                if (mr == MessageBoxResult.Cancel)
+                {
+                    Properties.Settings.Default.IgnoreRequeueRequireCompressed = true;
+                    Properties.Settings.Default.Save();
+                }
+            }
             this.Connection.Channel.BasicAck(this.Result.DeliveryTag, false);
             byte[] body;
             if (this.IsCompress)
                 body = await CompressAsync(this.Message);
             else
-                body = System.Text.Encoding.UTF8.GetBytes(this.Message);
+                body = Encoding.UTF8.GetBytes(this.Message);
 
             var props = this.Connection.Channel.CreateBasicProperties();
             props.DeliveryMode = 2;
@@ -109,10 +148,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 if (m_autoRequeList.Any(d => d.Equals(this.DeathHeader)))
                 {
                     this.Requeue();
-
                 }
-
-
             }
         }
 
@@ -129,7 +165,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             this.Result = null;
 
             // send
-            var message = System.Text.Encoding.UTF8.GetBytes(this.Message);
+            var message = Encoding.UTF8.GetBytes(this.Message);
             Connection.Channel.BasicPublish(Connection.Exchange.Name, this.RoutingKey, null, message);
         }
 
@@ -155,7 +191,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             this.Connection.Exchange =
                 this.Connection.ExchangeCollection.SingleOrDefault(e => e.Name == this.DeathHeader.Exchange);
             this.Result = result;
-            this.Message = System.Text.Encoding.UTF8.GetString(this.Result.Body);
+            this.Message = Encoding.UTF8.GetString(this.Result.Body);
             this.Post(() => this.IsBusy = false);
 
         }

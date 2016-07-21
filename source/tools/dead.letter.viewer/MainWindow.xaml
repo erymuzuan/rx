@@ -141,7 +141,8 @@
             <CheckBox Grid.Row="14" Grid.Column="1" IsChecked="{Binding IsCompress}" ToolTip="Compress the message to send to the exchange"/>
 
             
-            <telerik:RadButton Grid.Row="15" Grid.Column="1" HorizontalAlignment="Left" Content="Requeue"  Click="RequeuButtonClick" />
+            <telerik:RadButton Grid.Row="15" Grid.Column="1" HorizontalAlignment="Left" Content="Requeue"  Click="RequeuButtonClick" Margin="5,5,0,0" VerticalAlignment="Top" />
+            <telerik:RadButton Grid.Row="15" Grid.Column="1" HorizontalAlignment="Left" Content="Export"  Click="ExportButtonClick" Margin="105,5,0,0" VerticalAlignment="Top" />
 
 
             <TextBlock Text="Auto Requeue option" Grid.Row="11" Grid.ColumnSpan="1" Grid.Column="3" FontSize="14" FontWeight="Bold" />

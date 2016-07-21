@@ -1,5 +1,6 @@
 ﻿using System.Windows.Threading;
 using Bespoke.Station.Windows.RabbitMqDeadLetter.Models;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 
 namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
@@ -17,6 +18,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         private bool m_isNextMessageReformat;
 
 
+        [JsonIgnore]
         public bool IsNextMessageReformat
         {
             get { return m_isNextMessageReformat; }
@@ -26,6 +28,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 RaisePropertyChanged("IsNextMessageReformat");
             }
         }
+        [JsonIgnore]
         public bool IsNextMessageDecompress
         {
             get { return m_isNextMessageDecompress; }
@@ -35,6 +38,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 RaisePropertyChanged("IsNextMessageDecompress");
             }
         }
+        [JsonIgnore]
         public bool IsAfterProcessGetNextMessage
         {
             get { return m_isAfterProcessGetNextMessage; }
@@ -45,6 +49,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             }
         }
 
+        [JsonIgnore]
         public bool IsCompress
         {
             get { return m_isCompress; }
@@ -65,6 +70,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             }
         }
 
+        [JsonIgnore]
         public bool IsBusy
         {
             get { return m_isBusy; }
@@ -85,6 +91,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             }
         }
 
+        [JsonIgnore]
         public BasicGetResult Result
         {
             get { return m_result; }
@@ -106,6 +113,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             }
         }
 
+        [JsonIgnore]
         public DispatcherObject View { get; set; }
     }
 }
