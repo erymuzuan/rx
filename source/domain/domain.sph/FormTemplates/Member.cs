@@ -30,6 +30,14 @@ namespace Bespoke.Sph.Domain
             return null;
         }
 
+        public virtual string GenerateInitializeValueCode(Field initialValue, string itemIdentifier = "item")
+        {
+            if (this.AllowMultiple)
+                return $"{itemIdentifier}.{Name}.ClearAndAddRange({initialValue.GenerateCode()});";
+            return $"{itemIdentifier}.{Name} = {initialValue.GenerateCode()};";
+
+        }
+
         /// <summary>
         /// Return the TypeName for used in C# code
         /// </summary>

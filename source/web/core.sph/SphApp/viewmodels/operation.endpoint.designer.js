@@ -85,17 +85,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             context.put(data, "/api/operation-endpoints/" + ko.unwrap(operation().Id) + "/publish")
                 .then(function (result) {
                     isBusy(false);
-                    if (result.success) {
-                        logger.info(result.message);
-                        entity().Id(result.id);
-                        errors.removeAll();
-                    } else {
-
-                        errors(result.Errors);
-                        logger.error("There are errors in your schema, !!!");
-                    }
+                    logger.info(result.message);
+                    errors.removeAll();
                     tcs.resolve(result);
                     entity().IsPublished(true);
+                })
+                .fail(function (result) {
+                    errors(result.responseJSON.Errors);
+                    logger.error("There are errors in your schema, !!!");
+                    tcs.resolve(false);
+
                 });
             return tcs.promise();
         },
@@ -127,6 +126,19 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 return tcs.promise();
             },
+            viewFile = function (e) {
+                var file = e.FileName || e,
+                    line = e.Line || 1;
+                var params = [
+                        "height=" + screen.height,
+                        "width=" + screen.width,
+                        "toolbar=0",
+                        "location=0",
+                        "fullscreen=yes"
+                ].join(","),
+                    editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
+                editor.moveTo(0, 0);
+            },
             curl = function () {
 
                 require(["viewmodels/curl.command.dialog", "durandal/app"], function (dialog, app2) {
@@ -146,6 +158,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             config: config,
             activate: activate,
             attached: attached,
+            viewFile: viewFile,
             toolbar: {
                 saveCommand: save,
                 removeCommand: removeAsync,

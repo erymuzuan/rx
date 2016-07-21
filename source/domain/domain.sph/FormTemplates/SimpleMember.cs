@@ -72,6 +72,42 @@ namespace Bespoke.Sph.Domain
             return "?";
         }
 
+        public override string GenerateInitializeValueCode(Field initialValue, string itemIdentifier = "item")
+        {
+            var code = new StringBuilder();
+            var sc = initialValue.GenerateCode();
+            var count = Name.ToPascalCase();
+            if (sc.EndsWith(";"))
+            {
+                var asyncLambda = sc.Contains("await ");
+                var assignment = $"__f{count}()";
+                var returnType = this.AllowMultiple ? $"IEnumerable<{Type.ToCSharp()}>" : $"{Type.ToCSharp()}";
+                if (asyncLambda)
+                {
+                    code.AppendLine($"          Func<Task<{returnType}>> __f{count}Async = async () =>{{{sc}}};");
+                    assignment = $"await __f{count}Async()";
+                }
+                else
+                {
+                    code.AppendLine($"          Func<{returnType}> __f{count} = () =>{{{sc}}};");
+
+                }
+
+                // assigment
+                if (this.AllowMultiple)
+                {
+                    code.AppendLine($"          item.{Name}.Clear();");
+                    code.AppendLine($"          item.{Name}.AddRange({assignment});");
+                }
+                else
+                {
+                    code.AppendLine($"          item.{Name} = {assignment};");
+                }
+                return code.ToString();
+            }
+            return base.GenerateInitializeValueCode(initialValue, itemIdentifier);
+        }
+
 
         public override string GeneratedCode(string padding = "      ")
         {

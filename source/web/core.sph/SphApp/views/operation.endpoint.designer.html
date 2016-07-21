@@ -9,11 +9,18 @@
         <!-- ko if : Code -->
         <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
         <!-- /ko-->
+        <!-- ko if : FileName -->
+        <br />
+        <a href="javascript:;" data-bind="click : $root.viewFile">
+            <span class="small" data-bind="text:FileName"></span>(<span class="small" data-bind="text:Line"></span>)
+        </a>
+        <!-- /ko-->
+
+
     </div>
     <div class="col-md-2"></div>
     <!-- /ko-->
 </div>
-
 <div class="row">
     <div class="col-md-8 col-sm-12">
         <form name="entity-operation-detail-form" id="entity-operation-detail-form" class="form-horizontal" data-bind="with : operation">
@@ -244,7 +251,7 @@
                         <div class="form-group">
                             <label for="endpoint-note" class="col-md-3 control-label">Note</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="endpoint-note" placeholder="Developers Note"></textarea>
+                                <textarea class="form-control" id="endpoint-note" placeholder="Developers Note" data-bind="value:Note"></textarea>
                             </div>
                         </div>
                     </form>

@@ -22,7 +22,7 @@ bespoke.sph.domain.MemberPartial = function () {
                     app.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 self.BlockCollection.replace(member, clone);
                             }
                         });
@@ -37,7 +37,7 @@ bespoke.sph.domain.MemberPartial = function () {
                 app.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
-                        if (result == "OK") {
+                        if (result === "OK") {
                             self.FieldPermissionCollection(clone.FieldPermissionCollection());
                         }
                     });
@@ -59,7 +59,7 @@ bespoke.sph.domain.MemberPartial = function () {
                     dialog.init(building.BuildingId(), member.MemberPlanStoreId());
                     app.showDialog(dialog)
                         .done(function (result) {
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 member.MemberPlanStoreId(dialog.spatialStoreId());
                             }
                         });

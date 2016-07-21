@@ -5,7 +5,7 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 
 
-define(['plugins/dialog'],
+define(["plugins/dialog"],
     function (dialog) {
 
         var okClick = function (data, ev) {
@@ -19,16 +19,19 @@ define(['plugins/dialog'],
             },
             attached = function () {
 
-                $('#script-help-buttton').popover({
-                    title: 'C# scripting help',
-                    content: $('#script-help-content').html(),
+                $("#script-help-buttton").popover({
+                    title: "C# scripting help",
+                    content: $("#script-help-content").html(),
                     html: true
                 });
+                setTimeout(function () {
+                    $("#function-field-name").focus();
+                }, 500);
 
 
             },
             edit = function () {
-                var w = window.open("/sph/editor/ace", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
+                var w = window.open("/sph/editor/ace", "_blank", "height=600px,width=800px,toolbar=0,location=0");
                 if (typeof w.window === "object") {
 
                     w.window.field = vm.field();
