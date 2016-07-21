@@ -12,6 +12,7 @@ using RabbitMQ.Client;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 {
@@ -181,8 +182,8 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         private void FormatJson(string message)
         {
-            var jo = JsonConvert.DeserializeObject(message);
-            this.Message = JsonConvert.SerializeObject(jo, Formatting.Indented);
+            var jo = JObject.Parse(message);
+            this.Message = jo.ToString(Formatting.Indented);
         }
 
         private static async Task<string> DecompressAsync(byte[] content)
