@@ -83,10 +83,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
 
             this.OnStart();
-
          
             m_channel = connection.CreateModel();
-
 
             m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
             m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
@@ -114,15 +112,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_channel.QueueDeclare(delayQueue, true, false, false, delayQueueArgs);
             m_channel.QueueBind(delayQueue, delayExchange, string.Empty, null);
 
-
-
             m_channel.BasicQos(0, this.PrefetchCount, false);
 
             m_consumer = new TaskBasicConsumer(m_channel);
             m_consumer.Received += Received;
             m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
-
-
 
         }
 
@@ -131,7 +125,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         private async void Received(object sender, ReceivedMessageArgs e)
         {
             Interlocked.Increment(ref m_processing);
-            byte[] body = e.Body;
+            var body = e.Body;
             var json = await this.DecompressAsync(body);
             var header = new MessageHeaders(e);
             try

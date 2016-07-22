@@ -93,11 +93,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         protected void PrintSubscriberInformation(TimeSpan elapse)
         {
             var message = new StringBuilder();
-            message.AppendFormat("{0,-15}: {1}\r\n", "Queue Name", this.QueueName);
-            message.AppendFormat("{0,-15}: {1}\r\n", "Routing Keys", string.Join(",", this.RoutingKeys));
-            message.AppendFormat("{0,-15}: {1}\r\n", "Config file", Path.GetFileName(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile));
-            message.AppendFormat("{0,-15}: {1}\r\n", "App domain", AppDomain.CurrentDomain.FriendlyName);
-            message.AppendFormat("{0,-15}: {1}\r\n", "Startup time", elapse.TotalSeconds);
+            message.Append($"{"Queue Name",-15}: {this.QueueName}\r\n");
+            message.Append($"{"Routing Keys",-15}: {string.Join(",", this.RoutingKeys)}\r\n");
+            message.Append($"{"Config file",-15}: {Path.GetFileName(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile)}\r\n");
+            message.Append($"{"App domain",-15}: {AppDomain.CurrentDomain.FriendlyName}\r\n");
+            message.Append($"{"Startup time",-15}: {elapse.TotalSeconds}\r\n");
             this.WriteMessage(message.ToString());
 
         }
