@@ -1,0 +1,31 @@
+<h1>All Countries</h1>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-striped" data-bind="queryPaging :{ query: query, map : map, list:list}">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Abbreviation</th>
+                    <th>Region</th>
+                    <th>Area</th>
+                    <th>Population</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :list">
+                <tr data-bind="">
+                    <td>
+                        <a data-bind="attr : {href:'#country-details' + '/' + Id, title:'Name' }">
+                            <i class="fa fa-envira"></i>
+                                                        <span data-bind="text:Name"></span>
+                        </a>
+                    </td>
+                    <td data-bind="text:Abbreviation"></td>
+                    <td data-bind="text:Region"></td>
+                    <td data-bind="text:Area"></td>
+                    <td data-bind="text:Population"></td>
+                </tr>
+            </tbody>
+        </table>
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
+    </div>
+</div>

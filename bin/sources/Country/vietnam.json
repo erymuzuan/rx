@@ -1,0 +1,70 @@
+{
+  "$type": "Bespoke.DevV1.Countries.Domain.Country, DevV1.Country",
+  "Name": "Vietnam",
+  "Abbreviation": "89",
+  "FlagStoreId": null,
+  "Area": 888.0,
+  "Size": null,
+  "Population": 99,
+  "Region": "South-east Asia",
+  "OfficialReligion": "Islam",
+  "EthnicGroups": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese"
+    ]
+  },
+  "Teritorries": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Kelantan",
+        "Area": 50.0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Kelantan",
+        "Area": 50.0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Selangor",
+        "Area": 50.0,
+        "WebId": null
+      }
+    ]
+  },
+  "Greeting": "Hello Vietnam",
+  "CreatedBy": "admin",
+  "Id": "vietnam",
+  "CreatedDate": "2016-07-23T09:24:19.3023639+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-07-23T09:24:19.3158651+08:00",
+  "WebId": "54ebe70a-a0fe-4a71-bcd3-71de5f847a3a"
+}

@@ -1,0 +1,62 @@
+{
+  "$type": "Bespoke.DevV1.Countries.Domain.Country, DevV1.Country",
+  "Name": "Philiphines",
+  "Abbreviation": "89",
+  "FlagStoreId": "c0f22cc6-d55d-4181-8399-d58ef77625e4",
+  "Area": 18.0,
+  "Size": null,
+  "Population": 53,
+  "Region": "South-east Asia",
+  "OfficialReligion": "Islam",
+  "EthnicGroups": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese"
+    ]
+  },
+  "Teritorries": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Kelantan",
+        "Area": 50.0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Kelantan",
+        "Area": 50.0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Selangor",
+        "Area": 50.0,
+        "WebId": null
+      }
+    ]
+  },
+  "Greeting": "Hello Philiphines",
+  "CreatedBy": "admin",
+  "Id": "philiphines",
+  "CreatedDate": "2016-07-23T09:26:29.657762+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-07-23T09:26:29.6457633+08:00",
+  "WebId": "6f1e0325-d698-4b28-9b0f-3aa9becc7961"
+}

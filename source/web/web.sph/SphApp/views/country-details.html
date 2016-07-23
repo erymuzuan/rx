@@ -1,0 +1,67 @@
+<h1 data-i18n="Country details">Country details</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+    </div>
+    <div class="col-sm-2"></div>
+    <!-- /ko-->
+</div>
+<div class="row">
+    <div class="col-sm-8">
+<form class="form-horizontal" data-bind="with : entity" id="country-details-form">
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Name" for="cea6c669-8133-4696-96da-995e49d0b62f" class="col-md-4">Name</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Name"
+                   id="cea6c669-8133-4696-96da-995e49d0b62f" type="text" name="Name" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Abbreviation" for="2f218d09-da79-472b-9b3d-02ab50bcd8e9" class="col-md-4">Abbreviation</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Abbreviation"
+                   id="2f218d09-da79-472b-9b3d-02ab50bcd8e9" type="text" name="Abbreviation" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Region" for="091b9a0d-ca63-484c-ec32-60a68284b7c3" class="col-md-4">Region</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Region"
+                   id="091b9a0d-ca63-484c-ec32-60a68284b7c3" type="text" name="Region" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Official Religion" for="d3a1bec6-d807-4c27-bcf2-b8fc2714ec4f" class="col-md-4">Official Religion</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: OfficialReligion"
+                   id="d3a1bec6-d807-4c27-bcf2-b8fc2714ec4f" type="text" name="OfficialReligion" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Population" for="fe22632f-2604-44f2-dc44-1ffc2c0a1ebd" class="col-md-4">Population</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Population"
+                   id="fe22632f-2604-44f2-dc44-1ffc2c0a1ebd" type="text" name="Population" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Area" for="16c3a9f3-9364-4833-85e5-76c34670a51a" class="col-md-4">Area</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Area"
+                   id="16c3a9f3-9364-4833-85e5-76c34670a51a" type="text" name="Area" />
+        </div>
+    </div>
+</form>
+    </div>
+    <div class="col-sm-4">
+    </div>
+</div>

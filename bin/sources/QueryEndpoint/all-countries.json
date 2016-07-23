@@ -13,12 +13,14 @@
         "Path": "Name",
         "Direction": "Asc",
         "WebId": "3189d938-ab2e-4707-c829-75c81cd74743"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
+        "Path": "Population",
+        "Direction": "Desc",
+        "WebId": "b9a9e57e-44a0-469c-93ab-a07cbb716175"
       }
     ]
-  },
-  "RouteParameterCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
-    "$values": []
   },
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
@@ -37,6 +39,6 @@
   "Id": "all-countries",
   "CreatedDate": "2016-05-14T10:00:09.0150413+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-05-14T10:00:35.3408373+08:00",
+  "ChangedDate": "2016-07-23T09:44:26.1601147+08:00",
   "WebId": "3e50eff9-cd5b-4cca-d552-5ff52764e811"
 }

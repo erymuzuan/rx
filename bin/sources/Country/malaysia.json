@@ -1,0 +1,58 @@
+{
+  "$type": "Bespoke.DevV1.Countries.Domain.Country, DevV1.Country",
+  "Name": "Malaysia",
+  "Abbreviation": "MY",
+  "FlagStoreId": null,
+  "Area": 145.0,
+  "Size": null,
+  "Population": 0,
+  "Region": "South-east Asia",
+  "OfficialReligion": "Islam",
+  "EthnicGroups": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese"
+    ]
+  },
+  "Teritorries": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Kelantan",
+        "Area": 50.0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Kelantan",
+        "Area": 50.0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Selangor",
+        "Area": 50.0,
+        "WebId": null
+      }
+    ]
+  },
+  "Greeting": "Hello Malaysia",
+  "CreatedBy": "admin",
+  "Id": "malaysia",
+  "CreatedDate": "2016-07-23T08:47:23.0837162+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-07-23T08:47:23.0812169+08:00",
+  "WebId": "c94e3ac9-7a6e-4899-ca08-a991ec786144"
+}

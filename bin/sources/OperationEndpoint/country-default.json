@@ -17,7 +17,7 @@
         "Field": {
           "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
           "CodeNamespace": "ff0f4af1bd",
-          "Script": "new []{ new Teritorry{Name = \"Selangor\"}}",
+          "Script": "var districts = await context.GetListAsync< Bespoke.DevV1.Districts.Domain, string>(x => x.Region == item.Name, x => x.Name);\nreturn districts.ToArray();",
           "Name": "selangor",
           "Note": "",
           "WebId": "0f4af1bd-5120-4e2c-9f06-6a13603a7878"
@@ -85,6 +85,19 @@
           "WebId": "71c40970-b649-453b-89b6-1920e212fab0"
         },
         "WebId": "4b57279b-4608-421e-f95c-c14d9729cb67"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+        "Path": "Id",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+          "CodeNamespace": "ffc836317e",
+          "Script": "item.Name.ToIdFormat()",
+          "Name": "id",
+          "Note": "",
+          "WebId": "c836317e-700a-4f8b-bb48-cdf31c18446a"
+        },
+        "WebId": "a1d8ed26-0ef4-475b-c074-8bdefbfd2eb8"
       }
     ]
   },
@@ -107,6 +120,6 @@
   "Id": "country-default",
   "CreatedDate": "2016-05-14T09:58:37.4442337+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-07-21T11:58:33.8097783+08:00",
+  "ChangedDate": "2016-07-23T08:30:53.9740181+08:00",
   "WebId": "e0c69333-3d45-45c4-b9b1-7bcabeb082fb"
 }

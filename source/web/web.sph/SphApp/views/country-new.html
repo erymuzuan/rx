@@ -1,0 +1,59 @@
+<h1 data-i18n="Add a new country information">Add a new country information</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+    </div>
+    <div class="col-sm-2"></div>
+    <!-- /ko-->
+</div>
+<div class="row">
+    <div class="col-sm-8">
+<form class="form-horizontal" data-bind="with : entity" id="country-new-form">
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Name" for="71061953-6832-4f23-ebfd-25fc7017ea31" class="col-md-4">Name</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Name"
+                   id="71061953-6832-4f23-ebfd-25fc7017ea31" type="text" name="Name" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Abbreviation" for="5f0816c0-2ff4-4416-8517-8cb1abb1708a" class="col-md-4">Abbreviation</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Abbreviation"
+                   id="5f0816c0-2ff4-4416-8517-8cb1abb1708a" type="text" name="Abbreviation" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Official Religion" for="789bee25-fac5-46ef-f558-38cace2cd2b9" class="col-md-4">Official Religion</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: OfficialReligion"
+                   id="789bee25-fac5-46ef-f558-38cace2cd2b9" type="text" name="OfficialReligion" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Population" for="d7127e43-83ef-4072-f264-4bff6cf5d419" class="col-md-4">Population</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Population"
+                   id="d7127e43-83ef-4072-f264-4bff6cf5d419" type="text" name="Population" />
+        </div>
+    </div>
+    <div data-bind="visible:true" class="form-group">
+        <label data-i18n="Area" for="0172bdab-6cbd-4c57-ecc7-30c8f737f6a9" class="col-md-4">Area</label>
+        <div class="col-md-8">
+            <input class="form-control input-large"
+                   data-bind="value: Area"
+                   id="0172bdab-6cbd-4c57-ecc7-30c8f737f6a9" type="text" name="Area" />
+        </div>
+    </div>
+</form>
+    </div>
+    <div class="col-sm-4">
+    </div>
+</div>

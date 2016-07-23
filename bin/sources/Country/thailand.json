@@ -1,0 +1,58 @@
+{
+  "$type": "Bespoke.DevV1.Countries.Domain.Country, DevV1.Country",
+  "Name": "Thailand",
+  "Abbreviation": "TH",
+  "FlagStoreId": null,
+  "Area": 180.0,
+  "Size": null,
+  "Population": 76,
+  "Region": "South-east Asia",
+  "OfficialReligion": "Buddhism",
+  "EthnicGroups": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese"
+    ]
+  },
+  "Teritorries": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Kelantan",
+        "Area": 50.0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Kelantan",
+        "Area": 50.0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
+        "Name": "Selangor",
+        "Area": 50.0,
+        "WebId": null
+      }
+    ]
+  },
+  "Greeting": "Hello Thailand",
+  "CreatedBy": "admin",
+  "Id": "thailand",
+  "CreatedDate": "2016-07-23T09:21:02.117248+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-07-23T09:21:02.1152473+08:00",
+  "WebId": "9a0b6c65-5bc7-4737-d566-b341eabae287"
+}
