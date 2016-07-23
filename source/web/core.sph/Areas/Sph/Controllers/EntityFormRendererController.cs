@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -362,6 +363,11 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         $"/api/{operation.Resource}/{operation.Route}";
             // TODO : replace {id} in route with ko.unwrap(entity().Id)
             route = route.Replace("{id}", "\" + ko.unwrap(entity().Id) + \"");
+            var putOrPatchWithDefaultRoute = (method.Equals("PUT", StringComparison.InvariantCultureIgnoreCase) 
+                     || method.Equals("PATCH", StringComparison.OrdinalIgnoreCase)) &&
+                    !operation.Route.Contains("{id");
+            if (putOrPatchWithDefaultRoute)
+                route += "\" + ko.unwrap(entity().Id) + \"";
             return $@"
                 {opFunc}Command = function(){{
 
