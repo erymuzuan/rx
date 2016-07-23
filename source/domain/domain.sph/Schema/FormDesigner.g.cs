@@ -5750,6 +5750,12 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
         [DebuggerHidden]
 
         [Required]
@@ -8947,6 +8953,7 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    // placeholder for ReferencedAssembly
 
     public partial class FormElement
     {

@@ -1373,7 +1373,7 @@ bespoke.sph.domain.MemberPartial = function () {
                     app.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 self.BlockCollection.replace(member, clone);
                             }
                         });
@@ -1388,7 +1388,7 @@ bespoke.sph.domain.MemberPartial = function () {
                 app.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
-                        if (result == "OK") {
+                        if (result === "OK") {
                             self.FieldPermissionCollection(clone.FieldPermissionCollection());
                         }
                     });
@@ -1410,7 +1410,7 @@ bespoke.sph.domain.MemberPartial = function () {
                     dialog.init(building.BuildingId(), member.MemberPlanStoreId());
                     app.showDialog(dialog)
                         .done(function (result) {
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 member.MemberPlanStoreId(dialog.spatialStoreId());
                             }
                         });
@@ -1567,9 +1567,38 @@ bespoke.sph.domain.OperationEndpointPartial = function () {
         addPatchPath = function () {
             var child = new bespoke.sph.domain.PatchSetter({ WebId: system.guid() , IsRequired: true});
             this.PatchPathCollection.push(child);
+        },
+        addReferencedAssembly = function () {
+            var self = this;
+            require(["viewmodels/assembly.dialog", "durandal/app"], function (dialog, app2) {
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            _(dialog.selectedAssemblies()).each(function (v) {
+                                self.ReferencedAssemblyCollection.push(v);
+                            });
+                        }
+                    });
+
+            });
+
+
+        },
+        editReferencedAssembly = function (dll) {
+            alert("not implemented" + dll);
+        },
+        removeReferencedAssembly = function (dll) {
+            var self = this;
+            return function () {
+                self.ReferencedAssemblyCollection.remove(dll);
+            };
         };
 
     var vm = {
+        editReferencedAssembly: editReferencedAssembly,
+        removeReferencedAssembly: removeReferencedAssembly,
+        addReferencedAssembly: addReferencedAssembly,
         removePatchPath: removePatchPath,
         addPatchPath: addPatchPath,
         addChildAction: addChildAction,

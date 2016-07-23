@@ -731,6 +731,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="ReferencedAssemblyCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ReferencedAssembly" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="optional"/>
@@ -1057,5 +1064,10 @@
 			<xs:attribute name="CacheControl" type="xs:string" use="required"/>
 			<xs:attribute name="NoStore" type="xs:boolean" use="required"/>
 		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReferencedAssembly">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
 	</xs:element>
 </xs:schema>

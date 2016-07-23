@@ -1466,6 +1466,7 @@ bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
         Rules: ko.observableArray([]),
         SetterActionChildCollection: ko.observableArray([]),
         PatchPathCollection: ko.observableArray([]),
+        ReferencedAssemblyCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2384,6 +2385,7 @@ bespoke.sph.domain.CachingSetting = function (optionOrWebid) {
 };
 
 
+// placeholder for ReferencedAssembly
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

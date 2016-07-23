@@ -25614,6 +25614,7 @@ bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
         Rules: ko.observableArray([]),
         SetterActionChildCollection: ko.observableArray([]),
         PatchPathCollection: ko.observableArray([]),
+        ReferencedAssemblyCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -26532,6 +26533,7 @@ bespoke.sph.domain.CachingSetting = function (optionOrWebid) {
 };
 
 
+// placeholder for ReferencedAssembly
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {
@@ -33254,7 +33256,7 @@ bespoke.sph.domain.MemberPartial = function () {
                     type = pattern.exec(fieldType)[1];
 
 
-                showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
+                showFieldDialog(self.Field || self.DefaultValue, clone, "field." + type.toLowerCase());
             };
         };
     return {

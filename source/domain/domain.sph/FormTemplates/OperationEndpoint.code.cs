@@ -63,6 +63,8 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\webapi.common.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.CompilerOutputPath + $@"\{ConfigurationManager.ApplicationName}.{Entity}.dll");
+                
+                this.ReferencedAssemblyCollection.ForEach(x => parameters.ReferencedAssemblies.Add(x.Location));
 
                 var result = provider.CompileAssemblyFromFile(parameters, source);
                 var cr = new WorkflowCompilerResult
