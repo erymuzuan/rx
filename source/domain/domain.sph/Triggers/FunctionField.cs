@@ -1,12 +1,12 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -137,7 +137,7 @@ namespace Bespoke.Sph.Domain
                 };
                 cr.Result = result.Errors.Count == 0;
 
-                foreach (var error in result.Errors)
+                foreach (CompilerError error in result.Errors)
                 {
                     Console.WriteLine(error);
                     var guid = $"{DateTime.Now:yyyyMMdd-HHmm-ss}" + Guid.NewGuid();
@@ -149,6 +149,23 @@ namespace Bespoke.Sph.Domain
 
                     File.WriteAllText(logFile, error.ToString());
                     File.WriteAllText(cs, code);
+
+                    var entry = new LogEntry
+                    {
+                        Severity = Severity.Critical,
+                        Details = $"{code}\r\n{error}",
+                        Message = $"Error to compile your {Name} FunctionField",
+                        CallerFilePath = cs,
+                        CallerLineNumber =  error.Line,
+                        CallerMemberName = Name,
+                        Keywords = new[] {WebId, Name},
+                        Time = DateTime.Now,
+                        Source = "Application"
+                    };
+                    entry.OtherInfo.Add("code", code);
+                    entry.OtherInfo.Add("error", error.ToString());
+                    ObjectBuilder.GetObject<ILogger>()
+                        .Log(entry);
                 }
 
                 return cr;
