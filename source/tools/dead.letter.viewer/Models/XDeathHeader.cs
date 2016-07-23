@@ -44,6 +44,9 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.Models
 
         static string GetStringValue(object vals)
         {
+            if (vals is bool)
+                return $"{vals}";
+
             try
             {
                 if (null != vals)
@@ -70,13 +73,9 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.Models
 
 
             if (!entries.ContainsKey("x-death")) return;
-            //entries["x-death"].GetType().FullName
-          //  "System.Collections.Generic.List`1[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"//
             var vals = entries["x-death"] as IList<object>;
             if (null == vals) return;
             if (vals.Count == 0) return;
-            //vals[0].GetType().FullName
-            // "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
             var hash = vals[0] as IDictionary<string,object>;
             if (null == hash) return;
 
