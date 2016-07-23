@@ -205,7 +205,7 @@ namespace Bespoke.Sph.Domain
             if (!route.StartsWith("~/"))
             {
                 if (!route.Contains("{id"))
-                    route = $"{{id:guid}}/{route}";
+                    route = $"{{id}}{(string.IsNullOrWhiteSpace(this.Route)?"":"/")}{route}";
             }
 
 
