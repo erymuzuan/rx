@@ -15,22 +15,19 @@
                         <tr>
                             <th style="width: 450px;">Name</th>
                             <th>Version</th>
-                            <th style="width: 100px">Location</th>
                         </tr>
                         </thead>
                         <tbody style="max-height: 450px;overflow-y: scroll;display: block" data-bind="foreach:assemblies">
                         <tr>
                             <td style="width: 450px">
-                                <label>
+                                <label data-bind="attr: {title: Location}">
                                     <input type="checkbox"/>
                                     <!-- ko text:Name -->
                                     <!-- /ko -->
                                 </label>
                             </td>
                             <td data-bind="text:Version"></td>
-                            <td style="width: 100px">
-                                <input type="text" class="form-control" data-bind="value:Location"/>
-                            </td>
+                         
                         </tr>
                         </tbody>
                     </table>
