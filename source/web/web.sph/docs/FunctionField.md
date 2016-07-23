@@ -20,7 +20,8 @@
 ## C# Script
 Microsoft Roslyn Service script engine allows you to run any arbitrary C# code within a host object. `Rx Developer` will create a host object for your script which allow you to access few this such as
 
-* The current record as `item`
+* The current Entity as `item`
+* If your item's context is a ValueObject use `@object` identifier
 * All the types within your Entity or Workflow assembly
 * All the types within domain.sph
 * All the system types, so you can use basic .Net framework

@@ -23,13 +23,15 @@
                             </a>
                             <a href="#" data-bind="click : $root.edit">Edit</a>
                             <div class="hidden" id="script-help-content">
-                                Must be a strict C# code, you can use ""item" member to access the current item, e.g. to return a Rental application status use <pre>return item.Status;</pre>
+                                Must be a strict C# code, you can use "item" member to access the current Entity or "@object" for ValueObject, e.g. to return a Rental application status use <pre>item.Status</pre>
 
-                                any C# construct is valid
+                                or C# statements, must contains <code>return</code> and end with <code>;</code>
                                 <pre>
 // return date = 1 Jan 2015
-return new DateTime(2015,1,1);
+va today = System.DateTime.Todayl
+return today;
 </pre>
+                                Any errors in your script will be written to your source/_generated/funtion.logs folder
                             </div>
                         </div>
                     </div>
