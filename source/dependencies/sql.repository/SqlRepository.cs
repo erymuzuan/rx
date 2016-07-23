@@ -118,7 +118,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
-            var sql = query.ToString().Replace("[Json]", string.Format("[{0}]", column));
+            var sql = SanitizeDatabaseSchema(query.ToString().Replace("[Json]", $"[{column}]")) ;
             var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
