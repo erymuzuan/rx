@@ -17,7 +17,7 @@
         "Field": {
           "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
           "CodeNamespace": "ff0f4af1bd",
-          "Script": "var districts = await context.GetListAsync< Bespoke.DevV1.Districts.Domain, string>(x => x.Region == item.Name, x => x.Name);\nreturn districts.ToArray();",
+          "Script": "var districts = await context.GetListAsync< Bespoke.DevV1.Districts.Domain.District, string>(x => x.Region == item.Name, x => x.Name);\nreturn districts.Select(x => new Teritorry{Name = x});",
           "Name": "selangor",
           "Note": "",
           "WebId": "0f4af1bd-5120-4e2c-9f06-6a13603a7878"
@@ -120,6 +120,6 @@
   "Id": "country-default",
   "CreatedDate": "2016-05-14T09:58:37.4442337+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-07-23T08:30:53.9740181+08:00",
+  "ChangedDate": "2016-07-23T12:12:51.2065854+08:00",
   "WebId": "e0c69333-3d45-45c4-b9b1-7bcabeb082fb"
 }
