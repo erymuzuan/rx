@@ -241,7 +241,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine(@"var count = json.SelectToken(""aggregations.filtered_max_date.doc_count"").Value<int>();");
             code.AppendLine("if( count > 0)");
             code.AppendLine(@"  lastModified = json.SelectToken(""aggregations.filtered_max_date.last_changed_date.value_as_string"").Value<DateTime>();");
-            code.AppendLine(@"var hashed = base.GetMd5Hash($""{lastModified}"");");
+            code.AppendLine(@"var hashed = base.GetMd5Hash($""{lastModified}-{count}"");");
             code.AppendLine(@"var cache = new CacheMetadata(hashed, lastModified, setting.CachingSetting);");
             code.AppendLine(@"  
             if (modifiedSince.IsMatch(lastModified) || etag.IsMatch(hashed))
