@@ -42,25 +42,51 @@ WriteLiteral("\r\n<table");
 
 WriteLiteral(" class=\"table table-striped\"");
 
-WriteLiteral(">\r\n    <thead>\r\n        <tr>\r\n            <th>Path</th>\r\n            <th>Directio" +
-"n</th>\r\n            <th></th>\r\n        </tr>\r\n    </thead>\r\n    <tbody");
+WriteLiteral(">\r\n    <thead>\r\n        <tr>\r\n            <th></th>\r\n            <th>Path</th>\r\n " +
+"           <th>Direction</th>\r\n            <th></th>\r\n        </tr>\r\n    </thead" +
+">\r\n    <tbody");
 
 WriteLiteral(" data-bind=\"foreach :SortCollection\"");
 
-WriteLiteral(">\r\n        <tr>\r\n            <td>\r\n                <input");
+WriteLiteral(">\r\n    <tr>\r\n        <td>\r\n            <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" data-bind=\"click : $root.moveUp,visible:ko.unwrap($index) > 0 \"");
+
+WriteLiteral(" title=\"move the sort precedence up\"");
+
+WriteLiteral(">\r\n                <i");
+
+WriteLiteral(" class=\"fa fa-arrow-up\"");
+
+WriteLiteral("></i>\r\n            </a> \r\n            <a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" data-bind=\"click : $root.moveDown,visible:ko.unwrap($index) < (ko.unwrap($parent" +
+".SortCollection).length - 1)\"");
+
+WriteLiteral("  title=\"move the sort precedence down\"");
+
+WriteLiteral(">\r\n                <i");
+
+WriteLiteral(" class=\"fa fa-arrow-down\"");
+
+WriteLiteral("></i>\r\n            </a>\r\n        </td>\r\n        <td>\r\n            <input");
 
 WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral("\r\n                       data-bind=\"value:Path,entityTypeaheadPath :$root.entity(" +
-").Id()\"");
+WriteLiteral("\r\n                   data-bind=\"value:Path,entityTypeaheadPath :$root.entity().Id" +
+"()\"");
 
-WriteLiteral("\r\n                       required");
+WriteLiteral("\r\n                   required");
 
 WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\"");
 
-WriteLiteral(" />\r\n            </td>\r\n            <td>\r\n                <select");
+WriteLiteral("/>\r\n        </td>\r\n        <td>\r\n            <select");
 
 WriteLiteral(" name=\"rule-operator\"");
 
@@ -68,27 +94,26 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-bind=\"value: Direction\"");
 
-WriteLiteral(">\r\n                    <option");
+WriteLiteral(">\r\n                <option");
 
 WriteLiteral(" value=\"Asc\"");
 
-WriteLiteral(">Ascending</option>\r\n                    <option");
+WriteLiteral(">Ascending</option>\r\n                <option");
 
 WriteLiteral(" value=\"Desc\"");
 
-WriteLiteral(">Desc</option>\r\n                </select>\r\n            </td>\r\n            <td>\r\n " +
-"               <a");
+WriteLiteral(">Desc</option>\r\n            </select>\r\n        </td>\r\n        <td>\r\n            <" +
+"a");
 
 WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click : $parent.removeSort.call($parent,$data)\"");
 
-WriteLiteral(">\r\n                    <span");
+WriteLiteral(">\r\n                <span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 
-WriteLiteral("></span>\r\n                </a>\r\n            </td>\r\n        </tr>\r\n    </tbody>\r\n<" +
-"/table>\r\n<a");
+WriteLiteral("></span>\r\n            </a>\r\n        </td>\r\n    </tr>\r\n    </tbody>\r\n</table>\r\n<a");
 
 WriteLiteral(" class=\"btn btn-link\"");
 

@@ -140,6 +140,32 @@
                          logger.error("There are errors in your query, !!!");
                      }
                  });
+        },
+            move = function (array, from, to) {
+                if (to === from) return;
+
+                var target = array[from];
+                var increment = to < from ? -1 : 1;
+
+                for (var k = from; k !== to; k += increment) {
+                    array[k] = array[k + increment];
+                }
+                array[to] = target;
+            },
+        arrange = function (btn, step) {
+
+            var list = query().SortCollection,
+                temps = ko.unwrap(list),
+                index = temps.indexOf(btn);
+
+            move(temps, index, index + step);
+            list(temps);
+        },
+        moveDown = function (btn) {
+            arrange(btn, 1);
+        },
+        moveUp = function (btn) {
+            arrange(btn, -1);
         };
 
         var vm = {
@@ -150,6 +176,8 @@
             canDeactivate: canDeactivate,
             query: query,
             entity: entity,
+            moveUp: moveUp,
+            moveDown: moveDown,
             toolbar: {
                 commands: ko.observableArray([{
                     caption: "Clone",

@@ -2,30 +2,39 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th></th>
             <th>Path</th>
             <th>Direction</th>
             <th></th>
         </tr>
     </thead>
     <tbody data-bind="foreach :SortCollection">
-        <tr>
-            <td>
-                <input class="form-control" type="text"
-                       data-bind="value:Path,entityTypeaheadPath :$root.entity().Id()"
-                       required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
-            </td>
-            <td>
-                <select name="rule-operator" class="form-control" data-bind="value: Direction">
-                    <option value="Asc">Ascending</option>
-                    <option value="Desc">Desc</option>
-                </select>
-            </td>
-            <td>
-                <a href="#" data-bind="click : $parent.removeSort.call($parent,$data)">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </a>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            <a href="javascript:;" data-bind="click : $root.moveUp,visible:ko.unwrap($index) > 0 " title="move the sort precedence up">
+                <i class="fa fa-arrow-up"></i>
+            </a> 
+            <a href="javascript:;" data-bind="click : $root.moveDown,visible:ko.unwrap($index) < (ko.unwrap($parent.SortCollection).length - 1)"  title="move the sort precedence down">
+                <i class="fa fa-arrow-down"></i>
+            </a>
+        </td>
+        <td>
+            <input class="form-control" type="text"
+                   data-bind="value:Path,entityTypeaheadPath :$root.entity().Id()"
+                   required pattern="^[A-Za-z][A-Za-z0-9_.]*$"/>
+        </td>
+        <td>
+            <select name="rule-operator" class="form-control" data-bind="value: Direction">
+                <option value="Asc">Ascending</option>
+                <option value="Desc">Desc</option>
+            </select>
+        </td>
+        <td>
+            <a href="#" data-bind="click : $parent.removeSort.call($parent,$data)">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </td>
+    </tr>
     </tbody>
 </table>
 <a class="btn btn-link" data-bind="click : addSort">
