@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Domain
             {
                 var filter = this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>()
                     .SingleOrDefault(x => x.Name == pr);
-                if(null == filter)
+                if (null == filter)
                     result.Warnings.Add(new BuildError(this.WebId, $@"You should define a filter with RouteParameterField for ""{pr}"" route parameter "));
             }
 
@@ -62,7 +62,7 @@ namespace Bespoke.Sph.Domain
 
             return result;
         }
-        
+
 
         public string GenerateEsSortDsl()
         {
@@ -114,7 +114,8 @@ namespace Bespoke.Sph.Domain
         public Task<string> GenerateEsQueryAsync()
         {
             var filter = Filter.GenerateElasticSearchFilterDsl(this, this.FilterCollection);
-             var max = @",
+            var sort = "\"sort\": [" + this.SortCollection.ToString(",", x => $@"{{""{x.Path}"": {{""order"":""{x.Direction.ToString().ToLowerInvariant()}""}}}}") + "]";
+            var max = @"
     ""aggs"" : {
         ""filtered_max_date"" : { 
               ""filter"" : " + filter + @",
@@ -129,12 +130,13 @@ namespace Bespoke.Sph.Domain
     }
 ";
             var query =
-                @"{
-                    ""filter"":" + filter +
-                @"  
-" + this.GetFields() + max + @" 
+                $@"{{
+                    ""filter"":{filter} 
+                    {this.GetFields()},
+                    {sort},
+                    {max} 
 
-    }";
+    }}";
 
             return Task.FromResult(query);
 
@@ -143,8 +145,7 @@ namespace Bespoke.Sph.Domain
         private string GetFields()
         {
             if (!this.MemberCollection.Any()) return string.Empty;
-            var fields = $@",
-                ""fields"" :[ { string.Join(",", this.MemberCollection.Select(x => $"\"{x}\""))}]";
+            var fields = $@"""fields"" :[ { string.Join(",", this.MemberCollection.Select(x => $"\"{x}\""))}]";
             return fields;
         }
 
