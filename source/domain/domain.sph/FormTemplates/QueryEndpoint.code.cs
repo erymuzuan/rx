@@ -183,7 +183,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine($@"       public async Task<IHttpActionResult> GetAction({parameters}");
             code.AppendLine(@"                                   [FromUri(Name=""page"")]int page=1,");
-            code.AppendLine(@"                                   [FromUri(Name=""page"")]int size=20)");
+            code.AppendLine(@"                                   [FromUri(Name=""size"")]int size=20)");
             code.Append("       {");
             foreach (var p in routeParameterFields)
             {
