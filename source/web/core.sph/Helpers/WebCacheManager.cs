@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Web;
 using System.Web.Caching;
 using Bespoke.Sph.Domain;
@@ -7,8 +8,7 @@ namespace Bespoke.Sph.Web.Helpers
 {
     public class WebCacheManager : ICacheManager
     {
-
-        public void Insert<T>(string key, T data, string fileDependency = null)
+        public void Insert<T>(string key, T data, params string[] dependencies)
         {
             var cacheKey = $"{typeof(T).FullName}:{key}";
             if (HttpContext.Current.Cache.Get(cacheKey) != null)
@@ -16,14 +16,9 @@ namespace Bespoke.Sph.Web.Helpers
                 HttpContext.Current.Cache[cacheKey] = data;
                 return;
             }
-
-            if (System.IO.File.Exists(fileDependency))
-            {
-                var fd = new CacheDependency(fileDependency, DateTime.Now);
-                HttpContext.Current.Cache.Insert(cacheKey, data, fd);
-                return;
-
-            }
+            var cd = new CacheDependency(dependencies);
+            if (dependencies.Length > 0)
+                HttpContext.Current.Cache.Insert(cacheKey, data, cd);
             HttpContext.Current.Cache.Insert(cacheKey, data);
         }
 
@@ -36,7 +31,7 @@ namespace Bespoke.Sph.Web.Helpers
                 return;
             }
 
-            if (System.IO.File.Exists(fileDependency))
+            if (File.Exists(fileDependency))
             {
                 var fd = new CacheDependency(fileDependency, DateTime.Now);
                 HttpContext.Current.Cache.Insert(cacheKey, data, fd, DateTime.Now.Add(absoluteExpiration), Cache.NoSlidingExpiration);
