@@ -18,6 +18,15 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="view-resource" class="col-lg-3 col-md-3 col-sm-2 control-label">Resource</label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <input type="text"
+                   pattern="^(~\/)?[a-z][a-z0-9-.\/{}]*$" class="form-control" 
+                   data-bind="value: Resource, tooltip:'If the Route is not absolutre route, then we use resource names .i.e the route will become api/resource/route. If you leave this empty, the Resource name will be the plurarize Entity ID'"
+                   placeholder="resources" id="view-resource">
+        </div>
+    </div>
+    <div class="form-group">
         <label for="view-note" class="col-lg-3 col-md-3 col-sm-2 control-label">Note</label>
         <div class="col-lg-9 col-md-9 col-sm-12">
             <textarea data-bind="value: Note, valueUpdate: 'keyup'"

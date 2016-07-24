@@ -107,6 +107,37 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n        <label");
 
+WriteLiteral(" for=\"view-resource\"");
+
+WriteLiteral(" class=\"col-lg-3 col-md-3 col-sm-2 control-label\"");
+
+WriteLiteral(">Resource</label>\r\n        <div");
+
+WriteLiteral(" class=\"col-lg-9 col-md-9 col-sm-12\"");
+
+WriteLiteral(">\r\n            <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral("\r\n                   pattern=\"^(~\\/)?[a-z][a-z0-9-.\\/{}]*$\"");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" \r\n                   data-bind=\"value: Resource, tooltip:\'If the Route is not ab" +
+"solutre route, then we use resource names .i.e the route will become api/resourc" +
+"e/route. If you leave this empty, the Resource name will be the plurarize Entity" +
+" ID\'\"");
+
+WriteLiteral("\r\n                   placeholder=\"resources\"");
+
+WriteLiteral(" id=\"view-resource\"");
+
+WriteLiteral(">\r\n        </div>\r\n    </div>\r\n    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n        <label");
+
 WriteLiteral(" for=\"view-note\"");
 
 WriteLiteral(" class=\"col-lg-3 col-md-3 col-sm-2 control-label\"");

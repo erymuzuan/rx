@@ -40,9 +40,9 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.Api";
         [JsonIgnore]
-        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Name}.dll";
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Id}.dll";
         [JsonIgnore]
-        public string PdbName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Name}.pdb";
+        public string PdbName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Id}.pdb";
         [JsonIgnore]
         public string TypeName => $"{ControllerName}Controller";
         public string ControllerName => $"{Entity}{Name.ToPascalCase()}QueryEndpoint";
@@ -101,7 +101,7 @@ namespace Bespoke.Sph.Domain
         public string GetRoute()
         {
             if (string.IsNullOrWhiteSpace(this.Resource))
-                this.Resource = this.Entity.Pluralize();
+                this.Resource = this.Entity.Pluralize().ToIdFormat();
             var parameters = Strings.RegexValues(this.Route, "\\{(?<p>.*?)}", "p");
             var route = this.Route;
             foreach (var rp in parameters)
@@ -153,10 +153,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   if(null == query)");
             code.AppendLine("   {");
             code.AppendLine("       query = await eq.GenerateEsQueryAsync();");
-            code.AppendLine("   }");
-            code.AppendLine("   if(setting.CacheFilter.HasValue)");
-            code.AppendLine("   {");
-            code.AppendLine("       CacheManager.Insert(ES_QUERY_CACHE_KEY, query, TimeSpan.FromSeconds(setting.CacheFilter.Value), SOURCE_FILE);");
+            code.AppendLine("       if(setting.CacheFilter.HasValue)");
+            code.AppendLine("       {");
+            code.AppendLine("           CacheManager.Insert(ES_QUERY_CACHE_KEY, query, TimeSpan.FromSeconds(setting.CacheFilter.Value), SOURCE_FILE);");
+            code.AppendLine("       }");
             code.AppendLine("   }");
 
             return code.ToString();
@@ -183,7 +183,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine($@"       public async Task<IHttpActionResult> GetAction({parameters}");
             code.AppendLine(@"                                   [FromUri(Name=""page"")]int page=1,");
-            code.AppendLine(@"                                   [FromUri(Name=""page"")]int size=20)");
+            code.AppendLine(@"                                   [FromUri(Name=""size"")]int size=20)");
             code.Append("       {");
             foreach (var p in routeParameterFields)
             {
@@ -214,15 +214,38 @@ namespace Bespoke.Sph.Domain
             code.Append(this.GenerateListCode());
 
             code.Append($@"
+                var links =  new System.Collections.Generic.List<object>();
+                var nextLink = new {{
+                    method = ""GET"",
+                    rel = ""next"",
+                    href =  $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
+                    desc = ""Issue a GET request to get the next page of the result""                        
+                }};
+                var previousLink =  new {{
+                    method = ""GET"",
+                    rel = ""previous"",
+                    href = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}""  ,  
+                    desc = ""Issue a GET request to get the previous page of the result""                                  
+                }};
+                var hasNextPage = count > size * page;
+                var hasPreviousPage = page > 1;
+                
+                if(hasPreviousPage){{
+                    links.Add(previousLink);                
+                }}
+
+                if(hasNextPage){{
+                    links.Add(nextLink);
+                
+                }}
+
+                {this.GenerateServiceDescriptionLinks()}
                 var result = new 
                 {{
                     _results = list.Select(x => JObject.Parse(x)),
                     _count = json.SelectToken(""$.hits.total"").Value<int>(),
                     _page = page,
-                    _links = new {{
-                        _next = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
-                        _previous = page == 1 ? null : $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}""
-                    }},
+                    _links = links.ToArray(),
                     _size = size
                 }};
             
@@ -232,6 +255,81 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       }");
             code.AppendLine();
             return new Method { Code = code.ToString() };
+        }
+
+        private string GenerateServiceDescriptionLinks()
+        {
+            if (!string.IsNullOrWhiteSpace(this.Route)) return string.Empty;
+            var cacheKey = $"service-description-links-{Id}";
+            var code = new StringBuilder();
+            code.AppendLine($@"
+            var sericeDescriptionLinks = CacheManager.Get<System.Collections.Generic.List<object>>(""{cacheKey}"");
+            if( null == sericeDescriptionLinks)
+            {{
+                sericeDescriptionLinks = new System.Collections.Generic.List<object>();
+                var context = new SphDataContext();
+                var queries = context.LoadFromSources<QueryEndpoint>(x => x.Entity == ""{Entity}"" && x.Id != ""{Id}"");
+                var queryLinks = from r in queries
+                    select new
+                    {{
+                        rel = r.Name,
+                        method = ""GET"",
+                        href = r.GetRoute(),
+                        desc = r.Note
+
+                    }};
+                sericeDescriptionLinks.AddRange(queryLinks);
+                var operations = context.LoadFromSources<OperationEndpoint>(x => x.Entity == ""{Entity}"").ToArray();
+                var postLinks = from r in operations
+                                where r.IsHttpPost
+                                     select new
+                                     {{
+                                         rel = r.Name,
+                                         method = ""POST"",
+                                         href = r.Route,
+                                         desc = r.Note
+
+                                     }};
+                sericeDescriptionLinks.AddRange(postLinks);
+                var putLinks = from r in operations
+                                where r.IsHttpPut
+                                     select new
+                                     {{
+                                         rel = r.Name,
+                                         method = ""PUT"",
+                                         href = $""/api/{Resource}/{{r.GetPutRoute()}}"",
+                                         desc = r.Note
+
+                                     }};
+                sericeDescriptionLinks.AddRange(putLinks);
+                var patchLinks = from r in operations
+                                where r.IsHttpPatch
+                                     select new
+                                     {{
+                                         rel = r.Name,
+                                         method = ""PATCH"",
+                                         href = $""/api/{Resource}/{{r.Route}}"",
+                                         desc = r.Note
+
+                                     }};
+                sericeDescriptionLinks.AddRange(patchLinks);
+                var deleteLinks = from r in operations
+                                where r.IsHttpDelete
+                                     select new
+                                     {{
+                                         rel = r.Name,
+                                         method = ""DELETE"",
+                                         href = $""/api/{Resource}/{{r.GetDeleteRoute()}}"",
+                                         desc = r.Note
+
+                                     }};
+                sericeDescriptionLinks.AddRange(deleteLinks);
+                CacheManager.Insert(""{cacheKey}"", sericeDescriptionLinks, $@""{{ConfigurationManager.SphSourceDirectory}}\OperationEndpoint"", $@""{{ConfigurationManager.SphSourceDirectory}}\QueryEndpoint"");
+            }}
+            links.AddRange(sericeDescriptionLinks);
+");
+
+            return code.ToString();
         }
 
         private string GenerateCacheCode()

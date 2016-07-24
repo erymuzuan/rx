@@ -150,7 +150,15 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
         {
             var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message = $"{e.ChangeType} in output {e.FullPath}", severity = "Info", outputFile = e.FullPath });
             SendMessage(json);
-            this.CreatedFileCollection.Add(e.FullPath);
+            try
+            {
+                if (!this.CreatedFileCollection.Contains(e.FullPath))
+                    this.CreatedFileCollection.Add(e.FullPath);
+            }
+            catch (IndexOutOfRangeException)
+            {
+
+            }
         }
         private void WriteMessage(string message)
         {
@@ -207,7 +215,14 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
 
             Parallel.ForEach(outputs, DeployOutput);
             await WarmupWebServerAsync();
-            this.CreatedFileCollection.Clear();
+            try
+            {
+                this.CreatedFileCollection.Clear();
+            }
+            catch (IndexOutOfRangeException)
+            {
+
+            }
 
             // restart the workers
             while (!m_mainViewModel.StartSphWorkerCommand.CanExecute(null))

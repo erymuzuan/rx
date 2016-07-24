@@ -13,12 +13,6 @@
         "Path": "Name",
         "Direction": "Asc",
         "WebId": "3189d938-ab2e-4707-c829-75c81cd74743"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
-        "Path": "Population",
-        "Direction": "Desc",
-        "WebId": "b9a9e57e-44a0-469c-93ab-a07cbb716175"
       }
     ]
   },
@@ -33,12 +27,12 @@
   "Entity": "Country",
   "Note": "",
   "IsPublished": true,
-  "Resource": "Countries",
+  "Resource": "countries",
   "CacheFilter": null,
   "CreatedBy": "admin",
   "Id": "all-countries",
   "CreatedDate": "2016-05-14T10:00:09.0150413+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-07-23T09:44:26.1601147+08:00",
+  "ChangedDate": "2016-07-24T07:36:39.5214751+08:00",
   "WebId": "3e50eff9-cd5b-4cca-d552-5ff52764e811"
 }
