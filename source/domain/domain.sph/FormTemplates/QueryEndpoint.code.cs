@@ -40,9 +40,9 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.Api";
         [JsonIgnore]
-        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Name}.dll";
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Id}.dll";
         [JsonIgnore]
-        public string PdbName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Name}.pdb";
+        public string PdbName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Id}.pdb";
         [JsonIgnore]
         public string TypeName => $"{ControllerName}Controller";
         public string ControllerName => $"{Entity}{Name.ToPascalCase()}QueryEndpoint";
