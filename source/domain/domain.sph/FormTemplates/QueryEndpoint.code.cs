@@ -153,10 +153,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   if(null == query)");
             code.AppendLine("   {");
             code.AppendLine("       query = await eq.GenerateEsQueryAsync();");
-            code.AppendLine("   }");
-            code.AppendLine("   if(setting.CacheFilter.HasValue)");
-            code.AppendLine("   {");
-            code.AppendLine("       CacheManager.Insert(ES_QUERY_CACHE_KEY, query, TimeSpan.FromSeconds(setting.CacheFilter.Value), SOURCE_FILE);");
+            code.AppendLine("       if(setting.CacheFilter.HasValue)");
+            code.AppendLine("       {");
+            code.AppendLine("           CacheManager.Insert(ES_QUERY_CACHE_KEY, query, TimeSpan.FromSeconds(setting.CacheFilter.Value), SOURCE_FILE);");
+            code.AppendLine("       }");
             code.AppendLine("   }");
 
             return code.ToString();
