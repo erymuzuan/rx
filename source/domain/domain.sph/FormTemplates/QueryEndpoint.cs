@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Domain
             var setting = cacheManager.Get<QueryEndpointSetting>(key);
             if (null != setting) return Task.FromResult(setting);
 
-            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{this.Id}.setting.json";
+            var source = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{this.Id}.setting";
             if (File.Exists(source))
             {
                 setting = File.ReadAllText(source).DeserializeFromJson<QueryEndpointSetting>();
@@ -95,6 +95,7 @@ namespace Bespoke.Sph.Domain
                     CacheProfile = this.CacheProfile,
                     CacheFilter = this.CacheFilter,
                 };
+                File.WriteAllText(source, setting.ToJsonString());
             }
             cacheManager.Insert(key, setting, source);
 
