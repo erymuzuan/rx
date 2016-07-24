@@ -259,125 +259,74 @@ namespace Bespoke.Sph.Domain
 
         private string GenerateServiceDescriptionLinks()
         {
-            var links = new List<object>();
-            var context = new SphDataContext();
-            var queries = context.LoadFromSources<QueryEndpoint>(x => x.Entity == this.Entity);
-            var queryLinks = from r in queries
-                             select new
-                             {
-                                 rel = r.Name,
-                                 method = "GET",
-                                 href = r.GetRoute(),
-                                 desc = r.Note
-
-                             };
-            links.AddRange(queryLinks);
-            Console.WriteLine(links);
-            var operations = context.LoadFromSources<OperationEndpoint>(x => x.Entity == this.Entity).ToArray();
-            var postLinks = from r in operations
-                            where r.IsHttpPost
-                                 select new
-                                 {
-                                     rel = r.Name,
-                                     method = "POST",
-                                     href = r.Route,
-                                     desc = r.Note
-
-                                 };
-            links.AddRange(postLinks);
-            var putLinks = from r in operations
-                            where r.IsHttpPut
-                                 select new
-                                 {
-                                     rel = r.Name,
-                                     method = "PUT",
-                                     href = r.GetPutRoute(),
-                                     desc = r.Note
-
-                                 };
-            links.AddRange(putLinks);
-            var patchLinks = from r in operations
-                            where r.IsHttpPatch
-                                 select new
-                                 {
-                                     rel = r.Name,
-                                     method = "PATCH",
-                                     href = r.Route,
-                                     desc = r.Note
-
-                                 };
-            links.AddRange(patchLinks);
-            var deleteLinks = from r in operations
-                            where r.IsHttpDelete
-                                 select new
-                                 {
-                                     rel = r.Name,
-                                     method = "DELETE",
-                                     href = r.GetDeleteRoute(),
-                                     desc = r.Note
-
-                                 };
-            links.AddRange(deleteLinks);
-            Console.WriteLine(links);
             if (!string.IsNullOrWhiteSpace(this.Route)) return string.Empty;
+            var cacheKey = $"service-description-links-{Id}";
             var code = new StringBuilder();
-            code.AppendLine($@"var context = new SphDataContext();
-            var queries = context.LoadFromSources<QueryEndpoint>(x => x.Entity == ""{Entity}"");
-            var queryLinks = from r in queries
-                select new
-                {{
-                    rel = r.Name,
-                    method = ""GET"",
-                    href = r.GetRoute(),
-                    desc = r.Note
+            code.AppendLine($@"
+            var sericeDescriptionLinks = CacheManager.Get<System.Collections.Generic.List<object>>(""{cacheKey}"");
+            if( null == sericeDescriptionLinks)
+            {{
+                sericeDescriptionLinks = new System.Collections.Generic.List<object>();
+                var context = new SphDataContext();
+                var queries = context.LoadFromSources<QueryEndpoint>(x => x.Entity == ""{Entity}"" && x.Id != ""{Id}"");
+                var queryLinks = from r in queries
+                    select new
+                    {{
+                        rel = r.Name,
+                        method = ""GET"",
+                        href = r.GetRoute(),
+                        desc = r.Note
 
-                }};
-            links.AddRange(queryLinks);
-            var operations = context.LoadFromSources<OperationEndpoint>(x => x.Entity == ""{Entity}"").ToArray();
-            var postLinks = from r in operations
-                            where r.IsHttpPost
-                                 select new
-                                 {{
-                                     rel = r.Name,
-                                     method = ""POST"",
-                                     href = r.Route,
-                                     desc = r.Note
+                    }};
+                sericeDescriptionLinks.AddRange(queryLinks);
+                var operations = context.LoadFromSources<OperationEndpoint>(x => x.Entity == ""{Entity}"").ToArray();
+                var postLinks = from r in operations
+                                where r.IsHttpPost
+                                     select new
+                                     {{
+                                         rel = r.Name,
+                                         method = ""POST"",
+                                         href = r.Route,
+                                         desc = r.Note
 
-                                 }};
-            links.AddRange(postLinks);
-            var putLinks = from r in operations
-                            where r.IsHttpPut
-                                 select new
-                                 {{
-                                     rel = r.Name,
-                                     method = ""PUT"",
-                                     href = $""/api/{Resource}/{{r.GetPutRoute()}}"",
-                                     desc = r.Note
+                                     }};
+                sericeDescriptionLinks.AddRange(postLinks);
+                var putLinks = from r in operations
+                                where r.IsHttpPut
+                                     select new
+                                     {{
+                                         rel = r.Name,
+                                         method = ""PUT"",
+                                         href = $""/api/{Resource}/{{r.GetPutRoute()}}"",
+                                         desc = r.Note
 
-                                 }};
-            links.AddRange(putLinks);
-            var patchLinks = from r in operations
-                            where r.IsHttpPatch
-                                 select new
-                                 {{
-                                     rel = r.Name,
-                                     method = ""PATCH"",
-                                     href = $""/api/{Resource}/{{r.Route}}"",
-                                     desc = r.Note
+                                     }};
+                sericeDescriptionLinks.AddRange(putLinks);
+                var patchLinks = from r in operations
+                                where r.IsHttpPatch
+                                     select new
+                                     {{
+                                         rel = r.Name,
+                                         method = ""PATCH"",
+                                         href = $""/api/{Resource}/{{r.Route}}"",
+                                         desc = r.Note
 
-                                 }};
-            links.AddRange(patchLinks);
-            var deleteLinks = from r in operations
-                            where r.IsHttpDelete
-                                 select new
-                                 {{
-                                     rel = r.Name,
-                                     method = ""DELETE"",
-                                     href = $""/api/{Resource}/{{r.GetDeleteRoute()}}"",
-                                     desc = r.Note
+                                     }};
+                sericeDescriptionLinks.AddRange(patchLinks);
+                var deleteLinks = from r in operations
+                                where r.IsHttpDelete
+                                     select new
+                                     {{
+                                         rel = r.Name,
+                                         method = ""DELETE"",
+                                         href = $""/api/{Resource}/{{r.GetDeleteRoute()}}"",
+                                         desc = r.Note
 
-                                 }};
-            links.AddRange(deleteLinks);
+                                     }};
+                sericeDescriptionLinks.AddRange(deleteLinks);
+                CacheManager.Insert(""{cacheKey}"", sericeDescriptionLinks, $@""{{ConfigurationManager.SphSourceDirectory}}\OperationEndpoint"", $@""{{ConfigurationManager.SphSourceDirectory}}\QueryEndpoint"");
+            }}
+            links.AddRange(sericeDescriptionLinks);
 ");
 
             return code.ToString();
