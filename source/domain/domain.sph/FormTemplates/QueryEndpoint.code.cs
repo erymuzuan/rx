@@ -214,36 +214,38 @@ namespace Bespoke.Sph.Domain
             code.Append(this.GenerateListCode());
 
             code.Append($@"
-                object links =  new {{
-                        _next = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
-                        _previous = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}""
-                    }};
+                var links =  new System.Collections.Generic.List<object>();
+                var nextLink = new {{
+                    method = ""GET"",
+                    rel = ""next"",
+                    href =  $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
+                    desc = ""Issue a GET request to get the next page of the result""                        
+                }};
+                var previousLink =  new {{
+                    method = ""GET"",
+                    rel = ""previous"",
+                    href = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}""  ,  
+                    desc = ""Issue a GET request to get the previous page of the result""                                  
+                }};
                 var hasNextPage = count > size * page;
                 var hasPreviousPage = page > 1;
                 
-                if(!hasPreviousPage && hasNextPage){{
-                    links =  new {{
-                        _next = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
-                    }};
-                
+                if(hasPreviousPage){{
+                    links.Add(previousLink);                
                 }}
-                if(hasPreviousPage && !hasNextPage){{
-                    links =  new {{
-                        _previous = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}""
-                    }};
-                
-                }}
-                if(!hasPreviousPage && !hasNextPage){{
-                    links =  new {{}};
+
+                if(hasNextPage){{
+                    links.Add(nextLink);
                 
                 }}
 
+                {this.GenerateServiceDescriptionLinks()}
                 var result = new 
                 {{
                     _results = list.Select(x => JObject.Parse(x)),
                     _count = json.SelectToken(""$.hits.total"").Value<int>(),
                     _page = page,
-                    _links = links,
+                    _links = links.ToArray(),
                     _size = size
                 }};
             
@@ -253,6 +255,132 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       }");
             code.AppendLine();
             return new Method { Code = code.ToString() };
+        }
+
+        private string GenerateServiceDescriptionLinks()
+        {
+            var links = new List<object>();
+            var context = new SphDataContext();
+            var queries = context.LoadFromSources<QueryEndpoint>(x => x.Entity == this.Entity);
+            var queryLinks = from r in queries
+                             select new
+                             {
+                                 rel = r.Name,
+                                 method = "GET",
+                                 href = r.GetRoute(),
+                                 desc = r.Note
+
+                             };
+            links.AddRange(queryLinks);
+            Console.WriteLine(links);
+            var operations = context.LoadFromSources<OperationEndpoint>(x => x.Entity == this.Entity).ToArray();
+            var postLinks = from r in operations
+                            where r.IsHttpPost
+                                 select new
+                                 {
+                                     rel = r.Name,
+                                     method = "POST",
+                                     href = r.Route,
+                                     desc = r.Note
+
+                                 };
+            links.AddRange(postLinks);
+            var putLinks = from r in operations
+                            where r.IsHttpPut
+                                 select new
+                                 {
+                                     rel = r.Name,
+                                     method = "PUT",
+                                     href = r.GetPutRoute(),
+                                     desc = r.Note
+
+                                 };
+            links.AddRange(putLinks);
+            var patchLinks = from r in operations
+                            where r.IsHttpPatch
+                                 select new
+                                 {
+                                     rel = r.Name,
+                                     method = "PATCH",
+                                     href = r.Route,
+                                     desc = r.Note
+
+                                 };
+            links.AddRange(patchLinks);
+            var deleteLinks = from r in operations
+                            where r.IsHttpDelete
+                                 select new
+                                 {
+                                     rel = r.Name,
+                                     method = "DELETE",
+                                     href = r.GetDeleteRoute(),
+                                     desc = r.Note
+
+                                 };
+            links.AddRange(deleteLinks);
+            Console.WriteLine(links);
+            if (!string.IsNullOrWhiteSpace(this.Route)) return string.Empty;
+            var code = new StringBuilder();
+            code.AppendLine($@"var context = new SphDataContext();
+            var queries = context.LoadFromSources<QueryEndpoint>(x => x.Entity == ""{Entity}"");
+            var queryLinks = from r in queries
+                select new
+                {{
+                    rel = r.Name,
+                    method = ""GET"",
+                    href = r.GetRoute(),
+                    desc = r.Note
+
+                }};
+            links.AddRange(queryLinks);
+            var operations = context.LoadFromSources<OperationEndpoint>(x => x.Entity == ""{Entity}"").ToArray();
+            var postLinks = from r in operations
+                            where r.IsHttpPost
+                                 select new
+                                 {{
+                                     rel = r.Name,
+                                     method = ""POST"",
+                                     href = r.Route,
+                                     desc = r.Note
+
+                                 }};
+            links.AddRange(postLinks);
+            var putLinks = from r in operations
+                            where r.IsHttpPut
+                                 select new
+                                 {{
+                                     rel = r.Name,
+                                     method = ""PUT"",
+                                     href = $""/api/{Resource}/{{r.GetPutRoute()}}"",
+                                     desc = r.Note
+
+                                 }};
+            links.AddRange(putLinks);
+            var patchLinks = from r in operations
+                            where r.IsHttpPatch
+                                 select new
+                                 {{
+                                     rel = r.Name,
+                                     method = ""PATCH"",
+                                     href = $""/api/{Resource}/{{r.Route}}"",
+                                     desc = r.Note
+
+                                 }};
+            links.AddRange(patchLinks);
+            var deleteLinks = from r in operations
+                            where r.IsHttpDelete
+                                 select new
+                                 {{
+                                     rel = r.Name,
+                                     method = ""DELETE"",
+                                     href = $""/api/{Resource}/{{r.GetDeleteRoute()}}"",
+                                     desc = r.Note
+
+                                 }};
+            links.AddRange(deleteLinks);
+");
+
+            return code.ToString();
         }
 
         private string GenerateCacheCode()

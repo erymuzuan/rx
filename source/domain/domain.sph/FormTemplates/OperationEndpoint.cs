@@ -89,6 +89,7 @@ namespace Bespoke.Sph.Domain
 
             return post;
         }
+
         public Method GeneratePatchAction(EntityDefinition ed)
         {
             if (!IsHttpPatch) return null;
@@ -198,16 +199,21 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        public Method GeneratePutAction(EntityDefinition ed)
+        public string GetPutRoute()
         {
-            if (!IsHttpPut) return null;
             var route = this.Route ?? "";
             if (!route.StartsWith("~/"))
             {
                 if (!route.Contains("{id"))
                     route = $"{{id:guid}}/{route}";
             }
+            return route;
+        }
 
+        public Method GeneratePutAction(EntityDefinition ed)
+        {
+            if (!IsHttpPut) return null;
+            var route = this.GetPutRoute();
 
             var put = new Method { Name = $"Put{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             put.AttributeCollection.Add("[HttpPut]");
@@ -285,16 +291,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
+
         public Method GenerateDeleteAction(EntityDefinition ed)
         {
             if (!IsHttpDelete) return null;
 
-            var route = !string.IsNullOrWhiteSpace(this.Route) ? $"{this.Route.ToLowerInvariant()}/" : "";
+            var route = GetDeleteRoute();
 
 
             var delete = new Method { Name = $"Delete{Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
             delete.AttributeCollection.Add("[HttpDelete]");
-            delete.AttributeCollection.Add($"[DeleteRoute(\"{route}{{id}}\")]");
+            delete.AttributeCollection.Add($@"[DeleteRoute(""{route}"")]");
 
             var edArg = new MethodArg { Name = "ed", Type = typeof(EntityDefinition) };
             edArg.AttributeCollection.Add($"[SourceEntity(\"{ed.Id}\")]");
@@ -329,6 +336,12 @@ namespace Bespoke.Sph.Domain
             return Accepted(new {{success = true, status=""OK"", id = item.Id}});");
 
             return delete;
+        }
+
+        public string GetDeleteRoute()
+        {
+            var route = !string.IsNullOrWhiteSpace(this.Route) ? $"{this.Route.ToLowerInvariant()}/" : "";
+            return route + "{id}";
         }
 
         private string GetSetterCode(EntityDefinition ed)
