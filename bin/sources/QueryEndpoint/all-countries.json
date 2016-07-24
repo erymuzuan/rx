@@ -27,7 +27,7 @@
   "Entity": "Country",
   "Note": "",
   "IsPublished": true,
-  "Resource": "Countries",
+  "Resource": "countries",
   "CacheFilter": null,
   "CreatedBy": "admin",
   "Id": "all-countries",
