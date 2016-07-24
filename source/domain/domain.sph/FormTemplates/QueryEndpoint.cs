@@ -146,7 +146,7 @@ namespace Bespoke.Sph.Domain
         {
             if (!this.MemberCollection.Any()) return string.Empty;
             var fields = $@"""fields"" :[ { string.Join(",", this.MemberCollection.Select(x => $"\"{x}\""))}]";
-            return fields;
+            return ","+ fields;
         }
 
         public string GenerateListCode()
