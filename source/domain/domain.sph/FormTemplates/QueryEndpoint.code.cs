@@ -214,15 +214,36 @@ namespace Bespoke.Sph.Domain
             code.Append(this.GenerateListCode());
 
             code.Append($@"
+                object links =  new {{
+                        _next = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
+                        _previous = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}""
+                    }};
+                var hasNextPage = count > size * page;
+                var hasPreviousPage = page > 1;
+                
+                if(!hasPreviousPage && hasNextPage){{
+                    links =  new {{
+                        _next = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
+                    }};
+                
+                }}
+                if(hasPreviousPage && !hasNextPage){{
+                    links =  new {{
+                        _previous = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}""
+                    }};
+                
+                }}
+                if(!hasPreviousPage && !hasNextPage){{
+                    links =  new {{}};
+                
+                }}
+
                 var result = new 
                 {{
                     _results = list.Select(x => JObject.Parse(x)),
                     _count = json.SelectToken(""$.hits.total"").Value<int>(),
                     _page = page,
-                    _links = new {{
-                        _next = $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page+1}}&size={{size}}"",
-                        _previous = page == 1 ? null : $""{{ConfigurationManager.BaseUrl}}/{tokenRoute}?page={{page-1}}&size={{size}}""
-                    }},
+                    _links = links,
                     _size = size
                 }};
             
