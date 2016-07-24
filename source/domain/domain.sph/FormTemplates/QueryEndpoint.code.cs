@@ -101,7 +101,7 @@ namespace Bespoke.Sph.Domain
         public string GetRoute()
         {
             if (string.IsNullOrWhiteSpace(this.Resource))
-                this.Resource = this.Entity.Pluralize();
+                this.Resource = this.Entity.Pluralize().ToIdFormat();
             var parameters = Strings.RegexValues(this.Route, "\\{(?<p>.*?)}", "p");
             var route = this.Route;
             foreach (var rp in parameters)
