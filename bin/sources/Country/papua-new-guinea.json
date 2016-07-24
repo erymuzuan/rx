@@ -1,16 +1,28 @@
 {
   "$type": "Bespoke.DevV1.Countries.Domain.Country, DevV1.Country",
-  "Name": "Malaysia",
-  "Abbreviation": "MY",
+  "Name": "Papua New Guinea",
+  "Abbreviation": "PG",
   "FlagStoreId": null,
-  "Area": 145.0,
+  "Area": 462840.0,
   "Size": null,
-  "Population": 31,
+  "Population": 7,
   "Region": "South-east Asia",
-  "OfficialReligion": "Islam",
+  "OfficialReligion": "Not known",
   "EthnicGroups": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": [
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
       "Malay",
       "Chinese",
       "Indian",
@@ -54,11 +66,11 @@
       }
     ]
   },
-  "Greeting": "Hello Malaysia",
+  "Greeting": "Hello Papua New Guinea",
   "CreatedBy": "admin",
-  "Id": "malaysia",
-  "CreatedDate": "2016-07-23T14:25:29.0661488+08:00",
+  "Id": "papua-new-guinea",
+  "CreatedDate": "2016-07-23T14:25:03.4791593+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-07-23T14:25:29.0771497+08:00",
-  "WebId": "c94e3ac9-7a6e-4899-ca08-a991ec786144"
+  "ChangedDate": "2016-07-23T14:25:03.8759883+08:00",
+  "WebId": "4d955015-2c42-479d-b5b4-93c9a9ec5768"
 }

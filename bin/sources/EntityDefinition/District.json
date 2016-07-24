@@ -105,7 +105,7 @@
         "IsNullable": false,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
-        "IsFilterable": false,
+        "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
         "FullName": null,
@@ -210,6 +210,6 @@
   "Id": "district",
   "CreatedDate": "2015-07-16T08:11:23.5545416+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-05-05T20:47:48.1367402+08:00",
+  "ChangedDate": "2016-07-23T14:23:12.6208106+08:00",
   "WebId": "a9b46951-3540-45fd-af99-69e1128dc718"
 }

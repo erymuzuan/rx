@@ -5,12 +5,24 @@
   "FlagStoreId": null,
   "Area": 45.0,
   "Size": null,
-  "Population": 0,
+  "Population": 85,
   "Region": "South-east Asia",
   "OfficialReligion": "Islam",
   "EthnicGroups": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": [
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
+      "Malay",
+      "Chinese",
+      "Indian",
+      "Javanese",
       "Malay",
       "Chinese",
       "Indian",
@@ -39,20 +51,14 @@
         "Name": "Kelantan",
         "Area": 50.0,
         "WebId": null
-      },
-      {
-        "$type": "Bespoke.DevV1.Countries.Domain.Teritorry, DevV1.Country",
-        "Name": "Selangor",
-        "Area": 50.0,
-        "WebId": null
       }
     ]
   },
   "Greeting": "Hello Laos",
   "CreatedBy": "admin",
   "Id": "laos",
-  "CreatedDate": "2016-07-21T12:03:30.8527916+08:00",
+  "CreatedDate": "2016-07-23T14:25:19.7068139+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-07-21T12:03:30.8492911+08:00",
+  "ChangedDate": "2016-07-23T14:25:19.6893044+08:00",
   "WebId": "51766c8c-2be0-4d80-a7b6-bb2af27c8ff1"
 }
