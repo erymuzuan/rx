@@ -99,7 +99,7 @@
 
                     </div>
 
-                    <div class="form-group" data-bind="visible :!ko.unwrap(childOfValueMember)">
+                    <div class="form-group" data-bind="visible :(!ko.unwrap(childOfValueMember) && !ko.unwrap(AllowMultiple))">
                         <label for="member-default-value" class="control-label">Default Value</label>
                         <div class="btn-group" id="member-default-value">
                             <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
@@ -114,6 +114,12 @@
                                     <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
                                         <i class="fa fa-edit"></i>
                                         Edit Default Value
+                                    </a>
+                                </li>
+                                <li data-bind="with : DefaultValue">
+                                    <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.removeField.call($parent, $data, $parent.DefaultValue)">
+                                        <i class="fa fa-times"></i>
+                                        Remove Default Value
                                     </a>
                                 </li>
 

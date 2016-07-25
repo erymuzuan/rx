@@ -1359,7 +1359,7 @@ bespoke.sph.domain.MappingActivityPartial = function () {
 /// <reference path="/Scripts/require.js" />
 
 
-bespoke.sph.domain.MemberPartial = function () {
+bespoke.sph.domain.MemberPartial = function (model) {
     var system = require("durandal/system"),
         addMember = function () {
             this.MemberCollection.push(new bespoke.sph.domain.Member(system.guid()));
@@ -1449,7 +1449,24 @@ bespoke.sph.domain.MemberPartial = function () {
 
                 showFieldDialog(self.Field || self.DefaultValue, clone, "field." + type.toLowerCase());
             };
+        },
+        removeField = function () {
+            var self = this,
+                accessor = self.Field || self.DefaultValue;
+            return function () {
+                accessor({ Name: ko.observable("[Select you value]") });
+            };
         };
+
+
+    model.AllowMultiple.subscribe(function(array) {
+        if (array) {
+            model.DefaultValue(null);
+        } else {
+            model.DefaultValue({ Name: ko.observable("[Select you value]") });
+        }
+    });
+
     return {
         editPermission: editPermission,
         addMember: addMember,
@@ -1457,6 +1474,7 @@ bespoke.sph.domain.MemberPartial = function () {
         editMemberMap: editMemberMap,
         removeMember: removeMember,
         addField: addField,
+        removeField: removeField,
         editField: editField
     };
 };
