@@ -6,7 +6,7 @@
 /// <reference path="/SphApp/schemas/form.designer.g.js" />
 
 
-bespoke.sph.domain.QueryEndpointPartial = function () {
+bespoke.sph.domain.QueryEndpointPartial = function (model) {
 
     // Filter
     var system = require("durandal/system"),
@@ -39,13 +39,15 @@ bespoke.sph.domain.QueryEndpointPartial = function () {
                 self.SortCollection.remove(obj);
             };
 
-        };
+        },
+        allowQueryCache = ko.observable(ko.unwrap(model.CacheFilter));
     return {
         addRouteParameter: addRouteParameter,
         removeRouteParameter: removeRouteParameter,
         addSort: addSort,
         removeSort: removeSort,
         addFilter: addFilter,
-        removeFilter: removeFilter
+        removeFilter: removeFilter,
+        allowQueryCache: allowQueryCache
     };
 };

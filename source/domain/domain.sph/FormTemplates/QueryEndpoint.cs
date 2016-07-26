@@ -94,6 +94,10 @@ namespace Bespoke.Sph.Domain
                 {
                     CacheProfile = this.CacheProfile,
                     CacheFilter = this.CacheFilter,
+                    CachingSetting = new CachingSetting
+                    {
+                        CacheControl = this.CacheProfile
+                    }
                 };
                 File.WriteAllText(source, setting.ToJsonString());
             }

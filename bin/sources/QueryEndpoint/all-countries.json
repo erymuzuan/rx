@@ -20,7 +20,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
-  "CacheProfile": "",
+  "CacheProfile": "Public",
   "Name": "All countries",
   "Route": "",
   "IsReturnSource": "",
@@ -28,11 +28,11 @@
   "Note": "",
   "IsPublished": true,
   "Resource": "countries",
-  "CacheFilter": null,
+  "CacheFilter": 600,
   "CreatedBy": "admin",
   "Id": "all-countries",
   "CreatedDate": "2016-05-14T10:00:09.0150413+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-07-24T07:36:39.5214751+08:00",
+  "ChangedDate": "2016-07-26T09:05:22.6898037+08:00",
   "WebId": "3e50eff9-cd5b-4cca-d552-5ff52764e811"
 }

@@ -128,7 +128,13 @@ WriteLiteral(" href=\"#sorts-ev-panel\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
-WriteLiteral(">Sorts</a>\r\n            </li>\r\n\r\n        </ul>\r\n        <div");
+WriteLiteral(">Sorts</a>\r\n            </li>\r\n            <li>\r\n                <a");
+
+WriteLiteral(" href=\"#advanced-ev-panel\"");
+
+WriteLiteral(" data-toggle=\"tab\"");
+
+WriteLiteral(">Advanced</a>\r\n            </li>\r\n\r\n        </ul>\r\n        <div");
 
 WriteLiteral(" class=\"tab-content\"");
 
@@ -145,7 +151,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 30 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
+            #line 33 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_general"));
 
             
@@ -162,7 +168,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 33 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
+            #line 36 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_filters"));
 
             
@@ -179,8 +185,25 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 36 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
+            #line 39 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
            Write(Html.Partial("_sorts"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral(" id=\"advanced-ev-panel\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                ");
+
+            
+            #line 42 "..\..\Areas\App\Views\QueryEndpointDesigner\Html.cshtml"
+           Write(Html.Partial("_advanced"));
 
             
             #line default

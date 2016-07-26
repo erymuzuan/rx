@@ -23,6 +23,9 @@
             <li>
                 <a href="#sorts-ev-panel" data-toggle="tab">Sorts</a>
             </li>
+            <li>
+                <a href="#advanced-ev-panel" data-toggle="tab">Advanced</a>
+            </li>
 
         </ul>
         <div class="tab-content" data-bind="with : query">
@@ -34,6 +37,9 @@
             </div>
             <div class="tab-pane" id="sorts-ev-panel">
                 @Html.Partial("_sorts")
+            </div>
+            <div class="tab-pane" id="advanced-ev-panel">
+                @Html.Partial("_advanced")
             </div>
         </div>
     </div>

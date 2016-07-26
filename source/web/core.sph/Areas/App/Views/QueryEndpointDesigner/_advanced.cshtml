@@ -1,0 +1,34 @@
+﻿
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-6">
+            <div class="checkbox">
+                <label>
+                    <input data-bind="checked: allowQueryCache" id="allow-query-cached" type="checkbox" name="allowQueryCache"/>
+                    Allow generated query to be cached
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="cache-filter-name" class="col-lg-3 col-md-3 control-label">How long </label>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <input type="text" data-bind="value: CacheFilter, enable: allowQueryCache"
+                   required pattern="^[0-9]{1,7}"
+                   placeholder="In seconds"
+                   class="form-control" id="cache-filter-name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="cache-profile" class="col-lg-3 control-label">Cache Control</label>
+        <div class="col-lg-6">
+            <select class="form-control" id="cache-profile" data-bind="value:CacheProfile, enable:allowQueryCache">
+                <option value=""></option>
+                <option value="Public">Public</option>
+                <option value="Private">Private</option>
+            </select>
+        </div>
+    </div>
+</form>
