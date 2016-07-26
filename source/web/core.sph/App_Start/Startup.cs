@@ -16,13 +16,6 @@ namespace Bespoke.Sph.Web.App_Start
 {
     public class Startup
     {
-        // asp.net core service injection
-        //https://blogs.msdn.microsoft.com/webdev/2016/03/28/dependency-injection-in-asp-net-core/
-        //public void ConfigureService(IServiceCollection services)
-        //{
-        //    services.AddTransient<IEmailSender, AuthMessageSender>();
-        //    services.AddTransient<ISmsSender, AuthMessageSender>();
-        //}
         public void Configuration(IAppBuilder app)
         {
             app.UseCookieAuthentication(new CookieAuthenticationOptions

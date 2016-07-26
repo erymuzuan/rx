@@ -301,6 +301,7 @@
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\TestStartup.cs" />
     <Compile Include="Areas\App\AppAreaRegistration.cs" />
     <Compile Include="Areas\App\Controllers\ServicesConfigController.cs" />
     <Compile Include="Areas\App\Controllers\QueryEndpointDesignerController.cs" />
@@ -3702,9 +3703,9 @@
   <ItemGroup>
     <Content Include="Scripts\_pager.js" />
     <EmbeddedResource Include="Scripts\_utils.js" />
-    <Content Include="ScriptTests\datacontext.toObservable.non-starndard-namespace.js" />
-    <Content Include="ScriptTests\datacontext.toObservable.workflow.js" />
-    <Content Include="ScriptTests\datacontext.toObservable.starndard-namespace.js" />
+    <Content Include="ScriptTests\test-datacontext.toObservable.non-standard-namespace.js" />
+    <Content Include="ScriptTests\test-datacontext.toObservable.workflow.js" />
+    <Content Include="ScriptTests\test-datacontext.toObservable.standard-namespace.js" />
     <Content Include="Areas\Sph\Views\SphAccount\ChangePassword.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ChangePassword.generated.cs</LastGenOutput>

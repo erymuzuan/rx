@@ -52,13 +52,13 @@ $(document).ready(function () {
 
     setTimeout(function () {
 
-        require(['services/datacontext'], function (context) {
+        require(["services/datacontext"], function (context) {
 
             var o = context.toObservable(wf, /Bespoke\.Sph\.Workflows_1_12\.(.*?),/);
             test("Entity to observable", function () {
                 // wf
                 equal(typeof o.Name, "function", "Null value property should be convert to ko.observable");
-                equal(o.Name.name, "observable", "Null value property should be convert to ko.observable");
+                equal(true, ko.isObservable(o.Name), "Null value property should be convert to ko.observable");
 
                 // complex variable
                 equal(typeof o.Pemohon, "function", "Complex variable should be converted to ko.observable");
