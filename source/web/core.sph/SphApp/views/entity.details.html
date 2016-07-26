@@ -166,7 +166,7 @@
                 </form>
 
 
-                <div class="form-group">
+                <div class="form-group" data-bind="visible:!ko.unwrap(AllowMultiple)">
                     <label for="member-default-value" class="control-label">Default Value</label>
                     <div class="btn-group" id="complex-member-default-value">
                         <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
