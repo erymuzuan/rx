@@ -1454,7 +1454,7 @@ bespoke.sph.domain.MemberPartial = function (model) {
             var self = this,
                 accessor = self.Field || self.DefaultValue;
             return function () {
-                accessor({ Name: ko.observable("[Select you value]") });
+                accessor({ Name: ko.observable("[Select a value]") });
             };
         };
 
@@ -1463,7 +1463,7 @@ bespoke.sph.domain.MemberPartial = function (model) {
         if (array) {
             model.DefaultValue(null);
         } else {
-            model.DefaultValue({ Name: ko.observable("[Select you value]") });
+            model.DefaultValue({ Name: ko.observable("[Select a value]") });
         }
     });
 

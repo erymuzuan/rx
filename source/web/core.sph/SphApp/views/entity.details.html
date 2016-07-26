@@ -99,9 +99,10 @@
 
                     </div>
 
-                    <div class="form-group" data-bind="visible :(!ko.unwrap(childOfValueMember) && !ko.unwrap(AllowMultiple))">
+                    <div class="form-group">
                         <label for="member-default-value" class="control-label">Default Value</label>
-                        <div class="btn-group" id="member-default-value">
+                        <button disabled style="margin-left: 7px" class="btn btn-link" data-bind="visible:AllowMultiple">[Select a value] <i class="fa fa-caret-down"></i></button>
+                        <div class="btn-group" id="member-default-value" data-bind="visible :(!ko.unwrap(childOfValueMember) && !ko.unwrap(AllowMultiple))">
                             <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
                                 <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                                 <!-- ko text : Name -->
@@ -166,9 +167,10 @@
                 </form>
 
 
-                <div class="form-group" data-bind="visible:!ko.unwrap(AllowMultiple)">
+                <div class="form-group">
                     <label for="member-default-value" class="control-label">Default Value</label>
-                    <div class="btn-group" id="complex-member-default-value">
+                    <button disabled style="margin-left: 7px" class="btn btn-link" data-bind="visible:AllowMultiple">[Select a value] <i class="fa fa-caret-down"></i></button>
+                    <div class="btn-group" id="complex-member-default-value" data-bind="visible:!ko.unwrap(AllowMultiple)">
                         <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
                             <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                             <!-- ko text : Name -->
@@ -181,6 +183,12 @@
                                 <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
                                     <i class="fa fa-edit"></i>
                                     Edit Default Value
+                                </a>
+                            </li>
+                            <li data-bind="with : DefaultValue">
+                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.removeField.call($parent, $data, $parent.DefaultValue)">
+                                    <i class="fa fa-times"></i>
+                                    Remove Default Value
                                 </a>
                             </li>
 
